@@ -53,12 +53,23 @@ Each environment is a JSON file in `src/envs/` (e.g. `TEST.json`) containing `ba
 
 The configuration is checked when tests start. An unknown environment, an invalid URL or a missing `.env` variable fails straight away with a clear message.
 
+## Test users
+
+Tests act as one of the users in `testUsers` (`admin`, `default`). Choose one per file or `describe` with `test.use({ role: 'admin' })`; the default is `default`. API tests get a token for that user through `POST /users/login`. It's cached per worker and refreshed before it expires (tokens live 5 minutes).
+
 ## Project structure
 
 ```
 src/
   config/env.ts          environment config and test users
   envs/                  per-environment JSON (TEST.json, ...)
+  fixtures/base.ts       fixtures shared by every layer (role, config, user, tokenService)
+  api/
+    clients/             one client per API area, on top of BaseClient
+    services/            domain operations over clients, returning typed results
+    dto/                 request/response types
+    auth/                TokenService (per-role token cache)
+    fixtures/            API fixtures
   utils/                 helpers
 tests/
   api/<area>/*.spec.ts
