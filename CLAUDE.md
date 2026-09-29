@@ -116,3 +116,13 @@ Path aliases (tsconfig `paths`, resolved by Playwright): `@fixtures` (= `src/fix
 - `index.html` in the repo root is the Pages dashboard. It's copied to `gh-pages` on every publish and loads the manifests and `results.json` files. Tests show up under "Known Issues" when they have an annotation whose description contains `Known issue`.
 - API coverage is optional: when a run produces `test-results/api-coverage/`, the script publishes it with the run (and as `latest/api-coverage/` from the full API regression), and the dashboard shows its elements (`data-coverage`) only when `latest/api-coverage/summary.json` exists. UI runs set `DISABLE_API_COVERAGE=true`.
 - `scripts/*.sh` must keep LF line endings (`.gitattributes`).
+- `pr-checks.yml` runs the `verify` job (typecheck + all tests) on every pull request to `main` or `develop`; it's the required status check on `main`. Pull requests from forks and from Dependabot get no Actions secrets, so they run the typecheck only (Dependabot PRs run the tests too when the same four secrets are added under Dependabot secrets).
+
+## Branches and pull requests
+
+- `main` is the default branch and holds stable code only. Scheduled workflows run on it, so the nightly regressions and the dashboard reflect merged code. A ruleset blocks direct pushes, force pushes and deletion: changes arrive only through a pull request that passes `verify`, merged with a **merge commit** (squash and rebase are disabled).
+- `develop` is where work happens: commit and push there directly (or use short-lived `feature/...` branches with a PR into `develop` for bigger changes). Force pushes and deletion are blocked.
+- Release to `main` with a pull request `develop` → `main`. Never squash it: squashing a long-lived branch makes `develop` and `main` diverge.
+- Dependabot version updates target `develop`. Security updates always target `main`; after merging one, merge `main` back into `develop` (`git switch develop && git merge origin/main`).
+- Claude works on `develop` (or a feature branch), never commits or pushes to `main`, and leaves opening and merging pull requests to the user unless asked.
+- Never add workflows triggered by `pull_request_target` that check out pull request code: that runs untrusted code with access to secrets.

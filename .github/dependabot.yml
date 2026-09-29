@@ -1,7 +1,10 @@
 version: 2
+# Version updates go to develop and reach main through the usual develop -> main PR.
+# Security updates ignore target-branch and always open against main (the default branch).
 updates:
   - package-ecosystem: "npm"
     directory: "/"
+    target-branch: "develop"
     schedule:
       interval: "weekly"
       day: "tuesday"
@@ -17,6 +20,7 @@ updates:
 
   - package-ecosystem: "github-actions"
     directory: "/"
+    target-branch: "develop"
     schedule:
       interval: "weekly"
       day: "tuesday"

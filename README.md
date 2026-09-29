@@ -147,6 +147,13 @@ The dashboard shows the latest status, test counts, known issues, pass/fail, dur
 
 To run it in your own fork, add the `ADMIN_USER`, `ADMIN_PASSWORD`, `DEFAULT_USER` and `DEFAULT_PASSWORD` repository secrets. After the first run creates the `gh-pages` branch, turn on GitHub Pages from that branch.
 
+## Branches and contributing
+
+- `main` is the stable, protected branch: changes reach it only through pull requests that pass the `verify` check (typecheck and all tests).
+- Day-to-day work happens on `develop`, which is merged into `main` with a pull request.
+- To contribute, fork the repo, branch from `develop`, and open a pull request into `develop`.
+- Found a security problem? See [SECURITY.md](SECURITY.md).
+
 ## Current tests
 
 | ID | Type | Test |
