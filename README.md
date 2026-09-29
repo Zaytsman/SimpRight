@@ -2,6 +2,14 @@
 
 Automated test framework built with **TypeScript + Playwright**. It covers UI and API tests for the [Practice Software Testing](https://practicesoftwaretesting.com) Toolshop demo app ([API](https://api.practicesoftwaretesting.com)).
 
+**What's included**
+- UI tests using page objects, reusable components and multi-page flows
+- API tests using typed clients, services and DTOs
+- One set of fixtures shared by both layers, with role-based test users (`admin`, `default`)
+- Tests start already logged in, either through an API token (default) or a saved UI login
+- Per-environment config (`TEST`, and more to come), with secrets kept in `.env`
+- Test scenarios in markdown as the source of truth for what gets automated, and API contracts documenting the endpoints under test
+
 ## Prerequisites
 
 - Node.js 20 or later (developed on 24)
@@ -37,6 +45,13 @@ DEFAULT_PASSWORD=<customer password>
 | `npm run test:debug` | Playwright Inspector |
 | `npm run report` | Open the last HTML report |
 | `npm run typecheck` | TypeScript check (`tsc --noEmit`) |
+
+Single file or single test:
+
+```bash
+npx playwright test tests/ui/cart/add-to-cart.spec.ts
+npx playwright test -g "UI-CART-001"
+```
 
 ### Options (environment variables)
 
@@ -88,8 +103,41 @@ src/
 tests/
   api/<area>/*.spec.ts
   ui/<area>/*.spec.ts
+test-scenarios/          scenario source of truth (api/, ui/)
+docs/api/contracts/      API contracts for the endpoints under test
 ```
+
+## Writing tests
+
+1. **Describe the scenario** in `test-scenarios/<ui|api>/<area>.md` under an ID such as `UI-CART-002`, with the role, steps, expected results and the spec path.
+2. **Add what the test needs:** page objects, components or flows (UI), or clients, services and DTOs (API). Register them as fixtures in `src/ui/fixtures/fixtures.ts` or `src/api/fixtures/fixtures.ts`.
+3. **Write the spec** in `tests/<ui|api>/<area>/`. Import `test` and `expect` from `@fixtures`, and start the title with the scenario ID.
+4. **For new API endpoints**, document them in `docs/api/contracts/`.
+
+```ts
+import { test, expect } from '@fixtures';
+
+// Scenarios: test-scenarios/ui/cart.md
+test('UI-CART-001: add a product with quantity 2 to the cart', async ({ shoppingFlow, productPage }) => {
+  const { unitPrice } = await shoppingFlow.addProductToCart('Combination Pliers', 2);
+  await expect(productPage.navBar.cartQuantity).toHaveText('2');
+
+  const cartPage = await shoppingFlow.goToCart();
+  expect(await cartPage.getTotal()).toBeCloseTo(unitPrice * 2, 2);
+});
+```
+
+Detailed conventions, such as locator strategy, fixture layout and contract format, are in [CLAUDE.md](CLAUDE.md).
 
 ## Reports
 
 - **Playwright HTML report:** `playwright-report/`. Open it with `npm run report`. Traces, screenshots and videos are kept for failed tests.
+
+## Current tests
+
+| ID | Type | Test |
+|---|---|---|
+| UI-PROD-001 | UI | Search by name shows only matching products |
+| UI-CART-001 | UI | Add a product with quantity 2 to the cart |
+| API-PROD-001 | API | Product search returns only matching products |
+| API-USER-001 | API | `GET /users/me` returns the logged-in user's profile |

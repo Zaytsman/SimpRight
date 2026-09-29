@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project
 
-SimpRight is an automated test framework built with TypeScript and Playwright, covering both UI and API testing. It is in early scaffolding: the config, API layer, UI layer and fixtures exist, but there are no specs yet.
+SimpRight is an automated test framework built with TypeScript and Playwright, covering both UI and API testing. It is in early scaffolding: the core layers and a few example tests exist, and most of the app is not covered yet.
 
 ## Commands
 
@@ -14,6 +14,8 @@ npm run install:browsers          # Chromium + OS deps
 npm test                          # all projects (api, ui); globalSetup logs in first
 npm run test:api                  # API project only
 npm run test:ui                   # UI project only
+npx playwright test tests/ui/cart/add-to-cart.spec.ts   # single file
+npx playwright test -g "UI-CART-001"                    # single test by scenario ID
 npm run typecheck                 # tsc --noEmit (TypeScript 7)
 npm run report                    # open last HTML report
 ```
@@ -53,6 +55,16 @@ Specs import from `src/fixtures` (`index.ts`): `test`, `expect` and `openHomePag
 - `src/fixtures/`: merges the API and UI fixtures (`mergeTests`) into the single `test`/`expect` that specs import.
 - `src/globalSetup.ts`: UI login for `storageState` mode.
 - `src/config/`: typed env access. `src/envs/`: per-environment JSON. `src/utils/`: helpers.
+- `test-scenarios/` (`api/`, `ui/`): the source of truth for what gets automated. One agent writes scenarios here; another agent picks them up and implements them as specs in `tests/`. Keep scenarios and specs in sync, and don't invent coverage that no scenario describes.
+- `docs/api/contracts/`: API contracts, one markdown file per API area (see "API contracts").
+
+## Scenarios and specs conventions
+
+- **Scenario files:** one markdown file per area (`test-scenarios/ui/cart.md`). Each scenario is a `## <ID>: <title>` section with **Role**, **Automated in** (the spec path), **Steps** and **Expected**. API scenarios also give **Endpoint** and **Auth**. IDs are `UI-<AREA>-NNN` / `API-<AREA>-NNN`.
+- **Specs:** `tests/<ui|api>/<area>/<name>.spec.ts`, with a `// Scenarios: <path>` comment at the top and the scenario ID at the start of the test title (`'UI-CART-001: ...'`), so a spec can be traced back to its scenario.
+- **Imports:** specs import from `@fixtures` (`test`, `expect`, `openHomePageTest`) and use fixtures for pages, flows, clients and services. They never construct them or call `page.goto` directly.
+- **API assertions:** happy paths use a service (it returns parsed, typed bodies and throws on non-2xx). Status-code checks, especially error codes, use the client and assert `response.status`.
+- **Contracts:** when a spec calls a new endpoint, add or extend its contract in `docs/api/contracts/` (see "API contracts" below), documenting only behavior that was checked against the real API.
 
 Path aliases (tsconfig `paths`, resolved by Playwright): `@fixtures` (= `src/fixtures/index.ts`), `@api/*`, `@ui/*`, `@config/*`, `@data/*`, `@fixtures/*`, `@utils/*`.
 
@@ -70,3 +82,27 @@ Path aliases (tsconfig `paths`, resolved by Playwright): `@fixtures` (= `src/fix
 - **Services** (`src/api/services/`) wrap clients with domain operations and parsing; **DTOs** (`src/api/dto/`) type the request and response bodies.
 - **Auth:** `POST /users/login` with `{ email, password }` returns `access_token` and `expires_in` (300s). `TokenService` (worker-scoped) logs in each role once per worker and refreshes the token 2 minutes before it expires. The JWT's `role` claim is `admin` or `user`; `/users/me` returns `role` only for admin.
 - **Fixtures** (`src/api/fixtures/fixtures.ts`): `accessToken` (for the test's `role`, from the shared `tokenService`) and `authClient`. Register new clients and services here, built from `request`, `config` and `accessToken`.
+
+## API contracts
+
+`docs/api/contracts/*.md` document the endpoints the tests use, one file per API area. Keep every contract in this format, so tooling can read them:
+
+````md
+# Products API Documentation            <- H1 = service name ("API Documentation" is stripped)
+
+### 1. Get product by id                <- one ### section per endpoint
+
+**Endpoint:** `GET /products/{productId}`   <- paths relative to apiBaseUrl; {param} or :param
+
+**Path Parameters:** / **Query Parameters:**   <- markdown table (Parameter | Type | Required | Description) or "- `name` (type, required): desc"
+
+**Request Body:**
+```ts
+{ name: string; description?: string; }  <- "?" marks a field optional
+```
+
+**Response:** `200 OK`                  <- optionally followed by a ```ts/json block with the response shape
+
+**Error Responses:**
+- `404 Not Found`
+````
