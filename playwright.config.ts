@@ -1,5 +1,6 @@
 import { defineConfig, devices } from '@playwright/test';
 import { env } from './src/config/env';
+import { TEST_ID_ATTRIBUTE } from './src/ui/pages/BasePage';
 
 const isCI = !!process.env.CI;
 
@@ -10,6 +11,8 @@ if (!process.env.TEST_WORKER_INDEX) {
 
 export default defineConfig({
   testDir: './tests',
+  // With UI_AUTH_MODE=storageState: logs in every role through the UI and saves .auth/<role>.json. No-op otherwise.
+  globalSetup: './src/globalSetup.ts',
   fullyParallel: true,
   forbidOnly: isCI,
   retries: isCI ? 2 : 0,
@@ -24,6 +27,7 @@ export default defineConfig({
 
   use: {
     baseURL: env.baseUrl,
+    testIdAttribute: TEST_ID_ATTRIBUTE,
     trace: 'retain-on-failure',
     screenshot: 'only-on-failure',
     video: 'retain-on-failure',

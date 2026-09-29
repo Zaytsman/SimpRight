@@ -43,6 +43,7 @@ DEFAULT_PASSWORD=<customer password>
 | Variable | Values | Default | Purpose |
 |---|---|---|---|
 | `TEST_ENV` | name of a file in `src/envs/` | `TEST` | Environment to run against |
+| `UI_AUTH_MODE` | `api`, `storageState` | `api` | How UI tests start logged in (see below) |
 | `CI` | any value | not set | Enables retries, 2 workers, JUnit output and `forbidOnly` |
 
 PowerShell example: `$env:TEST_ENV="QA"; npm test`. Git Bash example: `TEST_ENV=QA npm test`.
@@ -53,24 +54,37 @@ Each environment is a JSON file in `src/envs/` (e.g. `TEST.json`) containing `ba
 
 The configuration is checked when tests start. An unknown environment, an invalid URL or a missing `.env` variable fails straight away with a clear message.
 
-## Test users
+## Logging in
 
-Tests act as one of the users in `testUsers` (`admin`, `default`). Choose one per file or `describe` with `test.use({ role: 'admin' })`; the default is `default`. API tests get a token for that user through `POST /users/login`. It's cached per worker and refreshed before it expires (tokens live 5 minutes).
+Tests act as one of the users in `testUsers` (`admin`, `default`). Choose one per file or `describe` with `test.use({ role: 'admin' })`; the default is `default`. API tests get a token for that user through `POST /users/login`. It's cached per worker and refreshed before it expires.
+
+The site keeps its session token in the browser's `localStorage` (no cookie). The token expires after **5 minutes**. UI tests start already logged in, in one of two ways:
+
+- **`api` mode (default):** each UI test gets a fresh token for its user through the API, and it's placed in the browser before the test starts. There's no UI login and nothing is written to disk.
+- **`storageState` mode** (`UI_AUTH_MODE=storageState`): before the run, `src/globalSetup.ts` logs in each user through the login page and saves `.auth/<role>.json` (git-ignored). Locally, a saved login is reused while its token is still valid.
+
+For tests that should start logged out, use `test.use({ storageState: { cookies: [], origins: [] } })`.
 
 ## Project structure
 
 ```
 src/
-  config/env.ts          environment config and test users
+  config/env.ts          environment config, test users, login mode
   envs/                  per-environment JSON (TEST.json, ...)
-  fixtures/base.ts       fixtures shared by every layer (role, config, user, tokenService)
+  fixtures/              shared fixtures; index.ts is what specs import (`@fixtures`)
   api/
     clients/             one client per API area, on top of BaseClient
     services/            domain operations over clients, returning typed results
     dto/                 request/response types
     auth/                TokenService (per-role token cache)
     fixtures/            API fixtures
+  ui/
+    pages/               page objects (+ components/, dialogs/)
+    flows/               multi-page user journeys
+    auth/                token/storage-state helpers
+    fixtures/            UI fixtures
   utils/                 helpers
+  globalSetup.ts         UI login for storageState mode
 tests/
   api/<area>/*.spec.ts
   ui/<area>/*.spec.ts
