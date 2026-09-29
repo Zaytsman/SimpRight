@@ -1,0 +1,33 @@
+name: Custom API Test Run
+
+on:
+  workflow_dispatch:
+    inputs:
+      area:
+        description: 'API area to run (a folder in tests/api)'
+        required: true
+        default: 'all'
+        type: choice
+        # Keep in sync with the folders in tests/api.
+        options:
+          - all
+          - products
+          - users
+      grep:
+        description: 'Optional: only tests whose title matches, e.g. API-PROD-001'
+        required: false
+        type: string
+        default: ''
+
+permissions:
+  contents: write
+
+jobs:
+  api-tests:
+    uses: ./.github/workflows/playwright-run.yml
+    secrets: inherit
+    with:
+      project: api
+      family: custom-api
+      paths: ${{ inputs.area != 'all' && format('tests/api/{0}/', inputs.area) || '' }}
+      grep: ${{ inputs.grep }}

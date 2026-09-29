@@ -1,0 +1,21 @@
+name: API Regression Test Run
+
+on:
+  workflow_dispatch:
+  schedule:
+    # GitHub schedules run in UTC: 02:00 UTC on weekdays
+    # (05:00 Kyiv in summer, 04:00 in winter).
+    - cron: '0 2 * * 1-5'
+
+permissions:
+  contents: write
+
+jobs:
+  api-tests:
+    uses: ./.github/workflows/playwright-run.yml
+    secrets: inherit
+    with:
+      project: api
+      family: daily-api-regression
+      # The full regression is the only run whose coverage represents the whole suite.
+      publish-latest-coverage: true

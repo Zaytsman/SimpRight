@@ -1,0 +1,19 @@
+name: UI Regression Test Run
+
+on:
+  workflow_dispatch:
+  schedule:
+    # GitHub schedules run in UTC: 06:00 UTC on weekdays
+    # (09:00 Kyiv in summer, 08:00 in winter).
+    - cron: '0 6 * * 1-5'
+
+permissions:
+  contents: write
+
+jobs:
+  ui-tests:
+    uses: ./.github/workflows/playwright-run.yml
+    secrets: inherit
+    with:
+      project: ui
+      family: daily-ui-regression

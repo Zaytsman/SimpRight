@@ -133,6 +133,20 @@ Detailed conventions, such as locator strategy, fixture layout and contract form
 
 - **Playwright HTML report:** `playwright-report/`. Open it with `npm run report`. Traces, screenshots and videos are kept for failed tests.
 
+## CI and dashboard
+
+GitHub Actions runs the tests and publishes every report to GitHub Pages: **[zaytsman.github.io/SimpRight](https://zaytsman.github.io/SimpRight/)**.
+
+| Workflow | When | What |
+|---|---|---|
+| API Regression Test Run | weekdays 02:00 UTC, or by hand | all API tests |
+| UI Regression Test Run | weekdays 06:00 UTC, or by hand | all UI tests |
+| Custom API / UI Test Run | by hand | one area (a folder in `tests/`), optionally filtered by a title (`--grep`) |
+
+The dashboard shows the latest status, test counts, known issues, pass/fail, duration and failure-rate trends, and the history of the last runs, each linking to its full Playwright report. Every report family keeps its latest 30 runs.
+
+To run it in your own fork, add the `ADMIN_USER`, `ADMIN_PASSWORD`, `DEFAULT_USER` and `DEFAULT_PASSWORD` repository secrets. After the first run creates the `gh-pages` branch, turn on GitHub Pages from that branch.
+
 ## Current tests
 
 | ID | Type | Test |

@@ -1,0 +1,1091 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SimpRight Test Reports</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
+  <style>
+    :root {
+      --bg: #05070c;
+      --surface: #0b1220;
+      --surface-2: #101a2d;
+      --surface-3: #152138;
+      --line: rgba(148, 163, 184, 0.16);
+      --text: #edf2ff;
+      --muted: #97a3b8;
+      --teal: #2dd4bf;
+      --cyan: #38bdf8;
+      --lime: #a3e635;
+      --amber: #fbbf24;
+      --rose: #fb7185;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: 'IBM Plex Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background:
+        linear-gradient(180deg, rgba(8, 15, 26, 0.4), rgba(5, 7, 12, 0.92)),
+        radial-gradient(circle at 20% 0%, rgba(45, 212, 191, 0.12), transparent 22%),
+        radial-gradient(circle at 100% 20%, rgba(56, 189, 248, 0.12), transparent 18%),
+        var(--bg);
+      color: var(--text);
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    .page {
+      display: grid;
+      grid-template-columns: 290px minmax(0, 1fr);
+      min-height: 100vh;
+    }
+
+    .sidebar {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      padding: 1.25rem;
+      border-right: 1px solid var(--line);
+      background: linear-gradient(180deg, rgba(11, 18, 32, 0.98), rgba(8, 13, 23, 0.92));
+    }
+
+    .brand {
+      padding: 1rem 1rem 1.15rem;
+      border-radius: 22px;
+      background: linear-gradient(180deg, rgba(21, 33, 56, 0.92), rgba(11, 18, 32, 0.95));
+      border: 1px solid var(--line);
+      margin-bottom: 1rem;
+    }
+
+    .brand .kicker {
+      display: inline-block;
+      padding: .3rem .55rem;
+      border-radius: 999px;
+      font-size: .72rem;
+      font-weight: 700;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: #a5f3fc;
+      background: rgba(45, 212, 191, 0.12);
+      border: 1px solid rgba(45, 212, 191, 0.18);
+      margin-bottom: .8rem;
+    }
+
+    .brand h1 {
+      font-size: 1.4rem;
+      font-weight: 700;
+      line-height: 1.1;
+      margin: 0 0 .35rem;
+    }
+
+    .brand p {
+      margin: 0;
+      color: var(--muted);
+      font-size: .92rem;
+      line-height: 1.55;
+    }
+
+    .nav-block,
+    .sidebar-card {
+      border-radius: 22px;
+      border: 1px solid var(--line);
+      background: rgba(16, 26, 45, 0.72);
+      padding: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .no-data {
+      padding: 20px;
+      text-align: center;
+      color: var(--muted);
+      font-style: italic;
+    }
+
+    .nav-block h2,
+    .sidebar-card h2 {
+      margin: 0 0 .85rem;
+      font-size: .8rem;
+      text-transform: uppercase;
+      letter-spacing: .12em;
+      color: var(--muted);
+    }
+
+    .nav-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: grid;
+      gap: .6rem;
+    }
+
+    .nav-list a {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: .75rem;
+      padding: .8rem .9rem;
+      border-radius: 16px;
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid transparent;
+      color: var(--text);
+      transition: border-color .2s ease, background .2s ease, transform .2s ease;
+    }
+
+    .nav-list a:hover {
+      border-color: rgba(56, 189, 248, 0.24);
+      background: rgba(56, 189, 248, 0.08);
+      transform: translateX(2px);
+    }
+
+    .nav-list strong { font-size: .95rem; }
+    .nav-list span { color: var(--muted); font-size: .82rem; }
+
+    .badge-pill {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 2rem;
+      padding: .25rem .55rem;
+      border-radius: 999px;
+      font-size: .75rem;
+      font-weight: 700;
+      color: #d1fae5;
+      background: rgba(45, 212, 191, 0.12);
+      border: 1px solid rgba(45, 212, 191, 0.18);
+    }
+
+    .sidebar-grid {
+      display: grid;
+      gap: .75rem;
+    }
+
+    .metric {
+      padding: .95rem 1rem;
+      border-radius: 18px;
+      background: linear-gradient(180deg, rgba(21, 33, 56, 0.9), rgba(16, 26, 45, 0.82));
+      border: 1px solid var(--line);
+    }
+
+    .metric .label {
+      display: block;
+      color: var(--muted);
+      font-size: .78rem;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      margin-bottom: .35rem;
+    }
+
+    .metric .value {
+      display: block;
+      font-size: 1.45rem;
+      font-weight: 700;
+      line-height: 1;
+    }
+
+    .metric .value.status-healthy {
+      color: #4ade80;
+    }
+
+    .metric .value.status-unhealthy {
+      color: #f87171;
+    }
+
+    .content {
+      padding: 1.25rem;
+    }
+
+    .hero {
+      border-radius: 28px;
+      background:
+        linear-gradient(135deg, rgba(21, 33, 56, 0.96), rgba(11, 18, 32, 0.96)),
+        radial-gradient(circle at top right, rgba(56, 189, 248, 0.16), transparent 25%);
+      border: 1px solid var(--line);
+      padding: 1.5rem;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.32);
+      margin-bottom: 1rem;
+    }
+
+    .hero-top {
+      display: flex;
+      align-items: start;
+      justify-content: space-between;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .hero h2 {
+      font-size: clamp(1.7rem, 3vw, 2.8rem);
+      line-height: 1.05;
+      margin: 0 0 .65rem;
+      letter-spacing: -0.04em;
+    }
+
+    .hero p {
+      margin: 0;
+      max-width: 68ch;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: .75rem;
+      flex-wrap: wrap;
+      margin-top: 1.25rem;
+    }
+
+    /* Class rules below set display, which would otherwise override the hidden attribute. */
+    [hidden] {
+      display: none !important;
+    }
+
+    .action-link {
+      display: inline-flex;
+      align-items: center;
+      gap: .5rem;
+      padding: .78rem 1rem;
+      border-radius: 999px;
+      font-weight: 600;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.03);
+    }
+
+    .action-link.primary {
+      background: linear-gradient(135deg, #2dd4bf, #38bdf8);
+      color: #04111a;
+      border-color: transparent;
+    }
+
+    .content-grid {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 1rem;
+    }
+
+    .panel {
+      border-radius: 24px;
+      background: linear-gradient(180deg, rgba(16, 26, 45, 0.96), rgba(11, 18, 32, 0.92));
+      border: 1px solid var(--line);
+      padding: 1.1rem;
+      box-shadow: 0 14px 40px rgba(0, 0, 0, 0.22);
+    }
+
+    .panel h3 {
+      margin: 0 0 .8rem;
+      font-size: 1.05rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+
+    .panel p.sub {
+      margin: -.35rem 0 0;
+      color: var(--muted);
+      font-size: .9rem;
+    }
+
+    .latest { grid-column: span 7; }
+    .history { grid-column: span 5; }
+    .wide { grid-column: 1 / -1; }
+
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: .85rem;
+    }
+
+    .report-tile {
+      padding: 1rem;
+      border-radius: 20px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(148, 163, 184, 0.12);
+      min-height: 150px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .report-tile h4 {
+      margin: .8rem 0 .35rem;
+      font-size: 1rem;
+      font-weight: 700;
+    }
+
+    .report-tile p {
+      margin: 0;
+      color: var(--muted);
+      font-size: .9rem;
+      line-height: 1.5;
+    }
+
+    .report-tile .link {
+      margin-top: .9rem;
+      display: inline-flex;
+      width: fit-content;
+      padding: .58rem .85rem;
+      border-radius: 999px;
+      background: rgba(56, 189, 248, 0.12);
+      border: 1px solid rgba(56, 189, 248, 0.18);
+      color: #dbeafe;
+      font-weight: 600;
+    }
+
+    details {
+      border-radius: 18px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(148, 163, 184, 0.12);
+      margin-bottom: .8rem;
+      overflow: hidden;
+    }
+
+    summary {
+      cursor: pointer;
+      padding: .95rem 1rem;
+      list-style: none;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: .8rem;
+      font-weight: 600;
+    }
+
+    summary::-webkit-details-marker { display: none; }
+
+    summary small {
+      display: block;
+      color: var(--muted);
+      font-weight: 400;
+      margin-top: .2rem;
+    }
+
+    .detail-body {
+      padding: 0 1rem 1rem;
+      color: var(--muted);
+    }
+
+    .detail-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: grid;
+      gap: .55rem;
+    }
+
+    .detail-list a.history-link {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      gap: 1rem;
+      padding: .75rem .85rem;
+      border-radius: 14px;
+      background: rgba(148, 163, 184, 0.06);
+      color: var(--text);
+      transition: background 0.2s ease, border-color 0.2s ease;
+      border: 1px solid transparent;
+    }
+
+    .detail-list a.history-link:hover {
+      background: rgba(56, 189, 248, 0.12);
+      border-color: rgba(56, 189, 248, 0.3);
+      color: var(--text);
+    }
+
+    .label-chip {
+      font-size: .74rem;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      padding: .25rem .5rem;
+      border-radius: 999px;
+      background: rgba(45, 212, 191, 0.12);
+      color: #99f6e4;
+      white-space: nowrap;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      color: var(--text);
+    }
+
+    th, td {
+      padding: .85rem .8rem;
+      border-bottom: 1px solid rgba(148, 163, 184, 0.12);
+      text-align: left;
+      vertical-align: top;
+      font-size: .92rem;
+    }
+
+    th {
+      color: #c7d2fe;
+      font-size: .78rem;
+      text-transform: uppercase;
+      letter-spacing: .09em;
+    }
+
+    tbody tr:hover td {
+      background: rgba(56, 189, 248, 0.04);
+    }
+
+    .grid-stats {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: .85rem;
+      margin-top: .85rem;
+    }
+
+    .no-data {
+      padding: 20px;
+      text-align: center;
+      color: var(--muted);
+      font-style: italic;
+    }
+
+    .error-message {
+      color: #f87171;
+      font-size: 13px;
+      padding: 12px;
+      background-color: #3d1f1a;
+      border-left: 3px solid #f87171;
+      border-radius: 0 4px 4px 0;
+      margin-top: 8px;
+    }
+
+    .stat-card {
+      border-radius: 18px;
+      padding: .95rem 1rem;
+      background: linear-gradient(180deg, rgba(21, 33, 56, 0.9), rgba(16, 26, 45, 0.9));
+      border: 1px solid rgba(148, 163, 184, 0.12);
+    }
+
+    .stat-card span {
+      display: block;
+      color: var(--muted);
+      font-size: .75rem;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      margin-bottom: .35rem;
+    }
+
+    .stat-card strong {
+      font-size: 1.5rem;
+      line-height: 1;
+    }
+
+    .chart-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1rem;
+    }
+
+    .chart-card {
+      border-radius: 24px;
+      padding: 1rem;
+      background: linear-gradient(180deg, rgba(21, 33, 56, 0.9), rgba(11, 18, 32, 0.95));
+      border: 1px solid var(--line);
+    }
+
+    .chart-card h4 {
+      margin: 0 0 .35rem;
+      font-size: 1rem;
+      font-weight: 700;
+    }
+
+    .chart-card p {
+      margin: 0 0 .9rem;
+      color: var(--muted);
+      font-size: .88rem;
+    }
+
+    .chart-container {
+      position: relative;
+      height: 280px;
+    }
+
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: .85rem;
+      margin-top: .85rem;
+    }
+
+    .stat-card {
+      border-radius: 18px;
+      padding: .9rem 1rem;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(148, 163, 184, 0.12);
+      text-align: center;
+    }
+
+    .stat-card .stat-label {
+      display: block;
+      color: var(--muted);
+      font-size: .75rem;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      margin-bottom: .35rem;
+    }
+
+    .stat-card .stat-value {
+      font-size: 1.5rem;
+      font-weight: 700;
+      line-height: 1;
+    }
+
+    .chart-span-2 {
+      grid-column: 1 / -1;
+    }
+
+    .footer-note {
+      margin: 1rem 0 0;
+      color: var(--muted);
+      font-size: .88rem;
+      text-align: center;
+    }
+
+    @media (max-width: 1200px) {
+      .page { grid-template-columns: 1fr; }
+      .sidebar {
+        position: static;
+        height: auto;
+        border-right: 0;
+        border-bottom: 1px solid var(--line);
+      }
+      .latest, .history { grid-column: 1 / -1; }
+    }
+
+    @media (max-width: 768px) {
+      .content { padding: 1rem; }
+      .card-grid,
+      .grid-stats {
+        grid-template-columns: 1fr;
+      }
+      .metric-bars {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+      .hero,
+      .panel,
+      .brand,
+      .nav-block,
+      .sidebar-card {
+        border-radius: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <aside class="sidebar">
+      <div class="brand">
+        <h1>SimpRight</h1>
+        <p>Automated UI and API tests for the Toolshop (practicesoftwaretesting.com), built with TypeScript and Playwright.</p>
+      </div>
+
+      <nav class="nav-block">
+        <h2>Latest Reports</h2>
+        <ul class="nav-list">
+          <li><a href="latest/daily-ui-regression/" target="_blank" rel="noreferrer"><div><strong>UI Regression</strong><br><span>Latest UI run</span></div><span class="badge-pill">View</span></a></li>
+          <li><a href="latest/daily-api-regression/" target="_blank" rel="noreferrer"><div><strong>API Regression</strong><br><span>Latest API run</span></div><span class="badge-pill">View</span></a></li>
+          <li><a href="latest/custom-ui/" target="_blank" rel="noreferrer"><div><strong>Custom UI</strong><br><span>Latest custom UI run</span></div><span class="badge-pill">View</span></a></li>
+          <li><a href="latest/custom-api/" target="_blank" rel="noreferrer"><div><strong>Custom API</strong><br><span>Latest custom API run</span></div><span class="badge-pill">View</span></a></li>
+        </ul>
+      </nav>
+
+      <div class="sidebar-card">
+        <h2>System Status</h2>
+        <div class="sidebar-grid">
+          <div class="metric"><span class="label">Latest UI Status</span><span class="value" id="latest-ui-status">-</span></div>
+          <div class="metric"><span class="label">Latest API Status</span><span class="value" id="latest-api-status">-</span></div>
+        </div>
+      </div>
+    </aside>
+
+    <main class="content">
+      <section class="hero">
+        <div class="hero-top">
+          <div>
+            <h2>SimpRight Test Reports</h2>
+            <p>Results and history of the scheduled UI and API regression runs and of custom runs started by hand.</p>
+            <div class="hero-actions">
+              <a class="action-link primary" href="#history">View Test Runs History</a>
+              <!-- Coverage elements stay hidden until latest/api-coverage/summary.json exists (the coverage tool is optional). -->
+              <a class="action-link" data-coverage hidden href="latest/api-coverage/" target="_blank" rel="noreferrer">View API Coverage</a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="content-grid">
+        <article class="panel wide">
+          <h3>Total Tests<span data-coverage hidden> & Coverage</span></h3>
+          <div class="grid-stats">
+            <div class="stat-card"><span>UI tests</span><strong id="total-ui-tests">-</strong></div>
+            <div class="stat-card"><span>API tests</span><strong id="total-api-tests">-</strong></div>
+            <div class="stat-card" data-coverage hidden><span>API endpoints covered</span><strong id="api-endpoint-coverage">-</strong></div>
+            <div class="stat-card" data-coverage hidden><span>API contract coverage</span><strong id="daily-api-coverage">-</strong></div>
+          </div>
+        </article>
+
+        <article class="panel wide">
+          <h3>Known Issues</h3>
+          <div class="table-responsive mt-3">
+            <table id="knownIssuesTable">
+              <thead>
+                <tr>
+                  <th>Area</th>
+                  <th>Test Name</th>
+                  <th>Issue</th>
+                </tr>
+              </thead>
+              <tbody id="knownIssuesBody">
+                <tr>
+                  <td colspan="3" class="no-data">Loading...</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </article>
+
+        <article class="panel wide" id="charts">
+          <h3>Charts and Duration Trends</h3>
+
+          <div class="chart-grid mt-3">
+            <div class="chart-card">
+              <h4>Pass/Fail Trend for UI Regression Tests</h4>
+              <p>Trend line build from the latest 10 runs of UI regression tests.</p>
+              <div class="chart-container"><canvas id="dailyChart"></canvas></div>
+              <div class="stats-row">
+                <div class="stat-card"><span class="stat-label">Latest Run - Passed</span><span class="stat-value" id="latest-passed">-</span></div>
+                <a href="latest/daily-ui-regression/#?q=s%3Afailed" target="_blank" rel="noreferrer"><div class="stat-card"><span class="stat-label">Latest Run - Failed</span><span class="stat-value" id="latest-failed">-</span></div></a>
+                <div class="stat-card"><span class="stat-label">Latest Run - Total</span><span class="stat-value" id="latest-total">-</span></div>
+                <div class="stat-card"><span class="stat-label">Latest Run - Duration</span><span class="stat-value" id="latest-duration">-</span></div>
+              </div>
+            </div>
+
+            <div class="chart-card">
+              <h4>Pass/Fail Trend for API Regression Tests</h4>
+              <p>Trend line build from the latest 10 runs of API regression tests.</p>
+              <div class="chart-container"><canvas id="apiChart"></canvas></div>
+              <div class="stats-row">
+                <div class="stat-card"><span class="stat-label">Latest Run - Passed</span><span class="stat-value" id="api-latest-passed">-</span></div>
+                <a href="latest/daily-api-regression/#?q=s%3Afailed" target="_blank" rel="noreferrer"><div class="stat-card"><span class="stat-label">Latest Run - Failed</span><span class="stat-value" id="api-latest-failed">-</span></div></a>
+                <div class="stat-card"><span class="stat-label">Latest Run - Total</span><span class="stat-value" id="api-latest-total">-</span></div>
+                <div class="stat-card"><span class="stat-label">Latest Run - Duration</span><span class="stat-value" id="api-latest-duration">-</span></div>
+              </div>
+            </div>
+
+            <div class="chart-card">
+              <h4>Test Duration Trend for UI Daily Regression</h4>
+              <p>Execution time trend for the daily UI suite.</p>
+              <div class="chart-container"><canvas id="durationChart"></canvas></div>
+              <div class="stats-row chart-span-2">
+                <div class="stat-card"><span class="stat-label">Latest Run Duration</span><span class="stat-value" id="latest-duration-copy">-</span></div>
+                <div class="stat-card"><span class="stat-label">Average Duration</span><span class="stat-value" id="avg-duration">-</span></div>
+              </div>
+            </div>
+
+            <div class="chart-card">
+              <h4>Test Duration Trend for API Daily Regression</h4>
+              <p>Execution time trend for the API regression suite.</p>
+              <div class="chart-container"><canvas id="apiDurationChart"></canvas></div>
+              <div class="stats-row chart-span-2">
+                <div class="stat-card"><span class="stat-label">Latest Run Duration</span><span class="stat-value" id="api-duration">-</span></div>
+                <div class="stat-card"><span class="stat-label">Average Duration</span><span class="stat-value" id="api-avg-duration">-</span></div>
+              </div>
+            </div>
+
+            <div class="chart-card">
+              <h4>Failure Rate Trend for UI Daily Regression</h4>
+              <p>Failure percentage trend for daily UI regression.</p>
+              <div class="chart-container"><canvas id="failureRateChart"></canvas></div>
+              <div class="stats-row chart-span-2">
+                <div class="stat-card"><span class="stat-label">Latest Run Failure Rate</span><span class="stat-value" id="latest-failure-rate">-</span></div>
+                <div class="stat-card"><span class="stat-label">Average Failure Rate</span><span class="stat-value" id="avg-failure-rate">-</span></div>
+              </div>
+            </div>
+
+            <div class="chart-card">
+              <h4>Failure Rate Trend for API Daily Regression</h4>
+              <p>Failure percentage trend for API regression.</p>
+              <div class="chart-container"><canvas id="apiFailureRateChart"></canvas></div>
+              <div class="stats-row chart-span-2">
+                <div class="stat-card"><span class="stat-label">Latest Run Failure Rate</span><span class="stat-value" id="api-latest-failure-rate">-</span></div>
+                <div class="stat-card"><span class="stat-label">Average Failure Rate</span><span class="stat-value" id="api-avg-failure-rate">-</span></div>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <article class="panel wide" id="history">
+          <h3>Test Runs History</h3>
+          <p class="sub">History Browser with the latest 10 runs for each test family.</p>
+          <div class="mt-3">
+            <details>
+              <summary><div>UI Regression Tests<small>Latest 10 runs</small></div><span class="label-chip" id="history-daily-ui-count">10</span></summary>
+              <div class="detail-body" id="history-daily-ui">
+                <div class="loading">Loading...</div>
+                <ul class="detail-list" id="history-daily-ui-list"></ul>
+              </div>
+            </details>
+
+            <details>
+              <summary><div>API Regression Tests<small>Latest 10 runs</small></div><span class="label-chip" id="history-daily-api-count">10</span></summary>
+              <div class="detail-body" id="history-daily-api">
+                <div class="loading">Loading...</div>
+                <ul class="detail-list" id="history-daily-api-list"></ul>
+              </div>
+            </details>
+
+            <details>
+              <summary><div>Custom UI Runs<small>Latest 10 runs</small></div><span class="label-chip" id="history-custom-ui-count">10</span></summary>
+              <div class="detail-body" id="history-custom-ui">
+                <div class="loading">Loading...</div>
+                <ul class="detail-list" id="history-custom-ui-list"></ul>
+              </div>
+            </details>
+
+            <details>
+              <summary><div>Custom API Runs<small>Latest 10 runs</small></div><span class="label-chip" id="history-custom-api-count">10</span></summary>
+              <div class="detail-body" id="history-custom-api">
+                <div class="loading">Loading...</div>
+                <ul class="detail-list" id="history-custom-api-list"></ul>
+              </div>
+            </details>
+          </div>
+        </article>
+      </section>
+
+      <p class="footer-note">Published by GitHub Actions. Each report family keeps its latest 30 runs.</p>
+    </main>
+  </div>
+
+  <script>
+    const chartDefaults = {
+      responsive: true,
+      maintainAspectRatio: false,
+      interaction: { mode: 'index', intersect: false },
+      plugins: {
+        legend: {
+          display: true,
+          labels: {
+            color: '#edf2ff',
+            padding: 16,
+            font: { size: 12 }
+          }
+        }
+      },
+      scales: {
+        x: {
+          grid: { display: false },
+          ticks: { color: '#97a3b8' }
+        },
+        y: {
+          beginAtZero: true,
+          grid: { color: 'rgba(148, 163, 184, 0.16)' },
+          ticks: { color: '#97a3b8' }
+        }
+      }
+    };
+
+    const GREEN = 'rgb(163, 230, 53)';
+    const RED = 'rgb(251, 113, 133)';
+    const BLUE = 'rgb(56, 189, 248)';
+
+    // Healthy when the latest run's failure rate is below this percentage.
+    const HEALTHY_FAILURE_RATE = { ui: 2, api: 1 };
+
+    function formatDuration(durationMs) {
+      const seconds = durationMs / 1000;
+      return seconds < 60 ? `${seconds.toFixed(1)}s` : `${(seconds / 60).toFixed(2)}m`;
+    }
+
+    function toSeconds(durationMs) {
+      return +(durationMs / 1000).toFixed(1);
+    }
+
+    function translucent(color) {
+      return color.replace(')', ', 0.12)').replace('rgb', 'rgba');
+    }
+
+    function setText(id, value) {
+      const el = document.getElementById(id);
+      if (el) el.textContent = value;
+    }
+
+    function lineDataset(label, data, color, pointColors) {
+      return {
+        label,
+        data,
+        borderColor: color,
+        backgroundColor: translucent(color),
+        borderWidth: 2,
+        tension: 0.4,
+        fill: true,
+        pointBackgroundColor: pointColors || color,
+        pointBorderColor: pointColors || color,
+        pointRadius: 3,
+        pointHoverRadius: 5
+      };
+    }
+
+    function createChart(canvasId, labels, datasets) {
+      const ctx = document.getElementById(canvasId).getContext('2d');
+      return new Chart(ctx, { type: 'line', data: { labels, datasets }, options: chartDefaults });
+    }
+
+    function createPassFailChart(canvasId, series) {
+      createChart(canvasId, series.map(item => item.run), [
+        lineDataset('Passed', series.map(item => item.passed), GREEN),
+        lineDataset('Failed', series.map(item => item.failed), RED)
+      ]);
+    }
+
+    function createDurationChart(canvasId, series) {
+      createChart(canvasId, series.map(item => item.run), [
+        lineDataset('Duration (seconds)', series.map(item => toSeconds(item.duration)), BLUE)
+      ]);
+    }
+
+    function createFailureRateChart(canvasId, series, threshold) {
+      const rates = series.map(item => +item.failureRate.toFixed(2));
+      const pointColors = rates.map(rate => rate < threshold ? GREEN : RED);
+      const latestRate = rates.length > 0 ? rates[rates.length - 1] : 0;
+      createChart(canvasId, series.map(item => item.run), [
+        lineDataset('Failure rate %', rates, latestRate < threshold ? GREEN : RED, pointColors)
+      ]);
+    }
+
+    // Returns the latest `limit` runs of a report family, oldest first.
+    async function loadSeries(manifestFile, folder, limit = 10) {
+      try {
+        const response = await fetch(manifestFile);
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+
+        const runs = await response.json();
+        const validRuns = runs.filter(run => /^run-\d+$/.test(run)).slice(0, limit);
+        const series = [];
+
+        for (const run of validRuns.reverse()) {
+          try {
+            const resultResponse = await fetch(`${folder}${run}/results.json`);
+            if (!resultResponse.ok) continue;
+
+            const results = await resultResponse.json();
+            const stats = results.stats || {};
+            const passed = stats.expected || 0;
+            const failed = stats.unexpected || 0;
+            const skipped = stats.skipped || 0;
+            const flaky = stats.flaky || 0;
+            const total = passed + failed + skipped + flaky;
+            const duration = stats.duration || 0;
+            const failureRate = total > 0 ? ((failed / total) * 100) : 0;
+
+            series.push({ run, passed, failed, total, duration, failureRate, flaky });
+          } catch {
+            continue;
+          }
+        }
+
+        return series;
+      } catch (error) {
+        console.error(`Error loading ${manifestFile}:`, error);
+        return [];
+      }
+    }
+
+    // Lists tests with an annotation whose description contains "Known issue", e.g.
+    // test.info().annotations.push({ type: 'issue', description: 'Known issue: ...' }).
+    async function loadKnownIssues() {
+      const tbody = document.getElementById('knownIssuesBody');
+      const knownIssues = [];
+
+      // Playwright JSON report: suites (file -> describe blocks) -> specs -> tests -> annotations.
+      function collect(suite, area) {
+        const suiteArea = area || suite.title;
+        (suite.specs || []).forEach(spec => {
+          (spec.tests || []).forEach(test => {
+            (test.annotations || []).forEach(annotation => {
+              const description = annotation.description || '';
+              if (!description.includes('Known issue')) return;
+              const exists = knownIssues.some(issue => issue.testName === spec.title && issue.description === description);
+              if (!exists) knownIssues.push({ area: suiteArea, testName: spec.title, description });
+            });
+          });
+        });
+        (suite.suites || []).forEach(child => collect(child, suiteArea));
+      }
+
+      const sources = [
+        'latest/daily-ui-regression/results.json',
+        'latest/daily-api-regression/results.json'
+      ];
+
+      await Promise.all(
+        sources.map(async (source) => {
+          try {
+            const response = await fetch(source);
+            if (!response.ok) return;
+            const results = await response.json();
+            (results.suites || []).forEach(suite => collect(suite, ''));
+          } catch (err) {
+            console.error(`Error loading known issues from ${source}:`, err);
+          }
+        })
+      );
+
+      tbody.innerHTML = '';
+      if (knownIssues.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="3" class="no-data">No known issues.</td></tr>';
+        return;
+      }
+
+      knownIssues.forEach(issue => {
+        const row = document.createElement('tr');
+        [issue.area, issue.testName, issue.description].forEach(text => {
+          const cell = document.createElement('td');
+          cell.textContent = text;
+          row.appendChild(cell);
+        });
+        tbody.appendChild(row);
+      });
+    }
+
+    // prefix: '' for UI regression ids (latest-passed, ...), 'api-' for API regression ids.
+    function updateStats(prefix, series) {
+      const latest = series[series.length - 1];
+      const averageDuration = series.reduce((sum, item) => sum + item.duration, 0) / series.length;
+      const averageFailureRate = series.reduce((sum, item) => sum + item.failureRate, 0) / series.length;
+
+      setText(`${prefix}latest-passed`, latest.passed + (latest.flaky || 0));
+      setText(`${prefix}latest-failed`, latest.failed);
+      setText(`${prefix}latest-total`, latest.total);
+      setText(`${prefix}latest-duration`, formatDuration(latest.duration));
+      setText(prefix ? 'api-duration' : 'latest-duration-copy', formatDuration(latest.duration));
+      setText(`${prefix}avg-duration`, formatDuration(averageDuration));
+      setText(`${prefix}latest-failure-rate`, `${latest.failureRate.toFixed(2)}%`);
+      setText(`${prefix}avg-failure-rate`, `${averageFailureRate.toFixed(2)}%`);
+    }
+
+    function updateStatus(elementId, series, threshold) {
+      const el = document.getElementById(elementId);
+      if (!el) return;
+
+      if (series.length === 0) {
+        el.textContent = '-';
+        el.className = 'value';
+        return;
+      }
+
+      const healthy = series[series.length - 1].failureRate < threshold;
+      el.textContent = healthy ? 'Healthy' : 'Unhealthy';
+      el.className = `value ${healthy ? 'status-healthy' : 'status-unhealthy'}`;
+    }
+
+    async function loadApiCoverage() {
+      try {
+        const response = await fetch('latest/api-coverage/summary.json');
+        if (!response.ok) return;
+
+        const summary = await response.json();
+        if (typeof summary.overallCoveragePct === 'number') {
+          setText('daily-api-coverage', `${summary.overallCoveragePct}%`);
+        }
+        if (typeof summary.coveredEndpoints === 'number' && typeof summary.totalEndpoints === 'number') {
+          setText('api-endpoint-coverage', `${summary.coveredEndpoints}/${summary.totalEndpoints}`);
+        }
+        document.querySelectorAll('[data-coverage]').forEach((el) => { el.hidden = false; });
+      } catch {
+        console.debug('No API coverage summary available yet');
+      }
+    }
+
+    async function renderCharts() {
+      const [uiSeries, apiSeries] = await Promise.all([
+        loadSeries('daily-ui-regression-manifest.json', 'daily-ui-regression/'),
+        loadSeries('daily-api-regression-manifest.json', 'daily-api-regression/')
+      ]);
+
+      updateStatus('latest-ui-status', uiSeries, HEALTHY_FAILURE_RATE.ui);
+      updateStatus('latest-api-status', apiSeries, HEALTHY_FAILURE_RATE.api);
+
+      createPassFailChart('dailyChart', uiSeries);
+      createPassFailChart('apiChart', apiSeries);
+      createDurationChart('durationChart', uiSeries);
+      createDurationChart('apiDurationChart', apiSeries);
+      createFailureRateChart('failureRateChart', uiSeries, HEALTHY_FAILURE_RATE.ui);
+      createFailureRateChart('apiFailureRateChart', apiSeries, HEALTHY_FAILURE_RATE.api);
+
+      if (uiSeries.length > 0) {
+        updateStats('', uiSeries);
+        setText('total-ui-tests', uiSeries[uiSeries.length - 1].total);
+      }
+      if (apiSeries.length > 0) {
+        updateStats('api-', apiSeries);
+        setText('total-api-tests', apiSeries[apiSeries.length - 1].total);
+      }
+    }
+
+    async function loadHistorySection(folder, manifestFile, elementId, limit = 10) {
+      const list = document.getElementById(`${elementId}-list`);
+      const container = document.getElementById(elementId);
+      const loadingDiv = container ? container.querySelector('.loading') : null;
+
+      function showMessage(text, color) {
+        const li = document.createElement('li');
+        const span = document.createElement('span');
+        span.textContent = text;
+        span.style.color = color;
+        li.appendChild(span);
+        list.replaceChildren(li);
+      }
+
+      try {
+        const response = await fetch(manifestFile);
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+
+        const runs = await response.json();
+        const latestRuns = runs.filter(run => /^run-\d+$/.test(run)).slice(0, limit);
+
+        setText(`${elementId}-count`, latestRuns.length);
+        if (loadingDiv) loadingDiv.remove();
+
+        if (latestRuns.length === 0) {
+          showMessage('No runs found', 'var(--muted)');
+          return;
+        }
+
+        list.replaceChildren(...latestRuns.map(run => {
+          const li = document.createElement('li');
+          li.innerHTML = `
+            <a href="${folder}${run}/" target="_blank" rel="noreferrer" class="history-link">
+              <span>${run}</span>
+              <span class="label-chip">View</span>
+            </a>
+          `;
+          return li;
+        }));
+      } catch (error) {
+        console.error(`Error loading ${manifestFile}:`, error);
+        if (loadingDiv) loadingDiv.remove();
+        setText(`${elementId}-count`, 0);
+        showMessage('No runs published yet', 'var(--muted)');
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      loadKnownIssues();
+      renderCharts();
+      loadApiCoverage();
+      loadHistorySection('daily-ui-regression/', 'daily-ui-regression-manifest.json', 'history-daily-ui');
+      loadHistorySection('daily-api-regression/', 'daily-api-regression-manifest.json', 'history-daily-api');
+      loadHistorySection('custom-ui/', 'custom-ui-manifest.json', 'history-custom-ui');
+      loadHistorySection('custom-api/', 'custom-api-manifest.json', 'history-custom-api');
+    });
+  </script>
+</body>
+</html>

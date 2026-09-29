@@ -23,6 +23,8 @@ export default defineConfig({
     ['list'],
     ['html', { open: isCI ? 'never' : 'on-failure' }],
     ...(isCI ? [['junit', { outputFile: 'test-results/junit.xml' }] as const] : []),
+    // Read by the GitHub Pages dashboard (index.html) for trends and known issues.
+    ...(isCI ? [['json', { outputFile: 'test-results/results.json' }] as const] : []),
   ],
 
   use: {

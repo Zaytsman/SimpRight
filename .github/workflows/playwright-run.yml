@@ -1,0 +1,109 @@
+name: Playwright Run (reusable)
+
+# Shared job for all test workflows: runs one Playwright project and publishes
+# the report to GitHub Pages (gh-pages branch) under the given report family.
+
+on:
+  workflow_call:
+    inputs:
+      project:
+        description: 'Playwright project: ui or api'
+        required: true
+        type: string
+      family:
+        description: 'Report family folder on GitHub Pages, e.g. daily-ui-regression'
+        required: true
+        type: string
+      paths:
+        description: 'Spec folders or files to run (empty = the whole project)'
+        required: false
+        type: string
+        default: ''
+      grep:
+        description: 'Only run tests whose title matches (e.g. a scenario ID)'
+        required: false
+        type: string
+        default: ''
+      publish-latest-coverage:
+        description: 'Publish this run''s API coverage as latest/api-coverage'
+        required: false
+        type: boolean
+        default: false
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    permissions:
+      contents: write # push to gh-pages
+
+    env:
+      # Secrets are read by src/config/env.ts from the environment (no .env file on CI).
+      ADMIN_USER: ${{ secrets.ADMIN_USER }}
+      ADMIN_PASSWORD: ${{ secrets.ADMIN_PASSWORD }}
+      DEFAULT_USER: ${{ secrets.DEFAULT_USER }}
+      DEFAULT_PASSWORD: ${{ secrets.DEFAULT_PASSWORD }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v5
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Cache Playwright browsers
+        if: inputs.project == 'ui'
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
+
+      - name: Install Playwright browsers
+        if: inputs.project == 'ui'
+        run: npm run install:browsers
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Run tests
+        id: tests
+        continue-on-error: true
+        env:
+          # UI runs only hit the API to log in, so their API coverage would be misleading.
+          DISABLE_API_COVERAGE: ${{ inputs.project == 'ui' && 'true' || 'false' }}
+          PROJECT: ${{ inputs.project }}
+          SPEC_PATHS: ${{ inputs.paths }}
+          GREP: ${{ inputs.grep }}
+        run: |
+          args=(--project="$PROJECT")
+          [ -n "$GREP" ] && args+=(--grep "$GREP")
+          # SPEC_PATHS is a space-separated list of spec folders/files.
+          npx playwright test "${args[@]}" $SPEC_PATHS
+
+      - name: Publish report to GitHub Pages
+        if: ${{ !cancelled() && steps.tests.outcome != 'skipped' }}
+        run: |
+          chmod +x scripts/publish-report.sh
+          scripts/publish-report.sh "${{ inputs.family }}" ${{ inputs.publish-latest-coverage && '--latest-coverage' || '' }}
+
+      - name: Upload report artifact
+        if: ${{ !cancelled() && steps.tests.outcome != 'skipped' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ inputs.family }}-run-${{ github.run_number }}
+          path: |
+            playwright-report/
+            test-results/
+          retention-days: 14
+
+      - name: Fail the job if tests failed
+        if: steps.tests.outcome == 'failure'
+        run: |
+          echo "::error::Tests failed. Report: https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/${{ inputs.family }}/run-${{ github.run_number }}/"
+          exit 1

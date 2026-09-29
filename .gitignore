@@ -10,3 +10,6 @@ playwright/.cache/
 CLAUDE.local.md
 .claude/local/
 .claude/settings.local.json
+
+# gh-pages worktree created by scripts/publish-report.sh
+.gh-pages/

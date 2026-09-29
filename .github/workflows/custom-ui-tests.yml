@@ -1,0 +1,33 @@
+name: Custom UI Test Run
+
+on:
+  workflow_dispatch:
+    inputs:
+      area:
+        description: 'UI area to run (a folder in tests/ui)'
+        required: true
+        default: 'all'
+        type: choice
+        # Keep in sync with the folders in tests/ui.
+        options:
+          - all
+          - cart
+          - products
+      grep:
+        description: 'Optional: only tests whose title matches, e.g. UI-CART-001'
+        required: false
+        type: string
+        default: ''
+
+permissions:
+  contents: write
+
+jobs:
+  ui-tests:
+    uses: ./.github/workflows/playwright-run.yml
+    secrets: inherit
+    with:
+      project: ui
+      family: custom-ui
+      paths: ${{ inputs.area != 'all' && format('tests/ui/{0}/', inputs.area) || '' }}
+      grep: ${{ inputs.grep }}

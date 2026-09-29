@@ -106,3 +106,13 @@ Path aliases (tsconfig `paths`, resolved by Playwright): `@fixtures` (= `src/fix
 **Error Responses:**
 - `404 Not Found`
 ````
+
+## CI and GitHub Pages
+
+- `.github/workflows/playwright-run.yml` is a reusable workflow: it runs one project (`ui` or `api`), then publishes the report with `scripts/publish-report.sh <family>`. The callers are `run-ui-tests.yml` / `run-api-tests.yml` (scheduled, weekdays, UTC) and `custom-ui-tests.yml` / `custom-api-tests.yml` (manual, with an area choice plus an optional `--grep`). When you add a folder under `tests/ui` or `tests/api`, add it to the `area` options of the matching custom workflow.
+- Secrets `ADMIN_USER`, `ADMIN_PASSWORD`, `DEFAULT_USER` and `DEFAULT_PASSWORD` come from GitHub Secrets as environment variables; CI doesn't write a `.env` file.
+- On CI, Playwright also writes `test-results/results.json`, which the dashboard reads.
+- The publish script commits to the `gh-pages` branch: `<family>/run-<N>/` (report and `results.json`), `latest/<family>/` and `<family>-manifest.json`. It keeps the latest 30 runs per family (`KEEP_RUNS`) and retries the push if another workflow published first. Families: `daily-ui-regression`, `daily-api-regression`, `custom-ui`, `custom-api`.
+- `index.html` in the repo root is the Pages dashboard. It's copied to `gh-pages` on every publish and loads the manifests and `results.json` files. Tests show up under "Known Issues" when they have an annotation whose description contains `Known issue`.
+- API coverage is optional: when a run produces `test-results/api-coverage/`, the script publishes it with the run (and as `latest/api-coverage/` from the full API regression), and the dashboard shows its elements (`data-coverage`) only when `latest/api-coverage/summary.json` exists. UI runs set `DISABLE_API_COVERAGE=true`.
+- `scripts/*.sh` must keep LF line endings (`.gitattributes`).
