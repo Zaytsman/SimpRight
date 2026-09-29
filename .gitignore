@@ -1,0 +1,12 @@
+.env
+node_modules/
+test-results/
+playwright-report/
+blob-report/
+playwright/.cache/
+.auth/
+
+# Private local context for Claude Code (plans, decisions, notes)
+CLAUDE.local.md
+.claude/local/
+.claude/settings.local.json

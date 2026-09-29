@@ -1,0 +1,16 @@
+{
+  "baseUrl": "https://practicesoftwaretesting.com",
+  "apiBaseUrl": "https://api.practicesoftwaretesting.com",
+  "defaultTimeoutMs": 10000,
+  "extendedTimeoutMs": 60000,
+  "testUsers": {
+    "admin": {
+      "username": "${ADMIN_USER}",
+      "password": "${ADMIN_PASSWORD}"
+    },
+    "default": {
+      "username": "${DEFAULT_USER}",
+      "password": "${DEFAULT_PASSWORD}"
+    }
+  }
+}

@@ -1,0 +1,50 @@
+import { defineConfig, devices } from '@playwright/test';
+import { env } from './src/config/env';
+
+const isCI = !!process.env.CI;
+
+// The config is re-evaluated in every worker; log only from the main process.
+if (!process.env.TEST_WORKER_INDEX) {
+  console.log(`Running against ${env.name}: ${env.baseUrl} (API: ${env.apiBaseUrl})`);
+}
+
+export default defineConfig({
+  testDir: './tests',
+  fullyParallel: true,
+  forbidOnly: isCI,
+  retries: isCI ? 2 : 0,
+  workers: isCI ? 2 : undefined,
+  timeout: env.extendedTimeoutMs,
+  expect: { timeout: env.defaultTimeoutMs },
+  reporter: [
+    ['list'],
+    ['html', { open: isCI ? 'never' : 'on-failure' }],
+    ...(isCI ? [['junit', { outputFile: 'test-results/junit.xml' }] as const] : []),
+  ],
+
+  use: {
+    baseURL: env.baseUrl,
+    trace: 'retain-on-failure',
+    screenshot: 'only-on-failure',
+    video: 'retain-on-failure',
+    actionTimeout: env.defaultTimeoutMs,
+    navigationTimeout: env.extendedTimeoutMs,
+  },
+
+  projects: [
+    {
+      name: 'api',
+      testDir: './tests/api',
+      use: {
+        baseURL: env.apiBaseUrl,
+      },
+    },
+    {
+      name: 'ui',
+      testDir: './tests/ui',
+      use: {
+        ...devices['Desktop Chrome'],
+      },
+    },
+  ],
+});
