@@ -1,0 +1,274 @@
+{
+  "config": {
+    "argv": [
+      "/opt/hostedtoolcache/node/24.21.0/x64/bin/node",
+      "/home/runner/work/SimpRight/SimpRight/node_modules/.bin/playwright",
+      "test",
+      "--project=api"
+    ],
+    "configFile": "/home/runner/work/SimpRight/SimpRight/playwright.config.ts",
+    "rootDir": "/home/runner/work/SimpRight/SimpRight/tests",
+    "failOnFlakyTests": false,
+    "forbidOnly": true,
+    "fullyParallel": true,
+    "globalSetup": "/home/runner/work/SimpRight/SimpRight/src/globalSetup.ts",
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "ci": {
+        "commitHref": "https://github.com/Zaytsman/SimpRight/commit/20f97419f5772684494d20f0f4ea61a635627134",
+        "commitHash": "20f97419f5772684494d20f0f4ea61a635627134",
+        "buildHref": "https://github.com/Zaytsman/SimpRight/actions/runs/36615982049"
+      },
+      "gitCommit": {
+        "shortHash": "20f9741",
+        "hash": "20f97419f5772684494d20f0f4ea61a635627134",
+        "subject": "Add Dependabot for npm and GitHub Actions updates",
+        "body": "Add Dependabot for npm and GitHub Actions updates\n\nWeekly on Tuesdays. Minor and patch npm bumps come as one grouped PR, majors as\nseparate PRs; action updates are grouped into one PR.\n\nCo-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>\n",
+        "author": {
+          "name": "Zaytsman",
+          "email": "15192104+Zaytsman@users.noreply.github.com",
+          "time": 1790707713000
+        },
+        "committer": {
+          "name": "Zaytsman",
+          "email": "15192104+Zaytsman@users.noreply.github.com",
+          "time": 1790707713000
+        },
+        "branch": "main"
+      },
+      "actualWorkers": 2
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "/home/runner/work/SimpRight/SimpRight/test-results",
+        "repeatEach": 1,
+        "retries": 2,
+        "metadata": {
+          "ci": {
+            "commitHref": "https://github.com/Zaytsman/SimpRight/commit/20f97419f5772684494d20f0f4ea61a635627134",
+            "commitHash": "20f97419f5772684494d20f0f4ea61a635627134",
+            "buildHref": "https://github.com/Zaytsman/SimpRight/actions/runs/36615982049"
+          },
+          "gitCommit": {
+            "shortHash": "20f9741",
+            "hash": "20f97419f5772684494d20f0f4ea61a635627134",
+            "subject": "Add Dependabot for npm and GitHub Actions updates",
+            "body": "Add Dependabot for npm and GitHub Actions updates\n\nWeekly on Tuesdays. Minor and patch npm bumps come as one grouped PR, majors as\nseparate PRs; action updates are grouped into one PR.\n\nCo-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>\n",
+            "author": {
+              "name": "Zaytsman",
+              "email": "15192104+Zaytsman@users.noreply.github.com",
+              "time": 1790707713000
+            },
+            "committer": {
+              "name": "Zaytsman",
+              "email": "15192104+Zaytsman@users.noreply.github.com",
+              "time": 1790707713000
+            },
+            "branch": "main"
+          },
+          "actualWorkers": 2
+        },
+        "id": "api",
+        "name": "api",
+        "testDir": "/home/runner/work/SimpRight/SimpRight/tests/api",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 60000
+      },
+      {
+        "outputDir": "/home/runner/work/SimpRight/SimpRight/test-results",
+        "repeatEach": 1,
+        "retries": 2,
+        "metadata": {
+          "ci": {
+            "commitHref": "https://github.com/Zaytsman/SimpRight/commit/20f97419f5772684494d20f0f4ea61a635627134",
+            "commitHash": "20f97419f5772684494d20f0f4ea61a635627134",
+            "buildHref": "https://github.com/Zaytsman/SimpRight/actions/runs/36615982049"
+          },
+          "gitCommit": {
+            "shortHash": "20f9741",
+            "hash": "20f97419f5772684494d20f0f4ea61a635627134",
+            "subject": "Add Dependabot for npm and GitHub Actions updates",
+            "body": "Add Dependabot for npm and GitHub Actions updates\n\nWeekly on Tuesdays. Minor and patch npm bumps come as one grouped PR, majors as\nseparate PRs; action updates are grouped into one PR.\n\nCo-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>\n",
+            "author": {
+              "name": "Zaytsman",
+              "email": "15192104+Zaytsman@users.noreply.github.com",
+              "time": 1790707713000
+            },
+            "committer": {
+              "name": "Zaytsman",
+              "email": "15192104+Zaytsman@users.noreply.github.com",
+              "time": 1790707713000
+            },
+            "branch": "main"
+          },
+          "actualWorkers": 2
+        },
+        "id": "ui",
+        "name": "ui",
+        "testDir": "/home/runner/work/SimpRight/SimpRight/tests/ui",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 60000
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "list",
+        null
+      ],
+      [
+        "html",
+        {
+          "open": "never"
+        }
+      ],
+      [
+        "junit",
+        {
+          "outputFile": "test-results/junit.xml"
+        }
+      ],
+      [
+        "json",
+        {
+          "outputFile": "test-results/results.json"
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.63.0",
+    "workers": 2,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "api/products/search-products.spec.ts",
+      "file": "api/products/search-products.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "Products API",
+          "file": "api/products/search-products.spec.ts",
+          "line": 4,
+          "column": 6,
+          "specs": [
+            {
+              "title": "API-PROD-001: search by name returns only matching products",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "api",
+                  "projectName": "api",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 980,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-09-29T18:59:19.775Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "a888f21cae5653abfe56-012522f799e5440f8145",
+              "file": "api/products/search-products.spec.ts",
+              "line": 5,
+              "column": 7
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "api/users/current-user.spec.ts",
+      "file": "api/users/current-user.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "Users API",
+          "file": "api/users/current-user.spec.ts",
+          "line": 5,
+          "column": 6,
+          "specs": [
+            {
+              "title": "API-USER-001: current user endpoint returns the logged-in user's profile",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "api",
+                  "projectName": "api",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 1,
+                      "status": "passed",
+                      "duration": 971,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-09-29T18:59:19.750Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "e3ab23f277c2390a0913-6deb50ee42cb7fc5bc8b",
+              "file": "api/users/current-user.spec.ts",
+              "line": 6,
+              "column": 7
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-09-29T18:59:19.299Z",
+    "duration": 1497.9270000000001,
+    "expected": 2,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  }
+}
