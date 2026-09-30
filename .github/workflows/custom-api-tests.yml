@@ -21,6 +21,7 @@ on:
 
 permissions:
   contents: write
+  packages: read
 
 jobs:
   api-tests:

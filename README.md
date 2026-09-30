@@ -141,6 +141,12 @@ The API coverage report shows which of the endpoints, status codes, request fiel
 
 The reporter comes from a private package, `@zaytsman/playwright-api-coverage`. SimpRight loads it only when it's installed. Without it, everything runs the same, just without this report. The recorder keeps only the shape of each request (field and parameter names, never their values), so the report is safe to publish. The nightly API regression publishes it to the dashboard. Set `DISABLE_API_COVERAGE=true` to turn it off.
 
+The package is an optional dependency, and the repo's `.npmrc` points the `@zaytsman` scope at GitHub Packages. Without access, `npm install` quietly skips it. **With access**, add a GitHub token (classic, with `read:packages`) to your **user** `~/.npmrc`, never to the repo, and run `npm install` again:
+
+```ini
+//npm.pkg.github.com/:_authToken=<your token>
+```
+
 ## CI and dashboard
 
 GitHub Actions runs the tests and publishes every report to GitHub Pages: **[zaytsman.github.io/SimpRight](https://zaytsman.github.io/SimpRight/)**.

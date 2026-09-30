@@ -121,6 +121,11 @@ Path aliases (tsconfig `paths`, resolved by Playwright): `@fixtures` (= `src/fix
 - On CI, Playwright also writes `test-results/results.json`, which the dashboard reads.
 - The publish script commits to the `gh-pages` branch: `<family>/run-<N>/` (report and `results.json`), `latest/<family>/` and `<family>-manifest.json`. It keeps the latest 30 runs per family (`KEEP_RUNS`) and retries the push if another workflow published first. Families: `daily-ui-regression`, `daily-api-regression`, `custom-ui`, `custom-api`.
 - `index.html` in the repo root is the Pages dashboard. It's copied to `gh-pages` on every publish and loads the manifests and `results.json` files. Tests show up under "Known Issues" when they have an annotation whose description contains `Known issue`.
+- **Installing the coverage package on CI:**
+  - The package is an `optionalDependency` from GitHub Packages. `.npmrc` maps the `@zaytsman` scope to it and holds no token.
+  - In `playwright-run.yml` and `pr-checks.yml`, `actions/setup-node` (`registry-url` + `scope`) and `NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}` on `npm ci` install it. This works because the package grants SimpRight read access in its settings.
+  - It needs `packages: read`, and that also goes in every caller of the reusable workflow, because a called workflow can't have more permissions than its caller.
+  - Without access (forks), `npm ci` skips it and the tests run without coverage.
 - API coverage is optional: when a run produces `test-results/api-coverage/`, the script publishes it with the run (and as `latest/api-coverage/` from the full API regression), and the dashboard shows its elements (`data-coverage`) only when `latest/api-coverage/summary.json` exists. UI runs set `DISABLE_API_COVERAGE=true`.
 - `scripts/*.sh` must keep LF line endings (`.gitattributes`).
 - `pr-checks.yml` runs the `verify` job (typecheck + all tests) on every pull request to `main` or `develop`; it's the required status check on `main`. Pull requests from forks and from Dependabot get no Actions secrets, so they run the typecheck only (Dependabot PRs run the tests too when the same four secrets are added under Dependabot secrets).

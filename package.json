@@ -21,5 +21,8 @@
     "@types/node": "^26.6.2",
     "dotenv": "^18.0.3",
     "typescript": "^7.0.2"
+  },
+  "optionalDependencies": {
+    "@zaytsman/playwright-api-coverage": "^0.1.1"
   }
 }
