@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SimpRight API Coverage</title>
+  <style>
+    :root {
+      --bg: #0f172a;
+      --card-bg: #1e293b;
+      --card-border: #334155;
+      --text: #f8fafc;
+      --text-muted: #94a3b8;
+      --primary: #38bdf8;
+      --success: #22c55e;
+      --warning: #f59e0b;
+      --danger: #ef4444;
+      --method-get: #0ea5e9;
+      --method-post: #10b981;
+      --method-put: #f59e0b;
+      --method-delete: #ef4444;
+      --method-patch: #a855f7;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+      padding: 24px;
+    }
+    .container { max-width: 1400px; margin: 0 auto; }
+    header {
+      margin-bottom: 28px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--card-border);
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+    }
+    h1 { font-size: 28px; font-weight: 700; color: #fff; }
+    .generated-at { color: var(--text-muted); font-size: 14px; }
+    
+    /* Stats Grid */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px;
+      margin-bottom: 28px;
+    }
+    .stat-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 10px;
+      padding: 18px;
+    }
+    .stat-title { font-size: 13px; font-weight: 600; text-transform: uppercase; color: var(--text-muted); letter-spacing: 0.5px; }
+    .stat-value { font-size: 32px; font-weight: 700; margin: 6px 0; }
+    .stat-sub { font-size: 13px; color: var(--text-muted); }
+    .color-success { color: var(--success); }
+    .color-warning { color: var(--warning); }
+    .color-danger { color: var(--danger); }
+    .color-primary { color: var(--primary); }
+
+    /* Service Overview */
+    .section-title { font-size: 20px; font-weight: 600; margin: 28px 0 16px 0; color: #fff; }
+    .services-table {
+      width: 100%;
+      border-collapse: collapse;
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 10px;
+      overflow: hidden;
+      margin-bottom: 32px;
+    }
+    .services-table th, .services-table td {
+      padding: 12px 16px;
+      text-align: left;
+      border-bottom: 1px solid var(--card-border);
+    }
+    .services-table th { background: rgba(0,0,0,0.2); font-size: 13px; font-weight: 600; color: var(--text-muted); }
+    
+    /* Progress bar */
+    .progress-bar-container {
+      background: #334155;
+      border-radius: 6px;
+      height: 10px;
+      width: 100%;
+      overflow: hidden;
+      display: inline-block;
+    }
+    .progress-bar-fill { height: 100%; border-radius: 6px; transition: width 0.3s; }
+    .fill-green { background: var(--success); }
+    .fill-yellow { background: var(--warning); }
+    .fill-red { background: var(--danger); }
+
+    /* Filter Controls */
+    .controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 20px;
+      background: var(--card-bg);
+      padding: 16px;
+      border-radius: 10px;
+      border: 1px solid var(--card-border);
+    }
+    .controls input, .controls select {
+      background: #0f172a;
+      border: 1px solid var(--card-border);
+      color: #fff;
+      padding: 8px 12px;
+      border-radius: 6px;
+      font-size: 14px;
+      outline: none;
+    }
+    .controls input:focus, .controls select:focus { border-color: var(--primary); }
+    .search-box { flex: 1; min-width: 250px; }
+
+    /* Endpoint Cards */
+    .endpoint-list { display: flex; flex-direction: column; gap: 12px; }
+    .endpoint-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 8px;
+      overflow: hidden;
+      transition: border-color 0.2s;
+    }
+    .endpoint-card:hover { border-color: #475569; }
+    .endpoint-header {
+      padding: 14px 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      gap: 16px;
+    }
+    .endpoint-left { display: flex; align-items: center; gap: 12px; flex: 1; }
+    .method-badge {
+      font-size: 12px;
+      font-weight: 700;
+      padding: 4px 8px;
+      border-radius: 4px;
+      color: #fff;
+      min-width: 60px;
+      text-align: center;
+    }
+    .method-GET { background: var(--method-get); }
+    .method-POST { background: var(--method-post); }
+    .method-PUT { background: var(--method-put); }
+    .method-DELETE { background: var(--method-delete); }
+    .method-PATCH { background: var(--method-patch); }
+
+    .endpoint-path { font-family: monospace; font-size: 15px; font-weight: 600; color: #f1f5f9; }
+    .service-tag {
+      font-size: 11px;
+      background: #334155;
+      color: #cbd5e1;
+      padding: 2px 8px;
+      border-radius: 12px;
+    }
+    .endpoint-right { display: flex; align-items: center; gap: 16px; }
+    .hits-badge {
+      font-size: 12px;
+      padding: 3px 8px;
+      border-radius: 6px;
+      background: #334155;
+    }
+    .hits-covered { background: rgba(34, 197, 94, 0.2); color: #4ade80; }
+    .hits-uncovered { background: rgba(239, 68, 68, 0.2); color: #f87171; }
+
+    .chevron {
+      color: var(--text-muted);
+      font-size: 11px;
+      transition: transform 0.2s ease;
+      user-select: none;
+    }
+    .endpoint-header.open .chevron {
+      transform: rotate(180deg);
+    }
+
+    .endpoint-body {
+      padding: 18px;
+      border-top: 1px solid var(--card-border);
+      background: #182234;
+      display: none;
+    }
+    .endpoint-body.open { display: block; }
+    .details-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+    .detail-section {
+      background: var(--card-bg);
+      padding: 14px;
+      border-radius: 6px;
+      border: 1px solid var(--card-border);
+    }
+    .detail-heading { font-size: 13px; font-weight: 600; margin-bottom: 8px; color: var(--primary); }
+    .tag-list { display: flex; flex-wrap: wrap; gap: 6px; }
+    .tag {
+      font-size: 12px;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-family: monospace;
+    }
+    .tag-success { background: rgba(34, 197, 94, 0.2); color: #4ade80; border: 1px solid #15803d; }
+    .tag-missing { background: rgba(239, 68, 68, 0.2); color: #f87171; border: 1px solid #991b1b; }
+    .tag-neutral { background: #334155; color: #cbd5e1; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div>
+        <h1>SimpRight API Coverage</h1>
+        <div class="generated-at">Generated: 2026-09-30T14:33:13.904Z</div>
+      </div>
+      <div>
+        <span class="service-tag">playwright-api-coverage</span>
+      </div>
+    </header>
+
+    <!-- Stats KPI -->
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-title">Overall Coverage</div>
+        <div class="stat-value color-warning">61%</div>
+        <div class="stat-sub">Across all API endpoints</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-title">Endpoint Hits</div>
+        <div class="stat-value color-primary">3 / 4</div>
+        <div class="stat-sub">75% covered</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-title">Status Codes</div>
+        <div class="stat-value color-success">3 / 7</div>
+        <div class="stat-sub">43% documented codes tested</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-title">Required Fields</div>
+        <div class="stat-value color-success">2 / 2</div>
+        <div class="stat-sub">100% tested in requests</div>
+      </div>
+    </div>
+
+    <!-- Services Overview Table -->
+    <div class="section-title">Service Breakdown</div>
+    <table class="services-table">
+      <thead>
+        <tr>
+          <th>Service Name</th>
+          <th>Endpoints</th>
+          <th>Status Codes</th>
+          <th>Required Fields</th>
+          <th>Overall Coverage</th>
+        </tr>
+      </thead>
+      <tbody>
+        
+        <tr>
+          <td><strong>Products</strong></td>
+          <td>1 / 2 (50%)</td>
+          <td>1 / 3 (33%)</td>
+          <td>0 / 0 (100%)</td>
+          <td style="width: 250px;">
+            <div style="display: flex; align-items: center; gap: 10px;">
+              <div class="progress-bar-container">
+                <div class="progress-bar-fill fill-red" style="width: 46%;"></div>
+              </div>
+              <span style="font-weight: 600; font-size: 13px; min-width: 35px;">46%</span>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td><strong>Users</strong></td>
+          <td>2 / 2 (100%)</td>
+          <td>2 / 4 (50%)</td>
+          <td>2 / 2 (100%)</td>
+          <td style="width: 250px;">
+            <div style="display: flex; align-items: center; gap: 10px;">
+              <div class="progress-bar-container">
+                <div class="progress-bar-fill fill-green" style="width: 75%;"></div>
+              </div>
+              <span style="font-weight: 600; font-size: 13px; min-width: 35px;">75%</span>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- Controls -->
+    <div class="section-title">Endpoint Coverage Details</div>
+    <div class="controls">
+      <input type="text" id="searchInput" class="search-box" placeholder="Search endpoint path, title, or method..." oninput="filterEndpoints()">
+      <select id="serviceSelect" onchange="filterEndpoints()">
+        <option value="ALL">All Services</option>
+        <option value="Products">Products</option><option value="Users">Users</option>
+      </select>
+      <select id="statusSelect" onchange="filterEndpoints()">
+        <option value="ALL">All Statuses</option>
+        <option value="COVERED">Covered Only</option>
+        <option value="UNCOVERED">Uncovered Only</option>
+        <option value="PARTIAL">Partial (&lt; 80%)</option>
+      </select>
+    </div>
+
+    <!-- Endpoint Cards List -->
+    <div class="endpoint-list" id="endpointList">
+      
+      <div class="endpoint-card" data-service="Products" data-covered="true" data-coverage="92" data-search="GET /products/search Search products">
+        <div class="endpoint-header" onclick="toggleDetails(this)">
+          <div class="endpoint-left">
+            <span class="method-badge method-GET">GET</span>
+            <span class="endpoint-path">/products/search</span>
+            <span class="service-tag">Products</span>
+          </div>
+          <div class="endpoint-right">
+            <span class="hits-badge hits-covered">1 calls</span>
+            <div style="width: 100px;">
+              <div class="progress-bar-container">
+                <div class="progress-bar-fill fill-green" style="width: 92%;"></div>
+              </div>
+            </div>
+            <span style="font-size: 13px; font-weight: 700; width: 40px; text-align: right;">92%</span>
+            <span class="chevron">▼</span>
+          </div>
+        </div>
+        <div class="endpoint-body">
+          <p style="margin-bottom: 14px; color: var(--text-muted); font-size: 14px;"><strong>Search products:</strong> Full-text search on product name. Returns a paginated list (9 per page); an empty or missing `q` returns an empty list.</p>
+          <div class="details-grid">
+            <div class="detail-section">
+              <div class="detail-heading">Status Codes (1 tested / 1 documented)</div>
+              <div class="tag-list">
+                <span class="tag tag-success">200 ✓</span>
+              </div>
+            </div>
+            <div class="detail-section">
+              <div class="detail-heading">Required Request Fields (0/0)</div>
+              <div class="tag-list">
+                <span class="tag tag-neutral">None required</span>
+              </div>
+            </div>
+            <div class="detail-section">
+              <div class="detail-heading">Optional Request Fields (0/0)</div>
+              <div class="tag-list">
+                <span class="tag tag-neutral">None</span>
+              </div>
+            </div>
+            <div class="detail-section">
+              <div class="detail-heading">Query Parameters (1/2)</div>
+              <div class="tag-list">
+                <span class="tag tag-success">q ✓</span><span class="tag tag-missing">page ✗</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="endpoint-card" data-service="Products" data-covered="false" data-coverage="0" data-search="GET /products/:productId Get product by id">
+        <div class="endpoint-header" onclick="toggleDetails(this)">
+          <div class="endpoint-left">
+            <span class="method-badge method-GET">GET</span>
+            <span class="endpoint-path">/products/:productId</span>
+            <span class="service-tag">Products</span>
+          </div>
+          <div class="endpoint-right">
+            <span class="hits-badge hits-uncovered">0 calls</span>
+            <div style="width: 100px;">
+              <div class="progress-bar-container">
+                <div class="progress-bar-fill fill-red" style="width: 0%;"></div>
+              </div>
+            </div>
+            <span style="font-size: 13px; font-weight: 700; width: 40px; text-align: right;">0%</span>
+            <span class="chevron">▼</span>
+          </div>
+        </div>
+        <div class="endpoint-body">
+          <p style="margin-bottom: 14px; color: var(--text-muted); font-size: 14px;"><strong>Get product by id:</strong> No description</p>
+          <div class="details-grid">
+            <div class="detail-section">
+              <div class="detail-heading">Status Codes (0 tested / 2 documented)</div>
+              <div class="tag-list">
+                <span class="tag tag-missing">200 ✗</span><span class="tag tag-missing">404 ✗</span>
+              </div>
+            </div>
+            <div class="detail-section">
+              <div class="detail-heading">Required Request Fields (0/0)</div>
+              <div class="tag-list">
+                <span class="tag tag-neutral">None required</span>
+              </div>
+            </div>
+            <div class="detail-section">
+              <div class="detail-heading">Optional Request Fields (0/0)</div>
+              <div class="tag-list">
+                <span class="tag tag-neutral">None</span>
+              </div>
+            </div>
+            <div class="detail-section">
+              <div class="detail-heading">Query Parameters (0/0)</div>
+              <div class="tag-list">
+                <span class="tag tag-neutral">None</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="endpoint-card" data-service="Users" data-covered="true" data-coverage="80" data-search="POST /users/login Login">
+        <div class="endpoint-header" onclick="toggleDetails(this)">
+          <div class="endpoint-left">
+            <span class="method-badge method-POST">POST</span>
+            <span class="endpoint-path">/users/login</span>
+            <span class="service-tag">Users</span>
+          </div>
+          <div class="endpoint-right">
+            <span class="hits-badge hits-covered">2 calls</span>
+            <div style="width: 100px;">
+              <div class="progress-bar-container">
+                <div class="progress-bar-fill fill-green" style="width: 80%;"></div>
+              </div>
+            </div>
+            <span style="font-size: 13px; font-weight: 700; width: 40px; text-align: right;">80%</span>
+            <span class="chevron">▼</span>
+          </div>
+        </div>
+        <div class="endpoint-body">
+          <p style="margin-bottom: 14px; color: var(--text-muted); font-size: 14px;"><strong>Login:</strong> Returns a JWT for the `Authorization: Bearer &lt;token&gt;` header. Tokens expire after 300 seconds.</p>
+          <div class="details-grid">
+            <div class="detail-section">
+              <div class="detail-heading">Status Codes (1 tested / 2 documented)</div>
+              <div class="tag-list">
+                <span class="tag tag-success">200 ✓</span><span class="tag tag-missing">401 ✗</span>
+              </div>
+            </div>
+            <div class="detail-section">
+              <div class="detail-heading">Required Request Fields (2/2)</div>
+              <div class="tag-list">
+                <span class="tag tag-success">email ✓</span><span class="tag tag-success">password ✓</span>
+              </div>
+            </div>
+            <div class="detail-section">
+              <div class="detail-heading">Optional Request Fields (0/0)</div>
+              <div class="tag-list">
+                <span class="tag tag-neutral">None</span>
+              </div>
+            </div>
+            <div class="detail-section">
+              <div class="detail-heading">Query Parameters (0/0)</div>
+              <div class="tag-list">
+                <span class="tag tag-neutral">None</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="endpoint-card" data-service="Users" data-covered="true" data-coverage="70" data-search="GET /users/me Current user">
+        <div class="endpoint-header" onclick="toggleDetails(this)">
+          <div class="endpoint-left">
+            <span class="method-badge method-GET">GET</span>
+            <span class="endpoint-path">/users/me</span>
+            <span class="service-tag">Users</span>
+          </div>
+          <div class="endpoint-right">
+            <span class="hits-badge hits-covered">1 calls</span>
+            <div style="width: 100px;">
+              <div class="progress-bar-container">
+                <div class="progress-bar-fill fill-yellow" style="width: 70%;"></div>
+              </div>
+            </div>
+            <span style="font-size: 13px; font-weight: 700; width: 40px; text-align: right;">70%</span>
+            <span class="chevron">▼</span>
+          </div>
+        </div>
+        <div class="endpoint-body">
+          <p style="margin-bottom: 14px; color: var(--text-muted); font-size: 14px;"><strong>Current user:</strong> Profile of the user the token belongs to. `role` is returned only for admins.</p>
+          <div class="details-grid">
+            <div class="detail-section">
+              <div class="detail-heading">Status Codes (1 tested / 2 documented)</div>
+              <div class="tag-list">
+                <span class="tag tag-success">200 ✓</span><span class="tag tag-missing">401 ✗</span>
+              </div>
+            </div>
+            <div class="detail-section">
+              <div class="detail-heading">Required Request Fields (0/0)</div>
+              <div class="tag-list">
+                <span class="tag tag-neutral">None required</span>
+              </div>
+            </div>
+            <div class="detail-section">
+              <div class="detail-heading">Optional Request Fields (0/0)</div>
+              <div class="tag-list">
+                <span class="tag tag-neutral">None</span>
+              </div>
+            </div>
+            <div class="detail-section">
+              <div class="detail-heading">Query Parameters (0/0)</div>
+              <div class="tag-list">
+                <span class="tag tag-neutral">None</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    
+
+  </div>
+
+  <script>
+    function toggleDetails(headerEl) {
+      const card = headerEl.closest('.endpoint-card');
+      const body = card ? card.querySelector('.endpoint-body') : headerEl.nextElementSibling;
+      if (body) {
+        body.classList.toggle('open');
+        headerEl.classList.toggle('open');
+      }
+    }
+
+    function filterEndpoints() {
+      const search = (document.getElementById('searchInput')?.value || '').toLowerCase();
+      const service = document.getElementById('serviceSelect')?.value || 'ALL';
+      const status = document.getElementById('statusSelect')?.value || 'ALL';
+      const cards = document.querySelectorAll('.endpoint-card');
+
+      cards.forEach(card => {
+        const cardService = card.getAttribute('data-service');
+        const isCovered = card.getAttribute('data-covered') === 'true';
+        const coverage = parseInt(card.getAttribute('data-coverage') || '0', 10);
+        const searchText = (card.getAttribute('data-search') || '').toLowerCase();
+
+        let visible = true;
+
+        if (service !== 'ALL' && cardService !== service) {
+          visible = false;
+        }
+
+        if (status === 'COVERED' && !isCovered) visible = false;
+        if (status === 'UNCOVERED' && isCovered) visible = false;
+        if (status === 'PARTIAL' && (coverage >= 80 || !isCovered)) visible = false;
+
+        if (search && !searchText.includes(search)) {
+          visible = false;
+        }
+
+        card.style.display = visible ? 'block' : 'none';
+      });
+    }
+  </script>
+</body>
+</html>

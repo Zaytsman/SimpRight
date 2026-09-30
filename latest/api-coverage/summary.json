@@ -1,0 +1,569 @@
+{
+  "generatedAt": "2026-09-30T14:33:13.904Z",
+  "totalEndpoints": 4,
+  "coveredEndpoints": 3,
+  "endpointCoveragePct": 75,
+  "totalDocumentedStatusCodes": 7,
+  "coveredStatusCodes": 3,
+  "statusCodeCoveragePct": 43,
+  "totalRequiredFields": 2,
+  "coveredRequiredFields": 2,
+  "requiredFieldCoveragePct": 100,
+  "totalOptionalFields": 0,
+  "coveredOptionalFields": 0,
+  "optionalFieldCoveragePct": 100,
+  "overallCoveragePct": 61,
+  "services": {
+    "Products": {
+      "serviceName": "Products",
+      "totalEndpoints": 2,
+      "coveredEndpoints": 1,
+      "endpointCoveragePct": 50,
+      "documentedStatusCodes": 3,
+      "coveredStatusCodes": 1,
+      "statusCodeCoveragePct": 33,
+      "totalRequiredFields": 0,
+      "coveredRequiredFields": 0,
+      "requiredFieldCoveragePct": 100,
+      "totalOptionalFields": 0,
+      "coveredOptionalFields": 0,
+      "optionalFieldCoveragePct": 100,
+      "overallCoveragePct": 46,
+      "endpoints": [
+        {
+          "endpoint": {
+            "id": "GET /products/search",
+            "serviceName": "Products",
+            "method": "GET",
+            "path": "/products/search",
+            "normalizedPath": "/products/search",
+            "title": "Search products",
+            "description": "Full-text search on product name. Returns a paginated list (9 per page); an empty or missing `q` returns an empty list.",
+            "parameters": [
+              {
+                "name": "q",
+                "in": "query",
+                "type": "string",
+                "required": true,
+                "description": "Search term"
+              },
+              {
+                "name": "page",
+                "in": "query",
+                "type": "integer",
+                "required": false,
+                "description": "Page number, starting at 1"
+              }
+            ],
+            "requestBody": {
+              "requiredFields": [],
+              "optionalFields": []
+            },
+            "responses": {
+              "200": {
+                "statusCode": 200,
+                "statusText": "OK",
+                "fields": [
+                  "current_page",
+                  "data",
+                  "from",
+                  "last_page",
+                  "per_page",
+                  "to",
+                  "total"
+                ],
+                "schemaRaw": "{\n  current_page: number;\n  data: Product[];\n  from: number | null;\n  last_page: number;\n  per_page: number;\n  to: number | null;\n  total: number;\n}"
+              }
+            }
+          },
+          "callCount": 1,
+          "isCovered": true,
+          "testedStatusCodes": [
+            200
+          ],
+          "documentedStatusCodes": [
+            200
+          ],
+          "statusCodeCoveragePct": 100,
+          "testedRequiredFields": [],
+          "missingRequiredFields": [],
+          "requiredFieldCoveragePct": 100,
+          "testedOptionalFields": [],
+          "missingOptionalFields": [],
+          "optionalFieldCoveragePct": 100,
+          "testedQueryParams": [
+            "q"
+          ],
+          "missingQueryParams": [
+            "page"
+          ],
+          "queryParamCoveragePct": 50,
+          "overallCoveragePct": 92
+        },
+        {
+          "endpoint": {
+            "id": "GET /products/:productId",
+            "serviceName": "Products",
+            "method": "GET",
+            "path": "/products/:productId",
+            "normalizedPath": "/products/{productId}",
+            "title": "Get product by id",
+            "description": "",
+            "parameters": [
+              {
+                "name": "productId",
+                "in": "path",
+                "type": "string",
+                "required": true,
+                "description": "Product ULID"
+              }
+            ],
+            "requestBody": {
+              "requiredFields": [],
+              "optionalFields": []
+            },
+            "responses": {
+              "200": {
+                "statusCode": 200,
+                "statusText": "OK",
+                "fields": [
+                  "id",
+                  "name",
+                  "description",
+                  "price",
+                  "is_location_offer",
+                  "is_rental",
+                  "co2_rating",
+                  "in_stock",
+                  "is_eco_friendly",
+                  "product_image",
+                  "category",
+                  "brand"
+                ],
+                "schemaRaw": "{\n  id: string;\n  name: string;\n  description: string;\n  price: number;\n  is_location_offer: boolean;\n  is_rental: boolean;\n  co2_rating: string;\n  in_stock: boolean;\n  is_eco_friendly: boolean;\n  product_image: object;\n  category: object;\n  brand: object;\n}"
+              },
+              "404": {
+                "statusCode": 404,
+                "statusText": "Not Found"
+              }
+            }
+          },
+          "callCount": 0,
+          "isCovered": false,
+          "testedStatusCodes": [],
+          "documentedStatusCodes": [
+            200,
+            404
+          ],
+          "statusCodeCoveragePct": 0,
+          "testedRequiredFields": [],
+          "missingRequiredFields": [],
+          "requiredFieldCoveragePct": 100,
+          "testedOptionalFields": [],
+          "missingOptionalFields": [],
+          "optionalFieldCoveragePct": 100,
+          "testedQueryParams": [],
+          "missingQueryParams": [],
+          "queryParamCoveragePct": 100,
+          "overallCoveragePct": 0
+        }
+      ]
+    },
+    "Users": {
+      "serviceName": "Users",
+      "totalEndpoints": 2,
+      "coveredEndpoints": 2,
+      "endpointCoveragePct": 100,
+      "documentedStatusCodes": 4,
+      "coveredStatusCodes": 2,
+      "statusCodeCoveragePct": 50,
+      "totalRequiredFields": 2,
+      "coveredRequiredFields": 2,
+      "requiredFieldCoveragePct": 100,
+      "totalOptionalFields": 0,
+      "coveredOptionalFields": 0,
+      "optionalFieldCoveragePct": 100,
+      "overallCoveragePct": 75,
+      "endpoints": [
+        {
+          "endpoint": {
+            "id": "POST /users/login",
+            "serviceName": "Users",
+            "method": "POST",
+            "path": "/users/login",
+            "normalizedPath": "/users/login",
+            "title": "Login",
+            "description": "Returns a JWT for the `Authorization: Bearer <token>` header. Tokens expire after 300 seconds.",
+            "parameters": [],
+            "requestBody": {
+              "requiredFields": [
+                "email",
+                "password"
+              ],
+              "optionalFields": [],
+              "schemaRaw": "{\n  email: string;\n  password: string;\n}"
+            },
+            "responses": {
+              "200": {
+                "statusCode": 200,
+                "statusText": "OK",
+                "fields": [
+                  "access_token",
+                  "token_type",
+                  "expires_in"
+                ],
+                "schemaRaw": "{\n  access_token: string;\n  token_type: string;\n  expires_in: number;\n}"
+              },
+              "401": {
+                "statusCode": 401,
+                "statusText": "Unauthorized"
+              }
+            }
+          },
+          "callCount": 2,
+          "isCovered": true,
+          "testedStatusCodes": [
+            200
+          ],
+          "documentedStatusCodes": [
+            200,
+            401
+          ],
+          "statusCodeCoveragePct": 50,
+          "testedRequiredFields": [
+            "email",
+            "password"
+          ],
+          "missingRequiredFields": [],
+          "requiredFieldCoveragePct": 100,
+          "testedOptionalFields": [],
+          "missingOptionalFields": [],
+          "optionalFieldCoveragePct": 100,
+          "testedQueryParams": [],
+          "missingQueryParams": [],
+          "queryParamCoveragePct": 100,
+          "overallCoveragePct": 80
+        },
+        {
+          "endpoint": {
+            "id": "GET /users/me",
+            "serviceName": "Users",
+            "method": "GET",
+            "path": "/users/me",
+            "normalizedPath": "/users/me",
+            "title": "Current user",
+            "description": "Profile of the user the token belongs to. `role` is returned only for admins.",
+            "parameters": [],
+            "requestBody": {
+              "requiredFields": [],
+              "optionalFields": []
+            },
+            "responses": {
+              "200": {
+                "statusCode": 200,
+                "statusText": "OK",
+                "fields": [
+                  "id",
+                  "provider",
+                  "first_name",
+                  "last_name",
+                  "phone",
+                  "dob",
+                  "email",
+                  "totp_enabled",
+                  "created_at",
+                  "address",
+                  "role"
+                ],
+                "schemaRaw": "{\n  id: string;\n  provider: string | null;\n  first_name: string;\n  last_name: string;\n  phone: string | null;\n  dob: string | null;\n  email: string;\n  totp_enabled: boolean;\n  created_at: string;\n  address: object;\n  role?: string;\n}"
+              },
+              "401": {
+                "statusCode": 401,
+                "statusText": "Unauthorized"
+              }
+            }
+          },
+          "callCount": 1,
+          "isCovered": true,
+          "testedStatusCodes": [
+            200
+          ],
+          "documentedStatusCodes": [
+            200,
+            401
+          ],
+          "statusCodeCoveragePct": 50,
+          "testedRequiredFields": [],
+          "missingRequiredFields": [],
+          "requiredFieldCoveragePct": 100,
+          "testedOptionalFields": [],
+          "missingOptionalFields": [],
+          "optionalFieldCoveragePct": 100,
+          "testedQueryParams": [],
+          "missingQueryParams": [],
+          "queryParamCoveragePct": 100,
+          "overallCoveragePct": 70
+        }
+      ]
+    }
+  },
+  "endpointResults": [
+    {
+      "endpoint": {
+        "id": "GET /products/search",
+        "serviceName": "Products",
+        "method": "GET",
+        "path": "/products/search",
+        "normalizedPath": "/products/search",
+        "title": "Search products",
+        "description": "Full-text search on product name. Returns a paginated list (9 per page); an empty or missing `q` returns an empty list.",
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "type": "string",
+            "required": true,
+            "description": "Search term"
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "type": "integer",
+            "required": false,
+            "description": "Page number, starting at 1"
+          }
+        ],
+        "requestBody": {
+          "requiredFields": [],
+          "optionalFields": []
+        },
+        "responses": {
+          "200": {
+            "statusCode": 200,
+            "statusText": "OK",
+            "fields": [
+              "current_page",
+              "data",
+              "from",
+              "last_page",
+              "per_page",
+              "to",
+              "total"
+            ],
+            "schemaRaw": "{\n  current_page: number;\n  data: Product[];\n  from: number | null;\n  last_page: number;\n  per_page: number;\n  to: number | null;\n  total: number;\n}"
+          }
+        }
+      },
+      "callCount": 1,
+      "isCovered": true,
+      "testedStatusCodes": [
+        200
+      ],
+      "documentedStatusCodes": [
+        200
+      ],
+      "statusCodeCoveragePct": 100,
+      "testedRequiredFields": [],
+      "missingRequiredFields": [],
+      "requiredFieldCoveragePct": 100,
+      "testedOptionalFields": [],
+      "missingOptionalFields": [],
+      "optionalFieldCoveragePct": 100,
+      "testedQueryParams": [
+        "q"
+      ],
+      "missingQueryParams": [
+        "page"
+      ],
+      "queryParamCoveragePct": 50,
+      "overallCoveragePct": 92
+    },
+    {
+      "endpoint": {
+        "id": "GET /products/:productId",
+        "serviceName": "Products",
+        "method": "GET",
+        "path": "/products/:productId",
+        "normalizedPath": "/products/{productId}",
+        "title": "Get product by id",
+        "description": "",
+        "parameters": [
+          {
+            "name": "productId",
+            "in": "path",
+            "type": "string",
+            "required": true,
+            "description": "Product ULID"
+          }
+        ],
+        "requestBody": {
+          "requiredFields": [],
+          "optionalFields": []
+        },
+        "responses": {
+          "200": {
+            "statusCode": 200,
+            "statusText": "OK",
+            "fields": [
+              "id",
+              "name",
+              "description",
+              "price",
+              "is_location_offer",
+              "is_rental",
+              "co2_rating",
+              "in_stock",
+              "is_eco_friendly",
+              "product_image",
+              "category",
+              "brand"
+            ],
+            "schemaRaw": "{\n  id: string;\n  name: string;\n  description: string;\n  price: number;\n  is_location_offer: boolean;\n  is_rental: boolean;\n  co2_rating: string;\n  in_stock: boolean;\n  is_eco_friendly: boolean;\n  product_image: object;\n  category: object;\n  brand: object;\n}"
+          },
+          "404": {
+            "statusCode": 404,
+            "statusText": "Not Found"
+          }
+        }
+      },
+      "callCount": 0,
+      "isCovered": false,
+      "testedStatusCodes": [],
+      "documentedStatusCodes": [
+        200,
+        404
+      ],
+      "statusCodeCoveragePct": 0,
+      "testedRequiredFields": [],
+      "missingRequiredFields": [],
+      "requiredFieldCoveragePct": 100,
+      "testedOptionalFields": [],
+      "missingOptionalFields": [],
+      "optionalFieldCoveragePct": 100,
+      "testedQueryParams": [],
+      "missingQueryParams": [],
+      "queryParamCoveragePct": 100,
+      "overallCoveragePct": 0
+    },
+    {
+      "endpoint": {
+        "id": "POST /users/login",
+        "serviceName": "Users",
+        "method": "POST",
+        "path": "/users/login",
+        "normalizedPath": "/users/login",
+        "title": "Login",
+        "description": "Returns a JWT for the `Authorization: Bearer <token>` header. Tokens expire after 300 seconds.",
+        "parameters": [],
+        "requestBody": {
+          "requiredFields": [
+            "email",
+            "password"
+          ],
+          "optionalFields": [],
+          "schemaRaw": "{\n  email: string;\n  password: string;\n}"
+        },
+        "responses": {
+          "200": {
+            "statusCode": 200,
+            "statusText": "OK",
+            "fields": [
+              "access_token",
+              "token_type",
+              "expires_in"
+            ],
+            "schemaRaw": "{\n  access_token: string;\n  token_type: string;\n  expires_in: number;\n}"
+          },
+          "401": {
+            "statusCode": 401,
+            "statusText": "Unauthorized"
+          }
+        }
+      },
+      "callCount": 2,
+      "isCovered": true,
+      "testedStatusCodes": [
+        200
+      ],
+      "documentedStatusCodes": [
+        200,
+        401
+      ],
+      "statusCodeCoveragePct": 50,
+      "testedRequiredFields": [
+        "email",
+        "password"
+      ],
+      "missingRequiredFields": [],
+      "requiredFieldCoveragePct": 100,
+      "testedOptionalFields": [],
+      "missingOptionalFields": [],
+      "optionalFieldCoveragePct": 100,
+      "testedQueryParams": [],
+      "missingQueryParams": [],
+      "queryParamCoveragePct": 100,
+      "overallCoveragePct": 80
+    },
+    {
+      "endpoint": {
+        "id": "GET /users/me",
+        "serviceName": "Users",
+        "method": "GET",
+        "path": "/users/me",
+        "normalizedPath": "/users/me",
+        "title": "Current user",
+        "description": "Profile of the user the token belongs to. `role` is returned only for admins.",
+        "parameters": [],
+        "requestBody": {
+          "requiredFields": [],
+          "optionalFields": []
+        },
+        "responses": {
+          "200": {
+            "statusCode": 200,
+            "statusText": "OK",
+            "fields": [
+              "id",
+              "provider",
+              "first_name",
+              "last_name",
+              "phone",
+              "dob",
+              "email",
+              "totp_enabled",
+              "created_at",
+              "address",
+              "role"
+            ],
+            "schemaRaw": "{\n  id: string;\n  provider: string | null;\n  first_name: string;\n  last_name: string;\n  phone: string | null;\n  dob: string | null;\n  email: string;\n  totp_enabled: boolean;\n  created_at: string;\n  address: object;\n  role?: string;\n}"
+          },
+          "401": {
+            "statusCode": 401,
+            "statusText": "Unauthorized"
+          }
+        }
+      },
+      "callCount": 1,
+      "isCovered": true,
+      "testedStatusCodes": [
+        200
+      ],
+      "documentedStatusCodes": [
+        200,
+        401
+      ],
+      "statusCodeCoveragePct": 50,
+      "testedRequiredFields": [],
+      "missingRequiredFields": [],
+      "requiredFieldCoveragePct": 100,
+      "testedOptionalFields": [],
+      "missingOptionalFields": [],
+      "optionalFieldCoveragePct": 100,
+      "testedQueryParams": [],
+      "missingQueryParams": [],
+      "queryParamCoveragePct": 100,
+      "overallCoveragePct": 70
+    }
+  ],
+  "undocumentedCalls": []
+}
