@@ -50,7 +50,7 @@ Specs import from `src/fixtures` (`index.ts`): `test`, `expect` and `openHomePag
 ## Layout
 
 - `src/`: framework code; `tests/`: specs only (no page logic in specs).
-- `src/api/`: `clients` (low-level HTTP over `APIRequestContext`), `services` (domain operations built on clients), `dto` (request/response types), `auth`, `fixtures`.
+- `src/api/`: `clients` (low-level HTTP over `APIRequestContext`), `services` (domain operations built on clients), `dto` (request/response types), `auth`, `fixtures`, `coverage` (the optional API coverage plug-in).
 - `src/ui/`: `pages` (page objects, with reusable `components` and `dialogs`; `filters` and `grids` when needed), `flows` (multi-page user journeys), `auth` (token/storage-state helpers), `fixtures`.
 - `src/fixtures/`: merges the API and UI fixtures (`mergeTests`) into the single `test`/`expect` that specs import.
 - `src/globalSetup.ts`: UI login for `storageState` mode.
@@ -79,6 +79,13 @@ Path aliases (tsconfig `paths`, resolved by Playwright): `@fixtures` (= `src/fix
 ## API layer
 
 - **Clients** extend `src/api/clients/BaseClient.ts`: one client per API area, with methods that map 1:1 to endpoints (`get/post/put/patch/delete` return `ApiResponse` with `status` and a raw `body` string). Always send HTTP through `BaseClient.executeRequest`: it uses Playwright's `APIRequestContext`, so calls appear in traces. Don't call `fetch` or `request.get` directly.
+- **`BaseClient.onApiCall(listener)`** is called after every request of every client in the worker, with the method, URL, path, query string, request body, status (0 when the request failed) and duration. It returns a function that removes the listener. A listener that throws only logs a warning.
+- **API coverage (optional):**
+  - `src/api/coverage/apiCoverage.ts` loads the private package `@zaytsman/playwright-api-coverage` when it's installed.
+  - The auto worker fixture `apiCoverage` (`src/fixtures/base.ts`) then records every call through `onApiCall`.
+  - `playwright.config.ts` adds the package's reporter. It compares the calls with `docs/api/contracts/` and writes `test-results/api-coverage/` (`index.html`, `summary.json`).
+  - Without the package, both do nothing. **Never import the package directly**: forks and their pull requests don't have it, so it must stay optional.
+  - `DISABLE_API_COVERAGE=true` turns it off. A CLI `--reporter` also turns it off, because it replaces the configured reporters.
 - **Services** (`src/api/services/`) wrap clients with domain operations and parsing; **DTOs** (`src/api/dto/`) type the request and response bodies.
 - **Auth:** `POST /users/login` with `{ email, password }` returns `access_token` and `expires_in` (300s). `TokenService` (worker-scoped) logs in each role once per worker and refreshes the token 2 minutes before it expires. The JWT's `role` claim is `admin` or `user`; `/users/me` returns `role` only for admin.
 - **Fixtures** (`src/api/fixtures/fixtures.ts`): `accessToken` (for the test's `role`, from the shared `tokenService`) and `authClient`. Register new clients and services here, built from `request`, `config` and `accessToken`.

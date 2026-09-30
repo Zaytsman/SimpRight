@@ -2,6 +2,8 @@ import { test as base } from '@playwright/test';
 import { env, getUser, type EnvConfig, type TestUser, type UserRole } from '../config/env';
 import { TokenService } from '../api/auth/TokenService';
 import { AuthClient } from '../api/clients/AuthClient';
+import { BaseClient } from '../api/clients/BaseClient';
+import { loadApiCoverage, toCoverageCall } from '../api/coverage/apiCoverage';
 
 export type BaseOptions = {
   /** Which test user the test acts as. Override per file or describe with `test.use({ role: 'admin' })`. */
@@ -15,6 +17,7 @@ export type BaseFixtures = {
 export type BaseWorkerFixtures = {
   config: EnvConfig;
   tokenService: TokenService;
+  apiCoverage: void;
 };
 
 /**
@@ -40,6 +43,17 @@ export const test = base.extend<BaseOptions & BaseFixtures, BaseWorkerFixtures>(
       await request.dispose();
     },
     { scope: 'worker' },
+  ],
+
+  // Records every API call for the optional coverage report; does nothing without the coverage package.
+  apiCoverage: [
+    async ({}, use) => {
+      const coverage = loadApiCoverage();
+      const stop = coverage ? BaseClient.onApiCall((call) => coverage.recordApiCall(toCoverageCall(call))) : undefined;
+      await use();
+      stop?.();
+    },
+    { scope: 'worker', auto: true },
   ],
 
   user: async ({ role }, use) => {
