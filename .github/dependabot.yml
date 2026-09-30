@@ -1,10 +1,21 @@
 version: 2
 # Version updates go to develop and reach main through the usual develop -> main PR.
 # Security updates ignore target-branch and always open against main (the default branch).
+
+registries:
+  # The optional private API coverage package (@zaytsman scope, see .npmrc). PACKAGES_READ_TOKEN is a
+  # Dependabot secret: a classic token with read:packages only.
+  github-packages:
+    type: npm-registry
+    url: https://npm.pkg.github.com
+    token: ${{ secrets.PACKAGES_READ_TOKEN }}
+
 updates:
   - package-ecosystem: "npm"
     directory: "/"
     target-branch: "develop"
+    registries:
+      - github-packages
     schedule:
       interval: "weekly"
       day: "tuesday"

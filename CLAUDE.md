@@ -50,7 +50,7 @@ Specs import from `src/fixtures` (`index.ts`): `test`, `expect` and `openHomePag
 ## Layout
 
 - `src/`: framework code; `tests/`: specs only (no page logic in specs).
-- `src/api/`: `clients` (low-level HTTP over `APIRequestContext`), `services` (domain operations built on clients), `dto` (request/response types), `auth`, `fixtures`.
+- `src/api/`: `clients` (low-level HTTP over `APIRequestContext`), `services` (domain operations built on clients), `dto` (request/response types), `auth`, `fixtures`, `coverage` (the optional API coverage plug-in).
 - `src/ui/`: `pages` (page objects, with reusable `components` and `dialogs`; `filters` and `grids` when needed), `flows` (multi-page user journeys), `auth` (token/storage-state helpers), `fixtures`.
 - `src/fixtures/`: merges the API and UI fixtures (`mergeTests`) into the single `test`/`expect` that specs import.
 - `src/globalSetup.ts`: UI login for `storageState` mode.
@@ -79,6 +79,13 @@ Path aliases (tsconfig `paths`, resolved by Playwright): `@fixtures` (= `src/fix
 ## API layer
 
 - **Clients** extend `src/api/clients/BaseClient.ts`: one client per API area, with methods that map 1:1 to endpoints (`get/post/put/patch/delete` return `ApiResponse` with `status` and a raw `body` string). Always send HTTP through `BaseClient.executeRequest`: it uses Playwright's `APIRequestContext`, so calls appear in traces. Don't call `fetch` or `request.get` directly.
+- **`BaseClient.onApiCall(listener)`** is called after every request of every client in the worker, with the method, URL, path, query string, request body, status (0 when the request failed) and duration. It returns a function that removes the listener. A listener that throws only logs a warning.
+- **API coverage (optional):**
+  - `src/api/coverage/apiCoverage.ts` loads the private package `@zaytsman/playwright-api-coverage` when it's installed.
+  - The auto worker fixture `apiCoverage` (`src/fixtures/base.ts`) then records every call through `onApiCall`.
+  - `playwright.config.ts` adds the package's reporter. It compares the calls with `docs/api/contracts/` and writes `test-results/api-coverage/` (`index.html`, `summary.json`).
+  - Without the package, both do nothing. **Never import the package directly**: forks and their pull requests don't have it, so it must stay optional.
+  - `DISABLE_API_COVERAGE=true` turns it off. A CLI `--reporter` also turns it off, because it replaces the configured reporters.
 - **Services** (`src/api/services/`) wrap clients with domain operations and parsing; **DTOs** (`src/api/dto/`) type the request and response bodies.
 - **Auth:** `POST /users/login` with `{ email, password }` returns `access_token` and `expires_in` (300s). `TokenService` (worker-scoped) logs in each role once per worker and refreshes the token 2 minutes before it expires. The JWT's `role` claim is `admin` or `user`; `/users/me` returns `role` only for admin.
 - **Fixtures** (`src/api/fixtures/fixtures.ts`): `accessToken` (for the test's `role`, from the shared `tokenService`) and `authClient`. Register new clients and services here, built from `request`, `config` and `accessToken`.
@@ -114,6 +121,12 @@ Path aliases (tsconfig `paths`, resolved by Playwright): `@fixtures` (= `src/fix
 - On CI, Playwright also writes `test-results/results.json`, which the dashboard reads.
 - The publish script commits to the `gh-pages` branch: `<family>/run-<N>/` (report and `results.json`), `latest/<family>/` and `<family>-manifest.json`. It keeps the latest 30 runs per family (`KEEP_RUNS`) and retries the push if another workflow published first. Families: `daily-ui-regression`, `daily-api-regression`, `custom-ui`, `custom-api`.
 - `index.html` in the repo root is the Pages dashboard. It's copied to `gh-pages` on every publish and loads the manifests and `results.json` files. Tests show up under "Known Issues" when they have an annotation whose description contains `Known issue`.
+- **Installing the coverage package on CI:**
+  - The package is an `optionalDependency` from GitHub Packages. `.npmrc` maps the `@zaytsman` scope to it and holds no token.
+  - In `playwright-run.yml` and `pr-checks.yml`, `actions/setup-node` (`registry-url` + `scope`) and `NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}` on `npm ci` install it. This works because the package grants SimpRight read access in its settings.
+  - It needs `packages: read`, and that also goes in every caller of the reusable workflow, because a called workflow can't have more permissions than its caller.
+  - Without access (forks), `npm ci` skips it and the tests run without coverage.
+  - Dependabot reads it through the `github-packages` registry in `dependabot.yml`, using the Dependabot secret `PACKAGES_READ_TOKEN`, a classic token with `read:packages` only. When that token expires, Dependabot's npm updates fail until it's replaced.
 - API coverage is optional: when a run produces `test-results/api-coverage/`, the script publishes it with the run (and as `latest/api-coverage/` from the full API regression), and the dashboard shows its elements (`data-coverage`) only when `latest/api-coverage/summary.json` exists. UI runs set `DISABLE_API_COVERAGE=true`.
 - `scripts/*.sh` must keep LF line endings (`.gitattributes`).
 - `pr-checks.yml` runs the `verify` job (typecheck + all tests) on every pull request to `main` or `develop`; it's the required status check on `main`. Pull requests from forks and from Dependabot get no Actions secrets, so they run the typecheck only (Dependabot PRs run the tests too when the same four secrets are added under Dependabot secrets).

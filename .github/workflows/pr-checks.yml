@@ -9,6 +9,7 @@ on:
 
 permissions:
   contents: read
+  packages: read # install the optional coverage package
 
 concurrency:
   group: pr-checks-${{ github.event.pull_request.number }}
@@ -36,9 +37,16 @@ jobs:
         with:
           node-version: 24
           cache: npm
+          # Lets npm ci install the optional private coverage package with NODE_AUTH_TOKEN.
+          registry-url: https://npm.pkg.github.com
+          scope: '@zaytsman'
 
       - name: Install dependencies
         run: npm ci
+        env:
+          # Read access to the private coverage package (granted to this repo in the package settings).
+          # Without access (e.g. in a fork) the optional package is skipped and the tests run without coverage.
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Typecheck
         run: npm run typecheck

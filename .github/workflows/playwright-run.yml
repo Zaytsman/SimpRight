@@ -36,6 +36,7 @@ jobs:
     timeout-minutes: 30
     permissions:
       contents: write # push to gh-pages
+      packages: read # install the optional coverage package
 
     env:
       # Secrets are read by src/config/env.ts from the environment (no .env file on CI).
@@ -53,9 +54,16 @@ jobs:
         with:
           node-version: 24
           cache: npm
+          # Lets npm ci install the optional private coverage package with NODE_AUTH_TOKEN.
+          registry-url: https://npm.pkg.github.com
+          scope: '@zaytsman'
 
       - name: Install dependencies
         run: npm ci
+        env:
+          # Read access to the private coverage package (granted to this repo in the package settings).
+          # Without access (e.g. in a fork) the optional package is skipped and the tests run without coverage.
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Cache Playwright browsers
         if: inputs.project == 'ui'

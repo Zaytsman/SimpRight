@@ -1,4 +1,5 @@
 import { defineConfig, devices } from '@playwright/test';
+import { apiCoverageReporter } from './src/api/coverage/apiCoverage';
 import { env } from './src/config/env';
 import { TEST_ID_ATTRIBUTE } from './src/ui/pages/BasePage';
 
@@ -25,6 +26,8 @@ export default defineConfig({
     ...(isCI ? [['junit', { outputFile: 'test-results/junit.xml' }] as const] : []),
     // Read by the GitHub Pages dashboard (index.html) for trends and known issues.
     ...(isCI ? [['json', { outputFile: 'test-results/results.json' }] as const] : []),
+    // Optional: compares the API calls with docs/api/contracts -> test-results/api-coverage/ (skipped without the package).
+    ...apiCoverageReporter({ docDir: 'docs/api/contracts', title: 'SimpRight API Coverage' }),
   ],
 
   use: {

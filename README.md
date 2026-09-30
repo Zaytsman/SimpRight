@@ -92,6 +92,7 @@ src/
     services/            domain operations over clients, returning typed results
     dto/                 request/response types
     auth/                TokenService (per-role token cache)
+    coverage/            optional API coverage plug-in
     fixtures/            API fixtures
   ui/
     pages/               page objects (+ components/, dialogs/)
@@ -132,6 +133,19 @@ Detailed conventions, such as locator strategy, fixture layout and contract form
 ## Reports
 
 - **Playwright HTML report:** `playwright-report/`. Open it with `npm run report`. Traces, screenshots and videos are kept for failed tests.
+- **API coverage report (optional):** `test-results/api-coverage/index.html`, see below.
+
+### API coverage (optional)
+
+The API coverage report shows which of the endpoints, status codes, request fields and query parameters documented in `docs/api/contracts/` the tests actually exercise. It also lists calls to endpoints that aren't documented.
+
+The reporter comes from a private package, `@zaytsman/playwright-api-coverage`. SimpRight loads it only when it's installed. Without it, everything runs the same, just without this report. The recorder keeps only the shape of each request (field and parameter names, never their values), so the report is safe to publish. The nightly API regression publishes it to the dashboard. Set `DISABLE_API_COVERAGE=true` to turn it off.
+
+The package is an optional dependency, and the repo's `.npmrc` points the `@zaytsman` scope at GitHub Packages. Without access, `npm install` quietly skips it. **With access**, add a GitHub token (classic, with `read:packages`) to your **user** `~/.npmrc`, never to the repo, and run `npm install` again:
+
+```ini
+//npm.pkg.github.com/:_authToken=<your token>
+```
 
 ## CI and dashboard
 
