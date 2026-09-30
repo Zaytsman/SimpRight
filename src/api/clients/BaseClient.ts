@@ -10,11 +10,50 @@ export interface ApiResponse {
   isSuccess: boolean;
 }
 
+/** What BaseClient reports to `onApiCall` listeners after every request. */
+export interface ApiCallInfo {
+  method: HttpVerb;
+  /** Full URL, including the query string. */
+  url: string;
+  /** Resource path relative to `apiBaseUrl`, starting with `/`. */
+  path: string;
+  /** Query string without the `?`, if any. */
+  query?: string;
+  requestBody?: unknown;
+  /** Response status, or 0 when the request failed without a response. */
+  status: number;
+  statusText: string;
+  durationMs: number;
+}
+
+export type ApiCallListener = (call: ApiCallInfo) => void;
+
 /**
  * Base for all API clients. Requests go through Playwright's APIRequestContext, so they show up
- * in traces and the HTML report.
+ * in traces and the HTML report. Listeners registered with `BaseClient.onApiCall` see every call.
  */
 export abstract class BaseClient {
+  private static readonly apiCallListeners = new Set<ApiCallListener>();
+
+  /**
+   * Calls `listener` after every request of every client in this worker (e.g. to record API coverage).
+   * Returns a function that removes it. A failing listener only logs a warning; it never fails the request.
+   */
+  static onApiCall(listener: ApiCallListener): () => void {
+    BaseClient.apiCallListeners.add(listener);
+    return () => BaseClient.apiCallListeners.delete(listener);
+  }
+
+  private static notifyApiCall(call: ApiCallInfo): void {
+    for (const listener of BaseClient.apiCallListeners) {
+      try {
+        listener(call);
+      } catch (error) {
+        console.warn('[BaseClient] An onApiCall listener failed:', error);
+      }
+    }
+  }
+
   protected readonly request: APIRequestContext;
   protected readonly config: EnvConfig;
   protected baseUrl: string;
@@ -64,6 +103,18 @@ export abstract class BaseClient {
     const hasBody = options?.data !== undefined && ['POST', 'PUT', 'PATCH', 'DELETE'].includes(method);
     const contentType = options?.contentType ?? (hasBody ? 'application/json; charset=utf-8' : undefined);
     const headers = this.getHeaders(contentType);
+    const startTime = Date.now();
+    const notify = (status: number, statusText: string) =>
+      BaseClient.notifyApiCall({
+        method,
+        url: fullUrl,
+        path: `/${resourcePath.replace(/^\/+/, '')}`,
+        query: options?.query || undefined,
+        requestBody: options?.data,
+        status,
+        statusText,
+        durationMs: Date.now() - startTime,
+      });
 
     try {
       const response = await this.request.fetch(fullUrl, {
@@ -72,6 +123,7 @@ export abstract class BaseClient {
         data: hasBody ? JSON.stringify(options!.data) : undefined,
       });
       const bodyText = await response.text();
+      notify(response.status(), response.statusText());
 
       return {
         status: response.status(),
@@ -80,6 +132,7 @@ export abstract class BaseClient {
         isSuccess: response.ok(),
       };
     } catch (error) {
+      notify(0, error instanceof Error ? error.message : String(error));
       throw new Error(`${method} ${fullUrl} failed: ${error}`);
     }
   }
