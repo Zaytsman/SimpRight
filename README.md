@@ -12,7 +12,7 @@ Automated test framework built with **TypeScript + Playwright**. It covers UI an
 
 ## Prerequisites
 
-- Node.js 20 or later (developed on 24)
+- Node.js 22.18 or later (developed on 24)
 - npm
 
 ## Setup
@@ -45,7 +45,7 @@ DEFAULT_PASSWORD=<customer password>
 | `npm run test:debug` | Playwright Inspector |
 | `npm run report` | Open the last HTML report |
 | `npm run typecheck` | TypeScript check (`tsc --noEmit`) |
-| `npm run validate:scenarios` | Check the scenario files against the schema, and their IDs against the specs (Node 22.18+) |
+| `npm run validate:scenarios` | Check the scenario files against the schema, and their IDs against the specs |
 
 Single file or single test:
 
