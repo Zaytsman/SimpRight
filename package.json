@@ -23,6 +23,6 @@
     "typescript": "^7.0.2"
   },
   "optionalDependencies": {
-    "@zaytsman/playwright-api-coverage": "^0.1.1"
+    "@zaytsman/playwright-api-coverage": "^0.2.0"
   }
 }
