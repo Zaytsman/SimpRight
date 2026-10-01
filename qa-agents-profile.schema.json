@@ -31,7 +31,7 @@
       "required": ["scenarios", "scenarioSchema", "contracts", "tests", "apiTests"],
       "additionalProperties": false,
       "properties": {
-        "scenarios": { "$ref": "#/definitions/path", "description": "Scenario folder: <layer>/<area>.yml." },
+        "scenarios": { "$ref": "#/definitions/path", "description": "Scenario folder: <layer>/<area>/<name>.yml." },
         "scenarioSchema": { "$ref": "#/definitions/path" },
         "contracts": { "$ref": "#/definitions/path", "description": "API contracts, one markdown file per area." },
         "tests": { "$ref": "#/definitions/path", "description": "Spec folder: <layer>/<area>/<name>.spec.ts." },
@@ -53,7 +53,7 @@
     },
     "ids": {
       "type": "object",
-      "description": "Scenario IDs are <LAYER>-<AREA>-NNN; a scenario file lives in <layer>/<area>.yml.",
+      "description": "Scenario IDs are <LAYER>-<AREA>-NNN; a scenario file lives in <layer>/<area>/<name>.yml.",
       "required": ["layers", "areas"],
       "additionalProperties": false,
       "properties": {
@@ -65,9 +65,14 @@
         },
         "areas": {
           "type": "object",
-          "description": "Area (scenario file name) -> ID area code, e.g. products: PROD.",
+          "description": "Area (folder name under the layer) -> ID area code, e.g. products: PROD.",
           "minProperties": 1,
           "additionalProperties": { "$ref": "#/definitions/code" }
+        },
+        "fileNames": {
+          "type": "object",
+          "description": "Layer -> regex for scenario file names (without .yml). Layers not listed accept any kebab-case name.",
+          "additionalProperties": { "type": "string", "minLength": 1 }
         }
       }
     },

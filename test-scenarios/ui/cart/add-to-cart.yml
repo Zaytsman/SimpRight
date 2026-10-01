@@ -1,4 +1,4 @@
-# yaml-language-server: $schema=../scenarios.schema.json
+# yaml-language-server: $schema=../../scenarios.schema.json
 suite: Cart
 scenarios:
   - id: UI-CART-001

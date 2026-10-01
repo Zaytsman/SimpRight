@@ -4,7 +4,8 @@
 // Checks:
 // - the profile matches qa-agents-profile.schema.json, and every path it names exists
 //   (except paths.coverageSummary, which a test run generates);
-// - every scenario file lives in <scenarios>/<layer>/<area>.yml with a layer and area from the profile,
+// - every scenario file lives in <scenarios>/<layer>/<area>/<name>.yml with a layer and area from the profile,
+//   a name that matches the layer's ids.fileNames pattern (any kebab-case name when there's none),
 //   parses, and matches the scenario schema;
 // - keys are in the agreed order (file: suite, tags, scenarios; scenario: id, name, automatedIn, role, knownIssue, steps);
 // - IDs are unique across files and are <LAYER>-<AREA>-NNN with the codes of the file's layer and area;
@@ -27,12 +28,13 @@ const SCENARIO_KEY_ORDER = ['id', 'name', 'automatedIn', 'role', 'knownIssue', '
 // test('...'), test.only/skip/fixme/fail('...'); test.describe/test.use don't match.
 const TEST_CALL = /\btest(?:\.(?:only|skip|fixme|fail|slow))?\(\s*(['"`])(.*?)\1/g;
 const TITLE_ID = /^([A-Z]+-[A-Z]+-\d{3}):/;
+const KEBAB_CASE = '^[a-z0-9]+(-[a-z0-9]+)*$';
 
 /** The parts of qa-agents-profile.yml this script uses (the schema describes the whole file). */
 interface Profile {
   project: { conventions: string[] };
   paths: Record<string, string> & { scenarios: string; scenarioSchema: string; tests: string };
-  ids: { layers: Record<string, string>; areas: Record<string, string> };
+  ids: { layers: Record<string, string>; areas: Record<string, string>; fileNames?: Record<string, string> };
   roles: string[];
   api: { exemplars: Record<string, string> };
 }
@@ -136,6 +138,14 @@ for (const [key, file] of profilePaths) {
 }
 checkUniqueCodes('layers', ids.layers);
 checkUniqueCodes('areas', ids.areas);
+for (const [layer, pattern] of Object.entries(ids.fileNames ?? {})) {
+  if (!(layer in ids.layers)) fail(PROFILE_FILE, `ids.fileNames.${layer}: ${layer} isn't in ids.layers`);
+  try {
+    new RegExp(pattern);
+  } catch (error) {
+    fail(PROFILE_FILE, `ids.fileNames.${layer}: invalid regex (${(error as Error).message})`);
+  }
+}
 report();
 
 // --- Scenario files ---
@@ -144,14 +154,18 @@ report();
 const scenarios = new Map<string, { file: string; automatedIn?: string }>();
 
 for (const file of listFiles(paths.scenarios, ['.yml', '.yaml'])) {
-  // <scenarios>/<layer>/<area>.yml
-  const [layer = '', fileName = '', ...rest] = file.slice(paths.scenarios.length + 1).split('/');
-  const area = fileName.replace(/\.ya?ml$/, '');
+  // <scenarios>/<layer>/<area>/<name>.yml
+  const [layer = '', area = '', fileName = '', ...rest] = file.slice(paths.scenarios.length + 1).split('/');
+  const name = fileName.replace(/\.ya?ml$/, '');
   const layerCode = ids.layers[layer];
   const areaCode = ids.areas[area];
-  if (rest.length > 0 || !layerCode || !areaCode) {
-    fail(file, `must be ${paths.scenarios}/<layer>/<area>.yml with a layer and area from ${PROFILE_FILE} (ids)`);
+  if (!fileName || rest.length > 0 || !layerCode || !areaCode) {
+    fail(file, `must be ${paths.scenarios}/<layer>/<area>/<name>.yml with a layer and area from ${PROFILE_FILE} (ids)`);
     continue;
+  }
+  const namePattern = ids.fileNames?.[layer];
+  if (!new RegExp(namePattern ?? KEBAB_CASE).test(name)) {
+    fail(file, namePattern ? `file name must match ${namePattern} (${PROFILE_FILE} ids.fileNames.${layer})` : 'file name must be kebab-case');
   }
 
   const doc = loadYaml<ScenarioFile>(file, paths.scenarioSchema);

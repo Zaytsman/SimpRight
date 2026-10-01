@@ -11,7 +11,7 @@ project:
   conventions: [CLAUDE.md]                  # prose rules the agents must read
 
 paths:
-  scenarios: test-scenarios                 # <layer>/<area>.yml
+  scenarios: test-scenarios                 # <layer>/<area>/<name>.yml
   scenarioSchema: test-scenarios/scenarios.schema.json
   contracts: docs/api/contracts
   tests: tests                              # <layer>/<area>/<name>.spec.ts
@@ -25,9 +25,13 @@ commands:
   runScenario: npx playwright test -g "{id}"
 
 ids:
-  # Scenario IDs are <LAYER>-<AREA>-NNN. A scenario file lives in <layer>/<area>.yml.
+  # Scenario IDs are <LAYER>-<AREA>-NNN. A scenario file lives in <layer>/<area>/<name>.yml.
   layers: { ui: UI, api: API }
   areas: { products: PROD, users: USER, cart: CART }
+  fileNames:
+    # API: <method>-<endpoint>, one file per endpoint, e.g. GET /products/search -> products/get-search.yml.
+    # Other layers: any kebab-case name (UI files are named after their spec).
+    api: "^(get|post|put|patch|delete)(-[a-z0-9]+)+$"
 
 roles: [default, admin]                     # a scenario role must be one of these; set with test.use({ role: 'admin' })
 

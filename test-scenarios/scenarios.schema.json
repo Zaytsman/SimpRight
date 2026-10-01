@@ -2,7 +2,7 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "scenarios.schema.json",
   "title": "Test scenarios",
-  "description": "One file per area: a suite of scenarios. Key order inside a scenario: id, name, automatedIn, role, knownIssue, steps.",
+  "description": "One file per endpoint (API) or feature (UI) in <layer>/<area>/: a suite of scenarios. Key order inside a scenario: id, name, automatedIn, role, knownIssue, steps.",
   "type": "object",
   "required": ["suite", "scenarios"],
   "additionalProperties": false,
