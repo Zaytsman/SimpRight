@@ -10,7 +10,9 @@
 // - keys are in the agreed order (file: suite, tags, scenarios; scenario: id, name, automatedIn, role, knownIssue, steps);
 // - IDs are unique across files and are <LAYER>-<AREA>-NNN with the codes of the file's layer and area;
 // - a scenario's role is one of the profile's roles;
-// - automatedIn is <tests>/<layer>/<area>/..., exists, has a test titled '<ID>: ...' and a `// Scenarios:` comment for this file;
+// - automatedIn is <tests>/<layer>/<area>/<name>.spec.ts (named after the scenario file), exists, and has
+//   a `// Scenarios:` comment for this file, a test.describe titled '<tags> - <suite>' and a test titled
+//   '<ID>: <name>' with the scenario name verbatim;
 // - every test in <tests> starts its title with an ID, and that ID has a scenario whose automatedIn is this spec.
 
 import { existsSync, readdirSync, readFileSync } from 'node:fs';
@@ -25,10 +27,17 @@ const PROFILE_SCHEMA_FILE = 'qa-agents-profile.schema.json';
 const FILE_KEY_ORDER = ['suite', 'tags', 'scenarios'];
 const SCENARIO_KEY_ORDER = ['id', 'name', 'automatedIn', 'role', 'knownIssue', 'steps'];
 
-// test('...'), test.only/skip/fixme/fail('...'); test.describe/test.use don't match.
-const TEST_CALL = /\btest(?:\.(?:only|skip|fixme|fail|slow))?\(\s*(['"`])(.*?)\1/g;
+// The title string of a call: '...', "..." or `...`, with escapes allowed.
+// test('...'), test.only/skip/fixme/fail('...'); test.describe/test.step/test.use don't match.
+const TEST_CALL = /\btest(?:\.(?:only|skip|fixme|fail|slow))?\(\s*(['"`])((?:\\.|(?!\1)[^\\])*)\1/g;
+const DESCRIBE_CALL = /\btest\.describe(?:\.(?:only|skip|fixme|serial|parallel))?\(\s*(['"`])((?:\\.|(?!\1)[^\\])*)\1/g;
 const TITLE_ID = /^([A-Z]+-[A-Z]+-\d{3}):/;
 const KEBAB_CASE = '^[a-z0-9]+(-[a-z0-9]+)*$';
+
+/** The titles of the calls `pattern` matches in `source`, with escapes resolved. */
+function titlesOf(source: string, pattern: RegExp): string[] {
+  return [...source.matchAll(pattern)].map((match) => (match[2] ?? '').replace(/\\(.)/g, '$1'));
+}
 
 /** The parts of qa-agents-profile.yml this script uses (the schema describes the whole file). */
 interface Profile {
@@ -50,7 +59,7 @@ interface Scenario {
 
 interface ScenarioFile {
   suite: string;
-  tags?: string[];
+  tags: string[];
   scenarios: Scenario[];
 }
 
@@ -174,7 +183,10 @@ for (const file of listFiles(paths.scenarios, ['.yml', '.yaml'])) {
   checkKeyOrder(file, doc, FILE_KEY_ORDER);
 
   const idPattern = new RegExp(`^${layerCode}-${areaCode}-\\d{3}$`);
-  const specFolder = `${paths.tests}/${layer}/${area}/`;
+  const specFile = `${paths.tests}/${layer}/${area}/${name}.spec.ts`;
+  const describeTitle = `${doc.tags.join(' ')} - ${doc.suite}`;
+  /** Specs whose comment and describe are already checked for this file. */
+  const checkedSpecs = new Set<string>();
 
   for (const scenario of doc.scenarios) {
     const where = `${file} ${scenario.id}`;
@@ -195,20 +207,28 @@ for (const file of listFiles(paths.scenarios, ['.yml', '.yaml'])) {
     }
 
     if (scenario.automatedIn) {
-      if (!scenario.automatedIn.startsWith(specFolder)) {
-        fail(where, `automatedIn must be in ${specFolder}`);
+      if (scenario.automatedIn !== specFile) {
+        fail(where, `automatedIn must be ${specFile} (the spec is named after the scenario file)`);
       }
       if (!exists(scenario.automatedIn)) {
         fail(where, `automatedIn ${scenario.automatedIn} doesn't exist`);
         continue;
       }
       const spec = read(scenario.automatedIn);
-      const titles = [...spec.matchAll(TEST_CALL)].map((match) => match[2] ?? '');
-      if (!titles.some((title) => title.startsWith(`${scenario.id}:`))) {
-        fail(where, `${scenario.automatedIn} has no test titled '${scenario.id}: ...'`);
+      const title = `${scenario.id}: ${scenario.name}`;
+      const titles = titlesOf(spec, TEST_CALL);
+      if (!titles.includes(title)) {
+        const found = titles.find((other) => other.startsWith(`${scenario.id}:`));
+        fail(where, `${scenario.automatedIn} needs a test titled '${title}'${found ? ` (found '${found}')` : ''}`);
       }
-      if (!spec.includes(`// Scenarios: ${file}`)) {
-        fail(where, `${scenario.automatedIn} has no '// Scenarios: ${file}' comment`);
+      if (!checkedSpecs.has(scenario.automatedIn)) {
+        checkedSpecs.add(scenario.automatedIn);
+        if (!spec.includes(`// Scenarios: ${file}`)) {
+          fail(where, `${scenario.automatedIn} has no '// Scenarios: ${file}' comment`);
+        }
+        if (!titlesOf(spec, DESCRIBE_CALL).includes(describeTitle)) {
+          fail(where, `${scenario.automatedIn} needs test.describe('${describeTitle}') (the tags and suite of ${file})`);
+        }
       }
     }
   }
@@ -217,7 +237,7 @@ for (const file of listFiles(paths.scenarios, ['.yml', '.yaml'])) {
 // --- Specs ---
 
 for (const spec of listFiles(paths.tests, ['.spec.ts', '.test.ts'])) {
-  for (const [, , title = ''] of read(spec).matchAll(TEST_CALL)) {
+  for (const title of titlesOf(read(spec), TEST_CALL)) {
     const id = TITLE_ID.exec(title)?.[1];
     if (!id) {
       fail(spec, `test '${title}' doesn't start with a scenario ID`);

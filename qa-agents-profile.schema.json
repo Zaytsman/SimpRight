@@ -36,6 +36,7 @@
         "contracts": { "$ref": "#/definitions/path", "description": "API contracts, one markdown file per area." },
         "tests": { "$ref": "#/definitions/path", "description": "Spec folder: <layer>/<area>/<name>.spec.ts." },
         "apiTests": { "$ref": "#/definitions/path" },
+        "testData": { "$ref": "#/definitions/path", "description": "Test data: shared constants and factories." },
         "coverageSummary": { "$ref": "#/definitions/path", "description": "API coverage summary; generated, so it may not exist." }
       }
     },
@@ -98,7 +99,11 @@
             "service": { "$ref": "#/definitions/path" },
             "dto": { "$ref": "#/definitions/path" },
             "fixtures": { "$ref": "#/definitions/path" },
-            "spec": { "$ref": "#/definitions/path" }
+            "spec": { "$ref": "#/definitions/path" },
+            "helpers": { "$ref": "#/definitions/path", "description": "Assertion and attachment helpers." },
+            "cleanup": { "$ref": "#/definitions/path", "description": "Where the cleanup fixture is defined." },
+            "constants": { "$ref": "#/definitions/path", "description": "Shared seeded test values." },
+            "testDataUtils": { "$ref": "#/definitions/path", "description": "Helpers factories use, such as unique names." }
           }
         },
         "knownIssue": {

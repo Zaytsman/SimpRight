@@ -1,9 +1,10 @@
 import { test, expect } from '@fixtures';
+import { TestConstants } from '@data/TestConstants';
 
 // Scenarios: test-scenarios/ui/cart/add-to-cart.yml
-test.describe('Cart', () => {
-  test('UI-CART-001: add a product with quantity 2 to the cart', async ({ shoppingFlow, productPage }) => {
-    const productName = 'Combination Pliers';
+test.describe('@cart-ui - Cart', () => {
+  test('UI-CART-001: Add a product with quantity 2 to the cart', async ({ shoppingFlow, productPage }) => {
+    const productName = TestConstants.products.knownProduct;
     const quantity = 2;
 
     const { unitPrice } = await shoppingFlow.addProductToCart(productName, quantity);

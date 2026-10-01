@@ -35,7 +35,7 @@ npm run report                    # open last HTML report
 ## Fixtures
 
 Specs import from `src/fixtures` (`index.ts`): `test`, `expect` and `openHomePageTest`.
-- `src/fixtures/base.ts` holds the fixtures shared by both layers: `role` (option, default `'default'`; set with `test.use({ role: 'admin' })`), `config` and `tokenService` (worker scope), and `user`.
+- `src/fixtures/base.ts` holds the fixtures shared by both layers: `role` (option, default `'default'`; set with `test.use({ role: 'admin' })`), `config` and `tokenService` (worker scope), `user`, and `cleanup` (undo steps for records the test creates, run after the test, pass or fail, newest first; a failing step only logs a warning).
 - `src/api/fixtures/fixtures.ts` and `src/ui/fixtures/fixtures.ts` each extend base. `src/fixtures/fixtures.ts` combines them with `mergeTests`. Fixtures are lazy, so a UI test that doesn't ask for `accessToken` never logs in through the API.
 - The UI fixtures set `storageState` from `role` and `authMode`, so a test starts logged in as its role. For logged-out tests, use `test.use({ storageState: { cookies: [], origins: [] } })`.
 - New page, component, grid and dialog fixtures go in `src/ui/fixtures/fixtures.ts`. Precondition variants go in their own file in `src/fixtures/` (like `openHomePage.ts`) and are exported from `index.ts`.
@@ -55,7 +55,10 @@ Specs import from `src/fixtures` (`index.ts`): `test`, `expect` and `openHomePag
 - `src/ui/`: `pages` (page objects, with reusable `components` and `dialogs`; `filters` and `grids` when needed), `flows` (multi-page user journeys), `auth` (token/storage-state helpers), `fixtures`.
 - `src/fixtures/`: merges the API and UI fixtures (`mergeTests`) into the single `test`/`expect` that specs import.
 - `src/globalSetup.ts`: UI login for `storageState` mode.
-- `src/config/`: typed env access. `src/envs/`: per-environment JSON. `src/utils/`: helpers.
+- `src/config/`: typed env access. `src/envs/`: per-environment JSON. `src/utils/`: helpers (`assertHelpers.ts`: `assertMessage`, `attachJson`, `redact`).
+- `src/data/` (`@data/*`): test data.
+  - `TestConstants.ts`: seeded values from the app that more than one test relies on, grouped by area (`TestConstants.products.searchTerm`). A value only one test uses stays a variable in that test. Roles aren't repeated here (they're `UserRole` in config).
+  - `factories/`: `testDataUtils.ts` (`uniqueName(prefix)`, e.g. `Lifecycle-20261001-3fa9c2`, for every record a test creates) and one `<Area>Factory.ts` per area with create/update payload builders, added with the first scenario that creates data in that area.
 - `test-scenarios/` (`api/`, `ui/`): the source of truth for what gets automated. One agent writes scenarios here; another agent picks them up and implements them as specs in `tests/`. Keep scenarios and specs in sync, and don't invent coverage that no scenario describes.
 - `docs/api/contracts/`: API contracts, one markdown file per API area (see "API contracts").
 - `qa-agents-profile.yml` (schema: `qa-agents-profile.schema.json`): project facts for the QA agents and scripts: paths, commands, scenario ID codes (`ids.layers`, `ids.areas`) and file-name rules (`ids.fileNames`), `roles`, exemplar files to copy the style of, and live API guardrails (`liveApi.writes: ask`). It points to this file for conventions instead of repeating them. Keep it current: a new scenario area needs an `ids.areas` entry, a new role a `roles` entry, and a renamed exemplar a new path (`validate:scenarios` checks that every path exists).
@@ -65,13 +68,22 @@ Specs import from `src/fixtures` (`index.ts`): `test`, `expect` and `openHomePag
 - **Scenario files:** YAML in `test-scenarios/<layer>/<area>/<name>.yml`, the same folders as the specs in `tests/<layer>/<area>/`, validated by `test-scenarios/scenarios.schema.json` (the `# yaml-language-server: $schema=...` line at the top gives editor checks).
   - API: one file per endpoint, named `<method>-<path>.yml` with the path in kebab-case, starting with the API name (`api/products/get-products-search.yml` for `GET /products/search`, `api/users/get-users-me.yml` for `GET /users/me`). A path parameter becomes `by-<name>`: `GET /products/{productId}` is `get-products-by-product-id.yml`. A scenario that calls several endpoints goes in the file of the endpoint it tests. The pattern is `ids.fileNames.api` in `qa-agents-profile.yml`.
   - UI: kebab-case, named after the spec (`ui/cart/add-to-cart.yml`).
-  - File level: `suite` (the `test.describe` name), optional `tags` for the whole suite, and `scenarios`.
-  - Each scenario, in this key order: `id` (`<LAYER>-<AREA>-NNN`, such as `UI-CART-001`, with the codes for the file's layer and area folders from `qa-agents-profile.yml`; unique across files), `name`, `automatedIn` (the spec path, in `tests/<layer>/<area>/`; absent means not automated yet), `role` (one of the profile's `roles`; absent means the default user), `knownIssue` (becomes the `Known issue` annotation), `steps`.
+  - File level: `suite`, `tags` (required, at least one, for the whole suite, such as `@products-api` or `@cart-ui`: `@<area>-<layer>`), and `scenarios`.
+  - Each scenario, in this key order: `id` (`<LAYER>-<AREA>-NNN`, such as `UI-CART-001`, with the codes for the file's layer and area folders from `qa-agents-profile.yml`; unique across files), `name`, `automatedIn` (the spec path; absent means not automated yet), `role` (one of the profile's `roles`; absent means the default user), `knownIssue` (the test then starts with `test.fail(true, 'Known issue: <text>')`), `steps`.
   - Checks are ordinary steps that start with `Verify`, in the order they happen; every scenario has at least one. There's no separate expected-results list and no status field.
   - Steps never contain secret values: write "the default user's email", not the address.
-- **Specs:** `tests/<ui|api>/<area>/<name>.spec.ts`, with a `// Scenarios: <path>` comment at the top and the scenario ID at the start of the test title (`'UI-CART-001: ...'`), so a spec can be traced back to its scenario.
+- **Specs:** one spec per scenario file, with the same name: `test-scenarios/api/products/get-products-search.yml` → `tests/api/products/get-products-search.spec.ts`. `validate:scenarios` checks all of this:
+  - a `// Scenarios: <yml path>` comment at the top;
+  - `test.describe('<tags joined by spaces> - <suite>')`, such as `'@products-api - Products API'` (Playwright reads the `@tags`, so `--grep @products-api` works);
+  - one `test()` per scenario, titled `'<ID>: <name>'` with the name verbatim.
+- **API spec style** (`tests/api/products/get-products-search.spec.ts` is the example):
+  - One `test.step()` per scenario step, titled with the step text verbatim, so the report and trace read like the scenario. Action steps make the call and attach the payloads; `Verify` steps hold the checks and may read data, never change it.
+  - Every assertion passes `assertMessage({ request, expected, actual })` from `@utils/assertHelpers`; a bare `expect` without a message is forbidden.
+  - Requests and responses are attached with `attachJson(name, data)`, never `test.info().attach` directly. Both helpers mask `password`, `access_token`, `token`, `authorization` and the test users' emails and passwords, because the HTML reports are published. The matcher's own diff isn't masked, so compare a secret value as a condition (`expect(a === b, message).toBe(true)`).
+  - State shared between steps goes in `let` variables at the top of the test. Each spec file runs on its own.
+  - Records a test creates are removed with the `cleanup` fixture (`cleanup.add(() => service.delete(id))`), not `afterAll`: clients and services are test-scoped, so `afterAll` can't use them.
 - **Imports:** specs import from `@fixtures` (`test`, `expect`, `openHomePageTest`) and use fixtures for pages, flows, clients and services. They never construct them or call `page.goto` directly.
-- **API assertions:** happy paths use a service (it returns parsed, typed bodies and throws on non-2xx). Status-code checks, especially error codes, use the client and assert `response.status`.
+- **API assertions:** happy paths use a service (it returns parsed, typed bodies and throws on non-2xx). Any step that checks a status code, including `200`, uses the client and asserts `response.status`.
 - **Contracts:** when a spec calls an endpoint, check its contract in `docs/api/contracts/` (see "API contracts" below). Add the endpoint if it's missing, and when the test confirms a fact against the real API, tag it `_(verified)_`.
 
 Path aliases (tsconfig `paths`, resolved by Playwright): `@fixtures` (= `src/fixtures/index.ts`), `@api/*`, `@ui/*`, `@config/*`, `@data/*`, `@fixtures/*`, `@utils/*`.
