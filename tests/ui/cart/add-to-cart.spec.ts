@@ -1,6 +1,6 @@
 import { test, expect } from '@fixtures';
 
-// Scenarios: test-scenarios/ui/cart.md
+// Scenarios: test-scenarios/ui/cart.yml
 test.describe('Cart', () => {
   test('UI-CART-001: add a product with quantity 2 to the cart', async ({ shoppingFlow, productPage }) => {
     const productName = 'Combination Pliers';

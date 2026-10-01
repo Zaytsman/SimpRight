@@ -1,0 +1,68 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "scenarios.schema.json",
+  "title": "Test scenarios",
+  "description": "One file per area: a suite of scenarios. Key order inside a scenario: id, name, automatedIn, role, knownIssue, steps.",
+  "type": "object",
+  "required": ["suite", "scenarios"],
+  "additionalProperties": false,
+  "properties": {
+    "suite": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Suite name (maps to test.describe)."
+    },
+    "tags": {
+      "type": "array",
+      "description": "Tags for the whole suite, such as @smoke.",
+      "items": { "type": "string", "pattern": "^@[\\w-]+$" },
+      "uniqueItems": true
+    },
+    "scenarios": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/definitions/scenario" }
+    }
+  },
+  "definitions": {
+    "scenario": {
+      "type": "object",
+      "required": ["id", "name", "steps"],
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^(UI|API)-[A-Z]+-\\d{3}$",
+          "description": "Unique scenario ID (UI-<AREA>-NNN or API-<AREA>-NNN). The test title starts with it."
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Scenario name (the test title after the ID)."
+        },
+        "automatedIn": {
+          "type": "string",
+          "pattern": "\\.(spec|test)\\.[cm]?[jt]s$",
+          "description": "Path of the spec that automates this scenario. Absent means not automated yet."
+        },
+        "role": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Login role of the test. Absent means the default user."
+        },
+        "knownIssue": {
+          "type": "string",
+          "minLength": 1,
+          "description": "A known app bug this scenario hits; becomes the test's 'Known issue' annotation."
+        },
+        "steps": {
+          "type": "array",
+          "description": "Ordered steps. Checks are steps that start with 'Verify'.",
+          "minItems": 1,
+          "items": { "type": "string", "minLength": 1 },
+          "contains": { "type": "string", "pattern": "^Verify " }
+        }
+      }
+    }
+  }
+}

@@ -8,11 +8,11 @@ Automated test framework built with **TypeScript + Playwright**. It covers UI an
 - One set of fixtures shared by both layers, with role-based test users (`admin`, `default`)
 - Tests start already logged in, either through an API token (default) or a saved UI login
 - Per-environment config (`TEST`, and more to come), with secrets kept in `.env`
-- Test scenarios in markdown as the source of truth for what gets automated, and API contracts documenting the endpoints under test
+- Test scenarios in YAML (with a schema and a validator) as the source of truth for what gets automated, and API contracts documenting the endpoints under test
 
 ## Prerequisites
 
-- Node.js 20 or later (developed on 24)
+- Node.js 22.18 or later (developed on 24)
 - npm
 
 ## Setup
@@ -45,6 +45,7 @@ DEFAULT_PASSWORD=<customer password>
 | `npm run test:debug` | Playwright Inspector |
 | `npm run report` | Open the last HTML report |
 | `npm run typecheck` | TypeScript check (`tsc --noEmit`) |
+| `npm run validate:scenarios` | Check the scenario files against the schema, and their IDs against the specs |
 
 Single file or single test:
 
@@ -110,7 +111,7 @@ docs/api/contracts/      API contracts, the reference for API coverage
 
 ## Writing tests
 
-1. **Describe the scenario** in `test-scenarios/<ui|api>/<area>.md` under an ID such as `UI-CART-002`, with the role, steps, expected results and the spec path.
+1. **Describe the scenario** in `test-scenarios/<ui|api>/<area>.yml` under an ID such as `UI-CART-002`, with its name, the spec path (`automatedIn`) and steps. Checks are steps that start with `Verify`; `test-scenarios/scenarios.schema.json` describes the format.
 2. **Add what the test needs:** page objects, components or flows (UI), or clients, services and DTOs (API). Register them as fixtures in `src/ui/fixtures/fixtures.ts` or `src/api/fixtures/fixtures.ts`.
 3. **Write the spec** in `tests/<ui|api>/<area>/`. Import `test` and `expect` from `@fixtures`, and start the title with the scenario ID.
 4. **For new API endpoints**, document them in `docs/api/contracts/`.
@@ -118,7 +119,7 @@ docs/api/contracts/      API contracts, the reference for API coverage
 ```ts
 import { test, expect } from '@fixtures';
 
-// Scenarios: test-scenarios/ui/cart.md
+// Scenarios: test-scenarios/ui/cart.yml
 test('UI-CART-001: add a product with quantity 2 to the cart', async ({ shoppingFlow, productPage }) => {
   const { unitPrice } = await shoppingFlow.addProductToCart('Combination Pliers', 2);
   await expect(productPage.navBar.cartQuantity).toHaveText('2');
@@ -163,7 +164,7 @@ To run it in your own fork, add the `ADMIN_USER`, `ADMIN_PASSWORD`, `DEFAULT_USE
 
 ## Branches and contributing
 
-- `main` is the stable, protected branch: changes reach it only through pull requests that pass the `verify` check (typecheck and all tests).
+- `main` is the stable, protected branch: changes reach it only through pull requests that pass the `verify` check (typecheck, scenario validation and all tests).
 - Day-to-day work happens on `develop`, which is merged into `main` with a pull request.
 - To contribute, fork the repo, branch from `develop`, and open a pull request into `develop`.
 - Found a security problem? See [SECURITY.md](SECURITY.md).

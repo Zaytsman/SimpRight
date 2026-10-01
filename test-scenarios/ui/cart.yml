@@ -1,0 +1,13 @@
+# yaml-language-server: $schema=../scenarios.schema.json
+suite: Cart
+scenarios:
+  - id: UI-CART-001
+    name: Add a product with quantity 2 to the cart
+    automatedIn: tests/ui/cart/add-to-cart.spec.ts
+    steps:
+      - Search for "Combination Pliers" and open the product.
+      - Set the quantity to 2 and click "Add to cart".
+      - Verify the cart badge in the nav bar shows 2.
+      - Open the cart.
+      - 'Verify the cart has exactly one line: "Combination Pliers" with quantity 2.'
+      - Verify the cart total equals 2 × the product's unit price.

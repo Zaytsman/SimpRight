@@ -11,16 +11,19 @@
     "test:debug": "playwright test --debug",
     "report": "playwright show-report",
     "typecheck": "tsc --noEmit",
+    "validate:scenarios": "node scripts/validate-scenarios.mts",
     "install:browsers": "playwright install --with-deps chromium"
   },
   "engines": {
-    "node": ">=20"
+    "node": ">=22.18"
   },
   "devDependencies": {
     "@playwright/test": "^1.63.0",
     "@types/node": "^26.6.3",
+    "ajv": "^8.20.0",
     "dotenv": "^18.0.4",
-    "typescript": "^7.0.2"
+    "typescript": "^7.0.2",
+    "yaml": "^2.9.1"
   },
   "optionalDependencies": {
     "@zaytsman/playwright-api-coverage": "^0.2.1"
