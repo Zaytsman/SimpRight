@@ -22,7 +22,7 @@ npm install
 npm run install:browsers
 ```
 
-Create a `.env` file in the project root. It's git-ignored, so never commit it.
+Copy `.env.example` to `.env` in the project root and fill in the test users. `.env` is git-ignored, so never commit it.
 
 ```dotenv
 ADMIN_USER=<admin email>
@@ -141,7 +141,7 @@ The API coverage report shows which of the endpoints, status codes, request fiel
 
 The reporter comes from a private package, `@zaytsman/playwright-api-coverage`. SimpRight loads it only when it's installed. Without it, everything runs the same, just without this report. The recorder keeps only the shape of each request (field and parameter names, never their values), so the report is safe to publish. The nightly API regression publishes it to the dashboard. Set `DISABLE_API_COVERAGE=true` to turn it off.
 
-The package is an optional dependency, and the repo's `.npmrc` points the `@zaytsman` scope at GitHub Packages. Without access, `npm install` quietly skips it. **With access**, add a GitHub token (classic, with `read:packages`) to your **user** `~/.npmrc`, never to the repo, and run `npm install` again:
+The package is an optional dependency, and the repo's `.npmrc` points the `@zaytsman` scope at GitHub Packages. Without access, `npm install` quietly skips it. **With access**, add a GitHub token (classic, with `read:packages`) to your **user** `~/.npmrc`, never to the repo, and run `npm install` again. `.npmrc.example` shows the line:
 
 ```ini
 //npm.pkg.github.com/:_authToken=<your token>

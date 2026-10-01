@@ -1,0 +1,8 @@
+# Only needed for the optional private API coverage package (@zaytsman/playwright-api-coverage).
+# Without it, npm install skips the package and the tests run without the coverage report.
+#
+# With access to the package, put this line in your USER npmrc (~/.npmrc,
+# on Windows %USERPROFILE%\.npmrc), never in the repo's .npmrc.
+# The token is a GitHub classic token with the read:packages scope.
+
+//npm.pkg.github.com/:_authToken=<your token>
