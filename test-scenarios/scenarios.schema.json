@@ -4,7 +4,7 @@
   "title": "Test scenarios",
   "description": "One file per endpoint (API) or feature (UI) in <layer>/<area>/: a suite of scenarios. Key order inside a scenario: id, name, automatedIn, role, knownIssue, steps.",
   "type": "object",
-  "required": ["suite", "scenarios"],
+  "required": ["suite", "tags", "scenarios"],
   "additionalProperties": false,
   "properties": {
     "suite": {
@@ -14,7 +14,8 @@
     },
     "tags": {
       "type": "array",
-      "description": "Tags for the whole suite, such as @smoke.",
+      "description": "Tags for the whole suite, such as @products-api. The spec's test.describe is titled '<tags joined by spaces> - <suite>'.",
+      "minItems": 1,
       "items": { "type": "string", "pattern": "^@[\\w-]+$" },
       "uniqueItems": true
     },

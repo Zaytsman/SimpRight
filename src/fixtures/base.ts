@@ -10,8 +10,15 @@ export type BaseOptions = {
   role: UserRole;
 };
 
+/** Undo steps for records a test creates; see the `cleanup` fixture. */
+export interface Cleanup {
+  /** Registers a step that removes a record this test created, e.g. `cleanup.add(() => productsService.delete(id))`. */
+  add(task: () => Promise<unknown>): void;
+}
+
 export type BaseFixtures = {
   user: TestUser;
+  cleanup: Cleanup;
 };
 
 export type BaseWorkerFixtures = {
@@ -58,5 +65,16 @@ export const test = base.extend<BaseOptions & BaseFixtures, BaseWorkerFixtures>(
 
   user: async ({ role }, use) => {
     await use(getUser(role));
+  },
+
+  // Runs the registered undo steps after the test, pass or fail, newest first. Test-scoped on purpose:
+  // clients and services are built on the test-scoped `request`, so `afterAll` can't use them.
+  // A failing step only logs a warning, so cleanup never hides the test's own result.
+  cleanup: async ({}, use) => {
+    const tasks: (() => Promise<unknown>)[] = [];
+    await use({ add: (task) => tasks.push(task) });
+    for (const task of tasks.reverse()) {
+      await task().catch((error: unknown) => console.warn('[cleanup] An undo step failed:', error));
+    }
   },
 });

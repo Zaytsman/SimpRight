@@ -98,7 +98,9 @@
             "service": { "$ref": "#/definitions/path" },
             "dto": { "$ref": "#/definitions/path" },
             "fixtures": { "$ref": "#/definitions/path" },
-            "spec": { "$ref": "#/definitions/path" }
+            "spec": { "$ref": "#/definitions/path" },
+            "helpers": { "$ref": "#/definitions/path", "description": "Assertion and attachment helpers." },
+            "cleanup": { "$ref": "#/definitions/path", "description": "Where the cleanup fixture is defined." }
           }
         },
         "knownIssue": {

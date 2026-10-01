@@ -1,9 +1,10 @@
 # yaml-language-server: $schema=../../scenarios.schema.json
 suite: Products API
+tags: ["@products-api"]
 scenarios:
   - id: API-PROD-001
     name: Search by name returns only matching products
-    automatedIn: tests/api/products/search-products.spec.ts
+    automatedIn: tests/api/products/get-products-search.spec.ts
     steps:
       - Send GET /products/search with q=pliers.
       - Verify the response status is 200 and the body is paginated (data, total, current_page).

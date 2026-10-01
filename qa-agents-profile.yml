@@ -42,11 +42,18 @@ api:
     service: src/api/services/ProductsService.ts
     dto: src/api/dto/product.ts
     fixtures: src/api/fixtures/fixtures.ts  # new clients and services are registered here
-    spec: tests/api/users/current-user.spec.ts
-  knownIssue: "test.info().annotations.push({ type: 'issue', description: 'Known issue: {text}' })"
+    spec: tests/api/products/get-products-search.spec.ts
+    helpers: src/utils/assertHelpers.ts     # assertMessage, attachJson, redact
+    cleanup: src/fixtures/base.ts           # the cleanup fixture
+  # First line of a test whose scenario has knownIssue; Playwright records it as a 'fail' annotation.
+  knownIssue: "test.fail(true, 'Known issue: {text}');"
   rules:
-    - Happy paths go through a service; status-code checks go through the client.
+    - Happy paths go through a service; any step that checks a status code goes through the client.
     - Specs import from @fixtures and never construct clients or services.
+    - Every assertion passes assertMessage({ request, expected, actual }); a bare expect without a message is forbidden.
+    - Payloads are attached with attachJson, never test.info().attach, so secrets are masked (reports are public).
+    - Compare secret values (a test user's email) as a condition, e.g. expect(a === b, message).toBe(true), so a failure diff doesn't print them.
+    - Records a test creates are removed through the cleanup fixture (cleanup.add), not afterAll.
 
 liveApi:
   writes: ask                               # never | ask | allowed
