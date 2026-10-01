@@ -8,7 +8,7 @@ Automated test framework built with **TypeScript + Playwright**. It covers UI an
 - One set of fixtures shared by both layers, with role-based test users (`admin`, `default`)
 - Tests start already logged in, either through an API token (default) or a saved UI login
 - Per-environment config (`TEST`, and more to come), with secrets kept in `.env`
-- Test scenarios in markdown as the source of truth for what gets automated, and API contracts documenting the endpoints under test
+- Test scenarios in YAML (with a schema and a validator) as the source of truth for what gets automated, and API contracts documenting the endpoints under test
 
 ## Prerequisites
 
@@ -45,6 +45,7 @@ DEFAULT_PASSWORD=<customer password>
 | `npm run test:debug` | Playwright Inspector |
 | `npm run report` | Open the last HTML report |
 | `npm run typecheck` | TypeScript check (`tsc --noEmit`) |
+| `npm run validate:scenarios` | Check the scenario files against the schema, and their IDs against the specs (Node 22.18+) |
 
 Single file or single test:
 
@@ -163,7 +164,7 @@ To run it in your own fork, add the `ADMIN_USER`, `ADMIN_PASSWORD`, `DEFAULT_USE
 
 ## Branches and contributing
 
-- `main` is the stable, protected branch: changes reach it only through pull requests that pass the `verify` check (typecheck and all tests).
+- `main` is the stable, protected branch: changes reach it only through pull requests that pass the `verify` check (typecheck, scenario validation and all tests).
 - Day-to-day work happens on `develop`, which is merged into `main` with a pull request.
 - To contribute, fork the repo, branch from `develop`, and open a pull request into `develop`.
 - Found a security problem? See [SECURITY.md](SECURITY.md).

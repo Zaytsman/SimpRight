@@ -51,6 +51,9 @@ jobs:
       - name: Typecheck
         run: npm run typecheck
 
+      - name: Validate scenarios
+        run: npm run validate:scenarios
+
       - name: Note skipped tests
         if: env.HAS_SECRETS != 'true'
         run: echo "::notice::No test user secrets available (fork or Dependabot pull request); tests were skipped."

@@ -17,6 +17,7 @@ npm run test:ui                   # UI project only
 npx playwright test tests/ui/cart/add-to-cart.spec.ts   # single file
 npx playwright test -g "UI-CART-001"                    # single test by scenario ID
 npm run typecheck                 # tsc --noEmit (TypeScript 7)
+npm run validate:scenarios        # scenario files vs schema, IDs and specs
 npm run report                    # open last HTML report
 ```
 
@@ -141,7 +142,7 @@ Status codes the API returns where it shouldn't (for example a `500` for an unkn
   - Dependabot reads it through the `github-packages` registry in `dependabot.yml`, using the Dependabot secret `PACKAGES_READ_TOKEN`, a classic token with `read:packages` only. When that token expires, Dependabot's npm updates fail until it's replaced.
 - API coverage is optional: when a run produces `test-results/api-coverage/`, the script publishes it with the run (and as `latest/api-coverage/` from the full API regression), and the dashboard shows its elements (`data-coverage`) only when `latest/api-coverage/summary.json` exists. UI runs set `DISABLE_API_COVERAGE=true`.
 - `scripts/*.sh` must keep LF line endings (`.gitattributes`).
-- `pr-checks.yml` runs the `verify` job (typecheck + all tests) on every pull request to `main` or `develop`; it's the required status check on `main`. Pull requests from forks and from Dependabot get no Actions secrets, so they run the typecheck only (Dependabot PRs run the tests too when the same four secrets are added under Dependabot secrets).
+- `pr-checks.yml` runs the `verify` job (typecheck, scenario validation and all tests) on every pull request to `main` or `develop`; it's the required status check on `main`. Pull requests from forks and from Dependabot get no Actions secrets, so they run the typecheck and scenario validation only (Dependabot PRs run the tests too when the same four secrets are added under Dependabot secrets).
 
 ## Branches and pull requests
 
