@@ -64,7 +64,7 @@ Specs import from `src/fixtures` (`index.ts`): `test`, `expect` and `openHomePag
 - **Specs:** `tests/<ui|api>/<area>/<name>.spec.ts`, with a `// Scenarios: <path>` comment at the top and the scenario ID at the start of the test title (`'UI-CART-001: ...'`), so a spec can be traced back to its scenario.
 - **Imports:** specs import from `@fixtures` (`test`, `expect`, `openHomePageTest`) and use fixtures for pages, flows, clients and services. They never construct them or call `page.goto` directly.
 - **API assertions:** happy paths use a service (it returns parsed, typed bodies and throws on non-2xx). Status-code checks, especially error codes, use the client and assert `response.status`.
-- **Contracts:** when a spec calls a new endpoint, add or extend its contract in `docs/api/contracts/` (see "API contracts" below), documenting only behavior that was checked against the real API.
+- **Contracts:** when a spec calls an endpoint, check its contract in `docs/api/contracts/` (see "API contracts" below). Add the endpoint if it's missing, and when the test confirms a fact against the real API, tag it `_(verified)_`.
 
 Path aliases (tsconfig `paths`, resolved by Playwright): `@fixtures` (= `src/fixtures/index.ts`), `@api/*`, `@ui/*`, `@config/*`, `@data/*`, `@fixtures/*`, `@utils/*`.
 
@@ -92,7 +92,7 @@ Path aliases (tsconfig `paths`, resolved by Playwright): `@fixtures` (= `src/fix
 
 ## API contracts
 
-`docs/api/contracts/*.md` document the endpoints the tests use, one file per API area. Keep every contract in this format, so tooling can read them:
+`docs/api/contracts/*.md` document whole API areas, one file per area, including endpoints and status codes that no test covers yet: the coverage report measures the tests against them, so the gaps show. Keep every contract in this format, so tooling can read them:
 
 ````md
 # Products API Documentation            <- H1 = service name ("API Documentation" is stripped)
@@ -111,8 +111,15 @@ Path aliases (tsconfig `paths`, resolved by Playwright): `@fixtures` (= `src/fix
 **Response:** `200 OK`                  <- optionally followed by a ```ts/json block with the response shape
 
 **Error Responses:**
-- `404 Not Found`
+- `404 Not Found`: no product with this id _(spec)_   <- origin tag, see below
 ````
+
+Every fact carries an origin tag, in this order of trust:
+- `_(verified)_`: checked against the live API. Change it only after checking again.
+- `_(source)_`: read from the API's source code.
+- `_(spec)_`: only in the OpenAPI spec, not confirmed by the code.
+
+Status codes the API returns where it shouldn't (for example a `500` for an unknown id) are documented as they are, marked as suspected bugs. With the coverage package installed, `npx playwright-api-coverage validate` checks the format and counts the status codes by origin.
 
 ## CI and GitHub Pages
 
