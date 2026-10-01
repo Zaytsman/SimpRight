@@ -105,7 +105,7 @@ tests/
   api/<area>/*.spec.ts
   ui/<area>/*.spec.ts
 test-scenarios/          scenario source of truth (api/, ui/)
-docs/api/contracts/      API contracts for the endpoints under test
+docs/api/contracts/      API contracts, the reference for API coverage
 ```
 
 ## Writing tests

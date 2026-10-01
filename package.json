@@ -18,11 +18,11 @@
   },
   "devDependencies": {
     "@playwright/test": "^1.63.0",
-    "@types/node": "^26.6.2",
-    "dotenv": "^18.0.3",
+    "@types/node": "^26.6.3",
+    "dotenv": "^18.0.4",
     "typescript": "^7.0.2"
   },
   "optionalDependencies": {
-    "@zaytsman/playwright-api-coverage": "^0.1.1"
+    "@zaytsman/playwright-api-coverage": "^0.2.1"
   }
 }

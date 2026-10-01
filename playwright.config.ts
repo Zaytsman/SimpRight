@@ -27,7 +27,7 @@ export default defineConfig({
     // Read by the GitHub Pages dashboard (index.html) for trends and known issues.
     ...(isCI ? [['json', { outputFile: 'test-results/results.json' }] as const] : []),
     // Optional: compares the API calls with docs/api/contracts -> test-results/api-coverage/ (skipped without the package).
-    ...apiCoverageReporter({ docDir: 'docs/api/contracts', title: 'SimpRight API Coverage' }),
+    ...apiCoverageReporter({ docDir: 'docs/api/contracts' }),
   ],
 
   use: {
