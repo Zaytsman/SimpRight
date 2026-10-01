@@ -17,7 +17,7 @@ npm run test:ui                   # UI project only
 npx playwright test tests/ui/cart/add-to-cart.spec.ts   # single file
 npx playwright test -g "UI-CART-001"                    # single test by scenario ID
 npm run typecheck                 # tsc --noEmit (TypeScript 7)
-npm run validate:scenarios        # scenario files vs schema, IDs and specs
+npm run validate:scenarios        # profile, scenario files, IDs and specs
 npm run report                    # open last HTML report
 ```
 
@@ -58,12 +58,13 @@ Specs import from `src/fixtures` (`index.ts`): `test`, `expect` and `openHomePag
 - `src/config/`: typed env access. `src/envs/`: per-environment JSON. `src/utils/`: helpers.
 - `test-scenarios/` (`api/`, `ui/`): the source of truth for what gets automated. One agent writes scenarios here; another agent picks them up and implements them as specs in `tests/`. Keep scenarios and specs in sync, and don't invent coverage that no scenario describes.
 - `docs/api/contracts/`: API contracts, one markdown file per API area (see "API contracts").
+- `qa-agents-profile.yml` (schema: `qa-agents-profile.schema.json`): project facts for the QA agents and scripts: paths, commands, scenario ID codes (`ids.layers`, `ids.areas`), `roles`, exemplar files to copy the style of, and live API guardrails (`liveApi.writes: ask`). It points to this file for conventions instead of repeating them. Keep it current: a new scenario area needs an `ids.areas` entry, a new role a `roles` entry, and a renamed exemplar a new path (`validate:scenarios` checks that every path exists).
 
 ## Scenarios and specs conventions
 
 - **Scenario files:** one YAML file per area (`test-scenarios/ui/cart.yml`), validated by `test-scenarios/scenarios.schema.json` (the `# yaml-language-server: $schema=...` line at the top gives editor checks).
   - File level: `suite` (the `test.describe` name), optional `tags` for the whole suite, and `scenarios`.
-  - Each scenario, in this key order: `id` (`UI-<AREA>-NNN` / `API-<AREA>-NNN`, unique across files), `name`, `automatedIn` (the spec path; absent means not automated yet), `role` (absent means the default user), `knownIssue` (becomes the `Known issue` annotation), `steps`.
+  - Each scenario, in this key order: `id` (`<LAYER>-<AREA>-NNN`, such as `UI-CART-001`, with the codes for the file's folder and name from `qa-agents-profile.yml`; unique across files), `name`, `automatedIn` (the spec path, in `tests/<layer>/<area>/`; absent means not automated yet), `role` (one of the profile's `roles`; absent means the default user), `knownIssue` (becomes the `Known issue` annotation), `steps`.
   - Checks are ordinary steps that start with `Verify`, in the order they happen; every scenario has at least one. There's no separate expected-results list and no status field.
   - Steps never contain secret values: write "the default user's email", not the address.
 - **Specs:** `tests/<ui|api>/<area>/<name>.spec.ts`, with a `// Scenarios: <path>` comment at the top and the scenario ID at the start of the test title (`'UI-CART-001: ...'`), so a spec can be traced back to its scenario.

@@ -45,7 +45,7 @@ DEFAULT_PASSWORD=<customer password>
 | `npm run test:debug` | Playwright Inspector |
 | `npm run report` | Open the last HTML report |
 | `npm run typecheck` | TypeScript check (`tsc --noEmit`) |
-| `npm run validate:scenarios` | Check the scenario files against the schema, and their IDs against the specs |
+| `npm run validate:scenarios` | Check `qa-agents-profile.yml`, the scenario files and their IDs against the specs |
 
 Single file or single test:
 
@@ -107,6 +107,7 @@ tests/
   ui/<area>/*.spec.ts
 test-scenarios/          scenario source of truth (api/, ui/)
 docs/api/contracts/      API contracts, the reference for API coverage
+qa-agents-profile.yml    project facts for the QA agents and scripts (paths, commands, ID codes, roles)
 ```
 
 ## Writing tests

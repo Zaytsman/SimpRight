@@ -1,0 +1,129 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "qa-agents-profile.schema.json",
+  "title": "QA agents profile",
+  "description": "Project facts for the QA agents and scripts: paths, commands, ID rules, roles, exemplar files and live API guardrails.",
+  "type": "object",
+  "required": ["project", "paths", "commands", "ids", "roles", "api", "liveApi"],
+  "additionalProperties": false,
+  "definitions": {
+    "path": { "type": "string", "minLength": 1, "pattern": "^[^/\\\\]", "description": "Relative to the repo root." },
+    "code": { "type": "string", "pattern": "^[A-Z]+$" }
+  },
+  "properties": {
+    "project": {
+      "type": "object",
+      "required": ["language", "runner", "conventions"],
+      "additionalProperties": false,
+      "properties": {
+        "language": { "type": "string", "enum": ["typescript", "javascript"] },
+        "runner": { "type": "string", "enum": ["playwright"] },
+        "conventions": {
+          "type": "array",
+          "description": "Files with the project's prose conventions; agents read them before writing code.",
+          "items": { "$ref": "#/definitions/path" },
+          "minItems": 1
+        }
+      }
+    },
+    "paths": {
+      "type": "object",
+      "required": ["scenarios", "scenarioSchema", "contracts", "tests", "apiTests"],
+      "additionalProperties": false,
+      "properties": {
+        "scenarios": { "$ref": "#/definitions/path", "description": "Scenario folder: <layer>/<area>.yml." },
+        "scenarioSchema": { "$ref": "#/definitions/path" },
+        "contracts": { "$ref": "#/definitions/path", "description": "API contracts, one markdown file per area." },
+        "tests": { "$ref": "#/definitions/path", "description": "Spec folder: <layer>/<area>/<name>.spec.ts." },
+        "apiTests": { "$ref": "#/definitions/path" },
+        "coverageSummary": { "$ref": "#/definitions/path", "description": "API coverage summary; generated, so it may not exist." }
+      }
+    },
+    "commands": {
+      "type": "object",
+      "description": "Shell commands. {spec} and {id} are placeholders.",
+      "required": ["typecheck", "validateScenarios", "runSpec", "runScenario"],
+      "additionalProperties": false,
+      "properties": {
+        "typecheck": { "type": "string", "minLength": 1 },
+        "validateScenarios": { "type": "string", "minLength": 1 },
+        "runSpec": { "type": "string", "pattern": "\\{spec\\}" },
+        "runScenario": { "type": "string", "pattern": "\\{id\\}" }
+      }
+    },
+    "ids": {
+      "type": "object",
+      "description": "Scenario IDs are <LAYER>-<AREA>-NNN; a scenario file lives in <layer>/<area>.yml.",
+      "required": ["layers", "areas"],
+      "additionalProperties": false,
+      "properties": {
+        "layers": {
+          "type": "object",
+          "description": "Layer folder name -> ID prefix, e.g. ui: UI.",
+          "minProperties": 1,
+          "additionalProperties": { "$ref": "#/definitions/code" }
+        },
+        "areas": {
+          "type": "object",
+          "description": "Area (scenario file name) -> ID area code, e.g. products: PROD.",
+          "minProperties": 1,
+          "additionalProperties": { "$ref": "#/definitions/code" }
+        }
+      }
+    },
+    "roles": {
+      "type": "array",
+      "description": "Login roles; a scenario's role must be one of these.",
+      "items": { "type": "string", "minLength": 1 },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "api": {
+      "type": "object",
+      "required": ["exemplars", "knownIssue", "rules"],
+      "additionalProperties": false,
+      "properties": {
+        "exemplars": {
+          "type": "object",
+          "description": "Existing files whose style new code copies.",
+          "required": ["client", "service", "dto", "fixtures", "spec"],
+          "additionalProperties": false,
+          "properties": {
+            "client": { "$ref": "#/definitions/path" },
+            "service": { "$ref": "#/definitions/path" },
+            "dto": { "$ref": "#/definitions/path" },
+            "fixtures": { "$ref": "#/definitions/path" },
+            "spec": { "$ref": "#/definitions/path" }
+          }
+        },
+        "knownIssue": {
+          "type": "string",
+          "pattern": "\\{text\\}",
+          "description": "Code that marks a test as hitting a known issue; {text} is the scenario's knownIssue."
+        },
+        "rules": {
+          "type": "array",
+          "description": "Agent-critical rules only; everything else is in project.conventions.",
+          "items": { "type": "string", "minLength": 1 }
+        }
+      }
+    },
+    "liveApi": {
+      "type": "object",
+      "required": ["writes"],
+      "additionalProperties": false,
+      "properties": {
+        "writes": {
+          "type": "string",
+          "enum": ["never", "ask", "allowed"],
+          "description": "Whether agents may run tests or checks that change data on the live API."
+        },
+        "dangerous": {
+          "type": "array",
+          "description": "Calls that cause lasting harm, with how to avoid it.",
+          "items": { "type": "string", "minLength": 1 }
+        }
+      }
+    }
+  }
+}
