@@ -110,7 +110,7 @@ docs/api/contracts/      API contracts, the reference for API coverage
 
 ## Writing tests
 
-1. **Describe the scenario** in `test-scenarios/<ui|api>/<area>.md` under an ID such as `UI-CART-002`, with the role, steps, expected results and the spec path.
+1. **Describe the scenario** in `test-scenarios/<ui|api>/<area>.yml` under an ID such as `UI-CART-002`, with its name, the spec path (`automatedIn`) and steps. Checks are steps that start with `Verify`; `test-scenarios/scenarios.schema.json` describes the format.
 2. **Add what the test needs:** page objects, components or flows (UI), or clients, services and DTOs (API). Register them as fixtures in `src/ui/fixtures/fixtures.ts` or `src/api/fixtures/fixtures.ts`.
 3. **Write the spec** in `tests/<ui|api>/<area>/`. Import `test` and `expect` from `@fixtures`, and start the title with the scenario ID.
 4. **For new API endpoints**, document them in `docs/api/contracts/`.
@@ -118,7 +118,7 @@ docs/api/contracts/      API contracts, the reference for API coverage
 ```ts
 import { test, expect } from '@fixtures';
 
-// Scenarios: test-scenarios/ui/cart.md
+// Scenarios: test-scenarios/ui/cart.yml
 test('UI-CART-001: add a product with quantity 2 to the cart', async ({ shoppingFlow, productPage }) => {
   const { unitPrice } = await shoppingFlow.addProductToCart('Combination Pliers', 2);
   await expect(productPage.navBar.cartQuantity).toHaveText('2');

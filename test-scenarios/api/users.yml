@@ -1,0 +1,11 @@
+# yaml-language-server: $schema=../scenarios.schema.json
+suite: Users API
+scenarios:
+  - id: API-USER-001
+    name: Current user endpoint returns the logged-in user's profile
+    automatedIn: tests/api/users/current-user.spec.ts
+    steps:
+      - Log in as the default user (POST /users/login).
+      - Send GET /users/me with the token.
+      - Verify the response status is 200.
+      - Verify email equals the default user's email, and id, first_name and last_name are not empty.

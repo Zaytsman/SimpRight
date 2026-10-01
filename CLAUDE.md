@@ -60,7 +60,11 @@ Specs import from `src/fixtures` (`index.ts`): `test`, `expect` and `openHomePag
 
 ## Scenarios and specs conventions
 
-- **Scenario files:** one markdown file per area (`test-scenarios/ui/cart.md`). Each scenario is a `## <ID>: <title>` section with **Role**, **Automated in** (the spec path), **Steps** and **Expected**. API scenarios also give **Endpoint** and **Auth**. IDs are `UI-<AREA>-NNN` / `API-<AREA>-NNN`.
+- **Scenario files:** one YAML file per area (`test-scenarios/ui/cart.yml`), validated by `test-scenarios/scenarios.schema.json` (the `# yaml-language-server: $schema=...` line at the top gives editor checks).
+  - File level: `suite` (the `test.describe` name), optional `tags` for the whole suite, and `scenarios`.
+  - Each scenario, in this key order: `id` (`UI-<AREA>-NNN` / `API-<AREA>-NNN`, unique across files), `name`, `automatedIn` (the spec path; absent means not automated yet), `role` (absent means the default user), `knownIssue` (becomes the `Known issue` annotation), `steps`.
+  - Checks are ordinary steps that start with `Verify`, in the order they happen; every scenario has at least one. There's no separate expected-results list and no status field.
+  - Steps never contain secret values: write "the default user's email", not the address.
 - **Specs:** `tests/<ui|api>/<area>/<name>.spec.ts`, with a `// Scenarios: <path>` comment at the top and the scenario ID at the start of the test title (`'UI-CART-001: ...'`), so a spec can be traced back to its scenario.
 - **Imports:** specs import from `@fixtures` (`test`, `expect`, `openHomePageTest`) and use fixtures for pages, flows, clients and services. They never construct them or call `page.goto` directly.
 - **API assertions:** happy paths use a service (it returns parsed, typed bodies and throws on non-2xx). Status-code checks, especially error codes, use the client and assert `response.status`.

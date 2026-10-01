@@ -1,0 +1,12 @@
+# yaml-language-server: $schema=../scenarios.schema.json
+suite: Product search
+scenarios:
+  - id: UI-PROD-001
+    name: Search by name shows only matching products
+    automatedIn: tests/ui/products/product-search.spec.ts
+    steps:
+      - Open the home page.
+      - Search for "pliers".
+      - 'Verify the caption reads "Searched for: pliers".'
+      - Verify at least one product is shown.
+      - Verify every product name contains "pliers" (case-insensitive).

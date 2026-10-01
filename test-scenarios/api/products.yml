@@ -1,0 +1,11 @@
+# yaml-language-server: $schema=../scenarios.schema.json
+suite: Products API
+scenarios:
+  - id: API-PROD-001
+    name: Search by name returns only matching products
+    automatedIn: tests/api/products/search-products.spec.ts
+    steps:
+      - Send GET /products/search with q=pliers.
+      - Verify the response status is 200 and the body is paginated (data, total, current_page).
+      - Verify total is greater than 0 and every item's name contains "pliers" (case-insensitive).
+      - Verify each item has an id, a name and a price greater than 0.
