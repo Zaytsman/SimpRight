@@ -2,7 +2,7 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "scenarios.schema.json",
   "title": "Test scenarios",
-  "description": "One file per area: a suite of scenarios. Key order inside a scenario: id, name, automatedIn, role, knownIssue, steps.",
+  "description": "One file per endpoint (API) or feature (UI) in <layer>/<area>/: a suite of scenarios. Key order inside a scenario: id, name, automatedIn, role, knownIssue, steps.",
   "type": "object",
   "required": ["suite", "scenarios"],
   "additionalProperties": false,
@@ -32,8 +32,8 @@
       "properties": {
         "id": {
           "type": "string",
-          "pattern": "^(UI|API)-[A-Z]+-\\d{3}$",
-          "description": "Unique scenario ID (UI-<AREA>-NNN or API-<AREA>-NNN). The test title starts with it."
+          "pattern": "^[A-Z]+-[A-Z]+-\\d{3}$",
+          "description": "Unique scenario ID: <LAYER>-<AREA>-NNN, with the codes from qa-agents-profile.yml (ids). The test title starts with it."
         },
         "name": {
           "type": "string",

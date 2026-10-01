@@ -1,12 +1,17 @@
-// Validates test-scenarios/**/*.yml and their links to the specs.
-// Run with `npm run validate:scenarios` (Node 24 runs this file directly; no build step).
+// Validates qa-agents-profile.yml, the scenario files and their links to the specs.
+// Run with `npm run validate:scenarios` (Node 22.18+ runs this file directly; no build step).
 //
 // Checks:
-// - every scenario file parses and matches test-scenarios/scenarios.schema.json;
+// - the profile matches qa-agents-profile.schema.json, and every path it names exists
+//   (except paths.coverageSummary, which a test run generates);
+// - every scenario file lives in <scenarios>/<layer>/<area>/<name>.yml with a layer and area from the profile,
+//   a name that matches the layer's ids.fileNames pattern (any kebab-case name when there's none),
+//   parses, and matches the scenario schema;
 // - keys are in the agreed order (file: suite, tags, scenarios; scenario: id, name, automatedIn, role, knownIssue, steps);
-// - IDs are unique across files, and UI-/API- IDs live in the ui/ and api/ folders;
-// - automatedIn points to an existing spec that has a test titled '<ID>: ...' and a `// Scenarios:` comment for this file;
-// - every test in tests/ starts its title with an ID, and that ID has a scenario whose automatedIn is this spec.
+// - IDs are unique across files and are <LAYER>-<AREA>-NNN with the codes of the file's layer and area;
+// - a scenario's role is one of the profile's roles;
+// - automatedIn is <tests>/<layer>/<area>/..., exists, has a test titled '<ID>: ...' and a `// Scenarios:` comment for this file;
+// - every test in <tests> starts its title with an ID, and that ID has a scenario whose automatedIn is this spec.
 
 import { existsSync, readdirSync, readFileSync } from 'node:fs';
 import path from 'node:path';
@@ -14,18 +19,25 @@ import Ajv from 'ajv';
 import { parse } from 'yaml';
 
 const ROOT = path.resolve(import.meta.dirname, '..');
-const SCENARIOS_DIR = 'test-scenarios';
-const TESTS_DIR = 'tests';
-const SCHEMA_FILE = `${SCENARIOS_DIR}/scenarios.schema.json`;
+const PROFILE_FILE = 'qa-agents-profile.yml';
+const PROFILE_SCHEMA_FILE = 'qa-agents-profile.schema.json';
 
 const FILE_KEY_ORDER = ['suite', 'tags', 'scenarios'];
 const SCENARIO_KEY_ORDER = ['id', 'name', 'automatedIn', 'role', 'knownIssue', 'steps'];
-const FOLDER_PREFIX: Record<string, string> = { ui: 'UI-', api: 'API-' };
 
-const ID = String.raw`(?:UI|API)-[A-Z]+-\d{3}`;
 // test('...'), test.only/skip/fixme/fail('...'); test.describe/test.use don't match.
 const TEST_CALL = /\btest(?:\.(?:only|skip|fixme|fail|slow))?\(\s*(['"`])(.*?)\1/g;
-const TITLE_ID = new RegExp(`^(${ID}):`);
+const TITLE_ID = /^([A-Z]+-[A-Z]+-\d{3}):/;
+const KEBAB_CASE = '^[a-z0-9]+(-[a-z0-9]+)*$';
+
+/** The parts of qa-agents-profile.yml this script uses (the schema describes the whole file). */
+interface Profile {
+  project: { conventions: string[] };
+  paths: Record<string, string> & { scenarios: string; scenarioSchema: string; tests: string };
+  ids: { layers: Record<string, string>; areas: Record<string, string>; fileNames?: Record<string, string> };
+  roles: string[];
+  api: { exemplars: Record<string, string> };
+}
 
 interface Scenario {
   id: string;
@@ -45,17 +57,43 @@ interface ScenarioFile {
 const errors: string[] = [];
 const fail = (where: string, message: string) => errors.push(`${where}: ${message}`);
 
+function report(): void {
+  if (errors.length === 0) return;
+  console.error(`Scenario validation failed with ${errors.length} error(s):`);
+  for (const error of errors) console.error(`  - ${error}`);
+  process.exit(1);
+}
+
+const exists = (file: string) => existsSync(path.join(ROOT, file));
+const read = (file: string) => readFileSync(path.join(ROOT, file), 'utf8');
+
 /** Files under `dir` (relative to the repo root, with forward slashes) that end with one of `extensions`. */
 function listFiles(dir: string, extensions: string[]): string[] {
-  if (!existsSync(path.join(ROOT, dir))) return [];
+  if (!exists(dir)) return [];
   return readdirSync(path.join(ROOT, dir), { recursive: true, encoding: 'utf8' })
     .map((file) => `${dir}/${file.replaceAll('\\', '/')}`)
     .filter((file) => extensions.some((ext) => file.endsWith(ext)))
     .sort();
 }
 
-function read(file: string): string {
-  return readFileSync(path.join(ROOT, file), 'utf8');
+/** Parses a YAML file and checks it against a JSON schema; records errors and returns undefined on failure. */
+function loadYaml<T>(file: string, schemaFile: string): T | undefined {
+  let doc: unknown;
+  try {
+    doc = parse(read(file));
+  } catch (error) {
+    fail(file, `invalid YAML: ${(error as Error).message}`);
+    return undefined;
+  }
+  const validate = new Ajv({ allErrors: true }).compile<T>(JSON.parse(read(schemaFile)));
+  if (validate(doc)) return doc;
+  for (const error of validate.errors ?? []) {
+    // `contains` reports every step that isn't a check; one clear message is enough.
+    if (error.schemaPath.includes('/contains/')) continue;
+    const message = error.keyword === 'contains' ? "must have at least one step that starts with 'Verify '" : error.message;
+    fail(file, `${error.instancePath || '/'} ${message}`);
+  }
+  return undefined;
 }
 
 function checkKeyOrder(where: string, value: object, order: string[]): void {
@@ -66,32 +104,77 @@ function checkKeyOrder(where: string, value: object, order: string[]): void {
   }
 }
 
-const validateSchema = new Ajv({ allErrors: true }).compile<ScenarioFile>(JSON.parse(read(SCHEMA_FILE)));
+function checkUniqueCodes(group: string, codes: Record<string, string>): void {
+  const seen = new Map<string, string>();
+  for (const [name, code] of Object.entries(codes)) {
+    const other = seen.get(code);
+    if (other) fail(PROFILE_FILE, `ids.${group}: ${name} and ${other} share the code ${code}`);
+    seen.set(code, name);
+  }
+}
+
+// --- Profile ---
+
+if (!exists(PROFILE_FILE)) {
+  fail(PROFILE_FILE, 'not found in the repo root');
+  report();
+}
+const profile = loadYaml<Profile>(PROFILE_FILE, PROFILE_SCHEMA_FILE);
+if (!profile) {
+  report();
+  process.exit(1);
+}
+const { paths, ids, roles } = profile;
+
+const profilePaths: [string, string][] = [
+  ...profile.project.conventions.map((file, i): [string, string] => [`project.conventions[${i}]`, file]),
+  ...Object.entries(paths)
+    .filter(([key]) => key !== 'coverageSummary')
+    .map(([key, file]): [string, string] => [`paths.${key}`, file]),
+  ...Object.entries(profile.api.exemplars).map(([key, file]): [string, string] => [`api.exemplars.${key}`, file]),
+];
+for (const [key, file] of profilePaths) {
+  if (!exists(file)) fail(PROFILE_FILE, `${key}: ${file} doesn't exist`);
+}
+checkUniqueCodes('layers', ids.layers);
+checkUniqueCodes('areas', ids.areas);
+for (const [layer, pattern] of Object.entries(ids.fileNames ?? {})) {
+  if (!(layer in ids.layers)) fail(PROFILE_FILE, `ids.fileNames.${layer}: ${layer} isn't in ids.layers`);
+  try {
+    new RegExp(pattern.replaceAll('{area}', 'area'));
+  } catch (error) {
+    fail(PROFILE_FILE, `ids.fileNames.${layer}: invalid regex (${(error as Error).message})`);
+  }
+}
+report();
+
+// --- Scenario files ---
 
 /** Scenario ID → where it's defined and which spec automates it. */
 const scenarios = new Map<string, { file: string; automatedIn?: string }>();
 
-for (const file of listFiles(SCENARIOS_DIR, ['.yml', '.yaml'])) {
-  let doc: unknown;
-  try {
-    doc = parse(read(file));
-  } catch (error) {
-    fail(file, `invalid YAML: ${(error as Error).message}`);
+for (const file of listFiles(paths.scenarios, ['.yml', '.yaml'])) {
+  // <scenarios>/<layer>/<area>/<name>.yml
+  const [layer = '', area = '', fileName = '', ...rest] = file.slice(paths.scenarios.length + 1).split('/');
+  const name = fileName.replace(/\.ya?ml$/, '');
+  const layerCode = ids.layers[layer];
+  const areaCode = ids.areas[area];
+  if (!fileName || rest.length > 0 || !layerCode || !areaCode) {
+    fail(file, `must be ${paths.scenarios}/<layer>/<area>/<name>.yml with a layer and area from ${PROFILE_FILE} (ids)`);
     continue;
   }
-  if (!validateSchema(doc)) {
-    for (const error of validateSchema.errors ?? []) {
-      // `contains` reports every step that isn't a check; one clear message is enough.
-      if (error.schemaPath.includes('/contains/')) continue;
-      const message = error.keyword === 'contains' ? "must have at least one step that starts with 'Verify '" : error.message;
-      fail(file, `${error.instancePath || '/'} ${message}`);
-    }
-    continue;
+  // {area} in a pattern stands for the area folder name.
+  const namePattern = ids.fileNames?.[layer]?.replaceAll('{area}', area);
+  if (!new RegExp(namePattern ?? KEBAB_CASE).test(name)) {
+    fail(file, namePattern ? `file name must match ${namePattern} (${PROFILE_FILE} ids.fileNames.${layer})` : 'file name must be kebab-case');
   }
 
+  const doc = loadYaml<ScenarioFile>(file, paths.scenarioSchema);
+  if (!doc) continue;
   checkKeyOrder(file, doc, FILE_KEY_ORDER);
-  const folder = file.split('/')[1] ?? '';
-  const prefix = FOLDER_PREFIX[folder];
+
+  const idPattern = new RegExp(`^${layerCode}-${areaCode}-\\d{3}$`);
+  const specFolder = `${paths.tests}/${layer}/${area}/`;
 
   for (const scenario of doc.scenarios) {
     const where = `${file} ${scenario.id}`;
@@ -104,12 +187,18 @@ for (const file of listFiles(SCENARIOS_DIR, ['.yml', '.yaml'])) {
     }
     scenarios.set(scenario.id, { file, automatedIn: scenario.automatedIn });
 
-    if (prefix && !scenario.id.startsWith(prefix)) {
-      fail(where, `IDs in ${SCENARIOS_DIR}/${folder}/ must start with ${prefix}`);
+    if (!idPattern.test(scenario.id)) {
+      fail(where, `IDs in ${file} must be ${layerCode}-${areaCode}-NNN`);
+    }
+    if (scenario.role !== undefined && !roles.includes(scenario.role)) {
+      fail(where, `role ${scenario.role} isn't one of ${roles.join(', ')} (${PROFILE_FILE} roles)`);
     }
 
     if (scenario.automatedIn) {
-      if (!existsSync(path.join(ROOT, scenario.automatedIn))) {
+      if (!scenario.automatedIn.startsWith(specFolder)) {
+        fail(where, `automatedIn must be in ${specFolder}`);
+      }
+      if (!exists(scenario.automatedIn)) {
         fail(where, `automatedIn ${scenario.automatedIn} doesn't exist`);
         continue;
       }
@@ -125,7 +214,9 @@ for (const file of listFiles(SCENARIOS_DIR, ['.yml', '.yaml'])) {
   }
 }
 
-for (const spec of listFiles(TESTS_DIR, ['.spec.ts', '.test.ts'])) {
+// --- Specs ---
+
+for (const spec of listFiles(paths.tests, ['.spec.ts', '.test.ts'])) {
   for (const [, , title = ''] of read(spec).matchAll(TEST_CALL)) {
     const id = TITLE_ID.exec(title)?.[1];
     if (!id) {
@@ -134,17 +225,13 @@ for (const spec of listFiles(TESTS_DIR, ['.spec.ts', '.test.ts'])) {
     }
     const scenario = scenarios.get(id);
     if (!scenario) {
-      fail(spec, `${id} has no scenario in ${SCENARIOS_DIR}/`);
+      fail(spec, `${id} has no scenario in ${paths.scenarios}/`);
     } else if (scenario.automatedIn !== spec) {
       fail(spec, `${id}'s scenario (${scenario.file}) has automatedIn ${scenario.automatedIn ?? '(none)'}, not this spec`);
     }
   }
 }
 
-if (errors.length > 0) {
-  console.error(`Scenario validation failed with ${errors.length} error(s):`);
-  for (const error of errors) console.error(`  - ${error}`);
-  process.exit(1);
-}
+report();
 const automated = [...scenarios.values()].filter((scenario) => scenario.automatedIn).length;
 console.log(`Scenarios OK: ${scenarios.size} scenario(s), ${automated} automated.`);

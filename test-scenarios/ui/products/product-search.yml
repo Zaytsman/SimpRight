@@ -1,4 +1,4 @@
-# yaml-language-server: $schema=../scenarios.schema.json
+# yaml-language-server: $schema=../../scenarios.schema.json
 suite: Product search
 scenarios:
   - id: UI-PROD-001
