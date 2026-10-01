@@ -141,7 +141,7 @@ checkUniqueCodes('areas', ids.areas);
 for (const [layer, pattern] of Object.entries(ids.fileNames ?? {})) {
   if (!(layer in ids.layers)) fail(PROFILE_FILE, `ids.fileNames.${layer}: ${layer} isn't in ids.layers`);
   try {
-    new RegExp(pattern);
+    new RegExp(pattern.replaceAll('{area}', 'area'));
   } catch (error) {
     fail(PROFILE_FILE, `ids.fileNames.${layer}: invalid regex (${(error as Error).message})`);
   }
@@ -163,7 +163,8 @@ for (const file of listFiles(paths.scenarios, ['.yml', '.yaml'])) {
     fail(file, `must be ${paths.scenarios}/<layer>/<area>/<name>.yml with a layer and area from ${PROFILE_FILE} (ids)`);
     continue;
   }
-  const namePattern = ids.fileNames?.[layer];
+  // {area} in a pattern stands for the area folder name.
+  const namePattern = ids.fileNames?.[layer]?.replaceAll('{area}', area);
   if (!new RegExp(namePattern ?? KEBAB_CASE).test(name)) {
     fail(file, namePattern ? `file name must match ${namePattern} (${PROFILE_FILE} ids.fileNames.${layer})` : 'file name must be kebab-case');
   }

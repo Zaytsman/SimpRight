@@ -1,6 +1,6 @@
 import { test, expect } from '@fixtures';
 
-// Scenarios: test-scenarios/api/products/get-search.yml
+// Scenarios: test-scenarios/api/products/get-products-search.yml
 test.describe('Products API', () => {
   test('API-PROD-001: search by name returns only matching products', async ({ productsService }) => {
     const result = await productsService.search('pliers');

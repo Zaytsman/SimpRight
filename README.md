@@ -112,7 +112,7 @@ qa-agents-profile.yml    project facts for the QA agents and scripts (paths, com
 
 ## Writing tests
 
-1. **Describe the scenario** in `test-scenarios/<ui|api>/<area>/<name>.yml` (API files are named after the endpoint, such as `api/products/get-search.yml`) under an ID such as `UI-CART-002`, with its name, the spec path (`automatedIn`) and steps. Checks are steps that start with `Verify`; `test-scenarios/scenarios.schema.json` describes the format.
+1. **Describe the scenario** in `test-scenarios/<ui|api>/<area>/<name>.yml` (API files are named after the endpoint, such as `api/products/get-products-search.yml` for `GET /products/search`) under an ID such as `UI-CART-002`, with its name, the spec path (`automatedIn`) and steps. Checks are steps that start with `Verify`; `test-scenarios/scenarios.schema.json` describes the format.
 2. **Add what the test needs:** page objects, components or flows (UI), or clients, services and DTOs (API). Register them as fixtures in `src/ui/fixtures/fixtures.ts` or `src/api/fixtures/fixtures.ts`.
 3. **Write the spec** in `tests/<ui|api>/<area>/`. Import `test` and `expect` from `@fixtures`, and start the title with the scenario ID.
 4. **For new API endpoints**, document them in `docs/api/contracts/`.

@@ -1,7 +1,7 @@
 import { test, expect } from '@fixtures';
 import type { User } from '@api/dto/user';
 
-// Scenarios: test-scenarios/api/users/get-me.yml
+// Scenarios: test-scenarios/api/users/get-users-me.yml
 test.describe('Users API', () => {
   test('API-USER-001: current user endpoint returns the logged-in user\'s profile', async ({ usersClient, user }) => {
     const response = await usersClient.me();

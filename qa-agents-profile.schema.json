@@ -71,7 +71,7 @@
         },
         "fileNames": {
           "type": "object",
-          "description": "Layer -> regex for scenario file names (without .yml). Layers not listed accept any kebab-case name.",
+          "description": "Layer -> regex for scenario file names (without .yml); {area} stands for the area folder name. Layers not listed accept any kebab-case name.",
           "additionalProperties": { "type": "string", "minLength": 1 }
         }
       }

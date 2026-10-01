@@ -63,7 +63,7 @@ Specs import from `src/fixtures` (`index.ts`): `test`, `expect` and `openHomePag
 ## Scenarios and specs conventions
 
 - **Scenario files:** YAML in `test-scenarios/<layer>/<area>/<name>.yml`, the same folders as the specs in `tests/<layer>/<area>/`, validated by `test-scenarios/scenarios.schema.json` (the `# yaml-language-server: $schema=...` line at the top gives editor checks).
-  - API: one file per endpoint, named `<method>-<endpoint>.yml` (`api/products/get-search.yml` for `GET /products/search`). A scenario that calls several endpoints goes in the file of the endpoint it tests. The pattern is `ids.fileNames.api` in `qa-agents-profile.yml`.
+  - API: one file per endpoint, named `<method>-<path>.yml` with the path in kebab-case, starting with the API name (`api/products/get-products-search.yml` for `GET /products/search`, `api/users/get-users-me.yml` for `GET /users/me`). A path parameter becomes `by-<name>`: `GET /products/{productId}` is `get-products-by-product-id.yml`. A scenario that calls several endpoints goes in the file of the endpoint it tests. The pattern is `ids.fileNames.api` in `qa-agents-profile.yml`.
   - UI: kebab-case, named after the spec (`ui/cart/add-to-cart.yml`).
   - File level: `suite` (the `test.describe` name), optional `tags` for the whole suite, and `scenarios`.
   - Each scenario, in this key order: `id` (`<LAYER>-<AREA>-NNN`, such as `UI-CART-001`, with the codes for the file's layer and area folders from `qa-agents-profile.yml`; unique across files), `name`, `automatedIn` (the spec path, in `tests/<layer>/<area>/`; absent means not automated yet), `role` (one of the profile's `roles`; absent means the default user), `knownIssue` (becomes the `Known issue` annotation), `steps`.
