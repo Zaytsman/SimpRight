@@ -2,12 +2,13 @@ import { test, expect } from '@fixtures';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { Paginated } from '@api/dto/common';
 import type { Product } from '@api/dto/product';
+import { TestConstants } from '@data/TestConstants';
 import { assertMessage, attachJson } from '@utils/assertHelpers';
 
 // Scenarios: test-scenarios/api/products/get-products-search.yml
 test.describe('@products-api - Products API', () => {
   test('API-PROD-001: Search by name returns only matching products', async ({ productsClient }) => {
-    const term = 'pliers';
+    const term = TestConstants.products.searchTerm;
     const request = { method: 'GET', path: '/products/search', query: { q: term } };
     let response: ApiResponse;
     let body: Paginated<Product>;

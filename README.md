@@ -100,6 +100,7 @@ src/
     flows/               multi-page user journeys
     auth/                token/storage-state helpers
     fixtures/            UI fixtures
+  data/                  test data: TestConstants, factories/
   utils/                 helpers (assertion messages, masked attachments, env)
   globalSetup.ts         UI login for storageState mode
 tests/

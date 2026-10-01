@@ -1,17 +1,19 @@
 import { expect, openHomePageTest as test } from '@fixtures';
+import { TestConstants } from '@data/TestConstants';
 
 // Scenarios: test-scenarios/ui/products/product-search.yml
 test.describe('@products-ui - Product search', () => {
   test('UI-PROD-001: Search by name shows only matching products', async ({ homePage }) => {
-    await homePage.search('pliers');
+    const term = TestConstants.products.searchTerm;
+    await homePage.search(term);
 
-    await expect(homePage.searchCaption).toHaveText('Searched for: pliers');
+    await expect(homePage.searchCaption).toHaveText(`Searched for: ${term}`);
     await expect(homePage.productGrid.cards.first()).toBeVisible();
 
     const names = await homePage.productGrid.getProductNames();
     expect(names.length).toBeGreaterThan(0);
     for (const name of names) {
-      expect(name.toLowerCase(), `"${name}" should match the search`).toContain('pliers');
+      expect(name.toLowerCase(), `"${name}" should match the search`).toContain(term);
     }
   });
 });

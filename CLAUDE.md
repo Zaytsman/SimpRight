@@ -56,6 +56,9 @@ Specs import from `src/fixtures` (`index.ts`): `test`, `expect` and `openHomePag
 - `src/fixtures/`: merges the API and UI fixtures (`mergeTests`) into the single `test`/`expect` that specs import.
 - `src/globalSetup.ts`: UI login for `storageState` mode.
 - `src/config/`: typed env access. `src/envs/`: per-environment JSON. `src/utils/`: helpers (`assertHelpers.ts`: `assertMessage`, `attachJson`, `redact`).
+- `src/data/` (`@data/*`): test data.
+  - `TestConstants.ts`: seeded values from the app that more than one test relies on, grouped by area (`TestConstants.products.searchTerm`). A value only one test uses stays a variable in that test. Roles aren't repeated here (they're `UserRole` in config).
+  - `factories/`: `testDataUtils.ts` (`uniqueName(prefix)`, e.g. `Lifecycle-20261001-3fa9c2`, for every record a test creates) and one `<Area>Factory.ts` per area with create/update payload builders, added with the first scenario that creates data in that area.
 - `test-scenarios/` (`api/`, `ui/`): the source of truth for what gets automated. One agent writes scenarios here; another agent picks them up and implements them as specs in `tests/`. Keep scenarios and specs in sync, and don't invent coverage that no scenario describes.
 - `docs/api/contracts/`: API contracts, one markdown file per API area (see "API contracts").
 - `qa-agents-profile.yml` (schema: `qa-agents-profile.schema.json`): project facts for the QA agents and scripts: paths, commands, scenario ID codes (`ids.layers`, `ids.areas`) and file-name rules (`ids.fileNames`), `roles`, exemplar files to copy the style of, and live API guardrails (`liveApi.writes: ask`). It points to this file for conventions instead of repeating them. Keep it current: a new scenario area needs an `ids.areas` entry, a new role a `roles` entry, and a renamed exemplar a new path (`validate:scenarios` checks that every path exists).
