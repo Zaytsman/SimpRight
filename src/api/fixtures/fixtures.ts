@@ -10,6 +10,10 @@ export type ApiFixtures = {
   /** Public endpoints: no token. */
   productsClient: ProductsClient;
   productsService: ProductsService;
+  /** Products endpoints authenticated as the test's `role` (e.g. an admin sees the stock count). */
+  productsClientWithToken: ProductsClient;
+  /** Always authenticated as admin, whatever the test's `role`: setup creates and cleanup deletes (DELETE is admin-only). */
+  adminProductsService: ProductsService;
   /** Authenticated as the test's `role`. */
   usersClient: UsersClient;
 };
@@ -28,6 +32,12 @@ export const test = base.extend<ApiFixtures>({
   },
   productsService: async ({ productsClient }, use) => {
     await use(new ProductsService(productsClient));
+  },
+  productsClientWithToken: async ({ request, config, accessToken }, use) => {
+    await use(new ProductsClient(request, config, accessToken));
+  },
+  adminProductsService: async ({ request, config, tokenService }, use) => {
+    await use(new ProductsService(new ProductsClient(request, config, await tokenService.getAccessToken('admin'))));
   },
 
   usersClient: async ({ request, config, accessToken }, use) => {

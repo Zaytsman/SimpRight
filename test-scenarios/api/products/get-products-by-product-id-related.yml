@@ -4,7 +4,8 @@ tags: ["@products-api"]
 scenarios:
   - id: API-PROD-023
     name: Related products are other products from the same category
-    status: manual
+    status: automated
+    automatedIn: tests/api/products/get-products-by-product-id-related.spec.ts
     steps:
       - Send GET /products and take the first item's id.
       - Send GET /products/{productId} with that id and take its category id.
@@ -16,14 +17,16 @@ scenarios:
       - Verify every item's category has id and name.
   - id: API-PROD-024
     name: Related products for an unknown product id return 404
-    status: manual
+    status: automated
+    automatedIn: tests/api/products/get-products-by-product-id-related.spec.ts
     knownIssue: Returns 500 instead of 404 for an unknown product id.
     steps:
       - Send GET /products/{productId}/related with a well-formed ULID that no product has.
       - Verify the response status is 404.
   - id: API-PROD-025
     name: Related products include their CO2 rating
-    status: manual
+    status: automated
+    automatedIn: tests/api/products/get-products-by-product-id-related.spec.ts
     knownIssue: Omits co2_rating from related products, so is_eco_friendly is always false.
     steps:
       - Send GET /products and take the first item's id.

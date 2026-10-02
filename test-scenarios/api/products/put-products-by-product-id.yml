@@ -4,7 +4,8 @@ tags: ["@products-api"]
 scenarios:
   - id: API-PROD-043
     name: Update product returns success
-    status: manual
+    status: automated
+    automatedIn: tests/api/products/put-products-by-product-id.spec.ts
     steps:
       - Send GET /products and take the first item's brand id, category id and product image id.
       - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false and is_rental false, and take the new product's id.
@@ -14,7 +15,8 @@ scenarios:
       - Verify GET /products/{productId} with that id returns the new name.
   - id: API-PROD-044
     name: Update product with a name longer than 120 characters returns 422
-    status: manual
+    status: automated
+    automatedIn: tests/api/products/put-products-by-product-id.spec.ts
     steps:
       - Send GET /products and take the first item's brand id, category id and product image id.
       - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false and is_rental false, and take the new product's id.
@@ -23,7 +25,8 @@ scenarios:
       - Verify the body has a name key with at least one message.
   - id: API-PROD-045
     name: Update product with a description longer than 1250 characters returns 422
-    status: manual
+    status: automated
+    automatedIn: tests/api/products/put-products-by-product-id.spec.ts
     steps:
       - Send GET /products and take the first item's brand id, category id and product image id.
       - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false and is_rental false, and take the new product's id.
@@ -32,7 +35,8 @@ scenarios:
       - Verify the body has a description key with at least one message.
   - id: API-PROD-046
     name: Update product with a name that isn't a string returns 422
-    status: manual
+    status: automated
+    automatedIn: tests/api/products/put-products-by-product-id.spec.ts
     steps:
       - Send GET /products and take the first item's brand id, category id and product image id.
       - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false and is_rental false, and take the new product's id.
@@ -41,7 +45,8 @@ scenarios:
       - Verify the body has a name key with at least one message.
   - id: API-PROD-047
     name: Update product with a description that isn't a string returns 422
-    status: manual
+    status: automated
+    automatedIn: tests/api/products/put-products-by-product-id.spec.ts
     steps:
       - Send GET /products and take the first item's brand id, category id and product image id.
       - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false and is_rental false, and take the new product's id.
@@ -50,7 +55,8 @@ scenarios:
       - Verify the body has a description key with at least one message.
   - id: API-PROD-048
     name: Update product with a non-boolean is_location_offer returns 422
-    status: manual
+    status: automated
+    automatedIn: tests/api/products/put-products-by-product-id.spec.ts
     steps:
       - Send GET /products and take the first item's brand id, category id and product image id.
       - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false and is_rental false, and take the new product's id.
@@ -59,7 +65,8 @@ scenarios:
       - Verify the body has an is_location_offer key with at least one message.
   - id: API-PROD-049
     name: Update product with a non-boolean is_rental returns 422
-    status: manual
+    status: automated
+    automatedIn: tests/api/products/put-products-by-product-id.spec.ts
     steps:
       - Send GET /products and take the first item's brand id, category id and product image id.
       - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false and is_rental false, and take the new product's id.
@@ -68,14 +75,16 @@ scenarios:
       - Verify the body has an is_rental key with at least one message.
   - id: API-PROD-050
     name: Update product with an unknown id returns 404
-    status: manual
+    status: automated
+    automatedIn: tests/api/products/put-products-by-product-id.spec.ts
     steps:
       - Send PUT /products/{productId} with a well-formed ULID that no product has and a body with a unique product name.
       - Verify the response status is 404.
       - Verify the body's message is "Requested item not found".
   - id: API-PROD-051
     name: Update product without a token returns 401
-    status: manual
+    status: automated
+    automatedIn: tests/api/products/put-products-by-product-id.spec.ts
     knownIssue: Accepts PUT without a token instead of returning 401.
     steps:
       - Send GET /products and take the first item's brand id, category id and product image id.

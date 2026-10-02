@@ -4,7 +4,8 @@ tags: ["@products-api"]
 scenarios:
   - id: API-PROD-020
     name: Get product returns the product with its category, brand, image and specs
-    status: manual
+    status: automated
+    automatedIn: tests/api/products/get-products-by-product-id.spec.ts
     steps:
       - Send GET /products and take the first item's id and name.
       - Send GET /products/{productId} with that id.
@@ -16,7 +17,8 @@ scenarios:
       - Verify in_stock is a boolean.
   - id: API-PROD-021
     name: Get product with an admin token returns the stock count
-    status: manual
+    status: automated
+    automatedIn: tests/api/products/get-products-by-product-id.spec.ts
     role: admin
     steps:
       - Send GET /products and take the first item's id.
@@ -25,7 +27,8 @@ scenarios:
       - Verify in_stock is a number.
   - id: API-PROD-022
     name: Get product with an unknown id returns 404
-    status: manual
+    status: automated
+    automatedIn: tests/api/products/get-products-by-product-id.spec.ts
     steps:
       - Send GET /products/{productId} with a well-formed ULID that no product has.
       - Verify the response status is 404.

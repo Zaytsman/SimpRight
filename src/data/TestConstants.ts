@@ -9,5 +9,7 @@ export const TestConstants = {
     searchTerm: 'pliers',
     /** A seeded product that can be added to the cart. */
     knownProduct: 'Combination Pliers',
+    /** A well-formed ULID that no product has (for 404 checks). */
+    unknownId: '01ZZZZZZZZZZZZZZZZZZZZZZZZ',
   },
 } as const;

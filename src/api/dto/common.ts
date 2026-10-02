@@ -8,3 +8,6 @@ export interface Paginated<T> {
   to: number | null;
   total: number;
 }
+
+/** A 422 validation error body: each failing field with its messages, without a wrapper. */
+export type ValidationErrors = Record<string, string[]>;
