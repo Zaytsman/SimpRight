@@ -14,7 +14,7 @@ on:
           - cart
           - products
       grep:
-        description: 'Optional: only tests whose title matches, e.g. UI-CART-001'
+        description: 'Optional: only tests whose title matches, e.g. UI-002'
         required: false
         type: string
         default: ''

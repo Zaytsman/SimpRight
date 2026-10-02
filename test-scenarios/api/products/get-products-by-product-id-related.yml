@@ -2,7 +2,7 @@
 suite: Products API
 tags: ["@products-api"]
 scenarios:
-  - id: API-PROD-023
+  - id: API-0023
     name: Related products are other products from the same category
     status: automated
     automatedIn: tests/api/products/get-products-by-product-id-related.spec.ts
@@ -15,7 +15,7 @@ scenarios:
       - Verify no item has the requested product's id.
       - Verify every item's category id equals the product's category id.
       - Verify every item's category has id and name.
-  - id: API-PROD-024
+  - id: API-0024
     name: Related products for an unknown product id return 404
     status: automated
     automatedIn: tests/api/products/get-products-by-product-id-related.spec.ts
@@ -23,7 +23,7 @@ scenarios:
     steps:
       - Send GET /products/{productId}/related with a well-formed ULID that no product has.
       - Verify the response status is 404.
-  - id: API-PROD-025
+  - id: API-0025
     name: Related products include their CO2 rating
     status: automated
     automatedIn: tests/api/products/get-products-by-product-id-related.spec.ts

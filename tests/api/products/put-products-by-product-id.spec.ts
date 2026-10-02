@@ -63,7 +63,7 @@ function expectFieldMessages(response: ApiResponse, field: string, request: unkn
 }
 
 test.describe('@products-api - Products API', () => {
-  test('API-PROD-043: Update product returns success', async ({ productsService, adminProductsService, productsClientWithToken, cleanup }) => {
+  test('API-0043: Update product returns success', async ({ productsService, adminProductsService, productsClientWithToken, cleanup }) => {
     let newName: string;
     let request: { method: string; path: string; auth: string; body: unknown };
     let response: ApiResponse;
@@ -98,7 +98,7 @@ test.describe('@products-api - Products API', () => {
     });
   });
 
-  test('API-PROD-044: Update product with a name longer than 120 characters returns 422', async ({
+  test('API-0044: Update product with a name longer than 120 characters returns 422', async ({
     productsService,
     adminProductsService,
     productsClientWithToken,
@@ -126,7 +126,7 @@ test.describe('@products-api - Products API', () => {
     });
   });
 
-  test('API-PROD-045: Update product with a description longer than 1250 characters returns 422', async ({
+  test('API-0045: Update product with a description longer than 1250 characters returns 422', async ({
     productsService,
     adminProductsService,
     productsClientWithToken,
@@ -154,7 +154,7 @@ test.describe('@products-api - Products API', () => {
     });
   });
 
-  test("API-PROD-046: Update product with a name that isn't a string returns 422", async ({
+  test("API-0046: Update product with a name that isn't a string returns 422", async ({
     productsService,
     adminProductsService,
     productsClientWithToken,
@@ -182,7 +182,7 @@ test.describe('@products-api - Products API', () => {
     });
   });
 
-  test("API-PROD-047: Update product with a description that isn't a string returns 422", async ({
+  test("API-0047: Update product with a description that isn't a string returns 422", async ({
     productsService,
     adminProductsService,
     productsClientWithToken,
@@ -210,7 +210,7 @@ test.describe('@products-api - Products API', () => {
     });
   });
 
-  test('API-PROD-048: Update product with a non-boolean is_location_offer returns 422', async ({
+  test('API-0048: Update product with a non-boolean is_location_offer returns 422', async ({
     productsService,
     adminProductsService,
     productsClientWithToken,
@@ -238,7 +238,7 @@ test.describe('@products-api - Products API', () => {
     });
   });
 
-  test('API-PROD-049: Update product with a non-boolean is_rental returns 422', async ({
+  test('API-0049: Update product with a non-boolean is_rental returns 422', async ({
     productsService,
     adminProductsService,
     productsClientWithToken,
@@ -266,7 +266,7 @@ test.describe('@products-api - Products API', () => {
     });
   });
 
-  test('API-PROD-050: Update product with an unknown id returns 404', async ({ productsClientWithToken }) => {
+  test('API-0050: Update product with an unknown id returns 404', async ({ productsClientWithToken }) => {
     const unknownId = TestConstants.products.unknownId;
     let request: { method: string; path: string; auth: string; body: unknown };
     let response: ApiResponse;
@@ -289,7 +289,7 @@ test.describe('@products-api - Products API', () => {
     });
   });
 
-  test('API-PROD-051: Update product without a token returns 401', async ({ productsService, adminProductsService, productsClient, cleanup }) => {
+  test('API-0051: Update product without a token returns 401', async ({ productsService, adminProductsService, productsClient, cleanup }) => {
     test.fail(true, 'Known issue: Accepts PUT without a token instead of returning 401.');
     let request: { method: string; path: string; auth: string; body: unknown };
     let response: ApiResponse;

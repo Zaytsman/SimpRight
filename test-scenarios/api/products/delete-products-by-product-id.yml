@@ -2,7 +2,7 @@
 suite: Products API
 tags: ["@products-api"]
 scenarios:
-  - id: API-PROD-058
+  - id: API-0058
     name: Admin deletes a product
     status: manual
     role: admin
@@ -12,7 +12,7 @@ scenarios:
       - Send DELETE /products/{productId} with that id, with the admin's token.
       - Verify the response status is 204.
       - Verify GET /products/{productId} with that id returns 404.
-  - id: API-PROD-059
+  - id: API-0059
     name: Delete product without a token returns 401
     status: manual
     steps:
@@ -21,7 +21,7 @@ scenarios:
       - Send DELETE /products/{productId} with that id, without an Authorization header.
       - Verify the response status is 401.
       - Verify the body's message is "Unauthorized".
-  - id: API-PROD-060
+  - id: API-0060
     name: Delete product with an invalid token returns 401
     status: manual
     steps:
@@ -30,7 +30,7 @@ scenarios:
       - Send DELETE /products/{productId} with that id, with an invalid token.
       - Verify the response status is 401.
       - Verify the body's message is "Unauthorized".
-  - id: API-PROD-061
+  - id: API-0061
     name: Delete product as a non-admin user returns 403
     status: manual
     steps:
@@ -39,7 +39,7 @@ scenarios:
       - Send DELETE /products/{productId} with that id, with the default user's token.
       - Verify the response status is 403.
       - Verify the body's message is "Forbidden".
-  - id: API-PROD-062
+  - id: API-0062
     name: Delete product with an unknown id returns 404
     status: manual
     role: admin

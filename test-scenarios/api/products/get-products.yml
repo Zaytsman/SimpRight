@@ -2,7 +2,7 @@
 suite: Products API
 tags: ["@products-api"]
 scenarios:
-  - id: API-PROD-002
+  - id: API-0002
     name: List products returns the first page of non-rental products
     status: manual
     steps:
@@ -15,7 +15,7 @@ scenarios:
       - Verify every item's is_rental is false.
       - Verify every item's in_stock is a boolean.
       - Verify every item's is_eco_friendly is true exactly when its co2_rating is A or B.
-  - id: API-PROD-003
+  - id: API-0003
     name: Filter by brand returns only that brand's products
     status: manual
     steps:
@@ -23,7 +23,7 @@ scenarios:
       - Send GET /products with by_brand set to that brand id.
       - Verify the response status is 200.
       - Verify data is not empty and every item's brand id equals that brand id.
-  - id: API-PROD-004
+  - id: API-0004
     name: Filter by category returns only that category's products
     status: manual
     steps:
@@ -31,7 +31,7 @@ scenarios:
       - Send GET /products with by_category set to that category id.
       - Verify the response status is 200.
       - Verify data is not empty and every item's category id equals that category id.
-  - id: API-PROD-005
+  - id: API-0005
     name: Filter by category slug returns the category and its direct sub-categories
     status: manual
     steps:
@@ -40,42 +40,42 @@ scenarios:
       - Verify the response status is 200.
       - Verify data is not empty.
       - "Verify every item's category is that category or a direct sub-category of it: its category id equals that category id, or GET /products/{productId} for the item returns a category parent_id equal to that category id."
-  - id: API-PROD-006
+  - id: API-0006
     name: Rental filter returns only rental products
     status: manual
     steps:
       - Send GET /products with is_rental=true.
       - Verify the response status is 200.
       - Verify every item's is_rental is true.
-  - id: API-PROD-007
+  - id: API-0007
     name: Price range filter returns only products in the range
     status: manual
     steps:
       - Send GET /products with between=price,10,30.
       - Verify the response status is 200.
       - Verify every item's price is at least 10 and at most 30.
-  - id: API-PROD-008
+  - id: API-0008
     name: Sort by price descending orders the products by price
     status: manual
     steps:
       - Send GET /products with sort=price,desc.
       - Verify the response status is 200.
       - Verify the items' prices are in descending order.
-  - id: API-PROD-009
+  - id: API-0009
     name: Eco-friendly filter returns only products rated A or B
     status: manual
     steps:
       - Send GET /products with eco_friendly=true.
       - Verify the response status is 200.
       - Verify every item's co2_rating is A or B (case-insensitive) and its is_eco_friendly is true.
-  - id: API-PROD-010
+  - id: API-0010
     name: Name filter returns only products whose name contains the text
     status: manual
     steps:
       - Send GET /products with q=pliers.
       - Verify the response status is 200.
       - Verify data is not empty and every item's name contains "pliers" (case-insensitive).
-  - id: API-PROD-011
+  - id: API-0011
     name: Spec filter returns only products with that spec value
     status: manual
     steps:
@@ -84,7 +84,7 @@ scenarios:
       - Verify the response status is 200.
       - Verify data is not empty.
       - Verify every item's specs, from GET /products/{productId} for the item, include a spec with that spec_name and spec_value.
-  - id: API-PROD-012
+  - id: API-0012
     name: Page 2 returns the next products
     status: manual
     steps:
@@ -93,14 +93,14 @@ scenarios:
       - Verify the response status is 200.
       - Verify current_page is 2.
       - Verify no item id on page 2 is among the page 1 ids.
-  - id: API-PROD-013
+  - id: API-0013
     name: Unknown category id returns an empty list
     status: manual
     steps:
       - Send GET /products with by_category set to a well-formed ULID that no category has.
       - Verify the response status is 200.
       - Verify data is an empty array.
-  - id: API-PROD-014
+  - id: API-0014
     name: Unknown sort column is not a server error
     status: manual
     knownIssue: Returns 500 instead of a client error (or ignoring the column) for an unknown sort column.

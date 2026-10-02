@@ -2,7 +2,7 @@
 suite: Products API
 tags: ["@products-api"]
 scenarios:
-  - id: API-PROD-020
+  - id: API-0020
     name: Get product returns the product with its category, brand, image and specs
     status: automated
     automatedIn: tests/api/products/get-products-by-product-id.spec.ts
@@ -15,7 +15,7 @@ scenarios:
       - Verify the category has id, name, slug and parent_id.
       - Verify specs is an array and every spec has id, product_id, spec_name, spec_value and spec_unit.
       - Verify in_stock is a boolean.
-  - id: API-PROD-021
+  - id: API-0021
     name: Get product with an admin token returns the stock count
     status: automated
     automatedIn: tests/api/products/get-products-by-product-id.spec.ts
@@ -25,7 +25,7 @@ scenarios:
       - Send GET /products/{productId} with that id, with the admin's token.
       - Verify the response status is 200.
       - Verify in_stock is a number.
-  - id: API-PROD-022
+  - id: API-0022
     name: Get product with an unknown id returns 404
     status: automated
     automatedIn: tests/api/products/get-products-by-product-id.spec.ts

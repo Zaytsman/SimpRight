@@ -33,8 +33,8 @@
       "properties": {
         "id": {
           "type": "string",
-          "pattern": "^[A-Z]+-[A-Z]+-\\d{3}$",
-          "description": "Unique scenario ID: <LAYER>-<AREA>-NNN, with the codes from qa-agents-profile.yml (ids). The test title starts with it."
+          "pattern": "^[A-Z]+-\\d+$",
+          "description": "Unique scenario ID: <PREFIX>-<number>, numbered across the layer, with the prefix and digits from qa-agents-profile.yml (ids.layers), e.g. API-0001 or UI-001. The test title starts with it."
         },
         "name": {
           "type": "string",

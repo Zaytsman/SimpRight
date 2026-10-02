@@ -59,21 +59,30 @@
     },
     "ids": {
       "type": "object",
-      "description": "Scenario IDs are <LAYER>-<AREA>-NNN; a scenario file lives in <layer>/<area>/<name>.yml.",
+      "description": "Scenario IDs are <PREFIX>-<number>, numbered across the whole layer (not per area) with a fixed number of digits; a scenario file lives in <layer>/<area>/<name>.yml.",
       "required": ["layers", "areas"],
       "additionalProperties": false,
       "properties": {
         "layers": {
           "type": "object",
-          "description": "Layer folder name -> ID prefix, e.g. ui: UI.",
+          "description": "Layer folder name -> its ID prefix and number of digits, e.g. api: { prefix: API, digits: 4 } for API-0001.",
           "minProperties": 1,
-          "additionalProperties": { "$ref": "#/definitions/code" }
+          "additionalProperties": {
+            "type": "object",
+            "required": ["prefix", "digits"],
+            "additionalProperties": false,
+            "properties": {
+              "prefix": { "$ref": "#/definitions/code" },
+              "digits": { "type": "integer", "minimum": 2, "maximum": 6 }
+            }
+          }
         },
         "areas": {
-          "type": "object",
-          "description": "Area (folder name under the layer) -> ID area code, e.g. products: PROD.",
-          "minProperties": 1,
-          "additionalProperties": { "$ref": "#/definitions/code" }
+          "type": "array",
+          "description": "Area folder names under each layer, e.g. products.",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "type": "string", "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$" }
         },
         "fileNames": {
           "type": "object",

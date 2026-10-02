@@ -31,7 +31,7 @@ Notes: <or "none">
 
 Show the user the proposal as the agent returned it: the tables, the steps and "Decisions needed". Don't shorten the steps, because they are what the user approves. Then ask the user to approve it, or to say what to change (drop, rename, merge, reword, answer the decisions). Write nothing before a clear yes.
 
-If the user approves a new area code, add it to `ids.areas` in the profile yourself before the writing phase (the agent doesn't change the profile).
+If the user approves a new area, add it to `ids.areas` in the profile yourself before the writing phase (the agent doesn't change the profile).
 
 ## 3. Writing
 

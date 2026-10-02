@@ -2,7 +2,7 @@
 suite: Product search
 tags: ["@products-ui"]
 scenarios:
-  - id: UI-PROD-001
+  - id: UI-001
     name: Search by name shows only matching products
     status: automated
     automatedIn: tests/ui/products/product-search.spec.ts

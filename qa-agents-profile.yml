@@ -23,13 +23,17 @@ commands:
   typecheck: npm run typecheck
   validateScenarios: npm run validate:scenarios
   runSpec: npx playwright test {spec}
-  runScenario: npx playwright test -g "{id}"
+  runScenario: npx playwright test -g "{id}:"
   repeatSpec: npx playwright test {spec} --repeat-each=3   # flakiness check after a spec passes
 
 ids:
-  # Scenario IDs are <LAYER>-<AREA>-NNN. A scenario file lives in <layer>/<area>/<name>.yml.
-  layers: { ui: UI, api: API }
-  areas: { products: PROD, users: USER, cart: CART }
+  # Scenario IDs are <PREFIX>-<number>, numbered across the whole layer, not per area: API-0001, UI-001.
+  # A new scenario takes the next free number of its layer (validate:scenarios prints it).
+  # A scenario file lives in <layer>/<area>/<name>.yml, with an area from the list below.
+  layers:
+    ui: { prefix: UI, digits: 3 }
+    api: { prefix: API, digits: 4 }
+  areas: [products, users, cart]
   fileNames:
     # API: <method>-<endpoint path>, one file per endpoint, e.g. GET /products/search -> products/get-products-search.yml.
     # {area} is replaced with the folder name, so the path part starts with the API name.

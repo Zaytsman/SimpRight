@@ -3,7 +3,7 @@ import { TestConstants } from '@data/TestConstants';
 
 // Scenarios: test-scenarios/ui/products/product-search.yml
 test.describe('@products-ui - Product search', () => {
-  test('UI-PROD-001: Search by name shows only matching products', async ({ homePage }) => {
+  test('UI-001: Search by name shows only matching products', async ({ homePage }) => {
     const term = TestConstants.products.searchTerm;
     await homePage.search(term);
 

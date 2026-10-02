@@ -2,7 +2,7 @@
 suite: Products API
 tags: ["@products-api"]
 scenarios:
-  - id: API-PROD-030
+  - id: API-0030
     name: QUERY search returns only matching products
     status: manual
     steps:
@@ -11,14 +11,14 @@ scenarios:
       - Verify the Accept-Query response header is application/json.
       - Verify the body has current_page, data, from, last_page, per_page, to and total.
       - Verify data is not empty and every item's name contains "pliers" (case-insensitive).
-  - id: API-PROD-031
+  - id: API-0031
     name: QUERY search without a term returns an empty page
     status: manual
     steps:
       - "Send QUERY /products/search with Content-Type: application/json, Accept: application/json and an empty JSON object as the body."
       - Verify the response status is 200.
       - Verify data is an empty array.
-  - id: API-PROD-032
+  - id: API-0032
     name: QUERY search without a JSON Content-Type is rejected
     status: manual
     steps:

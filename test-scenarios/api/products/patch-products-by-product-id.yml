@@ -2,7 +2,7 @@
 suite: Products API
 tags: ["@products-api"]
 scenarios:
-  - id: API-PROD-052
+  - id: API-0052
     name: Partially update product returns success
     status: manual
     steps:
@@ -12,7 +12,7 @@ scenarios:
       - Verify the response status is 200.
       - Verify the body's success is true.
       - Verify GET /products/{productId} with that id returns the new name.
-  - id: API-PROD-053
+  - id: API-0053
     name: Partially update product with a non-numeric price returns 422
     status: manual
     steps:
@@ -21,7 +21,7 @@ scenarios:
       - Send PATCH /products/{productId} with that id and a body with only price set to the string "not-a-number".
       - Verify the response status is 422.
       - Verify the body has a price key with at least one message.
-  - id: API-PROD-054
+  - id: API-0054
     name: Partially update product with a name longer than 120 characters returns 422
     status: manual
     steps:
@@ -30,7 +30,7 @@ scenarios:
       - Send PATCH /products/{productId} with that id and a body with only a 121-character name that starts with a unique product name.
       - Verify the response status is 422.
       - Verify the body has a name key with at least one message.
-  - id: API-PROD-055
+  - id: API-0055
     name: Partially update product with a description longer than 1250 characters returns 422
     status: manual
     steps:
@@ -39,14 +39,14 @@ scenarios:
       - Send PATCH /products/{productId} with that id and a body with only a 1251-character description.
       - Verify the response status is 422.
       - Verify the body has a description key with at least one message.
-  - id: API-PROD-056
+  - id: API-0056
     name: Partially update product with an unknown id returns 404
     status: manual
     steps:
       - Send PATCH /products/{productId} with a well-formed ULID that no product has and a body with only a unique product name.
       - Verify the response status is 404.
       - Verify the body's message is "Requested item not found".
-  - id: API-PROD-057
+  - id: API-0057
     name: Partially update product without a token returns 401
     status: manual
     knownIssue: Accepts PATCH without a token instead of returning 401.

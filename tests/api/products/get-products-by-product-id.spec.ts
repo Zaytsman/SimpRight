@@ -6,7 +6,7 @@ import { assertMessage, attachJson } from '@utils/assertHelpers';
 
 // Scenarios: test-scenarios/api/products/get-products-by-product-id.yml
 test.describe('@products-api - Products API', () => {
-  test('API-PROD-020: Get product returns the product with its category, brand, image and specs', async ({
+  test('API-0020: Get product returns the product with its category, brand, image and specs', async ({
     productsService,
     productsClient,
   }) => {
@@ -77,7 +77,7 @@ test.describe('@products-api - Products API', () => {
   test.describe(() => {
     test.use({ role: 'admin' });
 
-    test('API-PROD-021: Get product with an admin token returns the stock count', async ({ productsService, productsClientWithToken }) => {
+    test('API-0021: Get product with an admin token returns the stock count', async ({ productsService, productsClientWithToken }) => {
       let productId: string;
       let request: { method: string; path: string; auth: string };
       let response: ApiResponse;
@@ -107,7 +107,7 @@ test.describe('@products-api - Products API', () => {
     });
   });
 
-  test('API-PROD-022: Get product with an unknown id returns 404', async ({ productsClient }) => {
+  test('API-0022: Get product with an unknown id returns 404', async ({ productsClient }) => {
     const unknownId = TestConstants.products.unknownId;
     const request = { method: 'GET', path: `/products/${unknownId}` };
     let response: ApiResponse;

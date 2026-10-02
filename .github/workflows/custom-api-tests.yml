@@ -14,7 +14,7 @@ on:
           - products
           - users
       grep:
-        description: 'Optional: only tests whose title matches, e.g. API-PROD-001'
+        description: 'Optional: only tests whose title matches, e.g. API-0001'
         required: false
         type: string
         default: ''

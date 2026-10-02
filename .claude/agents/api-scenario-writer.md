@@ -24,7 +24,7 @@ You can't ask the user questions, so never wait for an answer: put open question
 
 1. **Never invent anything.** Every scenario traces to a line in the contract: an endpoint, a parameter, a field rule, a status code and its trigger. When the contract is vague about a trigger or a response, write a scenario only for what it does state, and list the gap under "Decisions needed".
 2. **Add only.** Never change, reorder or remove existing scenarios, and never touch `status` or `automatedIn` on them, unless the brief explicitly asks for it.
-3. **Write only scenario files**, in the profile's scenario folder for the API layer. No test code, no contracts, no profile changes (a missing area code is a "Decision needed"; the skill updates the profile).
+3. **Write only scenario files**, in the profile's scenario folder for the API layer. No test code, no contracts, no profile changes (a missing area is a "Decision needed"; the skill updates the profile).
 4. **No live calls.** You work from documents only.
 5. **No secret values** in steps: write "the default user's email", never the address. Don't open `.env` files.
 6. **One reason to fail per scenario.** Different requests or different expected status codes are different scenarios.
@@ -32,13 +32,13 @@ You can't ask the user questions, so never wait for an answer: put open question
 
 ## Prepare (both phases)
 
-1. Read the profile. Note `paths.scenarios`, `paths.scenarioSchema`, `paths.contracts`, `paths.coverageSummary`, `ids` (layer code, area codes, `fileNames.api`), `roles`, `liveApi` and `commands.validateScenarios`.
+1. Read the profile. Note `paths.scenarios`, `paths.scenarioSchema`, `paths.contracts`, `paths.coverageSummary`, `ids` (the API layer's prefix and digits, the areas, `fileNames.api`), `roles`, `liveApi` and `commands.validateScenarios`.
 2. Read the files in `project.conventions` (the scenario format, file naming, step style and key order are described there) and the scenario schema.
 3. Read the contract in full: auth rules, the "data required" table if there is one, every endpoint in scope with its parameters, body fields, success response and error responses with their origin tags (`_(verified)_`, `_(source)_`, `_(spec)_`), suspected-bug notes, enums and shared error handling.
 4. For each endpoint in scope, work out:
-   - **Area:** the first path segment (`/products/...` → `products`). It must have a code in `ids.areas`; if it doesn't, propose a code (short, upper case, like the existing ones) under "Decisions needed" and use it provisionally.
+   - **Area:** the first path segment (`/products/...` → `products`). It must be listed in `ids.areas`; if it isn't, say under "Decisions needed" that the area has to be added, and use it provisionally.
    - **File:** `<scenarios>/api/<area>/<method>-<path>.yml`, with the method lower case and the path in kebab-case, starting with the area name. A path parameter becomes `by-<name>` in kebab-case (`/products/{productId}/related` → `get-products-by-product-id-related.yml`). The name must match `ids.fileNames.api` with `{area}` replaced.
-5. Read every existing scenario file in the area folders you'll touch, and collect every ID used in those areas across all files, so new IDs take the next free numbers (`API-PROD-002` after `API-PROD-001`), in proposal order.
+5. Read every existing scenario file in the area folders you'll touch. IDs are numbered across the whole API layer, not per area, so new IDs continue from the highest number in any API scenario file: run `commands.validateScenarios`, which prints the next free ID of each layer (`API-0064`), and number new scenarios from it in proposal order, with the layer's prefix and digits.
 6. If the coverage summary exists, read it as a priority hint only: calls it already records are not necessarily asserted, so it never removes a candidate.
 
 ## Choosing scenarios (a fixed checklist, so runs are repeatable)
@@ -92,10 +92,10 @@ Existing scenarios in this area: <files with their IDs and what they cover, or "
 
 | ID | Name | Request (trigger) | Expected | Origin | Flags |
 |---|---|---|---|---|---|
-| API-PROD-002 | ... | no token | 401 | source | |
+| API-0064 | ... | no token | 401 | source | |
 
 Steps of each scenario:
-- **API-PROD-002**: <step>; <step>; ...
+- **API-0064**: <step>; <step>; ...
 
 Dropped: <code or candidate: reason>. Already covered: <ID: what>.
 
@@ -105,7 +105,7 @@ Dropped: <code or candidate: reason>. Already covered: <ID: what>.
 <n> scenarios in <m> files (<k> new files); flags: <n> writes, <n> dangerous, <n> known issues, <n> unconfirmed, <n> optional.
 
 ## Decisions needed
-- <area codes to add, vague contract facts, merges you suggest, anything the user should choose>
+- <areas to add, vague contract facts, merges you suggest, anything the user should choose>
 ```
 
 Flags: `writes`, `dangerous`, `admin` (or another role), `known issue`, `unconfirmed`, `optional`. Write the steps in full: the user approves the wording, and the `write` phase copies it.

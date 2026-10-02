@@ -6,7 +6,7 @@ import { assertMessage, attachJson } from '@utils/assertHelpers';
 
 // Scenarios: test-scenarios/api/products/get-products-by-product-id-related.yml
 test.describe('@products-api - Products API', () => {
-  test('API-PROD-023: Related products are other products from the same category', async ({ productsService, productsClient }) => {
+  test('API-0023: Related products are other products from the same category', async ({ productsService, productsClient }) => {
     let productId: string;
     let categoryId: string;
     let request: { method: string; path: string };
@@ -67,7 +67,7 @@ test.describe('@products-api - Products API', () => {
     });
   });
 
-  test('API-PROD-024: Related products for an unknown product id return 404', async ({ productsClient }) => {
+  test('API-0024: Related products for an unknown product id return 404', async ({ productsClient }) => {
     test.fail(true, 'Known issue: Returns 500 instead of 404 for an unknown product id.');
     const unknownId = TestConstants.products.unknownId;
     const request = { method: 'GET', path: `/products/${unknownId}/related` };
@@ -84,7 +84,7 @@ test.describe('@products-api - Products API', () => {
     });
   });
 
-  test('API-PROD-025: Related products include their CO2 rating', async ({ productsService, productsClient }) => {
+  test('API-0025: Related products include their CO2 rating', async ({ productsService, productsClient }) => {
     test.fail(true, 'Known issue: Omits co2_rating from related products, so is_eco_friendly is always false.');
     let productId: string;
     let request: { method: string; path: string };

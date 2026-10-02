@@ -14,7 +14,7 @@ Arguments, if any: $ARGUMENTS
 
 - **Profile:** `qa-agents-profile.yml` in the repository root. If there's none, stop: the agent needs one.
 - **Scenarios:** from the arguments, resolved against the API scenario folder (`<paths.scenarios>/api/`):
-  - IDs (`API-PROD-020 API-PROD-021`, or a range `API-PROD-020..022`);
+  - IDs (`API-0020 API-0021`, or a range `API-0020..0022`);
   - a scenario file: a path as given, or a file name (with or without `.yml`, any letter case) found in the area folders;
   - an area folder name (`products`): every scenario in it.
   
