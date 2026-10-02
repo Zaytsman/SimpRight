@@ -216,7 +216,7 @@
     <header>
       <div>
         <h1>API Coverage Report</h1>
-        <div class="generated-at">Generated: 2026-10-02T07:50:48.949Z</div>
+        <div class="generated-at">Generated: 2026-10-02T19:28:15.633Z</div>
       </div>
       <div>
         <span class="service-tag">playwright-api-coverage</span>
@@ -227,23 +227,23 @@
     <div class="stats-grid">
       <div class="stat-card">
         <div class="stat-title">Overall Coverage</div>
-        <div class="stat-value color-danger">9%</div>
+        <div class="stat-value color-danger">28%</div>
         <div class="stat-sub">Across all API endpoints</div>
       </div>
       <div class="stat-card">
         <div class="stat-title">Endpoint Hits</div>
-        <div class="stat-value color-primary">3 / 24</div>
-        <div class="stat-sub">13% covered</div>
+        <div class="stat-value color-primary">9 / 24</div>
+        <div class="stat-sub">38% covered</div>
       </div>
       <div class="stat-card">
         <div class="stat-title">Status Codes</div>
-        <div class="stat-value color-success">3 / 72</div>
-        <div class="stat-sub">4% documented codes tested</div>
+        <div class="stat-value color-success">13 / 72</div>
+        <div class="stat-sub">18% documented codes tested</div>
       </div>
       <div class="stat-card">
         <div class="stat-title">Required Fields</div>
-        <div class="stat-value color-warning">0 / 22</div>
-        <div class="stat-sub">0% tested in requests</div>
+        <div class="stat-value color-warning">7 / 22</div>
+        <div class="stat-sub">32% tested in requests</div>
       </div>
     </div>
 
@@ -263,15 +263,15 @@
         
         <tr>
           <td><strong>Products</strong></td>
-          <td>1 / 10 (10%)</td>
-          <td>1 / 26 (4%)</td>
-          <td>0 / 7 (0%)</td>
+          <td>7 / 10 (70%)</td>
+          <td>11 / 26 (42%)</td>
+          <td>7 / 7 (100%)</td>
           <td style="width: 250px;">
             <div style="display: flex; align-items: center; gap: 10px;">
               <div class="progress-bar-container">
-                <div class="progress-bar-fill fill-red" style="width: 9%;"></div>
+                <div class="progress-bar-fill fill-yellow" style="width: 55%;"></div>
               </div>
-              <span style="font-weight: 600; font-size: 13px; min-width: 35px;">9%</span>
+              <span style="font-weight: 600; font-size: 13px; min-width: 35px;">55%</span>
             </div>
           </td>
         </tr>
@@ -311,7 +311,7 @@
     <!-- Endpoint Cards List -->
     <div class="endpoint-list" id="endpointList">
       
-      <div class="endpoint-card" data-service="Products" data-covered="false" data-coverage="0" data-search="GET /products List products">
+      <div class="endpoint-card" data-service="Products" data-covered="true" data-coverage="58" data-search="GET /products List products">
         <div class="endpoint-header" onclick="toggleDetails(this)">
           <div class="endpoint-left">
             <span class="method-badge method-GET">GET</span>
@@ -319,13 +319,13 @@
             <span class="service-tag">Products</span>
           </div>
           <div class="endpoint-right">
-            <span class="hits-badge hits-uncovered">0 calls</span>
+            <span class="hits-badge hits-covered">12 calls</span>
             <div style="width: 100px;">
               <div class="progress-bar-container">
-                <div class="progress-bar-fill fill-red" style="width: 0%;"></div>
+                <div class="progress-bar-fill fill-yellow" style="width: 58%;"></div>
               </div>
             </div>
-            <span style="font-size: 13px; font-weight: 700; width: 40px; text-align: right;">0%</span>
+            <span style="font-size: 13px; font-weight: 700; width: 40px; text-align: right;">58%</span>
             <span class="chevron">▼</span>
           </div>
         </div>
@@ -333,9 +333,9 @@
           <p style="margin-bottom: 14px; color: var(--text-muted); font-size: 14px;"><strong>List products:</strong> Returns the products, 9 per page. Without `is_rental`, rental products are excluded (`is_rental` defaults to false). _(source)_</p>
           <div class="details-grid">
             <div class="detail-section">
-              <div class="detail-heading">Status Codes (0 tested / 2 documented)</div>
+              <div class="detail-heading">Status Codes (1 tested / 2 documented)</div>
               <div class="tag-list">
-                <span class="tag tag-missing">200 ✗</span><span class="tag tag-missing">500 ✗</span>
+                <span class="tag tag-success">200 ✓</span><span class="tag tag-missing">500 ✗</span>
               </div>
             </div>
             <div class="detail-section">
@@ -407,7 +407,7 @@
           </div>
         </div>
       </div>
-      <div class="endpoint-card" data-service="Products" data-covered="false" data-coverage="0" data-search="POST /products Create product">
+      <div class="endpoint-card" data-service="Products" data-covered="true" data-coverage="61" data-search="POST /products Create product">
         <div class="endpoint-header" onclick="toggleDetails(this)">
           <div class="endpoint-left">
             <span class="method-badge method-POST">POST</span>
@@ -415,13 +415,13 @@
             <span class="service-tag">Products</span>
           </div>
           <div class="endpoint-right">
-            <span class="hits-badge hits-uncovered">0 calls</span>
+            <span class="hits-badge hits-covered">8 calls</span>
             <div style="width: 100px;">
               <div class="progress-bar-container">
-                <div class="progress-bar-fill fill-red" style="width: 0%;"></div>
+                <div class="progress-bar-fill fill-yellow" style="width: 61%;"></div>
               </div>
             </div>
-            <span style="font-size: 13px; font-weight: 700; width: 40px; text-align: right;">0%</span>
+            <span style="font-size: 13px; font-weight: 700; width: 40px; text-align: right;">61%</span>
             <span class="chevron">▼</span>
           </div>
         </div>
@@ -429,15 +429,15 @@
           <p style="margin-bottom: 14px; color: var(--text-muted); font-size: 14px;"><strong>Create product:</strong> Creates a product. No token is needed (see Notes). _(source)_</p>
           <div class="details-grid">
             <div class="detail-section">
-              <div class="detail-heading">Status Codes (0 tested / 3 documented)</div>
+              <div class="detail-heading">Status Codes (1 tested / 3 documented)</div>
               <div class="tag-list">
-                <span class="tag tag-missing">201 ✗</span><span class="tag tag-missing">422 ✗</span><span class="tag tag-missing">500 ✗</span>
+                <span class="tag tag-success">201 ✓</span><span class="tag tag-missing">422 ✗</span><span class="tag tag-missing">500 ✗</span>
               </div>
             </div>
             <div class="detail-section">
-              <div class="detail-heading">Required Request Fields (0/7)</div>
+              <div class="detail-heading">Required Request Fields (7/7)</div>
               <div class="tag-list">
-                <span class="tag tag-missing">name ✗</span><span class="tag tag-missing">price ✗</span><span class="tag tag-missing">category_id ✗</span><span class="tag tag-missing">brand_id ✗</span><span class="tag tag-missing">product_image_id ✗</span><span class="tag tag-missing">is_location_offer ✗</span><span class="tag tag-missing">is_rental ✗</span>
+                <span class="tag tag-success">name ✓</span><span class="tag tag-success">price ✓</span><span class="tag tag-success">category_id ✓</span><span class="tag tag-success">brand_id ✓</span><span class="tag tag-success">product_image_id ✓</span><span class="tag tag-success">is_location_offer ✓</span><span class="tag tag-success">is_rental ✓</span>
               </div>
             </div>
             <div class="detail-section">
@@ -455,7 +455,7 @@
           </div>
         </div>
       </div>
-      <div class="endpoint-card" data-service="Products" data-covered="false" data-coverage="0" data-search="GET /products/:productId Get product">
+      <div class="endpoint-card" data-service="Products" data-covered="true" data-coverage="100" data-search="GET /products/:productId Get product">
         <div class="endpoint-header" onclick="toggleDetails(this)">
           <div class="endpoint-left">
             <span class="method-badge method-GET">GET</span>
@@ -463,13 +463,13 @@
             <span class="service-tag">Products</span>
           </div>
           <div class="endpoint-right">
-            <span class="hits-badge hits-uncovered">0 calls</span>
+            <span class="hits-badge hits-covered">5 calls</span>
             <div style="width: 100px;">
               <div class="progress-bar-container">
-                <div class="progress-bar-fill fill-red" style="width: 0%;"></div>
+                <div class="progress-bar-fill fill-green" style="width: 100%;"></div>
               </div>
             </div>
-            <span style="font-size: 13px; font-weight: 700; width: 40px; text-align: right;">0%</span>
+            <span style="font-size: 13px; font-weight: 700; width: 40px; text-align: right;">100%</span>
             <span class="chevron">▼</span>
           </div>
         </div>
@@ -477,9 +477,9 @@
           <p style="margin-bottom: 14px; color: var(--text-muted); font-size: 14px;"><strong>Get product:</strong> Returns one product with its category (including `parent_id`), brand, image and specs. _(verified)_</p>
           <div class="details-grid">
             <div class="detail-section">
-              <div class="detail-heading">Status Codes (0 tested / 2 documented)</div>
+              <div class="detail-heading">Status Codes (2 tested / 2 documented)</div>
               <div class="tag-list">
-                <span class="tag tag-missing">200 ✗</span><span class="tag tag-missing">404 ✗</span>
+                <span class="tag tag-success">200 ✓</span><span class="tag tag-success">404 ✓</span>
               </div>
             </div>
             <div class="detail-section">
@@ -503,7 +503,7 @@
           </div>
         </div>
       </div>
-      <div class="endpoint-card" data-service="Products" data-covered="false" data-coverage="0" data-search="PUT /products/:productId Update product">
+      <div class="endpoint-card" data-service="Products" data-covered="true" data-coverage="86" data-search="PUT /products/:productId Update product">
         <div class="endpoint-header" onclick="toggleDetails(this)">
           <div class="endpoint-left">
             <span class="method-badge method-PUT">PUT</span>
@@ -511,13 +511,13 @@
             <span class="service-tag">Products</span>
           </div>
           <div class="endpoint-right">
-            <span class="hits-badge hits-uncovered">0 calls</span>
+            <span class="hits-badge hits-covered">9 calls</span>
             <div style="width: 100px;">
               <div class="progress-bar-container">
-                <div class="progress-bar-fill fill-red" style="width: 0%;"></div>
+                <div class="progress-bar-fill fill-green" style="width: 86%;"></div>
               </div>
             </div>
-            <span style="font-size: 13px; font-weight: 700; width: 40px; text-align: right;">0%</span>
+            <span style="font-size: 13px; font-weight: 700; width: 40px; text-align: right;">86%</span>
             <span class="chevron">▼</span>
           </div>
         </div>
@@ -525,9 +525,9 @@
           <p style="margin-bottom: 14px; color: var(--text-muted); font-size: 14px;"><strong>Update product:</strong> Updates a product with the fields sent. No token is needed (see Notes). Despite being `PUT`, no field is required. _(source)_</p>
           <div class="details-grid">
             <div class="detail-section">
-              <div class="detail-heading">Status Codes (0 tested / 3 documented)</div>
+              <div class="detail-heading">Status Codes (3 tested / 3 documented)</div>
               <div class="tag-list">
-                <span class="tag tag-missing">200 ✗</span><span class="tag tag-missing">404 ✗</span><span class="tag tag-missing">422 ✗</span>
+                <span class="tag tag-success">200 ✓</span><span class="tag tag-success">404 ✓</span><span class="tag tag-success">422 ✓</span>
               </div>
             </div>
             <div class="detail-section">
@@ -537,9 +537,9 @@
               </div>
             </div>
             <div class="detail-section">
-              <div class="detail-heading">Optional Request Fields (0/10)</div>
+              <div class="detail-heading">Optional Request Fields (4/10)</div>
               <div class="tag-list">
-                <span class="tag tag-missing">name ✗</span><span class="tag tag-missing">description ✗</span><span class="tag tag-missing">price ✗</span><span class="tag tag-missing">category_id ✗</span><span class="tag tag-missing">brand_id ✗</span><span class="tag tag-missing">product_image_id ✗</span><span class="tag tag-missing">is_location_offer ✗</span><span class="tag tag-missing">is_rental ✗</span><span class="tag tag-missing">co2_rating ✗</span><span class="tag tag-missing">stock ✗</span>
+                <span class="tag tag-success">name ✓</span><span class="tag tag-success">description ✓</span><span class="tag tag-missing">price ✗</span><span class="tag tag-missing">category_id ✗</span><span class="tag tag-missing">brand_id ✗</span><span class="tag tag-missing">product_image_id ✗</span><span class="tag tag-success">is_location_offer ✓</span><span class="tag tag-success">is_rental ✓</span><span class="tag tag-missing">co2_rating ✗</span><span class="tag tag-missing">stock ✗</span>
               </div>
             </div>
             <div class="detail-section">
@@ -599,7 +599,7 @@
           </div>
         </div>
       </div>
-      <div class="endpoint-card" data-service="Products" data-covered="false" data-coverage="0" data-search="DELETE /products/:productId Delete product">
+      <div class="endpoint-card" data-service="Products" data-covered="true" data-coverage="52" data-search="DELETE /products/:productId Delete product">
         <div class="endpoint-header" onclick="toggleDetails(this)">
           <div class="endpoint-left">
             <span class="method-badge method-DELETE">DELETE</span>
@@ -607,13 +607,13 @@
             <span class="service-tag">Products</span>
           </div>
           <div class="endpoint-right">
-            <span class="hits-badge hits-uncovered">0 calls</span>
+            <span class="hits-badge hits-covered">8 calls</span>
             <div style="width: 100px;">
               <div class="progress-bar-container">
-                <div class="progress-bar-fill fill-red" style="width: 0%;"></div>
+                <div class="progress-bar-fill fill-yellow" style="width: 52%;"></div>
               </div>
             </div>
-            <span style="font-size: 13px; font-weight: 700; width: 40px; text-align: right;">0%</span>
+            <span style="font-size: 13px; font-weight: 700; width: 40px; text-align: right;">52%</span>
             <span class="chevron">▼</span>
           </div>
         </div>
@@ -621,9 +621,9 @@
           <p style="margin-bottom: 14px; color: var(--text-muted); font-size: 14px;"><strong>Delete product:</strong> Deletes a product. Admin only. _(source)_</p>
           <div class="details-grid">
             <div class="detail-section">
-              <div class="detail-heading">Status Codes (0 tested / 5 documented)</div>
+              <div class="detail-heading">Status Codes (1 tested / 5 documented)</div>
               <div class="tag-list">
-                <span class="tag tag-missing">204 ✗</span><span class="tag tag-missing">401 ✗</span><span class="tag tag-missing">403 ✗</span><span class="tag tag-missing">404 ✗</span><span class="tag tag-missing">409 ✗</span>
+                <span class="tag tag-success">204 ✓</span><span class="tag tag-missing">401 ✗</span><span class="tag tag-missing">403 ✗</span><span class="tag tag-missing">404 ✗</span><span class="tag tag-missing">409 ✗</span>
               </div>
             </div>
             <div class="detail-section">
@@ -647,7 +647,7 @@
           </div>
         </div>
       </div>
-      <div class="endpoint-card" data-service="Products" data-covered="false" data-coverage="0" data-search="GET /products/:productId/related Get related products">
+      <div class="endpoint-card" data-service="Products" data-covered="true" data-coverage="100" data-search="GET /products/:productId/related Get related products">
         <div class="endpoint-header" onclick="toggleDetails(this)">
           <div class="endpoint-left">
             <span class="method-badge method-GET">GET</span>
@@ -655,23 +655,23 @@
             <span class="service-tag">Products</span>
           </div>
           <div class="endpoint-right">
-            <span class="hits-badge hits-uncovered">0 calls</span>
+            <span class="hits-badge hits-covered">3 calls</span>
             <div style="width: 100px;">
               <div class="progress-bar-container">
-                <div class="progress-bar-fill fill-red" style="width: 0%;"></div>
+                <div class="progress-bar-fill fill-green" style="width: 100%;"></div>
               </div>
             </div>
-            <span style="font-size: 13px; font-weight: 700; width: 40px; text-align: right;">0%</span>
+            <span style="font-size: 13px; font-weight: 700; width: 40px; text-align: right;">100%</span>
             <span class="chevron">▼</span>
           </div>
         </div>
         <div class="endpoint-body">
-          <p style="margin-bottom: 14px; color: var(--text-muted); font-size: 14px;"><strong>Get related products:</strong> Returns up to 10 other products from the same category as the given product. _(source)_</p>
+          <p style="margin-bottom: 14px; color: var(--text-muted); font-size: 14px;"><strong>Get related products:</strong> Returns up to 10 other products from the same category as the given product. _(verified)_</p>
           <div class="details-grid">
             <div class="detail-section">
-              <div class="detail-heading">Status Codes (0 tested / 2 documented)</div>
+              <div class="detail-heading">Status Codes (2 tested / 2 documented)</div>
               <div class="tag-list">
-                <span class="tag tag-missing">200 ✗</span><span class="tag tag-missing">500 ✗</span>
+                <span class="tag tag-success">200 ✓</span><span class="tag tag-success">500 ✓</span>
               </div>
             </div>
             <div class="detail-section">
@@ -799,7 +799,7 @@
             <span class="service-tag">Users</span>
           </div>
           <div class="endpoint-right">
-            <span class="hits-badge hits-covered">2 calls</span>
+            <span class="hits-badge hits-covered">4 calls</span>
             <div style="width: 100px;">
               <div class="progress-bar-container">
                 <div class="progress-bar-fill fill-yellow" style="width: 52%;"></div>
