@@ -24,6 +24,7 @@ commands:
   validateScenarios: npm run validate:scenarios
   runSpec: npx playwright test {spec}
   runScenario: npx playwright test -g "{id}"
+  repeatSpec: npx playwright test {spec} --repeat-each=3   # flakiness check after a spec passes
 
 ids:
   # Scenario IDs are <LAYER>-<AREA>-NNN. A scenario file lives in <layer>/<area>/<name>.yml.

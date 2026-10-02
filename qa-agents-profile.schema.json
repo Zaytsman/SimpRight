@@ -49,7 +49,12 @@
         "typecheck": { "type": "string", "minLength": 1 },
         "validateScenarios": { "type": "string", "minLength": 1 },
         "runSpec": { "type": "string", "pattern": "\\{spec\\}" },
-        "runScenario": { "type": "string", "pattern": "\\{id\\}" }
+        "runScenario": { "type": "string", "pattern": "\\{id\\}" },
+        "repeatSpec": {
+          "type": "string",
+          "pattern": "\\{spec\\}",
+          "description": "Runs a spec several times in a row, to catch flaky tests."
+        }
       }
     },
     "ids": {
