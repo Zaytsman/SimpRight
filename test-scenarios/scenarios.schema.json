@@ -2,7 +2,7 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "scenarios.schema.json",
   "title": "Test scenarios",
-  "description": "One file per endpoint (API) or feature (UI) in <layer>/<area>/: a suite of scenarios. Key order inside a scenario: id, name, automatedIn, role, knownIssue, steps.",
+  "description": "One file per endpoint (API) or feature (UI) in <layer>/<area>/: a suite of scenarios. Key order inside a scenario: id, name, status, automatedIn, role, knownIssue, steps.",
   "type": "object",
   "required": ["suite", "tags", "scenarios"],
   "additionalProperties": false,
@@ -28,23 +28,28 @@
   "definitions": {
     "scenario": {
       "type": "object",
-      "required": ["id", "name", "steps"],
+      "required": ["id", "name", "status", "steps"],
       "additionalProperties": false,
       "properties": {
         "id": {
           "type": "string",
-          "pattern": "^[A-Z]+-[A-Z]+-\\d{3}$",
-          "description": "Unique scenario ID: <LAYER>-<AREA>-NNN, with the codes from qa-agents-profile.yml (ids). The test title starts with it."
+          "pattern": "^[A-Z]+-\\d+$",
+          "description": "Unique scenario ID: <PREFIX>-<number>, numbered across the layer, with the prefix and digits from qa-agents-profile.yml (ids.layers), e.g. API-0001 or UI-001. The test title starts with it."
         },
         "name": {
           "type": "string",
           "minLength": 1,
           "description": "Scenario name (the test title after the ID)."
         },
+        "status": {
+          "type": "string",
+          "enum": ["manual", "automated"],
+          "description": "manual (the default for a new scenario) or automated (set together with automatedIn when a spec automates it)."
+        },
         "automatedIn": {
           "type": "string",
           "pattern": "\\.(spec|test)\\.[cm]?[jt]s$",
-          "description": "Path of the spec that automates this scenario. Absent means not automated yet."
+          "description": "Path of the spec that automates this scenario. Required when status is automated, absent when it's manual."
         },
         "role": {
           "type": "string",

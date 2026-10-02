@@ -2,8 +2,9 @@
 suite: Users API
 tags: ["@users-api"]
 scenarios:
-  - id: API-USER-001
+  - id: API-0063
     name: Current user endpoint returns the logged-in user's profile
+    status: automated
     automatedIn: tests/api/users/get-users-me.spec.ts
     steps:
       - Send GET /users/me with the default user's token.

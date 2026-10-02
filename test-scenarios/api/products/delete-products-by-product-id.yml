@@ -1,0 +1,49 @@
+# yaml-language-server: $schema=../../scenarios.schema.json
+suite: Products API
+tags: ["@products-api"]
+scenarios:
+  - id: API-0058
+    name: Admin deletes a product
+    status: manual
+    role: admin
+    steps:
+      - Send GET /products and take the first item's brand id, category id and product image id.
+      - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false and is_rental false, and take the new product's id.
+      - Send DELETE /products/{productId} with that id, with the admin's token.
+      - Verify the response status is 204.
+      - Verify GET /products/{productId} with that id returns 404.
+  - id: API-0059
+    name: Delete product without a token returns 401
+    status: manual
+    steps:
+      - Send GET /products and take the first item's brand id, category id and product image id.
+      - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false and is_rental false, and take the new product's id.
+      - Send DELETE /products/{productId} with that id, without an Authorization header.
+      - Verify the response status is 401.
+      - Verify the body's message is "Unauthorized".
+  - id: API-0060
+    name: Delete product with an invalid token returns 401
+    status: manual
+    steps:
+      - Send GET /products and take the first item's brand id, category id and product image id.
+      - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false and is_rental false, and take the new product's id.
+      - Send DELETE /products/{productId} with that id, with an invalid token.
+      - Verify the response status is 401.
+      - Verify the body's message is "Unauthorized".
+  - id: API-0061
+    name: Delete product as a non-admin user returns 403
+    status: manual
+    steps:
+      - Send GET /products and take the first item's brand id, category id and product image id.
+      - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false and is_rental false, and take the new product's id.
+      - Send DELETE /products/{productId} with that id, with the default user's token.
+      - Verify the response status is 403.
+      - Verify the body's message is "Forbidden".
+  - id: API-0062
+    name: Delete product with an unknown id returns 404
+    status: manual
+    role: admin
+    steps:
+      - Send DELETE /products/{productId} with a well-formed ULID that no product has, with the admin's token.
+      - Verify the response status is 404.
+      - Verify the body's message is "Requested item not found".

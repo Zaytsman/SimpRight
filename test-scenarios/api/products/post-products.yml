@@ -1,0 +1,87 @@
+# yaml-language-server: $schema=../../scenarios.schema.json
+suite: Products API
+tags: ["@products-api"]
+scenarios:
+  - id: API-0033
+    name: Create product returns 201 with the new product
+    status: manual
+    steps:
+      - Send GET /products and take the first item's brand id, category id and product image id.
+      - Send POST /products with a unique product name, a positive price, that category id, brand id and product image id, is_location_offer false and is_rental false.
+      - Verify the response status is 201.
+      - Verify the body has a non-empty id.
+      - Verify the body's name and price equal the values sent, and its is_location_offer and is_rental are false.
+      - Verify the body's category id, brand id and product_image id equal the ids sent.
+      - Verify GET /products/{productId} with the new id returns 200 with the same name.
+  - id: API-0034
+    name: Create product without the required fields returns 422 for each of them
+    status: manual
+    steps:
+      - Send POST /products with an empty JSON object as the body.
+      - Verify the response status is 422.
+      - Verify the body has the keys name, price, category_id, brand_id, product_image_id, is_location_offer and is_rental, each with at least one message.
+      - Verify the body's name messages include "The name field is required.".
+  - id: API-0035
+    name: Create product with a name longer than 120 characters returns 422
+    status: manual
+    steps:
+      - Send GET /products and take the first item's brand id, category id and product image id.
+      - Send POST /products with a 121-character name that starts with a unique product name, a positive price, those ids, is_location_offer false and is_rental false.
+      - Verify the response status is 422.
+      - Verify the body has a name key with at least one message.
+  - id: API-0036
+    name: Create product with a description longer than 1250 characters returns 422
+    status: manual
+    steps:
+      - Send GET /products and take the first item's brand id, category id and product image id.
+      - Send POST /products with a unique product name, a 1251-character description, a positive price, those ids, is_location_offer false and is_rental false.
+      - Verify the response status is 422.
+      - Verify the body has a description key with at least one message.
+  - id: API-0037
+    name: Create product with a subscript character in the name returns 422
+    status: manual
+    steps:
+      - Send GET /products and take the first item's brand id, category id and product image id.
+      - Send POST /products with a unique product name followed by a Unicode subscript character, a positive price, those ids, is_location_offer false and is_rental false.
+      - Verify the response status is 422.
+      - Verify the body has a name key with at least one message.
+  - id: API-0038
+    name: Create product with a superscript character in the description returns 422
+    status: manual
+    steps:
+      - Send GET /products and take the first item's brand id, category id and product image id.
+      - Send POST /products with a unique product name, a description that contains a Unicode superscript character, a positive price, those ids, is_location_offer false and is_rental false.
+      - Verify the response status is 422.
+      - Verify the body has a description key with at least one message.
+  - id: API-0039
+    name: Create product with an unknown category id returns 422
+    status: manual
+    knownIssue: Returns 500 instead of 422 when category_id doesn't exist.
+    steps:
+      - Send GET /products and take the first item's brand id and product image id.
+      - Send POST /products with a unique product name, a positive price, that brand id and product image id, is_location_offer false, is_rental false and a category_id that no category has.
+      - Verify the response status is 422.
+  - id: API-0040
+    name: Create product with an unknown brand id returns 422
+    status: manual
+    knownIssue: Returns 500 instead of 422 when brand_id doesn't exist.
+    steps:
+      - Send GET /products and take the first item's category id and product image id.
+      - Send POST /products with a unique product name, a positive price, that category id and product image id, is_location_offer false, is_rental false and a brand_id that no brand has.
+      - Verify the response status is 422.
+  - id: API-0041
+    name: Create product with an unknown product image id returns 422
+    status: manual
+    knownIssue: Returns 500 instead of 422 when product_image_id doesn't exist.
+    steps:
+      - Send GET /products and take the first item's brand id and category id.
+      - Send POST /products with a unique product name, a positive price, that brand id and category id, is_location_offer false, is_rental false and a product_image_id that no product image has.
+      - Verify the response status is 422.
+  - id: API-0042
+    name: Create product without a token returns 401
+    status: manual
+    knownIssue: Accepts POST without a token instead of returning 401.
+    steps:
+      - Send GET /products and take the first item's brand id, category id and product image id.
+      - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false and is_rental false, without an Authorization header.
+      - Verify the response status is 401.

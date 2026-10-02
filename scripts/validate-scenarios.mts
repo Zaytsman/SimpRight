@@ -7,8 +7,10 @@
 // - every scenario file lives in <scenarios>/<layer>/<area>/<name>.yml with a layer and area from the profile,
 //   a name that matches the layer's ids.fileNames pattern (any kebab-case name when there's none),
 //   parses, and matches the scenario schema;
-// - keys are in the agreed order (file: suite, tags, scenarios; scenario: id, name, automatedIn, role, knownIssue, steps);
-// - IDs are unique across files and are <LAYER>-<AREA>-NNN with the codes of the file's layer and area;
+// - keys are in the agreed order (file: suite, tags, scenarios; scenario: id, name, status, automatedIn, role, knownIssue, steps);
+// - status automated has an automatedIn, and status manual has none;
+// - IDs are unique across files and are <PREFIX>-<number> with the prefix and digits of the file's layer
+//   (numbered across the layer, not per area); the output ends with the next free ID of each layer;
 // - a scenario's role is one of the profile's roles;
 // - automatedIn is <tests>/<layer>/<area>/<name>.spec.ts (named after the scenario file), exists, and has
 //   a `// Scenarios:` comment for this file, a test.describe titled '<tags> - <suite>' and a test titled
@@ -25,13 +27,13 @@ const PROFILE_FILE = 'qa-agents-profile.yml';
 const PROFILE_SCHEMA_FILE = 'qa-agents-profile.schema.json';
 
 const FILE_KEY_ORDER = ['suite', 'tags', 'scenarios'];
-const SCENARIO_KEY_ORDER = ['id', 'name', 'automatedIn', 'role', 'knownIssue', 'steps'];
+const SCENARIO_KEY_ORDER = ['id', 'name', 'status', 'automatedIn', 'role', 'knownIssue', 'steps'];
 
 // The title string of a call: '...', "..." or `...`, with escapes allowed.
 // test('...'), test.only/skip/fixme/fail('...'); test.describe/test.step/test.use don't match.
 const TEST_CALL = /\btest(?:\.(?:only|skip|fixme|fail|slow))?\(\s*(['"`])((?:\\.|(?!\1)[^\\])*)\1/g;
 const DESCRIBE_CALL = /\btest\.describe(?:\.(?:only|skip|fixme|serial|parallel))?\(\s*(['"`])((?:\\.|(?!\1)[^\\])*)\1/g;
-const TITLE_ID = /^([A-Z]+-[A-Z]+-\d{3}):/;
+const TITLE_ID = /^([A-Z]+-\d+):/;
 const KEBAB_CASE = '^[a-z0-9]+(-[a-z0-9]+)*$';
 
 /** The titles of the calls `pattern` matches in `source`, with escapes resolved. */
@@ -43,7 +45,7 @@ function titlesOf(source: string, pattern: RegExp): string[] {
 interface Profile {
   project: { conventions: string[] };
   paths: Record<string, string> & { scenarios: string; scenarioSchema: string; tests: string };
-  ids: { layers: Record<string, string>; areas: Record<string, string>; fileNames?: Record<string, string> };
+  ids: { layers: Record<string, { prefix: string; digits: number }>; areas: string[]; fileNames?: Record<string, string> };
   roles: string[];
   api: { exemplars: Record<string, string> };
 }
@@ -51,6 +53,7 @@ interface Profile {
 interface Scenario {
   id: string;
   name: string;
+  status: 'manual' | 'automated';
   automatedIn?: string;
   role?: string;
   knownIssue?: string;
@@ -113,12 +116,12 @@ function checkKeyOrder(where: string, value: object, order: string[]): void {
   }
 }
 
-function checkUniqueCodes(group: string, codes: Record<string, string>): void {
+function checkUniquePrefixes(layers: Profile['ids']['layers']): void {
   const seen = new Map<string, string>();
-  for (const [name, code] of Object.entries(codes)) {
-    const other = seen.get(code);
-    if (other) fail(PROFILE_FILE, `ids.${group}: ${name} and ${other} share the code ${code}`);
-    seen.set(code, name);
+  for (const [layer, { prefix }] of Object.entries(layers)) {
+    const other = seen.get(prefix);
+    if (other) fail(PROFILE_FILE, `ids.layers: ${layer} and ${other} share the prefix ${prefix}`);
+    seen.set(prefix, layer);
   }
 }
 
@@ -145,8 +148,7 @@ const profilePaths: [string, string][] = [
 for (const [key, file] of profilePaths) {
   if (!exists(file)) fail(PROFILE_FILE, `${key}: ${file} doesn't exist`);
 }
-checkUniqueCodes('layers', ids.layers);
-checkUniqueCodes('areas', ids.areas);
+checkUniquePrefixes(ids.layers);
 for (const [layer, pattern] of Object.entries(ids.fileNames ?? {})) {
   if (!(layer in ids.layers)) fail(PROFILE_FILE, `ids.fileNames.${layer}: ${layer} isn't in ids.layers`);
   try {
@@ -161,14 +163,15 @@ report();
 
 /** Scenario ID → where it's defined and which spec automates it. */
 const scenarios = new Map<string, { file: string; automatedIn?: string }>();
+/** Layer → the highest scenario number used in it. */
+const highestNumber = new Map<string, number>();
 
 for (const file of listFiles(paths.scenarios, ['.yml', '.yaml'])) {
   // <scenarios>/<layer>/<area>/<name>.yml
   const [layer = '', area = '', fileName = '', ...rest] = file.slice(paths.scenarios.length + 1).split('/');
   const name = fileName.replace(/\.ya?ml$/, '');
-  const layerCode = ids.layers[layer];
-  const areaCode = ids.areas[area];
-  if (!fileName || rest.length > 0 || !layerCode || !areaCode) {
+  const layerIds = ids.layers[layer];
+  if (!fileName || rest.length > 0 || !layerIds || !ids.areas.includes(area)) {
     fail(file, `must be ${paths.scenarios}/<layer>/<area>/<name>.yml with a layer and area from ${PROFILE_FILE} (ids)`);
     continue;
   }
@@ -182,7 +185,8 @@ for (const file of listFiles(paths.scenarios, ['.yml', '.yaml'])) {
   if (!doc) continue;
   checkKeyOrder(file, doc, FILE_KEY_ORDER);
 
-  const idPattern = new RegExp(`^${layerCode}-${areaCode}-\\d{3}$`);
+  const idPattern = new RegExp(`^${layerIds.prefix}-(\\d{${layerIds.digits}})$`);
+  const idFormat = `${layerIds.prefix}-${'N'.repeat(layerIds.digits)}`;
   const specFile = `${paths.tests}/${layer}/${area}/${name}.spec.ts`;
   const describeTitle = `${doc.tags.join(' ')} - ${doc.suite}`;
   /** Specs whose comment and describe are already checked for this file. */
@@ -199,11 +203,21 @@ for (const file of listFiles(paths.scenarios, ['.yml', '.yaml'])) {
     }
     scenarios.set(scenario.id, { file, automatedIn: scenario.automatedIn });
 
-    if (!idPattern.test(scenario.id)) {
-      fail(where, `IDs in ${file} must be ${layerCode}-${areaCode}-NNN`);
+    const idNumber = idPattern.exec(scenario.id)?.[1];
+    if (idNumber === undefined) {
+      fail(where, `IDs in ${file} must be ${idFormat} (${PROFILE_FILE} ids.layers.${layer})`);
+    } else {
+      highestNumber.set(layer, Math.max(highestNumber.get(layer) ?? 0, Number(idNumber)));
     }
     if (scenario.role !== undefined && !roles.includes(scenario.role)) {
       fail(where, `role ${scenario.role} isn't one of ${roles.join(', ')} (${PROFILE_FILE} roles)`);
+    }
+
+    if (scenario.status === 'automated' && !scenario.automatedIn) {
+      fail(where, 'status is automated, so automatedIn must name the spec');
+    }
+    if (scenario.status === 'manual' && scenario.automatedIn) {
+      fail(where, 'automatedIn is set, so status must be automated');
     }
 
     if (scenario.automatedIn) {
@@ -255,3 +269,7 @@ for (const spec of listFiles(paths.tests, ['.spec.ts', '.test.ts'])) {
 report();
 const automated = [...scenarios.values()].filter((scenario) => scenario.automatedIn).length;
 console.log(`Scenarios OK: ${scenarios.size} scenario(s), ${automated} automated.`);
+const nextIds = Object.entries(ids.layers).map(
+  ([layer, { prefix, digits }]) => `${prefix}-${String((highestNumber.get(layer) ?? 0) + 1).padStart(digits, '0')}`
+);
+console.log(`Next free IDs: ${nextIds.join(', ')}`);

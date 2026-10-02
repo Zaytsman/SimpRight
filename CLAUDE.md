@@ -15,7 +15,7 @@ npm test                          # all projects (api, ui); globalSetup logs in 
 npm run test:api                  # API project only
 npm run test:ui                   # UI project only
 npx playwright test tests/ui/cart/add-to-cart.spec.ts   # single file
-npx playwright test -g "UI-CART-001"                    # single test by scenario ID
+npx playwright test -g "UI-002:"                        # single test by scenario ID
 npm run typecheck                 # tsc --noEmit (TypeScript 7)
 npm run validate:scenarios        # profile, scenario files, IDs and specs
 npm run report                    # open last HTML report
@@ -60,8 +60,9 @@ Specs import from `src/fixtures` (`index.ts`): `test`, `expect` and `openHomePag
   - `TestConstants.ts`: seeded values from the app that more than one test relies on, grouped by area (`TestConstants.products.searchTerm`). A value only one test uses stays a variable in that test. Roles aren't repeated here (they're `UserRole` in config).
   - `factories/`: `testDataUtils.ts` (`uniqueName(prefix)`, e.g. `Lifecycle-20261001-3fa9c2`, for every record a test creates) and one `<Area>Factory.ts` per area with create/update payload builders, added with the first scenario that creates data in that area.
 - `test-scenarios/` (`api/`, `ui/`): the source of truth for what gets automated. One agent writes scenarios here; another agent picks them up and implements them as specs in `tests/`. Keep scenarios and specs in sync, and don't invent coverage that no scenario describes.
+- `.claude/agents/` and `.claude/skills/`: the QA agents and the skills that start them. `/write-api-scenarios <contract>` runs the `api-scenario-writer` agent: it proposes scenarios from a contract, waits for the user's approval, then writes the YAML files. `/implement-api-scenarios <IDs | file | area>` runs the `api-test-engineer` agent (with the `api-scaffolding` and `api-test-from-scenario` skills): it plans the code and the tests that change data, waits for approval, then writes and runs the specs and marks the scenarios `automated`. The agents read `qa-agents-profile.yml` and keep no project facts of their own.
 - `docs/api/contracts/`: API contracts, one markdown file per API area (see "API contracts").
-- `qa-agents-profile.yml` (schema: `qa-agents-profile.schema.json`): project facts for the QA agents and scripts: paths, commands, scenario ID codes (`ids.layers`, `ids.areas`) and file-name rules (`ids.fileNames`), `roles`, exemplar files to copy the style of, and live API guardrails (`liveApi.writes: ask`). It points to this file for conventions instead of repeating them. Keep it current: a new scenario area needs an `ids.areas` entry, a new role a `roles` entry, and a renamed exemplar a new path (`validate:scenarios` checks that every path exists).
+- `qa-agents-profile.yml` (schema: `qa-agents-profile.schema.json`): project facts for the QA agents and scripts: paths, commands, scenario ID prefixes and digits (`ids.layers`), the area folders (`ids.areas`) and file-name rules (`ids.fileNames`), `roles`, exemplar files to copy the style of, and live API guardrails (`liveApi.writes: ask`). It points to this file for conventions instead of repeating them. Keep it current: a new scenario area needs an `ids.areas` entry, a new role a `roles` entry, and a renamed exemplar a new path (`validate:scenarios` checks that every path exists).
 
 ## Scenarios and specs conventions
 
@@ -69,8 +70,8 @@ Specs import from `src/fixtures` (`index.ts`): `test`, `expect` and `openHomePag
   - API: one file per endpoint, named `<method>-<path>.yml` with the path in kebab-case, starting with the API name (`api/products/get-products-search.yml` for `GET /products/search`, `api/users/get-users-me.yml` for `GET /users/me`). A path parameter becomes `by-<name>`: `GET /products/{productId}` is `get-products-by-product-id.yml`. A scenario that calls several endpoints goes in the file of the endpoint it tests. The pattern is `ids.fileNames.api` in `qa-agents-profile.yml`.
   - UI: kebab-case, named after the spec (`ui/cart/add-to-cart.yml`).
   - File level: `suite`, `tags` (required, at least one, for the whole suite, such as `@products-api` or `@cart-ui`: `@<area>-<layer>`), and `scenarios`.
-  - Each scenario, in this key order: `id` (`<LAYER>-<AREA>-NNN`, such as `UI-CART-001`, with the codes for the file's layer and area folders from `qa-agents-profile.yml`; unique across files), `name`, `automatedIn` (the spec path; absent means not automated yet), `role` (one of the profile's `roles`; absent means the default user), `knownIssue` (the test then starts with `test.fail(true, 'Known issue: <text>')`), `steps`.
-  - Checks are ordinary steps that start with `Verify`, in the order they happen; every scenario has at least one. There's no separate expected-results list and no status field.
+  - Each scenario, in this key order: `id` (`<PREFIX>-<number>`, numbered across the whole layer, not per area: `API-0001` (4 digits) or `UI-001` (3 digits), from `ids.layers` in `qa-agents-profile.yml`; unique across files; a new scenario takes the next free number, which `validate:scenarios` prints), `name`, `status` (`manual` for every new scenario; whoever automates it sets `automated` together with `automatedIn`), `automatedIn` (the spec path; required when `status` is `automated`, absent when it's `manual`), `role` (one of the profile's `roles`; absent means the default user), `knownIssue` (the test then starts with `test.fail(true, 'Known issue: <text>')`), `steps`.
+  - Checks are ordinary steps that start with `Verify`, in the order they happen; every scenario has at least one. There's no separate expected-results list.
   - Steps never contain secret values: write "the default user's email", not the address.
 - **Specs:** one spec per scenario file, with the same name: `test-scenarios/api/products/get-products-search.yml` → `tests/api/products/get-products-search.spec.ts`. `validate:scenarios` checks all of this:
   - a `// Scenarios: <yml path>` comment at the top;

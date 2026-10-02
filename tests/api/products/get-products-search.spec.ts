@@ -7,7 +7,7 @@ import { assertMessage, attachJson } from '@utils/assertHelpers';
 
 // Scenarios: test-scenarios/api/products/get-products-search.yml
 test.describe('@products-api - Products API', () => {
-  test('API-PROD-001: Search by name returns only matching products', async ({ productsClient }) => {
+  test('API-0001: Search by name returns only matching products', async ({ productsClient }) => {
     const term = TestConstants.products.searchTerm;
     const request = { method: 'GET', path: '/products/search', query: { q: term } };
     let response: ApiResponse;

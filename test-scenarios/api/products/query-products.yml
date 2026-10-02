@@ -1,0 +1,42 @@
+# yaml-language-server: $schema=../../scenarios.schema.json
+suite: Products API
+tags: ["@products-api"]
+scenarios:
+  - id: API-0015
+    name: QUERY list products returns a paginated list
+    status: manual
+    steps:
+      - "Send QUERY /products with Content-Type: application/json, Accept: application/json and an empty JSON object as the body."
+      - Verify the response status is 200.
+      - Verify the Accept-Query response header is application/json.
+      - Verify the body has current_page, data, from, last_page, per_page, to and total.
+      - Verify per_page is 9 and data has at most 9 items.
+  - id: API-0016
+    name: QUERY list with sort returns the same products as the GET
+    status: manual
+    steps:
+      - Send GET /products with sort=name,asc and keep the item ids in order.
+      - 'Send QUERY /products with Content-Type: application/json, Accept: application/json and the body { "sort": "name,asc" }.'
+      - Verify the response status is 200.
+      - Verify the QUERY response's item ids equal the GET response's item ids, in the same order.
+  - id: API-0017
+    name: QUERY list without a JSON Content-Type is rejected with a JSON message
+    status: manual
+    steps:
+      - "Send QUERY /products with Content-Type: text/plain, Accept: application/json and a plain-text body."
+      - Verify the response status is 415.
+      - 'Verify the body''s message is "QUERY requests must use Content-Type: application/json".'
+  - id: API-0018
+    name: QUERY list without a JSON Content-Type returns an HTML error page when JSON isn't accepted
+    status: manual
+    steps:
+      - "Send QUERY /products with Content-Type: text/plain, a plain-text body and no Accept: application/json header."
+      - Verify the response status is 415.
+      - Verify the body is an HTML page, not JSON.
+  - id: API-0019
+    name: QUERY list with an unknown sort column is not a server error
+    status: manual
+    knownIssue: Returns 500 instead of a client error (or ignoring the column) for an unknown sort column.
+    steps:
+      - 'Send QUERY /products with Content-Type: application/json, Accept: application/json and the body { "sort": "no_such_column,asc" }.'
+      - Verify the response status is not 500.

@@ -51,7 +51,7 @@ Single file or single test:
 
 ```bash
 npx playwright test tests/ui/cart/add-to-cart.spec.ts
-npx playwright test -g "UI-CART-001"
+npx playwright test -g "UI-002:"
 ```
 
 ### Options (environment variables)
@@ -108,12 +108,12 @@ tests/
   ui/<area>/*.spec.ts
 test-scenarios/          scenario source of truth (api/, ui/)
 docs/api/contracts/      API contracts, the reference for API coverage
-qa-agents-profile.yml    project facts for the QA agents and scripts (paths, commands, ID codes, roles)
+qa-agents-profile.yml    project facts for the QA agents and scripts (paths, commands, ID formats, roles)
 ```
 
 ## Writing tests
 
-1. **Describe the scenario** in `test-scenarios/<ui|api>/<area>/<name>.yml` (API files are named after the endpoint, such as `api/products/get-products-search.yml` for `GET /products/search`) under an ID such as `UI-CART-002`, with its name, the spec path (`automatedIn`) and steps. Checks are steps that start with `Verify`; `test-scenarios/scenarios.schema.json` describes the format.
+1. **Describe the scenario** in `test-scenarios/<ui|api>/<area>/<name>.yml` (API files are named after the endpoint, such as `api/products/get-products-search.yml` for `GET /products/search`) under the next free ID of its layer (such as `UI-003` or `API-0064`; `npm run validate:scenarios` prints them), with its name, the spec path (`automatedIn`) and steps. Checks are steps that start with `Verify`; `test-scenarios/scenarios.schema.json` describes the format.
 2. **Add what the test needs:** page objects, components or flows (UI), or clients, services and DTOs (API). Register them as fixtures in `src/ui/fixtures/fixtures.ts` or `src/api/fixtures/fixtures.ts`.
 3. **Write the spec** in `tests/<ui|api>/<area>/`, named after the scenario file. Import `test` and `expect` from `@fixtures`, title the `describe` `<tags> - <suite>` and each test `<ID>: <name>`. API specs use one `test.step` per scenario step and `assertMessage`/`attachJson` from `@utils/assertHelpers` (see CLAUDE.md).
 4. **For new API endpoints**, document them in `docs/api/contracts/`.
@@ -122,7 +122,7 @@ qa-agents-profile.yml    project facts for the QA agents and scripts (paths, com
 import { test, expect } from '@fixtures';
 
 // Scenarios: test-scenarios/ui/cart/add-to-cart.yml
-test('UI-CART-001: Add a product with quantity 2 to the cart', async ({ shoppingFlow, productPage }) => {
+test('UI-002: Add a product with quantity 2 to the cart', async ({ shoppingFlow, productPage }) => {
   const { unitPrice } = await shoppingFlow.addProductToCart('Combination Pliers', 2);
   await expect(productPage.navBar.cartQuantity).toHaveText('2');
 
@@ -170,12 +170,3 @@ To run it in your own fork, add the `ADMIN_USER`, `ADMIN_PASSWORD`, `DEFAULT_USE
 - Day-to-day work happens on `develop`, which is merged into `main` with a pull request.
 - To contribute, fork the repo, branch from `develop`, and open a pull request into `develop`.
 - Found a security problem? See [SECURITY.md](SECURITY.md).
-
-## Current tests
-
-| ID | Type | Test |
-|---|---|---|
-| UI-PROD-001 | UI | Search by name shows only matching products |
-| UI-CART-001 | UI | Add a product with quantity 2 to the cart |
-| API-PROD-001 | API | Product search returns only matching products |
-| API-USER-001 | API | `GET /users/me` returns the logged-in user's profile |

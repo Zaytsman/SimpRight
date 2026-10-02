@@ -12,7 +12,7 @@ The product catalogue of the Toolshop API: listing, filtering, searching and rea
 
 - Scheme: `Authorization: Bearer <JWT>`. Get a token with `POST /users/login` (see `Users_API.md`). _(source)_
 - Only `DELETE /products/{productId}` checks a token: it requires the `admin` role (`role:admin` middleware in `ProductController`). Every other product endpoint, including create and update, accepts requests without a token. _(source)_
-- A token changes one response field: with an admin token, `in_stock` is the stock count (a number) instead of a boolean (`Product::getInStockAttribute`, `ProductPolicy::viewStock`). _(source)_
+- A token changes one response field: with an admin token, `in_stock` is the stock count (a number) instead of a boolean (`Product::getInStockAttribute`, `ProductPolicy::viewStock`). _(verified)_
 
 ## Endpoints Overview
 
@@ -219,14 +219,14 @@ Updates a product with the fields sent. No token is needed (see Notes). Despite 
 }
 ```
 
-**Response:** `200 OK` _(source)_
+**Response:** `200 OK` _(verified)_
 ```ts
 { success: true }
 ```
 
 **Error Responses:**
-- `404 Not Found`: no product with this id; `{ message: "Requested item not found" }` _(source)_
-- `422 Unprocessable Entity`: `name` or `description` too long or not a string, or `is_location_offer`/`is_rental` not a boolean _(source)_
+- `404 Not Found`: no product with this id; `{ message: "Requested item not found" }` _(verified)_
+- `422 Unprocessable Entity`: `name` or `description` too long or not a string, or `is_location_offer`/`is_rental` not a boolean _(verified)_
 
 ---
 
@@ -295,7 +295,7 @@ Deletes a product. Admin only. _(source)_
 
 ### 8. Get related products
 
-Returns up to 10 other products from the same category as the given product. _(source)_
+Returns up to 10 other products from the same category as the given product. _(verified)_
 
 **Endpoint:** `GET /products/{productId}/related`
 
