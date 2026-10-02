@@ -7,7 +7,8 @@
 // - every scenario file lives in <scenarios>/<layer>/<area>/<name>.yml with a layer and area from the profile,
 //   a name that matches the layer's ids.fileNames pattern (any kebab-case name when there's none),
 //   parses, and matches the scenario schema;
-// - keys are in the agreed order (file: suite, tags, scenarios; scenario: id, name, automatedIn, role, knownIssue, steps);
+// - keys are in the agreed order (file: suite, tags, scenarios; scenario: id, name, status, automatedIn, role, knownIssue, steps);
+// - status automated has an automatedIn, and status manual has none;
 // - IDs are unique across files and are <LAYER>-<AREA>-NNN with the codes of the file's layer and area;
 // - a scenario's role is one of the profile's roles;
 // - automatedIn is <tests>/<layer>/<area>/<name>.spec.ts (named after the scenario file), exists, and has
@@ -25,7 +26,7 @@ const PROFILE_FILE = 'qa-agents-profile.yml';
 const PROFILE_SCHEMA_FILE = 'qa-agents-profile.schema.json';
 
 const FILE_KEY_ORDER = ['suite', 'tags', 'scenarios'];
-const SCENARIO_KEY_ORDER = ['id', 'name', 'automatedIn', 'role', 'knownIssue', 'steps'];
+const SCENARIO_KEY_ORDER = ['id', 'name', 'status', 'automatedIn', 'role', 'knownIssue', 'steps'];
 
 // The title string of a call: '...', "..." or `...`, with escapes allowed.
 // test('...'), test.only/skip/fixme/fail('...'); test.describe/test.step/test.use don't match.
@@ -51,6 +52,7 @@ interface Profile {
 interface Scenario {
   id: string;
   name: string;
+  status: 'manual' | 'automated';
   automatedIn?: string;
   role?: string;
   knownIssue?: string;
@@ -206,6 +208,13 @@ for (const file of listFiles(paths.scenarios, ['.yml', '.yaml'])) {
       fail(where, `role ${scenario.role} isn't one of ${roles.join(', ')} (${PROFILE_FILE} roles)`);
     }
 
+    if (scenario.status === 'automated' && !scenario.automatedIn) {
+      fail(where, 'status is automated, so automatedIn must name the spec');
+    }
+    if (scenario.status === 'manual' && scenario.automatedIn) {
+      fail(where, 'automatedIn is set, so status must be automated');
+    }
+
     if (scenario.automatedIn) {
       if (scenario.automatedIn !== specFile) {
         fail(where, `automatedIn must be ${specFile} (the spec is named after the scenario file)`);
@@ -253,5 +262,4 @@ for (const spec of listFiles(paths.tests, ['.spec.ts', '.test.ts'])) {
 }
 
 report();
-const automated = [...scenarios.values()].filter((scenario) => scenario.automatedIn).length;
-console.log(`Scenarios OK: ${scenarios.size} scenario(s), ${automated} automated.`);
+const automated = [...scenarios.values()].filter((scenario) => scenario.automatedIn).length;console.log(`Scenarios OK: ${scenarios.size} scenario(s), ${automated} automated.`);

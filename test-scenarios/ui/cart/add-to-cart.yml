@@ -4,6 +4,7 @@ tags: ["@cart-ui"]
 scenarios:
   - id: UI-CART-001
     name: Add a product with quantity 2 to the cart
+    status: automated
     automatedIn: tests/ui/cart/add-to-cart.spec.ts
     steps:
       - Search for "Combination Pliers" and open the product.

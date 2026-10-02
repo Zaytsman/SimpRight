@@ -1,0 +1,32 @@
+# yaml-language-server: $schema=../../scenarios.schema.json
+suite: Products API
+tags: ["@products-api"]
+scenarios:
+  - id: API-PROD-020
+    name: Get product returns the product with its category, brand, image and specs
+    status: manual
+    steps:
+      - Send GET /products and take the first item's id and name.
+      - Send GET /products/{productId} with that id.
+      - Verify the response status is 200.
+      - Verify the body's id equals that id and its name equals that name.
+      - Verify the body has description, price, is_location_offer, is_rental, co2_rating, in_stock, is_eco_friendly, product_image, and a brand with id and name.
+      - Verify the category has id, name, slug and parent_id.
+      - Verify specs is an array and every spec has id, product_id, spec_name, spec_value and spec_unit.
+      - Verify in_stock is a boolean.
+  - id: API-PROD-021
+    name: Get product with an admin token returns the stock count
+    status: manual
+    role: admin
+    steps:
+      - Send GET /products and take the first item's id.
+      - Send GET /products/{productId} with that id, with the admin's token.
+      - Verify the response status is 200.
+      - Verify in_stock is a number.
+  - id: API-PROD-022
+    name: Get product with an unknown id returns 404
+    status: manual
+    steps:
+      - Send GET /products/{productId} with a well-formed ULID that no product has.
+      - Verify the response status is 404.
+      - Verify the body's message is "Requested item not found".

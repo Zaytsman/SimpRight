@@ -1,0 +1,109 @@
+# yaml-language-server: $schema=../../scenarios.schema.json
+suite: Products API
+tags: ["@products-api"]
+scenarios:
+  - id: API-PROD-002
+    name: List products returns the first page of non-rental products
+    status: manual
+    steps:
+      - Send GET /products without query parameters.
+      - Verify the response status is 200.
+      - Verify the body has current_page, data, from, last_page, per_page, to and total.
+      - Verify current_page is 1 and per_page is 9.
+      - Verify data has at most 9 items.
+      - Verify each item has id, name, description, price, is_location_offer, is_rental, co2_rating, in_stock, is_eco_friendly, product_image, a category with id, name and slug, and a brand with id and name.
+      - Verify every item's is_rental is false.
+      - Verify every item's in_stock is a boolean.
+      - Verify every item's is_eco_friendly is true exactly when its co2_rating is A or B.
+  - id: API-PROD-003
+    name: Filter by brand returns only that brand's products
+    status: manual
+    steps:
+      - Send GET /products and take the brand id of the first item.
+      - Send GET /products with by_brand set to that brand id.
+      - Verify the response status is 200.
+      - Verify data is not empty and every item's brand id equals that brand id.
+  - id: API-PROD-004
+    name: Filter by category returns only that category's products
+    status: manual
+    steps:
+      - Send GET /products and take the category id of the first item.
+      - Send GET /products with by_category set to that category id.
+      - Verify the response status is 200.
+      - Verify data is not empty and every item's category id equals that category id.
+  - id: API-PROD-005
+    name: Filter by category slug returns the category and its direct sub-categories
+    status: manual
+    steps:
+      - Send GET /products and take the first item's category id and slug.
+      - Send GET /products with by_category_slug set to that slug.
+      - Verify the response status is 200.
+      - Verify data is not empty.
+      - "Verify every item's category is that category or a direct sub-category of it: its category id equals that category id, or GET /products/{productId} for the item returns a category parent_id equal to that category id."
+  - id: API-PROD-006
+    name: Rental filter returns only rental products
+    status: manual
+    steps:
+      - Send GET /products with is_rental=true.
+      - Verify the response status is 200.
+      - Verify every item's is_rental is true.
+  - id: API-PROD-007
+    name: Price range filter returns only products in the range
+    status: manual
+    steps:
+      - Send GET /products with between=price,10,30.
+      - Verify the response status is 200.
+      - Verify every item's price is at least 10 and at most 30.
+  - id: API-PROD-008
+    name: Sort by price descending orders the products by price
+    status: manual
+    steps:
+      - Send GET /products with sort=price,desc.
+      - Verify the response status is 200.
+      - Verify the items' prices are in descending order.
+  - id: API-PROD-009
+    name: Eco-friendly filter returns only products rated A or B
+    status: manual
+    steps:
+      - Send GET /products with eco_friendly=true.
+      - Verify the response status is 200.
+      - Verify every item's co2_rating is A or B (case-insensitive) and its is_eco_friendly is true.
+  - id: API-PROD-010
+    name: Name filter returns only products whose name contains the text
+    status: manual
+    steps:
+      - Send GET /products with q=pliers.
+      - Verify the response status is 200.
+      - Verify data is not empty and every item's name contains "pliers" (case-insensitive).
+  - id: API-PROD-011
+    name: Spec filter returns only products with that spec value
+    status: manual
+    steps:
+      - "Find a product with at least one spec: send GET /products/{productId} for the items of GET /products until one returns a non-empty specs array, and take its first spec's spec_name and spec_value."
+      - Send GET /products with by_spec=<spec_name>:<spec_value>.
+      - Verify the response status is 200.
+      - Verify data is not empty.
+      - Verify every item's specs, from GET /products/{productId} for the item, include a spec with that spec_name and spec_value.
+  - id: API-PROD-012
+    name: Page 2 returns the next products
+    status: manual
+    steps:
+      - Send GET /products and keep the item ids of page 1.
+      - Send GET /products with page=2.
+      - Verify the response status is 200.
+      - Verify current_page is 2.
+      - Verify no item id on page 2 is among the page 1 ids.
+  - id: API-PROD-013
+    name: Unknown category id returns an empty list
+    status: manual
+    steps:
+      - Send GET /products with by_category set to a well-formed ULID that no category has.
+      - Verify the response status is 200.
+      - Verify data is an empty array.
+  - id: API-PROD-014
+    name: Unknown sort column is not a server error
+    status: manual
+    knownIssue: Returns 500 instead of a client error (or ignoring the column) for an unknown sort column.
+    steps:
+      - Send GET /products with sort=no_such_column,asc.
+      - Verify the response status is not 500.

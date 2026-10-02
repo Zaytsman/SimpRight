@@ -33,7 +33,7 @@ ids:
     # API: <method>-<endpoint path>, one file per endpoint, e.g. GET /products/search -> products/get-products-search.yml.
     # {area} is replaced with the folder name, so the path part starts with the API name.
     # Other layers: any kebab-case name (UI files are named after their spec).
-    api: "^(get|post|put|patch|delete)-{area}(-[a-z0-9]+)*$"
+    api: "^(get|post|put|patch|delete|query)-{area}(-[a-z0-9]+)*$"
 
 roles: [default, admin]                     # a scenario role must be one of these; set with test.use({ role: 'admin' })
 
