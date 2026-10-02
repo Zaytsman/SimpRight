@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SimpRight API Coverage</title>
+  <title>API Coverage Report</title>
   <style>
     :root {
       --bg: #0f172a;
@@ -215,8 +215,8 @@
   <div class="container">
     <header>
       <div>
-        <h1>SimpRight API Coverage</h1>
-        <div class="generated-at">Generated: 2026-10-01T08:09:48.339Z</div>
+        <h1>API Coverage Report</h1>
+        <div class="generated-at">Generated: 2026-10-02T07:50:48.949Z</div>
       </div>
       <div>
         <span class="service-tag">playwright-api-coverage</span>
@@ -227,23 +227,23 @@
     <div class="stats-grid">
       <div class="stat-card">
         <div class="stat-title">Overall Coverage</div>
-        <div class="stat-value color-warning">61%</div>
+        <div class="stat-value color-danger">9%</div>
         <div class="stat-sub">Across all API endpoints</div>
       </div>
       <div class="stat-card">
         <div class="stat-title">Endpoint Hits</div>
-        <div class="stat-value color-primary">3 / 4</div>
-        <div class="stat-sub">75% covered</div>
+        <div class="stat-value color-primary">3 / 24</div>
+        <div class="stat-sub">13% covered</div>
       </div>
       <div class="stat-card">
         <div class="stat-title">Status Codes</div>
-        <div class="stat-value color-success">3 / 7</div>
-        <div class="stat-sub">43% documented codes tested</div>
+        <div class="stat-value color-success">3 / 72</div>
+        <div class="stat-sub">4% documented codes tested</div>
       </div>
       <div class="stat-card">
         <div class="stat-title">Required Fields</div>
-        <div class="stat-value color-success">2 / 2</div>
-        <div class="stat-sub">100% tested in requests</div>
+        <div class="stat-value color-warning">0 / 22</div>
+        <div class="stat-sub">0% tested in requests</div>
       </div>
     </div>
 
@@ -263,29 +263,29 @@
         
         <tr>
           <td><strong>Products</strong></td>
-          <td>1 / 2 (50%)</td>
-          <td>1 / 3 (33%)</td>
-          <td>0 / 0 (100%)</td>
+          <td>1 / 10 (10%)</td>
+          <td>1 / 26 (4%)</td>
+          <td>0 / 7 (0%)</td>
           <td style="width: 250px;">
             <div style="display: flex; align-items: center; gap: 10px;">
               <div class="progress-bar-container">
-                <div class="progress-bar-fill fill-red" style="width: 46%;"></div>
+                <div class="progress-bar-fill fill-red" style="width: 9%;"></div>
               </div>
-              <span style="font-weight: 600; font-size: 13px; min-width: 35px;">46%</span>
+              <span style="font-weight: 600; font-size: 13px; min-width: 35px;">9%</span>
             </div>
           </td>
         </tr>
         <tr>
           <td><strong>Users</strong></td>
-          <td>2 / 2 (100%)</td>
-          <td>2 / 4 (50%)</td>
-          <td>2 / 2 (100%)</td>
+          <td>2 / 14 (14%)</td>
+          <td>2 / 46 (4%)</td>
+          <td>0 / 15 (0%)</td>
           <td style="width: 250px;">
             <div style="display: flex; align-items: center; gap: 10px;">
               <div class="progress-bar-container">
-                <div class="progress-bar-fill fill-green" style="width: 75%;"></div>
+                <div class="progress-bar-fill fill-red" style="width: 9%;"></div>
               </div>
-              <span style="font-weight: 600; font-size: 13px; min-width: 35px;">75%</span>
+              <span style="font-weight: 600; font-size: 13px; min-width: 35px;">9%</span>
             </div>
           </td>
         </tr>
@@ -311,31 +311,31 @@
     <!-- Endpoint Cards List -->
     <div class="endpoint-list" id="endpointList">
       
-      <div class="endpoint-card" data-service="Products" data-covered="true" data-coverage="92" data-search="GET /products/search Search products">
+      <div class="endpoint-card" data-service="Products" data-covered="false" data-coverage="0" data-search="GET /products List products">
         <div class="endpoint-header" onclick="toggleDetails(this)">
           <div class="endpoint-left">
             <span class="method-badge method-GET">GET</span>
-            <span class="endpoint-path">/products/search</span>
+            <span class="endpoint-path">/products</span>
             <span class="service-tag">Products</span>
           </div>
           <div class="endpoint-right">
-            <span class="hits-badge hits-covered">1 calls</span>
+            <span class="hits-badge hits-uncovered">0 calls</span>
             <div style="width: 100px;">
               <div class="progress-bar-container">
-                <div class="progress-bar-fill fill-green" style="width: 92%;"></div>
+                <div class="progress-bar-fill fill-red" style="width: 0%;"></div>
               </div>
             </div>
-            <span style="font-size: 13px; font-weight: 700; width: 40px; text-align: right;">92%</span>
+            <span style="font-size: 13px; font-weight: 700; width: 40px; text-align: right;">0%</span>
             <span class="chevron">▼</span>
           </div>
         </div>
         <div class="endpoint-body">
-          <p style="margin-bottom: 14px; color: var(--text-muted); font-size: 14px;"><strong>Search products:</strong> Full-text search on product name. Returns a paginated list (9 per page); an empty or missing `q` returns an empty list.</p>
+          <p style="margin-bottom: 14px; color: var(--text-muted); font-size: 14px;"><strong>List products:</strong> Returns the products, 9 per page. Without `is_rental`, rental products are excluded (`is_rental` defaults to false). _(source)_</p>
           <div class="details-grid">
             <div class="detail-section">
-              <div class="detail-heading">Status Codes (1 tested / 1 documented)</div>
+              <div class="detail-heading">Status Codes (0 tested / 2 documented)</div>
               <div class="tag-list">
-                <span class="tag tag-success">200 ✓</span>
+                <span class="tag tag-missing">200 ✗</span><span class="tag tag-missing">500 ✗</span>
               </div>
             </div>
             <div class="detail-section">
@@ -351,15 +351,111 @@
               </div>
             </div>
             <div class="detail-section">
-              <div class="detail-heading">Query Parameters (1/2)</div>
+              <div class="detail-heading">Query Parameters (0/10)</div>
               <div class="tag-list">
-                <span class="tag tag-success">q ✓</span><span class="tag tag-missing">page ✗</span>
+                <span class="tag tag-missing">by_brand ✗</span><span class="tag tag-missing">by_category ✗</span><span class="tag tag-missing">by_category_slug ✗</span><span class="tag tag-missing">is_rental ✗</span><span class="tag tag-missing">between ✗</span><span class="tag tag-missing">sort ✗</span><span class="tag tag-missing">eco_friendly ✗</span><span class="tag tag-missing">q ✗</span><span class="tag tag-missing">by_spec ✗</span><span class="tag tag-missing">page ✗</span>
               </div>
             </div>
           </div>
         </div>
       </div>
-      <div class="endpoint-card" data-service="Products" data-covered="false" data-coverage="0" data-search="GET /products/:productId Get product by id">
+      <div class="endpoint-card" data-service="Products" data-covered="false" data-coverage="0" data-search="QUERY /products List products (HTTP QUERY)">
+        <div class="endpoint-header" onclick="toggleDetails(this)">
+          <div class="endpoint-left">
+            <span class="method-badge method-QUERY">QUERY</span>
+            <span class="endpoint-path">/products</span>
+            <span class="service-tag">Products</span>
+          </div>
+          <div class="endpoint-right">
+            <span class="hits-badge hits-uncovered">0 calls</span>
+            <div style="width: 100px;">
+              <div class="progress-bar-container">
+                <div class="progress-bar-fill fill-red" style="width: 0%;"></div>
+              </div>
+            </div>
+            <span style="font-size: 13px; font-weight: 700; width: 40px; text-align: right;">0%</span>
+            <span class="chevron">▼</span>
+          </div>
+        </div>
+        <div class="endpoint-body">
+          <p style="margin-bottom: 14px; color: var(--text-muted); font-size: 14px;"><strong>List products (HTTP QUERY):</strong> Same as `GET /products`, but the criteria are sent as a JSON body (RFC 10008 `QUERY` method). The body keys are merged into the query string, so the results equal the `GET` with the same parameters. _(source)_</p>
+          <div class="details-grid">
+            <div class="detail-section">
+              <div class="detail-heading">Status Codes (0 tested / 3 documented)</div>
+              <div class="tag-list">
+                <span class="tag tag-missing">200 ✗</span><span class="tag tag-missing">415 ✗</span><span class="tag tag-missing">500 ✗</span>
+              </div>
+            </div>
+            <div class="detail-section">
+              <div class="detail-heading">Required Request Fields (0/0)</div>
+              <div class="tag-list">
+                <span class="tag tag-neutral">None required</span>
+              </div>
+            </div>
+            <div class="detail-section">
+              <div class="detail-heading">Optional Request Fields (0/10)</div>
+              <div class="tag-list">
+                <span class="tag tag-missing">by_brand ✗</span><span class="tag tag-missing">by_category ✗</span><span class="tag tag-missing">by_category_slug ✗</span><span class="tag tag-missing">is_rental ✗</span><span class="tag tag-missing">between ✗</span><span class="tag tag-missing">sort ✗</span><span class="tag tag-missing">eco_friendly ✗</span><span class="tag tag-missing">q ✗</span><span class="tag tag-missing">by_spec ✗</span><span class="tag tag-missing">page ✗</span>
+              </div>
+            </div>
+            <div class="detail-section">
+              <div class="detail-heading">Query Parameters (0/0)</div>
+              <div class="tag-list">
+                <span class="tag tag-neutral">None</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="endpoint-card" data-service="Products" data-covered="false" data-coverage="0" data-search="POST /products Create product">
+        <div class="endpoint-header" onclick="toggleDetails(this)">
+          <div class="endpoint-left">
+            <span class="method-badge method-POST">POST</span>
+            <span class="endpoint-path">/products</span>
+            <span class="service-tag">Products</span>
+          </div>
+          <div class="endpoint-right">
+            <span class="hits-badge hits-uncovered">0 calls</span>
+            <div style="width: 100px;">
+              <div class="progress-bar-container">
+                <div class="progress-bar-fill fill-red" style="width: 0%;"></div>
+              </div>
+            </div>
+            <span style="font-size: 13px; font-weight: 700; width: 40px; text-align: right;">0%</span>
+            <span class="chevron">▼</span>
+          </div>
+        </div>
+        <div class="endpoint-body">
+          <p style="margin-bottom: 14px; color: var(--text-muted); font-size: 14px;"><strong>Create product:</strong> Creates a product. No token is needed (see Notes). _(source)_</p>
+          <div class="details-grid">
+            <div class="detail-section">
+              <div class="detail-heading">Status Codes (0 tested / 3 documented)</div>
+              <div class="tag-list">
+                <span class="tag tag-missing">201 ✗</span><span class="tag tag-missing">422 ✗</span><span class="tag tag-missing">500 ✗</span>
+              </div>
+            </div>
+            <div class="detail-section">
+              <div class="detail-heading">Required Request Fields (0/7)</div>
+              <div class="tag-list">
+                <span class="tag tag-missing">name ✗</span><span class="tag tag-missing">price ✗</span><span class="tag tag-missing">category_id ✗</span><span class="tag tag-missing">brand_id ✗</span><span class="tag tag-missing">product_image_id ✗</span><span class="tag tag-missing">is_location_offer ✗</span><span class="tag tag-missing">is_rental ✗</span>
+              </div>
+            </div>
+            <div class="detail-section">
+              <div class="detail-heading">Optional Request Fields (0/3)</div>
+              <div class="tag-list">
+                <span class="tag tag-missing">description ✗</span><span class="tag tag-missing">co2_rating ✗</span><span class="tag tag-missing">stock ✗</span>
+              </div>
+            </div>
+            <div class="detail-section">
+              <div class="detail-heading">Query Parameters (0/0)</div>
+              <div class="tag-list">
+                <span class="tag tag-neutral">None</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="endpoint-card" data-service="Products" data-covered="false" data-coverage="0" data-search="GET /products/:productId Get product">
         <div class="endpoint-header" onclick="toggleDetails(this)">
           <div class="endpoint-left">
             <span class="method-badge method-GET">GET</span>
@@ -378,7 +474,7 @@
           </div>
         </div>
         <div class="endpoint-body">
-          <p style="margin-bottom: 14px; color: var(--text-muted); font-size: 14px;"><strong>Get product by id:</strong> No description</p>
+          <p style="margin-bottom: 14px; color: var(--text-muted); font-size: 14px;"><strong>Get product:</strong> Returns one product with its category (including `parent_id`), brand, image and specs. _(verified)_</p>
           <div class="details-grid">
             <div class="detail-section">
               <div class="detail-heading">Status Codes (0 tested / 2 documented)</div>
@@ -407,7 +503,295 @@
           </div>
         </div>
       </div>
-      <div class="endpoint-card" data-service="Users" data-covered="true" data-coverage="80" data-search="POST /users/login Login">
+      <div class="endpoint-card" data-service="Products" data-covered="false" data-coverage="0" data-search="PUT /products/:productId Update product">
+        <div class="endpoint-header" onclick="toggleDetails(this)">
+          <div class="endpoint-left">
+            <span class="method-badge method-PUT">PUT</span>
+            <span class="endpoint-path">/products/:productId</span>
+            <span class="service-tag">Products</span>
+          </div>
+          <div class="endpoint-right">
+            <span class="hits-badge hits-uncovered">0 calls</span>
+            <div style="width: 100px;">
+              <div class="progress-bar-container">
+                <div class="progress-bar-fill fill-red" style="width: 0%;"></div>
+              </div>
+            </div>
+            <span style="font-size: 13px; font-weight: 700; width: 40px; text-align: right;">0%</span>
+            <span class="chevron">▼</span>
+          </div>
+        </div>
+        <div class="endpoint-body">
+          <p style="margin-bottom: 14px; color: var(--text-muted); font-size: 14px;"><strong>Update product:</strong> Updates a product with the fields sent. No token is needed (see Notes). Despite being `PUT`, no field is required. _(source)_</p>
+          <div class="details-grid">
+            <div class="detail-section">
+              <div class="detail-heading">Status Codes (0 tested / 3 documented)</div>
+              <div class="tag-list">
+                <span class="tag tag-missing">200 ✗</span><span class="tag tag-missing">404 ✗</span><span class="tag tag-missing">422 ✗</span>
+              </div>
+            </div>
+            <div class="detail-section">
+              <div class="detail-heading">Required Request Fields (0/0)</div>
+              <div class="tag-list">
+                <span class="tag tag-neutral">None required</span>
+              </div>
+            </div>
+            <div class="detail-section">
+              <div class="detail-heading">Optional Request Fields (0/10)</div>
+              <div class="tag-list">
+                <span class="tag tag-missing">name ✗</span><span class="tag tag-missing">description ✗</span><span class="tag tag-missing">price ✗</span><span class="tag tag-missing">category_id ✗</span><span class="tag tag-missing">brand_id ✗</span><span class="tag tag-missing">product_image_id ✗</span><span class="tag tag-missing">is_location_offer ✗</span><span class="tag tag-missing">is_rental ✗</span><span class="tag tag-missing">co2_rating ✗</span><span class="tag tag-missing">stock ✗</span>
+              </div>
+            </div>
+            <div class="detail-section">
+              <div class="detail-heading">Query Parameters (0/0)</div>
+              <div class="tag-list">
+                <span class="tag tag-neutral">None</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="endpoint-card" data-service="Products" data-covered="false" data-coverage="0" data-search="PATCH /products/:productId Partially update product">
+        <div class="endpoint-header" onclick="toggleDetails(this)">
+          <div class="endpoint-left">
+            <span class="method-badge method-PATCH">PATCH</span>
+            <span class="endpoint-path">/products/:productId</span>
+            <span class="service-tag">Products</span>
+          </div>
+          <div class="endpoint-right">
+            <span class="hits-badge hits-uncovered">0 calls</span>
+            <div style="width: 100px;">
+              <div class="progress-bar-container">
+                <div class="progress-bar-fill fill-red" style="width: 0%;"></div>
+              </div>
+            </div>
+            <span style="font-size: 13px; font-weight: 700; width: 40px; text-align: right;">0%</span>
+            <span class="chevron">▼</span>
+          </div>
+        </div>
+        <div class="endpoint-body">
+          <p style="margin-bottom: 14px; color: var(--text-muted); font-size: 14px;"><strong>Partially update product:</strong> Updates only the validated fields that are sent. Unlike `PUT`, fields without a rule (`co2_rating`, `stock`) are dropped. _(source)_</p>
+          <div class="details-grid">
+            <div class="detail-section">
+              <div class="detail-heading">Status Codes (0 tested / 3 documented)</div>
+              <div class="tag-list">
+                <span class="tag tag-missing">200 ✗</span><span class="tag tag-missing">404 ✗</span><span class="tag tag-missing">422 ✗</span>
+              </div>
+            </div>
+            <div class="detail-section">
+              <div class="detail-heading">Required Request Fields (0/0)</div>
+              <div class="tag-list">
+                <span class="tag tag-neutral">None required</span>
+              </div>
+            </div>
+            <div class="detail-section">
+              <div class="detail-heading">Optional Request Fields (0/8)</div>
+              <div class="tag-list">
+                <span class="tag tag-missing">name ✗</span><span class="tag tag-missing">description ✗</span><span class="tag tag-missing">price ✗</span><span class="tag tag-missing">category_id ✗</span><span class="tag tag-missing">brand_id ✗</span><span class="tag tag-missing">product_image_id ✗</span><span class="tag tag-missing">is_location_offer ✗</span><span class="tag tag-missing">is_rental ✗</span>
+              </div>
+            </div>
+            <div class="detail-section">
+              <div class="detail-heading">Query Parameters (0/0)</div>
+              <div class="tag-list">
+                <span class="tag tag-neutral">None</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="endpoint-card" data-service="Products" data-covered="false" data-coverage="0" data-search="DELETE /products/:productId Delete product">
+        <div class="endpoint-header" onclick="toggleDetails(this)">
+          <div class="endpoint-left">
+            <span class="method-badge method-DELETE">DELETE</span>
+            <span class="endpoint-path">/products/:productId</span>
+            <span class="service-tag">Products</span>
+          </div>
+          <div class="endpoint-right">
+            <span class="hits-badge hits-uncovered">0 calls</span>
+            <div style="width: 100px;">
+              <div class="progress-bar-container">
+                <div class="progress-bar-fill fill-red" style="width: 0%;"></div>
+              </div>
+            </div>
+            <span style="font-size: 13px; font-weight: 700; width: 40px; text-align: right;">0%</span>
+            <span class="chevron">▼</span>
+          </div>
+        </div>
+        <div class="endpoint-body">
+          <p style="margin-bottom: 14px; color: var(--text-muted); font-size: 14px;"><strong>Delete product:</strong> Deletes a product. Admin only. _(source)_</p>
+          <div class="details-grid">
+            <div class="detail-section">
+              <div class="detail-heading">Status Codes (0 tested / 5 documented)</div>
+              <div class="tag-list">
+                <span class="tag tag-missing">204 ✗</span><span class="tag tag-missing">401 ✗</span><span class="tag tag-missing">403 ✗</span><span class="tag tag-missing">404 ✗</span><span class="tag tag-missing">409 ✗</span>
+              </div>
+            </div>
+            <div class="detail-section">
+              <div class="detail-heading">Required Request Fields (0/0)</div>
+              <div class="tag-list">
+                <span class="tag tag-neutral">None required</span>
+              </div>
+            </div>
+            <div class="detail-section">
+              <div class="detail-heading">Optional Request Fields (0/0)</div>
+              <div class="tag-list">
+                <span class="tag tag-neutral">None</span>
+              </div>
+            </div>
+            <div class="detail-section">
+              <div class="detail-heading">Query Parameters (0/0)</div>
+              <div class="tag-list">
+                <span class="tag tag-neutral">None</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="endpoint-card" data-service="Products" data-covered="false" data-coverage="0" data-search="GET /products/:productId/related Get related products">
+        <div class="endpoint-header" onclick="toggleDetails(this)">
+          <div class="endpoint-left">
+            <span class="method-badge method-GET">GET</span>
+            <span class="endpoint-path">/products/:productId/related</span>
+            <span class="service-tag">Products</span>
+          </div>
+          <div class="endpoint-right">
+            <span class="hits-badge hits-uncovered">0 calls</span>
+            <div style="width: 100px;">
+              <div class="progress-bar-container">
+                <div class="progress-bar-fill fill-red" style="width: 0%;"></div>
+              </div>
+            </div>
+            <span style="font-size: 13px; font-weight: 700; width: 40px; text-align: right;">0%</span>
+            <span class="chevron">▼</span>
+          </div>
+        </div>
+        <div class="endpoint-body">
+          <p style="margin-bottom: 14px; color: var(--text-muted); font-size: 14px;"><strong>Get related products:</strong> Returns up to 10 other products from the same category as the given product. _(source)_</p>
+          <div class="details-grid">
+            <div class="detail-section">
+              <div class="detail-heading">Status Codes (0 tested / 2 documented)</div>
+              <div class="tag-list">
+                <span class="tag tag-missing">200 ✗</span><span class="tag tag-missing">500 ✗</span>
+              </div>
+            </div>
+            <div class="detail-section">
+              <div class="detail-heading">Required Request Fields (0/0)</div>
+              <div class="tag-list">
+                <span class="tag tag-neutral">None required</span>
+              </div>
+            </div>
+            <div class="detail-section">
+              <div class="detail-heading">Optional Request Fields (0/0)</div>
+              <div class="tag-list">
+                <span class="tag tag-neutral">None</span>
+              </div>
+            </div>
+            <div class="detail-section">
+              <div class="detail-heading">Query Parameters (0/0)</div>
+              <div class="tag-list">
+                <span class="tag tag-neutral">None</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="endpoint-card" data-service="Products" data-covered="true" data-coverage="92" data-search="GET /products/search Search products">
+        <div class="endpoint-header" onclick="toggleDetails(this)">
+          <div class="endpoint-left">
+            <span class="method-badge method-GET">GET</span>
+            <span class="endpoint-path">/products/search</span>
+            <span class="service-tag">Products</span>
+          </div>
+          <div class="endpoint-right">
+            <span class="hits-badge hits-covered">1 calls</span>
+            <div style="width: 100px;">
+              <div class="progress-bar-container">
+                <div class="progress-bar-fill fill-green" style="width: 92%;"></div>
+              </div>
+            </div>
+            <span style="font-size: 13px; font-weight: 700; width: 40px; text-align: right;">92%</span>
+            <span class="chevron">▼</span>
+          </div>
+        </div>
+        <div class="endpoint-body">
+          <p style="margin-bottom: 14px; color: var(--text-muted); font-size: 14px;"><strong>Search products:</strong> Searches product names. Returns 9 per page. Special characters are stripped from `q`; an empty or missing `q` returns an empty page, not an error. _(verified)_</p>
+          <div class="details-grid">
+            <div class="detail-section">
+              <div class="detail-heading">Status Codes (1 tested / 1 documented)</div>
+              <div class="tag-list">
+                <span class="tag tag-success">200 ✓</span>
+              </div>
+            </div>
+            <div class="detail-section">
+              <div class="detail-heading">Required Request Fields (0/0)</div>
+              <div class="tag-list">
+                <span class="tag tag-neutral">None required</span>
+              </div>
+            </div>
+            <div class="detail-section">
+              <div class="detail-heading">Optional Request Fields (0/0)</div>
+              <div class="tag-list">
+                <span class="tag tag-neutral">None</span>
+              </div>
+            </div>
+            <div class="detail-section">
+              <div class="detail-heading">Query Parameters (1/2)</div>
+              <div class="tag-list">
+                <span class="tag tag-success">q ✓</span><span class="tag tag-missing">page ✗</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="endpoint-card" data-service="Products" data-covered="false" data-coverage="0" data-search="QUERY /products/search Search products (HTTP QUERY)">
+        <div class="endpoint-header" onclick="toggleDetails(this)">
+          <div class="endpoint-left">
+            <span class="method-badge method-QUERY">QUERY</span>
+            <span class="endpoint-path">/products/search</span>
+            <span class="service-tag">Products</span>
+          </div>
+          <div class="endpoint-right">
+            <span class="hits-badge hits-uncovered">0 calls</span>
+            <div style="width: 100px;">
+              <div class="progress-bar-container">
+                <div class="progress-bar-fill fill-red" style="width: 0%;"></div>
+              </div>
+            </div>
+            <span style="font-size: 13px; font-weight: 700; width: 40px; text-align: right;">0%</span>
+            <span class="chevron">▼</span>
+          </div>
+        </div>
+        <div class="endpoint-body">
+          <p style="margin-bottom: 14px; color: var(--text-muted); font-size: 14px;"><strong>Search products (HTTP QUERY):</strong> Same as `GET /products/search`, with the criteria in a JSON body. _(source)_</p>
+          <div class="details-grid">
+            <div class="detail-section">
+              <div class="detail-heading">Status Codes (0 tested / 2 documented)</div>
+              <div class="tag-list">
+                <span class="tag tag-missing">200 ✗</span><span class="tag tag-missing">415 ✗</span>
+              </div>
+            </div>
+            <div class="detail-section">
+              <div class="detail-heading">Required Request Fields (0/0)</div>
+              <div class="tag-list">
+                <span class="tag tag-neutral">None required</span>
+              </div>
+            </div>
+            <div class="detail-section">
+              <div class="detail-heading">Optional Request Fields (0/2)</div>
+              <div class="tag-list">
+                <span class="tag tag-missing">q ✗</span><span class="tag tag-missing">page ✗</span>
+              </div>
+            </div>
+            <div class="detail-section">
+              <div class="detail-heading">Query Parameters (0/0)</div>
+              <div class="tag-list">
+                <span class="tag tag-neutral">None</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="endpoint-card" data-service="Users" data-covered="true" data-coverage="52" data-search="POST /users/login Login">
         <div class="endpoint-header" onclick="toggleDetails(this)">
           <div class="endpoint-left">
             <span class="method-badge method-POST">POST</span>
@@ -418,26 +802,170 @@
             <span class="hits-badge hits-covered">2 calls</span>
             <div style="width: 100px;">
               <div class="progress-bar-container">
-                <div class="progress-bar-fill fill-green" style="width: 80%;"></div>
+                <div class="progress-bar-fill fill-yellow" style="width: 52%;"></div>
               </div>
             </div>
-            <span style="font-size: 13px; font-weight: 700; width: 40px; text-align: right;">80%</span>
+            <span style="font-size: 13px; font-weight: 700; width: 40px; text-align: right;">52%</span>
             <span class="chevron">▼</span>
           </div>
         </div>
         <div class="endpoint-body">
-          <p style="margin-bottom: 14px; color: var(--text-muted); font-size: 14px;"><strong>Login:</strong> Returns a JWT for the `Authorization: Bearer &lt;token&gt;` header. Tokens expire after 300 seconds.</p>
+          <p style="margin-bottom: 14px; color: var(--text-muted); font-size: 14px;"><strong>Login:</strong> Returns a JWT for the `Authorization: Bearer &lt;token&gt;` header. Accounts with two-factor auth (TOTP) get a restricted temporary token instead, which is exchanged for a full token by sending it back with the TOTP code. _(source)_</p>
           <div class="details-grid">
             <div class="detail-section">
-              <div class="detail-heading">Status Codes (1 tested / 2 documented)</div>
+              <div class="detail-heading">Status Codes (1 tested / 5 documented)</div>
               <div class="tag-list">
-                <span class="tag tag-success">200 ✓</span><span class="tag tag-missing">401 ✗</span>
+                <span class="tag tag-success">200 ✓</span><span class="tag tag-missing">400 ✗</span><span class="tag tag-missing">401 ✗</span><span class="tag tag-missing">403 ✗</span><span class="tag tag-missing">423 ✗</span>
               </div>
             </div>
             <div class="detail-section">
-              <div class="detail-heading">Required Request Fields (2/2)</div>
+              <div class="detail-heading">Required Request Fields (0/0)</div>
               <div class="tag-list">
-                <span class="tag tag-success">email ✓</span><span class="tag tag-success">password ✓</span>
+                <span class="tag tag-neutral">None required</span>
+              </div>
+            </div>
+            <div class="detail-section">
+              <div class="detail-heading">Optional Request Fields (2/4)</div>
+              <div class="tag-list">
+                <span class="tag tag-success">email ✓</span><span class="tag tag-success">password ✓</span><span class="tag tag-missing">access_token ✗</span><span class="tag tag-missing">totp ✗</span>
+              </div>
+            </div>
+            <div class="detail-section">
+              <div class="detail-heading">Query Parameters (0/0)</div>
+              <div class="tag-list">
+                <span class="tag tag-neutral">None</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="endpoint-card" data-service="Users" data-covered="false" data-coverage="0" data-search="POST /users/register Register">
+        <div class="endpoint-header" onclick="toggleDetails(this)">
+          <div class="endpoint-left">
+            <span class="method-badge method-POST">POST</span>
+            <span class="endpoint-path">/users/register</span>
+            <span class="service-tag">Users</span>
+          </div>
+          <div class="endpoint-right">
+            <span class="hits-badge hits-uncovered">0 calls</span>
+            <div style="width: 100px;">
+              <div class="progress-bar-container">
+                <div class="progress-bar-fill fill-red" style="width: 0%;"></div>
+              </div>
+            </div>
+            <span style="font-size: 13px; font-weight: 700; width: 40px; text-align: right;">0%</span>
+            <span class="chevron">▼</span>
+          </div>
+        </div>
+        <div class="endpoint-body">
+          <p style="margin-bottom: 14px; color: var(--text-muted); font-size: 14px;"><strong>Register:</strong> Creates a customer account (role `user`). _(source)_</p>
+          <div class="details-grid">
+            <div class="detail-section">
+              <div class="detail-heading">Status Codes (0 tested / 3 documented)</div>
+              <div class="tag-list">
+                <span class="tag tag-missing">201 ✗</span><span class="tag tag-missing">409 ✗</span><span class="tag tag-missing">422 ✗</span>
+              </div>
+            </div>
+            <div class="detail-section">
+              <div class="detail-heading">Required Request Fields (0/4)</div>
+              <div class="tag-list">
+                <span class="tag tag-missing">first_name ✗</span><span class="tag tag-missing">last_name ✗</span><span class="tag tag-missing">email ✗</span><span class="tag tag-missing">password ✗</span>
+              </div>
+            </div>
+            <div class="detail-section">
+              <div class="detail-heading">Optional Request Fields (0/9)</div>
+              <div class="tag-list">
+                <span class="tag tag-missing">address ✗</span><span class="tag tag-missing">street ✗</span><span class="tag tag-missing">house_number ✗</span><span class="tag tag-missing">city ✗</span><span class="tag tag-missing">state ✗</span><span class="tag tag-missing">country ✗</span><span class="tag tag-missing">postal_code ✗</span><span class="tag tag-missing">phone ✗</span><span class="tag tag-missing">dob ✗</span>
+              </div>
+            </div>
+            <div class="detail-section">
+              <div class="detail-heading">Query Parameters (0/0)</div>
+              <div class="tag-list">
+                <span class="tag tag-neutral">None</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="endpoint-card" data-service="Users" data-covered="false" data-coverage="0" data-search="POST /users/forgot-password Forgot password">
+        <div class="endpoint-header" onclick="toggleDetails(this)">
+          <div class="endpoint-left">
+            <span class="method-badge method-POST">POST</span>
+            <span class="endpoint-path">/users/forgot-password</span>
+            <span class="service-tag">Users</span>
+          </div>
+          <div class="endpoint-right">
+            <span class="hits-badge hits-uncovered">0 calls</span>
+            <div style="width: 100px;">
+              <div class="progress-bar-container">
+                <div class="progress-bar-fill fill-red" style="width: 0%;"></div>
+              </div>
+            </div>
+            <span style="font-size: 13px; font-weight: 700; width: 40px; text-align: right;">0%</span>
+            <span class="chevron">▼</span>
+          </div>
+        </div>
+        <div class="endpoint-body">
+          <p style="margin-bottom: 14px; color: var(--text-muted); font-size: 14px;"><strong>Forgot password:</strong> Sets the account&#039;s password to `welcome02`. No email confirmation or token is involved. _(source)_</p>
+          <div class="details-grid">
+            <div class="detail-section">
+              <div class="detail-heading">Status Codes (0 tested / 3 documented)</div>
+              <div class="tag-list">
+                <span class="tag tag-missing">200 ✗</span><span class="tag tag-missing">404 ✗</span><span class="tag tag-missing">422 ✗</span>
+              </div>
+            </div>
+            <div class="detail-section">
+              <div class="detail-heading">Required Request Fields (0/1)</div>
+              <div class="tag-list">
+                <span class="tag tag-missing">email ✗</span>
+              </div>
+            </div>
+            <div class="detail-section">
+              <div class="detail-heading">Optional Request Fields (0/0)</div>
+              <div class="tag-list">
+                <span class="tag tag-neutral">None</span>
+              </div>
+            </div>
+            <div class="detail-section">
+              <div class="detail-heading">Query Parameters (0/0)</div>
+              <div class="tag-list">
+                <span class="tag tag-neutral">None</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="endpoint-card" data-service="Users" data-covered="false" data-coverage="0" data-search="POST /users/change-password Change password">
+        <div class="endpoint-header" onclick="toggleDetails(this)">
+          <div class="endpoint-left">
+            <span class="method-badge method-POST">POST</span>
+            <span class="endpoint-path">/users/change-password</span>
+            <span class="service-tag">Users</span>
+          </div>
+          <div class="endpoint-right">
+            <span class="hits-badge hits-uncovered">0 calls</span>
+            <div style="width: 100px;">
+              <div class="progress-bar-container">
+                <div class="progress-bar-fill fill-red" style="width: 0%;"></div>
+              </div>
+            </div>
+            <span style="font-size: 13px; font-weight: 700; width: 40px; text-align: right;">0%</span>
+            <span class="chevron">▼</span>
+          </div>
+        </div>
+        <div class="endpoint-body">
+          <p style="margin-bottom: 14px; color: var(--text-muted); font-size: 14px;"><strong>Change password:</strong> Changes the current user&#039;s password. _(source)_</p>
+          <div class="details-grid">
+            <div class="detail-section">
+              <div class="detail-heading">Status Codes (0 tested / 4 documented)</div>
+              <div class="tag-list">
+                <span class="tag tag-missing">200 ✗</span><span class="tag tag-missing">400 ✗</span><span class="tag tag-missing">401 ✗</span><span class="tag tag-missing">422 ✗</span>
+              </div>
+            </div>
+            <div class="detail-section">
+              <div class="detail-heading">Required Request Fields (0/3)</div>
+              <div class="tag-list">
+                <span class="tag tag-missing">current_password ✗</span><span class="tag tag-missing">new_password ✗</span><span class="tag tag-missing">new_password_confirmation ✗</span>
               </div>
             </div>
             <div class="detail-section">
@@ -474,12 +1002,444 @@
           </div>
         </div>
         <div class="endpoint-body">
-          <p style="margin-bottom: 14px; color: var(--text-muted); font-size: 14px;"><strong>Current user:</strong> Profile of the user the token belongs to. `role` is returned only for admins.</p>
+          <p style="margin-bottom: 14px; color: var(--text-muted); font-size: 14px;"><strong>Current user:</strong> Profile of the user the token belongs to. `role`, `enabled` and `failed_login_attempts` are returned only when the caller is an admin. _(source)_</p>
           <div class="details-grid">
             <div class="detail-section">
               <div class="detail-heading">Status Codes (1 tested / 2 documented)</div>
               <div class="tag-list">
                 <span class="tag tag-success">200 ✓</span><span class="tag tag-missing">401 ✗</span>
+              </div>
+            </div>
+            <div class="detail-section">
+              <div class="detail-heading">Required Request Fields (0/0)</div>
+              <div class="tag-list">
+                <span class="tag tag-neutral">None required</span>
+              </div>
+            </div>
+            <div class="detail-section">
+              <div class="detail-heading">Optional Request Fields (0/0)</div>
+              <div class="tag-list">
+                <span class="tag tag-neutral">None</span>
+              </div>
+            </div>
+            <div class="detail-section">
+              <div class="detail-heading">Query Parameters (0/0)</div>
+              <div class="tag-list">
+                <span class="tag tag-neutral">None</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="endpoint-card" data-service="Users" data-covered="false" data-coverage="0" data-search="GET /users/logout Logout">
+        <div class="endpoint-header" onclick="toggleDetails(this)">
+          <div class="endpoint-left">
+            <span class="method-badge method-GET">GET</span>
+            <span class="endpoint-path">/users/logout</span>
+            <span class="service-tag">Users</span>
+          </div>
+          <div class="endpoint-right">
+            <span class="hits-badge hits-uncovered">0 calls</span>
+            <div style="width: 100px;">
+              <div class="progress-bar-container">
+                <div class="progress-bar-fill fill-red" style="width: 0%;"></div>
+              </div>
+            </div>
+            <span style="font-size: 13px; font-weight: 700; width: 40px; text-align: right;">0%</span>
+            <span class="chevron">▼</span>
+          </div>
+        </div>
+        <div class="endpoint-body">
+          <p style="margin-bottom: 14px; color: var(--text-muted); font-size: 14px;"><strong>Logout:</strong> Invalidates (blacklists) the token. Later requests with it get `401`. _(source)_</p>
+          <div class="details-grid">
+            <div class="detail-section">
+              <div class="detail-heading">Status Codes (0 tested / 2 documented)</div>
+              <div class="tag-list">
+                <span class="tag tag-missing">200 ✗</span><span class="tag tag-missing">401 ✗</span>
+              </div>
+            </div>
+            <div class="detail-section">
+              <div class="detail-heading">Required Request Fields (0/0)</div>
+              <div class="tag-list">
+                <span class="tag tag-neutral">None required</span>
+              </div>
+            </div>
+            <div class="detail-section">
+              <div class="detail-heading">Optional Request Fields (0/0)</div>
+              <div class="tag-list">
+                <span class="tag tag-neutral">None</span>
+              </div>
+            </div>
+            <div class="detail-section">
+              <div class="detail-heading">Query Parameters (0/0)</div>
+              <div class="tag-list">
+                <span class="tag tag-neutral">None</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="endpoint-card" data-service="Users" data-covered="false" data-coverage="0" data-search="GET /users/refresh Refresh token">
+        <div class="endpoint-header" onclick="toggleDetails(this)">
+          <div class="endpoint-left">
+            <span class="method-badge method-GET">GET</span>
+            <span class="endpoint-path">/users/refresh</span>
+            <span class="service-tag">Users</span>
+          </div>
+          <div class="endpoint-right">
+            <span class="hits-badge hits-uncovered">0 calls</span>
+            <div style="width: 100px;">
+              <div class="progress-bar-container">
+                <div class="progress-bar-fill fill-red" style="width: 0%;"></div>
+              </div>
+            </div>
+            <span style="font-size: 13px; font-weight: 700; width: 40px; text-align: right;">0%</span>
+            <span class="chevron">▼</span>
+          </div>
+        </div>
+        <div class="endpoint-body">
+          <p style="margin-bottom: 14px; color: var(--text-muted); font-size: 14px;"><strong>Refresh token:</strong> Returns a new token for the one in the `Authorization` header and invalidates the old one. An expired token can still be refreshed within the refresh window (`JWT_REFRESH_TTL`, 60 minutes by default). This route has no auth middleware; the token is read by the handler. _(source)_</p>
+          <div class="details-grid">
+            <div class="detail-section">
+              <div class="detail-heading">Status Codes (0 tested / 3 documented)</div>
+              <div class="tag-list">
+                <span class="tag tag-missing">200 ✗</span><span class="tag tag-missing">401 ✗</span><span class="tag tag-missing">500 ✗</span>
+              </div>
+            </div>
+            <div class="detail-section">
+              <div class="detail-heading">Required Request Fields (0/0)</div>
+              <div class="tag-list">
+                <span class="tag tag-neutral">None required</span>
+              </div>
+            </div>
+            <div class="detail-section">
+              <div class="detail-heading">Optional Request Fields (0/0)</div>
+              <div class="tag-list">
+                <span class="tag tag-neutral">None</span>
+              </div>
+            </div>
+            <div class="detail-section">
+              <div class="detail-heading">Query Parameters (0/0)</div>
+              <div class="tag-list">
+                <span class="tag tag-neutral">None</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="endpoint-card" data-service="Users" data-covered="false" data-coverage="0" data-search="GET /users List users">
+        <div class="endpoint-header" onclick="toggleDetails(this)">
+          <div class="endpoint-left">
+            <span class="method-badge method-GET">GET</span>
+            <span class="endpoint-path">/users</span>
+            <span class="service-tag">Users</span>
+          </div>
+          <div class="endpoint-right">
+            <span class="hits-badge hits-uncovered">0 calls</span>
+            <div style="width: 100px;">
+              <div class="progress-bar-container">
+                <div class="progress-bar-fill fill-red" style="width: 0%;"></div>
+              </div>
+            </div>
+            <span style="font-size: 13px; font-weight: 700; width: 40px; text-align: right;">0%</span>
+            <span class="chevron">▼</span>
+          </div>
+        </div>
+        <div class="endpoint-body">
+          <p style="margin-bottom: 14px; color: var(--text-muted); font-size: 14px;"><strong>List users:</strong> Lists customer accounts (role `user` only), 15 per page. Admin only. _(source)_</p>
+          <div class="details-grid">
+            <div class="detail-section">
+              <div class="detail-heading">Status Codes (0 tested / 3 documented)</div>
+              <div class="tag-list">
+                <span class="tag tag-missing">200 ✗</span><span class="tag tag-missing">401 ✗</span><span class="tag tag-missing">403 ✗</span>
+              </div>
+            </div>
+            <div class="detail-section">
+              <div class="detail-heading">Required Request Fields (0/0)</div>
+              <div class="tag-list">
+                <span class="tag tag-neutral">None required</span>
+              </div>
+            </div>
+            <div class="detail-section">
+              <div class="detail-heading">Optional Request Fields (0/0)</div>
+              <div class="tag-list">
+                <span class="tag tag-neutral">None</span>
+              </div>
+            </div>
+            <div class="detail-section">
+              <div class="detail-heading">Query Parameters (0/1)</div>
+              <div class="tag-list">
+                <span class="tag tag-missing">page ✗</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="endpoint-card" data-service="Users" data-covered="false" data-coverage="0" data-search="GET /users/search Search users">
+        <div class="endpoint-header" onclick="toggleDetails(this)">
+          <div class="endpoint-left">
+            <span class="method-badge method-GET">GET</span>
+            <span class="endpoint-path">/users/search</span>
+            <span class="service-tag">Users</span>
+          </div>
+          <div class="endpoint-right">
+            <span class="hits-badge hits-uncovered">0 calls</span>
+            <div style="width: 100px;">
+              <div class="progress-bar-container">
+                <div class="progress-bar-fill fill-red" style="width: 0%;"></div>
+              </div>
+            </div>
+            <span style="font-size: 13px; font-weight: 700; width: 40px; text-align: right;">0%</span>
+            <span class="chevron">▼</span>
+          </div>
+        </div>
+        <div class="endpoint-body">
+          <p style="margin-bottom: 14px; color: var(--text-muted); font-size: 14px;"><strong>Search users:</strong> Searches customer accounts (role `user` only) by first name, last name, email and city. Any logged-in user can search (see Notes). Returns 15 per page. _(source)_</p>
+          <div class="details-grid">
+            <div class="detail-section">
+              <div class="detail-heading">Status Codes (0 tested / 2 documented)</div>
+              <div class="tag-list">
+                <span class="tag tag-missing">200 ✗</span><span class="tag tag-missing">401 ✗</span>
+              </div>
+            </div>
+            <div class="detail-section">
+              <div class="detail-heading">Required Request Fields (0/0)</div>
+              <div class="tag-list">
+                <span class="tag tag-neutral">None required</span>
+              </div>
+            </div>
+            <div class="detail-section">
+              <div class="detail-heading">Optional Request Fields (0/0)</div>
+              <div class="tag-list">
+                <span class="tag tag-neutral">None</span>
+              </div>
+            </div>
+            <div class="detail-section">
+              <div class="detail-heading">Query Parameters (0/2)</div>
+              <div class="tag-list">
+                <span class="tag tag-missing">q ✗</span><span class="tag tag-missing">page ✗</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="endpoint-card" data-service="Users" data-covered="false" data-coverage="0" data-search="QUERY /users/search Search users (HTTP QUERY)">
+        <div class="endpoint-header" onclick="toggleDetails(this)">
+          <div class="endpoint-left">
+            <span class="method-badge method-QUERY">QUERY</span>
+            <span class="endpoint-path">/users/search</span>
+            <span class="service-tag">Users</span>
+          </div>
+          <div class="endpoint-right">
+            <span class="hits-badge hits-uncovered">0 calls</span>
+            <div style="width: 100px;">
+              <div class="progress-bar-container">
+                <div class="progress-bar-fill fill-red" style="width: 0%;"></div>
+              </div>
+            </div>
+            <span style="font-size: 13px; font-weight: 700; width: 40px; text-align: right;">0%</span>
+            <span class="chevron">▼</span>
+          </div>
+        </div>
+        <div class="endpoint-body">
+          <p style="margin-bottom: 14px; color: var(--text-muted); font-size: 14px;"><strong>Search users (HTTP QUERY):</strong> Same as `GET /users/search`, with the criteria in a JSON body. _(source)_</p>
+          <div class="details-grid">
+            <div class="detail-section">
+              <div class="detail-heading">Status Codes (0 tested / 3 documented)</div>
+              <div class="tag-list">
+                <span class="tag tag-missing">200 ✗</span><span class="tag tag-missing">401 ✗</span><span class="tag tag-missing">415 ✗</span>
+              </div>
+            </div>
+            <div class="detail-section">
+              <div class="detail-heading">Required Request Fields (0/0)</div>
+              <div class="tag-list">
+                <span class="tag tag-neutral">None required</span>
+              </div>
+            </div>
+            <div class="detail-section">
+              <div class="detail-heading">Optional Request Fields (0/2)</div>
+              <div class="tag-list">
+                <span class="tag tag-missing">q ✗</span><span class="tag tag-missing">page ✗</span>
+              </div>
+            </div>
+            <div class="detail-section">
+              <div class="detail-heading">Query Parameters (0/0)</div>
+              <div class="tag-list">
+                <span class="tag tag-neutral">None</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="endpoint-card" data-service="Users" data-covered="false" data-coverage="0" data-search="GET /users/:userId Get user">
+        <div class="endpoint-header" onclick="toggleDetails(this)">
+          <div class="endpoint-left">
+            <span class="method-badge method-GET">GET</span>
+            <span class="endpoint-path">/users/:userId</span>
+            <span class="service-tag">Users</span>
+          </div>
+          <div class="endpoint-right">
+            <span class="hits-badge hits-uncovered">0 calls</span>
+            <div style="width: 100px;">
+              <div class="progress-bar-container">
+                <div class="progress-bar-fill fill-red" style="width: 0%;"></div>
+              </div>
+            </div>
+            <span style="font-size: 13px; font-weight: 700; width: 40px; text-align: right;">0%</span>
+            <span class="chevron">▼</span>
+          </div>
+        </div>
+        <div class="endpoint-body">
+          <p style="margin-bottom: 14px; color: var(--text-muted); font-size: 14px;"><strong>Get user:</strong> Returns a user. A non-admin can only get their own record. _(source)_</p>
+          <div class="details-grid">
+            <div class="detail-section">
+              <div class="detail-heading">Status Codes (0 tested / 3 documented)</div>
+              <div class="tag-list">
+                <span class="tag tag-missing">200 ✗</span><span class="tag tag-missing">401 ✗</span><span class="tag tag-missing">404 ✗</span>
+              </div>
+            </div>
+            <div class="detail-section">
+              <div class="detail-heading">Required Request Fields (0/0)</div>
+              <div class="tag-list">
+                <span class="tag tag-neutral">None required</span>
+              </div>
+            </div>
+            <div class="detail-section">
+              <div class="detail-heading">Optional Request Fields (0/0)</div>
+              <div class="tag-list">
+                <span class="tag tag-neutral">None</span>
+              </div>
+            </div>
+            <div class="detail-section">
+              <div class="detail-heading">Query Parameters (0/0)</div>
+              <div class="tag-list">
+                <span class="tag tag-neutral">None</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="endpoint-card" data-service="Users" data-covered="false" data-coverage="0" data-search="PUT /users/:userId Update user">
+        <div class="endpoint-header" onclick="toggleDetails(this)">
+          <div class="endpoint-left">
+            <span class="method-badge method-PUT">PUT</span>
+            <span class="endpoint-path">/users/:userId</span>
+            <span class="service-tag">Users</span>
+          </div>
+          <div class="endpoint-right">
+            <span class="hits-badge hits-uncovered">0 calls</span>
+            <div style="width: 100px;">
+              <div class="progress-bar-container">
+                <div class="progress-bar-fill fill-red" style="width: 0%;"></div>
+              </div>
+            </div>
+            <span style="font-size: 13px; font-weight: 700; width: 40px; text-align: right;">0%</span>
+            <span class="chevron">▼</span>
+          </div>
+        </div>
+        <div class="endpoint-body">
+          <p style="margin-bottom: 14px; color: var(--text-muted); font-size: 14px;"><strong>Update user:</strong> Updates a user&#039;s profile. A non-admin can only update their own record; only an admin can send `role`. `password` is ignored (use change-password). _(source)_</p>
+          <div class="details-grid">
+            <div class="detail-section">
+              <div class="detail-heading">Status Codes (0 tested / 4 documented)</div>
+              <div class="tag-list">
+                <span class="tag tag-missing">200 ✗</span><span class="tag tag-missing">401 ✗</span><span class="tag tag-missing">403 ✗</span><span class="tag tag-missing">422 ✗</span>
+              </div>
+            </div>
+            <div class="detail-section">
+              <div class="detail-heading">Required Request Fields (0/7)</div>
+              <div class="tag-list">
+                <span class="tag tag-missing">first_name ✗</span><span class="tag tag-missing">last_name ✗</span><span class="tag tag-missing">email ✗</span><span class="tag tag-missing">address ✗</span><span class="tag tag-missing">street ✗</span><span class="tag tag-missing">city ✗</span><span class="tag tag-missing">country ✗</span>
+              </div>
+            </div>
+            <div class="detail-section">
+              <div class="detail-heading">Optional Request Fields (0/6)</div>
+              <div class="tag-list">
+                <span class="tag tag-missing">house_number ✗</span><span class="tag tag-missing">state ✗</span><span class="tag tag-missing">postal_code ✗</span><span class="tag tag-missing">phone ✗</span><span class="tag tag-missing">dob ✗</span><span class="tag tag-missing">role ✗</span>
+              </div>
+            </div>
+            <div class="detail-section">
+              <div class="detail-heading">Query Parameters (0/0)</div>
+              <div class="tag-list">
+                <span class="tag tag-neutral">None</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="endpoint-card" data-service="Users" data-covered="false" data-coverage="0" data-search="PATCH /users/:userId Partially update user">
+        <div class="endpoint-header" onclick="toggleDetails(this)">
+          <div class="endpoint-left">
+            <span class="method-badge method-PATCH">PATCH</span>
+            <span class="endpoint-path">/users/:userId</span>
+            <span class="service-tag">Users</span>
+          </div>
+          <div class="endpoint-right">
+            <span class="hits-badge hits-uncovered">0 calls</span>
+            <div style="width: 100px;">
+              <div class="progress-bar-container">
+                <div class="progress-bar-fill fill-red" style="width: 0%;"></div>
+              </div>
+            </div>
+            <span style="font-size: 13px; font-weight: 700; width: 40px; text-align: right;">0%</span>
+            <span class="chevron">▼</span>
+          </div>
+        </div>
+        <div class="endpoint-body">
+          <p style="margin-bottom: 14px; color: var(--text-muted); font-size: 14px;"><strong>Partially update user:</strong> Updates only the validated fields that are sent. A non-admin can only patch their own record. _(source)_</p>
+          <div class="details-grid">
+            <div class="detail-section">
+              <div class="detail-heading">Status Codes (0 tested / 4 documented)</div>
+              <div class="tag-list">
+                <span class="tag tag-missing">200 ✗</span><span class="tag tag-missing">401 ✗</span><span class="tag tag-missing">403 ✗</span><span class="tag tag-missing">422 ✗</span>
+              </div>
+            </div>
+            <div class="detail-section">
+              <div class="detail-heading">Required Request Fields (0/0)</div>
+              <div class="tag-list">
+                <span class="tag tag-neutral">None required</span>
+              </div>
+            </div>
+            <div class="detail-section">
+              <div class="detail-heading">Optional Request Fields (0/17)</div>
+              <div class="tag-list">
+                <span class="tag tag-missing">first_name ✗</span><span class="tag tag-missing">last_name ✗</span><span class="tag tag-missing">email ✗</span><span class="tag tag-missing">address ✗</span><span class="tag tag-missing">street ✗</span><span class="tag tag-missing">house_number ✗</span><span class="tag tag-missing">city ✗</span><span class="tag tag-missing">state ✗</span><span class="tag tag-missing">country ✗</span><span class="tag tag-missing">postal_code ✗</span><span class="tag tag-missing">phone ✗</span><span class="tag tag-missing">dob ✗</span><span class="tag tag-missing">enabled ✗</span><span class="tag tag-missing">failed_login_attempts ✗</span><span class="tag tag-missing">totp_enabled ✗</span><span class="tag tag-missing">totp_secret ✗</span><span class="tag tag-missing">totp_verified_at ✗</span>
+              </div>
+            </div>
+            <div class="detail-section">
+              <div class="detail-heading">Query Parameters (0/0)</div>
+              <div class="tag-list">
+                <span class="tag tag-neutral">None</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="endpoint-card" data-service="Users" data-covered="false" data-coverage="0" data-search="DELETE /users/:userId Delete user">
+        <div class="endpoint-header" onclick="toggleDetails(this)">
+          <div class="endpoint-left">
+            <span class="method-badge method-DELETE">DELETE</span>
+            <span class="endpoint-path">/users/:userId</span>
+            <span class="service-tag">Users</span>
+          </div>
+          <div class="endpoint-right">
+            <span class="hits-badge hits-uncovered">0 calls</span>
+            <div style="width: 100px;">
+              <div class="progress-bar-container">
+                <div class="progress-bar-fill fill-red" style="width: 0%;"></div>
+              </div>
+            </div>
+            <span style="font-size: 13px; font-weight: 700; width: 40px; text-align: right;">0%</span>
+            <span class="chevron">▼</span>
+          </div>
+        </div>
+        <div class="endpoint-body">
+          <p style="margin-bottom: 14px; color: var(--text-muted); font-size: 14px;"><strong>Delete user:</strong> Deletes a user. Admin only. _(source)_</p>
+          <div class="details-grid">
+            <div class="detail-section">
+              <div class="detail-heading">Status Codes (0 tested / 5 documented)</div>
+              <div class="tag-list">
+                <span class="tag tag-missing">204 ✗</span><span class="tag tag-missing">401 ✗</span><span class="tag tag-missing">403 ✗</span><span class="tag tag-missing">409 ✗</span><span class="tag tag-missing">500 ✗</span>
               </div>
             </div>
             <div class="detail-section">

@@ -1,51 +1,107 @@
 {
-  "generatedAt": "2026-10-01T08:09:48.339Z",
-  "totalEndpoints": 4,
+  "generatedAt": "2026-10-02T07:50:48.949Z",
+  "totalEndpoints": 24,
   "coveredEndpoints": 3,
-  "endpointCoveragePct": 75,
-  "totalDocumentedStatusCodes": 7,
+  "endpointCoveragePct": 13,
+  "totalDocumentedStatusCodes": 72,
   "coveredStatusCodes": 3,
-  "statusCodeCoveragePct": 43,
-  "totalRequiredFields": 2,
-  "coveredRequiredFields": 2,
-  "requiredFieldCoveragePct": 100,
-  "totalOptionalFields": 0,
-  "coveredOptionalFields": 0,
-  "optionalFieldCoveragePct": 100,
-  "overallCoveragePct": 61,
+  "statusCodeCoveragePct": 4,
+  "totalRequiredFields": 22,
+  "coveredRequiredFields": 0,
+  "requiredFieldCoveragePct": 0,
+  "totalOptionalFields": 71,
+  "coveredOptionalFields": 2,
+  "optionalFieldCoveragePct": 3,
+  "overallCoveragePct": 9,
   "services": {
     "Products": {
       "serviceName": "Products",
-      "totalEndpoints": 2,
+      "totalEndpoints": 10,
       "coveredEndpoints": 1,
-      "endpointCoveragePct": 50,
-      "documentedStatusCodes": 3,
+      "endpointCoveragePct": 10,
+      "documentedStatusCodes": 26,
       "coveredStatusCodes": 1,
-      "statusCodeCoveragePct": 33,
-      "totalRequiredFields": 0,
+      "statusCodeCoveragePct": 4,
+      "totalRequiredFields": 7,
       "coveredRequiredFields": 0,
-      "requiredFieldCoveragePct": 100,
-      "totalOptionalFields": 0,
+      "requiredFieldCoveragePct": 0,
+      "totalOptionalFields": 33,
       "coveredOptionalFields": 0,
-      "optionalFieldCoveragePct": 100,
-      "overallCoveragePct": 46,
+      "optionalFieldCoveragePct": 0,
+      "overallCoveragePct": 9,
       "endpoints": [
         {
           "endpoint": {
-            "id": "GET /products/search",
+            "id": "GET /products",
             "serviceName": "Products",
             "method": "GET",
-            "path": "/products/search",
-            "normalizedPath": "/products/search",
-            "title": "Search products",
-            "description": "Full-text search on product name. Returns a paginated list (9 per page); an empty or missing `q` returns an empty list.",
+            "path": "/products",
+            "normalizedPath": "/products",
+            "title": "List products",
+            "description": "Returns the products, 9 per page. Without `is_rental`, rental products are excluded (`is_rental` defaults to false). _(source)_",
             "parameters": [
+              {
+                "name": "by_brand",
+                "in": "query",
+                "type": "string",
+                "required": false,
+                "description": "Brand id, or several ids separated by commas"
+              },
+              {
+                "name": "by_category",
+                "in": "query",
+                "type": "string",
+                "required": false,
+                "description": "Category id, or several ids separated by commas"
+              },
+              {
+                "name": "by_category_slug",
+                "in": "query",
+                "type": "string",
+                "required": false,
+                "description": "Category slug; also matches its direct sub-categories. In the source, not in the spec."
+              },
+              {
+                "name": "is_rental",
+                "in": "query",
+                "type": "string",
+                "required": false,
+                "description": "true` or `1` returns only rentals; anything else, or no value, returns only non-rentals"
+              },
+              {
+                "name": "between",
+                "in": "query",
+                "type": "string",
+                "required": false,
+                "description": "Range filter, e.g. `price,10,30"
+              },
+              {
+                "name": "sort",
+                "in": "query",
+                "type": "string",
+                "required": false,
+                "description": "<column>,<asc\\"
+              },
+              {
+                "name": "eco_friendly",
+                "in": "query",
+                "type": "string",
+                "required": false,
+                "description": "true` or `1`: only products with CO2 rating A or B. In the source, not in the spec."
+              },
               {
                 "name": "q",
                 "in": "query",
                 "type": "string",
-                "required": true,
-                "description": "Search term"
+                "required": false,
+                "description": "Name contains this text. In the source, not in the spec."
+              },
+              {
+                "name": "by_spec",
+                "in": "query",
+                "type": "string",
+                "required": false,
+                "description": "Spec filter, `name:value1\\"
               },
               {
                 "name": "page",
@@ -72,7 +128,599 @@
                   "to",
                   "total"
                 ],
-                "schemaRaw": "{\n  current_page: number;\n  data: Product[];\n  from: number | null;\n  last_page: number;\n  per_page: number;\n  to: number | null;\n  total: number;\n}"
+                "schemaRaw": "{\n  current_page: number;\n  data: Product[];        // up to 9; category has id, name, slug\n  from: number | null;\n  last_page: number;\n  per_page: number;\n  to: number | null;\n  total: number;\n}",
+                "origin": "verified"
+              },
+              "500": {
+                "statusCode": 500,
+                "statusText": "Internal Server Error",
+                "origin": "verified"
+              }
+            }
+          },
+          "callCount": 0,
+          "isCovered": false,
+          "testedStatusCodes": [],
+          "documentedStatusCodes": [
+            200,
+            500
+          ],
+          "statusCodeCoveragePct": 0,
+          "testedRequiredFields": [],
+          "missingRequiredFields": [],
+          "requiredFieldCoveragePct": 100,
+          "testedOptionalFields": [],
+          "missingOptionalFields": [],
+          "optionalFieldCoveragePct": 100,
+          "testedQueryParams": [],
+          "missingQueryParams": [
+            "by_brand",
+            "by_category",
+            "by_category_slug",
+            "is_rental",
+            "between",
+            "sort",
+            "eco_friendly",
+            "q",
+            "by_spec",
+            "page"
+          ],
+          "queryParamCoveragePct": 0,
+          "overallCoveragePct": 0
+        },
+        {
+          "endpoint": {
+            "id": "QUERY /products",
+            "serviceName": "Products",
+            "method": "QUERY",
+            "path": "/products",
+            "normalizedPath": "/products",
+            "title": "List products (HTTP QUERY)",
+            "description": "Same as `GET /products`, but the criteria are sent as a JSON body (RFC 10008 `QUERY` method). The body keys are merged into the query string, so the results equal the `GET` with the same parameters. _(source)_",
+            "parameters": [],
+            "requestBody": {
+              "requiredFields": [],
+              "optionalFields": [
+                "by_brand",
+                "by_category",
+                "by_category_slug",
+                "is_rental",
+                "between",
+                "sort",
+                "eco_friendly",
+                "q",
+                "by_spec",
+                "page"
+              ],
+              "schemaRaw": "{\n  by_brand?: string;\n  by_category?: string;\n  by_category_slug?: string;\n  is_rental?: string;\n  between?: string;\n  sort?: string;\n  eco_friendly?: string;\n  q?: string;\n  by_spec?: string;\n  page?: string;\n}"
+            },
+            "responses": {
+              "200": {
+                "statusCode": 200,
+                "statusText": "OK",
+                "fields": [],
+                "origin": "verified"
+              },
+              "415": {
+                "statusCode": 415,
+                "statusText": "Unsupported Media Type",
+                "origin": "verified"
+              },
+              "500": {
+                "statusCode": 500,
+                "statusText": "Internal Server Error",
+                "origin": "source"
+              }
+            }
+          },
+          "callCount": 0,
+          "isCovered": false,
+          "testedStatusCodes": [],
+          "documentedStatusCodes": [
+            200,
+            415,
+            500
+          ],
+          "statusCodeCoveragePct": 0,
+          "testedRequiredFields": [],
+          "missingRequiredFields": [],
+          "requiredFieldCoveragePct": 100,
+          "testedOptionalFields": [],
+          "missingOptionalFields": [
+            "by_brand",
+            "by_category",
+            "by_category_slug",
+            "is_rental",
+            "between",
+            "sort",
+            "eco_friendly",
+            "q",
+            "by_spec",
+            "page"
+          ],
+          "optionalFieldCoveragePct": 0,
+          "testedQueryParams": [],
+          "missingQueryParams": [],
+          "queryParamCoveragePct": 100,
+          "overallCoveragePct": 0
+        },
+        {
+          "endpoint": {
+            "id": "POST /products",
+            "serviceName": "Products",
+            "method": "POST",
+            "path": "/products",
+            "normalizedPath": "/products",
+            "title": "Create product",
+            "description": "Creates a product. No token is needed (see Notes). _(source)_",
+            "parameters": [],
+            "requestBody": {
+              "requiredFields": [
+                "name",
+                "price",
+                "category_id",
+                "brand_id",
+                "product_image_id",
+                "is_location_offer",
+                "is_rental"
+              ],
+              "optionalFields": [
+                "description",
+                "co2_rating",
+                "stock"
+              ],
+              "schemaRaw": "{\n  name: string;               // max 120, no subscript/superscript characters\n  description?: string;       // max 1250, no subscript/superscript characters\n  price: number;\n  category_id: string;        // existing category id\n  brand_id: string;           // existing brand id\n  product_image_id: string;   // existing product image id\n  is_location_offer: boolean;\n  is_rental: boolean;\n  co2_rating?: string;        // not validated; stored as sent\n  stock?: number;             // not validated; stored as sent\n}"
+            },
+            "responses": {
+              "201": {
+                "statusCode": 201,
+                "statusText": "Created",
+                "fields": [],
+                "schemaRaw": "Product   // with product_image, category and brand loaded",
+                "origin": "source"
+              },
+              "422": {
+                "statusCode": 422,
+                "statusText": "Unprocessable Entity",
+                "origin": "source"
+              },
+              "500": {
+                "statusCode": 500,
+                "statusText": "Internal Server Error",
+                "origin": "source"
+              }
+            }
+          },
+          "callCount": 0,
+          "isCovered": false,
+          "testedStatusCodes": [],
+          "documentedStatusCodes": [
+            201,
+            422,
+            500
+          ],
+          "statusCodeCoveragePct": 0,
+          "testedRequiredFields": [],
+          "missingRequiredFields": [
+            "name",
+            "price",
+            "category_id",
+            "brand_id",
+            "product_image_id",
+            "is_location_offer",
+            "is_rental"
+          ],
+          "requiredFieldCoveragePct": 0,
+          "testedOptionalFields": [],
+          "missingOptionalFields": [
+            "description",
+            "co2_rating",
+            "stock"
+          ],
+          "optionalFieldCoveragePct": 0,
+          "testedQueryParams": [],
+          "missingQueryParams": [],
+          "queryParamCoveragePct": 100,
+          "overallCoveragePct": 0
+        },
+        {
+          "endpoint": {
+            "id": "GET /products/:productId",
+            "serviceName": "Products",
+            "method": "GET",
+            "path": "/products/:productId",
+            "normalizedPath": "/products/{productId}",
+            "title": "Get product",
+            "description": "Returns one product with its category (including `parent_id`), brand, image and specs. _(verified)_",
+            "parameters": [
+              {
+                "name": "productId",
+                "in": "path",
+                "type": "string",
+                "required": true,
+                "description": "Product ULID"
+              }
+            ],
+            "requestBody": {
+              "requiredFields": [],
+              "optionalFields": []
+            },
+            "responses": {
+              "200": {
+                "statusCode": 200,
+                "statusText": "OK",
+                "fields": [
+                  "category",
+                  "specs"
+                ],
+                "schemaRaw": "Product & {\n  category: { id: string; name: string; slug: string; parent_id: string | null };\n  specs: ProductSpec[];\n}",
+                "origin": "verified"
+              },
+              "404": {
+                "statusCode": 404,
+                "statusText": "Not Found",
+                "origin": "verified"
+              }
+            }
+          },
+          "callCount": 0,
+          "isCovered": false,
+          "testedStatusCodes": [],
+          "documentedStatusCodes": [
+            200,
+            404
+          ],
+          "statusCodeCoveragePct": 0,
+          "testedRequiredFields": [],
+          "missingRequiredFields": [],
+          "requiredFieldCoveragePct": 100,
+          "testedOptionalFields": [],
+          "missingOptionalFields": [],
+          "optionalFieldCoveragePct": 100,
+          "testedQueryParams": [],
+          "missingQueryParams": [],
+          "queryParamCoveragePct": 100,
+          "overallCoveragePct": 0
+        },
+        {
+          "endpoint": {
+            "id": "PUT /products/:productId",
+            "serviceName": "Products",
+            "method": "PUT",
+            "path": "/products/:productId",
+            "normalizedPath": "/products/{productId}",
+            "title": "Update product",
+            "description": "Updates a product with the fields sent. No token is needed (see Notes). Despite being `PUT`, no field is required. _(source)_",
+            "parameters": [
+              {
+                "name": "productId",
+                "in": "path",
+                "type": "string",
+                "required": true,
+                "description": "Product ULID"
+              }
+            ],
+            "requestBody": {
+              "requiredFields": [],
+              "optionalFields": [
+                "name",
+                "description",
+                "price",
+                "category_id",
+                "brand_id",
+                "product_image_id",
+                "is_location_offer",
+                "is_rental",
+                "co2_rating",
+                "stock"
+              ],
+              "schemaRaw": "{\n  name?: string;              // max 120\n  description?: string;       // max 1250\n  price?: number;             // not validated\n  category_id?: string;       // not validated\n  brand_id?: string;          // not validated\n  product_image_id?: string;  // not validated\n  is_location_offer?: boolean;\n  is_rental?: boolean;\n  co2_rating?: string;        // not validated\n  stock?: number;             // not validated\n}"
+            },
+            "responses": {
+              "200": {
+                "statusCode": 200,
+                "statusText": "OK",
+                "fields": [],
+                "schemaRaw": "{ success: true }",
+                "origin": "source"
+              },
+              "404": {
+                "statusCode": 404,
+                "statusText": "Not Found",
+                "origin": "source"
+              },
+              "422": {
+                "statusCode": 422,
+                "statusText": "Unprocessable Entity",
+                "origin": "source"
+              }
+            }
+          },
+          "callCount": 0,
+          "isCovered": false,
+          "testedStatusCodes": [],
+          "documentedStatusCodes": [
+            200,
+            404,
+            422
+          ],
+          "statusCodeCoveragePct": 0,
+          "testedRequiredFields": [],
+          "missingRequiredFields": [],
+          "requiredFieldCoveragePct": 100,
+          "testedOptionalFields": [],
+          "missingOptionalFields": [
+            "name",
+            "description",
+            "price",
+            "category_id",
+            "brand_id",
+            "product_image_id",
+            "is_location_offer",
+            "is_rental",
+            "co2_rating",
+            "stock"
+          ],
+          "optionalFieldCoveragePct": 0,
+          "testedQueryParams": [],
+          "missingQueryParams": [],
+          "queryParamCoveragePct": 100,
+          "overallCoveragePct": 0
+        },
+        {
+          "endpoint": {
+            "id": "PATCH /products/:productId",
+            "serviceName": "Products",
+            "method": "PATCH",
+            "path": "/products/:productId",
+            "normalizedPath": "/products/{productId}",
+            "title": "Partially update product",
+            "description": "Updates only the validated fields that are sent. Unlike `PUT`, fields without a rule (`co2_rating`, `stock`) are dropped. _(source)_",
+            "parameters": [
+              {
+                "name": "productId",
+                "in": "path",
+                "type": "string",
+                "required": true,
+                "description": "Product ULID"
+              }
+            ],
+            "requestBody": {
+              "requiredFields": [],
+              "optionalFields": [
+                "name",
+                "description",
+                "price",
+                "category_id",
+                "brand_id",
+                "product_image_id",
+                "is_location_offer",
+                "is_rental"
+              ],
+              "schemaRaw": "{\n  name?: string;              // max 120\n  description?: string;       // max 1250\n  price?: number;\n  category_id?: string;\n  brand_id?: string;\n  product_image_id?: string;\n  is_location_offer?: boolean;\n  is_rental?: boolean;\n}"
+            },
+            "responses": {
+              "200": {
+                "statusCode": 200,
+                "statusText": "OK",
+                "fields": [],
+                "schemaRaw": "{ success: true }",
+                "origin": "source"
+              },
+              "404": {
+                "statusCode": 404,
+                "statusText": "Not Found",
+                "origin": "source"
+              },
+              "422": {
+                "statusCode": 422,
+                "statusText": "Unprocessable Entity",
+                "origin": "source"
+              }
+            }
+          },
+          "callCount": 0,
+          "isCovered": false,
+          "testedStatusCodes": [],
+          "documentedStatusCodes": [
+            200,
+            404,
+            422
+          ],
+          "statusCodeCoveragePct": 0,
+          "testedRequiredFields": [],
+          "missingRequiredFields": [],
+          "requiredFieldCoveragePct": 100,
+          "testedOptionalFields": [],
+          "missingOptionalFields": [
+            "name",
+            "description",
+            "price",
+            "category_id",
+            "brand_id",
+            "product_image_id",
+            "is_location_offer",
+            "is_rental"
+          ],
+          "optionalFieldCoveragePct": 0,
+          "testedQueryParams": [],
+          "missingQueryParams": [],
+          "queryParamCoveragePct": 100,
+          "overallCoveragePct": 0
+        },
+        {
+          "endpoint": {
+            "id": "DELETE /products/:productId",
+            "serviceName": "Products",
+            "method": "DELETE",
+            "path": "/products/:productId",
+            "normalizedPath": "/products/{productId}",
+            "title": "Delete product",
+            "description": "Deletes a product. Admin only. _(source)_",
+            "parameters": [
+              {
+                "name": "productId",
+                "in": "path",
+                "type": "string",
+                "required": true,
+                "description": "Product ULID"
+              }
+            ],
+            "requestBody": {
+              "requiredFields": [],
+              "optionalFields": []
+            },
+            "responses": {
+              "204": {
+                "statusCode": 204,
+                "statusText": "No Content",
+                "fields": [],
+                "origin": "source"
+              },
+              "401": {
+                "statusCode": 401,
+                "statusText": "Unauthorized",
+                "origin": "source"
+              },
+              "403": {
+                "statusCode": 403,
+                "statusText": "Forbidden",
+                "origin": "source"
+              },
+              "404": {
+                "statusCode": 404,
+                "statusText": "Not Found",
+                "origin": "source"
+              },
+              "409": {
+                "statusCode": 409,
+                "statusText": "Conflict",
+                "origin": "source"
+              }
+            }
+          },
+          "callCount": 0,
+          "isCovered": false,
+          "testedStatusCodes": [],
+          "documentedStatusCodes": [
+            204,
+            401,
+            403,
+            404,
+            409
+          ],
+          "statusCodeCoveragePct": 0,
+          "testedRequiredFields": [],
+          "missingRequiredFields": [],
+          "requiredFieldCoveragePct": 100,
+          "testedOptionalFields": [],
+          "missingOptionalFields": [],
+          "optionalFieldCoveragePct": 100,
+          "testedQueryParams": [],
+          "missingQueryParams": [],
+          "queryParamCoveragePct": 100,
+          "overallCoveragePct": 0
+        },
+        {
+          "endpoint": {
+            "id": "GET /products/:productId/related",
+            "serviceName": "Products",
+            "method": "GET",
+            "path": "/products/:productId/related",
+            "normalizedPath": "/products/{productId}/related",
+            "title": "Get related products",
+            "description": "Returns up to 10 other products from the same category as the given product. _(source)_",
+            "parameters": [
+              {
+                "name": "productId",
+                "in": "path",
+                "type": "string",
+                "required": true,
+                "description": "Product ULID"
+              }
+            ],
+            "requestBody": {
+              "requiredFields": [],
+              "optionalFields": []
+            },
+            "responses": {
+              "200": {
+                "statusCode": 200,
+                "statusText": "OK",
+                "fields": [],
+                "schemaRaw": "Array<Omit<Product, 'co2_rating'>>   // category has id and name only; no co2_rating field",
+                "origin": "verified"
+              },
+              "500": {
+                "statusCode": 500,
+                "statusText": "Internal Server Error",
+                "origin": "verified"
+              }
+            }
+          },
+          "callCount": 0,
+          "isCovered": false,
+          "testedStatusCodes": [],
+          "documentedStatusCodes": [
+            200,
+            500
+          ],
+          "statusCodeCoveragePct": 0,
+          "testedRequiredFields": [],
+          "missingRequiredFields": [],
+          "requiredFieldCoveragePct": 100,
+          "testedOptionalFields": [],
+          "missingOptionalFields": [],
+          "optionalFieldCoveragePct": 100,
+          "testedQueryParams": [],
+          "missingQueryParams": [],
+          "queryParamCoveragePct": 100,
+          "overallCoveragePct": 0
+        },
+        {
+          "endpoint": {
+            "id": "GET /products/search",
+            "serviceName": "Products",
+            "method": "GET",
+            "path": "/products/search",
+            "normalizedPath": "/products/search",
+            "title": "Search products",
+            "description": "Searches product names. Returns 9 per page. Special characters are stripped from `q`; an empty or missing `q` returns an empty page, not an error. _(verified)_",
+            "parameters": [
+              {
+                "name": "q",
+                "in": "query",
+                "type": "string",
+                "required": false,
+                "description": "Search term. The spec marks it required, but without it the API returns `200` with an empty `data` array."
+              },
+              {
+                "name": "page",
+                "in": "query",
+                "type": "integer",
+                "required": false,
+                "description": "Page number, starting at 1"
+              }
+            ],
+            "requestBody": {
+              "requiredFields": [],
+              "optionalFields": []
+            },
+            "responses": {
+              "200": {
+                "statusCode": 200,
+                "statusText": "OK",
+                "fields": [
+                  "current_page",
+                  "data",
+                  "from",
+                  "last_page",
+                  "per_page",
+                  "to",
+                  "total"
+                ],
+                "schemaRaw": "{\n  current_page: number;\n  data: Product[];        // category has id and name only\n  from: number | null;    // null when there are no results\n  last_page: number;\n  per_page: number;\n  to: number | null;\n  total: number;\n}",
+                "origin": "verified"
               }
             }
           },
@@ -102,49 +750,33 @@
         },
         {
           "endpoint": {
-            "id": "GET /products/:productId",
+            "id": "QUERY /products/search",
             "serviceName": "Products",
-            "method": "GET",
-            "path": "/products/:productId",
-            "normalizedPath": "/products/{productId}",
-            "title": "Get product by id",
-            "description": "",
-            "parameters": [
-              {
-                "name": "productId",
-                "in": "path",
-                "type": "string",
-                "required": true,
-                "description": "Product ULID"
-              }
-            ],
+            "method": "QUERY",
+            "path": "/products/search",
+            "normalizedPath": "/products/search",
+            "title": "Search products (HTTP QUERY)",
+            "description": "Same as `GET /products/search`, with the criteria in a JSON body. _(source)_",
+            "parameters": [],
             "requestBody": {
               "requiredFields": [],
-              "optionalFields": []
+              "optionalFields": [
+                "q",
+                "page"
+              ],
+              "schemaRaw": "{\n  q?: string;     // without it the result is empty\n  page?: string;\n}"
             },
             "responses": {
               "200": {
                 "statusCode": 200,
                 "statusText": "OK",
-                "fields": [
-                  "id",
-                  "name",
-                  "description",
-                  "price",
-                  "is_location_offer",
-                  "is_rental",
-                  "co2_rating",
-                  "in_stock",
-                  "is_eco_friendly",
-                  "product_image",
-                  "category",
-                  "brand"
-                ],
-                "schemaRaw": "{\n  id: string;\n  name: string;\n  description: string;\n  price: number;\n  is_location_offer: boolean;\n  is_rental: boolean;\n  co2_rating: string;\n  in_stock: boolean;\n  is_eco_friendly: boolean;\n  product_image: object;\n  category: object;\n  brand: object;\n}"
+                "fields": [],
+                "origin": "verified"
               },
-              "404": {
-                "statusCode": 404,
-                "statusText": "Not Found"
+              "415": {
+                "statusCode": 415,
+                "statusText": "Unsupported Media Type",
+                "origin": "verified"
               }
             }
           },
@@ -153,15 +785,18 @@
           "testedStatusCodes": [],
           "documentedStatusCodes": [
             200,
-            404
+            415
           ],
           "statusCodeCoveragePct": 0,
           "testedRequiredFields": [],
           "missingRequiredFields": [],
           "requiredFieldCoveragePct": 100,
           "testedOptionalFields": [],
-          "missingOptionalFields": [],
-          "optionalFieldCoveragePct": 100,
+          "missingOptionalFields": [
+            "q",
+            "page"
+          ],
+          "optionalFieldCoveragePct": 0,
           "testedQueryParams": [],
           "missingQueryParams": [],
           "queryParamCoveragePct": 100,
@@ -171,19 +806,19 @@
     },
     "Users": {
       "serviceName": "Users",
-      "totalEndpoints": 2,
+      "totalEndpoints": 14,
       "coveredEndpoints": 2,
-      "endpointCoveragePct": 100,
-      "documentedStatusCodes": 4,
+      "endpointCoveragePct": 14,
+      "documentedStatusCodes": 46,
       "coveredStatusCodes": 2,
-      "statusCodeCoveragePct": 50,
-      "totalRequiredFields": 2,
-      "coveredRequiredFields": 2,
-      "requiredFieldCoveragePct": 100,
-      "totalOptionalFields": 0,
-      "coveredOptionalFields": 0,
-      "optionalFieldCoveragePct": 100,
-      "overallCoveragePct": 75,
+      "statusCodeCoveragePct": 4,
+      "totalRequiredFields": 15,
+      "coveredRequiredFields": 0,
+      "requiredFieldCoveragePct": 0,
+      "totalOptionalFields": 38,
+      "coveredOptionalFields": 2,
+      "optionalFieldCoveragePct": 5,
+      "overallCoveragePct": 9,
       "endpoints": [
         {
           "endpoint": {
@@ -193,15 +828,17 @@
             "path": "/users/login",
             "normalizedPath": "/users/login",
             "title": "Login",
-            "description": "Returns a JWT for the `Authorization: Bearer <token>` header. Tokens expire after 300 seconds.",
+            "description": "Returns a JWT for the `Authorization: Bearer <token>` header. Accounts with two-factor auth (TOTP) get a restricted temporary token instead, which is exchanged for a full token by sending it back with the TOTP code. _(source)_",
             "parameters": [],
             "requestBody": {
-              "requiredFields": [
+              "requiredFields": [],
+              "optionalFields": [
                 "email",
-                "password"
+                "password",
+                "access_token",
+                "totp"
               ],
-              "optionalFields": [],
-              "schemaRaw": "{\n  email: string;\n  password: string;\n}"
+              "schemaRaw": "{\n  email?: string;         // with password: the normal login\n  password?: string;\n  access_token?: string;  // with totp: the second step of a TOTP login\n  totp?: string;\n}"
             },
             "responses": {
               "200": {
@@ -212,11 +849,28 @@
                   "token_type",
                   "expires_in"
                 ],
-                "schemaRaw": "{\n  access_token: string;\n  token_type: string;\n  expires_in: number;\n}"
+                "schemaRaw": "{\n  access_token: string;\n  token_type: string;   // \"bearer\"\n  expires_in: number;   // 300\n}",
+                "origin": "source"
+              },
+              "400": {
+                "statusCode": 400,
+                "statusText": "Bad Request",
+                "origin": "source"
               },
               "401": {
                 "statusCode": 401,
-                "statusText": "Unauthorized"
+                "statusText": "Unauthorized",
+                "origin": "verified"
+              },
+              "403": {
+                "statusCode": 403,
+                "statusText": "Forbidden",
+                "origin": "source"
+              },
+              "423": {
+                "statusCode": 423,
+                "statusText": "Locked",
+                "origin": "source"
               }
             }
           },
@@ -227,22 +881,250 @@
           ],
           "documentedStatusCodes": [
             200,
-            401
+            400,
+            401,
+            403,
+            423
           ],
-          "statusCodeCoveragePct": 50,
-          "testedRequiredFields": [
+          "statusCodeCoveragePct": 20,
+          "testedRequiredFields": [],
+          "missingRequiredFields": [],
+          "requiredFieldCoveragePct": 100,
+          "testedOptionalFields": [
             "email",
             "password"
           ],
-          "missingRequiredFields": [],
-          "requiredFieldCoveragePct": 100,
+          "missingOptionalFields": [
+            "access_token",
+            "totp"
+          ],
+          "optionalFieldCoveragePct": 50,
+          "testedQueryParams": [],
+          "missingQueryParams": [],
+          "queryParamCoveragePct": 100,
+          "overallCoveragePct": 52
+        },
+        {
+          "endpoint": {
+            "id": "POST /users/register",
+            "serviceName": "Users",
+            "method": "POST",
+            "path": "/users/register",
+            "normalizedPath": "/users/register",
+            "title": "Register",
+            "description": "Creates a customer account (role `user`). _(source)_",
+            "parameters": [],
+            "requestBody": {
+              "requiredFields": [
+                "first_name",
+                "last_name",
+                "email",
+                "password"
+              ],
+              "optionalFields": [
+                "address",
+                "street",
+                "house_number",
+                "city",
+                "state",
+                "country",
+                "postal_code",
+                "phone",
+                "dob"
+              ],
+              "schemaRaw": "{\n  first_name: string;       // max 40\n  last_name: string;        // max 20\n  email: string;            // max 256, unique\n  password: string;         // see \"Strong password\" above\n  address?: {\n    street?: string;        // max 70\n    house_number?: string | null;  // max 10\n    city?: string;          // max 40\n    state?: string;         // max 40\n    country?: string;       // max 40\n    postal_code?: string;   // max 10; must match the country's format when country is sent\n  };\n  phone?: string;           // max 24\n  dob?: string;             // YYYY-MM-DD, at least 18 years ago\n}"
+            },
+            "responses": {
+              "201": {
+                "statusCode": 201,
+                "statusText": "Created",
+                "fields": [
+                  "id",
+                  "first_name",
+                  "last_name",
+                  "email",
+                  "created_at",
+                  "address",
+                  "phone",
+                  "dob"
+                ],
+                "schemaRaw": "{\n  id: string;\n  first_name: string;\n  last_name: string;\n  email: string;\n  phone?: string;\n  dob?: string;\n  created_at: string;\n  address: Address;\n}",
+                "origin": "source"
+              },
+              "409": {
+                "statusCode": 409,
+                "statusText": "Conflict",
+                "origin": "source"
+              },
+              "422": {
+                "statusCode": 422,
+                "statusText": "Unprocessable Entity",
+                "origin": "source"
+              }
+            }
+          },
+          "callCount": 0,
+          "isCovered": false,
+          "testedStatusCodes": [],
+          "documentedStatusCodes": [
+            201,
+            409,
+            422
+          ],
+          "statusCodeCoveragePct": 0,
+          "testedRequiredFields": [],
+          "missingRequiredFields": [
+            "first_name",
+            "last_name",
+            "email",
+            "password"
+          ],
+          "requiredFieldCoveragePct": 0,
+          "testedOptionalFields": [],
+          "missingOptionalFields": [
+            "address",
+            "street",
+            "house_number",
+            "city",
+            "state",
+            "country",
+            "postal_code",
+            "phone",
+            "dob"
+          ],
+          "optionalFieldCoveragePct": 0,
+          "testedQueryParams": [],
+          "missingQueryParams": [],
+          "queryParamCoveragePct": 100,
+          "overallCoveragePct": 0
+        },
+        {
+          "endpoint": {
+            "id": "POST /users/forgot-password",
+            "serviceName": "Users",
+            "method": "POST",
+            "path": "/users/forgot-password",
+            "normalizedPath": "/users/forgot-password",
+            "title": "Forgot password",
+            "description": "Sets the account's password to `welcome02`. No email confirmation or token is involved. _(source)_",
+            "parameters": [],
+            "requestBody": {
+              "requiredFields": [
+                "email"
+              ],
+              "optionalFields": [],
+              "schemaRaw": "{\n  email: string;\n}"
+            },
+            "responses": {
+              "200": {
+                "statusCode": 200,
+                "statusText": "OK",
+                "fields": [],
+                "schemaRaw": "{ success: true }",
+                "origin": "source"
+              },
+              "404": {
+                "statusCode": 404,
+                "statusText": "Not Found",
+                "origin": "source"
+              },
+              "422": {
+                "statusCode": 422,
+                "statusText": "Unprocessable Entity",
+                "origin": "source"
+              }
+            }
+          },
+          "callCount": 0,
+          "isCovered": false,
+          "testedStatusCodes": [],
+          "documentedStatusCodes": [
+            200,
+            404,
+            422
+          ],
+          "statusCodeCoveragePct": 0,
+          "testedRequiredFields": [],
+          "missingRequiredFields": [
+            "email"
+          ],
+          "requiredFieldCoveragePct": 0,
           "testedOptionalFields": [],
           "missingOptionalFields": [],
           "optionalFieldCoveragePct": 100,
           "testedQueryParams": [],
           "missingQueryParams": [],
           "queryParamCoveragePct": 100,
-          "overallCoveragePct": 80
+          "overallCoveragePct": 0
+        },
+        {
+          "endpoint": {
+            "id": "POST /users/change-password",
+            "serviceName": "Users",
+            "method": "POST",
+            "path": "/users/change-password",
+            "normalizedPath": "/users/change-password",
+            "title": "Change password",
+            "description": "Changes the current user's password. _(source)_",
+            "parameters": [],
+            "requestBody": {
+              "requiredFields": [
+                "current_password",
+                "new_password",
+                "new_password_confirmation"
+              ],
+              "optionalFields": [],
+              "schemaRaw": "{\n  current_password: string;\n  new_password: string;               // see \"Strong password\" above\n  new_password_confirmation: string;  // must equal new_password\n}"
+            },
+            "responses": {
+              "200": {
+                "statusCode": 200,
+                "statusText": "OK",
+                "fields": [],
+                "schemaRaw": "{ success: true }",
+                "origin": "source"
+              },
+              "400": {
+                "statusCode": 400,
+                "statusText": "Bad Request",
+                "origin": "source"
+              },
+              "401": {
+                "statusCode": 401,
+                "statusText": "Unauthorized",
+                "origin": "source"
+              },
+              "422": {
+                "statusCode": 422,
+                "statusText": "Unprocessable Entity",
+                "origin": "source"
+              }
+            }
+          },
+          "callCount": 0,
+          "isCovered": false,
+          "testedStatusCodes": [],
+          "documentedStatusCodes": [
+            200,
+            400,
+            401,
+            422
+          ],
+          "statusCodeCoveragePct": 0,
+          "testedRequiredFields": [],
+          "missingRequiredFields": [
+            "current_password",
+            "new_password",
+            "new_password_confirmation"
+          ],
+          "requiredFieldCoveragePct": 0,
+          "testedOptionalFields": [],
+          "missingOptionalFields": [],
+          "optionalFieldCoveragePct": 100,
+          "testedQueryParams": [],
+          "missingQueryParams": [],
+          "queryParamCoveragePct": 100,
+          "overallCoveragePct": 0
         },
         {
           "endpoint": {
@@ -252,7 +1134,7 @@
             "path": "/users/me",
             "normalizedPath": "/users/me",
             "title": "Current user",
-            "description": "Profile of the user the token belongs to. `role` is returned only for admins.",
+            "description": "Profile of the user the token belongs to. `role`, `enabled` and `failed_login_attempts` are returned only when the caller is an admin. _(source)_",
             "parameters": [],
             "requestBody": {
               "requiredFields": [],
@@ -262,24 +1144,14 @@
               "200": {
                 "statusCode": 200,
                 "statusText": "OK",
-                "fields": [
-                  "id",
-                  "provider",
-                  "first_name",
-                  "last_name",
-                  "phone",
-                  "dob",
-                  "email",
-                  "totp_enabled",
-                  "created_at",
-                  "address",
-                  "role"
-                ],
-                "schemaRaw": "{\n  id: string;\n  provider: string | null;\n  first_name: string;\n  last_name: string;\n  phone: string | null;\n  dob: string | null;\n  email: string;\n  totp_enabled: boolean;\n  created_at: string;\n  address: object;\n  role?: string;\n}"
+                "fields": [],
+                "schemaRaw": "User",
+                "origin": "source"
               },
               "401": {
                 "statusCode": 401,
-                "statusText": "Unauthorized"
+                "statusText": "Unauthorized",
+                "origin": "verified"
               }
             }
           },
@@ -303,6 +1175,657 @@
           "missingQueryParams": [],
           "queryParamCoveragePct": 100,
           "overallCoveragePct": 70
+        },
+        {
+          "endpoint": {
+            "id": "GET /users/logout",
+            "serviceName": "Users",
+            "method": "GET",
+            "path": "/users/logout",
+            "normalizedPath": "/users/logout",
+            "title": "Logout",
+            "description": "Invalidates (blacklists) the token. Later requests with it get `401`. _(source)_",
+            "parameters": [],
+            "requestBody": {
+              "requiredFields": [],
+              "optionalFields": []
+            },
+            "responses": {
+              "200": {
+                "statusCode": 200,
+                "statusText": "OK",
+                "fields": [],
+                "schemaRaw": "{ message: string }   // \"Successfully logged out\"",
+                "origin": "source"
+              },
+              "401": {
+                "statusCode": 401,
+                "statusText": "Unauthorized",
+                "origin": "verified"
+              }
+            }
+          },
+          "callCount": 0,
+          "isCovered": false,
+          "testedStatusCodes": [],
+          "documentedStatusCodes": [
+            200,
+            401
+          ],
+          "statusCodeCoveragePct": 0,
+          "testedRequiredFields": [],
+          "missingRequiredFields": [],
+          "requiredFieldCoveragePct": 100,
+          "testedOptionalFields": [],
+          "missingOptionalFields": [],
+          "optionalFieldCoveragePct": 100,
+          "testedQueryParams": [],
+          "missingQueryParams": [],
+          "queryParamCoveragePct": 100,
+          "overallCoveragePct": 0
+        },
+        {
+          "endpoint": {
+            "id": "GET /users/refresh",
+            "serviceName": "Users",
+            "method": "GET",
+            "path": "/users/refresh",
+            "normalizedPath": "/users/refresh",
+            "title": "Refresh token",
+            "description": "Returns a new token for the one in the `Authorization` header and invalidates the old one. An expired token can still be refreshed within the refresh window (`JWT_REFRESH_TTL`, 60 minutes by default). This route has no auth middleware; the token is read by the handler. _(source)_",
+            "parameters": [],
+            "requestBody": {
+              "requiredFields": [],
+              "optionalFields": []
+            },
+            "responses": {
+              "200": {
+                "statusCode": 200,
+                "statusText": "OK",
+                "fields": [
+                  "access_token",
+                  "token_type",
+                  "expires_in"
+                ],
+                "schemaRaw": "{\n  access_token: string;\n  token_type: string;   // \"bearer\"\n  expires_in: number;\n}",
+                "origin": "source"
+              },
+              "401": {
+                "statusCode": 401,
+                "statusText": "Unauthorized",
+                "origin": "source"
+              },
+              "500": {
+                "statusCode": 500,
+                "statusText": "Internal Server Error",
+                "origin": "verified"
+              }
+            }
+          },
+          "callCount": 0,
+          "isCovered": false,
+          "testedStatusCodes": [],
+          "documentedStatusCodes": [
+            200,
+            401,
+            500
+          ],
+          "statusCodeCoveragePct": 0,
+          "testedRequiredFields": [],
+          "missingRequiredFields": [],
+          "requiredFieldCoveragePct": 100,
+          "testedOptionalFields": [],
+          "missingOptionalFields": [],
+          "optionalFieldCoveragePct": 100,
+          "testedQueryParams": [],
+          "missingQueryParams": [],
+          "queryParamCoveragePct": 100,
+          "overallCoveragePct": 0
+        },
+        {
+          "endpoint": {
+            "id": "GET /users",
+            "serviceName": "Users",
+            "method": "GET",
+            "path": "/users",
+            "normalizedPath": "/users",
+            "title": "List users",
+            "description": "Lists customer accounts (role `user` only), 15 per page. Admin only. _(source)_",
+            "parameters": [
+              {
+                "name": "page",
+                "in": "query",
+                "type": "integer",
+                "required": false,
+                "description": "Page number, starting at 1"
+              }
+            ],
+            "requestBody": {
+              "requiredFields": [],
+              "optionalFields": []
+            },
+            "responses": {
+              "200": {
+                "statusCode": 200,
+                "statusText": "OK",
+                "fields": [
+                  "current_page",
+                  "data",
+                  "from",
+                  "last_page",
+                  "per_page",
+                  "to",
+                  "total"
+                ],
+                "schemaRaw": "{\n  current_page: number;\n  data: User[];\n  from: number | null;\n  last_page: number;\n  per_page: number;\n  to: number | null;\n  total: number;\n}",
+                "origin": "source"
+              },
+              "401": {
+                "statusCode": 401,
+                "statusText": "Unauthorized",
+                "origin": "verified"
+              },
+              "403": {
+                "statusCode": 403,
+                "statusText": "Forbidden",
+                "origin": "source"
+              }
+            }
+          },
+          "callCount": 0,
+          "isCovered": false,
+          "testedStatusCodes": [],
+          "documentedStatusCodes": [
+            200,
+            401,
+            403
+          ],
+          "statusCodeCoveragePct": 0,
+          "testedRequiredFields": [],
+          "missingRequiredFields": [],
+          "requiredFieldCoveragePct": 100,
+          "testedOptionalFields": [],
+          "missingOptionalFields": [],
+          "optionalFieldCoveragePct": 100,
+          "testedQueryParams": [],
+          "missingQueryParams": [
+            "page"
+          ],
+          "queryParamCoveragePct": 0,
+          "overallCoveragePct": 0
+        },
+        {
+          "endpoint": {
+            "id": "GET /users/search",
+            "serviceName": "Users",
+            "method": "GET",
+            "path": "/users/search",
+            "normalizedPath": "/users/search",
+            "title": "Search users",
+            "description": "Searches customer accounts (role `user` only) by first name, last name, email and city. Any logged-in user can search (see Notes). Returns 15 per page. _(source)_",
+            "parameters": [
+              {
+                "name": "q",
+                "in": "query",
+                "type": "string",
+                "required": false,
+                "description": "Search term. The spec marks it required; without it every customer matches."
+              },
+              {
+                "name": "page",
+                "in": "query",
+                "type": "integer",
+                "required": false,
+                "description": "Page number, starting at 1"
+              }
+            ],
+            "requestBody": {
+              "requiredFields": [],
+              "optionalFields": []
+            },
+            "responses": {
+              "200": {
+                "statusCode": 200,
+                "statusText": "OK",
+                "fields": [
+                  "current_page",
+                  "data",
+                  "from",
+                  "last_page",
+                  "per_page",
+                  "to",
+                  "total"
+                ],
+                "schemaRaw": "{\n  current_page: number;\n  data: User[];\n  from: number | null;\n  last_page: number;\n  per_page: number;\n  to: number | null;\n  total: number;\n}",
+                "origin": "source"
+              },
+              "401": {
+                "statusCode": 401,
+                "statusText": "Unauthorized",
+                "origin": "verified"
+              }
+            }
+          },
+          "callCount": 0,
+          "isCovered": false,
+          "testedStatusCodes": [],
+          "documentedStatusCodes": [
+            200,
+            401
+          ],
+          "statusCodeCoveragePct": 0,
+          "testedRequiredFields": [],
+          "missingRequiredFields": [],
+          "requiredFieldCoveragePct": 100,
+          "testedOptionalFields": [],
+          "missingOptionalFields": [],
+          "optionalFieldCoveragePct": 100,
+          "testedQueryParams": [],
+          "missingQueryParams": [
+            "q",
+            "page"
+          ],
+          "queryParamCoveragePct": 0,
+          "overallCoveragePct": 0
+        },
+        {
+          "endpoint": {
+            "id": "QUERY /users/search",
+            "serviceName": "Users",
+            "method": "QUERY",
+            "path": "/users/search",
+            "normalizedPath": "/users/search",
+            "title": "Search users (HTTP QUERY)",
+            "description": "Same as `GET /users/search`, with the criteria in a JSON body. _(source)_",
+            "parameters": [],
+            "requestBody": {
+              "requiredFields": [],
+              "optionalFields": [
+                "q",
+                "page"
+              ],
+              "schemaRaw": "{\n  q?: string;\n  page?: string;\n}"
+            },
+            "responses": {
+              "200": {
+                "statusCode": 200,
+                "statusText": "OK",
+                "fields": [],
+                "origin": "source"
+              },
+              "401": {
+                "statusCode": 401,
+                "statusText": "Unauthorized",
+                "origin": "verified"
+              },
+              "415": {
+                "statusCode": 415,
+                "statusText": "Unsupported Media Type",
+                "origin": "source"
+              }
+            }
+          },
+          "callCount": 0,
+          "isCovered": false,
+          "testedStatusCodes": [],
+          "documentedStatusCodes": [
+            200,
+            401,
+            415
+          ],
+          "statusCodeCoveragePct": 0,
+          "testedRequiredFields": [],
+          "missingRequiredFields": [],
+          "requiredFieldCoveragePct": 100,
+          "testedOptionalFields": [],
+          "missingOptionalFields": [
+            "q",
+            "page"
+          ],
+          "optionalFieldCoveragePct": 0,
+          "testedQueryParams": [],
+          "missingQueryParams": [],
+          "queryParamCoveragePct": 100,
+          "overallCoveragePct": 0
+        },
+        {
+          "endpoint": {
+            "id": "GET /users/:userId",
+            "serviceName": "Users",
+            "method": "GET",
+            "path": "/users/:userId",
+            "normalizedPath": "/users/{userId}",
+            "title": "Get user",
+            "description": "Returns a user. A non-admin can only get their own record. _(source)_",
+            "parameters": [
+              {
+                "name": "userId",
+                "in": "path",
+                "type": "string",
+                "required": true,
+                "description": "User ULID"
+              }
+            ],
+            "requestBody": {
+              "requiredFields": [],
+              "optionalFields": []
+            },
+            "responses": {
+              "200": {
+                "statusCode": 200,
+                "statusText": "OK",
+                "fields": [],
+                "schemaRaw": "User",
+                "origin": "source"
+              },
+              "401": {
+                "statusCode": 401,
+                "statusText": "Unauthorized",
+                "origin": "verified"
+              },
+              "404": {
+                "statusCode": 404,
+                "statusText": "Not Found",
+                "origin": "source"
+              }
+            }
+          },
+          "callCount": 0,
+          "isCovered": false,
+          "testedStatusCodes": [],
+          "documentedStatusCodes": [
+            200,
+            401,
+            404
+          ],
+          "statusCodeCoveragePct": 0,
+          "testedRequiredFields": [],
+          "missingRequiredFields": [],
+          "requiredFieldCoveragePct": 100,
+          "testedOptionalFields": [],
+          "missingOptionalFields": [],
+          "optionalFieldCoveragePct": 100,
+          "testedQueryParams": [],
+          "missingQueryParams": [],
+          "queryParamCoveragePct": 100,
+          "overallCoveragePct": 0
+        },
+        {
+          "endpoint": {
+            "id": "PUT /users/:userId",
+            "serviceName": "Users",
+            "method": "PUT",
+            "path": "/users/:userId",
+            "normalizedPath": "/users/{userId}",
+            "title": "Update user",
+            "description": "Updates a user's profile. A non-admin can only update their own record; only an admin can send `role`. `password` is ignored (use change-password). _(source)_",
+            "parameters": [
+              {
+                "name": "userId",
+                "in": "path",
+                "type": "string",
+                "required": true,
+                "description": "User ULID"
+              }
+            ],
+            "requestBody": {
+              "requiredFields": [
+                "first_name",
+                "last_name",
+                "email",
+                "address",
+                "street",
+                "city",
+                "country"
+              ],
+              "optionalFields": [
+                "house_number",
+                "state",
+                "postal_code",
+                "phone",
+                "dob",
+                "role"
+              ],
+              "schemaRaw": "{\n  first_name: string;       // max 40\n  last_name: string;        // max 20\n  email: string;            // max 256\n  address: {\n    street: string;         // max 70\n    city: string;           // max 40\n    country: string;        // max 40\n    house_number?: string | null;  // max 10\n    state?: string | null;  // max 40\n    postal_code?: string | null;   // max 10\n  };\n  phone?: string | null;    // 7 to 24 of: digits, spaces, ( ) + - .\n  dob?: string;             // YYYY-MM-DD, at least 18 years ago\n  role?: string;            // admin only\n}"
+            },
+            "responses": {
+              "200": {
+                "statusCode": 200,
+                "statusText": "OK",
+                "fields": [],
+                "schemaRaw": "{ success: boolean }",
+                "origin": "source"
+              },
+              "401": {
+                "statusCode": 401,
+                "statusText": "Unauthorized",
+                "origin": "source"
+              },
+              "403": {
+                "statusCode": 403,
+                "statusText": "Forbidden",
+                "origin": "source"
+              },
+              "422": {
+                "statusCode": 422,
+                "statusText": "Unprocessable Entity",
+                "origin": "source"
+              }
+            }
+          },
+          "callCount": 0,
+          "isCovered": false,
+          "testedStatusCodes": [],
+          "documentedStatusCodes": [
+            200,
+            401,
+            403,
+            422
+          ],
+          "statusCodeCoveragePct": 0,
+          "testedRequiredFields": [],
+          "missingRequiredFields": [
+            "first_name",
+            "last_name",
+            "email",
+            "address",
+            "street",
+            "city",
+            "country"
+          ],
+          "requiredFieldCoveragePct": 0,
+          "testedOptionalFields": [],
+          "missingOptionalFields": [
+            "house_number",
+            "state",
+            "postal_code",
+            "phone",
+            "dob",
+            "role"
+          ],
+          "optionalFieldCoveragePct": 0,
+          "testedQueryParams": [],
+          "missingQueryParams": [],
+          "queryParamCoveragePct": 100,
+          "overallCoveragePct": 0
+        },
+        {
+          "endpoint": {
+            "id": "PATCH /users/:userId",
+            "serviceName": "Users",
+            "method": "PATCH",
+            "path": "/users/:userId",
+            "normalizedPath": "/users/{userId}",
+            "title": "Partially update user",
+            "description": "Updates only the validated fields that are sent. A non-admin can only patch their own record. _(source)_",
+            "parameters": [
+              {
+                "name": "userId",
+                "in": "path",
+                "type": "string",
+                "required": true,
+                "description": "User ULID"
+              }
+            ],
+            "requestBody": {
+              "requiredFields": [],
+              "optionalFields": [
+                "first_name",
+                "last_name",
+                "email",
+                "address",
+                "street",
+                "house_number",
+                "city",
+                "state",
+                "country",
+                "postal_code",
+                "phone",
+                "dob",
+                "enabled",
+                "failed_login_attempts",
+                "totp_enabled",
+                "totp_secret",
+                "totp_verified_at"
+              ],
+              "schemaRaw": "{\n  first_name?: string;\n  last_name?: string;\n  email?: string;\n  address?: {\n    street?: string;\n    house_number?: string | null;\n    city?: string;\n    state?: string | null;\n    country?: string;\n    postal_code?: string | null;\n  };\n  phone?: string | null;\n  dob?: string;\n  enabled?: boolean;\n  failed_login_attempts?: number;\n  totp_enabled?: boolean;\n  totp_secret?: string | null;\n  totp_verified_at?: string | null;\n}"
+            },
+            "responses": {
+              "200": {
+                "statusCode": 200,
+                "statusText": "OK",
+                "fields": [],
+                "schemaRaw": "{ success: true }",
+                "origin": "source"
+              },
+              "401": {
+                "statusCode": 401,
+                "statusText": "Unauthorized",
+                "origin": "source"
+              },
+              "403": {
+                "statusCode": 403,
+                "statusText": "Forbidden",
+                "origin": "source"
+              },
+              "422": {
+                "statusCode": 422,
+                "statusText": "Unprocessable Entity",
+                "origin": "source"
+              }
+            }
+          },
+          "callCount": 0,
+          "isCovered": false,
+          "testedStatusCodes": [],
+          "documentedStatusCodes": [
+            200,
+            401,
+            403,
+            422
+          ],
+          "statusCodeCoveragePct": 0,
+          "testedRequiredFields": [],
+          "missingRequiredFields": [],
+          "requiredFieldCoveragePct": 100,
+          "testedOptionalFields": [],
+          "missingOptionalFields": [
+            "first_name",
+            "last_name",
+            "email",
+            "address",
+            "street",
+            "house_number",
+            "city",
+            "state",
+            "country",
+            "postal_code",
+            "phone",
+            "dob",
+            "enabled",
+            "failed_login_attempts",
+            "totp_enabled",
+            "totp_secret",
+            "totp_verified_at"
+          ],
+          "optionalFieldCoveragePct": 0,
+          "testedQueryParams": [],
+          "missingQueryParams": [],
+          "queryParamCoveragePct": 100,
+          "overallCoveragePct": 0
+        },
+        {
+          "endpoint": {
+            "id": "DELETE /users/:userId",
+            "serviceName": "Users",
+            "method": "DELETE",
+            "path": "/users/:userId",
+            "normalizedPath": "/users/{userId}",
+            "title": "Delete user",
+            "description": "Deletes a user. Admin only. _(source)_",
+            "parameters": [
+              {
+                "name": "userId",
+                "in": "path",
+                "type": "string",
+                "required": true,
+                "description": "User ULID"
+              }
+            ],
+            "requestBody": {
+              "requiredFields": [],
+              "optionalFields": []
+            },
+            "responses": {
+              "204": {
+                "statusCode": 204,
+                "statusText": "No Content",
+                "fields": [],
+                "origin": "source"
+              },
+              "401": {
+                "statusCode": 401,
+                "statusText": "Unauthorized",
+                "origin": "source"
+              },
+              "403": {
+                "statusCode": 403,
+                "statusText": "Forbidden",
+                "origin": "source"
+              },
+              "409": {
+                "statusCode": 409,
+                "statusText": "Conflict",
+                "origin": "source"
+              },
+              "500": {
+                "statusCode": 500,
+                "statusText": "Internal Server Error",
+                "origin": "source"
+              }
+            }
+          },
+          "callCount": 0,
+          "isCovered": false,
+          "testedStatusCodes": [],
+          "documentedStatusCodes": [
+            204,
+            401,
+            403,
+            409,
+            500
+          ],
+          "statusCodeCoveragePct": 0,
+          "testedRequiredFields": [],
+          "missingRequiredFields": [],
+          "requiredFieldCoveragePct": 100,
+          "testedOptionalFields": [],
+          "missingOptionalFields": [],
+          "optionalFieldCoveragePct": 100,
+          "testedQueryParams": [],
+          "missingQueryParams": [],
+          "queryParamCoveragePct": 100,
+          "overallCoveragePct": 0
         }
       ]
     }
@@ -310,20 +1833,76 @@
   "endpointResults": [
     {
       "endpoint": {
-        "id": "GET /products/search",
+        "id": "GET /products",
         "serviceName": "Products",
         "method": "GET",
-        "path": "/products/search",
-        "normalizedPath": "/products/search",
-        "title": "Search products",
-        "description": "Full-text search on product name. Returns a paginated list (9 per page); an empty or missing `q` returns an empty list.",
+        "path": "/products",
+        "normalizedPath": "/products",
+        "title": "List products",
+        "description": "Returns the products, 9 per page. Without `is_rental`, rental products are excluded (`is_rental` defaults to false). _(source)_",
         "parameters": [
+          {
+            "name": "by_brand",
+            "in": "query",
+            "type": "string",
+            "required": false,
+            "description": "Brand id, or several ids separated by commas"
+          },
+          {
+            "name": "by_category",
+            "in": "query",
+            "type": "string",
+            "required": false,
+            "description": "Category id, or several ids separated by commas"
+          },
+          {
+            "name": "by_category_slug",
+            "in": "query",
+            "type": "string",
+            "required": false,
+            "description": "Category slug; also matches its direct sub-categories. In the source, not in the spec."
+          },
+          {
+            "name": "is_rental",
+            "in": "query",
+            "type": "string",
+            "required": false,
+            "description": "true` or `1` returns only rentals; anything else, or no value, returns only non-rentals"
+          },
+          {
+            "name": "between",
+            "in": "query",
+            "type": "string",
+            "required": false,
+            "description": "Range filter, e.g. `price,10,30"
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "type": "string",
+            "required": false,
+            "description": "<column>,<asc\\"
+          },
+          {
+            "name": "eco_friendly",
+            "in": "query",
+            "type": "string",
+            "required": false,
+            "description": "true` or `1`: only products with CO2 rating A or B. In the source, not in the spec."
+          },
           {
             "name": "q",
             "in": "query",
             "type": "string",
-            "required": true,
-            "description": "Search term"
+            "required": false,
+            "description": "Name contains this text. In the source, not in the spec."
+          },
+          {
+            "name": "by_spec",
+            "in": "query",
+            "type": "string",
+            "required": false,
+            "description": "Spec filter, `name:value1\\"
           },
           {
             "name": "page",
@@ -350,7 +1929,599 @@
               "to",
               "total"
             ],
-            "schemaRaw": "{\n  current_page: number;\n  data: Product[];\n  from: number | null;\n  last_page: number;\n  per_page: number;\n  to: number | null;\n  total: number;\n}"
+            "schemaRaw": "{\n  current_page: number;\n  data: Product[];        // up to 9; category has id, name, slug\n  from: number | null;\n  last_page: number;\n  per_page: number;\n  to: number | null;\n  total: number;\n}",
+            "origin": "verified"
+          },
+          "500": {
+            "statusCode": 500,
+            "statusText": "Internal Server Error",
+            "origin": "verified"
+          }
+        }
+      },
+      "callCount": 0,
+      "isCovered": false,
+      "testedStatusCodes": [],
+      "documentedStatusCodes": [
+        200,
+        500
+      ],
+      "statusCodeCoveragePct": 0,
+      "testedRequiredFields": [],
+      "missingRequiredFields": [],
+      "requiredFieldCoveragePct": 100,
+      "testedOptionalFields": [],
+      "missingOptionalFields": [],
+      "optionalFieldCoveragePct": 100,
+      "testedQueryParams": [],
+      "missingQueryParams": [
+        "by_brand",
+        "by_category",
+        "by_category_slug",
+        "is_rental",
+        "between",
+        "sort",
+        "eco_friendly",
+        "q",
+        "by_spec",
+        "page"
+      ],
+      "queryParamCoveragePct": 0,
+      "overallCoveragePct": 0
+    },
+    {
+      "endpoint": {
+        "id": "QUERY /products",
+        "serviceName": "Products",
+        "method": "QUERY",
+        "path": "/products",
+        "normalizedPath": "/products",
+        "title": "List products (HTTP QUERY)",
+        "description": "Same as `GET /products`, but the criteria are sent as a JSON body (RFC 10008 `QUERY` method). The body keys are merged into the query string, so the results equal the `GET` with the same parameters. _(source)_",
+        "parameters": [],
+        "requestBody": {
+          "requiredFields": [],
+          "optionalFields": [
+            "by_brand",
+            "by_category",
+            "by_category_slug",
+            "is_rental",
+            "between",
+            "sort",
+            "eco_friendly",
+            "q",
+            "by_spec",
+            "page"
+          ],
+          "schemaRaw": "{\n  by_brand?: string;\n  by_category?: string;\n  by_category_slug?: string;\n  is_rental?: string;\n  between?: string;\n  sort?: string;\n  eco_friendly?: string;\n  q?: string;\n  by_spec?: string;\n  page?: string;\n}"
+        },
+        "responses": {
+          "200": {
+            "statusCode": 200,
+            "statusText": "OK",
+            "fields": [],
+            "origin": "verified"
+          },
+          "415": {
+            "statusCode": 415,
+            "statusText": "Unsupported Media Type",
+            "origin": "verified"
+          },
+          "500": {
+            "statusCode": 500,
+            "statusText": "Internal Server Error",
+            "origin": "source"
+          }
+        }
+      },
+      "callCount": 0,
+      "isCovered": false,
+      "testedStatusCodes": [],
+      "documentedStatusCodes": [
+        200,
+        415,
+        500
+      ],
+      "statusCodeCoveragePct": 0,
+      "testedRequiredFields": [],
+      "missingRequiredFields": [],
+      "requiredFieldCoveragePct": 100,
+      "testedOptionalFields": [],
+      "missingOptionalFields": [
+        "by_brand",
+        "by_category",
+        "by_category_slug",
+        "is_rental",
+        "between",
+        "sort",
+        "eco_friendly",
+        "q",
+        "by_spec",
+        "page"
+      ],
+      "optionalFieldCoveragePct": 0,
+      "testedQueryParams": [],
+      "missingQueryParams": [],
+      "queryParamCoveragePct": 100,
+      "overallCoveragePct": 0
+    },
+    {
+      "endpoint": {
+        "id": "POST /products",
+        "serviceName": "Products",
+        "method": "POST",
+        "path": "/products",
+        "normalizedPath": "/products",
+        "title": "Create product",
+        "description": "Creates a product. No token is needed (see Notes). _(source)_",
+        "parameters": [],
+        "requestBody": {
+          "requiredFields": [
+            "name",
+            "price",
+            "category_id",
+            "brand_id",
+            "product_image_id",
+            "is_location_offer",
+            "is_rental"
+          ],
+          "optionalFields": [
+            "description",
+            "co2_rating",
+            "stock"
+          ],
+          "schemaRaw": "{\n  name: string;               // max 120, no subscript/superscript characters\n  description?: string;       // max 1250, no subscript/superscript characters\n  price: number;\n  category_id: string;        // existing category id\n  brand_id: string;           // existing brand id\n  product_image_id: string;   // existing product image id\n  is_location_offer: boolean;\n  is_rental: boolean;\n  co2_rating?: string;        // not validated; stored as sent\n  stock?: number;             // not validated; stored as sent\n}"
+        },
+        "responses": {
+          "201": {
+            "statusCode": 201,
+            "statusText": "Created",
+            "fields": [],
+            "schemaRaw": "Product   // with product_image, category and brand loaded",
+            "origin": "source"
+          },
+          "422": {
+            "statusCode": 422,
+            "statusText": "Unprocessable Entity",
+            "origin": "source"
+          },
+          "500": {
+            "statusCode": 500,
+            "statusText": "Internal Server Error",
+            "origin": "source"
+          }
+        }
+      },
+      "callCount": 0,
+      "isCovered": false,
+      "testedStatusCodes": [],
+      "documentedStatusCodes": [
+        201,
+        422,
+        500
+      ],
+      "statusCodeCoveragePct": 0,
+      "testedRequiredFields": [],
+      "missingRequiredFields": [
+        "name",
+        "price",
+        "category_id",
+        "brand_id",
+        "product_image_id",
+        "is_location_offer",
+        "is_rental"
+      ],
+      "requiredFieldCoveragePct": 0,
+      "testedOptionalFields": [],
+      "missingOptionalFields": [
+        "description",
+        "co2_rating",
+        "stock"
+      ],
+      "optionalFieldCoveragePct": 0,
+      "testedQueryParams": [],
+      "missingQueryParams": [],
+      "queryParamCoveragePct": 100,
+      "overallCoveragePct": 0
+    },
+    {
+      "endpoint": {
+        "id": "GET /products/:productId",
+        "serviceName": "Products",
+        "method": "GET",
+        "path": "/products/:productId",
+        "normalizedPath": "/products/{productId}",
+        "title": "Get product",
+        "description": "Returns one product with its category (including `parent_id`), brand, image and specs. _(verified)_",
+        "parameters": [
+          {
+            "name": "productId",
+            "in": "path",
+            "type": "string",
+            "required": true,
+            "description": "Product ULID"
+          }
+        ],
+        "requestBody": {
+          "requiredFields": [],
+          "optionalFields": []
+        },
+        "responses": {
+          "200": {
+            "statusCode": 200,
+            "statusText": "OK",
+            "fields": [
+              "category",
+              "specs"
+            ],
+            "schemaRaw": "Product & {\n  category: { id: string; name: string; slug: string; parent_id: string | null };\n  specs: ProductSpec[];\n}",
+            "origin": "verified"
+          },
+          "404": {
+            "statusCode": 404,
+            "statusText": "Not Found",
+            "origin": "verified"
+          }
+        }
+      },
+      "callCount": 0,
+      "isCovered": false,
+      "testedStatusCodes": [],
+      "documentedStatusCodes": [
+        200,
+        404
+      ],
+      "statusCodeCoveragePct": 0,
+      "testedRequiredFields": [],
+      "missingRequiredFields": [],
+      "requiredFieldCoveragePct": 100,
+      "testedOptionalFields": [],
+      "missingOptionalFields": [],
+      "optionalFieldCoveragePct": 100,
+      "testedQueryParams": [],
+      "missingQueryParams": [],
+      "queryParamCoveragePct": 100,
+      "overallCoveragePct": 0
+    },
+    {
+      "endpoint": {
+        "id": "PUT /products/:productId",
+        "serviceName": "Products",
+        "method": "PUT",
+        "path": "/products/:productId",
+        "normalizedPath": "/products/{productId}",
+        "title": "Update product",
+        "description": "Updates a product with the fields sent. No token is needed (see Notes). Despite being `PUT`, no field is required. _(source)_",
+        "parameters": [
+          {
+            "name": "productId",
+            "in": "path",
+            "type": "string",
+            "required": true,
+            "description": "Product ULID"
+          }
+        ],
+        "requestBody": {
+          "requiredFields": [],
+          "optionalFields": [
+            "name",
+            "description",
+            "price",
+            "category_id",
+            "brand_id",
+            "product_image_id",
+            "is_location_offer",
+            "is_rental",
+            "co2_rating",
+            "stock"
+          ],
+          "schemaRaw": "{\n  name?: string;              // max 120\n  description?: string;       // max 1250\n  price?: number;             // not validated\n  category_id?: string;       // not validated\n  brand_id?: string;          // not validated\n  product_image_id?: string;  // not validated\n  is_location_offer?: boolean;\n  is_rental?: boolean;\n  co2_rating?: string;        // not validated\n  stock?: number;             // not validated\n}"
+        },
+        "responses": {
+          "200": {
+            "statusCode": 200,
+            "statusText": "OK",
+            "fields": [],
+            "schemaRaw": "{ success: true }",
+            "origin": "source"
+          },
+          "404": {
+            "statusCode": 404,
+            "statusText": "Not Found",
+            "origin": "source"
+          },
+          "422": {
+            "statusCode": 422,
+            "statusText": "Unprocessable Entity",
+            "origin": "source"
+          }
+        }
+      },
+      "callCount": 0,
+      "isCovered": false,
+      "testedStatusCodes": [],
+      "documentedStatusCodes": [
+        200,
+        404,
+        422
+      ],
+      "statusCodeCoveragePct": 0,
+      "testedRequiredFields": [],
+      "missingRequiredFields": [],
+      "requiredFieldCoveragePct": 100,
+      "testedOptionalFields": [],
+      "missingOptionalFields": [
+        "name",
+        "description",
+        "price",
+        "category_id",
+        "brand_id",
+        "product_image_id",
+        "is_location_offer",
+        "is_rental",
+        "co2_rating",
+        "stock"
+      ],
+      "optionalFieldCoveragePct": 0,
+      "testedQueryParams": [],
+      "missingQueryParams": [],
+      "queryParamCoveragePct": 100,
+      "overallCoveragePct": 0
+    },
+    {
+      "endpoint": {
+        "id": "PATCH /products/:productId",
+        "serviceName": "Products",
+        "method": "PATCH",
+        "path": "/products/:productId",
+        "normalizedPath": "/products/{productId}",
+        "title": "Partially update product",
+        "description": "Updates only the validated fields that are sent. Unlike `PUT`, fields without a rule (`co2_rating`, `stock`) are dropped. _(source)_",
+        "parameters": [
+          {
+            "name": "productId",
+            "in": "path",
+            "type": "string",
+            "required": true,
+            "description": "Product ULID"
+          }
+        ],
+        "requestBody": {
+          "requiredFields": [],
+          "optionalFields": [
+            "name",
+            "description",
+            "price",
+            "category_id",
+            "brand_id",
+            "product_image_id",
+            "is_location_offer",
+            "is_rental"
+          ],
+          "schemaRaw": "{\n  name?: string;              // max 120\n  description?: string;       // max 1250\n  price?: number;\n  category_id?: string;\n  brand_id?: string;\n  product_image_id?: string;\n  is_location_offer?: boolean;\n  is_rental?: boolean;\n}"
+        },
+        "responses": {
+          "200": {
+            "statusCode": 200,
+            "statusText": "OK",
+            "fields": [],
+            "schemaRaw": "{ success: true }",
+            "origin": "source"
+          },
+          "404": {
+            "statusCode": 404,
+            "statusText": "Not Found",
+            "origin": "source"
+          },
+          "422": {
+            "statusCode": 422,
+            "statusText": "Unprocessable Entity",
+            "origin": "source"
+          }
+        }
+      },
+      "callCount": 0,
+      "isCovered": false,
+      "testedStatusCodes": [],
+      "documentedStatusCodes": [
+        200,
+        404,
+        422
+      ],
+      "statusCodeCoveragePct": 0,
+      "testedRequiredFields": [],
+      "missingRequiredFields": [],
+      "requiredFieldCoveragePct": 100,
+      "testedOptionalFields": [],
+      "missingOptionalFields": [
+        "name",
+        "description",
+        "price",
+        "category_id",
+        "brand_id",
+        "product_image_id",
+        "is_location_offer",
+        "is_rental"
+      ],
+      "optionalFieldCoveragePct": 0,
+      "testedQueryParams": [],
+      "missingQueryParams": [],
+      "queryParamCoveragePct": 100,
+      "overallCoveragePct": 0
+    },
+    {
+      "endpoint": {
+        "id": "DELETE /products/:productId",
+        "serviceName": "Products",
+        "method": "DELETE",
+        "path": "/products/:productId",
+        "normalizedPath": "/products/{productId}",
+        "title": "Delete product",
+        "description": "Deletes a product. Admin only. _(source)_",
+        "parameters": [
+          {
+            "name": "productId",
+            "in": "path",
+            "type": "string",
+            "required": true,
+            "description": "Product ULID"
+          }
+        ],
+        "requestBody": {
+          "requiredFields": [],
+          "optionalFields": []
+        },
+        "responses": {
+          "204": {
+            "statusCode": 204,
+            "statusText": "No Content",
+            "fields": [],
+            "origin": "source"
+          },
+          "401": {
+            "statusCode": 401,
+            "statusText": "Unauthorized",
+            "origin": "source"
+          },
+          "403": {
+            "statusCode": 403,
+            "statusText": "Forbidden",
+            "origin": "source"
+          },
+          "404": {
+            "statusCode": 404,
+            "statusText": "Not Found",
+            "origin": "source"
+          },
+          "409": {
+            "statusCode": 409,
+            "statusText": "Conflict",
+            "origin": "source"
+          }
+        }
+      },
+      "callCount": 0,
+      "isCovered": false,
+      "testedStatusCodes": [],
+      "documentedStatusCodes": [
+        204,
+        401,
+        403,
+        404,
+        409
+      ],
+      "statusCodeCoveragePct": 0,
+      "testedRequiredFields": [],
+      "missingRequiredFields": [],
+      "requiredFieldCoveragePct": 100,
+      "testedOptionalFields": [],
+      "missingOptionalFields": [],
+      "optionalFieldCoveragePct": 100,
+      "testedQueryParams": [],
+      "missingQueryParams": [],
+      "queryParamCoveragePct": 100,
+      "overallCoveragePct": 0
+    },
+    {
+      "endpoint": {
+        "id": "GET /products/:productId/related",
+        "serviceName": "Products",
+        "method": "GET",
+        "path": "/products/:productId/related",
+        "normalizedPath": "/products/{productId}/related",
+        "title": "Get related products",
+        "description": "Returns up to 10 other products from the same category as the given product. _(source)_",
+        "parameters": [
+          {
+            "name": "productId",
+            "in": "path",
+            "type": "string",
+            "required": true,
+            "description": "Product ULID"
+          }
+        ],
+        "requestBody": {
+          "requiredFields": [],
+          "optionalFields": []
+        },
+        "responses": {
+          "200": {
+            "statusCode": 200,
+            "statusText": "OK",
+            "fields": [],
+            "schemaRaw": "Array<Omit<Product, 'co2_rating'>>   // category has id and name only; no co2_rating field",
+            "origin": "verified"
+          },
+          "500": {
+            "statusCode": 500,
+            "statusText": "Internal Server Error",
+            "origin": "verified"
+          }
+        }
+      },
+      "callCount": 0,
+      "isCovered": false,
+      "testedStatusCodes": [],
+      "documentedStatusCodes": [
+        200,
+        500
+      ],
+      "statusCodeCoveragePct": 0,
+      "testedRequiredFields": [],
+      "missingRequiredFields": [],
+      "requiredFieldCoveragePct": 100,
+      "testedOptionalFields": [],
+      "missingOptionalFields": [],
+      "optionalFieldCoveragePct": 100,
+      "testedQueryParams": [],
+      "missingQueryParams": [],
+      "queryParamCoveragePct": 100,
+      "overallCoveragePct": 0
+    },
+    {
+      "endpoint": {
+        "id": "GET /products/search",
+        "serviceName": "Products",
+        "method": "GET",
+        "path": "/products/search",
+        "normalizedPath": "/products/search",
+        "title": "Search products",
+        "description": "Searches product names. Returns 9 per page. Special characters are stripped from `q`; an empty or missing `q` returns an empty page, not an error. _(verified)_",
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "type": "string",
+            "required": false,
+            "description": "Search term. The spec marks it required, but without it the API returns `200` with an empty `data` array."
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "type": "integer",
+            "required": false,
+            "description": "Page number, starting at 1"
+          }
+        ],
+        "requestBody": {
+          "requiredFields": [],
+          "optionalFields": []
+        },
+        "responses": {
+          "200": {
+            "statusCode": 200,
+            "statusText": "OK",
+            "fields": [
+              "current_page",
+              "data",
+              "from",
+              "last_page",
+              "per_page",
+              "to",
+              "total"
+            ],
+            "schemaRaw": "{\n  current_page: number;\n  data: Product[];        // category has id and name only\n  from: number | null;    // null when there are no results\n  last_page: number;\n  per_page: number;\n  to: number | null;\n  total: number;\n}",
+            "origin": "verified"
           }
         }
       },
@@ -380,49 +2551,33 @@
     },
     {
       "endpoint": {
-        "id": "GET /products/:productId",
+        "id": "QUERY /products/search",
         "serviceName": "Products",
-        "method": "GET",
-        "path": "/products/:productId",
-        "normalizedPath": "/products/{productId}",
-        "title": "Get product by id",
-        "description": "",
-        "parameters": [
-          {
-            "name": "productId",
-            "in": "path",
-            "type": "string",
-            "required": true,
-            "description": "Product ULID"
-          }
-        ],
+        "method": "QUERY",
+        "path": "/products/search",
+        "normalizedPath": "/products/search",
+        "title": "Search products (HTTP QUERY)",
+        "description": "Same as `GET /products/search`, with the criteria in a JSON body. _(source)_",
+        "parameters": [],
         "requestBody": {
           "requiredFields": [],
-          "optionalFields": []
+          "optionalFields": [
+            "q",
+            "page"
+          ],
+          "schemaRaw": "{\n  q?: string;     // without it the result is empty\n  page?: string;\n}"
         },
         "responses": {
           "200": {
             "statusCode": 200,
             "statusText": "OK",
-            "fields": [
-              "id",
-              "name",
-              "description",
-              "price",
-              "is_location_offer",
-              "is_rental",
-              "co2_rating",
-              "in_stock",
-              "is_eco_friendly",
-              "product_image",
-              "category",
-              "brand"
-            ],
-            "schemaRaw": "{\n  id: string;\n  name: string;\n  description: string;\n  price: number;\n  is_location_offer: boolean;\n  is_rental: boolean;\n  co2_rating: string;\n  in_stock: boolean;\n  is_eco_friendly: boolean;\n  product_image: object;\n  category: object;\n  brand: object;\n}"
+            "fields": [],
+            "origin": "verified"
           },
-          "404": {
-            "statusCode": 404,
-            "statusText": "Not Found"
+          "415": {
+            "statusCode": 415,
+            "statusText": "Unsupported Media Type",
+            "origin": "verified"
           }
         }
       },
@@ -431,15 +2586,18 @@
       "testedStatusCodes": [],
       "documentedStatusCodes": [
         200,
-        404
+        415
       ],
       "statusCodeCoveragePct": 0,
       "testedRequiredFields": [],
       "missingRequiredFields": [],
       "requiredFieldCoveragePct": 100,
       "testedOptionalFields": [],
-      "missingOptionalFields": [],
-      "optionalFieldCoveragePct": 100,
+      "missingOptionalFields": [
+        "q",
+        "page"
+      ],
+      "optionalFieldCoveragePct": 0,
       "testedQueryParams": [],
       "missingQueryParams": [],
       "queryParamCoveragePct": 100,
@@ -453,15 +2611,17 @@
         "path": "/users/login",
         "normalizedPath": "/users/login",
         "title": "Login",
-        "description": "Returns a JWT for the `Authorization: Bearer <token>` header. Tokens expire after 300 seconds.",
+        "description": "Returns a JWT for the `Authorization: Bearer <token>` header. Accounts with two-factor auth (TOTP) get a restricted temporary token instead, which is exchanged for a full token by sending it back with the TOTP code. _(source)_",
         "parameters": [],
         "requestBody": {
-          "requiredFields": [
+          "requiredFields": [],
+          "optionalFields": [
             "email",
-            "password"
+            "password",
+            "access_token",
+            "totp"
           ],
-          "optionalFields": [],
-          "schemaRaw": "{\n  email: string;\n  password: string;\n}"
+          "schemaRaw": "{\n  email?: string;         // with password: the normal login\n  password?: string;\n  access_token?: string;  // with totp: the second step of a TOTP login\n  totp?: string;\n}"
         },
         "responses": {
           "200": {
@@ -472,11 +2632,28 @@
               "token_type",
               "expires_in"
             ],
-            "schemaRaw": "{\n  access_token: string;\n  token_type: string;\n  expires_in: number;\n}"
+            "schemaRaw": "{\n  access_token: string;\n  token_type: string;   // \"bearer\"\n  expires_in: number;   // 300\n}",
+            "origin": "source"
+          },
+          "400": {
+            "statusCode": 400,
+            "statusText": "Bad Request",
+            "origin": "source"
           },
           "401": {
             "statusCode": 401,
-            "statusText": "Unauthorized"
+            "statusText": "Unauthorized",
+            "origin": "verified"
+          },
+          "403": {
+            "statusCode": 403,
+            "statusText": "Forbidden",
+            "origin": "source"
+          },
+          "423": {
+            "statusCode": 423,
+            "statusText": "Locked",
+            "origin": "source"
           }
         }
       },
@@ -487,22 +2664,250 @@
       ],
       "documentedStatusCodes": [
         200,
-        401
+        400,
+        401,
+        403,
+        423
       ],
-      "statusCodeCoveragePct": 50,
-      "testedRequiredFields": [
+      "statusCodeCoveragePct": 20,
+      "testedRequiredFields": [],
+      "missingRequiredFields": [],
+      "requiredFieldCoveragePct": 100,
+      "testedOptionalFields": [
         "email",
         "password"
       ],
-      "missingRequiredFields": [],
-      "requiredFieldCoveragePct": 100,
+      "missingOptionalFields": [
+        "access_token",
+        "totp"
+      ],
+      "optionalFieldCoveragePct": 50,
+      "testedQueryParams": [],
+      "missingQueryParams": [],
+      "queryParamCoveragePct": 100,
+      "overallCoveragePct": 52
+    },
+    {
+      "endpoint": {
+        "id": "POST /users/register",
+        "serviceName": "Users",
+        "method": "POST",
+        "path": "/users/register",
+        "normalizedPath": "/users/register",
+        "title": "Register",
+        "description": "Creates a customer account (role `user`). _(source)_",
+        "parameters": [],
+        "requestBody": {
+          "requiredFields": [
+            "first_name",
+            "last_name",
+            "email",
+            "password"
+          ],
+          "optionalFields": [
+            "address",
+            "street",
+            "house_number",
+            "city",
+            "state",
+            "country",
+            "postal_code",
+            "phone",
+            "dob"
+          ],
+          "schemaRaw": "{\n  first_name: string;       // max 40\n  last_name: string;        // max 20\n  email: string;            // max 256, unique\n  password: string;         // see \"Strong password\" above\n  address?: {\n    street?: string;        // max 70\n    house_number?: string | null;  // max 10\n    city?: string;          // max 40\n    state?: string;         // max 40\n    country?: string;       // max 40\n    postal_code?: string;   // max 10; must match the country's format when country is sent\n  };\n  phone?: string;           // max 24\n  dob?: string;             // YYYY-MM-DD, at least 18 years ago\n}"
+        },
+        "responses": {
+          "201": {
+            "statusCode": 201,
+            "statusText": "Created",
+            "fields": [
+              "id",
+              "first_name",
+              "last_name",
+              "email",
+              "created_at",
+              "address",
+              "phone",
+              "dob"
+            ],
+            "schemaRaw": "{\n  id: string;\n  first_name: string;\n  last_name: string;\n  email: string;\n  phone?: string;\n  dob?: string;\n  created_at: string;\n  address: Address;\n}",
+            "origin": "source"
+          },
+          "409": {
+            "statusCode": 409,
+            "statusText": "Conflict",
+            "origin": "source"
+          },
+          "422": {
+            "statusCode": 422,
+            "statusText": "Unprocessable Entity",
+            "origin": "source"
+          }
+        }
+      },
+      "callCount": 0,
+      "isCovered": false,
+      "testedStatusCodes": [],
+      "documentedStatusCodes": [
+        201,
+        409,
+        422
+      ],
+      "statusCodeCoveragePct": 0,
+      "testedRequiredFields": [],
+      "missingRequiredFields": [
+        "first_name",
+        "last_name",
+        "email",
+        "password"
+      ],
+      "requiredFieldCoveragePct": 0,
+      "testedOptionalFields": [],
+      "missingOptionalFields": [
+        "address",
+        "street",
+        "house_number",
+        "city",
+        "state",
+        "country",
+        "postal_code",
+        "phone",
+        "dob"
+      ],
+      "optionalFieldCoveragePct": 0,
+      "testedQueryParams": [],
+      "missingQueryParams": [],
+      "queryParamCoveragePct": 100,
+      "overallCoveragePct": 0
+    },
+    {
+      "endpoint": {
+        "id": "POST /users/forgot-password",
+        "serviceName": "Users",
+        "method": "POST",
+        "path": "/users/forgot-password",
+        "normalizedPath": "/users/forgot-password",
+        "title": "Forgot password",
+        "description": "Sets the account's password to `welcome02`. No email confirmation or token is involved. _(source)_",
+        "parameters": [],
+        "requestBody": {
+          "requiredFields": [
+            "email"
+          ],
+          "optionalFields": [],
+          "schemaRaw": "{\n  email: string;\n}"
+        },
+        "responses": {
+          "200": {
+            "statusCode": 200,
+            "statusText": "OK",
+            "fields": [],
+            "schemaRaw": "{ success: true }",
+            "origin": "source"
+          },
+          "404": {
+            "statusCode": 404,
+            "statusText": "Not Found",
+            "origin": "source"
+          },
+          "422": {
+            "statusCode": 422,
+            "statusText": "Unprocessable Entity",
+            "origin": "source"
+          }
+        }
+      },
+      "callCount": 0,
+      "isCovered": false,
+      "testedStatusCodes": [],
+      "documentedStatusCodes": [
+        200,
+        404,
+        422
+      ],
+      "statusCodeCoveragePct": 0,
+      "testedRequiredFields": [],
+      "missingRequiredFields": [
+        "email"
+      ],
+      "requiredFieldCoveragePct": 0,
       "testedOptionalFields": [],
       "missingOptionalFields": [],
       "optionalFieldCoveragePct": 100,
       "testedQueryParams": [],
       "missingQueryParams": [],
       "queryParamCoveragePct": 100,
-      "overallCoveragePct": 80
+      "overallCoveragePct": 0
+    },
+    {
+      "endpoint": {
+        "id": "POST /users/change-password",
+        "serviceName": "Users",
+        "method": "POST",
+        "path": "/users/change-password",
+        "normalizedPath": "/users/change-password",
+        "title": "Change password",
+        "description": "Changes the current user's password. _(source)_",
+        "parameters": [],
+        "requestBody": {
+          "requiredFields": [
+            "current_password",
+            "new_password",
+            "new_password_confirmation"
+          ],
+          "optionalFields": [],
+          "schemaRaw": "{\n  current_password: string;\n  new_password: string;               // see \"Strong password\" above\n  new_password_confirmation: string;  // must equal new_password\n}"
+        },
+        "responses": {
+          "200": {
+            "statusCode": 200,
+            "statusText": "OK",
+            "fields": [],
+            "schemaRaw": "{ success: true }",
+            "origin": "source"
+          },
+          "400": {
+            "statusCode": 400,
+            "statusText": "Bad Request",
+            "origin": "source"
+          },
+          "401": {
+            "statusCode": 401,
+            "statusText": "Unauthorized",
+            "origin": "source"
+          },
+          "422": {
+            "statusCode": 422,
+            "statusText": "Unprocessable Entity",
+            "origin": "source"
+          }
+        }
+      },
+      "callCount": 0,
+      "isCovered": false,
+      "testedStatusCodes": [],
+      "documentedStatusCodes": [
+        200,
+        400,
+        401,
+        422
+      ],
+      "statusCodeCoveragePct": 0,
+      "testedRequiredFields": [],
+      "missingRequiredFields": [
+        "current_password",
+        "new_password",
+        "new_password_confirmation"
+      ],
+      "requiredFieldCoveragePct": 0,
+      "testedOptionalFields": [],
+      "missingOptionalFields": [],
+      "optionalFieldCoveragePct": 100,
+      "testedQueryParams": [],
+      "missingQueryParams": [],
+      "queryParamCoveragePct": 100,
+      "overallCoveragePct": 0
     },
     {
       "endpoint": {
@@ -512,7 +2917,7 @@
         "path": "/users/me",
         "normalizedPath": "/users/me",
         "title": "Current user",
-        "description": "Profile of the user the token belongs to. `role` is returned only for admins.",
+        "description": "Profile of the user the token belongs to. `role`, `enabled` and `failed_login_attempts` are returned only when the caller is an admin. _(source)_",
         "parameters": [],
         "requestBody": {
           "requiredFields": [],
@@ -522,24 +2927,14 @@
           "200": {
             "statusCode": 200,
             "statusText": "OK",
-            "fields": [
-              "id",
-              "provider",
-              "first_name",
-              "last_name",
-              "phone",
-              "dob",
-              "email",
-              "totp_enabled",
-              "created_at",
-              "address",
-              "role"
-            ],
-            "schemaRaw": "{\n  id: string;\n  provider: string | null;\n  first_name: string;\n  last_name: string;\n  phone: string | null;\n  dob: string | null;\n  email: string;\n  totp_enabled: boolean;\n  created_at: string;\n  address: object;\n  role?: string;\n}"
+            "fields": [],
+            "schemaRaw": "User",
+            "origin": "source"
           },
           "401": {
             "statusCode": 401,
-            "statusText": "Unauthorized"
+            "statusText": "Unauthorized",
+            "origin": "verified"
           }
         }
       },
@@ -563,6 +2958,657 @@
       "missingQueryParams": [],
       "queryParamCoveragePct": 100,
       "overallCoveragePct": 70
+    },
+    {
+      "endpoint": {
+        "id": "GET /users/logout",
+        "serviceName": "Users",
+        "method": "GET",
+        "path": "/users/logout",
+        "normalizedPath": "/users/logout",
+        "title": "Logout",
+        "description": "Invalidates (blacklists) the token. Later requests with it get `401`. _(source)_",
+        "parameters": [],
+        "requestBody": {
+          "requiredFields": [],
+          "optionalFields": []
+        },
+        "responses": {
+          "200": {
+            "statusCode": 200,
+            "statusText": "OK",
+            "fields": [],
+            "schemaRaw": "{ message: string }   // \"Successfully logged out\"",
+            "origin": "source"
+          },
+          "401": {
+            "statusCode": 401,
+            "statusText": "Unauthorized",
+            "origin": "verified"
+          }
+        }
+      },
+      "callCount": 0,
+      "isCovered": false,
+      "testedStatusCodes": [],
+      "documentedStatusCodes": [
+        200,
+        401
+      ],
+      "statusCodeCoveragePct": 0,
+      "testedRequiredFields": [],
+      "missingRequiredFields": [],
+      "requiredFieldCoveragePct": 100,
+      "testedOptionalFields": [],
+      "missingOptionalFields": [],
+      "optionalFieldCoveragePct": 100,
+      "testedQueryParams": [],
+      "missingQueryParams": [],
+      "queryParamCoveragePct": 100,
+      "overallCoveragePct": 0
+    },
+    {
+      "endpoint": {
+        "id": "GET /users/refresh",
+        "serviceName": "Users",
+        "method": "GET",
+        "path": "/users/refresh",
+        "normalizedPath": "/users/refresh",
+        "title": "Refresh token",
+        "description": "Returns a new token for the one in the `Authorization` header and invalidates the old one. An expired token can still be refreshed within the refresh window (`JWT_REFRESH_TTL`, 60 minutes by default). This route has no auth middleware; the token is read by the handler. _(source)_",
+        "parameters": [],
+        "requestBody": {
+          "requiredFields": [],
+          "optionalFields": []
+        },
+        "responses": {
+          "200": {
+            "statusCode": 200,
+            "statusText": "OK",
+            "fields": [
+              "access_token",
+              "token_type",
+              "expires_in"
+            ],
+            "schemaRaw": "{\n  access_token: string;\n  token_type: string;   // \"bearer\"\n  expires_in: number;\n}",
+            "origin": "source"
+          },
+          "401": {
+            "statusCode": 401,
+            "statusText": "Unauthorized",
+            "origin": "source"
+          },
+          "500": {
+            "statusCode": 500,
+            "statusText": "Internal Server Error",
+            "origin": "verified"
+          }
+        }
+      },
+      "callCount": 0,
+      "isCovered": false,
+      "testedStatusCodes": [],
+      "documentedStatusCodes": [
+        200,
+        401,
+        500
+      ],
+      "statusCodeCoveragePct": 0,
+      "testedRequiredFields": [],
+      "missingRequiredFields": [],
+      "requiredFieldCoveragePct": 100,
+      "testedOptionalFields": [],
+      "missingOptionalFields": [],
+      "optionalFieldCoveragePct": 100,
+      "testedQueryParams": [],
+      "missingQueryParams": [],
+      "queryParamCoveragePct": 100,
+      "overallCoveragePct": 0
+    },
+    {
+      "endpoint": {
+        "id": "GET /users",
+        "serviceName": "Users",
+        "method": "GET",
+        "path": "/users",
+        "normalizedPath": "/users",
+        "title": "List users",
+        "description": "Lists customer accounts (role `user` only), 15 per page. Admin only. _(source)_",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "type": "integer",
+            "required": false,
+            "description": "Page number, starting at 1"
+          }
+        ],
+        "requestBody": {
+          "requiredFields": [],
+          "optionalFields": []
+        },
+        "responses": {
+          "200": {
+            "statusCode": 200,
+            "statusText": "OK",
+            "fields": [
+              "current_page",
+              "data",
+              "from",
+              "last_page",
+              "per_page",
+              "to",
+              "total"
+            ],
+            "schemaRaw": "{\n  current_page: number;\n  data: User[];\n  from: number | null;\n  last_page: number;\n  per_page: number;\n  to: number | null;\n  total: number;\n}",
+            "origin": "source"
+          },
+          "401": {
+            "statusCode": 401,
+            "statusText": "Unauthorized",
+            "origin": "verified"
+          },
+          "403": {
+            "statusCode": 403,
+            "statusText": "Forbidden",
+            "origin": "source"
+          }
+        }
+      },
+      "callCount": 0,
+      "isCovered": false,
+      "testedStatusCodes": [],
+      "documentedStatusCodes": [
+        200,
+        401,
+        403
+      ],
+      "statusCodeCoveragePct": 0,
+      "testedRequiredFields": [],
+      "missingRequiredFields": [],
+      "requiredFieldCoveragePct": 100,
+      "testedOptionalFields": [],
+      "missingOptionalFields": [],
+      "optionalFieldCoveragePct": 100,
+      "testedQueryParams": [],
+      "missingQueryParams": [
+        "page"
+      ],
+      "queryParamCoveragePct": 0,
+      "overallCoveragePct": 0
+    },
+    {
+      "endpoint": {
+        "id": "GET /users/search",
+        "serviceName": "Users",
+        "method": "GET",
+        "path": "/users/search",
+        "normalizedPath": "/users/search",
+        "title": "Search users",
+        "description": "Searches customer accounts (role `user` only) by first name, last name, email and city. Any logged-in user can search (see Notes). Returns 15 per page. _(source)_",
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "type": "string",
+            "required": false,
+            "description": "Search term. The spec marks it required; without it every customer matches."
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "type": "integer",
+            "required": false,
+            "description": "Page number, starting at 1"
+          }
+        ],
+        "requestBody": {
+          "requiredFields": [],
+          "optionalFields": []
+        },
+        "responses": {
+          "200": {
+            "statusCode": 200,
+            "statusText": "OK",
+            "fields": [
+              "current_page",
+              "data",
+              "from",
+              "last_page",
+              "per_page",
+              "to",
+              "total"
+            ],
+            "schemaRaw": "{\n  current_page: number;\n  data: User[];\n  from: number | null;\n  last_page: number;\n  per_page: number;\n  to: number | null;\n  total: number;\n}",
+            "origin": "source"
+          },
+          "401": {
+            "statusCode": 401,
+            "statusText": "Unauthorized",
+            "origin": "verified"
+          }
+        }
+      },
+      "callCount": 0,
+      "isCovered": false,
+      "testedStatusCodes": [],
+      "documentedStatusCodes": [
+        200,
+        401
+      ],
+      "statusCodeCoveragePct": 0,
+      "testedRequiredFields": [],
+      "missingRequiredFields": [],
+      "requiredFieldCoveragePct": 100,
+      "testedOptionalFields": [],
+      "missingOptionalFields": [],
+      "optionalFieldCoveragePct": 100,
+      "testedQueryParams": [],
+      "missingQueryParams": [
+        "q",
+        "page"
+      ],
+      "queryParamCoveragePct": 0,
+      "overallCoveragePct": 0
+    },
+    {
+      "endpoint": {
+        "id": "QUERY /users/search",
+        "serviceName": "Users",
+        "method": "QUERY",
+        "path": "/users/search",
+        "normalizedPath": "/users/search",
+        "title": "Search users (HTTP QUERY)",
+        "description": "Same as `GET /users/search`, with the criteria in a JSON body. _(source)_",
+        "parameters": [],
+        "requestBody": {
+          "requiredFields": [],
+          "optionalFields": [
+            "q",
+            "page"
+          ],
+          "schemaRaw": "{\n  q?: string;\n  page?: string;\n}"
+        },
+        "responses": {
+          "200": {
+            "statusCode": 200,
+            "statusText": "OK",
+            "fields": [],
+            "origin": "source"
+          },
+          "401": {
+            "statusCode": 401,
+            "statusText": "Unauthorized",
+            "origin": "verified"
+          },
+          "415": {
+            "statusCode": 415,
+            "statusText": "Unsupported Media Type",
+            "origin": "source"
+          }
+        }
+      },
+      "callCount": 0,
+      "isCovered": false,
+      "testedStatusCodes": [],
+      "documentedStatusCodes": [
+        200,
+        401,
+        415
+      ],
+      "statusCodeCoveragePct": 0,
+      "testedRequiredFields": [],
+      "missingRequiredFields": [],
+      "requiredFieldCoveragePct": 100,
+      "testedOptionalFields": [],
+      "missingOptionalFields": [
+        "q",
+        "page"
+      ],
+      "optionalFieldCoveragePct": 0,
+      "testedQueryParams": [],
+      "missingQueryParams": [],
+      "queryParamCoveragePct": 100,
+      "overallCoveragePct": 0
+    },
+    {
+      "endpoint": {
+        "id": "GET /users/:userId",
+        "serviceName": "Users",
+        "method": "GET",
+        "path": "/users/:userId",
+        "normalizedPath": "/users/{userId}",
+        "title": "Get user",
+        "description": "Returns a user. A non-admin can only get their own record. _(source)_",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "type": "string",
+            "required": true,
+            "description": "User ULID"
+          }
+        ],
+        "requestBody": {
+          "requiredFields": [],
+          "optionalFields": []
+        },
+        "responses": {
+          "200": {
+            "statusCode": 200,
+            "statusText": "OK",
+            "fields": [],
+            "schemaRaw": "User",
+            "origin": "source"
+          },
+          "401": {
+            "statusCode": 401,
+            "statusText": "Unauthorized",
+            "origin": "verified"
+          },
+          "404": {
+            "statusCode": 404,
+            "statusText": "Not Found",
+            "origin": "source"
+          }
+        }
+      },
+      "callCount": 0,
+      "isCovered": false,
+      "testedStatusCodes": [],
+      "documentedStatusCodes": [
+        200,
+        401,
+        404
+      ],
+      "statusCodeCoveragePct": 0,
+      "testedRequiredFields": [],
+      "missingRequiredFields": [],
+      "requiredFieldCoveragePct": 100,
+      "testedOptionalFields": [],
+      "missingOptionalFields": [],
+      "optionalFieldCoveragePct": 100,
+      "testedQueryParams": [],
+      "missingQueryParams": [],
+      "queryParamCoveragePct": 100,
+      "overallCoveragePct": 0
+    },
+    {
+      "endpoint": {
+        "id": "PUT /users/:userId",
+        "serviceName": "Users",
+        "method": "PUT",
+        "path": "/users/:userId",
+        "normalizedPath": "/users/{userId}",
+        "title": "Update user",
+        "description": "Updates a user's profile. A non-admin can only update their own record; only an admin can send `role`. `password` is ignored (use change-password). _(source)_",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "type": "string",
+            "required": true,
+            "description": "User ULID"
+          }
+        ],
+        "requestBody": {
+          "requiredFields": [
+            "first_name",
+            "last_name",
+            "email",
+            "address",
+            "street",
+            "city",
+            "country"
+          ],
+          "optionalFields": [
+            "house_number",
+            "state",
+            "postal_code",
+            "phone",
+            "dob",
+            "role"
+          ],
+          "schemaRaw": "{\n  first_name: string;       // max 40\n  last_name: string;        // max 20\n  email: string;            // max 256\n  address: {\n    street: string;         // max 70\n    city: string;           // max 40\n    country: string;        // max 40\n    house_number?: string | null;  // max 10\n    state?: string | null;  // max 40\n    postal_code?: string | null;   // max 10\n  };\n  phone?: string | null;    // 7 to 24 of: digits, spaces, ( ) + - .\n  dob?: string;             // YYYY-MM-DD, at least 18 years ago\n  role?: string;            // admin only\n}"
+        },
+        "responses": {
+          "200": {
+            "statusCode": 200,
+            "statusText": "OK",
+            "fields": [],
+            "schemaRaw": "{ success: boolean }",
+            "origin": "source"
+          },
+          "401": {
+            "statusCode": 401,
+            "statusText": "Unauthorized",
+            "origin": "source"
+          },
+          "403": {
+            "statusCode": 403,
+            "statusText": "Forbidden",
+            "origin": "source"
+          },
+          "422": {
+            "statusCode": 422,
+            "statusText": "Unprocessable Entity",
+            "origin": "source"
+          }
+        }
+      },
+      "callCount": 0,
+      "isCovered": false,
+      "testedStatusCodes": [],
+      "documentedStatusCodes": [
+        200,
+        401,
+        403,
+        422
+      ],
+      "statusCodeCoveragePct": 0,
+      "testedRequiredFields": [],
+      "missingRequiredFields": [
+        "first_name",
+        "last_name",
+        "email",
+        "address",
+        "street",
+        "city",
+        "country"
+      ],
+      "requiredFieldCoveragePct": 0,
+      "testedOptionalFields": [],
+      "missingOptionalFields": [
+        "house_number",
+        "state",
+        "postal_code",
+        "phone",
+        "dob",
+        "role"
+      ],
+      "optionalFieldCoveragePct": 0,
+      "testedQueryParams": [],
+      "missingQueryParams": [],
+      "queryParamCoveragePct": 100,
+      "overallCoveragePct": 0
+    },
+    {
+      "endpoint": {
+        "id": "PATCH /users/:userId",
+        "serviceName": "Users",
+        "method": "PATCH",
+        "path": "/users/:userId",
+        "normalizedPath": "/users/{userId}",
+        "title": "Partially update user",
+        "description": "Updates only the validated fields that are sent. A non-admin can only patch their own record. _(source)_",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "type": "string",
+            "required": true,
+            "description": "User ULID"
+          }
+        ],
+        "requestBody": {
+          "requiredFields": [],
+          "optionalFields": [
+            "first_name",
+            "last_name",
+            "email",
+            "address",
+            "street",
+            "house_number",
+            "city",
+            "state",
+            "country",
+            "postal_code",
+            "phone",
+            "dob",
+            "enabled",
+            "failed_login_attempts",
+            "totp_enabled",
+            "totp_secret",
+            "totp_verified_at"
+          ],
+          "schemaRaw": "{\n  first_name?: string;\n  last_name?: string;\n  email?: string;\n  address?: {\n    street?: string;\n    house_number?: string | null;\n    city?: string;\n    state?: string | null;\n    country?: string;\n    postal_code?: string | null;\n  };\n  phone?: string | null;\n  dob?: string;\n  enabled?: boolean;\n  failed_login_attempts?: number;\n  totp_enabled?: boolean;\n  totp_secret?: string | null;\n  totp_verified_at?: string | null;\n}"
+        },
+        "responses": {
+          "200": {
+            "statusCode": 200,
+            "statusText": "OK",
+            "fields": [],
+            "schemaRaw": "{ success: true }",
+            "origin": "source"
+          },
+          "401": {
+            "statusCode": 401,
+            "statusText": "Unauthorized",
+            "origin": "source"
+          },
+          "403": {
+            "statusCode": 403,
+            "statusText": "Forbidden",
+            "origin": "source"
+          },
+          "422": {
+            "statusCode": 422,
+            "statusText": "Unprocessable Entity",
+            "origin": "source"
+          }
+        }
+      },
+      "callCount": 0,
+      "isCovered": false,
+      "testedStatusCodes": [],
+      "documentedStatusCodes": [
+        200,
+        401,
+        403,
+        422
+      ],
+      "statusCodeCoveragePct": 0,
+      "testedRequiredFields": [],
+      "missingRequiredFields": [],
+      "requiredFieldCoveragePct": 100,
+      "testedOptionalFields": [],
+      "missingOptionalFields": [
+        "first_name",
+        "last_name",
+        "email",
+        "address",
+        "street",
+        "house_number",
+        "city",
+        "state",
+        "country",
+        "postal_code",
+        "phone",
+        "dob",
+        "enabled",
+        "failed_login_attempts",
+        "totp_enabled",
+        "totp_secret",
+        "totp_verified_at"
+      ],
+      "optionalFieldCoveragePct": 0,
+      "testedQueryParams": [],
+      "missingQueryParams": [],
+      "queryParamCoveragePct": 100,
+      "overallCoveragePct": 0
+    },
+    {
+      "endpoint": {
+        "id": "DELETE /users/:userId",
+        "serviceName": "Users",
+        "method": "DELETE",
+        "path": "/users/:userId",
+        "normalizedPath": "/users/{userId}",
+        "title": "Delete user",
+        "description": "Deletes a user. Admin only. _(source)_",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "type": "string",
+            "required": true,
+            "description": "User ULID"
+          }
+        ],
+        "requestBody": {
+          "requiredFields": [],
+          "optionalFields": []
+        },
+        "responses": {
+          "204": {
+            "statusCode": 204,
+            "statusText": "No Content",
+            "fields": [],
+            "origin": "source"
+          },
+          "401": {
+            "statusCode": 401,
+            "statusText": "Unauthorized",
+            "origin": "source"
+          },
+          "403": {
+            "statusCode": 403,
+            "statusText": "Forbidden",
+            "origin": "source"
+          },
+          "409": {
+            "statusCode": 409,
+            "statusText": "Conflict",
+            "origin": "source"
+          },
+          "500": {
+            "statusCode": 500,
+            "statusText": "Internal Server Error",
+            "origin": "source"
+          }
+        }
+      },
+      "callCount": 0,
+      "isCovered": false,
+      "testedStatusCodes": [],
+      "documentedStatusCodes": [
+        204,
+        401,
+        403,
+        409,
+        500
+      ],
+      "statusCodeCoveragePct": 0,
+      "testedRequiredFields": [],
+      "missingRequiredFields": [],
+      "requiredFieldCoveragePct": 100,
+      "testedOptionalFields": [],
+      "missingOptionalFields": [],
+      "optionalFieldCoveragePct": 100,
+      "testedQueryParams": [],
+      "missingQueryParams": [],
+      "queryParamCoveragePct": 100,
+      "overallCoveragePct": 0
     }
   ],
   "undocumentedCalls": []
