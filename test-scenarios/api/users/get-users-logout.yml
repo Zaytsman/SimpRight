@@ -1,0 +1,36 @@
+# yaml-language-server: $schema=../../scenarios.schema.json
+suite: Users API
+tags: ["@users-api"]
+scenarios:
+  - id: API-0105
+    name: Logout returns 200 and invalidates the token
+    status: manual
+    steps:
+      - Send POST /users/login with the default user's email and password, and take the new access_token.
+      - Send GET /users/logout with that token.
+      - Verify the response status is 200.
+      - Verify the body's message is "Successfully logged out".
+      - Verify GET /users/me with that token returns 401.
+  - id: API-0106
+    name: Logout without a token returns 401
+    status: manual
+    steps:
+      - Send GET /users/logout without an Authorization header.
+      - Verify the response status is 401.
+      - Verify the body's message is "Unauthorized".
+  - id: API-0107
+    name: Logout with an invalid token returns 401
+    status: manual
+    steps:
+      - Send GET /users/logout with an invalid token.
+      - Verify the response status is 401.
+      - Verify the body's message is "Unauthorized".
+  - id: API-0108
+    name: Logout with an already logged-out token returns 401
+    status: manual
+    steps:
+      - Send POST /users/login with the default user's email and password, and take the new access_token.
+      - Send GET /users/logout with that token.
+      - Send GET /users/logout with the same token again.
+      - Verify the response status is 401.
+      - Verify the body's message is "Unauthorized".
