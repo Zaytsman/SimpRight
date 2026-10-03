@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-03T10:07:32.059Z",
+  "generatedAt": "2026-10-03T10:54:34.419Z",
   "totalEndpoints": 24,
   "coveredEndpoints": 12,
   "endpointCoveragePct": 50,
@@ -10,9 +10,9 @@
   "coveredRequiredFields": 7,
   "requiredFieldCoveragePct": 32,
   "totalOptionalFields": 71,
-  "coveredOptionalFields": 12,
-  "optionalFieldCoveragePct": 17,
-  "overallCoveragePct": 43,
+  "coveredOptionalFields": 35,
+  "optionalFieldCoveragePct": 49,
+  "overallCoveragePct": 46,
   "services": {
     "Products": {
       "serviceName": "Products",
@@ -26,9 +26,9 @@
       "coveredRequiredFields": 7,
       "requiredFieldCoveragePct": 100,
       "totalOptionalFields": 33,
-      "coveredOptionalFields": 10,
-      "optionalFieldCoveragePct": 30,
-      "overallCoveragePct": 92,
+      "coveredOptionalFields": 33,
+      "optionalFieldCoveragePct": 100,
+      "overallCoveragePct": 99,
       "endpoints": [
         {
           "endpoint": {
@@ -138,7 +138,7 @@
               }
             }
           },
-          "callCount": 49,
+          "callCount": 65,
           "isCovered": true,
           "testedStatusCodes": [
             200,
@@ -179,7 +179,7 @@
             "path": "/products",
             "normalizedPath": "/products",
             "title": "List products (HTTP QUERY)",
-            "description": "Same as `GET /products`, but the criteria are sent as a JSON body (RFC 10008 `QUERY` method). The body keys are merged into the query string, so the results equal the `GET` with the same parameters. _(source)_",
+            "description": "Same as `GET /products`, but the criteria are sent as a JSON body (RFC 10008 `QUERY` method). The body keys are merged into the query string, so the results equal the `GET` with the same parameters. _(verified)_",
             "parameters": [],
             "requestBody": {
               "requiredFields": [],
@@ -216,11 +216,11 @@
               }
             }
           },
-          "callCount": 5,
+          "callCount": 13,
           "isCovered": true,
           "testedStatusCodes": [
-            200,
             415,
+            200,
             500
           ],
           "documentedStatusCodes": [
@@ -233,24 +233,23 @@
           "missingRequiredFields": [],
           "requiredFieldCoveragePct": 100,
           "testedOptionalFields": [
-            "sort"
-          ],
-          "missingOptionalFields": [
             "by_brand",
             "by_category",
             "by_category_slug",
             "is_rental",
             "between",
+            "sort",
             "eco_friendly",
             "q",
             "by_spec",
             "page"
           ],
-          "optionalFieldCoveragePct": 10,
+          "missingOptionalFields": [],
+          "optionalFieldCoveragePct": 100,
           "testedQueryParams": [],
           "missingQueryParams": [],
           "queryParamCoveragePct": 100,
-          "overallCoveragePct": 79
+          "overallCoveragePct": 100
         },
         {
           "endpoint": {
@@ -277,7 +276,7 @@
                 "co2_rating",
                 "stock"
               ],
-              "schemaRaw": "{\n  name: string;               // max 120, no subscript/superscript characters\n  description?: string;       // max 1250, no subscript/superscript characters\n  price: number;\n  category_id: string;        // existing category id\n  brand_id: string;           // existing brand id\n  product_image_id: string;   // existing product image id\n  is_location_offer: boolean;\n  is_rental: boolean;\n  co2_rating?: string;        // not validated; stored as sent\n  stock?: number;             // not validated; stored as sent\n}"
+              "schemaRaw": "{\n  name: string;               // max 120, no subscript/superscript characters\n  description?: string;       // max 1250, no subscript/superscript characters\n  price: number;\n  category_id: string;        // existing category id\n  brand_id: string;           // existing brand id\n  product_image_id: string;   // existing product image id\n  is_location_offer: boolean;\n  is_rental: boolean;\n  co2_rating?: string;        // not validated; stored as sent _(verified)_\n  stock?: number;             // not validated; stored as sent _(verified)_\n}"
             },
             "responses": {
               "201": {
@@ -299,7 +298,7 @@
               }
             }
           },
-          "callCount": 27,
+          "callCount": 32,
           "isCovered": true,
           "testedStatusCodes": [
             201,
@@ -324,17 +323,16 @@
           "missingRequiredFields": [],
           "requiredFieldCoveragePct": 100,
           "testedOptionalFields": [
-            "description"
-          ],
-          "missingOptionalFields": [
+            "description",
             "co2_rating",
             "stock"
           ],
-          "optionalFieldCoveragePct": 33,
+          "missingOptionalFields": [],
+          "optionalFieldCoveragePct": 100,
           "testedQueryParams": [],
           "missingQueryParams": [],
           "queryParamCoveragePct": 100,
-          "overallCoveragePct": 89
+          "overallCoveragePct": 100
         },
         {
           "endpoint": {
@@ -376,11 +374,11 @@
               }
             }
           },
-          "callCount": 12,
+          "callCount": 18,
           "isCovered": true,
           "testedStatusCodes": [
-            200,
-            404
+            404,
+            200
           ],
           "documentedStatusCodes": [
             200,
@@ -430,7 +428,7 @@
                 "co2_rating",
                 "stock"
               ],
-              "schemaRaw": "{\n  name?: string;              // max 120\n  description?: string;       // max 1250\n  price?: number;             // not validated\n  category_id?: string;       // not validated\n  brand_id?: string;          // not validated\n  product_image_id?: string;  // not validated\n  is_location_offer?: boolean;\n  is_rental?: boolean;\n  co2_rating?: string;        // not validated\n  stock?: number;             // not validated\n}"
+              "schemaRaw": "{\n  name?: string;              // max 120\n  description?: string;       // max 1250\n  price?: number;             // not validated; stored as sent _(verified)_\n  category_id?: string;       // not validated; stored as sent _(verified)_\n  brand_id?: string;          // not validated; stored as sent _(verified)_\n  product_image_id?: string;  // not validated; stored as sent _(verified)_\n  is_location_offer?: boolean;\n  is_rental?: boolean;\n  co2_rating?: string;        // not validated; stored as sent _(verified)_\n  stock?: number;             // not validated; stored as sent _(verified)_\n}"
             },
             "responses": {
               "200": {
@@ -452,12 +450,12 @@
               }
             }
           },
-          "callCount": 9,
+          "callCount": 11,
           "isCovered": true,
           "testedStatusCodes": [
-            200,
             422,
-            404
+            404,
+            200
           ],
           "documentedStatusCodes": [
             200,
@@ -471,22 +469,21 @@
           "testedOptionalFields": [
             "name",
             "description",
-            "is_location_offer",
-            "is_rental"
-          ],
-          "missingOptionalFields": [
             "price",
             "category_id",
             "brand_id",
             "product_image_id",
+            "is_location_offer",
+            "is_rental",
             "co2_rating",
             "stock"
           ],
-          "optionalFieldCoveragePct": 40,
+          "missingOptionalFields": [],
+          "optionalFieldCoveragePct": 100,
           "testedQueryParams": [],
           "missingQueryParams": [],
           "queryParamCoveragePct": 100,
-          "overallCoveragePct": 86
+          "overallCoveragePct": 100
         },
         {
           "endpoint": {
@@ -540,11 +537,11 @@
               }
             }
           },
-          "callCount": 6,
+          "callCount": 8,
           "isCovered": true,
           "testedStatusCodes": [
-            422,
             200,
+            422,
             404
           ],
           "documentedStatusCodes": [
@@ -559,20 +556,19 @@
           "testedOptionalFields": [
             "name",
             "description",
-            "price"
-          ],
-          "missingOptionalFields": [
+            "price",
             "category_id",
             "brand_id",
             "product_image_id",
             "is_location_offer",
             "is_rental"
           ],
-          "optionalFieldCoveragePct": 38,
+          "missingOptionalFields": [],
+          "optionalFieldCoveragePct": 100,
           "testedQueryParams": [],
           "missingQueryParams": [],
           "queryParamCoveragePct": 100,
-          "overallCoveragePct": 86
+          "overallCoveragePct": 100
         },
         {
           "endpoint": {
@@ -625,13 +621,13 @@
               }
             }
           },
-          "callCount": 24,
+          "callCount": 29,
           "isCovered": true,
           "testedStatusCodes": [
-            401,
             204,
             404,
-            403
+            403,
+            401
           ],
           "documentedStatusCodes": [
             204,
@@ -692,8 +688,8 @@
           "callCount": 3,
           "isCovered": true,
           "testedStatusCodes": [
-            200,
-            500
+            500,
+            200
           ],
           "documentedStatusCodes": [
             200,
@@ -758,7 +754,7 @@
               }
             }
           },
-          "callCount": 5,
+          "callCount": 6,
           "isCovered": true,
           "testedStatusCodes": [
             200
@@ -813,7 +809,7 @@
               }
             }
           },
-          "callCount": 3,
+          "callCount": 4,
           "isCovered": true,
           "testedStatusCodes": [
             200,
@@ -828,16 +824,15 @@
           "missingRequiredFields": [],
           "requiredFieldCoveragePct": 100,
           "testedOptionalFields": [
-            "q"
-          ],
-          "missingOptionalFields": [
+            "q",
             "page"
           ],
-          "optionalFieldCoveragePct": 50,
+          "missingOptionalFields": [],
+          "optionalFieldCoveragePct": 100,
           "testedQueryParams": [],
           "missingQueryParams": [],
           "queryParamCoveragePct": 100,
-          "overallCoveragePct": 88
+          "overallCoveragePct": 100
         }
       ]
     },
@@ -1976,7 +1971,7 @@
           }
         }
       },
-      "callCount": 49,
+      "callCount": 65,
       "isCovered": true,
       "testedStatusCodes": [
         200,
@@ -2017,7 +2012,7 @@
         "path": "/products",
         "normalizedPath": "/products",
         "title": "List products (HTTP QUERY)",
-        "description": "Same as `GET /products`, but the criteria are sent as a JSON body (RFC 10008 `QUERY` method). The body keys are merged into the query string, so the results equal the `GET` with the same parameters. _(source)_",
+        "description": "Same as `GET /products`, but the criteria are sent as a JSON body (RFC 10008 `QUERY` method). The body keys are merged into the query string, so the results equal the `GET` with the same parameters. _(verified)_",
         "parameters": [],
         "requestBody": {
           "requiredFields": [],
@@ -2054,11 +2049,11 @@
           }
         }
       },
-      "callCount": 5,
+      "callCount": 13,
       "isCovered": true,
       "testedStatusCodes": [
-        200,
         415,
+        200,
         500
       ],
       "documentedStatusCodes": [
@@ -2071,24 +2066,23 @@
       "missingRequiredFields": [],
       "requiredFieldCoveragePct": 100,
       "testedOptionalFields": [
-        "sort"
-      ],
-      "missingOptionalFields": [
         "by_brand",
         "by_category",
         "by_category_slug",
         "is_rental",
         "between",
+        "sort",
         "eco_friendly",
         "q",
         "by_spec",
         "page"
       ],
-      "optionalFieldCoveragePct": 10,
+      "missingOptionalFields": [],
+      "optionalFieldCoveragePct": 100,
       "testedQueryParams": [],
       "missingQueryParams": [],
       "queryParamCoveragePct": 100,
-      "overallCoveragePct": 79
+      "overallCoveragePct": 100
     },
     {
       "endpoint": {
@@ -2115,7 +2109,7 @@
             "co2_rating",
             "stock"
           ],
-          "schemaRaw": "{\n  name: string;               // max 120, no subscript/superscript characters\n  description?: string;       // max 1250, no subscript/superscript characters\n  price: number;\n  category_id: string;        // existing category id\n  brand_id: string;           // existing brand id\n  product_image_id: string;   // existing product image id\n  is_location_offer: boolean;\n  is_rental: boolean;\n  co2_rating?: string;        // not validated; stored as sent\n  stock?: number;             // not validated; stored as sent\n}"
+          "schemaRaw": "{\n  name: string;               // max 120, no subscript/superscript characters\n  description?: string;       // max 1250, no subscript/superscript characters\n  price: number;\n  category_id: string;        // existing category id\n  brand_id: string;           // existing brand id\n  product_image_id: string;   // existing product image id\n  is_location_offer: boolean;\n  is_rental: boolean;\n  co2_rating?: string;        // not validated; stored as sent _(verified)_\n  stock?: number;             // not validated; stored as sent _(verified)_\n}"
         },
         "responses": {
           "201": {
@@ -2137,7 +2131,7 @@
           }
         }
       },
-      "callCount": 27,
+      "callCount": 32,
       "isCovered": true,
       "testedStatusCodes": [
         201,
@@ -2162,17 +2156,16 @@
       "missingRequiredFields": [],
       "requiredFieldCoveragePct": 100,
       "testedOptionalFields": [
-        "description"
-      ],
-      "missingOptionalFields": [
+        "description",
         "co2_rating",
         "stock"
       ],
-      "optionalFieldCoveragePct": 33,
+      "missingOptionalFields": [],
+      "optionalFieldCoveragePct": 100,
       "testedQueryParams": [],
       "missingQueryParams": [],
       "queryParamCoveragePct": 100,
-      "overallCoveragePct": 89
+      "overallCoveragePct": 100
     },
     {
       "endpoint": {
@@ -2214,11 +2207,11 @@
           }
         }
       },
-      "callCount": 12,
+      "callCount": 18,
       "isCovered": true,
       "testedStatusCodes": [
-        200,
-        404
+        404,
+        200
       ],
       "documentedStatusCodes": [
         200,
@@ -2268,7 +2261,7 @@
             "co2_rating",
             "stock"
           ],
-          "schemaRaw": "{\n  name?: string;              // max 120\n  description?: string;       // max 1250\n  price?: number;             // not validated\n  category_id?: string;       // not validated\n  brand_id?: string;          // not validated\n  product_image_id?: string;  // not validated\n  is_location_offer?: boolean;\n  is_rental?: boolean;\n  co2_rating?: string;        // not validated\n  stock?: number;             // not validated\n}"
+          "schemaRaw": "{\n  name?: string;              // max 120\n  description?: string;       // max 1250\n  price?: number;             // not validated; stored as sent _(verified)_\n  category_id?: string;       // not validated; stored as sent _(verified)_\n  brand_id?: string;          // not validated; stored as sent _(verified)_\n  product_image_id?: string;  // not validated; stored as sent _(verified)_\n  is_location_offer?: boolean;\n  is_rental?: boolean;\n  co2_rating?: string;        // not validated; stored as sent _(verified)_\n  stock?: number;             // not validated; stored as sent _(verified)_\n}"
         },
         "responses": {
           "200": {
@@ -2290,12 +2283,12 @@
           }
         }
       },
-      "callCount": 9,
+      "callCount": 11,
       "isCovered": true,
       "testedStatusCodes": [
-        200,
         422,
-        404
+        404,
+        200
       ],
       "documentedStatusCodes": [
         200,
@@ -2309,22 +2302,21 @@
       "testedOptionalFields": [
         "name",
         "description",
-        "is_location_offer",
-        "is_rental"
-      ],
-      "missingOptionalFields": [
         "price",
         "category_id",
         "brand_id",
         "product_image_id",
+        "is_location_offer",
+        "is_rental",
         "co2_rating",
         "stock"
       ],
-      "optionalFieldCoveragePct": 40,
+      "missingOptionalFields": [],
+      "optionalFieldCoveragePct": 100,
       "testedQueryParams": [],
       "missingQueryParams": [],
       "queryParamCoveragePct": 100,
-      "overallCoveragePct": 86
+      "overallCoveragePct": 100
     },
     {
       "endpoint": {
@@ -2378,11 +2370,11 @@
           }
         }
       },
-      "callCount": 6,
+      "callCount": 8,
       "isCovered": true,
       "testedStatusCodes": [
-        422,
         200,
+        422,
         404
       ],
       "documentedStatusCodes": [
@@ -2397,20 +2389,19 @@
       "testedOptionalFields": [
         "name",
         "description",
-        "price"
-      ],
-      "missingOptionalFields": [
+        "price",
         "category_id",
         "brand_id",
         "product_image_id",
         "is_location_offer",
         "is_rental"
       ],
-      "optionalFieldCoveragePct": 38,
+      "missingOptionalFields": [],
+      "optionalFieldCoveragePct": 100,
       "testedQueryParams": [],
       "missingQueryParams": [],
       "queryParamCoveragePct": 100,
-      "overallCoveragePct": 86
+      "overallCoveragePct": 100
     },
     {
       "endpoint": {
@@ -2463,13 +2454,13 @@
           }
         }
       },
-      "callCount": 24,
+      "callCount": 29,
       "isCovered": true,
       "testedStatusCodes": [
-        401,
         204,
         404,
-        403
+        403,
+        401
       ],
       "documentedStatusCodes": [
         204,
@@ -2530,8 +2521,8 @@
       "callCount": 3,
       "isCovered": true,
       "testedStatusCodes": [
-        200,
-        500
+        500,
+        200
       ],
       "documentedStatusCodes": [
         200,
@@ -2596,7 +2587,7 @@
           }
         }
       },
-      "callCount": 5,
+      "callCount": 6,
       "isCovered": true,
       "testedStatusCodes": [
         200
@@ -2651,7 +2642,7 @@
           }
         }
       },
-      "callCount": 3,
+      "callCount": 4,
       "isCovered": true,
       "testedStatusCodes": [
         200,
@@ -2666,16 +2657,15 @@
       "missingRequiredFields": [],
       "requiredFieldCoveragePct": 100,
       "testedOptionalFields": [
-        "q"
-      ],
-      "missingOptionalFields": [
+        "q",
         "page"
       ],
-      "optionalFieldCoveragePct": 50,
+      "missingOptionalFields": [],
+      "optionalFieldCoveragePct": 100,
       "testedQueryParams": [],
       "missingQueryParams": [],
       "queryParamCoveragePct": 100,
-      "overallCoveragePct": 88
+      "overallCoveragePct": 100
     },
     {
       "endpoint": {
