@@ -1,13 +1,15 @@
 import type { APIRequestContext } from '@playwright/test';
 import type { EnvConfig } from '../../config/env';
 
-export type HttpVerb = 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH' | 'HEAD' | 'OPTIONS';
+export type HttpVerb = 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH' | 'HEAD' | 'OPTIONS' | 'QUERY';
 
 export interface ApiResponse {
   status: number;
   statusText: string;
   body: string;
   isSuccess: boolean;
+  /** Response headers, names in lower case. */
+  headers: Record<string, string>;
 }
 
 /** What BaseClient reports to `onApiCall` listeners after every request. */
@@ -97,12 +99,27 @@ export abstract class BaseClient {
   protected async executeRequest(
     method: HttpVerb,
     resourcePath: string,
-    options?: { data?: unknown; query?: string; contentType?: string }
+    options?: {
+      data?: unknown;
+      /** A body sent as-is, without JSON encoding (pass its `contentType`). Used instead of `data`. */
+      rawData?: string;
+      query?: string;
+      contentType?: string;
+      /** The Accept header: `application/json` when undefined; `null` leaves it out. */
+      accept?: string | null;
+    }
   ): Promise<ApiResponse> {
     const fullUrl = this.buildUrl(resourcePath, options?.query);
-    const hasBody = options?.data !== undefined && ['POST', 'PUT', 'PATCH', 'DELETE'].includes(method);
+    const bodyMethods: HttpVerb[] = ['POST', 'PUT', 'PATCH', 'DELETE', 'QUERY'];
+    const hasRawBody = options?.rawData !== undefined && bodyMethods.includes(method);
+    const hasBody = !hasRawBody && options?.data !== undefined && bodyMethods.includes(method);
     const contentType = options?.contentType ?? (hasBody ? 'application/json; charset=utf-8' : undefined);
     const headers = this.getHeaders(contentType);
+    if (options?.accept === null) {
+      delete headers['Accept'];
+    } else if (options?.accept !== undefined) {
+      headers['Accept'] = options.accept;
+    }
     const startTime = Date.now();
     const notify = (status: number, statusText: string) =>
       BaseClient.notifyApiCall({
@@ -110,7 +127,7 @@ export abstract class BaseClient {
         url: fullUrl,
         path: `/${resourcePath.replace(/^\/+/, '')}`,
         query: options?.query || undefined,
-        requestBody: options?.data,
+        requestBody: hasRawBody ? options!.rawData : options?.data,
         status,
         statusText,
         durationMs: Date.now() - startTime,
@@ -120,7 +137,7 @@ export abstract class BaseClient {
       const response = await this.request.fetch(fullUrl, {
         method,
         headers,
-        data: hasBody ? JSON.stringify(options!.data) : undefined,
+        data: hasRawBody ? options!.rawData : hasBody ? JSON.stringify(options!.data) : undefined,
       });
       const bodyText = await response.text();
       notify(response.status(), response.statusText());
@@ -130,6 +147,7 @@ export abstract class BaseClient {
         statusText: response.statusText(),
         body: bodyText,
         isSuccess: response.ok(),
+        headers: response.headers(),
       };
     } catch (error) {
       notify(0, error instanceof Error ? error.message : String(error));
@@ -155,5 +173,13 @@ export abstract class BaseClient {
 
   async patch<TData>(resourcePath: string, options?: { data?: TData; query?: string }): Promise<ApiResponse> {
     return this.executeRequest('PATCH', resourcePath, { data: options?.data, query: options?.query });
+  }
+
+  /** HTTP QUERY (RFC 10008): the criteria go in the body. `rawData` sends a non-JSON body as-is. */
+  async query<TData>(
+    resourcePath: string,
+    options?: { data?: TData; rawData?: string; query?: string; contentType?: string; accept?: string | null }
+  ): Promise<ApiResponse> {
+    return this.executeRequest('QUERY', resourcePath, options);
   }
 }

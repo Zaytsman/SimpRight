@@ -1,7 +1,7 @@
 import type { ApiResponse } from '../clients/BaseClient';
 import type { ProductsClient } from '../clients/ProductsClient';
 import type { Paginated } from '../dto/common';
-import type { CreateProductRequest, Product, ProductDetails } from '../dto/product';
+import type { CreateProductRequest, Product, ProductDetails, ProductListQuery } from '../dto/product';
 
 /**
  * Domain operations on products. Methods expect success and return parsed bodies;
@@ -10,8 +10,8 @@ import type { CreateProductRequest, Product, ProductDetails } from '../dto/produ
 export class ProductsService {
   constructor(private readonly client: ProductsClient) {}
 
-  async list(): Promise<Paginated<Product>> {
-    return parseOk(await this.client.list(), 'list products');
+  async list(query?: ProductListQuery): Promise<Paginated<Product>> {
+    return parseOk(await this.client.list(query), 'list products');
   }
 
   async search(query: string, page?: number): Promise<Paginated<Product>> {

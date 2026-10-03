@@ -91,3 +91,9 @@ export interface ProductListQuery {
   /** Page number, starting at 1. */
   page?: number;
 }
+
+/** QUERY /products body: the GET /products criteria as JSON (the API merges the keys into the query string). */
+export interface ProductQueryBody extends Omit<ProductListQuery, 'page'> {
+  /** Page number, starting at 1 (a string in the body). */
+  page?: string;
+}

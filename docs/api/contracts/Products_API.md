@@ -91,7 +91,7 @@ Same as `GET /products`, but the criteria are sent as a JSON body (RFC 10008 `QU
 
 **Endpoint:** `QUERY /products`
 
-**Auth:** None _(source)_
+**Auth:** None _(verified)_
 
 **Request Body:**
 ```ts

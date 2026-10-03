@@ -101,7 +101,8 @@ Path aliases (tsconfig `paths`, resolved by Playwright): `@fixtures` (= `src/fix
 
 ## API layer
 
-- **Clients** extend `src/api/clients/BaseClient.ts`: one client per API area, with methods that map 1:1 to endpoints (`get/post/put/patch/delete` return `ApiResponse` with `status` and a raw `body` string). Always send HTTP through `BaseClient.executeRequest`: it uses Playwright's `APIRequestContext`, so calls appear in traces. Don't call `fetch` or `request.get` directly.
+- **Clients** extend `src/api/clients/BaseClient.ts`: one client per API area, with methods that map 1:1 to endpoints (`get/post/put/patch/delete/query` return `ApiResponse` with `status`, a raw `body` string and `headers`, names in lower case). `query` sends the HTTP `QUERY` method with its criteria in the body. Always send HTTP through `BaseClient.executeRequest`: it uses Playwright's `APIRequestContext`, so calls appear in traces. Don't call `fetch` or `request.get` directly.
+  - `executeRequest` sends `data` as JSON (`Content-Type: application/json; charset=utf-8` unless `contentType` is given) and `Accept: application/json`. For negative tests, `rawData` sends a body as-is (with its `contentType`), and `accept` replaces the Accept header (`null` leaves it out).
 - **`BaseClient.onApiCall(listener)`** is called after every request of every client in the worker, with the method, URL, path, query string, request body, status (0 when the request failed) and duration. It returns a function that removes the listener. A listener that throws only logs a warning.
 - **API coverage (optional):**
   - `src/api/coverage/apiCoverage.ts` loads the private package `@zaytsman/playwright-api-coverage` when it's installed.

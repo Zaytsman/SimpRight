@@ -1,5 +1,5 @@
 import { BaseClient, type ApiResponse } from './BaseClient';
-import type { CreateProductRequest, ProductListQuery, UpdateProductRequest } from '../dto/product';
+import type { CreateProductRequest, ProductListQuery, ProductQueryBody, UpdateProductRequest } from '../dto/product';
 
 export class ProductsClient extends BaseClient {
   async list(query?: ProductListQuery): Promise<ApiResponse> {
@@ -8,6 +8,16 @@ export class ProductsClient extends BaseClient {
       if (value !== undefined) params.set(key, String(value));
     }
     return this.get('/products', params.toString() || undefined);
+  }
+
+  /**
+   * QUERY /products. An object body is sent as JSON with `Content-Type: application/json`; a string body is sent
+   * as-is with `options.contentType` (for the 415 checks). `accept: null` leaves out `Accept: application/json`.
+   */
+  async queryList(body: ProductQueryBody | string, options?: { contentType?: string; accept?: string | null }): Promise<ApiResponse> {
+    return typeof body === 'string'
+      ? this.query('/products', { rawData: body, contentType: options?.contentType, accept: options?.accept })
+      : this.query('/products', { data: body, contentType: options?.contentType ?? 'application/json', accept: options?.accept });
   }
 
   /** Without `query`, no `q` is sent at all; an empty string sends `q=`. */
