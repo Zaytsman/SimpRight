@@ -1,7 +1,7 @@
 import type { RegisterUserRequest } from '@api/dto/user';
 import { uniqueName } from './testDataUtils';
 
-const EMAIL_PREFIX = 'simpright';
+const EMAIL_PREFIX = 'smpr';
 const EMAIL_DOMAIN = 'example.com';
 
 /**
