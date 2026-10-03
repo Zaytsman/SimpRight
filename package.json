@@ -26,6 +26,6 @@
     "yaml": "^2.9.1"
   },
   "optionalDependencies": {
-    "@zaytsman/playwright-api-coverage": "^0.2.1"
+    "@zaytsman/playwright-api-coverage": "^0.3.0"
   }
 }

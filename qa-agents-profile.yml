@@ -14,6 +14,7 @@ paths:
   scenarios: test-scenarios                 # <layer>/<area>/<name>.yml
   scenarioSchema: test-scenarios/scenarios.schema.json
   contracts: docs/api/contracts
+  contractFormat: docs/api/CONTRACT_FORMAT.md   # the contract format specification (a copy of the coverage package's)
   tests: tests                              # <layer>/<area>/<name>.spec.ts
   apiTests: tests/api
   testData: src/data                        # TestConstants.ts, factories/<Area>Factory.ts
@@ -25,6 +26,10 @@ commands:
   runSpec: npx playwright test {spec}
   runScenario: npx playwright test -g "{id}:"
   repeatSpec: npx playwright test {spec} --repeat-each=3   # flakiness check after a spec passes
+  # Contract commands come from the optional coverage package (@zaytsman/playwright-api-coverage); without it they can't run.
+  validateContracts: npx --no-install playwright-api-coverage validate docs/api/contracts
+  diffContracts: npx --no-install playwright-api-coverage diff docs/api/contracts {spec}
+  contractsFromOpenApi: npx --no-install playwright-api-coverage from-openapi {spec}
 
 ids:
   # Scenario IDs are <PREFIX>-<number>, numbered across the whole layer, not per area: API-0001, UI-001.
