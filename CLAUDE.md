@@ -161,7 +161,12 @@ Status codes the API returns where it shouldn't (for example a `500` for an unkn
   - Dependabot reads it through the `github-packages` registry in `dependabot.yml`, using the Dependabot secret `PACKAGES_READ_TOKEN`, a classic token with `read:packages` only. When that token expires, Dependabot's npm updates fail until it's replaced.
 - API coverage is optional: when a run produces `test-results/api-coverage/`, the script publishes it with the run (and as `latest/api-coverage/` from the full API regression), and the dashboard shows its elements (`data-coverage`) only when `latest/api-coverage/summary.json` exists. UI runs set `DISABLE_API_COVERAGE=true`.
 - `scripts/*.sh` must keep LF line endings (`.gitattributes`).
-- `pr-checks.yml` runs the `verify` job (typecheck, scenario validation and all tests) on every pull request to `main` or `develop`; it's the required status check on `main`. Pull requests from forks and from Dependabot get no Actions secrets, so they run the typecheck and scenario validation only (Dependabot PRs run the tests too when the same two secrets are added under Dependabot secrets).
+- `pr-checks.yml` runs the `verify` job on every pull request to `main` or `develop`; it's the required status check on `main`. Typecheck and scenario validation always run; `scripts/pr-test-scope.sh` then picks the tests from the files changed against the base branch:
+  - `all`: a file that no spec imports but every run depends on changed (`playwright.config.ts`, `src/globalSetup.ts`, `src/envs/*`, `package*.json`, `tsconfig.json`, `.npmrc`, `pr-checks.yml`, the script itself). Add a new file of that kind to the script's list.
+  - `changed`: only `src/` or `tests/` changed, so `playwright test --only-changed=<base>` runs the specs whose imports reach the changed files. Every spec imports `@fixtures`, which imports the whole framework, so in practice any `src/` change runs everything and a spec-only change runs just that spec.
+  - `none`: nothing the tests depend on changed (docs, contracts, scenarios, `index.html`, `.claude/`, other workflows), so the tests are skipped.
+  - It stays one job with conditional steps, because a required check that is skipped as a whole never reports and blocks the merge.
+  - Pull requests from forks and from Dependabot get no Actions secrets, so they run the typecheck and scenario validation only (Dependabot PRs run the tests too when the same two secrets are added under Dependabot secrets).
 
 ## Branches and pull requests
 
