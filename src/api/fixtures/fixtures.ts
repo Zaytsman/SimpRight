@@ -3,6 +3,8 @@ import { AuthClient } from '../clients/AuthClient';
 import { ProductsClient } from '../clients/ProductsClient';
 import { UsersClient } from '../clients/UsersClient';
 import { ProductsService } from '../services/ProductsService';
+import { AuthService } from '../services/AuthService';
+import { UsersService } from '../services/UsersService';
 
 /** Not a JWT at all, so the API can't parse it and treats the request as unauthenticated. */
 const INVALID_TOKEN = 'invalid-token';
@@ -10,6 +12,8 @@ const INVALID_TOKEN = 'invalid-token';
 export type ApiFixtures = {
   accessToken: string;
   authClient: AuthClient;
+  /** Login as a happy path, for setup steps that need a user's own token. */
+  authService: AuthService;
   /** Public endpoints: no token. */
   productsClient: ProductsClient;
   productsService: ProductsService;
@@ -21,6 +25,18 @@ export type ApiFixtures = {
   adminProductsService: ProductsService;
   /** Authenticated as the test's `role`. */
   usersClient: UsersClient;
+  /** Users endpoints with no token (public ones such as register, and the "no token" 401 checks). */
+  usersClientWithoutToken: UsersClient;
+  /** Public user operations (register a throwaway customer); no token. */
+  usersService: UsersService;
+  /** Sends a fixed malformed bearer token (`INVALID_TOKEN`), for the "invalid token" 401 checks. */
+  usersClientWithInvalidToken: UsersClient;
+  /** Builds a users client with a token the test obtained itself (e.g. from a throwaway customer's login). */
+  usersClientForToken: (token: string) => UsersClient;
+  /** Builds a users service with a token the test obtained itself (setup logouts and refreshes of that token). */
+  usersServiceForToken: (token: string) => UsersService;
+  /** Always authenticated as admin, whatever the test's `role`: patches throwaway customers and deletes them in cleanup. */
+  adminUsersService: UsersService;
 };
 
 export const test = base.extend<ApiFixtures>({
@@ -30,6 +46,9 @@ export const test = base.extend<ApiFixtures>({
 
   authClient: async ({ request, config }, use) => {
     await use(new AuthClient(request, config));
+  },
+  authService: async ({ authClient }, use) => {
+    await use(new AuthService(authClient));
   },
 
   productsClient: async ({ request, config }, use) => {
@@ -50,6 +69,24 @@ export const test = base.extend<ApiFixtures>({
 
   usersClient: async ({ request, config, accessToken }, use) => {
     await use(new UsersClient(request, config, accessToken));
+  },
+  usersClientWithoutToken: async ({ request, config }, use) => {
+    await use(new UsersClient(request, config));
+  },
+  usersService: async ({ usersClientWithoutToken }, use) => {
+    await use(new UsersService(usersClientWithoutToken));
+  },
+  usersClientWithInvalidToken: async ({ request, config }, use) => {
+    await use(new UsersClient(request, config, INVALID_TOKEN));
+  },
+  usersClientForToken: async ({ request, config }, use) => {
+    await use((token: string) => new UsersClient(request, config, token));
+  },
+  usersServiceForToken: async ({ usersClientForToken }, use) => {
+    await use((token: string) => new UsersService(usersClientForToken(token)));
+  },
+  adminUsersService: async ({ request, config, tokenService }, use) => {
+    await use(new UsersService(new UsersClient(request, config, await tokenService.getAccessToken('admin'))));
   },
 });
 

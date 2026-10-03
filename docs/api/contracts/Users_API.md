@@ -14,7 +14,7 @@ Customer accounts and authentication in the Toolshop API: login and tokens, regi
 - The JWT carries a `role` claim: `admin` or `user`. _(source)_
 - Public: `POST /users/login`, `POST /users/register`, `POST /users/forgot-password`, and `GET /users/refresh` (which reads the token itself). Every other endpoint needs a valid token (`auth:users` middleware in `UserController`); `GET /users` and `DELETE /users/{userId}` also need the `admin` role. _(source)_
 - Without a token, or with a malformed, expired or logged-out token, protected endpoints return `401` with `{ message: "Unauthorized" }`. _(verified)_
-- **Account state, shared by every endpoint with a token:** a disabled account (`enabled: false`) gets `403` with `{ message: "Account disabled." }`. The middleware caches the user for 60 seconds, so a change can take up to a minute to apply. _(source)_
+- **Account state, shared by every endpoint with a token:** a disabled account (`enabled: false`) gets `403` with `{ message: "Account disabled." }` _(verified)_. The middleware caches the user for 60 seconds, so a change can take up to a minute to apply. _(source)_
 - **Login lockout:** after 3 failed logins a non-admin account is locked, and `POST /users/login` returns `423` for it even with the right password, until `failed_login_attempts` is reset (a successful login doesn't get that far). Admin accounts are never locked. _(source)_
 
 ## Endpoints Overview
@@ -70,7 +70,7 @@ Returns a JWT for the `Authorization: Bearer <token>` header. Accounts with two-
 ```
 Send either `email` and `password`, or `access_token` and `totp`. Neither pair is validated as required; a body with neither gets `401`. _(source)_
 
-**Response:** `200 OK` _(source)_
+**Response:** `200 OK` _(verified)_
 ```ts
 {
   access_token: string;
@@ -81,9 +81,9 @@ Send either `email` and `password`, or `access_token` and `totp`. Neither pair i
 For an account with TOTP enabled, the first step returns `200` with `{ message: "TOTP required"; requires_totp: true; access_token: string }` instead. _(source)_
 
 **Error Responses:**
-- `401 Unauthorized`: wrong email or password, or neither credential pair in the body; `{ error: "Unauthorized" }` or `{ error: "Invalid login request" }` _(verified)_; also a wrong TOTP code or a non-restricted token in the TOTP step _(source)_
-- `400 Bad Request`: TOTP step with an invalid or expired `access_token`; `{ error: "Invalid or expired token" }` _(source)_
-- `403 Forbidden`: right credentials, but the account is disabled; `{ error: "Account disabled" }` _(source)_
+- `401 Unauthorized`: wrong email or password (or an email no account has), `{ error: "Unauthorized" }` _(verified)_; neither credential pair in the body, `{ error: "Invalid login request" }` _(verified)_; a non-restricted (full) token in the TOTP step, `{ error: "Unauthorized token usage" }` _(verified)_; a wrong TOTP code _(source)_
+- `400 Bad Request`: TOTP step with an invalid `access_token`, `{ error: "Invalid or expired token" }` _(verified)_; the same for an expired one _(source)_
+- `403 Forbidden`: right credentials, but the account is disabled; `{ error: "Account disabled" }` _(verified)_
 - `423 Locked`: non-admin account with 3 or more failed logins; `{ error: "Account locked, too many failed attempts. Please contact the administrator." }` _(source)_
 
 ---
@@ -133,8 +133,8 @@ No text field may contain Unicode subscript or superscript characters. _(source)
 The created user as stored, so only the fields that were sent appear (plus `id`, `created_at` and `address`). _(source)_
 
 **Error Responses:**
-- `409 Conflict`: the only failing rule is the unique email; `{ email: ["A customer with this email address already exists."] }` _(source)_
-- `422 Unprocessable Entity`: a required field is missing or a field fails its rule (also when the email is taken and another field fails too); body `{ <field>: string[] }` _(source)_
+- `409 Conflict`: the only failing rule is the unique email; `{ email: ["A customer with this email address already exists."] }` _(verified)_
+- `422 Unprocessable Entity`: a required field is missing or a field fails its rule (also when the email is taken and another field fails too); body `{ <field>: string[] }` _(verified)_
 
 ---
 
@@ -195,13 +195,13 @@ Changes the current user's password. _(source)_
 
 ### 5. Current user
 
-Profile of the user the token belongs to. `role`, `enabled` and `failed_login_attempts` are returned only when the caller is an admin. _(source)_
+Profile of the user the token belongs to. `role`, `enabled` and `failed_login_attempts` are returned only when the caller is an admin. _(verified)_
 
 **Endpoint:** `GET /users/me`
 
 **Auth:** Bearer token, any role _(source)_
 
-**Response:** `200 OK` _(source)_
+**Response:** `200 OK` _(verified)_
 ```ts
 User
 ```
@@ -213,19 +213,19 @@ User
 
 ### 6. Logout
 
-Invalidates (blacklists) the token. Later requests with it get `401`. _(source)_
+Invalidates (blacklists) the token. Later requests with it get `401`. _(verified)_
 
 **Endpoint:** `GET /users/logout`
 
 **Auth:** Bearer token, any role _(source)_
 
-**Response:** `200 OK` _(source)_
+**Response:** `200 OK` _(verified)_
 ```ts
 { message: string }   // "Successfully logged out"
 ```
 
 **Error Responses:**
-- `401 Unauthorized`: no token _(verified)_; an invalid or already logged-out token gives the same _(source)_
+- `401 Unauthorized`: no token _(verified)_; an invalid or already logged-out token gives the same _(verified)_
 
 ---
 
@@ -237,7 +237,7 @@ Returns a new token for the one in the `Authorization` header and invalidates th
 
 **Auth:** Bearer token (read by the handler, not by middleware) _(source)_
 
-**Response:** `200 OK` _(source)_
+**Response:** `200 OK` _(verified)_
 ```ts
 {
   access_token: string;
@@ -247,7 +247,7 @@ Returns a new token for the one in the `Authorization` header and invalidates th
 ```
 
 **Error Responses:**
-- `401 Unauthorized`: the token is past the refresh window (`"Token has expired and can no longer be refreshed"`) or was invalidated by logout or an earlier refresh (`"Token is not valid"`) _(source)_
+- `401 Unauthorized`: the token is past the refresh window (`"Token has expired and can no longer be refreshed"`) _(source)_; or it was invalidated by logout or an earlier refresh (`"Token is not valid"`) _(verified)_
 - `500 Internal Server Error`: no token, or a malformed one; `{ message: "Server Error" }`; suspected bug, should be 401 _(verified)_
 
 ---

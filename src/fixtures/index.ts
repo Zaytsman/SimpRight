@@ -12,3 +12,12 @@ export {
   findProductSpec,
   expectFieldMessages,
 } from '../api/fixtures/productSteps';
+export {
+  USER_REGISTER_STEP,
+  USER_LOGIN_STEP,
+  USER_LOGOUT_STEP,
+  registerThrowawayCustomer,
+  loginForNewToken,
+  logoutToken,
+  type ThrowawayCustomer,
+} from '../api/fixtures/userSteps';

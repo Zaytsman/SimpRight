@@ -1,0 +1,52 @@
+# yaml-language-server: $schema=../../scenarios.schema.json
+suite: Users API
+tags: ["@users-api"]
+scenarios:
+  - id: API-0109
+    name: Refresh returns a new bearer token
+    status: automated
+    automatedIn: tests/api/users/get-users-refresh.spec.ts
+    steps:
+      - Send POST /users/login with the default user's email and password, and take the new access_token.
+      - Send GET /users/refresh with that token.
+      - Verify the response status is 200.
+      - Verify the body's access_token is a non-empty string that differs from the token sent.
+      - Verify the body's token_type is "bearer".
+      - Verify the body's expires_in is a number.
+      - Verify GET /users/me with the new access_token returns 200 with the default user's email.
+  - id: API-0110
+    name: Refresh with a logged-out token returns 401
+    status: automated
+    automatedIn: tests/api/users/get-users-refresh.spec.ts
+    steps:
+      - Send POST /users/login with the default user's email and password, and take the new access_token.
+      - Send GET /users/logout with that token.
+      - Send GET /users/refresh with the same token.
+      - Verify the response status is 401.
+      - Verify the body contains the text "Token is not valid".
+  - id: API-0111
+    name: Refresh with an already refreshed token returns 401
+    status: automated
+    automatedIn: tests/api/users/get-users-refresh.spec.ts
+    steps:
+      - Send POST /users/login with the default user's email and password, and take the new access_token.
+      - Send GET /users/refresh with that token.
+      - Send GET /users/refresh with the same (old) token again.
+      - Verify the response status is 401.
+      - Verify the body contains the text "Token is not valid".
+  - id: API-0112
+    name: Refresh without a token returns 401
+    status: automated
+    automatedIn: tests/api/users/get-users-refresh.spec.ts
+    knownIssue: Returns 500 instead of 401 when the request has no token.
+    steps:
+      - Send GET /users/refresh without an Authorization header.
+      - Verify the response status is 401.
+  - id: API-0113
+    name: Refresh with a malformed token returns 401
+    status: automated
+    automatedIn: tests/api/users/get-users-refresh.spec.ts
+    knownIssue: Returns 500 instead of 401 for a malformed token.
+    steps:
+      - Send GET /users/refresh with a malformed token.
+      - Verify the response status is 401.
