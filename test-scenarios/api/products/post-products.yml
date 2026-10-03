@@ -95,3 +95,16 @@ scenarios:
       - Send GET /products and take the first item's brand id, category id and product image id.
       - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false and is_rental false, without an Authorization header.
       - Verify the response status is 401.
+  - id: API-0073
+    name: Create product with a CO2 rating and stock stores both
+    status: automated
+    automatedIn: tests/api/products/post-products.spec.ts
+    role: admin
+    steps:
+      - Send GET /products and take the first item's brand id, category id and product image id.
+      - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental false, co2_rating "A" and stock 10, and take the new product's id.
+      - Verify the response status is 201.
+      - Verify the body's co2_rating is "A".
+      - Send GET /products/{productId} with the new id and the admin token.
+      - Verify its co2_rating is "A" and its is_eco_friendly is true.
+      - Verify its in_stock is 10.

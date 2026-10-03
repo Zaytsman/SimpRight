@@ -1,8 +1,11 @@
-import { test, expect } from '@fixtures';
+import { test, expect, takeProductRefs, findProductSpec } from '@fixtures';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { ProductsClient } from '@api/clients/ProductsClient';
 import type { Paginated } from '@api/dto/common';
-import type { Product, ProductQueryBody } from '@api/dto/product';
+import type { Product, ProductListQuery, ProductQueryBody } from '@api/dto/product';
+import type { ProductsService } from '@api/services/ProductsService';
+import { TestConstants } from '@data/TestConstants';
+import { PRODUCT_NAME_PREFIX } from '@data/factories/ProductFactory';
 import { assertMessage, attachJson } from '@utils/assertHelpers';
 
 // Scenarios: test-scenarios/api/products/query-products.yml
@@ -39,6 +42,58 @@ async function sendQuery(
 function expectQueryOk(request: QueryRequest, response: ApiResponse): Paginated<Product> {
   expect(response.status, assertMessage({ request, expected: 'Status 200', actual: response.status })).toBe(200);
   return JSON.parse(response.body) as Paginated<Product>;
+}
+
+/**
+ * The body of a "Send GET /products with ... and keep the item ids in order." step: sends the GET through the
+ * service (it fails the step on a non-2xx status), attaches the request and the response, and returns the ids.
+ */
+async function listIds(productsService: ProductsService, query: ProductListQuery): Promise<string[]> {
+  return (await listProducts(productsService, query)).map((item) => item.id);
+}
+
+/** Like `listIds`, but returns the items, for the comparisons that look at names too. */
+async function listProducts(productsService: ProductsService, query: ProductListQuery): Promise<Product[]> {
+  await attachJson('List Products Request', { method: 'GET', path: '/products', query });
+  const list = await productsService.list(query);
+  await attachJson('List Products Response', list);
+  return list.data;
+}
+
+/** Products other tests create (ProductFactory names) can appear in one list and not the other while tests run in parallel. */
+const TEST_PRODUCT_NAME_START = `${PRODUCT_NAME_PREFIX}-`;
+
+/** The ids of the items, without the products tests create (names starting with "Product-"). */
+function idsWithoutTestProducts(items: Product[]): string[] {
+  return items.filter((item) => !item.name.startsWith(TEST_PRODUCT_NAME_START)).map((item) => item.id);
+}
+
+/**
+ * The checks of a "Verify the QUERY response's item ids equal the GET response's item ids, in the same order,
+ * ignoring products created by tests (names starting with "Product-")." step.
+ */
+function expectSameIdsIgnoringTestProducts(request: QueryRequest, body: Paginated<Product>, getItems: Product[]): void {
+  const getIds = idsWithoutTestProducts(getItems);
+  const queryIds = idsWithoutTestProducts(body.data);
+  expect(
+    queryIds,
+    assertMessage({
+      request,
+      expected: `The GET's ids in order, without products named "${TEST_PRODUCT_NAME_START}...": ${JSON.stringify(getIds)}`,
+      actual: { queryIds, queryItems: body.data.map((item) => ({ id: item.id, name: item.name })) },
+    })
+  ).toEqual(getIds);
+}
+
+/** The checks of a "Verify the QUERY response's item ids equal the GET response's item ids, in the same order." step. */
+function expectSameIds(request: QueryRequest, body: Paginated<Product>, getIds: string[]): void {
+  const queryIds = body.data.map((item) => item.id);
+  expect(queryIds, assertMessage({ request, expected: `The GET's ids in order: ${JSON.stringify(getIds)}`, actual: queryIds })).toEqual(getIds);
+}
+
+/** The checks of a "Verify data is not empty." step. */
+function expectNotEmpty(request: QueryRequest, body: Paginated<Product>): void {
+  expect(body.data.length, assertMessage({ request, expected: 'data is not empty', actual: body.total })).toBeGreaterThan(0);
 }
 
 test.describe('@products-api - Products API', () => {
@@ -163,6 +218,250 @@ test.describe('@products-api - Products API', () => {
 
     await test.step('Verify the response status is not 500.', async () => {
       expect(response.status, assertMessage({ request, expected: 'Status is not 500', actual: response.status })).not.toBe(500);
+    });
+  });
+
+  test('API-0064: QUERY list with brand and category filters returns the same products as the GET', async ({ productsService, productsClient }) => {
+    let getItems: Product[] = [];
+    let request: QueryRequest;
+    let response: ApiResponse;
+    let body: Paginated<Product>;
+
+    const refs = await takeProductRefs(productsService, "Send GET /products and take the first item's brand id and category id.", ['brandId', 'categoryId']);
+    const criteria = { by_brand: refs.brandId!, by_category: refs.categoryId! };
+
+    await test.step('Send GET /products with by_brand set to that brand id and by_category set to that category id, and keep the item ids in order.', async () => {
+      getItems = await listProducts(productsService, criteria);
+    });
+
+    await test.step(
+      'Send QUERY /products with Content-Type: application/json, Accept: application/json and a body with by_brand set to that brand id and by_category set to that category id.',
+      async () => {
+        ({ request, response } = await sendQuery(productsClient, criteria));
+      }
+    );
+
+    await test.step('Verify the response status is 200.', async () => {
+      body = expectQueryOk(request, response);
+    });
+
+    await test.step('Verify data is not empty.', async () => {
+      expectNotEmpty(request, body);
+    });
+
+    await test.step(
+      `Verify the QUERY response's item ids equal the GET response's item ids, in the same order, ignoring products created by tests (names starting with "Product-").`,
+      async () => {
+        expectSameIdsIgnoringTestProducts(request, body, getItems);
+      }
+    );
+  });
+
+  test('API-0065: QUERY list with a category slug filter returns the same products as the GET', async ({ productsService, productsClient }) => {
+    let slug = '';
+    let getItems: Product[] = [];
+    let request: QueryRequest;
+    let response: ApiResponse;
+    let body: Paginated<Product>;
+
+    await test.step("Send GET /products and take the first item's category slug.", async () => {
+      const list = await productsService.list();
+      await attachJson('List Products Response', list);
+      slug = list.data[0]?.category?.slug ?? '';
+      expect(
+        slug,
+        assertMessage({ request: { method: 'GET', path: '/products' }, expected: 'The first product has a category slug', actual: list.data[0]?.category })
+      ).toBeTruthy();
+    });
+
+    await test.step('Send GET /products with by_category_slug set to that slug and keep the item ids in order.', async () => {
+      getItems = await listProducts(productsService, { by_category_slug: slug });
+    });
+
+    await test.step('Send QUERY /products with Content-Type: application/json, Accept: application/json and a body with by_category_slug set to that slug.', async () => {
+      ({ request, response } = await sendQuery(productsClient, { by_category_slug: slug }));
+    });
+
+    await test.step('Verify the response status is 200.', async () => {
+      body = expectQueryOk(request, response);
+    });
+
+    await test.step('Verify data is not empty.', async () => {
+      expectNotEmpty(request, body);
+    });
+
+    await test.step(
+      `Verify the QUERY response's item ids equal the GET response's item ids, in the same order, ignoring products created by tests (names starting with "Product-").`,
+      async () => {
+        expectSameIdsIgnoringTestProducts(request, body, getItems);
+      }
+    );
+  });
+
+  test('API-0066: QUERY list with the rental filter returns the same products as the GET', async ({ productsService, productsClient }) => {
+    let getIds: string[] = [];
+    let request: QueryRequest;
+    let response: ApiResponse;
+    let body: Paginated<Product>;
+
+    await test.step('Send GET /products with is_rental=true and keep the item ids in order.', async () => {
+      getIds = await listIds(productsService, { is_rental: 'true' });
+    });
+
+    await test.step('Send QUERY /products with Content-Type: application/json, Accept: application/json and the body { "is_rental": "true" }.', async () => {
+      ({ request, response } = await sendQuery(productsClient, { is_rental: 'true' }));
+    });
+
+    await test.step('Verify the response status is 200.', async () => {
+      body = expectQueryOk(request, response);
+    });
+
+    await test.step('Verify data is not empty.', async () => {
+      expectNotEmpty(request, body);
+    });
+
+    await test.step("Verify the QUERY response's item ids equal the GET response's item ids, in the same order.", async () => {
+      expectSameIds(request, body, getIds);
+    });
+  });
+
+  test('API-0067: QUERY list with a price range filter returns the same products as the GET', async ({ productsService, productsClient }) => {
+    const between = 'price,10,30';
+    let getIds: string[] = [];
+    let request: QueryRequest;
+    let response: ApiResponse;
+    let body: Paginated<Product>;
+
+    await test.step('Send GET /products with between=price,10,30 and keep the item ids in order.', async () => {
+      getIds = await listIds(productsService, { between });
+    });
+
+    await test.step('Send QUERY /products with Content-Type: application/json, Accept: application/json and the body { "between": "price,10,30" }.', async () => {
+      ({ request, response } = await sendQuery(productsClient, { between }));
+    });
+
+    await test.step('Verify the response status is 200.', async () => {
+      body = expectQueryOk(request, response);
+    });
+
+    await test.step('Verify data is not empty.', async () => {
+      expectNotEmpty(request, body);
+    });
+
+    await test.step("Verify the QUERY response's item ids equal the GET response's item ids, in the same order.", async () => {
+      expectSameIds(request, body, getIds);
+    });
+  });
+
+  test('API-0068: QUERY list with the eco-friendly filter returns the same products as the GET', async ({ productsService, productsClient }) => {
+    let getIds: string[] = [];
+    let request: QueryRequest;
+    let response: ApiResponse;
+    let body: Paginated<Product>;
+
+    await test.step('Send GET /products with eco_friendly=true and keep the item ids in order.', async () => {
+      getIds = await listIds(productsService, { eco_friendly: 'true' });
+    });
+
+    await test.step('Send QUERY /products with Content-Type: application/json, Accept: application/json and the body { "eco_friendly": "true" }.', async () => {
+      ({ request, response } = await sendQuery(productsClient, { eco_friendly: 'true' }));
+    });
+
+    await test.step('Verify the response status is 200.', async () => {
+      body = expectQueryOk(request, response);
+    });
+
+    await test.step('Verify data is not empty.', async () => {
+      expectNotEmpty(request, body);
+    });
+
+    await test.step("Verify the QUERY response's item ids equal the GET response's item ids, in the same order.", async () => {
+      expectSameIds(request, body, getIds);
+    });
+  });
+
+  test('API-0069: QUERY list with a name filter returns the same products as the GET', async ({ productsService, productsClient }) => {
+    const q = TestConstants.products.searchTerm;
+    let getIds: string[] = [];
+    let request: QueryRequest;
+    let response: ApiResponse;
+    let body: Paginated<Product>;
+
+    await test.step('Send GET /products with q=pliers and keep the item ids in order.', async () => {
+      getIds = await listIds(productsService, { q });
+    });
+
+    await test.step('Send QUERY /products with Content-Type: application/json, Accept: application/json and the body { "q": "pliers" }.', async () => {
+      ({ request, response } = await sendQuery(productsClient, { q }));
+    });
+
+    await test.step('Verify the response status is 200.', async () => {
+      body = expectQueryOk(request, response);
+    });
+
+    await test.step('Verify data is not empty.', async () => {
+      expectNotEmpty(request, body);
+    });
+
+    await test.step("Verify the QUERY response's item ids equal the GET response's item ids, in the same order.", async () => {
+      expectSameIds(request, body, getIds);
+    });
+  });
+
+  test('API-0070: QUERY list with a spec filter returns the same products as the GET', async ({ productsService, productsClient }) => {
+    let getIds: string[] = [];
+    let request: QueryRequest;
+    let response: ApiResponse;
+    let body: Paginated<Product>;
+
+    const { specName, specValue } = await findProductSpec(productsService);
+    const bySpec = `${specName}:${specValue}`;
+
+    await test.step('Send GET /products with by_spec=<spec_name>:<spec_value> and keep the item ids in order.', async () => {
+      getIds = await listIds(productsService, { by_spec: bySpec });
+    });
+
+    await test.step('Send QUERY /products with Content-Type: application/json, Accept: application/json and a body with by_spec set to <spec_name>:<spec_value>.', async () => {
+      ({ request, response } = await sendQuery(productsClient, { by_spec: bySpec }));
+    });
+
+    await test.step('Verify the response status is 200.', async () => {
+      body = expectQueryOk(request, response);
+    });
+
+    await test.step('Verify data is not empty.', async () => {
+      expectNotEmpty(request, body);
+    });
+
+    await test.step("Verify the QUERY response's item ids equal the GET response's item ids, in the same order.", async () => {
+      expectSameIds(request, body, getIds);
+    });
+  });
+
+  test('API-0071: QUERY list page 2 returns the same products as the GET', async ({ productsService, productsClient }) => {
+    let getIds: string[] = [];
+    let request: QueryRequest;
+    let response: ApiResponse;
+    let body: Paginated<Product>;
+
+    await test.step('Send GET /products with page=2 and keep the item ids in order.', async () => {
+      getIds = await listIds(productsService, { page: 2 });
+    });
+
+    await test.step('Send QUERY /products with Content-Type: application/json, Accept: application/json and the body { "page": "2" }.', async () => {
+      ({ request, response } = await sendQuery(productsClient, { page: '2' }));
+    });
+
+    await test.step('Verify the response status is 200.', async () => {
+      body = expectQueryOk(request, response);
+    });
+
+    await test.step('Verify current_page is 2.', async () => {
+      expect(body.current_page, assertMessage({ request, expected: 'current_page is 2', actual: body.current_page })).toBe(2);
+    });
+
+    await test.step("Verify the QUERY response's item ids equal the GET response's item ids, in the same order.", async () => {
+      expectSameIds(request, body, getIds);
     });
   });
 });

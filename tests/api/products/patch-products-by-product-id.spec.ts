@@ -1,6 +1,6 @@
-import { test, expect, createProductToUpdate, expectFieldMessages } from '@fixtures';
+import { test, expect, createProductToUpdate, createProductWithOtherRefs, expectFieldMessages } from '@fixtures';
 import type { ApiResponse } from '@api/clients/BaseClient';
-import type { UpdateProductResponse } from '@api/dto/product';
+import type { ProductDetails, UpdateProductResponse } from '@api/dto/product';
 import { TestConstants } from '@data/TestConstants';
 import { ProductFactory } from '@data/factories/ProductFactory';
 import { assertMessage, attachJson } from '@utils/assertHelpers';
@@ -167,6 +167,94 @@ test.describe('@products-api - Products API', () => {
 
     await test.step('Verify the response status is 401.', async () => {
       expect(response.status, assertMessage({ request, expected: 'Status 401', actual: response.status })).toBe(401);
+    });
+  });
+
+  test('API-0076: Partially update product category, brand and image saves the new values', async ({
+    productsService,
+    adminProductsService,
+    productsClient,
+    cleanup,
+  }) => {
+    let request: { method: string; path: string; auth: string; body: unknown };
+    let response: ApiResponse;
+    let product: ProductDetails;
+
+    const { productId, otherRefs } = await createProductWithOtherRefs(productsService, adminProductsService, cleanup);
+    const getRequest = { method: 'GET', path: `/products/${productId}` };
+
+    await test.step('Send PATCH /products/{productId} with that id and a body with only the other category id, brand id and product image id.', async () => {
+      const body = ProductFactory.updateRefs(otherRefs);
+      request = { method: 'PATCH', path: `/products/${productId}`, auth: 'none', body };
+      response = await productsClient.partialUpdate(productId, body);
+      await attachJson('Patch Product Request', request);
+      await attachJson('Patch Product Response', { status: response.status, body: response.body });
+    });
+
+    await test.step('Verify the response status is 200.', async () => {
+      expect(response.status, assertMessage({ request, expected: 'Status 200', actual: response.status })).toBe(200);
+    });
+
+    await test.step("Verify the body's success is true.", async () => {
+      const body = JSON.parse(response.body) as UpdateProductResponse;
+      expect(body.success, assertMessage({ request, expected: 'success is true', actual: body })).toBe(true);
+    });
+
+    await test.step('Send GET /products/{productId} with that id.', async () => {
+      product = await productsService.getById(productId);
+      await attachJson('Get Product Response', product);
+    });
+
+    await test.step('Verify its category id, brand id and product_image id equal the other ids.', async () => {
+      expect(product.category?.id, assertMessage({ request: getRequest, expected: `category.id is ${otherRefs.categoryId}`, actual: product.category })).toBe(
+        otherRefs.categoryId
+      );
+      expect(product.brand?.id, assertMessage({ request: getRequest, expected: `brand.id is ${otherRefs.brandId}`, actual: product.brand })).toBe(otherRefs.brandId);
+      expect(
+        product.product_image?.id,
+        assertMessage({ request: getRequest, expected: `product_image.id is ${otherRefs.productImageId}`, actual: product.product_image })
+      ).toBe(otherRefs.productImageId);
+    });
+  });
+
+  test('API-0077: Partially update product location offer and rental flags saves the new values', async ({
+    productsService,
+    adminProductsService,
+    productsClient,
+    cleanup,
+  }) => {
+    let request: { method: string; path: string; auth: string; body: unknown };
+    let response: ApiResponse;
+    let product: ProductDetails;
+
+    const productId = await createProductToUpdate(productsService, adminProductsService, cleanup);
+    const getRequest = { method: 'GET', path: `/products/${productId}` };
+
+    await test.step('Send PATCH /products/{productId} with that id and a body with only is_location_offer true and is_rental true.', async () => {
+      const body = ProductFactory.locationOfferAndRental();
+      request = { method: 'PATCH', path: `/products/${productId}`, auth: 'none', body };
+      response = await productsClient.partialUpdate(productId, body);
+      await attachJson('Patch Product Request', request);
+      await attachJson('Patch Product Response', { status: response.status, body: response.body });
+    });
+
+    await test.step('Verify the response status is 200.', async () => {
+      expect(response.status, assertMessage({ request, expected: 'Status 200', actual: response.status })).toBe(200);
+    });
+
+    await test.step("Verify the body's success is true.", async () => {
+      const body = JSON.parse(response.body) as UpdateProductResponse;
+      expect(body.success, assertMessage({ request, expected: 'success is true', actual: body })).toBe(true);
+    });
+
+    await test.step('Send GET /products/{productId} with that id.', async () => {
+      product = await productsService.getById(productId);
+      await attachJson('Get Product Response', product);
+    });
+
+    await test.step('Verify its is_location_offer is true and its is_rental is true.', async () => {
+      expect(product.is_location_offer, assertMessage({ request: getRequest, expected: 'is_location_offer is true', actual: product.is_location_offer })).toBe(true);
+      expect(product.is_rental, assertMessage({ request: getRequest, expected: 'is_rental is true', actual: product.is_rental })).toBe(true);
     });
   });
 });

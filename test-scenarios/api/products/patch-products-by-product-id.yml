@@ -61,3 +61,27 @@ scenarios:
       - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false and is_rental false, and take the new product's id.
       - Send PATCH /products/{productId} with that id and a body with only a new unique product name, without an Authorization header.
       - Verify the response status is 401.
+  - id: API-0076
+    name: Partially update product category, brand and image saves the new values
+    status: automated
+    automatedIn: tests/api/products/patch-products-by-product-id.spec.ts
+    steps:
+      - Send GET /products and take the first item's brand id, category id and product image id, and from other items of GET /products a brand id, a category id and a product image id that differ from them.
+      - Send POST /products with a unique product name, a positive price, the first item's ids, is_location_offer false and is_rental false, and take the new product's id.
+      - Send PATCH /products/{productId} with that id and a body with only the other category id, brand id and product image id.
+      - Verify the response status is 200.
+      - Verify the body's success is true.
+      - Send GET /products/{productId} with that id.
+      - Verify its category id, brand id and product_image id equal the other ids.
+  - id: API-0077
+    name: Partially update product location offer and rental flags saves the new values
+    status: automated
+    automatedIn: tests/api/products/patch-products-by-product-id.spec.ts
+    steps:
+      - Send GET /products and take the first item's brand id, category id and product image id.
+      - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false and is_rental false, and take the new product's id.
+      - Send PATCH /products/{productId} with that id and a body with only is_location_offer true and is_rental true.
+      - Verify the response status is 200.
+      - Verify the body's success is true.
+      - Send GET /products/{productId} with that id.
+      - Verify its is_location_offer is true and its is_rental is true.

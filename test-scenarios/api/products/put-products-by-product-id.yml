@@ -91,3 +91,30 @@ scenarios:
       - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false and is_rental false, and take the new product's id.
       - Send PUT /products/{productId} with that id and a body with a new unique product name, without an Authorization header.
       - Verify the response status is 401.
+  - id: API-0074
+    name: Update product price, category, brand and image saves the new values
+    status: automated
+    automatedIn: tests/api/products/put-products-by-product-id.spec.ts
+    steps:
+      - Send GET /products and take the first item's brand id, category id and product image id, and from other items of GET /products a brand id, a category id and a product image id that differ from them.
+      - Send POST /products with a unique product name, a positive price, the first item's ids, is_location_offer false and is_rental false, and take the new product's id.
+      - Send PUT /products/{productId} with that id and a body with a different positive price and the other category id, brand id and product image id.
+      - Verify the response status is 200.
+      - Verify the body's success is true.
+      - Send GET /products/{productId} with that id.
+      - Verify its price equals the new price.
+      - Verify its category id, brand id and product_image id equal the other ids.
+  - id: API-0075
+    name: Update product CO2 rating and stock saves the new values
+    status: automated
+    automatedIn: tests/api/products/put-products-by-product-id.spec.ts
+    role: admin
+    steps:
+      - Send GET /products and take the first item's brand id, category id and product image id.
+      - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental false, co2_rating "D" and stock 5, and take the new product's id.
+      - Send PUT /products/{productId} with that id and a body with co2_rating "B" and stock 7.
+      - Verify the response status is 200.
+      - Verify the body's success is true.
+      - Send GET /products/{productId} with that id and the admin token.
+      - Verify its co2_rating is "B" and its is_eco_friendly is true.
+      - Verify its in_stock is 7.

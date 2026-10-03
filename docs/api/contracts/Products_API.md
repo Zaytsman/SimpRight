@@ -87,7 +87,7 @@ Returns the products, 9 per page. Without `is_rental`, rental products are exclu
 
 ### 2. List products (HTTP QUERY)
 
-Same as `GET /products`, but the criteria are sent as a JSON body (RFC 10008 `QUERY` method). The body keys are merged into the query string, so the results equal the `GET` with the same parameters. _(source)_
+Same as `GET /products`, but the criteria are sent as a JSON body (RFC 10008 `QUERY` method). The body keys are merged into the query string, so the results equal the `GET` with the same parameters. _(verified)_
 
 **Endpoint:** `QUERY /products`
 
@@ -146,8 +146,8 @@ Creates a product. No token is needed (see Notes). _(source)_
   product_image_id: string;   // existing product image id
   is_location_offer: boolean;
   is_rental: boolean;
-  co2_rating?: string;        // not validated; stored as sent
-  stock?: number;             // not validated; stored as sent
+  co2_rating?: string;        // not validated; stored as sent _(verified)_
+  stock?: number;             // not validated; stored as sent _(verified)_
 }
 ```
 
@@ -208,14 +208,14 @@ Updates a product with the fields sent. No token is needed (see Notes). Despite 
 {
   name?: string;              // max 120
   description?: string;       // max 1250
-  price?: number;             // not validated
-  category_id?: string;       // not validated
-  brand_id?: string;          // not validated
-  product_image_id?: string;  // not validated
+  price?: number;             // not validated; stored as sent _(verified)_
+  category_id?: string;       // not validated; stored as sent _(verified)_
+  brand_id?: string;          // not validated; stored as sent _(verified)_
+  product_image_id?: string;  // not validated; stored as sent _(verified)_
   is_location_offer?: boolean;
   is_rental?: boolean;
-  co2_rating?: string;        // not validated
-  stock?: number;             // not validated
+  co2_rating?: string;        // not validated; stored as sent _(verified)_
+  stock?: number;             // not validated; stored as sent _(verified)_
 }
 ```
 
@@ -387,7 +387,7 @@ interface Product {
   is_rental: boolean;
   co2_rating: string;
   in_stock: boolean;          // a number (stock count) when the caller has an admin token
-  is_eco_friendly: boolean;   // true when co2_rating is A or B
+  is_eco_friendly: boolean;   // true when co2_rating is A or B _(verified)_
   product_image: ProductImage;
   category: { id: string; name: string; slug: string };
   brand: { id: string; name: string };
