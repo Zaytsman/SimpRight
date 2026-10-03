@@ -34,6 +34,7 @@
         "scenarios": { "$ref": "#/definitions/path", "description": "Scenario folder: <layer>/<area>/<name>.yml." },
         "scenarioSchema": { "$ref": "#/definitions/path" },
         "contracts": { "$ref": "#/definitions/path", "description": "API contracts, one markdown file per area." },
+        "contractFormat": { "$ref": "#/definitions/path", "description": "The contract format specification the contract writer follows." },
         "tests": { "$ref": "#/definitions/path", "description": "Spec folder: <layer>/<area>/<name>.spec.ts." },
         "apiTests": { "$ref": "#/definitions/path" },
         "testData": { "$ref": "#/definitions/path", "description": "Test data: shared constants and factories." },
@@ -54,6 +55,21 @@
           "type": "string",
           "pattern": "\\{spec\\}",
           "description": "Runs a spec several times in a row, to catch flaky tests."
+        },
+        "validateContracts": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Checks the contract folder against the contract format; may need an optional package."
+        },
+        "diffContracts": {
+          "type": "string",
+          "pattern": "\\{spec\\}",
+          "description": "Lists the endpoints added, removed and changed between the contracts and an OpenAPI spec ({spec})."
+        },
+        "contractsFromOpenApi": {
+          "type": "string",
+          "pattern": "\\{spec\\}",
+          "description": "Converts an OpenAPI spec ({spec}) into draft contracts."
         }
       }
     },
