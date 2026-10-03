@@ -22,13 +22,11 @@ npm install
 npm run install:browsers
 ```
 
-Copy `.env.example` to `.env` in the project root and fill in the test users. `.env` is git-ignored, so never commit it.
+Copy `.env.example` to `.env` in the project root and fill in the admin user. `.env` is git-ignored, so never commit it. The customer account is registered for each run and deleted afterwards, so it needs no settings.
 
 ```dotenv
 ADMIN_USER=<admin email>
 ADMIN_PASSWORD=<admin password>
-DEFAULT_USER=<customer email>
-DEFAULT_PASSWORD=<customer password>
 ```
 
 > **Windows / PowerShell:** if `npx` or `npm` fails with *"...ps1 cannot be loaded... not digitally signed"*, run
@@ -162,7 +160,7 @@ GitHub Actions runs the tests and publishes every report to GitHub Pages: **[zay
 
 The dashboard shows the latest status, test counts, known issues, pass/fail, duration and failure-rate trends, and the history of the last runs, each linking to its full Playwright report. Every report family keeps its latest 30 runs.
 
-To run it in your own fork, add the `ADMIN_USER`, `ADMIN_PASSWORD`, `DEFAULT_USER` and `DEFAULT_PASSWORD` repository secrets. After the first run creates the `gh-pages` branch, turn on GitHub Pages from that branch.
+To run it in your own fork, add the `ADMIN_USER` and `ADMIN_PASSWORD` repository secrets. After the first run creates the `gh-pages` branch, turn on GitHub Pages from that branch.
 
 ## Branches and contributing
 

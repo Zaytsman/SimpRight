@@ -7,10 +7,6 @@
     "admin": {
       "username": "${ADMIN_USER}",
       "password": "${ADMIN_PASSWORD}"
-    },
-    "default": {
-      "username": "${DEFAULT_USER}",
-      "password": "${DEFAULT_PASSWORD}"
     }
   }
 }

@@ -117,7 +117,7 @@ Creates a customer account (role `user`). _(source)_
 ```
 No text field may contain Unicode subscript or superscript characters. _(source)_
 
-**Response:** `201 Created` _(source)_
+**Response:** `201 Created` _(verified)_
 ```ts
 {
   id: string;
@@ -480,7 +480,7 @@ Deletes a user. Admin only. _(source)_
 |---|---|---|---|
 | `userId` | string | Yes | User ULID |
 
-**Response:** `204 No Content` _(source)_
+**Response:** `204 No Content` _(verified)_
 
 **Error Responses:**
 - `401 Unauthorized`: no token, or an invalid or expired one _(source)_

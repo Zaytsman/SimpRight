@@ -1,16 +1,22 @@
 import { test } from '@playwright/test';
-import { env } from '../config/env';
+import { env, findRunUser } from '../config/env';
 
 /** Keys whose values never reach a report (matched case-insensitively, at any depth). */
 const SECRET_KEYS = new Set(['password', 'access_token', 'token', 'authorization']);
-/** The test users' emails and passwords come from secrets, so they're masked wherever they appear. */
-const SECRET_VALUES = Object.values(env.testUsers)
-  .flatMap((user) => [user.username, user.password])
-  .filter((value) => value.length > 0);
 const MASK = '***';
 
+/**
+ * The test users' emails and passwords (from secrets, plus the run's registered customer), masked wherever
+ * they appear. Read on each call, because the run's customer exists only after globalSetup.
+ */
+function secretValues(): string[] {
+  return [...Object.values(env.testUsers), findRunUser()]
+    .flatMap((user) => (user ? [user.username, user.password] : []))
+    .filter((value) => value.length > 0);
+}
+
 function maskSecretValues(text: string): string {
-  return SECRET_VALUES.reduce((masked, secret) => masked.replaceAll(secret, MASK), text);
+  return secretValues().reduce((masked, secret) => masked.replaceAll(secret, MASK), text);
 }
 
 /**

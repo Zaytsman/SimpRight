@@ -13,7 +13,8 @@ if (!process.env.TEST_WORKER_INDEX) {
 
 export default defineConfig<UiOptions>({
   testDir: './tests',
-  // With UI_AUTH_MODE=storageState: logs in every role through the UI and saves .auth/<role>.json. No-op otherwise.
+  // Registers the run's customer (the `default` role) and deletes it after the run (its returned teardown).
+  // With UI_AUTH_MODE=storageState it also logs in every role through the UI and saves .auth/<role>.json.
   globalSetup: './src/globalSetup.ts',
   fullyParallel: true,
   forbidOnly: isCI,
