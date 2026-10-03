@@ -52,6 +52,40 @@ export async function createProductToUpdate(
   return productId;
 }
 
+const ALL_REFS: (keyof ProductRefs)[] = ['brandId', 'categoryId', 'productImageId'];
+const REF_LABELS: Record<keyof ProductRefs, string> = { brandId: 'a brand id', categoryId: 'a category id', productImageId: 'a product image id' };
+
+/**
+ * The step "Send GET /products and take the first item's ... ids." under the scenario's own title
+ * (default: all three ids). Asserts only the ids in `required`, so a step that takes two ids doesn't
+ * check the third. Returns the first product's ids.
+ */
+export async function takeProductRefs(
+  productsService: ProductsService,
+  title: string = PRODUCT_LIST_STEP,
+  required: (keyof ProductRefs)[] = ALL_REFS
+): Promise<Partial<ProductRefs>> {
+  let refs: Partial<ProductRefs> = {};
+
+  await test.step(title, async () => {
+    const list = await productsService.list();
+    await attachJson('List Products Response', list);
+    expect(list.data.length, assertMessage({ request: { method: 'GET', path: '/products' }, expected: 'At least one product', actual: list.total })).toBeGreaterThan(0);
+    const first = list.data[0]!;
+    refs = { brandId: first.brand?.id, categoryId: first.category?.id, productImageId: first.product_image?.id };
+    expect(
+      required.every((key) => Boolean(refs[key])),
+      assertMessage({
+        request: { method: 'GET', path: '/products' },
+        expected: `The first product has ${required.map((key) => REF_LABELS[key]).join(', ')}`,
+        actual: refs,
+      })
+    ).toBe(true);
+  });
+
+  return refs;
+}
+
 /** The checks of a "Verify the body has a <field> key with at least one message." step. */
 export function expectFieldMessages(response: ApiResponse, field: string, request: unknown): void {
   const body = JSON.parse(response.body) as ValidationErrors;

@@ -151,13 +151,13 @@ Creates a product. No token is needed (see Notes). _(source)_
 }
 ```
 
-**Response:** `201 Created` _(source)_
+**Response:** `201 Created` _(verified)_
 ```ts
 Product   // with product_image, category and brand loaded
 ```
 
 **Error Responses:**
-- `422 Unprocessable Entity`: a required field is missing or a field fails its rule; body `{ <field>: string[] }` _(source)_
+- `422 Unprocessable Entity`: a required field is missing or a field fails its rule; body `{ <field>: string[] }` _(verified)_
 - `500 Internal Server Error`: `category_id`, `brand_id` or `product_image_id` doesn't exist (the foreign-key error isn't validated first); suspected bug, should be 422 _(source)_
 
 ---

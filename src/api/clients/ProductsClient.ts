@@ -38,7 +38,8 @@ export class ProductsClient extends BaseClient {
     return this.get('/products/search', params.toString() || undefined);
   }
 
-  async create(body: CreateProductRequest): Promise<ApiResponse> {
+  /** Accepts any object as the body, so tests can send the invalid payloads validation scenarios need. */
+  async create(body: CreateProductRequest | Record<string, unknown>): Promise<ApiResponse> {
     return this.post('/products', body);
   }
 
