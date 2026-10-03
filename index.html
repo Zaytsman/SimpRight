@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SimpRight Test Reports</title>
+  <title>SimpRight - Automation Portal</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -256,7 +256,9 @@
       background: rgba(255,255,255,0.03);
     }
 
-    .action-link.primary {
+    /* Without coverage the API Coverage link stays hidden, so the next link takes the primary style. */
+    .action-link.primary,
+    .action-link.primary[hidden] + .action-link {
       background: linear-gradient(135deg, #2dd4bf, #38bdf8);
       color: #04111a;
       border-color: transparent;
@@ -609,12 +611,13 @@
       <section class="hero">
         <div class="hero-top">
           <div>
-            <h2>SimpRight Test Reports</h2>
-            <p>Results and history of the scheduled UI and API regression runs and of custom runs started by hand.</p>
+            <h2>SimpRight - Automation Portal</h2>
+            <p>One place for the UI and API test automation: the latest reports of the scheduled regressions and custom runs, API coverage against the contracts, pass/fail, duration and failure-rate trends, known issues, and the history of every run.</p>
             <div class="hero-actions">
-              <a class="action-link primary" href="#history">View Test Runs History</a>
               <!-- Coverage elements stay hidden until latest/api-coverage/summary.json exists (the coverage tool is optional). -->
-              <a class="action-link" data-coverage hidden href="latest/api-coverage/" target="_blank" rel="noreferrer">View API Coverage</a>
+              <a class="action-link primary" data-coverage hidden href="latest/api-coverage/" target="_blank" rel="noreferrer">API Coverage</a>
+              <a class="action-link" href="#history">Test Runs History</a>
+              <a class="action-link" href="#known-issues">Known Issues</a>
             </div>
           </div>
         </div>
@@ -628,26 +631,6 @@
             <div class="stat-card"><span>API tests</span><strong id="total-api-tests">-</strong></div>
             <div class="stat-card" data-coverage hidden><span>API endpoints covered</span><strong id="api-endpoint-coverage">-</strong></div>
             <div class="stat-card" data-coverage hidden><span>API contract coverage</span><strong id="daily-api-coverage">-</strong></div>
-          </div>
-        </article>
-
-        <article class="panel wide">
-          <h3>Known Issues</h3>
-          <div class="table-responsive mt-3">
-            <table id="knownIssuesTable">
-              <thead>
-                <tr>
-                  <th>Area</th>
-                  <th>Test Name</th>
-                  <th>Issue</th>
-                </tr>
-              </thead>
-              <tbody id="knownIssuesBody">
-                <tr>
-                  <td colspan="3" class="no-data">Loading...</td>
-                </tr>
-              </tbody>
-            </table>
           </div>
         </article>
 
@@ -718,6 +701,26 @@
                 <div class="stat-card"><span class="stat-label">Average Failure Rate</span><span class="stat-value" id="api-avg-failure-rate">-</span></div>
               </div>
             </div>
+          </div>
+        </article>
+
+        <article class="panel wide" id="known-issues">
+          <h3>Known Issues</h3>
+          <div class="table-responsive mt-3">
+            <table id="knownIssuesTable">
+              <thead>
+                <tr>
+                  <th>Area</th>
+                  <th>Test Name</th>
+                  <th>Issue</th>
+                </tr>
+              </thead>
+              <tbody id="knownIssuesBody">
+                <tr>
+                  <td colspan="3" class="no-data">Loading...</td>
+                </tr>
+              </tbody>
+            </table>
           </div>
         </article>
 
