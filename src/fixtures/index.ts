@@ -12,3 +12,4 @@ export {
   findProductSpec,
   expectFieldMessages,
 } from '../api/fixtures/productSteps';
+export { USER_REGISTER_STEP, registerThrowawayCustomer, type ThrowawayCustomer } from '../api/fixtures/userSteps';

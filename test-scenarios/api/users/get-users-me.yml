@@ -12,7 +12,8 @@ scenarios:
       - Verify email equals the default user's email, and id, first_name and last_name are not empty.
   - id: API-0100
     name: Current user endpoint returns the admin-only fields to an admin
-    status: manual
+    status: automated
+    automatedIn: tests/api/users/get-users-me.spec.ts
     role: admin
     steps:
       - Send GET /users/me with the admin's token.
@@ -21,7 +22,8 @@ scenarios:
       - Verify the body's enabled is a boolean and failed_login_attempts is a number.
   - id: API-0101
     name: Current user endpoint hides the admin-only fields from a customer
-    status: manual
+    status: automated
+    automatedIn: tests/api/users/get-users-me.spec.ts
     steps:
       - Send GET /users/me with the default user's token.
       - Verify the response status is 200.
@@ -29,21 +31,24 @@ scenarios:
       - Verify the body has no role, enabled or failed_login_attempts key.
   - id: API-0102
     name: Current user without a token returns 401
-    status: manual
+    status: automated
+    automatedIn: tests/api/users/get-users-me.spec.ts
     steps:
       - Send GET /users/me without an Authorization header.
       - Verify the response status is 401.
       - Verify the body's message is "Unauthorized".
   - id: API-0103
     name: Current user with a malformed token returns 401
-    status: manual
+    status: automated
+    automatedIn: tests/api/users/get-users-me.spec.ts
     steps:
       - Send GET /users/me with a malformed token.
       - Verify the response status is 401.
       - Verify the body's message is "Unauthorized".
   - id: API-0104
     name: Current user with a disabled account's token returns 403
-    status: manual
+    status: automated
+    automatedIn: tests/api/users/get-users-me.spec.ts
     role: admin
     steps:
       - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.

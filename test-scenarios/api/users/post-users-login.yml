@@ -4,7 +4,8 @@ tags: ["@users-api"]
 scenarios:
   - id: API-0078
     name: Login returns 200 with a bearer token
-    status: manual
+    status: automated
+    automatedIn: tests/api/users/post-users-login.spec.ts
     steps:
       - Send POST /users/login with the default user's email and password.
       - Verify the response status is 200.
@@ -14,7 +15,8 @@ scenarios:
       - Verify GET /users/me with the new access_token returns 200 with the default user's email.
   - id: API-0079
     name: Login with a wrong password returns 401
-    status: manual
+    status: automated
+    automatedIn: tests/api/users/post-users-login.spec.ts
     steps:
       - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.
       - Send POST /users/login with that email and a different password.
@@ -22,34 +24,39 @@ scenarios:
       - Verify the body's error is "Unauthorized" or "Invalid login request".
   - id: API-0080
     name: Login with an email no account has returns 401
-    status: manual
+    status: automated
+    automatedIn: tests/api/users/post-users-login.spec.ts
     steps:
       - Send POST /users/login with a unique email that no account has and a random strong password.
       - Verify the response status is 401.
       - Verify the body's error is "Unauthorized" or "Invalid login request".
   - id: API-0081
     name: Login without credentials returns 401
-    status: manual
+    status: automated
+    automatedIn: tests/api/users/post-users-login.spec.ts
     steps:
       - Send POST /users/login with an empty JSON object as the body.
       - Verify the response status is 401.
       - Verify the body's error is "Unauthorized" or "Invalid login request".
   - id: API-0082
     name: TOTP login step with a full token returns 401
-    status: manual
+    status: automated
+    automatedIn: tests/api/users/post-users-login.spec.ts
     steps:
       - Send POST /users/login with access_token set to the default user's token and any totp value.
       - Verify the response status is 401.
   - id: API-0083
     name: TOTP login step with an invalid access token returns 400
-    status: manual
+    status: automated
+    automatedIn: tests/api/users/post-users-login.spec.ts
     steps:
       - Send POST /users/login with an access_token that isn't a valid token and any totp value.
       - Verify the response status is 400.
       - Verify the body's error is "Invalid or expired token".
   - id: API-0084
     name: Login to a disabled account returns 403
-    status: manual
+    status: automated
+    automatedIn: tests/api/users/post-users-login.spec.ts
     role: admin
     steps:
       - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.

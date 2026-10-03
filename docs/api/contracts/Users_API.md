@@ -14,7 +14,7 @@ Customer accounts and authentication in the Toolshop API: login and tokens, regi
 - The JWT carries a `role` claim: `admin` or `user`. _(source)_
 - Public: `POST /users/login`, `POST /users/register`, `POST /users/forgot-password`, and `GET /users/refresh` (which reads the token itself). Every other endpoint needs a valid token (`auth:users` middleware in `UserController`); `GET /users` and `DELETE /users/{userId}` also need the `admin` role. _(source)_
 - Without a token, or with a malformed, expired or logged-out token, protected endpoints return `401` with `{ message: "Unauthorized" }`. _(verified)_
-- **Account state, shared by every endpoint with a token:** a disabled account (`enabled: false`) gets `403` with `{ message: "Account disabled." }`. The middleware caches the user for 60 seconds, so a change can take up to a minute to apply. _(source)_
+- **Account state, shared by every endpoint with a token:** a disabled account (`enabled: false`) gets `403` with `{ message: "Account disabled." }` _(verified)_. The middleware caches the user for 60 seconds, so a change can take up to a minute to apply. _(source)_
 - **Login lockout:** after 3 failed logins a non-admin account is locked, and `POST /users/login` returns `423` for it even with the right password, until `failed_login_attempts` is reset (a successful login doesn't get that far). Admin accounts are never locked. _(source)_
 
 ## Endpoints Overview
@@ -70,7 +70,7 @@ Returns a JWT for the `Authorization: Bearer <token>` header. Accounts with two-
 ```
 Send either `email` and `password`, or `access_token` and `totp`. Neither pair is validated as required; a body with neither gets `401`. _(source)_
 
-**Response:** `200 OK` _(source)_
+**Response:** `200 OK` _(verified)_
 ```ts
 {
   access_token: string;
@@ -81,9 +81,9 @@ Send either `email` and `password`, or `access_token` and `totp`. Neither pair i
 For an account with TOTP enabled, the first step returns `200` with `{ message: "TOTP required"; requires_totp: true; access_token: string }` instead. _(source)_
 
 **Error Responses:**
-- `401 Unauthorized`: wrong email or password, or neither credential pair in the body; `{ error: "Unauthorized" }` or `{ error: "Invalid login request" }` _(verified)_; also a wrong TOTP code or a non-restricted token in the TOTP step _(source)_
-- `400 Bad Request`: TOTP step with an invalid or expired `access_token`; `{ error: "Invalid or expired token" }` _(source)_
-- `403 Forbidden`: right credentials, but the account is disabled; `{ error: "Account disabled" }` _(source)_
+- `401 Unauthorized`: wrong email or password (or an email no account has), `{ error: "Unauthorized" }` _(verified)_; neither credential pair in the body, `{ error: "Invalid login request" }` _(verified)_; a non-restricted (full) token in the TOTP step, `{ error: "Unauthorized token usage" }` _(verified)_; a wrong TOTP code _(source)_
+- `400 Bad Request`: TOTP step with an invalid `access_token`, `{ error: "Invalid or expired token" }` _(verified)_; the same for an expired one _(source)_
+- `403 Forbidden`: right credentials, but the account is disabled; `{ error: "Account disabled" }` _(verified)_
 - `423 Locked`: non-admin account with 3 or more failed logins; `{ error: "Account locked, too many failed attempts. Please contact the administrator." }` _(source)_
 
 ---
@@ -195,13 +195,13 @@ Changes the current user's password. _(source)_
 
 ### 5. Current user
 
-Profile of the user the token belongs to. `role`, `enabled` and `failed_login_attempts` are returned only when the caller is an admin. _(source)_
+Profile of the user the token belongs to. `role`, `enabled` and `failed_login_attempts` are returned only when the caller is an admin. _(verified)_
 
 **Endpoint:** `GET /users/me`
 
 **Auth:** Bearer token, any role _(source)_
 
-**Response:** `200 OK` _(source)_
+**Response:** `200 OK` _(verified)_
 ```ts
 User
 ```
