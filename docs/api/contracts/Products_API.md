@@ -353,7 +353,7 @@ Same as `GET /products/search`, with the criteria in a JSON body. _(source)_
 
 **Endpoint:** `QUERY /products/search`
 
-**Auth:** None _(source)_
+**Auth:** None _(verified)_
 
 **Request Body:**
 ```ts

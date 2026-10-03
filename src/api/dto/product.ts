@@ -97,3 +97,11 @@ export interface ProductQueryBody extends Omit<ProductListQuery, 'page'> {
   /** Page number, starting at 1 (a string in the body). */
   page?: string;
 }
+
+/** QUERY /products/search body: the GET /products/search parameters as JSON; without `q` the result is empty. */
+export interface ProductSearchQueryBody {
+  /** Search term. */
+  q?: string;
+  /** Page number, starting at 1 (a string in the body). */
+  page?: string;
+}
