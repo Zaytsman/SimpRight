@@ -27,6 +27,7 @@ npm run report                    # open last HTML report
   - `api` (default): the UI `storageState` fixture gets a token for the test's role from `tokenService` and injects it into localStorage. There's no UI login and nothing is written to disk. Tokens are refreshed when fewer than 2 minutes are left, which is longer than the test timeout.
   - `storageState`: `globalSetup` (`src/globalSetup.ts`) logs in every role in `USER_ROLES` through `LoginPage` and saves `.auth/<role>.json` (git-ignored, holds a live JWT). Locally, a saved state is reused while its token has more than 2 minutes left; on CI it is always regenerated. A role that fails to log in fails the run. In `api` mode `globalSetup` does nothing.
   - `test.use({ authMode: 'storageState' })` only works when the run itself uses `UI_AUTH_MODE=storageState`; otherwise the fixture throws "No valid saved login".
+  - `none` (a test option only, not a `UI_AUTH_MODE` value): no login, the test starts logged out. The `api` project sets it in `playwright.config.ts`. That matters because every test resolves the `storageState` fixture (Playwright's trace recording reads the context options), so without it each API test would log in the default user, even for public endpoints, and a locked or failing login would fail the whole API suite. API tests log in through the fixtures that need a token (`accessToken`, `productsClientWithToken`, `adminProductsService`).
 - `api` project: `tests/api`. No browser; `baseURL` = `env.apiBaseUrl`.
 - `ui` project: `tests/ui`. Desktop Chrome; `baseURL` = `env.baseUrl`.
 - `testIdAttribute` is `data-test` (`TEST_ID_ATTRIBUTE` in `BasePage.ts`), which is what the site uses. Prefer `page.getByTestId(...)` locators.
@@ -37,7 +38,7 @@ npm run report                    # open last HTML report
 Specs import from `src/fixtures` (`index.ts`): `test`, `expect` and `openHomePageTest`.
 - `src/fixtures/base.ts` holds the fixtures shared by both layers: `role` (option, default `'default'`; set with `test.use({ role: 'admin' })`), `config` and `tokenService` (worker scope), `user`, and `cleanup` (undo steps for records the test creates, run after the test, pass or fail, newest first; a failing step only logs a warning).
 - `src/api/fixtures/fixtures.ts` and `src/ui/fixtures/fixtures.ts` each extend base. `src/fixtures/fixtures.ts` combines them with `mergeTests`. Fixtures are lazy, so a UI test that doesn't ask for `accessToken` never logs in through the API.
-- The UI fixtures set `storageState` from `role` and `authMode`, so a test starts logged in as its role. For logged-out tests, use `test.use({ storageState: { cookies: [], origins: [] } })`.
+- The UI fixtures set `storageState` from `role` and `authMode`, so a test starts logged in as its role. For logged-out tests, use `test.use({ authMode: 'none' })`.
 - New page, component, grid and dialog fixtures go in `src/ui/fixtures/fixtures.ts`. Precondition variants go in their own file in `src/fixtures/` (like `openHomePage.ts`) and are exported from `index.ts`.
 
 ## UI layer

@@ -79,7 +79,7 @@ The site keeps its session token in the browser's `localStorage` (no cookie). Th
 - **`api` mode (default):** each UI test gets a fresh token for its user through the API, and it's placed in the browser before the test starts. There's no UI login and nothing is written to disk.
 - **`storageState` mode** (`UI_AUTH_MODE=storageState`): before the run, `src/globalSetup.ts` logs in each user through the login page and saves `.auth/<role>.json` (git-ignored). Locally, a saved login is reused while its token is still valid.
 
-For tests that should start logged out, use `test.use({ storageState: { cookies: [], origins: [] } })`.
+For tests that should start logged out, use `test.use({ authMode: 'none' })`. The `api` project sets it for every API test, so an API test logs in only when it uses a token (for example `accessToken` or an admin client), and tests of public endpoints don't depend on the login at all.
 
 ## Project structure
 
