@@ -1,5 +1,5 @@
 import { BaseClient, type ApiResponse } from './BaseClient';
-import type { CreateProductRequest, ProductListQuery, ProductQueryBody, ProductSearchQueryBody, UpdateProductRequest } from '../dto/product';
+import type { CreateProductRequest, PatchProductRequest, ProductListQuery, ProductQueryBody, ProductSearchQueryBody, UpdateProductRequest } from '../dto/product';
 
 export class ProductsClient extends BaseClient {
   async list(query?: ProductListQuery): Promise<ApiResponse> {
@@ -49,6 +49,14 @@ export class ProductsClient extends BaseClient {
   /** Accepts any object as the body, so tests can send the invalid payloads validation scenarios need. */
   async update(productId: string, body: UpdateProductRequest | Record<string, unknown>): Promise<ApiResponse> {
     return this.put(`/products/${productId}`, { data: body });
+  }
+
+  /**
+   * PATCH /products/{productId}. Named `partialUpdate` because `patch` is BaseClient's verb method.
+   * Accepts any object as the body, so tests can send the invalid payloads validation scenarios need.
+   */
+  async partialUpdate(productId: string, body: PatchProductRequest | Record<string, unknown>): Promise<ApiResponse> {
+    return this.patch(`/products/${productId}`, { data: body });
   }
 
   async deleteById(productId: string): Promise<ApiResponse> {

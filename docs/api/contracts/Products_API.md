@@ -258,14 +258,14 @@ Updates only the validated fields that are sent. Unlike `PUT`, fields without a 
 }
 ```
 
-**Response:** `200 OK` _(source)_
+**Response:** `200 OK` _(verified)_
 ```ts
 { success: true }
 ```
 
 **Error Responses:**
-- `404 Not Found`: no product with this id _(source)_
-- `422 Unprocessable Entity`: a sent field fails its rule (e.g. `price` not numeric) _(source)_
+- `404 Not Found`: no product with this id; `{ message: "Requested item not found" }` _(verified)_
+- `422 Unprocessable Entity`: a sent field fails its rule (e.g. `price` not numeric) _(verified)_
 
 ---
 

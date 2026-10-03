@@ -61,4 +61,9 @@ export const ProductFactory = {
   isRentalNotBoolean(): Record<string, unknown> {
     return { is_rental: 'not-a-boolean' };
   },
+
+  /** A PATCH body with only a price that isn't numeric. */
+  priceNotNumeric(): Record<string, unknown> {
+    return { price: 'not-a-number' };
+  },
 };

@@ -63,6 +63,9 @@ export interface CreateProductRequest {
 /** PUT /products/{productId}: no field is required. */
 export type UpdateProductRequest = Partial<CreateProductRequest>;
 
+/** PATCH /products/{productId}: only validated fields are applied, so `co2_rating` and `stock` aren't accepted. */
+export type PatchProductRequest = Partial<Omit<CreateProductRequest, 'co2_rating' | 'stock'>>;
+
 /** PUT and PATCH /products/{productId} on success. */
 export interface UpdateProductResponse {
   success: boolean;
