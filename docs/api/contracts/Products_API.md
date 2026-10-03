@@ -44,11 +44,11 @@ The product catalogue of the Toolshop API: listing, filtering, searching and rea
 
 ### 1. List products
 
-Returns the products, 9 per page. Without `is_rental`, rental products are excluded (`is_rental` defaults to false). _(source)_
+Returns the products, 9 per page. Without `is_rental`, rental products are excluded (`is_rental` defaults to false). _(verified)_
 
 **Endpoint:** `GET /products`
 
-**Auth:** None _(source)_
+**Auth:** None _(verified)_
 
 **Query Parameters:**
 
@@ -91,7 +91,7 @@ Same as `GET /products`, but the criteria are sent as a JSON body (RFC 10008 `QU
 
 **Endpoint:** `QUERY /products`
 
-**Auth:** None _(source)_
+**Auth:** None _(verified)_
 
 **Request Body:**
 ```ts
@@ -151,13 +151,13 @@ Creates a product. No token is needed (see Notes). _(source)_
 }
 ```
 
-**Response:** `201 Created` _(source)_
+**Response:** `201 Created` _(verified)_
 ```ts
 Product   // with product_image, category and brand loaded
 ```
 
 **Error Responses:**
-- `422 Unprocessable Entity`: a required field is missing or a field fails its rule; body `{ <field>: string[] }` _(source)_
+- `422 Unprocessable Entity`: a required field is missing or a field fails its rule; body `{ <field>: string[] }` _(verified)_
 - `500 Internal Server Error`: `category_id`, `brand_id` or `product_image_id` doesn't exist (the foreign-key error isn't validated first); suspected bug, should be 422 _(source)_
 
 ---
@@ -258,14 +258,14 @@ Updates only the validated fields that are sent. Unlike `PUT`, fields without a 
 }
 ```
 
-**Response:** `200 OK` _(source)_
+**Response:** `200 OK` _(verified)_
 ```ts
 { success: true }
 ```
 
 **Error Responses:**
-- `404 Not Found`: no product with this id _(source)_
-- `422 Unprocessable Entity`: a sent field fails its rule (e.g. `price` not numeric) _(source)_
+- `404 Not Found`: no product with this id; `{ message: "Requested item not found" }` _(verified)_
+- `422 Unprocessable Entity`: a sent field fails its rule (e.g. `price` not numeric) _(verified)_
 
 ---
 
@@ -283,12 +283,12 @@ Deletes a product. Admin only. _(source)_
 |---|---|---|---|
 | `productId` | string | Yes | Product ULID |
 
-**Response:** `204 No Content` _(source)_
+**Response:** `204 No Content` _(verified)_
 
 **Error Responses:**
-- `401 Unauthorized`: no token, or an invalid or expired one; `{ message: "Unauthorized" }` _(source)_
+- `401 Unauthorized`: no token, or an invalid or expired one; `{ message: "Unauthorized" }` _(verified)_
 - `403 Forbidden`: the token's user isn't an admin; `{ message: "Forbidden" }` _(source)_
-- `404 Not Found`: no product with this id; `{ message: "Requested item not found" }` _(source)_
+- `404 Not Found`: no product with this id; `{ message: "Requested item not found" }` _(verified)_
 - `409 Conflict`: the product is referenced elsewhere (e.g. an invoice line); `{ success: false, message: "Seems like this product is used elsewhere." }` _(source)_
 
 ---
@@ -353,7 +353,7 @@ Same as `GET /products/search`, with the criteria in a JSON body. _(source)_
 
 **Endpoint:** `QUERY /products/search`
 
-**Auth:** None _(source)_
+**Auth:** None _(verified)_
 
 **Request Body:**
 ```ts

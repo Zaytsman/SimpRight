@@ -1,6 +1,7 @@
 import { defineConfig, devices } from '@playwright/test';
 import { apiCoverageReporter } from './src/api/coverage/apiCoverage';
 import { env } from './src/config/env';
+import type { UiOptions } from './src/ui/fixtures/fixtures';
 import { TEST_ID_ATTRIBUTE } from './src/ui/pages/BasePage';
 
 const isCI = !!process.env.CI;
@@ -10,7 +11,7 @@ if (!process.env.TEST_WORKER_INDEX) {
   console.log(`Running against ${env.name}: ${env.baseUrl} (API: ${env.apiBaseUrl})`);
 }
 
-export default defineConfig({
+export default defineConfig<UiOptions>({
   testDir: './tests',
   // With UI_AUTH_MODE=storageState: logs in every role through the UI and saves .auth/<role>.json. No-op otherwise.
   globalSetup: './src/globalSetup.ts',
@@ -46,6 +47,8 @@ export default defineConfig({
       testDir: './tests/api',
       use: {
         baseURL: env.apiBaseUrl,
+        // No UI login: API tests log in only through the fixtures that need a token (accessToken and friends).
+        authMode: 'none',
       },
     },
     {

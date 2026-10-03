@@ -46,6 +46,19 @@ export const ProductFactory = {
     return { description: 'x'.repeat(DESCRIPTION_MAX + 1) };
   },
 
+  /**
+   * A unique name followed by U+2082 SUBSCRIPT TWO. The API rejects characters in U+2070-U+209F
+   * (Superscripts and Subscripts block); the Latin-1 superscripts (U+00B9, U+00B2, U+00B3) are accepted.
+   */
+  nameWithSubscript(): UpdateProductRequest {
+    return { name: `${uniqueName(NAME_PREFIX)}\u2082` };
+  },
+
+  /** A description that contains U+2074 SUPERSCRIPT FOUR, inside the rejected range U+2070-U+209F. */
+  descriptionWithSuperscript(): UpdateProductRequest {
+    return { description: 'Rated for 10\u2074 cycles' };
+  },
+
   nameNotString(): Record<string, unknown> {
     return { name: 12345 };
   },
@@ -60,5 +73,10 @@ export const ProductFactory = {
 
   isRentalNotBoolean(): Record<string, unknown> {
     return { is_rental: 'not-a-boolean' };
+  },
+
+  /** A PATCH body with only a price that isn't numeric. */
+  priceNotNumeric(): Record<string, unknown> {
+    return { price: 'not-a-number' };
   },
 };

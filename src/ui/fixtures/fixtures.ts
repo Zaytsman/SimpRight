@@ -7,9 +7,15 @@ import { HomePage } from '../pages/HomePage';
 import { LoginPage } from '../pages/LoginPage';
 import { ProductPage } from '../pages/ProductPage';
 
+/** How a test starts: logged in with one of the `UiAuthMode`s, or `none` (logged out, no login at all). */
+export type AuthMode = UiAuthMode | 'none';
+
 export type UiOptions = {
-  /** How the test starts logged in; defaults to UI_AUTH_MODE (see `UiAuthMode`). */
-  authMode: UiAuthMode;
+  /**
+   * How the test starts logged in; defaults to UI_AUTH_MODE (see `UiAuthMode`). `none` skips the login:
+   * the `api` project sets it, so only API tests that ask for a token log in.
+   */
+  authMode: AuthMode;
 };
 
 export type UiFixtures = {
@@ -28,9 +34,15 @@ export type UiFixtures = {
 export const test = base.extend<UiOptions & UiFixtures>({
   authMode: [env.uiAuthMode, { option: true }],
 
-  // Start logged in as the test's role.
-  // Logged-out tests: test.use({ storageState: { cookies: [], origins: [] } })
+  // Start logged in as the test's role; logged-out tests use test.use({ authMode: 'none' }).
+  // Every test resolves this fixture (Playwright's trace recording reads the context options),
+  // so `none` matters for API tests too: without it, each one would log in the default user.
   storageState: async ({ authMode, role, config, tokenService }, use) => {
+    if (authMode === 'none') {
+      await use(undefined);
+      return;
+    }
+
     if (authMode === 'storageState') {
       const filePath = storageStatePath(role);
       if (!isStorageStateValid(filePath)) {

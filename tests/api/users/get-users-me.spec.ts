@@ -5,7 +5,9 @@ import { assertMessage, attachJson } from '@utils/assertHelpers';
 
 // Scenarios: test-scenarios/api/users/get-users-me.yml
 test.describe('@users-api - Users API', () => {
-  test("API-0063: Current user endpoint returns the logged-in user's profile", async ({ usersClient, user }) => {
+  // Skipped for now (2026-10-03): the shared default test user is locked (423) on the demo site, so the
+  // login fails before the test starts. Re-enable (test.fixme -> test) when it unlocks or with an own account.
+  test.fixme("API-0063: Current user endpoint returns the logged-in user's profile", async ({ usersClient, user }) => {
     const request = { method: 'GET', path: '/users/me' };
     let response: ApiResponse;
 
