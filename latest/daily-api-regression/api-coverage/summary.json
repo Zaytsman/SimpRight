@@ -1,18 +1,18 @@
 {
-  "generatedAt": "2026-10-03T10:54:34.419Z",
+  "generatedAt": "2026-10-03T13:46:09.920Z",
   "totalEndpoints": 24,
-  "coveredEndpoints": 12,
-  "endpointCoveragePct": 50,
+  "coveredEndpoints": 17,
+  "endpointCoveragePct": 71,
   "totalDocumentedStatusCodes": 72,
-  "coveredStatusCodes": 27,
-  "statusCodeCoveragePct": 38,
+  "coveredStatusCodes": 41,
+  "statusCodeCoveragePct": 57,
   "totalRequiredFields": 22,
-  "coveredRequiredFields": 7,
-  "requiredFieldCoveragePct": 32,
+  "coveredRequiredFields": 11,
+  "requiredFieldCoveragePct": 50,
   "totalOptionalFields": 71,
-  "coveredOptionalFields": 35,
-  "optionalFieldCoveragePct": 49,
-  "overallCoveragePct": 46,
+  "coveredOptionalFields": 46,
+  "optionalFieldCoveragePct": 65,
+  "overallCoveragePct": 66,
   "services": {
     "Products": {
       "serviceName": "Products",
@@ -839,18 +839,18 @@
     "Users": {
       "serviceName": "Users",
       "totalEndpoints": 14,
-      "coveredEndpoints": 2,
-      "endpointCoveragePct": 14,
+      "coveredEndpoints": 7,
+      "endpointCoveragePct": 50,
       "documentedStatusCodes": 46,
-      "coveredStatusCodes": 2,
-      "statusCodeCoveragePct": 4,
+      "coveredStatusCodes": 16,
+      "statusCodeCoveragePct": 35,
       "totalRequiredFields": 15,
-      "coveredRequiredFields": 0,
-      "requiredFieldCoveragePct": 0,
+      "coveredRequiredFields": 4,
+      "requiredFieldCoveragePct": 27,
       "totalOptionalFields": 38,
-      "coveredOptionalFields": 2,
-      "optionalFieldCoveragePct": 5,
-      "overallCoveragePct": 9,
+      "coveredOptionalFields": 13,
+      "optionalFieldCoveragePct": 34,
+      "overallCoveragePct": 42,
       "endpoints": [
         {
           "endpoint": {
@@ -882,12 +882,12 @@
                   "expires_in"
                 ],
                 "schemaRaw": "{\n  access_token: string;\n  token_type: string;   // \"bearer\"\n  expires_in: number;   // 300\n}",
-                "origin": "source"
+                "origin": "verified"
               },
               "400": {
                 "statusCode": 400,
                 "statusText": "Bad Request",
-                "origin": "source"
+                "origin": "verified"
               },
               "401": {
                 "statusCode": 401,
@@ -897,7 +897,7 @@
               "403": {
                 "statusCode": 403,
                 "statusText": "Forbidden",
-                "origin": "source"
+                "origin": "verified"
               },
               "423": {
                 "statusCode": 423,
@@ -906,10 +906,13 @@
               }
             }
           },
-          "callCount": 4,
+          "callCount": 19,
           "isCovered": true,
           "testedStatusCodes": [
-            200
+            200,
+            401,
+            400,
+            403
           ],
           "documentedStatusCodes": [
             200,
@@ -918,23 +921,22 @@
             403,
             423
           ],
-          "statusCodeCoveragePct": 20,
+          "statusCodeCoveragePct": 80,
           "testedRequiredFields": [],
           "missingRequiredFields": [],
           "requiredFieldCoveragePct": 100,
           "testedOptionalFields": [
             "email",
-            "password"
-          ],
-          "missingOptionalFields": [
+            "password",
             "access_token",
             "totp"
           ],
-          "optionalFieldCoveragePct": 50,
+          "missingOptionalFields": [],
+          "optionalFieldCoveragePct": 100,
           "testedQueryParams": [],
           "missingQueryParams": [],
           "queryParamCoveragePct": 100,
-          "overallCoveragePct": 52
+          "overallCoveragePct": 91
         },
         {
           "endpoint": {
@@ -986,49 +988,54 @@
               "409": {
                 "statusCode": 409,
                 "statusText": "Conflict",
-                "origin": "source"
+                "origin": "verified"
               },
               "422": {
                 "statusCode": 422,
                 "statusText": "Unprocessable Entity",
-                "origin": "source"
+                "origin": "verified"
               }
             }
           },
-          "callCount": 0,
-          "isCovered": false,
-          "testedStatusCodes": [],
+          "callCount": 20,
+          "isCovered": true,
+          "testedStatusCodes": [
+            201,
+            422,
+            409
+          ],
           "documentedStatusCodes": [
             201,
             409,
             422
           ],
-          "statusCodeCoveragePct": 0,
-          "testedRequiredFields": [],
-          "missingRequiredFields": [
+          "statusCodeCoveragePct": 100,
+          "testedRequiredFields": [
             "first_name",
             "last_name",
             "email",
             "password"
           ],
-          "requiredFieldCoveragePct": 0,
-          "testedOptionalFields": [],
-          "missingOptionalFields": [
+          "missingRequiredFields": [],
+          "requiredFieldCoveragePct": 100,
+          "testedOptionalFields": [
             "address",
             "street",
             "house_number",
             "city",
             "state",
-            "country",
             "postal_code",
             "phone",
             "dob"
           ],
-          "optionalFieldCoveragePct": 0,
+          "missingOptionalFields": [
+            "country"
+          ],
+          "optionalFieldCoveragePct": 89,
           "testedQueryParams": [],
           "missingQueryParams": [],
           "queryParamCoveragePct": 100,
-          "overallCoveragePct": 0
+          "overallCoveragePct": 98
         },
         {
           "endpoint": {
@@ -1166,7 +1173,7 @@
             "path": "/users/me",
             "normalizedPath": "/users/me",
             "title": "Current user",
-            "description": "Profile of the user the token belongs to. `role`, `enabled` and `failed_login_attempts` are returned only when the caller is an admin. _(source)_",
+            "description": "Profile of the user the token belongs to. `role`, `enabled` and `failed_login_attempts` are returned only when the caller is an admin. _(verified)_",
             "parameters": [],
             "requestBody": {
               "requiredFields": [],
@@ -1178,7 +1185,7 @@
                 "statusText": "OK",
                 "fields": [],
                 "schemaRaw": "User",
-                "origin": "source"
+                "origin": "verified"
               },
               "401": {
                 "statusCode": 401,
@@ -1187,16 +1194,18 @@
               }
             }
           },
-          "callCount": 1,
+          "callCount": 11,
           "isCovered": true,
           "testedStatusCodes": [
-            200
+            200,
+            401,
+            403
           ],
           "documentedStatusCodes": [
             200,
             401
           ],
-          "statusCodeCoveragePct": 50,
+          "statusCodeCoveragePct": 100,
           "testedRequiredFields": [],
           "missingRequiredFields": [],
           "requiredFieldCoveragePct": 100,
@@ -1206,7 +1215,7 @@
           "testedQueryParams": [],
           "missingQueryParams": [],
           "queryParamCoveragePct": 100,
-          "overallCoveragePct": 70
+          "overallCoveragePct": 100
         },
         {
           "endpoint": {
@@ -1216,7 +1225,7 @@
             "path": "/users/logout",
             "normalizedPath": "/users/logout",
             "title": "Logout",
-            "description": "Invalidates (blacklists) the token. Later requests with it get `401`. _(source)_",
+            "description": "Invalidates (blacklists) the token. Later requests with it get `401`. _(verified)_",
             "parameters": [],
             "requestBody": {
               "requiredFields": [],
@@ -1228,7 +1237,7 @@
                 "statusText": "OK",
                 "fields": [],
                 "schemaRaw": "{ message: string }   // \"Successfully logged out\"",
-                "origin": "source"
+                "origin": "verified"
               },
               "401": {
                 "statusCode": 401,
@@ -1237,14 +1246,17 @@
               }
             }
           },
-          "callCount": 0,
-          "isCovered": false,
-          "testedStatusCodes": [],
+          "callCount": 6,
+          "isCovered": true,
+          "testedStatusCodes": [
+            401,
+            200
+          ],
           "documentedStatusCodes": [
             200,
             401
           ],
-          "statusCodeCoveragePct": 0,
+          "statusCodeCoveragePct": 100,
           "testedRequiredFields": [],
           "missingRequiredFields": [],
           "requiredFieldCoveragePct": 100,
@@ -1254,7 +1266,7 @@
           "testedQueryParams": [],
           "missingQueryParams": [],
           "queryParamCoveragePct": 100,
-          "overallCoveragePct": 0
+          "overallCoveragePct": 100
         },
         {
           "endpoint": {
@@ -1280,7 +1292,7 @@
                   "expires_in"
                 ],
                 "schemaRaw": "{\n  access_token: string;\n  token_type: string;   // \"bearer\"\n  expires_in: number;\n}",
-                "origin": "source"
+                "origin": "verified"
               },
               "401": {
                 "statusCode": 401,
@@ -1294,15 +1306,19 @@
               }
             }
           },
-          "callCount": 0,
-          "isCovered": false,
-          "testedStatusCodes": [],
+          "callCount": 6,
+          "isCovered": true,
+          "testedStatusCodes": [
+            200,
+            401,
+            500
+          ],
           "documentedStatusCodes": [
             200,
             401,
             500
           ],
-          "statusCodeCoveragePct": 0,
+          "statusCodeCoveragePct": 100,
           "testedRequiredFields": [],
           "missingRequiredFields": [],
           "requiredFieldCoveragePct": 100,
@@ -1312,7 +1328,7 @@
           "testedQueryParams": [],
           "missingQueryParams": [],
           "queryParamCoveragePct": 100,
-          "overallCoveragePct": 0
+          "overallCoveragePct": 100
         },
         {
           "endpoint": {
@@ -1747,20 +1763,24 @@
               }
             }
           },
-          "callCount": 0,
-          "isCovered": false,
-          "testedStatusCodes": [],
+          "callCount": 2,
+          "isCovered": true,
+          "testedStatusCodes": [
+            200
+          ],
           "documentedStatusCodes": [
             200,
             401,
             403,
             422
           ],
-          "statusCodeCoveragePct": 0,
+          "statusCodeCoveragePct": 25,
           "testedRequiredFields": [],
           "missingRequiredFields": [],
           "requiredFieldCoveragePct": 100,
-          "testedOptionalFields": [],
+          "testedOptionalFields": [
+            "enabled"
+          ],
           "missingOptionalFields": [
             "first_name",
             "last_name",
@@ -1774,17 +1794,16 @@
             "postal_code",
             "phone",
             "dob",
-            "enabled",
             "failed_login_attempts",
             "totp_enabled",
             "totp_secret",
             "totp_verified_at"
           ],
-          "optionalFieldCoveragePct": 0,
+          "optionalFieldCoveragePct": 6,
           "testedQueryParams": [],
           "missingQueryParams": [],
           "queryParamCoveragePct": 100,
-          "overallCoveragePct": 0
+          "overallCoveragePct": 44
         },
         {
           "endpoint": {
@@ -1837,9 +1856,11 @@
               }
             }
           },
-          "callCount": 0,
-          "isCovered": false,
-          "testedStatusCodes": [],
+          "callCount": 8,
+          "isCovered": true,
+          "testedStatusCodes": [
+            204
+          ],
           "documentedStatusCodes": [
             204,
             401,
@@ -1847,7 +1868,7 @@
             409,
             500
           ],
-          "statusCodeCoveragePct": 0,
+          "statusCodeCoveragePct": 20,
           "testedRequiredFields": [],
           "missingRequiredFields": [],
           "requiredFieldCoveragePct": 100,
@@ -1857,7 +1878,7 @@
           "testedQueryParams": [],
           "missingQueryParams": [],
           "queryParamCoveragePct": 100,
-          "overallCoveragePct": 0
+          "overallCoveragePct": 52
         }
       ]
     }
@@ -2697,12 +2718,12 @@
               "expires_in"
             ],
             "schemaRaw": "{\n  access_token: string;\n  token_type: string;   // \"bearer\"\n  expires_in: number;   // 300\n}",
-            "origin": "source"
+            "origin": "verified"
           },
           "400": {
             "statusCode": 400,
             "statusText": "Bad Request",
-            "origin": "source"
+            "origin": "verified"
           },
           "401": {
             "statusCode": 401,
@@ -2712,7 +2733,7 @@
           "403": {
             "statusCode": 403,
             "statusText": "Forbidden",
-            "origin": "source"
+            "origin": "verified"
           },
           "423": {
             "statusCode": 423,
@@ -2721,10 +2742,13 @@
           }
         }
       },
-      "callCount": 4,
+      "callCount": 19,
       "isCovered": true,
       "testedStatusCodes": [
-        200
+        200,
+        401,
+        400,
+        403
       ],
       "documentedStatusCodes": [
         200,
@@ -2733,23 +2757,22 @@
         403,
         423
       ],
-      "statusCodeCoveragePct": 20,
+      "statusCodeCoveragePct": 80,
       "testedRequiredFields": [],
       "missingRequiredFields": [],
       "requiredFieldCoveragePct": 100,
       "testedOptionalFields": [
         "email",
-        "password"
-      ],
-      "missingOptionalFields": [
+        "password",
         "access_token",
         "totp"
       ],
-      "optionalFieldCoveragePct": 50,
+      "missingOptionalFields": [],
+      "optionalFieldCoveragePct": 100,
       "testedQueryParams": [],
       "missingQueryParams": [],
       "queryParamCoveragePct": 100,
-      "overallCoveragePct": 52
+      "overallCoveragePct": 91
     },
     {
       "endpoint": {
@@ -2801,49 +2824,54 @@
           "409": {
             "statusCode": 409,
             "statusText": "Conflict",
-            "origin": "source"
+            "origin": "verified"
           },
           "422": {
             "statusCode": 422,
             "statusText": "Unprocessable Entity",
-            "origin": "source"
+            "origin": "verified"
           }
         }
       },
-      "callCount": 0,
-      "isCovered": false,
-      "testedStatusCodes": [],
+      "callCount": 20,
+      "isCovered": true,
+      "testedStatusCodes": [
+        201,
+        422,
+        409
+      ],
       "documentedStatusCodes": [
         201,
         409,
         422
       ],
-      "statusCodeCoveragePct": 0,
-      "testedRequiredFields": [],
-      "missingRequiredFields": [
+      "statusCodeCoveragePct": 100,
+      "testedRequiredFields": [
         "first_name",
         "last_name",
         "email",
         "password"
       ],
-      "requiredFieldCoveragePct": 0,
-      "testedOptionalFields": [],
-      "missingOptionalFields": [
+      "missingRequiredFields": [],
+      "requiredFieldCoveragePct": 100,
+      "testedOptionalFields": [
         "address",
         "street",
         "house_number",
         "city",
         "state",
-        "country",
         "postal_code",
         "phone",
         "dob"
       ],
-      "optionalFieldCoveragePct": 0,
+      "missingOptionalFields": [
+        "country"
+      ],
+      "optionalFieldCoveragePct": 89,
       "testedQueryParams": [],
       "missingQueryParams": [],
       "queryParamCoveragePct": 100,
-      "overallCoveragePct": 0
+      "overallCoveragePct": 98
     },
     {
       "endpoint": {
@@ -2981,7 +3009,7 @@
         "path": "/users/me",
         "normalizedPath": "/users/me",
         "title": "Current user",
-        "description": "Profile of the user the token belongs to. `role`, `enabled` and `failed_login_attempts` are returned only when the caller is an admin. _(source)_",
+        "description": "Profile of the user the token belongs to. `role`, `enabled` and `failed_login_attempts` are returned only when the caller is an admin. _(verified)_",
         "parameters": [],
         "requestBody": {
           "requiredFields": [],
@@ -2993,7 +3021,7 @@
             "statusText": "OK",
             "fields": [],
             "schemaRaw": "User",
-            "origin": "source"
+            "origin": "verified"
           },
           "401": {
             "statusCode": 401,
@@ -3002,16 +3030,18 @@
           }
         }
       },
-      "callCount": 1,
+      "callCount": 11,
       "isCovered": true,
       "testedStatusCodes": [
-        200
+        200,
+        401,
+        403
       ],
       "documentedStatusCodes": [
         200,
         401
       ],
-      "statusCodeCoveragePct": 50,
+      "statusCodeCoveragePct": 100,
       "testedRequiredFields": [],
       "missingRequiredFields": [],
       "requiredFieldCoveragePct": 100,
@@ -3021,7 +3051,7 @@
       "testedQueryParams": [],
       "missingQueryParams": [],
       "queryParamCoveragePct": 100,
-      "overallCoveragePct": 70
+      "overallCoveragePct": 100
     },
     {
       "endpoint": {
@@ -3031,7 +3061,7 @@
         "path": "/users/logout",
         "normalizedPath": "/users/logout",
         "title": "Logout",
-        "description": "Invalidates (blacklists) the token. Later requests with it get `401`. _(source)_",
+        "description": "Invalidates (blacklists) the token. Later requests with it get `401`. _(verified)_",
         "parameters": [],
         "requestBody": {
           "requiredFields": [],
@@ -3043,7 +3073,7 @@
             "statusText": "OK",
             "fields": [],
             "schemaRaw": "{ message: string }   // \"Successfully logged out\"",
-            "origin": "source"
+            "origin": "verified"
           },
           "401": {
             "statusCode": 401,
@@ -3052,14 +3082,17 @@
           }
         }
       },
-      "callCount": 0,
-      "isCovered": false,
-      "testedStatusCodes": [],
+      "callCount": 6,
+      "isCovered": true,
+      "testedStatusCodes": [
+        401,
+        200
+      ],
       "documentedStatusCodes": [
         200,
         401
       ],
-      "statusCodeCoveragePct": 0,
+      "statusCodeCoveragePct": 100,
       "testedRequiredFields": [],
       "missingRequiredFields": [],
       "requiredFieldCoveragePct": 100,
@@ -3069,7 +3102,7 @@
       "testedQueryParams": [],
       "missingQueryParams": [],
       "queryParamCoveragePct": 100,
-      "overallCoveragePct": 0
+      "overallCoveragePct": 100
     },
     {
       "endpoint": {
@@ -3095,7 +3128,7 @@
               "expires_in"
             ],
             "schemaRaw": "{\n  access_token: string;\n  token_type: string;   // \"bearer\"\n  expires_in: number;\n}",
-            "origin": "source"
+            "origin": "verified"
           },
           "401": {
             "statusCode": 401,
@@ -3109,15 +3142,19 @@
           }
         }
       },
-      "callCount": 0,
-      "isCovered": false,
-      "testedStatusCodes": [],
+      "callCount": 6,
+      "isCovered": true,
+      "testedStatusCodes": [
+        200,
+        401,
+        500
+      ],
       "documentedStatusCodes": [
         200,
         401,
         500
       ],
-      "statusCodeCoveragePct": 0,
+      "statusCodeCoveragePct": 100,
       "testedRequiredFields": [],
       "missingRequiredFields": [],
       "requiredFieldCoveragePct": 100,
@@ -3127,7 +3164,7 @@
       "testedQueryParams": [],
       "missingQueryParams": [],
       "queryParamCoveragePct": 100,
-      "overallCoveragePct": 0
+      "overallCoveragePct": 100
     },
     {
       "endpoint": {
@@ -3562,20 +3599,24 @@
           }
         }
       },
-      "callCount": 0,
-      "isCovered": false,
-      "testedStatusCodes": [],
+      "callCount": 2,
+      "isCovered": true,
+      "testedStatusCodes": [
+        200
+      ],
       "documentedStatusCodes": [
         200,
         401,
         403,
         422
       ],
-      "statusCodeCoveragePct": 0,
+      "statusCodeCoveragePct": 25,
       "testedRequiredFields": [],
       "missingRequiredFields": [],
       "requiredFieldCoveragePct": 100,
-      "testedOptionalFields": [],
+      "testedOptionalFields": [
+        "enabled"
+      ],
       "missingOptionalFields": [
         "first_name",
         "last_name",
@@ -3589,17 +3630,16 @@
         "postal_code",
         "phone",
         "dob",
-        "enabled",
         "failed_login_attempts",
         "totp_enabled",
         "totp_secret",
         "totp_verified_at"
       ],
-      "optionalFieldCoveragePct": 0,
+      "optionalFieldCoveragePct": 6,
       "testedQueryParams": [],
       "missingQueryParams": [],
       "queryParamCoveragePct": 100,
-      "overallCoveragePct": 0
+      "overallCoveragePct": 44
     },
     {
       "endpoint": {
@@ -3652,9 +3692,11 @@
           }
         }
       },
-      "callCount": 0,
-      "isCovered": false,
-      "testedStatusCodes": [],
+      "callCount": 8,
+      "isCovered": true,
+      "testedStatusCodes": [
+        204
+      ],
       "documentedStatusCodes": [
         204,
         401,
@@ -3662,7 +3704,7 @@
         409,
         500
       ],
-      "statusCodeCoveragePct": 0,
+      "statusCodeCoveragePct": 20,
       "testedRequiredFields": [],
       "missingRequiredFields": [],
       "requiredFieldCoveragePct": 100,
@@ -3672,7 +3714,7 @@
       "testedQueryParams": [],
       "missingQueryParams": [],
       "queryParamCoveragePct": 100,
-      "overallCoveragePct": 0
+      "overallCoveragePct": 52
     }
   ],
   "undocumentedCalls": []

@@ -216,7 +216,7 @@
     <header>
       <div>
         <h1>API Coverage Report</h1>
-        <div class="generated-at">Generated: 2026-10-03T10:54:34.419Z</div>
+        <div class="generated-at">Generated: 2026-10-03T13:46:09.920Z</div>
       </div>
       <div>
         <span class="service-tag">playwright-api-coverage</span>
@@ -227,23 +227,23 @@
     <div class="stats-grid">
       <div class="stat-card">
         <div class="stat-title">Overall Coverage</div>
-        <div class="stat-value color-danger">46%</div>
+        <div class="stat-value color-warning">66%</div>
         <div class="stat-sub">Across all API endpoints</div>
       </div>
       <div class="stat-card">
         <div class="stat-title">Endpoint Hits</div>
-        <div class="stat-value color-primary">12 / 24</div>
-        <div class="stat-sub">50% covered</div>
+        <div class="stat-value color-primary">17 / 24</div>
+        <div class="stat-sub">71% covered</div>
       </div>
       <div class="stat-card">
         <div class="stat-title">Status Codes</div>
-        <div class="stat-value color-success">27 / 72</div>
-        <div class="stat-sub">38% documented codes tested</div>
+        <div class="stat-value color-success">41 / 72</div>
+        <div class="stat-sub">57% documented codes tested</div>
       </div>
       <div class="stat-card">
         <div class="stat-title">Required Fields</div>
-        <div class="stat-value color-warning">7 / 22</div>
-        <div class="stat-sub">32% tested in requests</div>
+        <div class="stat-value color-warning">11 / 22</div>
+        <div class="stat-sub">50% tested in requests</div>
       </div>
     </div>
 
@@ -277,15 +277,15 @@
         </tr>
         <tr>
           <td><strong>Users</strong></td>
-          <td>2 / 14 (14%)</td>
-          <td>2 / 46 (4%)</td>
-          <td>0 / 15 (0%)</td>
+          <td>7 / 14 (50%)</td>
+          <td>16 / 46 (35%)</td>
+          <td>4 / 15 (27%)</td>
           <td style="width: 250px;">
             <div style="display: flex; align-items: center; gap: 10px;">
               <div class="progress-bar-container">
-                <div class="progress-bar-fill fill-red" style="width: 9%;"></div>
+                <div class="progress-bar-fill fill-red" style="width: 42%;"></div>
               </div>
-              <span style="font-weight: 600; font-size: 13px; min-width: 35px;">9%</span>
+              <span style="font-weight: 600; font-size: 13px; min-width: 35px;">42%</span>
             </div>
           </td>
         </tr>
@@ -791,7 +791,7 @@
           </div>
         </div>
       </div>
-      <div class="endpoint-card" data-service="Users" data-covered="true" data-coverage="52" data-search="POST /users/login Login">
+      <div class="endpoint-card" data-service="Users" data-covered="true" data-coverage="91" data-search="POST /users/login Login">
         <div class="endpoint-header" onclick="toggleDetails(this)">
           <div class="endpoint-left">
             <span class="method-badge method-POST">POST</span>
@@ -799,13 +799,13 @@
             <span class="service-tag">Users</span>
           </div>
           <div class="endpoint-right">
-            <span class="hits-badge hits-covered">4 calls</span>
+            <span class="hits-badge hits-covered">19 calls</span>
             <div style="width: 100px;">
               <div class="progress-bar-container">
-                <div class="progress-bar-fill fill-yellow" style="width: 52%;"></div>
+                <div class="progress-bar-fill fill-green" style="width: 91%;"></div>
               </div>
             </div>
-            <span style="font-size: 13px; font-weight: 700; width: 40px; text-align: right;">52%</span>
+            <span style="font-size: 13px; font-weight: 700; width: 40px; text-align: right;">91%</span>
             <span class="chevron">▼</span>
           </div>
         </div>
@@ -813,9 +813,9 @@
           <p style="margin-bottom: 14px; color: var(--text-muted); font-size: 14px;"><strong>Login:</strong> Returns a JWT for the `Authorization: Bearer &lt;token&gt;` header. Accounts with two-factor auth (TOTP) get a restricted temporary token instead, which is exchanged for a full token by sending it back with the TOTP code. _(source)_</p>
           <div class="details-grid">
             <div class="detail-section">
-              <div class="detail-heading">Status Codes (1 tested / 5 documented)</div>
+              <div class="detail-heading">Status Codes (4 tested / 5 documented)</div>
               <div class="tag-list">
-                <span class="tag tag-success">200 ✓</span><span class="tag tag-missing">400 ✗</span><span class="tag tag-missing">401 ✗</span><span class="tag tag-missing">403 ✗</span><span class="tag tag-missing">423 ✗</span>
+                <span class="tag tag-success">200 ✓</span><span class="tag tag-success">400 ✓</span><span class="tag tag-success">401 ✓</span><span class="tag tag-success">403 ✓</span><span class="tag tag-missing">423 ✗</span>
               </div>
             </div>
             <div class="detail-section">
@@ -825,9 +825,9 @@
               </div>
             </div>
             <div class="detail-section">
-              <div class="detail-heading">Optional Request Fields (2/4)</div>
+              <div class="detail-heading">Optional Request Fields (4/4)</div>
               <div class="tag-list">
-                <span class="tag tag-success">email ✓</span><span class="tag tag-success">password ✓</span><span class="tag tag-missing">access_token ✗</span><span class="tag tag-missing">totp ✗</span>
+                <span class="tag tag-success">email ✓</span><span class="tag tag-success">password ✓</span><span class="tag tag-success">access_token ✓</span><span class="tag tag-success">totp ✓</span>
               </div>
             </div>
             <div class="detail-section">
@@ -839,7 +839,7 @@
           </div>
         </div>
       </div>
-      <div class="endpoint-card" data-service="Users" data-covered="false" data-coverage="0" data-search="POST /users/register Register">
+      <div class="endpoint-card" data-service="Users" data-covered="true" data-coverage="98" data-search="POST /users/register Register">
         <div class="endpoint-header" onclick="toggleDetails(this)">
           <div class="endpoint-left">
             <span class="method-badge method-POST">POST</span>
@@ -847,13 +847,13 @@
             <span class="service-tag">Users</span>
           </div>
           <div class="endpoint-right">
-            <span class="hits-badge hits-uncovered">0 calls</span>
+            <span class="hits-badge hits-covered">20 calls</span>
             <div style="width: 100px;">
               <div class="progress-bar-container">
-                <div class="progress-bar-fill fill-red" style="width: 0%;"></div>
+                <div class="progress-bar-fill fill-green" style="width: 98%;"></div>
               </div>
             </div>
-            <span style="font-size: 13px; font-weight: 700; width: 40px; text-align: right;">0%</span>
+            <span style="font-size: 13px; font-weight: 700; width: 40px; text-align: right;">98%</span>
             <span class="chevron">▼</span>
           </div>
         </div>
@@ -861,21 +861,21 @@
           <p style="margin-bottom: 14px; color: var(--text-muted); font-size: 14px;"><strong>Register:</strong> Creates a customer account (role `user`). _(source)_</p>
           <div class="details-grid">
             <div class="detail-section">
-              <div class="detail-heading">Status Codes (0 tested / 3 documented)</div>
+              <div class="detail-heading">Status Codes (3 tested / 3 documented)</div>
               <div class="tag-list">
-                <span class="tag tag-missing">201 ✗</span><span class="tag tag-missing">409 ✗</span><span class="tag tag-missing">422 ✗</span>
+                <span class="tag tag-success">201 ✓</span><span class="tag tag-success">409 ✓</span><span class="tag tag-success">422 ✓</span>
               </div>
             </div>
             <div class="detail-section">
-              <div class="detail-heading">Required Request Fields (0/4)</div>
+              <div class="detail-heading">Required Request Fields (4/4)</div>
               <div class="tag-list">
-                <span class="tag tag-missing">first_name ✗</span><span class="tag tag-missing">last_name ✗</span><span class="tag tag-missing">email ✗</span><span class="tag tag-missing">password ✗</span>
+                <span class="tag tag-success">first_name ✓</span><span class="tag tag-success">last_name ✓</span><span class="tag tag-success">email ✓</span><span class="tag tag-success">password ✓</span>
               </div>
             </div>
             <div class="detail-section">
-              <div class="detail-heading">Optional Request Fields (0/9)</div>
+              <div class="detail-heading">Optional Request Fields (8/9)</div>
               <div class="tag-list">
-                <span class="tag tag-missing">address ✗</span><span class="tag tag-missing">street ✗</span><span class="tag tag-missing">house_number ✗</span><span class="tag tag-missing">city ✗</span><span class="tag tag-missing">state ✗</span><span class="tag tag-missing">country ✗</span><span class="tag tag-missing">postal_code ✗</span><span class="tag tag-missing">phone ✗</span><span class="tag tag-missing">dob ✗</span>
+                <span class="tag tag-success">address ✓</span><span class="tag tag-success">street ✓</span><span class="tag tag-success">house_number ✓</span><span class="tag tag-success">city ✓</span><span class="tag tag-success">state ✓</span><span class="tag tag-missing">country ✗</span><span class="tag tag-success">postal_code ✓</span><span class="tag tag-success">phone ✓</span><span class="tag tag-success">dob ✓</span>
               </div>
             </div>
             <div class="detail-section">
@@ -983,7 +983,7 @@
           </div>
         </div>
       </div>
-      <div class="endpoint-card" data-service="Users" data-covered="true" data-coverage="70" data-search="GET /users/me Current user">
+      <div class="endpoint-card" data-service="Users" data-covered="true" data-coverage="100" data-search="GET /users/me Current user">
         <div class="endpoint-header" onclick="toggleDetails(this)">
           <div class="endpoint-left">
             <span class="method-badge method-GET">GET</span>
@@ -991,23 +991,23 @@
             <span class="service-tag">Users</span>
           </div>
           <div class="endpoint-right">
-            <span class="hits-badge hits-covered">1 calls</span>
+            <span class="hits-badge hits-covered">11 calls</span>
             <div style="width: 100px;">
               <div class="progress-bar-container">
-                <div class="progress-bar-fill fill-yellow" style="width: 70%;"></div>
+                <div class="progress-bar-fill fill-green" style="width: 100%;"></div>
               </div>
             </div>
-            <span style="font-size: 13px; font-weight: 700; width: 40px; text-align: right;">70%</span>
+            <span style="font-size: 13px; font-weight: 700; width: 40px; text-align: right;">100%</span>
             <span class="chevron">▼</span>
           </div>
         </div>
         <div class="endpoint-body">
-          <p style="margin-bottom: 14px; color: var(--text-muted); font-size: 14px;"><strong>Current user:</strong> Profile of the user the token belongs to. `role`, `enabled` and `failed_login_attempts` are returned only when the caller is an admin. _(source)_</p>
+          <p style="margin-bottom: 14px; color: var(--text-muted); font-size: 14px;"><strong>Current user:</strong> Profile of the user the token belongs to. `role`, `enabled` and `failed_login_attempts` are returned only when the caller is an admin. _(verified)_</p>
           <div class="details-grid">
             <div class="detail-section">
-              <div class="detail-heading">Status Codes (1 tested / 2 documented)</div>
+              <div class="detail-heading">Status Codes (3 tested / 2 documented)</div>
               <div class="tag-list">
-                <span class="tag tag-success">200 ✓</span><span class="tag tag-missing">401 ✗</span>
+                <span class="tag tag-success">200 ✓</span><span class="tag tag-success">401 ✓</span>
               </div>
             </div>
             <div class="detail-section">
@@ -1031,7 +1031,7 @@
           </div>
         </div>
       </div>
-      <div class="endpoint-card" data-service="Users" data-covered="false" data-coverage="0" data-search="GET /users/logout Logout">
+      <div class="endpoint-card" data-service="Users" data-covered="true" data-coverage="100" data-search="GET /users/logout Logout">
         <div class="endpoint-header" onclick="toggleDetails(this)">
           <div class="endpoint-left">
             <span class="method-badge method-GET">GET</span>
@@ -1039,23 +1039,23 @@
             <span class="service-tag">Users</span>
           </div>
           <div class="endpoint-right">
-            <span class="hits-badge hits-uncovered">0 calls</span>
+            <span class="hits-badge hits-covered">6 calls</span>
             <div style="width: 100px;">
               <div class="progress-bar-container">
-                <div class="progress-bar-fill fill-red" style="width: 0%;"></div>
+                <div class="progress-bar-fill fill-green" style="width: 100%;"></div>
               </div>
             </div>
-            <span style="font-size: 13px; font-weight: 700; width: 40px; text-align: right;">0%</span>
+            <span style="font-size: 13px; font-weight: 700; width: 40px; text-align: right;">100%</span>
             <span class="chevron">▼</span>
           </div>
         </div>
         <div class="endpoint-body">
-          <p style="margin-bottom: 14px; color: var(--text-muted); font-size: 14px;"><strong>Logout:</strong> Invalidates (blacklists) the token. Later requests with it get `401`. _(source)_</p>
+          <p style="margin-bottom: 14px; color: var(--text-muted); font-size: 14px;"><strong>Logout:</strong> Invalidates (blacklists) the token. Later requests with it get `401`. _(verified)_</p>
           <div class="details-grid">
             <div class="detail-section">
-              <div class="detail-heading">Status Codes (0 tested / 2 documented)</div>
+              <div class="detail-heading">Status Codes (2 tested / 2 documented)</div>
               <div class="tag-list">
-                <span class="tag tag-missing">200 ✗</span><span class="tag tag-missing">401 ✗</span>
+                <span class="tag tag-success">200 ✓</span><span class="tag tag-success">401 ✓</span>
               </div>
             </div>
             <div class="detail-section">
@@ -1079,7 +1079,7 @@
           </div>
         </div>
       </div>
-      <div class="endpoint-card" data-service="Users" data-covered="false" data-coverage="0" data-search="GET /users/refresh Refresh token">
+      <div class="endpoint-card" data-service="Users" data-covered="true" data-coverage="100" data-search="GET /users/refresh Refresh token">
         <div class="endpoint-header" onclick="toggleDetails(this)">
           <div class="endpoint-left">
             <span class="method-badge method-GET">GET</span>
@@ -1087,13 +1087,13 @@
             <span class="service-tag">Users</span>
           </div>
           <div class="endpoint-right">
-            <span class="hits-badge hits-uncovered">0 calls</span>
+            <span class="hits-badge hits-covered">6 calls</span>
             <div style="width: 100px;">
               <div class="progress-bar-container">
-                <div class="progress-bar-fill fill-red" style="width: 0%;"></div>
+                <div class="progress-bar-fill fill-green" style="width: 100%;"></div>
               </div>
             </div>
-            <span style="font-size: 13px; font-weight: 700; width: 40px; text-align: right;">0%</span>
+            <span style="font-size: 13px; font-weight: 700; width: 40px; text-align: right;">100%</span>
             <span class="chevron">▼</span>
           </div>
         </div>
@@ -1101,9 +1101,9 @@
           <p style="margin-bottom: 14px; color: var(--text-muted); font-size: 14px;"><strong>Refresh token:</strong> Returns a new token for the one in the `Authorization` header and invalidates the old one. An expired token can still be refreshed within the refresh window (`JWT_REFRESH_TTL`, 60 minutes by default). This route has no auth middleware; the token is read by the handler. _(source)_</p>
           <div class="details-grid">
             <div class="detail-section">
-              <div class="detail-heading">Status Codes (0 tested / 3 documented)</div>
+              <div class="detail-heading">Status Codes (3 tested / 3 documented)</div>
               <div class="tag-list">
-                <span class="tag tag-missing">200 ✗</span><span class="tag tag-missing">401 ✗</span><span class="tag tag-missing">500 ✗</span>
+                <span class="tag tag-success">200 ✓</span><span class="tag tag-success">401 ✓</span><span class="tag tag-success">500 ✓</span>
               </div>
             </div>
             <div class="detail-section">
@@ -1367,7 +1367,7 @@
           </div>
         </div>
       </div>
-      <div class="endpoint-card" data-service="Users" data-covered="false" data-coverage="0" data-search="PATCH /users/:userId Partially update user">
+      <div class="endpoint-card" data-service="Users" data-covered="true" data-coverage="44" data-search="PATCH /users/:userId Partially update user">
         <div class="endpoint-header" onclick="toggleDetails(this)">
           <div class="endpoint-left">
             <span class="method-badge method-PATCH">PATCH</span>
@@ -1375,13 +1375,13 @@
             <span class="service-tag">Users</span>
           </div>
           <div class="endpoint-right">
-            <span class="hits-badge hits-uncovered">0 calls</span>
+            <span class="hits-badge hits-covered">2 calls</span>
             <div style="width: 100px;">
               <div class="progress-bar-container">
-                <div class="progress-bar-fill fill-red" style="width: 0%;"></div>
+                <div class="progress-bar-fill fill-red" style="width: 44%;"></div>
               </div>
             </div>
-            <span style="font-size: 13px; font-weight: 700; width: 40px; text-align: right;">0%</span>
+            <span style="font-size: 13px; font-weight: 700; width: 40px; text-align: right;">44%</span>
             <span class="chevron">▼</span>
           </div>
         </div>
@@ -1389,9 +1389,9 @@
           <p style="margin-bottom: 14px; color: var(--text-muted); font-size: 14px;"><strong>Partially update user:</strong> Updates only the validated fields that are sent. A non-admin can only patch their own record. _(source)_</p>
           <div class="details-grid">
             <div class="detail-section">
-              <div class="detail-heading">Status Codes (0 tested / 4 documented)</div>
+              <div class="detail-heading">Status Codes (1 tested / 4 documented)</div>
               <div class="tag-list">
-                <span class="tag tag-missing">200 ✗</span><span class="tag tag-missing">401 ✗</span><span class="tag tag-missing">403 ✗</span><span class="tag tag-missing">422 ✗</span>
+                <span class="tag tag-success">200 ✓</span><span class="tag tag-missing">401 ✗</span><span class="tag tag-missing">403 ✗</span><span class="tag tag-missing">422 ✗</span>
               </div>
             </div>
             <div class="detail-section">
@@ -1401,9 +1401,9 @@
               </div>
             </div>
             <div class="detail-section">
-              <div class="detail-heading">Optional Request Fields (0/17)</div>
+              <div class="detail-heading">Optional Request Fields (1/17)</div>
               <div class="tag-list">
-                <span class="tag tag-missing">first_name ✗</span><span class="tag tag-missing">last_name ✗</span><span class="tag tag-missing">email ✗</span><span class="tag tag-missing">address ✗</span><span class="tag tag-missing">street ✗</span><span class="tag tag-missing">house_number ✗</span><span class="tag tag-missing">city ✗</span><span class="tag tag-missing">state ✗</span><span class="tag tag-missing">country ✗</span><span class="tag tag-missing">postal_code ✗</span><span class="tag tag-missing">phone ✗</span><span class="tag tag-missing">dob ✗</span><span class="tag tag-missing">enabled ✗</span><span class="tag tag-missing">failed_login_attempts ✗</span><span class="tag tag-missing">totp_enabled ✗</span><span class="tag tag-missing">totp_secret ✗</span><span class="tag tag-missing">totp_verified_at ✗</span>
+                <span class="tag tag-missing">first_name ✗</span><span class="tag tag-missing">last_name ✗</span><span class="tag tag-missing">email ✗</span><span class="tag tag-missing">address ✗</span><span class="tag tag-missing">street ✗</span><span class="tag tag-missing">house_number ✗</span><span class="tag tag-missing">city ✗</span><span class="tag tag-missing">state ✗</span><span class="tag tag-missing">country ✗</span><span class="tag tag-missing">postal_code ✗</span><span class="tag tag-missing">phone ✗</span><span class="tag tag-missing">dob ✗</span><span class="tag tag-success">enabled ✓</span><span class="tag tag-missing">failed_login_attempts ✗</span><span class="tag tag-missing">totp_enabled ✗</span><span class="tag tag-missing">totp_secret ✗</span><span class="tag tag-missing">totp_verified_at ✗</span>
               </div>
             </div>
             <div class="detail-section">
@@ -1415,7 +1415,7 @@
           </div>
         </div>
       </div>
-      <div class="endpoint-card" data-service="Users" data-covered="false" data-coverage="0" data-search="DELETE /users/:userId Delete user">
+      <div class="endpoint-card" data-service="Users" data-covered="true" data-coverage="52" data-search="DELETE /users/:userId Delete user">
         <div class="endpoint-header" onclick="toggleDetails(this)">
           <div class="endpoint-left">
             <span class="method-badge method-DELETE">DELETE</span>
@@ -1423,13 +1423,13 @@
             <span class="service-tag">Users</span>
           </div>
           <div class="endpoint-right">
-            <span class="hits-badge hits-uncovered">0 calls</span>
+            <span class="hits-badge hits-covered">8 calls</span>
             <div style="width: 100px;">
               <div class="progress-bar-container">
-                <div class="progress-bar-fill fill-red" style="width: 0%;"></div>
+                <div class="progress-bar-fill fill-yellow" style="width: 52%;"></div>
               </div>
             </div>
-            <span style="font-size: 13px; font-weight: 700; width: 40px; text-align: right;">0%</span>
+            <span style="font-size: 13px; font-weight: 700; width: 40px; text-align: right;">52%</span>
             <span class="chevron">▼</span>
           </div>
         </div>
@@ -1437,9 +1437,9 @@
           <p style="margin-bottom: 14px; color: var(--text-muted); font-size: 14px;"><strong>Delete user:</strong> Deletes a user. Admin only. _(source)_</p>
           <div class="details-grid">
             <div class="detail-section">
-              <div class="detail-heading">Status Codes (0 tested / 5 documented)</div>
+              <div class="detail-heading">Status Codes (1 tested / 5 documented)</div>
               <div class="tag-list">
-                <span class="tag tag-missing">204 ✗</span><span class="tag tag-missing">401 ✗</span><span class="tag tag-missing">403 ✗</span><span class="tag tag-missing">409 ✗</span><span class="tag tag-missing">500 ✗</span>
+                <span class="tag tag-success">204 ✓</span><span class="tag tag-missing">401 ✗</span><span class="tag tag-missing">403 ✗</span><span class="tag tag-missing">409 ✗</span><span class="tag tag-missing">500 ✗</span>
               </div>
             </div>
             <div class="detail-section">
