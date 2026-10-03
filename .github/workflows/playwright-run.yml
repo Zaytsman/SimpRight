@@ -42,8 +42,6 @@ jobs:
       # Secrets are read by src/config/env.ts from the environment (no .env file on CI).
       ADMIN_USER: ${{ secrets.ADMIN_USER }}
       ADMIN_PASSWORD: ${{ secrets.ADMIN_PASSWORD }}
-      DEFAULT_USER: ${{ secrets.DEFAULT_USER }}
-      DEFAULT_PASSWORD: ${{ secrets.DEFAULT_PASSWORD }}
 
     steps:
       - name: Checkout repository

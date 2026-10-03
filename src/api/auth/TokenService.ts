@@ -25,7 +25,8 @@ export class TokenService {
     const { username, password } = getUser(role);
     const response = await this.authClient.login({ email: username, password });
     if (!response.isSuccess) {
-      throw new Error(`Login failed for "${role}" user: ${response.status} ${response.statusText}. Check credentials in .env.`);
+      const hint = role === 'default' ? "The run's registered customer couldn't log in." : 'Check credentials in .env.';
+      throw new Error(`Login failed for "${role}" user: ${response.status} ${response.statusText}. ${hint}`);
     }
 
     const { access_token, expires_in } = JSON.parse(response.body) as LoginResponse;

@@ -11,7 +11,7 @@ SimpRight is an automated test framework built with TypeScript and Playwright, c
 ```bash
 npm install
 npm run install:browsers          # Chromium + OS deps
-npm test                          # all projects (api, ui); globalSetup logs in first
+npm test                          # all projects (api, ui); globalSetup registers the run's customer first
 npm run test:api                  # API project only
 npm run test:ui                   # UI project only
 npx playwright test tests/ui/cart/add-to-cart.spec.ts   # single file
@@ -25,7 +25,7 @@ npm run report                    # open last HTML report
 
 - **UI login has two modes**, selected with `UI_AUTH_MODE` (`env.uiAuthMode`) or per file with `test.use({ authMode: ... })`. The app keeps its JWT in `localStorage['auth-token']` (no auth cookie), and the JWT expires after **5 minutes** (see `src/ui/auth/authState.ts`).
   - `api` (default): the UI `storageState` fixture gets a token for the test's role from `tokenService` and injects it into localStorage. There's no UI login and nothing is written to disk. Tokens are refreshed when fewer than 2 minutes are left, which is longer than the test timeout.
-  - `storageState`: `globalSetup` (`src/globalSetup.ts`) logs in every role in `USER_ROLES` through `LoginPage` and saves `.auth/<role>.json` (git-ignored, holds a live JWT). Locally, a saved state is reused while its token has more than 2 minutes left; on CI it is always regenerated. A role that fails to log in fails the run. In `api` mode `globalSetup` does nothing.
+  - `storageState`: `globalSetup` (`src/globalSetup.ts`) logs in every role in `USER_ROLES` through `LoginPage` and saves `.auth/<role>.json` (git-ignored, holds a live JWT). Locally, a saved state is reused while its token has more than 2 minutes left; on CI it is always regenerated. The `default` role's state is always new (see "The run's customer"). A role that fails to log in fails the run.
   - `test.use({ authMode: 'storageState' })` only works when the run itself uses `UI_AUTH_MODE=storageState`; otherwise the fixture throws "No valid saved login".
   - `none` (a test option only, not a `UI_AUTH_MODE` value): no login, the test starts logged out. The `api` project sets it in `playwright.config.ts`. That matters because every test resolves the `storageState` fixture (Playwright's trace recording reads the context options), so without it each API test would log in the default user, even for public endpoints, and a locked or failing login would fail the whole API suite. API tests log in through the fixtures that need a token (`accessToken`, `productsClientWithToken`, `adminProductsService`).
 - `api` project: `tests/api`. No browser; `baseURL` = `env.apiBaseUrl`.
@@ -55,7 +55,7 @@ Specs import from `src/fixtures` (`index.ts`): `test`, `expect` and `openHomePag
 - `src/api/`: `clients` (low-level HTTP over `APIRequestContext`), `services` (domain operations built on clients), `dto` (request/response types), `auth`, `fixtures`, `coverage` (the optional API coverage plug-in).
 - `src/ui/`: `pages` (page objects, with reusable `components` and `dialogs`; `filters` and `grids` when needed), `flows` (multi-page user journeys), `auth` (token/storage-state helpers), `fixtures`.
 - `src/fixtures/`: merges the API and UI fixtures (`mergeTests`) into the single `test`/`expect` that specs import.
-- `src/globalSetup.ts`: UI login for `storageState` mode.
+- `src/globalSetup.ts`: registers the run's customer (and deletes it after the run), plus the UI login for `storageState` mode.
 - `src/config/`: typed env access. `src/envs/`: per-environment JSON. `src/utils/`: helpers (`assertHelpers.ts`: `assertMessage`, `attachJson`, `redact`).
 - `src/data/` (`@data/*`): test data.
   - `TestConstants.ts`: seeded values from the app that more than one test relies on, grouped by area (`TestConstants.products.searchTerm`). A value only one test uses stays a variable in that test. Roles aren't repeated here (they're `UserRole` in config).
@@ -92,10 +92,11 @@ Path aliases (tsconfig `paths`, resolved by Playwright): `@fixtures` (= `src/fix
 
 ## Configuration
 
-- `src/envs/<NAME>.json` (committed) holds per-environment settings: `baseUrl`, `apiBaseUrl`, timeouts, and `testUsers` with `${VAR}` placeholders for secrets. Pick one with `TEST_ENV` (default `TEST`, case-insensitive); adding an environment means adding a JSON file.
-- `.env` (git-ignored, never commit) holds only secrets: `ADMIN_USER`, `ADMIN_PASSWORD`, `DEFAULT_USER`, `DEFAULT_PASSWORD`. `.env.example` (committed) lists them with empty values; keep it in sync when a secret is added.
+- `src/envs/<NAME>.json` (committed) holds per-environment settings: `baseUrl`, `apiBaseUrl`, timeouts, and `testUsers` (the admin only) with `${VAR}` placeholders for secrets. Pick one with `TEST_ENV` (default `TEST`, case-insensitive); adding an environment means adding a JSON file.
+- `.env` (git-ignored, never commit) holds only secrets: `ADMIN_USER`, `ADMIN_PASSWORD`. `.env.example` (committed) lists them with empty values; keep it in sync when a secret is added.
 - `.npmrc.example` shows the line for the user's own `~/.npmrc` (a `read:packages` token) that installs the optional coverage package. The repo's `.npmrc` holds only the scope mapping, never a token.
 - `src/config/env.ts` loads `.env`, reads the selected JSON, fills in the placeholders (`resolvePlaceholders` in `src/utils/envUtils.ts`), validates it, and exports a frozen `env`, `getUser(role)` and `storageStatePath(role)`. Everything stays in memory; never write resolved config (which contains passwords) to disk.
+- **The run's customer (the `default` role):** the demo site publishes its default customer's credentials, so other people's failed logins kept locking it (423). Instead, `globalSetup` registers a new customer for each run (`createRunUser` in `src/api/auth/runUser.ts`: `UserFactory.registerCustomer()`, a unique email and a random strong password), checks that it can log in, and hands its credentials to the workers through `SIMPRIGHT_RUN_USER_*` variables that only `env.ts` reads (`getUser('default')`, `getRunUser()`). The teardown that `globalSetup` returns deletes it as admin; a failed delete only logs a warning. Its email and password are masked in reports like the configured users'. Never send wrong passwords for a shared account: a lockout test registers its own customer.
 - Everything reads config through `@config/env`, including `playwright.config.ts`. Don't read `process.env` directly in tests or page objects.
 - Timeouts: `defaultTimeoutMs` sets the action and `expect` timeouts; `extendedTimeoutMs` sets the test and navigation timeouts.
 
@@ -148,7 +149,7 @@ Status codes the API returns where it shouldn't (for example a `500` for an unkn
 ## CI and GitHub Pages
 
 - `.github/workflows/playwright-run.yml` is a reusable workflow: it runs one project (`ui` or `api`), then publishes the report with `scripts/publish-report.sh <family>`. The callers are `run-ui-tests.yml` / `run-api-tests.yml` (scheduled, weekdays, UTC) and `custom-ui-tests.yml` / `custom-api-tests.yml` (manual, with an area choice plus an optional `--grep`). When you add a folder under `tests/ui` or `tests/api`, add it to the `area` options of the matching custom workflow.
-- Secrets `ADMIN_USER`, `ADMIN_PASSWORD`, `DEFAULT_USER` and `DEFAULT_PASSWORD` come from GitHub Secrets as environment variables; CI doesn't write a `.env` file.
+- Secrets `ADMIN_USER` and `ADMIN_PASSWORD` come from GitHub Secrets as environment variables; CI doesn't write a `.env` file.
 - On CI, Playwright also writes `test-results/results.json`, which the dashboard reads.
 - The publish script commits to the `gh-pages` branch: `<family>/run-<N>/` (report and `results.json`), `latest/<family>/` and `<family>-manifest.json`. It keeps the latest 30 runs per family (`KEEP_RUNS`) and retries the push if another workflow published first. Families: `daily-ui-regression`, `daily-api-regression`, `custom-ui`, `custom-api`.
 - `index.html` in the repo root is the Pages dashboard. It's copied to `gh-pages` on every publish and loads the manifests and `results.json` files. Tests show up under "Known Issues" when they have an annotation whose description contains `Known issue`.
@@ -160,7 +161,7 @@ Status codes the API returns where it shouldn't (for example a `500` for an unkn
   - Dependabot reads it through the `github-packages` registry in `dependabot.yml`, using the Dependabot secret `PACKAGES_READ_TOKEN`, a classic token with `read:packages` only. When that token expires, Dependabot's npm updates fail until it's replaced.
 - API coverage is optional: when a run produces `test-results/api-coverage/`, the script publishes it with the run (and as `latest/api-coverage/` from the full API regression), and the dashboard shows its elements (`data-coverage`) only when `latest/api-coverage/summary.json` exists. UI runs set `DISABLE_API_COVERAGE=true`.
 - `scripts/*.sh` must keep LF line endings (`.gitattributes`).
-- `pr-checks.yml` runs the `verify` job (typecheck, scenario validation and all tests) on every pull request to `main` or `develop`; it's the required status check on `main`. Pull requests from forks and from Dependabot get no Actions secrets, so they run the typecheck and scenario validation only (Dependabot PRs run the tests too when the same four secrets are added under Dependabot secrets).
+- `pr-checks.yml` runs the `verify` job (typecheck, scenario validation and all tests) on every pull request to `main` or `develop`; it's the required status check on `main`. Pull requests from forks and from Dependabot get no Actions secrets, so they run the typecheck and scenario validation only (Dependabot PRs run the tests too when the same two secrets are added under Dependabot secrets).
 
 ## Branches and pull requests
 

@@ -1,7 +1,7 @@
-import type { ApiResponse } from '../clients/BaseClient';
 import type { ProductsClient } from '../clients/ProductsClient';
 import type { Paginated } from '../dto/common';
 import type { CreateProductRequest, Product, ProductDetails, ProductListQuery } from '../dto/product';
+import { assertOk, parseOk } from './serviceUtils';
 
 /**
  * Domain operations on products. Methods expect success and return parsed bodies;
@@ -40,15 +40,4 @@ export class ProductsService {
     if (response.status === 404) return;
     assertOk(response, `delete product ${productId}`);
   }
-}
-
-function assertOk(response: ApiResponse, action: string): void {
-  if (!response.isSuccess) {
-    throw new Error(`Failed to ${action}: ${response.status} ${response.statusText}. Body: ${response.body.slice(0, 200)}`);
-  }
-}
-
-function parseOk<T>(response: ApiResponse, action: string): T {
-  assertOk(response, action);
-  return JSON.parse(response.body) as T;
 }

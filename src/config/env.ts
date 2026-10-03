@@ -18,6 +18,17 @@ export interface TestUser {
   password: string;
 }
 
+/** Roles whose credentials come from `testUsers` in `src/envs/<ENV>.json` and `.env`. */
+export type ConfiguredRole = Exclude<UserRole, 'default'>;
+
+/**
+ * The customer that `globalSetup` registers for this run and deletes afterwards; it is the `default` role.
+ * Nobody else knows its credentials, so failed logins by other people on the shared demo site can't lock it.
+ */
+export interface RunUser extends TestUser {
+  id: string;
+}
+
 /**
  * How UI tests start logged in:
  * - `api` (default): fresh token from the API per test, injected into localStorage.
@@ -35,10 +46,11 @@ export interface EnvConfig {
   defaultTimeoutMs: number;
   /** Test and navigation timeout. */
   extendedTimeoutMs: number;
-  testUsers: Record<UserRole, TestUser>;
+  testUsers: Record<ConfiguredRole, TestUser>;
 }
 
 export const USER_ROLES: readonly UserRole[] = ['admin', 'default'];
+const CONFIGURED_ROLES: readonly ConfiguredRole[] = ['admin'];
 const UI_AUTH_MODES: readonly UiAuthMode[] = ['api', 'storageState'];
 
 function parseUiAuthMode(raw: string | undefined): UiAuthMode {
@@ -77,8 +89,8 @@ function loadEnv(): EnvConfig {
 
   const raw = resolvePlaceholders(JSON.parse(fs.readFileSync(filePath, 'utf-8')) as Record<string, any>);
 
-  const testUsers = {} as Record<UserRole, TestUser>;
-  for (const role of USER_ROLES) {
+  const testUsers = {} as Record<ConfiguredRole, TestUser>;
+  for (const role of CONFIGURED_ROLES) {
     const user = raw.testUsers?.[role];
     if (!user?.username || !user?.password) {
       throw new Error(`${file}: testUsers.${role} must have "username" and "password"`);
@@ -101,7 +113,34 @@ function loadEnv(): EnvConfig {
 export const env: EnvConfig = loadEnv();
 
 export function getUser(role: UserRole): TestUser {
-  return env.testUsers[role];
+  return role === 'default' ? getRunUser() : env.testUsers[role];
+}
+
+// globalSetup runs in the main process before the workers start, so the workers inherit these variables.
+const RUN_USER_VARS = { id: 'SIMPRIGHT_RUN_USER_ID', username: 'SIMPRIGHT_RUN_USER_EMAIL', password: 'SIMPRIGHT_RUN_USER_PASSWORD' } as const;
+
+/** Called by globalSetup after it registers the run's customer; hands its credentials to the workers. */
+export function setRunUser(user: RunUser): void {
+  process.env[RUN_USER_VARS.id] = user.id;
+  process.env[RUN_USER_VARS.username] = user.username;
+  process.env[RUN_USER_VARS.password] = user.password;
+}
+
+/** The run's customer, or `undefined` before globalSetup has registered it. */
+export function findRunUser(): RunUser | undefined {
+  const id = process.env[RUN_USER_VARS.id];
+  const username = process.env[RUN_USER_VARS.username];
+  const password = process.env[RUN_USER_VARS.password];
+  return id && username && password ? { id, username, password } : undefined;
+}
+
+/** The run's customer (the `default` role); throws when globalSetup hasn't registered one. */
+export function getRunUser(): RunUser {
+  const user = findRunUser();
+  if (!user) {
+    throw new Error('No customer for the "default" role: globalSetup registers one per run (src/globalSetup.ts).');
+  }
+  return user;
 }
 
 /** Storage state file for a role, written by globalSetup, e.g. `.auth/admin.json`. */
