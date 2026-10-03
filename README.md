@@ -164,7 +164,7 @@ To run it in your own fork, add the `ADMIN_USER` and `ADMIN_PASSWORD` repository
 
 ## Branches and contributing
 
-- `main` is the stable, protected branch: changes reach it only through pull requests that pass the `verify` check (typecheck, scenario validation and all tests).
+- `main` is the stable, protected branch: changes reach it only through pull requests that pass the `verify` check (typecheck, scenario validation, and the tests the change can affect: all of them, only the specs the changed files reach, or none for documentation-only changes).
 - Day-to-day work happens on `develop`, which is merged into `main` with a pull request.
 - To contribute, fork the repo, branch from `develop`, and open a pull request into `develop`.
 - Found a security problem? See [SECURITY.md](SECURITY.md).
