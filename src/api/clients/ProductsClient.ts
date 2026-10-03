@@ -10,10 +10,12 @@ export class ProductsClient extends BaseClient {
     return this.get('/products', params.toString() || undefined);
   }
 
-  async search(query: string, page?: number): Promise<ApiResponse> {
-    const params = new URLSearchParams({ q: query });
+  /** Without `query`, no `q` is sent at all; an empty string sends `q=`. */
+  async search(query?: string, page?: number): Promise<ApiResponse> {
+    const params = new URLSearchParams();
+    if (query !== undefined) params.set('q', query);
     if (page !== undefined) params.set('page', String(page));
-    return this.get('/products/search', params.toString());
+    return this.get('/products/search', params.toString() || undefined);
   }
 
   async create(body: CreateProductRequest): Promise<ApiResponse> {
