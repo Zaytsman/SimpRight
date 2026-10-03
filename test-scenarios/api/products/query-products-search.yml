@@ -27,3 +27,14 @@ scenarios:
     steps:
       - "Send QUERY /products/search with Content-Type: text/plain, Accept: application/json and a plain-text body."
       - Verify the response status is 415.
+  - id: API-0072
+    name: QUERY search page 2 returns the same products as the GET
+    status: automated
+    automatedIn: tests/api/products/query-products-search.spec.ts
+    steps:
+      - Send GET /products/search with q=er and page=2 and keep the item ids in order.
+      - 'Send QUERY /products/search with Content-Type: application/json, Accept: application/json and the body { "q": "er", "page": "2" }.'
+      - Verify the response status is 200.
+      - Verify data is not empty.
+      - Verify current_page is 2.
+      - Verify the QUERY response's item ids equal the GET response's item ids, in the same order.

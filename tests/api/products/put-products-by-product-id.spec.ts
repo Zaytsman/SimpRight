@@ -1,8 +1,8 @@
-import { test, expect, createProductToUpdate, expectFieldMessages } from '@fixtures';
+import { test, expect, createProductToUpdate, createProductWithOtherRefs, expectFieldMessages, takeProductRefs, PRODUCT_LIST_STEP } from '@fixtures';
 import type { ApiResponse } from '@api/clients/BaseClient';
-import type { UpdateProductResponse } from '@api/dto/product';
+import type { ProductDetails, UpdateProductResponse } from '@api/dto/product';
 import { TestConstants } from '@data/TestConstants';
-import { ProductFactory } from '@data/factories/ProductFactory';
+import { ProductFactory, type ProductRefs } from '@data/factories/ProductFactory';
 import { assertMessage, attachJson } from '@utils/assertHelpers';
 
 // Scenarios: test-scenarios/api/products/put-products-by-product-id.yml
@@ -251,6 +251,127 @@ test.describe('@products-api - Products API', () => {
 
     await test.step('Verify the response status is 401.', async () => {
       expect(response.status, assertMessage({ request, expected: 'Status 401', actual: response.status })).toBe(401);
+    });
+  });
+
+  test('API-0074: Update product price, category, brand and image saves the new values', async ({
+    productsService,
+    adminProductsService,
+    productsClient,
+    cleanup,
+  }) => {
+    /** Differs from the factory's create price (9.99). */
+    const newPrice = 19.99;
+    let request: { method: string; path: string; auth: string; body: unknown };
+    let response: ApiResponse;
+    let product: ProductDetails;
+
+    const { productId, otherRefs } = await createProductWithOtherRefs(productsService, adminProductsService, cleanup);
+    const getRequest = { method: 'GET', path: `/products/${productId}` };
+
+    await test.step(
+      'Send PUT /products/{productId} with that id and a body with a different positive price and the other category id, brand id and product image id.',
+      async () => {
+        const body = ProductFactory.updateRefs(otherRefs, { price: newPrice });
+        request = { method: 'PUT', path: `/products/${productId}`, auth: 'none', body };
+        response = await productsClient.update(productId, body);
+        await attachJson('Update Product Request', request);
+        await attachJson('Update Product Response', { status: response.status, body: response.body });
+      }
+    );
+
+    await test.step('Verify the response status is 200.', async () => {
+      expect(response.status, assertMessage({ request, expected: 'Status 200', actual: response.status })).toBe(200);
+    });
+
+    await test.step("Verify the body's success is true.", async () => {
+      const body = JSON.parse(response.body) as UpdateProductResponse;
+      expect(body.success, assertMessage({ request, expected: 'success is true', actual: body })).toBe(true);
+    });
+
+    await test.step('Send GET /products/{productId} with that id.', async () => {
+      product = await productsService.getById(productId);
+      await attachJson('Get Product Response', product);
+    });
+
+    await test.step('Verify its price equals the new price.', async () => {
+      expect(product.price, assertMessage({ request: getRequest, expected: `price is ${newPrice}`, actual: product.price })).toBe(newPrice);
+    });
+
+    await test.step('Verify its category id, brand id and product_image id equal the other ids.', async () => {
+      expect(product.category?.id, assertMessage({ request: getRequest, expected: `category.id is ${otherRefs.categoryId}`, actual: product.category })).toBe(
+        otherRefs.categoryId
+      );
+      expect(product.brand?.id, assertMessage({ request: getRequest, expected: `brand.id is ${otherRefs.brandId}`, actual: product.brand })).toBe(otherRefs.brandId);
+      expect(
+        product.product_image?.id,
+        assertMessage({ request: getRequest, expected: `product_image.id is ${otherRefs.productImageId}`, actual: product.product_image })
+      ).toBe(otherRefs.productImageId);
+    });
+  });
+
+  test.describe(() => {
+    test.use({ role: 'admin' });
+
+    test('API-0075: Update product CO2 rating and stock saves the new values', async ({
+      productsService,
+      adminProductsService,
+      productsClientWithToken,
+      cleanup,
+    }) => {
+      let productId = '';
+      let request: { method: string; path: string; auth: string; body: unknown };
+      let response: ApiResponse;
+      let product: ProductDetails;
+
+      const refs = (await takeProductRefs(productsService, PRODUCT_LIST_STEP)) as ProductRefs;
+
+      await test.step(
+        'Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental false, co2_rating "D" and stock 5, and take the new product\'s id.',
+        async () => {
+          const body = ProductFactory.createProduct(refs, { co2_rating: 'D', stock: 5 });
+          await attachJson('Create Product Request', { method: 'POST', path: '/products', auth: "admin's token", body });
+          const created = await adminProductsService.create(body);
+          cleanup.add(() => adminProductsService.delete(created.id));
+          await attachJson('Create Product Response', created);
+          expect(created.id, assertMessage({ request: { method: 'POST', path: '/products', body }, expected: 'The new product has an id', actual: created })).toBeTruthy();
+          productId = created.id;
+        }
+      );
+
+      const getRequest = { method: 'GET', path: `/products/${productId}`, auth: "admin's token" };
+
+      await test.step('Send PUT /products/{productId} with that id and a body with co2_rating "B" and stock 7.', async () => {
+        const body = ProductFactory.updateCo2AndStock('B', 7);
+        request = { method: 'PUT', path: `/products/${productId}`, auth: "admin's token", body };
+        response = await productsClientWithToken.update(productId, body);
+        await attachJson('Update Product Request', request);
+        await attachJson('Update Product Response', { status: response.status, body: response.body });
+      });
+
+      await test.step('Verify the response status is 200.', async () => {
+        expect(response.status, assertMessage({ request, expected: 'Status 200', actual: response.status })).toBe(200);
+      });
+
+      await test.step("Verify the body's success is true.", async () => {
+        const body = JSON.parse(response.body) as UpdateProductResponse;
+        expect(body.success, assertMessage({ request, expected: 'success is true', actual: body })).toBe(true);
+      });
+
+      await test.step('Send GET /products/{productId} with that id and the admin token.', async () => {
+        await attachJson('Get Product Request', getRequest);
+        product = await adminProductsService.getById(productId);
+        await attachJson('Get Product Response', product);
+      });
+
+      await test.step('Verify its co2_rating is "B" and its is_eco_friendly is true.', async () => {
+        expect(product.co2_rating, assertMessage({ request: getRequest, expected: 'co2_rating is "B"', actual: product.co2_rating })).toBe('B');
+        expect(product.is_eco_friendly, assertMessage({ request: getRequest, expected: 'is_eco_friendly is true', actual: product.is_eco_friendly })).toBe(true);
+      });
+
+      await test.step('Verify its in_stock is 7.', async () => {
+        expect(product.in_stock, assertMessage({ request: getRequest, expected: 'in_stock is 7 (the stock count)', actual: product.in_stock })).toBe(7);
+      });
     });
   });
 });

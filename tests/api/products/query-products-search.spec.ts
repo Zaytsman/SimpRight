@@ -112,4 +112,41 @@ test.describe('@products-api - Products API', () => {
       expect(response.status, assertMessage({ request, expected: 'Status 415', actual: response.status })).toBe(415);
     });
   });
+
+  test('API-0072: QUERY search page 2 returns the same products as the GET', async ({ productsService, productsClient }) => {
+    /** Matches more than 9 seeded product names (hammer, pliers, screwdriver...), so page 2 has items. */
+    const term = 'er';
+    let getIds: string[] = [];
+    let request: QuerySearchRequest;
+    let response: ApiResponse;
+    let body: Paginated<Product>;
+
+    await test.step('Send GET /products/search with q=er and page=2 and keep the item ids in order.', async () => {
+      await attachJson('Search Products Request', { method: 'GET', path: '/products/search', query: { q: term, page: 2 } });
+      const list = await productsService.search(term, 2);
+      await attachJson('Search Products Response', list);
+      getIds = list.data.map((item) => item.id);
+    });
+
+    await test.step('Send QUERY /products/search with Content-Type: application/json, Accept: application/json and the body { "q": "er", "page": "2" }.', async () => {
+      ({ request, response } = await sendQuerySearch(productsClient, { q: term, page: '2' }));
+    });
+
+    await test.step('Verify the response status is 200.', async () => {
+      body = expectQuerySearchOk(request, response);
+    });
+
+    await test.step('Verify data is not empty.', async () => {
+      expect(body.data.length, assertMessage({ request, expected: 'data is not empty', actual: body.total })).toBeGreaterThan(0);
+    });
+
+    await test.step('Verify current_page is 2.', async () => {
+      expect(body.current_page, assertMessage({ request, expected: 'current_page is 2', actual: body.current_page })).toBe(2);
+    });
+
+    await test.step("Verify the QUERY response's item ids equal the GET response's item ids, in the same order.", async () => {
+      const queryIds = body.data.map((item) => item.id);
+      expect(queryIds, assertMessage({ request, expected: `The GET's ids in order: ${JSON.stringify(getIds)}`, actual: queryIds })).toEqual(getIds);
+    });
+  });
 });

@@ -1,4 +1,4 @@
-import { test, expect } from '@fixtures';
+import { test, expect, findProductSpec } from '@fixtures';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { ProductsClient } from '@api/clients/ProductsClient';
 import type { Paginated } from '@api/dto/common';
@@ -320,34 +320,11 @@ test.describe('@products-api - Products API', () => {
   });
 
   test('API-0011: Spec filter returns only products with that spec value', async ({ productsService, productsClient }) => {
-    let specName = '';
-    let specValue = '';
     let request: ListRequest;
     let response: ApiResponse;
     let body: Paginated<Product>;
 
-    await test.step(
-      "Find a product with at least one spec: send GET /products/{productId} for the items of GET /products until one returns a non-empty specs array, and take its first spec's spec_name and spec_value.",
-      async () => {
-        const list = await productsService.list();
-        await attachJson('List Products Response', list);
-        const checked: string[] = [];
-        for (const item of list.data) {
-          const details = await productsService.getById(item.id);
-          checked.push(item.id);
-          if (details.specs?.length) {
-            await attachJson('Get Product Response', details);
-            specName = details.specs[0]!.spec_name;
-            specValue = details.specs[0]!.spec_value;
-            break;
-          }
-        }
-        expect(
-          Boolean(specName),
-          assertMessage({ request: LIST_REQUEST, expected: 'A product on page 1 of GET /products has at least one spec', actual: { productsChecked: checked, withSpecs: 0 } })
-        ).toBe(true);
-      }
-    );
+    const { specName, specValue } = await findProductSpec(productsService);
 
     await test.step('Send GET /products with by_spec=<spec_name>:<spec_value>.', async () => {
       ({ request, response } = await sendList(productsClient, { by_spec: `${specName}:${specValue}` }));

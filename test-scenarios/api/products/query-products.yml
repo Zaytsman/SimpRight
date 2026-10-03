@@ -45,3 +45,86 @@ scenarios:
     steps:
       - 'Send QUERY /products with Content-Type: application/json, Accept: application/json and the body { "sort": "no_such_column,asc" }.'
       - Verify the response status is not 500.
+  - id: API-0064
+    name: QUERY list with brand and category filters returns the same products as the GET
+    status: automated
+    automatedIn: tests/api/products/query-products.spec.ts
+    steps:
+      - Send GET /products and take the first item's brand id and category id.
+      - Send GET /products with by_brand set to that brand id and by_category set to that category id, and keep the item ids in order.
+      - "Send QUERY /products with Content-Type: application/json, Accept: application/json and a body with by_brand set to that brand id and by_category set to that category id."
+      - Verify the response status is 200.
+      - Verify data is not empty.
+      - 'Verify the QUERY response''s item ids equal the GET response''s item ids, in the same order, ignoring products created by tests (names starting with "Product-").'
+  - id: API-0065
+    name: QUERY list with a category slug filter returns the same products as the GET
+    status: automated
+    automatedIn: tests/api/products/query-products.spec.ts
+    steps:
+      - Send GET /products and take the first item's category slug.
+      - Send GET /products with by_category_slug set to that slug and keep the item ids in order.
+      - "Send QUERY /products with Content-Type: application/json, Accept: application/json and a body with by_category_slug set to that slug."
+      - Verify the response status is 200.
+      - Verify data is not empty.
+      - 'Verify the QUERY response''s item ids equal the GET response''s item ids, in the same order, ignoring products created by tests (names starting with "Product-").'
+  - id: API-0066
+    name: QUERY list with the rental filter returns the same products as the GET
+    status: automated
+    automatedIn: tests/api/products/query-products.spec.ts
+    steps:
+      - Send GET /products with is_rental=true and keep the item ids in order.
+      - 'Send QUERY /products with Content-Type: application/json, Accept: application/json and the body { "is_rental": "true" }.'
+      - Verify the response status is 200.
+      - Verify data is not empty.
+      - Verify the QUERY response's item ids equal the GET response's item ids, in the same order.
+  - id: API-0067
+    name: QUERY list with a price range filter returns the same products as the GET
+    status: automated
+    automatedIn: tests/api/products/query-products.spec.ts
+    steps:
+      - Send GET /products with between=price,10,30 and keep the item ids in order.
+      - 'Send QUERY /products with Content-Type: application/json, Accept: application/json and the body { "between": "price,10,30" }.'
+      - Verify the response status is 200.
+      - Verify data is not empty.
+      - Verify the QUERY response's item ids equal the GET response's item ids, in the same order.
+  - id: API-0068
+    name: QUERY list with the eco-friendly filter returns the same products as the GET
+    status: automated
+    automatedIn: tests/api/products/query-products.spec.ts
+    steps:
+      - Send GET /products with eco_friendly=true and keep the item ids in order.
+      - 'Send QUERY /products with Content-Type: application/json, Accept: application/json and the body { "eco_friendly": "true" }.'
+      - Verify the response status is 200.
+      - Verify data is not empty.
+      - Verify the QUERY response's item ids equal the GET response's item ids, in the same order.
+  - id: API-0069
+    name: QUERY list with a name filter returns the same products as the GET
+    status: automated
+    automatedIn: tests/api/products/query-products.spec.ts
+    steps:
+      - Send GET /products with q=pliers and keep the item ids in order.
+      - 'Send QUERY /products with Content-Type: application/json, Accept: application/json and the body { "q": "pliers" }.'
+      - Verify the response status is 200.
+      - Verify data is not empty.
+      - Verify the QUERY response's item ids equal the GET response's item ids, in the same order.
+  - id: API-0070
+    name: QUERY list with a spec filter returns the same products as the GET
+    status: automated
+    automatedIn: tests/api/products/query-products.spec.ts
+    steps:
+      - "Find a product with at least one spec: send GET /products/{productId} for the items of GET /products until one returns a non-empty specs array, and take its first spec's spec_name and spec_value."
+      - Send GET /products with by_spec=<spec_name>:<spec_value> and keep the item ids in order.
+      - "Send QUERY /products with Content-Type: application/json, Accept: application/json and a body with by_spec set to <spec_name>:<spec_value>."
+      - Verify the response status is 200.
+      - Verify data is not empty.
+      - Verify the QUERY response's item ids equal the GET response's item ids, in the same order.
+  - id: API-0071
+    name: QUERY list page 2 returns the same products as the GET
+    status: automated
+    automatedIn: tests/api/products/query-products.spec.ts
+    steps:
+      - Send GET /products with page=2 and keep the item ids in order.
+      - 'Send QUERY /products with Content-Type: application/json, Accept: application/json and the body { "page": "2" }.'
+      - Verify the response status is 200.
+      - Verify current_page is 2.
+      - Verify the QUERY response's item ids equal the GET response's item ids, in the same order.

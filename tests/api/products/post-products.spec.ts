@@ -28,14 +28,18 @@ function removeIfCreated(response: ApiResponse, adminProductsService: ProductsSe
   if (id) cleanup.add(() => adminProductsService.delete(id));
 }
 
-/** Sends the POST without a token (the public client) and attaches what was sent and what came back. */
+/**
+ * Sends the POST with the given client (the public one, without a token, unless a test passes another) and attaches
+ * what was sent and what came back. `auth` describes the client's token in the attached request.
+ */
 async function sendCreate(
   productsClient: ProductsClient,
   body: CreateProductRequest | Record<string, unknown>,
   adminProductsService: ProductsService,
-  cleanup: Cleanup
+  cleanup: Cleanup,
+  auth = 'none'
 ): Promise<{ request: Request; response: ApiResponse }> {
-  const request: Request = { method: 'POST', path: '/products', auth: 'none', body };
+  const request: Request = { method: 'POST', path: '/products', auth, body };
   const response = await productsClient.create(body);
   removeIfCreated(response, adminProductsService, cleanup);
   await attachJson('Create Product Request', request);
@@ -362,6 +366,59 @@ test.describe('@products-api - Products API', () => {
 
     await test.step('Verify the response status is 401.', async () => {
       expect(response.status, assertMessage({ request, expected: 'Status 401', actual: response.status })).toBe(401);
+    });
+  });
+
+  test.describe(() => {
+    test.use({ role: 'admin' });
+
+    test('API-0073: Create product with a CO2 rating and stock stores both', async ({
+      productsService,
+      adminProductsService,
+      productsClientWithToken,
+      cleanup,
+    }) => {
+      let request: Request;
+      let response: ApiResponse;
+      let productId = '';
+      let product: ProductDetails;
+
+      const refs = (await takeProductRefs(productsService, PRODUCT_LIST_STEP)) as ProductRefs;
+
+      await test.step(
+        'Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental false, co2_rating "A" and stock 10, and take the new product\'s id.',
+        async () => {
+          const body = ProductFactory.createProduct(refs, { co2_rating: 'A', stock: 10 });
+          ({ request, response } = await sendCreate(productsClientWithToken, body, adminProductsService, cleanup, "admin's token"));
+          if (response.isSuccess) productId = (JSON.parse(response.body) as Product).id;
+        }
+      );
+
+      await test.step('Verify the response status is 201.', async () => {
+        expect(response.status, assertMessage({ request, expected: 'Status 201', actual: response.status })).toBe(201);
+      });
+
+      await test.step('Verify the body\'s co2_rating is "A".', async () => {
+        const created = JSON.parse(response.body) as Product;
+        expect(created.co2_rating, assertMessage({ request, expected: 'co2_rating is "A"', actual: created.co2_rating })).toBe('A');
+      });
+
+      await test.step("Send GET /products/{productId} with the new id and the admin token.", async () => {
+        await attachJson('Get Product Request', { method: 'GET', path: `/products/${productId}`, auth: "admin's token" });
+        product = await adminProductsService.getById(productId);
+        await attachJson('Get Product Response', product);
+      });
+
+      await test.step('Verify its co2_rating is "A" and its is_eco_friendly is true.', async () => {
+        const getRequest = { method: 'GET', path: `/products/${productId}`, auth: "admin's token" };
+        expect(product.co2_rating, assertMessage({ request: getRequest, expected: 'co2_rating is "A"', actual: product.co2_rating })).toBe('A');
+        expect(product.is_eco_friendly, assertMessage({ request: getRequest, expected: 'is_eco_friendly is true', actual: product.is_eco_friendly })).toBe(true);
+      });
+
+      await test.step('Verify its in_stock is 10.', async () => {
+        const getRequest = { method: 'GET', path: `/products/${productId}`, auth: "admin's token" };
+        expect(product.in_stock, assertMessage({ request: getRequest, expected: 'in_stock is 10 (the stock count)', actual: product.in_stock })).toBe(10);
+      });
     });
   });
 });
