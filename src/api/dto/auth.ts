@@ -20,3 +20,6 @@ export interface TotpLoginRequest {
 export interface LoginErrorBody {
   error: string;
 }
+
+/** Response of `GET /users/refresh` (200): a new token, same shape as the login response. */
+export type RefreshResponse = LoginResponse;

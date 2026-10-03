@@ -1,5 +1,6 @@
 import type { UsersClient } from '../clients/UsersClient';
-import type { PatchUserRequest, PatchUserResponse, RegisterUserRequest, RegisteredUser } from '../dto/user';
+import type { RefreshResponse } from '../dto/auth';
+import type { LogoutResponse, PatchUserRequest, PatchUserResponse, RegisterUserRequest, RegisteredUser } from '../dto/user';
 import { assertOk, parseOk } from './serviceUtils';
 
 /**
@@ -11,6 +12,16 @@ export class UsersService {
 
   async register(body: RegisterUserRequest): Promise<RegisteredUser> {
     return parseOk(await this.client.register(body), 'register a customer');
+  }
+
+  /** Logs out the service's token (build this service with the token to invalidate). */
+  async logout(): Promise<LogoutResponse> {
+    return parseOk(await this.client.logout(), 'log out');
+  }
+
+  /** Refreshes the service's token: returns a new one and invalidates the old one. */
+  async refresh(): Promise<RefreshResponse> {
+    return parseOk(await this.client.refresh(), 'refresh the token');
   }
 
   /** Updates only the fields sent (own id, or any id with an admin token). */

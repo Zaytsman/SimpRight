@@ -133,8 +133,8 @@ No text field may contain Unicode subscript or superscript characters. _(source)
 The created user as stored, so only the fields that were sent appear (plus `id`, `created_at` and `address`). _(source)_
 
 **Error Responses:**
-- `409 Conflict`: the only failing rule is the unique email; `{ email: ["A customer with this email address already exists."] }` _(source)_
-- `422 Unprocessable Entity`: a required field is missing or a field fails its rule (also when the email is taken and another field fails too); body `{ <field>: string[] }` _(source)_
+- `409 Conflict`: the only failing rule is the unique email; `{ email: ["A customer with this email address already exists."] }` _(verified)_
+- `422 Unprocessable Entity`: a required field is missing or a field fails its rule (also when the email is taken and another field fails too); body `{ <field>: string[] }` _(verified)_
 
 ---
 
@@ -213,19 +213,19 @@ User
 
 ### 6. Logout
 
-Invalidates (blacklists) the token. Later requests with it get `401`. _(source)_
+Invalidates (blacklists) the token. Later requests with it get `401`. _(verified)_
 
 **Endpoint:** `GET /users/logout`
 
 **Auth:** Bearer token, any role _(source)_
 
-**Response:** `200 OK` _(source)_
+**Response:** `200 OK` _(verified)_
 ```ts
 { message: string }   // "Successfully logged out"
 ```
 
 **Error Responses:**
-- `401 Unauthorized`: no token _(verified)_; an invalid or already logged-out token gives the same _(source)_
+- `401 Unauthorized`: no token _(verified)_; an invalid or already logged-out token gives the same _(verified)_
 
 ---
 
@@ -237,7 +237,7 @@ Returns a new token for the one in the `Authorization` header and invalidates th
 
 **Auth:** Bearer token (read by the handler, not by middleware) _(source)_
 
-**Response:** `200 OK` _(source)_
+**Response:** `200 OK` _(verified)_
 ```ts
 {
   access_token: string;
@@ -247,7 +247,7 @@ Returns a new token for the one in the `Authorization` header and invalidates th
 ```
 
 **Error Responses:**
-- `401 Unauthorized`: the token is past the refresh window (`"Token has expired and can no longer be refreshed"`) or was invalidated by logout or an earlier refresh (`"Token is not valid"`) _(source)_
+- `401 Unauthorized`: the token is past the refresh window (`"Token has expired and can no longer be refreshed"`) _(source)_; or it was invalidated by logout or an earlier refresh (`"Token is not valid"`) _(verified)_
 - `500 Internal Server Error`: no token, or a malformed one; `{ message: "Server Error" }`; suspected bug, should be 401 _(verified)_
 
 ---

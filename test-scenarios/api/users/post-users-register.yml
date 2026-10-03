@@ -4,7 +4,8 @@ tags: ["@users-api"]
 scenarios:
   - id: API-0085
     name: Register returns 201 with the new customer
-    status: manual
+    status: automated
+    automatedIn: tests/api/users/post-users-register.spec.ts
     steps:
       - Send POST /users/register with a unique email, a first name, a last name and a random strong password.
       - Verify the response status is 201.
@@ -14,7 +15,8 @@ scenarios:
       - Verify POST /users/login with that email and password returns 200, and GET /users/me with its access_token returns the new id and email.
   - id: API-0086
     name: Register stores the optional fields sent
-    status: manual
+    status: automated
+    automatedIn: tests/api/users/post-users-register.spec.ts
     steps:
       - Send POST /users/register with a unique email, a first name, a last name, a random strong password, a phone of digits, a dob 30 years ago in YYYY-MM-DD, and an address with street, house_number, city, state and postal_code (no country).
       - Verify the response status is 201.
@@ -23,70 +25,80 @@ scenarios:
       - Verify POST /users/login with that email and password returns 200, and GET /users/me with its access_token returns the same phone, dob and address values.
   - id: API-0087
     name: Register without the required fields returns 422 for each of them
-    status: manual
+    status: automated
+    automatedIn: tests/api/users/post-users-register.spec.ts
     steps:
       - Send POST /users/register with an empty JSON object as the body.
       - Verify the response status is 422.
       - Verify the body has the keys first_name, last_name, email and password, each with at least one message.
   - id: API-0088
     name: Register with a first name longer than 40 characters returns 422
-    status: manual
+    status: automated
+    automatedIn: tests/api/users/post-users-register.spec.ts
     steps:
       - Send POST /users/register with a unique email, a 41-character first name, a last name and a random strong password.
       - Verify the response status is 422.
       - Verify the body has a first_name key with at least one message.
   - id: API-0089
     name: Register with a last name longer than 20 characters returns 422
-    status: manual
+    status: automated
+    automatedIn: tests/api/users/post-users-register.spec.ts
     steps:
       - Send POST /users/register with a unique email, a first name, a 21-character last name and a random strong password.
       - Verify the response status is 422.
       - Verify the body has a last_name key with at least one message.
   - id: API-0090
     name: Register with a weak password returns 422
-    status: manual
+    status: automated
+    automatedIn: tests/api/users/post-users-register.spec.ts
     steps:
       - Send POST /users/register with a unique email, a first name, a last name and a password of 10 lower-case letters only.
       - Verify the response status is 422.
       - Verify the body has a password key with at least one message.
   - id: API-0091
     name: Register with a date of birth under 18 years ago returns 422
-    status: manual
+    status: automated
+    automatedIn: tests/api/users/post-users-register.spec.ts
     steps:
       - Send POST /users/register with a unique email, a first name, a last name, a random strong password and a dob 17 years ago in YYYY-MM-DD.
       - Verify the response status is 422.
       - Verify the body has a dob key with at least one message.
   - id: API-0092
     name: Register with a subscript character in the first name returns 422
-    status: manual
+    status: automated
+    automatedIn: tests/api/users/post-users-register.spec.ts
     steps:
       - Send POST /users/register with a unique email, a first name followed by a Unicode subscript character, a last name and a random strong password.
       - Verify the response status is 422.
       - Verify the body has a first_name key with at least one message.
   - id: API-0093
     name: Register with a date of birth not in YYYY-MM-DD returns 422
-    status: manual
+    status: automated
+    automatedIn: tests/api/users/post-users-register.spec.ts
     steps:
       - Send POST /users/register with a unique email, a first name, a last name, a random strong password and a dob 30 years ago in DD-MM-YYYY format.
       - Verify the response status is 422.
       - Verify the body has a dob key with at least one message.
   - id: API-0094
     name: Register with an email longer than 256 characters returns 422
-    status: manual
+    status: automated
+    automatedIn: tests/api/users/post-users-register.spec.ts
     steps:
       - Send POST /users/register with a well-formed 257-character email that starts with a unique value, a first name, a last name and a random strong password.
       - Verify the response status is 422.
       - Verify the body has an email key with at least one message.
   - id: API-0095
     name: Register with a phone longer than 24 characters returns 422
-    status: manual
+    status: automated
+    automatedIn: tests/api/users/post-users-register.spec.ts
     steps:
       - Send POST /users/register with a unique email, a first name, a last name, a random strong password and a 25-digit phone.
       - Verify the response status is 422.
       - Verify the body has a phone key with at least one message.
   - id: API-0096
     name: Register with an email that's already registered returns 409
-    status: manual
+    status: automated
+    automatedIn: tests/api/users/post-users-register.spec.ts
     steps:
       - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.
       - Send POST /users/register again with the same email and otherwise valid values.
@@ -94,7 +106,8 @@ scenarios:
       - Verify the body's email messages include "A customer with this email address already exists.".
   - id: API-0097
     name: Register with a taken email and another invalid field returns 422
-    status: manual
+    status: automated
+    automatedIn: tests/api/users/post-users-register.spec.ts
     steps:
       - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.
       - Send POST /users/register again with the same email, a 41-character first name, a last name and a random strong password.
@@ -102,14 +115,16 @@ scenarios:
       - Verify the body has a first_name key with at least one message.
   - id: API-0098
     name: Register with a date of birth more than 93 years ago returns 422
-    status: manual
+    status: automated
+    automatedIn: tests/api/users/post-users-register.spec.ts
     steps:
       - Send POST /users/register with a unique email, a first name, a last name, a random strong password and a dob 94 years ago in YYYY-MM-DD.
       - Verify the response status is 422.
       - Verify the body's dob messages include "Customer must be younger than 75 years old.".
   - id: API-0099
     name: Register a customer older than 75 returns 422
-    status: manual
+    status: automated
+    automatedIn: tests/api/users/post-users-register.spec.ts
     knownIssue: Accepts a customer born 80 years ago (201) instead of 422; the 75-year age limit only rejects birth dates more than 93 years ago.
     steps:
       - Send POST /users/register with a unique email, a first name, a last name, a random strong password and a dob 80 years ago in YYYY-MM-DD.

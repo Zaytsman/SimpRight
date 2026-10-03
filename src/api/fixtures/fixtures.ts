@@ -33,6 +33,8 @@ export type ApiFixtures = {
   usersClientWithInvalidToken: UsersClient;
   /** Builds a users client with a token the test obtained itself (e.g. from a throwaway customer's login). */
   usersClientForToken: (token: string) => UsersClient;
+  /** Builds a users service with a token the test obtained itself (setup logouts and refreshes of that token). */
+  usersServiceForToken: (token: string) => UsersService;
   /** Always authenticated as admin, whatever the test's `role`: patches throwaway customers and deletes them in cleanup. */
   adminUsersService: UsersService;
 };
@@ -79,6 +81,9 @@ export const test = base.extend<ApiFixtures>({
   },
   usersClientForToken: async ({ request, config }, use) => {
     await use((token: string) => new UsersClient(request, config, token));
+  },
+  usersServiceForToken: async ({ usersClientForToken }, use) => {
+    await use((token: string) => new UsersService(usersClientForToken(token)));
   },
   adminUsersService: async ({ request, config, tokenService }, use) => {
     await use(new UsersService(new UsersClient(request, config, await tokenService.getAccessToken('admin'))));
