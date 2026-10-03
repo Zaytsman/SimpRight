@@ -44,11 +44,11 @@ The product catalogue of the Toolshop API: listing, filtering, searching and rea
 
 ### 1. List products
 
-Returns the products, 9 per page. Without `is_rental`, rental products are excluded (`is_rental` defaults to false). _(source)_
+Returns the products, 9 per page. Without `is_rental`, rental products are excluded (`is_rental` defaults to false). _(verified)_
 
 **Endpoint:** `GET /products`
 
-**Auth:** None _(source)_
+**Auth:** None _(verified)_
 
 **Query Parameters:**
 

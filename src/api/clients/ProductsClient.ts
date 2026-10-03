@@ -1,9 +1,13 @@
 import { BaseClient, type ApiResponse } from './BaseClient';
-import type { CreateProductRequest, UpdateProductRequest } from '../dto/product';
+import type { CreateProductRequest, ProductListQuery, UpdateProductRequest } from '../dto/product';
 
 export class ProductsClient extends BaseClient {
-  async list(): Promise<ApiResponse> {
-    return this.get('/products');
+  async list(query?: ProductListQuery): Promise<ApiResponse> {
+    const params = new URLSearchParams();
+    for (const [key, value] of Object.entries(query ?? {})) {
+      if (value !== undefined) params.set(key, String(value));
+    }
+    return this.get('/products', params.toString() || undefined);
   }
 
   async search(query: string, page?: number): Promise<ApiResponse> {

@@ -67,3 +67,27 @@ export type UpdateProductRequest = Partial<CreateProductRequest>;
 export interface UpdateProductResponse {
   success: boolean;
 }
+
+/** GET /products query parameters (filters, sorting, pagination); none is required. */
+export interface ProductListQuery {
+  /** Brand id, or several ids separated by commas. */
+  by_brand?: string;
+  /** Category id, or several ids separated by commas. */
+  by_category?: string;
+  /** Category slug; also matches its direct sub-categories. */
+  by_category_slug?: string;
+  /** `true` or `1` returns only rentals; anything else, or no value, only non-rentals. */
+  is_rental?: string;
+  /** Range filter, e.g. `price,10,30`. */
+  between?: string;
+  /** `<column>,<asc|desc>`, e.g. `price,desc`. */
+  sort?: string;
+  /** `true` or `1`: only products with CO2 rating A or B. */
+  eco_friendly?: string;
+  /** Name contains this text. */
+  q?: string;
+  /** `name:value1|value2,name2:value3`. */
+  by_spec?: string;
+  /** Page number, starting at 1. */
+  page?: number;
+}
