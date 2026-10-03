@@ -30,6 +30,16 @@ export class ProductsService {
   async delete(productId: string): Promise<void> {
     assertOk(await this.client.deleteById(productId), `delete product ${productId}`);
   }
+
+  /**
+   * Like `delete`, but a 404 counts as done: for cleanup of a product the test itself may already have deleted.
+   * Admin only, like `delete`. Throws on any other non-2xx status.
+   */
+  async deleteIfExists(productId: string): Promise<void> {
+    const response = await this.client.deleteById(productId);
+    if (response.status === 404) return;
+    assertOk(response, `delete product ${productId}`);
+  }
 }
 
 function assertOk(response: ApiResponse, action: string): void {

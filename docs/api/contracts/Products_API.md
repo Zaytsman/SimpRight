@@ -283,12 +283,12 @@ Deletes a product. Admin only. _(source)_
 |---|---|---|---|
 | `productId` | string | Yes | Product ULID |
 
-**Response:** `204 No Content` _(source)_
+**Response:** `204 No Content` _(verified)_
 
 **Error Responses:**
-- `401 Unauthorized`: no token, or an invalid or expired one; `{ message: "Unauthorized" }` _(source)_
+- `401 Unauthorized`: no token, or an invalid or expired one; `{ message: "Unauthorized" }` _(verified)_
 - `403 Forbidden`: the token's user isn't an admin; `{ message: "Forbidden" }` _(source)_
-- `404 Not Found`: no product with this id; `{ message: "Requested item not found" }` _(source)_
+- `404 Not Found`: no product with this id; `{ message: "Requested item not found" }` _(verified)_
 - `409 Conflict`: the product is referenced elsewhere (e.g. an invoice line); `{ success: false, message: "Seems like this product is used elsewhere." }` _(source)_
 
 ---
