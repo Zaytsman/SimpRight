@@ -11,6 +11,8 @@ export const TestConstants = {
     knownProduct: 'Combination Pliers',
     /** A seeded product with stock 0 that isn't a rental: shows "Out of stock" and can't be added to the cart. */
     outOfStockProduct: 'Long Nose Pliers',
+    /** A seeded rental: a duration slider (1-10 hours) instead of the quantity buttons, priced per hour. */
+    rentalProduct: 'Excavator',
     /**
      * A well-formed ULID that no record has: no product, category, brand or product image (for 404 checks
      * and unknown reference ids). Its timestamp part is around 2039, and the seeders generate ULIDs at seed time.

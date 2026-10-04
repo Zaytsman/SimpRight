@@ -4,7 +4,7 @@ import { TestConstants } from '@data/TestConstants';
 // Scenarios: test-scenarios/ui/products/product-detail.yml
 test.describe('@products - Product detail', () => {
   test("UI-013: The product page shows the product's information and related products", async ({ shoppingFlow, productPage }) => {
-    const productName = TestConstants.products.knownProduct;
+    const productName = 'Combination Pliers';
 
     await test.step('Open the product "Combination Pliers".', async () => {
       await shoppingFlow.openProduct(productName);
@@ -104,7 +104,7 @@ test.describe('@products - Product detail', () => {
 
   test('UI-016: A rental product shows a duration slider instead of the quantity buttons', async ({ shoppingFlow, productPage }) => {
     await test.step('Open the rental product "Excavator".', async () => {
-      await shoppingFlow.openProduct('Excavator');
+      await shoppingFlow.openProduct(TestConstants.products.rentalProduct);
     });
 
     await test.step('Verify a duration slider is shown.', async () => {
@@ -112,9 +112,10 @@ test.describe('@products - Product detail', () => {
     });
 
     await test.step('Verify the duration slider goes from 1 to 10 hours.', async () => {
-      // Approved reading: the slider's visible end labels.
-      await expect(productPage.durationMin, 'The slider starts at 1 hour').toHaveText('1');
-      await expect(productPage.durationMax, 'The slider ends at 10 hours').toHaveText('10');
+      // Approved reading: the slider's range as it announces it (aria-valuemin/max). Its end labels are
+      // hidden when the value's own label overlaps them, so they can't be relied on.
+      await expect(productPage.durationSlider, 'The slider starts at 1 hour').toHaveAttribute('aria-valuemin', '1');
+      await expect(productPage.durationSlider, 'The slider ends at 10 hours').toHaveAttribute('aria-valuemax', '10');
     });
 
     await test.step('Verify the "Increase quantity" (+) and "Decrease quantity" (-) buttons are not shown.', async () => {
@@ -127,7 +128,7 @@ test.describe('@products - Product detail', () => {
     const hours = 3;
 
     await test.step('Open the rental product "Excavator".', async () => {
-      await shoppingFlow.openProduct('Excavator');
+      await shoppingFlow.openProduct(TestConstants.products.rentalProduct);
     });
 
     await test.step('Set the duration slider to 3 hours.', async () => {

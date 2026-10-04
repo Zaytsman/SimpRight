@@ -8,7 +8,10 @@ export class ProductPage extends BasePage {
   private readonly productDescriptionText: Locator;
   /** Price without currency sign, e.g. "14.15". */
   private readonly unitPriceText: Locator;
-  /** The shown price with its currency sign ("$14.15"); struck through when the product has a discount. */
+  /**
+   * The shown price with its currency sign ("$14.15"); struck through when the product has a discount.
+   * CSS: the span has no data-test, role or label; it's the one holding the unit price.
+   */
   private readonly priceText: Locator;
   /** Discounted price ("$36.31"), shown only for a location offer seen from a discount location. */
   private readonly discountedPriceText: Locator;
@@ -22,13 +25,17 @@ export class ProductPage extends BasePage {
   private readonly addToCartButton: Locator;
   /** "Out of stock", shown for a product without stock that isn't a rental. */
   private readonly outOfStockText: Locator;
-  /** Rentals only: the duration slider (1-10 hours) replaces the quantity buttons. */
+  /** Rentals only: the duration slider (1-10 hours) replaces the quantity buttons; its range is in aria-valuemin/max. */
   private readonly durationSliderHandle: Locator;
-  private readonly durationMinLabel: Locator;
-  private readonly durationMaxLabel: Locator;
-  /** The hours in the "Duration (n hour(s))" label; the app updates it when the slider moves. */
+  /**
+   * The hours in the "Duration (n hour(s))" label; the app updates it when the slider moves.
+   * CSS: the app's own id, the element has no data-test, role or label.
+   */
   private readonly durationValueText: Locator;
-  /** Rentals only: the total price, hourly rate times the duration, without the currency sign. */
+  /**
+   * Rentals only: the total price, hourly rate (the discounted rate when there is a discount) times the duration,
+   * without the currency sign. CSS: the app's own id, the element has no data-test, role or label.
+   */
   private readonly totalPriceText: Locator;
   private readonly relatedProductsTitle: Locator;
   /** Related product cards: links with a level-5 heading, which nothing else on the page has. */
@@ -53,8 +60,6 @@ export class ProductPage extends BasePage {
     this.addToCartButton = page.getByTestId('add-to-cart');
     this.outOfStockText = page.getByTestId('out-of-stock');
     this.durationSliderHandle = page.getByRole('slider');
-    this.durationMinLabel = page.locator('.ngx-slider-floor');
-    this.durationMaxLabel = page.locator('.ngx-slider-ceil');
     this.durationValueText = page.locator('#duration');
     this.totalPriceText = page.locator('#total-price');
     this.relatedProductsTitle = page.getByRole('heading', { name: 'Related products', level: 2 });
@@ -116,16 +121,6 @@ export class ProductPage extends BasePage {
 
   get durationSlider(): Locator {
     return this.durationSliderHandle;
-  }
-
-  /** The slider's lowest value label. */
-  get durationMin(): Locator {
-    return this.durationMinLabel;
-  }
-
-  /** The slider's highest value label. */
-  get durationMax(): Locator {
-    return this.durationMaxLabel;
   }
 
   get relatedProductsHeading(): Locator {
