@@ -97,7 +97,8 @@ function testIdTable(elements: TestIdElement[]): string {
     if (element.text && !row.texts.includes(element.text)) row.texts.push(element.text);
     rows.set(key, row);
   }
-  const cell = (text: string) => text.replace(/\|/g, '\\|');
+  // Backslashes first, so a text ending in "\" can't turn the cell's closing "|" into a literal one.
+  const cell = (text: string) => text.replace(/\\/g, '\\\\').replace(/\|/g, '\\|');
   const lines = ['| data-test | count (visible) | element | role | text | disabled |', '|---|---|---|---|---|---|'];
   for (const [key, { first, count, visible, disabled, texts }] of rows) {
     const shown = texts.slice(0, MAX_TEXTS).map((text) => (texts.length > 1 ? `"${text}"` : text)).join(', ');
