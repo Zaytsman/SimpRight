@@ -80,11 +80,19 @@ Specs import from `src/fixtures` (`index.ts`): `test`, `expect` and `openHomePag
   - a `// Scenarios: <yml path>` comment at the top;
   - `test.describe('<tags joined by spaces> - <suite>')`, such as `'@products-api - Products API'` (Playwright reads the `@tags`, so `--grep @products-api` works);
   - one `test()` per scenario, titled `'<ID>: <name>'` with the name verbatim.
-- **API spec style** (`tests/api/products/get-products-search.spec.ts` is the example):
-  - One `test.step()` per scenario step, titled with the step text verbatim, so the report and trace read like the scenario. Action steps make the call and attach the payloads; `Verify` steps hold the checks and may read data, never change it.
-  - Every assertion passes `assertMessage({ request, expected, actual })` from `@utils/assertHelpers`; a bare `expect` without a message is forbidden.
-  - Requests and responses are attached with `attachJson(name, data)`, never `test.info().attach` directly. Both helpers mask `password`, `access_token`, `token`, `authorization` and the test users' emails and passwords, because the HTML reports are published. The matcher's own diff isn't masked, so compare a secret value as a condition (`expect(a === b, message).toBe(true)`).
+- **Spec style, both layers** (examples: `tests/ui/products/product-search.spec.ts` and `tests/api/products/get-products-search.spec.ts`):
+  - One `test.step()` per scenario step, titled with the step text verbatim, so the report and trace read like the scenario. Action steps act (and may read values for later checks); `Verify` steps hold the checks and may read data, never change it.
+  - Every assertion carries a message; a bare `expect` without one is forbidden.
   - State shared between steps goes in `let` variables at the top of the test. Each spec file runs on its own.
+- **UI spec style:**
+  - Messages are plain text saying what is checked: `expect(homePage.searchCaption, 'The caption names the search term')`.
+  - Steps use page objects, components and flows from fixtures, and the getters they expose; no selectors in specs.
+  - A precondition fixture (`openHomePageTest`) covers setup the scenario doesn't list as a step. When the scenario lists it ("Open the home page."), the spec does it inside that step with plain `test`.
+  - A flow is used in a step only when it does exactly what that step says (`shoppingFlow.openProduct(name)`); a flow spanning several steps (`addProductToCart`) is for setup.
+- **API spec style:**
+  - Every assertion passes `assertMessage({ request, expected, actual })` from `@utils/assertHelpers`.
+  - Action steps make the call and attach the payloads.
+  - Requests and responses are attached with `attachJson(name, data)`, never `test.info().attach` directly. Both helpers mask `password`, `access_token`, `token`, `authorization` and the test users' emails and passwords, because the HTML reports are published. The matcher's own diff isn't masked, so compare a secret value as a condition (`expect(a === b, message).toBe(true)`).
   - Records a test creates are removed with the `cleanup` fixture (`cleanup.add(() => service.delete(id))`), not `afterAll`: clients and services are test-scoped, so `afterAll` can't use them.
 - **Imports:** specs import from `@fixtures` (`test`, `expect`, `openHomePageTest`) and use fixtures for pages, flows, clients and services. They never construct them or call `page.goto` directly.
 - **API assertions:** happy paths use a service (it returns parsed, typed bodies and throws on non-2xx). Any step that checks a status code, including `200`, uses the client and asserts `response.status`.

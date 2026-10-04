@@ -22,6 +22,10 @@ export class ProductPage extends BasePage {
 
   async open(productId: string): Promise<void> {
     await this.goto(`/product/${productId}`);
+    await this.waitForLoaded();
+  }
+
+  async waitForLoaded(): Promise<void> {
     await expect(this.productNameHeading).toBeVisible();
   }
 

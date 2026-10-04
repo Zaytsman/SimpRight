@@ -16,11 +16,17 @@ export class ShoppingFlow {
     this.cartPage = new CartPage(page, config);
   }
 
-  /** Home -> search -> open product -> set quantity -> add to cart. Returns the product's unit price. */
-  async addProductToCart(productName: string, quantity = 1): Promise<{ unitPrice: number }> {
+  /** Home -> search -> open the product's page, like a user would. */
+  async openProduct(productName: string): Promise<void> {
     await this.homePage.open();
     await this.homePage.search(productName);
     await this.homePage.productGrid.openProduct(productName);
+    await this.productPage.waitForLoaded();
+  }
+
+  /** Home -> search -> open product -> set quantity -> add to cart. Returns the product's unit price. */
+  async addProductToCart(productName: string, quantity = 1): Promise<{ unitPrice: number }> {
+    await this.openProduct(productName);
 
     const unitPrice = await this.productPage.getUnitPrice();
     await this.productPage.setQuantity(quantity);
