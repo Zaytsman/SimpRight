@@ -12,6 +12,7 @@
     "report": "playwright show-report",
     "typecheck": "tsc --noEmit",
     "validate:scenarios": "node scripts/validate-scenarios.mts",
+    "inspect:ui": "node scripts/inspect-ui.mts",
     "install:browsers": "playwright install --with-deps chromium"
   },
   "engines": {

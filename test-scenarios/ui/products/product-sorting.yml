@@ -1,0 +1,36 @@
+# yaml-language-server: $schema=../../scenarios.schema.json
+suite: Product sorting
+tags: ["@products"]
+scenarios:
+  - id: UI-008
+    name: Sort by name from A to Z
+    ref: docs/ui/user-stories/Product_Overview.md#AC9
+    status: manual
+    steps:
+      - Open the home page.
+      - Select "Name (A - Z)" in the sort list.
+      - Verify the product names are in alphabetical order, A to Z.
+  - id: UI-009
+    name: Sort by name from Z to A
+    ref: docs/ui/user-stories/Product_Overview.md#AC9
+    status: manual
+    steps:
+      - Open the home page.
+      - Select "Name (Z - A)" in the sort list.
+      - Verify the product names are in reverse alphabetical order, Z to A.
+  - id: UI-010
+    name: Sort by price from high to low
+    ref: docs/ui/user-stories/Product_Overview.md#AC9
+    status: manual
+    steps:
+      - Open the home page.
+      - Select "Price (High - Low)" in the sort list.
+      - Verify the products are sorted by price, highest first.
+  - id: UI-011
+    name: Sort by price from low to high
+    ref: docs/ui/user-stories/Product_Overview.md#AC9
+    status: manual
+    steps:
+      - Open the home page.
+      - Select "Price (Low - High)" in the sort list.
+      - Verify the products are sorted by price, lowest first.

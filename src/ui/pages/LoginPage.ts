@@ -3,18 +3,22 @@ import type { EnvConfig } from '../../config/env';
 import { BasePage } from './BasePage';
 
 export class LoginPage extends BasePage {
-  readonly emailInput: Locator;
-  readonly passwordInput: Locator;
-  readonly submitButton: Locator;
-  /** e.g. "Invalid email or password". */
-  readonly errorMessage: Locator;
+  private readonly emailInput: Locator;
+  private readonly passwordInput: Locator;
+  private readonly submitButton: Locator;
+  private readonly errorAlert: Locator;
 
   constructor(page: Page, config: EnvConfig) {
     super(page, config);
     this.emailInput = page.getByTestId('email');
     this.passwordInput = page.getByTestId('password');
     this.submitButton = page.getByTestId('login-submit');
-    this.errorMessage = page.getByTestId('login-error');
+    this.errorAlert = page.getByTestId('login-error');
+  }
+
+  /** The login error, e.g. "Invalid email or password". */
+  get errorMessage(): Locator {
+    return this.errorAlert;
   }
 
   async open(): Promise<void> {

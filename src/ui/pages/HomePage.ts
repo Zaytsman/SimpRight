@@ -4,21 +4,25 @@ import { BasePage } from './BasePage';
 import { ProductGrid } from './components/ProductGrid';
 
 export class HomePage extends BasePage {
-  readonly searchInput: Locator;
-  readonly searchButton: Locator;
-  /** "Searched for: <term>", shown after a search. */
-  readonly searchCaption: Locator;
+  private readonly searchInput: Locator;
+  private readonly searchButton: Locator;
+  private readonly searchCaptionText: Locator;
   /** Marker the app renders once search results are in. */
-  readonly searchCompleted: Locator;
+  private readonly searchCompletedMarker: Locator;
   readonly productGrid: ProductGrid;
 
   constructor(page: Page, config: EnvConfig) {
     super(page, config);
     this.searchInput = page.getByTestId('search-query');
     this.searchButton = page.getByTestId('search-submit');
-    this.searchCaption = page.getByTestId('search-caption');
-    this.searchCompleted = page.getByTestId('search_completed');
+    this.searchCaptionText = page.getByTestId('search-caption');
+    this.searchCompletedMarker = page.getByTestId('search_completed');
     this.productGrid = new ProductGrid(page);
+  }
+
+  /** "Searched for: <term>", shown after a search. */
+  get searchCaption(): Locator {
+    return this.searchCaptionText;
   }
 
   async open(): Promise<void> {
@@ -34,6 +38,6 @@ export class HomePage extends BasePage {
   async search(term: string): Promise<void> {
     await this.searchInput.fill(term);
     await this.searchButton.click();
-    await expect(this.searchCompleted).toBeAttached();
+    await expect(this.searchCompletedMarker).toBeAttached();
   }
 }

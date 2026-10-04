@@ -77,7 +77,7 @@ Follow the project's existing scenario files for tone and detail. Then:
 - **`knownIssue`:** one sentence naming the wrong behaviour and the expected one: `Returns 500 instead of 404 for an unknown product id.`
 - **Unconfirmed scenarios** get a YAML comment on the line above their `- id:`: `# Unconfirmed: only in the API spec (_(spec)_ in <contract file>).`
 
-Keys in each scenario follow the order the conventions give (`id`, `name`, `status`, `automatedIn`, `role`, `knownIssue`, `steps`). Every new scenario has `status: manual` and no `automatedIn`; the test engineer sets both when it automates the scenario. A new file gets the schema comment line, `suite` and `tags` like the other files of its area (`<Area> API`, `["@<area>-api"]`); an existing file keeps its header and gets the new scenarios appended at the end.
+Keys in each scenario follow the order the conventions give (`id`, `name`, `ref`, `status`, `automatedIn`, `role`, `knownIssue`, `steps`). Every new scenario has `status: manual` and no `automatedIn`; the test engineer sets both when it automates the scenario. A new file gets the schema comment line, `suite` and `tags` like the other files of its area (`<Area> API`, `["@<area>-api"]`); an existing file keeps its header and gets the new scenarios appended at the end.
 
 ## Phase `propose`: write nothing
 

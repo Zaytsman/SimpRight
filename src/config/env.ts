@@ -143,6 +143,46 @@ export function getRunUser(): RunUser {
   return user;
 }
 
+/** What `npm run inspect:ui` asked for (scripts/inspect-ui.mts); the `inspect` project exists only while it's set. */
+export interface InspectRequest {
+  /** Path relative to `baseUrl`, e.g. `/product/01J...`. */
+  path: string;
+  /** The role to log in as, or `none` for a logged-out page. */
+  role: UserRole | 'none';
+  /**
+   * Steps made in order after the page loads, each one changing only what the page shows, never data:
+   * `click:<data-test>` (tabs, menus, links), `check:<label>` (a checkbox, such as a filter) and
+   * `select:<data-test>=<option label>` (such as a sort order). Never typing or submitting.
+   */
+  steps: string[];
+}
+
+/** The forms an inspection step can take; see `InspectRequest.steps`. */
+const INSPECT_STEP =/^(click:.+|check:.+|select:[^=]+=.+)$/;
+
+// The wrapper sets this (as JSON) for the Playwright process it starts; the workers inherit it.
+const INSPECT_VAR = 'SIMPRIGHT_INSPECT';
+
+/** The page inspection this run was started for, or `undefined` for a normal test run. */
+export function findInspectRequest(): InspectRequest | undefined {
+  const raw = process.env[INSPECT_VAR];
+  if (!raw) return undefined;
+
+  const request = JSON.parse(raw) as Partial<InspectRequest>;
+  if (typeof request.path !== 'string' || !request.path.startsWith('/')) {
+    throw new Error(`${INSPECT_VAR}: path must start with "/", got ${JSON.stringify(request.path)}`);
+  }
+  const role = request.role ?? 'default';
+  if (role !== 'none' && !USER_ROLES.includes(role)) {
+    throw new Error(`${INSPECT_VAR}: unknown role "${role}". Available: ${USER_ROLES.join(', ')}, none`);
+  }
+  const steps = request.steps ?? [];
+  if (!Array.isArray(steps) || steps.some((step) => typeof step !== 'string' || !INSPECT_STEP.test(step))) {
+    throw new Error(`${INSPECT_VAR}: steps must be click:<data-test>, check:<label> or select:<data-test>=<option>`);
+  }
+  return { path: request.path, role, steps };
+}
+
 /** Storage state file for a role, written by globalSetup, e.g. `.auth/admin.json`. */
 export function storageStatePath(role: UserRole): string {
   return path.join(AUTH_DIR, `${role}.json`);
