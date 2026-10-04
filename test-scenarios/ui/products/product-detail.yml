@@ -1,0 +1,60 @@
+# yaml-language-server: $schema=../../scenarios.schema.json
+suite: Product detail
+tags: ["@products"]
+scenarios:
+  - id: UI-013
+    name: The product page shows the product's information and related products
+    ref:
+      - docs/ui/user-stories/Product_Detail.md#AC1
+      - docs/ui/user-stories/Product_Detail.md#AC14
+    status: automated
+    automatedIn: tests/ui/products/product-detail.spec.ts
+    steps:
+      - Open the product "Combination Pliers".
+      - Verify the product image is shown.
+      - Verify the name "Combination Pliers" is shown.
+      - Verify the product description is shown.
+      - Verify the price "$14.15" is shown.
+      - Verify the category badge "Pliers" is shown.
+      - Verify the brand badge "ForgeFlex Tools" is shown.
+      - Verify the "Related products" section is shown below the product information.
+      - Verify the "Related products" section shows at least one product.
+  - id: UI-014
+    name: A discounted product shows the original price struck through, the discounted price and the discount badge
+    ref: docs/ui/user-stories/Product_Detail.md#AC2
+    status: automated
+    automatedIn: tests/ui/products/product-detail.spec.ts
+    steps:
+      - Open a product that has a discount.
+      - Verify the original price is shown struck through.
+      - Verify the discounted price is shown.
+      - Verify a discount percentage badge is shown.
+  - id: UI-015
+    name: An out-of-stock product can't be added to the cart
+    ref: docs/ui/user-stories/Product_Detail.md#AC9
+    status: automated
+    automatedIn: tests/ui/products/product-detail.spec.ts
+    steps:
+      - Open the product "Long Nose Pliers".
+      - Verify "Add to cart" is disabled.
+      - Verify "Out of stock" is shown.
+      - Verify "Out of stock" is shown in red.
+  - id: UI-016
+    name: A rental product shows a duration slider instead of the quantity buttons
+    ref: docs/ui/user-stories/Product_Detail.md#AC10
+    status: automated
+    automatedIn: tests/ui/products/product-detail.spec.ts
+    steps:
+      - Open the rental product "Excavator".
+      - Verify a duration slider is shown.
+      - Verify the duration slider goes from 1 to 10 hours.
+      - Verify the "Increase quantity" (+) and "Decrease quantity" (-) buttons are not shown.
+  - id: UI-017
+    name: A rental's total price is the hourly rate times the duration
+    ref: docs/ui/user-stories/Product_Detail.md#AC10
+    status: automated
+    automatedIn: tests/ui/products/product-detail.spec.ts
+    steps:
+      - Open the rental product "Excavator".
+      - Set the duration slider to 3 hours.
+      - Verify the total price equals 3 × the hourly rate.

@@ -16,6 +16,11 @@ export abstract class BasePage {
     this.navBar = new NavBar(page);
   }
 
+  /** The id of the visitor's cart, which the app keeps in sessionStorage once something is added; null before that. */
+  async getCartId(): Promise<string | null> {
+    return this.page.evaluate(() => window.sessionStorage.getItem('cart_id'));
+  }
+
   /** Navigates to a path relative to `baseUrl`, e.g. `/auth/login`. Subclasses expose `open()`. */
   protected async goto(path: string): Promise<void> {
     await this.page.goto(path);

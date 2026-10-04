@@ -1,13 +1,16 @@
 export { test, expect, type TestFixtures } from './fixtures';
 export { openHomePageTest } from './openHomePage';
+export { visitorInLondonTest } from './visitorInLondon';
 export {
   PRODUCT_LIST_STEP,
   PRODUCT_CREATE_STEP,
   OTHER_REFS_LIST_STEP,
   PRODUCT_CREATE_FIRST_REFS_STEP,
   FIND_PRODUCT_SPEC_STEP,
+  PRODUCT_IN_STOCK_STEP,
   createProductToUpdate,
   createProductWithOtherRefs,
+  createProductInStock,
   takeProductRefs,
   findProductSpec,
   expectFieldMessages,
