@@ -143,6 +143,39 @@ export function getRunUser(): RunUser {
   return user;
 }
 
+/** What `npm run inspect:ui` asked for (scripts/inspect-ui.mts); the `inspect` project exists only while it's set. */
+export interface InspectRequest {
+  /** Path relative to `baseUrl`, e.g. `/product/01J...`. */
+  path: string;
+  /** The role to log in as, or `none` for a logged-out page. */
+  role: UserRole | 'none';
+  /** `data-test` ids clicked in order after the page loads (tabs, menus, links; never submits). */
+  clicks: string[];
+}
+
+// The wrapper sets this (as JSON) for the Playwright process it starts; the workers inherit it.
+const INSPECT_VAR = 'SIMPRIGHT_INSPECT';
+
+/** The page inspection this run was started for, or `undefined` for a normal test run. */
+export function findInspectRequest(): InspectRequest | undefined {
+  const raw = process.env[INSPECT_VAR];
+  if (!raw) return undefined;
+
+  const request = JSON.parse(raw) as Partial<InspectRequest>;
+  if (typeof request.path !== 'string' || !request.path.startsWith('/')) {
+    throw new Error(`${INSPECT_VAR}: path must start with "/", got ${JSON.stringify(request.path)}`);
+  }
+  const role = request.role ?? 'default';
+  if (role !== 'none' && !USER_ROLES.includes(role)) {
+    throw new Error(`${INSPECT_VAR}: unknown role "${role}". Available: ${USER_ROLES.join(', ')}, none`);
+  }
+  const clicks = request.clicks ?? [];
+  if (!Array.isArray(clicks) || clicks.some((id) => typeof id !== 'string' || !id)) {
+    throw new Error(`${INSPECT_VAR}: clicks must be a list of data-test ids`);
+  }
+  return { path: request.path, role, clicks };
+}
+
 /** Storage state file for a role, written by globalSetup, e.g. `.auth/admin.json`. */
 export function storageStatePath(role: UserRole): string {
   return path.join(AUTH_DIR, `${role}.json`);

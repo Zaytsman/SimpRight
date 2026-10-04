@@ -19,6 +19,7 @@ npx playwright test -g "UI-002:"                        # single test by scenari
 npm run typecheck                 # tsc --noEmit (TypeScript 7)
 npm run validate:scenarios        # profile, scenario files, IDs and specs
 npm run report                    # open last HTML report
+npm run inspect:ui -- /auth/login --logged-out   # page inspector: data-test elements + accessibility tree
 ```
 
 ## Playwright setup (playwright.config.ts)
@@ -30,6 +31,7 @@ npm run report                    # open last HTML report
   - `none` (a test option only, not a `UI_AUTH_MODE` value): no login, the test starts logged out. The `api` project sets it in `playwright.config.ts`. That matters because every test resolves the `storageState` fixture (Playwright's trace recording reads the context options), so without it each API test would log in the default user, even for public endpoints, and a locked or failing login would fail the whole API suite. API tests log in through the fixtures that need a token (`accessToken`, `productsClientWithToken`, `adminProductsService`).
 - `api` project: `tests/api`. No browser; `baseURL` = `env.apiBaseUrl`.
 - `ui` project: `tests/ui`. Desktop Chrome; `baseURL` = `env.baseUrl`.
+- `inspect` project: the page inspector, for writing UI tests and scenarios. `npm run inspect:ui -- <path> [--role <role> | --logged-out] [--then click:<data-test> ...]` (`scripts/inspect-ui.mts`) opens a page as a role (default: the run's customer), makes the listed clicks, and prints every `data-test` element (grouped, with role, label or text, visibility) and the page's accessibility tree; the output is masked like the reports and saved in `test-results/inspect/`. The project exists only while the wrapper sets `SIMPRIGHT_INSPECT` (read by `findInspectRequest()` in `env.ts`), so `npm test` never runs it. It's read-only: navigate and click tabs, menus and links; never type or submit. Its spec (`scripts/inspect-ui/inspect-page.spec.ts`) is a tool, so it calls `page.goto` itself.
 - `testIdAttribute` is `data-test` (`TEST_ID_ATTRIBUTE` in `BasePage.ts`), which is what the site uses. Prefer `page.getByTestId(...)` locators.
 - On CI (`CI` set): 2 retries, 2 workers, JUnit output and `forbidOnly`.
 

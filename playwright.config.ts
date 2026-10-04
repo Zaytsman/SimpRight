@@ -1,17 +1,20 @@
 import { defineConfig, devices } from '@playwright/test';
 import { apiCoverageReporter } from './src/api/coverage/apiCoverage';
-import { env } from './src/config/env';
+import { env, findInspectRequest } from './src/config/env';
+import type { BaseOptions } from './src/fixtures/base';
 import type { UiOptions } from './src/ui/fixtures/fixtures';
 import { TEST_ID_ATTRIBUTE } from './src/ui/pages/BasePage';
 
 const isCI = !!process.env.CI;
+// Set only by `npm run inspect:ui` (scripts/inspect-ui.mts); a normal run has no `inspect` project.
+const inspectRequest = findInspectRequest();
 
 // The config is re-evaluated in every worker; log only from the main process.
 if (!process.env.TEST_WORKER_INDEX) {
   console.log(`Running against ${env.name}: ${env.baseUrl} (API: ${env.apiBaseUrl})`);
 }
 
-export default defineConfig<UiOptions>({
+export default defineConfig<BaseOptions & UiOptions>({
   testDir: './tests',
   // Registers the run's customer (the `default` role) and deletes it after the run (its returned teardown).
   // With UI_AUTH_MODE=storageState it also logs in every role through the UI and saves .auth/<role>.json.
@@ -59,5 +62,20 @@ export default defineConfig<UiOptions>({
         ...devices['Desktop Chrome'],
       },
     },
+    // The page inspector for writing UI tests: prints a page's accessibility tree and data-test elements.
+    ...(inspectRequest
+      ? [
+          {
+            name: 'inspect',
+            testDir: './scripts/inspect-ui',
+            use: {
+              ...devices['Desktop Chrome'],
+              ...(inspectRequest.role === 'none'
+                ? { authMode: 'none' as const }
+                : { role: inspectRequest.role }),
+            },
+          },
+        ]
+      : []),
   ],
 });
