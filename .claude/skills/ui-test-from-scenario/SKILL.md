@@ -39,7 +39,8 @@ One `test.step('<step text verbatim>', ...)` per scenario step, in order.
 - **Every assertion has a plain-text message** saying what is checked: `expect(homePage.searchCaption, 'The caption names the search term').toHaveText(...)`. A bare `expect` without a message is forbidden.
 - **Prefer web-first assertions on locators** (`await expect(locator).toHaveText/toBeVisible/toBeChecked/toHaveCount(...)`): they retry until the page settles. Read values once (`getProductNames()`) only for checks a locator assertion can't express (an order, a sum, "every name contains"), and only after the action has waited for its signal.
 - **Order checks:** compare the list with a sorted copy, using the comparison the step implies: names case-insensitively (`a.localeCompare(b, undefined, { sensitivity: 'base' })`), prices as numbers. Put the list in the message, so a failure shows it.
-- "Every item ..." checks: assert the list is not empty first (an empty list passes every "every" check), unless an earlier step already checked it.
+- "Every item ..." and order checks: assert the list is not empty first (an empty list passes both), unless an earlier step already checked it.
+- **Approved readings:** when the user approved how to read a step (names compared case-insensitively, the displayed price, the first page only), record it in a short comment above the check, so later readers see why the test checks it that way.
 - Check exactly what the step says, on what a user can see. Don't add checks the step doesn't ask for.
 - Compare secret values (a test user's email) as a condition, `expect(a === b, message).toBe(true)`, so a failure diff never prints them.
 

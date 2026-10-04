@@ -20,8 +20,8 @@ Add only what the approved plan lists as new, and copy the style of the exemplar
 
 ## Waits: every action waits for the app to finish it
 
-An action returns only when the page shows its result, so the next step never reads a half-updated page. In order of preference:
-1. **The app's own marker or message:** an element the app renders when done (`search_completed`), a toast ("Product added to shopping cart"). Wait with `expect(marker).toBeVisible()` / `toBeAttached()` inside the action.
+An action returns only when the page shows its result, so the next step never reads a half-updated page. And `open()` / `waitForLoaded()` return only when the page has its data, not just its controls: an action started while the page is still loading can be overwritten by the late first load. In order of preference:
+1. **The app's own marker or message:** an element the app renders when done (`search_completed`), a toast ("Product added to shopping cart"), or a container whose `data-test` changes with the state (`sorting_started` → `sorting_completed`). Wait with `expect(marker).toBeVisible()` / `toBeAttached()` inside the action, and make sure the marker can't still be left over from before the action.
 2. **The request the action triggers:** start waiting before the action, then act, then await it: `const done = this.page.waitForResponse((r) => r.url().includes('/products') && r.request().method() === 'GET'); await this.sortSelect.selectOption({ label }); await done;`. Then wait for the re-render if the app shows a loading state.
 3. **A visible change:** the next page's heading, a URL (`waitForURL`), an element that appears or disappears.
 

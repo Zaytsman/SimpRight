@@ -19,7 +19,7 @@
 //
 // It runs Playwright's `inspect` project (scripts/inspect-ui/inspect-page.spec.ts), which exists only while
 // SIMPRIGHT_INSPECT is set, so normal test runs never include it. Like every run, globalSetup registers the
-// run's customer (the `default` role) first and deletes it afterwards. The output is masked like the reports
+// run's customer (the `default` role) first and deletes it afterwards, except for --logged-out, which needs no user. The output is masked like the reports
 // and also saved in test-results/inspect/.
 
 import { spawnSync } from 'node:child_process';

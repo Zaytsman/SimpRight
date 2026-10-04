@@ -30,7 +30,7 @@ Phase: propose
 Notes: <or "none">
 ```
 
-The agent runs the page inspector against the live site (read-only; each run also registers and deletes the run's throwaway customer, like every test run).
+The agent runs the page inspector against the live site (read-only; each logged-in run also registers and deletes the run's throwaway customer, like every test run).
 
 Show the user the proposal as the agent returned it: the tables, the steps, the criteria map and "Decisions needed". Don't shorten the steps, because they are what the user approves. Then ask the user to approve it, or to say what to change (drop, rename, merge, reword, answer the decisions). Write nothing before a clear yes.
 

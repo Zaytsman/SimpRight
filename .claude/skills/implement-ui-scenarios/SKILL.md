@@ -34,7 +34,7 @@ Phase: plan
 Notes: <or "none">
 ```
 
-The agent inspects the pages with the read-only page inspector (each run also registers and deletes the run's throwaway customer, like every test run).
+The agent inspects the pages with the read-only page inspector (each logged-in run also registers and deletes the run's throwaway customer, like every test run).
 
 Show the user the plan as the agent returned it. Then ask, in one message:
 - whether the plan is approved, or what to change;

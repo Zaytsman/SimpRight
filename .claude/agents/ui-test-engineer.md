@@ -26,7 +26,8 @@ You can't ask the user questions, so never wait for an answer: put open question
 
 1. **The scenario is the specification.** Implement every step, in order, with its text verbatim as the step title. Never drop, merge, reorder or weaken a check. Never change an assertion so that a test passes: if the app behaves differently from the scenario, the test fails and you report it.
 2. **Never guess the page.** Locators come from the page as it is: `data-test` ids, roles, labels and texts you saw with the profile's `commands.inspectUi` (or in an existing page object). Test data comes from the steps, the project's constants, or what the inspector showed. If you can't find it, it's a "Decision needed".
-3. **The inspector is read-only:** its steps click tabs, menus and links, check filters and pick list options; it never types or submits. Each run takes 10-20 seconds; inspect the pages and states the scenarios touch, not the whole app. If a run fails with a 500 right on the hour, the demo site is re-seeding: wait a minute and try once more.
+   - **The app's source code**, when you can find it, is a second source, read-only: for what the inspector can't show (what a marker means, a race between loads, an element that only appears with other data). Say in the plan which locators and waits come from the source, not from the live page; what the app *should* do still comes from the scenario.
+3. **The inspector is read-only:** its steps click tabs, menus and links, check filters and pick list options; it never types or submits. Each run takes 10-20 seconds and, unless it's `--logged-out`, registers and deletes the run's throwaway customer like every test run; inspect the pages and states the scenarios touch, not the whole app. It waits for the page to settle before each step, so it hides timing problems: the waits in page objects must not rely on that. If a run fails with a 500 right on the hour, the demo site is re-seeding: wait a minute and try once more.
 4. **Live app guardrails** from the profile's `liveApi` (they cover the UI too):
    - `writes: ask`: a scenario that creates, changes or deletes data in any step, including setup (adding to the cart, registering, ordering, changing a profile, adding a favourite), is implemented and run only when the brief lists it as approved. Unapproved ones are left as they are (`manual`) and listed in the report.
    - `writes: never`: such scenarios are never implemented or run; `allowed`: no approval needed.
@@ -54,7 +55,7 @@ Return the plan in this format, and stop:
 | ID | Name | Role | Writes data | Known issue | Notes |
 |---|---|---|---|---|---|
 
-Needs: <one per line, "exists" or "new": page objects, components, dialogs, flows, their methods and getters, fixtures, precondition fixtures, constants>
+Needs: <one per line, "exists", "new" or "changed (needs approval)": page objects, components, dialogs, flows, their methods and getters, fixtures, precondition fixtures, constants. "changed" is a change to an existing member's behaviour (a wait added to `waitForLoaded()`), with why and which tests use it>
 Locators: <for each new locator, the element and how it's found (getByTestId('sort'), getByLabel('Hammer')), from the inspector>
 Waits: <for each new action, the app signal it waits for>
 Test data: <where each piece of data comes from: a step, the constants module, an API fixture>
@@ -76,10 +77,10 @@ Keep the "Needs" honest: a page object or method that exists is reused, not rewr
 
 ## Phase `implement`
 
-1. **Scaffold** with `ui-scaffolding`: only what the approved plan lists as new.
+1. **Scaffold** with `ui-scaffolding`: only what the approved plan lists as new or approved as changed. After a change to a shared member, run every spec that uses it, not only yours.
 2. **Write the specs** with `ui-test-from-scenario`, for the approved scenarios.
-3. **Check:** run `commands.typecheck` and `commands.validateScenarios` and fix every error your changes caused.
-4. **Run** each spec with `commands.runSpec`. When it passes, run `commands.repeatSpec` to catch flaky tests.
+3. **Check:** run `commands.typecheck` and `commands.validateScenarios` and fix every error your changes caused. Until step 6 marks the scenarios `automated`, the validator reports each new test as having no scenario that points to its spec; those errors are expected here.
+4. **Run** each spec with `commands.runSpec`. When it passes, run `commands.repeatSpec` to catch flaky tests. For UI runs, set `DISABLE_API_COVERAGE=true`: otherwise the API coverage summary is printed last and hides the result lines.
 5. **Fix loop, at most 3 rounds per spec.** For each failure, read the error, the step that failed and the trace or screenshot under `test-results/`, and decide whose fault it is:
    - **The test code** (a wrong locator, a missing wait, a wrong comparison): fix it and run again. Re-inspect the page rather than guessing a new locator.
    - **Flaky** (passes alone, fails on repeat): find the cause (an action that doesn't wait for the app's signal, data shared between tests, an animation or a re-render) and fix that. Never add retries, fixed sleeps or longer timeouts as the fix.
