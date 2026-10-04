@@ -2,7 +2,7 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "qa-agents-profile.schema.json",
   "title": "QA agents profile",
-  "description": "Project facts for the QA agents and scripts: paths, commands, ID rules, roles, exemplar files and live API guardrails.",
+  "description": "Project facts for the QA agents and scripts: paths, commands, ID rules, roles, API and UI exemplar files and rules, and live app guardrails.",
   "type": "object",
   "required": ["project", "paths", "commands", "ids", "roles", "api", "liveApi"],
   "additionalProperties": false,
@@ -37,13 +37,17 @@
         "contractFormat": { "$ref": "#/definitions/path", "description": "The contract format specification the contract writer follows." },
         "tests": { "$ref": "#/definitions/path", "description": "Spec folder: <layer>/<area>/<name>.spec.ts." },
         "apiTests": { "$ref": "#/definitions/path" },
+        "uiTests": { "$ref": "#/definitions/path" },
+        "pages": { "$ref": "#/definitions/path", "description": "Page objects, with components/ and dialogs/ inside." },
+        "flows": { "$ref": "#/definitions/path", "description": "Multi-page user journeys." },
+        "userStories": { "$ref": "#/definitions/path", "description": "User stories and acceptance criteria, input for UI scenarios." },
         "testData": { "$ref": "#/definitions/path", "description": "Test data: shared constants and factories." },
         "coverageSummary": { "$ref": "#/definitions/path", "description": "API coverage summary; generated, so it may not exist." }
       }
     },
     "commands": {
       "type": "object",
-      "description": "Shell commands. {spec} and {id} are placeholders.",
+      "description": "Shell commands. {spec}, {id} and {path} are placeholders.",
       "required": ["typecheck", "validateScenarios", "runSpec", "runScenario"],
       "additionalProperties": false,
       "properties": {
@@ -70,6 +74,11 @@
           "type": "string",
           "pattern": "\\{spec\\}",
           "description": "Converts an OpenAPI spec ({spec}) into draft contracts."
+        },
+        "inspectUi": {
+          "type": "string",
+          "pattern": "\\{path\\}",
+          "description": "Read-only page inspector: prints the data-test elements and accessibility tree of a page ({path}, relative to baseUrl)."
         }
       }
     },
@@ -148,15 +157,52 @@
         }
       }
     },
+    "ui": {
+      "type": "object",
+      "description": "Optional: only projects with UI tests have it.",
+      "required": ["exemplars", "knownIssue", "rules"],
+      "additionalProperties": false,
+      "properties": {
+        "exemplars": {
+          "type": "object",
+          "description": "Existing files whose style new code copies.",
+          "required": ["page", "component", "flow", "fixtures", "spec"],
+          "additionalProperties": false,
+          "properties": {
+            "page": { "$ref": "#/definitions/path" },
+            "basePage": { "$ref": "#/definitions/path", "description": "The base class pages extend." },
+            "component": { "$ref": "#/definitions/path", "description": "A reusable part of a page." },
+            "dialog": { "$ref": "#/definitions/path", "description": "A dialog, or the base class dialogs extend." },
+            "flow": { "$ref": "#/definitions/path", "description": "A multi-page user journey." },
+            "fixtures": { "$ref": "#/definitions/path", "description": "Where page, component, dialog and flow fixtures are registered." },
+            "preconditionFixture": { "$ref": "#/definitions/path", "description": "A fixture that starts a test on a prepared page." },
+            "fixturesIndex": { "$ref": "#/definitions/path", "description": "Where precondition fixtures are exported." },
+            "spec": { "$ref": "#/definitions/path" },
+            "constants": { "$ref": "#/definitions/path", "description": "Shared seeded test values." }
+          }
+        },
+        "knownIssue": {
+          "type": "string",
+          "pattern": "\\{text\\}",
+          "description": "Code that marks a test as hitting a known issue; {text} is the scenario's knownIssue."
+        },
+        "rules": {
+          "type": "array",
+          "description": "Agent-critical rules only; everything else is in project.conventions.",
+          "items": { "type": "string", "minLength": 1 }
+        }
+      }
+    },
     "liveApi": {
       "type": "object",
+      "description": "Guardrails for anything that calls the live app, API or UI.",
       "required": ["writes"],
       "additionalProperties": false,
       "properties": {
         "writes": {
           "type": "string",
           "enum": ["never", "ask", "allowed"],
-          "description": "Whether agents may run tests or checks that change data on the live API."
+          "description": "Whether agents may run tests or checks that change data on the live app (API or UI)."
         },
         "dangerous": {
           "type": "array",

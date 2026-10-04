@@ -48,6 +48,7 @@ interface Profile {
   ids: { layers: Record<string, { prefix: string; digits: number }>; areas: string[]; fileNames?: Record<string, string> };
   roles: string[];
   api: { exemplars: Record<string, string> };
+  ui?: { exemplars: Record<string, string> };
 }
 
 interface Scenario {
@@ -145,6 +146,7 @@ const profilePaths: [string, string][] = [
     .filter(([key]) => key !== 'coverageSummary')
     .map(([key, file]): [string, string] => [`paths.${key}`, file]),
   ...Object.entries(profile.api.exemplars).map(([key, file]): [string, string] => [`api.exemplars.${key}`, file]),
+  ...Object.entries(profile.ui?.exemplars ?? {}).map(([key, file]): [string, string] => [`ui.exemplars.${key}`, file]),
 ];
 for (const [key, file] of profilePaths) {
   if (!exists(file)) fail(PROFILE_FILE, `${key}: ${file} doesn't exist`);
