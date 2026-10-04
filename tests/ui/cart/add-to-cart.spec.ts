@@ -3,7 +3,7 @@ import type { CartPage } from '@ui/pages/CartPage';
 import { TestConstants } from '@data/TestConstants';
 
 // Scenarios: test-scenarios/ui/cart/add-to-cart.yml
-test.describe('@cart-ui - Cart', () => {
+test.describe('@cart - Cart', () => {
   test('UI-002: Add a product with quantity 2 to the cart', async ({ shoppingFlow, productPage }) => {
     const productName = TestConstants.products.knownProduct;
     const quantity = 2;

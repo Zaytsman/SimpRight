@@ -1,6 +1,6 @@
 # yaml-language-server: $schema=../../scenarios.schema.json
 suite: Cart
-tags: ["@cart-ui"]
+tags: ["@cart"]
 scenarios:
   - id: UI-002
     name: Add a product with quantity 2 to the cart

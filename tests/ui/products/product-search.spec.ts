@@ -2,7 +2,7 @@ import { test, expect } from '@fixtures';
 import { TestConstants } from '@data/TestConstants';
 
 // Scenarios: test-scenarios/ui/products/product-search.yml
-test.describe('@products-ui - Product search', () => {
+test.describe('@products - Product search', () => {
   test('UI-001: Search by name shows only matching products', async ({ homePage }) => {
     const term = TestConstants.products.searchTerm;
 

@@ -1,6 +1,6 @@
 # yaml-language-server: $schema=../../scenarios.schema.json
 suite: Product search
-tags: ["@products-ui"]
+tags: ["@products"]
 scenarios:
   - id: UI-001
     name: Search by name shows only matching products

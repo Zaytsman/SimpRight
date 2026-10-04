@@ -7,7 +7,7 @@
 // - every scenario file lives in <scenarios>/<layer>/<area>/<name>.yml with a layer and area from the profile,
 //   a name that matches the layer's ids.fileNames pattern (any kebab-case name when there's none),
 //   parses, and matches the scenario schema;
-// - keys are in the agreed order (file: suite, tags, scenarios; scenario: id, name, status, automatedIn, role, knownIssue, steps);
+// - keys are in the agreed order (file: suite, tags, scenarios; scenario: id, name, ref, status, automatedIn, role, knownIssue, steps);
 // - status automated has an automatedIn, and status manual has none;
 // - IDs are unique across files and are <PREFIX>-<number> with the prefix and digits of the file's layer
 //   (numbered across the layer, not per area); the output ends with the next free ID of each layer;
@@ -27,7 +27,7 @@ const PROFILE_FILE = 'qa-agents-profile.yml';
 const PROFILE_SCHEMA_FILE = 'qa-agents-profile.schema.json';
 
 const FILE_KEY_ORDER = ['suite', 'tags', 'scenarios'];
-const SCENARIO_KEY_ORDER = ['id', 'name', 'status', 'automatedIn', 'role', 'knownIssue', 'steps'];
+const SCENARIO_KEY_ORDER = ['id', 'name', 'ref', 'status', 'automatedIn', 'role', 'knownIssue', 'steps'];
 
 // The title string of a call: '...', "..." or `...`, with escapes allowed.
 // test('...'), test.only/skip/fixme/fail('...'); test.describe/test.step/test.use don't match.
@@ -53,6 +53,7 @@ interface Profile {
 interface Scenario {
   id: string;
   name: string;
+  ref?: string | string[];
   status: 'manual' | 'automated';
   automatedIn?: string;
   role?: string;
