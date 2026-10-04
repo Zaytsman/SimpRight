@@ -2,6 +2,7 @@ import { test, expect } from '@playwright/test';
 import type { Cleanup } from '../../fixtures/base';
 import type { ApiResponse } from '../clients/BaseClient';
 import type { ValidationErrors } from '../dto/common';
+import type { Product } from '../dto/product';
 import type { ProductsService } from '../services/ProductsService';
 import { ProductFactory, type ProductRefs } from '../../data/factories/ProductFactory';
 import { assertMessage, attachJson } from '../../utils/assertHelpers';
@@ -190,6 +191,41 @@ export async function findProductSpec(productsService: ProductsService): Promise
   });
 
   return { specName, specValue };
+}
+
+/** Setup step of UI tests that need a product to buy: one nobody else can change (no seeded product, which any visitor of the demo site can). */
+export const PRODUCT_IN_STOCK_STEP = 'Create a product for this test through the API: a unique name, in stock.';
+
+/**
+ * The PRODUCT_IN_STOCK_STEP step: takes the ids of seeded records from the first listed product, creates a product
+ * in stock with them (as admin) and registers its removal right away. A cart holding the product blocks its removal
+ * (409), so a test that adds it to a cart also registers the cart's removal, which then runs first.
+ */
+export async function createProductInStock(
+  productsService: ProductsService,
+  adminProductsService: ProductsService,
+  cleanup: Cleanup
+): Promise<Product> {
+  let product: Product | undefined;
+
+  await test.step(PRODUCT_IN_STOCK_STEP, async () => {
+    const list = await productsService.list();
+    const first = list.data[0];
+    const refs = { brandId: first?.brand?.id, categoryId: first?.category?.id, productImageId: first?.product_image?.id };
+    expect(
+      Boolean(refs.brandId && refs.categoryId && refs.productImageId),
+      assertMessage({ request: { method: 'GET', path: '/products' }, expected: 'The first product has a brand id, a category id and a product image id', actual: refs })
+    ).toBe(true);
+    const body = ProductFactory.createProductInStock(refs as ProductRefs);
+    product = await adminProductsService.create(body);
+    const id = product.id;
+    cleanup.add(() => adminProductsService.delete(id));
+    await attachJson('Create Product Response', product);
+    // An admin gets the stock count in in_stock, other users a boolean.
+    expect(Boolean(product.in_stock), assertMessage({ request: { method: 'POST', path: '/products', body }, expected: 'The new product is in stock', actual: product })).toBe(true);
+  });
+
+  return product!;
 }
 
 /** The checks of a "Verify the body has a <field> key with at least one message." step. */

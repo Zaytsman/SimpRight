@@ -1,16 +1,24 @@
-import { test, expect } from '@fixtures';
+import { test, expect, createProductInStock } from '@fixtures';
 import type { CartPage } from '@ui/pages/CartPage';
-import { TestConstants } from '@data/TestConstants';
 
 // Scenarios: test-scenarios/ui/cart/add-to-cart.yml
 test.describe('@cart - Cart', () => {
-  test('UI-002: Add a product with quantity 2 to the cart', async ({ shoppingFlow, productPage }) => {
-    const productName = TestConstants.products.knownProduct;
+  test('UI-002: Add a product with quantity 2 to the cart', async ({
+    shoppingFlow,
+    productPage,
+    productsService,
+    adminProductsService,
+    cartsService,
+    cleanup,
+  }) => {
     const quantity = 2;
     let unitPrice: number;
     let cartPage: CartPage;
 
-    await test.step('Search for "Combination Pliers" and open the product.', async () => {
+    // A product of its own, so other visitors of the demo site (who can change seeded products) can't break the test.
+    const productName = (await createProductInStock(productsService, adminProductsService, cleanup)).name;
+
+    await test.step('Search for that product and open it.', async () => {
       await shoppingFlow.openProduct(productName);
       unitPrice = await productPage.getUnitPrice();
     });
@@ -18,6 +26,9 @@ test.describe('@cart - Cart', () => {
     await test.step('Set the quantity to 2 and click "Add to cart".', async () => {
       await productPage.setQuantity(quantity);
       await productPage.addToCart();
+      // The cart holds the product, which blocks its removal: remove the cart first (cleanup runs newest first).
+      const cartId = await productPage.getCartId();
+      if (cartId) cleanup.add(() => cartsService.delete(cartId));
     });
 
     await test.step('Verify the cart badge in the nav bar shows 2.', async () => {
@@ -28,7 +39,7 @@ test.describe('@cart - Cart', () => {
       cartPage = await shoppingFlow.goToCart();
     });
 
-    await test.step('Verify the cart has exactly one line: "Combination Pliers" with quantity 2.', async () => {
+    await test.step('Verify the cart has exactly one line: that product with quantity 2.', async () => {
       expect(await cartPage.getLines(), 'The cart holds only the added product, with its quantity').toEqual([{ title: productName, quantity }]);
     });
 

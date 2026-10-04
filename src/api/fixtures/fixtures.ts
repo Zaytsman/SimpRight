@@ -1,9 +1,11 @@
 import { test as base } from '../../fixtures/base';
 import { AuthClient } from '../clients/AuthClient';
+import { CartsClient } from '../clients/CartsClient';
 import { ProductsClient } from '../clients/ProductsClient';
 import { UsersClient } from '../clients/UsersClient';
 import { ProductsService } from '../services/ProductsService';
 import { AuthService } from '../services/AuthService';
+import { CartsService } from '../services/CartsService';
 import { UsersService } from '../services/UsersService';
 
 /** Not a JWT at all, so the API can't parse it and treats the request as unauthenticated. */
@@ -37,6 +39,8 @@ export type ApiFixtures = {
   usersServiceForToken: (token: string) => UsersService;
   /** Always authenticated as admin, whatever the test's `role`: patches throwaway customers and deletes them in cleanup. */
   adminUsersService: UsersService;
+  /** Public: carts need no token (cleanup removes the cart a UI test filled). */
+  cartsService: CartsService;
 };
 
 export const test = base.extend<ApiFixtures>({
@@ -87,6 +91,10 @@ export const test = base.extend<ApiFixtures>({
   },
   adminUsersService: async ({ request, config, tokenService }, use) => {
     await use(new UsersService(new UsersClient(request, config, await tokenService.getAccessToken('admin'))));
+  },
+
+  cartsService: async ({ request, config }, use) => {
+    await use(new CartsService(new CartsClient(request, config)));
   },
 });
 

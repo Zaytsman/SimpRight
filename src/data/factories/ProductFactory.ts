@@ -32,6 +32,11 @@ export const ProductFactory = {
     };
   },
 
+  /** A valid POST /products body for a product that can be bought: like createProduct, plus stock 10 (no stock means out of stock). */
+  createProductInStock(refs: ProductRefs): CreateProductRequest {
+    return this.createProduct(refs, { stock: 10 });
+  },
+
   /** A PUT body that only renames the product, to a new unique name. */
   updateName(): UpdateProductRequest {
     return { name: uniqueName(PRODUCT_NAME_PREFIX) };

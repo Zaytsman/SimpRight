@@ -7,11 +7,12 @@ scenarios:
     status: automated
     automatedIn: tests/ui/cart/add-to-cart.spec.ts
     steps:
-      - Search for "Combination Pliers" and open the product.
+      - 'Create a product for this test through the API: a unique name, in stock.'
+      - Search for that product and open it.
       - Set the quantity to 2 and click "Add to cart".
       - Verify the cart badge in the nav bar shows 2.
       - Open the cart.
-      - 'Verify the cart has exactly one line: "Combination Pliers" with quantity 2.'
+      - 'Verify the cart has exactly one line: that product with quantity 2.'
       - Verify the cart total equals 2 × the product's unit price.
   - id: UI-027
     name: Adding a product to the cart shows a success message
