@@ -9,6 +9,12 @@ export class HomePage extends BasePage {
   private readonly searchCaptionText: Locator;
   /** Marker the app renders once search results are in. */
   private readonly searchCompletedMarker: Locator;
+  private readonly sortSelect: Locator;
+  /**
+   * The grid container's `data-test` is the app's result state: it turns to `sorting_started` on every
+   * sort change and to `sorting_completed` once the sorted products are rendered.
+   */
+  private readonly sortingCompletedMarker: Locator;
   readonly productGrid: ProductGrid;
 
   constructor(page: Page, config: EnvConfig) {
@@ -17,6 +23,8 @@ export class HomePage extends BasePage {
     this.searchButton = page.getByTestId('search-submit');
     this.searchCaptionText = page.getByTestId('search-caption');
     this.searchCompletedMarker = page.getByTestId('search_completed');
+    this.sortSelect = page.getByTestId('sort');
+    this.sortingCompletedMarker = page.getByTestId('sorting_completed');
     this.productGrid = new ProductGrid(page);
   }
 
@@ -30,8 +38,19 @@ export class HomePage extends BasePage {
     await this.waitForLoaded();
   }
 
+  /**
+   * Waits for the search box and the first page of products. The first page loads without any result
+   * marker, and a late response would replace the grid after a search or sort, so actions wait for it here.
+   */
   async waitForLoaded(): Promise<void> {
     await expect(this.searchInput).toBeVisible();
+    await expect(this.productGrid.cards.first()).toBeVisible();
+  }
+
+  /** Picks a sort option by its visible label (e.g. "Name (A - Z)") and waits until the sorted grid is rendered. */
+  async sortBy(optionLabel: string): Promise<void> {
+    await this.sortSelect.selectOption({ label: optionLabel });
+    await expect(this.sortingCompletedMarker).toBeAttached();
   }
 
   /** Searches and waits until the results (or the "no products" message) are rendered. */
