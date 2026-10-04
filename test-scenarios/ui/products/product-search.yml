@@ -4,6 +4,7 @@ tags: ["@products"]
 scenarios:
   - id: UI-001
     name: Search by name shows only matching products
+    ref: docs/ui/user-stories/Product_Overview.md#AC4
     status: automated
     automatedIn: tests/ui/products/product-search.spec.ts
     steps:
@@ -12,3 +13,52 @@ scenarios:
       - 'Verify the caption reads "Searched for: pliers".'
       - Verify at least one product is shown.
       - Verify every product name contains "pliers" (case-insensitive).
+  - id: UI-003
+    name: Search resets the active category and brand filters
+    ref: docs/ui/user-stories/Product_Overview.md#AC4
+    status: manual
+    steps:
+      - Open the home page.
+      - Check the category "Hammer" in the sidebar.
+      - Check the brand "ForgeFlex Tools" in the sidebar.
+      - Search for "pliers".
+      - Verify the category "Hammer" is not checked.
+      - Verify the brand "ForgeFlex Tools" is not checked.
+      - Verify at least one product is shown.
+      - Verify every product name contains "pliers" (case-insensitive).
+  - id: UI-004
+    name: Search with a 3-character term is accepted
+    ref: docs/ui/user-stories/Product_Overview.md#AC4
+    status: manual
+    steps:
+      - Open the home page.
+      - Search for "ham".
+      - 'Verify the caption reads "Searched for: ham".'
+      - Verify at least one product is shown.
+      - Verify every product name contains "ham" (case-insensitive).
+  - id: UI-005
+    name: Search with a 40-character term is accepted
+    ref: docs/ui/user-stories/Product_Overview.md#AC4
+    status: manual
+    steps:
+      - Open the home page.
+      - Search for a term of exactly 40 characters.
+      - 'Verify the caption reads "Searched for: " followed by the term.'
+  - id: UI-006
+    name: Search with a 2-character term is rejected
+    ref: docs/ui/user-stories/Product_Overview.md#AC4
+    status: manual
+    steps:
+      - Open the home page.
+      - Search for "pl".
+      - 'Verify no "Searched for:" caption is shown.'
+      - Verify the product grid still shows the first page of all products.
+  - id: UI-007
+    name: Search with a 41-character term is rejected
+    ref: docs/ui/user-stories/Product_Overview.md#AC4
+    status: manual
+    steps:
+      - Open the home page.
+      - Search for a term of exactly 41 characters.
+      - 'Verify no "Searched for:" caption is shown.'
+      - Verify the product grid still shows the first page of all products.

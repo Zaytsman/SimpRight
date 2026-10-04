@@ -1,0 +1,11 @@
+# yaml-language-server: $schema=../../scenarios.schema.json
+suite: Product grid
+tags: ["@products"]
+scenarios:
+  - id: UI-012
+    name: An out-of-stock product shows "Out of stock" on its card
+    ref: docs/ui/user-stories/Product_Overview.md#AC13
+    status: manual
+    steps:
+      - Open the home page.
+      - Verify the card of "Long Nose Pliers" shows "Out of stock".
