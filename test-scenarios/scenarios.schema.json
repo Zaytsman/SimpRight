@@ -61,7 +61,7 @@
         "role": {
           "type": "string",
           "minLength": 1,
-          "description": "Login role of the test. Absent means the default user."
+          "description": "Role of the test, one of the profile's roles. Absent means the default user; guest means logged out."
         },
         "knownIssue": {
           "type": "string",
