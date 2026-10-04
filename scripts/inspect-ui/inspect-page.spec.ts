@@ -7,8 +7,9 @@ import { redact } from '@utils/assertHelpers';
 
 // The page inspector behind `npm run inspect:ui` (scripts/inspect-ui.mts), not a test: it runs only in the
 // `inspect` project, which exists only while an inspection is requested. It opens a page as a role, makes
-// the listed clicks, and writes what a test writer needs: the accessibility tree and every data-test
-// element. Read-only: it navigates and clicks, never types or submits. The output is masked like reports.
+// the listed steps, and writes what a test writer needs: the accessibility tree and every data-test
+// element. Read-only: the steps click, check filters and pick list options, which change only what the page
+// shows; it never types or submits. The output is masked like reports.
 
 const OUTPUT_DIR = path.join('test-results', 'inspect');
 const MAX_TEXT = 80;
@@ -24,9 +25,40 @@ interface TestIdElement {
   disabled: boolean;
 }
 
-/** Waits until the page stops loading data; a page that keeps polling is inspected as it is after 10 s. */
+/**
+ * Waits until the page stops loading and rendering: the network is idle, then the page's text and element
+ * count stay the same for a second (the app may fetch data after the network first goes quiet). A page
+ * that keeps changing is inspected as it is after about 10 s. This is a tool, so polling is fine here.
+ */
 async function settle(page: Page): Promise<void> {
   await page.waitForLoadState('networkidle', { timeout: 10_000 }).catch(() => undefined);
+  const snapshot = () => page.evaluate(() => `${document.querySelectorAll('*').length}:${document.body.innerText}`);
+  let previous = await snapshot();
+  for (let stableFor = 0, waited = 0; stableFor < 1_000 && waited < 10_000; waited += 250) {
+    await page.waitForTimeout(250);
+    const current = await snapshot();
+    stableFor = current === previous ? stableFor + 250 : 0;
+    previous = current;
+  }
+}
+
+/**
+ * One step of an inspection: `click:<data-test>`, `check:<label>` (found by its label, because filter
+ * checkboxes have record ids) or `select:<data-test>=<option label>`.
+ */
+async function makeStep(page: Page, step: string): Promise<void> {
+  const [kind, ...rest] = step.split(':');
+  const target = rest.join(':');
+  if (kind === 'click') {
+    await page.getByTestId(target).first().click();
+  } else if (kind === 'check') {
+    await page.getByLabel(target, { exact: true }).first().check();
+  } else if (kind === 'select') {
+    const [testId, option] = [target.slice(0, target.indexOf('=')), target.slice(target.indexOf('=') + 1)];
+    await page.getByTestId(testId).first().selectOption({ label: option });
+  } else {
+    throw new Error(`Unknown inspection step "${step}"`);
+  }
 }
 
 async function readTestIdElements(page: Page): Promise<TestIdElement[]> {
@@ -64,6 +96,13 @@ async function readTestIdElements(page: Page): Promise<TestIdElement[]> {
           // Options in full: tests pick them by label.
           const options = [...(el as HTMLSelectElement).options].map((option) => option.label.trim()).filter(Boolean);
           text = `${text ? `${text}; ` : ''}options: ${options.join(' / ')}`;
+        }
+        if (isField) {
+          // Limits the HTML declares; validation done only in the app's code doesn't show here.
+          const limits = ['required', 'minlength', 'maxlength', 'min', 'max', 'pattern']
+            .filter((name) => el.hasAttribute(name))
+            .map((name) => (name === 'required' ? name : `${name} ${el.getAttribute(name)}`));
+          if (limits.length) text = `${text ? `${text}; ` : ''}limits: ${limits.join(', ')}`;
         }
         return {
           testId: el.getAttribute('data-test') ?? '',
@@ -115,8 +154,8 @@ test('inspect page', async ({ page, role, authMode }) => {
 
   await page.goto(request.path);
   await settle(page);
-  for (const testId of request.clicks) {
-    await page.getByTestId(testId).first().click();
+  for (const step of request.steps) {
+    await makeStep(page, step);
     await settle(page);
   }
 
@@ -127,7 +166,7 @@ test('inspect page', async ({ page, role, authMode }) => {
     `- URL: ${page.url()}`,
     `- Title: ${await page.title()}`,
     `- Logged in as: ${authMode === 'none' ? 'nobody (logged out)' : role}`,
-    `- Clicks: ${request.clicks.length ? request.clicks.map((id) => `\`${id}\``).join(' → ') : 'none'}`,
+    `- Steps: ${request.steps.length ? request.steps.map((step) => `\`${step}\``).join(' → ') : 'none'}`,
     '',
     `## data-test elements (${elements.length})`,
     '',
@@ -141,7 +180,7 @@ test('inspect page', async ({ page, role, authMode }) => {
     '',
   ].join('\n');
 
-  const slug = [request.path, request.role, ...request.clicks].join('-').replace(/[^a-zA-Z0-9]+/g, '-').replace(/^-|-$/g, '') || 'root';
+  const slug = [request.path, request.role, ...request.steps].join('-').replace(/[^a-zA-Z0-9]+/g, '-').replace(/^-|-$/g, '') || 'root';
   fs.mkdirSync(OUTPUT_DIR, { recursive: true });
   fs.writeFileSync(path.join(OUTPUT_DIR, `${slug}.md`), redact(report) as string);
 });

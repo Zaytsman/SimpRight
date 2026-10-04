@@ -25,11 +25,12 @@ You can't ask the user questions, so never wait for an answer: put open question
 1. **Never invent anything.** Every scenario traces to an acceptance criterion (or the bug). Don't cover behaviour the document doesn't describe, even if you see it in the app. When a criterion is vague ("updates the grid"), write a scenario only for what it states and can be seen, and list the gap under "Decisions needed".
 2. **Add only.** Never change, reorder or remove existing scenarios, and never touch `status` or `automatedIn` on them, unless the brief explicitly asks for it.
 3. **Write only scenario files**, in the profile's scenario folder for the UI layer. No test code, no page objects, no profile changes (a missing area or role is a "Decision needed"; the skill updates the profile).
-4. **The live app, read-only, through the inspector only:** the profile's `commands.inspectUi`. Navigate and click tabs, menus and links (`--then click:<data-test>`); never type, submit, add to the cart or change anything, and never drive a browser any other way. Each inspection takes a few seconds and starts a test run, so inspect only the pages your scenarios touch (usually 2-5 runs). If an inspection fails with a 500 right on the hour, the demo site is re-seeding: wait a minute and try once more.
-5. **No secret values** in steps: write "the default user's email", never the address. Don't open `.env` files.
-6. **Steps speak the user's language, never the code's:** labels, texts and messages as the user sees them (`Click "Add to cart".`), never `data-test` ids, selectors, URLs with record ids or page object names. Record ids change when the site re-seeds, so name records by what the user sees ("the product "Combination Pliers"").
-7. **One reason to fail per scenario.** A different starting state, different user actions or a different expected outcome is a different scenario.
-8. **The proposal is the contract with the user.** In the `write` phase, write exactly the approved scenarios, with the user's edits. Anything you'd change while writing is reported, not done.
+4. **The live app, read-only, through the inspector only:** the profile's `commands.inspectUi`. Its steps change only what the page shows: `--then click:<data-test>` (tabs, menus, links), `--then "check:<label>"` (a checkbox such as a filter, by its label) and `--then "select:<data-test>=<option label>"` (such as a sort order). Never type, submit, add to the cart or change data in any way, and never drive a browser any other way. Each inspection takes 10-20 seconds and starts a test run, so inspect only the pages and states your scenarios touch (usually 2-6 runs). If an inspection fails with a 500 right on the hour, the demo site is re-seeding: wait a minute and try once more. In Git Bash the printed path may start with `C:/Program Files/Git/`; that's the shell rewriting `/`, and the inspector undoes it.
+5. **Not the app's source code.** What the app should do comes from the document; what it does comes from the inspector. Don't read the app's source, even if you find it: a limit or rule you'd only know from the code is a "Decision needed".
+6. **No secret values** in steps: write "the default user's email", never the address. Don't open `.env` files.
+7. **Steps speak the user's language, never the code's:** labels, texts and messages as the user sees them (`Click "Add to cart".`), never `data-test` ids, selectors, URLs with record ids or page object names. Record ids change when the site re-seeds, so name records by what the user sees ("the product "Combination Pliers"").
+8. **One reason to fail per scenario.** A different starting state, different user actions or a different expected outcome is a different scenario.
+9. **The proposal is the contract with the user.** In the `write` phase, write exactly the approved scenarios, with the user's edits. Anything you'd change while writing is reported, not done.
 
 ## Prepare (both phases)
 
@@ -37,10 +38,10 @@ You can't ask the user questions, so never wait for an answer: put open question
 2. Read the files in `project.conventions` (the scenario format, step style, tags and key order are described there), the scenario schema, and `ui.exemplars.constants` (seeded values the tests already rely on).
 3. Read the document in full and list its criteria: for each one the starting state (Given), the user's action (When) and the outcome (Then). A bug report gives the steps to reproduce, the expected and the actual behaviour.
 4. Read every existing UI scenario file, so you know what's covered. IDs are numbered across the whole UI layer, not per area: run `commands.validateScenarios`, which prints the next free ID of each layer (`UI-003`), and number new scenarios from it in proposal order.
-5. **Look at the app.** For each page the criteria touch, run the inspector (as the role the scenario will use; `--logged-out` for a logged-out user) and note the real labels, button texts, messages, options and the data on the page that a scenario can rely on (a product name, how many items a page shows, a category with children). Compare with the document:
+5. **Look at the app.** For each page the criteria touch, run the inspector as the role the scenarios will use (the default user when `role` stays out; `--logged-out` for `guest`; one role is enough when the page is the same for both) and note the real labels, button texts, messages, options and the data on the page that a scenario can rely on (a product name, how many items a page shows, a category with children). Use the steps to see the outcome of a criterion where they reach it: check the filter and look at the grid, pick the sort option and look at the order. Field limits show only when the page declares them in its HTML (`limits:` in the table); an app that validates in its code shows none. Compare with the document:
    - the app does what the document says → use the app's exact wording in the steps;
-   - the app differs (another label, a missing control, other limits) → don't guess which is right: list it under "Decisions needed" as a possible bug (the scenario then asserts the document and gets a proposed `knownIssue` if the user agrees) or an outdated story (the scenario follows the app);
-   - a criterion can't be seen with the inspector alone (it needs typing or several states) → say so in the proposal; the engineer confirms it when automating.
+   - the app differs (another label, a missing control, a wrong order or filter result) → don't guess which is right: list it under "Decisions needed" as a possible bug (the scenario then asserts the document and gets a proposed `knownIssue` if the user agrees) or an outdated story (the scenario follows the app);
+   - a criterion the inspector can't reach (it needs typing, a submit or data the page doesn't have) → say so in the proposal; the engineer confirms it when automating. For a boundary whose rejection the document doesn't describe (what a user sees for 2 characters), write the visible checks you'd expect and mark them as provisional under "Decisions needed".
 
 ## Choosing scenarios (a fixed checklist, so runs are repeatable)
 
@@ -52,11 +53,11 @@ For each criterion in scope, in the document's order:
    - **A bug report:** one regression scenario that reproduces the steps and checks the expected behaviour. If the bug is still in the app (the inspector shows it, or the report says it's open), propose a `knownIssue`.
 2. **Make every outcome observable.** A `Verify` step names something a user can see: a text, a count, an order, a state (checked, disabled, visible), a message, the page they're on. When the document's outcome isn't visible on the page (the grid shows "only products of category X", but cards don't show categories), propose a visible way to check it (open each product and check its category badge; or a known product of another category is not shown) and list the choice under "Decisions needed".
 3. **Filter:**
-   - drop what an existing scenario already covers (same criterion, same action and outcome) and list it as "already covered" with its ID; a scenario that covers part of a criterion leaves the rest as a new candidate;
+   - drop what an existing scenario already covers (same criterion, same action and outcome) and list it as "already covered" with its ID; a scenario that covers part of a criterion leaves the rest as a new candidate, and a boundary is a new candidate even when an existing scenario covers the main case;
    - flag `writes` for every scenario that creates, changes or deletes data, including setup (adding to the cart, registering, changing a profile, adding a favourite, placing an order), and `dangerous` for anything in `liveApi.dangerous` (failed logins with a shared account);
    - flag `data` for a scenario that needs data the app may not have at a fixed place (a product with a discount, an out-of-stock product, enough products for two pages): name the data the step relies on, from what the inspector showed.
 4. **Combine or split:** combine candidates with the same starting state and actions that differ only in what they check. Never combine different actions or roles.
-5. **Order:** per criterion, the main case first, then boundaries, then known issues. When a criterion has more than about 4 scenarios, mark the lowest-priority ones `optional`.
+5. **Order:** per criterion, the main case first, then boundaries, then known issues. When a criterion gets more than about 4 new scenarios (existing ones don't count), mark the lowest-priority new ones `optional`.
 
 ## Files, roles and references
 
@@ -85,11 +86,13 @@ Return the proposal in this format, and stop:
 ## Proposal: <document>, <criteria in scope>
 
 Existing UI scenarios that touch this: <files with their IDs and what they cover, or "none">
-Inspected: <path (role)>, ... and what you learned that matters (labels, counts, mismatches)
+Inspected: <path (role, steps)>, ... and what you learned that matters (labels, counts, outcomes, mismatches)
 
 ### <feature> → <scenario file> (new file | adds to N existing)
 
-| ID | Name | Criterion | Role | Flags |
+File header (new files only): suite "<Feature name>", tags ["@<area>"]
+
+| ID | Name | Criterion (ref) | Role | Flags |
 |---|---|---|---|---|
 | UI-003 | ... | AC9 | | |
 

@@ -1,15 +1,21 @@
 // The page inspector for writing UI tests and scenarios. Opens a page of the app under test as a role,
-// optionally clicks through tabs or menus, and prints the page's data-test elements and accessibility tree.
-// Read-only: it navigates and clicks, never types or submits.
+// optionally makes a few steps (open a menu, check a filter, pick a sort order), and prints the page's
+// data-test elements and accessibility tree. Read-only: the steps change only what the page shows; it never
+// types or submits.
 //
-//   npm run inspect:ui -- <path> [--role <role> | --logged-out] [--then click:<data-test> ...]
+//   npm run inspect:ui -- <path> [--role <role> | --logged-out] [--then <step> ...]
 //
-// The path is relative to baseUrl; the leading "/" is optional (Git Bash rewrites it, which is handled).
+//   <step> is click:<data-test> (tabs, menus, links), check:<label> (a checkbox, found by its label,
+//   such as a category filter) or select:<data-test>=<option label> (an option of a list).
+//
+// The path is relative to baseUrl; the leading "/" is optional (Git Bash rewrites it into
+// "C:/Program Files/Git/...", which is undone here).
 //
 //   npm run inspect:ui -- /
 //   npm run inspect:ui -- /auth/login --logged-out
 //   npm run inspect:ui -- /admin/dashboard --role admin
 //   npm run inspect:ui -- / --then click:nav-menu
+//   npm run inspect:ui -- / --then "check:Hammer" --then "select:sort=Price (High - Low)"
 //
 // It runs Playwright's `inspect` project (scripts/inspect-ui/inspect-page.spec.ts), which exists only while
 // SIMPRIGHT_INSPECT is set, so normal test runs never include it. Like every run, globalSetup registers the
@@ -23,19 +29,22 @@ import path from 'node:path';
 const ROOT = path.resolve(import.meta.dirname, '..');
 const OUTPUT_DIR = path.join(ROOT, 'test-results', 'inspect');
 const PLAYWRIGHT_CLI = path.join(ROOT, 'node_modules', '@playwright', 'test', 'cli.js');
-const USAGE = 'Usage: npm run inspect:ui -- <path> [--role <role> | --logged-out] [--then click:<data-test> ...]';
+const USAGE =
+  'Usage: npm run inspect:ui -- <path> [--role <role> | --logged-out] [--then click:<data-test> | check:<label> | select:<data-test>=<option> ...]';
+/** The same forms findInspectRequest() in src/config/env.ts accepts. */
+const STEP = /^(click:.+|check:.+|select:[^=]+=.+)$/;
 
 function fail(message: string): never {
   console.error(`${message}\n${USAGE}`);
   process.exit(2);
 }
 
-function parseArgs(args: string[]): { path: string; role: string; clicks: string[] } {
+function parseArgs(args: string[]): { path: string; role: string; steps: string[] } {
   let pagePath: string | undefined;
   let role = 'default';
   let loggedOut = false;
   let roleGiven = false;
-  const clicks: string[] = [];
+  const steps: string[] = [];
 
   for (let i = 0; i < args.length; i++) {
     const arg = args[i]!;
@@ -46,9 +55,8 @@ function parseArgs(args: string[]): { path: string; role: string; clicks: string
       loggedOut = true;
     } else if (arg === '--then') {
       const step = args[++i] ?? fail('--then needs a value');
-      const match = /^click:(.+)$/.exec(step);
-      if (!match) fail(`Unknown step "${step}": only click:<data-test> is supported`);
-      clicks.push(match[1]!);
+      if (!STEP.test(step)) fail(`Unknown step "${step}"`);
+      steps.push(step);
     } else if (arg === '--help' || arg === '-h') {
       console.log(USAGE);
       process.exit(0);
@@ -68,7 +76,7 @@ function parseArgs(args: string[]): { path: string; role: string; clicks: string
   if (/^[a-z][a-z0-9+.-]*:/i.test(pagePath)) fail(`Give a path relative to baseUrl, not ${pagePath}`);
   if (!pagePath.startsWith('/')) pagePath = `/${pagePath}`;
   if (loggedOut && roleGiven) fail('Use either --role or --logged-out');
-  return { path: pagePath, role: loggedOut ? 'none' : role, clicks };
+  return { path: pagePath, role: loggedOut ? 'none' : role, steps };
 }
 
 const request = parseArgs(process.argv.slice(2));

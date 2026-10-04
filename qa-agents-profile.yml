@@ -31,7 +31,8 @@ commands:
   runScenario: npx playwright test -g "{id}:"
   repeatSpec: npx playwright test {spec} --repeat-each=3   # flakiness check after a spec passes
   # Page inspector (read-only): data-test elements + accessibility tree of {path} (relative to baseUrl).
-  # Options: --role <role> | --logged-out, --then click:<data-test> (repeatable; tabs, menus, links only).
+  # Options: --role <role> | --logged-out; --then <step>, repeatable: click:<data-test> (tabs, menus, links),
+  # "check:<label>" (a filter checkbox), "select:<data-test>=<option label>" (a sort order). Steps change no data.
   inspectUi: npm run inspect:ui -- {path}
   # Contract commands come from the optional coverage package (@zaytsman/playwright-api-coverage); without it they can't run.
   validateContracts: npx --no-install playwright-api-coverage validate docs/api/contracts
@@ -103,7 +104,7 @@ ui:
     - Every assertion carries a plain-text message saying what is checked.
     - Data a UI test needs (a customer, a product) is created and removed through API fixtures (registerThrowawayCustomer, cleanup.add), not through the UI.
     - UI suite tags are @<area> (@products, @cart); API tags are @<area>-api.
-    - The inspector is read-only; navigate and click tabs, menus and links, never type or submit.
+    - The inspector is read-only; its steps click tabs, menus and links, check filters and pick list options, never type or submit.
 
 liveApi:
   # Applies to UI tests too: a UI test that changes data (an order, a registration, a profile change) is a write.

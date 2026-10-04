@@ -149,9 +149,16 @@ export interface InspectRequest {
   path: string;
   /** The role to log in as, or `none` for a logged-out page. */
   role: UserRole | 'none';
-  /** `data-test` ids clicked in order after the page loads (tabs, menus, links; never submits). */
-  clicks: string[];
+  /**
+   * Steps made in order after the page loads, each one changing only what the page shows, never data:
+   * `click:<data-test>` (tabs, menus, links), `check:<label>` (a checkbox, such as a filter) and
+   * `select:<data-test>=<option label>` (such as a sort order). Never typing or submitting.
+   */
+  steps: string[];
 }
+
+/** The forms an inspection step can take; see `InspectRequest.steps`. */
+const INSPECT_STEP =/^(click:.+|check:.+|select:[^=]+=.+)$/;
 
 // The wrapper sets this (as JSON) for the Playwright process it starts; the workers inherit it.
 const INSPECT_VAR = 'SIMPRIGHT_INSPECT';
@@ -169,11 +176,11 @@ export function findInspectRequest(): InspectRequest | undefined {
   if (role !== 'none' && !USER_ROLES.includes(role)) {
     throw new Error(`${INSPECT_VAR}: unknown role "${role}". Available: ${USER_ROLES.join(', ')}, none`);
   }
-  const clicks = request.clicks ?? [];
-  if (!Array.isArray(clicks) || clicks.some((id) => typeof id !== 'string' || !id)) {
-    throw new Error(`${INSPECT_VAR}: clicks must be a list of data-test ids`);
+  const steps = request.steps ?? [];
+  if (!Array.isArray(steps) || steps.some((step) => typeof step !== 'string' || !INSPECT_STEP.test(step))) {
+    throw new Error(`${INSPECT_VAR}: steps must be click:<data-test>, check:<label> or select:<data-test>=<option>`);
   }
-  return { path: request.path, role, clicks };
+  return { path: request.path, role, steps };
 }
 
 /** Storage state file for a role, written by globalSetup, e.g. `.auth/admin.json`. */
