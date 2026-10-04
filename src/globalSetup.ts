@@ -1,6 +1,6 @@
 import { chromium, selectors } from '@playwright/test';
 import { createRunUser, deleteRunUser } from './api/auth/runUser';
-import { env, getUser, storageStatePath, USER_ROLES } from './config/env';
+import { env, findInspectRequest, getUser, storageStatePath, USER_ROLES } from './config/env';
 import { isStorageStateValid } from './ui/auth/authState';
 import { TEST_ID_ATTRIBUTE } from './ui/pages/BasePage';
 import { LoginPage } from './ui/pages/LoginPage';
@@ -14,6 +14,9 @@ import { LoginPage } from './ui/pages/LoginPage';
  *    API token per test instead.
  */
 export default async function globalSetup(): Promise<() => Promise<void>> {
+  // A logged-out page inspection (npm run inspect:ui -- <path> --logged-out) needs no user at all.
+  if (findInspectRequest()?.role === 'none') return async () => undefined;
+
   await createRunUser();
   try {
     await saveUiLogins();

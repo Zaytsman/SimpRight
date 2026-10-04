@@ -31,6 +31,20 @@ export class ProductGrid {
     return (await this.productNameTexts.allTextContents()).map((name) => name.trim());
   }
 
+  /**
+   * The price shown on each card, in grid order, without the currency sign: the discounted price when
+   * the card has one (`product-discount-price`), otherwise `product-price`.
+   */
+  async getPrices(): Promise<number[]> {
+    const prices: number[] = [];
+    for (const card of await this.cardLinks.all()) {
+      const discountPrice = card.getByTestId('product-discount-price');
+      const shown = (await discountPrice.count()) > 0 ? discountPrice : card.getByTestId('product-price');
+      prices.push(Number((await shown.textContent())?.replace('$', '').trim()));
+    }
+    return prices;
+  }
+
   async openProduct(name: string): Promise<void> {
     await this.card(name).click();
   }

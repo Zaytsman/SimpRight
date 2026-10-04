@@ -5,7 +5,8 @@ scenarios:
   - id: UI-008
     name: Sort by name from A to Z
     ref: docs/ui/user-stories/Product_Overview.md#AC9
-    status: manual
+    status: automated
+    automatedIn: tests/ui/products/product-sorting.spec.ts
     steps:
       - Open the home page.
       - Select "Name (A - Z)" in the sort list.
@@ -13,7 +14,8 @@ scenarios:
   - id: UI-009
     name: Sort by name from Z to A
     ref: docs/ui/user-stories/Product_Overview.md#AC9
-    status: manual
+    status: automated
+    automatedIn: tests/ui/products/product-sorting.spec.ts
     steps:
       - Open the home page.
       - Select "Name (Z - A)" in the sort list.
@@ -21,7 +23,8 @@ scenarios:
   - id: UI-010
     name: Sort by price from high to low
     ref: docs/ui/user-stories/Product_Overview.md#AC9
-    status: manual
+    status: automated
+    automatedIn: tests/ui/products/product-sorting.spec.ts
     steps:
       - Open the home page.
       - Select "Price (High - Low)" in the sort list.
@@ -29,7 +32,8 @@ scenarios:
   - id: UI-011
     name: Sort by price from low to high
     ref: docs/ui/user-stories/Product_Overview.md#AC9
-    status: manual
+    status: automated
+    automatedIn: tests/ui/products/product-sorting.spec.ts
     steps:
       - Open the home page.
       - Select "Price (Low - High)" in the sort list.
