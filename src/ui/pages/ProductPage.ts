@@ -3,30 +3,30 @@ import type { EnvConfig } from '../../config/env';
 import { BasePage } from './BasePage';
 
 export class ProductPage extends BasePage {
-  readonly productName: Locator;
+  private readonly productNameHeading: Locator;
   /** Price without currency sign, e.g. "14.15". */
-  readonly unitPrice: Locator;
-  readonly quantityInput: Locator;
-  readonly addToCartButton: Locator;
+  private readonly unitPriceText: Locator;
+  private readonly quantityInput: Locator;
+  private readonly addToCartButton: Locator;
   /** Toast shown after adding to cart. */
-  readonly addedToCartMessage: Locator;
+  private readonly addedToCartToast: Locator;
 
   constructor(page: Page, config: EnvConfig) {
     super(page, config);
-    this.productName = page.getByTestId('product-name');
-    this.unitPrice = page.getByTestId('unit-price');
+    this.productNameHeading = page.getByTestId('product-name');
+    this.unitPriceText = page.getByTestId('unit-price');
     this.quantityInput = page.getByTestId('quantity');
     this.addToCartButton = page.getByTestId('add-to-cart');
-    this.addedToCartMessage = page.getByRole('alert').filter({ hasText: 'Product added to shopping cart' });
+    this.addedToCartToast = page.getByRole('alert').filter({ hasText: 'Product added to shopping cart' });
   }
 
   async open(productId: string): Promise<void> {
     await this.goto(`/product/${productId}`);
-    await expect(this.productName).toBeVisible();
+    await expect(this.productNameHeading).toBeVisible();
   }
 
   async getUnitPrice(): Promise<number> {
-    return Number((await this.unitPrice.textContent())?.trim());
+    return Number((await this.unitPriceText.textContent())?.trim());
   }
 
   async setQuantity(quantity: number): Promise<void> {
@@ -35,6 +35,6 @@ export class ProductPage extends BasePage {
 
   async addToCart(): Promise<void> {
     await this.addToCartButton.click();
-    await expect(this.addedToCartMessage.first()).toBeVisible();
+    await expect(this.addedToCartToast.first()).toBeVisible();
   }
 }

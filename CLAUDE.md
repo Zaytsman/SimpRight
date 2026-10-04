@@ -43,7 +43,9 @@ Specs import from `src/fixtures` (`index.ts`): `test`, `expect` and `openHomePag
 
 ## UI layer
 
-- Pages extend `BasePage(page, config)`: they expose locators as `readonly` fields assigned in the constructor, a public `open()` that calls the protected `goto('/path')`, and actions. Every page has `navBar` (`components/NavBar.ts`).
+- Pages extend `BasePage(page, config)`: they keep locators in `private readonly` fields assigned in the constructor, and expose a public `open()` that calls the protected `goto('/path')`, plus actions. Every page has `navBar` (`components/NavBar.ts`).
+- **Locators stay inside the page object.** A test reaches one only through a getter, added when a test has to assert on it. Fields carry the element kind (`searchCaptionText`, `cartQuantityBadge`, `errorAlert`); the getter is the plain noun (`get searchCaption(): Locator`). Base classes use `protected` for what subclasses need (`BaseDialog.root`). Dynamic locators are methods with parameters (`productGrid.card(name)`). Name actions with verbs (`search`, `addToCart`, `openCart`) and getters with nouns; values a test reads come from async methods (`getTotal()`, `getLines()`).
+- No assertions in page objects. Waiting for the app's own signal inside an action or `waitForLoaded()` is fine (`expect(marker).toBeAttached()` as a wait); checks belong in specs.
 - Reusable parts of pages go in `pages/components/`, like `ProductGrid` (exposed as `homePage.productGrid`). Multi-page journeys go in `src/ui/flows/`, like `ShoppingFlow.addProductToCart(name, qty)`, and are exposed as fixtures too.
 - Wait for the app's own signals, never fixed sleeps. For example, `HomePage.search()` waits for the `search_completed` marker, and `ProductPage.addToCart()` waits for the "Product added" toast.
 - Dialogs extend `BaseDialog(page, config, root?)`. `root` defaults to `getByRole('dialog')`, and the buttons are scoped to it.
