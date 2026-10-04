@@ -13,3 +13,12 @@ scenarios:
       - Open the cart.
       - 'Verify the cart has exactly one line: "Combination Pliers" with quantity 2.'
       - Verify the cart total equals 2 × the product's unit price.
+  - id: UI-027
+    name: Adding a product to the cart shows a success message
+    ref: docs/ui/user-stories/Product_Detail.md#AC8
+    status: manual
+    steps:
+      - The cart is empty.
+      - Open the product "Combination Pliers".
+      - Click "Add to cart".
+      - Verify the message "Product added to shopping cart." is shown.

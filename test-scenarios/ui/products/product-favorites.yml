@@ -1,0 +1,31 @@
+# yaml-language-server: $schema=../../scenarios.schema.json
+suite: Product favourites
+tags: ["@products"]
+scenarios:
+  - id: UI-028
+    name: Adding a product to favourites shows a success message
+    ref: docs/ui/user-stories/Product_Detail.md#AC11
+    status: manual
+    steps:
+      - The product "Combination Pliers" is not in the user's favourites.
+      - Open the product "Combination Pliers".
+      - Click "Add to favourites".
+      - Verify the message "Product added to your favorites list." is shown.
+  - id: UI-029
+    name: Adding a product that is already a favourite shows a message
+    ref: docs/ui/user-stories/Product_Detail.md#AC12
+    status: manual
+    steps:
+      - The product "Combination Pliers" is in the user's favourites.
+      - Open the product "Combination Pliers".
+      - Click "Add to favourites".
+      - Verify the message "Product already in your favorites list." is shown.
+  - id: UI-030
+    name: A logged-out visitor can't add a product to favourites
+    ref: docs/ui/user-stories/Product_Detail.md#AC13
+    status: manual
+    role: guest
+    steps:
+      - Open the product "Combination Pliers".
+      - Click "Add to favourites".
+      - Verify the message "Unauthorized, can not add product to your favorite list." is shown.
