@@ -9,6 +9,7 @@ Automated test framework built with **TypeScript + Playwright**. It covers UI an
 - Tests start already logged in, either through an API token (default) or a saved UI login
 - Per-environment config (`TEST`, and more to come), with secrets kept in `.env`
 - Test scenarios in YAML (with a schema and a validator) as the source of truth for what gets automated, and API contracts documenting the endpoints under test
+- AI agents for the whole automation cycle (contracts → scenarios → framework code and specs → review → healing), with human checkpoints: see [docs/AI_WORKFLOW.md](docs/AI_WORKFLOW.md)
 
 ## Prerequisites
 
