@@ -25,7 +25,12 @@ export class TokenService {
     const { username, password } = getUser(role);
     const response = await this.authClient.login({ email: username, password });
     if (!response.isSuccess) {
-      const hint = role === 'default' ? "The run's registered customer couldn't log in." : 'Check credentials in .env.';
+      const hint =
+        response.status >= 500
+          ? 'The site returned an error, not a credentials problem; re-run later.'
+          : role === 'default'
+            ? "The run's registered customer couldn't log in."
+            : 'Check credentials in .env.';
       throw new Error(`Login failed for "${role}" user: ${response.status} ${response.statusText}. ${hint}`);
     }
 
