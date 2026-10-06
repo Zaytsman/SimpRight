@@ -6,8 +6,8 @@
 #   changed  only code that specs import changed (src/, tests/): run `playwright test --only-changed`,
 #            which follows the import graph from the changed files to the specs.
 #   none     nothing that a test run depends on changed (docs, contracts, scenarios, the dashboard,
-#            agents and skills, other workflows): skip the tests. Typecheck and scenario validation
-#            still run.
+#            the Test Cases page in site/, agents and skills, other workflows): skip the tests.
+#            Typecheck and scenario validation still run.
 #
 # Usage: scripts/pr-test-scope.sh <base ref>   (e.g. origin/develop). Prints the scope and, on
 # GitHub Actions, writes `scope=<value>` to $GITHUB_OUTPUT.
