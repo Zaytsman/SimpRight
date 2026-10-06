@@ -47,7 +47,7 @@
     },
     "commands": {
       "type": "object",
-      "description": "Shell commands. {spec}, {id} and {path} are placeholders.",
+      "description": "Shell commands. {spec}, {id}, {path} and {run} are placeholders.",
       "required": ["typecheck", "validateScenarios", "runSpec", "runScenario"],
       "additionalProperties": false,
       "properties": {
@@ -55,6 +55,16 @@
         "validateScenarios": { "type": "string", "minLength": 1 },
         "runSpec": { "type": "string", "pattern": "\\{spec\\}" },
         "runScenario": { "type": "string", "pattern": "\\{id\\}" },
+        "ciRunInfo": {
+          "type": "string",
+          "pattern": "\\{run\\}",
+          "description": "Shows a CI run ({run}): workflow, branch, commit, time and conclusion."
+        },
+        "ciFailedLog": {
+          "type": "string",
+          "pattern": "\\{run\\}",
+          "description": "Prints the logs of the failed steps of a CI run ({run})."
+        },
         "repeatSpec": {
           "type": "string",
           "pattern": "\\{spec\\}",
@@ -207,6 +217,11 @@
         "dangerous": {
           "type": "array",
           "description": "Calls that cause lasting harm, with how to avoid it.",
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "transient": {
+          "type": "array",
+          "description": "Known ways the live app misbehaves for a while (re-seeds, caches, slow periods, data other visitors change), so failures can be told apart from bugs.",
           "items": { "type": "string", "minLength": 1 }
         }
       }

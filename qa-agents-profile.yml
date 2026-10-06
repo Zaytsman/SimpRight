@@ -34,6 +34,9 @@ commands:
   # Options: --role <role> | --logged-out; --then <step>, repeatable: click:<data-test> (tabs, menus, links),
   # "check:<label>" (a filter checkbox), "select:<data-test>=<option label>" (a sort order). Steps change no data.
   inspectUi: npm run inspect:ui -- {path}
+  # CI runs (GitHub Actions, needs gh logged in): the run's workflow, branch, commit and time, and the logs of its failed steps.
+  ciRunInfo: gh run view {run} --json workflowName,headBranch,headSha,createdAt,conclusion,jobs
+  ciFailedLog: gh run view {run} --log-failed
   # Contract commands come from the optional coverage package (@zaytsman/playwright-api-coverage); without it they can't run.
   validateContracts: npx --no-install playwright-api-coverage validate docs/api/contracts
   diffContracts: npx --no-install playwright-api-coverage diff docs/api/contracts {spec}
@@ -111,3 +114,10 @@ liveApi:
   writes: ask                               # never | ask | allowed
   dangerous:
     - Repeated failed logins lock the account (423), through the API or the login page. Use a throwaway user, never the shared test users.
+  # Known ways the live app misbehaves for a while; the healer checks failures against them and never re-runs inside these windows.
+  transient:
+    - The demo site re-seeds every hour at :00 UTC. For a minute or two, calls fail with 500 (register, login), and brands, categories and products get new ids.
+    - GET /products answers from a 5-minute cache, so right after a re-seed it can return ids that no longer exist (a POST with them returns 500).
+    - The site sometimes slows down for minutes, and plain calls time out (login after 30 s, GET /products after 10 s) across many unrelated tests at once; a slowdown can end with a few seconds of login 500s.
+    - Product writes need no token, so other visitors can change or delete seeded products at any time (stock, price, category). Tests on seeded records can fail without any change on our side.
+    - A locked account (423) stays locked for a while; re-running login tests only extends it.
