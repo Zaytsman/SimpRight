@@ -616,6 +616,9 @@
             <div class="hero-actions">
               <!-- Coverage elements stay hidden until latest/api-coverage/summary.json exists (the coverage tool is optional). -->
               <a class="action-link primary" data-coverage hidden href="latest/api-coverage/" target="_blank" rel="noreferrer">API Coverage</a>
+              <!-- Test case pages (scripts/build-test-cases.mts) stay hidden until publish-test-cases.yml has published them. -->
+              <a class="action-link" data-test-cases="ui" hidden href="test-cases/ui/">UI Test Cases</a>
+              <a class="action-link" data-test-cases="api" hidden href="test-cases/api/">API Test Cases</a>
               <a class="action-link" href="#history">Test Runs History</a>
               <a class="action-link" href="#known-issues">Known Issues</a>
             </div>
@@ -1007,6 +1010,17 @@
       }
     }
 
+    async function loadTestCaseLinks() {
+      await Promise.all([...document.querySelectorAll('[data-test-cases]')].map(async (link) => {
+        try {
+          const response = await fetch(`test-cases/${link.dataset.testCases}/scenarios-data.js`, { method: 'HEAD' });
+          link.hidden = !response.ok;
+        } catch {
+          console.debug(`No ${link.dataset.testCases} test cases published yet`);
+        }
+      }));
+    }
+
     async function renderCharts() {
       const [uiSeries, apiSeries] = await Promise.all([
         loadSeries('daily-ui-regression-manifest.json', 'daily-ui-regression/'),
@@ -1084,6 +1098,7 @@
       loadKnownIssues();
       renderCharts();
       loadApiCoverage();
+      loadTestCaseLinks();
       loadHistorySection('daily-ui-regression/', 'daily-ui-regression-manifest.json', 'history-daily-ui');
       loadHistorySection('daily-api-regression/', 'daily-api-regression-manifest.json', 'history-daily-api');
       loadHistorySection('custom-ui/', 'custom-ui-manifest.json', 'history-custom-ui');

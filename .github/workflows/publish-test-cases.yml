@@ -1,0 +1,54 @@
+name: Publish Test Cases
+
+# Rebuilds the UI and API Test Cases pages of the dashboard (test-cases/<layer>/ on GitHub Pages)
+# whenever the scenarios, the page or its build change on main, so the pages list the test cases of
+# the merged code, like the rest of the dashboard. It also publishes the dashboard (index.html), so a
+# dashboard change goes live on merge instead of with the next test run. Can also be run by hand.
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'test-scenarios/**'
+      - 'site/test-cases/**'
+      - 'scripts/build-test-cases.mts'
+      - 'scripts/publish-test-cases.sh'
+      - 'scripts/gh-pages-lib.sh'
+      - 'qa-agents-profile.yml'
+      - 'index.html'
+      - '.github/workflows/publish-test-cases.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write # push to gh-pages
+
+concurrency:
+  group: publish-test-cases
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: npm
+
+      # Only the build's own dependencies (yaml, ajv for the validator); the optional coverage package isn't needed.
+      - name: Install dependencies
+        run: npm ci --omit=optional
+
+      - name: Validate scenarios
+        run: npm run validate:scenarios
+
+      - name: Build and publish
+        run: |
+          chmod +x scripts/publish-test-cases.sh
+          scripts/publish-test-cases.sh

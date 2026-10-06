@@ -13,7 +13,9 @@
 #   latest/api-coverage/           latest full API regression coverage report
 #
 # Runs in GitHub Actions after actions/checkout (which leaves push credentials in the git config).
+# The gh-pages checkout and push are in gh-pages-lib.sh, shared with publish-test-cases.sh.
 set -euo pipefail
+source "$(dirname "$0")/gh-pages-lib.sh"
 
 FAMILY="${1:?usage: publish-report.sh <family> [--latest-coverage]}"
 LATEST_COVERAGE="${2:-}"
@@ -26,14 +28,7 @@ if [ ! -d playwright-report ]; then
   exit 0
 fi
 
-# Check out gh-pages as a worktree, or start it as an empty orphan branch on the first publish.
-rm -rf "$SITE"
-git worktree prune
-if git fetch --depth=1 origin gh-pages:gh-pages 2>/dev/null; then
-  git worktree add "$SITE" gh-pages
-else
-  git worktree add --orphan -b gh-pages "$SITE"
-fi
+ghp_checkout "$SITE"
 
 # This run, plus the "latest" copy.
 mkdir -p "$SITE/$FAMILY/$RUN" "$SITE/latest"
@@ -58,23 +53,5 @@ cd "$SITE"
 (cd "$FAMILY" && ls -1d run-* | sort -rV) | jq -R . | jq -s . > "$FAMILY-manifest.json"
 echo "Runs kept for $FAMILY: $(jq length "$FAMILY-manifest.json")"
 
-git config user.name "github-actions[bot]"
-git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-git add -A
-if git diff --cached --quiet; then
-  echo "Nothing changed on gh-pages."
-  exit 0
-fi
-git commit -q -m "Publish $FAMILY $RUN"
-
-# Another workflow may have published in the meantime: rebase onto it and retry.
-for attempt in 1 2 3; do
-  if git push origin gh-pages; then
-    echo "Published $FAMILY/$RUN"
-    exit 0
-  fi
-  echo "Push rejected (attempt $attempt); rebasing onto the remote gh-pages."
-  git pull --rebase origin gh-pages
-done
-echo "Could not publish after 3 attempts." >&2
-exit 1
+cd ..
+ghp_publish "$SITE" "Publish $FAMILY $RUN"
