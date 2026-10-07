@@ -51,6 +51,6 @@ If the agent can't be continued, start a new `ui-scenario-writer` with the brief
 
 1. Run the profile's `commands.validateScenarios` yourself and confirm it passes.
 2. Tell the user briefly: the files created and extended with their IDs, the validator result, the flagged scenarios (writes, data, dangerous, known issues), the criteria not covered, any ID renumbering, and what the agent noticed but didn't change.
-3. Suggest the next step: review the diff of the scenario folder, then automate the scenarios (the UI test engineer comes in the next phase of the UI agents).
+3. Suggest the next step: review the diff of the scenario folder, then automate the scenarios with `/implement-ui-scenarios <file or IDs>`.
 
 Don't commit anything unless the user asks.
