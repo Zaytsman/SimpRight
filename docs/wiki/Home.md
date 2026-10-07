@@ -47,6 +47,13 @@ Each AI agent, its slash command and the skills it uses:
 | [Test Reviewer](Test-Reviewer) | `/review-tests` | Ranked review findings, then the fixes you pick |
 | [Test Healer](Test-Healer) | `/heal-tests` | Why tests failed, then the fixes you pick |
 
+## Continuous Integration
+
+1. [CI Pipeline](CI-Pipeline): the GitHub Actions workflows, the reusable test job, the `verify` pull request check and its test scopes, secrets, permissions and Dependabot.
+2. [GitHub Pages Publishing](GitHub-Pages-Publishing): what the CI publishes to `gh-pages`, by which script, and how the branch stays small.
+3. [Automation Portal](Automation-Portal): the dashboard: status, charts, known issues, coverage and run history.
+4. [Test Cases Pages](Test-Cases-Pages): the browsable catalog of UI and API scenarios, and how it is built and published.
+
 ## Links
 
 | | |
