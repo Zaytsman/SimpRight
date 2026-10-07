@@ -619,8 +619,11 @@
               <!-- Test case pages (scripts/build-test-cases.mts) stay hidden until publish-test-cases.yml has published them. -->
               <a class="action-link" data-test-cases="ui" hidden href="test-cases/ui/" target="_blank" rel="noreferrer">UI Test Cases</a>
               <a class="action-link" data-test-cases="api" hidden href="test-cases/api/" target="_blank" rel="noreferrer">API Test Cases</a>
+              <!-- Repository links: rewritten to the repository the site is served for (<owner>.github.io/<repo>/), so forks link to their own. -->
+              <a class="action-link" data-repo-link="actions" href="https://github.com/Zaytsman/SimpRight/actions" target="_blank" rel="noreferrer">Schedule Test Run</a>
               <a class="action-link" href="#history">Test Runs History</a>
               <a class="action-link" href="#known-issues">Known Issues</a>
+              <a class="action-link" data-repo-link="wiki" href="https://github.com/Zaytsman/SimpRight/wiki" target="_blank" rel="noreferrer">Wiki</a>
             </div>
           </div>
         </div>
@@ -1021,6 +1024,17 @@
       }));
     }
 
+    // On GitHub Pages (<owner>.github.io/<repo>/), point the repository links at that repository;
+    // elsewhere (a local preview) they keep their default href.
+    function setRepoLinks() {
+      const owner = location.hostname.match(/^([^.]+)\.github\.io$/)?.[1];
+      const repo = location.pathname.split('/').filter(Boolean)[0];
+      if (!owner || !repo) return;
+      document.querySelectorAll('[data-repo-link]').forEach((link) => {
+        link.href = `https://github.com/${owner}/${repo}/${link.dataset.repoLink}`;
+      });
+    }
+
     async function renderCharts() {
       const [uiSeries, apiSeries] = await Promise.all([
         loadSeries('daily-ui-regression-manifest.json', 'daily-ui-regression/'),
@@ -1099,6 +1113,7 @@
       renderCharts();
       loadApiCoverage();
       loadTestCaseLinks();
+      setRepoLinks();
       loadHistorySection('daily-ui-regression/', 'daily-ui-regression-manifest.json', 'history-daily-ui');
       loadHistorySection('daily-api-regression/', 'daily-api-regression-manifest.json', 'history-daily-api');
       loadHistorySection('custom-ui/', 'custom-ui-manifest.json', 'history-custom-ui');
