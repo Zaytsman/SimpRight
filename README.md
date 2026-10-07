@@ -11,6 +11,8 @@ Automated test framework built with **TypeScript + Playwright**. It covers UI an
 - Test scenarios in YAML (with a schema and a validator) as the source of truth for what gets automated, and API contracts documenting the endpoints under test
 - AI agents for the whole automation cycle (contracts → scenarios → framework code and specs → review → healing), with human checkpoints: see [docs/AI_WORKFLOW.md](docs/AI_WORKFLOW.md)
 
+Step-by-step guides are in the **[wiki](https://github.com/Zaytsman/SimpRight/wiki)**, starting with [Installation & Setup](https://github.com/Zaytsman/SimpRight/wiki/Installation-&-Setup).
+
 ## Prerequisites
 
 - Node.js 22.18 or later (developed on 24)
@@ -169,6 +171,7 @@ GitHub Actions runs the tests and publishes every report to GitHub Pages: **[zay
 | UI Regression Test Run | weekdays 06:00 UTC, or by hand | all UI tests |
 | Custom API / UI Test Run | by hand | one area (a folder in `tests/`), optionally filtered by a title (`--grep`) |
 | Publish Test Cases | on push to `main` that changes the scenarios, or by hand | the UI and API Test Cases pages |
+| Publish Wiki | on push to `main` that changes `docs/wiki/`, or by hand | the [wiki](https://github.com/Zaytsman/SimpRight/wiki), from `docs/wiki/` |
 
 The dashboard shows the latest status, test counts, known issues, pass/fail, duration and failure-rate trends, and the history of the last runs, each linking to its full Playwright report. Every report family keeps its latest 30 runs.
 
