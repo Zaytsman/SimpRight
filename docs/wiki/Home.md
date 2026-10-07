@@ -22,6 +22,11 @@ It is also an example of **AI-assisted test automation**: Claude Code agents wri
 1. [Installation & Setup](Installation-&-Setup): install the framework, configure it and run the first tests.
 2. [Project Structure](Project-Structure): what lives where, and where new code goes.
 
+## Test Runs
+
+1. [CI Runs](CI-Runs): the GitHub Actions workflows, starting runs by hand, changing and adding schedules, where the results are.
+2. [Local Runs](Local-Runs): running tests on your machine, and scheduling unattended runs with Task Scheduler or cron.
+
 ## Links
 
 | | |
