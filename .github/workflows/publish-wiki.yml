@@ -1,0 +1,58 @@
+name: Publish Wiki
+
+# Copies docs/wiki/ to the repository's GitHub wiki (<repo>.wiki.git) whenever it changes on main,
+# so the wiki shows the documentation of the merged code. docs/wiki/ is the source: pages added,
+# changed or removed there are added, changed or removed in the wiki, and edits made in the wiki's
+# web editor are overwritten by the next publish. Can also be run by hand.
+#
+# The wiki's git repository exists only after its first page was created in the web UI
+# (Settings → General → Features → Wikis, then "Create the first page").
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'docs/wiki/**'
+      - '.github/workflows/publish-wiki.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write # push to the wiki repository
+
+concurrency:
+  group: publish-wiki
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+
+      - name: Sync docs/wiki to the wiki
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          wiki_url="https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.wiki.git"
+          if ! git clone --quiet "$wiki_url" "$RUNNER_TEMP/wiki"; then
+            echo "::error::Can't clone ${GITHUB_REPOSITORY}.wiki.git. Turn on Wikis in the repository settings and create the first page in the web UI, then re-run."
+            exit 1
+          fi
+
+          rsync -a --delete --exclude '.git' docs/wiki/ "$RUNNER_TEMP/wiki/"
+
+          cd "$RUNNER_TEMP/wiki"
+          git add -A
+          if git diff --cached --quiet; then
+            echo "The wiki is already up to date."
+            exit 0
+          fi
+          git status --short
+          git -c user.name='github-actions[bot]' -c user.email='41898282+github-actions[bot]@users.noreply.github.com' \
+            commit --quiet -m "Sync from ${GITHUB_REPOSITORY}@${GITHUB_SHA::7}"
+          git push --quiet origin HEAD
+          echo "Published: ${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/wiki"
