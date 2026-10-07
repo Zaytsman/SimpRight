@@ -2,7 +2,7 @@
 
 # SimpRight
 
-**SimpRight** is an automated test framework built with **TypeScript** and **Playwright**. It tests the UI and the REST API of the [Practice Software Testing](https://practicesoftwaretesting.com) Toolshop, a public demo web shop ([API](https://api.practicesoftwaretesting.com)).
+**SimpRight** is an automated test framework built with **TypeScript** and **Playwright**. It tests the UI and API of the [Practice Software Testing](https://practicesoftwaretesting.com) Toolshop, a public demo web shop.
 
 It is also an example of **AI-assisted test automation**: Claude Code agents write API contracts, test scenarios and specs, review the tests and diagnose failures, and a person approves each step.
 
@@ -17,6 +17,11 @@ It is also an example of **AI-assisted test automation**: Claude Code agents wri
 - **CI on GitHub Actions** with daily regressions, pull request checks and a dashboard on GitHub Pages.
 - **AI agents** for the whole cycle: contracts → scenarios → specs → review → healing.
 
+## Getting Started
+
+1. [Installation & Setup](Installation-&-Setup): install the framework, configure it and run the first tests.
+2. [Project Structure](Project-Structure): what lives where, and where new code goes.
+
 ## Links
 
 | | |
@@ -27,11 +32,6 @@ It is also an example of **AI-assisted test automation**: Claude Code agents wri
 | API Test Cases | [zaytsman.github.io/SimpRight/test-cases/api](https://zaytsman.github.io/SimpRight/test-cases/api/) |
 | The AI workflow | [docs/AI_WORKFLOW.md](https://github.com/Zaytsman/SimpRight/blob/main/docs/AI_WORKFLOW.md) |
 | Conventions in detail | [CLAUDE.md](https://github.com/Zaytsman/SimpRight/blob/main/CLAUDE.md) |
-
-## Getting Started
-
-1. [Installation & Setup](Installation-&-Setup): install the framework, configure it and run the first tests.
-2. [Project Structure](Project-Structure): what lives where, and where new code goes.
 
 ## Tech stack
 

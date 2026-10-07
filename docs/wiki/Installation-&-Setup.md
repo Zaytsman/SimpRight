@@ -51,7 +51,7 @@ cp .env.example .env
 
 PowerShell: `Copy-Item .env.example .env`
 
-Then fill in the admin account:
+Then fill in the admin account. You can find it [here](https://testsmith-io.github.io/practice-software-testing/#/).
 
 ```dotenv
 ADMIN_USER=<admin email>
