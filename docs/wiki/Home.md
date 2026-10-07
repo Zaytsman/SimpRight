@@ -33,6 +33,20 @@ It is also an example of **AI-assisted test automation**: Claude Code agents wri
 2. [API Automation](API-Automation): turn API scenarios into tests with the API test engineer: plan, approve, implement, review, heal.
 3. [UI Automation](UI-Automation): the same for UI scenarios, with the page inspector and the UI test engineer.
 
+## Agents and Skills
+
+Each AI agent, its slash command and the skills it uses:
+
+| Agent | Command | Does |
+|---|---|---|
+| [API Contract Writer](API-Contract-Writer) | `/write-api-contracts` | API contracts from source code or an OpenAPI spec |
+| [API Scenario Writer](API-Scenario-Writer) | `/write-api-scenarios` | API scenarios from a contract |
+| [UI Scenario Writer](UI-Scenario-Writer) | `/write-ui-scenarios` | UI scenarios from a user story or bug |
+| [API Test Engineer](API-Test-Engineer) | `/implement-api-scenarios` | API specs and framework code from scenarios |
+| [UI Test Engineer](UI-Test-Engineer) | `/implement-ui-scenarios` | UI specs, page objects and flows from scenarios |
+| [Test Reviewer](Test-Reviewer) | `/review-tests` | Ranked review findings, then the fixes you pick |
+| [Test Healer](Test-Healer) | `/heal-tests` | Why tests failed, then the fixes you pick |
+
 ## Links
 
 | | |
