@@ -266,6 +266,9 @@
     .scenarios-list::-webkit-scrollbar-thumb { background: rgba(148, 163, 184, 0.2); border-radius: 3px; }
 
     .tree-root-label {
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
       font-size: 0.78rem;
       font-weight: 700;
       color: var(--muted);
@@ -273,6 +276,23 @@
       text-transform: uppercase;
       letter-spacing: 0.05em;
     }
+    .tree-root-label .label-text { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .tree-action {
+      padding: 0.12rem 0.45rem;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: none;
+      color: var(--muted);
+      font: inherit;
+      font-size: 0.66rem;
+      font-weight: 600;
+      text-transform: none;
+      letter-spacing: 0;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: color 0.15s ease, border-color 0.15s ease;
+    }
+    .tree-action:hover { color: var(--cyan); border-color: rgba(56, 189, 248, 0.4); }
     .tree-group.collapsed > .tree-children { display: none; }
     .tree-label {
       display: flex;
@@ -731,9 +751,9 @@
         tab: 'steps',
         search: '',
         status: 'all',
-        // Collapsed tree groups ("area:<name>" or "file:<path>"); areas start open, files start closed.
-        collapsed: new Set(),
-        openFiles: new Set(),
+        // Open tree groups ("area:<name>" or "file:<path>"). Everything starts collapsed; selecting a
+        // scenario (or a #scenario= link) opens its branch, and filtering opens every matching group.
+        open: new Set(),
         executing: new Set(),
         done: new Map(),
       };
@@ -788,6 +808,7 @@
         $('scenario-search').addEventListener('input', (e) => {
           state.search = e.target.value.trim().toLowerCase();
           $('clear-search').hidden = !state.search;
+          if (isFiltering()) expandAll();
           render();
         });
         $('clear-search').addEventListener('click', () => {
@@ -832,7 +853,28 @@
       function setStatus(status) {
         state.status = status;
         document.querySelectorAll('[data-status]').forEach((b) => b.classList.toggle('active', b.dataset.status === status && (b.classList.contains('filter-pill') || status !== 'all')));
+        if (isFiltering()) expandAll();
         render();
+      }
+
+      function isFiltering() {
+        return Boolean(state.search) || state.status !== 'all';
+      }
+
+      function branchKeys(sc) {
+        return [`area:${sc.area}`, `file:${sc.file}`];
+      }
+
+      // Opens every group; the tree renders only the groups with shown scenarios.
+      function expandAll() {
+        for (const area of catalog.tree) {
+          state.open.add(`area:${area.area}`);
+          for (const file of area.files) state.open.add(`file:${file.file}`);
+        }
+      }
+
+      function collapseAll() {
+        state.open.clear();
       }
 
       function matches(sc) {
@@ -867,13 +909,15 @@
       function renderTree(shownIds) {
         const list = $('scenarios-list');
         list.innerHTML = '';
-        const filtering = Boolean(state.search) || state.status !== 'all';
         const byId = new Map(catalog.scenarios.map((s) => [s.id, s]));
         const fragment = document.createDocumentFragment();
 
         const root = document.createElement('div');
         root.className = 'tree-root-label';
-        root.textContent = catalog.title;
+        const title = document.createElement('span');
+        title.className = 'label-text';
+        title.textContent = catalog.title;
+        root.append(title, treeAction('Expand all', expandAll), treeAction('Collapse all', collapseAll));
         fragment.appendChild(root);
 
         let any = false;
@@ -885,12 +929,11 @@
           any = true;
 
           const areaKey = `area:${area.area}`;
-          const areaGroup = group(areaKey, 'area', escapeHtml(area.label), files.reduce((n, f) => n + f.ids.length, 0), !state.collapsed.has(areaKey));
+          const areaGroup = group(areaKey, 'area', escapeHtml(area.label), files.reduce((n, f) => n + f.ids.length, 0));
           for (const { file, ids } of files) {
             const fileKey = `file:${file.file}`;
-            const open = filtering || state.openFiles.has(fileKey) || ids.includes(state.selectedId);
             const labelClass = catalog.layer === 'api' && file.label !== file.name ? 'label-text endpoint' : 'label-text';
-            const fileGroup = group(fileKey, 'file', escapeHtml(file.label), ids.length, open, labelClass, file.file);
+            const fileGroup = group(fileKey, 'file', escapeHtml(file.label), ids.length, labelClass, file.file);
             for (const id of ids) fileGroup.children.appendChild(leaf(byId.get(id)));
             areaGroup.children.appendChild(fileGroup.el);
           }
@@ -906,7 +949,20 @@
         list.appendChild(fragment);
       }
 
-      function group(key, kind, labelHtml, count, open, labelClass = 'label-text', title = '') {
+      function treeAction(text, action) {
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.className = 'tree-action';
+        button.textContent = text;
+        button.addEventListener('click', () => {
+          action();
+          renderTree(new Set(visible().map((s) => s.id)));
+        });
+        return button;
+      }
+
+      function group(key, kind, labelHtml, count, labelClass = 'label-text', title = '') {
+        const open = state.open.has(key);
         const el = document.createElement('div');
         el.className = `tree-group${open ? '' : ' collapsed'}`;
         const label = document.createElement('button');
@@ -918,11 +974,7 @@
         label.addEventListener('click', () => {
           const nowOpen = el.classList.toggle('collapsed') === false;
           label.setAttribute('aria-expanded', String(nowOpen));
-          if (kind === 'area') {
-            nowOpen ? state.collapsed.delete(key) : state.collapsed.add(key);
-          } else {
-            nowOpen ? state.openFiles.add(key) : state.openFiles.delete(key);
-          }
+          nowOpen ? state.open.add(key) : state.open.delete(key);
         });
         const children = document.createElement('div');
         children.className = 'tree-children';
@@ -949,11 +1001,13 @@
         if (state.selectedId === id && location.hash === `#scenario=${encodeURIComponent(id)}`) return;
         state.selectedId = id;
         const sc = selected();
-        if (sc) state.openFiles.add(`file:${sc.file}`);
+        // Arrow keys can move into a collapsed group: open the branch so the selection stays in view.
+        const closed = sc ? branchKeys(sc).filter((key) => !state.open.has(key)) : [];
+        closed.forEach((key) => state.open.add(key));
         history.replaceState(null, '', `#scenario=${encodeURIComponent(id)}`);
         document.querySelectorAll('.tree-leaf').forEach((item) => item.classList.toggle('active', item.dataset.id === id));
         if (sc) renderDetail(sc);
-        if (!document.querySelector('.tree-leaf.active')) render();
+        if (closed.length || !document.querySelector('.tree-leaf.active')) render();
         document.querySelector('.tree-leaf.active')?.scrollIntoView({ block: 'nearest' });
       }
 
@@ -971,8 +1025,7 @@
         const id = params.get('scenario');
         if (id && catalog.scenarios.some((s) => s.id === id)) {
           state.selectedId = id;
-          const sc = selected();
-          state.openFiles.add(`file:${sc.file}`);
+          branchKeys(selected()).forEach((key) => state.open.add(key));
         }
       }
 
