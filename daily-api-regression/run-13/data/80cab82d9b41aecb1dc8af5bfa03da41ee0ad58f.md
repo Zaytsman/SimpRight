@@ -12,7 +12,7 @@
 # Error details
 
 ```
-Error: [Request] {"method":"PATCH","path":"/products/01m4855sb3mabmzq9c4nq9h8dv","auth":"none","body":{"name":"Product-20261006-dfba11"}}
+Error: [Request] {"method":"PATCH","path":"/products/01m4ap6bapydc45d6pw5e2ktjr","auth":"none","body":{"name":"Product-20261007-460e46"}}
 [Expected] Status 401
 [Actual] 200
 
@@ -126,7 +126,7 @@ Received: 200
   167 | 
   168 |     await test.step('Verify the response status is 401.', async () => {
 > 169 |       expect(response.status, assertMessage({ request, expected: 'Status 401', actual: response.status })).toBe(401);
-      |                                                                                                            ^ Error: [Request] {"method":"PATCH","path":"/products/01m4855sb3mabmzq9c4nq9h8dv","auth":"none","body":{"name":"Product-20261006-dfba11"}}
+      |                                                                                                            ^ Error: [Request] {"method":"PATCH","path":"/products/01m4ap6bapydc45d6pw5e2ktjr","auth":"none","body":{"name":"Product-20261007-460e46"}}
   170 |     });
   171 |   });
   172 | 
