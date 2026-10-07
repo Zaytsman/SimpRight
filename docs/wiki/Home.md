@@ -27,6 +27,12 @@ It is also an example of **AI-assisted test automation**: Claude Code agents wri
 1. [CI Runs](CI-Runs): the GitHub Actions workflows, starting runs by hand, changing and adding schedules, where the results are.
 2. [Local Runs](Local-Runs): running tests on your machine, and scheduling unattended runs with Task Scheduler or cron.
 
+## Workflows
+
+1. [Generate Scenarios](Generate-Scenarios): add UI and API test scenarios with the scenario-writer agents (or by hand), review and approve them.
+2. [API Automation](API-Automation): turn API scenarios into tests with the API test engineer: plan, approve, implement, review, heal.
+3. [UI Automation](UI-Automation): the same for UI scenarios, with the page inspector and the UI test engineer.
+
 ## Links
 
 | | |
