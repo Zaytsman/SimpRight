@@ -239,10 +239,24 @@
       padding: 10px;
     }
     .nav-file + .nav-file { margin-top: 10px; border-top: 1px solid var(--card-border); padding-top: 10px; }
+    .nav-file-row { display: flex; align-items: flex-start; gap: 2px; }
+    .nav-toggle {
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      padding: 6px 4px;
+      border-radius: 4px;
+      line-height: 1;
+    }
+    .nav-toggle:hover { color: var(--text); background: #334155; }
+    .nav-toggle .chevron { display: inline-block; font-size: 10px; transition: transform 0.2s ease; }
+    .nav-toggle[aria-expanded="true"] .chevron { transform: rotate(90deg); }
+    .nav-file-row .nav-file-link { flex: 1; min-width: 0; }
     .nav-file-link { display: block; color: #fff; font-weight: 600; text-decoration: none; padding: 4px 6px; border-radius: 6px; }
     .nav-file-link.active { background: rgba(56, 189, 248, 0.15); color: var(--primary); }
     .nav-file-name { display: block; font-weight: 400; font-size: 12px; color: var(--text-muted); }
-    .nav-endpoints { list-style: none; margin-top: 4px; }
+    .nav-endpoints { list-style: none; margin: 4px 0 0 22px; }
     .nav-endpoints a {
       display: flex;
       align-items: center;
@@ -311,7 +325,7 @@
     <header>
       <div>
         <h1>API Coverage Report</h1>
-        <div class="generated-at">Generated: 2026-10-08T18:26:22.361Z</div>
+        <div class="generated-at">Generated: 2026-10-08T19:05:59.252Z</div>
       </div>
       <div>
         <span class="service-tag">playwright-api-coverage</span>
@@ -1903,21 +1917,30 @@
     <section id="tab-contracts" hidden>
     <div class="contracts-layout">
       <nav class="contract-nav" aria-label="Contracts">
-        <div class="nav-file">
-          <a class="nav-file-link" href="#contract/Carts_API.md" data-file="Carts_API.md">Carts <span class="nav-file-name">Carts_API.md</span></a>
-          <ul class="nav-endpoints">
+        <div class="nav-file" data-file="Carts_API.md">
+          <div class="nav-file-row">
+            <button type="button" class="nav-toggle" aria-expanded="false" aria-controls="nav-endpoints-0" title="Show or hide the endpoints"><span class="chevron">▶</span></button>
+            <a class="nav-file-link" href="#contract/Carts_API.md" data-file="Carts_API.md">Carts <span class="nav-file-name">Carts_API.md · 6 endpoints, 0 covered</span></a>
+          </div>
+          <ul class="nav-endpoints" id="nav-endpoints-0" hidden>
             <li><a href="#contract/Carts_API.md/post-carts" title="POST /carts"><span class="mini-method method-POST">POST</span><span class="mini-path">/carts</span><span class="mini-pct color-danger">0%</span></a></li><li><a href="#contract/Carts_API.md/post-carts-cartid" title="POST /carts/:cartId"><span class="mini-method method-POST">POST</span><span class="mini-path">/carts/{cartId}</span><span class="mini-pct color-danger">0%</span></a></li><li><a href="#contract/Carts_API.md/get-carts-cartid" title="GET /carts/:cartId"><span class="mini-method method-GET">GET</span><span class="mini-path">/carts/{cartId}</span><span class="mini-pct color-danger">0%</span></a></li><li><a href="#contract/Carts_API.md/put-carts-cartid-product-quantity" title="PUT /carts/:cartId/product/quantity"><span class="mini-method method-PUT">PUT</span><span class="mini-path">/carts/{cartId}/product/quantity</span><span class="mini-pct color-danger">0%</span></a></li><li><a href="#contract/Carts_API.md/delete-carts-cartid-product-productid" title="DELETE /carts/:cartId/product/:productId"><span class="mini-method method-DELETE">DELETE</span><span class="mini-path">/carts/{cartId}/product/{productId}</span><span class="mini-pct color-danger">0%</span></a></li><li><a href="#contract/Carts_API.md/delete-carts-cartid" title="DELETE /carts/:cartId"><span class="mini-method method-DELETE">DELETE</span><span class="mini-path">/carts/{cartId}</span><span class="mini-pct color-danger">0%</span></a></li>
           </ul>
         </div>
-        <div class="nav-file">
-          <a class="nav-file-link" href="#contract/Products_API.md" data-file="Products_API.md">Products <span class="nav-file-name">Products_API.md</span></a>
-          <ul class="nav-endpoints">
+        <div class="nav-file" data-file="Products_API.md">
+          <div class="nav-file-row">
+            <button type="button" class="nav-toggle" aria-expanded="false" aria-controls="nav-endpoints-1" title="Show or hide the endpoints"><span class="chevron">▶</span></button>
+            <a class="nav-file-link" href="#contract/Products_API.md" data-file="Products_API.md">Products <span class="nav-file-name">Products_API.md · 10 endpoints, 10 covered</span></a>
+          </div>
+          <ul class="nav-endpoints" id="nav-endpoints-1" hidden>
             <li><a href="#contract/Products_API.md/get-products" title="GET /products"><span class="mini-method method-GET">GET</span><span class="mini-path">/products</span><span class="mini-pct color-success">100%</span></a></li><li><a href="#contract/Products_API.md/query-products" title="QUERY /products"><span class="mini-method method-QUERY">QUERY</span><span class="mini-path">/products</span><span class="mini-pct color-success">100%</span></a></li><li><a href="#contract/Products_API.md/post-products" title="POST /products"><span class="mini-method method-POST">POST</span><span class="mini-path">/products</span><span class="mini-pct color-success">100%</span></a></li><li><a href="#contract/Products_API.md/get-products-productid" title="GET /products/:productId"><span class="mini-method method-GET">GET</span><span class="mini-path">/products/{productId}</span><span class="mini-pct color-success">100%</span></a></li><li><a href="#contract/Products_API.md/put-products-productid" title="PUT /products/:productId"><span class="mini-method method-PUT">PUT</span><span class="mini-path">/products/{productId}</span><span class="mini-pct color-success">100%</span></a></li><li><a href="#contract/Products_API.md/patch-products-productid" title="PATCH /products/:productId"><span class="mini-method method-PATCH">PATCH</span><span class="mini-path">/products/{productId}</span><span class="mini-pct color-success">100%</span></a></li><li><a href="#contract/Products_API.md/delete-products-productid" title="DELETE /products/:productId"><span class="mini-method method-DELETE">DELETE</span><span class="mini-path">/products/{productId}</span><span class="mini-pct color-success">88%</span></a></li><li><a href="#contract/Products_API.md/get-products-productid-related" title="GET /products/:productId/related"><span class="mini-method method-GET">GET</span><span class="mini-path">/products/{productId}/related</span><span class="mini-pct color-success">100%</span></a></li><li><a href="#contract/Products_API.md/get-products-search" title="GET /products/search"><span class="mini-method method-GET">GET</span><span class="mini-path">/products/search</span><span class="mini-pct color-success">100%</span></a></li><li><a href="#contract/Products_API.md/query-products-search" title="QUERY /products/search"><span class="mini-method method-QUERY">QUERY</span><span class="mini-path">/products/search</span><span class="mini-pct color-success">100%</span></a></li>
           </ul>
         </div>
-        <div class="nav-file">
-          <a class="nav-file-link" href="#contract/Users_API.md" data-file="Users_API.md">Users <span class="nav-file-name">Users_API.md</span></a>
-          <ul class="nav-endpoints">
+        <div class="nav-file" data-file="Users_API.md">
+          <div class="nav-file-row">
+            <button type="button" class="nav-toggle" aria-expanded="false" aria-controls="nav-endpoints-2" title="Show or hide the endpoints"><span class="chevron">▶</span></button>
+            <a class="nav-file-link" href="#contract/Users_API.md" data-file="Users_API.md">Users <span class="nav-file-name">Users_API.md · 14 endpoints, 7 covered</span></a>
+          </div>
+          <ul class="nav-endpoints" id="nav-endpoints-2" hidden>
             <li><a href="#contract/Users_API.md/post-users-login" title="POST /users/login"><span class="mini-method method-POST">POST</span><span class="mini-path">/users/login</span><span class="mini-pct color-success">91%</span></a></li><li><a href="#contract/Users_API.md/post-users-register" title="POST /users/register"><span class="mini-method method-POST">POST</span><span class="mini-path">/users/register</span><span class="mini-pct color-success">98%</span></a></li><li><a href="#contract/Users_API.md/post-users-forgot-password" title="POST /users/forgot-password"><span class="mini-method method-POST">POST</span><span class="mini-path">/users/forgot-password</span><span class="mini-pct color-danger">0%</span></a></li><li><a href="#contract/Users_API.md/post-users-change-password" title="POST /users/change-password"><span class="mini-method method-POST">POST</span><span class="mini-path">/users/change-password</span><span class="mini-pct color-danger">0%</span></a></li><li><a href="#contract/Users_API.md/get-users-me" title="GET /users/me"><span class="mini-method method-GET">GET</span><span class="mini-path">/users/me</span><span class="mini-pct color-success">100%</span></a></li><li><a href="#contract/Users_API.md/get-users-logout" title="GET /users/logout"><span class="mini-method method-GET">GET</span><span class="mini-path">/users/logout</span><span class="mini-pct color-success">100%</span></a></li><li><a href="#contract/Users_API.md/get-users-refresh" title="GET /users/refresh"><span class="mini-method method-GET">GET</span><span class="mini-path">/users/refresh</span><span class="mini-pct color-success">100%</span></a></li><li><a href="#contract/Users_API.md/get-users" title="GET /users"><span class="mini-method method-GET">GET</span><span class="mini-path">/users</span><span class="mini-pct color-danger">0%</span></a></li><li><a href="#contract/Users_API.md/get-users-search" title="GET /users/search"><span class="mini-method method-GET">GET</span><span class="mini-path">/users/search</span><span class="mini-pct color-danger">0%</span></a></li><li><a href="#contract/Users_API.md/query-users-search" title="QUERY /users/search"><span class="mini-method method-QUERY">QUERY</span><span class="mini-path">/users/search</span><span class="mini-pct color-danger">0%</span></a></li><li><a href="#contract/Users_API.md/get-users-userid" title="GET /users/:userId"><span class="mini-method method-GET">GET</span><span class="mini-path">/users/{userId}</span><span class="mini-pct color-danger">0%</span></a></li><li><a href="#contract/Users_API.md/put-users-userid" title="PUT /users/:userId"><span class="mini-method method-PUT">PUT</span><span class="mini-path">/users/{userId}</span><span class="mini-pct color-danger">0%</span></a></li><li><a href="#contract/Users_API.md/patch-users-userid" title="PATCH /users/:userId"><span class="mini-method method-PATCH">PATCH</span><span class="mini-path">/users/{userId}</span><span class="mini-pct color-danger">44%</span></a></li><li><a href="#contract/Users_API.md/delete-users-userid" title="DELETE /users/:userId"><span class="mini-method method-DELETE">DELETE</span><span class="mini-path">/users/{userId}</span><span class="mini-pct color-warning">52%</span></a></li>
           </ul>
         </div></nav>
@@ -2661,11 +2684,31 @@ Same shape as <code>GET /users/search</code>, with the header <code>Accept-Query
       document.querySelectorAll('.tab-link').forEach((a) => a.classList.toggle('active', a.dataset.tab === name));
     }
 
-    function showContract(file) {
+    // The endpoint lists in the side list start collapsed; the toggle opens one, and opening a contract opens its own.
+    function setExpanded(group, expanded) {
+      const toggle = group.querySelector('.nav-toggle');
+      const list = group.querySelector('.nav-endpoints');
+      if (!toggle || !list) return;
+      toggle.setAttribute('aria-expanded', String(expanded));
+      list.hidden = !expanded;
+    }
+
+    document.querySelectorAll('.nav-toggle').forEach((toggle) => {
+      toggle.addEventListener('click', () => {
+        setExpanded(toggle.closest('.nav-file'), toggle.getAttribute('aria-expanded') !== 'true');
+      });
+    });
+
+    function showContract(file, expand) {
       const articles = Array.from(document.querySelectorAll('article.contract'));
       const target = articles.find((a) => a.dataset.file === file) || articles[0];
       articles.forEach((a) => { a.hidden = a !== target; });
       document.querySelectorAll('.nav-file-link').forEach((a) => a.classList.toggle('active', !!target && a.dataset.file === target.dataset.file));
+      if (expand && target) {
+        document.querySelectorAll('.nav-file').forEach((group) => {
+          if (group.dataset.file === target.dataset.file) setExpanded(group, true);
+        });
+      }
       return target;
     }
 
@@ -2677,7 +2720,8 @@ Same shape as <code>GET /users/search</code>, with the header <code>Accept-Query
       const parts = location.hash.slice(1).split('/').map((p) => { try { return decodeURIComponent(p); } catch { return p; } });
       if (parts[0] === 'contract') {
         showTab('contracts');
-        const article = showContract(parts[1] || '');
+        // Only a link that names the contract opens its endpoint list; the Contracts tab alone leaves them all collapsed.
+        const article = showContract(parts[1] || '', !!parts[1]);
         const heading = article && parts[2] ? document.getElementById('contract-' + slug(article.dataset.file) + '--' + parts[2]) : null;
         if (heading) heading.scrollIntoView({ block: 'start' });
         else window.scrollTo(0, 0);

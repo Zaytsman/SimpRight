@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-08T18:26:22.361Z",
+  "generatedAt": "2026-10-08T19:05:59.252Z",
   "totalEndpoints": 30,
   "coveredEndpoints": 17,
   "endpointCoveragePct": 57,
@@ -849,9 +849,9 @@
           "callCount": 11,
           "isCovered": true,
           "testedStatusCodes": [
+            200,
             422,
-            404,
-            200
+            404
           ],
           "documentedStatusCodes": [
             200,
@@ -936,8 +936,8 @@
           "callCount": 8,
           "isCovered": true,
           "testedStatusCodes": [
-            200,
             422,
+            200,
             404
           ],
           "documentedStatusCodes": [
@@ -1307,8 +1307,8 @@
           "testedStatusCodes": [
             200,
             401,
-            400,
-            403
+            403,
+            400
           ],
           "documentedStatusCodes": [
             200,
@@ -3081,9 +3081,9 @@
       "callCount": 11,
       "isCovered": true,
       "testedStatusCodes": [
+        200,
         422,
-        404,
-        200
+        404
       ],
       "documentedStatusCodes": [
         200,
@@ -3168,8 +3168,8 @@
       "callCount": 8,
       "isCovered": true,
       "testedStatusCodes": [
-        200,
         422,
+        200,
         404
       ],
       "documentedStatusCodes": [
@@ -3521,8 +3521,8 @@
       "testedStatusCodes": [
         200,
         401,
-        400,
-        403
+        403,
+        400
       ],
       "documentedStatusCodes": [
         200,
