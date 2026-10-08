@@ -60,6 +60,8 @@ export default defineConfig<BaseOptions & UiOptions>({
       testDir: './tests/ui',
       use: {
         ...devices['Desktop Chrome'],
+        // A visible browser locally, headless on CI (HEADLESS overrides it).
+        headless: env.headless,
       },
     },
     // The page inspector for writing UI tests: prints a page's accessibility tree and data-test elements.
