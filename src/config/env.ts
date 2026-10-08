@@ -40,6 +40,8 @@ export interface EnvConfig {
   name: string;
   /** From UI_AUTH_MODE (default `api`). */
   uiAuthMode: UiAuthMode;
+  /** From HEADLESS (`true`/`false`); default: headless on CI, a visible browser locally. */
+  headless: boolean;
   baseUrl: string;
   apiBaseUrl: string;
   /** Action and assertion timeout. */
@@ -59,6 +61,14 @@ function parseUiAuthMode(raw: string | undefined): UiAuthMode {
     throw new Error(`Unknown UI_AUTH_MODE=${raw}. Available: ${UI_AUTH_MODES.join(', ')}`);
   }
   return mode;
+}
+
+function parseHeadless(raw: string | undefined): boolean {
+  if (raw === undefined || raw === '') return !!process.env.CI;
+  if (raw !== 'true' && raw !== 'false') {
+    throw new Error(`Unknown HEADLESS=${raw}. Available: true, false`);
+  }
+  return raw === 'true';
 }
 
 function availableEnvs(): string[] {
@@ -101,6 +111,7 @@ function loadEnv(): EnvConfig {
   return Object.freeze({
     name,
     uiAuthMode: parseUiAuthMode(process.env.UI_AUTH_MODE),
+    headless: parseHeadless(process.env.HEADLESS),
     baseUrl: assertUrl(raw.baseUrl, 'baseUrl', file),
     apiBaseUrl: assertUrl(raw.apiBaseUrl, 'apiBaseUrl', file),
     defaultTimeoutMs: assertPositiveNumber(raw.defaultTimeoutMs, 'defaultTimeoutMs', file),

@@ -28,9 +28,10 @@ paths:
 commands:
   typecheck: npm run typecheck
   validateScenarios: npm run validate:scenarios
-  runSpec: npx playwright test {spec}
-  runScenario: npx playwright test -g "{id}:"
-  repeatSpec: npx playwright test {spec} --repeat-each=3   # flakiness check after a spec passes
+  # Agents run headless (HEADLESS=true); a person's local UI runs show the browser by default.
+  runSpec: HEADLESS=true npx playwright test {spec}
+  runScenario: HEADLESS=true npx playwright test -g "{id}:"
+  repeatSpec: HEADLESS=true npx playwright test {spec} --repeat-each=3   # flakiness check after a spec passes
   # Page inspector (read-only): data-test elements + accessibility tree of {path} (relative to baseUrl).
   # Options: --role <role> | --logged-out; --then <step>, repeatable: click:<data-test> (tabs, menus, links),
   # "check:<label>" (a filter checkbox), "select:<data-test>=<option label>" (a sort order). Steps change no data.

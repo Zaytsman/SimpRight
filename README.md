@@ -63,6 +63,7 @@ npx playwright test -g "UI-002:"
 |---|---|---|---|
 | `TEST_ENV` | name of a file in `src/envs/` | `TEST` | Environment to run against |
 | `UI_AUTH_MODE` | `api`, `storageState` | `api` | How UI tests start logged in (see below) |
+| `HEADLESS` | `true`, `false` | `false` locally, `true` on CI | `false` shows the browser during UI tests |
 | `CI` | any value | not set | Enables retries, 2 workers, JUnit output and `forbidOnly` |
 
 PowerShell example: `$env:TEST_ENV="QA"; npm test`. Git Bash example: `TEST_ENV=QA npm test`.

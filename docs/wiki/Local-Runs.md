@@ -28,7 +28,7 @@ Add them to any `npx playwright test` command (after `--` for npm scripts: `npm 
 
 | Option | Effect |
 |---|---|
-| `--headed` | Show the browser |
+| `--headed` | Show the browser (already the default for local UI runs; see `HEADLESS` below) |
 | `--ui` | Playwright's UI mode: pick tests, watch them run, time-travel through each step |
 | `--debug` | Step through a test in the Playwright Inspector |
 | `--workers=1` | One test at a time (easier to follow; by default Playwright uses half of your CPU cores) |
@@ -42,6 +42,7 @@ Add them to any `npx playwright test` command (after `--` for npm scripts: `npm 
 |---|---|---|---|
 | `TEST_ENV` | the name of a file in `src/envs/` | `TEST` | The environment to test |
 | `UI_AUTH_MODE` | `api`, `storageState` | `api` | How UI tests start logged in |
+| `HEADLESS` | `true`, `false` | `false` locally, `true` on CI | `false` shows the browser during UI tests |
 | `DISABLE_API_COVERAGE` | `true` | not set | Skip the API coverage report |
 | `CI` | any value | not set | Behave like CI: 2 retries, 2 workers, `test.only` forbidden |
 
@@ -67,6 +68,8 @@ A scheduled run starts the tests at fixed times without you, for example a night
 - `PLAYWRIGHT_HTML_OPEN=never`: by default the HTML report opens when tests fail, and the run then **waits** (it serves the report until you press Ctrl+C). A scheduled run must not wait.
 - `PLAYWRIGHT_HTML_OUTPUT_DIR=<folder>`: writes the report to its own folder per run, instead of overwriting `playwright-report/`.
 
+The scripts also set `HEADLESS=true`: local UI runs show the browser by default, which an unattended run doesn't need.
+
 The scripts below keep each run in a folder of its own, outside the repository: `SimpRight-runs/<date_time>/` in your home folder, with `report/` (the HTML report), `api-coverage/` (when there is one) and `run.log` (the console output).
 
 Before scheduling, check that a normal `npm test` passes on this machine, with `.env` in place.
@@ -85,6 +88,7 @@ Set-Location $repo
 
 $env:PLAYWRIGHT_HTML_OPEN       = 'never'
 $env:PLAYWRIGHT_HTML_OUTPUT_DIR = Join-Path $runDir 'report'
+$env:HEADLESS                   = 'true'
 
 npx.cmd playwright test @args *> (Join-Path $runDir 'run.log')
 $code = $LASTEXITCODE
@@ -138,6 +142,7 @@ cd "$REPO" || exit 1
 
 export PLAYWRIGHT_HTML_OPEN=never
 export PLAYWRIGHT_HTML_OUTPUT_DIR="$RUN_DIR/report"
+export HEADLESS=true
 
 npx playwright test "$@" > "$RUN_DIR/run.log" 2>&1
 code=$?
@@ -164,7 +169,7 @@ The time fields are the same as in the [CI schedules](CI-Runs#cron-syntax), but 
 Notes:
 - **nvm, fnm, Homebrew:** the `PATH` line must include the folder from `which npx` (for nvm, something like `$HOME/.nvm/versions/node/v24.x.x/bin`).
 - **macOS:** cron may need *Full Disk Access* (System Settings → Privacy & Security) to reach folders such as Documents. A Mac that sleeps skips cron jobs; `launchd` with `StartCalendarInterval` runs a missed job when it wakes up.
-- **Linux without a desktop:** UI tests run headless, so no display is needed.
+- **Linux without a desktop:** the script sets `HEADLESS=true`, so no display is needed.
 
 ### Tips for scheduled runs
 

@@ -107,12 +107,13 @@ npm run report
 
 ## 7. Choose how tests run (optional)
 
-Three environment variables change how a run behaves:
+Four environment variables change how a run behaves:
 
 | Variable | Values | Default | Purpose |
 |---|---|---|---|
 | `TEST_ENV` | the name of a file in `src/envs/` | `TEST` | The environment to test |
 | `UI_AUTH_MODE` | `api`, `storageState` | `api` | How UI tests start logged in |
+| `HEADLESS` | `true`, `false` | `false` locally, `true` on CI | `false` shows the browser during UI tests |
 | `CI` | any value | not set | CI behaviour: 2 retries, 2 workers, JUnit output, `test.only` forbidden |
 
 Setting one for a single run:
