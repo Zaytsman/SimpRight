@@ -48,13 +48,14 @@ SimpRight/
 ├── docs/
 │   ├── api/contracts/            API contracts, one per API area; the reference for API coverage
 │   ├── api/CONTRACT_FORMAT.md    the contract format
-│   ├── ui/user-stories/          user stories with acceptance criteria, the input for UI scenarios
+│   ├── ui/user-stories/          user stories and bug reports with acceptance criteria, the input for the analyst and UI scenarios
+│   ├── analysis/                 analysis documents: a summary and test plan per work item (/analyze-requirements)
 │   ├── wiki/                     these wiki pages (published by the Publish Wiki workflow)
 │   └── AI_WORKFLOW.md            the AI-driven automation cycle
 ├── scripts/                      tools run by npm scripts and CI (see below)
 ├── site/test-cases/index.html    the Test Cases page of the dashboard
 ├── .claude/
-│   ├── agents/                   the QA agents (scenario writers, test engineers, reviewer, healer, contract writer)
+│   ├── agents/                   the QA agents (requirements analyst, scenario writers, test engineers, reviewer, healer, contract writer)
 │   └── skills/                   the slash commands that start them, and the skills they use
 ├── .github/
 │   ├── workflows/                CI (see below)

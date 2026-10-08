@@ -1,6 +1,7 @@
 import { expect, type Locator, type Page } from '@playwright/test';
 import type { EnvConfig } from '../../config/env';
 import { BasePage } from './BasePage';
+import { ProductFilters } from './components/ProductFilters';
 import { ProductGrid } from './components/ProductGrid';
 
 export class HomePage extends BasePage {
@@ -16,6 +17,7 @@ export class HomePage extends BasePage {
    */
   private readonly sortingCompletedMarker: Locator;
   readonly productGrid: ProductGrid;
+  readonly filters: ProductFilters;
 
   constructor(page: Page, config: EnvConfig) {
     super(page, config);
@@ -26,6 +28,7 @@ export class HomePage extends BasePage {
     this.sortSelect = page.getByTestId('sort');
     this.sortingCompletedMarker = page.getByTestId('sorting_completed');
     this.productGrid = new ProductGrid(page);
+    this.filters = new ProductFilters(page);
   }
 
   /** "Searched for: <term>", shown after a search. */
@@ -58,5 +61,17 @@ export class HomePage extends BasePage {
     await this.searchInput.fill(term);
     await this.searchButton.click();
     await expect(this.searchCompletedMarker).toBeAttached();
+  }
+
+  /**
+   * Fills the search box and submits, without waiting for results: only for terms the app is expected to
+   * reject (shorter than 3 or longer than 40 characters), where it renders no marker at all.
+   * Done-condition from the app source (sprint5/UI/src/app/products/overview/overview.component.ts, `onSearchSubmit`): the form validation is
+   * synchronous, so an invalid term returns at once and changes nothing, while an accepted term sets the
+   * caption and the `search_started` state within the click. Checks right after this call are meaningful.
+   */
+  async submitSearch(term: string): Promise<void> {
+    await this.searchInput.fill(term);
+    await this.searchButton.click();
   }
 }

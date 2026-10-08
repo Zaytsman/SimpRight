@@ -14,6 +14,8 @@ Each step is a slash command in [Claude Code](https://claude.com/claude-code) th
 flowchart LR
     src[API source code<br/>OpenAPI spec] -->|/write-api-contracts| contracts[API contracts<br/>docs/api/contracts]
     stories[User stories<br/>bug reports<br/>docs/ui/user-stories] -->|/write-ui-scenarios| scenarios
+    stories -->|/analyze-requirements| analysis[Analysis + test plan<br/>API first<br/>docs/analysis]
+    analysis -->|scenario writers| scenarios
     contracts -->|/write-api-scenarios| scenarios[Test scenarios<br/>test-scenarios/*.yml]
     scenarios -->|/implement-api-scenarios<br/>/implement-ui-scenarios| specs[Framework code + specs<br/>src/, tests/]
     specs -->|/review-tests| review[Ranked findings<br/>→ fixes]
@@ -29,6 +31,7 @@ flowchart LR
 | Step | Command | Agent | Input | Output |
 |---|---|---|---|---|
 | Describe the API | `/write-api-contracts [update] <source> <spec> <areas>` | `api-contract-writer` | The API's source code and/or its OpenAPI spec | Contracts in `docs/api/contracts/`, one per API area |
+| Analyse a work item | `/analyze-requirements <story or bug> [AC ...]` | `requirements-analyst`, then both scenario writers | A user story or bug report | An analysis and test plan in `docs/analysis/` (each check on the API unless only the UI can prove it), then API and UI scenarios |
 | Plan API tests | `/write-api-scenarios <contract>` | `api-scenario-writer` | A contract | API scenarios (`API-NNNN`) |
 | Plan UI tests | `/write-ui-scenarios <story or bug> [AC ...]` | `ui-scenario-writer` | A user story's acceptance criteria, a bug report | UI scenarios (`UI-NNN`) |
 | Automate API tests | `/implement-api-scenarios <IDs \| file \| area>` | `api-test-engineer` | API scenarios | Clients, services, DTOs, fixtures, factories, specs |
@@ -73,6 +76,8 @@ The **scenario writers** work in two phases:
 
 1. **Proposal:** the scenarios they would write, one line each, with the cases they left out and why, the questions they couldn't settle, and which scenarios would change data on the live app.
 2. **Files:** after the user approves (or edits) the proposal, the YAML files, all with `status: manual`.
+
+When a story or bug spans both layers, the **requirements analyst** comes first (`/analyze-requirements`). It summarises the work item in `docs/analysis/<name>.md` and splits each criterion into test items, each on the cheapest layer that can prove it: the API by default (rules, validation, permissions, stored data), the UI only for what the API can't show (rendering, validation done only in the browser, browser state, navigation), at most one UI journey per story. It reads the contracts and existing scenarios to avoid duplicates, and the app's source only to see where a rule is enforced. After the user approves the plan, it hands the API items to the API writer and the UI items to the UI writer; the user approves both proposals together, and the scenario IDs go back into the plan.
 
 The API writer works from a contract: happy paths, every documented error status code, required fields and boundaries, roles. It never calls the API. The UI writer works from acceptance criteria and checks the real page with the **page inspector** (`npm run inspect:ui`), a read-only tool that lists a page's `data-test` elements and accessibility tree, so the steps use the labels and messages the app really shows.
 
@@ -160,6 +165,14 @@ For a new UI story:
 /write-ui-scenarios Product_Detail.md        → proposal → approve → test-scenarios/ui/products/*.yml
 /implement-ui-scenarios product-detail.yml   → plan + writes → approve → page objects, specs
 /review-tests product-detail.spec.ts         → findings → pick → fixes applied
+```
+
+For a story that spans both layers:
+
+```text
+/analyze-requirements Product_Detail.md AC3-AC9   → test plan → approve → docs/analysis/product-detail.md
+                                                  → API + UI proposals → approve → test-scenarios/api/carts/*.yml
+/implement-api-scenarios post-carts-by-cart-id.yml → API first, then /implement-ui-scenarios for the UI items
 ```
 
 The person in the loop decides what to test and approves each step; the agents do the reading, writing, running and checking in between.

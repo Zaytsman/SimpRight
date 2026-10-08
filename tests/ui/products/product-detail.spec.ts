@@ -4,7 +4,7 @@ import { TestConstants } from '@data/TestConstants';
 // Scenarios: test-scenarios/ui/products/product-detail.yml
 test.describe('@products - Product detail', () => {
   test("UI-013: The product page shows the product's information and related products", async ({ shoppingFlow, productPage }) => {
-    const productName = 'Combination Pliers';
+    const productName = TestConstants.products.inStockProduct;
 
     await test.step('Open the product "Combination Pliers".', async () => {
       await shoppingFlow.openProduct(productName);
@@ -32,7 +32,7 @@ test.describe('@products - Product detail', () => {
     });
 
     await test.step('Verify the brand badge "ForgeFlex Tools" is shown.', async () => {
-      await expect(productPage.brandBadge, 'The brand badge names the brand').toHaveText('ForgeFlex Tools');
+      await expect(productPage.brandBadge, 'The brand badge names the brand').toHaveText(TestConstants.products.brand);
     });
 
     await test.step('Verify the "Related products" section is shown below the product information.', async () => {

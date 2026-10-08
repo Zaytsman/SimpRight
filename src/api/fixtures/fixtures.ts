@@ -1,11 +1,13 @@
 import { test as base } from '../../fixtures/base';
 import { AuthClient } from '../clients/AuthClient';
 import { CartsClient } from '../clients/CartsClient';
+import { FavoritesClient } from '../clients/FavoritesClient';
 import { ProductsClient } from '../clients/ProductsClient';
 import { UsersClient } from '../clients/UsersClient';
 import { ProductsService } from '../services/ProductsService';
 import { AuthService } from '../services/AuthService';
 import { CartsService } from '../services/CartsService';
+import { FavoritesService } from '../services/FavoritesService';
 import { UsersService } from '../services/UsersService';
 
 /** Not a JWT at all, so the API can't parse it and treats the request as unauthenticated. */
@@ -41,6 +43,8 @@ export type ApiFixtures = {
   adminUsersService: UsersService;
   /** Public: carts need no token (cleanup removes the cart a UI test filled). */
   cartsService: CartsService;
+  /** Builds a favorites service for a token the test obtained itself (the favourites of that token's user). */
+  favoritesServiceForToken: (token: string) => FavoritesService;
 };
 
 export const test = base.extend<ApiFixtures>({
@@ -95,6 +99,10 @@ export const test = base.extend<ApiFixtures>({
 
   cartsService: async ({ request, config }, use) => {
     await use(new CartsService(new CartsClient(request, config)));
+  },
+
+  favoritesServiceForToken: async ({ request, config }, use) => {
+    await use((token: string) => new FavoritesService(new FavoritesClient(request, config, token)));
   },
 });
 
