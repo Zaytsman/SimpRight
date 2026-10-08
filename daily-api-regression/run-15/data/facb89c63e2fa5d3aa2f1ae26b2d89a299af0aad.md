@@ -12,8 +12,8 @@
 # Error details
 
 ```
-Error: [Request] {"method":"GET","path":"/products/01M4D8EBM8NTMTERKZ4V5Y6EV4/related"}
-[Expected] Item 01M4D8EBMDGM0AXPQRWGT5J59W has a co2_rating field
+Error: [Request] {"method":"GET","path":"/products/01M4EARYHAXTKW4KGA97A8BSPC/related"}
+[Expected] Item 01M4EARYHGH1FT08SVJ9J7XFYD has a co2_rating field
 [Actual] [
   "id",
   "name",
@@ -138,7 +138,7 @@ Received: false
   109 |       const body = JSON.parse(response.body) as Record<string, unknown>[];
   110 |       for (const item of body) {
 > 111 |         expect('co2_rating' in item, assertMessage({ request, expected: `Item ${String(item.id)} has a co2_rating field`, actual: Object.keys(item) })).toBe(true);
-      |                                                                                                                                                         ^ Error: [Request] {"method":"GET","path":"/products/01M4D8EBM8NTMTERKZ4V5Y6EV4/related"}
+      |                                                                                                                                                         ^ Error: [Request] {"method":"GET","path":"/products/01M4EARYHAXTKW4KGA97A8BSPC/related"}
   112 |       }
   113 |     });
   114 |   });

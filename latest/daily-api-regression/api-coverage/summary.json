@@ -1,35 +1,358 @@
 {
-  "generatedAt": "2026-10-08T08:19:18.391Z",
-  "totalEndpoints": 25,
+  "generatedAt": "2026-10-08T18:26:22.361Z",
+  "totalEndpoints": 30,
   "coveredEndpoints": 17,
-  "endpointCoveragePct": 68,
-  "totalDocumentedStatusCodes": 74,
+  "endpointCoveragePct": 57,
+  "totalDocumentedStatusCodes": 87,
   "coveredStatusCodes": 41,
-  "statusCodeCoveragePct": 55,
-  "totalRequiredFields": 22,
+  "statusCodeCoveragePct": 47,
+  "totalRequiredFields": 26,
   "coveredRequiredFields": 11,
-  "requiredFieldCoveragePct": 50,
-  "totalOptionalFields": 71,
+  "requiredFieldCoveragePct": 42,
+  "totalOptionalFields": 73,
   "coveredOptionalFields": 46,
-  "optionalFieldCoveragePct": 65,
-  "overallCoveragePct": 63,
+  "optionalFieldCoveragePct": 63,
+  "overallCoveragePct": 52,
   "services": {
     "Carts": {
       "serviceName": "Carts",
-      "totalEndpoints": 1,
+      "totalEndpoints": 6,
       "coveredEndpoints": 0,
       "endpointCoveragePct": 0,
-      "documentedStatusCodes": 2,
+      "documentedStatusCodes": 15,
       "coveredStatusCodes": 0,
       "statusCodeCoveragePct": 0,
-      "totalRequiredFields": 0,
+      "totalRequiredFields": 4,
       "coveredRequiredFields": 0,
-      "requiredFieldCoveragePct": 100,
-      "totalOptionalFields": 0,
+      "requiredFieldCoveragePct": 0,
+      "totalOptionalFields": 2,
       "coveredOptionalFields": 0,
-      "optionalFieldCoveragePct": 100,
+      "optionalFieldCoveragePct": 0,
       "overallCoveragePct": 0,
       "endpoints": [
+        {
+          "endpoint": {
+            "id": "POST /carts",
+            "serviceName": "Carts",
+            "method": "POST",
+            "path": "/carts",
+            "normalizedPath": "/carts",
+            "title": "Create cart",
+            "description": "Creates an empty cart and returns its id. The optional coordinates are stored on the cart and later decide the location discount of the items added to it. Nothing is validated. _(source)_",
+            "parameters": [],
+            "requestBody": {
+              "requiredFields": [],
+              "optionalFields": [
+                "lat",
+                "lng"
+              ],
+              "schemaRaw": "{\n  lat?: number;   // latitude; stored as a decimal, no validation\n  lng?: number;   // longitude; stored as a decimal, no validation\n}"
+            },
+            "responses": {
+              "201": {
+                "statusCode": 201,
+                "statusText": "Created",
+                "fields": [
+                  "id"
+                ],
+                "schemaRaw": "{\n  id: string;   // ULID of the new cart\n}",
+                "origin": "source"
+              }
+            }
+          },
+          "callCount": 0,
+          "isCovered": false,
+          "testedStatusCodes": [],
+          "documentedStatusCodes": [
+            201
+          ],
+          "statusCodeCoveragePct": 0,
+          "testedRequiredFields": [],
+          "missingRequiredFields": [],
+          "requiredFieldCoveragePct": 100,
+          "testedOptionalFields": [],
+          "missingOptionalFields": [
+            "lat",
+            "lng"
+          ],
+          "optionalFieldCoveragePct": 0,
+          "testedQueryParams": [],
+          "missingQueryParams": [],
+          "queryParamCoveragePct": 100,
+          "overallCoveragePct": 0
+        },
+        {
+          "endpoint": {
+            "id": "POST /carts/:cartId",
+            "serviceName": "Carts",
+            "method": "POST",
+            "path": "/carts/:cartId",
+            "normalizedPath": "/carts/{cartId}",
+            "title": "Add item to cart",
+            "description": "Adds a product to the cart. When the product is already in the cart, its quantity is **increased** by `quantity` (`firstOrCreate` + `increment`); no second line is created. _(source)_ The service's own test adds 2 to an item with quantity 1 and expects 3. _(source)_",
+            "parameters": [
+              {
+                "name": "cartId",
+                "in": "path",
+                "type": "string (ULID)",
+                "required": true,
+                "description": "The cart's id (named `{id}` in the route)"
+              }
+            ],
+            "requestBody": {
+              "requiredFields": [
+                "product_id",
+                "quantity"
+              ],
+              "optionalFields": [],
+              "schemaRaw": "{\n  product_id: string;   // required; must be an existing product id\n  quantity: number;     // required; integer, min 1, max 99\n}"
+            },
+            "responses": {
+              "200": {
+                "statusCode": 200,
+                "statusText": "OK",
+                "fields": [
+                  "result"
+                ],
+                "schemaRaw": "{\n  result: \"item added or updated\";\n}",
+                "origin": "source"
+              },
+              "400": {
+                "statusCode": 400,
+                "statusText": "Bad Request",
+                "origin": "source"
+              },
+              "404": {
+                "statusCode": 404,
+                "statusText": "Not Found",
+                "origin": "source"
+              },
+              "422": {
+                "statusCode": 422,
+                "statusText": "Unprocessable Entity",
+                "origin": "source"
+              }
+            }
+          },
+          "callCount": 0,
+          "isCovered": false,
+          "testedStatusCodes": [],
+          "documentedStatusCodes": [
+            200,
+            400,
+            404,
+            422
+          ],
+          "statusCodeCoveragePct": 0,
+          "testedRequiredFields": [],
+          "missingRequiredFields": [
+            "product_id",
+            "quantity"
+          ],
+          "requiredFieldCoveragePct": 0,
+          "testedOptionalFields": [],
+          "missingOptionalFields": [],
+          "optionalFieldCoveragePct": 100,
+          "testedQueryParams": [],
+          "missingQueryParams": [],
+          "queryParamCoveragePct": 100,
+          "overallCoveragePct": 0
+        },
+        {
+          "endpoint": {
+            "id": "GET /carts/:cartId",
+            "serviceName": "Carts",
+            "method": "GET",
+            "path": "/carts/:cartId",
+            "normalizedPath": "/carts/{cartId}",
+            "title": "Get cart",
+            "description": "Returns the cart with its items, each with its product. For an item with a non-zero `discount_percentage`, `discounted_price` is added: the product price minus the discount, rounded to 2 decimals. _(source)_",
+            "parameters": [
+              {
+                "name": "cartId",
+                "in": "path",
+                "type": "string (ULID)",
+                "required": true,
+                "description": "The cart's id (named `{id}` in the route)"
+              }
+            ],
+            "requestBody": {
+              "requiredFields": [],
+              "optionalFields": []
+            },
+            "responses": {
+              "200": {
+                "statusCode": 200,
+                "statusText": "OK",
+                "fields": [],
+                "schemaRaw": "Cart   // see Data Models",
+                "origin": "source"
+              },
+              "404": {
+                "statusCode": 404,
+                "statusText": "Not Found",
+                "origin": "verified"
+              }
+            }
+          },
+          "callCount": 0,
+          "isCovered": false,
+          "testedStatusCodes": [],
+          "documentedStatusCodes": [
+            200,
+            404
+          ],
+          "statusCodeCoveragePct": 0,
+          "testedRequiredFields": [],
+          "missingRequiredFields": [],
+          "requiredFieldCoveragePct": 100,
+          "testedOptionalFields": [],
+          "missingOptionalFields": [],
+          "optionalFieldCoveragePct": 100,
+          "testedQueryParams": [],
+          "missingQueryParams": [],
+          "queryParamCoveragePct": 100,
+          "overallCoveragePct": 0
+        },
+        {
+          "endpoint": {
+            "id": "PUT /carts/:cartId/product/quantity",
+            "serviceName": "Carts",
+            "method": "PUT",
+            "path": "/carts/:cartId/product/quantity",
+            "normalizedPath": "/carts/{cartId}/product/quantity",
+            "title": "Update item quantity",
+            "description": "Sets (replaces) the quantity of a product that is in the cart. _(source)_",
+            "parameters": [
+              {
+                "name": "cartId",
+                "in": "path",
+                "type": "string (ULID)",
+                "required": true,
+                "description": "The cart's id (named `{id}` in the route)"
+              }
+            ],
+            "requestBody": {
+              "requiredFields": [
+                "product_id",
+                "quantity"
+              ],
+              "optionalFields": [],
+              "schemaRaw": "{\n  product_id: string;   // required; must be an existing product id\n  quantity: number;     // required; integer, min 1, max 99\n}"
+            },
+            "responses": {
+              "200": {
+                "statusCode": 200,
+                "statusText": "OK",
+                "fields": [
+                  "result"
+                ],
+                "schemaRaw": "{\n  result: \"item added or updated\";\n}",
+                "origin": "source"
+              },
+              "400": {
+                "statusCode": 400,
+                "statusText": "Bad Request",
+                "origin": "source"
+              },
+              "404": {
+                "statusCode": 404,
+                "statusText": "Not Found",
+                "origin": "source"
+              },
+              "422": {
+                "statusCode": 422,
+                "statusText": "Unprocessable Entity",
+                "origin": "source"
+              }
+            }
+          },
+          "callCount": 0,
+          "isCovered": false,
+          "testedStatusCodes": [],
+          "documentedStatusCodes": [
+            200,
+            400,
+            404,
+            422
+          ],
+          "statusCodeCoveragePct": 0,
+          "testedRequiredFields": [],
+          "missingRequiredFields": [
+            "product_id",
+            "quantity"
+          ],
+          "requiredFieldCoveragePct": 0,
+          "testedOptionalFields": [],
+          "missingOptionalFields": [],
+          "optionalFieldCoveragePct": 100,
+          "testedQueryParams": [],
+          "missingQueryParams": [],
+          "queryParamCoveragePct": 100,
+          "overallCoveragePct": 0
+        },
+        {
+          "endpoint": {
+            "id": "DELETE /carts/:cartId/product/:productId",
+            "serviceName": "Carts",
+            "method": "DELETE",
+            "path": "/carts/:cartId/product/:productId",
+            "normalizedPath": "/carts/{cartId}/product/{productId}",
+            "title": "Remove product from cart",
+            "description": "Deletes the cart's line for this product and recalculates the cart's combined (rental + product) discount. _(source)_",
+            "parameters": [
+              {
+                "name": "cartId",
+                "in": "path",
+                "type": "string (ULID)",
+                "required": true,
+                "description": "The cart's id"
+              },
+              {
+                "name": "productId",
+                "in": "path",
+                "type": "string (ULID)",
+                "required": true,
+                "description": "The product's id (not the cart item's id)"
+              }
+            ],
+            "requestBody": {
+              "requiredFields": [],
+              "optionalFields": []
+            },
+            "responses": {
+              "204": {
+                "statusCode": 204,
+                "statusText": "No Content",
+                "fields": [],
+                "origin": "source"
+              },
+              "404": {
+                "statusCode": 404,
+                "statusText": "Not Found",
+                "origin": "source"
+              }
+            }
+          },
+          "callCount": 0,
+          "isCovered": false,
+          "testedStatusCodes": [],
+          "documentedStatusCodes": [
+            204,
+            404
+          ],
+          "statusCodeCoveragePct": 0,
+          "testedRequiredFields": [],
+          "missingRequiredFields": [],
+          "requiredFieldCoveragePct": 100,
+          "testedOptionalFields": [],
+          "missingOptionalFields": [],
+          "optionalFieldCoveragePct": 100,
+          "testedQueryParams": [],
+          "missingQueryParams": [],
+          "queryParamCoveragePct": 100,
+          "overallCoveragePct": 0
+        },
         {
           "endpoint": {
             "id": "DELETE /carts/:cartId",
@@ -292,9 +615,9 @@
           "callCount": 13,
           "isCovered": true,
           "testedStatusCodes": [
+            415,
             200,
-            500,
-            415
+            500
           ],
           "documentedStatusCodes": [
             200,
@@ -526,9 +849,9 @@
           "callCount": 11,
           "isCovered": true,
           "testedStatusCodes": [
-            200,
             422,
-            404
+            404,
+            200
           ],
           "documentedStatusCodes": [
             200,
@@ -613,8 +936,8 @@
           "callCount": 8,
           "isCovered": true,
           "testedStatusCodes": [
-            422,
             200,
+            422,
             404
           ],
           "documentedStatusCodes": [
@@ -984,8 +1307,8 @@
           "testedStatusCodes": [
             200,
             401,
-            403,
-            400
+            400,
+            403
           ],
           "documentedStatusCodes": [
             200,
@@ -1270,8 +1593,8 @@
           "callCount": 11,
           "isCovered": true,
           "testedStatusCodes": [
-            401,
             200,
+            401,
             403
           ],
           "documentedStatusCodes": [
@@ -1322,8 +1645,8 @@
           "callCount": 6,
           "isCovered": true,
           "testedStatusCodes": [
-            200,
-            401
+            401,
+            200
           ],
           "documentedStatusCodes": [
             200,
@@ -1959,6 +2282,329 @@
   "endpointResults": [
     {
       "endpoint": {
+        "id": "POST /carts",
+        "serviceName": "Carts",
+        "method": "POST",
+        "path": "/carts",
+        "normalizedPath": "/carts",
+        "title": "Create cart",
+        "description": "Creates an empty cart and returns its id. The optional coordinates are stored on the cart and later decide the location discount of the items added to it. Nothing is validated. _(source)_",
+        "parameters": [],
+        "requestBody": {
+          "requiredFields": [],
+          "optionalFields": [
+            "lat",
+            "lng"
+          ],
+          "schemaRaw": "{\n  lat?: number;   // latitude; stored as a decimal, no validation\n  lng?: number;   // longitude; stored as a decimal, no validation\n}"
+        },
+        "responses": {
+          "201": {
+            "statusCode": 201,
+            "statusText": "Created",
+            "fields": [
+              "id"
+            ],
+            "schemaRaw": "{\n  id: string;   // ULID of the new cart\n}",
+            "origin": "source"
+          }
+        }
+      },
+      "callCount": 0,
+      "isCovered": false,
+      "testedStatusCodes": [],
+      "documentedStatusCodes": [
+        201
+      ],
+      "statusCodeCoveragePct": 0,
+      "testedRequiredFields": [],
+      "missingRequiredFields": [],
+      "requiredFieldCoveragePct": 100,
+      "testedOptionalFields": [],
+      "missingOptionalFields": [
+        "lat",
+        "lng"
+      ],
+      "optionalFieldCoveragePct": 0,
+      "testedQueryParams": [],
+      "missingQueryParams": [],
+      "queryParamCoveragePct": 100,
+      "overallCoveragePct": 0
+    },
+    {
+      "endpoint": {
+        "id": "POST /carts/:cartId",
+        "serviceName": "Carts",
+        "method": "POST",
+        "path": "/carts/:cartId",
+        "normalizedPath": "/carts/{cartId}",
+        "title": "Add item to cart",
+        "description": "Adds a product to the cart. When the product is already in the cart, its quantity is **increased** by `quantity` (`firstOrCreate` + `increment`); no second line is created. _(source)_ The service's own test adds 2 to an item with quantity 1 and expects 3. _(source)_",
+        "parameters": [
+          {
+            "name": "cartId",
+            "in": "path",
+            "type": "string (ULID)",
+            "required": true,
+            "description": "The cart's id (named `{id}` in the route)"
+          }
+        ],
+        "requestBody": {
+          "requiredFields": [
+            "product_id",
+            "quantity"
+          ],
+          "optionalFields": [],
+          "schemaRaw": "{\n  product_id: string;   // required; must be an existing product id\n  quantity: number;     // required; integer, min 1, max 99\n}"
+        },
+        "responses": {
+          "200": {
+            "statusCode": 200,
+            "statusText": "OK",
+            "fields": [
+              "result"
+            ],
+            "schemaRaw": "{\n  result: \"item added or updated\";\n}",
+            "origin": "source"
+          },
+          "400": {
+            "statusCode": 400,
+            "statusText": "Bad Request",
+            "origin": "source"
+          },
+          "404": {
+            "statusCode": 404,
+            "statusText": "Not Found",
+            "origin": "source"
+          },
+          "422": {
+            "statusCode": 422,
+            "statusText": "Unprocessable Entity",
+            "origin": "source"
+          }
+        }
+      },
+      "callCount": 0,
+      "isCovered": false,
+      "testedStatusCodes": [],
+      "documentedStatusCodes": [
+        200,
+        400,
+        404,
+        422
+      ],
+      "statusCodeCoveragePct": 0,
+      "testedRequiredFields": [],
+      "missingRequiredFields": [
+        "product_id",
+        "quantity"
+      ],
+      "requiredFieldCoveragePct": 0,
+      "testedOptionalFields": [],
+      "missingOptionalFields": [],
+      "optionalFieldCoveragePct": 100,
+      "testedQueryParams": [],
+      "missingQueryParams": [],
+      "queryParamCoveragePct": 100,
+      "overallCoveragePct": 0
+    },
+    {
+      "endpoint": {
+        "id": "GET /carts/:cartId",
+        "serviceName": "Carts",
+        "method": "GET",
+        "path": "/carts/:cartId",
+        "normalizedPath": "/carts/{cartId}",
+        "title": "Get cart",
+        "description": "Returns the cart with its items, each with its product. For an item with a non-zero `discount_percentage`, `discounted_price` is added: the product price minus the discount, rounded to 2 decimals. _(source)_",
+        "parameters": [
+          {
+            "name": "cartId",
+            "in": "path",
+            "type": "string (ULID)",
+            "required": true,
+            "description": "The cart's id (named `{id}` in the route)"
+          }
+        ],
+        "requestBody": {
+          "requiredFields": [],
+          "optionalFields": []
+        },
+        "responses": {
+          "200": {
+            "statusCode": 200,
+            "statusText": "OK",
+            "fields": [],
+            "schemaRaw": "Cart   // see Data Models",
+            "origin": "source"
+          },
+          "404": {
+            "statusCode": 404,
+            "statusText": "Not Found",
+            "origin": "verified"
+          }
+        }
+      },
+      "callCount": 0,
+      "isCovered": false,
+      "testedStatusCodes": [],
+      "documentedStatusCodes": [
+        200,
+        404
+      ],
+      "statusCodeCoveragePct": 0,
+      "testedRequiredFields": [],
+      "missingRequiredFields": [],
+      "requiredFieldCoveragePct": 100,
+      "testedOptionalFields": [],
+      "missingOptionalFields": [],
+      "optionalFieldCoveragePct": 100,
+      "testedQueryParams": [],
+      "missingQueryParams": [],
+      "queryParamCoveragePct": 100,
+      "overallCoveragePct": 0
+    },
+    {
+      "endpoint": {
+        "id": "PUT /carts/:cartId/product/quantity",
+        "serviceName": "Carts",
+        "method": "PUT",
+        "path": "/carts/:cartId/product/quantity",
+        "normalizedPath": "/carts/{cartId}/product/quantity",
+        "title": "Update item quantity",
+        "description": "Sets (replaces) the quantity of a product that is in the cart. _(source)_",
+        "parameters": [
+          {
+            "name": "cartId",
+            "in": "path",
+            "type": "string (ULID)",
+            "required": true,
+            "description": "The cart's id (named `{id}` in the route)"
+          }
+        ],
+        "requestBody": {
+          "requiredFields": [
+            "product_id",
+            "quantity"
+          ],
+          "optionalFields": [],
+          "schemaRaw": "{\n  product_id: string;   // required; must be an existing product id\n  quantity: number;     // required; integer, min 1, max 99\n}"
+        },
+        "responses": {
+          "200": {
+            "statusCode": 200,
+            "statusText": "OK",
+            "fields": [
+              "result"
+            ],
+            "schemaRaw": "{\n  result: \"item added or updated\";\n}",
+            "origin": "source"
+          },
+          "400": {
+            "statusCode": 400,
+            "statusText": "Bad Request",
+            "origin": "source"
+          },
+          "404": {
+            "statusCode": 404,
+            "statusText": "Not Found",
+            "origin": "source"
+          },
+          "422": {
+            "statusCode": 422,
+            "statusText": "Unprocessable Entity",
+            "origin": "source"
+          }
+        }
+      },
+      "callCount": 0,
+      "isCovered": false,
+      "testedStatusCodes": [],
+      "documentedStatusCodes": [
+        200,
+        400,
+        404,
+        422
+      ],
+      "statusCodeCoveragePct": 0,
+      "testedRequiredFields": [],
+      "missingRequiredFields": [
+        "product_id",
+        "quantity"
+      ],
+      "requiredFieldCoveragePct": 0,
+      "testedOptionalFields": [],
+      "missingOptionalFields": [],
+      "optionalFieldCoveragePct": 100,
+      "testedQueryParams": [],
+      "missingQueryParams": [],
+      "queryParamCoveragePct": 100,
+      "overallCoveragePct": 0
+    },
+    {
+      "endpoint": {
+        "id": "DELETE /carts/:cartId/product/:productId",
+        "serviceName": "Carts",
+        "method": "DELETE",
+        "path": "/carts/:cartId/product/:productId",
+        "normalizedPath": "/carts/{cartId}/product/{productId}",
+        "title": "Remove product from cart",
+        "description": "Deletes the cart's line for this product and recalculates the cart's combined (rental + product) discount. _(source)_",
+        "parameters": [
+          {
+            "name": "cartId",
+            "in": "path",
+            "type": "string (ULID)",
+            "required": true,
+            "description": "The cart's id"
+          },
+          {
+            "name": "productId",
+            "in": "path",
+            "type": "string (ULID)",
+            "required": true,
+            "description": "The product's id (not the cart item's id)"
+          }
+        ],
+        "requestBody": {
+          "requiredFields": [],
+          "optionalFields": []
+        },
+        "responses": {
+          "204": {
+            "statusCode": 204,
+            "statusText": "No Content",
+            "fields": [],
+            "origin": "source"
+          },
+          "404": {
+            "statusCode": 404,
+            "statusText": "Not Found",
+            "origin": "source"
+          }
+        }
+      },
+      "callCount": 0,
+      "isCovered": false,
+      "testedStatusCodes": [],
+      "documentedStatusCodes": [
+        204,
+        404
+      ],
+      "statusCodeCoveragePct": 0,
+      "testedRequiredFields": [],
+      "missingRequiredFields": [],
+      "requiredFieldCoveragePct": 100,
+      "testedOptionalFields": [],
+      "missingOptionalFields": [],
+      "optionalFieldCoveragePct": 100,
+      "testedQueryParams": [],
+      "missingQueryParams": [],
+      "queryParamCoveragePct": 100,
+      "overallCoveragePct": 0
+    },
+    {
+      "endpoint": {
         "id": "DELETE /carts/:cartId",
         "serviceName": "Carts",
         "method": "DELETE",
@@ -2201,9 +2847,9 @@
       "callCount": 13,
       "isCovered": true,
       "testedStatusCodes": [
+        415,
         200,
-        500,
-        415
+        500
       ],
       "documentedStatusCodes": [
         200,
@@ -2435,9 +3081,9 @@
       "callCount": 11,
       "isCovered": true,
       "testedStatusCodes": [
-        200,
         422,
-        404
+        404,
+        200
       ],
       "documentedStatusCodes": [
         200,
@@ -2522,8 +3168,8 @@
       "callCount": 8,
       "isCovered": true,
       "testedStatusCodes": [
-        422,
         200,
+        422,
         404
       ],
       "documentedStatusCodes": [
@@ -2875,8 +3521,8 @@
       "testedStatusCodes": [
         200,
         401,
-        403,
-        400
+        400,
+        403
       ],
       "documentedStatusCodes": [
         200,
@@ -3161,8 +3807,8 @@
       "callCount": 11,
       "isCovered": true,
       "testedStatusCodes": [
-        401,
         200,
+        401,
         403
       ],
       "documentedStatusCodes": [
@@ -3213,8 +3859,8 @@
       "callCount": 6,
       "isCovered": true,
       "testedStatusCodes": [
-        200,
-        401
+        401,
+        200
       ],
       "documentedStatusCodes": [
         200,

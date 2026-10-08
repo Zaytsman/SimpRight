@@ -209,6 +209,101 @@
     .tag-success { background: rgba(34, 197, 94, 0.2); color: #4ade80; border: 1px solid #15803d; }
     .tag-missing { background: rgba(239, 68, 68, 0.2); color: #f87171; border: 1px solid #991b1b; }
     .tag-neutral { background: #334155; color: #cbd5e1; }
+
+    /* Tabs */
+    .tabs { display: flex; gap: 4px; margin: -12px 0 24px; border-bottom: 1px solid var(--card-border); }
+    .tab-link {
+      color: var(--text-muted);
+      text-decoration: none;
+      padding: 8px 16px;
+      border-bottom: 2px solid transparent;
+      font-weight: 600;
+      font-size: 14px;
+    }
+    .tab-link:hover { color: var(--text); }
+    .tab-link.active { color: var(--primary); border-bottom-color: var(--primary); }
+    .contract-link { display: inline-block; margin-bottom: 12px; color: var(--primary); font-size: 13px; text-decoration: none; }
+    .contract-link:hover { text-decoration: underline; }
+    .endpoint-card.flash { border-color: var(--primary); }
+
+    /* Contracts */
+    .contracts-layout { display: grid; grid-template-columns: 300px minmax(0, 1fr); gap: 20px; align-items: start; }
+    .contract-nav {
+      position: sticky;
+      top: 16px;
+      max-height: calc(100vh - 32px);
+      overflow-y: auto;
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 10px;
+      padding: 10px;
+    }
+    .nav-file + .nav-file { margin-top: 10px; border-top: 1px solid var(--card-border); padding-top: 10px; }
+    .nav-file-link { display: block; color: #fff; font-weight: 600; text-decoration: none; padding: 4px 6px; border-radius: 6px; }
+    .nav-file-link.active { background: rgba(56, 189, 248, 0.15); color: var(--primary); }
+    .nav-file-name { display: block; font-weight: 400; font-size: 12px; color: var(--text-muted); }
+    .nav-endpoints { list-style: none; margin-top: 4px; }
+    .nav-endpoints a {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 3px 6px;
+      border-radius: 4px;
+      color: #cbd5e1;
+      text-decoration: none;
+      font-size: 12px;
+    }
+    .nav-endpoints a:hover { background: #334155; }
+    .mini-method { font-size: 10px; font-weight: 700; padding: 1px 4px; border-radius: 3px; color: #fff; min-width: 46px; text-align: center; }
+    .mini-path { font-family: monospace; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; flex: 1; }
+    .mini-pct { font-weight: 700; font-size: 11px; }
+    .method-QUERY, .method-HEAD, .method-OPTIONS { background: #64748b; }
+    .contract-main { min-width: 0; }
+    .contract-legend { color: var(--text-muted); font-size: 13px; margin-bottom: 12px; }
+    .contract {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 10px;
+      padding: 24px 28px;
+    }
+    .md { color: #e2e8f0; font-size: 15px; }
+    .md h1, .md h2, .md h3, .md h4, .md h5, .md h6 { color: #fff; margin: 1.4em 0 0.6em; line-height: 1.3; scroll-margin-top: 16px; }
+    .md h1 { font-size: 26px; margin-top: 0; }
+    .md h2 { font-size: 21px; padding-bottom: 6px; border-bottom: 1px solid var(--card-border); }
+    .md h3 { font-size: 17px; }
+    .md h4 { font-size: 15px; }
+    .md :target { background: rgba(56, 189, 248, 0.12); border-radius: 4px; }
+    .md p, .md ul, .md ol, .md pre, .md blockquote, .md .table-wrap { margin: 0 0 12px; }
+    .md ul, .md ol { padding-left: 24px; }
+    .md li { margin: 2px 0; }
+    .md li > ul, .md li > ol { margin: 2px 0 0; }
+    .md a { color: var(--primary); }
+    .md code { font-family: monospace; font-size: 0.9em; background: #0f172a; padding: 1px 5px; border-radius: 4px; }
+    .md pre { background: #0f172a; border: 1px solid var(--card-border); border-radius: 6px; padding: 12px 14px; overflow-x: auto; }
+    .md pre code { background: none; padding: 0; font-size: 13px; }
+    .md blockquote { border-left: 3px solid var(--card-border); padding-left: 12px; color: var(--text-muted); }
+    .md hr { border: none; border-top: 1px solid var(--card-border); margin: 20px 0; }
+    .md .table-wrap { overflow-x: auto; }
+    .md table { border-collapse: collapse; font-size: 14px; }
+    .md th, .md td { border: 1px solid var(--card-border); padding: 6px 10px; text-align: left; vertical-align: top; }
+    .md th { background: rgba(0,0,0,0.2); }
+    .md td.row-mark { border: none; white-space: nowrap; }
+    .md em { color: #94a3b8; }
+    .st { font-size: 11px; font-weight: 600; padding: 1px 6px; border-radius: 4px; margin-left: 8px; white-space: nowrap; font-style: normal; }
+    .st-ok { background: rgba(34, 197, 94, 0.2); color: #4ade80; }
+    .st-miss { background: rgba(239, 68, 68, 0.2); color: #f87171; }
+    .cov-chip { font-size: 12px; font-weight: 600; padding: 2px 8px; border-radius: 10px; margin-left: 10px; text-decoration: none; vertical-align: middle; white-space: nowrap; }
+    .chip-covered { background: rgba(34, 197, 94, 0.2); color: #4ade80; }
+    .chip-uncovered { background: rgba(239, 68, 68, 0.2); color: #f87171; }
+    .cov-chip:hover { outline: 1px solid currentColor; }
+
+    @media (max-width: 860px) {
+      body { padding: 16px; }
+      header { flex-direction: column; align-items: flex-start; gap: 8px; }
+      .contracts-layout { grid-template-columns: 1fr; }
+      .contract-nav { position: static; max-height: 320px; }
+      .contract { padding: 16px; }
+    }
   </style>
 </head>
 <body>
@@ -216,34 +311,39 @@
     <header>
       <div>
         <h1>API Coverage Report</h1>
-        <div class="generated-at">Generated: 2026-10-08T08:19:18.391Z</div>
+        <div class="generated-at">Generated: 2026-10-08T18:26:22.361Z</div>
       </div>
       <div>
         <span class="service-tag">playwright-api-coverage</span>
       </div>
     </header>
 
+    <nav class="tabs" aria-label="Report sections">
+      <a class="tab-link active" href="#coverage" data-tab="coverage">Coverage</a>
+      <a class="tab-link" href="#contract" data-tab="contracts">Contracts</a>
+    </nav>
+    <section id="tab-coverage">
     <!-- Stats KPI -->
     <div class="stats-grid">
       <div class="stat-card">
         <div class="stat-title">Overall Coverage</div>
-        <div class="stat-value color-warning">63%</div>
+        <div class="stat-value color-warning">52%</div>
         <div class="stat-sub">Across all API endpoints</div>
       </div>
       <div class="stat-card">
         <div class="stat-title">Endpoint Hits</div>
-        <div class="stat-value color-primary">17 / 25</div>
-        <div class="stat-sub">68% covered</div>
+        <div class="stat-value color-primary">17 / 30</div>
+        <div class="stat-sub">57% covered</div>
       </div>
       <div class="stat-card">
         <div class="stat-title">Status Codes</div>
-        <div class="stat-value color-success">41 / 74</div>
-        <div class="stat-sub">55% documented codes tested</div>
+        <div class="stat-value color-success">41 / 87</div>
+        <div class="stat-sub">47% documented codes tested</div>
       </div>
       <div class="stat-card">
         <div class="stat-title">Required Fields</div>
-        <div class="stat-value color-warning">11 / 22</div>
-        <div class="stat-sub">50% tested in requests</div>
+        <div class="stat-value color-warning">11 / 26</div>
+        <div class="stat-sub">42% tested in requests</div>
       </div>
     </div>
 
@@ -263,9 +363,9 @@
         
         <tr>
           <td><strong>Carts</strong></td>
-          <td>0 / 1 (0%)</td>
-          <td>0 / 2 (0%)</td>
-          <td>0 / 0 (100%)</td>
+          <td>0 / 6 (0%)</td>
+          <td>0 / 15 (0%)</td>
+          <td>0 / 4 (0%)</td>
           <td style="width: 250px;">
             <div style="display: flex; align-items: center; gap: 10px;">
               <div class="progress-bar-container">
@@ -325,7 +425,252 @@
     <!-- Endpoint Cards List -->
     <div class="endpoint-list" id="endpointList">
       
-      <div class="endpoint-card" data-service="Carts" data-covered="false" data-coverage="0" data-search="DELETE /carts/:cartId Delete cart">
+      <div class="endpoint-card" id="endpoint-post-carts" data-service="Carts" data-covered="false" data-coverage="0" data-search="POST /carts Create cart">
+        <div class="endpoint-header" onclick="toggleDetails(this)">
+          <div class="endpoint-left">
+            <span class="method-badge method-POST">POST</span>
+            <span class="endpoint-path">/carts</span>
+            <span class="service-tag">Carts</span>
+          </div>
+          <div class="endpoint-right">
+            <span class="hits-badge hits-uncovered">0 calls</span>
+            <div style="width: 100px;">
+              <div class="progress-bar-container">
+                <div class="progress-bar-fill fill-red" style="width: 0%;"></div>
+              </div>
+            </div>
+            <span style="font-size: 13px; font-weight: 700; width: 40px; text-align: right;">0%</span>
+            <span class="chevron">▼</span>
+          </div>
+        </div>
+        <div class="endpoint-body">
+          <a class="contract-link" href="#contract/Carts_API.md/post-carts">View in contract →</a>
+          <p style="margin-bottom: 14px; color: var(--text-muted); font-size: 14px;"><strong>Create cart:</strong> Creates an empty cart and returns its id. The optional coordinates are stored on the cart and later decide the location discount of the items added to it. Nothing is validated. _(source)_</p>
+          <div class="details-grid">
+            <div class="detail-section">
+              <div class="detail-heading">Status Codes (0 tested / 1 documented)</div>
+              <div class="tag-list">
+                <span class="tag tag-missing">201 ✗</span>
+              </div>
+            </div>
+            <div class="detail-section">
+              <div class="detail-heading">Required Request Fields (0/0)</div>
+              <div class="tag-list">
+                <span class="tag tag-neutral">None required</span>
+              </div>
+            </div>
+            <div class="detail-section">
+              <div class="detail-heading">Optional Request Fields (0/2)</div>
+              <div class="tag-list">
+                <span class="tag tag-missing">lat ✗</span><span class="tag tag-missing">lng ✗</span>
+              </div>
+            </div>
+            <div class="detail-section">
+              <div class="detail-heading">Query Parameters (0/0)</div>
+              <div class="tag-list">
+                <span class="tag tag-neutral">None</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="endpoint-card" id="endpoint-post-carts-cartid" data-service="Carts" data-covered="false" data-coverage="0" data-search="POST /carts/:cartId Add item to cart">
+        <div class="endpoint-header" onclick="toggleDetails(this)">
+          <div class="endpoint-left">
+            <span class="method-badge method-POST">POST</span>
+            <span class="endpoint-path">/carts/:cartId</span>
+            <span class="service-tag">Carts</span>
+          </div>
+          <div class="endpoint-right">
+            <span class="hits-badge hits-uncovered">0 calls</span>
+            <div style="width: 100px;">
+              <div class="progress-bar-container">
+                <div class="progress-bar-fill fill-red" style="width: 0%;"></div>
+              </div>
+            </div>
+            <span style="font-size: 13px; font-weight: 700; width: 40px; text-align: right;">0%</span>
+            <span class="chevron">▼</span>
+          </div>
+        </div>
+        <div class="endpoint-body">
+          <a class="contract-link" href="#contract/Carts_API.md/post-carts-cartid">View in contract →</a>
+          <p style="margin-bottom: 14px; color: var(--text-muted); font-size: 14px;"><strong>Add item to cart:</strong> Adds a product to the cart. When the product is already in the cart, its quantity is **increased** by `quantity` (`firstOrCreate` + `increment`); no second line is created. _(source)_ The service&#039;s own test adds 2 to an item with quantity 1 and expects 3. _(source)_</p>
+          <div class="details-grid">
+            <div class="detail-section">
+              <div class="detail-heading">Status Codes (0 tested / 4 documented)</div>
+              <div class="tag-list">
+                <span class="tag tag-missing">200 ✗</span><span class="tag tag-missing">400 ✗</span><span class="tag tag-missing">404 ✗</span><span class="tag tag-missing">422 ✗</span>
+              </div>
+            </div>
+            <div class="detail-section">
+              <div class="detail-heading">Required Request Fields (0/2)</div>
+              <div class="tag-list">
+                <span class="tag tag-missing">product_id ✗</span><span class="tag tag-missing">quantity ✗</span>
+              </div>
+            </div>
+            <div class="detail-section">
+              <div class="detail-heading">Optional Request Fields (0/0)</div>
+              <div class="tag-list">
+                <span class="tag tag-neutral">None</span>
+              </div>
+            </div>
+            <div class="detail-section">
+              <div class="detail-heading">Query Parameters (0/0)</div>
+              <div class="tag-list">
+                <span class="tag tag-neutral">None</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="endpoint-card" id="endpoint-get-carts-cartid" data-service="Carts" data-covered="false" data-coverage="0" data-search="GET /carts/:cartId Get cart">
+        <div class="endpoint-header" onclick="toggleDetails(this)">
+          <div class="endpoint-left">
+            <span class="method-badge method-GET">GET</span>
+            <span class="endpoint-path">/carts/:cartId</span>
+            <span class="service-tag">Carts</span>
+          </div>
+          <div class="endpoint-right">
+            <span class="hits-badge hits-uncovered">0 calls</span>
+            <div style="width: 100px;">
+              <div class="progress-bar-container">
+                <div class="progress-bar-fill fill-red" style="width: 0%;"></div>
+              </div>
+            </div>
+            <span style="font-size: 13px; font-weight: 700; width: 40px; text-align: right;">0%</span>
+            <span class="chevron">▼</span>
+          </div>
+        </div>
+        <div class="endpoint-body">
+          <a class="contract-link" href="#contract/Carts_API.md/get-carts-cartid">View in contract →</a>
+          <p style="margin-bottom: 14px; color: var(--text-muted); font-size: 14px;"><strong>Get cart:</strong> Returns the cart with its items, each with its product. For an item with a non-zero `discount_percentage`, `discounted_price` is added: the product price minus the discount, rounded to 2 decimals. _(source)_</p>
+          <div class="details-grid">
+            <div class="detail-section">
+              <div class="detail-heading">Status Codes (0 tested / 2 documented)</div>
+              <div class="tag-list">
+                <span class="tag tag-missing">200 ✗</span><span class="tag tag-missing">404 ✗</span>
+              </div>
+            </div>
+            <div class="detail-section">
+              <div class="detail-heading">Required Request Fields (0/0)</div>
+              <div class="tag-list">
+                <span class="tag tag-neutral">None required</span>
+              </div>
+            </div>
+            <div class="detail-section">
+              <div class="detail-heading">Optional Request Fields (0/0)</div>
+              <div class="tag-list">
+                <span class="tag tag-neutral">None</span>
+              </div>
+            </div>
+            <div class="detail-section">
+              <div class="detail-heading">Query Parameters (0/0)</div>
+              <div class="tag-list">
+                <span class="tag tag-neutral">None</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="endpoint-card" id="endpoint-put-carts-cartid-product-quantity" data-service="Carts" data-covered="false" data-coverage="0" data-search="PUT /carts/:cartId/product/quantity Update item quantity">
+        <div class="endpoint-header" onclick="toggleDetails(this)">
+          <div class="endpoint-left">
+            <span class="method-badge method-PUT">PUT</span>
+            <span class="endpoint-path">/carts/:cartId/product/quantity</span>
+            <span class="service-tag">Carts</span>
+          </div>
+          <div class="endpoint-right">
+            <span class="hits-badge hits-uncovered">0 calls</span>
+            <div style="width: 100px;">
+              <div class="progress-bar-container">
+                <div class="progress-bar-fill fill-red" style="width: 0%;"></div>
+              </div>
+            </div>
+            <span style="font-size: 13px; font-weight: 700; width: 40px; text-align: right;">0%</span>
+            <span class="chevron">▼</span>
+          </div>
+        </div>
+        <div class="endpoint-body">
+          <a class="contract-link" href="#contract/Carts_API.md/put-carts-cartid-product-quantity">View in contract →</a>
+          <p style="margin-bottom: 14px; color: var(--text-muted); font-size: 14px;"><strong>Update item quantity:</strong> Sets (replaces) the quantity of a product that is in the cart. _(source)_</p>
+          <div class="details-grid">
+            <div class="detail-section">
+              <div class="detail-heading">Status Codes (0 tested / 4 documented)</div>
+              <div class="tag-list">
+                <span class="tag tag-missing">200 ✗</span><span class="tag tag-missing">400 ✗</span><span class="tag tag-missing">404 ✗</span><span class="tag tag-missing">422 ✗</span>
+              </div>
+            </div>
+            <div class="detail-section">
+              <div class="detail-heading">Required Request Fields (0/2)</div>
+              <div class="tag-list">
+                <span class="tag tag-missing">product_id ✗</span><span class="tag tag-missing">quantity ✗</span>
+              </div>
+            </div>
+            <div class="detail-section">
+              <div class="detail-heading">Optional Request Fields (0/0)</div>
+              <div class="tag-list">
+                <span class="tag tag-neutral">None</span>
+              </div>
+            </div>
+            <div class="detail-section">
+              <div class="detail-heading">Query Parameters (0/0)</div>
+              <div class="tag-list">
+                <span class="tag tag-neutral">None</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="endpoint-card" id="endpoint-delete-carts-cartid-product-productid" data-service="Carts" data-covered="false" data-coverage="0" data-search="DELETE /carts/:cartId/product/:productId Remove product from cart">
+        <div class="endpoint-header" onclick="toggleDetails(this)">
+          <div class="endpoint-left">
+            <span class="method-badge method-DELETE">DELETE</span>
+            <span class="endpoint-path">/carts/:cartId/product/:productId</span>
+            <span class="service-tag">Carts</span>
+          </div>
+          <div class="endpoint-right">
+            <span class="hits-badge hits-uncovered">0 calls</span>
+            <div style="width: 100px;">
+              <div class="progress-bar-container">
+                <div class="progress-bar-fill fill-red" style="width: 0%;"></div>
+              </div>
+            </div>
+            <span style="font-size: 13px; font-weight: 700; width: 40px; text-align: right;">0%</span>
+            <span class="chevron">▼</span>
+          </div>
+        </div>
+        <div class="endpoint-body">
+          <a class="contract-link" href="#contract/Carts_API.md/delete-carts-cartid-product-productid">View in contract →</a>
+          <p style="margin-bottom: 14px; color: var(--text-muted); font-size: 14px;"><strong>Remove product from cart:</strong> Deletes the cart&#039;s line for this product and recalculates the cart&#039;s combined (rental + product) discount. _(source)_</p>
+          <div class="details-grid">
+            <div class="detail-section">
+              <div class="detail-heading">Status Codes (0 tested / 2 documented)</div>
+              <div class="tag-list">
+                <span class="tag tag-missing">204 ✗</span><span class="tag tag-missing">404 ✗</span>
+              </div>
+            </div>
+            <div class="detail-section">
+              <div class="detail-heading">Required Request Fields (0/0)</div>
+              <div class="tag-list">
+                <span class="tag tag-neutral">None required</span>
+              </div>
+            </div>
+            <div class="detail-section">
+              <div class="detail-heading">Optional Request Fields (0/0)</div>
+              <div class="tag-list">
+                <span class="tag tag-neutral">None</span>
+              </div>
+            </div>
+            <div class="detail-section">
+              <div class="detail-heading">Query Parameters (0/0)</div>
+              <div class="tag-list">
+                <span class="tag tag-neutral">None</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="endpoint-card" id="endpoint-delete-carts-cartid" data-service="Carts" data-covered="false" data-coverage="0" data-search="DELETE /carts/:cartId Delete cart">
         <div class="endpoint-header" onclick="toggleDetails(this)">
           <div class="endpoint-left">
             <span class="method-badge method-DELETE">DELETE</span>
@@ -344,6 +689,7 @@
           </div>
         </div>
         <div class="endpoint-body">
+          <a class="contract-link" href="#contract/Carts_API.md/delete-carts-cartid">View in contract →</a>
           <p style="margin-bottom: 14px; color: var(--text-muted); font-size: 14px;"><strong>Delete cart:</strong> No description</p>
           <div class="details-grid">
             <div class="detail-section">
@@ -373,7 +719,7 @@
           </div>
         </div>
       </div>
-      <div class="endpoint-card" data-service="Products" data-covered="true" data-coverage="100" data-search="GET /products List products">
+      <div class="endpoint-card" id="endpoint-get-products" data-service="Products" data-covered="true" data-coverage="100" data-search="GET /products List products">
         <div class="endpoint-header" onclick="toggleDetails(this)">
           <div class="endpoint-left">
             <span class="method-badge method-GET">GET</span>
@@ -392,6 +738,7 @@
           </div>
         </div>
         <div class="endpoint-body">
+          <a class="contract-link" href="#contract/Products_API.md/get-products">View in contract →</a>
           <p style="margin-bottom: 14px; color: var(--text-muted); font-size: 14px;"><strong>List products:</strong> Returns the products, 9 per page. Without `is_rental`, rental products are excluded (`is_rental` defaults to false). _(verified)_</p>
           <div class="details-grid">
             <div class="detail-section">
@@ -421,7 +768,7 @@
           </div>
         </div>
       </div>
-      <div class="endpoint-card" data-service="Products" data-covered="true" data-coverage="100" data-search="QUERY /products List products (HTTP QUERY)">
+      <div class="endpoint-card" id="endpoint-query-products" data-service="Products" data-covered="true" data-coverage="100" data-search="QUERY /products List products (HTTP QUERY)">
         <div class="endpoint-header" onclick="toggleDetails(this)">
           <div class="endpoint-left">
             <span class="method-badge method-QUERY">QUERY</span>
@@ -440,6 +787,7 @@
           </div>
         </div>
         <div class="endpoint-body">
+          <a class="contract-link" href="#contract/Products_API.md/query-products">View in contract →</a>
           <p style="margin-bottom: 14px; color: var(--text-muted); font-size: 14px;"><strong>List products (HTTP QUERY):</strong> Same as `GET /products`, but the criteria are sent as a JSON body (RFC 10008 `QUERY` method). The body keys are merged into the query string, so the results equal the `GET` with the same parameters. _(verified)_</p>
           <div class="details-grid">
             <div class="detail-section">
@@ -469,7 +817,7 @@
           </div>
         </div>
       </div>
-      <div class="endpoint-card" data-service="Products" data-covered="true" data-coverage="100" data-search="POST /products Create product">
+      <div class="endpoint-card" id="endpoint-post-products" data-service="Products" data-covered="true" data-coverage="100" data-search="POST /products Create product">
         <div class="endpoint-header" onclick="toggleDetails(this)">
           <div class="endpoint-left">
             <span class="method-badge method-POST">POST</span>
@@ -488,6 +836,7 @@
           </div>
         </div>
         <div class="endpoint-body">
+          <a class="contract-link" href="#contract/Products_API.md/post-products">View in contract →</a>
           <p style="margin-bottom: 14px; color: var(--text-muted); font-size: 14px;"><strong>Create product:</strong> Creates a product. No token is needed (see Notes). _(source)_</p>
           <div class="details-grid">
             <div class="detail-section">
@@ -517,7 +866,7 @@
           </div>
         </div>
       </div>
-      <div class="endpoint-card" data-service="Products" data-covered="true" data-coverage="100" data-search="GET /products/:productId Get product">
+      <div class="endpoint-card" id="endpoint-get-products-productid" data-service="Products" data-covered="true" data-coverage="100" data-search="GET /products/:productId Get product">
         <div class="endpoint-header" onclick="toggleDetails(this)">
           <div class="endpoint-left">
             <span class="method-badge method-GET">GET</span>
@@ -536,6 +885,7 @@
           </div>
         </div>
         <div class="endpoint-body">
+          <a class="contract-link" href="#contract/Products_API.md/get-products-productid">View in contract →</a>
           <p style="margin-bottom: 14px; color: var(--text-muted); font-size: 14px;"><strong>Get product:</strong> Returns one product with its category (including `parent_id`), brand, image and specs. _(verified)_</p>
           <div class="details-grid">
             <div class="detail-section">
@@ -565,7 +915,7 @@
           </div>
         </div>
       </div>
-      <div class="endpoint-card" data-service="Products" data-covered="true" data-coverage="100" data-search="PUT /products/:productId Update product">
+      <div class="endpoint-card" id="endpoint-put-products-productid" data-service="Products" data-covered="true" data-coverage="100" data-search="PUT /products/:productId Update product">
         <div class="endpoint-header" onclick="toggleDetails(this)">
           <div class="endpoint-left">
             <span class="method-badge method-PUT">PUT</span>
@@ -584,6 +934,7 @@
           </div>
         </div>
         <div class="endpoint-body">
+          <a class="contract-link" href="#contract/Products_API.md/put-products-productid">View in contract →</a>
           <p style="margin-bottom: 14px; color: var(--text-muted); font-size: 14px;"><strong>Update product:</strong> Updates a product with the fields sent. No token is needed (see Notes). Despite being `PUT`, no field is required. _(source)_</p>
           <div class="details-grid">
             <div class="detail-section">
@@ -613,7 +964,7 @@
           </div>
         </div>
       </div>
-      <div class="endpoint-card" data-service="Products" data-covered="true" data-coverage="100" data-search="PATCH /products/:productId Partially update product">
+      <div class="endpoint-card" id="endpoint-patch-products-productid" data-service="Products" data-covered="true" data-coverage="100" data-search="PATCH /products/:productId Partially update product">
         <div class="endpoint-header" onclick="toggleDetails(this)">
           <div class="endpoint-left">
             <span class="method-badge method-PATCH">PATCH</span>
@@ -632,6 +983,7 @@
           </div>
         </div>
         <div class="endpoint-body">
+          <a class="contract-link" href="#contract/Products_API.md/patch-products-productid">View in contract →</a>
           <p style="margin-bottom: 14px; color: var(--text-muted); font-size: 14px;"><strong>Partially update product:</strong> Updates only the validated fields that are sent. Unlike `PUT`, fields without a rule (`co2_rating`, `stock`) are dropped. _(source)_</p>
           <div class="details-grid">
             <div class="detail-section">
@@ -661,7 +1013,7 @@
           </div>
         </div>
       </div>
-      <div class="endpoint-card" data-service="Products" data-covered="true" data-coverage="88" data-search="DELETE /products/:productId Delete product">
+      <div class="endpoint-card" id="endpoint-delete-products-productid" data-service="Products" data-covered="true" data-coverage="88" data-search="DELETE /products/:productId Delete product">
         <div class="endpoint-header" onclick="toggleDetails(this)">
           <div class="endpoint-left">
             <span class="method-badge method-DELETE">DELETE</span>
@@ -680,6 +1032,7 @@
           </div>
         </div>
         <div class="endpoint-body">
+          <a class="contract-link" href="#contract/Products_API.md/delete-products-productid">View in contract →</a>
           <p style="margin-bottom: 14px; color: var(--text-muted); font-size: 14px;"><strong>Delete product:</strong> Deletes a product. Admin only. _(source)_</p>
           <div class="details-grid">
             <div class="detail-section">
@@ -709,7 +1062,7 @@
           </div>
         </div>
       </div>
-      <div class="endpoint-card" data-service="Products" data-covered="true" data-coverage="100" data-search="GET /products/:productId/related Get related products">
+      <div class="endpoint-card" id="endpoint-get-products-productid-related" data-service="Products" data-covered="true" data-coverage="100" data-search="GET /products/:productId/related Get related products">
         <div class="endpoint-header" onclick="toggleDetails(this)">
           <div class="endpoint-left">
             <span class="method-badge method-GET">GET</span>
@@ -728,6 +1081,7 @@
           </div>
         </div>
         <div class="endpoint-body">
+          <a class="contract-link" href="#contract/Products_API.md/get-products-productid-related">View in contract →</a>
           <p style="margin-bottom: 14px; color: var(--text-muted); font-size: 14px;"><strong>Get related products:</strong> Returns up to 10 other products from the same category as the given product. _(verified)_</p>
           <div class="details-grid">
             <div class="detail-section">
@@ -757,7 +1111,7 @@
           </div>
         </div>
       </div>
-      <div class="endpoint-card" data-service="Products" data-covered="true" data-coverage="100" data-search="GET /products/search Search products">
+      <div class="endpoint-card" id="endpoint-get-products-search" data-service="Products" data-covered="true" data-coverage="100" data-search="GET /products/search Search products">
         <div class="endpoint-header" onclick="toggleDetails(this)">
           <div class="endpoint-left">
             <span class="method-badge method-GET">GET</span>
@@ -776,6 +1130,7 @@
           </div>
         </div>
         <div class="endpoint-body">
+          <a class="contract-link" href="#contract/Products_API.md/get-products-search">View in contract →</a>
           <p style="margin-bottom: 14px; color: var(--text-muted); font-size: 14px;"><strong>Search products:</strong> Searches product names. Returns 9 per page. Special characters are stripped from `q`; an empty or missing `q` returns an empty page, not an error. _(verified)_</p>
           <div class="details-grid">
             <div class="detail-section">
@@ -805,7 +1160,7 @@
           </div>
         </div>
       </div>
-      <div class="endpoint-card" data-service="Products" data-covered="true" data-coverage="100" data-search="QUERY /products/search Search products (HTTP QUERY)">
+      <div class="endpoint-card" id="endpoint-query-products-search" data-service="Products" data-covered="true" data-coverage="100" data-search="QUERY /products/search Search products (HTTP QUERY)">
         <div class="endpoint-header" onclick="toggleDetails(this)">
           <div class="endpoint-left">
             <span class="method-badge method-QUERY">QUERY</span>
@@ -824,6 +1179,7 @@
           </div>
         </div>
         <div class="endpoint-body">
+          <a class="contract-link" href="#contract/Products_API.md/query-products-search">View in contract →</a>
           <p style="margin-bottom: 14px; color: var(--text-muted); font-size: 14px;"><strong>Search products (HTTP QUERY):</strong> Same as `GET /products/search`, with the criteria in a JSON body. _(source)_</p>
           <div class="details-grid">
             <div class="detail-section">
@@ -853,7 +1209,7 @@
           </div>
         </div>
       </div>
-      <div class="endpoint-card" data-service="Users" data-covered="true" data-coverage="91" data-search="POST /users/login Login">
+      <div class="endpoint-card" id="endpoint-post-users-login" data-service="Users" data-covered="true" data-coverage="91" data-search="POST /users/login Login">
         <div class="endpoint-header" onclick="toggleDetails(this)">
           <div class="endpoint-left">
             <span class="method-badge method-POST">POST</span>
@@ -872,6 +1228,7 @@
           </div>
         </div>
         <div class="endpoint-body">
+          <a class="contract-link" href="#contract/Users_API.md/post-users-login">View in contract →</a>
           <p style="margin-bottom: 14px; color: var(--text-muted); font-size: 14px;"><strong>Login:</strong> Returns a JWT for the `Authorization: Bearer &lt;token&gt;` header. Accounts with two-factor auth (TOTP) get a restricted temporary token instead, which is exchanged for a full token by sending it back with the TOTP code. _(source)_</p>
           <div class="details-grid">
             <div class="detail-section">
@@ -901,7 +1258,7 @@
           </div>
         </div>
       </div>
-      <div class="endpoint-card" data-service="Users" data-covered="true" data-coverage="98" data-search="POST /users/register Register">
+      <div class="endpoint-card" id="endpoint-post-users-register" data-service="Users" data-covered="true" data-coverage="98" data-search="POST /users/register Register">
         <div class="endpoint-header" onclick="toggleDetails(this)">
           <div class="endpoint-left">
             <span class="method-badge method-POST">POST</span>
@@ -920,6 +1277,7 @@
           </div>
         </div>
         <div class="endpoint-body">
+          <a class="contract-link" href="#contract/Users_API.md/post-users-register">View in contract →</a>
           <p style="margin-bottom: 14px; color: var(--text-muted); font-size: 14px;"><strong>Register:</strong> Creates a customer account (role `user`). _(source)_</p>
           <div class="details-grid">
             <div class="detail-section">
@@ -949,7 +1307,7 @@
           </div>
         </div>
       </div>
-      <div class="endpoint-card" data-service="Users" data-covered="false" data-coverage="0" data-search="POST /users/forgot-password Forgot password">
+      <div class="endpoint-card" id="endpoint-post-users-forgot-password" data-service="Users" data-covered="false" data-coverage="0" data-search="POST /users/forgot-password Forgot password">
         <div class="endpoint-header" onclick="toggleDetails(this)">
           <div class="endpoint-left">
             <span class="method-badge method-POST">POST</span>
@@ -968,6 +1326,7 @@
           </div>
         </div>
         <div class="endpoint-body">
+          <a class="contract-link" href="#contract/Users_API.md/post-users-forgot-password">View in contract →</a>
           <p style="margin-bottom: 14px; color: var(--text-muted); font-size: 14px;"><strong>Forgot password:</strong> Sets the account&#039;s password to `welcome02`. No email confirmation or token is involved. _(source)_</p>
           <div class="details-grid">
             <div class="detail-section">
@@ -997,7 +1356,7 @@
           </div>
         </div>
       </div>
-      <div class="endpoint-card" data-service="Users" data-covered="false" data-coverage="0" data-search="POST /users/change-password Change password">
+      <div class="endpoint-card" id="endpoint-post-users-change-password" data-service="Users" data-covered="false" data-coverage="0" data-search="POST /users/change-password Change password">
         <div class="endpoint-header" onclick="toggleDetails(this)">
           <div class="endpoint-left">
             <span class="method-badge method-POST">POST</span>
@@ -1016,6 +1375,7 @@
           </div>
         </div>
         <div class="endpoint-body">
+          <a class="contract-link" href="#contract/Users_API.md/post-users-change-password">View in contract →</a>
           <p style="margin-bottom: 14px; color: var(--text-muted); font-size: 14px;"><strong>Change password:</strong> Changes the current user&#039;s password. _(source)_</p>
           <div class="details-grid">
             <div class="detail-section">
@@ -1045,7 +1405,7 @@
           </div>
         </div>
       </div>
-      <div class="endpoint-card" data-service="Users" data-covered="true" data-coverage="100" data-search="GET /users/me Current user">
+      <div class="endpoint-card" id="endpoint-get-users-me" data-service="Users" data-covered="true" data-coverage="100" data-search="GET /users/me Current user">
         <div class="endpoint-header" onclick="toggleDetails(this)">
           <div class="endpoint-left">
             <span class="method-badge method-GET">GET</span>
@@ -1064,6 +1424,7 @@
           </div>
         </div>
         <div class="endpoint-body">
+          <a class="contract-link" href="#contract/Users_API.md/get-users-me">View in contract →</a>
           <p style="margin-bottom: 14px; color: var(--text-muted); font-size: 14px;"><strong>Current user:</strong> Profile of the user the token belongs to. `role`, `enabled` and `failed_login_attempts` are returned only when the caller is an admin. _(verified)_</p>
           <div class="details-grid">
             <div class="detail-section">
@@ -1093,7 +1454,7 @@
           </div>
         </div>
       </div>
-      <div class="endpoint-card" data-service="Users" data-covered="true" data-coverage="100" data-search="GET /users/logout Logout">
+      <div class="endpoint-card" id="endpoint-get-users-logout" data-service="Users" data-covered="true" data-coverage="100" data-search="GET /users/logout Logout">
         <div class="endpoint-header" onclick="toggleDetails(this)">
           <div class="endpoint-left">
             <span class="method-badge method-GET">GET</span>
@@ -1112,6 +1473,7 @@
           </div>
         </div>
         <div class="endpoint-body">
+          <a class="contract-link" href="#contract/Users_API.md/get-users-logout">View in contract →</a>
           <p style="margin-bottom: 14px; color: var(--text-muted); font-size: 14px;"><strong>Logout:</strong> Invalidates (blacklists) the token. Later requests with it get `401`. _(verified)_</p>
           <div class="details-grid">
             <div class="detail-section">
@@ -1141,7 +1503,7 @@
           </div>
         </div>
       </div>
-      <div class="endpoint-card" data-service="Users" data-covered="true" data-coverage="100" data-search="GET /users/refresh Refresh token">
+      <div class="endpoint-card" id="endpoint-get-users-refresh" data-service="Users" data-covered="true" data-coverage="100" data-search="GET /users/refresh Refresh token">
         <div class="endpoint-header" onclick="toggleDetails(this)">
           <div class="endpoint-left">
             <span class="method-badge method-GET">GET</span>
@@ -1160,6 +1522,7 @@
           </div>
         </div>
         <div class="endpoint-body">
+          <a class="contract-link" href="#contract/Users_API.md/get-users-refresh">View in contract →</a>
           <p style="margin-bottom: 14px; color: var(--text-muted); font-size: 14px;"><strong>Refresh token:</strong> Returns a new token for the one in the `Authorization` header and invalidates the old one. An expired token can still be refreshed within the refresh window (`JWT_REFRESH_TTL`, 60 minutes by default). This route has no auth middleware; the token is read by the handler. _(source)_</p>
           <div class="details-grid">
             <div class="detail-section">
@@ -1189,7 +1552,7 @@
           </div>
         </div>
       </div>
-      <div class="endpoint-card" data-service="Users" data-covered="false" data-coverage="0" data-search="GET /users List users">
+      <div class="endpoint-card" id="endpoint-get-users" data-service="Users" data-covered="false" data-coverage="0" data-search="GET /users List users">
         <div class="endpoint-header" onclick="toggleDetails(this)">
           <div class="endpoint-left">
             <span class="method-badge method-GET">GET</span>
@@ -1208,6 +1571,7 @@
           </div>
         </div>
         <div class="endpoint-body">
+          <a class="contract-link" href="#contract/Users_API.md/get-users">View in contract →</a>
           <p style="margin-bottom: 14px; color: var(--text-muted); font-size: 14px;"><strong>List users:</strong> Lists customer accounts (role `user` only), 15 per page. Admin only. _(source)_</p>
           <div class="details-grid">
             <div class="detail-section">
@@ -1237,7 +1601,7 @@
           </div>
         </div>
       </div>
-      <div class="endpoint-card" data-service="Users" data-covered="false" data-coverage="0" data-search="GET /users/search Search users">
+      <div class="endpoint-card" id="endpoint-get-users-search" data-service="Users" data-covered="false" data-coverage="0" data-search="GET /users/search Search users">
         <div class="endpoint-header" onclick="toggleDetails(this)">
           <div class="endpoint-left">
             <span class="method-badge method-GET">GET</span>
@@ -1256,6 +1620,7 @@
           </div>
         </div>
         <div class="endpoint-body">
+          <a class="contract-link" href="#contract/Users_API.md/get-users-search">View in contract →</a>
           <p style="margin-bottom: 14px; color: var(--text-muted); font-size: 14px;"><strong>Search users:</strong> Searches customer accounts (role `user` only) by first name, last name, email and city. Any logged-in user can search (see Notes). Returns 15 per page. _(source)_</p>
           <div class="details-grid">
             <div class="detail-section">
@@ -1285,7 +1650,7 @@
           </div>
         </div>
       </div>
-      <div class="endpoint-card" data-service="Users" data-covered="false" data-coverage="0" data-search="QUERY /users/search Search users (HTTP QUERY)">
+      <div class="endpoint-card" id="endpoint-query-users-search" data-service="Users" data-covered="false" data-coverage="0" data-search="QUERY /users/search Search users (HTTP QUERY)">
         <div class="endpoint-header" onclick="toggleDetails(this)">
           <div class="endpoint-left">
             <span class="method-badge method-QUERY">QUERY</span>
@@ -1304,6 +1669,7 @@
           </div>
         </div>
         <div class="endpoint-body">
+          <a class="contract-link" href="#contract/Users_API.md/query-users-search">View in contract →</a>
           <p style="margin-bottom: 14px; color: var(--text-muted); font-size: 14px;"><strong>Search users (HTTP QUERY):</strong> Same as `GET /users/search`, with the criteria in a JSON body. _(source)_</p>
           <div class="details-grid">
             <div class="detail-section">
@@ -1333,7 +1699,7 @@
           </div>
         </div>
       </div>
-      <div class="endpoint-card" data-service="Users" data-covered="false" data-coverage="0" data-search="GET /users/:userId Get user">
+      <div class="endpoint-card" id="endpoint-get-users-userid" data-service="Users" data-covered="false" data-coverage="0" data-search="GET /users/:userId Get user">
         <div class="endpoint-header" onclick="toggleDetails(this)">
           <div class="endpoint-left">
             <span class="method-badge method-GET">GET</span>
@@ -1352,6 +1718,7 @@
           </div>
         </div>
         <div class="endpoint-body">
+          <a class="contract-link" href="#contract/Users_API.md/get-users-userid">View in contract →</a>
           <p style="margin-bottom: 14px; color: var(--text-muted); font-size: 14px;"><strong>Get user:</strong> Returns a user. A non-admin can only get their own record. _(source)_</p>
           <div class="details-grid">
             <div class="detail-section">
@@ -1381,7 +1748,7 @@
           </div>
         </div>
       </div>
-      <div class="endpoint-card" data-service="Users" data-covered="false" data-coverage="0" data-search="PUT /users/:userId Update user">
+      <div class="endpoint-card" id="endpoint-put-users-userid" data-service="Users" data-covered="false" data-coverage="0" data-search="PUT /users/:userId Update user">
         <div class="endpoint-header" onclick="toggleDetails(this)">
           <div class="endpoint-left">
             <span class="method-badge method-PUT">PUT</span>
@@ -1400,6 +1767,7 @@
           </div>
         </div>
         <div class="endpoint-body">
+          <a class="contract-link" href="#contract/Users_API.md/put-users-userid">View in contract →</a>
           <p style="margin-bottom: 14px; color: var(--text-muted); font-size: 14px;"><strong>Update user:</strong> Updates a user&#039;s profile. A non-admin can only update their own record; only an admin can send `role`. `password` is ignored (use change-password). _(source)_</p>
           <div class="details-grid">
             <div class="detail-section">
@@ -1429,7 +1797,7 @@
           </div>
         </div>
       </div>
-      <div class="endpoint-card" data-service="Users" data-covered="true" data-coverage="44" data-search="PATCH /users/:userId Partially update user">
+      <div class="endpoint-card" id="endpoint-patch-users-userid" data-service="Users" data-covered="true" data-coverage="44" data-search="PATCH /users/:userId Partially update user">
         <div class="endpoint-header" onclick="toggleDetails(this)">
           <div class="endpoint-left">
             <span class="method-badge method-PATCH">PATCH</span>
@@ -1448,6 +1816,7 @@
           </div>
         </div>
         <div class="endpoint-body">
+          <a class="contract-link" href="#contract/Users_API.md/patch-users-userid">View in contract →</a>
           <p style="margin-bottom: 14px; color: var(--text-muted); font-size: 14px;"><strong>Partially update user:</strong> Updates only the validated fields that are sent. A non-admin can only patch their own record. _(source)_</p>
           <div class="details-grid">
             <div class="detail-section">
@@ -1477,7 +1846,7 @@
           </div>
         </div>
       </div>
-      <div class="endpoint-card" data-service="Users" data-covered="true" data-coverage="52" data-search="DELETE /users/:userId Delete user">
+      <div class="endpoint-card" id="endpoint-delete-users-userid" data-service="Users" data-covered="true" data-coverage="52" data-search="DELETE /users/:userId Delete user">
         <div class="endpoint-header" onclick="toggleDetails(this)">
           <div class="endpoint-left">
             <span class="method-badge method-DELETE">DELETE</span>
@@ -1496,6 +1865,7 @@
           </div>
         </div>
         <div class="endpoint-body">
+          <a class="contract-link" href="#contract/Users_API.md/delete-users-userid">View in contract →</a>
           <p style="margin-bottom: 14px; color: var(--text-muted); font-size: 14px;"><strong>Delete user:</strong> Deletes a user. Admin only. _(source)_</p>
           <div class="details-grid">
             <div class="detail-section">
@@ -1528,7 +1898,717 @@
     </div>
 
     
+    </section>
 
+    <section id="tab-contracts" hidden>
+    <div class="contracts-layout">
+      <nav class="contract-nav" aria-label="Contracts">
+        <div class="nav-file">
+          <a class="nav-file-link" href="#contract/Carts_API.md" data-file="Carts_API.md">Carts <span class="nav-file-name">Carts_API.md</span></a>
+          <ul class="nav-endpoints">
+            <li><a href="#contract/Carts_API.md/post-carts" title="POST /carts"><span class="mini-method method-POST">POST</span><span class="mini-path">/carts</span><span class="mini-pct color-danger">0%</span></a></li><li><a href="#contract/Carts_API.md/post-carts-cartid" title="POST /carts/:cartId"><span class="mini-method method-POST">POST</span><span class="mini-path">/carts/{cartId}</span><span class="mini-pct color-danger">0%</span></a></li><li><a href="#contract/Carts_API.md/get-carts-cartid" title="GET /carts/:cartId"><span class="mini-method method-GET">GET</span><span class="mini-path">/carts/{cartId}</span><span class="mini-pct color-danger">0%</span></a></li><li><a href="#contract/Carts_API.md/put-carts-cartid-product-quantity" title="PUT /carts/:cartId/product/quantity"><span class="mini-method method-PUT">PUT</span><span class="mini-path">/carts/{cartId}/product/quantity</span><span class="mini-pct color-danger">0%</span></a></li><li><a href="#contract/Carts_API.md/delete-carts-cartid-product-productid" title="DELETE /carts/:cartId/product/:productId"><span class="mini-method method-DELETE">DELETE</span><span class="mini-path">/carts/{cartId}/product/{productId}</span><span class="mini-pct color-danger">0%</span></a></li><li><a href="#contract/Carts_API.md/delete-carts-cartid" title="DELETE /carts/:cartId"><span class="mini-method method-DELETE">DELETE</span><span class="mini-path">/carts/{cartId}</span><span class="mini-pct color-danger">0%</span></a></li>
+          </ul>
+        </div>
+        <div class="nav-file">
+          <a class="nav-file-link" href="#contract/Products_API.md" data-file="Products_API.md">Products <span class="nav-file-name">Products_API.md</span></a>
+          <ul class="nav-endpoints">
+            <li><a href="#contract/Products_API.md/get-products" title="GET /products"><span class="mini-method method-GET">GET</span><span class="mini-path">/products</span><span class="mini-pct color-success">100%</span></a></li><li><a href="#contract/Products_API.md/query-products" title="QUERY /products"><span class="mini-method method-QUERY">QUERY</span><span class="mini-path">/products</span><span class="mini-pct color-success">100%</span></a></li><li><a href="#contract/Products_API.md/post-products" title="POST /products"><span class="mini-method method-POST">POST</span><span class="mini-path">/products</span><span class="mini-pct color-success">100%</span></a></li><li><a href="#contract/Products_API.md/get-products-productid" title="GET /products/:productId"><span class="mini-method method-GET">GET</span><span class="mini-path">/products/{productId}</span><span class="mini-pct color-success">100%</span></a></li><li><a href="#contract/Products_API.md/put-products-productid" title="PUT /products/:productId"><span class="mini-method method-PUT">PUT</span><span class="mini-path">/products/{productId}</span><span class="mini-pct color-success">100%</span></a></li><li><a href="#contract/Products_API.md/patch-products-productid" title="PATCH /products/:productId"><span class="mini-method method-PATCH">PATCH</span><span class="mini-path">/products/{productId}</span><span class="mini-pct color-success">100%</span></a></li><li><a href="#contract/Products_API.md/delete-products-productid" title="DELETE /products/:productId"><span class="mini-method method-DELETE">DELETE</span><span class="mini-path">/products/{productId}</span><span class="mini-pct color-success">88%</span></a></li><li><a href="#contract/Products_API.md/get-products-productid-related" title="GET /products/:productId/related"><span class="mini-method method-GET">GET</span><span class="mini-path">/products/{productId}/related</span><span class="mini-pct color-success">100%</span></a></li><li><a href="#contract/Products_API.md/get-products-search" title="GET /products/search"><span class="mini-method method-GET">GET</span><span class="mini-path">/products/search</span><span class="mini-pct color-success">100%</span></a></li><li><a href="#contract/Products_API.md/query-products-search" title="QUERY /products/search"><span class="mini-method method-QUERY">QUERY</span><span class="mini-path">/products/search</span><span class="mini-pct color-success">100%</span></a></li>
+          </ul>
+        </div>
+        <div class="nav-file">
+          <a class="nav-file-link" href="#contract/Users_API.md" data-file="Users_API.md">Users <span class="nav-file-name">Users_API.md</span></a>
+          <ul class="nav-endpoints">
+            <li><a href="#contract/Users_API.md/post-users-login" title="POST /users/login"><span class="mini-method method-POST">POST</span><span class="mini-path">/users/login</span><span class="mini-pct color-success">91%</span></a></li><li><a href="#contract/Users_API.md/post-users-register" title="POST /users/register"><span class="mini-method method-POST">POST</span><span class="mini-path">/users/register</span><span class="mini-pct color-success">98%</span></a></li><li><a href="#contract/Users_API.md/post-users-forgot-password" title="POST /users/forgot-password"><span class="mini-method method-POST">POST</span><span class="mini-path">/users/forgot-password</span><span class="mini-pct color-danger">0%</span></a></li><li><a href="#contract/Users_API.md/post-users-change-password" title="POST /users/change-password"><span class="mini-method method-POST">POST</span><span class="mini-path">/users/change-password</span><span class="mini-pct color-danger">0%</span></a></li><li><a href="#contract/Users_API.md/get-users-me" title="GET /users/me"><span class="mini-method method-GET">GET</span><span class="mini-path">/users/me</span><span class="mini-pct color-success">100%</span></a></li><li><a href="#contract/Users_API.md/get-users-logout" title="GET /users/logout"><span class="mini-method method-GET">GET</span><span class="mini-path">/users/logout</span><span class="mini-pct color-success">100%</span></a></li><li><a href="#contract/Users_API.md/get-users-refresh" title="GET /users/refresh"><span class="mini-method method-GET">GET</span><span class="mini-path">/users/refresh</span><span class="mini-pct color-success">100%</span></a></li><li><a href="#contract/Users_API.md/get-users" title="GET /users"><span class="mini-method method-GET">GET</span><span class="mini-path">/users</span><span class="mini-pct color-danger">0%</span></a></li><li><a href="#contract/Users_API.md/get-users-search" title="GET /users/search"><span class="mini-method method-GET">GET</span><span class="mini-path">/users/search</span><span class="mini-pct color-danger">0%</span></a></li><li><a href="#contract/Users_API.md/query-users-search" title="QUERY /users/search"><span class="mini-method method-QUERY">QUERY</span><span class="mini-path">/users/search</span><span class="mini-pct color-danger">0%</span></a></li><li><a href="#contract/Users_API.md/get-users-userid" title="GET /users/:userId"><span class="mini-method method-GET">GET</span><span class="mini-path">/users/{userId}</span><span class="mini-pct color-danger">0%</span></a></li><li><a href="#contract/Users_API.md/put-users-userid" title="PUT /users/:userId"><span class="mini-method method-PUT">PUT</span><span class="mini-path">/users/{userId}</span><span class="mini-pct color-danger">0%</span></a></li><li><a href="#contract/Users_API.md/patch-users-userid" title="PATCH /users/:userId"><span class="mini-method method-PATCH">PATCH</span><span class="mini-path">/users/{userId}</span><span class="mini-pct color-danger">44%</span></a></li><li><a href="#contract/Users_API.md/delete-users-userid" title="DELETE /users/:userId"><span class="mini-method method-DELETE">DELETE</span><span class="mini-path">/users/{userId}</span><span class="mini-pct color-warning">52%</span></a></li>
+          </ul>
+        </div></nav>
+      <div class="contract-main">
+        <p class="contract-legend">The contracts as they were at this run. <span class="st st-ok">✓ tested</span> a test got this status; <span class="st st-miss">✗ not tested</span> no test did. The chip next to an endpoint shows its calls and coverage, and opens it on the Coverage tab.</p>
+        <article class="contract md" data-file="Carts_API.md" hidden><h1 id="contract-carts-api-md--carts-api-documentation">Carts API Documentation</h1>
+<p>Anonymous shopping carts in the Toolshop API: create a cart, add products, change a product&#039;s quantity, read the cart, remove a product and delete the cart. The UI creates a cart when the first product is added and keeps its id in <code>sessionStorage[&#039;cart_id&#039;]</code>.</p>
+<blockquote><p>Started by hand on 2026-10-04 with <code>DELETE /carts/{cartId}</code> (UI-002&#039;s cleanup); the rest of the area was added on 2026-10-08 from the Laravel source (<code>sprint5/API</code>: <code>routes/api.php</code>, <code>CartController</code>, <code>CartService</code>, the <code>Cart</code>/<code>CartItem</code> models, <code>tests/Feature/CartTest.php</code>) and read-only calls to the live API (<code>GET</code> and <code>OPTIONS</code> only; no cart was created or changed). Facts are tagged by origin.</p></blockquote>
+<h2 id="contract-carts-api-md--base-url">Base URL</h2>
+<p><code>https://api.practicesoftwaretesting.com</code> (see <code>apiBaseUrl</code> in <code>src/envs/&lt;ENV&gt;.json</code>).</p>
+<h2 id="contract-carts-api-md--authentication">Authentication</h2>
+<ul><li>None: every carts endpoint is public; whoever knows a cart id can read and change it. <code>CartController</code> has no auth middleware. <em>(source)</em> <code>GET /carts/{cartId}</code> answers without a token. <em>(verified)</em></li><li>A token, when sent, is ignored by the carts handlers; it only changes how products inside the cart are serialized (<code>in_stock</code> is the stock count for an admin token, see <code>Products_API.md</code>). <em>(source)</em></li></ul>
+<h2 id="contract-carts-api-md--endpoints-overview">Endpoints Overview</h2>
+<div class="table-wrap"><table><thead><tr><th>Method</th><th>Path</th><th>Description</th><th>Auth</th></tr></thead><tbody><tr><td>POST</td><td><code>/carts</code></td><td>Create a cart</td><td>None</td></tr><tr><td>POST</td><td><code>/carts/{cartId}</code></td><td>Add a product to a cart (or increase its quantity)</td><td>None</td></tr><tr><td>GET</td><td><code>/carts/{cartId}</code></td><td>Get a cart with its items and products</td><td>None</td></tr><tr><td>PUT</td><td><code>/carts/{cartId}/product/quantity</code></td><td>Set the quantity of a product in a cart</td><td>None</td></tr><tr><td>DELETE</td><td><code>/carts/{cartId}/product/{productId}</code></td><td>Remove a product from a cart</td><td>None</td></tr><tr><td>DELETE</td><td><code>/carts/{cartId}</code></td><td>Delete a cart with its items</td><td>None</td></tr></tbody></table></div>
+<h2 id="contract-carts-api-md--data-required-for-successful-requests">Data required for successful requests</h2>
+<div class="table-wrap"><table><thead><tr><th>Data</th><th>Needed by</th><th>Requirements</th></tr></thead><tbody><tr><td>Cart id (ULID)</td><td>every endpoint except <code>POST /carts</code></td><td>The <code>id</code> returned by <code>POST /carts</code>. Carts are never listed, so a test must create its own (and delete it afterwards).</td></tr><tr><td>Product id (ULID)</td><td><code>POST /carts/{cartId}</code>, <code>PUT /carts/{cartId}/product/quantity</code> (<code>product_id</code>)</td><td>An existing product (<code>exists:products,id</code>), e.g. an <code>id</code> from <code>GET /products</code>. An unknown id gives <code>422</code>.</td></tr><tr><td>Quantity</td><td><code>POST /carts/{cartId}</code>, <code>PUT /carts/{cartId}/product/quantity</code></td><td>An integer from 1 to 99.</td></tr><tr><td>A product that isn&#039;t &quot;Thor Hammer&quot;</td><td>quantities above 1</td><td>The product named exactly <code>Thor Hammer</code> (seeded) is limited to one per cart. The rule matches the name, so a product created with that name gets the same limit.</td></tr><tr><td>Coordinates (optional)</td><td><code>POST /carts</code> (<code>lat</code>, <code>lng</code>)</td><td>Only needed for the location discount: within 2 degrees of one of the cities listed under Enums.</td></tr></tbody></table></div>
+<h2 id="contract-carts-api-md--endpoints">Endpoints</h2>
+<h3 id="contract-carts-api-md--post-carts">1. Create cart<a class="cov-chip chip-uncovered" href="#coverage/endpoint-post-carts" title="Show on the coverage tab">0 calls · 0%</a></h3>
+<p>Creates an empty cart and returns its id. The optional coordinates are stored on the cart and later decide the location discount of the items added to it. Nothing is validated. <em>(source)</em></p>
+<p><strong>Endpoint:</strong> <code>POST /carts</code></p>
+<p><strong>Auth:</strong> None <em>(source)</em></p>
+<p><strong>Request Body:</strong></p>
+<pre><code class="lang-ts">{
+  lat?: number;   // latitude; stored as a decimal, no validation
+  lng?: number;   // longitude; stored as a decimal, no validation
+}</code></pre>
+<p>An empty body (or none) is fine (<code>CartTest</code>: &quot;create cart without coordinates&quot;). Any other field is ignored (<code>$request-&gt;only([&#039;lat&#039;, &#039;lng&#039;])</code>). <em>(source)</em></p>
+<p><strong>Response:</strong> <code>201 Created</code> <em>(source)</em><span class="st st-miss" title="No test got 201">✗ not tested</span></p>
+<pre><code class="lang-ts">{
+  id: string;   // ULID of the new cart
+}</code></pre>
+<p>The handler has no error branch of its own. The source doesn&#039;t show what happens with a non-numeric <code>lat</code>/<code>lng</code> (the columns are <code>decimal</code>; the database may reject the value, which the global handler would turn into a <code>500</code>).</p>
+<hr>
+<h3 id="contract-carts-api-md--post-carts-cartid">2. Add item to cart<a class="cov-chip chip-uncovered" href="#coverage/endpoint-post-carts-cartid" title="Show on the coverage tab">0 calls · 0%</a></h3>
+<p>Adds a product to the cart. When the product is already in the cart, its quantity is <strong>increased</strong> by <code>quantity</code> (<code>firstOrCreate</code> + <code>increment</code>); no second line is created. <em>(source)</em> The service&#039;s own test adds 2 to an item with quantity 1 and expects 3. <em>(source)</em></p>
+<p><strong>Endpoint:</strong> <code>POST /carts/{cartId}</code></p>
+<p><strong>Auth:</strong> None <em>(source)</em></p>
+<p><strong>Path Parameters:</strong></p>
+<div class="table-wrap"><table><thead><tr><th>Parameter</th><th>Type</th><th>Required</th><th>Description</th></tr></thead><tbody><tr><td><code>cartId</code></td><td>string (ULID)</td><td>Yes</td><td>The cart&#039;s id (named <code>{id}</code> in the route)</td></tr></tbody></table></div>
+<p><strong>Request Body:</strong></p>
+<pre><code class="lang-ts">{
+  product_id: string;   // required; must be an existing product id
+  quantity: number;     // required; integer, min 1, max 99
+}</code></pre>
+<p>Validation runs before the cart is looked up, so a bad body on an unknown cart gives <code>422</code>, not <code>404</code>. <em>(source)</em> The handler also reads <code>lat</code> and <code>lng</code> from the body and passes them to the service, which ignores them: the discount uses the cart&#039;s coordinates from <code>POST /carts</code>. <em>(source)</em></p>
+<p>Rules worth testing <em>(source)</em>:</p>
+<ul><li><strong>Quantity per request:</strong> 1 to 99. The limit applies to each request only: the running total isn&#039;t checked, so adding 99 twice gives a quantity of 198 (<code>increment</code> without a cap).</li><li><strong>Thor Hammer:</strong> for the product named <code>Thor Hammer</code>, a <code>quantity</code> above 1, or adding it when it&#039;s already in the cart, fails with <code>400</code> and <code>&quot;You can only have one Thor Hammer in the cart.&quot;</code>. Adding it once with <code>quantity: 1</code> creates the line with quantity 1.</li><li><strong>No stock check:</strong> neither the controller nor the service looks at the product&#039;s stock, so out-of-stock products can be added.</li><li><strong>Discounts:</strong> after each add, the cart&#039;s <code>additional_discount_percentage</code> becomes <code>15</code> when the cart holds both a rental and a non-rental product, otherwise <code>null</code>. When the cart has non-zero <code>lat</code> and <code>lng</code>, the added item&#039;s <code>discount_percentage</code> is set from the city table (see Enums; <code>0</code> when no city matches).</li></ul>
+<p><strong>Response:</strong> <code>200 OK</code> <em>(source)</em><span class="st st-miss" title="No test got 200">✗ not tested</span></p>
+<pre><code class="lang-ts">{
+  result: &quot;item added or updated&quot;;
+}</code></pre>
+<p>The response has no ids: read the cart (<code>GET /carts/{cartId}</code>) to see the item&#039;s <code>id</code> and quantity. <em>(source)</em></p>
+<p><strong>Error Responses:</strong></p>
+<ul><li><code>400 Bad Request</code>: a Thor Hammer rule is broken (quantity above 1, or already in the cart), with <code>{ message: &quot;You can only have one Thor Hammer in the cart.&quot; }</code>; any other unexpected exception in the service also becomes a <code>400</code> with its message <em>(source)</em><span class="st st-miss" title="No test got 400">✗ not tested</span></li><li><code>404 Not Found</code>: no cart with this id, with <code>{ message: &quot;Cart not found&quot; }</code> <em>(source)</em><span class="st st-miss" title="No test got 404">✗ not tested</span></li><li><code>422 Unprocessable Entity</code>: <code>product_id</code> missing, not a string or not an existing product; <code>quantity</code> missing, not an integer, below 1 or above 99. Framework default body <code>{ message, errors }</code> (see Error Handling) <em>(source)</em><span class="st st-miss" title="No test got 422">✗ not tested</span></li></ul>
+<p><strong>Example:</strong></p>
+<pre><code class="lang-http">POST /carts/01JABCDEF0123456789ABCDEFG
+{ &quot;product_id&quot;: &quot;01JPRODUCT0123456789ABCDE&quot;, &quot;quantity&quot;: 2 }
+
+200 OK
+{ &quot;result&quot;: &quot;item added or updated&quot; }</code></pre>
+<hr>
+<h3 id="contract-carts-api-md--get-carts-cartid">3. Get cart<a class="cov-chip chip-uncovered" href="#coverage/endpoint-get-carts-cartid" title="Show on the coverage tab">0 calls · 0%</a></h3>
+<p>Returns the cart with its items, each with its product. For an item with a non-zero <code>discount_percentage</code>, <code>discounted_price</code> is added: the product price minus the discount, rounded to 2 decimals. <em>(source)</em></p>
+<p><strong>Endpoint:</strong> <code>GET /carts/{cartId}</code></p>
+<p><strong>Auth:</strong> None <em>(verified)</em></p>
+<p><strong>Path Parameters:</strong></p>
+<div class="table-wrap"><table><thead><tr><th>Parameter</th><th>Type</th><th>Required</th><th>Description</th></tr></thead><tbody><tr><td><code>cartId</code></td><td>string (ULID)</td><td>Yes</td><td>The cart&#039;s id (named <code>{id}</code> in the route)</td></tr></tbody></table></div>
+<p><strong>Response:</strong> <code>200 OK</code> <em>(source)</em><span class="st st-miss" title="No test got 200">✗ not tested</span></p>
+<pre><code class="lang-ts">Cart   // see Data Models</code></pre>
+<p>The route has no cache headers (<code>Cache-Control: no-cache, private</code>), unlike the product routes. <em>(verified)</em></p>
+<p><strong>Error Responses:</strong></p>
+<ul><li><code>404 Not Found</code>: no cart with this id (also for a malformed id such as <code>abc</code>), with <code>{ message: &quot;Requested item not found&quot; }</code> from the global handler <em>(verified)</em><span class="st st-miss" title="No test got 404">✗ not tested</span></li></ul>
+<hr>
+<h3 id="contract-carts-api-md--put-carts-cartid-product-quantity">4. Update item quantity<a class="cov-chip chip-uncovered" href="#coverage/endpoint-put-carts-cartid-product-quantity" title="Show on the coverage tab">0 calls · 0%</a></h3>
+<p>Sets (replaces) the quantity of a product that is in the cart. <em>(source)</em></p>
+<p><strong>Endpoint:</strong> <code>PUT /carts/{cartId}/product/quantity</code></p>
+<p><strong>Auth:</strong> None <em>(source)</em></p>
+<p><strong>Path Parameters:</strong></p>
+<div class="table-wrap"><table><thead><tr><th>Parameter</th><th>Type</th><th>Required</th><th>Description</th></tr></thead><tbody><tr><td><code>cartId</code></td><td>string (ULID)</td><td>Yes</td><td>The cart&#039;s id (named <code>{id}</code> in the route)</td></tr></tbody></table></div>
+<p><strong>Request Body:</strong></p>
+<pre><code class="lang-ts">{
+  product_id: string;   // required; must be an existing product id
+  quantity: number;     // required; integer, min 1, max 99
+}</code></pre>
+<p>Rules worth testing <em>(source)</em>:</p>
+<ul><li>The quantity is set, not added (<code>update([&#039;quantity&#039; =&gt; $quantity])</code>).</li><li>When the product exists but isn&#039;t in the cart, nothing changes and the response is still <code>200</code> with the same body (the service&#039;s <code>false</code> result is ignored).</li><li><strong>Thor Hammer:</strong> a <code>quantity</code> above 1 fails with <code>400</code> and <code>&quot;You can only have one Thor Hammer in the cart.&quot;</code>.</li><li>Validation runs before the cart is looked up. Discounts aren&#039;t recalculated.</li></ul>
+<p><strong>Response:</strong> <code>200 OK</code> <em>(source)</em><span class="st st-miss" title="No test got 200">✗ not tested</span></p>
+<pre><code class="lang-ts">{
+  result: &quot;item added or updated&quot;;
+}</code></pre>
+<p><strong>Error Responses:</strong></p>
+<ul><li><code>400 Bad Request</code>: Thor Hammer with a quantity above 1, with <code>{ message: &quot;You can only have one Thor Hammer in the cart.&quot; }</code>; any other unexpected exception in the service also becomes a <code>400</code> with its message <em>(source)</em><span class="st st-miss" title="No test got 400">✗ not tested</span></li><li><code>404 Not Found</code>: no cart with this id, with <code>{ message: &quot;Cart doesn&#039;t exist&quot; }</code> <em>(source)</em><span class="st st-miss" title="No test got 404">✗ not tested</span></li><li><code>422 Unprocessable Entity</code>: <code>product_id</code> missing, not a string or not an existing product; <code>quantity</code> missing, not an integer, below 1 or above 99. The service&#039;s tests assert e.g. <code>{ errors: { quantity: [&quot;The quantity field is required.&quot;] }, message: &quot;The quantity field is required.&quot; }</code> and <code>&quot;The quantity field must be an integer.&quot;</code> <em>(source)</em><span class="st st-miss" title="No test got 422">✗ not tested</span></li></ul>
+<hr>
+<h3 id="contract-carts-api-md--delete-carts-cartid-product-productid">5. Remove product from cart<a class="cov-chip chip-uncovered" href="#coverage/endpoint-delete-carts-cartid-product-productid" title="Show on the coverage tab">0 calls · 0%</a></h3>
+<p>Deletes the cart&#039;s line for this product and recalculates the cart&#039;s combined (rental + product) discount. <em>(source)</em></p>
+<p><strong>Endpoint:</strong> <code>DELETE /carts/{cartId}/product/{productId}</code></p>
+<p><strong>Auth:</strong> None <em>(source)</em></p>
+<p><strong>Path Parameters:</strong></p>
+<div class="table-wrap"><table><thead><tr><th>Parameter</th><th>Type</th><th>Required</th><th>Description</th></tr></thead><tbody><tr><td><code>cartId</code></td><td>string (ULID)</td><td>Yes</td><td>The cart&#039;s id</td></tr><tr><td><code>productId</code></td><td>string (ULID)</td><td>Yes</td><td>The product&#039;s id (not the cart item&#039;s id)</td></tr></tbody></table></div>
+<p><strong>Response:</strong> <code>204 No Content</code> <em>(source)</em><span class="st st-miss" title="No test got 204">✗ not tested</span></p>
+<p>The product id isn&#039;t checked: an unknown product, or one that isn&#039;t in the cart, also gives <code>204</code> (<code>CartTest</code>: &quot;product not found in cart&quot;). <em>(source)</em></p>
+<p><strong>Error Responses:</strong></p>
+<ul><li><code>404 Not Found</code>: no cart with this id, with <code>{ message: &quot;Cart doesnt exists&quot; }</code> <em>(source)</em><span class="st st-miss" title="No test got 404">✗ not tested</span></li></ul>
+<hr>
+<h3 id="contract-carts-api-md--delete-carts-cartid">6. Delete cart<a class="cov-chip chip-uncovered" href="#coverage/endpoint-delete-carts-cartid" title="Show on the coverage tab">0 calls · 0%</a></h3>
+<p><strong>Endpoint:</strong> <code>DELETE /carts/{cartId}</code></p>
+<p>Deletes the cart&#039;s items, then the cart. A product can&#039;t be deleted while a cart item points to it (<code>DELETE /products/{productId}</code> returns <code>409</code>), so remove the cart first. <em>(source)</em></p>
+<p><strong>Path Parameters:</strong></p>
+<div class="table-wrap"><table><thead><tr><th>Parameter</th><th>Type</th><th>Required</th><th>Description</th></tr></thead><tbody><tr><td><code>cartId</code></td><td>string (ULID)</td><td>Yes</td><td>The cart&#039;s id</td></tr></tbody></table></div>
+<p><strong>Response:</strong> <code>204 No Content</code> <em>(source)</em><span class="st st-miss" title="No test got 204">✗ not tested</span></p>
+<p><strong>Error Responses:</strong></p>
+<ul><li><code>404 Not Found</code>: no cart with this id, with <code>{ message: &quot;Cart doesnt exists&quot; }</code> <em>(source)</em><span class="st st-miss" title="No test got 404">✗ not tested</span></li></ul>
+<h2 id="contract-carts-api-md--data-models">Data Models</h2>
+<h3 id="contract-carts-api-md--cart">Cart</h3>
+<p>Returned by <code>GET /carts/{cartId}</code>. <code>created_at</code> and <code>updated_at</code> are hidden (<code>BaseModel</code>). <em>(source)</em></p>
+<pre><code class="lang-ts">interface Cart {
+  id: string;                                    // ULID
+  additional_discount_percentage: number | null; // 15 when the cart holds a rental and a non-rental product, else null
+  lat: number | null;
+  lng: number | null;
+  cart_items: CartItem[];
+}</code></pre>
+<h3 id="contract-carts-api-md--cartitem">CartItem</h3>
+<pre><code class="lang-ts">interface CartItem {
+  id: string;                          // ULID of the cart line
+  quantity: number;
+  discount_percentage: number | null;  // location discount; null when the cart has no coordinates, 0 when no city matches
+  cart_id: string;
+  product_id: string;
+  discounted_price?: number;           // only when discount_percentage is non-zero: price * (1 - discount/100), 2 decimals
+  product: CartProduct;
+}</code></pre>
+<h3 id="contract-carts-api-md--cartproduct">CartProduct</h3>
+<p>The product as loaded for a cart: the <code>Product</code> fields of <code>Products_API.md</code> without <code>product_image</code>, <code>category</code> and <code>brand</code> (those relations aren&#039;t loaded). <em>(source)</em></p>
+<pre><code class="lang-ts">interface CartProduct {
+  id: string;
+  name: string;
+  description: string;
+  price: number;
+  is_location_offer: boolean;
+  is_rental: boolean;
+  co2_rating: string;
+  in_stock: boolean;          // a number (stock count) when the caller sends an admin token
+  is_eco_friendly: boolean;
+}</code></pre>
+<h2 id="contract-carts-api-md--enums">Enums</h2>
+<ul><li>Location discount (<code>CartService::calculateDiscountPercentage</code>), applied when the cart&#039;s <code>lat</code> and <code>lng</code> are both within 2 degrees of a city <em>(source)</em>:</li></ul>
+<div class="table-wrap"><table><thead><tr><th>City</th><th>lat</th><th>lng</th><th>Discount</th></tr></thead><tbody><tr><td>New York</td><td>41</td><td>74</td><td>5 %</td></tr><tr><td>Mumbai</td><td>19</td><td>73</td><td>10 %</td></tr><tr><td>Tokyo</td><td>35</td><td>139</td><td>15 %</td></tr><tr><td>Amsterdam</td><td>52</td><td>5</td><td>20 %</td></tr><tr><td>London</td><td>51</td><td>0</td><td>25 %</td></tr></tbody></table></div>
+<p>New York&#039;s real longitude is negative (-74); the table uses +74, so real New York coordinates get no discount (the service&#039;s own test &quot;add product to cart no discount location&quot; relies on that). <em>(source)</em></p>
+<h2 id="contract-carts-api-md--error-handling">Error Handling</h2>
+<ul><li>Errors raised by the handlers or the global handler (<code>app/Exceptions/Handler.php</code>) have the body <code>{ message: string }</code>. The carts handlers use three different &quot;not found&quot; messages: <code>&quot;Cart not found&quot;</code> (add item), <code>&quot;Cart doesn&#039;t exist&quot;</code> (update quantity), <code>&quot;Cart doesnt exists&quot;</code> (remove product, delete cart); <code>GET</code> gets the global <code>&quot;Requested item not found&quot;</code> <em>(verified)</em>.</li><li>Validation errors (<code>422</code>): the carts handlers validate with <code>$request-&gt;validate()</code>, not a form request, so the body is Laravel&#039;s default, unlike the product endpoints: <code>{ message: string; errors: { [field: string]: string[] } }</code>, where <code>message</code> is the first error (Laravel appends &quot;(and N more errors)&quot; when there are several). Framework default; asserted by the service&#039;s tests. Laravel only answers with JSON when the request asks for it (<code>Accept: application/json</code>, as the test clients send); otherwise it redirects. <em>(source)</em> Messages for the other rules are Laravel&#039;s defaults (no custom language files), e.g. <code>&quot;The selected product id is invalid.&quot;</code>, <code>&quot;The quantity field must be at least 1.&quot;</code>, <code>&quot;The quantity field must not be greater than 99.&quot;</code>. Framework default, not yet seen live. <em>(source)</em></li><li><code>405 Method Not Allowed</code>: any method a path has no route for, e.g. <code>GET /carts</code>; <code>{ message: &quot;Method is not allowed for the requested route&quot; }</code>. Shared by every route, so it isn&#039;t listed per endpoint. <em>(verified)</em></li></ul>
+<h2 id="contract-carts-api-md--notes">Notes</h2>
+<ul><li><strong>No auth:</strong> anyone who knows a cart id can read, change or delete the cart. Cart ids are ULIDs, so hard to guess, but the UI stores them in <code>sessionStorage</code>. <em>(source)</em></li><li><strong>OPTIONS:</strong> every carts path answers <code>OPTIONS</code> with <code>204</code> and an <code>Allow</code> header: <code>POST</code> for <code>/carts</code>, <code>DELETE, GET, POST</code> for <code>/carts/{cartId}</code>, <code>DELETE</code> for <code>/carts/{cartId}/product/{productId}</code>, and <code>DELETE, PUT</code> for <code>/carts/{cartId}/product/quantity</code>. <em>(verified)</em></li><li>**<code>/product/quantity</code> overlaps <code>/product/{productId}</code>:** <code>DELETE /carts/{cartId}/product/quantity</code> matches the remove-product route with <code>productId = &quot;quantity&quot;</code>, so it returns <code>204</code> (or <code>404</code> for an unknown cart) and removes nothing. <em>(source)</em> The <code>Allow</code> header above reflects the overlap. <em>(verified)</em></li><li><strong>Location discount for every product:</strong> the service applies the location discount when <code>isset($existingItem-&gt;product-&gt;is_location_offer)</code>, which is true for <code>false</code> as well as <code>true</code>, so every product added to a cart with matching coordinates gets the discount, not only location offers. Suspected bug. <em>(source)</em></li><li><strong>Running total unchecked:</strong> the 1-99 limit applies per request; repeated adds can push a line above 99, while <code>PUT .../quantity</code> can&#039;t set it there. Possibly unintended. <em>(source)</em></li><li><strong>Thor Hammer by name:</strong> the one-per-cart rule matches <code>name === &#039;Thor Hammer&#039;</code>; product writes need no token (<code>Products_API.md</code>), so the seeded product can be renamed by anyone and the rule then no longer applies to it. <em>(source)</em></li><li>**Generic <code>400</code>:** both add and update catch every other exception and return <code>400</code> with the exception&#039;s message, so unexpected server errors (including database errors) show up as <code>400</code>, possibly with an internal message. <em>(source)</em></li><li><strong>XML:</strong> with <code>Accept: text/xml</code>, responses are rendered as XML (<code>Controller::preferredFormat</code>). <em>(source)</em></li><li><strong>OpenAPI annotations vs code</strong> (the annotations in <code>CartController</code>, which generate the published spec): <code>POST /carts</code> lists <code>404</code> and <code>422</code>, which it can&#039;t return; <code>POST /carts/{cartId}</code> doesn&#039;t list its <code>400</code>; <code>PUT .../quantity</code> documents the <code>UpdateResponse</code> body <code>{ success: boolean }</code> and the <code>&quot;Resource not found&quot;</code> 404, while the code returns <code>{ result: &quot;item added or updated&quot; }</code> and <code>&quot;Cart doesn&#039;t exist&quot;</code>; both <code>DELETE</code> endpoints list <code>401</code>, <code>409</code> and <code>422</code>, which they can&#039;t return; the <code>CartResponse</code> schema has only <code>id</code>. The code wins in this contract. <em>(source)</em></li><li>The REST endpoints share <code>CartService</code> with GraphQL mutations (<code>AddCartItem</code>, <code>UpdateCartItemQuantity</code>, <code>RemoveCartItem</code>), which aren&#039;t documented here.</li></ul></article>
+<article class="contract md" data-file="Products_API.md" hidden><h1 id="contract-products-api-md--products-api-documentation">Products API Documentation</h1>
+<p>The product catalogue of the Toolshop API: listing, filtering, searching and reading products, plus creating, updating and deleting them.</p>
+<blockquote><p>Built from the OpenAPI spec (Toolshop API 5.0.0), the Laravel source (<code>sprint5/API</code>) and read-only calls to the live API on 2026-10-01; facts are tagged by origin.</p></blockquote>
+<h2 id="contract-products-api-md--base-url">Base URL</h2>
+<p><code>https://api.practicesoftwaretesting.com</code> (see <code>apiBaseUrl</code> in <code>src/envs/&lt;ENV&gt;.json</code>).</p>
+<h2 id="contract-products-api-md--authentication">Authentication</h2>
+<ul><li>Scheme: <code>Authorization: Bearer &lt;JWT&gt;</code>. Get a token with <code>POST /users/login</code> (see <code>Users_API.md</code>). <em>(source)</em></li><li>Only <code>DELETE /products/{productId}</code> checks a token: it requires the <code>admin</code> role (<code>role:admin</code> middleware in <code>ProductController</code>). Every other product endpoint, including create and update, accepts requests without a token. <em>(source)</em></li><li>A token changes one response field: with an admin token, <code>in_stock</code> is the stock count (a number) instead of a boolean (<code>Product::getInStockAttribute</code>, <code>ProductPolicy::viewStock</code>). <em>(verified)</em></li></ul>
+<h2 id="contract-products-api-md--endpoints-overview">Endpoints Overview</h2>
+<div class="table-wrap"><table><thead><tr><th>Method</th><th>Path</th><th>Description</th><th>Auth</th></tr></thead><tbody><tr><td>GET</td><td><code>/products</code></td><td>List products (filters, sorting, pagination)</td><td>None</td></tr><tr><td>QUERY</td><td><code>/products</code></td><td>List products, criteria in a JSON body</td><td>None</td></tr><tr><td>POST</td><td><code>/products</code></td><td>Create a product</td><td>None</td></tr><tr><td>GET</td><td><code>/products/{productId}</code></td><td>Get one product</td><td>None</td></tr><tr><td>PUT</td><td><code>/products/{productId}</code></td><td>Update a product</td><td>None</td></tr><tr><td>PATCH</td><td><code>/products/{productId}</code></td><td>Partially update a product</td><td>None</td></tr><tr><td>DELETE</td><td><code>/products/{productId}</code></td><td>Delete a product</td><td>Admin</td></tr><tr><td>GET</td><td><code>/products/{productId}/related</code></td><td>Products in the same category</td><td>None</td></tr><tr><td>GET</td><td><code>/products/search</code></td><td>Search products by name</td><td>None</td></tr><tr><td>QUERY</td><td><code>/products/search</code></td><td>Search products, criteria in a JSON body</td><td>None</td></tr></tbody></table></div>
+<h2 id="contract-products-api-md--data-required-for-successful-requests">Data required for successful requests</h2>
+<div class="table-wrap"><table><thead><tr><th>Data</th><th>Needed by</th><th>Requirements</th></tr></thead><tbody><tr><td>Product id (ULID)</td><td><code>GET</code>/<code>PUT</code>/<code>PATCH</code>/<code>DELETE /products/{productId}</code>, <code>/related</code></td><td>An existing product, e.g. the <code>id</code> of an item from <code>GET /products</code>.</td></tr><tr><td>Admin token</td><td><code>DELETE /products/{productId}</code></td><td>A token from <code>POST /users/login</code> for a user whose <code>role</code> is <code>admin</code>.</td></tr><tr><td>Brand id</td><td><code>POST /products</code> (<code>brand_id</code>), filter <code>by_brand</code></td><td>An existing brand id (Brands API). An unknown id makes <code>POST</code> fail with <code>500</code>.</td></tr><tr><td>Category id</td><td><code>POST /products</code> (<code>category_id</code>), filter <code>by_category</code></td><td>An existing category id (Categories API). An unknown id makes <code>POST</code> fail with <code>500</code>.</td></tr><tr><td>Product image id</td><td><code>POST /products</code> (<code>product_image_id</code>)</td><td>An existing product image id (Images API).</td></tr><tr><td>A product nobody references</td><td><code>DELETE /products/{productId}</code></td><td>A product used in an invoice line (or other foreign key) can&#039;t be deleted (<code>409</code>). Create a throw-away product first.</td></tr></tbody></table></div>
+<h2 id="contract-products-api-md--endpoints">Endpoints</h2>
+<h3 id="contract-products-api-md--get-products">1. List products<a class="cov-chip chip-covered" href="#coverage/endpoint-get-products" title="Show on the coverage tab">65 calls · 100%</a></h3>
+<p>Returns the products, 9 per page. Without <code>is_rental</code>, rental products are excluded (<code>is_rental</code> defaults to false). <em>(verified)</em></p>
+<p><strong>Endpoint:</strong> <code>GET /products</code></p>
+<p><strong>Auth:</strong> None <em>(verified)</em></p>
+<p><strong>Query Parameters:</strong></p>
+<div class="table-wrap"><table><thead><tr><th>Parameter</th><th>Type</th><th>Required</th><th>Description</th></tr></thead><tbody><tr><td><code>by_brand</code></td><td>string</td><td>No</td><td>Brand id, or several ids separated by commas</td></tr><tr><td><code>by_category</code></td><td>string</td><td>No</td><td>Category id, or several ids separated by commas</td></tr><tr><td><code>by_category_slug</code></td><td>string</td><td>No</td><td>Category slug; also matches its direct sub-categories. In the source, not in the spec.</td></tr><tr><td><code>is_rental</code></td><td>string</td><td>No</td><td><code>true</code> or <code>1</code> returns only rentals; anything else, or no value, returns only non-rentals</td></tr><tr><td><code>between</code></td><td>string</td><td>No</td><td>Range filter, e.g. <code>price,10,30</code></td></tr><tr><td><code>sort</code></td><td>string</td><td>No</td><td><code>&lt;column&gt;,&lt;asc|desc&gt;</code>, e.g. <code>name,asc</code> or <code>price,desc</code></td></tr><tr><td><code>eco_friendly</code></td><td>string</td><td>No</td><td><code>true</code> or <code>1</code>: only products with CO2 rating A or B. In the source, not in the spec.</td></tr><tr><td><code>q</code></td><td>string</td><td>No</td><td>Name contains this text. In the source, not in the spec.</td></tr><tr><td><code>by_spec</code></td><td>string</td><td>No</td><td>Spec filter, <code>name:value1|value2,name2:value3</code>. In the source, not in the spec.</td></tr><tr><td><code>page</code></td><td>integer</td><td>No</td><td>Page number, starting at 1</td></tr></tbody></table></div>
+<p><strong>Response:</strong> <code>200 OK</code> <em>(verified)</em><span class="st st-ok" title="A test got 200">✓ tested</span></p>
+<pre><code class="lang-ts">{
+  current_page: number;
+  data: Product[];        // up to 9; category has id, name, slug
+  from: number | null;
+  last_page: number;
+  per_page: number;
+  to: number | null;
+  total: number;
+}</code></pre>
+<p><strong>Error Responses:</strong></p>
+<ul><li><code>500 Internal Server Error</code>: <code>sort</code> names a column that doesn&#039;t exist (<code>sort=no_such_column,asc</code>); suspected bug, should be 400/422 or ignored <em>(verified)</em><span class="st st-ok" title="A test got 500">✓ tested</span></li></ul>
+<p><strong>Example:</strong> <code>GET /products?by_category=&lt;categoryId&gt;&amp;sort=price,asc&amp;page=2</code>. An unknown <code>by_category</code> id returns <code>200</code> with an empty <code>data</code> array. <em>(verified)</em></p>
+<hr>
+<h3 id="contract-products-api-md--query-products">2. List products (HTTP QUERY)<a class="cov-chip chip-covered" href="#coverage/endpoint-query-products" title="Show on the coverage tab">13 calls · 100%</a></h3>
+<p>Same as <code>GET /products</code>, but the criteria are sent as a JSON body (RFC 10008 <code>QUERY</code> method). The body keys are merged into the query string, so the results equal the <code>GET</code> with the same parameters. <em>(verified)</em></p>
+<p><strong>Endpoint:</strong> <code>QUERY /products</code></p>
+<p><strong>Auth:</strong> None <em>(verified)</em></p>
+<p><strong>Request Body:</strong></p>
+<pre><code class="lang-ts">{
+  by_brand?: string;
+  by_category?: string;
+  by_category_slug?: string;
+  is_rental?: string;
+  between?: string;
+  sort?: string;
+  eco_friendly?: string;
+  q?: string;
+  by_spec?: string;
+  page?: string;
+}</code></pre>
+<p><strong>Response:</strong> <code>200 OK</code> <em>(verified)</em><span class="st st-ok" title="A test got 200">✓ tested</span>
+Same shape as <code>GET /products</code>. The response has the header <code>Accept-Query: application/json</code>. <em>(verified)</em></p>
+<p><strong>Error Responses:</strong></p>
+<ul><li><code>415 Unsupported Media Type</code>: <code>Content-Type</code> is not JSON; <code>{ message: &quot;QUERY requests must use Content-Type: application/json&quot; }</code> with <code>Accept: application/json</code>, an HTML page without it <em>(verified)</em><span class="st st-ok" title="A test got 415">✓ tested</span></li><li><code>500 Internal Server Error</code>: <code>sort</code> names a column that doesn&#039;t exist; suspected bug, same code path as <code>GET /products</code> <em>(source)</em><span class="st st-ok" title="A test got 500">✓ tested</span></li></ul>
+<p><strong>Example:</strong></p>
+<pre><code class="lang-http">QUERY /products
+Content-Type: application/json
+Accept: application/json
+
+{ &quot;sort&quot;: &quot;name,asc&quot; }</code></pre>
+<hr>
+<h3 id="contract-products-api-md--post-products">3. Create product<a class="cov-chip chip-covered" href="#coverage/endpoint-post-products" title="Show on the coverage tab">32 calls · 100%</a></h3>
+<p>Creates a product. No token is needed (see Notes). <em>(source)</em></p>
+<p><strong>Endpoint:</strong> <code>POST /products</code></p>
+<p><strong>Auth:</strong> None <em>(source)</em></p>
+<p><strong>Request Body:</strong></p>
+<pre><code class="lang-ts">{
+  name: string;               // max 120, no subscript/superscript characters
+  description?: string;       // max 1250, no subscript/superscript characters
+  price: number;
+  category_id: string;        // existing category id
+  brand_id: string;           // existing brand id
+  product_image_id: string;   // existing product image id
+  is_location_offer: boolean;
+  is_rental: boolean;
+  co2_rating?: string;        // not validated; stored as sent _(verified)_
+  stock?: number;             // not validated; stored as sent _(verified)_
+}</code></pre>
+<p><strong>Response:</strong> <code>201 Created</code> <em>(verified)</em><span class="st st-ok" title="A test got 201">✓ tested</span></p>
+<pre><code class="lang-ts">Product   // with product_image, category and brand loaded</code></pre>
+<p><strong>Error Responses:</strong></p>
+<ul><li><code>422 Unprocessable Entity</code>: a required field is missing or a field fails its rule; body <code>{ &lt;field&gt;: string[] }</code> <em>(verified)</em><span class="st st-ok" title="A test got 422">✓ tested</span></li><li><code>500 Internal Server Error</code>: <code>category_id</code>, <code>brand_id</code> or <code>product_image_id</code> doesn&#039;t exist (the foreign-key error isn&#039;t validated first); suspected bug, should be 422 <em>(source)</em><span class="st st-ok" title="A test got 500">✓ tested</span></li></ul>
+<hr>
+<h3 id="contract-products-api-md--get-products-productid">4. Get product<a class="cov-chip chip-covered" href="#coverage/endpoint-get-products-productid" title="Show on the coverage tab">18 calls · 100%</a></h3>
+<p>Returns one product with its category (including <code>parent_id</code>), brand, image and specs. <em>(verified)</em></p>
+<p><strong>Endpoint:</strong> <code>GET /products/{productId}</code></p>
+<p><strong>Auth:</strong> None <em>(source)</em></p>
+<p><strong>Path Parameters:</strong></p>
+<div class="table-wrap"><table><thead><tr><th>Parameter</th><th>Type</th><th>Required</th><th>Description</th></tr></thead><tbody><tr><td><code>productId</code></td><td>string</td><td>Yes</td><td>Product ULID</td></tr></tbody></table></div>
+<p><strong>Response:</strong> <code>200 OK</code> <em>(verified)</em><span class="st st-ok" title="A test got 200">✓ tested</span></p>
+<pre><code class="lang-ts">Product &amp; {
+  category: { id: string; name: string; slug: string; parent_id: string | null };
+  specs: ProductSpec[];
+}</code></pre>
+<p><strong>Error Responses:</strong></p>
+<ul><li><code>404 Not Found</code>: no product with this id; <code>{ message: &quot;Requested item not found&quot; }</code> <em>(verified)</em><span class="st st-ok" title="A test got 404">✓ tested</span></li></ul>
+<hr>
+<h3 id="contract-products-api-md--put-products-productid">5. Update product<a class="cov-chip chip-covered" href="#coverage/endpoint-put-products-productid" title="Show on the coverage tab">11 calls · 100%</a></h3>
+<p>Updates a product with the fields sent. No token is needed (see Notes). Despite being <code>PUT</code>, no field is required. <em>(source)</em></p>
+<p><strong>Endpoint:</strong> <code>PUT /products/{productId}</code></p>
+<p><strong>Auth:</strong> None <em>(source)</em></p>
+<p><strong>Path Parameters:</strong></p>
+<div class="table-wrap"><table><thead><tr><th>Parameter</th><th>Type</th><th>Required</th><th>Description</th></tr></thead><tbody><tr><td><code>productId</code></td><td>string</td><td>Yes</td><td>Product ULID</td></tr></tbody></table></div>
+<p><strong>Request Body:</strong></p>
+<pre><code class="lang-ts">{
+  name?: string;              // max 120
+  description?: string;       // max 1250
+  price?: number;             // not validated; stored as sent _(verified)_
+  category_id?: string;       // not validated; stored as sent _(verified)_
+  brand_id?: string;          // not validated; stored as sent _(verified)_
+  product_image_id?: string;  // not validated; stored as sent _(verified)_
+  is_location_offer?: boolean;
+  is_rental?: boolean;
+  co2_rating?: string;        // not validated; stored as sent _(verified)_
+  stock?: number;             // not validated; stored as sent _(verified)_
+}</code></pre>
+<p><strong>Response:</strong> <code>200 OK</code> <em>(verified)</em><span class="st st-ok" title="A test got 200">✓ tested</span></p>
+<pre><code class="lang-ts">{ success: true }</code></pre>
+<p><strong>Error Responses:</strong></p>
+<ul><li><code>404 Not Found</code>: no product with this id; <code>{ message: &quot;Requested item not found&quot; }</code> <em>(verified)</em><span class="st st-ok" title="A test got 404">✓ tested</span></li><li><code>422 Unprocessable Entity</code>: <code>name</code> or <code>description</code> too long or not a string, or <code>is_location_offer</code>/<code>is_rental</code> not a boolean <em>(verified)</em><span class="st st-ok" title="A test got 422">✓ tested</span></li></ul>
+<hr>
+<h3 id="contract-products-api-md--patch-products-productid">6. Partially update product<a class="cov-chip chip-covered" href="#coverage/endpoint-patch-products-productid" title="Show on the coverage tab">8 calls · 100%</a></h3>
+<p>Updates only the validated fields that are sent. Unlike <code>PUT</code>, fields without a rule (<code>co2_rating</code>, <code>stock</code>) are dropped. <em>(source)</em></p>
+<p><strong>Endpoint:</strong> <code>PATCH /products/{productId}</code></p>
+<p><strong>Auth:</strong> None <em>(source)</em></p>
+<p><strong>Path Parameters:</strong></p>
+<div class="table-wrap"><table><thead><tr><th>Parameter</th><th>Type</th><th>Required</th><th>Description</th></tr></thead><tbody><tr><td><code>productId</code></td><td>string</td><td>Yes</td><td>Product ULID</td></tr></tbody></table></div>
+<p><strong>Request Body:</strong></p>
+<pre><code class="lang-ts">{
+  name?: string;              // max 120
+  description?: string;       // max 1250
+  price?: number;
+  category_id?: string;
+  brand_id?: string;
+  product_image_id?: string;
+  is_location_offer?: boolean;
+  is_rental?: boolean;
+}</code></pre>
+<p><strong>Response:</strong> <code>200 OK</code> <em>(verified)</em><span class="st st-ok" title="A test got 200">✓ tested</span></p>
+<pre><code class="lang-ts">{ success: true }</code></pre>
+<p><strong>Error Responses:</strong></p>
+<ul><li><code>404 Not Found</code>: no product with this id; <code>{ message: &quot;Requested item not found&quot; }</code> <em>(verified)</em><span class="st st-ok" title="A test got 404">✓ tested</span></li><li><code>422 Unprocessable Entity</code>: a sent field fails its rule (e.g. <code>price</code> not numeric) <em>(verified)</em><span class="st st-ok" title="A test got 422">✓ tested</span></li></ul>
+<hr>
+<h3 id="contract-products-api-md--delete-products-productid">7. Delete product<a class="cov-chip chip-covered" href="#coverage/endpoint-delete-products-productid" title="Show on the coverage tab">29 calls · 88%</a></h3>
+<p>Deletes a product. Admin only. <em>(source)</em></p>
+<p><strong>Endpoint:</strong> <code>DELETE /products/{productId}</code></p>
+<p><strong>Auth:</strong> Bearer token, <code>admin</code> role <em>(source)</em></p>
+<p><strong>Path Parameters:</strong></p>
+<div class="table-wrap"><table><thead><tr><th>Parameter</th><th>Type</th><th>Required</th><th>Description</th></tr></thead><tbody><tr><td><code>productId</code></td><td>string</td><td>Yes</td><td>Product ULID</td></tr></tbody></table></div>
+<p><strong>Response:</strong> <code>204 No Content</code> <em>(verified)</em><span class="st st-ok" title="A test got 204">✓ tested</span></p>
+<p><strong>Error Responses:</strong></p>
+<ul><li><code>401 Unauthorized</code>: no token, or an invalid or expired one; <code>{ message: &quot;Unauthorized&quot; }</code> <em>(verified)</em><span class="st st-ok" title="A test got 401">✓ tested</span></li><li><code>403 Forbidden</code>: the token&#039;s user isn&#039;t an admin; <code>{ message: &quot;Forbidden&quot; }</code> <em>(verified)</em><span class="st st-ok" title="A test got 403">✓ tested</span></li><li><code>404 Not Found</code>: no product with this id; <code>{ message: &quot;Requested item not found&quot; }</code> <em>(verified)</em><span class="st st-ok" title="A test got 404">✓ tested</span></li><li><code>409 Conflict</code>: the product is referenced elsewhere (e.g. an invoice line); <code>{ success: false, message: &quot;Seems like this product is used elsewhere.&quot; }</code> <em>(source)</em><span class="st st-miss" title="No test got 409">✗ not tested</span></li></ul>
+<hr>
+<h3 id="contract-products-api-md--get-products-productid-related">8. Get related products<a class="cov-chip chip-covered" href="#coverage/endpoint-get-products-productid-related" title="Show on the coverage tab">3 calls · 100%</a></h3>
+<p>Returns up to 10 other products from the same category as the given product. <em>(verified)</em></p>
+<p><strong>Endpoint:</strong> <code>GET /products/{productId}/related</code></p>
+<p><strong>Auth:</strong> None <em>(source)</em></p>
+<p><strong>Path Parameters:</strong></p>
+<div class="table-wrap"><table><thead><tr><th>Parameter</th><th>Type</th><th>Required</th><th>Description</th></tr></thead><tbody><tr><td><code>productId</code></td><td>string</td><td>Yes</td><td>Product ULID</td></tr></tbody></table></div>
+<p><strong>Response:</strong> <code>200 OK</code> <em>(verified)</em><span class="st st-ok" title="A test got 200">✓ tested</span></p>
+<pre><code class="lang-ts">Array&lt;Omit&lt;Product, &#039;co2_rating&#039;&gt;&gt;   // category has id and name only; no co2_rating field</code></pre>
+<p><strong>Error Responses:</strong></p>
+<ul><li><code>500 Internal Server Error</code>: no product with this id; <code>{ message: &quot;Server Error&quot; }</code>; suspected bug, should be 404 <em>(verified)</em><span class="st st-ok" title="A test got 500">✓ tested</span></li></ul>
+<hr>
+<h3 id="contract-products-api-md--get-products-search">9. Search products<a class="cov-chip chip-covered" href="#coverage/endpoint-get-products-search" title="Show on the coverage tab">6 calls · 100%</a></h3>
+<p>Searches product names. Returns 9 per page. Special characters are stripped from <code>q</code>; an empty or missing <code>q</code> returns an empty page, not an error. <em>(verified)</em></p>
+<p><strong>Endpoint:</strong> <code>GET /products/search</code></p>
+<p><strong>Auth:</strong> None <em>(source)</em></p>
+<p><strong>Query Parameters:</strong></p>
+<div class="table-wrap"><table><thead><tr><th>Parameter</th><th>Type</th><th>Required</th><th>Description</th></tr></thead><tbody><tr><td><code>q</code></td><td>string</td><td>No</td><td>Search term. The spec marks it required, but without it the API returns <code>200</code> with an empty <code>data</code> array.</td></tr><tr><td><code>page</code></td><td>integer</td><td>No</td><td>Page number, starting at 1</td></tr></tbody></table></div>
+<p><strong>Response:</strong> <code>200 OK</code> <em>(verified)</em><span class="st st-ok" title="A test got 200">✓ tested</span></p>
+<pre><code class="lang-ts">{
+  current_page: number;
+  data: Product[];        // category has id and name only
+  from: number | null;    // null when there are no results
+  last_page: number;
+  per_page: number;
+  to: number | null;
+  total: number;
+}</code></pre>
+<hr>
+<h3 id="contract-products-api-md--query-products-search">10. Search products (HTTP QUERY)<a class="cov-chip chip-covered" href="#coverage/endpoint-query-products-search" title="Show on the coverage tab">4 calls · 100%</a></h3>
+<p>Same as <code>GET /products/search</code>, with the criteria in a JSON body. <em>(source)</em></p>
+<p><strong>Endpoint:</strong> <code>QUERY /products/search</code></p>
+<p><strong>Auth:</strong> None <em>(verified)</em></p>
+<p><strong>Request Body:</strong></p>
+<pre><code class="lang-ts">{
+  q?: string;     // without it the result is empty
+  page?: string;
+}</code></pre>
+<p><strong>Response:</strong> <code>200 OK</code> <em>(verified)</em><span class="st st-ok" title="A test got 200">✓ tested</span>
+Same shape as <code>GET /products/search</code>, with the header <code>Accept-Query: application/json</code>. <em>(verified)</em></p>
+<p><strong>Error Responses:</strong></p>
+<ul><li><code>415 Unsupported Media Type</code>: <code>Content-Type</code> is not JSON <em>(verified)</em><span class="st st-ok" title="A test got 415">✓ tested</span></li></ul>
+<hr>
+<h2 id="contract-products-api-md--data-models">Data Models</h2>
+<h3 id="contract-products-api-md--product">Product</h3>
+<p>As returned by <code>GET /products</code>. <em>(verified)</em></p>
+<pre><code class="lang-ts">interface Product {
+  id: string;                 // ULID
+  name: string;
+  description: string;
+  price: number;
+  is_location_offer: boolean;
+  is_rental: boolean;
+  co2_rating: string;
+  in_stock: boolean;          // a number (stock count) when the caller has an admin token
+  is_eco_friendly: boolean;   // true when co2_rating is A or B _(verified)_
+  product_image: ProductImage;
+  category: { id: string; name: string; slug: string };
+  brand: { id: string; name: string };
+}</code></pre>
+<h3 id="contract-products-api-md--productimage">ProductImage</h3>
+<pre><code class="lang-ts">interface ProductImage {
+  id: string;
+  by_name: string;
+  by_url: string;
+  source_name: string;
+  source_url: string;
+  file_name: string;
+  title: string;
+}</code></pre>
+<h3 id="contract-products-api-md--productspec">ProductSpec</h3>
+<p>Returned in <code>specs</code> by <code>GET /products/{productId}</code>. <em>(verified)</em></p>
+<pre><code class="lang-ts">interface ProductSpec {
+  id: string;
+  product_id: string;
+  spec_name: string;
+  spec_value: string;
+  spec_unit: string | null;
+}</code></pre>
+<h2 id="contract-products-api-md--enums">Enums</h2>
+<ul><li><code>sort</code> direction: <code>asc</code>, <code>desc</code>. <em>(spec)</em></li><li><code>co2_rating</code>: <code>A</code> and <code>B</code> count as eco-friendly (case-insensitive); the source doesn&#039;t restrict the other values. <em>(source)</em></li></ul>
+<h2 id="contract-products-api-md--error-handling">Error Handling</h2>
+<ul><li>Errors raised by the framework or the global handler (<code>app/Exceptions/Handler.php</code>) have the body <code>{ message: string }</code>, e.g. <code>&quot;Requested item not found&quot;</code> (unknown id), <code>&quot;Resource not found&quot;</code> (unknown route), <code>&quot;Method is not allowed for the requested route&quot;</code>, <code>&quot;Server Error&quot;</code>. <em>(source)</em></li><li>Validation errors from form requests (<code>422</code>) are a map of field to messages, without a wrapper: <code>{ &quot;name&quot;: [&quot;The name field is required.&quot;], ... }</code> (<code>BaseFormRequest</code>). When every failing rule is a uniqueness rule the status is <code>409</code> instead (no product rule is a uniqueness rule). <em>(source)</em></li><li><code>405 Method Not Allowed</code>: any method a path has no route for, e.g. <code>QUERY /products/{productId}</code>; <code>{ message: &quot;Method is not allowed for the requested route&quot; }</code>. Shared by every route, so it isn&#039;t listed per endpoint. <em>(verified)</em></li><li>Framework errors (e.g. <code>415</code>) are JSON only when the request sends <code>Accept: application/json</code>; otherwise Laravel renders an HTML page. <em>(verified)</em></li></ul>
+<h2 id="contract-products-api-md--notes">Notes</h2>
+<ul><li><strong>No auth on writes:</strong> <code>POST</code>, <code>PUT</code> and <code>PATCH /products</code> accept requests without a token (no auth middleware in <code>ProductController</code>, and the spec has no security on them either). Anyone can create or change products. Suspected security bug. <em>(source)</em></li><li><strong>Spec vs source:</strong> the spec documents <code>200</code> for <code>POST /products</code>, the handler returns <code>201</code>; the spec lists <code>404</code>/<code>405</code> on the list and search endpoints and <code>422</code> on <code>DELETE</code>, which these handlers can&#039;t return. <em>(source)</em></li><li><strong>Related products:</strong> the query doesn&#039;t select <code>co2_rating</code>, so the field is missing and <code>is_eco_friendly</code> is always <code>false</code> in <code>/related</code>. Suspected bug. <em>(source)</em></li><li><strong>Caching:</strong> <code>GET</code> routes send <code>Cache-Control: max-age=120, public</code> and an <code>ETag</code> <em>(verified)</em>; a request with a matching <code>If-None-Match</code> gets <code>304 Not Modified</code> (Laravel <code>cache.headers</code> middleware) <em>(source)</em>. Server-side, product lists and details are cached for 5 minutes, so a change may not show up immediately in <code>GET</code> responses. <em>(source)</em></li><li><strong>OPTIONS:</strong> every product path answers <code>OPTIONS</code> with <code>204</code> and an <code>Allow</code> header listing its methods, e.g. <code>GET, POST, QUERY</code> for <code>/products</code> and <code>DELETE, GET, PATCH, PUT</code> for <code>/products/{productId}</code>. Not in the spec. <em>(verified)</em></li><li><strong>XML:</strong> with <code>Accept: text/xml</code>, most product responses are rendered as XML instead of JSON (<code>Controller::preferredFormat</code>). <em>(source)</em></li><li>Product specs (<code>/products/{productId}/specs</code>) are a separate area (spec tag &quot;Product Spec&quot;) and aren&#039;t documented here.</li></ul></article>
+<article class="contract md" data-file="Users_API.md" hidden><h1 id="contract-users-api-md--users-api-documentation">Users API Documentation</h1>
+<p>Customer accounts and authentication in the Toolshop API: login and tokens, registration, passwords, the current user&#039;s profile, and user administration.</p>
+<blockquote><p>Built from the OpenAPI spec (Toolshop API 5.0.0), the Laravel source (<code>sprint5/API</code>) and read-only calls to the live API on 2026-10-01; facts are tagged by origin.</p></blockquote>
+<h2 id="contract-users-api-md--base-url">Base URL</h2>
+<p><code>https://api.practicesoftwaretesting.com</code> (see <code>apiBaseUrl</code> in <code>src/envs/&lt;ENV&gt;.json</code>).</p>
+<h2 id="contract-users-api-md--authentication">Authentication</h2>
+<ul><li>Scheme: <code>Authorization: Bearer &lt;JWT&gt;</code>. <code>POST /users/login</code> returns the token; it expires after 300 seconds (<code>JWT_TTL</code> defaults to 5 minutes) and can be renewed with <code>GET /users/refresh</code>. <em>(source)</em></li><li>The JWT carries a <code>role</code> claim: <code>admin</code> or <code>user</code>. <em>(source)</em></li><li>Public: <code>POST /users/login</code>, <code>POST /users/register</code>, <code>POST /users/forgot-password</code>, and <code>GET /users/refresh</code> (which reads the token itself). Every other endpoint needs a valid token (<code>auth:users</code> middleware in <code>UserController</code>); <code>GET /users</code> and <code>DELETE /users/{userId}</code> also need the <code>admin</code> role. <em>(source)</em></li><li>Without a token, or with a malformed, expired or logged-out token, protected endpoints return <code>401</code> with <code>{ message: &quot;Unauthorized&quot; }</code>. <em>(verified)</em></li><li><strong>Account state, shared by every endpoint with a token:</strong> a disabled account (<code>enabled: false</code>) gets <code>403</code> with <code>{ message: &quot;Account disabled.&quot; }</code> <em>(verified)</em>. The middleware caches the user for 60 seconds, so a change can take up to a minute to apply. <em>(source)</em></li><li><strong>Login lockout:</strong> after 3 failed logins a non-admin account is locked, and <code>POST /users/login</code> returns <code>423</code> for it even with the right password, until <code>failed_login_attempts</code> is reset (a successful login doesn&#039;t get that far). Admin accounts are never locked. <em>(source)</em></li></ul>
+<h2 id="contract-users-api-md--endpoints-overview">Endpoints Overview</h2>
+<div class="table-wrap"><table><thead><tr><th>Method</th><th>Path</th><th>Description</th><th>Auth</th></tr></thead><tbody><tr><td>POST</td><td><code>/users/login</code></td><td>Log in, get a token</td><td>None</td></tr><tr><td>POST</td><td><code>/users/register</code></td><td>Register a customer</td><td>None</td></tr><tr><td>POST</td><td><code>/users/forgot-password</code></td><td>Reset a password to <code>welcome02</code></td><td>None</td></tr><tr><td>POST</td><td><code>/users/change-password</code></td><td>Change the current user&#039;s password</td><td>Any user</td></tr><tr><td>GET</td><td><code>/users/me</code></td><td>Current user&#039;s profile</td><td>Any user</td></tr><tr><td>GET</td><td><code>/users/logout</code></td><td>Invalidate the token</td><td>Any user</td></tr><tr><td>GET</td><td><code>/users/refresh</code></td><td>Get a new token</td><td>Token in header</td></tr><tr><td>GET</td><td><code>/users</code></td><td>List customers</td><td>Admin</td></tr><tr><td>GET</td><td><code>/users/search</code></td><td>Search customers</td><td>Any user</td></tr><tr><td>QUERY</td><td><code>/users/search</code></td><td>Search customers, criteria in a JSON body</td><td>Any user</td></tr><tr><td>GET</td><td><code>/users/{userId}</code></td><td>Get a user</td><td>Any user (own id) or admin</td></tr><tr><td>PUT</td><td><code>/users/{userId}</code></td><td>Update a user</td><td>Any user (own id) or admin</td></tr><tr><td>PATCH</td><td><code>/users/{userId}</code></td><td>Partially update a user</td><td>Any user (own id) or admin</td></tr><tr><td>DELETE</td><td><code>/users/{userId}</code></td><td>Delete a user</td><td>Admin</td></tr></tbody></table></div>
+<h2 id="contract-users-api-md--data-required-for-successful-requests">Data required for successful requests</h2>
+<div class="table-wrap"><table><thead><tr><th>Data</th><th>Needed by</th><th>Requirements</th></tr></thead><tbody><tr><td>Customer credentials</td><td><code>POST /users/login</code></td><td>An existing, enabled account that isn&#039;t locked (fewer than 3 failed logins in a row). Test users come from <code>testUsers</code> in <code>src/envs/&lt;ENV&gt;.json</code> and <code>.env</code>.</td></tr><tr><td>User token</td><td>Every endpoint marked &quot;Any user&quot;</td><td>From <code>POST /users/login</code>; valid for 300 seconds.</td></tr><tr><td>Admin token</td><td><code>GET /users</code>, <code>DELETE /users/{userId}</code>; any user&#039;s id on <code>GET</code>/<code>PUT</code>/<code>PATCH /users/{userId}</code></td><td>Token of a user whose <code>role</code> is <code>admin</code>.</td></tr><tr><td>User id (ULID)</td><td><code>/users/{userId}</code> endpoints</td><td>Your own id from <code>GET /users/me</code>, or any id with an admin token.</td></tr><tr><td>Unique email</td><td><code>POST /users/register</code>; <code>email</code> in <code>PUT</code>/<code>PATCH /users/{userId}</code></td><td>Not used by any other account.</td></tr><tr><td>Strong password</td><td><code>POST /users/register</code>, <code>POST /users/change-password</code></td><td>At least 8 characters, upper and lower case, a number and a symbol, and not found in public data breaches (Laravel <code>Password::uncompromised()</code>).</td></tr><tr><td>Adult date of birth</td><td><code>dob</code> in register, <code>PUT</code>, <code>PATCH</code></td><td>Format <code>YYYY-MM-DD</code>, at least 18 years ago.</td></tr><tr><td>A user nobody references</td><td><code>DELETE /users/{userId}</code></td><td>A user with invoices, favorites or other references can&#039;t be deleted (<code>409</code>).</td></tr></tbody></table></div>
+<h2 id="contract-users-api-md--endpoints">Endpoints</h2>
+<h3 id="contract-users-api-md--post-users-login">1. Login<a class="cov-chip chip-covered" href="#coverage/endpoint-post-users-login" title="Show on the coverage tab">19 calls · 91%</a></h3>
+<p>Returns a JWT for the <code>Authorization: Bearer &lt;token&gt;</code> header. Accounts with two-factor auth (TOTP) get a restricted temporary token instead, which is exchanged for a full token by sending it back with the TOTP code. <em>(source)</em></p>
+<p><strong>Endpoint:</strong> <code>POST /users/login</code></p>
+<p><strong>Auth:</strong> None <em>(source)</em></p>
+<p><strong>Request Body:</strong></p>
+<pre><code class="lang-ts">{
+  email?: string;         // with password: the normal login
+  password?: string;
+  access_token?: string;  // with totp: the second step of a TOTP login
+  totp?: string;
+}</code></pre>
+<p>Send either <code>email</code> and <code>password</code>, or <code>access_token</code> and <code>totp</code>. Neither pair is validated as required; a body with neither gets <code>401</code>. <em>(source)</em></p>
+<p><strong>Response:</strong> <code>200 OK</code> <em>(verified)</em><span class="st st-ok" title="A test got 200">✓ tested</span></p>
+<pre><code class="lang-ts">{
+  access_token: string;
+  token_type: string;   // &quot;bearer&quot;
+  expires_in: number;   // 300
+}</code></pre>
+<p>For an account with TOTP enabled, the first step returns <code>200</code> with <code>{ message: &quot;TOTP required&quot;; requires_totp: true; access_token: string }</code> instead. <em>(source)</em></p>
+<p><strong>Error Responses:</strong></p>
+<ul><li><code>401 Unauthorized</code>: wrong email or password (or an email no account has), <code>{ error: &quot;Unauthorized&quot; }</code> <em>(verified)</em>; neither credential pair in the body, <code>{ error: &quot;Invalid login request&quot; }</code> <em>(verified)</em>; a non-restricted (full) token in the TOTP step, <code>{ error: &quot;Unauthorized token usage&quot; }</code> <em>(verified)</em>; a wrong TOTP code <em>(source)</em><span class="st st-ok" title="A test got 401">✓ tested</span></li><li><code>400 Bad Request</code>: TOTP step with an invalid <code>access_token</code>, <code>{ error: &quot;Invalid or expired token&quot; }</code> <em>(verified)</em>; the same for an expired one <em>(source)</em><span class="st st-ok" title="A test got 400">✓ tested</span></li><li><code>403 Forbidden</code>: right credentials, but the account is disabled; <code>{ error: &quot;Account disabled&quot; }</code> <em>(verified)</em><span class="st st-ok" title="A test got 403">✓ tested</span></li><li><code>423 Locked</code>: non-admin account with 3 or more failed logins; <code>{ error: &quot;Account locked, too many failed attempts. Please contact the administrator.&quot; }</code> <em>(source)</em><span class="st st-miss" title="No test got 423">✗ not tested</span></li></ul>
+<hr>
+<h3 id="contract-users-api-md--post-users-register">2. Register<a class="cov-chip chip-covered" href="#coverage/endpoint-post-users-register" title="Show on the coverage tab">20 calls · 98%</a></h3>
+<p>Creates a customer account (role <code>user</code>). <em>(source)</em></p>
+<p><strong>Endpoint:</strong> <code>POST /users/register</code></p>
+<p><strong>Auth:</strong> None <em>(source)</em></p>
+<p><strong>Request Body:</strong></p>
+<pre><code class="lang-ts">{
+  first_name: string;       // max 40
+  last_name: string;        // max 20
+  email: string;            // max 256, unique
+  password: string;         // see &quot;Strong password&quot; above
+  address?: {
+    street?: string;        // max 70
+    house_number?: string | null;  // max 10
+    city?: string;          // max 40
+    state?: string;         // max 40
+    country?: string;       // max 40
+    postal_code?: string;   // max 10; must match the country&#039;s format when country is sent
+  };
+  phone?: string;           // max 24
+  dob?: string;             // YYYY-MM-DD, at least 18 years ago
+}</code></pre>
+<p>No text field may contain Unicode subscript or superscript characters. <em>(source)</em></p>
+<p><strong>Response:</strong> <code>201 Created</code> <em>(verified)</em><span class="st st-ok" title="A test got 201">✓ tested</span></p>
+<pre><code class="lang-ts">{
+  id: string;
+  first_name: string;
+  last_name: string;
+  email: string;
+  phone?: string;
+  dob?: string;
+  created_at: string;
+  address: Address;
+}</code></pre>
+<p>The created user as stored, so only the fields that were sent appear (plus <code>id</code>, <code>created_at</code> and <code>address</code>). <em>(source)</em></p>
+<p><strong>Error Responses:</strong></p>
+<ul><li><code>409 Conflict</code>: the only failing rule is the unique email; <code>{ email: [&quot;A customer with this email address already exists.&quot;] }</code> <em>(verified)</em><span class="st st-ok" title="A test got 409">✓ tested</span></li><li><code>422 Unprocessable Entity</code>: a required field is missing or a field fails its rule (also when the email is taken and another field fails too); body <code>{ &lt;field&gt;: string[] }</code> <em>(verified)</em><span class="st st-ok" title="A test got 422">✓ tested</span></li></ul>
+<hr>
+<h3 id="contract-users-api-md--post-users-forgot-password">3. Forgot password<a class="cov-chip chip-uncovered" href="#coverage/endpoint-post-users-forgot-password" title="Show on the coverage tab">0 calls · 0%</a></h3>
+<p>Sets the account&#039;s password to <code>welcome02</code>. No email confirmation or token is involved. <em>(source)</em></p>
+<p><strong>Endpoint:</strong> <code>POST /users/forgot-password</code></p>
+<p><strong>Auth:</strong> None <em>(source)</em></p>
+<p><strong>Request Body:</strong></p>
+<pre><code class="lang-ts">{
+  email: string;
+}</code></pre>
+<p><strong>Response:</strong> <code>200 OK</code> <em>(source)</em><span class="st st-miss" title="No test got 200">✗ not tested</span></p>
+<pre><code class="lang-ts">{ success: true }</code></pre>
+<p><strong>Error Responses:</strong></p>
+<ul><li><code>404 Not Found</code>: no <code>email</code> in the body (the <code>exists</code> rule is skipped and the lookup fails); <code>{ message: &quot;Requested item not found&quot; }</code> <em>(source)</em><span class="st st-miss" title="No test got 404">✗ not tested</span></li><li><code>422 Unprocessable Entity</code>: no account with this email; framework default body <code>{ message: string; errors: { email: string[] } }</code> <em>(source)</em><span class="st st-miss" title="No test got 422">✗ not tested</span></li></ul>
+<hr>
+<h3 id="contract-users-api-md--post-users-change-password">4. Change password<a class="cov-chip chip-uncovered" href="#coverage/endpoint-post-users-change-password" title="Show on the coverage tab">0 calls · 0%</a></h3>
+<p>Changes the current user&#039;s password. <em>(source)</em></p>
+<p><strong>Endpoint:</strong> <code>POST /users/change-password</code></p>
+<p><strong>Auth:</strong> Bearer token, any role <em>(source)</em></p>
+<p><strong>Request Body:</strong></p>
+<pre><code class="lang-ts">{
+  current_password: string;
+  new_password: string;               // see &quot;Strong password&quot; above
+  new_password_confirmation: string;  // must equal new_password
+}</code></pre>
+<p><strong>Response:</strong> <code>200 OK</code> <em>(source)</em><span class="st st-miss" title="No test got 200">✗ not tested</span></p>
+<pre><code class="lang-ts">{ success: true }</code></pre>
+<p><strong>Error Responses:</strong></p>
+<ul><li><code>401 Unauthorized</code>: no token, or an invalid or expired one <em>(source)</em><span class="st st-miss" title="No test got 401">✗ not tested</span></li><li><code>400 Bad Request</code>: <code>current_password</code> is wrong or missing, or <code>new_password</code> equals it; <code>{ success: false, message: string }</code> <em>(source)</em><span class="st st-miss" title="No test got 400">✗ not tested</span></li><li><code>422 Unprocessable Entity</code>: <code>new_password</code> fails the password rules or doesn&#039;t match the confirmation; framework default body <code>{ message: string; errors: { new_password: string[] } }</code> <em>(source)</em><span class="st st-miss" title="No test got 422">✗ not tested</span></li></ul>
+<hr>
+<h3 id="contract-users-api-md--get-users-me">5. Current user<a class="cov-chip chip-covered" href="#coverage/endpoint-get-users-me" title="Show on the coverage tab">11 calls · 100%</a></h3>
+<p>Profile of the user the token belongs to. <code>role</code>, <code>enabled</code> and <code>failed_login_attempts</code> are returned only when the caller is an admin. <em>(verified)</em></p>
+<p><strong>Endpoint:</strong> <code>GET /users/me</code></p>
+<p><strong>Auth:</strong> Bearer token, any role <em>(source)</em></p>
+<p><strong>Response:</strong> <code>200 OK</code> <em>(verified)</em><span class="st st-ok" title="A test got 200">✓ tested</span></p>
+<pre><code class="lang-ts">User</code></pre>
+<p><strong>Error Responses:</strong></p>
+<ul><li><code>401 Unauthorized</code>: no token, or a malformed one; <code>{ message: &quot;Unauthorized&quot; }</code> <em>(verified)</em><span class="st st-ok" title="A test got 401">✓ tested</span></li></ul>
+<hr>
+<h3 id="contract-users-api-md--get-users-logout">6. Logout<a class="cov-chip chip-covered" href="#coverage/endpoint-get-users-logout" title="Show on the coverage tab">6 calls · 100%</a></h3>
+<p>Invalidates (blacklists) the token. Later requests with it get <code>401</code>. <em>(verified)</em></p>
+<p><strong>Endpoint:</strong> <code>GET /users/logout</code></p>
+<p><strong>Auth:</strong> Bearer token, any role <em>(source)</em></p>
+<p><strong>Response:</strong> <code>200 OK</code> <em>(verified)</em><span class="st st-ok" title="A test got 200">✓ tested</span></p>
+<pre><code class="lang-ts">{ message: string }   // &quot;Successfully logged out&quot;</code></pre>
+<p><strong>Error Responses:</strong></p>
+<ul><li><code>401 Unauthorized</code>: no token <em>(verified)</em>; an invalid or already logged-out token gives the same <em>(verified)</em><span class="st st-ok" title="A test got 401">✓ tested</span></li></ul>
+<hr>
+<h3 id="contract-users-api-md--get-users-refresh">7. Refresh token<a class="cov-chip chip-covered" href="#coverage/endpoint-get-users-refresh" title="Show on the coverage tab">6 calls · 100%</a></h3>
+<p>Returns a new token for the one in the <code>Authorization</code> header and invalidates the old one. An expired token can still be refreshed within the refresh window (<code>JWT_REFRESH_TTL</code>, 60 minutes by default). This route has no auth middleware; the token is read by the handler. <em>(source)</em></p>
+<p><strong>Endpoint:</strong> <code>GET /users/refresh</code></p>
+<p><strong>Auth:</strong> Bearer token (read by the handler, not by middleware) <em>(source)</em></p>
+<p><strong>Response:</strong> <code>200 OK</code> <em>(verified)</em><span class="st st-ok" title="A test got 200">✓ tested</span></p>
+<pre><code class="lang-ts">{
+  access_token: string;
+  token_type: string;   // &quot;bearer&quot;
+  expires_in: number;
+}</code></pre>
+<p><strong>Error Responses:</strong></p>
+<ul><li><code>401 Unauthorized</code>: the token is past the refresh window (<code>&quot;Token has expired and can no longer be refreshed&quot;</code>) <em>(source)</em>; or it was invalidated by logout or an earlier refresh (<code>&quot;Token is not valid&quot;</code>) <em>(verified)</em><span class="st st-ok" title="A test got 401">✓ tested</span></li><li><code>500 Internal Server Error</code>: no token, or a malformed one; <code>{ message: &quot;Server Error&quot; }</code>; suspected bug, should be 401 <em>(verified)</em><span class="st st-ok" title="A test got 500">✓ tested</span></li></ul>
+<hr>
+<h3 id="contract-users-api-md--get-users">8. List users<a class="cov-chip chip-uncovered" href="#coverage/endpoint-get-users" title="Show on the coverage tab">0 calls · 0%</a></h3>
+<p>Lists customer accounts (role <code>user</code> only), 15 per page. Admin only. <em>(source)</em></p>
+<p><strong>Endpoint:</strong> <code>GET /users</code></p>
+<p><strong>Auth:</strong> Bearer token, <code>admin</code> role <em>(source)</em></p>
+<p><strong>Query Parameters:</strong></p>
+<div class="table-wrap"><table><thead><tr><th>Parameter</th><th>Type</th><th>Required</th><th>Description</th></tr></thead><tbody><tr><td><code>page</code></td><td>integer</td><td>No</td><td>Page number, starting at 1</td></tr></tbody></table></div>
+<p><strong>Response:</strong> <code>200 OK</code> <em>(source)</em><span class="st st-miss" title="No test got 200">✗ not tested</span></p>
+<pre><code class="lang-ts">{
+  current_page: number;
+  data: User[];
+  from: number | null;
+  last_page: number;
+  per_page: number;
+  to: number | null;
+  total: number;
+}</code></pre>
+<p><strong>Error Responses:</strong></p>
+<ul><li><code>401 Unauthorized</code>: no token <em>(verified)</em><span class="st st-miss" title="No test got 401">✗ not tested</span></li><li><code>403 Forbidden</code>: the user isn&#039;t an admin; <code>{ message: &quot;Forbidden&quot; }</code> <em>(source)</em><span class="st st-miss" title="No test got 403">✗ not tested</span></li></ul>
+<hr>
+<h3 id="contract-users-api-md--get-users-search">9. Search users<a class="cov-chip chip-uncovered" href="#coverage/endpoint-get-users-search" title="Show on the coverage tab">0 calls · 0%</a></h3>
+<p>Searches customer accounts (role <code>user</code> only) by first name, last name, email and city. Any logged-in user can search (see Notes). Returns 15 per page. <em>(source)</em></p>
+<p><strong>Endpoint:</strong> <code>GET /users/search</code></p>
+<p><strong>Auth:</strong> Bearer token, any role <em>(source)</em></p>
+<p><strong>Query Parameters:</strong></p>
+<div class="table-wrap"><table><thead><tr><th>Parameter</th><th>Type</th><th>Required</th><th>Description</th></tr></thead><tbody><tr><td><code>q</code></td><td>string</td><td>No</td><td>Search term. The spec marks it required; without it every customer matches.</td></tr><tr><td><code>page</code></td><td>integer</td><td>No</td><td>Page number, starting at 1</td></tr></tbody></table></div>
+<p><strong>Response:</strong> <code>200 OK</code> <em>(source)</em><span class="st st-miss" title="No test got 200">✗ not tested</span></p>
+<pre><code class="lang-ts">{
+  current_page: number;
+  data: User[];
+  from: number | null;
+  last_page: number;
+  per_page: number;
+  to: number | null;
+  total: number;
+}</code></pre>
+<p>The spec documents a plain <code>User[]</code> array; the handler returns this paginated object. <em>(source)</em></p>
+<p><strong>Error Responses:</strong></p>
+<ul><li><code>401 Unauthorized</code>: no token <em>(verified)</em><span class="st st-miss" title="No test got 401">✗ not tested</span></li></ul>
+<hr>
+<h3 id="contract-users-api-md--query-users-search">10. Search users (HTTP QUERY)<a class="cov-chip chip-uncovered" href="#coverage/endpoint-query-users-search" title="Show on the coverage tab">0 calls · 0%</a></h3>
+<p>Same as <code>GET /users/search</code>, with the criteria in a JSON body. <em>(source)</em></p>
+<p><strong>Endpoint:</strong> <code>QUERY /users/search</code></p>
+<p><strong>Auth:</strong> Bearer token, any role <em>(source)</em></p>
+<p><strong>Request Body:</strong></p>
+<pre><code class="lang-ts">{
+  q?: string;
+  page?: string;
+}</code></pre>
+<p><strong>Response:</strong> <code>200 OK</code> <em>(source)</em><span class="st st-miss" title="No test got 200">✗ not tested</span>
+Same shape as <code>GET /users/search</code>, with the header <code>Accept-Query: application/json</code>. <em>(source)</em></p>
+<p><strong>Error Responses:</strong></p>
+<ul><li><code>401 Unauthorized</code>: no token (sent with <code>Content-Type: application/json</code>) <em>(verified)</em><span class="st st-miss" title="No test got 401">✗ not tested</span></li><li><code>415 Unsupported Media Type</code>: <code>Content-Type</code> is not JSON; checked by route middleware before the token, so it applies without a token too <em>(source)</em><span class="st st-miss" title="No test got 415">✗ not tested</span></li></ul>
+<hr>
+<h3 id="contract-users-api-md--get-users-userid">11. Get user<a class="cov-chip chip-uncovered" href="#coverage/endpoint-get-users-userid" title="Show on the coverage tab">0 calls · 0%</a></h3>
+<p>Returns a user. A non-admin can only get their own record. <em>(source)</em></p>
+<p><strong>Endpoint:</strong> <code>GET /users/{userId}</code></p>
+<p><strong>Auth:</strong> Bearer token; own id, or any id with the <code>admin</code> role <em>(source)</em></p>
+<p><strong>Path Parameters:</strong></p>
+<div class="table-wrap"><table><thead><tr><th>Parameter</th><th>Type</th><th>Required</th><th>Description</th></tr></thead><tbody><tr><td><code>userId</code></td><td>string</td><td>Yes</td><td>User ULID</td></tr></tbody></table></div>
+<p><strong>Response:</strong> <code>200 OK</code> <em>(source)</em><span class="st st-miss" title="No test got 200">✗ not tested</span></p>
+<pre><code class="lang-ts">User</code></pre>
+<p><strong>Error Responses:</strong></p>
+<ul><li><code>401 Unauthorized</code>: no token <em>(verified)</em><span class="st st-miss" title="No test got 401">✗ not tested</span></li><li><code>404 Not Found</code>: no user with this id, or a non-admin asks for another user&#039;s id; <code>{ error: string }</code> <em>(source)</em><span class="st st-miss" title="No test got 404">✗ not tested</span></li></ul>
+<hr>
+<h3 id="contract-users-api-md--put-users-userid">12. Update user<a class="cov-chip chip-uncovered" href="#coverage/endpoint-put-users-userid" title="Show on the coverage tab">0 calls · 0%</a></h3>
+<p>Updates a user&#039;s profile. A non-admin can only update their own record; only an admin can send <code>role</code>. <code>password</code> is ignored (use change-password). <em>(source)</em></p>
+<p><strong>Endpoint:</strong> <code>PUT /users/{userId}</code></p>
+<p><strong>Auth:</strong> Bearer token; own id, or any id with the <code>admin</code> role <em>(source)</em></p>
+<p><strong>Path Parameters:</strong></p>
+<div class="table-wrap"><table><thead><tr><th>Parameter</th><th>Type</th><th>Required</th><th>Description</th></tr></thead><tbody><tr><td><code>userId</code></td><td>string</td><td>Yes</td><td>User ULID</td></tr></tbody></table></div>
+<p><strong>Request Body:</strong></p>
+<pre><code class="lang-ts">{
+  first_name: string;       // max 40
+  last_name: string;        // max 20
+  email: string;            // max 256
+  address: {
+    street: string;         // max 70
+    city: string;           // max 40
+    country: string;        // max 40
+    house_number?: string | null;  // max 10
+    state?: string | null;  // max 40
+    postal_code?: string | null;   // max 10
+  };
+  phone?: string | null;    // 7 to 24 of: digits, spaces, ( ) + - .
+  dob?: string;             // YYYY-MM-DD, at least 18 years ago
+  role?: string;            // admin only
+}</code></pre>
+<p><strong>Response:</strong> <code>200 OK</code> <em>(source)</em><span class="st st-miss" title="No test got 200">✗ not tested</span></p>
+<pre><code class="lang-ts">{ success: boolean }</code></pre>
+<p><strong>Error Responses:</strong></p>
+<ul><li><code>401 Unauthorized</code>: no token, or an invalid or expired one <em>(source)</em><span class="st st-miss" title="No test got 401">✗ not tested</span></li><li><code>403 Forbidden</code>: a non-admin updates another user (<code>&quot;You can only update your own data.&quot;</code>) or sends <code>role</code> (<code>&quot;Only admins can update the role.&quot;</code>); also, as suspected bugs, an unknown id (should be 404) and an email already used by another account (should be 409/422, and the body leaks the SQL error); body <code>{ error: string }</code> <em>(source)</em><span class="st st-miss" title="No test got 403">✗ not tested</span></li><li><code>422 Unprocessable Entity</code>: a required field is missing or a field fails its rule; body <code>{ &lt;field&gt;: string[] }</code> <em>(source)</em><span class="st st-miss" title="No test got 422">✗ not tested</span></li></ul>
+<hr>
+<h3 id="contract-users-api-md--patch-users-userid">13. Partially update user<a class="cov-chip chip-covered" href="#coverage/endpoint-patch-users-userid" title="Show on the coverage tab">2 calls · 44%</a></h3>
+<p>Updates only the validated fields that are sent. A non-admin can only patch their own record. <em>(source)</em></p>
+<p><strong>Endpoint:</strong> <code>PATCH /users/{userId}</code></p>
+<p><strong>Auth:</strong> Bearer token; own id, or any id with the <code>admin</code> role <em>(source)</em></p>
+<p><strong>Path Parameters:</strong></p>
+<div class="table-wrap"><table><thead><tr><th>Parameter</th><th>Type</th><th>Required</th><th>Description</th></tr></thead><tbody><tr><td><code>userId</code></td><td>string</td><td>Yes</td><td>User ULID</td></tr></tbody></table></div>
+<p><strong>Request Body:</strong></p>
+<pre><code class="lang-ts">{
+  first_name?: string;
+  last_name?: string;
+  email?: string;
+  address?: {
+    street?: string;
+    house_number?: string | null;
+    city?: string;
+    state?: string | null;
+    country?: string;
+    postal_code?: string | null;
+  };
+  phone?: string | null;
+  dob?: string;
+  enabled?: boolean;
+  failed_login_attempts?: number;
+  totp_enabled?: boolean;
+  totp_secret?: string | null;
+  totp_verified_at?: string | null;
+}</code></pre>
+<p>The same length and format rules as <code>PUT</code> apply. <code>role</code> has no rule, so it&#039;s dropped silently, even for admins. <em>(source)</em></p>
+<p><strong>Response:</strong> <code>200 OK</code> <em>(source)</em><span class="st st-ok" title="A test got 200">✓ tested</span></p>
+<pre><code class="lang-ts">{ success: true }</code></pre>
+<p><strong>Error Responses:</strong></p>
+<ul><li><code>401 Unauthorized</code>: no token, or an invalid or expired one <em>(source)</em><span class="st st-miss" title="No test got 401">✗ not tested</span></li><li><code>403 Forbidden</code>: a non-admin patches another user; also, as suspected bugs, an unknown id (should be 404) and an email already used by another account; body <code>{ error: string }</code> <em>(source)</em><span class="st st-miss" title="No test got 403">✗ not tested</span></li><li><code>422 Unprocessable Entity</code>: a sent field fails its rule (e.g. <code>phone</code> with letters, <code>dob</code> under 18) <em>(source)</em><span class="st st-miss" title="No test got 422">✗ not tested</span></li></ul>
+<hr>
+<h3 id="contract-users-api-md--delete-users-userid">14. Delete user<a class="cov-chip chip-covered" href="#coverage/endpoint-delete-users-userid" title="Show on the coverage tab">8 calls · 52%</a></h3>
+<p>Deletes a user. Admin only. <em>(source)</em></p>
+<p><strong>Endpoint:</strong> <code>DELETE /users/{userId}</code></p>
+<p><strong>Auth:</strong> Bearer token, <code>admin</code> role <em>(source)</em></p>
+<p><strong>Path Parameters:</strong></p>
+<div class="table-wrap"><table><thead><tr><th>Parameter</th><th>Type</th><th>Required</th><th>Description</th></tr></thead><tbody><tr><td><code>userId</code></td><td>string</td><td>Yes</td><td>User ULID</td></tr></tbody></table></div>
+<p><strong>Response:</strong> <code>204 No Content</code> <em>(verified)</em><span class="st st-ok" title="A test got 204">✓ tested</span></p>
+<p><strong>Error Responses:</strong></p>
+<ul><li><code>401 Unauthorized</code>: no token, or an invalid or expired one <em>(source)</em><span class="st st-miss" title="No test got 401">✗ not tested</span></li><li><code>403 Forbidden</code>: the user isn&#039;t an admin; <code>{ message: &quot;Forbidden&quot; }</code> <em>(source)</em><span class="st st-miss" title="No test got 403">✗ not tested</span></li><li><code>409 Conflict</code>: the user is referenced elsewhere (invoices, favorites); <code>{ success: false, message: &quot;Seems like this customer is used elsewhere.&quot; }</code> <em>(source)</em><span class="st st-miss" title="No test got 409">✗ not tested</span></li><li><code>500 Internal Server Error</code>: no user with this id; <code>{ error: string }</code>; suspected bug, should be 404 <em>(source)</em><span class="st st-miss" title="No test got 500">✗ not tested</span></li></ul>
+<hr>
+<h2 id="contract-users-api-md--data-models">Data Models</h2>
+<h3 id="contract-users-api-md--user">User</h3>
+<p>As returned by <code>/users/me</code>, <code>/users/{userId}</code>, the lists and search. <em>(source)</em></p>
+<pre><code class="lang-ts">interface User {
+  id: string;               // ULID
+  provider: string | null;  // social login provider
+  first_name: string;
+  last_name: string;
+  phone: string | null;
+  dob: string | null;       // YYYY-MM-DD
+  email: string;
+  totp_enabled: boolean;
+  created_at: string;       // &quot;YYYY-MM-DD HH:mm:ss&quot;
+  address: Address;
+  // only when the caller is an admin:
+  role?: string;            // &quot;admin&quot; | &quot;user&quot;
+  enabled?: boolean;
+  failed_login_attempts?: number;
+}</code></pre>
+<h3 id="contract-users-api-md--address">Address</h3>
+<pre><code class="lang-ts">interface Address {
+  street: string | null;
+  house_number: string | null;
+  city: string | null;
+  state: string | null;
+  country: string | null;
+  postal_code: string | null;
+}</code></pre>
+<h2 id="contract-users-api-md--enums">Enums</h2>
+<ul><li><code>role</code>: <code>admin</code>, <code>user</code>. Registration always creates <code>user</code>. <em>(source)</em></li><li><code>token_type</code>: <code>bearer</code>. <em>(source)</em></li></ul>
+<h2 id="contract-users-api-md--error-handling">Error Handling</h2>
+<ul><li>Errors from middleware and the global handler (<code>app/Exceptions/Handler.php</code>) have the body <code>{ message: string }</code>, e.g. <code>&quot;Unauthorized&quot;</code>, <code>&quot;Forbidden&quot;</code>, <code>&quot;Requested item not found&quot;</code>, <code>&quot;Method is not allowed for the requested route&quot;</code>, <code>&quot;Server Error&quot;</code>. <em>(verified)</em></li><li><code>UserController</code> builds its own errors as <code>{ error: string }</code> (login, get, update, patch, delete) or <code>{ success: false, message: string }</code> (change-password, delete conflicts). <em>(source)</em></li><li>Validation by form requests (register, <code>PUT</code>, <code>PATCH</code>) returns <code>{ &lt;field&gt;: string[] }</code>, with <code>409</code> when only uniqueness rules failed and <code>422</code> otherwise (<code>BaseFormRequest</code>). Inline validation (forgot-password, change-password) returns Laravel&#039;s default <code>{ message: string; errors: { &lt;field&gt;: string[] } }</code> with <code>422</code>. <em>(source)</em></li><li><code>405 Method Not Allowed</code>: any method a path has no route for, e.g. <code>QUERY /users/me</code>; <code>{ message: &quot;Method is not allowed for the requested route&quot; }</code>. Not listed per endpoint. <em>(verified)</em></li><li>Framework errors are JSON only when the request sends <code>Accept: application/json</code>; otherwise Laravel may render HTML (and <code>422</code> from inline validation becomes a redirect). <em>(source)</em></li></ul>
+<h2 id="contract-users-api-md--notes">Notes</h2>
+<ul><li><strong>Path collisions:</strong> <code>/users/{userId}</code> also matches words such as <code>login</code> or <code>register</code> for the methods those paths don&#039;t define, e.g. <code>GET /users/login</code> is &quot;get user <code>login</code>&quot; and needs a token. <code>OPTIONS /users/me</code> answers <code>Allow: DELETE, GET, PATCH, PUT</code> for the same reason. <em>(verified)</em></li><li><strong>OPTIONS:</strong> every users path answers <code>OPTIONS</code> with <code>204</code> and an <code>Allow</code> header. Not in the spec. <em>(verified)</em></li><li><strong>Search is open to every logged-in user:</strong> <code>GET</code>/<code>QUERY /users/search</code> has no role check, so any customer can list other customers&#039; names, emails and cities. Suspected privacy bug. <em>(source)</em></li><li><strong>Self-service account flags:</strong> <code>PATCH /users/{userId}</code> validates and saves <code>enabled</code>, <code>failed_login_attempts</code> and the <code>totp_*</code> fields for the user&#039;s own record, so a customer can change them. Suspected bug. <em>(source)</em></li><li><strong>Age check bug:</strong> the register rule meant to reject customers older than 75 (<code>&quot;Customer must be younger than 75 years old.&quot;</code>) subtracts 75 years from a date that already had 18 subtracted, so it only rejects birth dates more than 93 years ago. <em>(source)</em></li><li><strong>Forgot password</strong> resets any account&#039;s password to <code>welcome02</code> without a token; don&#039;t call it for shared test accounts. <em>(source)</em></li><li><strong>Breach check:</strong> register and change-password check the new password against the Have I Been Pwned service (<code>uncompromised()</code>), so they depend on that service. <em>(source)</em></li><li><strong>Spec vs source:</strong><ul><li><code>POST /users/login</code>: the spec lists no error codes; the handler returns <code>400</code>, <code>401</code>, <code>403</code> and <code>423</code>.</li><li><code>POST /users/register</code> and <code>POST /users/forgot-password</code>: the spec lists <code>400</code>, <code>401</code> and <code>403</code>, which these public handlers can&#039;t return; it omits register&#039;s <code>422</code> and forgot-password&#039;s <code>404</code> and <code>422</code>.</li><li><code>PUT /users/{userId}</code>: the spec marks <code>password</code> required; the handler ignores it. The spec&#039;s <code>409</code> can&#039;t happen (no uniqueness rule; a duplicate email gives <code>403</code>).</li><li><code>GET /users/search</code>: the spec says it returns an array and searches first name, last name and city; the handler returns a paginated object and also searches email.</li><li><code>GET /users</code> and <code>GET /users/refresh</code>: the spec lists <code>400</code>, which the source doesn&#039;t produce; refresh&#039;s no-token <code>500</code> isn&#039;t in the spec.</li><li><code>DELETE /users/{userId}</code>: the spec lists <code>404</code>; the handler returns <code>500</code> for an unknown id.</li><li>The spec&#039;s <code>UserResponse</code> always includes <code>enabled</code> and <code>failed_login_attempts</code>; the API returns them to admins only. <em>(source)</em></li></ul></li></ul></article>
+      </div>
+    </div>
+    </section>
   </div>
 
   <script>
@@ -1570,6 +2650,54 @@
         card.style.display = visible ? 'block' : 'none';
       });
     }
+
+    // Tabs and deep links: #coverage[/<card id>] and #contract[/<file>[/<anchor>]].
+    function showTab(name) {
+      const coverage = document.getElementById('tab-coverage');
+      const contracts = document.getElementById('tab-contracts');
+      if (!contracts) return;
+      coverage.hidden = name !== 'coverage';
+      contracts.hidden = name !== 'contracts';
+      document.querySelectorAll('.tab-link').forEach((a) => a.classList.toggle('active', a.dataset.tab === name));
+    }
+
+    function showContract(file) {
+      const articles = Array.from(document.querySelectorAll('article.contract'));
+      const target = articles.find((a) => a.dataset.file === file) || articles[0];
+      articles.forEach((a) => { a.hidden = a !== target; });
+      document.querySelectorAll('.nav-file-link').forEach((a) => a.classList.toggle('active', !!target && a.dataset.file === target.dataset.file));
+      return target;
+    }
+
+    function slug(text) {
+      return text.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '') || 'section';
+    }
+
+    function route() {
+      const parts = location.hash.slice(1).split('/').map((p) => { try { return decodeURIComponent(p); } catch { return p; } });
+      if (parts[0] === 'contract') {
+        showTab('contracts');
+        const article = showContract(parts[1] || '');
+        const heading = article && parts[2] ? document.getElementById('contract-' + slug(article.dataset.file) + '--' + parts[2]) : null;
+        if (heading) heading.scrollIntoView({ block: 'start' });
+        else window.scrollTo(0, 0);
+        return;
+      }
+      showTab('coverage');
+      const card = parts[1] ? document.getElementById(parts[1]) : null;
+      if (card) {
+        card.style.display = 'block';
+        const header = card.querySelector('.endpoint-header');
+        const body = card.querySelector('.endpoint-body');
+        if (body && !body.classList.contains('open')) { body.classList.add('open'); header.classList.add('open'); }
+        card.scrollIntoView({ block: 'center' });
+        card.classList.add('flash');
+        setTimeout(() => card.classList.remove('flash'), 1500);
+      }
+    }
+
+    window.addEventListener('hashchange', route);
+    route();
   </script>
 </body>
 </html>
