@@ -3,17 +3,17 @@ window.SCENARIO_CATALOG = {
  "layer": "ui",
  "title": "UI Test Cases",
  "prefix": "UI",
- "generatedAt": "2026-10-07T16:52:37.781Z",
- "commit": "6511e01652ad7b055f268af9a43a6f4eb12ef770",
+ "generatedAt": "2026-10-08T17:48:20.890Z",
+ "commit": "9eb7509654cee92b41d8af6d6f7d30ffcc6be561",
  "repoUrl": "https://github.com/Zaytsman/SimpRight",
  "branch": "main",
  "workflowUrl": "https://github.com/Zaytsman/SimpRight/actions/workflows/custom-ui-tests.yml",
  "stats": {
   "total": 30,
-  "automated": 11,
-  "manual": 19,
+  "automated": 19,
+  "manual": 11,
   "knownIssues": 0,
-  "automatedPct": 37
+  "automatedPct": 63
  },
  "tree": [
   {
@@ -322,13 +322,15 @@ window.SCENARIO_CATALOG = {
    "ref": [
     "docs/ui/user-stories/Product_Detail.md#AC11"
    ],
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/ui/products/product-favorites.spec.ts",
    "steps": [
     "The product \"Combination Pliers\" is not in the user's favourites.",
     "Open the product \"Combination Pliers\".",
     "Click \"Add to favourites\".",
     "Verify the message \"Product added to your favorites list.\" is shown."
    ],
+   "specLine": 12,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/ui/products/product-favorites.yml",
@@ -337,7 +339,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@products"
    ],
-   "yaml": "- id: UI-028\n  name: Adding a product to favourites shows a success message\n  ref: docs/ui/user-stories/Product_Detail.md#AC11\n  status: manual\n  steps:\n    - The product \"Combination Pliers\" is not in the user's favourites.\n    - Open the product \"Combination Pliers\".\n    - Click \"Add to favourites\".\n    - Verify the message \"Product added to your favorites list.\" is shown."
+   "yaml": "- id: UI-028\n  name: Adding a product to favourites shows a success message\n  ref: docs/ui/user-stories/Product_Detail.md#AC11\n  status: automated\n  automatedIn: tests/ui/products/product-favorites.spec.ts\n  steps:\n    - The product \"Combination Pliers\" is not in the user's favourites.\n    - Open the product \"Combination Pliers\".\n    - Click \"Add to favourites\".\n    - Verify the message \"Product added to your favorites list.\" is shown."
   },
   {
    "id": "UI-029",
@@ -345,13 +347,15 @@ window.SCENARIO_CATALOG = {
    "ref": [
     "docs/ui/user-stories/Product_Detail.md#AC12"
    ],
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/ui/products/product-favorites.spec.ts",
    "steps": [
     "The product \"Combination Pliers\" is in the user's favourites.",
     "Open the product \"Combination Pliers\".",
     "Click \"Add to favourites\".",
     "Verify the message \"Product already in your favorites list.\" is shown."
    ],
+   "specLine": 34,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/ui/products/product-favorites.yml",
@@ -360,7 +364,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@products"
    ],
-   "yaml": "- id: UI-029\n  name: Adding a product that is already a favourite shows a message\n  ref: docs/ui/user-stories/Product_Detail.md#AC12\n  status: manual\n  steps:\n    - The product \"Combination Pliers\" is in the user's favourites.\n    - Open the product \"Combination Pliers\".\n    - Click \"Add to favourites\".\n    - Verify the message \"Product already in your favorites list.\" is shown."
+   "yaml": "- id: UI-029\n  name: Adding a product that is already a favourite shows a message\n  ref: docs/ui/user-stories/Product_Detail.md#AC12\n  status: automated\n  automatedIn: tests/ui/products/product-favorites.spec.ts\n  steps:\n    - The product \"Combination Pliers\" is in the user's favourites.\n    - Open the product \"Combination Pliers\".\n    - Click \"Add to favourites\".\n    - Verify the message \"Product already in your favorites list.\" is shown."
   },
   {
    "id": "UI-030",
@@ -368,13 +372,15 @@ window.SCENARIO_CATALOG = {
    "ref": [
     "docs/ui/user-stories/Product_Detail.md#AC13"
    ],
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/ui/products/product-favorites.spec.ts",
    "role": "guest",
    "steps": [
     "Open the product \"Combination Pliers\".",
     "Click \"Add to favourites\".",
     "Verify the message \"Unauthorized, can not add product to your favorite list.\" is shown."
    ],
+   "specLine": 67,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/ui/products/product-favorites.yml",
@@ -383,7 +389,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@products"
    ],
-   "yaml": "- id: UI-030\n  name: A logged-out visitor can't add a product to favourites\n  ref: docs/ui/user-stories/Product_Detail.md#AC13\n  status: manual\n  role: guest\n  steps:\n    - Open the product \"Combination Pliers\".\n    - Click \"Add to favourites\".\n    - Verify the message \"Unauthorized, can not add product to your favorite list.\" is shown."
+   "yaml": "- id: UI-030\n  name: A logged-out visitor can't add a product to favourites\n  ref: docs/ui/user-stories/Product_Detail.md#AC13\n  status: automated\n  automatedIn: tests/ui/products/product-favorites.spec.ts\n  role: guest\n  steps:\n    - Open the product \"Combination Pliers\".\n    - Click \"Add to favourites\".\n    - Verify the message \"Unauthorized, can not add product to your favorite list.\" is shown."
   },
   {
    "id": "UI-012",
@@ -643,7 +649,8 @@ window.SCENARIO_CATALOG = {
    "ref": [
     "docs/ui/user-stories/Product_Overview.md#AC4"
    ],
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/ui/products/product-search.spec.ts",
    "steps": [
     "Open the home page.",
     "Check the category \"Hammer\" in the sidebar.",
@@ -654,6 +661,7 @@ window.SCENARIO_CATALOG = {
     "Verify at least one product is shown.",
     "Verify every product name contains \"pliers\" (case-insensitive)."
    ],
+   "specLine": 33,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/ui/products/product-search.yml",
@@ -662,7 +670,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@products"
    ],
-   "yaml": "- id: UI-003\n  name: Search resets the active category and brand filters\n  ref: docs/ui/user-stories/Product_Overview.md#AC4\n  status: manual\n  steps:\n    - Open the home page.\n    - Check the category \"Hammer\" in the sidebar.\n    - Check the brand \"ForgeFlex Tools\" in the sidebar.\n    - Search for \"pliers\".\n    - Verify the category \"Hammer\" is not checked.\n    - Verify the brand \"ForgeFlex Tools\" is not checked.\n    - Verify at least one product is shown.\n    - Verify every product name contains \"pliers\" (case-insensitive)."
+   "yaml": "- id: UI-003\n  name: Search resets the active category and brand filters\n  ref: docs/ui/user-stories/Product_Overview.md#AC4\n  status: automated\n  automatedIn: tests/ui/products/product-search.spec.ts\n  steps:\n    - Open the home page.\n    - Check the category \"Hammer\" in the sidebar.\n    - Check the brand \"ForgeFlex Tools\" in the sidebar.\n    - Search for \"pliers\".\n    - Verify the category \"Hammer\" is not checked.\n    - Verify the brand \"ForgeFlex Tools\" is not checked.\n    - Verify at least one product is shown.\n    - Verify every product name contains \"pliers\" (case-insensitive)."
   },
   {
    "id": "UI-004",
@@ -670,7 +678,8 @@ window.SCENARIO_CATALOG = {
    "ref": [
     "docs/ui/user-stories/Product_Overview.md#AC4"
    ],
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/ui/products/product-search.spec.ts",
    "steps": [
     "Open the home page.",
     "Search for \"ham\".",
@@ -678,6 +687,7 @@ window.SCENARIO_CATALOG = {
     "Verify at least one product is shown.",
     "Verify every product name contains \"ham\" (case-insensitive)."
    ],
+   "specLine": 74,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/ui/products/product-search.yml",
@@ -686,7 +696,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@products"
    ],
-   "yaml": "- id: UI-004\n  name: Search with a 3-character term is accepted\n  ref: docs/ui/user-stories/Product_Overview.md#AC4\n  status: manual\n  steps:\n    - Open the home page.\n    - Search for \"ham\".\n    - 'Verify the caption reads \"Searched for: ham\".'\n    - Verify at least one product is shown.\n    - Verify every product name contains \"ham\" (case-insensitive)."
+   "yaml": "- id: UI-004\n  name: Search with a 3-character term is accepted\n  ref: docs/ui/user-stories/Product_Overview.md#AC4\n  status: automated\n  automatedIn: tests/ui/products/product-search.spec.ts\n  steps:\n    - Open the home page.\n    - Search for \"ham\".\n    - 'Verify the caption reads \"Searched for: ham\".'\n    - Verify at least one product is shown.\n    - Verify every product name contains \"ham\" (case-insensitive)."
   },
   {
    "id": "UI-005",
@@ -694,12 +704,14 @@ window.SCENARIO_CATALOG = {
    "ref": [
     "docs/ui/user-stories/Product_Overview.md#AC4"
    ],
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/ui/products/product-search.spec.ts",
    "steps": [
     "Open the home page.",
     "Search for a term of exactly 40 characters.",
     "Verify the caption reads \"Searched for: \" followed by the term."
    ],
+   "specLine": 101,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/ui/products/product-search.yml",
@@ -708,7 +720,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@products"
    ],
-   "yaml": "- id: UI-005\n  name: Search with a 40-character term is accepted\n  ref: docs/ui/user-stories/Product_Overview.md#AC4\n  status: manual\n  steps:\n    - Open the home page.\n    - Search for a term of exactly 40 characters.\n    - 'Verify the caption reads \"Searched for: \" followed by the term.'"
+   "yaml": "- id: UI-005\n  name: Search with a 40-character term is accepted\n  ref: docs/ui/user-stories/Product_Overview.md#AC4\n  status: automated\n  automatedIn: tests/ui/products/product-search.spec.ts\n  steps:\n    - Open the home page.\n    - Search for a term of exactly 40 characters.\n    - 'Verify the caption reads \"Searched for: \" followed by the term.'"
   },
   {
    "id": "UI-006",
@@ -716,13 +728,15 @@ window.SCENARIO_CATALOG = {
    "ref": [
     "docs/ui/user-stories/Product_Overview.md#AC4"
    ],
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/ui/products/product-search.spec.ts",
    "steps": [
     "Open the home page.",
     "Search for \"pl\".",
     "Verify no \"Searched for:\" caption is shown.",
     "Verify the product grid still shows the first page of all products."
    ],
+   "specLine": 117,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/ui/products/product-search.yml",
@@ -731,7 +745,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@products"
    ],
-   "yaml": "- id: UI-006\n  name: Search with a 2-character term is rejected\n  ref: docs/ui/user-stories/Product_Overview.md#AC4\n  status: manual\n  steps:\n    - Open the home page.\n    - Search for \"pl\".\n    - 'Verify no \"Searched for:\" caption is shown.'\n    - Verify the product grid still shows the first page of all products."
+   "yaml": "- id: UI-006\n  name: Search with a 2-character term is rejected\n  ref: docs/ui/user-stories/Product_Overview.md#AC4\n  status: automated\n  automatedIn: tests/ui/products/product-search.spec.ts\n  steps:\n    - Open the home page.\n    - Search for \"pl\".\n    - 'Verify no \"Searched for:\" caption is shown.'\n    - Verify the product grid still shows the first page of all products."
   },
   {
    "id": "UI-007",
@@ -739,13 +753,15 @@ window.SCENARIO_CATALOG = {
    "ref": [
     "docs/ui/user-stories/Product_Overview.md#AC4"
    ],
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/ui/products/product-search.spec.ts",
    "steps": [
     "Open the home page.",
     "Search for a term of exactly 41 characters.",
     "Verify no \"Searched for:\" caption is shown.",
     "Verify the product grid still shows the first page of all products."
    ],
+   "specLine": 143,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/ui/products/product-search.yml",
@@ -754,7 +770,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@products"
    ],
-   "yaml": "- id: UI-007\n  name: Search with a 41-character term is rejected\n  ref: docs/ui/user-stories/Product_Overview.md#AC4\n  status: manual\n  steps:\n    - Open the home page.\n    - Search for a term of exactly 41 characters.\n    - 'Verify no \"Searched for:\" caption is shown.'\n    - Verify the product grid still shows the first page of all products."
+   "yaml": "- id: UI-007\n  name: Search with a 41-character term is rejected\n  ref: docs/ui/user-stories/Product_Overview.md#AC4\n  status: automated\n  automatedIn: tests/ui/products/product-search.spec.ts\n  steps:\n    - Open the home page.\n    - Search for a term of exactly 41 characters.\n    - 'Verify no \"Searched for:\" caption is shown.'\n    - Verify the product grid still shows the first page of all products."
   },
   {
    "id": "UI-008",

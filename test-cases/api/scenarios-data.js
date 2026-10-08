@@ -3,19 +3,41 @@ window.SCENARIO_CATALOG = {
  "layer": "api",
  "title": "API Test Cases",
  "prefix": "API",
- "generatedAt": "2026-10-07T16:52:37.781Z",
- "commit": "6511e01652ad7b055f268af9a43a6f4eb12ef770",
+ "generatedAt": "2026-10-08T17:48:20.890Z",
+ "commit": "9eb7509654cee92b41d8af6d6f7d30ffcc6be561",
  "repoUrl": "https://github.com/Zaytsman/SimpRight",
  "branch": "main",
  "workflowUrl": "https://github.com/Zaytsman/SimpRight/actions/workflows/custom-api-tests.yml",
  "stats": {
-  "total": 113,
+  "total": 118,
   "automated": 113,
-  "manual": 0,
-  "knownIssues": 13,
-  "automatedPct": 100
+  "manual": 5,
+  "knownIssues": 14,
+  "automatedPct": 96
  },
  "tree": [
+  {
+   "area": "carts",
+   "label": "Carts",
+   "files": [
+    {
+     "file": "test-scenarios/api/carts/post-carts-by-cart-id.yml",
+     "name": "post-carts-by-cart-id",
+     "label": "POST /carts/{cartId}",
+     "suite": "Carts API",
+     "tags": [
+      "@carts-api"
+     ],
+     "ids": [
+      "API-0114",
+      "API-0115",
+      "API-0116",
+      "API-0117",
+      "API-0118"
+     ]
+    }
+   ]
+  },
   {
    "area": "products",
    "label": "Products",
@@ -308,6 +330,137 @@ window.SCENARIO_CATALOG = {
   }
  ],
  "scenarios": [
+  {
+   "id": "API-0114",
+   "name": "Add a product with quantity 1 to a cart returns 200 and the cart holds it",
+   "ref": [
+    "docs/ui/user-stories/Product_Detail.md#AC7"
+   ],
+   "status": "manual",
+   "steps": [
+    "Send GET /products and take the first item's brand id, category id and product image id.",
+    "Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental false and stock 10, and take the new product's id.",
+    "Send POST /carts with an empty body and take the returned id as the cart's id.",
+    "Send POST /carts/{cartId} with the cart's id and a body with the new product's id as product_id and quantity 1.",
+    "Verify the response status is 200.",
+    "Verify the body's result is \"item added or updated\".",
+    "Verify GET /carts/{cartId} with the cart's id returns 200.",
+    "Verify its cart_items has exactly one item, with the new product's id as product_id and quantity 1."
+   ],
+   "area": "carts",
+   "areaLabel": "Carts",
+   "file": "test-scenarios/api/carts/post-carts-by-cart-id.yml",
+   "fileLabel": "POST /carts/{cartId}",
+   "suite": "Carts API",
+   "tags": [
+    "@carts-api"
+   ],
+   "yaml": "- id: API-0114\n  name: Add a product with quantity 1 to a cart returns 200 and the cart holds it\n  ref: docs/ui/user-stories/Product_Detail.md#AC7\n  status: manual\n  steps:\n    - Send GET /products and take the first item's brand id, category id and product image id.\n    - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental false and stock 10, and take the new product's id.\n    - Send POST /carts with an empty body and take the returned id as the cart's id.\n    - Send POST /carts/{cartId} with the cart's id and a body with the new product's id as product_id and quantity 1.\n    - Verify the response status is 200.\n    - Verify the body's result is \"item added or updated\".\n    - Verify GET /carts/{cartId} with the cart's id returns 200.\n    - Verify its cart_items has exactly one item, with the new product's id as product_id and quantity 1."
+  },
+  {
+   "id": "API-0115",
+   "name": "Add a product with quantity 2 to a new cart puts it in the cart with quantity 2",
+   "ref": [
+    "docs/ui/user-stories/Product_Detail.md#AC8"
+   ],
+   "status": "manual",
+   "steps": [
+    "Send GET /products and take the first item's brand id, category id and product image id.",
+    "Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental false and stock 10, and take the new product's id.",
+    "Send POST /carts with an empty body and take the returned id as the cart's id.",
+    "Send POST /carts/{cartId} with the cart's id and a body with the new product's id as product_id and quantity 2.",
+    "Verify the response status is 200.",
+    "Verify GET /carts/{cartId} with the cart's id returns 200.",
+    "Verify its cart_items has exactly one item, with the new product's id as product_id and quantity 2."
+   ],
+   "area": "carts",
+   "areaLabel": "Carts",
+   "file": "test-scenarios/api/carts/post-carts-by-cart-id.yml",
+   "fileLabel": "POST /carts/{cartId}",
+   "suite": "Carts API",
+   "tags": [
+    "@carts-api"
+   ],
+   "yaml": "- id: API-0115\n  name: Add a product with quantity 2 to a new cart puts it in the cart with quantity 2\n  ref: docs/ui/user-stories/Product_Detail.md#AC8\n  status: manual\n  steps:\n    - Send GET /products and take the first item's brand id, category id and product image id.\n    - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental false and stock 10, and take the new product's id.\n    - Send POST /carts with an empty body and take the returned id as the cart's id.\n    - Send POST /carts/{cartId} with the cart's id and a body with the new product's id as product_id and quantity 2.\n    - Verify the response status is 200.\n    - Verify GET /carts/{cartId} with the cart's id returns 200.\n    - Verify its cart_items has exactly one item, with the new product's id as product_id and quantity 2."
+  },
+  {
+   "id": "API-0116",
+   "name": "Add a product with quantity 0 to a cart returns 422 and adds nothing",
+   "ref": [
+    "docs/ui/user-stories/Product_Detail.md#AC7"
+   ],
+   "status": "manual",
+   "steps": [
+    "Send GET /products and take the first item's brand id, category id and product image id.",
+    "Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental false and stock 10, and take the new product's id.",
+    "Send POST /carts with an empty body and take the returned id as the cart's id.",
+    "Send POST /carts/{cartId} with the cart's id and a body with the new product's id as product_id and quantity 0.",
+    "Verify the response status is 422.",
+    "Verify the body's errors has a quantity key with at least one message.",
+    "Verify GET /carts/{cartId} with the cart's id returns 200 and its cart_items is empty."
+   ],
+   "area": "carts",
+   "areaLabel": "Carts",
+   "file": "test-scenarios/api/carts/post-carts-by-cart-id.yml",
+   "fileLabel": "POST /carts/{cartId}",
+   "suite": "Carts API",
+   "tags": [
+    "@carts-api"
+   ],
+   "yaml": "- id: API-0116\n  name: Add a product with quantity 0 to a cart returns 422 and adds nothing\n  ref: docs/ui/user-stories/Product_Detail.md#AC7\n  status: manual\n  steps:\n    - Send GET /products and take the first item's brand id, category id and product image id.\n    - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental false and stock 10, and take the new product's id.\n    - Send POST /carts with an empty body and take the returned id as the cart's id.\n    - Send POST /carts/{cartId} with the cart's id and a body with the new product's id as product_id and quantity 0.\n    - Verify the response status is 422.\n    - Verify the body's errors has a quantity key with at least one message.\n    - Verify GET /carts/{cartId} with the cart's id returns 200 and its cart_items is empty."
+  },
+  {
+   "id": "API-0117",
+   "name": "Add a product with quantity 1,000,000,000 to a cart returns 422 and adds nothing",
+   "ref": [
+    "docs/ui/user-stories/Product_Detail.md#AC7"
+   ],
+   "status": "manual",
+   "steps": [
+    "Send GET /products and take the first item's brand id, category id and product image id.",
+    "Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental false and stock 10, and take the new product's id.",
+    "Send POST /carts with an empty body and take the returned id as the cart's id.",
+    "Send POST /carts/{cartId} with the cart's id and a body with the new product's id as product_id and quantity 1000000000.",
+    "Verify the response status is 422.",
+    "Verify the body's errors has a quantity key with at least one message.",
+    "Verify GET /carts/{cartId} with the cart's id returns 200 and its cart_items is empty."
+   ],
+   "area": "carts",
+   "areaLabel": "Carts",
+   "file": "test-scenarios/api/carts/post-carts-by-cart-id.yml",
+   "fileLabel": "POST /carts/{cartId}",
+   "suite": "Carts API",
+   "tags": [
+    "@carts-api"
+   ],
+   "yaml": "- id: API-0117\n  name: Add a product with quantity 1,000,000,000 to a cart returns 422 and adds nothing\n  ref: docs/ui/user-stories/Product_Detail.md#AC7\n  status: manual\n  steps:\n    - Send GET /products and take the first item's brand id, category id and product image id.\n    - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental false and stock 10, and take the new product's id.\n    - Send POST /carts with an empty body and take the returned id as the cart's id.\n    - Send POST /carts/{cartId} with the cart's id and a body with the new product's id as product_id and quantity 1000000000.\n    - Verify the response status is 422.\n    - Verify the body's errors has a quantity key with at least one message.\n    - Verify GET /carts/{cartId} with the cart's id returns 200 and its cart_items is empty."
+  },
+  {
+   "id": "API-0118",
+   "name": "Add a product with quantity 999,999,999 to a cart returns 200 and the cart holds it",
+   "ref": [
+    "docs/ui/user-stories/Product_Detail.md#AC7"
+   ],
+   "status": "manual",
+   "knownIssue": "Returns 422 for a quantity of 999,999,999 (the server allows at most 99) instead of adding it to the cart as the story's range 1 to 999,999,999 requires.",
+   "steps": [
+    "Send GET /products and take the first item's brand id, category id and product image id.",
+    "Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental false and stock 10, and take the new product's id.",
+    "Send POST /carts with an empty body and take the returned id as the cart's id.",
+    "Send POST /carts/{cartId} with the cart's id and a body with the new product's id as product_id and quantity 999999999.",
+    "Verify the response status is 200.",
+    "Verify GET /carts/{cartId} with the cart's id returns 200 and its cart_items has exactly one item, with the new product's id as product_id and quantity 999999999."
+   ],
+   "area": "carts",
+   "areaLabel": "Carts",
+   "file": "test-scenarios/api/carts/post-carts-by-cart-id.yml",
+   "fileLabel": "POST /carts/{cartId}",
+   "suite": "Carts API",
+   "tags": [
+    "@carts-api"
+   ],
+   "yaml": "- id: API-0118\n  name: Add a product with quantity 999,999,999 to a cart returns 200 and the cart holds it\n  ref: docs/ui/user-stories/Product_Detail.md#AC7\n  status: manual\n  knownIssue: Returns 422 for a quantity of 999,999,999 (the server allows at most 99) instead of adding it to the cart as the story's range 1 to 999,999,999 requires.\n  steps:\n    - Send GET /products and take the first item's brand id, category id and product image id.\n    - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental false and stock 10, and take the new product's id.\n    - Send POST /carts with an empty body and take the returned id as the cart's id.\n    - Send POST /carts/{cartId} with the cart's id and a body with the new product's id as product_id and quantity 999999999.\n    - Verify the response status is 200.\n    - Verify GET /carts/{cartId} with the cart's id returns 200 and its cart_items has exactly one item, with the new product's id as product_id and quantity 999999999."
+  },
   {
    "id": "API-0002",
    "name": "List products returns the first page of non-rental products",
