@@ -23,6 +23,7 @@ export class ProductPage extends BasePage {
   private readonly increaseQuantityButton: Locator;
   private readonly decreaseQuantityButton: Locator;
   private readonly addToCartButton: Locator;
+  private readonly addToFavoritesButton: Locator;
   /** "Out of stock", shown for a product without stock that isn't a rental. */
   private readonly outOfStockText: Locator;
   /** Rentals only: the duration slider (1-10 hours) replaces the quantity buttons; its range is in aria-valuemin/max. */
@@ -42,6 +43,11 @@ export class ProductPage extends BasePage {
   private readonly relatedProductLinks: Locator;
   /** Toast shown after adding to cart. */
   private readonly addedToCartToast: Locator;
+  /**
+   * The toast the app shows (ngx-toastr, role "alert"), e.g. after "Add to favourites". The page has no other
+   * alert at rest. From the app source and the cart toast; the inspector can't trigger a toast (it never submits).
+   */
+  private readonly toastAlert: Locator;
 
   constructor(page: Page, config: EnvConfig) {
     super(page, config);
@@ -58,13 +64,15 @@ export class ProductPage extends BasePage {
     this.increaseQuantityButton = page.getByTestId('increase-quantity');
     this.decreaseQuantityButton = page.getByTestId('decrease-quantity');
     this.addToCartButton = page.getByTestId('add-to-cart');
+    this.addToFavoritesButton = page.getByTestId('add-to-favorites');
     this.outOfStockText = page.getByTestId('out-of-stock');
     this.durationSliderHandle = page.getByRole('slider');
     this.durationValueText = page.locator('#duration');
     this.totalPriceText = page.locator('#total-price');
     this.relatedProductsTitle = page.getByRole('heading', { name: 'Related products', level: 2 });
     this.relatedProductLinks = page.getByRole('link').filter({ has: page.getByRole('heading', { level: 5 }) });
-    this.addedToCartToast = page.getByRole('alert').filter({ hasText: 'Product added to shopping cart' });
+    this.toastAlert = page.getByRole('alert');
+    this.addedToCartToast = this.toastAlert.filter({ hasText: 'Product added to shopping cart' });
   }
 
   get image(): Locator {
@@ -131,6 +139,11 @@ export class ProductPage extends BasePage {
     return this.relatedProductLinks;
   }
 
+  /** The toast message the app shows after an action, e.g. "Add to favourites". */
+  get toast(): Locator {
+    return this.toastAlert;
+  }
+
   async open(productId: string): Promise<void> {
     await this.goto(`/product/${productId}`);
     await this.waitForLoaded();
@@ -166,6 +179,19 @@ export class ProductPage extends BasePage {
       await this.durationSliderHandle.press(key);
     }
     await expect(this.durationValueText).toHaveText(String(hours));
+  }
+
+  /**
+   * Clicks "Add to favourites" and waits for the app's answer to POST /favorites (any status: a duplicate gets 409,
+   * a logged-out visitor 401) and the toast it shows for it. Source: the app's FavoriteService.addFavorite.
+   */
+  async addToFavorites(): Promise<void> {
+    const answered = this.page.waitForResponse(
+      (response) => response.request().method() === 'POST' && new URL(response.url()).pathname.endsWith('/favorites')
+    );
+    await this.addToFavoritesButton.click();
+    await answered;
+    await expect(this.toastAlert.first()).toBeVisible();
   }
 
   async addToCart(): Promise<void> {

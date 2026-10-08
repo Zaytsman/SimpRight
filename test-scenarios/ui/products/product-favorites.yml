@@ -5,7 +5,8 @@ scenarios:
   - id: UI-028
     name: Adding a product to favourites shows a success message
     ref: docs/ui/user-stories/Product_Detail.md#AC11
-    status: manual
+    status: automated
+    automatedIn: tests/ui/products/product-favorites.spec.ts
     steps:
       - The product "Combination Pliers" is not in the user's favourites.
       - Open the product "Combination Pliers".
@@ -14,7 +15,8 @@ scenarios:
   - id: UI-029
     name: Adding a product that is already a favourite shows a message
     ref: docs/ui/user-stories/Product_Detail.md#AC12
-    status: manual
+    status: automated
+    automatedIn: tests/ui/products/product-favorites.spec.ts
     steps:
       - The product "Combination Pliers" is in the user's favourites.
       - Open the product "Combination Pliers".
@@ -23,7 +25,8 @@ scenarios:
   - id: UI-030
     name: A logged-out visitor can't add a product to favourites
     ref: docs/ui/user-stories/Product_Detail.md#AC13
-    status: manual
+    status: automated
+    automatedIn: tests/ui/products/product-favorites.spec.ts
     role: guest
     steps:
       - Open the product "Combination Pliers".

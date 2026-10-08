@@ -16,7 +16,8 @@ scenarios:
   - id: UI-003
     name: Search resets the active category and brand filters
     ref: docs/ui/user-stories/Product_Overview.md#AC4
-    status: manual
+    status: automated
+    automatedIn: tests/ui/products/product-search.spec.ts
     steps:
       - Open the home page.
       - Check the category "Hammer" in the sidebar.
@@ -29,7 +30,8 @@ scenarios:
   - id: UI-004
     name: Search with a 3-character term is accepted
     ref: docs/ui/user-stories/Product_Overview.md#AC4
-    status: manual
+    status: automated
+    automatedIn: tests/ui/products/product-search.spec.ts
     steps:
       - Open the home page.
       - Search for "ham".
@@ -39,7 +41,8 @@ scenarios:
   - id: UI-005
     name: Search with a 40-character term is accepted
     ref: docs/ui/user-stories/Product_Overview.md#AC4
-    status: manual
+    status: automated
+    automatedIn: tests/ui/products/product-search.spec.ts
     steps:
       - Open the home page.
       - Search for a term of exactly 40 characters.
@@ -47,7 +50,8 @@ scenarios:
   - id: UI-006
     name: Search with a 2-character term is rejected
     ref: docs/ui/user-stories/Product_Overview.md#AC4
-    status: manual
+    status: automated
+    automatedIn: tests/ui/products/product-search.spec.ts
     steps:
       - Open the home page.
       - Search for "pl".
@@ -56,7 +60,8 @@ scenarios:
   - id: UI-007
     name: Search with a 41-character term is rejected
     ref: docs/ui/user-stories/Product_Overview.md#AC4
-    status: manual
+    status: automated
+    automatedIn: tests/ui/products/product-search.spec.ts
     steps:
       - Open the home page.
       - Search for a term of exactly 41 characters.
