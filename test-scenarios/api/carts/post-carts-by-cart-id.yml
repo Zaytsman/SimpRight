@@ -1,0 +1,65 @@
+# yaml-language-server: $schema=../../scenarios.schema.json
+suite: Carts API
+tags: ["@carts-api"]
+scenarios:
+  - id: API-0114
+    name: Add a product with quantity 1 to a cart returns 200 and the cart holds it
+    ref: docs/ui/user-stories/Product_Detail.md#AC7
+    status: manual
+    steps:
+      - Send GET /products and take the first item's brand id, category id and product image id.
+      - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental false and stock 10, and take the new product's id.
+      - Send POST /carts with an empty body and take the returned id as the cart's id.
+      - Send POST /carts/{cartId} with the cart's id and a body with the new product's id as product_id and quantity 1.
+      - Verify the response status is 200.
+      - Verify the body's result is "item added or updated".
+      - Verify GET /carts/{cartId} with the cart's id returns 200.
+      - Verify its cart_items has exactly one item, with the new product's id as product_id and quantity 1.
+  - id: API-0115
+    name: Add a product with quantity 2 to a new cart puts it in the cart with quantity 2
+    ref: docs/ui/user-stories/Product_Detail.md#AC8
+    status: manual
+    steps:
+      - Send GET /products and take the first item's brand id, category id and product image id.
+      - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental false and stock 10, and take the new product's id.
+      - Send POST /carts with an empty body and take the returned id as the cart's id.
+      - Send POST /carts/{cartId} with the cart's id and a body with the new product's id as product_id and quantity 2.
+      - Verify the response status is 200.
+      - Verify GET /carts/{cartId} with the cart's id returns 200.
+      - Verify its cart_items has exactly one item, with the new product's id as product_id and quantity 2.
+  - id: API-0116
+    name: Add a product with quantity 0 to a cart returns 422 and adds nothing
+    ref: docs/ui/user-stories/Product_Detail.md#AC7
+    status: manual
+    steps:
+      - Send GET /products and take the first item's brand id, category id and product image id.
+      - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental false and stock 10, and take the new product's id.
+      - Send POST /carts with an empty body and take the returned id as the cart's id.
+      - Send POST /carts/{cartId} with the cart's id and a body with the new product's id as product_id and quantity 0.
+      - Verify the response status is 422.
+      - Verify the body's errors has a quantity key with at least one message.
+      - Verify GET /carts/{cartId} with the cart's id returns 200 and its cart_items is empty.
+  - id: API-0117
+    name: Add a product with quantity 1,000,000,000 to a cart returns 422 and adds nothing
+    ref: docs/ui/user-stories/Product_Detail.md#AC7
+    status: manual
+    steps:
+      - Send GET /products and take the first item's brand id, category id and product image id.
+      - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental false and stock 10, and take the new product's id.
+      - Send POST /carts with an empty body and take the returned id as the cart's id.
+      - Send POST /carts/{cartId} with the cart's id and a body with the new product's id as product_id and quantity 1000000000.
+      - Verify the response status is 422.
+      - Verify the body's errors has a quantity key with at least one message.
+      - Verify GET /carts/{cartId} with the cart's id returns 200 and its cart_items is empty.
+  - id: API-0118
+    name: Add a product with quantity 999,999,999 to a cart returns 200 and the cart holds it
+    ref: docs/ui/user-stories/Product_Detail.md#AC7
+    status: manual
+    knownIssue: Returns 422 for a quantity of 999,999,999 (the server allows at most 99) instead of adding it to the cart as the story's range 1 to 999,999,999 requires.
+    steps:
+      - Send GET /products and take the first item's brand id, category id and product image id.
+      - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental false and stock 10, and take the new product's id.
+      - Send POST /carts with an empty body and take the returned id as the cart's id.
+      - Send POST /carts/{cartId} with the cart's id and a body with the new product's id as product_id and quantity 999999999.
+      - Verify the response status is 200.
+      - Verify GET /carts/{cartId} with the cart's id returns 200 and its cart_items has exactly one item, with the new product's id as product_id and quantity 999999999.

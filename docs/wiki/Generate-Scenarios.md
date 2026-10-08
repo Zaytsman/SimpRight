@@ -9,6 +9,7 @@ This page shows how to add scenarios for both layers with the AI agents, how to 
 ```
 API:  API source / OpenAPI spec ──/write-api-contracts──► contract ──/write-api-scenarios──► API scenarios
 UI:   user story / bug report ──────────────────────────────────────/write-ui-scenarios───► UI scenarios
+Both: user story / bug report ──/analyze-requirements──► analysis + test plan (API first) ──► API and UI scenarios
                                                                                               │
                                                     /implement-api-scenarios, /implement-ui-scenarios
 ```
@@ -52,6 +53,7 @@ Steps never hold secrets ("the default user's email", not the address). The full
 - Prepare the input:
   - **API:** a contract in `docs/api/contracts/` for the API area. If there's none yet, write it first (see below).
   - **UI:** a user story with acceptance criteria in `docs/ui/user-stories/`, or a bug report.
+  - **Both layers:** the same story or bug; the [Requirements Analyst](Requirements-Analyst) decides which checks go to the API and which to the UI (see [From a story to both layers](#from-a-story-to-both-layers)).
 
 ## API scenarios
 
@@ -159,6 +161,21 @@ Approve, or say what to change. If you approve a new area (`checkout`) or role, 
 ### 4. Check the result
 
 The agent writes `test-scenarios/ui/<area>/<feature>.yml` (`products/product-quantity.yml`), every scenario with a `ref` to its criterion and `status: manual`. Claude runs the validator and reports.
+
+## From a story to both layers
+
+When a story or bug touches both the API and the UI, let the [Requirements Analyst](Requirements-Analyst) decide where each check belongs before any scenario is written:
+
+```text
+/analyze-requirements Product_Detail.md AC3-AC9
+```
+
+1. **Checkpoint 1, the test plan.** The analyst splits every criterion into test items and puts each on the API unless only the UI can prove it (what only the page shows, validation done only in the browser, browser state, navigation), with the reason. It lists the items existing scenarios already cover and the endpoints that have no contract yet. Approve the plan, or move items between layers.
+2. It writes the analysis document, `docs/analysis/<name>.md`. A contract gap you want filled is filled now with `/write-api-contracts`.
+3. **Checkpoint 2, the scenarios.** The API and UI scenario writers propose scenarios for the items on their layer, shown together; approve them once.
+4. The writers write the files; Claude adds the scenario IDs to the analysis document's test plan and runs the validator.
+
+Then automate the API scenarios first: they're the cheaper, faster half of the plan.
 
 ## After the scenarios are written
 

@@ -39,6 +39,7 @@ Each AI agent, its slash command and the skills it uses:
 
 | Agent | Command | Does |
 |---|---|---|
+| [Requirements Analyst](Requirements-Analyst) | `/analyze-requirements` | An analysis and a test plan from a story or bug, API first, then scenarios for both layers |
 | [API Contract Writer](API-Contract-Writer) | `/write-api-contracts` | API contracts from source code or an OpenAPI spec |
 | [API Scenario Writer](API-Scenario-Writer) | `/write-api-scenarios` | API scenarios from a contract |
 | [UI Scenario Writer](UI-Scenario-Writer) | `/write-ui-scenarios` | UI scenarios from a user story or bug |

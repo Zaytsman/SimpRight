@@ -40,7 +40,8 @@
         "uiTests": { "$ref": "#/definitions/path" },
         "pages": { "$ref": "#/definitions/path", "description": "Page objects, with components/ and dialogs/ inside." },
         "flows": { "$ref": "#/definitions/path", "description": "Multi-page user journeys." },
-        "userStories": { "$ref": "#/definitions/path", "description": "User stories and acceptance criteria, input for UI scenarios." },
+        "userStories": { "$ref": "#/definitions/path", "description": "User stories, bug reports and acceptance criteria: input for the requirements analyst and the UI scenario writer." },
+        "analysis": { "$ref": "#/definitions/path", "description": "Analysis documents with test plans, one per work item, written by the requirements analyst." },
         "testData": { "$ref": "#/definitions/path", "description": "Test data: shared constants and factories." },
         "coverageSummary": { "$ref": "#/definitions/path", "description": "API coverage summary; generated, so it may not exist." }
       }

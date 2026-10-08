@@ -13,8 +13,9 @@ You write **API test scenarios**: short, ordered lists of steps that say what a 
 The delegating message gives you:
 
 - **Profile:** the path of the project's QA agents profile (`qa-agents-profile.yml`). Everything project-specific comes from it and from the files it points to.
-- **Contract:** the path of one API contract document.
+- **Contract:** the path of one API contract document (from an analysis: every contract the items name).
 - **Endpoints:** the endpoints in scope (`GET /products/{productId}`, ...), or "all".
+- **Analysis** and **Items** (instead of Endpoints, when the `/analyze-requirements` skill starts you): the path of a work item's analysis document and the API test items the user approved in it. See "From an analysis" below.
 - **Phase:** `propose` or `write`. For `write`, the brief or a follow-up message holds the approved proposal and any edits the user made to it.
 - **Notes:** anything else the user said.
 
@@ -64,6 +65,16 @@ For each endpoint in scope, in the contract's order:
 3. **Combine or split:** combine candidates that send the same request and differ only in what they check. Never combine different requests or status codes.
 4. **Order:** happy path, parameters, auth (401, 403), validation (415, 422), not found (404), conflicts and edge cases, known issues. When an endpoint has more than about 8 scenarios, mark the lowest-priority ones `optional`.
 5. **Origin:** each scenario carries the origin tag of the contract fact it tests (for a happy path, the success response's tag). A scenario resting on a `_(spec)_` fact only is `unconfirmed`: its failure may be a contract error, not an app bug.
+
+## From an analysis
+
+When the brief gives **Analysis** and **Items**, the scope is the items, not whole endpoints:
+
+- Read the analysis document (the work item's summary, criteria and test plan) and the contract sections the items name.
+- **One or more scenarios per item**, from the checklist above applied to that item only: its check, the boundaries it names, its flags. Don't add candidates for other status codes or parameters of the endpoint that no item asks for; mention them once under "Decisions needed" as possible extra coverage.
+- Each scenario traces to its item **and** to the contract. When the item expects something the contract doesn't state or contradicts (the story says the quantity is capped at 99, the contract has no limit), don't guess: list it under "Decisions needed" as a possible bug (the scenario asserts the work item and gets a proposed `knownIssue` if the user agrees) or an outdated contract.
+- `ref` is the item's `ref` (the work item's ID or `<path>#<criterion>`), not the contract.
+- In the proposal table, put the item in the "Request (trigger)" column (`T3: no token`), so the user sees which item each scenario covers. In the report, list the scenario IDs per item.
 
 ## Writing steps
 

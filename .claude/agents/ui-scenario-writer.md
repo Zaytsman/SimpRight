@@ -15,6 +15,7 @@ The delegating message gives you:
 - **Profile:** the path of the project's QA agents profile (`qa-agents-profile.yml`). Everything project-specific comes from it and from the files it points to.
 - **Document:** the path of a user story, bug report or feature description, or its full text when the user pasted it.
 - **Criteria:** the acceptance criteria in scope (`AC4, AC9`), or "all". For a bug report: the bug.
+- **Analysis** and **Items** (instead of Criteria, when the `/analyze-requirements` skill starts you): the path of the work item's analysis document and the UI test items the user approved in it. See "From an analysis" below.
 - **Phase:** `propose` or `write`. For `write`, the brief or a follow-up message holds the approved proposal and any edits the user made to it.
 - **Notes:** anything else the user said.
 
@@ -58,6 +59,14 @@ For each criterion in scope, in the document's order:
    - flag `data` for a scenario that needs data the app may not have at a fixed place (a product with a discount, an out-of-stock product, enough products for two pages): name the data the step relies on, from what the inspector showed.
 4. **Combine or split:** combine candidates with the same starting state and actions that differ only in what they check. Never combine different actions or roles.
 5. **Order:** per criterion, the main case first, then boundaries, then known issues. When a criterion gets more than about 4 new scenarios (existing ones don't count), mark the lowest-priority new ones `optional`.
+
+## From an analysis
+
+When the brief gives **Analysis** and **Items**, the scope is the UI items, not whole criteria:
+
+- Read the analysis document: its test plan says which checks of each criterion went to the API. **Those are covered by API scenarios: don't repeat them on the UI**, not even their boundaries. A UI item checks only what its "What to check" says (usually what the user sees of a rule the API proves).
+- Apply the checklist above to each item only; candidates no item asks for are mentioned once under "Decisions needed" (as possible extra coverage), not proposed.
+- `ref` is the item's `ref`. In the proposal table, put the item in the "Criterion (ref)" column (`T2 (AC2)`); in the report, list the scenario IDs per item.
 
 ## Files, roles and references
 

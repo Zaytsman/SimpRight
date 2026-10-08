@@ -14,6 +14,7 @@
 - [UI Automation](UI-Automation)
 
 **Agents and Skills**
+- [Requirements Analyst](Requirements-Analyst)
 - [API Contract Writer](API-Contract-Writer)
 - [API Scenario Writer](API-Scenario-Writer)
 - [UI Scenario Writer](UI-Scenario-Writer)
