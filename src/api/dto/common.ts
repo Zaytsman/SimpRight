@@ -11,3 +11,9 @@ export interface Paginated<T> {
 
 /** A 422 validation error body: each failing field with its messages, without a wrapper. */
 export type ValidationErrors = Record<string, string[]>;
+
+/** Laravel's default 422 body (endpoints that validate with `$request->validate()`, such as the carts ones): the first message plus each failing field with its messages. */
+export interface FieldValidationError {
+  message: string;
+  errors: Record<string, string[]>;
+}

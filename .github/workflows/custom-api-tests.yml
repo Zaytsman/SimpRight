@@ -13,6 +13,7 @@ on:
           - all
           - products
           - users
+          - carts
       grep:
         description: 'Optional: only tests whose title matches, e.g. API-0001'
         required: false
