@@ -1,0 +1,25 @@
+# yaml-language-server: $schema=./bug.schema.json
+id: BUG-003
+title: Product list returns 500 for an unknown sort column instead of a client error
+status: open
+severity: major
+layer: api
+area: products
+affects:
+  - GET /products
+  - QUERY /products
+found: 2026-10-02
+ref:
+  - docs/api/contracts/Products_API.md#1-list-products
+  - docs/api/contracts/Products_API.md#2-list-products-http-query
+description: >-
+  The sort column goes to the database query without a check against the allowed columns.
+  GET and QUERY share the code path, so both fail the same way.
+steps:
+  - Send GET /products with sort=no_such_column,asc.
+  - 'Send QUERY /products with Content-Type: application/json and the body { "sort": "no_such_column,asc" }.'
+expected: 400 or 422 naming the sort column, or 200 with the column ignored.
+actual: 500 for both.
+evidence: |-
+  GET /products?sort=no_such_column,asc (Accept: application/json), 2026-10-09
+  -> 500 {"message":"Something went wrong"}

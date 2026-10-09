@@ -50,7 +50,7 @@ If the user picked any fixes, continue **the same agent** with SendMessage:
 ```
 Phase: fix
 Fixes approved: <cause numbers, with the user's edits>
-Known issues approved: <ID: text, or "none">
+Known issues approved: <ID: bug ID (existing, or new with its title): text, or "none">
 Writes approved: <IDs or specs, or "none">
 Decisions: <the user's answers>
 ```

@@ -126,7 +126,7 @@ test.describe('@users-api - Users API', () => {
   });
 
   test('API-0112: Refresh without a token returns 401', async ({ usersClientWithoutToken }) => {
-    test.fail(true, 'Known issue: Returns 500 instead of 401 when the request has no token.');
+    test.fail(true, 'Known issue BUG-006: Returns 500 instead of 401 when the request has no token.');
     let request: RefreshRequest;
     let response: ApiResponse;
 
@@ -140,7 +140,7 @@ test.describe('@users-api - Users API', () => {
   });
 
   test('API-0113: Refresh with a malformed token returns 401', async ({ usersClientWithInvalidToken }) => {
-    test.fail(true, 'Known issue: Returns 500 instead of 401 for a malformed token.');
+    test.fail(true, 'Known issue BUG-006: Returns 500 instead of 401 for a malformed token.');
     let request: RefreshRequest;
     let response: ApiResponse;
 

@@ -126,6 +126,7 @@ scenarios:
     status: automated
     automatedIn: tests/api/users/post-users-register.spec.ts
     knownIssue: Accepts a customer born 80 years ago (201) instead of 422; the 75-year age limit only rejects birth dates more than 93 years ago.
+    bug: BUG-007
     steps:
       - Send POST /users/register with a unique email, a first name, a last name, a random strong password and a dob 80 years ago in YYYY-MM-DD.
       - Verify the response status is 422.

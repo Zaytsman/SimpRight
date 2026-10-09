@@ -1,0 +1,24 @@
+# yaml-language-server: $schema=./bug.schema.json
+id: BUG-001
+title: Product writes (POST, PUT, PATCH /products) succeed without a token instead of returning 401
+status: open
+severity: critical
+layer: api
+area: products
+affects:
+  - POST /products
+  - PUT /products/{productId}
+  - PATCH /products/{productId}
+found: 2026-10-02
+ref:
+  - docs/api/contracts/Products_API.md#notes
+description: >-
+  Anyone can create or change products without logging in: ProductController has no auth middleware
+  on these routes (only DELETE is admin-only), and the OpenAPI spec declares no security on them either.
+  Visitors of the demo site change seeded products this way (stock, price, category).
+steps:
+  - Send GET /products and take the first item's brand id, category id and product image id.
+  - Send POST /products with a unique product name, a positive price and those ids, without an Authorization header.
+  - Send PUT or PATCH /products/{productId} for the new product with a new name, without an Authorization header.
+expected: Each write without a token returns 401 and changes nothing.
+actual: POST returns 201 and creates the product; PUT and PATCH return 200 and change it.

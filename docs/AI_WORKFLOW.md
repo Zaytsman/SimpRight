@@ -70,7 +70,7 @@ Scenarios are the single source of truth for what gets automated. Each is a shor
     - Verify the price "$14.15" is shown.
 ```
 
-Checks are ordinary steps that start with `Verify`. A scenario can name a `role` (`admin`, `guest` for a logged-out visitor) and a `knownIssue` for behaviour that is a known bug.
+Checks are ordinary steps that start with `Verify`. A scenario can name a `role` (`admin`, `guest` for a logged-out visitor) and a `knownIssue` with its `bug` (a file in `bugs/`, one per root cause) for behaviour that is a known bug.
 
 The **scenario writers** work in two phases:
 

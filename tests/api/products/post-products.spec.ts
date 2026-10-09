@@ -259,7 +259,7 @@ test.describe('@products-api - Products API', () => {
     productsClient,
     cleanup,
   }) => {
-    test.fail(true, "Known issue: Returns 500 instead of 422 when category_id doesn't exist.");
+    test.fail(true, "Known issue BUG-002: Returns 500 instead of 422 when category_id doesn't exist.");
     let request: Request;
     let response: ApiResponse;
 
@@ -291,7 +291,7 @@ test.describe('@products-api - Products API', () => {
     productsClient,
     cleanup,
   }) => {
-    test.fail(true, "Known issue: Returns 500 instead of 422 when brand_id doesn't exist.");
+    test.fail(true, "Known issue BUG-002: Returns 500 instead of 422 when brand_id doesn't exist.");
     let request: Request;
     let response: ApiResponse;
 
@@ -323,7 +323,7 @@ test.describe('@products-api - Products API', () => {
     productsClient,
     cleanup,
   }) => {
-    test.fail(true, "Known issue: Returns 500 instead of 422 when product_image_id doesn't exist.");
+    test.fail(true, "Known issue BUG-002: Returns 500 instead of 422 when product_image_id doesn't exist.");
     let request: Request;
     let response: ApiResponse;
 
@@ -350,7 +350,7 @@ test.describe('@products-api - Products API', () => {
   });
 
   test('API-0042: Create product without a token returns 401', async ({ productsService, adminProductsService, productsClient, cleanup }) => {
-    test.fail(true, 'Known issue: Accepts POST without a token instead of returning 401.');
+    test.fail(true, 'Known issue BUG-001: Accepts POST without a token instead of returning 401.');
     let request: Request;
     let response: ApiResponse;
 

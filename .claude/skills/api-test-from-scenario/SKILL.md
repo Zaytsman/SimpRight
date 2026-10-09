@@ -19,7 +19,7 @@ Copy the structure of the exemplar spec (`api.exemplars.spec` in the profile) an
 
 - One `test('<ID>: <name>')` per scenario, with the name verbatim (escape quotes the way the exemplar does). (checked)
 - A scenario with `role` runs as that role: when every scenario in the file has the same role, set it once with `test.use({ role })` inside the describe; otherwise wrap that one test in an anonymous `test.describe(() => { test.use({ role: '<role>' }); test(...) })`.
-- A scenario with `knownIssue`: the first line of the test is the profile's `api.knownIssue` snippet with the text verbatim.
+- A scenario with `knownIssue`: the first line of the test is the profile's `api.knownIssue` snippet with the scenario's `bug` ID and the text verbatim.
 - Tests in a file run in parallel and each file runs on its own: no state shared between tests, no order between them.
 - State shared between steps goes in `let` variables at the top of the test; values only this test uses are `const`s there too.
 

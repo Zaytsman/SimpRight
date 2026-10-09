@@ -39,6 +39,7 @@ scenarios:
     status: automated
     automatedIn: tests/api/users/get-users-refresh.spec.ts
     knownIssue: Returns 500 instead of 401 when the request has no token.
+    bug: BUG-006
     steps:
       - Send GET /users/refresh without an Authorization header.
       - Verify the response status is 401.
@@ -47,6 +48,7 @@ scenarios:
     status: automated
     automatedIn: tests/api/users/get-users-refresh.spec.ts
     knownIssue: Returns 500 instead of 401 for a malformed token.
+    bug: BUG-006
     steps:
       - Send GET /users/refresh with a malformed token.
       - Verify the response status is 401.

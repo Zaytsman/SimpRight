@@ -111,6 +111,7 @@ tests/
   api/<area>/*.spec.ts
   ui/<area>/*.spec.ts
 test-scenarios/          scenario source of truth (api/, ui/)
+bugs/                    bugs found in the app under test, one BUG-001.yml per root cause
 docs/api/contracts/      API contracts, the reference for API coverage
 qa-agents-profile.yml    project facts for the QA agents and scripts (paths, commands, ID formats, roles)
 ```

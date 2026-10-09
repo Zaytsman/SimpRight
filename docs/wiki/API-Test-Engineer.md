@@ -56,7 +56,7 @@ Claude then runs the typecheck and validator again and reports: files by group, 
 
 ### When the API disagrees with the scenario
 
-The test stays as written and **fails**; the report shows the request, expected, actual and a proposal. You choose: add a `knownIssue` (the agent adds it and the test starts with `test.fail(true, 'Known issue: ...')`), fix the scenario or contract, or leave it failing to investigate.
+The test stays as written and **fails**; the report shows the request, expected, actual and a proposal. You choose: add a `knownIssue` (the agent adds it and the test starts with `test.fail(true, 'Known issue BUG-001: ...')`), fix the scenario or contract, or leave it failing to investigate.
 
 ## The helper skills
 

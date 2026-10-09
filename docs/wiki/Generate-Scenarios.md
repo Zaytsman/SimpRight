@@ -42,6 +42,7 @@ scenarios:
 | `status` | `manual` for a new scenario; `automated` (with `automatedIn`, the spec path) once a test exists |
 | `role` | Optional: `admin`, or `guest` for a logged-out visitor. Absent means the default customer |
 | `knownIssue` | Optional: the app has a known bug here; the test is expected to fail until it's fixed |
+| `bug` | With `knownIssue` only: the ID of the bug in `bugs/` (`BUG-001`); scenarios with the same root cause share one bug |
 | `steps` | Actions, and checks that start with `Verify`, in the order they happen. At least one `Verify` |
 
 Steps never hold secrets ("the default user's email", not the address). The full rules are in [CLAUDE.md](https://github.com/Zaytsman/SimpRight/blob/main/CLAUDE.md#scenarios-and-specs-conventions).
@@ -192,7 +193,7 @@ The agents are optional. To add one yourself:
    - API file names follow the endpoint: `GET /products/{productId}` → `api/products/get-products-by-product-id.yml`.
    - UI file names follow the feature, in kebab-case: `ui/cart/add-to-cart.yml`.
    - A new area folder needs an entry in `ids.areas` in `qa-agents-profile.yml`.
-3. Keep the key order: `id`, `name`, `ref`, `status: manual`, `role`, `knownIssue`, `steps`.
+3. Keep the key order: `id`, `name`, `ref`, `status: manual`, `role`, `knownIssue`, `bug`, `steps`.
 4. Run `npm run validate:scenarios` again.
 
 With the [YAML extension](https://marketplace.visualstudio.com/items?itemName=redhat.vscode-yaml) in VS Code, the schema line at the top of each file gives autocomplete and checks while you type.

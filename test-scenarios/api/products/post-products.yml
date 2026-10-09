@@ -64,6 +64,7 @@ scenarios:
     status: automated
     automatedIn: tests/api/products/post-products.spec.ts
     knownIssue: Returns 500 instead of 422 when category_id doesn't exist.
+    bug: BUG-002
     steps:
       - Send GET /products and take the first item's brand id and product image id.
       - Send POST /products with a unique product name, a positive price, that brand id and product image id, is_location_offer false, is_rental false and a category_id that no category has.
@@ -73,6 +74,7 @@ scenarios:
     status: automated
     automatedIn: tests/api/products/post-products.spec.ts
     knownIssue: Returns 500 instead of 422 when brand_id doesn't exist.
+    bug: BUG-002
     steps:
       - Send GET /products and take the first item's category id and product image id.
       - Send POST /products with a unique product name, a positive price, that category id and product image id, is_location_offer false, is_rental false and a brand_id that no brand has.
@@ -82,6 +84,7 @@ scenarios:
     status: automated
     automatedIn: tests/api/products/post-products.spec.ts
     knownIssue: Returns 500 instead of 422 when product_image_id doesn't exist.
+    bug: BUG-002
     steps:
       - Send GET /products and take the first item's brand id and category id.
       - Send POST /products with a unique product name, a positive price, that brand id and category id, is_location_offer false, is_rental false and a product_image_id that no product image has.
@@ -91,6 +94,7 @@ scenarios:
     status: automated
     automatedIn: tests/api/products/post-products.spec.ts
     knownIssue: Accepts POST without a token instead of returning 401.
+    bug: BUG-001
     steps:
       - Send GET /products and take the first item's brand id, category id and product image id.
       - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false and is_rental false, without an Authorization header.

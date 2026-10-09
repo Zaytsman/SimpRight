@@ -239,7 +239,7 @@ test.describe('@carts-api - Carts API', () => {
     cartsClient,
     cleanup,
   }) => {
-    test.fail(true, 'Known issue: Returns 422 for a quantity of 999,999,999 (the server allows at most 99) instead of adding it to the cart as the story\'s range 1 to 999,999,999 requires.');
+    test.fail(true, 'Known issue BUG-008: Returns 422 for a quantity of 999,999,999 (the server allows at most 99) instead of adding it to the cart as the story\'s range 1 to 999,999,999 requires.');
     const quantity = 999999999;
     let productId: string;
     let cartId: string;

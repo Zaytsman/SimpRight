@@ -419,7 +419,7 @@ test.describe('@users-api - Users API', () => {
   });
 
   test('API-0099: Register a customer older than 75 returns 422', async ({ usersClientWithoutToken, adminUsersService, cleanup }) => {
-    test.fail(true, 'Known issue: Accepts a customer born 80 years ago (201) instead of 422; the 75-year age limit only rejects birth dates more than 93 years ago.');
+    test.fail(true, 'Known issue BUG-007: Accepts a customer born 80 years ago (201) instead of 422; the 75-year age limit only rejects birth dates more than 93 years ago.');
     let request: RegisterRequestInfo;
     let response: ApiResponse;
 

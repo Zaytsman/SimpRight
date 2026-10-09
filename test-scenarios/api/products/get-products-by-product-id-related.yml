@@ -20,6 +20,7 @@ scenarios:
     status: automated
     automatedIn: tests/api/products/get-products-by-product-id-related.spec.ts
     knownIssue: Returns 500 instead of 404 for an unknown product id.
+    bug: BUG-004
     steps:
       - Send GET /products/{productId}/related with a well-formed ULID that no product has.
       - Verify the response status is 404.
@@ -28,6 +29,7 @@ scenarios:
     status: automated
     automatedIn: tests/api/products/get-products-by-product-id-related.spec.ts
     knownIssue: Omits co2_rating from related products, so is_eco_friendly is always false.
+    bug: BUG-005
     steps:
       - Send GET /products and take the first item's id.
       - Send GET /products/{productId}/related with that id.

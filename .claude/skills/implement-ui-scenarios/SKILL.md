@@ -60,7 +60,7 @@ If the agent can't be continued, start a new `ui-test-engineer` with the brief f
 
 1. Run the profile's `commands.typecheck` and `commands.validateScenarios` yourself and confirm they pass, and run the new specs once yourself (`commands.runSpec`).
 2. Tell the user briefly: the files changed by group, the table of scenario → result, the live writes the tests make and their cleanup, and the assumptions to confirm.
-3. **Failing on app behaviour:** show each one with its step, expected, actual and the agent's proposal, and ask the user what to do with each: add the proposed `knownIssue`, fix the scenario, or leave it failing to investigate. For approved known issues, continue the agent (`Known issues approved: <ID: text>`) so it adds them and re-runs the specs; scenario fixes are the user's call, so don't make them unless asked.
+3. **Failing on app behaviour:** show each one with its step, expected, actual and the agent's proposal, and ask the user what to do with each: add the proposed `knownIssue`, fix the scenario, or leave it failing to investigate. For approved known issues, continue the agent (`Known issues approved: <ID: bug ID (existing, or new with its title): text>`) so it adds them and re-runs the specs; scenario fixes are the user's call, so don't make them unless asked.
 4. Suggest the next step: review the diff, then commit.
 
 Don't commit anything unless the user asks.

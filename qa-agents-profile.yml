@@ -13,6 +13,8 @@ project:
 paths:
   scenarios: test-scenarios                 # <layer>/<area>/<name>.yml
   scenarioSchema: test-scenarios/scenarios.schema.json
+  bugs: bugs                                # <ID>.yml, one per bug in the app under test (BUG-001.yml)
+  bugSchema: bugs/bug.schema.json
   contracts: docs/api/contracts
   contractFormat: docs/api/CONTRACT_FORMAT.md   # the contract format specification (a copy of the coverage package's)
   tests: tests                              # <layer>/<area>/<name>.spec.ts
@@ -52,6 +54,9 @@ ids:
     ui: { prefix: UI, digits: 3 }
     api: { prefix: API, digits: 4 }
   areas: [products, users, cart, carts]   # cart: UI (the cart page); carts: API (/carts endpoints)
+  # Bug IDs: BUG-001, one number sequence for all bugs (validate:scenarios prints the next free one).
+  # One bug per root cause: scenarios that hit the same defect name the same bug.
+  bugs: { prefix: BUG, digits: 3 }
   fileNames:
     # API: <method>-<endpoint path>, one file per endpoint, e.g. GET /products/search -> products/get-products-search.yml.
     # {area} is replaced with the folder name, so the path part starts with the API name.
@@ -73,8 +78,8 @@ api:
     cleanup: src/fixtures/base.ts           # the cleanup fixture
     constants: src/data/TestConstants.ts    # shared seeded values
     testDataUtils: src/data/factories/testDataUtils.ts   # uniqueName for created records
-  # First line of a test whose scenario has knownIssue; Playwright records it as a 'fail' annotation.
-  knownIssue: "test.fail(true, 'Known issue: {text}');"
+  # First line of a test whose scenario has knownIssue and bug; Playwright records it as a 'fail' annotation.
+  knownIssue: "test.fail(true, 'Known issue {bug}: {text}');"
   rules:
     - Happy paths go through a service; any step that checks a status code goes through the client.
     - Specs import from @fixtures and never construct clients or services.
@@ -97,8 +102,8 @@ ui:
     fixturesIndex: src/fixtures/index.ts    # precondition fixtures are exported here
     spec: tests/ui/products/product-search.spec.ts
     constants: src/data/TestConstants.ts
-  # First line of a test whose scenario has knownIssue (the same annotation as API tests).
-  knownIssue: "test.fail(true, 'Known issue: {text}');"
+  # First line of a test whose scenario has knownIssue and bug (the same annotation as API tests).
+  knownIssue: "test.fail(true, 'Known issue {bug}: {text}');"
   rules:
     - Specs import from @fixtures and get pages, components, flows and API services from fixtures; they never construct them, call page.goto or use selectors.
     - Page object locators are private readonly fields named with the element kind (searchCaptionText); a test reaches one only through a noun getter (get searchCaption()), added when a test asserts on it. Dynamic locators are methods with parameters (card(name)).

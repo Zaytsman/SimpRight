@@ -113,7 +113,7 @@ If the API behaves differently from what the scenario says, the agent stops work
 
 | Choice | When | Result |
 |---|---|---|
-| **Add a `knownIssue`** | The API has a bug | The scenario gets `knownIssue: <text>`, the test starts with `test.fail(true, 'Known issue: ...')` and passes as an expected failure. The dashboard lists it under Known Issues |
+| **Add a `knownIssue`** | The API has a bug | The scenario gets `knownIssue: <text>` and `bug: <ID>` (an open bug in `bugs/`, or a new one), the test starts with `test.fail(true, 'Known issue BUG-001: ...')` and passes as an expected failure. The dashboard lists it under Known Issues |
 | **Fix the scenario or contract** | The scenario expected something the API never promised | You (or Claude, if you ask) correct the YAML or the contract, and the test is run again |
 | **Leave it failing** | You want to investigate first | Nothing changes |
 

@@ -1,0 +1,26 @@
+# yaml-language-server: $schema=./bug.schema.json
+id: BUG-005
+title: Related products omit co2_rating, so is_eco_friendly is always false
+status: open
+severity: minor
+layer: api
+area: products
+affects:
+  - GET /products/{productId}/related
+found: 2026-10-02
+ref:
+  - docs/api/contracts/Products_API.md#notes
+description: >-
+  The related-products query doesn't select co2_rating, so the field is missing and is_eco_friendly,
+  which is derived from it, is false for every related product. The same products from GET /products/{productId} have it.
+steps:
+  - Send GET /products and take the first item's id.
+  - Send GET /products/{productId}/related with that id.
+  - Compare the items with GET /products/{productId} for each of them.
+expected: Every related product has co2_rating, and is_eco_friendly matches it.
+actual: No related product has co2_rating, and is_eco_friendly is false for all of them.
+evidence: |-
+  GET /products/01M4GX5NBG86XPB5G15W625EMS/related, 2026-10-09
+  -> 200, 4 items with keys id, name, description, price, is_location_offer, is_rental, in_stock,
+     is_eco_friendly (false), product_image, category, brand; no co2_rating
+  GET /products/01M4GX5NBG86XPB5G15W625EMS -> co2_rating "D"

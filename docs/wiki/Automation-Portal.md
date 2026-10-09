@@ -55,7 +55,7 @@ Only the scheduled regressions (`daily-*` families) feed the charts and the stat
 
 ### Known Issues
 
-A table of every test that carries a **known issue**, with its area (the spec's suite), the test name and the issue text. It's built from the annotations in the latest UI and API regression results: any annotation whose description contains `Known issue`, which is what `test.fail(true, 'Known issue: ...')` adds. When the bug is fixed and the `knownIssue` is removed from the scenario and the test, the row disappears after the next regression run.
+A table of every test that carries a **known issue**, with its area (the spec's suite), the test name and the issue text. It's built from the annotations in the latest UI and API regression results: any annotation whose description contains `Known issue`, which is what `test.fail(true, 'Known issue BUG-001: ...')` adds. When the bug is fixed and the `knownIssue` is removed from the scenario and the test, the row disappears after the next regression run.
 
 ### Test Runs History
 

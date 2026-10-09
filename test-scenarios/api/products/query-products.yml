@@ -42,6 +42,7 @@ scenarios:
     status: automated
     automatedIn: tests/api/products/query-products.spec.ts
     knownIssue: Returns 500 instead of a client error (or ignoring the column) for an unknown sort column.
+    bug: BUG-003
     steps:
       - 'Send QUERY /products with Content-Type: application/json, Accept: application/json and the body { "sort": "no_such_column,asc" }.'
       - Verify the response status is not 500.
