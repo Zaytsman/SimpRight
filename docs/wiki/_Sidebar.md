@@ -22,6 +22,7 @@
 - [UI Test Engineer](UI-Test-Engineer)
 - [Test Reviewer](Test-Reviewer)
 - [Test Healer](Test-Healer)
+- [Bug Reporter](Bug-Reporter)
 
 **Continuous Integration**
 - [CI Pipeline](CI-Pipeline)

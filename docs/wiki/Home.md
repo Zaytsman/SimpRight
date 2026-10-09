@@ -47,6 +47,7 @@ Each AI agent, its slash command and the skills it uses:
 | [UI Test Engineer](UI-Test-Engineer) | `/implement-ui-scenarios` | UI specs, page objects and flows from scenarios |
 | [Test Reviewer](Test-Reviewer) | `/review-tests` | Ranked review findings, then the fixes you pick |
 | [Test Healer](Test-Healer) | `/heal-tests` | Why tests failed, then the fixes you pick |
+| [Bug Reporter](Bug-Reporter) | `/report-bug` | Bugs in the app, one per root cause, linked to their scenarios; imports and re-checks |
 
 ## Continuous Integration
 

@@ -60,6 +60,8 @@ scenarios:
     name: A typed quantity above 999,999,999 is set to 999,999,999
     ref: docs/ui/user-stories/Product_Detail.md#AC7
     status: manual
+    knownIssue: The field sets a typed quantity above 99 to 99 (with the warning "You can order at most 99 of this product.") instead of setting 1,000,000,000 to 999,999,999 as the story's range 1 to 999,999,999 requires.
+    bug: BUG-008
     steps:
       - Open the product "Combination Pliers".
       - Enter 1000000000 in the quantity field.
@@ -68,6 +70,8 @@ scenarios:
     name: A typed quantity of 999,999,999 is accepted
     ref: docs/ui/user-stories/Product_Detail.md#AC7
     status: manual
+    knownIssue: The field changes a typed quantity of 999,999,999 to 99 (the app allows at most 99) instead of keeping it as the story's range 1 to 999,999,999 requires.
+    bug: BUG-008
     steps:
       - Open the product "Combination Pliers".
       - Enter 999999999 in the quantity field.

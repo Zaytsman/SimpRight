@@ -37,7 +37,7 @@ Before showing the diagnosis, check each high-confidence verdict that proposes a
 
 Show the diagnosis as the agent returned it. Then ask, in one message:
 - which causes to fix, by number ("all", "none", or a list); say which fixes change what a test checks, touch a shared member other tests use, or add writes: those need an explicit yes;
-- for each proposed known issue or its removal, and each scenario change, whether to make it (scenario changes are made by the user or with `/write-*-scenarios`, not by the healer);
+- for each proposed known issue or its removal, and each scenario change, whether to make it (scenario changes are made by the user or with `/write-*-scenarios`, not by the healer). A known issue with a **new** bug can be approved here, or recorded with `/report-bug <scenario IDs>` afterwards, which reproduces it, checks for duplicates and links the scenarios; suggest that when the healer's bug note is thin or the bug may already exist under another cause;
 - the answers to "Decisions needed";
 - for records left behind on the live app, whether the user wants to remove them (removing them is a write: don't do it unasked).
 

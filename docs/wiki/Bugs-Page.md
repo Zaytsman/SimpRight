@@ -59,7 +59,7 @@ Scenarios with the same cause share one bug: BUG-001 (product writes without a t
 ### The bug (main panel)
 
 - **Breadcrumbs** (layer › area), the title, and chips: ID, status, severity, found and resolved dates.
-- **Re-check** banner, when a test that expects the bug **passed** in the latest regression: the bug may be fixed. Re-check it on the app; if it's fixed, set `status: fixed` and `resolved`, and remove `knownIssue`, `bug` and the known-issue line from its scenarios and tests ([Test Healer](Test-Healer) proposes exactly that for an "unexpectedly passed" test).
+- **Re-check** banner, when a test that expects the bug **passed** in the latest regression: the bug may be fixed. Re-check it with `/report-bug recheck <ID>` ([Bug Reporter](Bug-Reporter)): if it's fixed, the bug gets `status: fixed` and `resolved`, and `knownIssue`, `bug` and the known-issue line are removed from its scenarios and tests (the [Test Healer](Test-Healer) proposes the same for an "unexpectedly passed" test).
 - **Tests** banner: every scenario that names the bug, linked to the [Test Cases Pages](Test-Cases-Pages), with the latest result of its test (**Bug still there**: failed as expected; **Passed: re-check**; **Not in the latest run**; **Manual**) and a link to the spec at the test's line.
 - **Source** banner: the affected endpoints or pages, the bug file, where the expected behaviour comes from (contracts, user stories), and the upstream report.
 - **Details** tab: description, steps to reproduce, expected and actual result, evidence. **YAML** tab: the bug file.

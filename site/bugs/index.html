@@ -1084,7 +1084,7 @@
         if (bug.status === 'open' && passed.length) {
           banners.appendChild(banner('known', 'Re-check: the bug may be fixed',
             `${passed.map((s) => code(s.id)).join(' ')} passed in the latest regression although ${passed.length === 1 ? 'it expects' : 'they expect'} this bug. ` +
-            'If the app is fixed, set <span class="code">status: fixed</span> and <span class="code">resolved</span>, and remove <span class="code">knownIssue</span> and <span class="code">bug</span> from its scenarios and the known-issue line from their tests (<span class="code">/heal-tests</span> proposes it).'));
+            `Re-check it with ${code(`/report-bug recheck ${bug.id}`)}: if the app is fixed, the bug is closed (<span class="code">status: fixed</span>) and its scenarios and tests lose the known issue.`));
         }
 
         const rows = bug.scenarios.map((s) => {

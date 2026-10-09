@@ -22,3 +22,11 @@ steps:
   - Send POST /carts/{cartId} with that id, an existing product's id as product_id and quantity 999999999.
 expected: 200, and GET /carts/{cartId} shows the item with quantity 999999999.
 actual: 422 with a quantity error; the server accepts at most 99.
+evidence: |-
+  Page inspector, /product/01M4H0KC65RV1AZDGBVVX7XJ9G (Combination Pliers, logged out), 2026-10-09
+  -> data-test "quantity": input[number], limits: min 1, max 99
+  Source (practice-software-testing, sprint5), 2026-10-09:
+  UI detail.component.ts validateQuantity(): a typed value above MAX_QUANTITY (99) becomes 99,
+    with the toast "You can order at most 99 of this product."
+  UI cart.service.ts addItem()/replaceQuantity(): Math.min(Math.max(1, quantity), 99)
+  API CartController addItem/updateQuantity: 'quantity' => 'required|integer|min:1|max:99'
