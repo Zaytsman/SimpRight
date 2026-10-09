@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-08T19:05:59.252Z",
+  "generatedAt": "2026-10-09T08:21:15.685Z",
   "totalEndpoints": 30,
   "coveredEndpoints": 17,
   "endpointCoveragePct": 57,
@@ -615,9 +615,9 @@
           "callCount": 13,
           "isCovered": true,
           "testedStatusCodes": [
-            415,
             200,
-            500
+            500,
+            415
           ],
           "documentedStatusCodes": [
             200,
@@ -849,9 +849,9 @@
           "callCount": 11,
           "isCovered": true,
           "testedStatusCodes": [
-            200,
             422,
-            404
+            404,
+            200
           ],
           "documentedStatusCodes": [
             200,
@@ -1208,8 +1208,8 @@
           "callCount": 4,
           "isCovered": true,
           "testedStatusCodes": [
-            200,
-            415
+            415,
+            200
           ],
           "documentedStatusCodes": [
             200,
@@ -1307,8 +1307,8 @@
           "testedStatusCodes": [
             200,
             401,
-            403,
-            400
+            400,
+            403
           ],
           "documentedStatusCodes": [
             200,
@@ -1593,8 +1593,8 @@
           "callCount": 11,
           "isCovered": true,
           "testedStatusCodes": [
-            200,
             401,
+            200,
             403
           ],
           "documentedStatusCodes": [
@@ -1645,8 +1645,8 @@
           "callCount": 6,
           "isCovered": true,
           "testedStatusCodes": [
-            401,
-            200
+            200,
+            401
           ],
           "documentedStatusCodes": [
             200,
@@ -2847,9 +2847,9 @@
       "callCount": 13,
       "isCovered": true,
       "testedStatusCodes": [
-        415,
         200,
-        500
+        500,
+        415
       ],
       "documentedStatusCodes": [
         200,
@@ -3081,9 +3081,9 @@
       "callCount": 11,
       "isCovered": true,
       "testedStatusCodes": [
-        200,
         422,
-        404
+        404,
+        200
       ],
       "documentedStatusCodes": [
         200,
@@ -3440,8 +3440,8 @@
       "callCount": 4,
       "isCovered": true,
       "testedStatusCodes": [
-        200,
-        415
+        415,
+        200
       ],
       "documentedStatusCodes": [
         200,
@@ -3521,8 +3521,8 @@
       "testedStatusCodes": [
         200,
         401,
-        403,
-        400
+        400,
+        403
       ],
       "documentedStatusCodes": [
         200,
@@ -3807,8 +3807,8 @@
       "callCount": 11,
       "isCovered": true,
       "testedStatusCodes": [
-        200,
         401,
+        200,
         403
       ],
       "documentedStatusCodes": [
@@ -3859,8 +3859,8 @@
       "callCount": 6,
       "isCovered": true,
       "testedStatusCodes": [
-        401,
-        200
+        200,
+        401
       ],
       "documentedStatusCodes": [
         200,
