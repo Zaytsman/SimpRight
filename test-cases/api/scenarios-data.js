@@ -3,8 +3,8 @@ window.SCENARIO_CATALOG = {
  "layer": "api",
  "title": "API Test Cases",
  "prefix": "API",
- "generatedAt": "2026-10-09T18:31:06.997Z",
- "commit": "63fe54ce7e8345090b63aeb1378abb9a9a594a5b",
+ "generatedAt": "2026-10-09T19:25:37.814Z",
+ "commit": "b15b7923f10f60c57e5a73beb6baeb21d6b06604",
  "repoUrl": "https://github.com/Zaytsman/SimpRight",
  "branch": "main",
  "workflowUrl": "https://github.com/Zaytsman/SimpRight/actions/workflows/custom-api-tests.yml",
@@ -452,6 +452,7 @@ window.SCENARIO_CATALOG = {
    "status": "automated",
    "automatedIn": "tests/api/carts/post-carts-by-cart-id.spec.ts",
    "knownIssue": "Returns 422 for a quantity of 999,999,999 (the server allows at most 99) instead of adding it to the cart as the story's range 1 to 999,999,999 requires.",
+   "bug": "BUG-008",
    "steps": [
     "Send GET /products and take the first item's brand id, category id and product image id.",
     "Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental false and stock 10, and take the new product's id.",
@@ -469,7 +470,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@carts-api"
    ],
-   "yaml": "- id: API-0118\n  name: Add a product with quantity 999,999,999 to a cart returns 200 and the cart holds it\n  ref: docs/ui/user-stories/Product_Detail.md#AC7\n  status: automated\n  automatedIn: tests/api/carts/post-carts-by-cart-id.spec.ts\n  knownIssue: Returns 422 for a quantity of 999,999,999 (the server allows at most 99) instead of adding it to the cart as the story's range 1 to 999,999,999 requires.\n  steps:\n    - Send GET /products and take the first item's brand id, category id and product image id.\n    - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental false and stock 10, and take the new product's id.\n    - Send POST /carts with an empty body and take the returned id as the cart's id.\n    - Send POST /carts/{cartId} with the cart's id and a body with the new product's id as product_id and quantity 999999999.\n    - Verify the response status is 200.\n    - Verify GET /carts/{cartId} with the cart's id returns 200 and its cart_items has exactly one item, with the new product's id as product_id and quantity 999999999."
+   "yaml": "- id: API-0118\n  name: Add a product with quantity 999,999,999 to a cart returns 200 and the cart holds it\n  ref: docs/ui/user-stories/Product_Detail.md#AC7\n  status: automated\n  automatedIn: tests/api/carts/post-carts-by-cart-id.spec.ts\n  knownIssue: Returns 422 for a quantity of 999,999,999 (the server allows at most 99) instead of adding it to the cart as the story's range 1 to 999,999,999 requires.\n  bug: BUG-008\n  steps:\n    - Send GET /products and take the first item's brand id, category id and product image id.\n    - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental false and stock 10, and take the new product's id.\n    - Send POST /carts with an empty body and take the returned id as the cart's id.\n    - Send POST /carts/{cartId} with the cart's id and a body with the new product's id as product_id and quantity 999999999.\n    - Verify the response status is 200.\n    - Verify GET /carts/{cartId} with the cart's id returns 200 and its cart_items has exactly one item, with the new product's id as product_id and quantity 999999999."
   },
   {
    "id": "API-0002",
@@ -755,6 +756,7 @@ window.SCENARIO_CATALOG = {
    "status": "automated",
    "automatedIn": "tests/api/products/get-products.spec.ts",
    "knownIssue": "Returns 500 instead of a client error (or ignoring the column) for an unknown sort column.",
+   "bug": "BUG-003",
    "steps": [
     "Send GET /products with sort=no_such_column,asc.",
     "Verify the response status is not 500."
@@ -769,7 +771,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@products-api"
    ],
-   "yaml": "- id: API-0014\n  name: Unknown sort column is not a server error\n  status: automated\n  automatedIn: tests/api/products/get-products.spec.ts\n  knownIssue: Returns 500 instead of a client error (or ignoring the column) for an unknown sort column.\n  steps:\n    - Send GET /products with sort=no_such_column,asc.\n    - Verify the response status is not 500."
+   "yaml": "- id: API-0014\n  name: Unknown sort column is not a server error\n  status: automated\n  automatedIn: tests/api/products/get-products.spec.ts\n  knownIssue: Returns 500 instead of a client error (or ignoring the column) for an unknown sort column.\n  bug: BUG-003\n  steps:\n    - Send GET /products with sort=no_such_column,asc.\n    - Verify the response status is not 500."
   },
   {
    "id": "API-0015",
@@ -868,6 +870,7 @@ window.SCENARIO_CATALOG = {
    "status": "automated",
    "automatedIn": "tests/api/products/query-products.spec.ts",
    "knownIssue": "Returns 500 instead of a client error (or ignoring the column) for an unknown sort column.",
+   "bug": "BUG-003",
    "steps": [
     "Send QUERY /products with Content-Type: application/json, Accept: application/json and the body { \"sort\": \"no_such_column,asc\" }.",
     "Verify the response status is not 500."
@@ -882,7 +885,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@products-api"
    ],
-   "yaml": "- id: API-0019\n  name: QUERY list with an unknown sort column is not a server error\n  status: automated\n  automatedIn: tests/api/products/query-products.spec.ts\n  knownIssue: Returns 500 instead of a client error (or ignoring the column) for an unknown sort column.\n  steps:\n    - 'Send QUERY /products with Content-Type: application/json, Accept: application/json and the body { \"sort\": \"no_such_column,asc\" }.'\n    - Verify the response status is not 500."
+   "yaml": "- id: API-0019\n  name: QUERY list with an unknown sort column is not a server error\n  status: automated\n  automatedIn: tests/api/products/query-products.spec.ts\n  knownIssue: Returns 500 instead of a client error (or ignoring the column) for an unknown sort column.\n  bug: BUG-003\n  steps:\n    - 'Send QUERY /products with Content-Type: application/json, Accept: application/json and the body { \"sort\": \"no_such_column,asc\" }.'\n    - Verify the response status is not 500."
   },
   {
    "id": "API-0064",
@@ -1226,6 +1229,7 @@ window.SCENARIO_CATALOG = {
    "status": "automated",
    "automatedIn": "tests/api/products/post-products.spec.ts",
    "knownIssue": "Returns 500 instead of 422 when category_id doesn't exist.",
+   "bug": "BUG-002",
    "steps": [
     "Send GET /products and take the first item's brand id and product image id.",
     "Send POST /products with a unique product name, a positive price, that brand id and product image id, is_location_offer false, is_rental false and a category_id that no category has.",
@@ -1241,7 +1245,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@products-api"
    ],
-   "yaml": "- id: API-0039\n  name: Create product with an unknown category id returns 422\n  status: automated\n  automatedIn: tests/api/products/post-products.spec.ts\n  knownIssue: Returns 500 instead of 422 when category_id doesn't exist.\n  steps:\n    - Send GET /products and take the first item's brand id and product image id.\n    - Send POST /products with a unique product name, a positive price, that brand id and product image id, is_location_offer false, is_rental false and a category_id that no category has.\n    - Verify the response status is 422."
+   "yaml": "- id: API-0039\n  name: Create product with an unknown category id returns 422\n  status: automated\n  automatedIn: tests/api/products/post-products.spec.ts\n  knownIssue: Returns 500 instead of 422 when category_id doesn't exist.\n  bug: BUG-002\n  steps:\n    - Send GET /products and take the first item's brand id and product image id.\n    - Send POST /products with a unique product name, a positive price, that brand id and product image id, is_location_offer false, is_rental false and a category_id that no category has.\n    - Verify the response status is 422."
   },
   {
    "id": "API-0040",
@@ -1249,6 +1253,7 @@ window.SCENARIO_CATALOG = {
    "status": "automated",
    "automatedIn": "tests/api/products/post-products.spec.ts",
    "knownIssue": "Returns 500 instead of 422 when brand_id doesn't exist.",
+   "bug": "BUG-002",
    "steps": [
     "Send GET /products and take the first item's category id and product image id.",
     "Send POST /products with a unique product name, a positive price, that category id and product image id, is_location_offer false, is_rental false and a brand_id that no brand has.",
@@ -1264,7 +1269,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@products-api"
    ],
-   "yaml": "- id: API-0040\n  name: Create product with an unknown brand id returns 422\n  status: automated\n  automatedIn: tests/api/products/post-products.spec.ts\n  knownIssue: Returns 500 instead of 422 when brand_id doesn't exist.\n  steps:\n    - Send GET /products and take the first item's category id and product image id.\n    - Send POST /products with a unique product name, a positive price, that category id and product image id, is_location_offer false, is_rental false and a brand_id that no brand has.\n    - Verify the response status is 422."
+   "yaml": "- id: API-0040\n  name: Create product with an unknown brand id returns 422\n  status: automated\n  automatedIn: tests/api/products/post-products.spec.ts\n  knownIssue: Returns 500 instead of 422 when brand_id doesn't exist.\n  bug: BUG-002\n  steps:\n    - Send GET /products and take the first item's category id and product image id.\n    - Send POST /products with a unique product name, a positive price, that category id and product image id, is_location_offer false, is_rental false and a brand_id that no brand has.\n    - Verify the response status is 422."
   },
   {
    "id": "API-0041",
@@ -1272,6 +1277,7 @@ window.SCENARIO_CATALOG = {
    "status": "automated",
    "automatedIn": "tests/api/products/post-products.spec.ts",
    "knownIssue": "Returns 500 instead of 422 when product_image_id doesn't exist.",
+   "bug": "BUG-002",
    "steps": [
     "Send GET /products and take the first item's brand id and category id.",
     "Send POST /products with a unique product name, a positive price, that brand id and category id, is_location_offer false, is_rental false and a product_image_id that no product image has.",
@@ -1287,7 +1293,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@products-api"
    ],
-   "yaml": "- id: API-0041\n  name: Create product with an unknown product image id returns 422\n  status: automated\n  automatedIn: tests/api/products/post-products.spec.ts\n  knownIssue: Returns 500 instead of 422 when product_image_id doesn't exist.\n  steps:\n    - Send GET /products and take the first item's brand id and category id.\n    - Send POST /products with a unique product name, a positive price, that brand id and category id, is_location_offer false, is_rental false and a product_image_id that no product image has.\n    - Verify the response status is 422."
+   "yaml": "- id: API-0041\n  name: Create product with an unknown product image id returns 422\n  status: automated\n  automatedIn: tests/api/products/post-products.spec.ts\n  knownIssue: Returns 500 instead of 422 when product_image_id doesn't exist.\n  bug: BUG-002\n  steps:\n    - Send GET /products and take the first item's brand id and category id.\n    - Send POST /products with a unique product name, a positive price, that brand id and category id, is_location_offer false, is_rental false and a product_image_id that no product image has.\n    - Verify the response status is 422."
   },
   {
    "id": "API-0042",
@@ -1295,6 +1301,7 @@ window.SCENARIO_CATALOG = {
    "status": "automated",
    "automatedIn": "tests/api/products/post-products.spec.ts",
    "knownIssue": "Accepts POST without a token instead of returning 401.",
+   "bug": "BUG-001",
    "steps": [
     "Send GET /products and take the first item's brand id, category id and product image id.",
     "Send POST /products with a unique product name, a positive price, those ids, is_location_offer false and is_rental false, without an Authorization header.",
@@ -1310,7 +1317,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@products-api"
    ],
-   "yaml": "- id: API-0042\n  name: Create product without a token returns 401\n  status: automated\n  automatedIn: tests/api/products/post-products.spec.ts\n  knownIssue: Accepts POST without a token instead of returning 401.\n  steps:\n    - Send GET /products and take the first item's brand id, category id and product image id.\n    - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false and is_rental false, without an Authorization header.\n    - Verify the response status is 401."
+   "yaml": "- id: API-0042\n  name: Create product without a token returns 401\n  status: automated\n  automatedIn: tests/api/products/post-products.spec.ts\n  knownIssue: Accepts POST without a token instead of returning 401.\n  bug: BUG-001\n  steps:\n    - Send GET /products and take the first item's brand id, category id and product image id.\n    - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false and is_rental false, without an Authorization header.\n    - Verify the response status is 401."
   },
   {
    "id": "API-0073",
@@ -1812,6 +1819,7 @@ window.SCENARIO_CATALOG = {
    "status": "automated",
    "automatedIn": "tests/api/products/put-products-by-product-id.spec.ts",
    "knownIssue": "Accepts PUT without a token instead of returning 401.",
+   "bug": "BUG-001",
    "steps": [
     "Send GET /products and take the first item's brand id, category id and product image id.",
     "Send POST /products with a unique product name, a positive price, those ids, is_location_offer false and is_rental false, and take the new product's id.",
@@ -1828,7 +1836,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@products-api"
    ],
-   "yaml": "- id: API-0051\n  name: Update product without a token returns 401\n  status: automated\n  automatedIn: tests/api/products/put-products-by-product-id.spec.ts\n  knownIssue: Accepts PUT without a token instead of returning 401.\n  steps:\n    - Send GET /products and take the first item's brand id, category id and product image id.\n    - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false and is_rental false, and take the new product's id.\n    - Send PUT /products/{productId} with that id and a body with a new unique product name, without an Authorization header.\n    - Verify the response status is 401."
+   "yaml": "- id: API-0051\n  name: Update product without a token returns 401\n  status: automated\n  automatedIn: tests/api/products/put-products-by-product-id.spec.ts\n  knownIssue: Accepts PUT without a token instead of returning 401.\n  bug: BUG-001\n  steps:\n    - Send GET /products and take the first item's brand id, category id and product image id.\n    - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false and is_rental false, and take the new product's id.\n    - Send PUT /products/{productId} with that id and a body with a new unique product name, without an Authorization header.\n    - Verify the response status is 401."
   },
   {
    "id": "API-0074",
@@ -2010,6 +2018,7 @@ window.SCENARIO_CATALOG = {
    "status": "automated",
    "automatedIn": "tests/api/products/patch-products-by-product-id.spec.ts",
    "knownIssue": "Accepts PATCH without a token instead of returning 401.",
+   "bug": "BUG-001",
    "steps": [
     "Send GET /products and take the first item's brand id, category id and product image id.",
     "Send POST /products with a unique product name, a positive price, those ids, is_location_offer false and is_rental false, and take the new product's id.",
@@ -2026,7 +2035,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@products-api"
    ],
-   "yaml": "- id: API-0057\n  name: Partially update product without a token returns 401\n  status: automated\n  automatedIn: tests/api/products/patch-products-by-product-id.spec.ts\n  knownIssue: Accepts PATCH without a token instead of returning 401.\n  steps:\n    - Send GET /products and take the first item's brand id, category id and product image id.\n    - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false and is_rental false, and take the new product's id.\n    - Send PATCH /products/{productId} with that id and a body with only a new unique product name, without an Authorization header.\n    - Verify the response status is 401."
+   "yaml": "- id: API-0057\n  name: Partially update product without a token returns 401\n  status: automated\n  automatedIn: tests/api/products/patch-products-by-product-id.spec.ts\n  knownIssue: Accepts PATCH without a token instead of returning 401.\n  bug: BUG-001\n  steps:\n    - Send GET /products and take the first item's brand id, category id and product image id.\n    - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false and is_rental false, and take the new product's id.\n    - Send PATCH /products/{productId} with that id and a body with only a new unique product name, without an Authorization header.\n    - Verify the response status is 401."
   },
   {
    "id": "API-0076",
@@ -2233,6 +2242,7 @@ window.SCENARIO_CATALOG = {
    "status": "automated",
    "automatedIn": "tests/api/products/get-products-by-product-id-related.spec.ts",
    "knownIssue": "Returns 500 instead of 404 for an unknown product id.",
+   "bug": "BUG-004",
    "steps": [
     "Send GET /products/{productId}/related with a well-formed ULID that no product has.",
     "Verify the response status is 404."
@@ -2247,7 +2257,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@products-api"
    ],
-   "yaml": "- id: API-0024\n  name: Related products for an unknown product id return 404\n  status: automated\n  automatedIn: tests/api/products/get-products-by-product-id-related.spec.ts\n  knownIssue: Returns 500 instead of 404 for an unknown product id.\n  steps:\n    - Send GET /products/{productId}/related with a well-formed ULID that no product has.\n    - Verify the response status is 404."
+   "yaml": "- id: API-0024\n  name: Related products for an unknown product id return 404\n  status: automated\n  automatedIn: tests/api/products/get-products-by-product-id-related.spec.ts\n  knownIssue: Returns 500 instead of 404 for an unknown product id.\n  bug: BUG-004\n  steps:\n    - Send GET /products/{productId}/related with a well-formed ULID that no product has.\n    - Verify the response status is 404."
   },
   {
    "id": "API-0025",
@@ -2255,6 +2265,7 @@ window.SCENARIO_CATALOG = {
    "status": "automated",
    "automatedIn": "tests/api/products/get-products-by-product-id-related.spec.ts",
    "knownIssue": "Omits co2_rating from related products, so is_eco_friendly is always false.",
+   "bug": "BUG-005",
    "steps": [
     "Send GET /products and take the first item's id.",
     "Send GET /products/{productId}/related with that id.",
@@ -2270,7 +2281,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@products-api"
    ],
-   "yaml": "- id: API-0025\n  name: Related products include their CO2 rating\n  status: automated\n  automatedIn: tests/api/products/get-products-by-product-id-related.spec.ts\n  knownIssue: Omits co2_rating from related products, so is_eco_friendly is always false.\n  steps:\n    - Send GET /products and take the first item's id.\n    - Send GET /products/{productId}/related with that id.\n    - Verify every item has a co2_rating field."
+   "yaml": "- id: API-0025\n  name: Related products include their CO2 rating\n  status: automated\n  automatedIn: tests/api/products/get-products-by-product-id-related.spec.ts\n  knownIssue: Omits co2_rating from related products, so is_eco_friendly is always false.\n  bug: BUG-005\n  steps:\n    - Send GET /products and take the first item's id.\n    - Send GET /products/{productId}/related with that id.\n    - Verify every item has a co2_rating field."
   },
   {
    "id": "API-0078",
@@ -2743,6 +2754,7 @@ window.SCENARIO_CATALOG = {
    "status": "automated",
    "automatedIn": "tests/api/users/get-users-refresh.spec.ts",
    "knownIssue": "Returns 500 instead of 401 when the request has no token.",
+   "bug": "BUG-006",
    "steps": [
     "Send GET /users/refresh without an Authorization header.",
     "Verify the response status is 401."
@@ -2757,7 +2769,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@users-api"
    ],
-   "yaml": "- id: API-0112\n  name: Refresh without a token returns 401\n  status: automated\n  automatedIn: tests/api/users/get-users-refresh.spec.ts\n  knownIssue: Returns 500 instead of 401 when the request has no token.\n  steps:\n    - Send GET /users/refresh without an Authorization header.\n    - Verify the response status is 401."
+   "yaml": "- id: API-0112\n  name: Refresh without a token returns 401\n  status: automated\n  automatedIn: tests/api/users/get-users-refresh.spec.ts\n  knownIssue: Returns 500 instead of 401 when the request has no token.\n  bug: BUG-006\n  steps:\n    - Send GET /users/refresh without an Authorization header.\n    - Verify the response status is 401."
   },
   {
    "id": "API-0113",
@@ -2765,6 +2777,7 @@ window.SCENARIO_CATALOG = {
    "status": "automated",
    "automatedIn": "tests/api/users/get-users-refresh.spec.ts",
    "knownIssue": "Returns 500 instead of 401 for a malformed token.",
+   "bug": "BUG-006",
    "steps": [
     "Send GET /users/refresh with a malformed token.",
     "Verify the response status is 401."
@@ -2779,7 +2792,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@users-api"
    ],
-   "yaml": "- id: API-0113\n  name: Refresh with a malformed token returns 401\n  status: automated\n  automatedIn: tests/api/users/get-users-refresh.spec.ts\n  knownIssue: Returns 500 instead of 401 for a malformed token.\n  steps:\n    - Send GET /users/refresh with a malformed token.\n    - Verify the response status is 401."
+   "yaml": "- id: API-0113\n  name: Refresh with a malformed token returns 401\n  status: automated\n  automatedIn: tests/api/users/get-users-refresh.spec.ts\n  knownIssue: Returns 500 instead of 401 for a malformed token.\n  bug: BUG-006\n  steps:\n    - Send GET /users/refresh with a malformed token.\n    - Verify the response status is 401."
   },
   {
    "id": "API-0085",
@@ -3102,6 +3115,7 @@ window.SCENARIO_CATALOG = {
    "status": "automated",
    "automatedIn": "tests/api/users/post-users-register.spec.ts",
    "knownIssue": "Accepts a customer born 80 years ago (201) instead of 422; the 75-year age limit only rejects birth dates more than 93 years ago.",
+   "bug": "BUG-007",
    "steps": [
     "Send POST /users/register with a unique email, a first name, a last name, a random strong password and a dob 80 years ago in YYYY-MM-DD.",
     "Verify the response status is 422."
@@ -3116,7 +3130,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@users-api"
    ],
-   "yaml": "- id: API-0099\n  name: Register a customer older than 75 returns 422\n  status: automated\n  automatedIn: tests/api/users/post-users-register.spec.ts\n  knownIssue: Accepts a customer born 80 years ago (201) instead of 422; the 75-year age limit only rejects birth dates more than 93 years ago.\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name, a random strong password and a dob 80 years ago in YYYY-MM-DD.\n    - Verify the response status is 422."
+   "yaml": "- id: API-0099\n  name: Register a customer older than 75 returns 422\n  status: automated\n  automatedIn: tests/api/users/post-users-register.spec.ts\n  knownIssue: Accepts a customer born 80 years ago (201) instead of 422; the 75-year age limit only rejects birth dates more than 93 years ago.\n  bug: BUG-007\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name, a random strong password and a dob 80 years ago in YYYY-MM-DD.\n    - Verify the response status is 422."
   }
  ]
 };

@@ -3,8 +3,8 @@ window.SCENARIO_CATALOG = {
  "layer": "ui",
  "title": "UI Test Cases",
  "prefix": "UI",
- "generatedAt": "2026-10-09T18:31:06.997Z",
- "commit": "63fe54ce7e8345090b63aeb1378abb9a9a594a5b",
+ "generatedAt": "2026-10-09T19:25:37.814Z",
+ "commit": "b15b7923f10f60c57e5a73beb6baeb21d6b06604",
  "repoUrl": "https://github.com/Zaytsman/SimpRight",
  "branch": "main",
  "workflowUrl": "https://github.com/Zaytsman/SimpRight/actions/workflows/custom-ui-tests.yml",
@@ -12,7 +12,7 @@ window.SCENARIO_CATALOG = {
   "total": 30,
   "automated": 19,
   "manual": 11,
-  "knownIssues": 0,
+  "knownIssues": 2,
   "automatedPct": 63
  },
  "tree": [
@@ -557,6 +557,8 @@ window.SCENARIO_CATALOG = {
     "docs/ui/user-stories/Product_Detail.md#AC7"
    ],
    "status": "manual",
+   "knownIssue": "The field sets a typed quantity above 99 to 99 (with the warning \"You can order at most 99 of this product.\") instead of setting 1,000,000,000 to 999,999,999 as the story's range 1 to 999,999,999 requires.",
+   "bug": "BUG-008",
    "steps": [
     "Open the product \"Combination Pliers\".",
     "Enter 1000000000 in the quantity field.",
@@ -570,7 +572,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@products"
    ],
-   "yaml": "- id: UI-024\n  name: A typed quantity above 999,999,999 is set to 999,999,999\n  ref: docs/ui/user-stories/Product_Detail.md#AC7\n  status: manual\n  steps:\n    - Open the product \"Combination Pliers\".\n    - Enter 1000000000 in the quantity field.\n    - Verify the quantity is 999999999."
+   "yaml": "- id: UI-024\n  name: A typed quantity above 999,999,999 is set to 999,999,999\n  ref: docs/ui/user-stories/Product_Detail.md#AC7\n  status: manual\n  knownIssue: The field sets a typed quantity above 99 to 99 (with the warning \"You can order at most 99 of this product.\") instead of setting 1,000,000,000 to 999,999,999 as the story's range 1 to 999,999,999 requires.\n  bug: BUG-008\n  steps:\n    - Open the product \"Combination Pliers\".\n    - Enter 1000000000 in the quantity field.\n    - Verify the quantity is 999999999."
   },
   {
    "id": "UI-025",
@@ -579,6 +581,8 @@ window.SCENARIO_CATALOG = {
     "docs/ui/user-stories/Product_Detail.md#AC7"
    ],
    "status": "manual",
+   "knownIssue": "The field changes a typed quantity of 999,999,999 to 99 (the app allows at most 99) instead of keeping it as the story's range 1 to 999,999,999 requires.",
+   "bug": "BUG-008",
    "steps": [
     "Open the product \"Combination Pliers\".",
     "Enter 999999999 in the quantity field.",
@@ -592,7 +596,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@products"
    ],
-   "yaml": "- id: UI-025\n  name: A typed quantity of 999,999,999 is accepted\n  ref: docs/ui/user-stories/Product_Detail.md#AC7\n  status: manual\n  steps:\n    - Open the product \"Combination Pliers\".\n    - Enter 999999999 in the quantity field.\n    - Verify the quantity is 999999999."
+   "yaml": "- id: UI-025\n  name: A typed quantity of 999,999,999 is accepted\n  ref: docs/ui/user-stories/Product_Detail.md#AC7\n  status: manual\n  knownIssue: The field changes a typed quantity of 999,999,999 to 99 (the app allows at most 99) instead of keeping it as the story's range 1 to 999,999,999 requires.\n  bug: BUG-008\n  steps:\n    - Open the product \"Combination Pliers\".\n    - Enter 999999999 in the quantity field.\n    - Verify the quantity is 999999999."
   },
   {
    "id": "UI-026",
