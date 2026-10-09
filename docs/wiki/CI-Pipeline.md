@@ -11,9 +11,9 @@ How SimpRight's GitHub Actions are put together: the workflows, the reusable tes
                 ├──────── custom-api-tests.yml (by hand)            (reusable)            (reports)
                 └──────── custom-ui-tests.yml  (by hand)
 
- pull requests ────────── pr-checks.yml (verify) ──► typecheck, scenarios, Test Cases build, affected tests
+ pull requests ────────── pr-checks.yml (verify) ──► typecheck, scenarios, Test Cases and Bugs build, affected tests
 
- push to main ──┬──────── publish-test-cases.yml ──► gh-pages (Test Cases pages + portal)
+ push to main ──┬──────── publish-test-cases.yml ──► gh-pages (Test Cases + Bugs pages + portal)
                 └──────── publish-wiki.yml       ──► the wiki
 ```
 
@@ -27,7 +27,7 @@ How SimpRight's GitHub Actions are put together: the workflows, the reusable tes
 | `custom-api-tests.yml` | Custom API Test Run | by hand (area, grep) | One API area or all, optionally filtered |
 | `custom-ui-tests.yml` | Custom UI Test Run | by hand (area, grep) | One UI area or all, optionally filtered |
 | `pr-checks.yml` | PR Checks | pull requests to `main` or `develop` | The `verify` job |
-| `publish-test-cases.yml` | Publish Test Cases | push to `main` changing scenarios, the page, its scripts, the profile or `index.html`; by hand | Validates the scenarios, builds and publishes the Test Cases pages and the portal |
+| `publish-test-cases.yml` | Publish Test Cases | push to `main` changing scenarios, bugs, the pages, their scripts, the profile or `index.html`; by hand | Validates the scenarios, builds and publishes the Test Cases pages, the Bugs page and the portal |
 | `publish-wiki.yml` | Publish Wiki | push to `main` changing `docs/wiki/`; by hand | Mirrors `docs/wiki/` into the wiki |
 
 ## The reusable test job: `playwright-run.yml`
@@ -75,7 +75,7 @@ No workflow uses `pull_request_target`, so pull request code never runs with acc
 
 `verify` runs on every pull request to `main` or `develop`, and it's the **required check** on `main`. It's one job with conditional steps, because a required check that is skipped as a whole never reports and would block the merge.
 
-1. **Always:** `npm run typecheck`, `npm run validate:scenarios`, and `npm run test-cases:build` (the Test Cases pages must still build).
+1. **Always:** `npm run typecheck`, `npm run validate:scenarios`, and `npm run test-cases:build` and `npm run bugs:build` (the Test Cases and Bugs pages must still build).
 2. **Decide the test scope** with `scripts/pr-test-scope.sh` from the files changed against the base branch.
 3. **Run the tests** the scope asks for (Chromium is installed only when tests run).
 4. On failure, upload the report as an artifact (kept 7 days).

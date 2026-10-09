@@ -28,3 +28,4 @@
 - [GitHub Pages Publishing](GitHub-Pages-Publishing)
 - [Automation Portal](Automation-Portal)
 - [Test Cases Pages](Test-Cases-Pages)
+- [Bugs Page](Bugs-Page)

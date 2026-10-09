@@ -434,6 +434,17 @@
       background: rgba(56, 189, 248, 0.04);
     }
 
+    .bug-link {
+      color: var(--cyan);
+      font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+      font-size: .85rem;
+      white-space: nowrap;
+    }
+
+    .bug-link:hover {
+      text-decoration: underline;
+    }
+
     .grid-stats {
       display: grid;
       grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -619,6 +630,8 @@
               <!-- Test case pages (scripts/build-test-cases.mts) stay hidden until publish-test-cases.yml has published them. -->
               <a class="action-link" data-test-cases="ui" hidden href="test-cases/ui/" target="_blank" rel="noreferrer">UI Test Cases</a>
               <a class="action-link" data-test-cases="api" hidden href="test-cases/api/" target="_blank" rel="noreferrer">API Test Cases</a>
+              <!-- The Bugs page (scripts/build-bugs.mts) is published with the test case pages and stays hidden until it exists. -->
+              <a class="action-link" data-bugs hidden href="bugs/" target="_blank" rel="noreferrer">Bugs</a>
               <!-- Repository links: rewritten to the repository the site is served for (<owner>.github.io/<repo>/), so forks link to their own. -->
               <a class="action-link" data-repo-link="actions" href="https://github.com/Zaytsman/SimpRight/actions" target="_blank" rel="noreferrer">Schedule Test Run</a>
               <a class="action-link" href="#history">Test Runs History</a>
@@ -718,12 +731,13 @@
                 <tr>
                   <th>Area</th>
                   <th>Test Name</th>
+                  <th>Bug</th>
                   <th>Issue</th>
                 </tr>
               </thead>
               <tbody id="knownIssuesBody">
                 <tr>
-                  <td colspan="3" class="no-data">Loading...</td>
+                  <td colspan="4" class="no-data">Loading...</td>
                 </tr>
               </tbody>
             </table>
@@ -908,7 +922,7 @@
     }
 
     // Lists tests with an annotation whose description contains "Known issue", e.g.
-    // test.info().annotations.push({ type: 'issue', description: 'Known issue: ...' }).
+    // test.fail(true, 'Known issue BUG-003: ...'); the bug ID links to the Bugs page.
     async function loadKnownIssues() {
       const tbody = document.getElementById('knownIssuesBody');
       const knownIssues = [];
@@ -949,15 +963,27 @@
 
       tbody.innerHTML = '';
       if (knownIssues.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="3" class="no-data">No known issues.</td></tr>';
+        tbody.innerHTML = '<tr><td colspan="4" class="no-data">No known issues.</td></tr>';
         return;
       }
 
       knownIssues.forEach(issue => {
         const row = document.createElement('tr');
-        [issue.area, issue.testName, issue.description].forEach(text => {
+        const bug = /^Known issue ([A-Z]+-\d+):/.exec(issue.description)?.[1];
+        const text = issue.description.replace(/^Known issue( [A-Z]+-\d+)?: /, '');
+        [issue.area, issue.testName, bug, text].forEach((value, index) => {
           const cell = document.createElement('td');
-          cell.textContent = text;
+          if (index === 2 && value) {
+            const link = document.createElement('a');
+            link.href = `bugs/#bug=${encodeURIComponent(value)}`;
+            link.target = '_blank';
+            link.rel = 'noreferrer';
+            link.className = 'bug-link';
+            link.textContent = value;
+            cell.appendChild(link);
+          } else {
+            cell.textContent = value || '-';
+          }
           row.appendChild(cell);
         });
         tbody.appendChild(row);
@@ -1022,6 +1048,12 @@
           console.debug(`No ${link.dataset.testCases} test cases published yet`);
         }
       }));
+      try {
+        const response = await fetch('bugs/bugs-data.js', { method: 'HEAD' });
+        document.querySelectorAll('[data-bugs]').forEach((link) => { link.hidden = !response.ok; });
+      } catch {
+        console.debug('No Bugs page published yet');
+      }
     }
 
     // On GitHub Pages (<owner>.github.io/<repo>/), point the repository links at that repository;

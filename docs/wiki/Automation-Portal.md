@@ -23,6 +23,7 @@ A run is **healthy** when its failure rate is below the threshold: **2 % for UI,
 |---|---|---|
 | **API Coverage** | The coverage report of the latest full API regression (new tab) | `latest/api-coverage/summary.json` exists |
 | **UI Test Cases**, **API Test Cases** | The [Test Cases Pages](Test-Cases-Pages) (new tab) | `test-cases/<layer>/scenarios-data.js` exists |
+| **Bugs** | The [Bugs Page](Bugs-Page) (new tab) | `bugs/bugs-data.js` exists |
 | **Schedule Test Run** | The repository's Actions tab, to start or schedule a run (new tab; see [CI Runs](CI-Runs)) | always |
 | **Test Runs History** | The history section below | always |
 | **Known Issues** | The known issues section below | always |
@@ -55,7 +56,7 @@ Only the scheduled regressions (`daily-*` families) feed the charts and the stat
 
 ### Known Issues
 
-A table of every test that carries a **known issue**, with its area (the spec's suite), the test name and the issue text. It's built from the annotations in the latest UI and API regression results: any annotation whose description contains `Known issue`, which is what `test.fail(true, 'Known issue BUG-001: ...')` adds. When the bug is fixed and the `knownIssue` is removed from the scenario and the test, the row disappears after the next regression run.
+A table of every test that carries a **known issue**, with its area (the spec's suite), the test name, its **bug** and the issue text. It's built from the annotations in the latest UI and API regression results: any annotation whose description contains `Known issue`, which is what `test.fail(true, 'Known issue BUG-001: ...')` adds. The bug ID links to the bug on the [Bugs Page](Bugs-Page) (results from before bug IDs show `-`). When the bug is fixed and the `knownIssue` is removed from the scenario and the test, the row disappears after the next regression run.
 
 ### Test Runs History
 
@@ -70,6 +71,7 @@ The latest 10 runs of each family (UI Regression, API Regression, Custom UI, Cus
 | History | `<family>-manifest.json` of the four families |
 | Coverage cards and button | `latest/api-coverage/summary.json` (`overallCoveragePct`, `coveredEndpoints`, `totalEndpoints`) |
 | Test Cases buttons | a `HEAD` request for `test-cases/<layer>/scenarios-data.js` |
+| Bugs button | a `HEAD` request for `bugs/bugs-data.js` |
 
 Everything optional is hidden until its file exists, so the portal works in a fork without the coverage package, and before the first run of any family ("No runs published yet").
 

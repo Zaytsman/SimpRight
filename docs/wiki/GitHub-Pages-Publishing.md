@@ -34,13 +34,14 @@ gh-pages/
 | `/latest/<family>/` | The newest run of a family |
 | `/latest/api-coverage/` | The API coverage report |
 | `/test-cases/ui/`, `/test-cases/api/` | [Test Cases Pages](Test-Cases-Pages) |
+| `/bugs/` | [Bugs Page](Bugs-Page) |
 
 ## Who publishes what
 
 | Script | Called by | Publishes |
 |---|---|---|
 | `scripts/publish-report.sh <family> [--latest-coverage]` | `playwright-run.yml`, after every test run | The run's report, `latest/<family>/`, the manifest, the coverage (with the flag), the portal |
-| `scripts/publish-test-cases.sh` | `publish-test-cases.yml`, on pushes to `main` | `test-cases/` and the portal |
+| `scripts/publish-test-cases.sh` | `publish-test-cases.yml`, on pushes to `main` | `test-cases/`, `bugs/` and the portal |
 | `scripts/gh-pages-lib.sh` | both scripts above | The shared checkout and push |
 
 Each script replaces only its own files and leaves the rest of the branch alone, so test runs and Test Cases publishing never overwrite each other.
@@ -57,10 +58,10 @@ Each script replaces only its own files and leaves the rest of the branch alone,
 
 Runs are sorted by number (`sort -V`), so `run-100` comes after `run-99`.
 
-## Publishing the Test Cases pages: `publish-test-cases.sh`
+## Publishing the Test Cases and Bugs pages: `publish-test-cases.sh`
 
-1. Build the pages with `scripts/build-test-cases.mts` into `test-results/test-cases/`.
-2. Check out `gh-pages`, replace the whole `test-cases/` folder (so a removed layer disappears too), copy `index.html`.
+1. Build the pages with `scripts/build-test-cases.mts` into `test-results/test-cases/`, and the Bugs page with `scripts/build-bugs.mts` into `test-results/bugs/`.
+2. Check out `gh-pages`, replace the whole `test-cases/` and `bugs/` folders (so a removed layer disappears too), copy `index.html`.
 3. Commit and push.
 
 The workflow validates the scenarios first, so a broken scenario file never reaches the site.
@@ -91,6 +92,7 @@ The portal and the Test Cases pages load their data with `fetch`, which browsers
 
 ```bash
 npm run test-cases:build -- test-results/site-preview/test-cases
+npm run bugs:build -- test-results/site-preview/bugs
 cp index.html test-results/site-preview/
 npx http-server test-results/site-preview -p 4173
 ```

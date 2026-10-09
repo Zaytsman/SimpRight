@@ -32,17 +32,17 @@ UI TEST CASES                     [Expand all] [Collapse all]
 - **Area → file → scenario**, following `test-scenarios/<layer>/<area>/<file>.yml`. API files are labelled with their endpoint (`GET /products/{productId}`), UI files with their name (`Product detail`). Each group shows how many scenarios it holds.
 - A dot shows the status: **green** automated, **red** manual; ⚠ marks a known issue.
 - The tree **starts collapsed**. **Expand all** and **Collapse all** open or close every group; selecting a scenario opens its branch.
-- **Search** looks through IDs, names, steps, suites, areas, file names, roles, tags, references, spec paths and known-issue texts.
+- **Search** looks through IDs, names, steps, suites, areas, file names, roles, tags, references, spec paths, known-issue texts and bug IDs.
 - **Filters:** All, Automated, Manual, Known issue. A search or filter expands the matching groups.
 - **Arrow keys** ↑ ↓ move through the scenarios in tree order.
 
 ### The scenario (main panel)
 
-- **Breadcrumbs** (layer › area › file), the ID and name, and chips: status, known issue, role (`default`, `admin`, `guest`) and tags.
+- **Breadcrumbs** (layer › area › file), the ID and name, and chips: status, known issue (with its bug ID), role (`default`, `admin`, `guest`) and tags.
 - **Banners:**
   - **Automated:** a link to the spec on GitHub, at the test's line; the command to run it locally (`npx playwright test -g "UI-013:"`, with a **Copy command** button); and **Run on GitHub ↗**, which copies `UI-013:` and opens the custom workflow. GitHub can't pre-fill a manual run's inputs from a link, so you choose the area and paste the copied text as the title filter (`grep`).
   - **Manual:** how to run it by hand (**Execute**) or automate it (`/implement-ui-scenarios UI-020`).
-  - **Known issue:** the issue text, and that the test is expected to fail until the app is fixed.
+  - **Known issue:** the bug, linked to the [Bugs Page](Bugs-Page), the issue text, and that the test is expected to fail until the app is fixed.
   - **Source:** links to the scenario file and, for `ref`s in `docs/`, the user story or document it comes from.
 - **Steps** tab: the numbered steps; `Verify` steps are highlighted as checks.
 - **Execute** mode: tick off the steps while you run the scenario by hand. The ticks live only in that browser tab (nothing is saved or sent).

@@ -54,6 +54,7 @@ Each AI agent, its slash command and the skills it uses:
 2. [GitHub Pages Publishing](GitHub-Pages-Publishing): what the CI publishes to `gh-pages`, by which script, and how the branch stays small.
 3. [Automation Portal](Automation-Portal): the dashboard: status, charts, known issues, coverage and run history.
 4. [Test Cases Pages](Test-Cases-Pages): the browsable catalog of UI and API scenarios, and how it is built and published.
+5. [Bugs Page](Bugs-Page): the bugs found in the app, the tests that hit them and their latest results.
 
 ## Links
 
@@ -63,6 +64,7 @@ Each AI agent, its slash command and the skills it uses:
 | Automation Portal (dashboard) | [zaytsman.github.io/SimpRight](https://zaytsman.github.io/SimpRight/) |
 | UI Test Cases | [zaytsman.github.io/SimpRight/test-cases/ui](https://zaytsman.github.io/SimpRight/test-cases/ui/) |
 | API Test Cases | [zaytsman.github.io/SimpRight/test-cases/api](https://zaytsman.github.io/SimpRight/test-cases/api/) |
+| Bugs | [zaytsman.github.io/SimpRight/bugs](https://zaytsman.github.io/SimpRight/bugs/) |
 | The AI workflow | [docs/AI_WORKFLOW.md](https://github.com/Zaytsman/SimpRight/blob/main/docs/AI_WORKFLOW.md) |
 | Conventions in detail | [CLAUDE.md](https://github.com/Zaytsman/SimpRight/blob/main/CLAUDE.md) |
 
