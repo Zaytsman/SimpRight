@@ -95,7 +95,7 @@ Rules worth testing _(source)_:
 - **No stock check:** neither the controller nor the service looks at the product's stock, so out-of-stock products can be added.
 - **Discounts:** after each add, the cart's `additional_discount_percentage` becomes `15` when the cart holds both a rental and a non-rental product, otherwise `null`. When the cart has non-zero `lat` and `lng`, the added item's `discount_percentage` is set from the city table (see Enums; `0` when no city matches).
 
-**Response:** `200 OK` _(source)_
+**Response:** `200 OK` _(verified)_
 ```ts
 {
   result: "item added or updated";
@@ -107,7 +107,7 @@ The response has no ids: read the cart (`GET /carts/{cartId}`) to see the item's
 **Error Responses:**
 - `400 Bad Request`: a Thor Hammer rule is broken (quantity above 1, or already in the cart), with `{ message: "You can only have one Thor Hammer in the cart." }`; any other unexpected exception in the service also becomes a `400` with its message _(source)_
 - `404 Not Found`: no cart with this id, with `{ message: "Cart not found" }` _(source)_
-- `422 Unprocessable Entity`: `product_id` missing, not a string or not an existing product; `quantity` missing, not an integer, below 1 or above 99. Framework default body `{ message, errors }` (see Error Handling) _(source)_
+- `422 Unprocessable Entity`: `product_id` missing, not a string or not an existing product; `quantity` missing or not an integer. Framework default body `{ message, errors }` (see Error Handling) _(source)_; `quantity` below 1 or above 99 _(source)_; `quantity` 0 and 1,000,000,000 give it with a `quantity` key in `errors` _(verified)_
 
 **Example:**
 ```http
@@ -134,7 +134,7 @@ Returns the cart with its items, each with its product. For an item with a non-z
 |---|---|---|---|
 | `cartId` | string (ULID) | Yes | The cart's id (named `{id}` in the route) |
 
-**Response:** `200 OK` _(source)_
+**Response:** `200 OK` _(verified)_
 ```ts
 Cart   // see Data Models
 ```

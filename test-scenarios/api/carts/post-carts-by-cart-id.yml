@@ -5,7 +5,8 @@ scenarios:
   - id: API-0114
     name: Add a product with quantity 1 to a cart returns 200 and the cart holds it
     ref: docs/ui/user-stories/Product_Detail.md#AC7
-    status: manual
+    status: automated
+    automatedIn: tests/api/carts/post-carts-by-cart-id.spec.ts
     steps:
       - Send GET /products and take the first item's brand id, category id and product image id.
       - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental false and stock 10, and take the new product's id.
@@ -18,7 +19,8 @@ scenarios:
   - id: API-0115
     name: Add a product with quantity 2 to a new cart puts it in the cart with quantity 2
     ref: docs/ui/user-stories/Product_Detail.md#AC8
-    status: manual
+    status: automated
+    automatedIn: tests/api/carts/post-carts-by-cart-id.spec.ts
     steps:
       - Send GET /products and take the first item's brand id, category id and product image id.
       - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental false and stock 10, and take the new product's id.
@@ -30,7 +32,8 @@ scenarios:
   - id: API-0116
     name: Add a product with quantity 0 to a cart returns 422 and adds nothing
     ref: docs/ui/user-stories/Product_Detail.md#AC7
-    status: manual
+    status: automated
+    automatedIn: tests/api/carts/post-carts-by-cart-id.spec.ts
     steps:
       - Send GET /products and take the first item's brand id, category id and product image id.
       - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental false and stock 10, and take the new product's id.
@@ -42,7 +45,8 @@ scenarios:
   - id: API-0117
     name: Add a product with quantity 1,000,000,000 to a cart returns 422 and adds nothing
     ref: docs/ui/user-stories/Product_Detail.md#AC7
-    status: manual
+    status: automated
+    automatedIn: tests/api/carts/post-carts-by-cart-id.spec.ts
     steps:
       - Send GET /products and take the first item's brand id, category id and product image id.
       - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental false and stock 10, and take the new product's id.
@@ -54,7 +58,8 @@ scenarios:
   - id: API-0118
     name: Add a product with quantity 999,999,999 to a cart returns 200 and the cart holds it
     ref: docs/ui/user-stories/Product_Detail.md#AC7
-    status: manual
+    status: automated
+    automatedIn: tests/api/carts/post-carts-by-cart-id.spec.ts
     knownIssue: Returns 422 for a quantity of 999,999,999 (the server allows at most 99) instead of adding it to the cart as the story's range 1 to 999,999,999 requires.
     steps:
       - Send GET /products and take the first item's brand id, category id and product image id.

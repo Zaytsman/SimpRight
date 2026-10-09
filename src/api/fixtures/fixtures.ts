@@ -41,7 +41,9 @@ export type ApiFixtures = {
   usersServiceForToken: (token: string) => UsersService;
   /** Always authenticated as admin, whatever the test's `role`: patches throwaway customers and deletes them in cleanup. */
   adminUsersService: UsersService;
-  /** Public: carts need no token (cleanup removes the cart a UI test filled). */
+  /** Public: carts need no token (the carts specs check statuses with it). */
+  cartsClient: CartsClient;
+  /** Public: carts need no token (setup creates carts; cleanup removes the carts tests filled). */
   cartsService: CartsService;
   /** Builds a favorites service for a token the test obtained itself (the favourites of that token's user). */
   favoritesServiceForToken: (token: string) => FavoritesService;
@@ -97,8 +99,11 @@ export const test = base.extend<ApiFixtures>({
     await use(new UsersService(new UsersClient(request, config, await tokenService.getAccessToken('admin'))));
   },
 
-  cartsService: async ({ request, config }, use) => {
-    await use(new CartsService(new CartsClient(request, config)));
+  cartsClient: async ({ request, config }, use) => {
+    await use(new CartsClient(request, config));
+  },
+  cartsService: async ({ cartsClient }, use) => {
+    await use(new CartsService(cartsClient));
   },
 
   favoritesServiceForToken: async ({ request, config }, use) => {
