@@ -59,9 +59,11 @@ jobs:
       - name: Validate scenarios
         run: npm run validate:scenarios
 
-      # The Test Cases pages are published from main (publish-test-cases.yml); check that they still build.
-      - name: Build test case pages
-        run: npm run test-cases:build
+      # The Test Cases and Bugs pages are published from main (publish-test-cases.yml); check that they still build.
+      - name: Build test case and bug pages
+        run: |
+          npm run test-cases:build
+          npm run bugs:build
 
       - name: Decide test scope
         id: scope

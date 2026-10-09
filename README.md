@@ -49,6 +49,7 @@ ADMIN_PASSWORD=<admin password>
 | `npm run validate:scenarios` | Check `qa-agents-profile.yml`, the scenario files and their IDs against the specs |
 | `npm run inspect:ui -- <path> [--role admin \| --logged-out]` | Print a page's `data-test` elements and accessibility tree, for writing UI tests |
 | `npm run test-cases:build` | Build the Test Cases pages (the scenario catalog) into `test-results/test-cases/` |
+| `npm run bugs:build` | Build the Bugs page into `test-results/bugs/` |
 
 Single file or single test:
 
@@ -111,6 +112,7 @@ tests/
   api/<area>/*.spec.ts
   ui/<area>/*.spec.ts
 test-scenarios/          scenario source of truth (api/, ui/)
+bugs/                    bugs found in the app under test, one BUG-001.yml per root cause
 docs/api/contracts/      API contracts, the reference for API coverage
 qa-agents-profile.yml    project facts for the QA agents and scripts (paths, commands, ID formats, roles)
 ```
@@ -171,12 +173,14 @@ GitHub Actions runs the tests and publishes every report to GitHub Pages: **[zay
 | API Regression Test Run | weekdays 02:00 UTC, or by hand | all API tests |
 | UI Regression Test Run | weekdays 06:00 UTC, or by hand | all UI tests |
 | Custom API / UI Test Run | by hand | one area (a folder in `tests/`), optionally filtered by a title (`--grep`) |
-| Publish Test Cases | on push to `main` that changes the scenarios, or by hand | the UI and API Test Cases pages |
+| Publish Test Cases | on push to `main` that changes the scenarios or bugs, or by hand | the UI and API Test Cases pages and the Bugs page |
 | Publish Wiki | on push to `main` that changes `docs/wiki/`, or by hand | the [wiki](https://github.com/Zaytsman/SimpRight/wiki), from `docs/wiki/` |
 
 The dashboard shows the latest status, test counts, known issues, pass/fail, duration and failure-rate trends, and the history of the last runs, each linking to its full Playwright report. Every report family keeps its latest 30 runs.
 
 Its **UI Test Cases** and **API Test Cases** pages list every scenario in `test-scenarios/` as a tree (layer → area → file → scenario), with search, status and known-issue filters, the steps, the YAML, and links to the spec and the user story. The Publish Test Cases workflow rebuilds them whenever scenarios change on `main`; `npm run test-cases:build` builds them locally (open `test-results/test-cases/ui/index.html`).
+
+Its **Bugs** page lists the bugs found in the app (`bugs/`, one per root cause) with the steps to reproduce, the tests that hit them and their latest result; a known-issue test that starts passing flags its bug for a re-check. It's published with the Test Cases pages; `npm run bugs:build` builds it locally.
 
 To run it in your own fork, add the `ADMIN_USER` and `ADMIN_PASSWORD` repository secrets. After the first run creates the `gh-pages` branch, turn on GitHub Pages from that branch.
 

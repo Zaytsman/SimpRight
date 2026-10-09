@@ -86,6 +86,7 @@ scenarios:
     status: automated
     automatedIn: tests/api/products/put-products-by-product-id.spec.ts
     knownIssue: Accepts PUT without a token instead of returning 401.
+    bug: BUG-001
     steps:
       - Send GET /products and take the first item's brand id, category id and product image id.
       - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false and is_rental false, and take the new product's id.

@@ -1,0 +1,22 @@
+# yaml-language-server: $schema=./bug.schema.json
+id: BUG-006
+title: Token refresh returns 500 instead of 401 without a token or with a malformed one
+status: open
+severity: major
+layer: api
+area: users
+affects:
+  - GET /users/refresh
+found: 2026-10-03
+ref:
+  - docs/api/contracts/Users_API.md#7-refresh-token
+description: >-
+  An expired or invalidated token gets a proper 401; only a missing or unparsable one ends in a server error.
+steps:
+  - Send GET /users/refresh without an Authorization header.
+  - Send GET /users/refresh with Authorization "Bearer not-a-jwt".
+expected: 401 for both.
+actual: '500 with { "message": "Server Error" } for both.'
+evidence: |-
+  GET /users/refresh (no Authorization), 2026-10-09 -> 500 {"message":"Server Error"}
+  GET /users/refresh (Authorization: Bearer not-a-jwt), 2026-10-09 -> 500 {"message":"Server Error"}

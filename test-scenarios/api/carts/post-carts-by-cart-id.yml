@@ -61,6 +61,7 @@ scenarios:
     status: automated
     automatedIn: tests/api/carts/post-carts-by-cart-id.spec.ts
     knownIssue: Returns 422 for a quantity of 999,999,999 (the server allows at most 99) instead of adding it to the cart as the story's range 1 to 999,999,999 requires.
+    bug: BUG-008
     steps:
       - Send GET /products and take the first item's brand id, category id and product image id.
       - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental false and stock 10, and take the new product's id.

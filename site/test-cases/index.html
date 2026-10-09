@@ -881,7 +881,7 @@
         if (state.status === 'known' && !sc.knownIssue) return false;
         if ((state.status === 'automated' || state.status === 'manual') && sc.status !== state.status) return false;
         if (!state.search) return true;
-        const text = [sc.id, sc.name, sc.suite, sc.areaLabel, sc.fileLabel, sc.file, sc.role ?? '', sc.knownIssue ?? '', sc.automatedIn ?? '', ...sc.ref, ...sc.tags, ...sc.steps]
+        const text = [sc.id, sc.name, sc.suite, sc.areaLabel, sc.fileLabel, sc.file, sc.role ?? '', sc.knownIssue ?? '', sc.bug ?? '', sc.automatedIn ?? '', ...sc.ref, ...sc.tags, ...sc.steps]
           .join(' ')
           .toLowerCase();
         return text.includes(state.search);
@@ -1052,7 +1052,7 @@
         chips += sc.status === 'automated'
           ? '<span class="chip automated"><span class="status-dot"></span>Automated</span>'
           : '<span class="chip manual"><span class="status-dot"></span>Manual</span>';
-        if (sc.knownIssue) chips += '<span class="chip known">⚠ Known issue</span>';
+        if (sc.knownIssue) chips += `<span class="chip known">⚠ Known issue${sc.bug ? ` ${escapeHtml(sc.bug)}` : ''}</span>`;
         chips += `<span class="chip role" title="Who runs the scenario">Role: ${escapeHtml(sc.role ?? 'default')}</span>`;
         chips += sc.tags.map((t) => `<span class="chip tag">${escapeHtml(t)}</span>`).join('');
         $('detail-chips').innerHTML = chips;
@@ -1089,8 +1089,11 @@
         }
 
         if (sc.knownIssue) {
+          const bugLink = sc.bug
+            ? `Bug: <a href="../../bugs/#bug=${encodeURIComponent(sc.bug)}" target="_blank" rel="noreferrer"><span class="code">${escapeHtml(sc.bug)}</span></a><br>`
+            : '';
           banners.appendChild(banner('known', 'Known issue',
-            `${escapeHtml(sc.knownIssue)}<br>The test is expected to fail until the app is fixed (<span class="code">test.fail</span>).`,
+            `${bugLink}${escapeHtml(sc.knownIssue)}<br>The test is expected to fail until the app is fixed (<span class="code">test.fail</span>).`,
             []));
         }
 

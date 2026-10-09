@@ -22,9 +22,11 @@
 - [UI Test Engineer](UI-Test-Engineer)
 - [Test Reviewer](Test-Reviewer)
 - [Test Healer](Test-Healer)
+- [Bug Reporter](Bug-Reporter)
 
 **Continuous Integration**
 - [CI Pipeline](CI-Pipeline)
 - [GitHub Pages Publishing](GitHub-Pages-Publishing)
 - [Automation Portal](Automation-Portal)
 - [Test Cases Pages](Test-Cases-Pages)
+- [Bugs Page](Bugs-Page)

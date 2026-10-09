@@ -84,8 +84,9 @@ Follow the existing UI scenario files for tone and detail. Then:
 - **Checks** are steps starting with `Verify`, in the order they happen, one concern per step, each about something visible: `Verify the products are sorted by price, highest first.`, `Verify the message "Product added to shopping cart." is shown.`
 - **Data:** use literal values the app shows and the project's constants hold (`TestConstants`), or ones the inspector showed on a page a scenario starts from. Otherwise describe the data ("a product that is out of stock").
 - **`knownIssue`:** one sentence naming the wrong behaviour and the expected one: `The sort list ignores "Price (Low - High)" and keeps the name order.`
+- **`bug`:** every `knownIssue` comes with the ID of its bug in `paths.bugs`, one bug per root cause. Look there first: when an open bug has the same cause (also an API bug the page only shows, like a server-side limit), use its ID. Otherwise propose a new bug with the next free `ids.bugs` ID (`validate:scenarios` prints it), in the format of `paths.bugSchema` (copy the style of an existing bug file), and write it in the `write` phase together with the scenario. Bug files never contain secret values.
 
-Keys in each scenario follow the order the conventions give (`id`, `name`, `ref`, `status`, `automatedIn`, `role`, `knownIssue`, `steps`). Every new scenario has `status: manual` and no `automatedIn`.
+Keys in each scenario follow the order the conventions give (`id`, `name`, `ref`, `status`, `automatedIn`, `role`, `knownIssue`, `bug`, `steps`). Every new scenario has `status: manual` and no `automatedIn`.
 
 ## Phase `propose`: write nothing
 

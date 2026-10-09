@@ -19,7 +19,7 @@ Copy the structure of the exemplar spec (`ui.exemplars.spec` in the profile) and
 
 - One `test('<ID>: <name>')` per scenario, with the name verbatim (escape quotes the way the exemplar does). (checked)
 - **Roles:** absent → the default user, nothing to set. `admin` (or another login role) → `test.use({ role: '<role>' })`. `guest` (logged out) → `test.use({ authMode: 'none' })`. When every scenario in the file has the same role, set it once inside the describe; otherwise wrap that one test in an anonymous `test.describe(() => { test.use(...); test(...) })`.
-- A scenario with `knownIssue`: the first line of the test is the profile's `ui.knownIssue` snippet with the text verbatim.
+- A scenario with `knownIssue`: the first line of the test is the profile's `ui.knownIssue` snippet with the scenario's `bug` ID and the text verbatim.
 - Tests in a file run in parallel and each file runs on its own: no state shared between tests, no order between them.
 - State shared between steps goes in `let` variables at the top of the test; values only this test uses are `const`s there too (from the constants module when shared).
 - **Precondition fixtures** cover setup the scenario doesn't list as a step. A step the scenario lists ("Open the home page.") is done inside that step with plain `test`.

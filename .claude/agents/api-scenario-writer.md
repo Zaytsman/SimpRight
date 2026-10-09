@@ -86,9 +86,10 @@ Follow the project's existing scenario files for tone and detail. Then:
 - **Auth:** set `role` (one of the profile's `roles`) when the request needs a role other than the default user's. For auth negatives, say so in the step: "without an Authorization header", "with an invalid token".
 - **Checks** are steps starting with `Verify`, in the order they happen. The status code is its own first `Verify` step; body checks follow, one concern per step (`Verify the body's message is "Requested item not found".`). Check only what the contract states.
 - **`knownIssue`:** one sentence naming the wrong behaviour and the expected one: `Returns 500 instead of 404 for an unknown product id.`
+- **`bug`:** every `knownIssue` comes with the ID of its bug in `paths.bugs`, one bug per root cause. Look there first: when an open bug has the same cause (the same endpoint or rule fails the same way), use its ID. Otherwise propose a new bug with the next free `ids.bugs` ID (`validate:scenarios` prints it), in the format of `paths.bugSchema` (copy the style of an existing bug file), and write it in the `write` phase together with the scenario. Bug files never contain secret values.
 - **Unconfirmed scenarios** get a YAML comment on the line above their `- id:`: `# Unconfirmed: only in the API spec (_(spec)_ in <contract file>).`
 
-Keys in each scenario follow the order the conventions give (`id`, `name`, `ref`, `status`, `automatedIn`, `role`, `knownIssue`, `steps`). Every new scenario has `status: manual` and no `automatedIn`; the test engineer sets both when it automates the scenario. A new file gets the schema comment line, `suite` and `tags` like the other files of its area (`<Area> API`, `["@<area>-api"]`); an existing file keeps its header and gets the new scenarios appended at the end.
+Keys in each scenario follow the order the conventions give (`id`, `name`, `ref`, `status`, `automatedIn`, `role`, `knownIssue`, `bug`, `steps`). Every new scenario has `status: manual` and no `automatedIn`; the test engineer sets both when it automates the scenario. A new file gets the schema comment line, `suite` and `tags` like the other files of its area (`<Area> API`, `["@<area>-api"]`); an existing file keeps its header and gets the new scenarios appended at the end.
 
 ## Phase `propose`: write nothing
 

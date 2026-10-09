@@ -151,7 +151,7 @@ test.describe('@products-api - Products API', () => {
   });
 
   test('API-0057: Partially update product without a token returns 401', async ({ productsService, adminProductsService, productsClient, cleanup }) => {
-    test.fail(true, 'Known issue: Accepts PATCH without a token instead of returning 401.');
+    test.fail(true, 'Known issue BUG-001: Accepts PATCH without a token instead of returning 401.');
     let request: { method: string; path: string; auth: string; body: unknown };
     let response: ApiResponse;
 

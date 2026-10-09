@@ -58,7 +58,7 @@ If the agent can't be continued, start a new `api-test-engineer` with the brief 
 
 1. Run the profile's `commands.typecheck` and `commands.validateScenarios` yourself and confirm they pass.
 2. Tell the user briefly: the files changed by group, the table of scenario → result, the contract facts now `_(verified)_`, the live writes the tests make and their cleanup, and the assumptions to confirm.
-3. **Failing on app behaviour:** show each one with its request, expected, actual and the agent's proposal, and ask the user what to do with each: add the proposed `knownIssue`, fix the scenario or contract, or leave it failing to investigate. For approved known issues, continue the agent (`Known issues approved: <ID: text>`) so it adds them and re-runs the specs; scenario and contract fixes are the user's call, so don't make them unless asked.
+3. **Failing on app behaviour:** show each one with its request, expected, actual and the agent's proposal, and ask the user what to do with each: add the proposed `knownIssue`, fix the scenario or contract, or leave it failing to investigate. For approved known issues, continue the agent (`Known issues approved: <ID: bug ID (existing, or new with its title): text>`) so it adds them and re-runs the specs; scenario and contract fixes are the user's call, so don't make them unless asked.
 4. Suggest the next step: review the diff, then commit.
 
 Don't commit anything unless the user asks.

@@ -1,0 +1,19 @@
+# yaml-language-server: $schema=./bug.schema.json
+id: BUG-007
+title: Registration accepts customers older than 75; the age limit only rejects birth dates more than 93 years ago
+status: open
+severity: major
+layer: api
+area: users
+affects:
+  - POST /users/register
+found: 2026-10-03
+ref:
+  - docs/api/contracts/Users_API.md#notes
+description: >-
+  The rule behind "Customer must be younger than 75 years old." subtracts 75 years from a date that
+  already had 18 subtracted (the minimum-age check), so the upper limit is 93 years, not 75.
+steps:
+  - Send POST /users/register with a unique email, a first name, a last name, a random strong password and a dob 80 years ago in YYYY-MM-DD.
+expected: 422 with the dob message "Customer must be younger than 75 years old.".
+actual: 201; the customer is registered.

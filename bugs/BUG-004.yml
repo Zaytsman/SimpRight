@@ -1,0 +1,19 @@
+# yaml-language-server: $schema=./bug.schema.json
+id: BUG-004
+title: Related products for an unknown product id return 500 instead of 404
+status: open
+severity: major
+layer: api
+area: products
+affects:
+  - GET /products/{productId}/related
+found: 2026-10-02
+ref:
+  - docs/api/contracts/Products_API.md#8-get-related-products
+steps:
+  - Send GET /products/{productId}/related with a well-formed ULID that no product has.
+expected: 404, like GET /products/{productId} for the same id.
+actual: '500 with { "message": "Server Error" }.'
+evidence: |-
+  GET /products/01AAAAAAAAAAAAAAAAAAAAAAAA/related (Accept: application/json), 2026-10-09
+  -> 500 {"message":"Server Error"}

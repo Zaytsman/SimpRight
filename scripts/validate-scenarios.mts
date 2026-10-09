@@ -1,21 +1,27 @@
-// Validates qa-agents-profile.yml, the scenario files and their links to the specs.
+// Validates qa-agents-profile.yml, the bug files, the scenario files and their links to the specs.
 // Run with `npm run validate:scenarios` (Node 22.18+ runs this file directly; no build step).
 //
 // Checks:
 // - the profile matches qa-agents-profile.schema.json, and every path it names exists
 //   (except paths.coverageSummary, which a test run generates);
+// - every bug file is <bugs>/<ID>.yml, parses, matches the bug schema, has its keys in the schema's order,
+//   an ID with the prefix and digits of ids.bugs, a layer and area from the profile, and a resolved date
+//   exactly when its status isn't open;
 // - every scenario file lives in <scenarios>/<layer>/<area>/<name>.yml with a layer and area from the profile,
 //   a name that matches the layer's ids.fileNames pattern (any kebab-case name when there's none),
 //   parses, and matches the scenario schema;
-// - keys are in the agreed order (file: suite, tags, scenarios; scenario: id, name, ref, status, automatedIn, role, knownIssue, steps);
+// - keys are in the agreed order (file: suite, tags, scenarios; scenario: id, name, ref, status, automatedIn, role, knownIssue, bug, steps);
 // - status automated has an automatedIn, and status manual has none;
 // - IDs are unique across files and are <PREFIX>-<number> with the prefix and digits of the file's layer
-//   (numbered across the layer, not per area); the output ends with the next free ID of each layer;
+//   (numbered across the layer, not per area); the output ends with the next free ID of each layer and of the bugs;
 // - a scenario's role is one of the profile's roles;
+// - a scenario's knownIssue comes with a bug (and the other way round) that has a bug file and is open;
 // - automatedIn is <tests>/<layer>/<area>/<name>.spec.ts (named after the scenario file), exists, and has
-//   a `// Scenarios:` comment for this file, a test.describe titled '<tags> - <suite>' and a test titled
-//   '<ID>: <name>' with the scenario name verbatim;
-// - every test in <tests> starts its title with an ID, and that ID has a scenario whose automatedIn is this spec.
+//   a `// Scenarios:` comment for this file, a test.describe titled '<tags> - <suite>', a test titled
+//   '<ID>: <name>' with the scenario name verbatim, and, for a known issue, the layer's knownIssue annotation
+//   with the scenario's bug and text;
+// - every test in <tests> starts its title with an ID, and that ID has a scenario whose automatedIn is this spec;
+//   every 'Known issue' annotation in a spec belongs to a scenario automated there.
 
 import { existsSync, readdirSync, readFileSync } from 'node:fs';
 import path from 'node:path';
@@ -27,12 +33,18 @@ const PROFILE_FILE = 'qa-agents-profile.yml';
 const PROFILE_SCHEMA_FILE = 'qa-agents-profile.schema.json';
 
 const FILE_KEY_ORDER = ['suite', 'tags', 'scenarios'];
-const SCENARIO_KEY_ORDER = ['id', 'name', 'ref', 'status', 'automatedIn', 'role', 'knownIssue', 'steps'];
+const SCENARIO_KEY_ORDER = ['id', 'name', 'ref', 'status', 'automatedIn', 'role', 'knownIssue', 'bug', 'steps'];
+const BUG_KEY_ORDER = [
+  'id', 'title', 'status', 'severity', 'layer', 'area', 'affects', 'found', 'resolved',
+  'ref', 'upstream', 'description', 'steps', 'expected', 'actual', 'evidence',
+];
 
 // The title string of a call: '...', "..." or `...`, with escapes allowed.
 // test('...'), test.only/skip/fixme/fail('...'); test.describe/test.step/test.use don't match.
 const TEST_CALL = /\btest(?:\.(?:only|skip|fixme|fail|slow))?\(\s*(['"`])((?:\\.|(?!\1)[^\\])*)\1/g;
 const DESCRIBE_CALL = /\btest\.describe(?:\.(?:only|skip|fixme|serial|parallel))?\(\s*(['"`])((?:\\.|(?!\1)[^\\])*)\1/g;
+// The text of a known-issue line: test.fail(true, '...').
+const KNOWN_ISSUE_CALL = /\btest\.fail\(\s*true\s*,\s*(['"`])((?:\\.|(?!\1)[^\\])*)\1/g;
 const TITLE_ID = /^([A-Z]+-\d+):/;
 const KEBAB_CASE = '^[a-z0-9]+(-[a-z0-9]+)*$';
 
@@ -44,11 +56,24 @@ function titlesOf(source: string, pattern: RegExp): string[] {
 /** The parts of qa-agents-profile.yml this script uses (the schema describes the whole file). */
 interface Profile {
   project: { conventions: string[] };
-  paths: Record<string, string> & { scenarios: string; scenarioSchema: string; tests: string };
-  ids: { layers: Record<string, { prefix: string; digits: number }>; areas: string[]; fileNames?: Record<string, string> };
+  paths: Record<string, string> & { scenarios: string; scenarioSchema: string; tests: string; bugs?: string; bugSchema?: string };
+  ids: {
+    layers: Record<string, { prefix: string; digits: number }>;
+    areas: string[];
+    bugs?: { prefix: string; digits: number };
+    fileNames?: Record<string, string>;
+  };
   roles: string[];
-  api: { exemplars: Record<string, string> };
-  ui?: { exemplars: Record<string, string> };
+  api: { exemplars: Record<string, string>; knownIssue: string };
+  ui?: { exemplars: Record<string, string>; knownIssue: string };
+}
+
+interface Bug {
+  id: string;
+  status: 'open' | 'fixed' | 'wont-fix';
+  layer: string;
+  area: string;
+  resolved?: string;
 }
 
 interface Scenario {
@@ -59,6 +84,7 @@ interface Scenario {
   automatedIn?: string;
   role?: string;
   knownIssue?: string;
+  bug?: string;
   steps: string[];
 }
 
@@ -152,6 +178,12 @@ for (const [key, file] of profilePaths) {
   if (!exists(file)) fail(PROFILE_FILE, `${key}: ${file} doesn't exist`);
 }
 checkUniquePrefixes(ids.layers);
+if (ids.bugs && Object.values(ids.layers).some(({ prefix }) => prefix === ids.bugs?.prefix)) {
+  fail(PROFILE_FILE, `ids.bugs: the prefix ${ids.bugs.prefix} is also a layer's prefix`);
+}
+if (Boolean(paths.bugs) !== Boolean(ids.bugs) || Boolean(paths.bugs) !== Boolean(paths.bugSchema)) {
+  fail(PROFILE_FILE, 'paths.bugs, paths.bugSchema and ids.bugs go together: set all three or none');
+}
 for (const [layer, pattern] of Object.entries(ids.fileNames ?? {})) {
   if (!(layer in ids.layers)) fail(PROFILE_FILE, `ids.fileNames.${layer}: ${layer} isn't in ids.layers`);
   try {
@@ -161,6 +193,55 @@ for (const [layer, pattern] of Object.entries(ids.fileNames ?? {})) {
   }
 }
 report();
+
+// --- Bugs ---
+
+/** Bug ID → its file and status. */
+const bugs = new Map<string, { file: string; status: Bug['status'] }>();
+let highestBugNumber = 0;
+
+if (paths.bugs && paths.bugSchema && ids.bugs) {
+  const bugIdPattern = new RegExp(`^${ids.bugs.prefix}-(\\d{${ids.bugs.digits}})$`);
+  const bugIdFormat = `${ids.bugs.prefix}-${'N'.repeat(ids.bugs.digits)}`;
+  for (const file of listFiles(paths.bugs, ['.yml', '.yaml'])) {
+    const name = path.basename(file).replace(/\.ya?ml$/, '');
+    if (file !== `${paths.bugs}/${name}.yml`) {
+      fail(file, `must be ${paths.bugs}/<ID>.yml (no subfolders)`);
+      continue;
+    }
+    const bug = loadYaml<Bug>(file, paths.bugSchema);
+    if (!bug) continue;
+    checkKeyOrder(file, bug, BUG_KEY_ORDER);
+
+    const idNumber = bugIdPattern.exec(bug.id)?.[1];
+    if (idNumber === undefined) {
+      fail(file, `ID must be ${bugIdFormat} (${PROFILE_FILE} ids.bugs)`);
+    } else {
+      highestBugNumber = Math.max(highestBugNumber, Number(idNumber));
+    }
+    if (name !== bug.id) fail(file, `the file must be named after its ID (${bug.id}.yml)`);
+    if (bugs.has(bug.id)) {
+      fail(file, `duplicate ID (also in ${bugs.get(bug.id)?.file})`);
+      continue;
+    }
+    bugs.set(bug.id, { file, status: bug.status });
+
+    if (!(bug.layer in ids.layers)) fail(file, `layer ${bug.layer} isn't one of ${Object.keys(ids.layers).join(', ')} (${PROFILE_FILE} ids.layers)`);
+    if (!ids.areas.includes(bug.area)) fail(file, `area ${bug.area} isn't one of ${ids.areas.join(', ')} (${PROFILE_FILE} ids.areas)`);
+    if (bug.status === 'open' && bug.resolved) fail(file, 'status is open, so resolved must be absent');
+    if (bug.status !== 'open' && !bug.resolved) fail(file, `status is ${bug.status}, so resolved must give the date`);
+  }
+}
+/** Bug ID → the scenarios that name it. */
+const bugScenarios = new Map<string, string[]>();
+
+/** The annotation text inside a layer's knownIssue snippet ('Known issue {bug}: {text}'), if it has one. */
+function knownIssueTemplate(layer: string): string | undefined {
+  const snippet = ({ api: profile?.api, ui: profile?.ui } as Record<string, { knownIssue: string } | undefined>)[layer]?.knownIssue;
+  return snippet ? /(['"`])((?:(?!\1).)*\{text\}(?:(?!\1).)*)\1/.exec(snippet)?.[2] : undefined;
+}
+/** Spec → the known-issue annotations its scenarios ask for. */
+const expectedAnnotations = new Map<string, Set<string>>();
 
 // --- Scenario files ---
 
@@ -215,6 +296,17 @@ for (const file of listFiles(paths.scenarios, ['.yml', '.yaml'])) {
     if (scenario.role !== undefined && !roles.includes(scenario.role)) {
       fail(where, `role ${scenario.role} isn't one of ${roles.join(', ')} (${PROFILE_FILE} roles)`);
     }
+    if (scenario.bug) {
+      const bug = bugs.get(scenario.bug);
+      if (!paths.bugs) {
+        fail(where, `bug needs paths.bugs and ids.bugs in ${PROFILE_FILE}`);
+      } else if (!bug) {
+        fail(where, `bug ${scenario.bug} has no file ${paths.bugs}/${scenario.bug}.yml`);
+      } else if (bug.status !== 'open') {
+        fail(where, `${scenario.bug} is ${bug.status}: remove knownIssue and bug from the scenario and the known-issue line from its test`);
+      }
+      bugScenarios.set(scenario.bug, [...(bugScenarios.get(scenario.bug) ?? []), scenario.id]);
+    }
 
     if (scenario.status === 'automated' && !scenario.automatedIn) {
       fail(where, 'status is automated, so automatedIn must name the spec');
@@ -238,6 +330,15 @@ for (const file of listFiles(paths.scenarios, ['.yml', '.yaml'])) {
         const found = titles.find((other) => other.startsWith(`${scenario.id}:`));
         fail(where, `${scenario.automatedIn} needs a test titled '${title}'${found ? ` (found '${found}')` : ''}`);
       }
+      const template = knownIssueTemplate(layer);
+      if (scenario.knownIssue && scenario.bug && template) {
+        const annotation = template.replaceAll('{bug}', scenario.bug).replaceAll('{text}', scenario.knownIssue);
+        const expected = expectedAnnotations.get(scenario.automatedIn) ?? new Set<string>();
+        expectedAnnotations.set(scenario.automatedIn, expected.add(annotation));
+        if (!titlesOf(spec, KNOWN_ISSUE_CALL).includes(annotation)) {
+          fail(where, `${scenario.automatedIn} needs the known-issue line test.fail(true, '${annotation}') (${PROFILE_FILE} ${layer}.knownIssue)`);
+        }
+      }
       if (!checkedSpecs.has(scenario.automatedIn)) {
         checkedSpecs.add(scenario.automatedIn);
         if (!spec.includes(`// Scenarios: ${file}`)) {
@@ -254,7 +355,13 @@ for (const file of listFiles(paths.scenarios, ['.yml', '.yaml'])) {
 // --- Specs ---
 
 for (const spec of listFiles(paths.tests, ['.spec.ts', '.test.ts'])) {
-  for (const title of titlesOf(read(spec), TEST_CALL)) {
+  const source = read(spec);
+  for (const annotation of titlesOf(source, KNOWN_ISSUE_CALL)) {
+    if (annotation.includes('Known issue') && !expectedAnnotations.get(spec)?.has(annotation)) {
+      fail(spec, `the known-issue line '${annotation}' matches no scenario's knownIssue and bug`);
+    }
+  }
+  for (const title of titlesOf(source, TEST_CALL)) {
     const id = TITLE_ID.exec(title)?.[1];
     if (!id) {
       fail(spec, `test '${title}' doesn't start with a scenario ID`);
@@ -275,4 +382,10 @@ console.log(`Scenarios OK: ${scenarios.size} scenario(s), ${automated} automated
 const nextIds = Object.entries(ids.layers).map(
   ([layer, { prefix, digits }]) => `${prefix}-${String((highestNumber.get(layer) ?? 0) + 1).padStart(digits, '0')}`
 );
+if (ids.bugs) {
+  const open = [...bugs.values()].filter((bug) => bug.status === 'open').length;
+  const unlinked = [...bugs.keys()].filter((id) => !bugScenarios.has(id)).length;
+  console.log(`Bugs OK: ${bugs.size} bug(s), ${open} open, ${unlinked} without a scenario.`);
+  nextIds.push(`${ids.bugs.prefix}-${String(highestBugNumber + 1).padStart(ids.bugs.digits, '0')}`);
+}
 console.log(`Next free IDs: ${nextIds.join(', ')}`);

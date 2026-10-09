@@ -1,0 +1,20 @@
+# yaml-language-server: $schema=./bug.schema.json
+id: BUG-002
+title: Create product returns 500 instead of 422 when category_id, brand_id or product_image_id doesn't exist
+status: open
+severity: major
+layer: api
+area: products
+affects:
+  - POST /products
+found: 2026-10-02
+ref:
+  - docs/api/contracts/Products_API.md#3-create-product
+description: >-
+  The request validation doesn't check that the referenced category, brand and product image exist,
+  so the database's foreign-key error surfaces as a server error instead of a validation message.
+steps:
+  - Send GET /products and take the first item's brand id, category id and product image id.
+  - Send POST /products with a unique product name, a positive price and those ids, but with one of category_id, brand_id or product_image_id set to an id that doesn't exist.
+expected: 422 with a validation message for the unknown id.
+actual: 500 for each of the three fields (read from the source; the scenarios' checks of 422 fail live).

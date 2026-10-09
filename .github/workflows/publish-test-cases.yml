@@ -1,17 +1,21 @@
 name: Publish Test Cases
 
-# Rebuilds the UI and API Test Cases pages of the dashboard (test-cases/<layer>/ on GitHub Pages)
-# whenever the scenarios, the page or its build change on main, so the pages list the test cases of
-# the merged code, like the rest of the dashboard. It also publishes the dashboard (index.html), so a
-# dashboard change goes live on merge instead of with the next test run. Can also be run by hand.
+# Rebuilds the UI and API Test Cases pages (test-cases/<layer>/ on GitHub Pages) and the Bugs page (bugs/)
+# whenever the scenarios, the bugs, the pages or their builds change on main, so the pages list the test
+# cases and bugs of the merged code, like the rest of the dashboard. The Bugs page reads the latest
+# regression results in the browser, so new runs need no rebuild. It also publishes the dashboard
+# (index.html), so a dashboard change goes live on merge instead of with the next test run. Can also be run by hand.
 
 on:
   push:
     branches: [main]
     paths:
       - 'test-scenarios/**'
+      - 'bugs/**'
       - 'site/test-cases/**'
+      - 'site/bugs/**'
       - 'scripts/build-test-cases.mts'
+      - 'scripts/build-bugs.mts'
       - 'scripts/publish-test-cases.sh'
       - 'scripts/gh-pages-lib.sh'
       - 'qa-agents-profile.yml'

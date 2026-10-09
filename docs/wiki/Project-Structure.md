@@ -45,6 +45,8 @@ SimpRight/
 │   ├── scenarios.schema.json     the format of a scenario file
 │   ├── api/<area>/*.yml          one file per endpoint (get-products-search.yml)
 │   └── ui/<area>/*.yml           one file per feature (product-search.yml)
+├── bugs/                         bugs in the app under test: BUG-001.yml, one per root cause
+│   └── bug.schema.json           the format of a bug file
 ├── docs/
 │   ├── api/contracts/            API contracts, one per API area; the reference for API coverage
 │   ├── api/CONTRACT_FORMAT.md    the contract format
@@ -118,6 +120,7 @@ Defined in `tsconfig.json` and resolved by Playwright, so imports don't climb fo
 | You're adding | Put it in | Then |
 |---|---|---|
 | A test scenario | `test-scenarios/<layer>/<area>/<name>.yml`, with the next free ID | `npm run validate:scenarios` |
+| A bug in the app | `bugs/<ID>.yml` with the next free `BUG-` ID; the scenarios that hit it get `knownIssue` and `bug` | `npm run validate:scenarios` |
 | A spec | `tests/<layer>/<area>/<name>.spec.ts`, named after its scenario file | |
 | A page object | `src/ui/pages/<Name>Page.ts`, extending `BasePage` | Register a fixture in `src/ui/fixtures/fixtures.ts` |
 | A part shared by pages | `src/ui/pages/components/` | Expose it from the pages that contain it |

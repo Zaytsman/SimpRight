@@ -42,6 +42,7 @@ interface ScenarioFile {
     automatedIn?: string;
     role?: string;
     knownIssue?: string;
+    bug?: string;
     steps: string[];
   }[];
 }

@@ -70,7 +70,7 @@ Writes: none
 | **Test defect** | The test code is wrong: a locator, a missing wait, a wrong expected value, broken setup or cleanup | The concrete code fix |
 | **Flaky** | Passes and fails on the same code and app | Fix the cause (wait for the app's signal, isolate data); never retries, sleeps or longer timeouts |
 | **App changed** | The app changed on purpose | Update the page object, client or DTO; a scenario change is proposed to you |
-| **App bug** | The app breaks what the scenario promises | A `knownIssue` text and a short bug note (steps, expected, actual) |
+| **App bug** | The app breaks what the scenario promises | A `knownIssue` text and its bug: an open one with the same cause, or a new bug file (steps, expected, actual, evidence); or record it with [`/report-bug`](Bug-Reporter) |
 | **Data drift** | The test's data changed under it: another visitor changed a seeded product, the re-seed replaced ids, a stale cache | Make the test create its own data through the API (a write, so it needs approval) |
 | **Environment** | The site was slow, down or locked for a while | No code change: a re-run, and when |
 
@@ -88,7 +88,7 @@ The same agent applies only the approved fixes, adds or removes approved known i
 - **Evidence before verdict**, with a confidence level.
 - **Read-only diagnosis:** only reading results and code, the CI log, the inspector, `GET` calls without a token, and re-runs of read-only or approved tests. It may read the app's source code (if a checkout is nearby) to judge whether behaviour is intended, and says so.
 - **Knows the site's bad moments:** the profile's `liveApi.transient` lists them (the hourly re-seed, a 5-minute cache on `GET /products`, slowdowns ending in login 500s, other visitors editing products, locks). Known-issue tests inside a bad window prove nothing.
-- **Test-side code only**; in scenarios only an approved `knownIssue`. **No secrets**: credentials and test users' emails are masked as `***` even in quoted logs.
+- **Test-side code only**; in scenarios only an approved `knownIssue` and `bug`, in `bugs/` only an approved new bug or status change. **No secrets**: credentials and test users' emails are masked as `***` even in quoted logs.
 
 ## Tips
 

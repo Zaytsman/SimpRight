@@ -33,6 +33,8 @@
       "properties": {
         "scenarios": { "$ref": "#/definitions/path", "description": "Scenario folder: <layer>/<area>/<name>.yml." },
         "scenarioSchema": { "$ref": "#/definitions/path" },
+        "bugs": { "$ref": "#/definitions/path", "description": "Bug folder: one <ID>.yml per bug in the app under test; a scenario with a knownIssue names its bug." },
+        "bugSchema": { "$ref": "#/definitions/path" },
         "contracts": { "$ref": "#/definitions/path", "description": "API contracts, one markdown file per area." },
         "contractFormat": { "$ref": "#/definitions/path", "description": "The contract format specification the contract writer follows." },
         "tests": { "$ref": "#/definitions/path", "description": "Spec folder: <layer>/<area>/<name>.spec.ts." },
@@ -120,6 +122,16 @@
           "uniqueItems": true,
           "items": { "type": "string", "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$" }
         },
+        "bugs": {
+          "type": "object",
+          "description": "Bug IDs: <PREFIX>-<number> with a fixed number of digits, e.g. BUG-001; the file is <paths.bugs>/<ID>.yml.",
+          "required": ["prefix", "digits"],
+          "additionalProperties": false,
+          "properties": {
+            "prefix": { "$ref": "#/definitions/code" },
+            "digits": { "type": "integer", "minimum": 2, "maximum": 6 }
+          }
+        },
         "fileNames": {
           "type": "object",
           "description": "Layer -> regex for scenario file names (without .yml); {area} stands for the area folder name. Layers not listed accept any kebab-case name.",
@@ -158,8 +170,8 @@
         },
         "knownIssue": {
           "type": "string",
-          "pattern": "\\{text\\}",
-          "description": "Code that marks a test as hitting a known issue; {text} is the scenario's knownIssue."
+          "pattern": "\\{bug\\}.*\\{text\\}",
+          "description": "Code that marks a test as hitting a known issue; {bug} is the scenario's bug ID and {text} its knownIssue."
         },
         "rules": {
           "type": "array",
@@ -194,8 +206,8 @@
         },
         "knownIssue": {
           "type": "string",
-          "pattern": "\\{text\\}",
-          "description": "Code that marks a test as hitting a known issue; {text} is the scenario's knownIssue."
+          "pattern": "\\{bug\\}.*\\{text\\}",
+          "description": "Code that marks a test as hitting a known issue; {bug} is the scenario's bug ID and {text} its knownIssue."
         },
         "rules": {
           "type": "array",

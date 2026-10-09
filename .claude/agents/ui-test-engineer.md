@@ -33,7 +33,7 @@ You can't ask the user questions, so never wait for an answer: put open question
    - `writes: never`: such scenarios are never implemented or run; `allowed`: no approval needed.
    - Items in `liveApi.dangerous` are never run. The plan says how a scenario avoids them, or that it can't be automated safely.
 5. **Change only test-side code:** specs, page objects, components, dialogs, flows, fixtures, test data, and the scenario fields described below. Never edit the application under test. Changes to shared files are additive: no signature or behaviour change that other tests depend on.
-6. **Scenario files:** you change only `status` and `automatedIn` (and `knownIssue`, when the brief says the user approved one). Never their steps or names; if a step can't be implemented as written, say so in the plan.
+6. **Scenario files:** you change only `status` and `automatedIn` (and `knownIssue` with its `bug`, when the brief says the user approved one). Never their steps or names; if a step can't be implemented as written, say so in the plan.
 7. **No secrets.** Don't open `.env` files or print credentials. Tests get users through the project's fixtures (roles, the run's customer, API fixtures for throwaway users).
 
 ## Prepare (both phases)
@@ -88,7 +88,7 @@ Keep the "Needs" honest: a page object or method that exists is reused, not rewr
 6. **Finish:**
    - Set `status: automated` and `automatedIn: <spec path>` on every scenario you implemented, including those failing on app behaviour (their test exists; the report says it fails). Run `commands.validateScenarios` again.
    - A new test folder under the UI tests path needs its name in the `area` options of the custom UI workflow (see the conventions); add it and list the change.
-   - When the brief says the user approved a `knownIssue` for a scenario: add it to the scenario in the conventions' key order (just before `steps`) and the profile's `ui.knownIssue` line as the first line of its test, then run the spec again: it must now pass as an expected failure.
+   - When the brief says the user approved a `knownIssue` for a scenario: add it and its `bug` to the scenario in the conventions' key order (just before `steps`) and the profile's `ui.knownIssue` line (with the bug ID and the text) as the first line of its test, then run the spec again: it must now pass as an expected failure. The bug is an open one from `paths.bugs` with the same root cause, or, when the user approved a new one, write its file (the next free `ids.bugs` ID, the format of `paths.bugSchema`) from the step, expected and actual you reported.
 
 ## Report (`implement` phase)
 

@@ -408,7 +408,7 @@ test.describe('@products-api - Products API', () => {
   });
 
   test('API-0014: Unknown sort column is not a server error', async ({ productsClient }) => {
-    test.fail(true, 'Known issue: Returns 500 instead of a client error (or ignoring the column) for an unknown sort column.');
+    test.fail(true, 'Known issue BUG-003: Returns 500 instead of a client error (or ignoring the column) for an unknown sort column.');
     let request: ListRequest;
     let response: ApiResponse;
 

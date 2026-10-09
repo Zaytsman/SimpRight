@@ -7,6 +7,7 @@ SimpRight is built so that AI agents can carry test automation through the whole
 3. **Automate:** the framework code each scenario needs (page objects, clients, fixtures, test data) and the specs.
 4. **Review** the tests against their scenarios and the project's conventions.
 5. **Heal** failing tests: find out why they failed and fix what is the tests' fault.
+6. **Track bugs** in the app: one bug file per root cause, linked to the scenarios that hit it, published on the portal's Bugs page.
 
 Each step is a slash command in [Claude Code](https://claude.com/claude-code) that starts a specialised agent. The agents do the work; a person approves it at fixed checkpoints. Nothing is written, no live data is changed and no fix is applied without that approval.
 
@@ -24,6 +25,9 @@ flowchart LR
     review -.-> specs
     heal -.-> specs
     heal -.->|knownIssue| scenarios
+    heal -->|app bug| bugrep
+    reports[Bug reports<br/>suspected bugs<br/>in contracts] -->|/report-bug| bugrep[Bugs<br/>bugs/BUG-NNN.yml]
+    bugrep -.->|knownIssue + bug| scenarios
 ```
 
 ## The commands
@@ -38,6 +42,7 @@ flowchart LR
 | Automate UI tests | `/implement-ui-scenarios <IDs \| file \| area>` | `ui-test-engineer` | UI scenarios | Page objects, components, flows, fixtures, specs |
 | Review | `/review-tests [spec \| file \| IDs \| commit]` | `test-reviewer` | Specs and the code they use (default: work not pushed yet) | Findings ranked blocker / should fix / nit |
 | Heal | `/heal-tests [run id \| PR \| spec \| IDs]` | `test-healer` | A failed CI run, a PR's checks, the last local run | A verdict per failure, then the approved fixes |
+| Track bugs | `/report-bug <description \| IDs> \| import <contract> \| recheck <IDs \| open>` | `bug-reporter` | What someone saw, failing scenarios, a contract's suspected bugs, open bugs | Bug files in `bugs/` (`BUG-NNN`), linked scenarios, fixed bugs closed |
 
 The agents live in `.claude/agents/`, the commands and the skills they use in `.claude/skills/`.
 
@@ -70,7 +75,7 @@ Scenarios are the single source of truth for what gets automated. Each is a shor
     - Verify the price "$14.15" is shown.
 ```
 
-Checks are ordinary steps that start with `Verify`. A scenario can name a `role` (`admin`, `guest` for a logged-out visitor) and a `knownIssue` for behaviour that is a known bug.
+Checks are ordinary steps that start with `Verify`. A scenario can name a `role` (`admin`, `guest` for a logged-out visitor) and a `knownIssue` with its `bug` (a file in `bugs/`, one per root cause) for behaviour that is a known bug.
 
 The **scenario writers** work in two phases:
 
@@ -128,7 +133,7 @@ Every finding has a file and line, the code, what goes wrong and when, the rule 
    | Test defect | The test code is wrong | The code fix |
    | Flaky | Passes and fails on the same code | Fix the cause (a wait, shared data); never retries or sleeps |
    | App changed | The app changed on purpose | Update the page object or client; scenario changes go to the user |
-   | App bug | The app breaks what the scenario promises | A `knownIssue` and a short bug note |
+   | App bug | The app breaks what the scenario promises | A `knownIssue` and its bug (an existing one, or a new one, also with `/report-bug`) |
    | Data drift | The test's data changed under it (another visitor, a re-seed) | Make the test create its own data |
    | Environment | The site was slow or down for a while | A re-run, no code change |
 
@@ -136,6 +141,15 @@ Every finding has a file and line, the code, what goes wrong and when, the rule 
 2. **Fixes:** the user picks which causes to fix; the same agent applies them, runs the specs and repeats them, and reports.
 
 Unlike a healer that edits tests until they pass, it never weakens a check, never skips a test and never adds retries: a test made green while the app is broken is the worst outcome. The demo site's known transient problems (its hourly re-seed, a cached endpoint, slow periods, data other visitors change) are listed in the project profile, so the healer can tell them from real failures.
+
+### 6. Track bugs
+
+`/report-bug` runs the **bug reporter**. The bugs it records are files in `bugs/`, one per **root cause** (`BUG-001.yml`): title, status, severity, the affected endpoints or pages, steps to reproduce, expected and actual result, evidence. A scenario that hits a bug names it with `bug` next to its `knownIssue`, and its test starts with `test.fail(true, 'Known issue BUG-001: ...')`. The portal's **Bugs page** lists them with each linked test's latest result.
+
+1. **Draft (read-only):** it reproduces each item (read-only `GET` calls, the page inspector, re-runs of read-only tests; anything that writes waits for approval), checks the existing bugs for the same cause, and proposes new bugs, extensions of existing ones, the scenarios to link and the coverage gaps (bugs no scenario covers, with a proposed regression scenario).
+2. **Files:** the user picks the items; the agent writes the bug files and the links, then runs the validator and the specs whose known-issue line changed.
+
+It also **imports** the suspected bugs a contract marks, and **re-checks** open bugs: a bug that's gone is closed (`status: fixed`), and its scenarios and tests lose the known issue, so they check the fixed behaviour. The Bugs page flags a bug for a re-check when a test that expects it starts passing.
 
 ## What keeps the agents on track
 
@@ -157,6 +171,7 @@ For a new API area:
 /review-tests                                → findings → pick → fixes applied
 (commit, pull request, CI)
 /heal-tests PR <n>                           → if CI fails: verdicts → pick → fixes or re-run
+/report-bug API-0042                         → if it's an app bug: draft → approve → bugs/BUG-NNN.yml, scenario linked
 ```
 
 For a new UI story:
