@@ -3,17 +3,17 @@ window.SCENARIO_CATALOG = {
  "layer": "api",
  "title": "API Test Cases",
  "prefix": "API",
- "generatedAt": "2026-10-10T10:10:26.456Z",
- "commit": "debe7df25f6e43e503b236eb72845637cbf53a95",
+ "generatedAt": "2026-10-10T14:40:01.740Z",
+ "commit": "6002d39cb1f21405444f5ae8c76f3b37532b7a3b",
  "repoUrl": "https://github.com/Zaytsman/SimpRight",
  "branch": "main",
  "workflowUrl": "https://github.com/Zaytsman/SimpRight/actions/workflows/custom-api-tests.yml",
  "stats": {
-  "total": 296,
+  "total": 398,
   "automated": 118,
-  "manual": 178,
-  "knownIssues": 40,
-  "automatedPct": 40
+  "manual": 280,
+  "knownIssues": 47,
+  "automatedPct": 30
  },
  "tree": [
   {
@@ -184,7 +184,8 @@ window.SCENARIO_CATALOG = {
       "API-0247",
       "API-0248",
       "API-0249",
-      "API-0250"
+      "API-0250",
+      "API-0327"
      ]
     },
     {
@@ -216,7 +217,8 @@ window.SCENARIO_CATALOG = {
       "API-0244",
       "API-0245",
       "API-0246",
-      "API-0289"
+      "API-0289",
+      "API-0326"
      ]
     },
     {
@@ -265,7 +267,9 @@ window.SCENARIO_CATALOG = {
       "API-0261",
       "API-0262",
       "API-0263",
-      "API-0264"
+      "API-0264",
+      "API-0306",
+      "API-0307"
      ]
     }
    ]
@@ -525,6 +529,183 @@ window.SCENARIO_CATALOG = {
    ]
   },
   {
+   "area": "images",
+   "label": "Images",
+   "files": [
+    {
+     "file": "test-scenarios/api/images/get-images.yml",
+     "name": "get-images",
+     "label": "GET /images",
+     "suite": "Images API",
+     "tags": [
+      "@images-api"
+     ],
+     "ids": [
+      "API-0336",
+      "API-0337",
+      "API-0338",
+      "API-0339",
+      "API-0340",
+      "API-0341",
+      "API-0342"
+     ]
+    }
+   ]
+  },
+  {
+   "area": "invoices",
+   "label": "Invoices",
+   "files": [
+    {
+     "file": "test-scenarios/api/invoices/post-invoices.yml",
+     "name": "post-invoices",
+     "label": "POST /invoices",
+     "suite": "Invoices API",
+     "tags": [
+      "@invoices-api"
+     ],
+     "ids": [
+      "API-0297",
+      "API-0298",
+      "API-0299",
+      "API-0300",
+      "API-0301",
+      "API-0302",
+      "API-0303",
+      "API-0304"
+     ]
+    }
+   ]
+  },
+  {
+   "area": "messages",
+   "label": "Messages",
+   "files": [
+    {
+     "file": "test-scenarios/api/messages/get-messages.yml",
+     "name": "get-messages",
+     "label": "GET /messages",
+     "suite": "Messages API",
+     "tags": [
+      "@messages-api"
+     ],
+     "ids": [
+      "API-0343",
+      "API-0344",
+      "API-0345",
+      "API-0346",
+      "API-0347",
+      "API-0348",
+      "API-0349"
+     ]
+    },
+    {
+     "file": "test-scenarios/api/messages/post-messages.yml",
+     "name": "post-messages",
+     "label": "POST /messages",
+     "suite": "Messages API",
+     "tags": [
+      "@messages-api"
+     ],
+     "ids": [
+      "API-0350",
+      "API-0351",
+      "API-0352",
+      "API-0353",
+      "API-0354",
+      "API-0355",
+      "API-0356",
+      "API-0357",
+      "API-0358",
+      "API-0359",
+      "API-0360",
+      "API-0361",
+      "API-0362",
+      "API-0363"
+     ]
+    },
+    {
+     "file": "test-scenarios/api/messages/get-messages-by-message-id.yml",
+     "name": "get-messages-by-message-id",
+     "label": "GET /messages/{messageId}",
+     "suite": "Messages API",
+     "tags": [
+      "@messages-api"
+     ],
+     "ids": [
+      "API-0364",
+      "API-0365",
+      "API-0366",
+      "API-0367",
+      "API-0368",
+      "API-0369",
+      "API-0370",
+      "API-0371"
+     ]
+    },
+    {
+     "file": "test-scenarios/api/messages/post-messages-by-message-id-attach-file.yml",
+     "name": "post-messages-by-message-id-attach-file",
+     "label": "POST /messages/{messageId}/attach-file",
+     "suite": "Messages API",
+     "tags": [
+      "@messages-api"
+     ],
+     "ids": [
+      "API-0381",
+      "API-0382",
+      "API-0383",
+      "API-0384",
+      "API-0385",
+      "API-0386",
+      "API-0387"
+     ]
+    },
+    {
+     "file": "test-scenarios/api/messages/post-messages-by-message-id-reply.yml",
+     "name": "post-messages-by-message-id-reply",
+     "label": "POST /messages/{messageId}/reply",
+     "suite": "Messages API",
+     "tags": [
+      "@messages-api"
+     ],
+     "ids": [
+      "API-0372",
+      "API-0373",
+      "API-0374",
+      "API-0375",
+      "API-0376",
+      "API-0377",
+      "API-0378",
+      "API-0379",
+      "API-0380"
+     ]
+    },
+    {
+     "file": "test-scenarios/api/messages/put-messages-by-message-id-status.yml",
+     "name": "put-messages-by-message-id-status",
+     "label": "PUT /messages/{messageId}/status",
+     "suite": "Messages API",
+     "tags": [
+      "@messages-api"
+     ],
+     "ids": [
+      "API-0388",
+      "API-0389",
+      "API-0390",
+      "API-0391",
+      "API-0392",
+      "API-0393",
+      "API-0394",
+      "API-0395",
+      "API-0396",
+      "API-0397",
+      "API-0398"
+     ]
+    }
+   ]
+  },
+  {
    "area": "products",
    "label": "Products",
    "files": [
@@ -549,7 +730,14 @@ window.SCENARIO_CATALOG = {
       "API-0011",
       "API-0012",
       "API-0013",
-      "API-0014"
+      "API-0014",
+      "API-0319",
+      "API-0320",
+      "API-0321",
+      "API-0322",
+      "API-0323",
+      "API-0324",
+      "API-0325"
      ]
     },
     {
@@ -753,7 +941,11 @@ window.SCENARIO_CATALOG = {
       "API-0081",
       "API-0082",
       "API-0083",
-      "API-0084"
+      "API-0084",
+      "API-0308",
+      "API-0309",
+      "API-0310",
+      "API-0311"
      ]
     },
     {
@@ -785,7 +977,8 @@ window.SCENARIO_CATALOG = {
       "API-0101",
       "API-0102",
       "API-0103",
-      "API-0104"
+      "API-0104",
+      "API-0312"
      ]
     },
     {
@@ -827,7 +1020,33 @@ window.SCENARIO_CATALOG = {
       "API-0096",
       "API-0097",
       "API-0098",
-      "API-0099"
+      "API-0099",
+      "API-0305",
+      "API-0328",
+      "API-0329",
+      "API-0330",
+      "API-0331",
+      "API-0332",
+      "API-0333",
+      "API-0334",
+      "API-0335"
+     ]
+    },
+    {
+     "file": "test-scenarios/api/users/put-users-by-user-id.yml",
+     "name": "put-users-by-user-id",
+     "label": "PUT /users/{userId}",
+     "suite": "Users API",
+     "tags": [
+      "@users-api"
+     ],
+     "ids": [
+      "API-0313",
+      "API-0314",
+      "API-0315",
+      "API-0316",
+      "API-0317",
+      "API-0318"
      ]
     }
    ]
@@ -1942,6 +2161,36 @@ window.SCENARIO_CATALOG = {
    "yaml": "- id: API-0250\n  name: Get cart with a malformed cart id returns 404\n  status: manual\n  steps:\n    - Send GET /carts/{cartId} with abc as the cart id.\n    - Verify the response status is 404.\n    - Verify the body's message is \"Requested item not found\"."
   },
   {
+   "id": "API-0327",
+   "name": "Get cart returns product.is_rental true for a rental line and false for a non-rental line",
+   "ref": [
+    "docs/ui/user-stories/Rental_Products.md#AC4"
+   ],
+   "status": "manual",
+   "steps": [
+    "Send GET /products and take the first item's brand id, category id and product image id.",
+    "Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental false and stock 10, and take the new product's id as the non-rental product's id.",
+    "Send POST /products with a unique product name, a positive price, the same brand, category and product image ids, is_location_offer false, is_rental true and stock 10, and take the new product's id as the rental product's id.",
+    "Send POST /carts with an empty body and take the returned id as the cart's id.",
+    "Send POST /carts/{cartId} with the cart's id and a body with the non-rental product's id as product_id and quantity 1.",
+    "Send POST /carts/{cartId} with the cart's id and a body with the rental product's id as product_id and quantity 1.",
+    "Send GET /carts/{cartId} with the cart's id.",
+    "Verify the response status is 200.",
+    "Verify cart_items has exactly two items.",
+    "Verify the item whose product_id is the rental product's id has a product with is_rental true.",
+    "Verify the item whose product_id is the non-rental product's id has a product with is_rental false."
+   ],
+   "area": "carts",
+   "areaLabel": "Carts",
+   "file": "test-scenarios/api/carts/get-carts-by-cart-id.yml",
+   "fileLabel": "GET /carts/{cartId}",
+   "suite": "Carts API",
+   "tags": [
+    "@carts-api"
+   ],
+   "yaml": "- id: API-0327\n  name: Get cart returns product.is_rental true for a rental line and false for a non-rental line\n  ref: docs/ui/user-stories/Rental_Products.md#AC4\n  status: manual\n  steps:\n    - Send GET /products and take the first item's brand id, category id and product image id.\n    - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental false and stock 10, and take the new product's id as the non-rental product's id.\n    - Send POST /products with a unique product name, a positive price, the same brand, category and product image ids, is_location_offer false, is_rental true and stock 10, and take the new product's id as the rental product's id.\n    - Send POST /carts with an empty body and take the returned id as the cart's id.\n    - Send POST /carts/{cartId} with the cart's id and a body with the non-rental product's id as product_id and quantity 1.\n    - Send POST /carts/{cartId} with the cart's id and a body with the rental product's id as product_id and quantity 1.\n    - Send GET /carts/{cartId} with the cart's id.\n    - Verify the response status is 200.\n    - Verify cart_items has exactly two items.\n    - Verify the item whose product_id is the rental product's id has a product with is_rental true.\n    - Verify the item whose product_id is the non-rental product's id has a product with is_rental false."
+  },
+  {
    "id": "API-0114",
    "name": "Add a product with quantity 1 to a cart returns 200 and the cart holds it",
    "ref": [
@@ -2180,6 +2429,9 @@ window.SCENARIO_CATALOG = {
   {
    "id": "API-0236",
    "name": "Add a rental and a non-rental product to a cart sets the additional discount to 15",
+   "ref": [
+    "docs/ui/user-stories/Checkout_Cart_Review.md#AC7"
+   ],
    "status": "manual",
    "steps": [
     "Send GET /products and take the first item's brand id, category id and product image id.",
@@ -2191,7 +2443,6 @@ window.SCENARIO_CATALOG = {
     "Verify the response status is 200.",
     "Verify GET /carts/{cartId} with the cart's id returns 200 with additional_discount_percentage 15."
    ],
-   "ref": [],
    "area": "carts",
    "areaLabel": "Carts",
    "file": "test-scenarios/api/carts/post-carts-by-cart-id.yml",
@@ -2200,11 +2451,14 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@carts-api"
    ],
-   "yaml": "- id: API-0236\n  name: Add a rental and a non-rental product to a cart sets the additional discount to 15\n  status: manual\n  steps:\n    - Send GET /products and take the first item's brand id, category id and product image id.\n    - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental false and stock 10, and take the new product's id as the non-rental product's id.\n    - Send POST /products with a unique product name, a positive price, the same brand, category and product image ids, is_location_offer false, is_rental true and stock 10, and take the new product's id as the rental product's id.\n    - Send POST /carts with an empty body and take the returned id as the cart's id.\n    - Send POST /carts/{cartId} with the cart's id and a body with the non-rental product's id as product_id and quantity 1.\n    - Send POST /carts/{cartId} with the cart's id and a body with the rental product's id as product_id and quantity 1.\n    - Verify the response status is 200.\n    - Verify GET /carts/{cartId} with the cart's id returns 200 with additional_discount_percentage 15."
+   "yaml": "- id: API-0236\n  name: Add a rental and a non-rental product to a cart sets the additional discount to 15\n  ref: docs/ui/user-stories/Checkout_Cart_Review.md#AC7\n  status: manual\n  steps:\n    - Send GET /products and take the first item's brand id, category id and product image id.\n    - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental false and stock 10, and take the new product's id as the non-rental product's id.\n    - Send POST /products with a unique product name, a positive price, the same brand, category and product image ids, is_location_offer false, is_rental true and stock 10, and take the new product's id as the rental product's id.\n    - Send POST /carts with an empty body and take the returned id as the cart's id.\n    - Send POST /carts/{cartId} with the cart's id and a body with the non-rental product's id as product_id and quantity 1.\n    - Send POST /carts/{cartId} with the cart's id and a body with the rental product's id as product_id and quantity 1.\n    - Verify the response status is 200.\n    - Verify GET /carts/{cartId} with the cart's id returns 200 with additional_discount_percentage 15."
   },
   {
    "id": "API-0237",
    "name": "Add a location offer to a cart near Amsterdam gives it a 20% discount",
+   "ref": [
+    "docs/ui/user-stories/Checkout_Cart_Review.md#AC6"
+   ],
    "status": "manual",
    "steps": [
     "Send GET /products and take the first item's brand id, category id and product image id.",
@@ -2215,7 +2469,6 @@ window.SCENARIO_CATALOG = {
     "Verify GET /carts/{cartId} with the cart's id returns 200 and its only item has discount_percentage 20.",
     "Verify the item's discounted_price equals its product's price × 0.8, rounded to 2 decimals."
    ],
-   "ref": [],
    "area": "carts",
    "areaLabel": "Carts",
    "file": "test-scenarios/api/carts/post-carts-by-cart-id.yml",
@@ -2224,7 +2477,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@carts-api"
    ],
-   "yaml": "- id: API-0237\n  name: Add a location offer to a cart near Amsterdam gives it a 20% discount\n  status: manual\n  steps:\n    - Send GET /products and take the first item's brand id, category id and product image id.\n    - Send POST /products with a unique product name, a positive price, those ids, is_location_offer true, is_rental false and stock 10, and take the new product's id.\n    - Send POST /carts with lat 52 and lng 5 and take the returned id as the cart's id.\n    - Send POST /carts/{cartId} with the cart's id and a body with the new product's id as product_id and quantity 1.\n    - Verify the response status is 200.\n    - Verify GET /carts/{cartId} with the cart's id returns 200 and its only item has discount_percentage 20.\n    - Verify the item's discounted_price equals its product's price × 0.8, rounded to 2 decimals."
+   "yaml": "- id: API-0237\n  name: Add a location offer to a cart near Amsterdam gives it a 20% discount\n  ref: docs/ui/user-stories/Checkout_Cart_Review.md#AC6\n  status: manual\n  steps:\n    - Send GET /products and take the first item's brand id, category id and product image id.\n    - Send POST /products with a unique product name, a positive price, those ids, is_location_offer true, is_rental false and stock 10, and take the new product's id.\n    - Send POST /carts with lat 52 and lng 5 and take the returned id as the cart's id.\n    - Send POST /carts/{cartId} with the cart's id and a body with the new product's id as product_id and quantity 1.\n    - Verify the response status is 200.\n    - Verify GET /carts/{cartId} with the cart's id returns 200 and its only item has discount_percentage 20.\n    - Verify the item's discounted_price equals its product's price × 0.8, rounded to 2 decimals."
   },
   {
    "id": "API-0238",
@@ -2466,6 +2719,32 @@ window.SCENARIO_CATALOG = {
    "yaml": "- id: API-0289\n  name: Add a location offer to a cart at London's coordinates (lat 51, lng 0) gives it a 25% discount\n  ref: BUG-026\n  status: manual\n  knownIssue: Gives a location offer no discount in a cart at longitude 0 (London, 51, 0) instead of London's 25% discount.\n  bug: BUG-026\n  steps:\n    - Send GET /products and take the first item's brand id, category id and product image id.\n    - Send POST /products with a unique product name, a positive price, those ids, is_location_offer true, is_rental false and stock 10, and take the new product's id.\n    - Send POST /carts with lat 51 and lng 0 and take the returned id as the cart's id.\n    - Send POST /carts/{cartId} with the cart's id and a body with the new product's id as product_id and quantity 1.\n    - Verify the response status is 200.\n    - Verify GET /carts/{cartId} with the cart's id returns 200 and its only item has discount_percentage 25.\n    - Verify the item's discounted_price equals its product's price × 0.75, rounded to 2 decimals."
   },
   {
+   "id": "API-0326",
+   "name": "Add a rental that is a location offer to a cart near Amsterdam gives it a 20% discount",
+   "ref": [
+    "docs/ui/user-stories/Rental_Products.md#AC5"
+   ],
+   "status": "manual",
+   "steps": [
+    "Send GET /products and take the first item's brand id, category id and product image id.",
+    "Send POST /products with a unique product name, a positive price, those ids, is_location_offer true, is_rental true and stock 10, and take the new product's id.",
+    "Send POST /carts with lat 52 and lng 5 and take the returned id as the cart's id.",
+    "Send POST /carts/{cartId} with the cart's id and a body with the new product's id as product_id and quantity 1.",
+    "Verify the response status is 200.",
+    "Verify GET /carts/{cartId} with the cart's id returns 200 and its only item has discount_percentage 20.",
+    "Verify the item's discounted_price equals its product's price × 0.8, rounded to 2 decimals."
+   ],
+   "area": "carts",
+   "areaLabel": "Carts",
+   "file": "test-scenarios/api/carts/post-carts-by-cart-id.yml",
+   "fileLabel": "POST /carts/{cartId}",
+   "suite": "Carts API",
+   "tags": [
+    "@carts-api"
+   ],
+   "yaml": "- id: API-0326\n  name: Add a rental that is a location offer to a cart near Amsterdam gives it a 20% discount\n  ref: docs/ui/user-stories/Rental_Products.md#AC5\n  status: manual\n  steps:\n    - Send GET /products and take the first item's brand id, category id and product image id.\n    - Send POST /products with a unique product name, a positive price, those ids, is_location_offer true, is_rental true and stock 10, and take the new product's id.\n    - Send POST /carts with lat 52 and lng 5 and take the returned id as the cart's id.\n    - Send POST /carts/{cartId} with the cart's id and a body with the new product's id as product_id and quantity 1.\n    - Verify the response status is 200.\n    - Verify GET /carts/{cartId} with the cart's id returns 200 and its only item has discount_percentage 20.\n    - Verify the item's discounted_price equals its product's price × 0.8, rounded to 2 decimals."
+  },
+  {
    "id": "API-0265",
    "name": "Delete cart returns 204 and the cart is gone",
    "status": "manual",
@@ -2512,6 +2791,9 @@ window.SCENARIO_CATALOG = {
   {
    "id": "API-0251",
    "name": "Update item quantity replaces the quantity of a product in the cart",
+   "ref": [
+    "docs/ui/user-stories/Checkout_Cart_Review.md#AC2"
+   ],
    "status": "manual",
    "steps": [
     "Send GET /products and take the first item's brand id, category id and product image id.",
@@ -2523,7 +2805,6 @@ window.SCENARIO_CATALOG = {
     "Verify the body's result is \"item added or updated\".",
     "Verify GET /carts/{cartId} with the cart's id returns 200 and its cart_items has exactly one item, with the new product's id as product_id and quantity 5."
    ],
-   "ref": [],
    "area": "carts",
    "areaLabel": "Carts",
    "file": "test-scenarios/api/carts/put-carts-by-cart-id-product-quantity.yml",
@@ -2532,7 +2813,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@carts-api"
    ],
-   "yaml": "- id: API-0251\n  name: Update item quantity replaces the quantity of a product in the cart\n  status: manual\n  steps:\n    - Send GET /products and take the first item's brand id, category id and product image id.\n    - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental false and stock 10, and take the new product's id.\n    - Send POST /carts with an empty body and take the returned id as the cart's id.\n    - Send POST /carts/{cartId} with the cart's id and a body with the new product's id as product_id and quantity 2.\n    - Send PUT /carts/{cartId}/product/quantity with the cart's id and a body with the new product's id as product_id and quantity 5.\n    - Verify the response status is 200.\n    - Verify the body's result is \"item added or updated\".\n    - Verify GET /carts/{cartId} with the cart's id returns 200 and its cart_items has exactly one item, with the new product's id as product_id and quantity 5."
+   "yaml": "- id: API-0251\n  name: Update item quantity replaces the quantity of a product in the cart\n  ref: docs/ui/user-stories/Checkout_Cart_Review.md#AC2\n  status: manual\n  steps:\n    - Send GET /products and take the first item's brand id, category id and product image id.\n    - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental false and stock 10, and take the new product's id.\n    - Send POST /carts with an empty body and take the returned id as the cart's id.\n    - Send POST /carts/{cartId} with the cart's id and a body with the new product's id as product_id and quantity 2.\n    - Send PUT /carts/{cartId}/product/quantity with the cart's id and a body with the new product's id as product_id and quantity 5.\n    - Verify the response status is 200.\n    - Verify the body's result is \"item added or updated\".\n    - Verify GET /carts/{cartId} with the cart's id returns 200 and its cart_items has exactly one item, with the new product's id as product_id and quantity 5."
   },
   {
    "id": "API-0252",
@@ -2718,6 +2999,9 @@ window.SCENARIO_CATALOG = {
   {
    "id": "API-0260",
    "name": "Remove a product from a cart returns 204 and the cart no longer holds it",
+   "ref": [
+    "docs/ui/user-stories/Checkout_Cart_Review.md#AC3"
+   ],
    "status": "manual",
    "steps": [
     "Send GET /products and take the first item's brand id, category id and product image id.",
@@ -2728,7 +3012,6 @@ window.SCENARIO_CATALOG = {
     "Verify the response status is 204.",
     "Verify GET /carts/{cartId} with the cart's id returns 200 and its cart_items is empty."
    ],
-   "ref": [],
    "area": "carts",
    "areaLabel": "Carts",
    "file": "test-scenarios/api/carts/delete-carts-by-cart-id-product-by-product-id.yml",
@@ -2737,11 +3020,14 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@carts-api"
    ],
-   "yaml": "- id: API-0260\n  name: Remove a product from a cart returns 204 and the cart no longer holds it\n  status: manual\n  steps:\n    - Send GET /products and take the first item's brand id, category id and product image id.\n    - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental false and stock 10, and take the new product's id.\n    - Send POST /carts with an empty body and take the returned id as the cart's id.\n    - Send POST /carts/{cartId} with the cart's id and a body with the new product's id as product_id and quantity 1.\n    - Send DELETE /carts/{cartId}/product/{productId} with the cart's id and the new product's id.\n    - Verify the response status is 204.\n    - Verify GET /carts/{cartId} with the cart's id returns 200 and its cart_items is empty."
+   "yaml": "- id: API-0260\n  name: Remove a product from a cart returns 204 and the cart no longer holds it\n  ref: docs/ui/user-stories/Checkout_Cart_Review.md#AC3\n  status: manual\n  steps:\n    - Send GET /products and take the first item's brand id, category id and product image id.\n    - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental false and stock 10, and take the new product's id.\n    - Send POST /carts with an empty body and take the returned id as the cart's id.\n    - Send POST /carts/{cartId} with the cart's id and a body with the new product's id as product_id and quantity 1.\n    - Send DELETE /carts/{cartId}/product/{productId} with the cart's id and the new product's id.\n    - Verify the response status is 204.\n    - Verify GET /carts/{cartId} with the cart's id returns 200 and its cart_items is empty."
   },
   {
    "id": "API-0261",
    "name": "Remove the rental product from a rental and non-rental cart clears the additional discount",
+   "ref": [
+    "docs/ui/user-stories/Checkout_Cart_Review.md#AC8"
+   ],
    "status": "manual",
    "steps": [
     "Send GET /products and take the first item's brand id, category id and product image id.",
@@ -2755,7 +3041,6 @@ window.SCENARIO_CATALOG = {
     "Verify GET /carts/{cartId} with the cart's id returns 200 with additional_discount_percentage null.",
     "Verify its cart_items has exactly one item, with the non-rental product's id as product_id."
    ],
-   "ref": [],
    "area": "carts",
    "areaLabel": "Carts",
    "file": "test-scenarios/api/carts/delete-carts-by-cart-id-product-by-product-id.yml",
@@ -2764,7 +3049,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@carts-api"
    ],
-   "yaml": "- id: API-0261\n  name: Remove the rental product from a rental and non-rental cart clears the additional discount\n  status: manual\n  steps:\n    - Send GET /products and take the first item's brand id, category id and product image id.\n    - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental false and stock 10, and take the new product's id as the non-rental product's id.\n    - Send POST /products with a unique product name, a positive price, the same brand, category and product image ids, is_location_offer false, is_rental true and stock 10, and take the new product's id as the rental product's id.\n    - Send POST /carts with an empty body and take the returned id as the cart's id.\n    - Send POST /carts/{cartId} with the cart's id and a body with the non-rental product's id as product_id and quantity 1.\n    - Send POST /carts/{cartId} with the cart's id and a body with the rental product's id as product_id and quantity 1.\n    - Send DELETE /carts/{cartId}/product/{productId} with the cart's id and the rental product's id.\n    - Verify the response status is 204.\n    - Verify GET /carts/{cartId} with the cart's id returns 200 with additional_discount_percentage null.\n    - Verify its cart_items has exactly one item, with the non-rental product's id as product_id."
+   "yaml": "- id: API-0261\n  name: Remove the rental product from a rental and non-rental cart clears the additional discount\n  ref: docs/ui/user-stories/Checkout_Cart_Review.md#AC8\n  status: manual\n  steps:\n    - Send GET /products and take the first item's brand id, category id and product image id.\n    - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental false and stock 10, and take the new product's id as the non-rental product's id.\n    - Send POST /products with a unique product name, a positive price, the same brand, category and product image ids, is_location_offer false, is_rental true and stock 10, and take the new product's id as the rental product's id.\n    - Send POST /carts with an empty body and take the returned id as the cart's id.\n    - Send POST /carts/{cartId} with the cart's id and a body with the non-rental product's id as product_id and quantity 1.\n    - Send POST /carts/{cartId} with the cart's id and a body with the rental product's id as product_id and quantity 1.\n    - Send DELETE /carts/{cartId}/product/{productId} with the cart's id and the rental product's id.\n    - Verify the response status is 204.\n    - Verify GET /carts/{cartId} with the cart's id returns 200 with additional_discount_percentage null.\n    - Verify its cart_items has exactly one item, with the non-rental product's id as product_id."
   },
   {
    "id": "API-0262",
@@ -2833,6 +3118,66 @@ window.SCENARIO_CATALOG = {
     "@carts-api"
    ],
    "yaml": "- id: API-0264\n  name: DELETE /carts/{cartId}/product/quantity returns 204 and removes nothing\n  status: manual\n  steps:\n    - Send GET /products and take the first item's brand id, category id and product image id.\n    - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental false and stock 10, and take the new product's id.\n    - Send POST /carts with an empty body and take the returned id as the cart's id.\n    - Send POST /carts/{cartId} with the cart's id and a body with the new product's id as product_id and quantity 1.\n    - Send DELETE /carts/{cartId}/product/quantity with the cart's id.\n    - Verify the response status is 204.\n    - Verify GET /carts/{cartId} with the cart's id returns 200 and its cart_items has exactly one item, with the new product's id as product_id."
+  },
+  {
+   "id": "API-0306",
+   "name": "Remove the non-rental product from a rental and non-rental cart clears the additional discount and keeps the rental line",
+   "ref": [
+    "docs/ui/user-stories/Checkout_Cart_Review.md#AC8"
+   ],
+   "status": "manual",
+   "steps": [
+    "Send GET /products and take the first item's brand id, category id and product image id.",
+    "Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental false and stock 10, and take the new product's id as the non-rental product's id.",
+    "Send POST /products with a unique product name, a positive price, the same brand, category and product image ids, is_location_offer false, is_rental true and stock 10, and take the new product's id as the rental product's id.",
+    "Send POST /carts with an empty body and take the returned id as the cart's id.",
+    "Send POST /carts/{cartId} with the cart's id and a body with the non-rental product's id as product_id and quantity 1.",
+    "Send POST /carts/{cartId} with the cart's id and a body with the rental product's id as product_id and quantity 1.",
+    "Send DELETE /carts/{cartId}/product/{productId} with the cart's id and the non-rental product's id.",
+    "Verify the response status is 204.",
+    "Verify GET /carts/{cartId} with the cart's id returns 200 with additional_discount_percentage null.",
+    "Verify its cart_items has exactly one item, with the rental product's id as product_id."
+   ],
+   "area": "carts",
+   "areaLabel": "Carts",
+   "file": "test-scenarios/api/carts/delete-carts-by-cart-id-product-by-product-id.yml",
+   "fileLabel": "DELETE /carts/{cartId}/product/{productId}",
+   "suite": "Carts API",
+   "tags": [
+    "@carts-api"
+   ],
+   "yaml": "- id: API-0306\n  name: Remove the non-rental product from a rental and non-rental cart clears the additional discount and keeps the rental line\n  ref: docs/ui/user-stories/Checkout_Cart_Review.md#AC8\n  status: manual\n  steps:\n    - Send GET /products and take the first item's brand id, category id and product image id.\n    - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental false and stock 10, and take the new product's id as the non-rental product's id.\n    - Send POST /products with a unique product name, a positive price, the same brand, category and product image ids, is_location_offer false, is_rental true and stock 10, and take the new product's id as the rental product's id.\n    - Send POST /carts with an empty body and take the returned id as the cart's id.\n    - Send POST /carts/{cartId} with the cart's id and a body with the non-rental product's id as product_id and quantity 1.\n    - Send POST /carts/{cartId} with the cart's id and a body with the rental product's id as product_id and quantity 1.\n    - Send DELETE /carts/{cartId}/product/{productId} with the cart's id and the non-rental product's id.\n    - Verify the response status is 204.\n    - Verify GET /carts/{cartId} with the cart's id returns 200 with additional_discount_percentage null.\n    - Verify its cart_items has exactly one item, with the rental product's id as product_id."
+  },
+  {
+   "id": "API-0307",
+   "name": "Remove one of two rental products from a cart with a non-rental product keeps the additional discount",
+   "ref": [
+    "docs/ui/user-stories/Checkout_Cart_Review.md#AC8"
+   ],
+   "status": "manual",
+   "steps": [
+    "Send GET /products and take the first item's brand id, category id and product image id.",
+    "Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental false and stock 10, and take the new product's id as the non-rental product's id.",
+    "Send POST /products with a unique product name, a positive price, the same brand, category and product image ids, is_location_offer false, is_rental true and stock 10, and take the new product's id as the first rental product's id.",
+    "Send POST /products with another unique product name, a positive price, the same brand, category and product image ids, is_location_offer false, is_rental true and stock 10, and take the new product's id as the second rental product's id.",
+    "Send POST /carts with an empty body and take the returned id as the cart's id.",
+    "Send POST /carts/{cartId} with the cart's id and a body with the non-rental product's id as product_id and quantity 1.",
+    "Send POST /carts/{cartId} with the cart's id and a body with the first rental product's id as product_id and quantity 1.",
+    "Send POST /carts/{cartId} with the cart's id and a body with the second rental product's id as product_id and quantity 1.",
+    "Send DELETE /carts/{cartId}/product/{productId} with the cart's id and the first rental product's id.",
+    "Verify the response status is 204.",
+    "Verify GET /carts/{cartId} with the cart's id returns 200 with additional_discount_percentage 15.",
+    "Verify its cart_items has exactly two items, with the non-rental product's id and the second rental product's id as product_id."
+   ],
+   "area": "carts",
+   "areaLabel": "Carts",
+   "file": "test-scenarios/api/carts/delete-carts-by-cart-id-product-by-product-id.yml",
+   "fileLabel": "DELETE /carts/{cartId}/product/{productId}",
+   "suite": "Carts API",
+   "tags": [
+    "@carts-api"
+   ],
+   "yaml": "- id: API-0307\n  name: Remove one of two rental products from a cart with a non-rental product keeps the additional discount\n  ref: docs/ui/user-stories/Checkout_Cart_Review.md#AC8\n  status: manual\n  steps:\n    - Send GET /products and take the first item's brand id, category id and product image id.\n    - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental false and stock 10, and take the new product's id as the non-rental product's id.\n    - Send POST /products with a unique product name, a positive price, the same brand, category and product image ids, is_location_offer false, is_rental true and stock 10, and take the new product's id as the first rental product's id.\n    - Send POST /products with another unique product name, a positive price, the same brand, category and product image ids, is_location_offer false, is_rental true and stock 10, and take the new product's id as the second rental product's id.\n    - Send POST /carts with an empty body and take the returned id as the cart's id.\n    - Send POST /carts/{cartId} with the cart's id and a body with the non-rental product's id as product_id and quantity 1.\n    - Send POST /carts/{cartId} with the cart's id and a body with the first rental product's id as product_id and quantity 1.\n    - Send POST /carts/{cartId} with the cart's id and a body with the second rental product's id as product_id and quantity 1.\n    - Send DELETE /carts/{cartId}/product/{productId} with the cart's id and the first rental product's id.\n    - Verify the response status is 204.\n    - Verify GET /carts/{cartId} with the cart's id returns 200 with additional_discount_percentage 15.\n    - Verify its cart_items has exactly two items, with the non-rental product's id and the second rental product's id as product_id."
   },
   {
    "id": "API-0164",
@@ -4753,6 +5098,1582 @@ window.SCENARIO_CATALOG = {
    "yaml": "- id: API-0288\n  name: Delete another user's favorite returns 204 and keeps it\n  status: manual\n  steps:\n    - Send GET /products and take the id of a product that isn't among the default user's favorites (compare with GET /favorites).\n    - Send POST /favorites with that product id, and take the new favorite's id.\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.\n    - Send POST /users/login with that email and password, and take its access_token.\n    - Send DELETE /favorites/{favoriteId} with that favorite's id, with the throwaway customer's access_token.\n    - Verify the response status is 204.\n    - Verify GET /favorites/{favoriteId} with that id, with the default user's token, returns 200."
   },
   {
+   "id": "API-0336",
+   "name": "List images returns every image record",
+   "status": "manual",
+   "steps": [
+    "Send GET /images without an Authorization header.",
+    "Verify the response status is 200.",
+    "Verify the body is a non-empty array.",
+    "Verify every item has the keys id, by_name, by_url, source_name, source_url, file_name and title, each a string.",
+    "Verify the items' ids are unique.",
+    "Verify the Content-Type response header is application/json.",
+    "Verify the Cache-Control response header is \"max-age=120, public\".",
+    "Verify the response has an ETag header."
+   ],
+   "ref": [],
+   "area": "images",
+   "areaLabel": "Images",
+   "file": "test-scenarios/api/images/get-images.yml",
+   "fileLabel": "GET /images",
+   "suite": "Images API",
+   "tags": [
+    "@images-api"
+   ],
+   "yaml": "- id: API-0336\n  name: List images returns every image record\n  status: manual\n  steps:\n    - Send GET /images without an Authorization header.\n    - Verify the response status is 200.\n    - Verify the body is a non-empty array.\n    - Verify every item has the keys id, by_name, by_url, source_name, source_url, file_name and title, each a string.\n    - Verify the items' ids are unique.\n    - Verify the Content-Type response header is application/json.\n    - Verify the Cache-Control response header is \"max-age=120, public\".\n    - Verify the response has an ETag header."
+  },
+  {
+   "id": "API-0337",
+   "name": "List images ignores pagination, filter and sort parameters",
+   "status": "manual",
+   "steps": [
+    "Send GET /images and take the body as the plain list.",
+    "Send GET /images with page=2, per_page=5, q=zzzz and sort=title.",
+    "Verify the response status is 200.",
+    "Verify the body equals the plain list (same items, same order)."
+   ],
+   "ref": [],
+   "area": "images",
+   "areaLabel": "Images",
+   "file": "test-scenarios/api/images/get-images.yml",
+   "fileLabel": "GET /images",
+   "suite": "Images API",
+   "tags": [
+    "@images-api"
+   ],
+   "yaml": "- id: API-0337\n  name: List images ignores pagination, filter and sort parameters\n  status: manual\n  steps:\n    - Send GET /images and take the body as the plain list.\n    - Send GET /images with page=2, per_page=5, q=zzzz and sort=title.\n    - Verify the response status is 200.\n    - Verify the body equals the plain list (same items, same order)."
+  },
+  {
+   "id": "API-0338",
+   "name": "List images with Accept text/xml returns XML",
+   "status": "manual",
+   "steps": [
+    "Send GET /images with the header Accept: text/xml.",
+    "Verify the response status is 200.",
+    "Verify the Content-Type response header is \"text/xml; charset=utf-8\".",
+    "Verify the body is an XML document whose root element is response and which contains at least one item element.",
+    "Verify the first item element has the child elements id, by_name, by_url, source_name, source_url, file_name and title."
+   ],
+   "ref": [],
+   "area": "images",
+   "areaLabel": "Images",
+   "file": "test-scenarios/api/images/get-images.yml",
+   "fileLabel": "GET /images",
+   "suite": "Images API",
+   "tags": [
+    "@images-api"
+   ],
+   "yaml": "- id: API-0338\n  name: List images with Accept text/xml returns XML\n  status: manual\n  steps:\n    - \"Send GET /images with the header Accept: text/xml.\"\n    - Verify the response status is 200.\n    - 'Verify the Content-Type response header is \"text/xml; charset=utf-8\".'\n    - Verify the body is an XML document whose root element is response and which contains at least one item element.\n    - Verify the first item element has the child elements id, by_name, by_url, source_name, source_url, file_name and title."
+  },
+  {
+   "id": "API-0339",
+   "name": "List images with Accept application/xml returns JSON",
+   "status": "manual",
+   "steps": [
+    "Send GET /images with the header Accept: application/xml.",
+    "Verify the response status is 200.",
+    "Verify the Content-Type response header is application/json.",
+    "Verify the body is a non-empty JSON array."
+   ],
+   "ref": [],
+   "area": "images",
+   "areaLabel": "Images",
+   "file": "test-scenarios/api/images/get-images.yml",
+   "fileLabel": "GET /images",
+   "suite": "Images API",
+   "tags": [
+    "@images-api"
+   ],
+   "yaml": "- id: API-0339\n  name: List images with Accept application/xml returns JSON\n  status: manual\n  steps:\n    - \"Send GET /images with the header Accept: application/xml.\"\n    - Verify the response status is 200.\n    - Verify the Content-Type response header is application/json.\n    - Verify the body is a non-empty JSON array."
+  },
+  {
+   "id": "API-0340",
+   "name": "List images without an Accept header returns JSON",
+   "status": "manual",
+   "steps": [
+    "Send GET /images without an Accept header.",
+    "Verify the response status is 200.",
+    "Verify the Content-Type response header is application/json.",
+    "Verify the body is a non-empty JSON array."
+   ],
+   "ref": [],
+   "area": "images",
+   "areaLabel": "Images",
+   "file": "test-scenarios/api/images/get-images.yml",
+   "fileLabel": "GET /images",
+   "suite": "Images API",
+   "tags": [
+    "@images-api"
+   ],
+   "yaml": "- id: API-0340\n  name: List images without an Accept header returns JSON\n  status: manual\n  steps:\n    - Send GET /images without an Accept header.\n    - Verify the response status is 200.\n    - Verify the Content-Type response header is application/json.\n    - Verify the body is a non-empty JSON array."
+  },
+  {
+   "id": "API-0341",
+   "name": "A path under /images other than /images returns 404",
+   "status": "manual",
+   "steps": [
+    "Send GET /images/00000000000000000000000000.",
+    "Verify the response status is 404.",
+    "Verify the body's message is \"Resource not found\"."
+   ],
+   "ref": [],
+   "area": "images",
+   "areaLabel": "Images",
+   "file": "test-scenarios/api/images/get-images.yml",
+   "fileLabel": "GET /images",
+   "suite": "Images API",
+   "tags": [
+    "@images-api"
+   ],
+   "yaml": "- id: API-0341\n  name: A path under /images other than /images returns 404\n  status: manual\n  steps:\n    - Send GET /images/00000000000000000000000000.\n    - Verify the response status is 404.\n    - Verify the body's message is \"Resource not found\"."
+  },
+  {
+   "id": "API-0342",
+   "name": "List images with a matching If-None-Match returns 304",
+   "status": "manual",
+   "steps": [
+    "Send GET /images and take the ETag response header.",
+    "Send GET /images with the If-None-Match header set to that ETag.",
+    "Verify the response status is 304.",
+    "Verify the body is empty.",
+    "Verify the ETag response header equals the first response's ETag.",
+    "Verify the Cache-Control response header is \"max-age=120, public\"."
+   ],
+   "ref": [],
+   "area": "images",
+   "areaLabel": "Images",
+   "file": "test-scenarios/api/images/get-images.yml",
+   "fileLabel": "GET /images",
+   "suite": "Images API",
+   "tags": [
+    "@images-api"
+   ],
+   "yaml": "- id: API-0342\n  name: List images with a matching If-None-Match returns 304\n  status: manual\n  steps:\n    - Send GET /images and take the ETag response header.\n    - Send GET /images with the If-None-Match header set to that ETag.\n    - Verify the response status is 304.\n    - Verify the body is empty.\n    - Verify the ETag response header equals the first response's ETag.\n    - Verify the Cache-Control response header is \"max-age=120, public\"."
+  },
+  {
+   "id": "API-0297",
+   "name": "Create invoice with billing address fields at their maximum length returns 201",
+   "ref": [
+    "docs/ui/user-stories/Checkout_Billing_Address.md#AC1"
+   ],
+   "status": "manual",
+   "steps": [
+    "Send POST /users/register with a unique email, a first name, a last name and a random strong password.",
+    "Send POST /users/login with that email and password, and take the access_token.",
+    "Send POST /carts with an empty body and take the returned id as the cart's id.",
+    "Send POST /invoices with that token, payment_method \"cash-on-delivery\", payment_details {}, a 70-character billing_street, a 40-character billing_city, a 40-character billing_state, a 40-character billing_country (no billing_postal_code) and the cart's id as cart_id.",
+    "Verify the response status is 201.",
+    "Verify the body's id is a non-empty string, and its billing_street, billing_city, billing_state and billing_country equal the values sent.",
+    "Verify GET /invoices/{invoiceId} with the new id and that token returns 200 with the same billing_street, billing_city, billing_state and billing_country."
+   ],
+   "area": "invoices",
+   "areaLabel": "Invoices",
+   "file": "test-scenarios/api/invoices/post-invoices.yml",
+   "fileLabel": "POST /invoices",
+   "suite": "Invoices API",
+   "tags": [
+    "@invoices-api"
+   ],
+   "yaml": "- id: API-0297\n  name: Create invoice with billing address fields at their maximum length returns 201\n  ref: docs/ui/user-stories/Checkout_Billing_Address.md#AC1\n  status: manual\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password.\n    - Send POST /users/login with that email and password, and take the access_token.\n    - Send POST /carts with an empty body and take the returned id as the cart's id.\n    - Send POST /invoices with that token, payment_method \"cash-on-delivery\", payment_details {}, a 70-character billing_street, a 40-character billing_city, a 40-character billing_state, a 40-character billing_country (no billing_postal_code) and the cart's id as cart_id.\n    - Verify the response status is 201.\n    - Verify the body's id is a non-empty string, and its billing_street, billing_city, billing_state and billing_country equal the values sent.\n    - Verify GET /invoices/{invoiceId} with the new id and that token returns 200 with the same billing_street, billing_city, billing_state and billing_country."
+  },
+  {
+   "id": "API-0298",
+   "name": "Create invoice with a 10-character postal code returns 201",
+   "ref": [
+    "docs/ui/user-stories/Checkout_Billing_Address.md#AC1"
+   ],
+   "status": "manual",
+   "steps": [
+    "Send POST /users/register with a unique email, a first name, a last name and a random strong password.",
+    "Send POST /users/login with that email and password, and take the access_token.",
+    "Send POST /carts with an empty body and take the returned id as the cart's id.",
+    "Send GET /postcode-lookup with country \"US\" and postcode \"12345-6789\", and take the returned city and state.",
+    "Send POST /invoices with that token, payment_method \"cash-on-delivery\", payment_details {}, a billing_street, billing_city and billing_state set to the lookup's city and state, billing_country \"US\", billing_postal_code \"12345-6789\" (10 characters) and the cart's id as cart_id.",
+    "Verify the response status is 201.",
+    "Verify the body's id is a non-empty string, and its billing_city, billing_state, billing_country and billing_postal_code equal the values sent.",
+    "Verify GET /invoices/{invoiceId} with the new id and that token returns 200 with the same billing_city, billing_state, billing_country and billing_postal_code."
+   ],
+   "area": "invoices",
+   "areaLabel": "Invoices",
+   "file": "test-scenarios/api/invoices/post-invoices.yml",
+   "fileLabel": "POST /invoices",
+   "suite": "Invoices API",
+   "tags": [
+    "@invoices-api"
+   ],
+   "yaml": "- id: API-0298\n  name: Create invoice with a 10-character postal code returns 201\n  ref: docs/ui/user-stories/Checkout_Billing_Address.md#AC1\n  status: manual\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password.\n    - Send POST /users/login with that email and password, and take the access_token.\n    - Send POST /carts with an empty body and take the returned id as the cart's id.\n    - Send GET /postcode-lookup with country \"US\" and postcode \"12345-6789\", and take the returned city and state.\n    - Send POST /invoices with that token, payment_method \"cash-on-delivery\", payment_details {}, a billing_street, billing_city and billing_state set to the lookup's city and state, billing_country \"US\", billing_postal_code \"12345-6789\" (10 characters) and the cart's id as cart_id.\n    - Verify the response status is 201.\n    - Verify the body's id is a non-empty string, and its billing_city, billing_state, billing_country and billing_postal_code equal the values sent.\n    - Verify GET /invoices/{invoiceId} with the new id and that token returns 200 with the same billing_city, billing_state, billing_country and billing_postal_code."
+  },
+  {
+   "id": "API-0299",
+   "name": "Create invoice without the required billing address fields returns 422 for each of them",
+   "ref": [
+    "docs/ui/user-stories/Checkout_Billing_Address.md#AC2"
+   ],
+   "status": "manual",
+   "steps": [
+    "Send POST /invoices with the default user's token, payment_method \"cash-on-delivery\", payment_details {} and a non-empty string as cart_id, without billing_street, billing_city and billing_country.",
+    "Verify the response status is 422.",
+    "Verify the body has the keys billing_street, billing_city and billing_country, each with at least one message."
+   ],
+   "area": "invoices",
+   "areaLabel": "Invoices",
+   "file": "test-scenarios/api/invoices/post-invoices.yml",
+   "fileLabel": "POST /invoices",
+   "suite": "Invoices API",
+   "tags": [
+    "@invoices-api"
+   ],
+   "yaml": "- id: API-0299\n  name: Create invoice without the required billing address fields returns 422 for each of them\n  ref: docs/ui/user-stories/Checkout_Billing_Address.md#AC2\n  status: manual\n  steps:\n    - Send POST /invoices with the default user's token, payment_method \"cash-on-delivery\", payment_details {} and a non-empty string as cart_id, without billing_street, billing_city and billing_country.\n    - Verify the response status is 422.\n    - Verify the body has the keys billing_street, billing_city and billing_country, each with at least one message."
+  },
+  {
+   "id": "API-0300",
+   "name": "Create invoice with a billing street longer than 70 characters returns 422",
+   "ref": [
+    "docs/ui/user-stories/Checkout_Billing_Address.md#AC1"
+   ],
+   "status": "manual",
+   "steps": [
+    "Send POST /invoices with the default user's token, payment_method \"cash-on-delivery\", payment_details {}, a 71-character billing_street, billing_city \"Wien\", billing_country \"AT\" (no billing_postal_code) and a non-empty string as cart_id.",
+    "Verify the response status is 422.",
+    "Verify the body has a billing_street key with at least one message."
+   ],
+   "area": "invoices",
+   "areaLabel": "Invoices",
+   "file": "test-scenarios/api/invoices/post-invoices.yml",
+   "fileLabel": "POST /invoices",
+   "suite": "Invoices API",
+   "tags": [
+    "@invoices-api"
+   ],
+   "yaml": "- id: API-0300\n  name: Create invoice with a billing street longer than 70 characters returns 422\n  ref: docs/ui/user-stories/Checkout_Billing_Address.md#AC1\n  status: manual\n  steps:\n    - Send POST /invoices with the default user's token, payment_method \"cash-on-delivery\", payment_details {}, a 71-character billing_street, billing_city \"Wien\", billing_country \"AT\" (no billing_postal_code) and a non-empty string as cart_id.\n    - Verify the response status is 422.\n    - Verify the body has a billing_street key with at least one message."
+  },
+  {
+   "id": "API-0301",
+   "name": "Create invoice with a billing city longer than 40 characters returns 422",
+   "ref": [
+    "docs/ui/user-stories/Checkout_Billing_Address.md#AC1"
+   ],
+   "status": "manual",
+   "steps": [
+    "Send POST /invoices with the default user's token, payment_method \"cash-on-delivery\", payment_details {}, billing_street \"Stephansplatz 1\", a 41-character billing_city, billing_country \"AT\" (no billing_postal_code) and a non-empty string as cart_id.",
+    "Verify the response status is 422.",
+    "Verify the body has a billing_city key with at least one message."
+   ],
+   "area": "invoices",
+   "areaLabel": "Invoices",
+   "file": "test-scenarios/api/invoices/post-invoices.yml",
+   "fileLabel": "POST /invoices",
+   "suite": "Invoices API",
+   "tags": [
+    "@invoices-api"
+   ],
+   "yaml": "- id: API-0301\n  name: Create invoice with a billing city longer than 40 characters returns 422\n  ref: docs/ui/user-stories/Checkout_Billing_Address.md#AC1\n  status: manual\n  steps:\n    - Send POST /invoices with the default user's token, payment_method \"cash-on-delivery\", payment_details {}, billing_street \"Stephansplatz 1\", a 41-character billing_city, billing_country \"AT\" (no billing_postal_code) and a non-empty string as cart_id.\n    - Verify the response status is 422.\n    - Verify the body has a billing_city key with at least one message."
+  },
+  {
+   "id": "API-0302",
+   "name": "Create invoice with a billing state longer than 40 characters returns 422",
+   "ref": [
+    "docs/ui/user-stories/Checkout_Billing_Address.md#AC1"
+   ],
+   "status": "manual",
+   "steps": [
+    "Send POST /invoices with the default user's token, payment_method \"cash-on-delivery\", payment_details {}, billing_street \"Stephansplatz 1\", billing_city \"Wien\", a 41-character billing_state, billing_country \"AT\" (no billing_postal_code) and a non-empty string as cart_id.",
+    "Verify the response status is 422.",
+    "Verify the body has a billing_state key with at least one message."
+   ],
+   "area": "invoices",
+   "areaLabel": "Invoices",
+   "file": "test-scenarios/api/invoices/post-invoices.yml",
+   "fileLabel": "POST /invoices",
+   "suite": "Invoices API",
+   "tags": [
+    "@invoices-api"
+   ],
+   "yaml": "- id: API-0302\n  name: Create invoice with a billing state longer than 40 characters returns 422\n  ref: docs/ui/user-stories/Checkout_Billing_Address.md#AC1\n  status: manual\n  steps:\n    - Send POST /invoices with the default user's token, payment_method \"cash-on-delivery\", payment_details {}, billing_street \"Stephansplatz 1\", billing_city \"Wien\", a 41-character billing_state, billing_country \"AT\" (no billing_postal_code) and a non-empty string as cart_id.\n    - Verify the response status is 422.\n    - Verify the body has a billing_state key with at least one message."
+  },
+  {
+   "id": "API-0303",
+   "name": "Create invoice with a billing country longer than 40 characters returns 422",
+   "ref": [
+    "docs/ui/user-stories/Checkout_Billing_Address.md#AC1"
+   ],
+   "status": "manual",
+   "steps": [
+    "Send POST /invoices with the default user's token, payment_method \"cash-on-delivery\", payment_details {}, billing_street \"Stephansplatz 1\", billing_city \"Wien\", a 41-character billing_country (no billing_postal_code) and a non-empty string as cart_id.",
+    "Verify the response status is 422.",
+    "Verify the body has a billing_country key with at least one message."
+   ],
+   "area": "invoices",
+   "areaLabel": "Invoices",
+   "file": "test-scenarios/api/invoices/post-invoices.yml",
+   "fileLabel": "POST /invoices",
+   "suite": "Invoices API",
+   "tags": [
+    "@invoices-api"
+   ],
+   "yaml": "- id: API-0303\n  name: Create invoice with a billing country longer than 40 characters returns 422\n  ref: docs/ui/user-stories/Checkout_Billing_Address.md#AC1\n  status: manual\n  steps:\n    - Send POST /invoices with the default user's token, payment_method \"cash-on-delivery\", payment_details {}, billing_street \"Stephansplatz 1\", billing_city \"Wien\", a 41-character billing_country (no billing_postal_code) and a non-empty string as cart_id.\n    - Verify the response status is 422.\n    - Verify the body has a billing_country key with at least one message."
+  },
+  {
+   "id": "API-0304",
+   "name": "Create invoice with a billing postal code longer than 10 characters returns 422",
+   "ref": [
+    "docs/ui/user-stories/Checkout_Billing_Address.md#AC1"
+   ],
+   "status": "manual",
+   "steps": [
+    "Send POST /invoices with the default user's token, payment_method \"cash-on-delivery\", payment_details {}, billing_street \"Stephansplatz 1\", billing_city \"Wien\", billing_country \"AT\", an 11-character billing_postal_code and a non-empty string as cart_id.",
+    "Verify the response status is 422.",
+    "Verify the body has a billing_postal_code key with at least one message."
+   ],
+   "area": "invoices",
+   "areaLabel": "Invoices",
+   "file": "test-scenarios/api/invoices/post-invoices.yml",
+   "fileLabel": "POST /invoices",
+   "suite": "Invoices API",
+   "tags": [
+    "@invoices-api"
+   ],
+   "yaml": "- id: API-0304\n  name: Create invoice with a billing postal code longer than 10 characters returns 422\n  ref: docs/ui/user-stories/Checkout_Billing_Address.md#AC1\n  status: manual\n  steps:\n    - Send POST /invoices with the default user's token, payment_method \"cash-on-delivery\", payment_details {}, billing_street \"Stephansplatz 1\", billing_city \"Wien\", billing_country \"AT\", an 11-character billing_postal_code and a non-empty string as cart_id.\n    - Verify the response status is 422.\n    - Verify the body has a billing_postal_code key with at least one message."
+  },
+  {
+   "id": "API-0343",
+   "name": "List messages as a customer returns 200 with only the customer's own messages",
+   "status": "manual",
+   "steps": [
+    "Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.",
+    "Send POST /users/login with that email and password, and take its access_token.",
+    "Send POST /messages with that token, a unique subject and a message text, and take the new message's id.",
+    "Send POST /messages without an Authorization header, with a unique subject and a message text (a guest message).",
+    "Send GET /messages with the throwaway customer's access_token.",
+    "Verify the response status is 200.",
+    "Verify the body has the keys current_page, data, from, last_page, per_page, to and total, and its per_page is 15.",
+    "Verify the body's total is 1 and its data has exactly one item, with the customer's message id as id, the new user's id as user_id and status \"NEW\".",
+    "Verify that item's subject and message equal the values sent and it has no user key."
+   ],
+   "ref": [],
+   "area": "messages",
+   "areaLabel": "Messages",
+   "file": "test-scenarios/api/messages/get-messages.yml",
+   "fileLabel": "GET /messages",
+   "suite": "Messages API",
+   "tags": [
+    "@messages-api"
+   ],
+   "yaml": "- id: API-0343\n  name: List messages as a customer returns 200 with only the customer's own messages\n  status: manual\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.\n    - Send POST /users/login with that email and password, and take its access_token.\n    - Send POST /messages with that token, a unique subject and a message text, and take the new message's id.\n    - Send POST /messages without an Authorization header, with a unique subject and a message text (a guest message).\n    - Send GET /messages with the throwaway customer's access_token.\n    - Verify the response status is 200.\n    - Verify the body has the keys current_page, data, from, last_page, per_page, to and total, and its per_page is 15.\n    - Verify the body's total is 1 and its data has exactly one item, with the customer's message id as id, the new user's id as user_id and status \"NEW\".\n    - Verify that item's subject and message equal the values sent and it has no user key."
+  },
+  {
+   "id": "API-0344",
+   "name": "List messages as an admin includes guest and customer messages, each with its sender",
+   "status": "manual",
+   "role": "admin",
+   "steps": [
+    "Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.",
+    "Send POST /users/login with that email and password, and take its access_token.",
+    "Send POST /messages with that token, a unique subject and a message text, and take the new message's id as the customer message's id.",
+    "Send POST /messages without an Authorization header, with a unique subject and a message text, and take the new message's id as the guest message's id.",
+    "Send GET /messages with the admin's token.",
+    "Verify the response status is 200.",
+    "Verify the body's data (newest first, so page 1) includes an item with the customer message's id, the new user's id as user_id and a user object whose id is the new user's id.",
+    "Verify the body's data includes an item with the guest message's id, with user_id null and user null."
+   ],
+   "ref": [],
+   "area": "messages",
+   "areaLabel": "Messages",
+   "file": "test-scenarios/api/messages/get-messages.yml",
+   "fileLabel": "GET /messages",
+   "suite": "Messages API",
+   "tags": [
+    "@messages-api"
+   ],
+   "yaml": "- id: API-0344\n  name: List messages as an admin includes guest and customer messages, each with its sender\n  status: manual\n  role: admin\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.\n    - Send POST /users/login with that email and password, and take its access_token.\n    - Send POST /messages with that token, a unique subject and a message text, and take the new message's id as the customer message's id.\n    - Send POST /messages without an Authorization header, with a unique subject and a message text, and take the new message's id as the guest message's id.\n    - Send GET /messages with the admin's token.\n    - Verify the response status is 200.\n    - Verify the body's data (newest first, so page 1) includes an item with the customer message's id, the new user's id as user_id and a user object whose id is the new user's id.\n    - Verify the body's data includes an item with the guest message's id, with user_id null and user null."
+  },
+  {
+   "id": "API-0345",
+   "name": "List messages with a page past the last returns 200 with an empty data",
+   "status": "manual",
+   "steps": [
+    "Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.",
+    "Send POST /users/login with that email and password, and take its access_token.",
+    "Send POST /messages with that token, a unique subject and a message text.",
+    "Send GET /messages with page 2 and that token.",
+    "Verify the response status is 200.",
+    "Verify the body's data is an empty array."
+   ],
+   "ref": [],
+   "area": "messages",
+   "areaLabel": "Messages",
+   "file": "test-scenarios/api/messages/get-messages.yml",
+   "fileLabel": "GET /messages",
+   "suite": "Messages API",
+   "tags": [
+    "@messages-api"
+   ],
+   "yaml": "- id: API-0345\n  name: List messages with a page past the last returns 200 with an empty data\n  status: manual\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.\n    - Send POST /users/login with that email and password, and take its access_token.\n    - Send POST /messages with that token, a unique subject and a message text.\n    - Send GET /messages with page 2 and that token.\n    - Verify the response status is 200.\n    - Verify the body's data is an empty array."
+  },
+  {
+   "id": "API-0346",
+   "name": "List messages without a token returns 401",
+   "status": "manual",
+   "steps": [
+    "Send GET /messages without an Authorization header.",
+    "Verify the response status is 401.",
+    "Verify the body's message is \"Unauthorized\"."
+   ],
+   "ref": [],
+   "area": "messages",
+   "areaLabel": "Messages",
+   "file": "test-scenarios/api/messages/get-messages.yml",
+   "fileLabel": "GET /messages",
+   "suite": "Messages API",
+   "tags": [
+    "@messages-api"
+   ],
+   "yaml": "- id: API-0346\n  name: List messages without a token returns 401\n  status: manual\n  steps:\n    - Send GET /messages without an Authorization header.\n    - Verify the response status is 401.\n    - Verify the body's message is \"Unauthorized\"."
+  },
+  {
+   "id": "API-0347",
+   "name": "List messages with a malformed token returns 401",
+   "status": "manual",
+   "steps": [
+    "Send GET /messages with a malformed token.",
+    "Verify the response status is 401.",
+    "Verify the body's message is \"Unauthorized\"."
+   ],
+   "ref": [],
+   "area": "messages",
+   "areaLabel": "Messages",
+   "file": "test-scenarios/api/messages/get-messages.yml",
+   "fileLabel": "GET /messages",
+   "suite": "Messages API",
+   "tags": [
+    "@messages-api"
+   ],
+   "yaml": "- id: API-0347\n  name: List messages with a malformed token returns 401\n  status: manual\n  steps:\n    - Send GET /messages with a malformed token.\n    - Verify the response status is 401.\n    - Verify the body's message is \"Unauthorized\"."
+  },
+  {
+   "id": "API-0348",
+   "name": "List messages with a disabled account's token returns 403",
+   "status": "manual",
+   "role": "admin",
+   "steps": [
+    "Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.",
+    "Send POST /users/login with that email and password, and take its access_token.",
+    "Send PATCH /users/{userId} with that id and enabled false, with the admin's token.",
+    "Send GET /messages with the throwaway customer's access_token.",
+    "Verify the response status is 403.",
+    "Verify the body's message is \"Account disabled.\"."
+   ],
+   "ref": [],
+   "area": "messages",
+   "areaLabel": "Messages",
+   "file": "test-scenarios/api/messages/get-messages.yml",
+   "fileLabel": "GET /messages",
+   "suite": "Messages API",
+   "tags": [
+    "@messages-api"
+   ],
+   "yaml": "- id: API-0348\n  name: List messages with a disabled account's token returns 403\n  status: manual\n  role: admin\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.\n    - Send POST /users/login with that email and password, and take its access_token.\n    - Send PATCH /users/{userId} with that id and enabled false, with the admin's token.\n    - Send GET /messages with the throwaway customer's access_token.\n    - Verify the response status is 403.\n    - Verify the body's message is \"Account disabled.\"."
+  },
+  {
+   "id": "API-0349",
+   "name": "List messages of a customer without messages returns 200 with an empty list",
+   "status": "manual",
+   "steps": [
+    "Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.",
+    "Send POST /users/login with that email and password, and take its access_token.",
+    "Send GET /messages with that token.",
+    "Verify the response status is 200.",
+    "Verify the body's data is an empty array."
+   ],
+   "ref": [],
+   "area": "messages",
+   "areaLabel": "Messages",
+   "file": "test-scenarios/api/messages/get-messages.yml",
+   "fileLabel": "GET /messages",
+   "suite": "Messages API",
+   "tags": [
+    "@messages-api"
+   ],
+   "yaml": "- id: API-0349\n  name: List messages of a customer without messages returns 200 with an empty list\n  status: manual\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.\n    - Send POST /users/login with that email and password, and take its access_token.\n    - Send GET /messages with that token.\n    - Verify the response status is 200.\n    - Verify the body's data is an empty array."
+  },
+  {
+   "id": "API-0350",
+   "name": "Send a message as a guest returns 200 and an admin can read it",
+   "status": "manual",
+   "role": "admin",
+   "steps": [
+    "Send POST /messages without an Authorization header, with a name, an email address, a unique subject and a message text, and take the body's id.",
+    "Verify the response status is 200.",
+    "Verify the body's id is a non-empty string, its subject, message, name and email equal the values sent and its status is \"NEW\".",
+    "Verify the body has a created_at and no user_id key.",
+    "Verify GET /messages/{messageId} with that id and the admin's token returns 200 with the same subject and message, status \"NEW\" and user_id null."
+   ],
+   "ref": [],
+   "area": "messages",
+   "areaLabel": "Messages",
+   "file": "test-scenarios/api/messages/post-messages.yml",
+   "fileLabel": "POST /messages",
+   "suite": "Messages API",
+   "tags": [
+    "@messages-api"
+   ],
+   "yaml": "- id: API-0350\n  name: Send a message as a guest returns 200 and an admin can read it\n  status: manual\n  role: admin\n  steps:\n    - Send POST /messages without an Authorization header, with a name, an email address, a unique subject and a message text, and take the body's id.\n    - Verify the response status is 200.\n    - Verify the body's id is a non-empty string, its subject, message, name and email equal the values sent and its status is \"NEW\".\n    - Verify the body has a created_at and no user_id key.\n    - Verify GET /messages/{messageId} with that id and the admin's token returns 200 with the same subject and message, status \"NEW\" and user_id null."
+  },
+  {
+   "id": "API-0351",
+   "name": "Send a message as a logged-in customer returns 200 with the customer's user_id",
+   "status": "manual",
+   "steps": [
+    "Send GET /users/me with the default user's token and take its id.",
+    "Send POST /messages with the default user's token, a unique subject and a message text, and take the body's id.",
+    "Verify the response status is 200.",
+    "Verify the body's id is a non-empty string, its subject and message equal the values sent, its status is \"NEW\" and its user_id equals the default user's id.",
+    "Verify GET /messages/{messageId} with that id and the default user's token returns 200 with the same subject, message and user_id."
+   ],
+   "ref": [],
+   "area": "messages",
+   "areaLabel": "Messages",
+   "file": "test-scenarios/api/messages/post-messages.yml",
+   "fileLabel": "POST /messages",
+   "suite": "Messages API",
+   "tags": [
+    "@messages-api"
+   ],
+   "yaml": "- id: API-0351\n  name: Send a message as a logged-in customer returns 200 with the customer's user_id\n  status: manual\n  steps:\n    - Send GET /users/me with the default user's token and take its id.\n    - Send POST /messages with the default user's token, a unique subject and a message text, and take the body's id.\n    - Verify the response status is 200.\n    - Verify the body's id is a non-empty string, its subject and message equal the values sent, its status is \"NEW\" and its user_id equals the default user's id.\n    - Verify GET /messages/{messageId} with that id and the default user's token returns 200 with the same subject, message and user_id."
+  },
+  {
+   "id": "API-0352",
+   "name": "Send a message with only a subject and a message returns 200",
+   "status": "manual",
+   "role": "admin",
+   "steps": [
+    "Send POST /messages without an Authorization header, with a unique subject and a message text, without name and email, and take the body's id.",
+    "Verify the response status is 200.",
+    "Verify the body's id is a non-empty string, its subject and message equal the values sent and its status is \"NEW\".",
+    "Verify GET /messages/{messageId} with that id and the admin's token returns 200 with the same subject and message, name null and email null."
+   ],
+   "ref": [],
+   "area": "messages",
+   "areaLabel": "Messages",
+   "file": "test-scenarios/api/messages/post-messages.yml",
+   "fileLabel": "POST /messages",
+   "suite": "Messages API",
+   "tags": [
+    "@messages-api"
+   ],
+   "yaml": "- id: API-0352\n  name: Send a message with only a subject and a message returns 200\n  status: manual\n  role: admin\n  steps:\n    - Send POST /messages without an Authorization header, with a unique subject and a message text, without name and email, and take the body's id.\n    - Verify the response status is 200.\n    - Verify the body's id is a non-empty string, its subject and message equal the values sent and its status is \"NEW\".\n    - Verify GET /messages/{messageId} with that id and the admin's token returns 200 with the same subject and message, name null and email null."
+  },
+  {
+   "id": "API-0353",
+   "name": "Send a message with a 120-character subject and a 250-character message returns 200",
+   "status": "manual",
+   "role": "admin",
+   "steps": [
+    "Send POST /messages without an Authorization header, with a 120-character subject and a 250-character message, and take the body's id.",
+    "Verify the response status is 200.",
+    "Verify GET /messages/{messageId} with that id and the admin's token returns 200 with the same subject and message."
+   ],
+   "ref": [],
+   "area": "messages",
+   "areaLabel": "Messages",
+   "file": "test-scenarios/api/messages/post-messages.yml",
+   "fileLabel": "POST /messages",
+   "suite": "Messages API",
+   "tags": [
+    "@messages-api"
+   ],
+   "yaml": "- id: API-0353\n  name: Send a message with a 120-character subject and a 250-character message returns 200\n  status: manual\n  role: admin\n  steps:\n    - Send POST /messages without an Authorization header, with a 120-character subject and a 250-character message, and take the body's id.\n    - Verify the response status is 200.\n    - Verify GET /messages/{messageId} with that id and the admin's token returns 200 with the same subject and message."
+  },
+  {
+   "id": "API-0354",
+   "name": "Send a message with a status in the body ignores it and creates it as NEW",
+   "status": "manual",
+   "role": "admin",
+   "steps": [
+    "Send POST /messages without an Authorization header, with a unique subject, a message text and status \"RESOLVED\", and take the body's id.",
+    "Verify the response status is 200.",
+    "Verify the body's status is \"NEW\".",
+    "Verify GET /messages/{messageId} with that id and the admin's token returns 200 with status \"NEW\"."
+   ],
+   "ref": [],
+   "area": "messages",
+   "areaLabel": "Messages",
+   "file": "test-scenarios/api/messages/post-messages.yml",
+   "fileLabel": "POST /messages",
+   "suite": "Messages API",
+   "tags": [
+    "@messages-api"
+   ],
+   "yaml": "- id: API-0354\n  name: Send a message with a status in the body ignores it and creates it as NEW\n  status: manual\n  role: admin\n  steps:\n    - Send POST /messages without an Authorization header, with a unique subject, a message text and status \"RESOLVED\", and take the body's id.\n    - Verify the response status is 200.\n    - Verify the body's status is \"NEW\".\n    - Verify GET /messages/{messageId} with that id and the admin's token returns 200 with status \"NEW\"."
+  },
+  {
+   "id": "API-0355",
+   "name": "Send a message with a malformed token returns 200 and the message has no owner",
+   "status": "manual",
+   "role": "admin",
+   "steps": [
+    "Send POST /messages with a malformed token, a unique subject and a message text, and take the body's id.",
+    "Verify the response status is 200.",
+    "Verify the body has no user_id key.",
+    "Verify GET /messages/{messageId} with that id and the admin's token returns 200 with user_id null."
+   ],
+   "ref": [],
+   "area": "messages",
+   "areaLabel": "Messages",
+   "file": "test-scenarios/api/messages/post-messages.yml",
+   "fileLabel": "POST /messages",
+   "suite": "Messages API",
+   "tags": [
+    "@messages-api"
+   ],
+   "yaml": "- id: API-0355\n  name: Send a message with a malformed token returns 200 and the message has no owner\n  status: manual\n  role: admin\n  steps:\n    - Send POST /messages with a malformed token, a unique subject and a message text, and take the body's id.\n    - Verify the response status is 200.\n    - Verify the body has no user_id key.\n    - Verify GET /messages/{messageId} with that id and the admin's token returns 200 with user_id null."
+  },
+  {
+   "id": "API-0356",
+   "name": "Send a message without subject and message returns 422 for each of them",
+   "status": "manual",
+   "steps": [
+    "Send POST /messages without an Authorization header, with a name and an email address, without subject and message.",
+    "Verify the response status is 422.",
+    "Verify the body has the keys subject and message, each with at least one message."
+   ],
+   "ref": [],
+   "area": "messages",
+   "areaLabel": "Messages",
+   "file": "test-scenarios/api/messages/post-messages.yml",
+   "fileLabel": "POST /messages",
+   "suite": "Messages API",
+   "tags": [
+    "@messages-api"
+   ],
+   "yaml": "- id: API-0356\n  name: Send a message without subject and message returns 422 for each of them\n  status: manual\n  steps:\n    - Send POST /messages without an Authorization header, with a name and an email address, without subject and message.\n    - Verify the response status is 422.\n    - Verify the body has the keys subject and message, each with at least one message."
+  },
+  {
+   "id": "API-0357",
+   "name": "Send a message with a subject longer than 120 characters returns 422",
+   "status": "manual",
+   "steps": [
+    "Send POST /messages without an Authorization header, with a 121-character subject and a message text.",
+    "Verify the response status is 422.",
+    "Verify the body has a subject key with at least one message."
+   ],
+   "ref": [],
+   "area": "messages",
+   "areaLabel": "Messages",
+   "file": "test-scenarios/api/messages/post-messages.yml",
+   "fileLabel": "POST /messages",
+   "suite": "Messages API",
+   "tags": [
+    "@messages-api"
+   ],
+   "yaml": "- id: API-0357\n  name: Send a message with a subject longer than 120 characters returns 422\n  status: manual\n  steps:\n    - Send POST /messages without an Authorization header, with a 121-character subject and a message text.\n    - Verify the response status is 422.\n    - Verify the body has a subject key with at least one message."
+  },
+  {
+   "id": "API-0358",
+   "name": "Send a message with a message longer than 250 characters returns 422",
+   "status": "manual",
+   "steps": [
+    "Send POST /messages without an Authorization header, with a unique subject and a 251-character message.",
+    "Verify the response status is 422.",
+    "Verify the body has a message key with at least one message."
+   ],
+   "ref": [],
+   "area": "messages",
+   "areaLabel": "Messages",
+   "file": "test-scenarios/api/messages/post-messages.yml",
+   "fileLabel": "POST /messages",
+   "suite": "Messages API",
+   "tags": [
+    "@messages-api"
+   ],
+   "yaml": "- id: API-0358\n  name: Send a message with a message longer than 250 characters returns 422\n  status: manual\n  steps:\n    - Send POST /messages without an Authorization header, with a unique subject and a 251-character message.\n    - Verify the response status is 422.\n    - Verify the body has a message key with at least one message."
+  },
+  {
+   "id": "API-0359",
+   "name": "Send a message with an invalid email returns 422",
+   "status": "manual",
+   "steps": [
+    "Send POST /messages without an Authorization header, with the email \"not-an-email\", a unique subject and a message text.",
+    "Verify the response status is 422.",
+    "Verify the body has an email key with at least one message."
+   ],
+   "ref": [],
+   "area": "messages",
+   "areaLabel": "Messages",
+   "file": "test-scenarios/api/messages/post-messages.yml",
+   "fileLabel": "POST /messages",
+   "suite": "Messages API",
+   "tags": [
+    "@messages-api"
+   ],
+   "yaml": "- id: API-0359\n  name: Send a message with an invalid email returns 422\n  status: manual\n  steps:\n    - Send POST /messages without an Authorization header, with the email \"not-an-email\", a unique subject and a message text.\n    - Verify the response status is 422.\n    - Verify the body has an email key with at least one message."
+  },
+  {
+   "id": "API-0360",
+   "name": "Send a message with a subscript character in the subject returns 422",
+   "status": "manual",
+   "steps": [
+    "Send POST /messages without an Authorization header, with a subject that contains the subscript character \"₂\" (U+2082) and a message text.",
+    "Verify the response status is 422.",
+    "Verify the body has a subject key with at least one message."
+   ],
+   "ref": [],
+   "area": "messages",
+   "areaLabel": "Messages",
+   "file": "test-scenarios/api/messages/post-messages.yml",
+   "fileLabel": "POST /messages",
+   "suite": "Messages API",
+   "tags": [
+    "@messages-api"
+   ],
+   "yaml": "- id: API-0360\n  name: Send a message with a subscript character in the subject returns 422\n  status: manual\n  steps:\n    - Send POST /messages without an Authorization header, with a subject that contains the subscript character \"₂\" (U+2082) and a message text.\n    - Verify the response status is 422.\n    - Verify the body has a subject key with at least one message."
+  },
+  {
+   "id": "API-0361",
+   "name": "Send a message with a 61-character name returns 200 or 422, not 500",
+   "ref": [
+    "BUG-027"
+   ],
+   "status": "manual",
+   "knownIssue": "Returns 500 for a name of 61 to 120 characters, which the validation allows, instead of 422 or 200.",
+   "bug": "BUG-027",
+   "steps": [
+    "Send POST /messages without an Authorization header, with a 61-character name, a unique subject and a message text.",
+    "Verify the response status is 200 or 422."
+   ],
+   "area": "messages",
+   "areaLabel": "Messages",
+   "file": "test-scenarios/api/messages/post-messages.yml",
+   "fileLabel": "POST /messages",
+   "suite": "Messages API",
+   "tags": [
+    "@messages-api"
+   ],
+   "yaml": "- id: API-0361\n  name: Send a message with a 61-character name returns 200 or 422, not 500\n  ref: BUG-027\n  status: manual\n  knownIssue: Returns 500 for a name of 61 to 120 characters, which the validation allows, instead of 422 or 200.\n  bug: BUG-027\n  steps:\n    - Send POST /messages without an Authorization header, with a 61-character name, a unique subject and a message text.\n    - Verify the response status is 200 or 422."
+  },
+  {
+   "id": "API-0362",
+   "name": "Send a message with a parent_id key returns 200 or 422, not 500",
+   "ref": [
+    "BUG-028"
+   ],
+   "status": "manual",
+   "knownIssue": "Returns 500 when the body has a parent_id key instead of ignoring it or answering 422.",
+   "bug": "BUG-028",
+   "steps": [
+    "Send POST /messages without an Authorization header, with a unique subject, a message text and a parent_id key set to a non-empty string.",
+    "Verify the response status is 200 or 422."
+   ],
+   "area": "messages",
+   "areaLabel": "Messages",
+   "file": "test-scenarios/api/messages/post-messages.yml",
+   "fileLabel": "POST /messages",
+   "suite": "Messages API",
+   "tags": [
+    "@messages-api"
+   ],
+   "yaml": "- id: API-0362\n  name: Send a message with a parent_id key returns 200 or 422, not 500\n  ref: BUG-028\n  status: manual\n  knownIssue: Returns 500 when the body has a parent_id key instead of ignoring it or answering 422.\n  bug: BUG-028\n  steps:\n    - Send POST /messages without an Authorization header, with a unique subject, a message text and a parent_id key set to a non-empty string.\n    - Verify the response status is 200 or 422."
+  },
+  {
+   "id": "API-0363",
+   "name": "Send a guest message with another user's user_id doesn't put it in that user's list",
+   "ref": [
+    "BUG-028"
+   ],
+   "status": "manual",
+   "knownIssue": "Stores a guest message under the user_id sent in the body, so it shows in that user's list, instead of leaving it without an owner.",
+   "bug": "BUG-028",
+   "steps": [
+    "Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.",
+    "Send POST /users/login with that email and password, and take its access_token.",
+    "Send POST /messages without an Authorization header, with a unique subject, a message text and user_id set to the new user's id, and take the body's id.",
+    "Send GET /messages with the throwaway customer's access_token.",
+    "Verify the body's data has no item with the new message's id."
+   ],
+   "area": "messages",
+   "areaLabel": "Messages",
+   "file": "test-scenarios/api/messages/post-messages.yml",
+   "fileLabel": "POST /messages",
+   "suite": "Messages API",
+   "tags": [
+    "@messages-api"
+   ],
+   "yaml": "- id: API-0363\n  name: Send a guest message with another user's user_id doesn't put it in that user's list\n  ref: BUG-028\n  status: manual\n  knownIssue: Stores a guest message under the user_id sent in the body, so it shows in that user's list, instead of leaving it without an owner.\n  bug: BUG-028\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.\n    - Send POST /users/login with that email and password, and take its access_token.\n    - Send POST /messages without an Authorization header, with a unique subject, a message text and user_id set to the new user's id, and take the body's id.\n    - Send GET /messages with the throwaway customer's access_token.\n    - Verify the body's data has no item with the new message's id."
+  },
+  {
+   "id": "API-0364",
+   "name": "Get a message as its sender returns 200 with the message, its sender and no replies",
+   "status": "manual",
+   "steps": [
+    "Send GET /users/me with the default user's token and take its id.",
+    "Send POST /messages with the default user's token, a name, an email address, a unique subject and a message text, and take the new message's id.",
+    "Send GET /messages/{messageId} with that id and the default user's token.",
+    "Verify the response status is 200.",
+    "Verify the body's id equals the new message's id, its user_id equals the default user's id, its subject and message equal the values sent, its status is \"NEW\" and it has a created_at.",
+    "Verify the body's replies is an empty array.",
+    "Verify the body's user has the default user's id as id and has no role, enabled and failed_login_attempts keys."
+   ],
+   "ref": [],
+   "area": "messages",
+   "areaLabel": "Messages",
+   "file": "test-scenarios/api/messages/get-messages-by-message-id.yml",
+   "fileLabel": "GET /messages/{messageId}",
+   "suite": "Messages API",
+   "tags": [
+    "@messages-api"
+   ],
+   "yaml": "- id: API-0364\n  name: Get a message as its sender returns 200 with the message, its sender and no replies\n  status: manual\n  steps:\n    - Send GET /users/me with the default user's token and take its id.\n    - Send POST /messages with the default user's token, a name, an email address, a unique subject and a message text, and take the new message's id.\n    - Send GET /messages/{messageId} with that id and the default user's token.\n    - Verify the response status is 200.\n    - Verify the body's id equals the new message's id, its user_id equals the default user's id, its subject and message equal the values sent, its status is \"NEW\" and it has a created_at.\n    - Verify the body's replies is an empty array.\n    - Verify the body's user has the default user's id as id and has no role, enabled and failed_login_attempts keys."
+  },
+  {
+   "id": "API-0365",
+   "name": "Get a customer's message as an admin returns 200 with the sender's admin-only fields",
+   "status": "manual",
+   "role": "admin",
+   "steps": [
+    "Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.",
+    "Send POST /users/login with that email and password, and take its access_token.",
+    "Send POST /messages with that token, a unique subject and a message text, and take the new message's id.",
+    "Send GET /messages/{messageId} with that id and the admin's token.",
+    "Verify the response status is 200.",
+    "Verify the body's user_id and its user's id equal the new user's id.",
+    "Verify the body's user has the keys role, enabled and failed_login_attempts."
+   ],
+   "ref": [],
+   "area": "messages",
+   "areaLabel": "Messages",
+   "file": "test-scenarios/api/messages/get-messages-by-message-id.yml",
+   "fileLabel": "GET /messages/{messageId}",
+   "suite": "Messages API",
+   "tags": [
+    "@messages-api"
+   ],
+   "yaml": "- id: API-0365\n  name: Get a customer's message as an admin returns 200 with the sender's admin-only fields\n  status: manual\n  role: admin\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.\n    - Send POST /users/login with that email and password, and take its access_token.\n    - Send POST /messages with that token, a unique subject and a message text, and take the new message's id.\n    - Send GET /messages/{messageId} with that id and the admin's token.\n    - Verify the response status is 200.\n    - Verify the body's user_id and its user's id equal the new user's id.\n    - Verify the body's user has the keys role, enabled and failed_login_attempts."
+  },
+  {
+   "id": "API-0366",
+   "name": "Get a guest message as an admin returns 200 with no sender",
+   "status": "manual",
+   "role": "admin",
+   "steps": [
+    "Send POST /messages without an Authorization header, with a unique subject and a message text, and take the new message's id.",
+    "Send GET /messages/{messageId} with that id and the admin's token.",
+    "Verify the response status is 200.",
+    "Verify the body's id equals the new message's id, its user_id is null and its user is null.",
+    "Verify the body's replies is an empty array."
+   ],
+   "ref": [],
+   "area": "messages",
+   "areaLabel": "Messages",
+   "file": "test-scenarios/api/messages/get-messages-by-message-id.yml",
+   "fileLabel": "GET /messages/{messageId}",
+   "suite": "Messages API",
+   "tags": [
+    "@messages-api"
+   ],
+   "yaml": "- id: API-0366\n  name: Get a guest message as an admin returns 200 with no sender\n  status: manual\n  role: admin\n  steps:\n    - Send POST /messages without an Authorization header, with a unique subject and a message text, and take the new message's id.\n    - Send GET /messages/{messageId} with that id and the admin's token.\n    - Verify the response status is 200.\n    - Verify the body's id equals the new message's id, its user_id is null and its user is null.\n    - Verify the body's replies is an empty array."
+  },
+  {
+   "id": "API-0367",
+   "name": "Get a message with a reply returns 200 with the reply and its author",
+   "status": "manual",
+   "role": "admin",
+   "steps": [
+    "Send POST /messages without an Authorization header, with a unique subject and a message text, and take the new message's id.",
+    "Send GET /users/me with the admin's token and take its id.",
+    "Send POST /messages/{messageId}/reply with that id, the admin's token and a body with a message text, and take the reply's id.",
+    "Send GET /messages/{messageId} with that id and the admin's token.",
+    "Verify the response status is 200.",
+    "Verify the body's replies has exactly one item, with the reply's id as id, the text sent as message and a created_at.",
+    "Verify that reply's user has the admin's id as id."
+   ],
+   "ref": [],
+   "area": "messages",
+   "areaLabel": "Messages",
+   "file": "test-scenarios/api/messages/get-messages-by-message-id.yml",
+   "fileLabel": "GET /messages/{messageId}",
+   "suite": "Messages API",
+   "tags": [
+    "@messages-api"
+   ],
+   "yaml": "- id: API-0367\n  name: Get a message with a reply returns 200 with the reply and its author\n  status: manual\n  role: admin\n  steps:\n    - Send POST /messages without an Authorization header, with a unique subject and a message text, and take the new message's id.\n    - Send GET /users/me with the admin's token and take its id.\n    - Send POST /messages/{messageId}/reply with that id, the admin's token and a body with a message text, and take the reply's id.\n    - Send GET /messages/{messageId} with that id and the admin's token.\n    - Verify the response status is 200.\n    - Verify the body's replies has exactly one item, with the reply's id as id, the text sent as message and a created_at.\n    - Verify that reply's user has the admin's id as id."
+  },
+  {
+   "id": "API-0368",
+   "name": "Get a message without a token returns 401",
+   "status": "manual",
+   "steps": [
+    "Send GET /messages/{messageId} without an Authorization header, with a well-formed message id that doesn't exist.",
+    "Verify the response status is 401.",
+    "Verify the body's message is \"Unauthorized\"."
+   ],
+   "ref": [],
+   "area": "messages",
+   "areaLabel": "Messages",
+   "file": "test-scenarios/api/messages/get-messages-by-message-id.yml",
+   "fileLabel": "GET /messages/{messageId}",
+   "suite": "Messages API",
+   "tags": [
+    "@messages-api"
+   ],
+   "yaml": "- id: API-0368\n  name: Get a message without a token returns 401\n  status: manual\n  steps:\n    - Send GET /messages/{messageId} without an Authorization header, with a well-formed message id that doesn't exist.\n    - Verify the response status is 401.\n    - Verify the body's message is \"Unauthorized\"."
+  },
+  {
+   "id": "API-0369",
+   "name": "Get a message with a malformed token returns 401",
+   "status": "manual",
+   "steps": [
+    "Send GET /messages/{messageId} with a malformed token and a well-formed message id that doesn't exist.",
+    "Verify the response status is 401.",
+    "Verify the body's message is \"Unauthorized\"."
+   ],
+   "ref": [],
+   "area": "messages",
+   "areaLabel": "Messages",
+   "file": "test-scenarios/api/messages/get-messages-by-message-id.yml",
+   "fileLabel": "GET /messages/{messageId}",
+   "suite": "Messages API",
+   "tags": [
+    "@messages-api"
+   ],
+   "yaml": "- id: API-0369\n  name: Get a message with a malformed token returns 401\n  status: manual\n  steps:\n    - Send GET /messages/{messageId} with a malformed token and a well-formed message id that doesn't exist.\n    - Verify the response status is 401.\n    - Verify the body's message is \"Unauthorized\"."
+  },
+  {
+   "id": "API-0370",
+   "name": "Get another user's message as a customer returns 404",
+   "ref": [
+    "BUG-029"
+   ],
+   "status": "manual",
+   "knownIssue": "Returns 200 with an empty body for a message the customer doesn't own instead of 404.",
+   "bug": "BUG-029",
+   "steps": [
+    "Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.",
+    "Send POST /users/login with that email and password, and take its access_token.",
+    "Send POST /messages with that token, a unique subject and a message text, and take the new message's id.",
+    "Send GET /messages/{messageId} with that id and the default user's token.",
+    "Verify the response status is 404."
+   ],
+   "area": "messages",
+   "areaLabel": "Messages",
+   "file": "test-scenarios/api/messages/get-messages-by-message-id.yml",
+   "fileLabel": "GET /messages/{messageId}",
+   "suite": "Messages API",
+   "tags": [
+    "@messages-api"
+   ],
+   "yaml": "- id: API-0370\n  name: Get another user's message as a customer returns 404\n  ref: BUG-029\n  status: manual\n  knownIssue: Returns 200 with an empty body for a message the customer doesn't own instead of 404.\n  bug: BUG-029\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.\n    - Send POST /users/login with that email and password, and take its access_token.\n    - Send POST /messages with that token, a unique subject and a message text, and take the new message's id.\n    - Send GET /messages/{messageId} with that id and the default user's token.\n    - Verify the response status is 404."
+  },
+  {
+   "id": "API-0371",
+   "name": "Get an unknown message id as an admin returns 404",
+   "ref": [
+    "BUG-029"
+   ],
+   "status": "manual",
+   "role": "admin",
+   "knownIssue": "Returns 200 with an empty body for an unknown message id instead of 404.",
+   "bug": "BUG-029",
+   "steps": [
+    "Send GET /messages/{messageId} with a well-formed message id that doesn't exist and the admin's token.",
+    "Verify the response status is 404."
+   ],
+   "area": "messages",
+   "areaLabel": "Messages",
+   "file": "test-scenarios/api/messages/get-messages-by-message-id.yml",
+   "fileLabel": "GET /messages/{messageId}",
+   "suite": "Messages API",
+   "tags": [
+    "@messages-api"
+   ],
+   "yaml": "- id: API-0371\n  name: Get an unknown message id as an admin returns 404\n  ref: BUG-029\n  status: manual\n  role: admin\n  knownIssue: Returns 200 with an empty body for an unknown message id instead of 404.\n  bug: BUG-029\n  steps:\n    - Send GET /messages/{messageId} with a well-formed message id that doesn't exist and the admin's token.\n    - Verify the response status is 404."
+  },
+  {
+   "id": "API-0381",
+   "name": "Attach an empty txt file to a message returns 200",
+   "status": "manual",
+   "steps": [
+    "Send POST /messages without an Authorization header, with a unique subject and a message text, and take the new message's id.",
+    "Send POST /messages/{messageId}/attach-file with that id, without an Authorization header, as multipart/form-data with a file field holding an empty file named \"note.txt\".",
+    "Verify the response status is 200.",
+    "Verify the body's success is true."
+   ],
+   "ref": [],
+   "area": "messages",
+   "areaLabel": "Messages",
+   "file": "test-scenarios/api/messages/post-messages-by-message-id-attach-file.yml",
+   "fileLabel": "POST /messages/{messageId}/attach-file",
+   "suite": "Messages API",
+   "tags": [
+    "@messages-api"
+   ],
+   "yaml": "- id: API-0381\n  name: Attach an empty txt file to a message returns 200\n  status: manual\n  steps:\n    - Send POST /messages without an Authorization header, with a unique subject and a message text, and take the new message's id.\n    - Send POST /messages/{messageId}/attach-file with that id, without an Authorization header, as multipart/form-data with a file field holding an empty file named \"note.txt\".\n    - Verify the response status is 200.\n    - Verify the body's success is true."
+  },
+  {
+   "id": "API-0382",
+   "name": "Attach no file to a message returns 400",
+   "status": "manual",
+   "steps": [
+    "Send POST /messages/{messageId}/attach-file with a well-formed message id that doesn't exist, as multipart/form-data with no file field.",
+    "Verify the response status is 400.",
+    "Verify the body's errors is a list with the single item \"No file attached.\"."
+   ],
+   "ref": [],
+   "area": "messages",
+   "areaLabel": "Messages",
+   "file": "test-scenarios/api/messages/post-messages-by-message-id-attach-file.yml",
+   "fileLabel": "POST /messages/{messageId}/attach-file",
+   "suite": "Messages API",
+   "tags": [
+    "@messages-api"
+   ],
+   "yaml": "- id: API-0382\n  name: Attach no file to a message returns 400\n  status: manual\n  steps:\n    - Send POST /messages/{messageId}/attach-file with a well-formed message id that doesn't exist, as multipart/form-data with no file field.\n    - Verify the response status is 400.\n    - Verify the body's errors is a list with the single item \"No file attached.\"."
+  },
+  {
+   "id": "API-0383",
+   "name": "Attach a non-empty txt file to a message returns 400",
+   "status": "manual",
+   "steps": [
+    "Send POST /messages/{messageId}/attach-file with a well-formed message id that doesn't exist, as multipart/form-data with a file field holding a 1-byte file named \"note.txt\".",
+    "Verify the response status is 400.",
+    "Verify the body's errors is a list with the single item \"Currently we only allow empty files.\"."
+   ],
+   "ref": [],
+   "area": "messages",
+   "areaLabel": "Messages",
+   "file": "test-scenarios/api/messages/post-messages-by-message-id-attach-file.yml",
+   "fileLabel": "POST /messages/{messageId}/attach-file",
+   "suite": "Messages API",
+   "tags": [
+    "@messages-api"
+   ],
+   "yaml": "- id: API-0383\n  name: Attach a non-empty txt file to a message returns 400\n  status: manual\n  steps:\n    - Send POST /messages/{messageId}/attach-file with a well-formed message id that doesn't exist, as multipart/form-data with a file field holding a 1-byte file named \"note.txt\".\n    - Verify the response status is 400.\n    - Verify the body's errors is a list with the single item \"Currently we only allow empty files.\"."
+  },
+  {
+   "id": "API-0384",
+   "name": "Attach an empty pdf file to a message returns 400",
+   "status": "manual",
+   "steps": [
+    "Send POST /messages/{messageId}/attach-file with a well-formed message id that doesn't exist, as multipart/form-data with a file field holding an empty file named \"note.pdf\".",
+    "Verify the response status is 400.",
+    "Verify the body's errors is a list with the single item \"The file extension is incorrect, we only accept txt files.\"."
+   ],
+   "ref": [],
+   "area": "messages",
+   "areaLabel": "Messages",
+   "file": "test-scenarios/api/messages/post-messages-by-message-id-attach-file.yml",
+   "fileLabel": "POST /messages/{messageId}/attach-file",
+   "suite": "Messages API",
+   "tags": [
+    "@messages-api"
+   ],
+   "yaml": "- id: API-0384\n  name: Attach an empty pdf file to a message returns 400\n  status: manual\n  steps:\n    - Send POST /messages/{messageId}/attach-file with a well-formed message id that doesn't exist, as multipart/form-data with a file field holding an empty file named \"note.pdf\".\n    - Verify the response status is 400.\n    - Verify the body's errors is a list with the single item \"The file extension is incorrect, we only accept txt files.\"."
+  },
+  {
+   "id": "API-0385",
+   "name": "Attach a non-empty pdf file to a message reports the empty-file rule first",
+   "status": "manual",
+   "steps": [
+    "Send POST /messages/{messageId}/attach-file with a well-formed message id that doesn't exist, as multipart/form-data with a file field holding a 1-byte file named \"note.pdf\".",
+    "Verify the response status is 400.",
+    "Verify the body's errors is a list with the single item \"Currently we only allow empty files.\"."
+   ],
+   "ref": [],
+   "area": "messages",
+   "areaLabel": "Messages",
+   "file": "test-scenarios/api/messages/post-messages-by-message-id-attach-file.yml",
+   "fileLabel": "POST /messages/{messageId}/attach-file",
+   "suite": "Messages API",
+   "tags": [
+    "@messages-api"
+   ],
+   "yaml": "- id: API-0385\n  name: Attach a non-empty pdf file to a message reports the empty-file rule first\n  status: manual\n  steps:\n    - Send POST /messages/{messageId}/attach-file with a well-formed message id that doesn't exist, as multipart/form-data with a file field holding a 1-byte file named \"note.pdf\".\n    - Verify the response status is 400.\n    - Verify the body's errors is a list with the single item \"Currently we only allow empty files.\"."
+  },
+  {
+   "id": "API-0386",
+   "name": "Attach an empty file with the upper-case extension TXT to a message returns 400",
+   "status": "manual",
+   "steps": [
+    "Send POST /messages/{messageId}/attach-file with a well-formed message id that doesn't exist, as multipart/form-data with a file field holding an empty file named \"note.TXT\".",
+    "Verify the response status is 400.",
+    "Verify the body's errors is a list with the single item \"The file extension is incorrect, we only accept txt files.\"."
+   ],
+   "ref": [],
+   "area": "messages",
+   "areaLabel": "Messages",
+   "file": "test-scenarios/api/messages/post-messages-by-message-id-attach-file.yml",
+   "fileLabel": "POST /messages/{messageId}/attach-file",
+   "suite": "Messages API",
+   "tags": [
+    "@messages-api"
+   ],
+   "yaml": "- id: API-0386\n  name: Attach an empty file with the upper-case extension TXT to a message returns 400\n  status: manual\n  steps:\n    - Send POST /messages/{messageId}/attach-file with a well-formed message id that doesn't exist, as multipart/form-data with a file field holding an empty file named \"note.TXT\".\n    - Verify the response status is 400.\n    - Verify the body's errors is a list with the single item \"The file extension is incorrect, we only accept txt files.\"."
+  },
+  {
+   "id": "API-0387",
+   "name": "Attach an empty txt file to an unknown message id returns 404",
+   "ref": [
+    "BUG-031"
+   ],
+   "status": "manual",
+   "knownIssue": "Returns 200 for a message id that doesn't exist instead of 404 (the message is never looked up).",
+   "bug": "BUG-031",
+   "steps": [
+    "Send POST /messages/{messageId}/attach-file with a well-formed message id that doesn't exist, as multipart/form-data with a file field holding an empty file named \"note.txt\".",
+    "Verify the response status is 404."
+   ],
+   "area": "messages",
+   "areaLabel": "Messages",
+   "file": "test-scenarios/api/messages/post-messages-by-message-id-attach-file.yml",
+   "fileLabel": "POST /messages/{messageId}/attach-file",
+   "suite": "Messages API",
+   "tags": [
+    "@messages-api"
+   ],
+   "yaml": "- id: API-0387\n  name: Attach an empty txt file to an unknown message id returns 404\n  ref: BUG-031\n  status: manual\n  knownIssue: Returns 200 for a message id that doesn't exist instead of 404 (the message is never looked up).\n  bug: BUG-031\n  steps:\n    - Send POST /messages/{messageId}/attach-file with a well-formed message id that doesn't exist, as multipart/form-data with a file field holding an empty file named \"note.txt\".\n    - Verify the response status is 404."
+  },
+  {
+   "id": "API-0372",
+   "name": "Reply to a message returns 201 and sets the message to IN_PROGRESS with the reply listed",
+   "status": "manual",
+   "role": "admin",
+   "steps": [
+    "Send POST /messages without an Authorization header, with a unique subject and a message text, and take the new message's id.",
+    "Send GET /users/me with the admin's token and take its id.",
+    "Send POST /messages/{messageId}/reply with that id, the admin's token and a body with a message text, and take the body's id as the reply's id.",
+    "Verify the response status is 201.",
+    "Verify the body's message equals the text sent, and its id is a non-empty string and it has a created_at.",
+    "Verify the body has no message_id and no user_id keys.",
+    "Verify GET /messages/{messageId} with that id and the admin's token returns 200 with status \"IN_PROGRESS\" and a replies list with exactly one item, with the reply's id as id, the text sent as message and the admin's id as its user's id."
+   ],
+   "ref": [],
+   "area": "messages",
+   "areaLabel": "Messages",
+   "file": "test-scenarios/api/messages/post-messages-by-message-id-reply.yml",
+   "fileLabel": "POST /messages/{messageId}/reply",
+   "suite": "Messages API",
+   "tags": [
+    "@messages-api"
+   ],
+   "yaml": "- id: API-0372\n  name: Reply to a message returns 201 and sets the message to IN_PROGRESS with the reply listed\n  status: manual\n  role: admin\n  steps:\n    - Send POST /messages without an Authorization header, with a unique subject and a message text, and take the new message's id.\n    - Send GET /users/me with the admin's token and take its id.\n    - Send POST /messages/{messageId}/reply with that id, the admin's token and a body with a message text, and take the body's id as the reply's id.\n    - Verify the response status is 201.\n    - Verify the body's message equals the text sent, and its id is a non-empty string and it has a created_at.\n    - Verify the body has no message_id and no user_id keys.\n    - Verify GET /messages/{messageId} with that id and the admin's token returns 200 with status \"IN_PROGRESS\" and a replies list with exactly one item, with the reply's id as id, the text sent as message and the admin's id as its user's id."
+  },
+  {
+   "id": "API-0373",
+   "name": "Reply to a resolved message returns 201 and reopens it as IN_PROGRESS",
+   "status": "manual",
+   "role": "admin",
+   "steps": [
+    "Send POST /messages without an Authorization header, with a unique subject and a message text, and take the new message's id.",
+    "Send PUT /messages/{messageId}/status with that id, the admin's token and a body with status \"RESOLVED\".",
+    "Send POST /messages/{messageId}/reply with that id, the admin's token and a body with a message text.",
+    "Verify the response status is 201.",
+    "Verify GET /messages/{messageId} with that id and the admin's token returns 200 with status \"IN_PROGRESS\"."
+   ],
+   "ref": [],
+   "area": "messages",
+   "areaLabel": "Messages",
+   "file": "test-scenarios/api/messages/post-messages-by-message-id-reply.yml",
+   "fileLabel": "POST /messages/{messageId}/reply",
+   "suite": "Messages API",
+   "tags": [
+    "@messages-api"
+   ],
+   "yaml": "- id: API-0373\n  name: Reply to a resolved message returns 201 and reopens it as IN_PROGRESS\n  status: manual\n  role: admin\n  steps:\n    - Send POST /messages without an Authorization header, with a unique subject and a message text, and take the new message's id.\n    - Send PUT /messages/{messageId}/status with that id, the admin's token and a body with status \"RESOLVED\".\n    - Send POST /messages/{messageId}/reply with that id, the admin's token and a body with a message text.\n    - Verify the response status is 201.\n    - Verify GET /messages/{messageId} with that id and the admin's token returns 200 with status \"IN_PROGRESS\"."
+  },
+  {
+   "id": "API-0374",
+   "name": "Reply to a message without a token returns 401",
+   "status": "manual",
+   "steps": [
+    "Send POST /messages/{messageId}/reply without an Authorization header, with a well-formed message id that doesn't exist and a body with a message text.",
+    "Verify the response status is 401.",
+    "Verify the body's message is \"Unauthorized\"."
+   ],
+   "ref": [],
+   "area": "messages",
+   "areaLabel": "Messages",
+   "file": "test-scenarios/api/messages/post-messages-by-message-id-reply.yml",
+   "fileLabel": "POST /messages/{messageId}/reply",
+   "suite": "Messages API",
+   "tags": [
+    "@messages-api"
+   ],
+   "yaml": "- id: API-0374\n  name: Reply to a message without a token returns 401\n  status: manual\n  steps:\n    - Send POST /messages/{messageId}/reply without an Authorization header, with a well-formed message id that doesn't exist and a body with a message text.\n    - Verify the response status is 401.\n    - Verify the body's message is \"Unauthorized\"."
+  },
+  {
+   "id": "API-0375",
+   "name": "Reply to a message with a malformed token returns 401",
+   "status": "manual",
+   "steps": [
+    "Send POST /messages/{messageId}/reply with a malformed token, a well-formed message id that doesn't exist and a body with a message text.",
+    "Verify the response status is 401.",
+    "Verify the body's message is \"Unauthorized\"."
+   ],
+   "ref": [],
+   "area": "messages",
+   "areaLabel": "Messages",
+   "file": "test-scenarios/api/messages/post-messages-by-message-id-reply.yml",
+   "fileLabel": "POST /messages/{messageId}/reply",
+   "suite": "Messages API",
+   "tags": [
+    "@messages-api"
+   ],
+   "yaml": "- id: API-0375\n  name: Reply to a message with a malformed token returns 401\n  status: manual\n  steps:\n    - Send POST /messages/{messageId}/reply with a malformed token, a well-formed message id that doesn't exist and a body with a message text.\n    - Verify the response status is 401.\n    - Verify the body's message is \"Unauthorized\"."
+  },
+  {
+   "id": "API-0376",
+   "name": "Reply without message returns 422 and adds nothing",
+   "status": "manual",
+   "role": "admin",
+   "steps": [
+    "Send POST /messages without an Authorization header, with a unique subject and a message text, and take the new message's id.",
+    "Send POST /messages/{messageId}/reply with that id, the admin's token and an empty JSON object as the body.",
+    "Verify the response status is 422.",
+    "Verify the body has a message key with at least one message.",
+    "Verify GET /messages/{messageId} with that id and the admin's token returns 200 with status \"NEW\" and an empty replies list."
+   ],
+   "ref": [],
+   "area": "messages",
+   "areaLabel": "Messages",
+   "file": "test-scenarios/api/messages/post-messages-by-message-id-reply.yml",
+   "fileLabel": "POST /messages/{messageId}/reply",
+   "suite": "Messages API",
+   "tags": [
+    "@messages-api"
+   ],
+   "yaml": "- id: API-0376\n  name: Reply without message returns 422 and adds nothing\n  status: manual\n  role: admin\n  steps:\n    - Send POST /messages without an Authorization header, with a unique subject and a message text, and take the new message's id.\n    - Send POST /messages/{messageId}/reply with that id, the admin's token and an empty JSON object as the body.\n    - Verify the response status is 422.\n    - Verify the body has a message key with at least one message.\n    - Verify GET /messages/{messageId} with that id and the admin's token returns 200 with status \"NEW\" and an empty replies list."
+  },
+  {
+   "id": "API-0377",
+   "name": "Reply with a message longer than 250 characters returns 422",
+   "status": "manual",
+   "role": "admin",
+   "steps": [
+    "Send POST /messages without an Authorization header, with a unique subject and a message text, and take the new message's id.",
+    "Send POST /messages/{messageId}/reply with that id, the admin's token and a body with a 251-character message.",
+    "Verify the response status is 422.",
+    "Verify the body has a message key with at least one message."
+   ],
+   "ref": [],
+   "area": "messages",
+   "areaLabel": "Messages",
+   "file": "test-scenarios/api/messages/post-messages-by-message-id-reply.yml",
+   "fileLabel": "POST /messages/{messageId}/reply",
+   "suite": "Messages API",
+   "tags": [
+    "@messages-api"
+   ],
+   "yaml": "- id: API-0377\n  name: Reply with a message longer than 250 characters returns 422\n  status: manual\n  role: admin\n  steps:\n    - Send POST /messages without an Authorization header, with a unique subject and a message text, and take the new message's id.\n    - Send POST /messages/{messageId}/reply with that id, the admin's token and a body with a 251-character message.\n    - Verify the response status is 422.\n    - Verify the body has a message key with at least one message."
+  },
+  {
+   "id": "API-0378",
+   "name": "Reply with a subscript character in the message returns 422",
+   "status": "manual",
+   "role": "admin",
+   "steps": [
+    "Send POST /messages without an Authorization header, with a unique subject and a message text, and take the new message's id.",
+    "Send POST /messages/{messageId}/reply with that id, the admin's token and a body whose message contains the subscript character \"₂\" (U+2082).",
+    "Verify the response status is 422.",
+    "Verify the body has a message key with at least one message."
+   ],
+   "ref": [],
+   "area": "messages",
+   "areaLabel": "Messages",
+   "file": "test-scenarios/api/messages/post-messages-by-message-id-reply.yml",
+   "fileLabel": "POST /messages/{messageId}/reply",
+   "suite": "Messages API",
+   "tags": [
+    "@messages-api"
+   ],
+   "yaml": "- id: API-0378\n  name: Reply with a subscript character in the message returns 422\n  status: manual\n  role: admin\n  steps:\n    - Send POST /messages without an Authorization header, with a unique subject and a message text, and take the new message's id.\n    - Send POST /messages/{messageId}/reply with that id, the admin's token and a body whose message contains the subscript character \"₂\" (U+2082).\n    - Verify the response status is 422.\n    - Verify the body has a message key with at least one message."
+  },
+  {
+   "id": "API-0379",
+   "name": "Reply with an invalid body to an unknown message id returns 422, not 500",
+   "status": "manual",
+   "role": "admin",
+   "steps": [
+    "Send POST /messages/{messageId}/reply with a well-formed message id that doesn't exist, the admin's token and an empty JSON object as the body.",
+    "Verify the response status is 422.",
+    "Verify the body has a message key with at least one message."
+   ],
+   "ref": [],
+   "area": "messages",
+   "areaLabel": "Messages",
+   "file": "test-scenarios/api/messages/post-messages-by-message-id-reply.yml",
+   "fileLabel": "POST /messages/{messageId}/reply",
+   "suite": "Messages API",
+   "tags": [
+    "@messages-api"
+   ],
+   "yaml": "- id: API-0379\n  name: Reply with an invalid body to an unknown message id returns 422, not 500\n  status: manual\n  role: admin\n  steps:\n    - Send POST /messages/{messageId}/reply with a well-formed message id that doesn't exist, the admin's token and an empty JSON object as the body.\n    - Verify the response status is 422.\n    - Verify the body has a message key with at least one message."
+  },
+  {
+   "id": "API-0380",
+   "name": "Reply to an unknown message id returns 404",
+   "ref": [
+    "BUG-030"
+   ],
+   "status": "manual",
+   "role": "admin",
+   "knownIssue": "Returns 500 for a reply to an unknown message id instead of 404.",
+   "bug": "BUG-030",
+   "steps": [
+    "Send POST /messages/{messageId}/reply with a well-formed message id that doesn't exist, the admin's token and a body with a message text.",
+    "Verify the response status is 404."
+   ],
+   "area": "messages",
+   "areaLabel": "Messages",
+   "file": "test-scenarios/api/messages/post-messages-by-message-id-reply.yml",
+   "fileLabel": "POST /messages/{messageId}/reply",
+   "suite": "Messages API",
+   "tags": [
+    "@messages-api"
+   ],
+   "yaml": "- id: API-0380\n  name: Reply to an unknown message id returns 404\n  ref: BUG-030\n  status: manual\n  role: admin\n  knownIssue: Returns 500 for a reply to an unknown message id instead of 404.\n  bug: BUG-030\n  steps:\n    - Send POST /messages/{messageId}/reply with a well-formed message id that doesn't exist, the admin's token and a body with a message text.\n    - Verify the response status is 404."
+  },
+  {
+   "id": "API-0388",
+   "name": "Set a message's status to RESOLVED returns 200 and the message shows it",
+   "status": "manual",
+   "role": "admin",
+   "steps": [
+    "Send POST /messages without an Authorization header, with a unique subject and a message text, and take the new message's id.",
+    "Send PUT /messages/{messageId}/status with that id, the admin's token and a body with status \"RESOLVED\".",
+    "Verify the response status is 200.",
+    "Verify the body's success is true.",
+    "Verify GET /messages/{messageId} with that id and the admin's token returns 200 with status \"RESOLVED\"."
+   ],
+   "ref": [],
+   "area": "messages",
+   "areaLabel": "Messages",
+   "file": "test-scenarios/api/messages/put-messages-by-message-id-status.yml",
+   "fileLabel": "PUT /messages/{messageId}/status",
+   "suite": "Messages API",
+   "tags": [
+    "@messages-api"
+   ],
+   "yaml": "- id: API-0388\n  name: Set a message's status to RESOLVED returns 200 and the message shows it\n  status: manual\n  role: admin\n  steps:\n    - Send POST /messages without an Authorization header, with a unique subject and a message text, and take the new message's id.\n    - Send PUT /messages/{messageId}/status with that id, the admin's token and a body with status \"RESOLVED\".\n    - Verify the response status is 200.\n    - Verify the body's success is true.\n    - Verify GET /messages/{messageId} with that id and the admin's token returns 200 with status \"RESOLVED\"."
+  },
+  {
+   "id": "API-0389",
+   "name": "Set a message's status to IN_PROGRESS returns 200 and the message shows it",
+   "status": "manual",
+   "role": "admin",
+   "steps": [
+    "Send POST /messages without an Authorization header, with a unique subject and a message text, and take the new message's id.",
+    "Send PUT /messages/{messageId}/status with that id, the admin's token and a body with status \"IN_PROGRESS\".",
+    "Verify the response status is 200.",
+    "Verify the body's success is true.",
+    "Verify GET /messages/{messageId} with that id and the admin's token returns 200 with status \"IN_PROGRESS\"."
+   ],
+   "ref": [],
+   "area": "messages",
+   "areaLabel": "Messages",
+   "file": "test-scenarios/api/messages/put-messages-by-message-id-status.yml",
+   "fileLabel": "PUT /messages/{messageId}/status",
+   "suite": "Messages API",
+   "tags": [
+    "@messages-api"
+   ],
+   "yaml": "- id: API-0389\n  name: Set a message's status to IN_PROGRESS returns 200 and the message shows it\n  status: manual\n  role: admin\n  steps:\n    - Send POST /messages without an Authorization header, with a unique subject and a message text, and take the new message's id.\n    - Send PUT /messages/{messageId}/status with that id, the admin's token and a body with status \"IN_PROGRESS\".\n    - Verify the response status is 200.\n    - Verify the body's success is true.\n    - Verify GET /messages/{messageId} with that id and the admin's token returns 200 with status \"IN_PROGRESS\"."
+  },
+  {
+   "id": "API-0390",
+   "name": "Set a resolved message's status back to NEW returns 200",
+   "status": "manual",
+   "role": "admin",
+   "steps": [
+    "Send POST /messages without an Authorization header, with a unique subject and a message text, and take the new message's id.",
+    "Send PUT /messages/{messageId}/status with that id, the admin's token and a body with status \"RESOLVED\".",
+    "Send PUT /messages/{messageId}/status with the same id, the admin's token and a body with status \"NEW\".",
+    "Verify the response status is 200.",
+    "Verify the body's success is true.",
+    "Verify GET /messages/{messageId} with that id and the admin's token returns 200 with status \"NEW\"."
+   ],
+   "ref": [],
+   "area": "messages",
+   "areaLabel": "Messages",
+   "file": "test-scenarios/api/messages/put-messages-by-message-id-status.yml",
+   "fileLabel": "PUT /messages/{messageId}/status",
+   "suite": "Messages API",
+   "tags": [
+    "@messages-api"
+   ],
+   "yaml": "- id: API-0390\n  name: Set a resolved message's status back to NEW returns 200\n  status: manual\n  role: admin\n  steps:\n    - Send POST /messages without an Authorization header, with a unique subject and a message text, and take the new message's id.\n    - Send PUT /messages/{messageId}/status with that id, the admin's token and a body with status \"RESOLVED\".\n    - Send PUT /messages/{messageId}/status with the same id, the admin's token and a body with status \"NEW\".\n    - Verify the response status is 200.\n    - Verify the body's success is true.\n    - Verify GET /messages/{messageId} with that id and the admin's token returns 200 with status \"NEW\"."
+  },
+  {
+   "id": "API-0391",
+   "name": "Set a message's status to the status it already has returns 200",
+   "status": "manual",
+   "role": "admin",
+   "steps": [
+    "Send POST /messages without an Authorization header, with a unique subject and a message text, and take the new message's id.",
+    "Send PUT /messages/{messageId}/status with that id, the admin's token and a body with status \"NEW\".",
+    "Verify the response status is 200.",
+    "Verify GET /messages/{messageId} with that id and the admin's token returns 200 with status \"NEW\"."
+   ],
+   "ref": [],
+   "area": "messages",
+   "areaLabel": "Messages",
+   "file": "test-scenarios/api/messages/put-messages-by-message-id-status.yml",
+   "fileLabel": "PUT /messages/{messageId}/status",
+   "suite": "Messages API",
+   "tags": [
+    "@messages-api"
+   ],
+   "yaml": "- id: API-0391\n  name: Set a message's status to the status it already has returns 200\n  status: manual\n  role: admin\n  steps:\n    - Send POST /messages without an Authorization header, with a unique subject and a message text, and take the new message's id.\n    - Send PUT /messages/{messageId}/status with that id, the admin's token and a body with status \"NEW\".\n    - Verify the response status is 200.\n    - Verify GET /messages/{messageId} with that id and the admin's token returns 200 with status \"NEW\"."
+  },
+  {
+   "id": "API-0392",
+   "name": "Set a message's status without a token returns 401",
+   "status": "manual",
+   "steps": [
+    "Send PUT /messages/{messageId}/status without an Authorization header, with a well-formed message id that doesn't exist and a body with status \"RESOLVED\".",
+    "Verify the response status is 401.",
+    "Verify the body's message is \"Unauthorized\"."
+   ],
+   "ref": [],
+   "area": "messages",
+   "areaLabel": "Messages",
+   "file": "test-scenarios/api/messages/put-messages-by-message-id-status.yml",
+   "fileLabel": "PUT /messages/{messageId}/status",
+   "suite": "Messages API",
+   "tags": [
+    "@messages-api"
+   ],
+   "yaml": "- id: API-0392\n  name: Set a message's status without a token returns 401\n  status: manual\n  steps:\n    - Send PUT /messages/{messageId}/status without an Authorization header, with a well-formed message id that doesn't exist and a body with status \"RESOLVED\".\n    - Verify the response status is 401.\n    - Verify the body's message is \"Unauthorized\"."
+  },
+  {
+   "id": "API-0393",
+   "name": "Set a message's status with a malformed token returns 401",
+   "status": "manual",
+   "steps": [
+    "Send PUT /messages/{messageId}/status with a malformed token, a well-formed message id that doesn't exist and a body with status \"RESOLVED\".",
+    "Verify the response status is 401.",
+    "Verify the body's message is \"Unauthorized\"."
+   ],
+   "ref": [],
+   "area": "messages",
+   "areaLabel": "Messages",
+   "file": "test-scenarios/api/messages/put-messages-by-message-id-status.yml",
+   "fileLabel": "PUT /messages/{messageId}/status",
+   "suite": "Messages API",
+   "tags": [
+    "@messages-api"
+   ],
+   "yaml": "- id: API-0393\n  name: Set a message's status with a malformed token returns 401\n  status: manual\n  steps:\n    - Send PUT /messages/{messageId}/status with a malformed token, a well-formed message id that doesn't exist and a body with status \"RESOLVED\".\n    - Verify the response status is 401.\n    - Verify the body's message is \"Unauthorized\"."
+  },
+  {
+   "id": "API-0394",
+   "name": "Set the status of an unknown message id returns 404",
+   "status": "manual",
+   "role": "admin",
+   "steps": [
+    "Send PUT /messages/{messageId}/status with a well-formed message id that doesn't exist, the admin's token and a body with status \"RESOLVED\".",
+    "Verify the response status is 404.",
+    "Verify the body's message is \"Requested item not found\"."
+   ],
+   "ref": [],
+   "area": "messages",
+   "areaLabel": "Messages",
+   "file": "test-scenarios/api/messages/put-messages-by-message-id-status.yml",
+   "fileLabel": "PUT /messages/{messageId}/status",
+   "suite": "Messages API",
+   "tags": [
+    "@messages-api"
+   ],
+   "yaml": "- id: API-0394\n  name: Set the status of an unknown message id returns 404\n  status: manual\n  role: admin\n  steps:\n    - Send PUT /messages/{messageId}/status with a well-formed message id that doesn't exist, the admin's token and a body with status \"RESOLVED\".\n    - Verify the response status is 404.\n    - Verify the body's message is \"Requested item not found\"."
+  },
+  {
+   "id": "API-0395",
+   "name": "Set a message's status without status returns 422 and keeps the status",
+   "status": "manual",
+   "role": "admin",
+   "steps": [
+    "Send POST /messages without an Authorization header, with a unique subject and a message text, and take the new message's id.",
+    "Send PUT /messages/{messageId}/status with that id, the admin's token, an Accept header of application/json and an empty JSON object as the body.",
+    "Verify the response status is 422.",
+    "Verify the body's errors has a status key with at least one message.",
+    "Verify GET /messages/{messageId} with that id and the admin's token returns 200 with status \"NEW\"."
+   ],
+   "ref": [],
+   "area": "messages",
+   "areaLabel": "Messages",
+   "file": "test-scenarios/api/messages/put-messages-by-message-id-status.yml",
+   "fileLabel": "PUT /messages/{messageId}/status",
+   "suite": "Messages API",
+   "tags": [
+    "@messages-api"
+   ],
+   "yaml": "- id: API-0395\n  name: Set a message's status without status returns 422 and keeps the status\n  status: manual\n  role: admin\n  steps:\n    - Send POST /messages without an Authorization header, with a unique subject and a message text, and take the new message's id.\n    - Send PUT /messages/{messageId}/status with that id, the admin's token, an Accept header of application/json and an empty JSON object as the body.\n    - Verify the response status is 422.\n    - Verify the body's errors has a status key with at least one message.\n    - Verify GET /messages/{messageId} with that id and the admin's token returns 200 with status \"NEW\"."
+  },
+  {
+   "id": "API-0396",
+   "name": "Set a message's status to ON_HOLD returns 422 and keeps the status",
+   "status": "manual",
+   "role": "admin",
+   "steps": [
+    "Send POST /messages without an Authorization header, with a unique subject and a message text, and take the new message's id.",
+    "Send PUT /messages/{messageId}/status with that id, the admin's token, an Accept header of application/json and a body with status \"ON_HOLD\".",
+    "Verify the response status is 422.",
+    "Verify the body's errors has a status key with at least one message.",
+    "Verify GET /messages/{messageId} with that id and the admin's token returns 200 with status \"NEW\"."
+   ],
+   "ref": [],
+   "area": "messages",
+   "areaLabel": "Messages",
+   "file": "test-scenarios/api/messages/put-messages-by-message-id-status.yml",
+   "fileLabel": "PUT /messages/{messageId}/status",
+   "suite": "Messages API",
+   "tags": [
+    "@messages-api"
+   ],
+   "yaml": "- id: API-0396\n  name: Set a message's status to ON_HOLD returns 422 and keeps the status\n  status: manual\n  role: admin\n  steps:\n    - Send POST /messages without an Authorization header, with a unique subject and a message text, and take the new message's id.\n    - Send PUT /messages/{messageId}/status with that id, the admin's token, an Accept header of application/json and a body with status \"ON_HOLD\".\n    - Verify the response status is 422.\n    - Verify the body's errors has a status key with at least one message.\n    - Verify GET /messages/{messageId} with that id and the admin's token returns 200 with status \"NEW\"."
+  },
+  {
+   "id": "API-0397",
+   "name": "Set a message's status to a lower-case value returns 422",
+   "status": "manual",
+   "role": "admin",
+   "steps": [
+    "Send POST /messages without an Authorization header, with a unique subject and a message text, and take the new message's id.",
+    "Send PUT /messages/{messageId}/status with that id, the admin's token, an Accept header of application/json and a body with status \"resolved\".",
+    "Verify the response status is 422.",
+    "Verify the body's errors has a status key with at least one message."
+   ],
+   "ref": [],
+   "area": "messages",
+   "areaLabel": "Messages",
+   "file": "test-scenarios/api/messages/put-messages-by-message-id-status.yml",
+   "fileLabel": "PUT /messages/{messageId}/status",
+   "suite": "Messages API",
+   "tags": [
+    "@messages-api"
+   ],
+   "yaml": "- id: API-0397\n  name: Set a message's status to a lower-case value returns 422\n  status: manual\n  role: admin\n  steps:\n    - Send POST /messages without an Authorization header, with a unique subject and a message text, and take the new message's id.\n    - Send PUT /messages/{messageId}/status with that id, the admin's token, an Accept header of application/json and a body with status \"resolved\".\n    - Verify the response status is 422.\n    - Verify the body's errors has a status key with at least one message."
+  },
+  {
+   "id": "API-0398",
+   "name": "Set the status of an unknown message id with an invalid body returns 422, not 404",
+   "status": "manual",
+   "role": "admin",
+   "steps": [
+    "Send PUT /messages/{messageId}/status with a well-formed message id that doesn't exist, the admin's token, an Accept header of application/json and an empty JSON object as the body.",
+    "Verify the response status is 422.",
+    "Verify the body's errors has a status key with at least one message."
+   ],
+   "ref": [],
+   "area": "messages",
+   "areaLabel": "Messages",
+   "file": "test-scenarios/api/messages/put-messages-by-message-id-status.yml",
+   "fileLabel": "PUT /messages/{messageId}/status",
+   "suite": "Messages API",
+   "tags": [
+    "@messages-api"
+   ],
+   "yaml": "- id: API-0398\n  name: Set the status of an unknown message id with an invalid body returns 422, not 404\n  status: manual\n  role: admin\n  steps:\n    - Send PUT /messages/{messageId}/status with a well-formed message id that doesn't exist, the admin's token, an Accept header of application/json and an empty JSON object as the body.\n    - Verify the response status is 422.\n    - Verify the body's errors has a status key with at least one message."
+  },
+  {
    "id": "API-0002",
    "name": "List products returns the first page of non-rental products",
    "status": "automated",
@@ -5052,6 +6973,187 @@ window.SCENARIO_CATALOG = {
     "@products-api"
    ],
    "yaml": "- id: API-0014\n  name: Unknown sort column is not a server error\n  status: automated\n  automatedIn: tests/api/products/get-products.spec.ts\n  knownIssue: Returns 500 instead of a client error (or ignoring the column) for an unknown sort column.\n  bug: BUG-003\n  steps:\n    - Send GET /products with sort=no_such_column,asc.\n    - Verify the response status is not 500."
+  },
+  {
+   "id": "API-0319",
+   "name": "Filter by two category ids returns only products of those two categories",
+   "ref": [
+    "docs/ui/user-stories/Product_Overview.md#AC5"
+   ],
+   "status": "manual",
+   "steps": [
+    "Send GET /products and take the category ids of two items that have different categories; when the first page holds only one category, read page=2, 3, ... until a second category is found. Call them category A and category B.",
+    "Send GET /products with by_category set to category A and take its total as totalA.",
+    "Send GET /products with by_category set to category B and take its total as totalB.",
+    "Send GET /products with by_category set to category A's id and category B's id separated by a comma.",
+    "Verify the response status is 200.",
+    "Verify data is not empty and every item's category id is category A's id or category B's id.",
+    "Verify total equals totalA plus totalB, so both categories are present in the result."
+   ],
+   "area": "products",
+   "areaLabel": "Products",
+   "file": "test-scenarios/api/products/get-products.yml",
+   "fileLabel": "GET /products",
+   "suite": "Products API",
+   "tags": [
+    "@products-api"
+   ],
+   "yaml": "- id: API-0319\n  name: Filter by two category ids returns only products of those two categories\n  ref: docs/ui/user-stories/Product_Overview.md#AC5\n  status: manual\n  steps:\n    - \"Send GET /products and take the category ids of two items that have different categories; when the first page holds only one category, read page=2, 3, ... until a second category is found. Call them category A and category B.\"\n    - Send GET /products with by_category set to category A and take its total as totalA.\n    - Send GET /products with by_category set to category B and take its total as totalB.\n    - Send GET /products with by_category set to category A's id and category B's id separated by a comma.\n    - Verify the response status is 200.\n    - Verify data is not empty and every item's category id is category A's id or category B's id.\n    - Verify total equals totalA plus totalB, so both categories are present in the result."
+  },
+  {
+   "id": "API-0320",
+   "name": "Filter by two brand ids returns only products of those two brands",
+   "ref": [
+    "docs/ui/user-stories/Product_Overview.md#AC7"
+   ],
+   "status": "manual",
+   "steps": [
+    "Send GET /products and take the brand ids of two items that have different brands; when the first page holds only one brand, read page=2, 3, ... until a second brand is found. Call them brand A and brand B.",
+    "Send GET /products with by_brand set to brand A and take its total as totalA.",
+    "Send GET /products with by_brand set to brand B and take its total as totalB.",
+    "Send GET /products with by_brand set to brand A's id and brand B's id separated by a comma.",
+    "Verify the response status is 200.",
+    "Verify data is not empty and every item's brand id is brand A's id or brand B's id.",
+    "Verify total equals totalA plus totalB, so both brands are present in the result."
+   ],
+   "area": "products",
+   "areaLabel": "Products",
+   "file": "test-scenarios/api/products/get-products.yml",
+   "fileLabel": "GET /products",
+   "suite": "Products API",
+   "tags": [
+    "@products-api"
+   ],
+   "yaml": "- id: API-0320\n  name: Filter by two brand ids returns only products of those two brands\n  ref: docs/ui/user-stories/Product_Overview.md#AC7\n  status: manual\n  steps:\n    - \"Send GET /products and take the brand ids of two items that have different brands; when the first page holds only one brand, read page=2, 3, ... until a second brand is found. Call them brand A and brand B.\"\n    - Send GET /products with by_brand set to brand A and take its total as totalA.\n    - Send GET /products with by_brand set to brand B and take its total as totalB.\n    - Send GET /products with by_brand set to brand A's id and brand B's id separated by a comma.\n    - Verify the response status is 200.\n    - Verify data is not empty and every item's brand id is brand A's id or brand B's id.\n    - Verify total equals totalA plus totalB, so both brands are present in the result."
+  },
+  {
+   "id": "API-0321",
+   "name": "Filter by brand and category together returns only products that match both",
+   "ref": [
+    "docs/ui/user-stories/Product_Overview.md#AC8"
+   ],
+   "status": "manual",
+   "steps": [
+    "Send GET /products and take the first item's brand id and category id.",
+    "Send GET /products with by_brand set to that brand id and by_category set to that category id.",
+    "Verify the response status is 200.",
+    "Verify data is not empty.",
+    "Verify every item's brand id equals that brand id and its category id equals that category id."
+   ],
+   "area": "products",
+   "areaLabel": "Products",
+   "file": "test-scenarios/api/products/get-products.yml",
+   "fileLabel": "GET /products",
+   "suite": "Products API",
+   "tags": [
+    "@products-api"
+   ],
+   "yaml": "- id: API-0321\n  name: Filter by brand and category together returns only products that match both\n  ref: docs/ui/user-stories/Product_Overview.md#AC8\n  status: manual\n  steps:\n    - Send GET /products and take the first item's brand id and category id.\n    - Send GET /products with by_brand set to that brand id and by_category set to that category id.\n    - Verify the response status is 200.\n    - Verify data is not empty.\n    - Verify every item's brand id equals that brand id and its category id equals that category id."
+  },
+  {
+   "id": "API-0322",
+   "name": "A product created with stock 0 is listed as not in stock",
+   "ref": [
+    "docs/ui/user-stories/Product_Overview.md#AC13"
+   ],
+   "status": "manual",
+   "role": "guest",
+   "steps": [
+    "Send GET /products and take the first item's brand id, category id and product image id.",
+    "Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental false and stock 0, and take the new product's id.",
+    "Verify the response status is 201.",
+    "Send GET /products with q set to that unique product name, without an Authorization header.",
+    "Verify the response status is 200.",
+    "Verify data has exactly one item and its id is the new product's id.",
+    "Verify that item's in_stock is false."
+   ],
+   "area": "products",
+   "areaLabel": "Products",
+   "file": "test-scenarios/api/products/get-products.yml",
+   "fileLabel": "GET /products",
+   "suite": "Products API",
+   "tags": [
+    "@products-api"
+   ],
+   "yaml": "- id: API-0322\n  name: A product created with stock 0 is listed as not in stock\n  ref: docs/ui/user-stories/Product_Overview.md#AC13\n  status: manual\n  role: guest\n  steps:\n    - Send GET /products and take the first item's brand id, category id and product image id.\n    - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental false and stock 0, and take the new product's id.\n    - Verify the response status is 201.\n    - Send GET /products with q set to that unique product name, without an Authorization header.\n    - Verify the response status is 200.\n    - Verify data has exactly one item and its id is the new product's id.\n    - Verify that item's in_stock is false."
+  },
+  {
+   "id": "API-0323",
+   "name": "A product created with stock above 0 is listed as in stock",
+   "ref": [
+    "docs/ui/user-stories/Product_Overview.md#AC13"
+   ],
+   "status": "manual",
+   "role": "guest",
+   "steps": [
+    "Send GET /products and take the first item's brand id, category id and product image id.",
+    "Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental false and stock 10, and take the new product's id.",
+    "Verify the response status is 201.",
+    "Send GET /products with q set to that unique product name, without an Authorization header.",
+    "Verify the response status is 200.",
+    "Verify data has exactly one item and its id is the new product's id.",
+    "Verify that item's in_stock is true."
+   ],
+   "area": "products",
+   "areaLabel": "Products",
+   "file": "test-scenarios/api/products/get-products.yml",
+   "fileLabel": "GET /products",
+   "suite": "Products API",
+   "tags": [
+    "@products-api"
+   ],
+   "yaml": "- id: API-0323\n  name: A product created with stock above 0 is listed as in stock\n  ref: docs/ui/user-stories/Product_Overview.md#AC13\n  status: manual\n  role: guest\n  steps:\n    - Send GET /products and take the first item's brand id, category id and product image id.\n    - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental false and stock 10, and take the new product's id.\n    - Verify the response status is 201.\n    - Send GET /products with q set to that unique product name, without an Authorization header.\n    - Verify the response status is 200.\n    - Verify data has exactly one item and its id is the new product's id.\n    - Verify that item's in_stock is true."
+  },
+  {
+   "id": "API-0324",
+   "name": "A product created as a rental is listed by the rental filter",
+   "ref": [
+    "docs/ui/user-stories/Rental_Products.md#AC1"
+   ],
+   "status": "manual",
+   "steps": [
+    "Send GET /products and take the first item's brand id, category id and product image id.",
+    "Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental true and stock 10, and take the new product's id.",
+    "Verify the response status is 201.",
+    "Send GET /products with is_rental=true and q set to that unique product name.",
+    "Verify the response status is 200.",
+    "Verify data has exactly one item and its id is the new product's id.",
+    "Verify that item's is_rental is true."
+   ],
+   "area": "products",
+   "areaLabel": "Products",
+   "file": "test-scenarios/api/products/get-products.yml",
+   "fileLabel": "GET /products",
+   "suite": "Products API",
+   "tags": [
+    "@products-api"
+   ],
+   "yaml": "- id: API-0324\n  name: A product created as a rental is listed by the rental filter\n  ref: docs/ui/user-stories/Rental_Products.md#AC1\n  status: manual\n  steps:\n    - Send GET /products and take the first item's brand id, category id and product image id.\n    - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental true and stock 10, and take the new product's id.\n    - Verify the response status is 201.\n    - Send GET /products with is_rental=true and q set to that unique product name.\n    - Verify the response status is 200.\n    - Verify data has exactly one item and its id is the new product's id.\n    - Verify that item's is_rental is true."
+  },
+  {
+   "id": "API-0325",
+   "name": "Every rental in the rental list has a name, a description and a product image file name",
+   "ref": [
+    "docs/ui/user-stories/Rental_Products.md#AC2"
+   ],
+   "status": "manual",
+   "steps": [
+    "Send GET /products with is_rental=true.",
+    "Verify the response status is 200.",
+    "Verify data is not empty after ignoring products created by tests (names starting with \"Product-\").",
+    "Verify every remaining item has a non-empty name, ignoring products created by tests (names starting with \"Product-\").",
+    "Verify every remaining item has a non-empty description, ignoring products created by tests (names starting with \"Product-\").",
+    "Verify every remaining item has a product_image with a non-empty file_name, ignoring products created by tests (names starting with \"Product-\")."
+   ],
+   "area": "products",
+   "areaLabel": "Products",
+   "file": "test-scenarios/api/products/get-products.yml",
+   "fileLabel": "GET /products",
+   "suite": "Products API",
+   "tags": [
+    "@products-api"
+   ],
+   "yaml": "- id: API-0325\n  name: Every rental in the rental list has a name, a description and a product image file name\n  ref: docs/ui/user-stories/Rental_Products.md#AC2\n  status: manual\n  steps:\n    - Send GET /products with is_rental=true.\n    - Verify the response status is 200.\n    - 'Verify data is not empty after ignoring products created by tests (names starting with \"Product-\").'\n    - 'Verify every remaining item has a non-empty name, ignoring products created by tests (names starting with \"Product-\").'\n    - 'Verify every remaining item has a non-empty description, ignoring products created by tests (names starting with \"Product-\").'\n    - 'Verify every remaining item has a product_image with a non-empty file_name, ignoring products created by tests (names starting with \"Product-\").'"
   },
   {
    "id": "API-0015",
@@ -6890,6 +8992,114 @@ window.SCENARIO_CATALOG = {
    "yaml": "- id: API-0084\n  name: Login to a disabled account returns 403\n  status: automated\n  automatedIn: tests/api/users/post-users-login.spec.ts\n  role: admin\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.\n    - Send PATCH /users/{userId} with that id and enabled false, with the admin's token.\n    - Send POST /users/login with that email and password.\n    - Verify the response status is 403.\n    - Verify the body's error is \"Account disabled\"."
   },
   {
+   "id": "API-0308",
+   "name": "Login of a TOTP account returns \"TOTP required\" with a restricted token",
+   "ref": [
+    "docs/ui/user-stories/Checkout_Sign_In.md#AC3"
+   ],
+   "status": "manual",
+   "steps": [
+    "Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.",
+    "Send POST /users/login with that email and password, and take its access_token.",
+    "Send PATCH /users/{userId} with that id, totp_enabled true and totp_secret set to a known base32 secret, with the customer's own access_token.",
+    "Send POST /users/login with that email and password.",
+    "Verify the response status is 200.",
+    "Verify the body's message is \"TOTP required\" and requires_totp is true.",
+    "Verify the body's access_token is a non-empty string.",
+    "Verify the body has no token_type or expires_in key."
+   ],
+   "area": "users",
+   "areaLabel": "Users",
+   "file": "test-scenarios/api/users/post-users-login.yml",
+   "fileLabel": "POST /users/login",
+   "suite": "Users API",
+   "tags": [
+    "@users-api"
+   ],
+   "yaml": "- id: API-0308\n  name: Login of a TOTP account returns \"TOTP required\" with a restricted token\n  ref: docs/ui/user-stories/Checkout_Sign_In.md#AC3\n  status: manual\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.\n    - Send POST /users/login with that email and password, and take its access_token.\n    - Send PATCH /users/{userId} with that id, totp_enabled true and totp_secret set to a known base32 secret, with the customer's own access_token.\n    - Send POST /users/login with that email and password.\n    - Verify the response status is 200.\n    - Verify the body's message is \"TOTP required\" and requires_totp is true.\n    - Verify the body's access_token is a non-empty string.\n    - Verify the body has no token_type or expires_in key."
+  },
+  {
+   "id": "API-0309",
+   "name": "TOTP login step with the right code returns a full token",
+   "ref": [
+    "docs/ui/user-stories/Checkout_Sign_In.md#AC3"
+   ],
+   "status": "manual",
+   "steps": [
+    "Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.",
+    "Send POST /users/login with that email and password, and take its access_token.",
+    "Send PATCH /users/{userId} with that id, totp_enabled true and totp_secret set to a known base32 secret, with the customer's own access_token.",
+    "Send POST /users/login with that email and password, and take the restricted access_token from the response.",
+    "Send POST /users/login with access_token set to the restricted access_token and totp set to the current 6-digit code for that secret.",
+    "Verify the response status is 200.",
+    "Verify the body's access_token is a non-empty string.",
+    "Verify the body's token_type is \"bearer\".",
+    "Verify GET /users/me with the new access_token returns 200 with the throwaway customer's email."
+   ],
+   "area": "users",
+   "areaLabel": "Users",
+   "file": "test-scenarios/api/users/post-users-login.yml",
+   "fileLabel": "POST /users/login",
+   "suite": "Users API",
+   "tags": [
+    "@users-api"
+   ],
+   "yaml": "- id: API-0309\n  name: TOTP login step with the right code returns a full token\n  ref: docs/ui/user-stories/Checkout_Sign_In.md#AC3\n  status: manual\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.\n    - Send POST /users/login with that email and password, and take its access_token.\n    - Send PATCH /users/{userId} with that id, totp_enabled true and totp_secret set to a known base32 secret, with the customer's own access_token.\n    - Send POST /users/login with that email and password, and take the restricted access_token from the response.\n    - Send POST /users/login with access_token set to the restricted access_token and totp set to the current 6-digit code for that secret.\n    - Verify the response status is 200.\n    - Verify the body's access_token is a non-empty string.\n    - Verify the body's token_type is \"bearer\".\n    - Verify GET /users/me with the new access_token returns 200 with the throwaway customer's email."
+  },
+  {
+   "id": "API-0310",
+   "name": "Restricted token of the TOTP first step is rejected as a session",
+   "ref": [
+    "docs/ui/user-stories/Checkout_Sign_In.md#AC3"
+   ],
+   "status": "manual",
+   "steps": [
+    "Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.",
+    "Send POST /users/login with that email and password, and take its access_token.",
+    "Send PATCH /users/{userId} with that id, totp_enabled true and totp_secret set to a known base32 secret, with the customer's own access_token.",
+    "Send POST /users/login with that email and password, and take the restricted access_token from the response.",
+    "Send GET /users/me with the restricted access_token.",
+    "Verify the response status is 401.",
+    "Verify the body's message is \"Unauthorized token usage\"."
+   ],
+   "area": "users",
+   "areaLabel": "Users",
+   "file": "test-scenarios/api/users/post-users-login.yml",
+   "fileLabel": "POST /users/login",
+   "suite": "Users API",
+   "tags": [
+    "@users-api"
+   ],
+   "yaml": "- id: API-0310\n  name: Restricted token of the TOTP first step is rejected as a session\n  ref: docs/ui/user-stories/Checkout_Sign_In.md#AC3\n  status: manual\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.\n    - Send POST /users/login with that email and password, and take its access_token.\n    - Send PATCH /users/{userId} with that id, totp_enabled true and totp_secret set to a known base32 secret, with the customer's own access_token.\n    - Send POST /users/login with that email and password, and take the restricted access_token from the response.\n    - Send GET /users/me with the restricted access_token.\n    - Verify the response status is 401.\n    - Verify the body's message is \"Unauthorized token usage\"."
+  },
+  {
+   "id": "API-0311",
+   "name": "TOTP login step with a wrong code returns 401",
+   "ref": [
+    "docs/ui/user-stories/Checkout_Sign_In.md#AC3"
+   ],
+   "status": "manual",
+   "steps": [
+    "Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.",
+    "Send POST /users/login with that email and password, and take its access_token.",
+    "Send PATCH /users/{userId} with that id, totp_enabled true and totp_secret set to a known base32 secret, with the customer's own access_token.",
+    "Send POST /users/login with that email and password, and take the restricted access_token from the response.",
+    "Send POST /users/login with access_token set to the restricted access_token and totp set to a 6-digit code that differs from the secret's codes for the current and the neighbouring 30-second periods.",
+    "Verify the response status is 401.",
+    "Verify the body's error is \"Invalid TOTP\".",
+    "Verify the body has no access_token key."
+   ],
+   "area": "users",
+   "areaLabel": "Users",
+   "file": "test-scenarios/api/users/post-users-login.yml",
+   "fileLabel": "POST /users/login",
+   "suite": "Users API",
+   "tags": [
+    "@users-api"
+   ],
+   "yaml": "- id: API-0311\n  name: TOTP login step with a wrong code returns 401\n  ref: docs/ui/user-stories/Checkout_Sign_In.md#AC3\n  status: manual\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.\n    - Send POST /users/login with that email and password, and take its access_token.\n    - Send PATCH /users/{userId} with that id, totp_enabled true and totp_secret set to a known base32 secret, with the customer's own access_token.\n    - Send POST /users/login with that email and password, and take the restricted access_token from the response.\n    - Send POST /users/login with access_token set to the restricted access_token and totp set to a 6-digit code that differs from the secret's codes for the current and the neighbouring 30-second periods.\n    - Verify the response status is 401.\n    - Verify the body's error is \"Invalid TOTP\".\n    - Verify the body has no access_token key."
+  },
+  {
    "id": "API-0105",
    "name": "Logout returns 200 and invalidates the token",
    "status": "automated",
@@ -7119,6 +9329,30 @@ window.SCENARIO_CATALOG = {
     "@users-api"
    ],
    "yaml": "- id: API-0104\n  name: Current user with a disabled account's token returns 403\n  status: automated\n  automatedIn: tests/api/users/get-users-me.spec.ts\n  role: admin\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.\n    - Send POST /users/login with that email and password, and take its access_token.\n    - Send PATCH /users/{userId} with that id and enabled false, with the admin's token.\n    - Send GET /users/me with the throwaway customer's access_token.\n    - Verify the response status is 403.\n    - Verify the body's message is \"Account disabled.\"."
+  },
+  {
+   "id": "API-0312",
+   "name": "Current user returns the first and last name the customer registered with",
+   "ref": [
+    "docs/ui/user-stories/Checkout_Sign_In.md#AC5"
+   ],
+   "status": "manual",
+   "steps": [
+    "Send POST /users/register with a unique email, a first name, a different last name of at most 20 characters, and a random strong password, and take the new user's id.",
+    "Send POST /users/login with that email and password, and take its access_token.",
+    "Send GET /users/me with that access_token.",
+    "Verify the response status is 200.",
+    "Verify the body's first_name and last_name equal the values sent in the registration."
+   ],
+   "area": "users",
+   "areaLabel": "Users",
+   "file": "test-scenarios/api/users/get-users-me.yml",
+   "fileLabel": "GET /users/me",
+   "suite": "Users API",
+   "tags": [
+    "@users-api"
+   ],
+   "yaml": "- id: API-0312\n  name: Current user returns the first and last name the customer registered with\n  ref: docs/ui/user-stories/Checkout_Sign_In.md#AC5\n  status: manual\n  steps:\n    - Send POST /users/register with a unique email, a first name, a different last name of at most 20 characters, and a random strong password, and take the new user's id.\n    - Send POST /users/login with that email and password, and take its access_token.\n    - Send GET /users/me with that access_token.\n    - Verify the response status is 200.\n    - Verify the body's first_name and last_name equal the values sent in the registration."
   },
   {
    "id": "API-0109",
@@ -7577,6 +9811,357 @@ window.SCENARIO_CATALOG = {
     "@users-api"
    ],
    "yaml": "- id: API-0099\n  name: Register a customer older than 75 returns 422\n  status: automated\n  automatedIn: tests/api/users/post-users-register.spec.ts\n  knownIssue: Accepts a customer born 80 years ago (201) instead of 422; the 75-year age limit only rejects birth dates more than 93 years ago.\n  bug: BUG-007\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name, a random strong password and a dob 80 years ago in YYYY-MM-DD.\n    - Verify the response status is 422."
+  },
+  {
+   "id": "API-0305",
+   "name": "Register stores the country and a postal code in that country's format",
+   "ref": [
+    "docs/ui/user-stories/Checkout_Billing_Address.md#AC4"
+   ],
+   "status": "manual",
+   "steps": [
+    "Send POST /users/register with a unique email, a first name, a last name, a random strong password, and an address with a street, a city, a state, country \"NL\" and postal_code \"1011AB\".",
+    "Verify the response status is 201.",
+    "Verify the body's address street, city, state, country and postal_code equal the values sent.",
+    "Verify POST /users/login with that email and password returns 200, and GET /users/me with its access_token returns the same address street, city, state, country and postal_code."
+   ],
+   "area": "users",
+   "areaLabel": "Users",
+   "file": "test-scenarios/api/users/post-users-register.yml",
+   "fileLabel": "POST /users/register",
+   "suite": "Users API",
+   "tags": [
+    "@users-api"
+   ],
+   "yaml": "- id: API-0305\n  name: Register stores the country and a postal code in that country's format\n  ref: docs/ui/user-stories/Checkout_Billing_Address.md#AC4\n  status: manual\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name, a random strong password, and an address with a street, a city, a state, country \"NL\" and postal_code \"1011AB\".\n    - Verify the response status is 201.\n    - Verify the body's address street, city, state, country and postal_code equal the values sent.\n    - Verify POST /users/login with that email and password returns 200, and GET /users/me with its access_token returns the same address street, city, state, country and postal_code."
+  },
+  {
+   "id": "API-0328",
+   "name": "Register with an email of exactly 256 characters returns 201 and stores it",
+   "ref": [
+    "docs/ui/user-stories/User_Registration.md#AC1"
+   ],
+   "status": "manual",
+   "steps": [
+    "Send POST /users/register with a well-formed 256-character email that starts with a unique value, a first name, a last name and a random strong password.",
+    "Verify the response status is 201.",
+    "Verify the body's email equals the email sent.",
+    "Verify POST /users/login with that email and password returns 200, and GET /users/me with its access_token returns the new id and the same email."
+   ],
+   "area": "users",
+   "areaLabel": "Users",
+   "file": "test-scenarios/api/users/post-users-register.yml",
+   "fileLabel": "POST /users/register",
+   "suite": "Users API",
+   "tags": [
+    "@users-api"
+   ],
+   "yaml": "- id: API-0328\n  name: Register with an email of exactly 256 characters returns 201 and stores it\n  ref: docs/ui/user-stories/User_Registration.md#AC1\n  status: manual\n  steps:\n    - Send POST /users/register with a well-formed 256-character email that starts with a unique value, a first name, a last name and a random strong password.\n    - Verify the response status is 201.\n    - Verify the body's email equals the email sent.\n    - Verify POST /users/login with that email and password returns 200, and GET /users/me with its access_token returns the new id and the same email."
+  },
+  {
+   "id": "API-0329",
+   "name": "Register with an 8-character password that meets all rules returns 201",
+   "ref": [
+    "docs/ui/user-stories/User_Registration.md#AC2"
+   ],
+   "status": "manual",
+   "steps": [
+    "Send POST /users/register with a unique email, a first name, a last name and a random password of exactly 8 characters with an upper-case letter, a lower-case letter, a number and a special character.",
+    "Verify the response status is 201.",
+    "Verify the body has a non-empty id and the email sent.",
+    "Verify POST /users/login with that email and password returns 200, and GET /users/me with its access_token returns the new id and email."
+   ],
+   "area": "users",
+   "areaLabel": "Users",
+   "file": "test-scenarios/api/users/post-users-register.yml",
+   "fileLabel": "POST /users/register",
+   "suite": "Users API",
+   "tags": [
+    "@users-api"
+   ],
+   "yaml": "- id: API-0329\n  name: Register with an 8-character password that meets all rules returns 201\n  ref: docs/ui/user-stories/User_Registration.md#AC2\n  status: manual\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random password of exactly 8 characters with an upper-case letter, a lower-case letter, a number and a special character.\n    - Verify the response status is 201.\n    - Verify the body has a non-empty id and the email sent.\n    - Verify POST /users/login with that email and password returns 200, and GET /users/me with its access_token returns the new id and email."
+  },
+  {
+   "id": "API-0330",
+   "name": "Register with a letters-only postal code for country DE returns 422",
+   "ref": [
+    "docs/ui/user-stories/User_Registration.md#AC1"
+   ],
+   "status": "manual",
+   "steps": [
+    "Send POST /users/register with a unique email, a first name, a last name, a random strong password, and an address with a street, a city, a state, country \"DE\" and postal_code \"ABCDE\".",
+    "Verify the response status is 422.",
+    "Verify the body has an address.postal_code key with at least one message."
+   ],
+   "area": "users",
+   "areaLabel": "Users",
+   "file": "test-scenarios/api/users/post-users-register.yml",
+   "fileLabel": "POST /users/register",
+   "suite": "Users API",
+   "tags": [
+    "@users-api"
+   ],
+   "yaml": "- id: API-0330\n  name: Register with a letters-only postal code for country DE returns 422\n  ref: docs/ui/user-stories/User_Registration.md#AC1\n  status: manual\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name, a random strong password, and an address with a street, a city, a state, country \"DE\" and postal_code \"ABCDE\".\n    - Verify the response status is 422.\n    - Verify the body has an address.postal_code key with at least one message."
+  },
+  {
+   "id": "API-0331",
+   "name": "Register with a 7-character password returns 422",
+   "ref": [
+    "docs/ui/user-stories/User_Registration.md#AC2"
+   ],
+   "status": "manual",
+   "steps": [
+    "Send POST /users/register with a unique email, a first name, a last name and a random 7-character password with an upper-case letter, a lower-case letter, a number and a special character.",
+    "Verify the response status is 422.",
+    "Verify the body has a password key with at least one message."
+   ],
+   "area": "users",
+   "areaLabel": "Users",
+   "file": "test-scenarios/api/users/post-users-register.yml",
+   "fileLabel": "POST /users/register",
+   "suite": "Users API",
+   "tags": [
+    "@users-api"
+   ],
+   "yaml": "- id: API-0331\n  name: Register with a 7-character password returns 422\n  ref: docs/ui/user-stories/User_Registration.md#AC2\n  status: manual\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random 7-character password with an upper-case letter, a lower-case letter, a number and a special character.\n    - Verify the response status is 422.\n    - Verify the body has a password key with at least one message."
+  },
+  {
+   "id": "API-0332",
+   "name": "Register with a password without an upper-case letter returns 422",
+   "ref": [
+    "docs/ui/user-stories/User_Registration.md#AC2"
+   ],
+   "status": "manual",
+   "steps": [
+    "Send POST /users/register with a unique email, a first name, a last name and a random password of at least 8 characters with lower-case letters, a number and a special character, and no upper-case letter.",
+    "Verify the response status is 422.",
+    "Verify the body has a password key with at least one message."
+   ],
+   "area": "users",
+   "areaLabel": "Users",
+   "file": "test-scenarios/api/users/post-users-register.yml",
+   "fileLabel": "POST /users/register",
+   "suite": "Users API",
+   "tags": [
+    "@users-api"
+   ],
+   "yaml": "- id: API-0332\n  name: Register with a password without an upper-case letter returns 422\n  ref: docs/ui/user-stories/User_Registration.md#AC2\n  status: manual\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random password of at least 8 characters with lower-case letters, a number and a special character, and no upper-case letter.\n    - Verify the response status is 422.\n    - Verify the body has a password key with at least one message."
+  },
+  {
+   "id": "API-0333",
+   "name": "Register with a password without a lower-case letter returns 422",
+   "ref": [
+    "docs/ui/user-stories/User_Registration.md#AC2"
+   ],
+   "status": "manual",
+   "steps": [
+    "Send POST /users/register with a unique email, a first name, a last name and a random password of at least 8 characters with upper-case letters, a number and a special character, and no lower-case letter.",
+    "Verify the response status is 422.",
+    "Verify the body has a password key with at least one message."
+   ],
+   "area": "users",
+   "areaLabel": "Users",
+   "file": "test-scenarios/api/users/post-users-register.yml",
+   "fileLabel": "POST /users/register",
+   "suite": "Users API",
+   "tags": [
+    "@users-api"
+   ],
+   "yaml": "- id: API-0333\n  name: Register with a password without a lower-case letter returns 422\n  ref: docs/ui/user-stories/User_Registration.md#AC2\n  status: manual\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random password of at least 8 characters with upper-case letters, a number and a special character, and no lower-case letter.\n    - Verify the response status is 422.\n    - Verify the body has a password key with at least one message."
+  },
+  {
+   "id": "API-0334",
+   "name": "Register with a password without a number returns 422",
+   "ref": [
+    "docs/ui/user-stories/User_Registration.md#AC2"
+   ],
+   "status": "manual",
+   "steps": [
+    "Send POST /users/register with a unique email, a first name, a last name and a random password of at least 8 characters with upper-case and lower-case letters and a special character, and no number.",
+    "Verify the response status is 422.",
+    "Verify the body has a password key with at least one message."
+   ],
+   "area": "users",
+   "areaLabel": "Users",
+   "file": "test-scenarios/api/users/post-users-register.yml",
+   "fileLabel": "POST /users/register",
+   "suite": "Users API",
+   "tags": [
+    "@users-api"
+   ],
+   "yaml": "- id: API-0334\n  name: Register with a password without a number returns 422\n  ref: docs/ui/user-stories/User_Registration.md#AC2\n  status: manual\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random password of at least 8 characters with upper-case and lower-case letters and a special character, and no number.\n    - Verify the response status is 422.\n    - Verify the body has a password key with at least one message."
+  },
+  {
+   "id": "API-0335",
+   "name": "Register with a password without a special character returns 422",
+   "ref": [
+    "docs/ui/user-stories/User_Registration.md#AC2"
+   ],
+   "status": "manual",
+   "steps": [
+    "Send POST /users/register with a unique email, a first name, a last name and a random password of at least 8 characters with upper-case and lower-case letters and a number, and no special character.",
+    "Verify the response status is 422.",
+    "Verify the body has a password key with at least one message."
+   ],
+   "area": "users",
+   "areaLabel": "Users",
+   "file": "test-scenarios/api/users/post-users-register.yml",
+   "fileLabel": "POST /users/register",
+   "suite": "Users API",
+   "tags": [
+    "@users-api"
+   ],
+   "yaml": "- id: API-0335\n  name: Register with a password without a special character returns 422\n  ref: docs/ui/user-stories/User_Registration.md#AC2\n  status: manual\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random password of at least 8 characters with upper-case and lower-case letters and a number, and no special character.\n    - Verify the response status is 422.\n    - Verify the body has a password key with at least one message."
+  },
+  {
+   "id": "API-0313",
+   "name": "Update user with valid changed values returns 200 and the profile shows them",
+   "ref": [
+    "docs/ui/user-stories/Customer_Profile.md#AC4"
+   ],
+   "status": "manual",
+   "steps": [
+    "Send POST /users/register with a unique email, a first name, a last name of at most 20 characters, a random strong password, a phone of digits, and an address with a street, a city, a state, country \"NL\" and postal_code \"1011AB\", and take the new user's id.",
+    "Send POST /users/login with that email and password, and take its access_token.",
+    "Send PUT /users/{userId} with that id and access_token, the customer's own email, and a new first_name, last_name (at most 20 characters), phone of digits, street, city, state, country and postal_code, each different from the registered value.",
+    "Verify the response status is 200.",
+    "Verify the body's success is true.",
+    "Verify GET /users/me with that access_token returns the new first_name, last_name, phone, and address street, city, state, country and postal_code."
+   ],
+   "area": "users",
+   "areaLabel": "Users",
+   "file": "test-scenarios/api/users/put-users-by-user-id.yml",
+   "fileLabel": "PUT /users/{userId}",
+   "suite": "Users API",
+   "tags": [
+    "@users-api"
+   ],
+   "yaml": "- id: API-0313\n  name: Update user with valid changed values returns 200 and the profile shows them\n  ref: docs/ui/user-stories/Customer_Profile.md#AC4\n  status: manual\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name of at most 20 characters, a random strong password, a phone of digits, and an address with a street, a city, a state, country \"NL\" and postal_code \"1011AB\", and take the new user's id.\n    - Send POST /users/login with that email and password, and take its access_token.\n    - Send PUT /users/{userId} with that id and access_token, the customer's own email, and a new first_name, last_name (at most 20 characters), phone of digits, street, city, state, country and postal_code, each different from the registered value.\n    - Verify the response status is 200.\n    - Verify the body's success is true.\n    - Verify GET /users/me with that access_token returns the new first_name, last_name, phone, and address street, city, state, country and postal_code."
+  },
+  {
+   "id": "API-0314",
+   "name": "Update user without first_name returns 422 and leaves the profile unchanged",
+   "ref": [
+    "docs/ui/user-stories/Customer_Profile.md#AC2"
+   ],
+   "status": "manual",
+   "steps": [
+    "Send POST /users/register with a unique email, a first name, a last name of at most 20 characters, a random strong password, a phone of digits, and an address with a street, a city, a state, country \"NL\" and postal_code \"1011AB\", and take the new user's id.",
+    "Send POST /users/login with that email and password, and take its access_token.",
+    "Send PUT /users/{userId} with that id and access_token, the customer's own email, and a new last_name (at most 20 characters), phone of digits, street, city, state, country and postal_code, each different from the registered value, without first_name.",
+    "Verify the response status is 422.",
+    "Verify the body has a first_name key with at least one message.",
+    "Verify GET /users/me with that access_token returns the registered first_name, last_name, phone, and address street, city, state, country and postal_code."
+   ],
+   "area": "users",
+   "areaLabel": "Users",
+   "file": "test-scenarios/api/users/put-users-by-user-id.yml",
+   "fileLabel": "PUT /users/{userId}",
+   "suite": "Users API",
+   "tags": [
+    "@users-api"
+   ],
+   "yaml": "- id: API-0314\n  name: Update user without first_name returns 422 and leaves the profile unchanged\n  ref: docs/ui/user-stories/Customer_Profile.md#AC2\n  status: manual\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name of at most 20 characters, a random strong password, a phone of digits, and an address with a street, a city, a state, country \"NL\" and postal_code \"1011AB\", and take the new user's id.\n    - Send POST /users/login with that email and password, and take its access_token.\n    - Send PUT /users/{userId} with that id and access_token, the customer's own email, and a new last_name (at most 20 characters), phone of digits, street, city, state, country and postal_code, each different from the registered value, without first_name.\n    - Verify the response status is 422.\n    - Verify the body has a first_name key with at least one message.\n    - Verify GET /users/me with that access_token returns the registered first_name, last_name, phone, and address street, city, state, country and postal_code."
+  },
+  {
+   "id": "API-0315",
+   "name": "Update user without last_name returns 422 and leaves the profile unchanged",
+   "ref": [
+    "docs/ui/user-stories/Customer_Profile.md#AC2"
+   ],
+   "status": "manual",
+   "steps": [
+    "Send POST /users/register with a unique email, a first name, a last name of at most 20 characters, a random strong password, a phone of digits, and an address with a street, a city, a state, country \"NL\" and postal_code \"1011AB\", and take the new user's id.",
+    "Send POST /users/login with that email and password, and take its access_token.",
+    "Send PUT /users/{userId} with that id and access_token, the customer's own email, and a new first_name, phone of digits, street, city, state, country and postal_code, each different from the registered value, without last_name.",
+    "Verify the response status is 422.",
+    "Verify the body has a last_name key with at least one message.",
+    "Verify GET /users/me with that access_token returns the registered first_name, last_name, phone, and address street, city, state, country and postal_code."
+   ],
+   "area": "users",
+   "areaLabel": "Users",
+   "file": "test-scenarios/api/users/put-users-by-user-id.yml",
+   "fileLabel": "PUT /users/{userId}",
+   "suite": "Users API",
+   "tags": [
+    "@users-api"
+   ],
+   "yaml": "- id: API-0315\n  name: Update user without last_name returns 422 and leaves the profile unchanged\n  ref: docs/ui/user-stories/Customer_Profile.md#AC2\n  status: manual\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name of at most 20 characters, a random strong password, a phone of digits, and an address with a street, a city, a state, country \"NL\" and postal_code \"1011AB\", and take the new user's id.\n    - Send POST /users/login with that email and password, and take its access_token.\n    - Send PUT /users/{userId} with that id and access_token, the customer's own email, and a new first_name, phone of digits, street, city, state, country and postal_code, each different from the registered value, without last_name.\n    - Verify the response status is 422.\n    - Verify the body has a last_name key with at least one message.\n    - Verify GET /users/me with that access_token returns the registered first_name, last_name, phone, and address street, city, state, country and postal_code."
+  },
+  {
+   "id": "API-0316",
+   "name": "Update user without address.street returns 422 and leaves the profile unchanged",
+   "ref": [
+    "docs/ui/user-stories/Customer_Profile.md#AC2"
+   ],
+   "status": "manual",
+   "steps": [
+    "Send POST /users/register with a unique email, a first name, a last name of at most 20 characters, a random strong password, a phone of digits, and an address with a street, a city, a state, country \"NL\" and postal_code \"1011AB\", and take the new user's id.",
+    "Send POST /users/login with that email and password, and take its access_token.",
+    "Send PUT /users/{userId} with that id and access_token, the customer's own email, and a new first_name, last_name (at most 20 characters), phone of digits, city, state, country and postal_code, each different from the registered value, without address.street.",
+    "Verify the response status is 422.",
+    "Verify the body has an address.street key with at least one message.",
+    "Verify GET /users/me with that access_token returns the registered first_name, last_name, phone, and address street, city, state, country and postal_code."
+   ],
+   "area": "users",
+   "areaLabel": "Users",
+   "file": "test-scenarios/api/users/put-users-by-user-id.yml",
+   "fileLabel": "PUT /users/{userId}",
+   "suite": "Users API",
+   "tags": [
+    "@users-api"
+   ],
+   "yaml": "- id: API-0316\n  name: Update user without address.street returns 422 and leaves the profile unchanged\n  ref: docs/ui/user-stories/Customer_Profile.md#AC2\n  status: manual\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name of at most 20 characters, a random strong password, a phone of digits, and an address with a street, a city, a state, country \"NL\" and postal_code \"1011AB\", and take the new user's id.\n    - Send POST /users/login with that email and password, and take its access_token.\n    - Send PUT /users/{userId} with that id and access_token, the customer's own email, and a new first_name, last_name (at most 20 characters), phone of digits, city, state, country and postal_code, each different from the registered value, without address.street.\n    - Verify the response status is 422.\n    - Verify the body has an address.street key with at least one message.\n    - Verify GET /users/me with that access_token returns the registered first_name, last_name, phone, and address street, city, state, country and postal_code."
+  },
+  {
+   "id": "API-0317",
+   "name": "Update user without address.city returns 422 and leaves the profile unchanged",
+   "ref": [
+    "docs/ui/user-stories/Customer_Profile.md#AC2"
+   ],
+   "status": "manual",
+   "steps": [
+    "Send POST /users/register with a unique email, a first name, a last name of at most 20 characters, a random strong password, a phone of digits, and an address with a street, a city, a state, country \"NL\" and postal_code \"1011AB\", and take the new user's id.",
+    "Send POST /users/login with that email and password, and take its access_token.",
+    "Send PUT /users/{userId} with that id and access_token, the customer's own email, and a new first_name, last_name (at most 20 characters), phone of digits, street, state, country and postal_code, each different from the registered value, without address.city.",
+    "Verify the response status is 422.",
+    "Verify the body has an address.city key with at least one message.",
+    "Verify GET /users/me with that access_token returns the registered first_name, last_name, phone, and address street, city, state, country and postal_code."
+   ],
+   "area": "users",
+   "areaLabel": "Users",
+   "file": "test-scenarios/api/users/put-users-by-user-id.yml",
+   "fileLabel": "PUT /users/{userId}",
+   "suite": "Users API",
+   "tags": [
+    "@users-api"
+   ],
+   "yaml": "- id: API-0317\n  name: Update user without address.city returns 422 and leaves the profile unchanged\n  ref: docs/ui/user-stories/Customer_Profile.md#AC2\n  status: manual\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name of at most 20 characters, a random strong password, a phone of digits, and an address with a street, a city, a state, country \"NL\" and postal_code \"1011AB\", and take the new user's id.\n    - Send POST /users/login with that email and password, and take its access_token.\n    - Send PUT /users/{userId} with that id and access_token, the customer's own email, and a new first_name, last_name (at most 20 characters), phone of digits, street, state, country and postal_code, each different from the registered value, without address.city.\n    - Verify the response status is 422.\n    - Verify the body has an address.city key with at least one message.\n    - Verify GET /users/me with that access_token returns the registered first_name, last_name, phone, and address street, city, state, country and postal_code."
+  },
+  {
+   "id": "API-0318",
+   "name": "Update user without address.country returns 422 and leaves the profile unchanged",
+   "ref": [
+    "docs/ui/user-stories/Customer_Profile.md#AC2"
+   ],
+   "status": "manual",
+   "steps": [
+    "Send POST /users/register with a unique email, a first name, a last name of at most 20 characters, a random strong password, a phone of digits, and an address with a street, a city, a state, country \"NL\" and postal_code \"1011AB\", and take the new user's id.",
+    "Send POST /users/login with that email and password, and take its access_token.",
+    "Send PUT /users/{userId} with that id and access_token, the customer's own email, and a new first_name, last_name (at most 20 characters), phone of digits, street, city, state and postal_code, each different from the registered value, without address.country.",
+    "Verify the response status is 422.",
+    "Verify the body has an address.country key with at least one message.",
+    "Verify GET /users/me with that access_token returns the registered first_name, last_name, phone, and address street, city, state, country and postal_code."
+   ],
+   "area": "users",
+   "areaLabel": "Users",
+   "file": "test-scenarios/api/users/put-users-by-user-id.yml",
+   "fileLabel": "PUT /users/{userId}",
+   "suite": "Users API",
+   "tags": [
+    "@users-api"
+   ],
+   "yaml": "- id: API-0318\n  name: Update user without address.country returns 422 and leaves the profile unchanged\n  ref: docs/ui/user-stories/Customer_Profile.md#AC2\n  status: manual\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name of at most 20 characters, a random strong password, a phone of digits, and an address with a street, a city, a state, country \"NL\" and postal_code \"1011AB\", and take the new user's id.\n    - Send POST /users/login with that email and password, and take its access_token.\n    - Send PUT /users/{userId} with that id and access_token, the customer's own email, and a new first_name, last_name (at most 20 characters), phone of digits, street, city, state and postal_code, each different from the registered value, without address.country.\n    - Verify the response status is 422.\n    - Verify the body has an address.country key with at least one message.\n    - Verify GET /users/me with that access_token returns the registered first_name, last_name, phone, and address street, city, state, country and postal_code."
   }
  ]
 };

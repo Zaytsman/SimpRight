@@ -2,8 +2,8 @@
 window.BUG_CATALOG = {
  "title": "Bugs",
  "prefix": "BUG",
- "generatedAt": "2026-10-10T10:10:26.841Z",
- "commit": "debe7df25f6e43e503b236eb72845637cbf53a95",
+ "generatedAt": "2026-10-10T14:40:02.227Z",
+ "commit": "6002d39cb1f21405444f5ae8c76f3b37532b7a3b",
  "repoUrl": "https://github.com/Zaytsman/SimpRight",
  "branch": "main",
  "bugsDir": "bugs",
@@ -26,8 +26,8 @@ window.BUG_CATALOG = {
   }
  ],
  "stats": {
-  "total": 24,
-  "open": 24,
+  "total": 29,
+  "open": 29,
   "fixed": 0,
   "wontFix": 0
  },
@@ -779,6 +779,56 @@ window.BUG_CATALOG = {
    ]
   },
   {
+   "id": "BUG-028",
+   "title": "Sending a message stores unvalidated body keys, so a guest can set another user's user_id and a parent_id key gives 500",
+   "status": "open",
+   "severity": "major",
+   "layer": "api",
+   "area": "messages",
+   "affects": [
+    "POST /messages",
+    "GET /messages"
+   ],
+   "found": "2026-10-10",
+   "ref": [
+    "docs/api/contracts/Messages_API.md#2-send-message",
+    "docs/api/contracts/Messages_API.md#notes"
+   ],
+   "description": "POST /messages passes the whole request body to ContactRequests::create, and user_id, parent_id and status are in the model's fillable list. The service overwrites user_id only when a valid token is sent. A guest can send the user_id of another user, and the message then shows in that user's GET /messages (there is no foreign key on contact_requests.user_id), so a message can be attributed to anyone. A parent_id key has no column and makes the insert fail with 500 { message: \"Something went wrong\" }, and so does a user_id longer than 26 characters. The body should be limited to the validated fields.",
+   "steps": [
+    "Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.",
+    "Send POST /users/login with that email and password, and take its access_token.",
+    "Send POST /messages without an Authorization header, with a unique subject, a message text and user_id set to the new user's id.",
+    "Send GET /messages with the new customer's access_token.",
+    "Send POST /messages without an Authorization header, with a unique subject, a message text and a parent_id key set to any string."
+   ],
+   "expected": "The guest message has no owner and isn't in the customer's list; a body with a parent_id key is ignored (200) or rejected (422), never a server error.",
+   "actual": "The message is stored with the customer's user_id and shows in their list; the body with parent_id gets 500 (from the source code; not reproduced live).",
+   "evidence": "Not reproduced live (it would create messages), from the source code. Messages_API.md, Notes,\n\"A guest can attribute a message to any user\" (read from ContactService and the ContactRequests\nmodel in sprint5/API, 2026-10-10): create() receives the whole body; user_id, parent_id and status\nare fillable; the service sets user_id and status afterwards only for a logged-in user (status is\nalways set to NEW); parent_id has no column.",
+   "file": "bugs/BUG-028.yml",
+   "yaml": "id: BUG-028\ntitle: Sending a message stores unvalidated body keys, so a guest can set another user's user_id and a parent_id key gives 500\nstatus: open\nseverity: major\nlayer: api\narea: messages\naffects:\n  - POST /messages\n  - GET /messages\nfound: 2026-10-10\nref:\n  - docs/api/contracts/Messages_API.md#2-send-message\n  - docs/api/contracts/Messages_API.md#notes\ndescription: >-\n  POST /messages passes the whole request body to ContactRequests::create, and user_id, parent_id and\n  status are in the model's fillable list. The service overwrites user_id only when a valid token is\n  sent. A guest can send the user_id of another user, and the message then shows in that user's\n  GET /messages (there is no foreign key on contact_requests.user_id), so a message can be attributed\n  to anyone. A parent_id key has no column and makes the insert fail with 500 { message: \"Something went\n  wrong\" }, and so does a user_id longer than 26 characters. The body should be limited to the validated\n  fields.\nsteps:\n  - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.\n  - Send POST /users/login with that email and password, and take its access_token.\n  - Send POST /messages without an Authorization header, with a unique subject, a message text and user_id set to the new user's id.\n  - Send GET /messages with the new customer's access_token.\n  - Send POST /messages without an Authorization header, with a unique subject, a message text and a parent_id key set to any string.\nexpected: >-\n  The guest message has no owner and isn't in the customer's list; a body with a parent_id key is\n  ignored (200) or rejected (422), never a server error.\nactual: >-\n  The message is stored with the customer's user_id and shows in their list; the body with parent_id\n  gets 500 (from the source code; not reproduced live).\nevidence: |-\n  Not reproduced live (it would create messages), from the source code. Messages_API.md, Notes,\n  \"A guest can attribute a message to any user\" (read from ContactService and the ContactRequests\n  model in sprint5/API, 2026-10-10): create() receives the whole body; user_id, parent_id and status\n  are fillable; the service sets user_id and status afterwards only for a logged-in user (status is\n  always set to NEW); parent_id has no column.",
+   "scenarios": [
+    {
+     "id": "API-0362",
+     "name": "Send a message with a parent_id key returns 200 or 422, not 500",
+     "layer": "api",
+     "area": "messages",
+     "file": "test-scenarios/api/messages/post-messages.yml",
+     "status": "manual",
+     "knownIssue": "Returns 500 when the body has a parent_id key instead of ignoring it or answering 422."
+    },
+    {
+     "id": "API-0363",
+     "name": "Send a guest message with another user's user_id doesn't put it in that user's list",
+     "layer": "api",
+     "area": "messages",
+     "file": "test-scenarios/api/messages/post-messages.yml",
+     "status": "manual",
+     "knownIssue": "Stores a guest message under the user_id sent in the body, so it shows in that user's list, instead of leaving it without an owner."
+    }
+   ]
+  },
+  {
    "id": "BUG-005",
    "title": "Related products omit co2_rating, so is_eco_friendly is always false",
    "status": "open",
@@ -1062,6 +1112,160 @@ window.BUG_CATALOG = {
      "file": "test-scenarios/api/carts/post-carts-by-cart-id.yml",
      "status": "manual",
      "knownIssue": "Gives a location offer no discount in a cart at longitude 0 (London, 51, 0) instead of London's 25% discount."
+    }
+   ]
+  },
+  {
+   "id": "BUG-027",
+   "title": "Sending a message with a name of 61 to 120 characters returns 500, because the validation allows 120 and the column holds 60",
+   "status": "open",
+   "severity": "minor",
+   "layer": "api",
+   "area": "messages",
+   "affects": [
+    "POST /messages"
+   ],
+   "found": "2026-10-10",
+   "ref": [
+    "docs/api/contracts/Messages_API.md#2-send-message",
+    "docs/api/contracts/Messages_API.md#notes"
+   ],
+   "description": "POST /messages validates name with a maximum of 120 characters (the spec says 120 too), but the contact_requests.name column is varchar(60) and the database runs in strict mode. A name of 61 to 120 characters passes the validation and then fails on insert, which the global handler maps to 500 { message: \"Something went wrong\" }. The API should either validate the name with the column's limit (422) or hold the full length.",
+   "steps": [
+    "Send POST /messages without an Authorization header, with a 61-character name, a unique subject and a message text."
+   ],
+   "expected": "422 (the name is longer than the stored limit), or 200 when the name is accepted or ignored; never a server error.",
+   "actual": "500 with { message: \"Something went wrong\" } (from the source code; not reproduced live).",
+   "evidence": "Not reproduced live (it would create a message), from the source code. Messages_API.md, Notes,\n\"name limit mismatch\" (read from the Laravel source in sprint5/API, 2026-10-10):\nthe StoreContact form request allows name up to 120 characters; the contact_requests.name migration is\nvarchar(60); the handler maps a database error that is not 1062 or 1364 to 500 \"Something went wrong\".",
+   "file": "bugs/BUG-027.yml",
+   "yaml": "id: BUG-027\ntitle: Sending a message with a name of 61 to 120 characters returns 500, because the validation allows 120 and the column holds 60\nstatus: open\nseverity: minor\nlayer: api\narea: messages\naffects:\n  - POST /messages\nfound: 2026-10-10\nref:\n  - docs/api/contracts/Messages_API.md#2-send-message\n  - docs/api/contracts/Messages_API.md#notes\ndescription: >-\n  POST /messages validates name with a maximum of 120 characters (the spec says 120 too), but the\n  contact_requests.name column is varchar(60) and the database runs in strict mode. A name of 61 to 120\n  characters passes the validation and then fails on insert, which the global handler maps to 500\n  { message: \"Something went wrong\" }. The API should either validate the name with the column's limit\n  (422) or hold the full length.\nsteps:\n  - Send POST /messages without an Authorization header, with a 61-character name, a unique subject and a message text.\nexpected: 422 (the name is longer than the stored limit), or 200 when the name is accepted or ignored; never a server error.\nactual: >-\n  500 with { message: \"Something went wrong\" } (from the source code; not reproduced live).\nevidence: |-\n  Not reproduced live (it would create a message), from the source code. Messages_API.md, Notes,\n  \"name limit mismatch\" (read from the Laravel source in sprint5/API, 2026-10-10):\n  the StoreContact form request allows name up to 120 characters; the contact_requests.name migration is\n  varchar(60); the handler maps a database error that is not 1062 or 1364 to 500 \"Something went wrong\".",
+   "scenarios": [
+    {
+     "id": "API-0361",
+     "name": "Send a message with a 61-character name returns 200 or 422, not 500",
+     "layer": "api",
+     "area": "messages",
+     "file": "test-scenarios/api/messages/post-messages.yml",
+     "status": "manual",
+     "knownIssue": "Returns 500 for a name of 61 to 120 characters, which the validation allows, instead of 422 or 200."
+    }
+   ]
+  },
+  {
+   "id": "BUG-029",
+   "title": "Getting a message that doesn't exist, or that the customer doesn't own, returns 200 with an empty body instead of 404",
+   "status": "open",
+   "severity": "minor",
+   "layer": "api",
+   "area": "messages",
+   "affects": [
+    "GET /messages/{messageId}"
+   ],
+   "found": "2026-10-10",
+   "ref": [
+    "docs/api/contracts/Messages_API.md#3-get-message",
+    "docs/api/contracts/Messages_API.md#notes"
+   ],
+   "description": "GET /messages/{messageId} loads the message with the service's first(), which returns null for an unknown id and for a message a non-admin doesn't own, and the controller answers 200 with that empty value. The OpenAPI spec documents 404, and PUT /messages/{messageId}/status answers 404 for an unknown id, so the endpoints are inconsistent. A client can't tell a missing message from an empty one.",
+   "steps": [
+    "Send GET /messages/{messageId} with a well-formed message id that doesn't exist and the admin's token.",
+    "Send POST /messages with a customer's token, then send GET /messages/{messageId} with that id and another customer's token."
+   ],
+   "expected": "404 for an unknown message id and for a message the customer doesn't own (the spec documents 404).",
+   "actual": "200 with an empty body (from the source code; not reproduced live, a token was not available).",
+   "evidence": "Not reproduced live, from the source code. Messages_API.md, section 3 \"Get message\" (read from\nContactController and ContactService in sprint5/API, 2026-10-10): the service's first() returns null\nand the controller answers 200 with it; the spec lists 404.",
+   "file": "bugs/BUG-029.yml",
+   "yaml": "id: BUG-029\ntitle: Getting a message that doesn't exist, or that the customer doesn't own, returns 200 with an empty body instead of 404\nstatus: open\nseverity: minor\nlayer: api\narea: messages\naffects:\n  - GET /messages/{messageId}\nfound: 2026-10-10\nref:\n  - docs/api/contracts/Messages_API.md#3-get-message\n  - docs/api/contracts/Messages_API.md#notes\ndescription: >-\n  GET /messages/{messageId} loads the message with the service's first(), which returns null for an\n  unknown id and for a message a non-admin doesn't own, and the controller answers 200 with that empty\n  value. The OpenAPI spec documents 404, and PUT /messages/{messageId}/status answers 404 for an unknown\n  id, so the endpoints are inconsistent. A client can't tell a missing message from an empty one.\nsteps:\n  - Send GET /messages/{messageId} with a well-formed message id that doesn't exist and the admin's token.\n  - Send POST /messages with a customer's token, then send GET /messages/{messageId} with that id and another customer's token.\nexpected: 404 for an unknown message id and for a message the customer doesn't own (the spec documents 404).\nactual: >-\n  200 with an empty body (from the source code; not reproduced live, a token was not available).\nevidence: |-\n  Not reproduced live, from the source code. Messages_API.md, section 3 \"Get message\" (read from\n  ContactController and ContactService in sprint5/API, 2026-10-10): the service's first() returns null\n  and the controller answers 200 with it; the spec lists 404.",
+   "scenarios": [
+    {
+     "id": "API-0370",
+     "name": "Get another user's message as a customer returns 404",
+     "layer": "api",
+     "area": "messages",
+     "file": "test-scenarios/api/messages/get-messages-by-message-id.yml",
+     "status": "manual",
+     "knownIssue": "Returns 200 with an empty body for a message the customer doesn't own instead of 404."
+    },
+    {
+     "id": "API-0371",
+     "name": "Get an unknown message id as an admin returns 404",
+     "layer": "api",
+     "area": "messages",
+     "file": "test-scenarios/api/messages/get-messages-by-message-id.yml",
+     "status": "manual",
+     "knownIssue": "Returns 200 with an empty body for an unknown message id instead of 404."
+    }
+   ]
+  },
+  {
+   "id": "BUG-030",
+   "title": "Replying to a message that doesn't exist returns 500 instead of 404",
+   "status": "open",
+   "severity": "minor",
+   "layer": "api",
+   "area": "messages",
+   "affects": [
+    "POST /messages/{messageId}/reply"
+   ],
+   "found": "2026-10-10",
+   "ref": [
+    "docs/api/contracts/Messages_API.md#4-reply-to-message",
+    "docs/api/contracts/Messages_API.md#notes"
+   ],
+   "description": "POST /messages/{messageId}/reply doesn't check that the message exists. The insert into contact_request_replies breaks the foreign key on message_id, which the global handler maps to 500 { message: \"Something went wrong\" }. The OpenAPI spec documents 404, and PUT /messages/{messageId}/status answers 404 for an unknown id.",
+   "steps": [
+    "Send POST /messages/{messageId}/reply with a well-formed message id that doesn't exist, the admin's token and a body with a message text."
+   ],
+   "expected": "404 (the spec documents 404 for an unknown message).",
+   "actual": "500 with { message: \"Something went wrong\" } (from the source code; not reproduced live).",
+   "evidence": "Not reproduced live, from the source code. Messages_API.md, section 4 \"Reply to message\" (read from\nContactController, ContactService and the contact_request_replies migration in sprint5/API,\n2026-10-10): nothing looks the message up; the foreign key violation falls into the handler's\ngeneric database error branch.",
+   "file": "bugs/BUG-030.yml",
+   "yaml": "id: BUG-030\ntitle: Replying to a message that doesn't exist returns 500 instead of 404\nstatus: open\nseverity: minor\nlayer: api\narea: messages\naffects:\n  - POST /messages/{messageId}/reply\nfound: 2026-10-10\nref:\n  - docs/api/contracts/Messages_API.md#4-reply-to-message\n  - docs/api/contracts/Messages_API.md#notes\ndescription: >-\n  POST /messages/{messageId}/reply doesn't check that the message exists. The insert into\n  contact_request_replies breaks the foreign key on message_id, which the global handler maps to\n  500 { message: \"Something went wrong\" }. The OpenAPI spec documents 404, and\n  PUT /messages/{messageId}/status answers 404 for an unknown id.\nsteps:\n  - Send POST /messages/{messageId}/reply with a well-formed message id that doesn't exist, the admin's token and a body with a message text.\nexpected: 404 (the spec documents 404 for an unknown message).\nactual: >-\n  500 with { message: \"Something went wrong\" } (from the source code; not reproduced live).\nevidence: |-\n  Not reproduced live, from the source code. Messages_API.md, section 4 \"Reply to message\" (read from\n  ContactController, ContactService and the contact_request_replies migration in sprint5/API,\n  2026-10-10): nothing looks the message up; the foreign key violation falls into the handler's\n  generic database error branch.",
+   "scenarios": [
+    {
+     "id": "API-0380",
+     "name": "Reply to an unknown message id returns 404",
+     "layer": "api",
+     "area": "messages",
+     "file": "test-scenarios/api/messages/post-messages-by-message-id-reply.yml",
+     "status": "manual",
+     "knownIssue": "Returns 500 for a reply to an unknown message id instead of 404."
+    }
+   ]
+  },
+  {
+   "id": "BUG-031",
+   "title": "Attaching a file to a message that doesn't exist returns 200, because the message is never looked up",
+   "status": "open",
+   "severity": "minor",
+   "layer": "api",
+   "area": "messages",
+   "affects": [
+    "POST /messages/{messageId}/attach-file"
+   ],
+   "found": "2026-10-10",
+   "ref": [
+    "docs/api/contracts/Messages_API.md#5-attach-file-to-message",
+    "docs/api/contracts/Messages_API.md#notes"
+   ],
+   "description": "POST /messages/{messageId}/attach-file validates the upload and logs it, and never reads the message id, so a valid upload (an empty .txt file) gets 200 { success: true } for any id, including one that doesn't exist. The OpenAPI spec documents 404 for this endpoint, and PUT /messages/{messageId}/status answers 404 for an unknown id.",
+   "steps": [
+    "Send POST /messages/{messageId}/attach-file with a well-formed message id that doesn't exist, as multipart/form-data with a file field holding an empty file named \"note.txt\"."
+   ],
+   "expected": "404 (the spec documents 404 for an unknown message).",
+   "actual": "200 with { success: true } (from the source code; not reproduced live, as it would be a successful upload).",
+   "evidence": "Not reproduced live, from the source code. Messages_API.md, section 5 \"Attach file to message\"\n(read from ContactController and ContactService in sprint5/API, 2026-10-10): the service only checks\nthe file (no file, not empty, extension txt) and logs it; the message id is never used. The 400\nresponses for bad files were seen live (id that can't exist).",
+   "file": "bugs/BUG-031.yml",
+   "yaml": "id: BUG-031\ntitle: Attaching a file to a message that doesn't exist returns 200, because the message is never looked up\nstatus: open\nseverity: minor\nlayer: api\narea: messages\naffects:\n  - POST /messages/{messageId}/attach-file\nfound: 2026-10-10\nref:\n  - docs/api/contracts/Messages_API.md#5-attach-file-to-message\n  - docs/api/contracts/Messages_API.md#notes\ndescription: >-\n  POST /messages/{messageId}/attach-file validates the upload and logs it, and never reads the message\n  id, so a valid upload (an empty .txt file) gets 200 { success: true } for any id, including one that\n  doesn't exist. The OpenAPI spec documents 404 for this endpoint, and PUT /messages/{messageId}/status\n  answers 404 for an unknown id.\nsteps:\n  - Send POST /messages/{messageId}/attach-file with a well-formed message id that doesn't exist, as multipart/form-data with a file field holding an empty file named \"note.txt\".\nexpected: 404 (the spec documents 404 for an unknown message).\nactual: >-\n  200 with { success: true } (from the source code; not reproduced live, as it would be a successful upload).\nevidence: |-\n  Not reproduced live, from the source code. Messages_API.md, section 5 \"Attach file to message\"\n  (read from ContactController and ContactService in sprint5/API, 2026-10-10): the service only checks\n  the file (no file, not empty, extension txt) and logs it; the message id is never used. The 400\n  responses for bad files were seen live (id that can't exist).",
+   "scenarios": [
+    {
+     "id": "API-0387",
+     "name": "Attach an empty txt file to an unknown message id returns 404",
+     "layer": "api",
+     "area": "messages",
+     "file": "test-scenarios/api/messages/post-messages-by-message-id-attach-file.yml",
+     "status": "manual",
+     "knownIssue": "Returns 200 for a message id that doesn't exist instead of 404 (the message is never looked up)."
     }
    ]
   },

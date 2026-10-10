@@ -3,17 +3,17 @@ window.SCENARIO_CATALOG = {
  "layer": "ui",
  "title": "UI Test Cases",
  "prefix": "UI",
- "generatedAt": "2026-10-10T10:10:26.456Z",
- "commit": "debe7df25f6e43e503b236eb72845637cbf53a95",
+ "generatedAt": "2026-10-10T14:40:01.740Z",
+ "commit": "6002d39cb1f21405444f5ae8c76f3b37532b7a3b",
  "repoUrl": "https://github.com/Zaytsman/SimpRight",
  "branch": "main",
  "workflowUrl": "https://github.com/Zaytsman/SimpRight/actions/workflows/custom-ui-tests.yml",
  "stats": {
-  "total": 40,
+  "total": 98,
   "automated": 19,
-  "manual": 21,
+  "manual": 79,
   "knownIssues": 2,
-  "automatedPct": 48
+  "automatedPct": 19
  },
  "tree": [
   {
@@ -40,6 +40,48 @@ window.SCENARIO_CATALOG = {
       "UI-039",
       "UI-040"
      ]
+    },
+    {
+     "file": "test-scenarios/ui/account/customer-profile.yml",
+     "name": "customer-profile",
+     "label": "Customer profile",
+     "suite": "Customer profile",
+     "tags": [
+      "@account"
+     ],
+     "ids": [
+      "UI-063",
+      "UI-064",
+      "UI-065",
+      "UI-066",
+      "UI-067",
+      "UI-068",
+      "UI-069"
+     ]
+    },
+    {
+     "file": "test-scenarios/ui/account/user-registration.yml",
+     "name": "user-registration",
+     "label": "User registration",
+     "suite": "User registration",
+     "tags": [
+      "@account"
+     ],
+     "ids": [
+      "UI-086",
+      "UI-087",
+      "UI-088",
+      "UI-089",
+      "UI-090",
+      "UI-091",
+      "UI-092",
+      "UI-093",
+      "UI-094",
+      "UI-095",
+      "UI-096",
+      "UI-097",
+      "UI-098"
+     ]
     }
    ]
   },
@@ -58,6 +100,62 @@ window.SCENARIO_CATALOG = {
      "ids": [
       "UI-002",
       "UI-027"
+     ]
+    },
+    {
+     "file": "test-scenarios/ui/cart/checkout-billing-address.yml",
+     "name": "checkout-billing-address",
+     "label": "Checkout billing address",
+     "suite": "Checkout billing address",
+     "tags": [
+      "@cart"
+     ],
+     "ids": [
+      "UI-041",
+      "UI-042",
+      "UI-043",
+      "UI-044",
+      "UI-045",
+      "UI-046",
+      "UI-047",
+      "UI-048"
+     ]
+    },
+    {
+     "file": "test-scenarios/ui/cart/checkout-cart-review.yml",
+     "name": "checkout-cart-review",
+     "label": "Checkout cart review",
+     "suite": "Checkout cart review",
+     "tags": [
+      "@cart"
+     ],
+     "ids": [
+      "UI-049",
+      "UI-050",
+      "UI-051",
+      "UI-052",
+      "UI-053",
+      "UI-054",
+      "UI-055",
+      "UI-056",
+      "UI-057",
+      "UI-084"
+     ]
+    },
+    {
+     "file": "test-scenarios/ui/cart/checkout-sign-in.yml",
+     "name": "checkout-sign-in",
+     "label": "Checkout sign in",
+     "suite": "Checkout sign-in",
+     "tags": [
+      "@cart"
+     ],
+     "ids": [
+      "UI-058",
+      "UI-059",
+      "UI-060",
+      "UI-061",
+      "UI-062"
      ]
     }
    ]
@@ -79,7 +177,8 @@ window.SCENARIO_CATALOG = {
       "UI-014",
       "UI-015",
       "UI-016",
-      "UI-017"
+      "UI-017",
+      "UI-085"
      ]
     },
     {
@@ -97,6 +196,23 @@ window.SCENARIO_CATALOG = {
      ]
     },
     {
+     "file": "test-scenarios/ui/products/product-filters.yml",
+     "name": "product-filters",
+     "label": "Product filters",
+     "suite": "Product filters",
+     "tags": [
+      "@products"
+     ],
+     "ids": [
+      "UI-075",
+      "UI-076",
+      "UI-077",
+      "UI-078",
+      "UI-079",
+      "UI-080"
+     ]
+    },
+    {
      "file": "test-scenarios/ui/products/product-grid.yml",
      "name": "product-grid",
      "label": "Product grid",
@@ -105,7 +221,12 @@ window.SCENARIO_CATALOG = {
       "@products"
      ],
      "ids": [
-      "UI-012"
+      "UI-012",
+      "UI-070",
+      "UI-071",
+      "UI-072",
+      "UI-073",
+      "UI-074"
      ]
     },
     {
@@ -158,6 +279,20 @@ window.SCENARIO_CATALOG = {
       "UI-009",
       "UI-010",
       "UI-011"
+     ]
+    },
+    {
+     "file": "test-scenarios/ui/products/rentals.yml",
+     "name": "rentals",
+     "label": "Rentals",
+     "suite": "Rentals",
+     "tags": [
+      "@products"
+     ],
+     "ids": [
+      "UI-081",
+      "UI-082",
+      "UI-083"
      ]
     }
    ]
@@ -407,6 +542,555 @@ window.SCENARIO_CATALOG = {
    "yaml": "- id: UI-040\n  name: A successful password change shows a success message and logs the user out\n  ref: docs/ui/user-stories/Change_Password.md#AC6\n  status: manual\n  steps:\n    - A newly registered customer is logged in.\n    - Open the profile page.\n    - Enter the customer's current password in \"Current Password\".\n    - Enter a new valid password in \"New Password\".\n    - Enter the same new password in \"Confirm New Password\".\n    - Click \"Change Password\".\n    - Verify the success message \"Your password is successfully updated!\" is shown.\n    - Verify that within about 5 seconds \"Sign in\" is shown in the navigation.\n    - Verify the user menu is not shown."
   },
   {
+   "id": "UI-063",
+   "name": "\"My profile\" in the user menu opens the profile page with the saved details",
+   "ref": [
+    "docs/ui/user-stories/Customer_Profile.md#AC1"
+   ],
+   "status": "manual",
+   "steps": [
+    "A newly registered customer with a saved phone and address, country included, is logged in.",
+    "Open the home page.",
+    "Open the user menu in the navigation.",
+    "Click \"My profile\".",
+    "Verify the page heading \"Profile\" is shown.",
+    "Verify the field \"First name\" holds the first name saved in the account.",
+    "Verify the field \"Last name\" holds the last name saved in the account.",
+    "Verify the field \"Email address\" holds the account's email address.",
+    "Verify the field \"Phone\" holds the phone saved in the account.",
+    "Verify the field \"Street\" holds the street saved in the account.",
+    "Verify the field \"Postal code\" holds the postal code saved in the account.",
+    "Verify the field \"City\" holds the city saved in the account.",
+    "Verify the field \"State\" holds the state saved in the account.",
+    "Verify the field \"Country\" holds the country saved in the account."
+   ],
+   "area": "account",
+   "areaLabel": "Account",
+   "file": "test-scenarios/ui/account/customer-profile.yml",
+   "fileLabel": "Customer profile",
+   "suite": "Customer profile",
+   "tags": [
+    "@account"
+   ],
+   "yaml": "- id: UI-063\n  name: '\"My profile\" in the user menu opens the profile page with the saved details'\n  ref: docs/ui/user-stories/Customer_Profile.md#AC1\n  status: manual\n  steps:\n    - A newly registered customer with a saved phone and address, country included, is logged in.\n    - Open the home page.\n    - Open the user menu in the navigation.\n    - Click \"My profile\".\n    - Verify the page heading \"Profile\" is shown.\n    - Verify the field \"First name\" holds the first name saved in the account.\n    - Verify the field \"Last name\" holds the last name saved in the account.\n    - Verify the field \"Email address\" holds the account's email address.\n    - Verify the field \"Phone\" holds the phone saved in the account.\n    - Verify the field \"Street\" holds the street saved in the account.\n    - Verify the field \"Postal code\" holds the postal code saved in the account.\n    - Verify the field \"City\" holds the city saved in the account.\n    - Verify the field \"State\" holds the state saved in the account.\n    - Verify the field \"Country\" holds the country saved in the account."
+  },
+  {
+   "id": "UI-064",
+   "name": "Every editable field of the profile page accepts typing",
+   "ref": [
+    "docs/ui/user-stories/Customer_Profile.md#AC2"
+   ],
+   "status": "manual",
+   "steps": [
+    "Open the profile page.",
+    "Enter \"Jane\" in the field \"First name\", replacing what is there.",
+    "Enter \"Doe\" in the field \"Last name\", replacing what is there.",
+    "Enter \"0612345678\" in the field \"Phone\", replacing what is there.",
+    "Enter \"Teststraat\" in the field \"Street\", replacing what is there.",
+    "Enter \"1012AB\" in the field \"Postal code\", replacing what is there.",
+    "Enter \"Rotterdam\" in the field \"City\", replacing what is there.",
+    "Enter \"Zuid-Holland\" in the field \"State\", replacing what is there.",
+    "Enter \"NL\" in the field \"Country\", replacing what is there.",
+    "Verify the field \"First name\" holds \"Jane\".",
+    "Verify the field \"Last name\" holds \"Doe\".",
+    "Verify the field \"Phone\" holds \"0612345678\".",
+    "Verify the field \"Street\" holds \"Teststraat\".",
+    "Verify the field \"Postal code\" holds \"1012AB\".",
+    "Verify the field \"City\" holds \"Rotterdam\".",
+    "Verify the field \"State\" holds \"Zuid-Holland\".",
+    "Verify the field \"Country\" holds \"NL\"."
+   ],
+   "area": "account",
+   "areaLabel": "Account",
+   "file": "test-scenarios/ui/account/customer-profile.yml",
+   "fileLabel": "Customer profile",
+   "suite": "Customer profile",
+   "tags": [
+    "@account"
+   ],
+   "yaml": "- id: UI-064\n  name: Every editable field of the profile page accepts typing\n  ref: docs/ui/user-stories/Customer_Profile.md#AC2\n  status: manual\n  steps:\n    - Open the profile page.\n    - Enter \"Jane\" in the field \"First name\", replacing what is there.\n    - Enter \"Doe\" in the field \"Last name\", replacing what is there.\n    - Enter \"0612345678\" in the field \"Phone\", replacing what is there.\n    - Enter \"Teststraat\" in the field \"Street\", replacing what is there.\n    - Enter \"1012AB\" in the field \"Postal code\", replacing what is there.\n    - Enter \"Rotterdam\" in the field \"City\", replacing what is there.\n    - Enter \"Zuid-Holland\" in the field \"State\", replacing what is there.\n    - Enter \"NL\" in the field \"Country\", replacing what is there.\n    - Verify the field \"First name\" holds \"Jane\".\n    - Verify the field \"Last name\" holds \"Doe\".\n    - Verify the field \"Phone\" holds \"0612345678\".\n    - Verify the field \"Street\" holds \"Teststraat\".\n    - Verify the field \"Postal code\" holds \"1012AB\".\n    - Verify the field \"City\" holds \"Rotterdam\".\n    - Verify the field \"State\" holds \"Zuid-Holland\".\n    - Verify the field \"Country\" holds \"NL\"."
+  },
+  {
+   "id": "UI-065",
+   "name": "An empty phone is highlighted as invalid and the profile is not updated",
+   "ref": [
+    "docs/ui/user-stories/Customer_Profile.md#AC2"
+   ],
+   "status": "manual",
+   "steps": [
+    "A newly registered customer with a saved phone and address, country included, is logged in.",
+    "Open the profile page.",
+    "Clear the field \"Phone\".",
+    "Click \"Update Profile\".",
+    "Verify the field \"Phone\" is highlighted as invalid.",
+    "Verify the error \"Please correct the highlighted fields before saving.\" is shown.",
+    "Verify no success message is shown."
+   ],
+   "area": "account",
+   "areaLabel": "Account",
+   "file": "test-scenarios/ui/account/customer-profile.yml",
+   "fileLabel": "Customer profile",
+   "suite": "Customer profile",
+   "tags": [
+    "@account"
+   ],
+   "yaml": "- id: UI-065\n  name: An empty phone is highlighted as invalid and the profile is not updated\n  ref: docs/ui/user-stories/Customer_Profile.md#AC2\n  status: manual\n  steps:\n    - A newly registered customer with a saved phone and address, country included, is logged in.\n    - Open the profile page.\n    - Clear the field \"Phone\".\n    - Click \"Update Profile\".\n    - Verify the field \"Phone\" is highlighted as invalid.\n    - Verify the error \"Please correct the highlighted fields before saving.\" is shown.\n    - Verify no success message is shown."
+  },
+  {
+   "id": "UI-066",
+   "name": "An empty state is highlighted as invalid and the profile is not updated",
+   "ref": [
+    "docs/ui/user-stories/Customer_Profile.md#AC2"
+   ],
+   "status": "manual",
+   "steps": [
+    "A newly registered customer with a saved phone and address, country included, is logged in.",
+    "Open the profile page.",
+    "Clear the field \"State\".",
+    "Click \"Update Profile\".",
+    "Verify the field \"State\" is highlighted as invalid.",
+    "Verify the error \"Please correct the highlighted fields before saving.\" is shown.",
+    "Verify no success message is shown."
+   ],
+   "area": "account",
+   "areaLabel": "Account",
+   "file": "test-scenarios/ui/account/customer-profile.yml",
+   "fileLabel": "Customer profile",
+   "suite": "Customer profile",
+   "tags": [
+    "@account"
+   ],
+   "yaml": "- id: UI-066\n  name: An empty state is highlighted as invalid and the profile is not updated\n  ref: docs/ui/user-stories/Customer_Profile.md#AC2\n  status: manual\n  steps:\n    - A newly registered customer with a saved phone and address, country included, is logged in.\n    - Open the profile page.\n    - Clear the field \"State\".\n    - Click \"Update Profile\".\n    - Verify the field \"State\" is highlighted as invalid.\n    - Verify the error \"Please correct the highlighted fields before saving.\" is shown.\n    - Verify no success message is shown."
+  },
+  {
+   "id": "UI-067",
+   "name": "An empty postal code is highlighted as invalid and the profile is not updated",
+   "ref": [
+    "docs/ui/user-stories/Customer_Profile.md#AC2"
+   ],
+   "status": "manual",
+   "steps": [
+    "A newly registered customer with a saved phone and address, country included, is logged in.",
+    "Open the profile page.",
+    "Clear the field \"Postal code\".",
+    "Click \"Update Profile\".",
+    "Verify the field \"Postal code\" is highlighted as invalid.",
+    "Verify the error \"Please correct the highlighted fields before saving.\" is shown.",
+    "Verify no success message is shown."
+   ],
+   "area": "account",
+   "areaLabel": "Account",
+   "file": "test-scenarios/ui/account/customer-profile.yml",
+   "fileLabel": "Customer profile",
+   "suite": "Customer profile",
+   "tags": [
+    "@account"
+   ],
+   "yaml": "- id: UI-067\n  name: An empty postal code is highlighted as invalid and the profile is not updated\n  ref: docs/ui/user-stories/Customer_Profile.md#AC2\n  status: manual\n  steps:\n    - A newly registered customer with a saved phone and address, country included, is logged in.\n    - Open the profile page.\n    - Clear the field \"Postal code\".\n    - Click \"Update Profile\".\n    - Verify the field \"Postal code\" is highlighted as invalid.\n    - Verify the error \"Please correct the highlighted fields before saving.\" is shown.\n    - Verify no success message is shown."
+  },
+  {
+   "id": "UI-068",
+   "name": "The email field of the profile page is read-only",
+   "ref": [
+    "docs/ui/user-stories/Customer_Profile.md#AC3"
+   ],
+   "status": "manual",
+   "steps": [
+    "Open the profile page.",
+    "Try to type \"changed\" in the field \"Email address\".",
+    "Verify the field \"Email address\" is not editable.",
+    "Verify the field \"Email address\" still holds the account's email address."
+   ],
+   "area": "account",
+   "areaLabel": "Account",
+   "file": "test-scenarios/ui/account/customer-profile.yml",
+   "fileLabel": "Customer profile",
+   "suite": "Customer profile",
+   "tags": [
+    "@account"
+   ],
+   "yaml": "- id: UI-068\n  name: The email field of the profile page is read-only\n  ref: docs/ui/user-stories/Customer_Profile.md#AC3\n  status: manual\n  steps:\n    - Open the profile page.\n    - Try to type \"changed\" in the field \"Email address\".\n    - Verify the field \"Email address\" is not editable.\n    - Verify the field \"Email address\" still holds the account's email address."
+  },
+  {
+   "id": "UI-069",
+   "name": "Updating the profile shows a success message that disappears after about 5 seconds",
+   "ref": [
+    "docs/ui/user-stories/Customer_Profile.md#AC4"
+   ],
+   "status": "manual",
+   "steps": [
+    "A newly registered customer with a saved phone and address, country included, is logged in.",
+    "Open the profile page.",
+    "Enter \"Alex\" in the field \"First name\", replacing what is there.",
+    "Enter \"Tester\" in the field \"Last name\", replacing what is there.",
+    "Enter \"0612345678\" in the field \"Phone\", replacing what is there.",
+    "Enter \"Teststraat\" in the field \"Street\", replacing what is there.",
+    "Enter \"1012AB\" in the field \"Postal code\", replacing what is there.",
+    "Enter \"Rotterdam\" in the field \"City\", replacing what is there.",
+    "Enter \"Zuid-Holland\" in the field \"State\", replacing what is there.",
+    "Enter \"NL\" in the field \"Country\", replacing what is there.",
+    "Click \"Update Profile\".",
+    "Verify the success message \"Your profile is successfully updated!\" is shown.",
+    "Verify that within about 6 seconds of saving the success message is no longer shown."
+   ],
+   "area": "account",
+   "areaLabel": "Account",
+   "file": "test-scenarios/ui/account/customer-profile.yml",
+   "fileLabel": "Customer profile",
+   "suite": "Customer profile",
+   "tags": [
+    "@account"
+   ],
+   "yaml": "- id: UI-069\n  name: Updating the profile shows a success message that disappears after about 5 seconds\n  ref: docs/ui/user-stories/Customer_Profile.md#AC4\n  status: manual\n  steps:\n    - A newly registered customer with a saved phone and address, country included, is logged in.\n    - Open the profile page.\n    - Enter \"Alex\" in the field \"First name\", replacing what is there.\n    - Enter \"Tester\" in the field \"Last name\", replacing what is there.\n    - Enter \"0612345678\" in the field \"Phone\", replacing what is there.\n    - Enter \"Teststraat\" in the field \"Street\", replacing what is there.\n    - Enter \"1012AB\" in the field \"Postal code\", replacing what is there.\n    - Enter \"Rotterdam\" in the field \"City\", replacing what is there.\n    - Enter \"Zuid-Holland\" in the field \"State\", replacing what is there.\n    - Enter \"NL\" in the field \"Country\", replacing what is there.\n    - Click \"Update Profile\".\n    - Verify the success message \"Your profile is successfully updated!\" is shown.\n    - Verify that within about 6 seconds of saving the success message is no longer shown."
+  },
+  {
+   "id": "UI-086",
+   "name": "The registration page shows the story's fields and the \"Register\" button",
+   "ref": [
+    "docs/ui/user-stories/User_Registration.md#AC1"
+   ],
+   "status": "manual",
+   "role": "guest",
+   "steps": [
+    "Open the registration page.",
+    "Verify the field \"First name\" is shown.",
+    "Verify the field \"Last name\" is shown.",
+    "Verify the field \"Date of Birth *\" is shown with the placeholder \"YYYY-MM-DD\".",
+    "Verify the dropdown \"Country\" is shown with a list of countries to choose from.",
+    "Verify the field \"Street\" is shown.",
+    "Verify the field \"Postal code\" is shown.",
+    "Verify the field \"City\" is shown.",
+    "Verify the field \"State\" is shown.",
+    "Verify the field \"Phone\" is shown.",
+    "Verify the field \"Email address\" is shown.",
+    "Verify the field \"Password\" is shown.",
+    "Verify the button \"Register\" is shown."
+   ],
+   "area": "account",
+   "areaLabel": "Account",
+   "file": "test-scenarios/ui/account/user-registration.yml",
+   "fileLabel": "User registration",
+   "suite": "User registration",
+   "tags": [
+    "@account"
+   ],
+   "yaml": "- id: UI-086\n  name: 'The registration page shows the story''s fields and the \"Register\" button'\n  ref: docs/ui/user-stories/User_Registration.md#AC1\n  status: manual\n  role: guest\n  steps:\n    - Open the registration page.\n    - Verify the field \"First name\" is shown.\n    - Verify the field \"Last name\" is shown.\n    - Verify the field \"Date of Birth *\" is shown with the placeholder \"YYYY-MM-DD\".\n    - Verify the dropdown \"Country\" is shown with a list of countries to choose from.\n    - Verify the field \"Street\" is shown.\n    - Verify the field \"Postal code\" is shown.\n    - Verify the field \"City\" is shown.\n    - Verify the field \"State\" is shown.\n    - Verify the field \"Phone\" is shown.\n    - Verify the field \"Email address\" is shown.\n    - Verify the field \"Password\" is shown.\n    - Verify the button \"Register\" is shown."
+  },
+  {
+   "id": "UI-087",
+   "name": "Registering with an empty form shows a \"required\" error for each field and keeps the form",
+   "ref": [
+    "docs/ui/user-stories/User_Registration.md#AC1"
+   ],
+   "status": "manual",
+   "role": "guest",
+   "steps": [
+    "Open the registration page.",
+    "Click \"Register\" without filling in any field.",
+    "Verify the field \"First name\" shows a \"required\" error.",
+    "Verify the field \"Last name\" shows a \"required\" error.",
+    "Verify the field \"Date of Birth *\" shows a \"required\" error.",
+    "Verify the dropdown \"Country\" shows a \"required\" error.",
+    "Verify the field \"Postal code\" shows a \"required\" error.",
+    "Verify the field \"Street\" shows a \"required\" error.",
+    "Verify the field \"City\" shows a \"required\" error.",
+    "Verify the field \"State\" shows a \"required\" error.",
+    "Verify the field \"Phone\" shows a \"required\" error.",
+    "Verify the field \"Email address\" shows a \"required\" error.",
+    "Verify the field \"Password\" shows a \"required\" error.",
+    "Verify the registration form is still shown."
+   ],
+   "area": "account",
+   "areaLabel": "Account",
+   "file": "test-scenarios/ui/account/user-registration.yml",
+   "fileLabel": "User registration",
+   "suite": "User registration",
+   "tags": [
+    "@account"
+   ],
+   "yaml": "- id: UI-087\n  name: 'Registering with an empty form shows a \"required\" error for each field and keeps the form'\n  ref: docs/ui/user-stories/User_Registration.md#AC1\n  status: manual\n  role: guest\n  steps:\n    - Open the registration page.\n    - Click \"Register\" without filling in any field.\n    - Verify the field \"First name\" shows a \"required\" error.\n    - Verify the field \"Last name\" shows a \"required\" error.\n    - Verify the field \"Date of Birth *\" shows a \"required\" error.\n    - Verify the dropdown \"Country\" shows a \"required\" error.\n    - Verify the field \"Postal code\" shows a \"required\" error.\n    - Verify the field \"Street\" shows a \"required\" error.\n    - Verify the field \"City\" shows a \"required\" error.\n    - Verify the field \"State\" shows a \"required\" error.\n    - Verify the field \"Phone\" shows a \"required\" error.\n    - Verify the field \"Email address\" shows a \"required\" error.\n    - Verify the field \"Password\" shows a \"required\" error.\n    - Verify the registration form is still shown."
+  },
+  {
+   "id": "UI-088",
+   "name": "A phone number with letters is highlighted as invalid and no account is created",
+   "ref": [
+    "docs/ui/user-stories/User_Registration.md#AC1"
+   ],
+   "status": "manual",
+   "role": "guest",
+   "steps": [
+    "Open the registration page.",
+    "Fill in every field the page requires with valid values, including an email address that isn't registered.",
+    "Enter \"06-abc\" in the field \"Phone\", replacing the valid phone.",
+    "Click \"Register\".",
+    "Verify the field \"Phone\" is highlighted as invalid.",
+    "Verify the phone format error is shown under the field \"Phone\".",
+    "Verify the registration form is still shown (no redirect to the login page, so no account is created)."
+   ],
+   "area": "account",
+   "areaLabel": "Account",
+   "file": "test-scenarios/ui/account/user-registration.yml",
+   "fileLabel": "User registration",
+   "suite": "User registration",
+   "tags": [
+    "@account"
+   ],
+   "yaml": "- id: UI-088\n  name: A phone number with letters is highlighted as invalid and no account is created\n  ref: docs/ui/user-stories/User_Registration.md#AC1\n  status: manual\n  role: guest\n  steps:\n    - Open the registration page.\n    - Fill in every field the page requires with valid values, including an email address that isn't registered.\n    - Enter \"06-abc\" in the field \"Phone\", replacing the valid phone.\n    - Click \"Register\".\n    - Verify the field \"Phone\" is highlighted as invalid.\n    - Verify the phone format error is shown under the field \"Phone\".\n    - Verify the registration form is still shown (no redirect to the login page, so no account is created)."
+  },
+  {
+   "id": "UI-089",
+   "name": "An email address without \"@\" is highlighted as invalid and no account is created",
+   "ref": [
+    "docs/ui/user-stories/User_Registration.md#AC1"
+   ],
+   "status": "manual",
+   "role": "guest",
+   "steps": [
+    "Open the registration page.",
+    "Fill in every field the page requires with valid values, including an email address that isn't registered.",
+    "Enter \"not-an-email\" in the field \"Email address\", replacing the valid email address.",
+    "Click \"Register\".",
+    "Verify the field \"Email address\" is highlighted as invalid.",
+    "Verify the email format error is shown under the field \"Email address\".",
+    "Verify the registration form is still shown (no redirect to the login page, so no account is created)."
+   ],
+   "area": "account",
+   "areaLabel": "Account",
+   "file": "test-scenarios/ui/account/user-registration.yml",
+   "fileLabel": "User registration",
+   "suite": "User registration",
+   "tags": [
+    "@account"
+   ],
+   "yaml": "- id: UI-089\n  name: An email address without \"@\" is highlighted as invalid and no account is created\n  ref: docs/ui/user-stories/User_Registration.md#AC1\n  status: manual\n  role: guest\n  steps:\n    - Open the registration page.\n    - Fill in every field the page requires with valid values, including an email address that isn't registered.\n    - Enter \"not-an-email\" in the field \"Email address\", replacing the valid email address.\n    - Click \"Register\".\n    - Verify the field \"Email address\" is highlighted as invalid.\n    - Verify the email format error is shown under the field \"Email address\".\n    - Verify the registration form is still shown (no redirect to the login page, so no account is created)."
+  },
+  {
+   "id": "UI-090",
+   "name": "Focusing the password field lists the four password requirements",
+   "ref": [
+    "docs/ui/user-stories/User_Registration.md#AC2"
+   ],
+   "status": "manual",
+   "role": "guest",
+   "steps": [
+    "Open the registration page.",
+    "Click the field \"Password\".",
+    "Verify the requirement \"Be at least 8 characters long\" is shown.",
+    "Verify the requirement \"Contain both uppercase and lowercase letters\" is shown.",
+    "Verify the requirement \"Include at least one number\" is shown.",
+    "Verify the requirement \"Have at least one special symbol (e.g., @, #, $, etc.)\" is shown."
+   ],
+   "area": "account",
+   "areaLabel": "Account",
+   "file": "test-scenarios/ui/account/user-registration.yml",
+   "fileLabel": "User registration",
+   "suite": "User registration",
+   "tags": [
+    "@account"
+   ],
+   "yaml": "- id: UI-090\n  name: Focusing the password field lists the four password requirements\n  ref: docs/ui/user-stories/User_Registration.md#AC2\n  status: manual\n  role: guest\n  steps:\n    - Open the registration page.\n    - Click the field \"Password\".\n    - Verify the requirement \"Be at least 8 characters long\" is shown.\n    - Verify the requirement \"Contain both uppercase and lowercase letters\" is shown.\n    - Verify the requirement \"Include at least one number\" is shown.\n    - 'Verify the requirement \"Have at least one special symbol (e.g., @, #, $, etc.)\" is shown.'"
+  },
+  {
+   "id": "UI-091",
+   "name": "Typing a password marks the fulfilled requirements immediately",
+   "ref": [
+    "docs/ui/user-stories/User_Registration.md#AC3"
+   ],
+   "status": "manual",
+   "role": "guest",
+   "steps": [
+    "Open the registration page.",
+    "Click the field \"Password\".",
+    "Type \"abcdefgh\" in the field \"Password\", keeping the cursor in it.",
+    "Verify the requirement \"Be at least 8 characters long\" is marked as fulfilled.",
+    "Verify the other three requirements are not marked as fulfilled.",
+    "Type \"A1!\" in the field \"Password\" after the text already there, keeping the cursor in it.",
+    "Verify all four requirements are marked as fulfilled."
+   ],
+   "area": "account",
+   "areaLabel": "Account",
+   "file": "test-scenarios/ui/account/user-registration.yml",
+   "fileLabel": "User registration",
+   "suite": "User registration",
+   "tags": [
+    "@account"
+   ],
+   "yaml": "- id: UI-091\n  name: Typing a password marks the fulfilled requirements immediately\n  ref: docs/ui/user-stories/User_Registration.md#AC3\n  status: manual\n  role: guest\n  steps:\n    - Open the registration page.\n    - Click the field \"Password\".\n    - Type \"abcdefgh\" in the field \"Password\", keeping the cursor in it.\n    - Verify the requirement \"Be at least 8 characters long\" is marked as fulfilled.\n    - Verify the other three requirements are not marked as fulfilled.\n    - Type \"A1!\" in the field \"Password\" after the text already there, keeping the cursor in it.\n    - Verify all four requirements are marked as fulfilled."
+  },
+  {
+   "id": "UI-092",
+   "name": "A password meeting 1 criterion is rated Weak",
+   "ref": [
+    "docs/ui/user-stories/User_Registration.md#AC4"
+   ],
+   "status": "manual",
+   "role": "guest",
+   "steps": [
+    "Open the registration page.",
+    "Type \"abc\" in the field \"Password\", keeping the cursor in it.",
+    "Verify \"Weak\" is highlighted as the password strength.",
+    "Verify the strength bar is filled to 20%."
+   ],
+   "area": "account",
+   "areaLabel": "Account",
+   "file": "test-scenarios/ui/account/user-registration.yml",
+   "fileLabel": "User registration",
+   "suite": "User registration",
+   "tags": [
+    "@account"
+   ],
+   "yaml": "- id: UI-092\n  name: A password meeting 1 criterion is rated Weak\n  ref: docs/ui/user-stories/User_Registration.md#AC4\n  status: manual\n  role: guest\n  steps:\n    - Open the registration page.\n    - Type \"abc\" in the field \"Password\", keeping the cursor in it.\n    - Verify \"Weak\" is highlighted as the password strength.\n    - Verify the strength bar is filled to 20%."
+  },
+  {
+   "id": "UI-093",
+   "name": "A password meeting 2 criteria is rated Moderate",
+   "ref": [
+    "docs/ui/user-stories/User_Registration.md#AC4"
+   ],
+   "status": "manual",
+   "role": "guest",
+   "steps": [
+    "Open the registration page.",
+    "Type \"abcdefgh\" in the field \"Password\", keeping the cursor in it.",
+    "Verify \"Moderate\" is highlighted as the password strength.",
+    "Verify the strength bar is filled to 40%."
+   ],
+   "area": "account",
+   "areaLabel": "Account",
+   "file": "test-scenarios/ui/account/user-registration.yml",
+   "fileLabel": "User registration",
+   "suite": "User registration",
+   "tags": [
+    "@account"
+   ],
+   "yaml": "- id: UI-093\n  name: A password meeting 2 criteria is rated Moderate\n  ref: docs/ui/user-stories/User_Registration.md#AC4\n  status: manual\n  role: guest\n  steps:\n    - Open the registration page.\n    - Type \"abcdefgh\" in the field \"Password\", keeping the cursor in it.\n    - Verify \"Moderate\" is highlighted as the password strength.\n    - Verify the strength bar is filled to 40%."
+  },
+  {
+   "id": "UI-094",
+   "name": "A password meeting 3 criteria is rated Strong",
+   "ref": [
+    "docs/ui/user-stories/User_Registration.md#AC4"
+   ],
+   "status": "manual",
+   "role": "guest",
+   "steps": [
+    "Open the registration page.",
+    "Type \"Abcdefgh\" in the field \"Password\", keeping the cursor in it.",
+    "Verify \"Strong\" is highlighted as the password strength.",
+    "Verify the strength bar is filled to 60%."
+   ],
+   "area": "account",
+   "areaLabel": "Account",
+   "file": "test-scenarios/ui/account/user-registration.yml",
+   "fileLabel": "User registration",
+   "suite": "User registration",
+   "tags": [
+    "@account"
+   ],
+   "yaml": "- id: UI-094\n  name: A password meeting 3 criteria is rated Strong\n  ref: docs/ui/user-stories/User_Registration.md#AC4\n  status: manual\n  role: guest\n  steps:\n    - Open the registration page.\n    - Type \"Abcdefgh\" in the field \"Password\", keeping the cursor in it.\n    - Verify \"Strong\" is highlighted as the password strength.\n    - Verify the strength bar is filled to 60%."
+  },
+  {
+   "id": "UI-095",
+   "name": "A password meeting 4 criteria is rated Very Strong",
+   "ref": [
+    "docs/ui/user-stories/User_Registration.md#AC4"
+   ],
+   "status": "manual",
+   "role": "guest",
+   "steps": [
+    "Open the registration page.",
+    "Type \"Abcdefg1\" in the field \"Password\", keeping the cursor in it.",
+    "Verify \"Very Strong\" is highlighted as the password strength.",
+    "Verify the strength bar is filled to 80%."
+   ],
+   "area": "account",
+   "areaLabel": "Account",
+   "file": "test-scenarios/ui/account/user-registration.yml",
+   "fileLabel": "User registration",
+   "suite": "User registration",
+   "tags": [
+    "@account"
+   ],
+   "yaml": "- id: UI-095\n  name: A password meeting 4 criteria is rated Very Strong\n  ref: docs/ui/user-stories/User_Registration.md#AC4\n  status: manual\n  role: guest\n  steps:\n    - Open the registration page.\n    - Type \"Abcdefg1\" in the field \"Password\", keeping the cursor in it.\n    - Verify \"Very Strong\" is highlighted as the password strength.\n    - Verify the strength bar is filled to 80%."
+  },
+  {
+   "id": "UI-096",
+   "name": "A password meeting all 5 criteria is rated Excellent",
+   "ref": [
+    "docs/ui/user-stories/User_Registration.md#AC4"
+   ],
+   "status": "manual",
+   "role": "guest",
+   "steps": [
+    "Open the registration page.",
+    "Type \"Abcdefg1!\" in the field \"Password\", keeping the cursor in it.",
+    "Verify \"Excellent\" is highlighted as the password strength.",
+    "Verify the strength bar is filled to 100%."
+   ],
+   "area": "account",
+   "areaLabel": "Account",
+   "file": "test-scenarios/ui/account/user-registration.yml",
+   "fileLabel": "User registration",
+   "suite": "User registration",
+   "tags": [
+    "@account"
+   ],
+   "yaml": "- id: UI-096\n  name: A password meeting all 5 criteria is rated Excellent\n  ref: docs/ui/user-stories/User_Registration.md#AC4\n  status: manual\n  role: guest\n  steps:\n    - Open the registration page.\n    - Type \"Abcdefg1!\" in the field \"Password\", keeping the cursor in it.\n    - Verify \"Excellent\" is highlighted as the password strength.\n    - Verify the strength bar is filled to 100%."
+  },
+  {
+   "id": "UI-097",
+   "name": "Registering with an email that is already registered shows \"Email is already in use.\"",
+   "ref": [
+    "docs/ui/user-stories/User_Registration.md#AC5"
+   ],
+   "status": "manual",
+   "role": "guest",
+   "steps": [
+    "A customer is registered through the API and the test knows the customer's email address.",
+    "Open the registration page.",
+    "Fill in every field the page requires with valid values, using the registered customer's email address in the field \"Email address\".",
+    "Click \"Register\".",
+    "Verify the error \"Email is already in use.\" is shown.",
+    "Verify the registration form is still shown."
+   ],
+   "area": "account",
+   "areaLabel": "Account",
+   "file": "test-scenarios/ui/account/user-registration.yml",
+   "fileLabel": "User registration",
+   "suite": "User registration",
+   "tags": [
+    "@account"
+   ],
+   "yaml": "- id: UI-097\n  name: 'Registering with an email that is already registered shows \"Email is already in use.\"'\n  ref: docs/ui/user-stories/User_Registration.md#AC5\n  status: manual\n  role: guest\n  steps:\n    - A customer is registered through the API and the test knows the customer's email address.\n    - Open the registration page.\n    - Fill in every field the page requires with valid values, using the registered customer's email address in the field \"Email address\".\n    - Click \"Register\".\n    - Verify the error \"Email is already in use.\" is shown.\n    - Verify the registration form is still shown."
+  },
+  {
+   "id": "UI-098",
+   "name": "A valid registration redirects to the login page and creates the account with the entered details",
+   "ref": [
+    "docs/ui/user-stories/User_Registration.md#AC6"
+   ],
+   "status": "manual",
+   "role": "guest",
+   "steps": [
+    "Open the registration page.",
+    "Fill in every field the page requires with valid values, including an email address that isn't registered.",
+    "Click \"Register\".",
+    "Verify the login page is shown.",
+    "Verify the login form is shown.",
+    "Verify logging in with the email address and password entered succeeds.",
+    "Verify the account holds the first name, last name and email address entered."
+   ],
+   "area": "account",
+   "areaLabel": "Account",
+   "file": "test-scenarios/ui/account/user-registration.yml",
+   "fileLabel": "User registration",
+   "suite": "User registration",
+   "tags": [
+    "@account"
+   ],
+   "yaml": "- id: UI-098\n  name: A valid registration redirects to the login page and creates the account with the entered details\n  ref: docs/ui/user-stories/User_Registration.md#AC6\n  status: manual\n  role: guest\n  steps:\n    - Open the registration page.\n    - Fill in every field the page requires with valid values, including an email address that isn't registered.\n    - Click \"Register\".\n    - Verify the login page is shown.\n    - Verify the login form is shown.\n    - Verify logging in with the email address and password entered succeeds.\n    - Verify the account holds the first name, last name and email address entered."
+  },
+  {
    "id": "UI-002",
    "name": "Add a product with quantity 2 to the cart",
    "ref": [
@@ -456,6 +1140,615 @@ window.SCENARIO_CATALOG = {
     "@cart"
    ],
    "yaml": "- id: UI-027\n  name: Adding a product to the cart shows a success message\n  ref: docs/ui/user-stories/Product_Detail.md#AC8\n  status: manual\n  steps:\n    - The cart is empty.\n    - Open the product \"Combination Pliers\".\n    - Click \"Add to cart\".\n    - Verify the message \"Product added to shopping cart.\" is shown."
+  },
+  {
+   "id": "UI-041",
+   "name": "The billing address step shows the address fields",
+   "ref": [
+    "docs/ui/user-stories/Checkout_Billing_Address.md#AC1"
+   ],
+   "status": "manual",
+   "steps": [
+    "A product that is in stock is in the cart.",
+    "Open the checkout page.",
+    "Click \"Proceed\" on the cart step.",
+    "Click \"Proceed\" on the sign-in step.",
+    "Verify the field \"Street\" is shown.",
+    "Verify the field \"City\" is shown.",
+    "Verify the field \"State\" is shown.",
+    "Verify the list \"Country\" is shown.",
+    "Verify the field \"Postal code\" is shown.",
+    "Verify the field \"House number\" is shown."
+   ],
+   "area": "cart",
+   "areaLabel": "Cart",
+   "file": "test-scenarios/ui/cart/checkout-billing-address.yml",
+   "fileLabel": "Checkout billing address",
+   "suite": "Checkout billing address",
+   "tags": [
+    "@cart"
+   ],
+   "yaml": "- id: UI-041\n  name: The billing address step shows the address fields\n  ref: docs/ui/user-stories/Checkout_Billing_Address.md#AC1\n  status: manual\n  steps:\n    - A product that is in stock is in the cart.\n    - Open the checkout page.\n    - Click \"Proceed\" on the cart step.\n    - Click \"Proceed\" on the sign-in step.\n    - Verify the field \"Street\" is shown.\n    - Verify the field \"City\" is shown.\n    - Verify the field \"State\" is shown.\n    - Verify the list \"Country\" is shown.\n    - Verify the field \"Postal code\" is shown.\n    - Verify the field \"House number\" is shown."
+  },
+  {
+   "id": "UI-042",
+   "name": "An empty street is highlighted as invalid and disables \"Proceed\"",
+   "ref": [
+    "docs/ui/user-stories/Checkout_Billing_Address.md#AC2"
+   ],
+   "status": "manual",
+   "steps": [
+    "A product that is in stock is in the cart.",
+    "Open the checkout page.",
+    "Click \"Proceed\" on the cart step.",
+    "Click \"Proceed\" on the sign-in step.",
+    "Fill in the billing address: select the country \"Netherlands\", enter the postal code \"1011AB\" and the house number \"5\", wait until the page has filled in the street, city and state, then enter the street \"Teststraat\", the city \"Amsterdam\" and the state \"Noord-Holland\".",
+    "Verify the button \"Proceed\" is enabled.",
+    "Clear the field \"Street\".",
+    "Verify the field \"Street\" is highlighted as invalid.",
+    "Verify the button \"Proceed\" is disabled."
+   ],
+   "area": "cart",
+   "areaLabel": "Cart",
+   "file": "test-scenarios/ui/cart/checkout-billing-address.yml",
+   "fileLabel": "Checkout billing address",
+   "suite": "Checkout billing address",
+   "tags": [
+    "@cart"
+   ],
+   "yaml": "- id: UI-042\n  name: An empty street is highlighted as invalid and disables \"Proceed\"\n  ref: docs/ui/user-stories/Checkout_Billing_Address.md#AC2\n  status: manual\n  steps:\n    - A product that is in stock is in the cart.\n    - Open the checkout page.\n    - Click \"Proceed\" on the cart step.\n    - Click \"Proceed\" on the sign-in step.\n    - 'Fill in the billing address: select the country \"Netherlands\", enter the postal code \"1011AB\" and the house number \"5\", wait until the page has filled in the street, city and state, then enter the street \"Teststraat\", the city \"Amsterdam\" and the state \"Noord-Holland\".'\n    - Verify the button \"Proceed\" is enabled.\n    - Clear the field \"Street\".\n    - Verify the field \"Street\" is highlighted as invalid.\n    - Verify the button \"Proceed\" is disabled."
+  },
+  {
+   "id": "UI-043",
+   "name": "An empty city is highlighted as invalid and disables \"Proceed\"",
+   "ref": [
+    "docs/ui/user-stories/Checkout_Billing_Address.md#AC2"
+   ],
+   "status": "manual",
+   "steps": [
+    "A product that is in stock is in the cart.",
+    "Open the checkout page.",
+    "Click \"Proceed\" on the cart step.",
+    "Click \"Proceed\" on the sign-in step.",
+    "Fill in the billing address: select the country \"Netherlands\", enter the postal code \"1011AB\" and the house number \"5\", wait until the page has filled in the street, city and state, then enter the street \"Teststraat\", the city \"Amsterdam\" and the state \"Noord-Holland\".",
+    "Verify the button \"Proceed\" is enabled.",
+    "Clear the field \"City\".",
+    "Verify the field \"City\" is highlighted as invalid.",
+    "Verify the button \"Proceed\" is disabled."
+   ],
+   "area": "cart",
+   "areaLabel": "Cart",
+   "file": "test-scenarios/ui/cart/checkout-billing-address.yml",
+   "fileLabel": "Checkout billing address",
+   "suite": "Checkout billing address",
+   "tags": [
+    "@cart"
+   ],
+   "yaml": "- id: UI-043\n  name: An empty city is highlighted as invalid and disables \"Proceed\"\n  ref: docs/ui/user-stories/Checkout_Billing_Address.md#AC2\n  status: manual\n  steps:\n    - A product that is in stock is in the cart.\n    - Open the checkout page.\n    - Click \"Proceed\" on the cart step.\n    - Click \"Proceed\" on the sign-in step.\n    - 'Fill in the billing address: select the country \"Netherlands\", enter the postal code \"1011AB\" and the house number \"5\", wait until the page has filled in the street, city and state, then enter the street \"Teststraat\", the city \"Amsterdam\" and the state \"Noord-Holland\".'\n    - Verify the button \"Proceed\" is enabled.\n    - Clear the field \"City\".\n    - Verify the field \"City\" is highlighted as invalid.\n    - Verify the button \"Proceed\" is disabled."
+  },
+  {
+   "id": "UI-044",
+   "name": "An empty state is highlighted as invalid and disables \"Proceed\"",
+   "ref": [
+    "docs/ui/user-stories/Checkout_Billing_Address.md#AC2"
+   ],
+   "status": "manual",
+   "steps": [
+    "A product that is in stock is in the cart.",
+    "Open the checkout page.",
+    "Click \"Proceed\" on the cart step.",
+    "Click \"Proceed\" on the sign-in step.",
+    "Fill in the billing address: select the country \"Netherlands\", enter the postal code \"1011AB\" and the house number \"5\", wait until the page has filled in the street, city and state, then enter the street \"Teststraat\", the city \"Amsterdam\" and the state \"Noord-Holland\".",
+    "Verify the button \"Proceed\" is enabled.",
+    "Clear the field \"State\".",
+    "Verify the field \"State\" is highlighted as invalid.",
+    "Verify the button \"Proceed\" is disabled."
+   ],
+   "area": "cart",
+   "areaLabel": "Cart",
+   "file": "test-scenarios/ui/cart/checkout-billing-address.yml",
+   "fileLabel": "Checkout billing address",
+   "suite": "Checkout billing address",
+   "tags": [
+    "@cart"
+   ],
+   "yaml": "- id: UI-044\n  name: An empty state is highlighted as invalid and disables \"Proceed\"\n  ref: docs/ui/user-stories/Checkout_Billing_Address.md#AC2\n  status: manual\n  steps:\n    - A product that is in stock is in the cart.\n    - Open the checkout page.\n    - Click \"Proceed\" on the cart step.\n    - Click \"Proceed\" on the sign-in step.\n    - 'Fill in the billing address: select the country \"Netherlands\", enter the postal code \"1011AB\" and the house number \"5\", wait until the page has filled in the street, city and state, then enter the street \"Teststraat\", the city \"Amsterdam\" and the state \"Noord-Holland\".'\n    - Verify the button \"Proceed\" is enabled.\n    - Clear the field \"State\".\n    - Verify the field \"State\" is highlighted as invalid.\n    - Verify the button \"Proceed\" is disabled."
+  },
+  {
+   "id": "UI-045",
+   "name": "An empty country is highlighted as invalid and disables \"Proceed\"",
+   "ref": [
+    "docs/ui/user-stories/Checkout_Billing_Address.md#AC2"
+   ],
+   "status": "manual",
+   "steps": [
+    "A product that is in stock is in the cart.",
+    "Open the checkout page.",
+    "Click \"Proceed\" on the cart step.",
+    "Click \"Proceed\" on the sign-in step.",
+    "Fill in the billing address: select the country \"Netherlands\", enter the postal code \"1011AB\" and the house number \"5\", wait until the page has filled in the street, city and state, then enter the street \"Teststraat\", the city \"Amsterdam\" and the state \"Noord-Holland\".",
+    "Verify the button \"Proceed\" is enabled.",
+    "Clear the selection in the list \"Country\" (choose the empty option).",
+    "Verify the list \"Country\" is highlighted as invalid.",
+    "Verify the button \"Proceed\" is disabled."
+   ],
+   "area": "cart",
+   "areaLabel": "Cart",
+   "file": "test-scenarios/ui/cart/checkout-billing-address.yml",
+   "fileLabel": "Checkout billing address",
+   "suite": "Checkout billing address",
+   "tags": [
+    "@cart"
+   ],
+   "yaml": "- id: UI-045\n  name: An empty country is highlighted as invalid and disables \"Proceed\"\n  ref: docs/ui/user-stories/Checkout_Billing_Address.md#AC2\n  status: manual\n  steps:\n    - A product that is in stock is in the cart.\n    - Open the checkout page.\n    - Click \"Proceed\" on the cart step.\n    - Click \"Proceed\" on the sign-in step.\n    - 'Fill in the billing address: select the country \"Netherlands\", enter the postal code \"1011AB\" and the house number \"5\", wait until the page has filled in the street, city and state, then enter the street \"Teststraat\", the city \"Amsterdam\" and the state \"Noord-Holland\".'\n    - Verify the button \"Proceed\" is enabled.\n    - Clear the selection in the list \"Country\" (choose the empty option).\n    - Verify the list \"Country\" is highlighted as invalid.\n    - Verify the button \"Proceed\" is disabled."
+  },
+  {
+   "id": "UI-046",
+   "name": "An empty postal code is highlighted as invalid and disables \"Proceed\"",
+   "ref": [
+    "docs/ui/user-stories/Checkout_Billing_Address.md#AC2"
+   ],
+   "status": "manual",
+   "steps": [
+    "A product that is in stock is in the cart.",
+    "Open the checkout page.",
+    "Click \"Proceed\" on the cart step.",
+    "Click \"Proceed\" on the sign-in step.",
+    "Fill in the billing address: select the country \"Netherlands\", enter the postal code \"1011AB\" and the house number \"5\", wait until the page has filled in the street, city and state, then enter the street \"Teststraat\", the city \"Amsterdam\" and the state \"Noord-Holland\".",
+    "Verify the button \"Proceed\" is enabled.",
+    "Clear the field \"Postal code\".",
+    "Verify the field \"Postal code\" is highlighted as invalid.",
+    "Verify the button \"Proceed\" is disabled."
+   ],
+   "area": "cart",
+   "areaLabel": "Cart",
+   "file": "test-scenarios/ui/cart/checkout-billing-address.yml",
+   "fileLabel": "Checkout billing address",
+   "suite": "Checkout billing address",
+   "tags": [
+    "@cart"
+   ],
+   "yaml": "- id: UI-046\n  name: An empty postal code is highlighted as invalid and disables \"Proceed\"\n  ref: docs/ui/user-stories/Checkout_Billing_Address.md#AC2\n  status: manual\n  steps:\n    - A product that is in stock is in the cart.\n    - Open the checkout page.\n    - Click \"Proceed\" on the cart step.\n    - Click \"Proceed\" on the sign-in step.\n    - 'Fill in the billing address: select the country \"Netherlands\", enter the postal code \"1011AB\" and the house number \"5\", wait until the page has filled in the street, city and state, then enter the street \"Teststraat\", the city \"Amsterdam\" and the state \"Noord-Holland\".'\n    - Verify the button \"Proceed\" is enabled.\n    - Clear the field \"Postal code\".\n    - Verify the field \"Postal code\" is highlighted as invalid.\n    - Verify the button \"Proceed\" is disabled."
+  },
+  {
+   "id": "UI-047",
+   "name": "A filled-in billing address lets the customer proceed to the payment step",
+   "ref": [
+    "docs/ui/user-stories/Checkout_Billing_Address.md#AC3"
+   ],
+   "status": "manual",
+   "steps": [
+    "A product that is in stock is in the cart.",
+    "Open the checkout page.",
+    "Click \"Proceed\" on the cart step.",
+    "Click \"Proceed\" on the sign-in step.",
+    "Fill in the billing address: select the country \"Netherlands\", enter the postal code \"1011AB\" and the house number \"5\", wait until the page has filled in the street, city and state, then enter the street \"Teststraat\", the city \"Amsterdam\" and the state \"Noord-Holland\".",
+    "Click \"Proceed\".",
+    "Verify the payment step is shown."
+   ],
+   "area": "cart",
+   "areaLabel": "Cart",
+   "file": "test-scenarios/ui/cart/checkout-billing-address.yml",
+   "fileLabel": "Checkout billing address",
+   "suite": "Checkout billing address",
+   "tags": [
+    "@cart"
+   ],
+   "yaml": "- id: UI-047\n  name: A filled-in billing address lets the customer proceed to the payment step\n  ref: docs/ui/user-stories/Checkout_Billing_Address.md#AC3\n  status: manual\n  steps:\n    - A product that is in stock is in the cart.\n    - Open the checkout page.\n    - Click \"Proceed\" on the cart step.\n    - Click \"Proceed\" on the sign-in step.\n    - 'Fill in the billing address: select the country \"Netherlands\", enter the postal code \"1011AB\" and the house number \"5\", wait until the page has filled in the street, city and state, then enter the street \"Teststraat\", the city \"Amsterdam\" and the state \"Noord-Holland\".'\n    - Click \"Proceed\".\n    - Verify the payment step is shown."
+  },
+  {
+   "id": "UI-048",
+   "name": "The billing address is pre-filled with the account's address",
+   "ref": [
+    "docs/ui/user-stories/Checkout_Billing_Address.md#AC4"
+   ],
+   "status": "manual",
+   "steps": [
+    "A newly registered customer with a saved address, country included, is logged in.",
+    "A product that is in stock is in the cart.",
+    "Open the checkout page.",
+    "Click \"Proceed\" on the cart step.",
+    "Click \"Proceed\" on the sign-in step.",
+    "Verify the field \"Street\" holds the street saved in the account.",
+    "Verify the field \"City\" holds the city saved in the account.",
+    "Verify the field \"State\" holds the state saved in the account.",
+    "Verify the list \"Country\" shows the country saved in the account.",
+    "Verify the field \"Postal code\" holds the postal code saved in the account."
+   ],
+   "area": "cart",
+   "areaLabel": "Cart",
+   "file": "test-scenarios/ui/cart/checkout-billing-address.yml",
+   "fileLabel": "Checkout billing address",
+   "suite": "Checkout billing address",
+   "tags": [
+    "@cart"
+   ],
+   "yaml": "- id: UI-048\n  name: The billing address is pre-filled with the account's address\n  ref: docs/ui/user-stories/Checkout_Billing_Address.md#AC4\n  status: manual\n  steps:\n    - A newly registered customer with a saved address, country included, is logged in.\n    - A product that is in stock is in the cart.\n    - Open the checkout page.\n    - Click \"Proceed\" on the cart step.\n    - Click \"Proceed\" on the sign-in step.\n    - Verify the field \"Street\" holds the street saved in the account.\n    - Verify the field \"City\" holds the city saved in the account.\n    - Verify the field \"State\" holds the state saved in the account.\n    - Verify the list \"Country\" shows the country saved in the account.\n    - Verify the field \"Postal code\" holds the postal code saved in the account."
+  },
+  {
+   "id": "UI-049",
+   "name": "The cart step shows the line under the labelled column headers",
+   "ref": [
+    "docs/ui/user-stories/Checkout_Cart_Review.md#AC1"
+   ],
+   "status": "manual",
+   "steps": [
+    "A product that is in stock is in the cart.",
+    "Open the checkout page.",
+    "Verify the column headers \"Item\", \"Quantity\", \"Price\" and \"Total\" are shown.",
+    "Verify the line shows the product's name under \"Item\".",
+    "Verify the line shows its quantity under \"Quantity\".",
+    "Verify the line shows the product's unit price under \"Price\".",
+    "Verify the line shows its line total under \"Total\", equal to the quantity × the unit price."
+   ],
+   "area": "cart",
+   "areaLabel": "Cart",
+   "file": "test-scenarios/ui/cart/checkout-cart-review.yml",
+   "fileLabel": "Checkout cart review",
+   "suite": "Checkout cart review",
+   "tags": [
+    "@cart"
+   ],
+   "yaml": "- id: UI-049\n  name: The cart step shows the line under the labelled column headers\n  ref: docs/ui/user-stories/Checkout_Cart_Review.md#AC1\n  status: manual\n  steps:\n    - A product that is in stock is in the cart.\n    - Open the checkout page.\n    - Verify the column headers \"Item\", \"Quantity\", \"Price\" and \"Total\" are shown.\n    - Verify the line shows the product's name under \"Item\".\n    - Verify the line shows its quantity under \"Quantity\".\n    - Verify the line shows the product's unit price under \"Price\".\n    - Verify the line shows its line total under \"Total\", equal to the quantity × the unit price."
+  },
+  {
+   "id": "UI-050",
+   "name": "Changing a line's quantity recalculates the totals and shows a confirmation",
+   "ref": [
+    "docs/ui/user-stories/Checkout_Cart_Review.md#AC2"
+   ],
+   "status": "manual",
+   "steps": [
+    "A product that is in stock and has no CO2 rating A or B is in the cart with quantity 1.",
+    "Open the checkout page.",
+    "Change the quantity of the line from 1 to 3.",
+    "Verify the message \"Product quantity updated.\" is shown.",
+    "Verify the line total equals 3 × the unit price.",
+    "Verify the cart total equals 3 × the unit price."
+   ],
+   "area": "cart",
+   "areaLabel": "Cart",
+   "file": "test-scenarios/ui/cart/checkout-cart-review.yml",
+   "fileLabel": "Checkout cart review",
+   "suite": "Checkout cart review",
+   "tags": [
+    "@cart"
+   ],
+   "yaml": "- id: UI-050\n  name: Changing a line's quantity recalculates the totals and shows a confirmation\n  ref: docs/ui/user-stories/Checkout_Cart_Review.md#AC2\n  status: manual\n  steps:\n    - A product that is in stock and has no CO2 rating A or B is in the cart with quantity 1.\n    - Open the checkout page.\n    - Change the quantity of the line from 1 to 3.\n    - Verify the message \"Product quantity updated.\" is shown.\n    - Verify the line total equals 3 × the unit price.\n    - Verify the cart total equals 3 × the unit price."
+  },
+  {
+   "id": "UI-051",
+   "name": "Deleting a line removes it and recalculates the cart total",
+   "ref": [
+    "docs/ui/user-stories/Checkout_Cart_Review.md#AC3"
+   ],
+   "status": "manual",
+   "steps": [
+    "Two products that are in stock, neither with a CO2 rating A or B, are in the cart, one line each.",
+    "Open the checkout page.",
+    "Click the delete button on the line of the first product.",
+    "Verify the line of the first product is no longer shown.",
+    "Verify the cart has one line: the second product.",
+    "Verify the cart total equals the remaining line's total."
+   ],
+   "area": "cart",
+   "areaLabel": "Cart",
+   "file": "test-scenarios/ui/cart/checkout-cart-review.yml",
+   "fileLabel": "Checkout cart review",
+   "suite": "Checkout cart review",
+   "tags": [
+    "@cart"
+   ],
+   "yaml": "- id: UI-051\n  name: Deleting a line removes it and recalculates the cart total\n  ref: docs/ui/user-stories/Checkout_Cart_Review.md#AC3\n  status: manual\n  steps:\n    - Two products that are in stock, neither with a CO2 rating A or B, are in the cart, one line each.\n    - Open the checkout page.\n    - Click the delete button on the line of the first product.\n    - Verify the line of the first product is no longer shown.\n    - 'Verify the cart has one line: the second product.'\n    - Verify the cart total equals the remaining line's total."
+  },
+  {
+   "id": "UI-052",
+   "name": "A visitor with no cart sees the empty cart message",
+   "ref": [
+    "docs/ui/user-stories/Checkout_Cart_Review.md#AC4"
+   ],
+   "status": "manual",
+   "steps": [
+    "No cart exists yet: nothing has been added to a cart in this session.",
+    "Open the checkout page.",
+    "Verify the message \"Your shopping cart is empty\" is shown."
+   ],
+   "area": "cart",
+   "areaLabel": "Cart",
+   "file": "test-scenarios/ui/cart/checkout-cart-review.yml",
+   "fileLabel": "Checkout cart review",
+   "suite": "Checkout cart review",
+   "tags": [
+    "@cart"
+   ],
+   "yaml": "- id: UI-052\n  name: A visitor with no cart sees the empty cart message\n  ref: docs/ui/user-stories/Checkout_Cart_Review.md#AC4\n  status: manual\n  steps:\n    - 'No cart exists yet: nothing has been added to a cart in this session.'\n    - Open the checkout page.\n    - Verify the message \"Your shopping cart is empty\" is shown."
+  },
+  {
+   "id": "UI-053",
+   "name": "Deleting the last line shows the empty cart message",
+   "ref": [
+    "docs/ui/user-stories/Checkout_Cart_Review.md#AC4"
+   ],
+   "status": "manual",
+   "steps": [
+    "A product that is in stock is in the cart.",
+    "Open the checkout page.",
+    "Click the delete button on the line.",
+    "Verify the message \"Your shopping cart is empty\" is shown.",
+    "Verify the button \"Proceed to checkout\" is not shown."
+   ],
+   "area": "cart",
+   "areaLabel": "Cart",
+   "file": "test-scenarios/ui/cart/checkout-cart-review.yml",
+   "fileLabel": "Checkout cart review",
+   "suite": "Checkout cart review",
+   "tags": [
+    "@cart"
+   ],
+   "yaml": "- id: UI-053\n  name: Deleting the last line shows the empty cart message\n  ref: docs/ui/user-stories/Checkout_Cart_Review.md#AC4\n  status: manual\n  steps:\n    - A product that is in stock is in the cart.\n    - Open the checkout page.\n    - Click the delete button on the line.\n    - Verify the message \"Your shopping cart is empty\" is shown.\n    - Verify the button \"Proceed to checkout\" is not shown."
+  },
+  {
+   "id": "UI-054",
+   "name": "\"Proceed to checkout\" leads to the sign-in step",
+   "ref": [
+    "docs/ui/user-stories/Checkout_Cart_Review.md#AC5"
+   ],
+   "status": "manual",
+   "steps": [
+    "A product that is in stock is in the cart.",
+    "Open the checkout page.",
+    "Click \"Proceed to checkout\".",
+    "Verify the \"Sign in\" step is shown."
+   ],
+   "area": "cart",
+   "areaLabel": "Cart",
+   "file": "test-scenarios/ui/cart/checkout-cart-review.yml",
+   "fileLabel": "Checkout cart review",
+   "suite": "Checkout cart review",
+   "tags": [
+    "@cart"
+   ],
+   "yaml": "- id: UI-054\n  name: '\"Proceed to checkout\" leads to the sign-in step'\n  ref: docs/ui/user-stories/Checkout_Cart_Review.md#AC5\n  status: manual\n  steps:\n    - A product that is in stock is in the cart.\n    - Open the checkout page.\n    - Click \"Proceed to checkout\".\n    - Verify the \"Sign in\" step is shown."
+  },
+  {
+   "id": "UI-055",
+   "name": "A discounted line shows the badge, the original price and the discounted price",
+   "ref": [
+    "docs/ui/user-stories/Checkout_Cart_Review.md#AC6"
+   ],
+   "status": "manual",
+   "steps": [
+    "The customer's location is Amsterdam, and a product with a location offer is added to the cart.",
+    "Open the checkout page.",
+    "Verify the discount badge \"-20%\" is shown next to the product name.",
+    "Verify the original price is shown struck through.",
+    "Verify the discounted price is shown, equal to 80% of the original price."
+   ],
+   "area": "cart",
+   "areaLabel": "Cart",
+   "file": "test-scenarios/ui/cart/checkout-cart-review.yml",
+   "fileLabel": "Checkout cart review",
+   "suite": "Checkout cart review",
+   "tags": [
+    "@cart"
+   ],
+   "yaml": "- id: UI-055\n  name: A discounted line shows the badge, the original price and the discounted price\n  ref: docs/ui/user-stories/Checkout_Cart_Review.md#AC6\n  status: manual\n  steps:\n    - The customer's location is Amsterdam, and a product with a location offer is added to the cart.\n    - Open the checkout page.\n    - Verify the discount badge \"-20%\" is shown next to the product name.\n    - Verify the original price is shown struck through.\n    - Verify the discounted price is shown, equal to 80% of the original price."
+  },
+  {
+   "id": "UI-056",
+   "name": "A cart with a rental and a non-rental item shows the subtotal, the 15% discount and the total",
+   "ref": [
+    "docs/ui/user-stories/Checkout_Cart_Review.md#AC7"
+   ],
+   "status": "manual",
+   "steps": [
+    "A rental product and a product that is not a rental are in the cart; neither has a discount or a CO2 rating A or B.",
+    "Open the checkout page.",
+    "Verify the \"Subtotal\" equals the sum of the line totals.",
+    "Verify the row \"Discount (15%)\" shows 15% of the subtotal.",
+    "Verify the \"Total\" equals the subtotal minus the discount."
+   ],
+   "area": "cart",
+   "areaLabel": "Cart",
+   "file": "test-scenarios/ui/cart/checkout-cart-review.yml",
+   "fileLabel": "Checkout cart review",
+   "suite": "Checkout cart review",
+   "tags": [
+    "@cart"
+   ],
+   "yaml": "- id: UI-056\n  name: A cart with a rental and a non-rental item shows the subtotal, the 15% discount and the total\n  ref: docs/ui/user-stories/Checkout_Cart_Review.md#AC7\n  status: manual\n  steps:\n    - A rental product and a product that is not a rental are in the cart; neither has a discount or a CO2 rating A or B.\n    - Open the checkout page.\n    - Verify the \"Subtotal\" equals the sum of the line totals.\n    - Verify the row \"Discount (15%)\" shows 15% of the subtotal.\n    - Verify the \"Total\" equals the subtotal minus the discount."
+  },
+  {
+   "id": "UI-057",
+   "name": "Deleting the rental line removes the combined discount",
+   "ref": [
+    "docs/ui/user-stories/Checkout_Cart_Review.md#AC8"
+   ],
+   "status": "manual",
+   "steps": [
+    "A rental product and a product that is not a rental are in the cart; neither has a discount or a CO2 rating A or B.",
+    "Open the checkout page.",
+    "Click the delete button on the line of the rental product.",
+    "Verify the \"Subtotal\" row is no longer shown.",
+    "Verify the \"Discount (15%)\" row is no longer shown.",
+    "Verify the total equals the remaining line's total."
+   ],
+   "area": "cart",
+   "areaLabel": "Cart",
+   "file": "test-scenarios/ui/cart/checkout-cart-review.yml",
+   "fileLabel": "Checkout cart review",
+   "suite": "Checkout cart review",
+   "tags": [
+    "@cart"
+   ],
+   "yaml": "- id: UI-057\n  name: Deleting the rental line removes the combined discount\n  ref: docs/ui/user-stories/Checkout_Cart_Review.md#AC8\n  status: manual\n  steps:\n    - A rental product and a product that is not a rental are in the cart; neither has a discount or a CO2 rating A or B.\n    - Open the checkout page.\n    - Click the delete button on the line of the rental product.\n    - Verify the \"Subtotal\" row is no longer shown.\n    - Verify the \"Discount (15%)\" row is no longer shown.\n    - Verify the total equals the remaining line's total."
+  },
+  {
+   "id": "UI-084",
+   "name": "A rental line in the checkout cart is marked \"This is a rental item\"",
+   "ref": [
+    "docs/ui/user-stories/Rental_Products.md#AC4"
+   ],
+   "status": "manual",
+   "steps": [
+    "A rental product and a product that is not a rental are in the cart.",
+    "Open the checkout page.",
+    "Verify the line of the rental product is marked \"This is a rental item\".",
+    "Verify the line of the product that is not a rental is not marked \"This is a rental item\"."
+   ],
+   "area": "cart",
+   "areaLabel": "Cart",
+   "file": "test-scenarios/ui/cart/checkout-cart-review.yml",
+   "fileLabel": "Checkout cart review",
+   "suite": "Checkout cart review",
+   "tags": [
+    "@cart"
+   ],
+   "yaml": "- id: UI-084\n  name: A rental line in the checkout cart is marked \"This is a rental item\"\n  ref: docs/ui/user-stories/Rental_Products.md#AC4\n  status: manual\n  steps:\n    - A rental product and a product that is not a rental are in the cart.\n    - Open the checkout page.\n    - Verify the line of the rental product is marked \"This is a rental item\".\n    - Verify the line of the product that is not a rental is not marked \"This is a rental item\"."
+  },
+  {
+   "id": "UI-058",
+   "name": "A guest who proceeds from the cart step sees the sign-in step with a login form",
+   "ref": [
+    "docs/ui/user-stories/Checkout_Sign_In.md#AC1"
+   ],
+   "status": "manual",
+   "role": "guest",
+   "steps": [
+    "A product that is in stock is in the cart.",
+    "Open the checkout page.",
+    "Click \"Proceed to checkout\".",
+    "Verify the \"Sign in\" step is shown.",
+    "Verify the login form is shown."
+   ],
+   "area": "cart",
+   "areaLabel": "Cart",
+   "file": "test-scenarios/ui/cart/checkout-sign-in.yml",
+   "fileLabel": "Checkout sign in",
+   "suite": "Checkout sign-in",
+   "tags": [
+    "@cart"
+   ],
+   "yaml": "- id: UI-058\n  name: A guest who proceeds from the cart step sees the sign-in step with a login form\n  ref: docs/ui/user-stories/Checkout_Sign_In.md#AC1\n  status: manual\n  role: guest\n  steps:\n    - A product that is in stock is in the cart.\n    - Open the checkout page.\n    - Click \"Proceed to checkout\".\n    - Verify the \"Sign in\" step is shown.\n    - Verify the login form is shown."
+  },
+  {
+   "id": "UI-059",
+   "name": "The sign-in step shows the email and password fields and the \"Login\" button",
+   "ref": [
+    "docs/ui/user-stories/Checkout_Sign_In.md#AC2"
+   ],
+   "status": "manual",
+   "role": "guest",
+   "steps": [
+    "A product that is in stock is in the cart.",
+    "Open the checkout page.",
+    "Click \"Proceed to checkout\".",
+    "Verify the field \"Email address\" is shown.",
+    "Verify the field \"Password\" is shown.",
+    "Verify the button \"Login\" is shown."
+   ],
+   "area": "cart",
+   "areaLabel": "Cart",
+   "file": "test-scenarios/ui/cart/checkout-sign-in.yml",
+   "fileLabel": "Checkout sign in",
+   "suite": "Checkout sign-in",
+   "tags": [
+    "@cart"
+   ],
+   "yaml": "- id: UI-059\n  name: The sign-in step shows the email and password fields and the \"Login\" button\n  ref: docs/ui/user-stories/Checkout_Sign_In.md#AC2\n  status: manual\n  role: guest\n  steps:\n    - A product that is in stock is in the cart.\n    - Open the checkout page.\n    - Click \"Proceed to checkout\".\n    - Verify the field \"Email address\" is shown.\n    - Verify the field \"Password\" is shown.\n    - Verify the button \"Login\" is shown."
+  },
+  {
+   "id": "UI-060",
+   "name": "An account with TOTP enabled must enter a valid code on the sign-in step to sign in",
+   "ref": [
+    "docs/ui/user-stories/Checkout_Sign_In.md#AC3"
+   ],
+   "status": "manual",
+   "role": "guest",
+   "steps": [
+    "A product that is in stock is in the cart.",
+    "A customer with TOTP enabled is registered; the test can compute the account's current TOTP code.",
+    "Open the checkout page.",
+    "Click \"Proceed to checkout\".",
+    "Enter the customer's email in the field \"Email address\".",
+    "Enter the customer's password in the field \"Password\".",
+    "Click \"Login\".",
+    "Verify the field \"TOTP Code\" is shown.",
+    "Verify the button \"Verify TOTP\" is shown.",
+    "Verify the fields \"Email address\" and \"Password\" are no longer shown.",
+    "Enter the code \"000000\" in the field \"TOTP Code\".",
+    "Click \"Verify TOTP\".",
+    "Verify the button \"Proceed to checkout\" is not shown.",
+    "Enter the account's current TOTP code in the field \"TOTP Code\" (replacing the wrong one).",
+    "Click \"Verify TOTP\".",
+    "Verify a message that the customer is already signed in is shown.",
+    "Verify the button \"Proceed to checkout\" is shown."
+   ],
+   "area": "cart",
+   "areaLabel": "Cart",
+   "file": "test-scenarios/ui/cart/checkout-sign-in.yml",
+   "fileLabel": "Checkout sign in",
+   "suite": "Checkout sign-in",
+   "tags": [
+    "@cart"
+   ],
+   "yaml": "- id: UI-060\n  name: An account with TOTP enabled must enter a valid code on the sign-in step to sign in\n  ref: docs/ui/user-stories/Checkout_Sign_In.md#AC3\n  status: manual\n  role: guest\n  steps:\n    - A product that is in stock is in the cart.\n    - A customer with TOTP enabled is registered; the test can compute the account's current TOTP code.\n    - Open the checkout page.\n    - Click \"Proceed to checkout\".\n    - Enter the customer's email in the field \"Email address\".\n    - Enter the customer's password in the field \"Password\".\n    - Click \"Login\".\n    - Verify the field \"TOTP Code\" is shown.\n    - Verify the button \"Verify TOTP\" is shown.\n    - Verify the fields \"Email address\" and \"Password\" are no longer shown.\n    - Enter the code \"000000\" in the field \"TOTP Code\".\n    - Click \"Verify TOTP\".\n    - Verify the button \"Proceed to checkout\" is not shown.\n    - Enter the account's current TOTP code in the field \"TOTP Code\" (replacing the wrong one).\n    - Click \"Verify TOTP\".\n    - Verify a message that the customer is already signed in is shown.\n    - Verify the button \"Proceed to checkout\" is shown."
+  },
+  {
+   "id": "UI-061",
+   "name": "Valid credentials on the sign-in step sign the guest in and lead to the billing address step",
+   "ref": [
+    "docs/ui/user-stories/Checkout_Sign_In.md#AC4"
+   ],
+   "status": "manual",
+   "role": "guest",
+   "steps": [
+    "A product that is in stock is in the cart.",
+    "Open the checkout page.",
+    "Click \"Proceed to checkout\".",
+    "Enter the default user's email in the field \"Email address\".",
+    "Enter the default user's password in the field \"Password\".",
+    "Click \"Login\".",
+    "Verify the login form is no longer shown.",
+    "Verify the user menu is shown in the navigation.",
+    "Click \"Proceed to checkout\" on the sign-in step.",
+    "Verify the \"Billing Address\" step is shown."
+   ],
+   "area": "cart",
+   "areaLabel": "Cart",
+   "file": "test-scenarios/ui/cart/checkout-sign-in.yml",
+   "fileLabel": "Checkout sign in",
+   "suite": "Checkout sign-in",
+   "tags": [
+    "@cart"
+   ],
+   "yaml": "- id: UI-061\n  name: Valid credentials on the sign-in step sign the guest in and lead to the billing address step\n  ref: docs/ui/user-stories/Checkout_Sign_In.md#AC4\n  status: manual\n  role: guest\n  steps:\n    - A product that is in stock is in the cart.\n    - Open the checkout page.\n    - Click \"Proceed to checkout\".\n    - Enter the default user's email in the field \"Email address\".\n    - Enter the default user's password in the field \"Password\".\n    - Click \"Login\".\n    - Verify the login form is no longer shown.\n    - Verify the user menu is shown in the navigation.\n    - Click \"Proceed to checkout\" on the sign-in step.\n    - Verify the \"Billing Address\" step is shown."
+  },
+  {
+   "id": "UI-062",
+   "name": "A logged-in customer sees the already-signed-in message on the sign-in step and proceeds to the billing address step",
+   "ref": [
+    "docs/ui/user-stories/Checkout_Sign_In.md#AC5"
+   ],
+   "status": "manual",
+   "steps": [
+    "A product that is in stock is in the cart.",
+    "Open the checkout page.",
+    "Click \"Proceed to checkout\".",
+    "Verify the message \"You are already signed in as\" followed by the default user's first and last name is shown.",
+    "Verify the login form is not shown.",
+    "Click \"Proceed to checkout\" on the sign-in step.",
+    "Verify the \"Billing Address\" step is shown."
+   ],
+   "area": "cart",
+   "areaLabel": "Cart",
+   "file": "test-scenarios/ui/cart/checkout-sign-in.yml",
+   "fileLabel": "Checkout sign in",
+   "suite": "Checkout sign-in",
+   "tags": [
+    "@cart"
+   ],
+   "yaml": "- id: UI-062\n  name: A logged-in customer sees the already-signed-in message on the sign-in step and proceeds to the billing address step\n  ref: docs/ui/user-stories/Checkout_Sign_In.md#AC5\n  status: manual\n  steps:\n    - A product that is in stock is in the cart.\n    - Open the checkout page.\n    - Click \"Proceed to checkout\".\n    - Verify the message \"You are already signed in as\" followed by the default user's first and last name is shown.\n    - Verify the login form is not shown.\n    - Click \"Proceed to checkout\" on the sign-in step.\n    - Verify the \"Billing Address\" step is shown."
   },
   {
    "id": "UI-013",
@@ -542,7 +1835,8 @@ window.SCENARIO_CATALOG = {
    "id": "UI-016",
    "name": "A rental product shows a duration slider instead of the quantity buttons",
    "ref": [
-    "docs/ui/user-stories/Product_Detail.md#AC10"
+    "docs/ui/user-stories/Product_Detail.md#AC10",
+    "docs/ui/user-stories/Rental_Products.md#AC3"
    ],
    "status": "automated",
    "automatedIn": "tests/ui/products/product-detail.spec.ts",
@@ -561,13 +1855,14 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@products"
    ],
-   "yaml": "- id: UI-016\n  name: A rental product shows a duration slider instead of the quantity buttons\n  ref: docs/ui/user-stories/Product_Detail.md#AC10\n  status: automated\n  automatedIn: tests/ui/products/product-detail.spec.ts\n  steps:\n    - Open the rental product \"Excavator\".\n    - Verify a duration slider is shown.\n    - Verify the duration slider goes from 1 to 10 hours.\n    - Verify the \"Increase quantity\" (+) and \"Decrease quantity\" (-) buttons are not shown."
+   "yaml": "- id: UI-016\n  name: A rental product shows a duration slider instead of the quantity buttons\n  ref:\n    - docs/ui/user-stories/Product_Detail.md#AC10\n    - docs/ui/user-stories/Rental_Products.md#AC3\n  status: automated\n  automatedIn: tests/ui/products/product-detail.spec.ts\n  steps:\n    - Open the rental product \"Excavator\".\n    - Verify a duration slider is shown.\n    - Verify the duration slider goes from 1 to 10 hours.\n    - Verify the \"Increase quantity\" (+) and \"Decrease quantity\" (-) buttons are not shown."
   },
   {
    "id": "UI-017",
    "name": "A rental's total price is the hourly rate times the duration",
    "ref": [
-    "docs/ui/user-stories/Product_Detail.md#AC10"
+    "docs/ui/user-stories/Product_Detail.md#AC10",
+    "docs/ui/user-stories/Rental_Products.md#AC3"
    ],
    "status": "automated",
    "automatedIn": "tests/ui/products/product-detail.spec.ts",
@@ -585,7 +1880,34 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@products"
    ],
-   "yaml": "- id: UI-017\n  name: A rental's total price is the hourly rate times the duration\n  ref: docs/ui/user-stories/Product_Detail.md#AC10\n  status: automated\n  automatedIn: tests/ui/products/product-detail.spec.ts\n  steps:\n    - Open the rental product \"Excavator\".\n    - Set the duration slider to 3 hours.\n    - Verify the total price equals 3 × the hourly rate."
+   "yaml": "- id: UI-017\n  name: A rental's total price is the hourly rate times the duration\n  ref:\n    - docs/ui/user-stories/Product_Detail.md#AC10\n    - docs/ui/user-stories/Rental_Products.md#AC3\n  status: automated\n  automatedIn: tests/ui/products/product-detail.spec.ts\n  steps:\n    - Open the rental product \"Excavator\".\n    - Set the duration slider to 3 hours.\n    - Verify the total price equals 3 × the hourly rate."
+  },
+  {
+   "id": "UI-085",
+   "name": "A rental that is a location offer shows the discount, the discounted hourly rate and the discounted total for a visitor in London",
+   "ref": [
+    "docs/ui/user-stories/Rental_Products.md#AC5"
+   ],
+   "status": "manual",
+   "steps": [
+    "The visitor is in London.",
+    "A rental product that is also a location offer exists.",
+    "Open the product page of that rental.",
+    "Set the duration slider to 3 hours.",
+    "Verify the discount badge \"-25%\" is shown.",
+    "Verify the hourly rate is shown struck through.",
+    "Verify the discounted hourly rate is shown, 25% below the hourly rate.",
+    "Verify the total price equals 3 × the discounted hourly rate."
+   ],
+   "area": "products",
+   "areaLabel": "Products",
+   "file": "test-scenarios/ui/products/product-detail.yml",
+   "fileLabel": "Product detail",
+   "suite": "Product detail",
+   "tags": [
+    "@products"
+   ],
+   "yaml": "- id: UI-085\n  name: A rental that is a location offer shows the discount, the discounted hourly rate and the discounted total for a visitor in London\n  ref: docs/ui/user-stories/Rental_Products.md#AC5\n  status: manual\n  steps:\n    - The visitor is in London.\n    - A rental product that is also a location offer exists.\n    - Open the product page of that rental.\n    - Set the duration slider to 3 hours.\n    - Verify the discount badge \"-25%\" is shown.\n    - Verify the hourly rate is shown struck through.\n    - Verify the discounted hourly rate is shown, 25% below the hourly rate.\n    - Verify the total price equals 3 × the discounted hourly rate."
   },
   {
    "id": "UI-028",
@@ -663,6 +1985,148 @@ window.SCENARIO_CATALOG = {
    "yaml": "- id: UI-030\n  name: A logged-out visitor can't add a product to favourites\n  ref: docs/ui/user-stories/Product_Detail.md#AC13\n  status: automated\n  automatedIn: tests/ui/products/product-favorites.spec.ts\n  role: guest\n  steps:\n    - Open the product \"Combination Pliers\".\n    - Click \"Add to favourites\".\n    - Verify the message \"Unauthorized, can not add product to your favorite list.\" is shown."
   },
   {
+   "id": "UI-075",
+   "name": "Checking a category shows only that category's products",
+   "ref": [
+    "docs/ui/user-stories/Product_Overview.md#AC5"
+   ],
+   "status": "manual",
+   "steps": [
+    "Open the home page.",
+    "Check the category \"Pliers\" in the sidebar.",
+    "Verify the grid shows only the products of the category \"Pliers\": the products the catalogue lists for it in the page's default price range, $1 to $100."
+   ],
+   "area": "products",
+   "areaLabel": "Products",
+   "file": "test-scenarios/ui/products/product-filters.yml",
+   "fileLabel": "Product filters",
+   "suite": "Product filters",
+   "tags": [
+    "@products"
+   ],
+   "yaml": "- id: UI-075\n  name: Checking a category shows only that category's products\n  ref: docs/ui/user-stories/Product_Overview.md#AC5\n  status: manual\n  steps:\n    - Open the home page.\n    - Check the category \"Pliers\" in the sidebar.\n    - 'Verify the grid shows only the products of the category \"Pliers\": the products the catalogue lists for it in the page''s default price range, $1 to $100.'"
+  },
+  {
+   "id": "UI-076",
+   "name": "Checking a parent category checks all its child categories",
+   "ref": [
+    "docs/ui/user-stories/Product_Overview.md#AC6"
+   ],
+   "status": "manual",
+   "steps": [
+    "Open the home page.",
+    "Check the category \"Hand Tools\" in the sidebar.",
+    "Verify the child categories \"Hammer\", \"Hand Saw\", \"Wrench\", \"Screwdriver\", \"Pliers\", \"Chisels\" and \"Measures\" are checked."
+   ],
+   "area": "products",
+   "areaLabel": "Products",
+   "file": "test-scenarios/ui/products/product-filters.yml",
+   "fileLabel": "Product filters",
+   "suite": "Product filters",
+   "tags": [
+    "@products"
+   ],
+   "yaml": "- id: UI-076\n  name: Checking a parent category checks all its child categories\n  ref: docs/ui/user-stories/Product_Overview.md#AC6\n  status: manual\n  steps:\n    - Open the home page.\n    - Check the category \"Hand Tools\" in the sidebar.\n    - Verify the child categories \"Hammer\", \"Hand Saw\", \"Wrench\", \"Screwdriver\", \"Pliers\", \"Chisels\" and \"Measures\" are checked."
+  },
+  {
+   "id": "UI-077",
+   "name": "Unchecking all child categories unchecks the parent category",
+   "ref": [
+    "docs/ui/user-stories/Product_Overview.md#AC6"
+   ],
+   "status": "manual",
+   "steps": [
+    "Open the home page.",
+    "Check the category \"Hand Tools\" in the sidebar.",
+    "Uncheck the child category \"Hammer\".",
+    "Uncheck the child category \"Hand Saw\".",
+    "Uncheck the child category \"Wrench\".",
+    "Uncheck the child category \"Screwdriver\".",
+    "Uncheck the child category \"Pliers\".",
+    "Uncheck the child category \"Chisels\".",
+    "Uncheck the child category \"Measures\".",
+    "Verify the category \"Hand Tools\" is not checked."
+   ],
+   "area": "products",
+   "areaLabel": "Products",
+   "file": "test-scenarios/ui/products/product-filters.yml",
+   "fileLabel": "Product filters",
+   "suite": "Product filters",
+   "tags": [
+    "@products"
+   ],
+   "yaml": "- id: UI-077\n  name: Unchecking all child categories unchecks the parent category\n  ref: docs/ui/user-stories/Product_Overview.md#AC6\n  status: manual\n  steps:\n    - Open the home page.\n    - Check the category \"Hand Tools\" in the sidebar.\n    - Uncheck the child category \"Hammer\".\n    - Uncheck the child category \"Hand Saw\".\n    - Uncheck the child category \"Wrench\".\n    - Uncheck the child category \"Screwdriver\".\n    - Uncheck the child category \"Pliers\".\n    - Uncheck the child category \"Chisels\".\n    - Uncheck the child category \"Measures\".\n    - Verify the category \"Hand Tools\" is not checked."
+  },
+  {
+   "id": "UI-078",
+   "name": "Checking a brand shows only that brand's products",
+   "ref": [
+    "docs/ui/user-stories/Product_Overview.md#AC7"
+   ],
+   "status": "manual",
+   "steps": [
+    "Open the home page.",
+    "Check the brand \"MightyCraft Hardware\" in the sidebar.",
+    "Verify the grid shows only the products of the brand \"MightyCraft Hardware\": the products the catalogue lists for it in the page's default price range, $1 to $100."
+   ],
+   "area": "products",
+   "areaLabel": "Products",
+   "file": "test-scenarios/ui/products/product-filters.yml",
+   "fileLabel": "Product filters",
+   "suite": "Product filters",
+   "tags": [
+    "@products"
+   ],
+   "yaml": "- id: UI-078\n  name: Checking a brand shows only that brand's products\n  ref: docs/ui/user-stories/Product_Overview.md#AC7\n  status: manual\n  steps:\n    - Open the home page.\n    - Check the brand \"MightyCraft Hardware\" in the sidebar.\n    - 'Verify the grid shows only the products of the brand \"MightyCraft Hardware\": the products the catalogue lists for it in the page''s default price range, $1 to $100.'"
+  },
+  {
+   "id": "UI-079",
+   "name": "Checking a category and a brand shows only products that match both",
+   "ref": [
+    "docs/ui/user-stories/Product_Overview.md#AC8"
+   ],
+   "status": "manual",
+   "steps": [
+    "Open the home page.",
+    "Check the category \"Pliers\" in the sidebar.",
+    "Check the brand \"ForgeFlex Tools\" in the sidebar.",
+    "Verify the grid shows only the products that belong to both the category \"Pliers\" and the brand \"ForgeFlex Tools\": the products the catalogue lists for both filters in the page's default price range, $1 to $100."
+   ],
+   "area": "products",
+   "areaLabel": "Products",
+   "file": "test-scenarios/ui/products/product-filters.yml",
+   "fileLabel": "Product filters",
+   "suite": "Product filters",
+   "tags": [
+    "@products"
+   ],
+   "yaml": "- id: UI-079\n  name: Checking a category and a brand shows only products that match both\n  ref: docs/ui/user-stories/Product_Overview.md#AC8\n  status: manual\n  steps:\n    - Open the home page.\n    - Check the category \"Pliers\" in the sidebar.\n    - Check the brand \"ForgeFlex Tools\" in the sidebar.\n    - 'Verify the grid shows only the products that belong to both the category \"Pliers\" and the brand \"ForgeFlex Tools\": the products the catalogue lists for both filters in the page''s default price range, $1 to $100.'"
+  },
+  {
+   "id": "UI-080",
+   "name": "Moving the price range slider shows only products within the new range",
+   "ref": [
+    "docs/ui/user-stories/Product_Overview.md#AC11"
+   ],
+   "status": "manual",
+   "steps": [
+    "Open the home page.",
+    "Move the upper handle of the price range slider to 15.",
+    "Move the lower handle of the price range slider to 10.",
+    "Verify at least one product is shown.",
+    "Verify the price of every product shown is between $10 and $15."
+   ],
+   "area": "products",
+   "areaLabel": "Products",
+   "file": "test-scenarios/ui/products/product-filters.yml",
+   "fileLabel": "Product filters",
+   "suite": "Product filters",
+   "tags": [
+    "@products"
+   ],
+   "yaml": "- id: UI-080\n  name: Moving the price range slider shows only products within the new range\n  ref: docs/ui/user-stories/Product_Overview.md#AC11\n  status: manual\n  steps:\n    - Open the home page.\n    - Move the upper handle of the price range slider to 15.\n    - Move the lower handle of the price range slider to 10.\n    - Verify at least one product is shown.\n    - Verify the price of every product shown is between $10 and $15."
+  },
+  {
    "id": "UI-012",
    "name": "An out-of-stock product shows \"Out of stock\" on its card",
    "ref": [
@@ -682,6 +2146,126 @@ window.SCENARIO_CATALOG = {
     "@products"
    ],
    "yaml": "- id: UI-012\n  name: An out-of-stock product shows \"Out of stock\" on its card\n  ref: docs/ui/user-stories/Product_Overview.md#AC13\n  status: manual\n  steps:\n    - Open the home page.\n    - Verify the card of \"Long Nose Pliers\" shows \"Out of stock\"."
+  },
+  {
+   "id": "UI-070",
+   "name": "The home page shows a grid of product cards with an image, a name and a price",
+   "ref": [
+    "docs/ui/user-stories/Product_Overview.md#AC1"
+   ],
+   "status": "manual",
+   "steps": [
+    "Open the home page.",
+    "Verify the product grid shows at least one product card.",
+    "Verify every card shows a product image.",
+    "Verify every card shows a product name.",
+    "Verify every card shows a price."
+   ],
+   "area": "products",
+   "areaLabel": "Products",
+   "file": "test-scenarios/ui/products/product-grid.yml",
+   "fileLabel": "Product grid",
+   "suite": "Product grid",
+   "tags": [
+    "@products"
+   ],
+   "yaml": "- id: UI-070\n  name: The home page shows a grid of product cards with an image, a name and a price\n  ref: docs/ui/user-stories/Product_Overview.md#AC1\n  status: manual\n  steps:\n    - Open the home page.\n    - Verify the product grid shows at least one product card.\n    - Verify every card shows a product image.\n    - Verify every card shows a product name.\n    - Verify every card shows a price."
+  },
+  {
+   "id": "UI-071",
+   "name": "Clicking a product card opens that product's page",
+   "ref": [
+    "docs/ui/user-stories/Product_Overview.md#AC2"
+   ],
+   "status": "manual",
+   "steps": [
+    "Open the home page.",
+    "Click the card of \"Combination Pliers\".",
+    "Verify the product detail page is shown.",
+    "Verify the name \"Combination Pliers\" is shown."
+   ],
+   "area": "products",
+   "areaLabel": "Products",
+   "file": "test-scenarios/ui/products/product-grid.yml",
+   "fileLabel": "Product grid",
+   "suite": "Product grid",
+   "tags": [
+    "@products"
+   ],
+   "yaml": "- id: UI-071\n  name: Clicking a product card opens that product's page\n  ref: docs/ui/user-stories/Product_Overview.md#AC2\n  status: manual\n  steps:\n    - Open the home page.\n    - Click the card of \"Combination Pliers\".\n    - Verify the product detail page is shown.\n    - Verify the name \"Combination Pliers\" is shown."
+  },
+  {
+   "id": "UI-072",
+   "name": "The pagination controls are shown below the grid and page 2 shows other products",
+   "ref": [
+    "docs/ui/user-stories/Product_Overview.md#AC3"
+   ],
+   "status": "manual",
+   "steps": [
+    "Open the home page.",
+    "Verify the pagination controls are shown below the product grid.",
+    "Click page \"2\" in the pagination.",
+    "Verify at least one product is shown.",
+    "Verify none of the products shown was shown on page 1.",
+    "Verify page \"2\" is marked as the active page."
+   ],
+   "area": "products",
+   "areaLabel": "Products",
+   "file": "test-scenarios/ui/products/product-grid.yml",
+   "fileLabel": "Product grid",
+   "suite": "Product grid",
+   "tags": [
+    "@products"
+   ],
+   "yaml": "- id: UI-072\n  name: The pagination controls are shown below the grid and page 2 shows other products\n  ref: docs/ui/user-stories/Product_Overview.md#AC3\n  status: manual\n  steps:\n    - Open the home page.\n    - Verify the pagination controls are shown below the product grid.\n    - Click page \"2\" in the pagination.\n    - Verify at least one product is shown.\n    - Verify none of the products shown was shown on page 1.\n    - Verify page \"2\" is marked as the active page."
+  },
+  {
+   "id": "UI-073",
+   "name": "The price range slider is shown with the range $1 to $100 and a maximum of $200",
+   "ref": [
+    "docs/ui/user-stories/Product_Overview.md#AC10"
+   ],
+   "status": "manual",
+   "steps": [
+    "Open the home page.",
+    "Verify the price range slider is shown in the sidebar.",
+    "Verify the lower handle is at 1.",
+    "Verify the upper handle is at 100.",
+    "Verify the maximum of the slider is 200."
+   ],
+   "area": "products",
+   "areaLabel": "Products",
+   "file": "test-scenarios/ui/products/product-grid.yml",
+   "fileLabel": "Product grid",
+   "suite": "Product grid",
+   "tags": [
+    "@products"
+   ],
+   "yaml": "- id: UI-073\n  name: The price range slider is shown with the range $1 to $100 and a maximum of $200\n  ref: docs/ui/user-stories/Product_Overview.md#AC10\n  status: manual\n  steps:\n    - Open the home page.\n    - Verify the price range slider is shown in the sidebar.\n    - Verify the lower handle is at 1.\n    - Verify the upper handle is at 100.\n    - Verify the maximum of the slider is 200."
+  },
+  {
+   "id": "UI-074",
+   "name": "A location offer's card shows the original price struck through and the discounted price for a visitor in London",
+   "ref": [
+    "docs/ui/user-stories/Product_Overview.md#AC12"
+   ],
+   "status": "manual",
+   "steps": [
+    "The visitor is in London.",
+    "Open the home page.",
+    "Verify the card of \"Bolt Cutters\" is shown on the first page.",
+    "Verify the card of \"Bolt Cutters\" shows its original price struck through.",
+    "Verify the card of \"Bolt Cutters\" shows the discounted price, 25% below the original price."
+   ],
+   "area": "products",
+   "areaLabel": "Products",
+   "file": "test-scenarios/ui/products/product-grid.yml",
+   "fileLabel": "Product grid",
+   "suite": "Product grid",
+   "tags": [
+    "@products"
+   ],
+   "yaml": "- id: UI-074\n  name: A location offer's card shows the original price struck through and the discounted price for a visitor in London\n  ref: docs/ui/user-stories/Product_Overview.md#AC12\n  status: manual\n  steps:\n    - The visitor is in London.\n    - Open the home page.\n    - Verify the card of \"Bolt Cutters\" is shown on the first page.\n    - Verify the card of \"Bolt Cutters\" shows its original price struck through.\n    - Verify the card of \"Bolt Cutters\" shows the discounted price, 25% below the original price."
   },
   {
    "id": "UI-018",
@@ -1142,6 +2726,77 @@ window.SCENARIO_CATALOG = {
     "@products"
    ],
    "yaml": "- id: UI-011\n  name: Sort by price from low to high\n  ref: docs/ui/user-stories/Product_Overview.md#AC9\n  status: automated\n  automatedIn: tests/ui/products/product-sorting.spec.ts\n  steps:\n    - Open the home page.\n    - Select \"Price (Low - High)\" in the sort list.\n    - Verify the products are sorted by price, lowest first."
+  },
+  {
+   "id": "UI-081",
+   "name": "The Rentals page opens from the Categories menu and lists the rental products",
+   "ref": [
+    "docs/ui/user-stories/Rental_Products.md#AC1"
+   ],
+   "status": "manual",
+   "steps": [
+    "Open the home page.",
+    "Open the \"Categories\" menu.",
+    "Click \"Rentals\".",
+    "Verify the \"Rentals\" page is shown, with the heading \"Rentals\".",
+    "Verify the cards of \"Excavator\", \"Bulldozer\" and \"Crane\" are shown."
+   ],
+   "area": "products",
+   "areaLabel": "Products",
+   "file": "test-scenarios/ui/products/rentals.yml",
+   "fileLabel": "Rentals",
+   "suite": "Rentals",
+   "tags": [
+    "@products"
+   ],
+   "yaml": "- id: UI-081\n  name: The Rentals page opens from the Categories menu and lists the rental products\n  ref: docs/ui/user-stories/Rental_Products.md#AC1\n  status: manual\n  steps:\n    - Open the home page.\n    - Open the \"Categories\" menu.\n    - Click \"Rentals\".\n    - Verify the \"Rentals\" page is shown, with the heading \"Rentals\".\n    - Verify the cards of \"Excavator\", \"Bulldozer\" and \"Crane\" are shown."
+  },
+  {
+   "id": "UI-082",
+   "name": "Each rental card shows an image, a name and a description",
+   "ref": [
+    "docs/ui/user-stories/Rental_Products.md#AC2"
+   ],
+   "status": "manual",
+   "steps": [
+    "Open the rentals page.",
+    "Verify the page shows at least one rental card.",
+    "Verify every rental card shows a product image.",
+    "Verify every rental card shows its name.",
+    "Verify every rental card shows a description that is not empty."
+   ],
+   "area": "products",
+   "areaLabel": "Products",
+   "file": "test-scenarios/ui/products/rentals.yml",
+   "fileLabel": "Rentals",
+   "suite": "Rentals",
+   "tags": [
+    "@products"
+   ],
+   "yaml": "- id: UI-082\n  name: Each rental card shows an image, a name and a description\n  ref: docs/ui/user-stories/Rental_Products.md#AC2\n  status: manual\n  steps:\n    - Open the rentals page.\n    - Verify the page shows at least one rental card.\n    - Verify every rental card shows a product image.\n    - Verify every rental card shows its name.\n    - Verify every rental card shows a description that is not empty."
+  },
+  {
+   "id": "UI-083",
+   "name": "Clicking a rental card opens its product page with the duration slider",
+   "ref": [
+    "docs/ui/user-stories/Rental_Products.md#AC3"
+   ],
+   "status": "manual",
+   "steps": [
+    "Open the rentals page.",
+    "Click the card of \"Excavator\".",
+    "Verify the product page of \"Excavator\" is shown, with the name \"Excavator\".",
+    "Verify a duration slider is shown."
+   ],
+   "area": "products",
+   "areaLabel": "Products",
+   "file": "test-scenarios/ui/products/rentals.yml",
+   "fileLabel": "Rentals",
+   "suite": "Rentals",
+   "tags": [
+    "@products"
+   ],
+   "yaml": "- id: UI-083\n  name: Clicking a rental card opens its product page with the duration slider\n  ref: docs/ui/user-stories/Rental_Products.md#AC3\n  status: manual\n  steps:\n    - Open the rentals page.\n    - Click the card of \"Excavator\".\n    - Verify the product page of \"Excavator\" is shown, with the name \"Excavator\".\n    - Verify a duration slider is shown."
   }
  ]
 };
