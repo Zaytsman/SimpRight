@@ -1,0 +1,14 @@
+# yaml-language-server: $schema=../../scenarios.schema.json
+suite: Categories API
+tags: ["@categories-api"]
+scenarios:
+  - id: API-0164
+    name: List categories returns every category as a flat list
+    status: manual
+    steps:
+      - Send GET /categories.
+      - Verify the response status is 200.
+      - Verify the body is a non-empty array.
+      - Verify every item has a non-empty string id, name and slug, and a parent_id that is null or a string.
+      - Verify no item has a sub_categories key.
+      - Verify the body includes at least one item whose parent_id is null and at least one whose parent_id is a string.

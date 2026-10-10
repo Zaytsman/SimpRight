@@ -1,0 +1,36 @@
+# yaml-language-server: $schema=../../scenarios.schema.json
+suite: Categories API
+tags: ["@categories-api"]
+scenarios:
+  - id: API-0183
+    name: QUERY category tree filtered by a top-level slug returns only that category
+    status: manual
+    steps:
+      - 'Send QUERY /categories/tree with Content-Type: application/json, Accept: application/json and the body { "by_category_slug": "power-tools" }.'
+      - Verify the response status is 200.
+      - Verify the Accept-Query response header is application/json.
+      - Verify the body has exactly one item, whose slug is power-tools and whose parent_id is null.
+      - Verify the item's sub_categories is non-empty and every sub-category's parent_id equals the item's id.
+  - id: API-0184
+    name: QUERY category tree with an empty body returns the whole tree
+    status: manual
+    steps:
+      - Send GET /categories/tree and keep the item ids.
+      - "Send QUERY /categories/tree with Content-Type: application/json, Accept: application/json and an empty JSON object as the body."
+      - Verify the response status is 200.
+      - Verify the body's item ids equal the GET /categories/tree ids, in any order.
+  - id: API-0185
+    name: QUERY category tree without a JSON Content-Type returns 415
+    status: manual
+    steps:
+      - "Send QUERY /categories/tree with Content-Type: text/plain, Accept: application/json and a plain-text body."
+      - Verify the response status is 415.
+      - 'Verify the body''s message is "QUERY requests must use Content-Type: application/json".'
+  - id: API-0186
+    name: QUERY category tree with by_category_slug as an array returns 422
+    status: manual
+    knownIssue: Returns 500 instead of 422 when by_category_slug is sent as an array.
+    bug: BUG-016
+    steps:
+      - 'Send QUERY /categories/tree with Content-Type: application/json, Accept: application/json and the body { "by_category_slug": ["x"] }.'
+      - Verify the response status is 422.

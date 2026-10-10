@@ -1,0 +1,52 @@
+# yaml-language-server: $schema=../../scenarios.schema.json
+suite: Favorites API
+tags: ["@favorites-api"]
+scenarios:
+  - id: API-0267
+    name: List favorites returns 200 with the user's favorites and their products
+    status: manual
+    steps:
+      - Send GET /products and take the id of a product that isn't among the default user's favorites (compare with GET /favorites).
+      - Send POST /favorites with that product id, and take the new favorite's id and its user_id.
+      - Send GET /favorites.
+      - Verify the response status is 200.
+      - Verify the body is an array that includes an item with the new favorite's id.
+      - Verify that item's product_id equals the product id sent and its user_id equals the user_id returned by POST /favorites.
+      - Verify that item's product has an id equal to its product_id, a name, a price and a product_image.
+      - Verify that item's product has no category key and no brand key.
+  - id: API-0268
+    name: List favorites of a new customer returns an empty list
+    status: manual
+    steps:
+      - Send GET /products and take the id of a product that isn't among the default user's favorites (compare with GET /favorites).
+      - Send POST /favorites with that product id.
+      - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.
+      - Send POST /users/login with that email and password, and take its access_token.
+      - Send GET /favorites with the throwaway customer's access_token.
+      - Verify the response status is 200.
+      - Verify the body is an empty array.
+  - id: API-0269
+    name: List favorites without a token returns 401
+    status: manual
+    steps:
+      - Send GET /favorites without an Authorization header.
+      - Verify the response status is 401.
+      - Verify the body's message is "Unauthorized".
+  - id: API-0270
+    name: List favorites with a malformed token returns 401
+    status: manual
+    steps:
+      - Send GET /favorites with a malformed token.
+      - Verify the response status is 401.
+      - Verify the body's message is "Unauthorized".
+  - id: API-0271
+    name: List favorites with a disabled account's token returns 403
+    status: manual
+    role: admin
+    steps:
+      - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.
+      - Send POST /users/login with that email and password, and take its access_token.
+      - Send PATCH /users/{userId} with that id and enabled false, with the admin's token.
+      - Send GET /favorites with the throwaway customer's access_token.
+      - Verify the response status is 403.
+      - Verify the body's message is "Account disabled.".

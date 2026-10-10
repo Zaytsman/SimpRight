@@ -1,0 +1,58 @@
+# yaml-language-server: $schema=../../scenarios.schema.json
+suite: Carts API
+tags: ["@carts-api"]
+scenarios:
+  - id: API-0260
+    name: Remove a product from a cart returns 204 and the cart no longer holds it
+    status: manual
+    steps:
+      - Send GET /products and take the first item's brand id, category id and product image id.
+      - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental false and stock 10, and take the new product's id.
+      - Send POST /carts with an empty body and take the returned id as the cart's id.
+      - Send POST /carts/{cartId} with the cart's id and a body with the new product's id as product_id and quantity 1.
+      - Send DELETE /carts/{cartId}/product/{productId} with the cart's id and the new product's id.
+      - Verify the response status is 204.
+      - Verify GET /carts/{cartId} with the cart's id returns 200 and its cart_items is empty.
+  - id: API-0261
+    name: Remove the rental product from a rental and non-rental cart clears the additional discount
+    status: manual
+    steps:
+      - Send GET /products and take the first item's brand id, category id and product image id.
+      - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental false and stock 10, and take the new product's id as the non-rental product's id.
+      - Send POST /products with a unique product name, a positive price, the same brand, category and product image ids, is_location_offer false, is_rental true and stock 10, and take the new product's id as the rental product's id.
+      - Send POST /carts with an empty body and take the returned id as the cart's id.
+      - Send POST /carts/{cartId} with the cart's id and a body with the non-rental product's id as product_id and quantity 1.
+      - Send POST /carts/{cartId} with the cart's id and a body with the rental product's id as product_id and quantity 1.
+      - Send DELETE /carts/{cartId}/product/{productId} with the cart's id and the rental product's id.
+      - Verify the response status is 204.
+      - Verify GET /carts/{cartId} with the cart's id returns 200 with additional_discount_percentage null.
+      - Verify its cart_items has exactly one item, with the non-rental product's id as product_id.
+  - id: API-0262
+    name: Remove an unknown product from a cart returns 204 and keeps the cart's items
+    status: manual
+    steps:
+      - Send GET /products and take the first item's brand id, category id and product image id.
+      - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental false and stock 10, and take the new product's id.
+      - Send POST /carts with an empty body and take the returned id as the cart's id.
+      - Send POST /carts/{cartId} with the cart's id and a body with the new product's id as product_id and quantity 1.
+      - Send DELETE /carts/{cartId}/product/{productId} with the cart's id and a well-formed product id that doesn't exist.
+      - Verify the response status is 204.
+      - Verify GET /carts/{cartId} with the cart's id returns 200 and its cart_items has exactly one item, with the new product's id as product_id and quantity 1.
+  - id: API-0263
+    name: Remove a product from an unknown cart returns 404
+    status: manual
+    steps:
+      - Send DELETE /carts/{cartId}/product/{productId} with a well-formed cart id that doesn't exist and an existing product's id (taken from GET /products).
+      - Verify the response status is 404.
+      - Verify the body's message is "Cart doesnt exists".
+  - id: API-0264
+    name: DELETE /carts/{cartId}/product/quantity returns 204 and removes nothing
+    status: manual
+    steps:
+      - Send GET /products and take the first item's brand id, category id and product image id.
+      - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental false and stock 10, and take the new product's id.
+      - Send POST /carts with an empty body and take the returned id as the cart's id.
+      - Send POST /carts/{cartId} with the cart's id and a body with the new product's id as product_id and quantity 1.
+      - Send DELETE /carts/{cartId}/product/quantity with the cart's id.
+      - Verify the response status is 204.
+      - Verify GET /carts/{cartId} with the cart's id returns 200 and its cart_items has exactly one item, with the new product's id as product_id.

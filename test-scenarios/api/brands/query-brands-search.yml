@@ -1,0 +1,35 @@
+# yaml-language-server: $schema=../../scenarios.schema.json
+suite: Brands API
+tags: ["@brands-api"]
+scenarios:
+  - id: API-0160
+    name: QUERY search returns only matching brands
+    status: manual
+    steps:
+      - 'Send QUERY /brands/search with Content-Type: application/json, Accept: application/json and the body { "q": "forge" }.'
+      - Verify the response status is 200.
+      - Verify the Accept-Query response header is application/json.
+      - Verify the body is a non-empty array and every item's name contains "forge" (case-insensitive).
+  - id: API-0161
+    name: QUERY search with an empty body returns every brand
+    status: manual
+    steps:
+      - Send GET /brands and keep the brand ids.
+      - "Send QUERY /brands/search with Content-Type: application/json, Accept: application/json and an empty JSON object as the body."
+      - Verify the response status is 200.
+      - Verify the body's brand ids equal the GET /brands ids, in any order.
+  - id: API-0162
+    name: QUERY search without a JSON Content-Type returns 415
+    status: manual
+    steps:
+      - "Send QUERY /brands/search with Content-Type: text/plain, Accept: application/json and a plain-text body."
+      - Verify the response status is 415.
+      - 'Verify the body''s message is "QUERY requests must use Content-Type: application/json".'
+  - id: API-0163
+    name: QUERY search with q as an array returns 422
+    status: manual
+    knownIssue: Returns 500 instead of 422 when q is sent as an array.
+    bug: BUG-011
+    steps:
+      - 'Send QUERY /brands/search with Content-Type: application/json, Accept: application/json and the body { "q": ["x"] }.'
+      - Verify the response status is 422.

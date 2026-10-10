@@ -1,0 +1,41 @@
+# yaml-language-server: $schema=./bug.schema.json
+id: BUG-025
+title: Location offers get no discount at real New York coordinates, because the city table has New York at longitude +74 instead of -74
+status: open
+severity: minor
+layer: api
+area: carts
+affects:
+  - POST /carts/{cartId}
+  - GET /carts/{cartId}
+found: 2026-10-10
+ref:
+  - docs/api/contracts/Carts_API.md#enums
+  - docs/ui/user-stories/Rental_Products.md#AC5
+description: >-
+  CartService::calculateDiscountPercentage matches the cart's coordinates against a city table within
+  2 degrees of latitude and longitude. New York is listed at lat 41, lng 74, but its real longitude is
+  west of Greenwich (about -74), so a cart in New York never matches and its location offers get 0 %
+  instead of 5 %. Only coordinates in Central Asia (around 41, 74) get New York's discount. The app's
+  own test "add product to cart no discount location" uses New York's real coordinates and relies on the
+  wrong sign.
+steps:
+  - Send GET /products and take the id of an item with is_location_offer true.
+  - Send POST /carts with lat 41 and lng -74 (New York) and take the returned id as the cart's id.
+  - Send POST /carts/{cartId} with the cart's id and a body with that product's id as product_id and quantity 1.
+  - Send GET /carts/{cartId} with the cart's id.
+  - Send DELETE /carts/{cartId} with the cart's id.
+expected: >-
+  The item has discount_percentage 5 and a discounted_price of its price x 0.95, rounded to 2 decimals:
+  a location offer in a cart in a supported city gets that city's discount (Rental_Products.md AC5;
+  New York 5 % in Carts_API.md, Enums).
+actual: The item has discount_percentage 0 and no discounted_price.
+evidence: |-
+  Live, 2026-10-10 09:07 UTC (cart deleted afterwards, 204):
+  Product: Bolt Cutters (seeded), price 48.41, is_location_offer true
+  POST /carts { lat: 41, lng: -74 } -> 201 { id }
+  POST /carts/{cartId} { product_id, quantity: 1 } -> 200 {"result":"item added or updated"}
+  GET /carts/{cartId} -> 200, its only item: discount_percentage 0, no discounted_price
+  Source (practice-software-testing, sprint5/API), 2026-10-10, CartService::calculateDiscountPercentage:
+  "new york" => ["lat" => 41, "lng" => 74, "discount_percentage" => 5];
+  match when abs($lat - lat) <= 2 && abs($lng - lng) <= 2, else 0

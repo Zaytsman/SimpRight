@@ -1,0 +1,30 @@
+# yaml-language-server: $schema=./bug.schema.json
+id: BUG-015
+title: Create or update category returns 500 instead of 422 when parent_id isn't an existing category
+status: open
+severity: major
+layer: api
+area: categories
+affects:
+  - POST /categories
+  - PUT /categories/{categoryId}
+  - PATCH /categories/{categoryId}
+found: 2026-10-10
+ref:
+  - docs/api/contracts/Categories_API.md#2-create-category
+  - docs/api/contracts/Categories_API.md#8-update-category
+  - docs/api/contracts/Categories_API.md#9-partially-update-category
+  - docs/api/contracts/Categories_API.md#notes
+description: >-
+  No validation rule checks that parent_id exists, so the foreign key categories.parent_id rejects it and
+  the global handler answers with a server error instead of a validation message. The same kind of defect
+  as BUG-002 (category_id, brand_id and product_image_id on POST /products).
+steps:
+  - Send POST /categories with a unique name, a unique slug and a well-formed ULID that no category has as parent_id.
+  - Send PUT and PATCH /categories/{categoryId} for an existing throwaway category with only that ULID as parent_id.
+expected: 422 with a validation message for parent_id.
+actual: '500 with { "message": "Something went wrong" } (from the source, not reproduced).'
+evidence: |-
+  Source (practice-software-testing, sprint5/API), 2026-10-10: the Category form requests validate parent_id
+  as a string only (no exists rule); a foreign-key violation (MySQL 1452) falls to the default branch of
+  app/Exceptions/Handler.php -> 500 { message: "Something went wrong" }

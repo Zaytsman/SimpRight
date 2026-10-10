@@ -1,0 +1,125 @@
+# yaml-language-server: $schema=../../scenarios.schema.json
+suite: Categories API
+tags: ["@categories-api"]
+scenarios:
+  - id: API-0201
+    name: Update category returns success and saves the new name and slug
+    status: manual
+    role: admin
+    steps:
+      - Send POST /categories with a unique category name and a unique slug, with the admin's token, and take the new category's id.
+      - Send PUT /categories/{categoryId} with that id and a body with a new unique category name and a new unique slug, with the admin's token.
+      - Verify the response status is 200.
+      - Verify the body's success is true.
+      - Verify GET /categories/tree/{categoryId} with that id returns the new name and the new slug.
+  - id: API-0202
+    name: Update category with a parent_id makes it a sub-category of that parent
+    status: manual
+    role: admin
+    steps:
+      - Send POST /categories with a unique category name and a unique slug, with the admin's token, and take the new category's id as the parent's id.
+      - Send POST /categories with a unique category name and a unique slug, with the admin's token, and take the new category's id.
+      - Send PUT /categories/{categoryId} with the new category's id and a body with only the parent's id as parent_id, with the admin's token.
+      - Verify the response status is 200.
+      - Verify GET /categories/tree/{categoryId} with the new category's id returns the parent's id as parent_id.
+      - Verify GET /categories/tree doesn't include the new category's id among its items.
+  - id: API-0203
+    name: Update category with a null parent_id makes it a top-level category
+    status: manual
+    role: admin
+    steps:
+      - Send POST /categories with a unique category name and a unique slug, with the admin's token, and take the new category's id as the parent's id.
+      - Send POST /categories with a unique category name, a unique slug and the parent's id as parent_id, with the admin's token, and take the new category's id.
+      - Send PUT /categories/{categoryId} with the new category's id and a body with only parent_id set to null, with the admin's token.
+      - Verify the response status is 200.
+      - Verify GET /categories/tree/{categoryId} with the new category's id returns a null parent_id.
+      - Verify GET /categories/tree includes the new category's id among its items.
+  - id: API-0204
+    name: Update category with a name longer than 120 characters returns 422
+    status: manual
+    role: admin
+    steps:
+      - Send POST /categories with a unique category name and a unique slug, with the admin's token, and take the new category's id.
+      - Send PUT /categories/{categoryId} with that id and a body with only a 121-character name that starts with a unique category name, with the admin's token.
+      - Verify the response status is 422.
+      - Verify the body has a name key with at least one message.
+  - id: API-0205
+    name: Update category with a slug outside letters, digits, dashes and underscores returns 422
+    status: manual
+    role: admin
+    steps:
+      - Send POST /categories with a unique category name and a unique slug, with the admin's token, and take the new category's id.
+      - Send PUT /categories/{categoryId} with that id and a body with only a slug made of a unique slug followed by " x!" (a space and an exclamation mark), with the admin's token.
+      - Verify the response status is 422.
+      - Verify the body has a slug key with at least one message.
+  - id: API-0206
+    name: Update category with a name that isn't a string returns 422
+    status: manual
+    role: admin
+    steps:
+      - Send POST /categories with a unique category name and a unique slug, with the admin's token, and take the new category's id.
+      - Send PUT /categories/{categoryId} with that id and a body with only name set to the number 123, with the admin's token.
+      - Verify the response status is 422.
+      - Verify the body has a name key with at least one message.
+  - id: API-0207
+    name: Update category with a parent_id that isn't a string returns 422
+    status: manual
+    role: admin
+    steps:
+      - Send POST /categories with a unique category name and a unique slug, with the admin's token, and take the new category's id.
+      - Send PUT /categories/{categoryId} with that id and a body with only parent_id set to the number 123, with the admin's token.
+      - Verify the response status is 422.
+      - Verify the body has a parent_id key with at least one message.
+  - id: API-0208
+    name: Update category with an unknown id returns 404
+    status: manual
+    steps:
+      - Send PUT /categories/{categoryId} with a well-formed ULID that no category has and a body with only a unique category name.
+      - Verify the response status is 404.
+      - Verify the body's message is "Requested item not found".
+  - id: API-0209
+    name: Update category with an unknown id and an invalid body returns 422
+    status: manual
+    steps:
+      - Send PUT /categories/{categoryId} with a well-formed ULID that no category has and a body with only a 121-character name that starts with a unique category name.
+      - Verify the response status is 422.
+      - Verify the body has a name key with at least one message.
+  - id: API-0210
+    name: Update category with another category's slug returns 409
+    status: manual
+    role: admin
+    steps:
+      - Send POST /categories with a unique category name and a unique slug, with the admin's token, and take the new category's id and slug.
+      - Send PUT /categories/{categoryId} with that id and a body with only the slug hand-tools, with the admin's token.
+      - Verify the response status is 409.
+      - Verify GET /categories/tree/{categoryId} with that id still returns its own slug.
+  - id: API-0211
+    name: Update category with another category's slug names the slug in the error
+    status: manual
+    role: admin
+    knownIssue: 'Returns { message: "Duplicate Entry" } instead of the slug''s validation message for a duplicate slug.'
+    bug: BUG-019
+    steps:
+      - Send POST /categories with a unique category name and a unique slug, with the admin's token, and take the new category's id.
+      - Send PUT /categories/{categoryId} with that id and a body with only the slug hand-tools, with the admin's token.
+      - Verify the body's slug messages include "A category already exists with this slug.".
+  - id: API-0212
+    name: Update category with an unknown parent_id returns 422
+    status: manual
+    role: admin
+    knownIssue: Returns 500 instead of 422 when parent_id is not the id of an existing category.
+    bug: BUG-015
+    steps:
+      - Send POST /categories with a unique category name and a unique slug, with the admin's token, and take the new category's id.
+      - Send PUT /categories/{categoryId} with that id and a body with only a well-formed ULID that no category has as parent_id, with the admin's token.
+      - Verify the response status is 422.
+  - id: API-0213
+    name: Update category without a token returns 401
+    status: manual
+    role: admin
+    knownIssue: Accepts PUT without a token instead of returning 401.
+    bug: BUG-014
+    steps:
+      - Send POST /categories with a unique category name and a unique slug, with the admin's token, and take the new category's id.
+      - Send PUT /categories/{categoryId} with that id and a body with only a new unique category name, without an Authorization header.
+      - Verify the response status is 401.

@@ -1,0 +1,107 @@
+# yaml-language-server: $schema=../../scenarios.schema.json
+suite: Categories API
+tags: ["@categories-api"]
+scenarios:
+  - id: API-0165
+    name: Create category returns 201 with the new category
+    status: manual
+    role: admin
+    steps:
+      - Send POST /categories with a unique category name and a unique slug, with the admin's token, and take the new category's id.
+      - Verify the response status is 201.
+      - Verify the body's name and slug equal the values sent.
+      - Verify the body has a non-empty id.
+      - Verify GET /categories/tree/{categoryId} with the new id returns 200 with the same name and slug, a null parent_id and an empty sub_categories.
+  - id: API-0166
+    name: Create category with a parent_id creates a sub-category
+    status: manual
+    role: admin
+    steps:
+      - Send POST /categories with a unique category name and a unique slug, with the admin's token, and take the new category's id as the parent's id.
+      - Send POST /categories with a unique category name, a unique slug and the parent's id as parent_id, with the admin's token, and take the new category's id.
+      - Verify the response status is 201.
+      - Verify the body's parent_id equals the parent's id.
+      - Verify GET /categories/tree/{categoryId} with the new id returns the parent's id as parent_id.
+      - Verify GET /categories/tree/{categoryId} with the parent's id returns sub_categories with exactly one item, whose id is the new category's id.
+  - id: API-0167
+    name: Create category without the required fields returns 422 for each of them
+    status: manual
+    steps:
+      - Send POST /categories with an empty JSON object as the body.
+      - Verify the response status is 422.
+      - Verify the body has the keys name and slug, each with at least one message.
+      - Verify the body's name messages include "The name field is required." and its slug messages include "The slug field is required.".
+  - id: API-0168
+    name: Create category with a slug outside letters, digits, dashes and underscores returns 422
+    status: manual
+    steps:
+      - Send POST /categories with a unique category name and a slug made of a unique slug followed by " x!" (a space and an exclamation mark).
+      - Verify the response status is 422.
+      - Verify the body has a slug key with at least one message.
+  - id: API-0169
+    name: Create category with a name longer than 120 characters returns 422
+    status: manual
+    steps:
+      - Send POST /categories with a 121-character name that starts with a unique category name, and a unique slug.
+      - Verify the response status is 422.
+      - Verify the body has a name key with at least one message.
+  - id: API-0170
+    name: Create category with a slug longer than 120 characters returns 422
+    status: manual
+    steps:
+      - Send POST /categories with a unique category name and a 121-character slug that starts with a unique slug and contains only letters, digits and dashes.
+      - Verify the response status is 422.
+      - Verify the body has a slug key with at least one message.
+  - id: API-0171
+    name: Create category with a parent_id that isn't a string returns 422
+    status: manual
+    steps:
+      - Send POST /categories with a unique category name, a unique slug and parent_id set to the number 123.
+      - Verify the response status is 422.
+      - Verify the body has a parent_id key with at least one message.
+  - id: API-0172
+    name: Create category with a subscript character in the name returns 422
+    status: manual
+    steps:
+      - Send POST /categories with a unique category name followed by a Unicode subscript character, and a unique slug.
+      - Verify the response status is 422.
+      - Verify the body has a name key with at least one message.
+  - id: API-0173
+    name: Create category with an existing slug returns 409
+    status: manual
+    steps:
+      - Send POST /categories with a unique category name and the slug hand-tools.
+      - Verify the response status is 409.
+      - Verify the body's slug messages include "A category already exists with this slug.".
+  - id: API-0174
+    name: Create category with an existing slug and a too-long name returns 422
+    status: manual
+    steps:
+      - Send POST /categories with a 121-character name that starts with a unique category name, and the slug hand-tools.
+      - Verify the response status is 422.
+      - Verify the body has a name key with at least one message.
+  - id: API-0175
+    name: Create category ignores fields other than name, slug and parent_id
+    status: manual
+    role: admin
+    steps:
+      - Send POST /categories with a unique category name, a unique slug and a description field set to "ignored", with the admin's token, and take the new category's id.
+      - Verify the response status is 201.
+      - Verify the body has the keys id, name and slug only.
+      - Verify GET /categories/tree/{categoryId} with the new id has no description key.
+  - id: API-0176
+    name: Create category with an unknown parent_id returns 422
+    status: manual
+    knownIssue: Returns 500 instead of 422 when parent_id is not the id of an existing category.
+    bug: BUG-015
+    steps:
+      - Send POST /categories with a unique category name, a unique slug and a well-formed ULID that no category has as parent_id.
+      - Verify the response status is 422.
+  - id: API-0177
+    name: Create category without a token returns 401
+    status: manual
+    knownIssue: Accepts POST without a token instead of returning 401.
+    bug: BUG-014
+    steps:
+      - Send POST /categories with a unique category name and a unique slug, without an Authorization header.
+      - Verify the response status is 401.

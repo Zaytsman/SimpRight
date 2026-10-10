@@ -1,0 +1,30 @@
+# yaml-language-server: $schema=./bug.schema.json
+id: BUG-014
+title: Category writes (POST, PUT, PATCH /categories) succeed without a token instead of returning 401
+status: open
+severity: critical
+layer: api
+area: categories
+affects:
+  - POST /categories
+  - PUT /categories/{categoryId}
+  - PATCH /categories/{categoryId}
+found: 2026-10-10
+ref:
+  - docs/api/contracts/Categories_API.md#authentication
+  - docs/api/contracts/Categories_API.md#notes
+description: >-
+  Anyone can create categories or rename and re-parent seeded ones without logging in: CategoryController
+  has no auth middleware on these routes (only DELETE is admin-only), and the OpenAPI spec declares no
+  security on them either. The same pattern as BUG-009 (brands) and BUG-001 (products), in a separate controller.
+steps:
+  - Send POST /categories with a unique name and a unique slug, without an Authorization header, and take the new category's id.
+  - Send PUT /categories/{categoryId} for the new category with a new name, without an Authorization header.
+  - Send PATCH /categories/{categoryId} for the new category with a new name, without an Authorization header.
+expected: Each write without a token returns 401 and changes nothing, like DELETE /categories/{categoryId} without a token.
+actual: >-
+  From the source (not called live): POST returns 201 and creates the category; PUT and PATCH return 200 and change it.
+evidence: |-
+  Source (practice-software-testing, sprint5/API), 2026-10-10: CategoryController::__construct
+    applies role:admin only to destroy; no other auth middleware on store, update or patch
+  The identical Brands routes were reproduced live (BUG-009).

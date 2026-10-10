@@ -1,0 +1,19 @@
+# yaml-language-server: $schema=../../scenarios.schema.json
+suite: Carts API
+tags: ["@carts-api"]
+scenarios:
+  - id: API-0230
+    name: Create cart with an empty body returns 201 and an empty cart
+    status: manual
+    steps:
+      - Send POST /carts with an empty body.
+      - Verify the response status is 201.
+      - Verify the body's id is a non-empty string.
+      - Verify GET /carts/{cartId} with that id returns 200 with the same id and an empty cart_items.
+  - id: API-0231
+    name: Create cart with coordinates stores them on the cart
+    status: manual
+    steps:
+      - Send POST /carts with lat 52 and lng 5 and take the returned id as the cart's id.
+      - Verify the response status is 201.
+      - Verify GET /carts/{cartId} with the cart's id returns 200 with lat numerically equal to 52 and lng numerically equal to 5.

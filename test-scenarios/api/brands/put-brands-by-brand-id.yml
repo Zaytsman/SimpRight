@@ -1,0 +1,86 @@
+# yaml-language-server: $schema=../../scenarios.schema.json
+suite: Brands API
+tags: ["@brands-api"]
+scenarios:
+  - id: API-0132
+    name: Update brand returns success and saves the new name and slug
+    status: manual
+    role: admin
+    steps:
+      - Send POST /brands with a unique brand name and a unique slug, with the admin's token, and take the new brand's id.
+      - Send PUT /brands/{brandId} with that id and a body with a new unique brand name and a new unique slug, with the admin's token.
+      - Verify the response status is 200.
+      - Verify the body's success is true.
+      - Verify GET /brands/{brandId} with that id returns the new name and the new slug.
+  - id: API-0133
+    name: Update brand with a name longer than 120 characters returns 422
+    status: manual
+    role: admin
+    steps:
+      - Send POST /brands with a unique brand name and a unique slug, with the admin's token, and take the new brand's id.
+      - Send PUT /brands/{brandId} with that id and a body with only a 121-character name that starts with a unique brand name, with the admin's token.
+      - Verify the response status is 422.
+      - Verify the body has a name key with at least one message.
+  - id: API-0134
+    name: Update brand with a slug outside letters, digits, dashes and underscores returns 422
+    status: manual
+    role: admin
+    steps:
+      - Send POST /brands with a unique brand name and a unique slug, with the admin's token, and take the new brand's id.
+      - Send PUT /brands/{brandId} with that id and a body with only a slug made of a unique slug followed by " x!" (a space and an exclamation mark), with the admin's token.
+      - Verify the response status is 422.
+      - Verify the body has a slug key with at least one message.
+  - id: API-0135
+    name: Update brand with a name that isn't a string returns 422
+    status: manual
+    role: admin
+    steps:
+      - Send POST /brands with a unique brand name and a unique slug, with the admin's token, and take the new brand's id.
+      - Send PUT /brands/{brandId} with that id and a body with only name set to the number 123, with the admin's token.
+      - Verify the response status is 422.
+      - Verify the body has a name key with at least one message.
+  - id: API-0136
+    name: Update brand with an unknown id returns 404
+    status: manual
+    steps:
+      - Send PUT /brands/{brandId} with a well-formed ULID that no brand has and a body with only a unique brand name.
+      - Verify the response status is 404.
+      - Verify the body's message is "Requested item not found".
+  - id: API-0137
+    name: Update brand with an unknown id and an invalid body returns 422
+    status: manual
+    steps:
+      - Send PUT /brands/{brandId} with a well-formed ULID that no brand has and a body with only a 121-character name that starts with a unique brand name.
+      - Verify the response status is 422.
+      - Verify the body has a name key with at least one message.
+  - id: API-0138
+    name: Update brand with another brand's slug returns 409
+    status: manual
+    role: admin
+    steps:
+      - Send POST /brands with a unique brand name and a unique slug, with the admin's token, and take the new brand's id and slug.
+      - Send GET /brands and take the slug of a brand other than the new one.
+      - Send PUT /brands/{brandId} with the new brand's id and a body with only that other slug, with the admin's token.
+      - Verify the response status is 409.
+      - Verify GET /brands/{brandId} with the new brand's id still returns its own slug.
+  - id: API-0139
+    name: Update brand with another brand's slug names the slug in the error
+    status: manual
+    role: admin
+    knownIssue: 'Returns { message: "Duplicate Entry" } instead of the slug''s validation message for a duplicate slug.'
+    bug: BUG-012
+    steps:
+      - Send POST /brands with a unique brand name and a unique slug, with the admin's token, and take the new brand's id.
+      - Send GET /brands and take the slug of a brand other than the new one.
+      - Send PUT /brands/{brandId} with the new brand's id and a body with only that other slug, with the admin's token.
+      - Verify the body's slug messages include "A brand already exists with this slug.".
+  - id: API-0140
+    name: Update brand without a token returns 401
+    status: manual
+    role: admin
+    knownIssue: Accepts PUT without a token instead of returning 401.
+    bug: BUG-009
+    steps:
+      - Send POST /brands with a unique brand name and a unique slug, with the admin's token, and take the new brand's id.
+      - Send PUT /brands/{brandId} with that id and a body with only a new unique brand name, without an Authorization header.
+      - Verify the response status is 401.

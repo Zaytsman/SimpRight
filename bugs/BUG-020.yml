@@ -1,0 +1,35 @@
+# yaml-language-server: $schema=./bug.schema.json
+id: BUG-020
+title: Category tree, single category and search return stale results for up to an hour after a category is created, updated or deleted
+status: open
+severity: minor
+layer: api
+area: categories
+affects:
+  - GET /categories/tree/{categoryId}
+  - GET /categories/tree
+  - QUERY /categories/tree
+  - GET /categories/search
+  - QUERY /categories/search
+found: 2026-10-10
+ref:
+  - docs/api/contracts/Categories_API.md#notes
+description: >-
+  CategoryService caches the list, the whole tree, each by_category_slug tree, each category with its
+  sub-categories and each search term for 1 hour. Create clears only the list and the whole tree; update
+  and delete also clear the category's own entry. The per-slug trees, the parent's entry and the search
+  entries are never cleared, so a new, changed or deleted sub-category is missing from (or still shown in)
+  its parent and in earlier searches. The same defect as BUG-013 (brand search).
+steps:
+  - Send POST /categories with a unique name and a unique slug, and take its id as the parent's id.
+  - Send GET /categories/tree/{categoryId} with the parent's id.
+  - Send POST /categories with a unique name, a unique slug and the parent's id as parent_id.
+  - Send GET /categories/tree/{categoryId} with the parent's id again.
+  - Send GET /categories/search with a unique term no category matches, POST /categories with that term as the name, and search again.
+expected: The second read of the parent lists the new sub-category, and the second search returns the new category, like GET /categories does.
+actual: >-
+  Both return the cached result until the entry expires, up to an hour later (from the source, not reproduced).
+evidence: |-
+  Source (practice-software-testing, sprint5/API), 2026-10-10, CategoryService (Categories_API.md, Notes, Caching):
+  the tree, per-slug trees, categories.{id} and search terms are cached for 1 hour;
+  create forgets the list and the whole tree; update and delete also forget categories.{id} only

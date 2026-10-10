@@ -1,0 +1,27 @@
+# yaml-language-server: $schema=./bug.schema.json
+id: BUG-019
+title: Category update with a duplicate slug returns 409 with "Duplicate Entry" instead of the slug's validation message
+status: open
+severity: trivial
+layer: api
+area: categories
+affects:
+  - PUT /categories/{categoryId}
+found: 2026-10-10
+ref:
+  - docs/api/contracts/Categories_API.md#8-update-category
+  - docs/api/contracts/Categories_API.md#notes
+description: >-
+  UpdateCategory has no uniqueness rule for slug, so a duplicate reaches the database's unique index and
+  the global handler answers with a generic message. The status is right; only the body differs from POST
+  and PATCH (and from the OpenAPI spec), so a client can't tell which field is wrong. The same defect as
+  BUG-012 (brands).
+steps:
+  - Send POST /categories with a unique name and a unique slug, and take the new category's id.
+  - Send PUT /categories/{categoryId} for that category with the slug hand-tools.
+expected: '409 with { "slug": ["A category already exists with this slug."] }, like POST and PATCH /categories.'
+actual: '409 with { "message": "Duplicate Entry" } (from the source, not reproduced).'
+evidence: |-
+  Source (practice-software-testing, sprint5/API), 2026-10-10:
+  UpdateCategory::rules(): slug has alpha_dash, string and max:120 (no unique rule)
+  app/Exceptions/Handler.php: a unique-index violation (SQLSTATE 23000) -> 409 { message: "Duplicate Entry" }
