@@ -4,6 +4,7 @@ tags: ["@cart"]
 scenarios:
   - id: UI-002
     name: Add a product with quantity 2 to the cart
+    ref: docs/ui/user-stories/Product_Detail.md#AC8
     status: automated
     automatedIn: tests/ui/cart/add-to-cart.spec.ts
     steps:
