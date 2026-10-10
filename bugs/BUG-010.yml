@@ -1,0 +1,30 @@
+# yaml-language-server: $schema=./bug.schema.json
+id: BUG-010
+title: Partial brand update returns 409 when the body repeats the brand's own slug, instead of 200
+status: open
+severity: minor
+layer: api
+area: brands
+affects:
+  - PATCH /brands/{brandId}
+found: 2026-10-10
+ref:
+  - docs/api/contracts/Brands_API.md#5-partially-update-brand
+  - docs/api/contracts/Brands_API.md#notes
+description: >-
+  The slug's uniqueness rule in PatchBrand doesn't ignore the brand being patched, so a client that sends
+  every field (the current slug unchanged) can't update the name. Workaround: leave slug out of the body.
+  PUT has no uniqueness rule and accepts the own slug.
+steps:
+  - Send POST /brands with a unique name and a unique slug, and take the new brand's id.
+  - Send PATCH /brands/{brandId} for that brand with a new name and the brand's own slug.
+expected: 200 with { success true }, and the brand has the new name; a slug only conflicts with other brands' slugs.
+actual: >-
+  409 with { "slug": ["A brand already exists with this slug."] }, and the name doesn't change.
+evidence: |-
+  Throwaway brand, 2026-10-10 08:07 UTC (deleted as admin afterwards, 204)
+  PATCH /brands/{brandId} { name: new, slug: the brand's own slug }
+  -> 409 {"slug":["A brand already exists with this slug."]}
+  GET /brands/{brandId} -> 200, the previous name
+  Source (practice-software-testing, sprint5/API): PatchBrand::rules():
+    'slug' => ['sometimes', 'alpha_dash:ascii', 'unique:brands,slug', ...] (no ignore of the current id)

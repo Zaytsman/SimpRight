@@ -1,0 +1,31 @@
+# yaml-language-server: $schema=./bug.schema.json
+id: BUG-013
+title: Brand search keeps returning stale results for up to an hour after a brand is created, updated or deleted
+status: open
+severity: minor
+layer: api
+area: brands
+affects:
+  - GET /brands/search
+  - QUERY /brands/search
+found: 2026-10-10
+ref:
+  - docs/api/contracts/Brands_API.md#7-search-brands
+  - docs/api/contracts/Brands_API.md#notes
+description: >-
+  BrandService caches each search term for 1 hour, but create, update and delete clear only the list and
+  the brand's own entry, never the search entries. A term searched before the change keeps its old result:
+  a new or renamed brand is missing, a deleted one is still listed.
+steps:
+  - Send GET /brands/search with a unique term that no brand matches.
+  - Send POST /brands with that term as the name and a unique slug.
+  - Send GET /brands/search with the same term.
+  - Send DELETE /brands/{brandId} for the new brand as admin.
+expected: The search right after the POST returns the new brand, like GET /brands does.
+actual: >-
+  The search returns the cached empty list until the entry expires, up to an hour later (from the source,
+  not reproduced).
+evidence: |-
+  Source (practice-software-testing, sprint5/API), 2026-10-10, BrandService:
+  searchBrands: Cache::remember("brands.search.{$query}", 60 * 60, ...)
+  create, update, delete: Cache::forget('brands.all') and Cache::forget("brands.{$id}") only
