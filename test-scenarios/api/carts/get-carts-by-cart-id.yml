@@ -1,0 +1,47 @@
+# yaml-language-server: $schema=../../scenarios.schema.json
+suite: Carts API
+tags: ["@carts-api"]
+scenarios:
+  - id: API-0247
+    name: Get cart returns 200 with its items and their products
+    status: manual
+    steps:
+      - Send GET /products and take the first item's brand id, category id and product image id.
+      - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental false and stock 10, and take the new product's id.
+      - Send POST /carts with an empty body and take the returned id as the cart's id.
+      - Send POST /carts/{cartId} with the cart's id and a body with the new product's id as product_id and quantity 2.
+      - Send GET /carts/{cartId} with the cart's id, without an Authorization header.
+      - Verify the response status is 200.
+      - Verify the Cache-Control header contains no-cache and private.
+      - Verify the body's id is the cart's id and it has the keys additional_discount_percentage, lat, lng and cart_items.
+      - Verify cart_items has exactly one item with a non-empty id, quantity 2, the cart's id as cart_id and the new product's id as product_id.
+      - Verify the item's discount_percentage is null and it has no discounted_price.
+      - Verify the item's product has the keys id, name, description, price, is_location_offer, is_rental, co2_rating, in_stock and is_eco_friendly, with the new product's name as name.
+      - Verify the item's product in_stock is a boolean.
+      - Verify the item's product has no product_image, category or brand key.
+  - id: API-0248
+    name: Get cart with an admin token returns each product's in_stock as the stock count
+    status: manual
+    role: admin
+    steps:
+      - Send GET /products and take the first item's brand id, category id and product image id.
+      - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental false and stock 10, and take the new product's id.
+      - Send POST /carts with an empty body and take the returned id as the cart's id.
+      - Send POST /carts/{cartId} with the cart's id and a body with the new product's id as product_id and quantity 1.
+      - Send GET /carts/{cartId} with the cart's id, with the admin's token.
+      - Verify the response status is 200.
+      - Verify the only item's product in_stock is the number 10.
+  - id: API-0249
+    name: Get cart with an unknown cart id returns 404
+    status: manual
+    steps:
+      - Send GET /carts/{cartId} with a well-formed cart id that doesn't exist.
+      - Verify the response status is 404.
+      - Verify the body's message is "Requested item not found".
+  - id: API-0250
+    name: Get cart with a malformed cart id returns 404
+    status: manual
+    steps:
+      - Send GET /carts/{cartId} with abc as the cart id.
+      - Verify the response status is 404.
+      - Verify the body's message is "Requested item not found".

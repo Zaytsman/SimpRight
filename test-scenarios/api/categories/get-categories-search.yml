@@ -1,0 +1,55 @@
+# yaml-language-server: $schema=../../scenarios.schema.json
+suite: Categories API
+tags: ["@categories-api"]
+scenarios:
+  - id: API-0191
+    name: Search categories returns only matching categories
+    status: manual
+    steps:
+      - Send GET /categories/search with q=hand.
+      - Verify the response status is 200.
+      - Verify the body is a non-empty array and every item's name contains "hand" (case-insensitive).
+      - Verify the body's slugs include hand-tools and hand-saw.
+      - Verify the item whose slug is hand-tools has a non-empty sub_categories.
+  - id: API-0192
+    name: Search categories with a term shorter than 4 characters matches inside names
+    status: manual
+    steps:
+      - Send GET /categories/search with q=saw.
+      - Verify the response status is 200.
+      - Verify the body is a non-empty array and every item's name contains "saw" (case-insensitive).
+      - Verify the body's slugs include hand-saw and saw.
+  - id: API-0193
+    name: Search categories with a term no category matches returns an empty array
+    status: manual
+    steps:
+      - Send GET /categories/search with q set to a unique term of letters and digits only that no category has.
+      - Verify the response status is 200.
+      - Verify the body is an empty array.
+  - id: API-0194
+    name: Search categories without a term returns every category
+    status: manual
+    steps:
+      - Send GET /categories and keep the category ids.
+      - Send GET /categories/search without a q parameter.
+      - Verify the response status is 200.
+      - Verify the body's category ids equal the GET /categories ids, in any order.
+  - id: API-0195
+    name: Search categories with q as an array returns 422
+    status: manual
+    knownIssue: Returns 500 instead of 422 when q is sent as an array.
+    bug: BUG-017
+    steps:
+      - Send GET /categories/search with q as an array (q[]=x).
+      - Verify the response status is 422.
+  - id: API-0196
+    name: Search categories finds a category created after the same term was searched
+    status: manual
+    role: admin
+    knownIssue: Returns the cached search result instead of the new category for a term searched before the category was created.
+    bug: BUG-020
+    steps:
+      - Send GET /categories/search with q set to a unique term of letters and digits only, at least 4 characters long, that no category has.
+      - Send POST /categories with that term as the name and a unique slug, with the admin's token, and take the new category's id.
+      - Send GET /categories/search with the same term.
+      - Verify the body includes a category with the new id.

@@ -1,0 +1,89 @@
+# yaml-language-server: $schema=../../scenarios.schema.json
+suite: Categories API
+tags: ["@categories-api"]
+scenarios:
+  - id: API-0214
+    name: Partially update category name returns success and keeps the slug
+    status: manual
+    role: admin
+    steps:
+      - Send POST /categories with a unique category name and a unique slug, with the admin's token, and take the new category's id and slug.
+      - Send PATCH /categories/{categoryId} with that id and a body with only a new unique category name, with the admin's token.
+      - Verify the response status is 200.
+      - Verify the body's success is true.
+      - Verify GET /categories/tree/{categoryId} with that id returns the new name and the original slug.
+  - id: API-0215
+    name: Partially update category with an empty slug returns 422
+    status: manual
+    role: admin
+    steps:
+      - Send POST /categories with a unique category name and a unique slug, with the admin's token, and take the new category's id.
+      - Send PATCH /categories/{categoryId} with that id and a body with only slug set to an empty string, with the admin's token.
+      - Verify the response status is 422.
+      - Verify the body has a slug key with at least one message.
+  - id: API-0216
+    name: Partially update category with a slug outside letters, digits, dashes and underscores returns 422
+    status: manual
+    role: admin
+    steps:
+      - Send POST /categories with a unique category name and a unique slug, with the admin's token, and take the new category's id.
+      - Send PATCH /categories/{categoryId} with that id and a body with only a slug made of a unique slug followed by " x!" (a space and an exclamation mark), with the admin's token.
+      - Verify the response status is 422.
+      - Verify the body has a slug key with at least one message.
+  - id: API-0217
+    name: Partially update category with a name longer than 120 characters returns 422
+    status: manual
+    role: admin
+    steps:
+      - Send POST /categories with a unique category name and a unique slug, with the admin's token, and take the new category's id.
+      - Send PATCH /categories/{categoryId} with that id and a body with only a 121-character name that starts with a unique category name, with the admin's token.
+      - Verify the response status is 422.
+      - Verify the body has a name key with at least one message.
+  - id: API-0218
+    name: Partially update category with an unknown id returns 404
+    status: manual
+    steps:
+      - Send PATCH /categories/{categoryId} with a well-formed ULID that no category has and a body with only a unique category name.
+      - Verify the response status is 404.
+      - Verify the body's message is "Requested item not found".
+  - id: API-0219
+    name: Partially update category with another category's slug returns 409
+    status: manual
+    role: admin
+    steps:
+      - Send POST /categories with a unique category name and a unique slug, with the admin's token, and take the new category's id and slug.
+      - Send PATCH /categories/{categoryId} with that id and a body with only the slug hand-tools, with the admin's token.
+      - Verify the response status is 409.
+      - Verify the body has a slug key with at least one message.
+      - Verify GET /categories/tree/{categoryId} with that id still returns its own slug.
+  - id: API-0220
+    name: Partially update category with its own slug returns success
+    status: manual
+    role: admin
+    knownIssue: Returns 409 instead of 200 when the body repeats the category's own slug.
+    bug: BUG-018
+    steps:
+      - Send POST /categories with a unique category name and a unique slug, with the admin's token, and take the new category's id and slug.
+      - Send PATCH /categories/{categoryId} with that id and a body with a new unique category name and the category's own slug, with the admin's token.
+      - Verify the response status is 200.
+      - Verify GET /categories/tree/{categoryId} with that id returns the new name.
+  - id: API-0221
+    name: Partially update category with an unknown parent_id returns 422
+    status: manual
+    role: admin
+    knownIssue: Returns 500 instead of 422 when parent_id is not the id of an existing category.
+    bug: BUG-015
+    steps:
+      - Send POST /categories with a unique category name and a unique slug, with the admin's token, and take the new category's id.
+      - Send PATCH /categories/{categoryId} with that id and a body with only a well-formed ULID that no category has as parent_id, with the admin's token.
+      - Verify the response status is 422.
+  - id: API-0222
+    name: Partially update category without a token returns 401
+    status: manual
+    role: admin
+    knownIssue: Accepts PATCH without a token instead of returning 401.
+    bug: BUG-014
+    steps:
+      - Send POST /categories with a unique category name and a unique slug, with the admin's token, and take the new category's id.
+      - Send PATCH /categories/{categoryId} with that id and a body with only a new unique category name, without an Authorization header.
+      - Verify the response status is 401.

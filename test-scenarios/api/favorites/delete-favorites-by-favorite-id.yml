@@ -1,0 +1,50 @@
+# yaml-language-server: $schema=../../scenarios.schema.json
+suite: Favorites API
+tags: ["@favorites-api"]
+scenarios:
+  - id: API-0284
+    name: Delete favorite returns 204 and removes it
+    status: manual
+    steps:
+      - Send GET /products and take the id of a product that isn't among the default user's favorites (compare with GET /favorites).
+      - Send POST /favorites with that product id, and take the new favorite's id.
+      - Send DELETE /favorites/{favoriteId} with that id.
+      - Verify the response status is 204.
+      - Verify GET /favorites/{favoriteId} with that id returns 404.
+  - id: API-0285
+    name: Delete favorite without a token returns 401
+    status: manual
+    steps:
+      - Send GET /products and take the id of a product that isn't among the default user's favorites (compare with GET /favorites).
+      - Send POST /favorites with that product id, and take the new favorite's id.
+      - Send DELETE /favorites/{favoriteId} with that id, without an Authorization header.
+      - Verify the response status is 401.
+      - Verify the body's message is "Unauthorized".
+      - Verify GET /favorites/{favoriteId} with that id returns 200.
+  - id: API-0286
+    name: Delete favorite with a malformed token returns 401
+    status: manual
+    steps:
+      - Send GET /products and take the id of a product that isn't among the default user's favorites (compare with GET /favorites).
+      - Send POST /favorites with that product id, and take the new favorite's id.
+      - Send DELETE /favorites/{favoriteId} with that id, with a malformed token.
+      - Verify the response status is 401.
+      - Verify the body's message is "Unauthorized".
+      - Verify GET /favorites/{favoriteId} with that id returns 200.
+  - id: API-0287
+    name: Delete favorite with an unknown id returns 204
+    status: manual
+    steps:
+      - Send DELETE /favorites/{favoriteId} with a well-formed ULID that no favorite has.
+      - Verify the response status is 204.
+  - id: API-0288
+    name: Delete another user's favorite returns 204 and keeps it
+    status: manual
+    steps:
+      - Send GET /products and take the id of a product that isn't among the default user's favorites (compare with GET /favorites).
+      - Send POST /favorites with that product id, and take the new favorite's id.
+      - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.
+      - Send POST /users/login with that email and password, and take its access_token.
+      - Send DELETE /favorites/{favoriteId} with that favorite's id, with the throwaway customer's access_token.
+      - Verify the response status is 204.
+      - Verify GET /favorites/{favoriteId} with that id, with the default user's token, returns 200.

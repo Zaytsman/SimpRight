@@ -1,0 +1,41 @@
+# yaml-language-server: $schema=./bug.schema.json
+id: BUG-024
+title: Products that aren't location offers get the location discount in a cart near a listed city, instead of none
+status: open
+severity: major
+layer: api
+area: carts
+affects:
+  - POST /carts/{cartId}
+  - GET /carts/{cartId}
+found: 2026-10-10
+ref:
+  - docs/api/contracts/Carts_API.md#notes
+  - docs/api/contracts/Carts_API.md#2-add-item-to-cart
+  - docs/ui/user-stories/Rental_Products.md#AC5
+description: >-
+  The location discount (5 to 25 % by city) should apply only to products marked as location offers, but
+  CartService::addItemToCart checks isset($existingItem->product->is_location_offer), which is true for
+  false as well as true. So every product added to a cart whose coordinates match a city gets the city's
+  discount and a discounted_price. The UI creates carts with the browser's geolocation, so visitors near
+  a listed city see every item discounted at checkout.
+steps:
+  - Send GET /products and take the id of an item with is_location_offer false.
+  - Send POST /carts with lat 52 and lng 5 (Amsterdam) and take the returned id as the cart's id.
+  - Send POST /carts/{cartId} with the cart's id and a body with that product's id as product_id and quantity 1.
+  - Send GET /carts/{cartId} with the cart's id.
+  - Send DELETE /carts/{cartId} with the cart's id.
+expected: >-
+  The item has no location discount (discount_percentage null or 0) and no discounted_price, because only
+  a product marked as a location offer gets the location discount (Rental_Products.md AC5; Carts_API.md, Enums).
+actual: The item gets discount_percentage 20 and a discounted_price of its price x 0.8, like a location offer.
+evidence: |-
+  Live, 2026-10-10 09:07 UTC (cart deleted afterwards, 204):
+  Product: Combination Pliers (seeded), price 14.15, is_location_offer false
+  POST /carts { lat: 52, lng: 5 } -> 201 { id }
+  POST /carts/{cartId} { product_id, quantity: 1 } -> 200 {"result":"item added or updated"}
+  GET /carts/{cartId} -> 200, its only item: discount_percentage 20, discounted_price 11.32
+  Source (practice-software-testing, sprint5/API), 2026-10-10:
+  CartService::addItemToCart: if ($cart->lat && $cart->lng && isset($existingItem->product->is_location_offer))
+    -> discount_percentage = calculateDiscountPercentage(lat, lng)
+  Product model: 'is_location_offer' => 'boolean'; migration: $table->boolean('is_location_offer') (not nullable)

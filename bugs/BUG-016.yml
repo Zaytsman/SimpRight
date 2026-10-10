@@ -1,0 +1,25 @@
+# yaml-language-server: $schema=./bug.schema.json
+id: BUG-016
+title: Category tree returns 500 instead of 422 when by_category_slug is sent as an array
+status: open
+severity: major
+layer: api
+area: categories
+affects:
+  - GET /categories/tree
+  - QUERY /categories/tree
+found: 2026-10-10
+ref:
+  - docs/api/contracts/Categories_API.md#3-get-category-tree
+  - docs/api/contracts/Categories_API.md#4-get-category-tree-http-query
+description: >-
+  by_category_slug isn't validated, and an array ends in a server error instead of a validation message
+  (or being treated as text). GET and QUERY share the code path.
+steps:
+  - Send GET /categories/tree with by_category_slug as an array (by_category_slug[]=x).
+  - 'Send QUERY /categories/tree with Content-Type: application/json and the body { "by_category_slug": ["x"] }.'
+expected: 422 naming by_category_slug, or 200 with the value treated as text.
+actual: '500 with { "message": "Server Error" } for GET (observed by the contract writer); QUERY from the source (same code path).'
+evidence: |-
+  Contract writer's live calls, 2026-10-10 07:49-07:51 UTC (Categories_API.md, Get category tree):
+  GET /categories/tree?by_category_slug[]=x -> 500 {"message":"Server Error"}

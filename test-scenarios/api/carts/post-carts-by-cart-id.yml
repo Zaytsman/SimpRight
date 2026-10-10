@@ -69,3 +69,174 @@ scenarios:
       - Send POST /carts/{cartId} with the cart's id and a body with the new product's id as product_id and quantity 999999999.
       - Verify the response status is 200.
       - Verify GET /carts/{cartId} with the cart's id returns 200 and its cart_items has exactly one item, with the new product's id as product_id and quantity 999999999.
+  - id: API-0232
+    name: Add a product that is already in the cart increases its quantity
+    status: manual
+    steps:
+      - Send GET /products and take the first item's brand id, category id and product image id.
+      - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental false and stock 10, and take the new product's id.
+      - Send POST /carts with an empty body and take the returned id as the cart's id.
+      - Send POST /carts/{cartId} with the cart's id and a body with the new product's id as product_id and quantity 1.
+      - Send POST /carts/{cartId} with the cart's id and a body with the new product's id as product_id and quantity 2.
+      - Verify the response status is 200.
+      - Verify GET /carts/{cartId} with the cart's id returns 200 and its cart_items has exactly one item, with the new product's id as product_id and quantity 3.
+  - id: API-0233
+    name: Add a product with quantity 99 to a cart returns 200 and the cart holds it
+    status: manual
+    steps:
+      - Send GET /products and take the first item's brand id, category id and product image id.
+      - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental false and stock 10, and take the new product's id.
+      - Send POST /carts with an empty body and take the returned id as the cart's id.
+      - Send POST /carts/{cartId} with the cart's id and a body with the new product's id as product_id and quantity 99.
+      - Verify the response status is 200.
+      - Verify GET /carts/{cartId} with the cart's id returns 200 and its cart_items has exactly one item, with the new product's id as product_id and quantity 99.
+  - id: API-0234
+    name: Add a product with quantity 99 twice gives a cart line with quantity 198
+    status: manual
+    steps:
+      - Send GET /products and take the first item's brand id, category id and product image id.
+      - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental false and stock 10, and take the new product's id.
+      - Send POST /carts with an empty body and take the returned id as the cart's id.
+      - Send POST /carts/{cartId} with the cart's id and a body with the new product's id as product_id and quantity 99.
+      - Send POST /carts/{cartId} with the same cart id and body again.
+      - Verify the response status is 200.
+      - Verify GET /carts/{cartId} with the cart's id returns 200 and its cart_items has exactly one item, with the new product's id as product_id and quantity 198.
+  - id: API-0235
+    name: Add an out-of-stock product to a cart returns 200 and the cart holds it
+    status: manual
+    steps:
+      - Send GET /products and take the first item's brand id, category id and product image id.
+      - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental false and stock 0, and take the new product's id.
+      - Send POST /carts with an empty body and take the returned id as the cart's id.
+      - Send POST /carts/{cartId} with the cart's id and a body with the new product's id as product_id and quantity 1.
+      - Verify the response status is 200.
+      - Verify GET /carts/{cartId} with the cart's id returns 200 and its cart_items has exactly one item, with the new product's id as product_id and quantity 1.
+  - id: API-0236
+    name: Add a rental and a non-rental product to a cart sets the additional discount to 15
+    status: manual
+    steps:
+      - Send GET /products and take the first item's brand id, category id and product image id.
+      - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental false and stock 10, and take the new product's id as the non-rental product's id.
+      - Send POST /products with a unique product name, a positive price, the same brand, category and product image ids, is_location_offer false, is_rental true and stock 10, and take the new product's id as the rental product's id.
+      - Send POST /carts with an empty body and take the returned id as the cart's id.
+      - Send POST /carts/{cartId} with the cart's id and a body with the non-rental product's id as product_id and quantity 1.
+      - Send POST /carts/{cartId} with the cart's id and a body with the rental product's id as product_id and quantity 1.
+      - Verify the response status is 200.
+      - Verify GET /carts/{cartId} with the cart's id returns 200 with additional_discount_percentage 15.
+  - id: API-0237
+    name: Add a location offer to a cart near Amsterdam gives it a 20% discount
+    status: manual
+    steps:
+      - Send GET /products and take the first item's brand id, category id and product image id.
+      - Send POST /products with a unique product name, a positive price, those ids, is_location_offer true, is_rental false and stock 10, and take the new product's id.
+      - Send POST /carts with lat 52 and lng 5 and take the returned id as the cart's id.
+      - Send POST /carts/{cartId} with the cart's id and a body with the new product's id as product_id and quantity 1.
+      - Verify the response status is 200.
+      - Verify GET /carts/{cartId} with the cart's id returns 200 and its only item has discount_percentage 20.
+      - Verify the item's discounted_price equals its product's price × 0.8, rounded to 2 decimals.
+  - id: API-0238
+    name: Add a location offer to a cart at real New York coordinates gives it a 5% discount
+    ref: BUG-025
+    status: manual
+    knownIssue: Gives a location offer no discount at real New York coordinates (41, -74) instead of New York's 5% discount.
+    bug: BUG-025
+    steps:
+      - Send GET /products and take the first item's brand id, category id and product image id.
+      - Send POST /products with a unique product name, a positive price, those ids, is_location_offer true, is_rental false and stock 10, and take the new product's id.
+      - Send POST /carts with lat 41 and lng -74 and take the returned id as the cart's id.
+      - Send POST /carts/{cartId} with the cart's id and a body with the new product's id as product_id and quantity 1.
+      - Verify the response status is 200.
+      - Verify GET /carts/{cartId} with the cart's id returns 200 and its only item has discount_percentage 5.
+      - Verify the item's discounted_price equals its product's price × 0.95, rounded to 2 decimals.
+  - id: API-0239
+    name: Add to cart without the required fields returns 422 for each of them
+    status: manual
+    steps:
+      - Send POST /carts with an empty body and take the returned id as the cart's id.
+      - Send POST /carts/{cartId} with the cart's id and an empty JSON object as the body.
+      - Verify the response status is 422.
+      - Verify the body's errors has the keys product_id and quantity, each with at least one message.
+      - Verify GET /carts/{cartId} with the cart's id returns 200 and its cart_items is empty.
+  - id: API-0240
+    name: Add to cart with an unknown product id returns 422 and adds nothing
+    status: manual
+    steps:
+      - Send POST /carts with an empty body and take the returned id as the cart's id.
+      - Send POST /carts/{cartId} with the cart's id and a body with a well-formed product id that doesn't exist as product_id and quantity 1.
+      - Verify the response status is 422.
+      - Verify the body's errors has a product_id key with at least one message.
+      - Verify GET /carts/{cartId} with the cart's id returns 200 and its cart_items is empty.
+  - id: API-0241
+    name: Add to cart with a non-integer quantity returns 422 and adds nothing
+    status: manual
+    steps:
+      - Send GET /products and take the first item's brand id, category id and product image id.
+      - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental false and stock 10, and take the new product's id.
+      - Send POST /carts with an empty body and take the returned id as the cart's id.
+      - Send POST /carts/{cartId} with the cart's id and a body with the new product's id as product_id and quantity 1.5.
+      - Verify the response status is 422.
+      - Verify the body's errors has a quantity key with at least one message.
+      - Verify GET /carts/{cartId} with the cart's id returns 200 and its cart_items is empty.
+  - id: API-0242
+    name: Add to cart with an unknown cart id returns 404
+    status: manual
+    steps:
+      - Send POST /carts/{cartId} with a well-formed cart id that doesn't exist and a body with an existing product's id (taken from GET /products) as product_id and quantity 1.
+      - Verify the response status is 404.
+      - Verify the body's message is "Cart not found".
+  - id: API-0243
+    name: Add to cart with an empty body and an unknown cart id returns 422, not 404
+    status: manual
+    steps:
+      - Send POST /carts/{cartId} with a well-formed cart id that doesn't exist and an empty JSON object as the body.
+      - Verify the response status is 422.
+      - Verify the body's errors has the keys product_id and quantity.
+  - id: API-0244
+    name: Add Thor Hammer with quantity 2 to a cart returns 400 and adds nothing
+    status: manual
+    steps:
+      - Send GET /products/search with q set to Thor Hammer and take the id of the item whose name is exactly "Thor Hammer".
+      - Send POST /carts with an empty body and take the returned id as the cart's id.
+      - Send POST /carts/{cartId} with the cart's id and a body with Thor Hammer's id as product_id and quantity 2.
+      - Verify the response status is 400.
+      - Verify the body's message is "You can only have one Thor Hammer in the cart.".
+      - Verify GET /carts/{cartId} with the cart's id returns 200 and its cart_items is empty.
+  - id: API-0245
+    name: Add Thor Hammer to a cart that already holds it returns 400
+    status: manual
+    steps:
+      - Send GET /products/search with q set to Thor Hammer and take the id of the item whose name is exactly "Thor Hammer".
+      - Send POST /carts with an empty body and take the returned id as the cart's id.
+      - Send POST /carts/{cartId} with the cart's id and a body with Thor Hammer's id as product_id and quantity 1.
+      - Send POST /carts/{cartId} with the same cart id and body again.
+      - Verify the response status is 400.
+      - Verify the body's message is "You can only have one Thor Hammer in the cart.".
+      - Verify GET /carts/{cartId} with the cart's id returns 200 and its cart_items has exactly one item, with Thor Hammer's id as product_id and quantity 1.
+  - id: API-0246
+    name: Add a product that isn't a location offer to a cart near Amsterdam gives it no discount
+    ref: BUG-024
+    status: manual
+    knownIssue: Applies the location discount to a product that isn't a location offer instead of leaving it undiscounted.
+    bug: BUG-024
+    steps:
+      - Send GET /products and take the first item's brand id, category id and product image id.
+      - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental false and stock 10, and take the new product's id.
+      - Send POST /carts with lat 52 and lng 5 and take the returned id as the cart's id.
+      - Send POST /carts/{cartId} with the cart's id and a body with the new product's id as product_id and quantity 1.
+      - Verify the response status is 200.
+      - Verify GET /carts/{cartId} with the cart's id returns 200 and its only item has discount_percentage null or 0.
+      - Verify the item has no discounted_price.
+  - id: API-0289
+    name: Add a location offer to a cart at London's coordinates (lat 51, lng 0) gives it a 25% discount
+    ref: BUG-026
+    status: manual
+    knownIssue: Gives a location offer no discount in a cart at longitude 0 (London, 51, 0) instead of London's 25% discount.
+    bug: BUG-026
+    steps:
+      - Send GET /products and take the first item's brand id, category id and product image id.
+      - Send POST /products with a unique product name, a positive price, those ids, is_location_offer true, is_rental false and stock 10, and take the new product's id.
+      - Send POST /carts with lat 51 and lng 0 and take the returned id as the cart's id.
+      - Send POST /carts/{cartId} with the cart's id and a body with the new product's id as product_id and quantity 1.
+      - Verify the response status is 200.
+      - Verify GET /carts/{cartId} with the cart's id returns 200 and its only item has discount_percentage 25.
+      - Verify the item's discounted_price equals its product's price × 0.75, rounded to 2 decimals.

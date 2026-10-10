@@ -1,0 +1,27 @@
+# yaml-language-server: $schema=./bug.schema.json
+id: BUG-018
+title: Partial category update returns 409 when the body repeats the category's own slug, instead of 200
+status: open
+severity: minor
+layer: api
+area: categories
+affects:
+  - PATCH /categories/{categoryId}
+found: 2026-10-10
+ref:
+  - docs/api/contracts/Categories_API.md#9-partially-update-category
+  - docs/api/contracts/Categories_API.md#notes
+description: >-
+  The slug's uniqueness rule in PatchCategory doesn't ignore the category being patched, so a client that
+  sends every field (the current slug unchanged) can't update the name. Workaround: leave slug out of the
+  body. PUT has no uniqueness rule and accepts the own slug. The same defect as BUG-010 (brands).
+steps:
+  - Send POST /categories with a unique name and a unique slug, and take the new category's id.
+  - Send PATCH /categories/{categoryId} for that category with a new name and the category's own slug.
+expected: 200 with { success true }, and the category has the new name; a slug only conflicts with other categories' slugs.
+actual: >-
+  409 with a slug message, and the name doesn't change (from the source; the identical Brands rule was
+  reproduced live, BUG-010).
+evidence: |-
+  Source (practice-software-testing, sprint5/API), 2026-10-10: PatchCategory::rules():
+    'slug' => [..., 'unique:categories,slug', ...] (no ignore of the current id)

@@ -1,0 +1,47 @@
+# yaml-language-server: $schema=../../scenarios.schema.json
+suite: Favorites API
+tags: ["@favorites-api"]
+scenarios:
+  - id: API-0279
+    name: Get favorite returns 200 with the favorite
+    status: manual
+    steps:
+      - Send GET /products and take the id of a product that isn't among the default user's favorites (compare with GET /favorites).
+      - Send POST /favorites with that product id, and take the new favorite's id, user_id and product_id.
+      - Send GET /favorites/{favoriteId} with that id.
+      - Verify the response status is 200.
+      - Verify the body's id, user_id and product_id equal the values POST /favorites returned.
+      - Verify the body has no product key.
+  - id: API-0280
+    name: Get favorite without a token returns 401
+    status: manual
+    steps:
+      - Send GET /favorites/{favoriteId} with a well-formed ULID that no favorite has, without an Authorization header.
+      - Verify the response status is 401.
+      - Verify the body's message is "Unauthorized".
+  - id: API-0281
+    name: Get favorite with a malformed token returns 401
+    status: manual
+    steps:
+      - Send GET /favorites/{favoriteId} with a well-formed ULID that no favorite has, with a malformed token.
+      - Verify the response status is 401.
+      - Verify the body's message is "Unauthorized".
+  - id: API-0282
+    name: Get favorite with an unknown id returns 404
+    status: manual
+    steps:
+      - Send GET /favorites/{favoriteId} with a well-formed ULID that no favorite has.
+      - Verify the response status is 404.
+      - Verify the body's message is "Requested item not found".
+  - id: API-0283
+    name: Get another user's favorite is refused
+    status: manual
+    knownIssue: Returns 200 with another user's favorite instead of 404 or 403.
+    bug: BUG-021
+    steps:
+      - Send GET /products and take the id of a product that isn't among the default user's favorites (compare with GET /favorites).
+      - Send POST /favorites with that product id, and take the new favorite's id.
+      - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.
+      - Send POST /users/login with that email and password, and take its access_token.
+      - Send GET /favorites/{favoriteId} with that favorite's id, with the throwaway customer's access_token.
+      - Verify the response status is 404 or 403.

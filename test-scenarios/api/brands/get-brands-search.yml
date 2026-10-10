@@ -1,0 +1,53 @@
+# yaml-language-server: $schema=../../scenarios.schema.json
+suite: Brands API
+tags: ["@brands-api"]
+scenarios:
+  - id: API-0154
+    name: Search brands returns only matching brands
+    status: manual
+    steps:
+      - Send GET /brands/search with q=forge.
+      - Verify the response status is 200.
+      - Verify the body is a non-empty array and every item's name contains "forge" (case-insensitive).
+      - Verify every item has a non-empty string id, name and slug.
+  - id: API-0155
+    name: Search brands with a term shorter than 4 characters matches inside names
+    status: manual
+    steps:
+      - Send GET /brands/search with q=fle.
+      - Verify the response status is 200.
+      - Verify the body is a non-empty array and every item's name contains "fle" (case-insensitive).
+  - id: API-0156
+    name: Search brands with a term no brand matches returns an empty array
+    status: manual
+    steps:
+      - Send GET /brands/search with q set to a unique term of letters and digits only that no brand has.
+      - Verify the response status is 200.
+      - Verify the body is an empty array.
+  - id: API-0157
+    name: Search brands without a term returns every brand
+    status: manual
+    steps:
+      - Send GET /brands and keep the brand ids.
+      - Send GET /brands/search without a q parameter.
+      - Verify the response status is 200.
+      - Verify the body's brand ids equal the GET /brands ids, in any order.
+  - id: API-0158
+    name: Search brands with q as an array returns 422
+    status: manual
+    knownIssue: Returns 500 instead of 422 when q is sent as an array.
+    bug: BUG-011
+    steps:
+      - Send GET /brands/search with q as an array (q[]=x).
+      - Verify the response status is 422.
+  - id: API-0159
+    name: Search brands finds a brand created after the same term was searched
+    status: manual
+    role: admin
+    knownIssue: Returns the cached search result instead of the new brand for a term searched before the brand was created.
+    bug: BUG-013
+    steps:
+      - Send GET /brands/search with q set to a unique term of letters and digits only, at least 4 characters long, that no brand has.
+      - Send POST /brands with that term as the name and a unique slug, with the admin's token, and take the new brand's id.
+      - Send GET /brands/search with the same term.
+      - Verify the body includes a brand with the new id.

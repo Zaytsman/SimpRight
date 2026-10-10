@@ -1,0 +1,19 @@
+# yaml-language-server: $schema=../../scenarios.schema.json
+suite: Brands API
+tags: ["@brands-api"]
+scenarios:
+  - id: API-0130
+    name: Get brand returns 200 with the brand
+    status: manual
+    steps:
+      - Send GET /brands and take the first brand's id, name and slug.
+      - Send GET /brands/{brandId} with that id.
+      - Verify the response status is 200.
+      - Verify the body's id, name and slug equal the list item's.
+  - id: API-0131
+    name: Get brand with an unknown id returns 404
+    status: manual
+    steps:
+      - Send GET /brands/{brandId} with a well-formed ULID that no brand has.
+      - Verify the response status is 404.
+      - Verify the body's message is "Requested item not found".

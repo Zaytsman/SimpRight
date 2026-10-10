@@ -1,0 +1,41 @@
+# yaml-language-server: $schema=../../scenarios.schema.json
+suite: Categories API
+tags: ["@categories-api"]
+scenarios:
+  - id: API-0187
+    name: Get top-level category returns 200 with its sub-categories
+    status: manual
+    steps:
+      - Send GET /categories and take the id, name and slug of the category whose slug is hand-tools.
+      - Send GET /categories/tree/{categoryId} with that id.
+      - Verify the response status is 200.
+      - Verify the body's id, name and slug equal the list item's and its parent_id is null.
+      - Verify the body's sub_categories is non-empty and every sub-category's parent_id equals the body's id.
+  - id: API-0188
+    name: Get sub-category returns 200 with its parent_id and no sub-categories
+    status: manual
+    steps:
+      - Send GET /categories and take the id, name, slug and parent_id of the category whose slug is hammer.
+      - Send GET /categories/tree/{categoryId} with that id.
+      - Verify the response status is 200.
+      - Verify the body's id, name, slug and parent_id equal the list item's.
+      - Verify the body's sub_categories is an empty array.
+  - id: API-0189
+    name: Get category with an unknown id returns 404
+    status: manual
+    steps:
+      - Send GET /categories/tree/{categoryId} with a well-formed ULID that no category has.
+      - Verify the response status is 404.
+      - Verify the body's message is "Requested item not found".
+  - id: API-0190
+    name: Get category lists a sub-category created after the category was read
+    status: manual
+    role: admin
+    knownIssue: Returns the cached category without a sub-category created after the category was first read.
+    bug: BUG-020
+    steps:
+      - Send POST /categories with a unique category name and a unique slug, with the admin's token, and take the new category's id as the parent's id.
+      - Send GET /categories/tree/{categoryId} with the parent's id.
+      - Send POST /categories with a unique category name, a unique slug and the parent's id as parent_id, with the admin's token, and take the new category's id.
+      - Send GET /categories/tree/{categoryId} with the parent's id.
+      - Verify the body's sub_categories include the new category's id.

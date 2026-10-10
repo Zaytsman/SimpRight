@@ -1,0 +1,93 @@
+# yaml-language-server: $schema=../../scenarios.schema.json
+suite: Carts API
+tags: ["@carts-api"]
+scenarios:
+  - id: API-0251
+    name: Update item quantity replaces the quantity of a product in the cart
+    status: manual
+    steps:
+      - Send GET /products and take the first item's brand id, category id and product image id.
+      - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental false and stock 10, and take the new product's id.
+      - Send POST /carts with an empty body and take the returned id as the cart's id.
+      - Send POST /carts/{cartId} with the cart's id and a body with the new product's id as product_id and quantity 2.
+      - Send PUT /carts/{cartId}/product/quantity with the cart's id and a body with the new product's id as product_id and quantity 5.
+      - Verify the response status is 200.
+      - Verify the body's result is "item added or updated".
+      - Verify GET /carts/{cartId} with the cart's id returns 200 and its cart_items has exactly one item, with the new product's id as product_id and quantity 5.
+  - id: API-0252
+    name: Update item quantity for a product that isn't in the cart returns 200 and changes nothing
+    status: manual
+    steps:
+      - Send GET /products and take the first item's brand id, category id and product image id.
+      - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental false and stock 10, and take the new product's id.
+      - Send POST /carts with an empty body and take the returned id as the cart's id.
+      - Send PUT /carts/{cartId}/product/quantity with the cart's id and a body with the new product's id as product_id and quantity 5.
+      - Verify the response status is 200.
+      - Verify the body's result is "item added or updated".
+      - Verify GET /carts/{cartId} with the cart's id returns 200 and its cart_items is empty.
+  - id: API-0253
+    name: Update item quantity without the required fields returns 422 for each of them
+    status: manual
+    steps:
+      - Send POST /carts with an empty body and take the returned id as the cart's id.
+      - Send PUT /carts/{cartId}/product/quantity with the cart's id and an empty JSON object as the body.
+      - Verify the response status is 422.
+      - Verify the body's errors has the keys product_id and quantity, each with at least one message.
+      - Verify the body's errors quantity messages include "The quantity field is required.".
+  - id: API-0254
+    name: Update item quantity with a non-integer quantity returns 422 and keeps the quantity
+    status: manual
+    steps:
+      - Send GET /products and take the first item's brand id, category id and product image id.
+      - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental false and stock 10, and take the new product's id.
+      - Send POST /carts with an empty body and take the returned id as the cart's id.
+      - Send POST /carts/{cartId} with the cart's id and a body with the new product's id as product_id and quantity 1.
+      - Send PUT /carts/{cartId}/product/quantity with the cart's id and a body with the new product's id as product_id and quantity 1.5.
+      - Verify the response status is 422.
+      - Verify the body's errors quantity messages include "The quantity field must be an integer.".
+      - Verify GET /carts/{cartId} with the cart's id returns 200 and its only item has quantity 1.
+  - id: API-0255
+    name: Update item quantity with quantity 0 returns 422 and keeps the quantity
+    status: manual
+    steps:
+      - Send GET /products and take the first item's brand id, category id and product image id.
+      - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental false and stock 10, and take the new product's id.
+      - Send POST /carts with an empty body and take the returned id as the cart's id.
+      - Send POST /carts/{cartId} with the cart's id and a body with the new product's id as product_id and quantity 1.
+      - Send PUT /carts/{cartId}/product/quantity with the cart's id and a body with the new product's id as product_id and quantity 0.
+      - Verify the response status is 422.
+      - Verify the body's errors has a quantity key with at least one message.
+      - Verify GET /carts/{cartId} with the cart's id returns 200 and its only item has quantity 1.
+  - id: API-0256
+    name: Update item quantity with an unknown product id returns 422
+    status: manual
+    steps:
+      - Send POST /carts with an empty body and take the returned id as the cart's id.
+      - Send PUT /carts/{cartId}/product/quantity with the cart's id and a body with a well-formed product id that doesn't exist as product_id and quantity 1.
+      - Verify the response status is 422.
+      - Verify the body's errors has a product_id key with at least one message.
+  - id: API-0257
+    name: Update item quantity with an unknown cart id returns 404
+    status: manual
+    steps:
+      - Send PUT /carts/{cartId}/product/quantity with a well-formed cart id that doesn't exist and a body with an existing product's id (taken from GET /products) as product_id and quantity 1.
+      - Verify the response status is 404.
+      - Verify the body's message is "Cart doesn't exist".
+  - id: API-0258
+    name: Update item quantity with an empty body and an unknown cart id returns 422, not 404
+    status: manual
+    steps:
+      - Send PUT /carts/{cartId}/product/quantity with a well-formed cart id that doesn't exist and an empty JSON object as the body.
+      - Verify the response status is 422.
+      - Verify the body's errors has the keys product_id and quantity.
+  - id: API-0259
+    name: Update Thor Hammer's quantity to 2 returns 400 and keeps quantity 1
+    status: manual
+    steps:
+      - Send GET /products/search with q set to Thor Hammer and take the id of the item whose name is exactly "Thor Hammer".
+      - Send POST /carts with an empty body and take the returned id as the cart's id.
+      - Send POST /carts/{cartId} with the cart's id and a body with Thor Hammer's id as product_id and quantity 1.
+      - Send PUT /carts/{cartId}/product/quantity with the cart's id and a body with Thor Hammer's id as product_id and quantity 2.
+      - Verify the response status is 400.
+      - Verify the body's message is "You can only have one Thor Hammer in the cart.".
+      - Verify GET /carts/{cartId} with the cart's id returns 200 and its only item has quantity 1.

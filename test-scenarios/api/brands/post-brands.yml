@@ -1,0 +1,83 @@
+# yaml-language-server: $schema=../../scenarios.schema.json
+suite: Brands API
+tags: ["@brands-api"]
+scenarios:
+  - id: API-0120
+    name: Create brand returns 201 with the new brand
+    status: manual
+    role: admin
+    steps:
+      - Send POST /brands with a unique brand name and a unique slug, with the admin's token, and take the new brand's id.
+      - Verify the response status is 201.
+      - Verify the body's name and slug equal the values sent.
+      - Verify the body has a non-empty id.
+      - Verify GET /brands/{brandId} with the new id returns 200 with the same name and slug.
+  - id: API-0121
+    name: Create brand without the required fields returns 422 for each of them
+    status: manual
+    steps:
+      - Send POST /brands with an empty JSON object as the body.
+      - Verify the response status is 422.
+      - Verify the body has the keys name and slug, each with at least one message.
+      - Verify the body's name messages include "The name field is required." and its slug messages include "The slug field is required.".
+  - id: API-0122
+    name: Create brand with a slug outside letters, digits, dashes and underscores returns 422
+    status: manual
+    steps:
+      - Send POST /brands with a unique brand name and a slug made of a unique slug followed by " x!" (a space and an exclamation mark).
+      - Verify the response status is 422.
+      - Verify the body has a slug key with at least one message.
+  - id: API-0123
+    name: Create brand with a name longer than 120 characters returns 422
+    status: manual
+    steps:
+      - Send POST /brands with a 121-character name that starts with a unique brand name, and a unique slug.
+      - Verify the response status is 422.
+      - Verify the body has a name key with at least one message.
+  - id: API-0124
+    name: Create brand with a slug longer than 120 characters returns 422
+    status: manual
+    steps:
+      - Send POST /brands with a unique brand name and a 121-character slug that starts with a unique slug and contains only letters, digits and dashes.
+      - Verify the response status is 422.
+      - Verify the body has a slug key with at least one message.
+  - id: API-0125
+    name: Create brand with a subscript character in the name returns 422
+    status: manual
+    steps:
+      - Send POST /brands with a unique brand name followed by a Unicode subscript character, and a unique slug.
+      - Verify the response status is 422.
+      - Verify the body has a name key with at least one message.
+  - id: API-0126
+    name: Create brand with an existing slug returns 409
+    status: manual
+    steps:
+      - Send GET /brands and take the first brand's slug.
+      - Send POST /brands with a unique brand name and that slug.
+      - Verify the response status is 409.
+      - Verify the body's slug messages include "A brand already exists with this slug.".
+  - id: API-0127
+    name: Create brand with an existing slug and a too-long name returns 422
+    status: manual
+    steps:
+      - Send GET /brands and take the first brand's slug.
+      - Send POST /brands with a 121-character name that starts with a unique brand name, and that slug.
+      - Verify the response status is 422.
+      - Verify the body has a name key with at least one message.
+  - id: API-0128
+    name: Create brand ignores fields other than name and slug
+    status: manual
+    role: admin
+    steps:
+      - Send POST /brands with a unique brand name, a unique slug and a description field set to "ignored", with the admin's token, and take the new brand's id.
+      - Verify the response status is 201.
+      - Verify the body has the keys id, name and slug only.
+      - Verify GET /brands/{brandId} with the new id has no description key.
+  - id: API-0129
+    name: Create brand without a token returns 401
+    status: manual
+    knownIssue: Accepts POST without a token instead of returning 401.
+    bug: BUG-009
+    steps:
+      - Send POST /brands with a unique brand name and a unique slug, without an Authorization header.
+      - Verify the response status is 401.

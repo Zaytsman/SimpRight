@@ -1,0 +1,24 @@
+# yaml-language-server: $schema=./bug.schema.json
+id: BUG-021
+title: Any logged-in user can read another user's favorite by id
+status: open
+severity: major
+layer: api
+area: favorites
+affects:
+  - GET /favorites/{favoriteId}
+found: 2026-10-10
+ref:
+  - docs/api/contracts/Favorites_API.md#3-get-favorite
+description: >-
+  GET /favorites/{favoriteId} loads the favorite with Favorite::findOrFail($id) and doesn't check its owner,
+  while GET /favorites and DELETE /favorites/{favoriteId} are limited to the token's user. Any logged-in user
+  can read another user's favorite (its user_id and product_id) when they know its id.
+steps:
+  - User A sends POST /favorites with an existing product id and takes the new favorite's id.
+  - User B sends GET /favorites/{favoriteId} with that id, with user B's token.
+expected: 404 or 403, as the list and the delete hide other users' favorites.
+actual: 200 with user A's favorite (from the source code; not reproduced live).
+evidence: |-
+  Favorites_API.md, Notes, "Reading other users' favorites" (read from FavoriteController in sprint5/API):
+  GET /favorites/{favoriteId} uses Favorite::findOrFail($id) with no user_id condition.

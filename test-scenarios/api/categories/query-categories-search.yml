@@ -1,0 +1,36 @@
+# yaml-language-server: $schema=../../scenarios.schema.json
+suite: Categories API
+tags: ["@categories-api"]
+scenarios:
+  - id: API-0197
+    name: QUERY search returns only matching categories
+    status: manual
+    steps:
+      - 'Send QUERY /categories/search with Content-Type: application/json, Accept: application/json and the body { "q": "saw" }.'
+      - Verify the response status is 200.
+      - Verify the Accept-Query response header is application/json.
+      - Verify the body is a non-empty array and every item's name contains "saw" (case-insensitive).
+      - Verify the body's slugs include hand-saw and saw.
+  - id: API-0198
+    name: QUERY search with an empty body returns every category
+    status: manual
+    steps:
+      - Send GET /categories and keep the category ids.
+      - "Send QUERY /categories/search with Content-Type: application/json, Accept: application/json and an empty JSON object as the body."
+      - Verify the response status is 200.
+      - Verify the body's category ids equal the GET /categories ids, in any order.
+  - id: API-0199
+    name: QUERY search without a JSON Content-Type returns 415
+    status: manual
+    steps:
+      - "Send QUERY /categories/search with Content-Type: text/plain, Accept: application/json and a plain-text body."
+      - Verify the response status is 415.
+      - 'Verify the body''s message is "QUERY requests must use Content-Type: application/json".'
+  - id: API-0200
+    name: QUERY search with q as an array returns 422
+    status: manual
+    knownIssue: Returns 500 instead of 422 when q is sent as an array.
+    bug: BUG-017
+    steps:
+      - 'Send QUERY /categories/search with Content-Type: application/json, Accept: application/json and the body { "q": ["x"] }.'
+      - Verify the response status is 422.

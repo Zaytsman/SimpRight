@@ -1,0 +1,12 @@
+# yaml-language-server: $schema=../../scenarios.schema.json
+suite: Brands API
+tags: ["@brands-api"]
+scenarios:
+  - id: API-0119
+    name: List brands returns every brand
+    status: manual
+    steps:
+      - Send GET /brands.
+      - Verify the response status is 200.
+      - Verify the body is a non-empty array.
+      - Verify every item has a non-empty string id, name and slug.
