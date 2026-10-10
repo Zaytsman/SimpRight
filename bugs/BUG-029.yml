@@ -1,0 +1,28 @@
+# yaml-language-server: $schema=./bug.schema.json
+id: BUG-029
+title: Getting a message that doesn't exist, or that the customer doesn't own, returns 200 with an empty body instead of 404
+status: open
+severity: minor
+layer: api
+area: messages
+affects:
+  - GET /messages/{messageId}
+found: 2026-10-10
+ref:
+  - docs/api/contracts/Messages_API.md#3-get-message
+  - docs/api/contracts/Messages_API.md#notes
+description: >-
+  GET /messages/{messageId} loads the message with the service's first(), which returns null for an
+  unknown id and for a message a non-admin doesn't own, and the controller answers 200 with that empty
+  value. The OpenAPI spec documents 404, and PUT /messages/{messageId}/status answers 404 for an unknown
+  id, so the endpoints are inconsistent. A client can't tell a missing message from an empty one.
+steps:
+  - Send GET /messages/{messageId} with a well-formed message id that doesn't exist and the admin's token.
+  - Send POST /messages with a customer's token, then send GET /messages/{messageId} with that id and another customer's token.
+expected: 404 for an unknown message id and for a message the customer doesn't own (the spec documents 404).
+actual: >-
+  200 with an empty body (from the source code; not reproduced live, a token was not available).
+evidence: |-
+  Not reproduced live, from the source code. Messages_API.md, section 3 "Get message" (read from
+  ContactController and ContactService in sprint5/API, 2026-10-10): the service's first() returns null
+  and the controller answers 200 with it; the spec lists 404.

@@ -41,7 +41,9 @@ scenarios:
       - Verify "Out of stock" is shown in red.
   - id: UI-016
     name: A rental product shows a duration slider instead of the quantity buttons
-    ref: docs/ui/user-stories/Product_Detail.md#AC10
+    ref:
+      - docs/ui/user-stories/Product_Detail.md#AC10
+      - docs/ui/user-stories/Rental_Products.md#AC3
     status: automated
     automatedIn: tests/ui/products/product-detail.spec.ts
     steps:
@@ -51,10 +53,25 @@ scenarios:
       - Verify the "Increase quantity" (+) and "Decrease quantity" (-) buttons are not shown.
   - id: UI-017
     name: A rental's total price is the hourly rate times the duration
-    ref: docs/ui/user-stories/Product_Detail.md#AC10
+    ref:
+      - docs/ui/user-stories/Product_Detail.md#AC10
+      - docs/ui/user-stories/Rental_Products.md#AC3
     status: automated
     automatedIn: tests/ui/products/product-detail.spec.ts
     steps:
       - Open the rental product "Excavator".
       - Set the duration slider to 3 hours.
       - Verify the total price equals 3 × the hourly rate.
+  - id: UI-085
+    name: A rental that is a location offer shows the discount, the discounted hourly rate and the discounted total for a visitor in London
+    ref: docs/ui/user-stories/Rental_Products.md#AC5
+    status: manual
+    steps:
+      - The visitor is in London.
+      - A rental product that is also a location offer exists.
+      - Open the product page of that rental.
+      - Set the duration slider to 3 hours.
+      - Verify the discount badge "-25%" is shown.
+      - Verify the hourly rate is shown struck through.
+      - Verify the discounted hourly rate is shown, 25% below the hourly rate.
+      - Verify the total price equals 3 × the discounted hourly rate.

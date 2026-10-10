@@ -64,3 +64,55 @@ scenarios:
       - Send POST /users/login with that email and password.
       - Verify the response status is 403.
       - Verify the body's error is "Account disabled".
+  - id: API-0308
+    name: Login of a TOTP account returns "TOTP required" with a restricted token
+    ref: docs/ui/user-stories/Checkout_Sign_In.md#AC3
+    status: manual
+    steps:
+      - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.
+      - Send POST /users/login with that email and password, and take its access_token.
+      - Send PATCH /users/{userId} with that id, totp_enabled true and totp_secret set to a known base32 secret, with the customer's own access_token.
+      - Send POST /users/login with that email and password.
+      - Verify the response status is 200.
+      - Verify the body's message is "TOTP required" and requires_totp is true.
+      - Verify the body's access_token is a non-empty string.
+      - Verify the body has no token_type or expires_in key.
+  - id: API-0309
+    name: TOTP login step with the right code returns a full token
+    ref: docs/ui/user-stories/Checkout_Sign_In.md#AC3
+    status: manual
+    steps:
+      - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.
+      - Send POST /users/login with that email and password, and take its access_token.
+      - Send PATCH /users/{userId} with that id, totp_enabled true and totp_secret set to a known base32 secret, with the customer's own access_token.
+      - Send POST /users/login with that email and password, and take the restricted access_token from the response.
+      - Send POST /users/login with access_token set to the restricted access_token and totp set to the current 6-digit code for that secret.
+      - Verify the response status is 200.
+      - Verify the body's access_token is a non-empty string.
+      - Verify the body's token_type is "bearer".
+      - Verify GET /users/me with the new access_token returns 200 with the throwaway customer's email.
+  - id: API-0310
+    name: Restricted token of the TOTP first step is rejected as a session
+    ref: docs/ui/user-stories/Checkout_Sign_In.md#AC3
+    status: manual
+    steps:
+      - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.
+      - Send POST /users/login with that email and password, and take its access_token.
+      - Send PATCH /users/{userId} with that id, totp_enabled true and totp_secret set to a known base32 secret, with the customer's own access_token.
+      - Send POST /users/login with that email and password, and take the restricted access_token from the response.
+      - Send GET /users/me with the restricted access_token.
+      - Verify the response status is 401.
+      - Verify the body's message is "Unauthorized token usage".
+  - id: API-0311
+    name: TOTP login step with a wrong code returns 401
+    ref: docs/ui/user-stories/Checkout_Sign_In.md#AC3
+    status: manual
+    steps:
+      - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.
+      - Send POST /users/login with that email and password, and take its access_token.
+      - Send PATCH /users/{userId} with that id, totp_enabled true and totp_secret set to a known base32 secret, with the customer's own access_token.
+      - Send POST /users/login with that email and password, and take the restricted access_token from the response.
+      - Send POST /users/login with access_token set to the restricted access_token and totp set to a 6-digit code that differs from the secret's codes for the current and the neighbouring 30-second periods.
+      - Verify the response status is 401.
+      - Verify the body's error is "Invalid TOTP".
+      - Verify the body has no access_token key.

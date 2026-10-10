@@ -1,0 +1,169 @@
+# yaml-language-server: $schema=../../scenarios.schema.json
+suite: User registration
+tags: ["@account"]
+scenarios:
+  - id: UI-086
+    name: 'The registration page shows the story''s fields and the "Register" button'
+    ref: docs/ui/user-stories/User_Registration.md#AC1
+    status: manual
+    role: guest
+    steps:
+      - Open the registration page.
+      - Verify the field "First name" is shown.
+      - Verify the field "Last name" is shown.
+      - Verify the field "Date of Birth *" is shown with the placeholder "YYYY-MM-DD".
+      - Verify the dropdown "Country" is shown with a list of countries to choose from.
+      - Verify the field "Street" is shown.
+      - Verify the field "Postal code" is shown.
+      - Verify the field "City" is shown.
+      - Verify the field "State" is shown.
+      - Verify the field "Phone" is shown.
+      - Verify the field "Email address" is shown.
+      - Verify the field "Password" is shown.
+      - Verify the button "Register" is shown.
+  - id: UI-087
+    name: 'Registering with an empty form shows a "required" error for each field and keeps the form'
+    ref: docs/ui/user-stories/User_Registration.md#AC1
+    status: manual
+    role: guest
+    steps:
+      - Open the registration page.
+      - Click "Register" without filling in any field.
+      - Verify the field "First name" shows a "required" error.
+      - Verify the field "Last name" shows a "required" error.
+      - Verify the field "Date of Birth *" shows a "required" error.
+      - Verify the dropdown "Country" shows a "required" error.
+      - Verify the field "Postal code" shows a "required" error.
+      - Verify the field "Street" shows a "required" error.
+      - Verify the field "City" shows a "required" error.
+      - Verify the field "State" shows a "required" error.
+      - Verify the field "Phone" shows a "required" error.
+      - Verify the field "Email address" shows a "required" error.
+      - Verify the field "Password" shows a "required" error.
+      - Verify the registration form is still shown.
+  - id: UI-088
+    name: A phone number with letters is highlighted as invalid and no account is created
+    ref: docs/ui/user-stories/User_Registration.md#AC1
+    status: manual
+    role: guest
+    steps:
+      - Open the registration page.
+      - Fill in every field the page requires with valid values, including an email address that isn't registered.
+      - Enter "06-abc" in the field "Phone", replacing the valid phone.
+      - Click "Register".
+      - Verify the field "Phone" is highlighted as invalid.
+      - Verify the phone format error is shown under the field "Phone".
+      - Verify the registration form is still shown (no redirect to the login page, so no account is created).
+  - id: UI-089
+    name: An email address without "@" is highlighted as invalid and no account is created
+    ref: docs/ui/user-stories/User_Registration.md#AC1
+    status: manual
+    role: guest
+    steps:
+      - Open the registration page.
+      - Fill in every field the page requires with valid values, including an email address that isn't registered.
+      - Enter "not-an-email" in the field "Email address", replacing the valid email address.
+      - Click "Register".
+      - Verify the field "Email address" is highlighted as invalid.
+      - Verify the email format error is shown under the field "Email address".
+      - Verify the registration form is still shown (no redirect to the login page, so no account is created).
+  - id: UI-090
+    name: Focusing the password field lists the four password requirements
+    ref: docs/ui/user-stories/User_Registration.md#AC2
+    status: manual
+    role: guest
+    steps:
+      - Open the registration page.
+      - Click the field "Password".
+      - Verify the requirement "Be at least 8 characters long" is shown.
+      - Verify the requirement "Contain both uppercase and lowercase letters" is shown.
+      - Verify the requirement "Include at least one number" is shown.
+      - 'Verify the requirement "Have at least one special symbol (e.g., @, #, $, etc.)" is shown.'
+  - id: UI-091
+    name: Typing a password marks the fulfilled requirements immediately
+    ref: docs/ui/user-stories/User_Registration.md#AC3
+    status: manual
+    role: guest
+    steps:
+      - Open the registration page.
+      - Click the field "Password".
+      - Type "abcdefgh" in the field "Password", keeping the cursor in it.
+      - Verify the requirement "Be at least 8 characters long" is marked as fulfilled.
+      - Verify the other three requirements are not marked as fulfilled.
+      - Type "A1!" in the field "Password" after the text already there, keeping the cursor in it.
+      - Verify all four requirements are marked as fulfilled.
+  - id: UI-092
+    name: A password meeting 1 criterion is rated Weak
+    ref: docs/ui/user-stories/User_Registration.md#AC4
+    status: manual
+    role: guest
+    steps:
+      - Open the registration page.
+      - Type "abc" in the field "Password", keeping the cursor in it.
+      - Verify "Weak" is highlighted as the password strength.
+      - Verify the strength bar is filled to 20%.
+  - id: UI-093
+    name: A password meeting 2 criteria is rated Moderate
+    ref: docs/ui/user-stories/User_Registration.md#AC4
+    status: manual
+    role: guest
+    steps:
+      - Open the registration page.
+      - Type "abcdefgh" in the field "Password", keeping the cursor in it.
+      - Verify "Moderate" is highlighted as the password strength.
+      - Verify the strength bar is filled to 40%.
+  - id: UI-094
+    name: A password meeting 3 criteria is rated Strong
+    ref: docs/ui/user-stories/User_Registration.md#AC4
+    status: manual
+    role: guest
+    steps:
+      - Open the registration page.
+      - Type "Abcdefgh" in the field "Password", keeping the cursor in it.
+      - Verify "Strong" is highlighted as the password strength.
+      - Verify the strength bar is filled to 60%.
+  - id: UI-095
+    name: A password meeting 4 criteria is rated Very Strong
+    ref: docs/ui/user-stories/User_Registration.md#AC4
+    status: manual
+    role: guest
+    steps:
+      - Open the registration page.
+      - Type "Abcdefg1" in the field "Password", keeping the cursor in it.
+      - Verify "Very Strong" is highlighted as the password strength.
+      - Verify the strength bar is filled to 80%.
+  - id: UI-096
+    name: A password meeting all 5 criteria is rated Excellent
+    ref: docs/ui/user-stories/User_Registration.md#AC4
+    status: manual
+    role: guest
+    steps:
+      - Open the registration page.
+      - Type "Abcdefg1!" in the field "Password", keeping the cursor in it.
+      - Verify "Excellent" is highlighted as the password strength.
+      - Verify the strength bar is filled to 100%.
+  - id: UI-097
+    name: 'Registering with an email that is already registered shows "Email is already in use."'
+    ref: docs/ui/user-stories/User_Registration.md#AC5
+    status: manual
+    role: guest
+    steps:
+      - A customer is registered through the API and the test knows the customer's email address.
+      - Open the registration page.
+      - Fill in every field the page requires with valid values, using the registered customer's email address in the field "Email address".
+      - Click "Register".
+      - Verify the error "Email is already in use." is shown.
+      - Verify the registration form is still shown.
+  - id: UI-098
+    name: A valid registration redirects to the login page and creates the account with the entered details
+    ref: docs/ui/user-stories/User_Registration.md#AC6
+    status: manual
+    role: guest
+    steps:
+      - Open the registration page.
+      - Fill in every field the page requires with valid values, including an email address that isn't registered.
+      - Click "Register".
+      - Verify the login page is shown.
+      - Verify the login form is shown.
+      - Verify logging in with the email address and password entered succeeds.
+      - Verify the account holds the first name, last name and email address entered.

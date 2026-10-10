@@ -9,3 +9,53 @@ scenarios:
     steps:
       - Open the home page.
       - Verify the card of "Long Nose Pliers" shows "Out of stock".
+  - id: UI-070
+    name: The home page shows a grid of product cards with an image, a name and a price
+    ref: docs/ui/user-stories/Product_Overview.md#AC1
+    status: manual
+    steps:
+      - Open the home page.
+      - Verify the product grid shows at least one product card.
+      - Verify every card shows a product image.
+      - Verify every card shows a product name.
+      - Verify every card shows a price.
+  - id: UI-071
+    name: Clicking a product card opens that product's page
+    ref: docs/ui/user-stories/Product_Overview.md#AC2
+    status: manual
+    steps:
+      - Open the home page.
+      - Click the card of "Combination Pliers".
+      - Verify the product detail page is shown.
+      - Verify the name "Combination Pliers" is shown.
+  - id: UI-072
+    name: The pagination controls are shown below the grid and page 2 shows other products
+    ref: docs/ui/user-stories/Product_Overview.md#AC3
+    status: manual
+    steps:
+      - Open the home page.
+      - Verify the pagination controls are shown below the product grid.
+      - Click page "2" in the pagination.
+      - Verify at least one product is shown.
+      - Verify none of the products shown was shown on page 1.
+      - Verify page "2" is marked as the active page.
+  - id: UI-073
+    name: The price range slider is shown with the range $1 to $100 and a maximum of $200
+    ref: docs/ui/user-stories/Product_Overview.md#AC10
+    status: manual
+    steps:
+      - Open the home page.
+      - Verify the price range slider is shown in the sidebar.
+      - Verify the lower handle is at 1.
+      - Verify the upper handle is at 100.
+      - Verify the maximum of the slider is 200.
+  - id: UI-074
+    name: A location offer's card shows the original price struck through and the discounted price for a visitor in London
+    ref: docs/ui/user-stories/Product_Overview.md#AC12
+    status: manual
+    steps:
+      - The visitor is in London.
+      - Open the home page.
+      - Verify the card of "Bolt Cutters" is shown on the first page.
+      - Verify the card of "Bolt Cutters" shows its original price struck through.
+      - Verify the card of "Bolt Cutters" shows the discounted price, 25% below the original price.

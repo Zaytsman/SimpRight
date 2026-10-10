@@ -121,3 +121,86 @@ scenarios:
     steps:
       - Send GET /products with sort=no_such_column,asc.
       - Verify the response status is not 500.
+  - id: API-0319
+    name: Filter by two category ids returns only products of those two categories
+    ref: docs/ui/user-stories/Product_Overview.md#AC5
+    status: manual
+    steps:
+      - "Send GET /products and take the category ids of two items that have different categories; when the first page holds only one category, read page=2, 3, ... until a second category is found. Call them category A and category B."
+      - Send GET /products with by_category set to category A and take its total as totalA.
+      - Send GET /products with by_category set to category B and take its total as totalB.
+      - Send GET /products with by_category set to category A's id and category B's id separated by a comma.
+      - Verify the response status is 200.
+      - Verify data is not empty and every item's category id is category A's id or category B's id.
+      - Verify total equals totalA plus totalB, so both categories are present in the result.
+  - id: API-0320
+    name: Filter by two brand ids returns only products of those two brands
+    ref: docs/ui/user-stories/Product_Overview.md#AC7
+    status: manual
+    steps:
+      - "Send GET /products and take the brand ids of two items that have different brands; when the first page holds only one brand, read page=2, 3, ... until a second brand is found. Call them brand A and brand B."
+      - Send GET /products with by_brand set to brand A and take its total as totalA.
+      - Send GET /products with by_brand set to brand B and take its total as totalB.
+      - Send GET /products with by_brand set to brand A's id and brand B's id separated by a comma.
+      - Verify the response status is 200.
+      - Verify data is not empty and every item's brand id is brand A's id or brand B's id.
+      - Verify total equals totalA plus totalB, so both brands are present in the result.
+  - id: API-0321
+    name: Filter by brand and category together returns only products that match both
+    ref: docs/ui/user-stories/Product_Overview.md#AC8
+    status: manual
+    steps:
+      - Send GET /products and take the first item's brand id and category id.
+      - Send GET /products with by_brand set to that brand id and by_category set to that category id.
+      - Verify the response status is 200.
+      - Verify data is not empty.
+      - Verify every item's brand id equals that brand id and its category id equals that category id.
+  - id: API-0322
+    name: A product created with stock 0 is listed as not in stock
+    ref: docs/ui/user-stories/Product_Overview.md#AC13
+    status: manual
+    role: guest
+    steps:
+      - Send GET /products and take the first item's brand id, category id and product image id.
+      - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental false and stock 0, and take the new product's id.
+      - Verify the response status is 201.
+      - Send GET /products with q set to that unique product name, without an Authorization header.
+      - Verify the response status is 200.
+      - Verify data has exactly one item and its id is the new product's id.
+      - Verify that item's in_stock is false.
+  - id: API-0323
+    name: A product created with stock above 0 is listed as in stock
+    ref: docs/ui/user-stories/Product_Overview.md#AC13
+    status: manual
+    role: guest
+    steps:
+      - Send GET /products and take the first item's brand id, category id and product image id.
+      - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental false and stock 10, and take the new product's id.
+      - Verify the response status is 201.
+      - Send GET /products with q set to that unique product name, without an Authorization header.
+      - Verify the response status is 200.
+      - Verify data has exactly one item and its id is the new product's id.
+      - Verify that item's in_stock is true.
+  - id: API-0324
+    name: A product created as a rental is listed by the rental filter
+    ref: docs/ui/user-stories/Rental_Products.md#AC1
+    status: manual
+    steps:
+      - Send GET /products and take the first item's brand id, category id and product image id.
+      - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental true and stock 10, and take the new product's id.
+      - Verify the response status is 201.
+      - Send GET /products with is_rental=true and q set to that unique product name.
+      - Verify the response status is 200.
+      - Verify data has exactly one item and its id is the new product's id.
+      - Verify that item's is_rental is true.
+  - id: API-0325
+    name: Every rental in the rental list has a name, a description and a product image file name
+    ref: docs/ui/user-stories/Rental_Products.md#AC2
+    status: manual
+    steps:
+      - Send GET /products with is_rental=true.
+      - Verify the response status is 200.
+      - 'Verify data is not empty after ignoring products created by tests (names starting with "Product-").'
+      - 'Verify every remaining item has a non-empty name, ignoring products created by tests (names starting with "Product-").'
+      - 'Verify every remaining item has a non-empty description, ignoring products created by tests (names starting with "Product-").'
+      - 'Verify every remaining item has a product_image with a non-empty file_name, ignoring products created by tests (names starting with "Product-").'

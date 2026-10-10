@@ -1,0 +1,74 @@
+# yaml-language-server: $schema=../../scenarios.schema.json
+suite: Messages API
+tags: ["@messages-api"]
+scenarios:
+  - id: API-0343
+    name: List messages as a customer returns 200 with only the customer's own messages
+    status: manual
+    steps:
+      - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.
+      - Send POST /users/login with that email and password, and take its access_token.
+      - Send POST /messages with that token, a unique subject and a message text, and take the new message's id.
+      - Send POST /messages without an Authorization header, with a unique subject and a message text (a guest message).
+      - Send GET /messages with the throwaway customer's access_token.
+      - Verify the response status is 200.
+      - Verify the body has the keys current_page, data, from, last_page, per_page, to and total, and its per_page is 15.
+      - Verify the body's total is 1 and its data has exactly one item, with the customer's message id as id, the new user's id as user_id and status "NEW".
+      - Verify that item's subject and message equal the values sent and it has no user key.
+  - id: API-0344
+    name: List messages as an admin includes guest and customer messages, each with its sender
+    status: manual
+    role: admin
+    steps:
+      - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.
+      - Send POST /users/login with that email and password, and take its access_token.
+      - Send POST /messages with that token, a unique subject and a message text, and take the new message's id as the customer message's id.
+      - Send POST /messages without an Authorization header, with a unique subject and a message text, and take the new message's id as the guest message's id.
+      - Send GET /messages with the admin's token.
+      - Verify the response status is 200.
+      - Verify the body's data (newest first, so page 1) includes an item with the customer message's id, the new user's id as user_id and a user object whose id is the new user's id.
+      - Verify the body's data includes an item with the guest message's id, with user_id null and user null.
+  - id: API-0345
+    name: List messages with a page past the last returns 200 with an empty data
+    status: manual
+    steps:
+      - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.
+      - Send POST /users/login with that email and password, and take its access_token.
+      - Send POST /messages with that token, a unique subject and a message text.
+      - Send GET /messages with page 2 and that token.
+      - Verify the response status is 200.
+      - Verify the body's data is an empty array.
+  - id: API-0346
+    name: List messages without a token returns 401
+    status: manual
+    steps:
+      - Send GET /messages without an Authorization header.
+      - Verify the response status is 401.
+      - Verify the body's message is "Unauthorized".
+  - id: API-0347
+    name: List messages with a malformed token returns 401
+    status: manual
+    steps:
+      - Send GET /messages with a malformed token.
+      - Verify the response status is 401.
+      - Verify the body's message is "Unauthorized".
+  - id: API-0348
+    name: List messages with a disabled account's token returns 403
+    status: manual
+    role: admin
+    steps:
+      - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.
+      - Send POST /users/login with that email and password, and take its access_token.
+      - Send PATCH /users/{userId} with that id and enabled false, with the admin's token.
+      - Send GET /messages with the throwaway customer's access_token.
+      - Verify the response status is 403.
+      - Verify the body's message is "Account disabled.".
+  - id: API-0349
+    name: List messages of a customer without messages returns 200 with an empty list
+    status: manual
+    steps:
+      - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.
+      - Send POST /users/login with that email and password, and take its access_token.
+      - Send GET /messages with that token.
+      - Verify the response status is 200.
+      - Verify the body's data is an empty array.

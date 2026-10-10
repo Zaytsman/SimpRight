@@ -1,0 +1,105 @@
+# yaml-language-server: $schema=../../scenarios.schema.json
+suite: Checkout cart review
+tags: ["@cart"]
+scenarios:
+  - id: UI-049
+    name: The cart step shows the line under the labelled column headers
+    ref: docs/ui/user-stories/Checkout_Cart_Review.md#AC1
+    status: manual
+    steps:
+      - A product that is in stock is in the cart.
+      - Open the checkout page.
+      - Verify the column headers "Item", "Quantity", "Price" and "Total" are shown.
+      - Verify the line shows the product's name under "Item".
+      - Verify the line shows its quantity under "Quantity".
+      - Verify the line shows the product's unit price under "Price".
+      - Verify the line shows its line total under "Total", equal to the quantity × the unit price.
+  - id: UI-050
+    name: Changing a line's quantity recalculates the totals and shows a confirmation
+    ref: docs/ui/user-stories/Checkout_Cart_Review.md#AC2
+    status: manual
+    steps:
+      - A product that is in stock and has no CO2 rating A or B is in the cart with quantity 1.
+      - Open the checkout page.
+      - Change the quantity of the line from 1 to 3.
+      - Verify the message "Product quantity updated." is shown.
+      - Verify the line total equals 3 × the unit price.
+      - Verify the cart total equals 3 × the unit price.
+  - id: UI-051
+    name: Deleting a line removes it and recalculates the cart total
+    ref: docs/ui/user-stories/Checkout_Cart_Review.md#AC3
+    status: manual
+    steps:
+      - Two products that are in stock, neither with a CO2 rating A or B, are in the cart, one line each.
+      - Open the checkout page.
+      - Click the delete button on the line of the first product.
+      - Verify the line of the first product is no longer shown.
+      - 'Verify the cart has one line: the second product.'
+      - Verify the cart total equals the remaining line's total.
+  - id: UI-052
+    name: A visitor with no cart sees the empty cart message
+    ref: docs/ui/user-stories/Checkout_Cart_Review.md#AC4
+    status: manual
+    steps:
+      - 'No cart exists yet: nothing has been added to a cart in this session.'
+      - Open the checkout page.
+      - Verify the message "Your shopping cart is empty" is shown.
+  - id: UI-053
+    name: Deleting the last line shows the empty cart message
+    ref: docs/ui/user-stories/Checkout_Cart_Review.md#AC4
+    status: manual
+    steps:
+      - A product that is in stock is in the cart.
+      - Open the checkout page.
+      - Click the delete button on the line.
+      - Verify the message "Your shopping cart is empty" is shown.
+      - Verify the button "Proceed to checkout" is not shown.
+  - id: UI-054
+    name: '"Proceed to checkout" leads to the sign-in step'
+    ref: docs/ui/user-stories/Checkout_Cart_Review.md#AC5
+    status: manual
+    steps:
+      - A product that is in stock is in the cart.
+      - Open the checkout page.
+      - Click "Proceed to checkout".
+      - Verify the "Sign in" step is shown.
+  - id: UI-055
+    name: A discounted line shows the badge, the original price and the discounted price
+    ref: docs/ui/user-stories/Checkout_Cart_Review.md#AC6
+    status: manual
+    steps:
+      - The customer's location is Amsterdam, and a product with a location offer is added to the cart.
+      - Open the checkout page.
+      - Verify the discount badge "-20%" is shown next to the product name.
+      - Verify the original price is shown struck through.
+      - Verify the discounted price is shown, equal to 80% of the original price.
+  - id: UI-056
+    name: A cart with a rental and a non-rental item shows the subtotal, the 15% discount and the total
+    ref: docs/ui/user-stories/Checkout_Cart_Review.md#AC7
+    status: manual
+    steps:
+      - A rental product and a product that is not a rental are in the cart; neither has a discount or a CO2 rating A or B.
+      - Open the checkout page.
+      - Verify the "Subtotal" equals the sum of the line totals.
+      - Verify the row "Discount (15%)" shows 15% of the subtotal.
+      - Verify the "Total" equals the subtotal minus the discount.
+  - id: UI-057
+    name: Deleting the rental line removes the combined discount
+    ref: docs/ui/user-stories/Checkout_Cart_Review.md#AC8
+    status: manual
+    steps:
+      - A rental product and a product that is not a rental are in the cart; neither has a discount or a CO2 rating A or B.
+      - Open the checkout page.
+      - Click the delete button on the line of the rental product.
+      - Verify the "Subtotal" row is no longer shown.
+      - Verify the "Discount (15%)" row is no longer shown.
+      - Verify the total equals the remaining line's total.
+  - id: UI-084
+    name: A rental line in the checkout cart is marked "This is a rental item"
+    ref: docs/ui/user-stories/Rental_Products.md#AC4
+    status: manual
+    steps:
+      - A rental product and a product that is not a rental are in the cart.
+      - Open the checkout page.
+      - Verify the line of the rental product is marked "This is a rental item".
+      - Verify the line of the product that is not a rental is not marked "This is a rental item".

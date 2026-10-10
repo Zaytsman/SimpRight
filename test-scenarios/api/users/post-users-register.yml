@@ -130,3 +130,78 @@ scenarios:
     steps:
       - Send POST /users/register with a unique email, a first name, a last name, a random strong password and a dob 80 years ago in YYYY-MM-DD.
       - Verify the response status is 422.
+  - id: API-0305
+    name: Register stores the country and a postal code in that country's format
+    ref: docs/ui/user-stories/Checkout_Billing_Address.md#AC4
+    status: manual
+    steps:
+      - Send POST /users/register with a unique email, a first name, a last name, a random strong password, and an address with a street, a city, a state, country "NL" and postal_code "1011AB".
+      - Verify the response status is 201.
+      - Verify the body's address street, city, state, country and postal_code equal the values sent.
+      - Verify POST /users/login with that email and password returns 200, and GET /users/me with its access_token returns the same address street, city, state, country and postal_code.
+  - id: API-0328
+    name: Register with an email of exactly 256 characters returns 201 and stores it
+    ref: docs/ui/user-stories/User_Registration.md#AC1
+    status: manual
+    steps:
+      - Send POST /users/register with a well-formed 256-character email that starts with a unique value, a first name, a last name and a random strong password.
+      - Verify the response status is 201.
+      - Verify the body's email equals the email sent.
+      - Verify POST /users/login with that email and password returns 200, and GET /users/me with its access_token returns the new id and the same email.
+  - id: API-0329
+    name: Register with an 8-character password that meets all rules returns 201
+    ref: docs/ui/user-stories/User_Registration.md#AC2
+    status: manual
+    steps:
+      - Send POST /users/register with a unique email, a first name, a last name and a random password of exactly 8 characters with an upper-case letter, a lower-case letter, a number and a special character.
+      - Verify the response status is 201.
+      - Verify the body has a non-empty id and the email sent.
+      - Verify POST /users/login with that email and password returns 200, and GET /users/me with its access_token returns the new id and email.
+  - id: API-0330
+    name: Register with a letters-only postal code for country DE returns 422
+    ref: docs/ui/user-stories/User_Registration.md#AC1
+    status: manual
+    steps:
+      - Send POST /users/register with a unique email, a first name, a last name, a random strong password, and an address with a street, a city, a state, country "DE" and postal_code "ABCDE".
+      - Verify the response status is 422.
+      - Verify the body has an address.postal_code key with at least one message.
+  - id: API-0331
+    name: Register with a 7-character password returns 422
+    ref: docs/ui/user-stories/User_Registration.md#AC2
+    status: manual
+    steps:
+      - Send POST /users/register with a unique email, a first name, a last name and a random 7-character password with an upper-case letter, a lower-case letter, a number and a special character.
+      - Verify the response status is 422.
+      - Verify the body has a password key with at least one message.
+  - id: API-0332
+    name: Register with a password without an upper-case letter returns 422
+    ref: docs/ui/user-stories/User_Registration.md#AC2
+    status: manual
+    steps:
+      - Send POST /users/register with a unique email, a first name, a last name and a random password of at least 8 characters with lower-case letters, a number and a special character, and no upper-case letter.
+      - Verify the response status is 422.
+      - Verify the body has a password key with at least one message.
+  - id: API-0333
+    name: Register with a password without a lower-case letter returns 422
+    ref: docs/ui/user-stories/User_Registration.md#AC2
+    status: manual
+    steps:
+      - Send POST /users/register with a unique email, a first name, a last name and a random password of at least 8 characters with upper-case letters, a number and a special character, and no lower-case letter.
+      - Verify the response status is 422.
+      - Verify the body has a password key with at least one message.
+  - id: API-0334
+    name: Register with a password without a number returns 422
+    ref: docs/ui/user-stories/User_Registration.md#AC2
+    status: manual
+    steps:
+      - Send POST /users/register with a unique email, a first name, a last name and a random password of at least 8 characters with upper-case and lower-case letters and a special character, and no number.
+      - Verify the response status is 422.
+      - Verify the body has a password key with at least one message.
+  - id: API-0335
+    name: Register with a password without a special character returns 422
+    ref: docs/ui/user-stories/User_Registration.md#AC2
+    status: manual
+    steps:
+      - Send POST /users/register with a unique email, a first name, a last name and a random password of at least 8 characters with upper-case and lower-case letters and a number, and no special character.
+      - Verify the response status is 422.
+      - Verify the body has a password key with at least one message.

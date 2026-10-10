@@ -4,6 +4,7 @@ tags: ["@carts-api"]
 scenarios:
   - id: API-0260
     name: Remove a product from a cart returns 204 and the cart no longer holds it
+    ref: docs/ui/user-stories/Checkout_Cart_Review.md#AC3
     status: manual
     steps:
       - Send GET /products and take the first item's brand id, category id and product image id.
@@ -15,6 +16,7 @@ scenarios:
       - Verify GET /carts/{cartId} with the cart's id returns 200 and its cart_items is empty.
   - id: API-0261
     name: Remove the rental product from a rental and non-rental cart clears the additional discount
+    ref: docs/ui/user-stories/Checkout_Cart_Review.md#AC8
     status: manual
     steps:
       - Send GET /products and take the first item's brand id, category id and product image id.
@@ -56,3 +58,35 @@ scenarios:
       - Send DELETE /carts/{cartId}/product/quantity with the cart's id.
       - Verify the response status is 204.
       - Verify GET /carts/{cartId} with the cart's id returns 200 and its cart_items has exactly one item, with the new product's id as product_id.
+  - id: API-0306
+    name: Remove the non-rental product from a rental and non-rental cart clears the additional discount and keeps the rental line
+    ref: docs/ui/user-stories/Checkout_Cart_Review.md#AC8
+    status: manual
+    steps:
+      - Send GET /products and take the first item's brand id, category id and product image id.
+      - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental false and stock 10, and take the new product's id as the non-rental product's id.
+      - Send POST /products with a unique product name, a positive price, the same brand, category and product image ids, is_location_offer false, is_rental true and stock 10, and take the new product's id as the rental product's id.
+      - Send POST /carts with an empty body and take the returned id as the cart's id.
+      - Send POST /carts/{cartId} with the cart's id and a body with the non-rental product's id as product_id and quantity 1.
+      - Send POST /carts/{cartId} with the cart's id and a body with the rental product's id as product_id and quantity 1.
+      - Send DELETE /carts/{cartId}/product/{productId} with the cart's id and the non-rental product's id.
+      - Verify the response status is 204.
+      - Verify GET /carts/{cartId} with the cart's id returns 200 with additional_discount_percentage null.
+      - Verify its cart_items has exactly one item, with the rental product's id as product_id.
+  - id: API-0307
+    name: Remove one of two rental products from a cart with a non-rental product keeps the additional discount
+    ref: docs/ui/user-stories/Checkout_Cart_Review.md#AC8
+    status: manual
+    steps:
+      - Send GET /products and take the first item's brand id, category id and product image id.
+      - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental false and stock 10, and take the new product's id as the non-rental product's id.
+      - Send POST /products with a unique product name, a positive price, the same brand, category and product image ids, is_location_offer false, is_rental true and stock 10, and take the new product's id as the first rental product's id.
+      - Send POST /products with another unique product name, a positive price, the same brand, category and product image ids, is_location_offer false, is_rental true and stock 10, and take the new product's id as the second rental product's id.
+      - Send POST /carts with an empty body and take the returned id as the cart's id.
+      - Send POST /carts/{cartId} with the cart's id and a body with the non-rental product's id as product_id and quantity 1.
+      - Send POST /carts/{cartId} with the cart's id and a body with the first rental product's id as product_id and quantity 1.
+      - Send POST /carts/{cartId} with the cart's id and a body with the second rental product's id as product_id and quantity 1.
+      - Send DELETE /carts/{cartId}/product/{productId} with the cart's id and the first rental product's id.
+      - Verify the response status is 204.
+      - Verify GET /carts/{cartId} with the cart's id returns 200 with additional_discount_percentage 15.
+      - Verify its cart_items has exactly two items, with the non-rental product's id and the second rental product's id as product_id.

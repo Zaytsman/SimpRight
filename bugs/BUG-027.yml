@@ -1,0 +1,29 @@
+# yaml-language-server: $schema=./bug.schema.json
+id: BUG-027
+title: Sending a message with a name of 61 to 120 characters returns 500, because the validation allows 120 and the column holds 60
+status: open
+severity: minor
+layer: api
+area: messages
+affects:
+  - POST /messages
+found: 2026-10-10
+ref:
+  - docs/api/contracts/Messages_API.md#2-send-message
+  - docs/api/contracts/Messages_API.md#notes
+description: >-
+  POST /messages validates name with a maximum of 120 characters (the spec says 120 too), but the
+  contact_requests.name column is varchar(60) and the database runs in strict mode. A name of 61 to 120
+  characters passes the validation and then fails on insert, which the global handler maps to 500
+  { message: "Something went wrong" }. The API should either validate the name with the column's limit
+  (422) or hold the full length.
+steps:
+  - Send POST /messages without an Authorization header, with a 61-character name, a unique subject and a message text.
+expected: 422 (the name is longer than the stored limit), or 200 when the name is accepted or ignored; never a server error.
+actual: >-
+  500 with { message: "Something went wrong" } (from the source code; not reproduced live).
+evidence: |-
+  Not reproduced live (it would create a message), from the source code. Messages_API.md, Notes,
+  "name limit mismatch" (read from the Laravel source in sprint5/API, 2026-10-10):
+  the StoreContact form request allows name up to 120 characters; the contact_requests.name migration is
+  varchar(60); the handler maps a database error that is not 1062 or 1364 to 500 "Something went wrong".

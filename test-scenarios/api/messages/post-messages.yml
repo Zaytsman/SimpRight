@@ -1,0 +1,123 @@
+# yaml-language-server: $schema=../../scenarios.schema.json
+suite: Messages API
+tags: ["@messages-api"]
+scenarios:
+  - id: API-0350
+    name: Send a message as a guest returns 200 and an admin can read it
+    status: manual
+    role: admin
+    steps:
+      - Send POST /messages without an Authorization header, with a name, an email address, a unique subject and a message text, and take the body's id.
+      - Verify the response status is 200.
+      - Verify the body's id is a non-empty string, its subject, message, name and email equal the values sent and its status is "NEW".
+      - Verify the body has a created_at and no user_id key.
+      - Verify GET /messages/{messageId} with that id and the admin's token returns 200 with the same subject and message, status "NEW" and user_id null.
+  - id: API-0351
+    name: Send a message as a logged-in customer returns 200 with the customer's user_id
+    status: manual
+    steps:
+      - Send GET /users/me with the default user's token and take its id.
+      - Send POST /messages with the default user's token, a unique subject and a message text, and take the body's id.
+      - Verify the response status is 200.
+      - Verify the body's id is a non-empty string, its subject and message equal the values sent, its status is "NEW" and its user_id equals the default user's id.
+      - Verify GET /messages/{messageId} with that id and the default user's token returns 200 with the same subject, message and user_id.
+  - id: API-0352
+    name: Send a message with only a subject and a message returns 200
+    status: manual
+    role: admin
+    steps:
+      - Send POST /messages without an Authorization header, with a unique subject and a message text, without name and email, and take the body's id.
+      - Verify the response status is 200.
+      - Verify the body's id is a non-empty string, its subject and message equal the values sent and its status is "NEW".
+      - Verify GET /messages/{messageId} with that id and the admin's token returns 200 with the same subject and message, name null and email null.
+  - id: API-0353
+    name: Send a message with a 120-character subject and a 250-character message returns 200
+    status: manual
+    role: admin
+    steps:
+      - Send POST /messages without an Authorization header, with a 120-character subject and a 250-character message, and take the body's id.
+      - Verify the response status is 200.
+      - Verify GET /messages/{messageId} with that id and the admin's token returns 200 with the same subject and message.
+  - id: API-0354
+    name: Send a message with a status in the body ignores it and creates it as NEW
+    status: manual
+    role: admin
+    steps:
+      - Send POST /messages without an Authorization header, with a unique subject, a message text and status "RESOLVED", and take the body's id.
+      - Verify the response status is 200.
+      - Verify the body's status is "NEW".
+      - Verify GET /messages/{messageId} with that id and the admin's token returns 200 with status "NEW".
+  - id: API-0355
+    name: Send a message with a malformed token returns 200 and the message has no owner
+    status: manual
+    role: admin
+    steps:
+      - Send POST /messages with a malformed token, a unique subject and a message text, and take the body's id.
+      - Verify the response status is 200.
+      - Verify the body has no user_id key.
+      - Verify GET /messages/{messageId} with that id and the admin's token returns 200 with user_id null.
+  - id: API-0356
+    name: Send a message without subject and message returns 422 for each of them
+    status: manual
+    steps:
+      - Send POST /messages without an Authorization header, with a name and an email address, without subject and message.
+      - Verify the response status is 422.
+      - Verify the body has the keys subject and message, each with at least one message.
+  - id: API-0357
+    name: Send a message with a subject longer than 120 characters returns 422
+    status: manual
+    steps:
+      - Send POST /messages without an Authorization header, with a 121-character subject and a message text.
+      - Verify the response status is 422.
+      - Verify the body has a subject key with at least one message.
+  - id: API-0358
+    name: Send a message with a message longer than 250 characters returns 422
+    status: manual
+    steps:
+      - Send POST /messages without an Authorization header, with a unique subject and a 251-character message.
+      - Verify the response status is 422.
+      - Verify the body has a message key with at least one message.
+  - id: API-0359
+    name: Send a message with an invalid email returns 422
+    status: manual
+    steps:
+      - Send POST /messages without an Authorization header, with the email "not-an-email", a unique subject and a message text.
+      - Verify the response status is 422.
+      - Verify the body has an email key with at least one message.
+  - id: API-0360
+    name: Send a message with a subscript character in the subject returns 422
+    status: manual
+    steps:
+      - Send POST /messages without an Authorization header, with a subject that contains the subscript character "₂" (U+2082) and a message text.
+      - Verify the response status is 422.
+      - Verify the body has a subject key with at least one message.
+  - id: API-0361
+    name: Send a message with a 61-character name returns 200 or 422, not 500
+    ref: BUG-027
+    status: manual
+    knownIssue: Returns 500 for a name of 61 to 120 characters, which the validation allows, instead of 422 or 200.
+    bug: BUG-027
+    steps:
+      - Send POST /messages without an Authorization header, with a 61-character name, a unique subject and a message text.
+      - Verify the response status is 200 or 422.
+  - id: API-0362
+    name: Send a message with a parent_id key returns 200 or 422, not 500
+    ref: BUG-028
+    status: manual
+    knownIssue: Returns 500 when the body has a parent_id key instead of ignoring it or answering 422.
+    bug: BUG-028
+    steps:
+      - Send POST /messages without an Authorization header, with a unique subject, a message text and a parent_id key set to a non-empty string.
+      - Verify the response status is 200 or 422.
+  - id: API-0363
+    name: Send a guest message with another user's user_id doesn't put it in that user's list
+    ref: BUG-028
+    status: manual
+    knownIssue: Stores a guest message under the user_id sent in the body, so it shows in that user's list, instead of leaving it without an owner.
+    bug: BUG-028
+    steps:
+      - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.
+      - Send POST /users/login with that email and password, and take its access_token.
+      - Send POST /messages without an Authorization header, with a unique subject, a message text and user_id set to the new user's id, and take the body's id.
+      - Send GET /messages with the throwaway customer's access_token.
+      - Verify the body's data has no item with the new message's id.

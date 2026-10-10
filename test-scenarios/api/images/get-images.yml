@@ -1,0 +1,66 @@
+# yaml-language-server: $schema=../../scenarios.schema.json
+suite: Images API
+tags: ["@images-api"]
+scenarios:
+  - id: API-0336
+    name: List images returns every image record
+    status: manual
+    steps:
+      - Send GET /images without an Authorization header.
+      - Verify the response status is 200.
+      - Verify the body is a non-empty array.
+      - Verify every item has the keys id, by_name, by_url, source_name, source_url, file_name and title, each a string.
+      - Verify the items' ids are unique.
+      - Verify the Content-Type response header is application/json.
+      - Verify the Cache-Control response header is "max-age=120, public".
+      - Verify the response has an ETag header.
+  - id: API-0337
+    name: List images ignores pagination, filter and sort parameters
+    status: manual
+    steps:
+      - Send GET /images and take the body as the plain list.
+      - Send GET /images with page=2, per_page=5, q=zzzz and sort=title.
+      - Verify the response status is 200.
+      - Verify the body equals the plain list (same items, same order).
+  - id: API-0338
+    name: List images with Accept text/xml returns XML
+    status: manual
+    steps:
+      - "Send GET /images with the header Accept: text/xml."
+      - Verify the response status is 200.
+      - 'Verify the Content-Type response header is "text/xml; charset=utf-8".'
+      - Verify the body is an XML document whose root element is response and which contains at least one item element.
+      - Verify the first item element has the child elements id, by_name, by_url, source_name, source_url, file_name and title.
+  - id: API-0339
+    name: List images with Accept application/xml returns JSON
+    status: manual
+    steps:
+      - "Send GET /images with the header Accept: application/xml."
+      - Verify the response status is 200.
+      - Verify the Content-Type response header is application/json.
+      - Verify the body is a non-empty JSON array.
+  - id: API-0340
+    name: List images without an Accept header returns JSON
+    status: manual
+    steps:
+      - Send GET /images without an Accept header.
+      - Verify the response status is 200.
+      - Verify the Content-Type response header is application/json.
+      - Verify the body is a non-empty JSON array.
+  - id: API-0341
+    name: A path under /images other than /images returns 404
+    status: manual
+    steps:
+      - Send GET /images/00000000000000000000000000.
+      - Verify the response status is 404.
+      - Verify the body's message is "Resource not found".
+  - id: API-0342
+    name: List images with a matching If-None-Match returns 304
+    status: manual
+    steps:
+      - Send GET /images and take the ETag response header.
+      - Send GET /images with the If-None-Match header set to that ETag.
+      - Verify the response status is 304.
+      - Verify the body is empty.
+      - Verify the ETag response header equals the first response's ETag.
+      - Verify the Cache-Control response header is "max-age=120, public".

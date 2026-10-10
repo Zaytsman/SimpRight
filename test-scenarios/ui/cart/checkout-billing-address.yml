@@ -1,0 +1,116 @@
+# yaml-language-server: $schema=../../scenarios.schema.json
+suite: Checkout billing address
+tags: ["@cart"]
+scenarios:
+  - id: UI-041
+    name: The billing address step shows the address fields
+    ref: docs/ui/user-stories/Checkout_Billing_Address.md#AC1
+    status: manual
+    steps:
+      - A product that is in stock is in the cart.
+      - Open the checkout page.
+      - Click "Proceed" on the cart step.
+      - Click "Proceed" on the sign-in step.
+      - Verify the field "Street" is shown.
+      - Verify the field "City" is shown.
+      - Verify the field "State" is shown.
+      - Verify the list "Country" is shown.
+      - Verify the field "Postal code" is shown.
+      - Verify the field "House number" is shown.
+  - id: UI-042
+    name: An empty street is highlighted as invalid and disables "Proceed"
+    ref: docs/ui/user-stories/Checkout_Billing_Address.md#AC2
+    status: manual
+    steps:
+      - A product that is in stock is in the cart.
+      - Open the checkout page.
+      - Click "Proceed" on the cart step.
+      - Click "Proceed" on the sign-in step.
+      - 'Fill in the billing address: select the country "Netherlands", enter the postal code "1011AB" and the house number "5", wait until the page has filled in the street, city and state, then enter the street "Teststraat", the city "Amsterdam" and the state "Noord-Holland".'
+      - Verify the button "Proceed" is enabled.
+      - Clear the field "Street".
+      - Verify the field "Street" is highlighted as invalid.
+      - Verify the button "Proceed" is disabled.
+  - id: UI-043
+    name: An empty city is highlighted as invalid and disables "Proceed"
+    ref: docs/ui/user-stories/Checkout_Billing_Address.md#AC2
+    status: manual
+    steps:
+      - A product that is in stock is in the cart.
+      - Open the checkout page.
+      - Click "Proceed" on the cart step.
+      - Click "Proceed" on the sign-in step.
+      - 'Fill in the billing address: select the country "Netherlands", enter the postal code "1011AB" and the house number "5", wait until the page has filled in the street, city and state, then enter the street "Teststraat", the city "Amsterdam" and the state "Noord-Holland".'
+      - Verify the button "Proceed" is enabled.
+      - Clear the field "City".
+      - Verify the field "City" is highlighted as invalid.
+      - Verify the button "Proceed" is disabled.
+  - id: UI-044
+    name: An empty state is highlighted as invalid and disables "Proceed"
+    ref: docs/ui/user-stories/Checkout_Billing_Address.md#AC2
+    status: manual
+    steps:
+      - A product that is in stock is in the cart.
+      - Open the checkout page.
+      - Click "Proceed" on the cart step.
+      - Click "Proceed" on the sign-in step.
+      - 'Fill in the billing address: select the country "Netherlands", enter the postal code "1011AB" and the house number "5", wait until the page has filled in the street, city and state, then enter the street "Teststraat", the city "Amsterdam" and the state "Noord-Holland".'
+      - Verify the button "Proceed" is enabled.
+      - Clear the field "State".
+      - Verify the field "State" is highlighted as invalid.
+      - Verify the button "Proceed" is disabled.
+  - id: UI-045
+    name: An empty country is highlighted as invalid and disables "Proceed"
+    ref: docs/ui/user-stories/Checkout_Billing_Address.md#AC2
+    status: manual
+    steps:
+      - A product that is in stock is in the cart.
+      - Open the checkout page.
+      - Click "Proceed" on the cart step.
+      - Click "Proceed" on the sign-in step.
+      - 'Fill in the billing address: select the country "Netherlands", enter the postal code "1011AB" and the house number "5", wait until the page has filled in the street, city and state, then enter the street "Teststraat", the city "Amsterdam" and the state "Noord-Holland".'
+      - Verify the button "Proceed" is enabled.
+      - Clear the selection in the list "Country" (choose the empty option).
+      - Verify the list "Country" is highlighted as invalid.
+      - Verify the button "Proceed" is disabled.
+  - id: UI-046
+    name: An empty postal code is highlighted as invalid and disables "Proceed"
+    ref: docs/ui/user-stories/Checkout_Billing_Address.md#AC2
+    status: manual
+    steps:
+      - A product that is in stock is in the cart.
+      - Open the checkout page.
+      - Click "Proceed" on the cart step.
+      - Click "Proceed" on the sign-in step.
+      - 'Fill in the billing address: select the country "Netherlands", enter the postal code "1011AB" and the house number "5", wait until the page has filled in the street, city and state, then enter the street "Teststraat", the city "Amsterdam" and the state "Noord-Holland".'
+      - Verify the button "Proceed" is enabled.
+      - Clear the field "Postal code".
+      - Verify the field "Postal code" is highlighted as invalid.
+      - Verify the button "Proceed" is disabled.
+  - id: UI-047
+    name: A filled-in billing address lets the customer proceed to the payment step
+    ref: docs/ui/user-stories/Checkout_Billing_Address.md#AC3
+    status: manual
+    steps:
+      - A product that is in stock is in the cart.
+      - Open the checkout page.
+      - Click "Proceed" on the cart step.
+      - Click "Proceed" on the sign-in step.
+      - 'Fill in the billing address: select the country "Netherlands", enter the postal code "1011AB" and the house number "5", wait until the page has filled in the street, city and state, then enter the street "Teststraat", the city "Amsterdam" and the state "Noord-Holland".'
+      - Click "Proceed".
+      - Verify the payment step is shown.
+  - id: UI-048
+    name: The billing address is pre-filled with the account's address
+    ref: docs/ui/user-stories/Checkout_Billing_Address.md#AC4
+    status: manual
+    steps:
+      - A newly registered customer with a saved address, country included, is logged in.
+      - A product that is in stock is in the cart.
+      - Open the checkout page.
+      - Click "Proceed" on the cart step.
+      - Click "Proceed" on the sign-in step.
+      - Verify the field "Street" holds the street saved in the account.
+      - Verify the field "City" holds the city saved in the account.
+      - Verify the field "State" holds the state saved in the account.
+      - Verify the list "Country" shows the country saved in the account.
+      - Verify the field "Postal code" holds the postal code saved in the account.
