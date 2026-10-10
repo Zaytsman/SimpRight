@@ -1,0 +1,29 @@
+# yaml-language-server: $schema=./bug.schema.json
+id: BUG-012
+title: Brand update with a duplicate slug returns 409 with "Duplicate Entry" instead of the slug's validation message
+status: open
+severity: trivial
+layer: api
+area: brands
+affects:
+  - PUT /brands/{brandId}
+found: 2026-10-10
+ref:
+  - docs/api/contracts/Brands_API.md#4-update-brand
+  - docs/api/contracts/Brands_API.md#notes
+description: >-
+  UpdateBrand has no uniqueness rule for slug, so a duplicate reaches the database's unique index and the
+  global handler answers with a generic message. The status is right; only the body differs from POST and
+  PATCH (and from the OpenAPI spec), so a client can't tell which field is wrong.
+steps:
+  - Send POST /brands twice with unique names and unique slugs, and take both brands' ids and slugs.
+  - Send PUT /brands/{brandId} for the second brand with the first brand's slug.
+expected: '409 with { "slug": ["A brand already exists with this slug."] }, like POST and PATCH /brands.'
+actual: >-
+  409 with { "message": "Duplicate Entry" } (from the source; observed by the contract writer's live
+  calls on 2026-10-10, not reproduced here).
+evidence: |-
+  Source (practice-software-testing, sprint5/API), 2026-10-10:
+  UpdateBrand::rules(): 'slug' => ['alpha_dash:ascii', 'string', 'max:120', ...] (no unique rule)
+  app/Exceptions/Handler.php: a unique-index violation (SQLSTATE 23000) -> 409 { message: "Duplicate Entry" }
+  Contract writer's live calls, 2026-10-10 (Brands_API.md, Update brand): 409 {"message":"Duplicate Entry"}

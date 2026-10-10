@@ -1,0 +1,33 @@
+# yaml-language-server: $schema=./bug.schema.json
+id: BUG-009
+title: Brand writes (POST, PUT, PATCH /brands) succeed without a token instead of returning 401
+status: open
+severity: critical
+layer: api
+area: brands
+affects:
+  - POST /brands
+  - PUT /brands/{brandId}
+  - PATCH /brands/{brandId}
+found: 2026-10-10
+ref:
+  - docs/api/contracts/Brands_API.md#authentication
+  - docs/api/contracts/Brands_API.md#notes
+description: >-
+  Anyone can create brands or rename seeded ones without logging in: BrandController has no auth
+  middleware on these routes (only DELETE is admin-only), and the OpenAPI spec declares no security on
+  them either. The same pattern as BUG-001 (products), in a separate controller.
+steps:
+  - Send POST /brands with a unique name and a unique slug, without an Authorization header, and take the new brand's id.
+  - Send PUT /brands/{brandId} for the new brand with a new name, without an Authorization header.
+  - Send PATCH /brands/{brandId} for the new brand with a new name, without an Authorization header.
+expected: Each write without a token returns 401 and changes nothing, like DELETE /brands/{brandId} without a token.
+actual: POST returns 201 and creates the brand; PUT and PATCH return 200 and change it.
+evidence: |-
+  Throwaway brand, no Authorization header, 2026-10-10 08:07 UTC (deleted as admin afterwards, 204)
+  POST /brands { name, slug: unique } -> 201 { name, slug, id }
+  PUT /brands/{brandId} { name: new } -> 200 {"success":true}
+  PATCH /brands/{brandId} { name: new } -> 200 {"success":true}
+  GET /brands/{brandId} -> 200, the name from the PATCH
+  Source (practice-software-testing, sprint5/API): BrandController::__construct:
+    $this->middleware('role:admin', ['only' => ['destroy']]); no other auth middleware

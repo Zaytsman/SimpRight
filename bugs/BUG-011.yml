@@ -1,0 +1,27 @@
+# yaml-language-server: $schema=./bug.schema.json
+id: BUG-011
+title: Brand search returns 500 instead of 422 when q is sent as an array
+status: open
+severity: major
+layer: api
+area: brands
+affects:
+  - GET /brands/search
+  - QUERY /brands/search
+found: 2026-10-10
+ref:
+  - docs/api/contracts/Brands_API.md#7-search-brands
+  - docs/api/contracts/Brands_API.md#8-search-brands-http-query
+description: >-
+  q isn't validated: BrandService::searchBrands builds its cache key and log line from it, and an array
+  fails the string conversion, which ends in a server error. GET and QUERY share the code path.
+steps:
+  - Send GET /brands/search with q as an array (q[]=x).
+  - 'Send QUERY /brands/search with Content-Type: application/json and the body { "q": ["x"] }.'
+expected: 422 naming q, or 200 with q treated as text.
+actual: '500 with { "message": "Server Error" } for GET (reproduced); QUERY from the source (same code path).'
+evidence: |-
+  GET /brands/search?q[]=x (Accept: application/json), 2026-10-10 08:03 UTC
+  -> 500 {"message":"Server Error"}
+  GET /brands/search?q=forge, 2026-10-10 -> 200, 1 brand (control)
+  Source (practice-software-testing, sprint5/API): BrandService::searchBrands: $cacheKey = "brands.search.{$query}"
