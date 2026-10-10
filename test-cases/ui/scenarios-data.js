@@ -3,19 +3,46 @@ window.SCENARIO_CATALOG = {
  "layer": "ui",
  "title": "UI Test Cases",
  "prefix": "UI",
- "generatedAt": "2026-10-10T09:14:57.675Z",
- "commit": "0d8ca228b4077ccca37bcacf688a7928966d41b7",
+ "generatedAt": "2026-10-10T10:10:26.456Z",
+ "commit": "debe7df25f6e43e503b236eb72845637cbf53a95",
  "repoUrl": "https://github.com/Zaytsman/SimpRight",
  "branch": "main",
  "workflowUrl": "https://github.com/Zaytsman/SimpRight/actions/workflows/custom-ui-tests.yml",
  "stats": {
-  "total": 30,
+  "total": 40,
   "automated": 19,
-  "manual": 11,
+  "manual": 21,
   "knownIssues": 2,
-  "automatedPct": 63
+  "automatedPct": 48
  },
  "tree": [
+  {
+   "area": "account",
+   "label": "Account",
+   "files": [
+    {
+     "file": "test-scenarios/ui/account/change-password.yml",
+     "name": "change-password",
+     "label": "Change password",
+     "suite": "Change password",
+     "tags": [
+      "@account"
+     ],
+     "ids": [
+      "UI-031",
+      "UI-032",
+      "UI-033",
+      "UI-034",
+      "UI-035",
+      "UI-036",
+      "UI-037",
+      "UI-038",
+      "UI-039",
+      "UI-040"
+     ]
+    }
+   ]
+  },
   {
    "area": "cart",
    "label": "Cart",
@@ -137,6 +164,248 @@ window.SCENARIO_CATALOG = {
   }
  ],
  "scenarios": [
+  {
+   "id": "UI-031",
+   "name": "The profile page shows the change password form",
+   "ref": [
+    "docs/ui/user-stories/Change_Password.md#AC1"
+   ],
+   "status": "manual",
+   "steps": [
+    "Open the profile page.",
+    "Verify the \"Password\" section is shown.",
+    "Verify the field \"Current Password\" is shown.",
+    "Verify the field \"New Password\" is shown.",
+    "Verify the field \"Confirm New Password\" is shown.",
+    "Verify the button \"Change Password\" is shown."
+   ],
+   "area": "account",
+   "areaLabel": "Account",
+   "file": "test-scenarios/ui/account/change-password.yml",
+   "fileLabel": "Change password",
+   "suite": "Change password",
+   "tags": [
+    "@account"
+   ],
+   "yaml": "- id: UI-031\n  name: The profile page shows the change password form\n  ref: docs/ui/user-stories/Change_Password.md#AC1\n  status: manual\n  steps:\n    - Open the profile page.\n    - Verify the \"Password\" section is shown.\n    - Verify the field \"Current Password\" is shown.\n    - Verify the field \"New Password\" is shown.\n    - Verify the field \"Confirm New Password\" is shown.\n    - Verify the button \"Change Password\" is shown."
+  },
+  {
+   "id": "UI-032",
+   "name": "A new password meeting 1 criterion is rated Weak",
+   "ref": [
+    "docs/ui/user-stories/Change_Password.md#AC2"
+   ],
+   "status": "manual",
+   "steps": [
+    "Open the profile page.",
+    "Type \"abc\" in \"New Password\".",
+    "Verify \"Weak\" is highlighted as the password strength.",
+    "Verify the strength bar is filled to 20%."
+   ],
+   "area": "account",
+   "areaLabel": "Account",
+   "file": "test-scenarios/ui/account/change-password.yml",
+   "fileLabel": "Change password",
+   "suite": "Change password",
+   "tags": [
+    "@account"
+   ],
+   "yaml": "- id: UI-032\n  name: A new password meeting 1 criterion is rated Weak\n  ref: docs/ui/user-stories/Change_Password.md#AC2\n  status: manual\n  steps:\n    - Open the profile page.\n    - Type \"abc\" in \"New Password\".\n    - Verify \"Weak\" is highlighted as the password strength.\n    - Verify the strength bar is filled to 20%."
+  },
+  {
+   "id": "UI-033",
+   "name": "A new password meeting 2 criteria is rated Moderate",
+   "ref": [
+    "docs/ui/user-stories/Change_Password.md#AC2"
+   ],
+   "status": "manual",
+   "steps": [
+    "Open the profile page.",
+    "Type \"abcdefgh\" in \"New Password\".",
+    "Verify \"Moderate\" is highlighted as the password strength.",
+    "Verify the strength bar is filled to 40%."
+   ],
+   "area": "account",
+   "areaLabel": "Account",
+   "file": "test-scenarios/ui/account/change-password.yml",
+   "fileLabel": "Change password",
+   "suite": "Change password",
+   "tags": [
+    "@account"
+   ],
+   "yaml": "- id: UI-033\n  name: A new password meeting 2 criteria is rated Moderate\n  ref: docs/ui/user-stories/Change_Password.md#AC2\n  status: manual\n  steps:\n    - Open the profile page.\n    - Type \"abcdefgh\" in \"New Password\".\n    - Verify \"Moderate\" is highlighted as the password strength.\n    - Verify the strength bar is filled to 40%."
+  },
+  {
+   "id": "UI-034",
+   "name": "A new password meeting 3 criteria is rated Strong",
+   "ref": [
+    "docs/ui/user-stories/Change_Password.md#AC2"
+   ],
+   "status": "manual",
+   "steps": [
+    "Open the profile page.",
+    "Type \"Abcdefgh\" in \"New Password\".",
+    "Verify \"Strong\" is highlighted as the password strength.",
+    "Verify the strength bar is filled to 60%."
+   ],
+   "area": "account",
+   "areaLabel": "Account",
+   "file": "test-scenarios/ui/account/change-password.yml",
+   "fileLabel": "Change password",
+   "suite": "Change password",
+   "tags": [
+    "@account"
+   ],
+   "yaml": "- id: UI-034\n  name: A new password meeting 3 criteria is rated Strong\n  ref: docs/ui/user-stories/Change_Password.md#AC2\n  status: manual\n  steps:\n    - Open the profile page.\n    - Type \"Abcdefgh\" in \"New Password\".\n    - Verify \"Strong\" is highlighted as the password strength.\n    - Verify the strength bar is filled to 60%."
+  },
+  {
+   "id": "UI-035",
+   "name": "A new password meeting 4 criteria is rated Very Strong",
+   "ref": [
+    "docs/ui/user-stories/Change_Password.md#AC2"
+   ],
+   "status": "manual",
+   "steps": [
+    "Open the profile page.",
+    "Type \"Abcdefg1\" in \"New Password\".",
+    "Verify \"Very Strong\" is highlighted as the password strength.",
+    "Verify the strength bar is filled to 80%."
+   ],
+   "area": "account",
+   "areaLabel": "Account",
+   "file": "test-scenarios/ui/account/change-password.yml",
+   "fileLabel": "Change password",
+   "suite": "Change password",
+   "tags": [
+    "@account"
+   ],
+   "yaml": "- id: UI-035\n  name: A new password meeting 4 criteria is rated Very Strong\n  ref: docs/ui/user-stories/Change_Password.md#AC2\n  status: manual\n  steps:\n    - Open the profile page.\n    - Type \"Abcdefg1\" in \"New Password\".\n    - Verify \"Very Strong\" is highlighted as the password strength.\n    - Verify the strength bar is filled to 80%."
+  },
+  {
+   "id": "UI-036",
+   "name": "A new password meeting all 5 criteria is rated Excellent",
+   "ref": [
+    "docs/ui/user-stories/Change_Password.md#AC2"
+   ],
+   "status": "manual",
+   "steps": [
+    "Open the profile page.",
+    "Type \"Abcdefg1!\" in \"New Password\".",
+    "Verify \"Excellent\" is highlighted as the password strength.",
+    "Verify the strength bar is filled to 100%."
+   ],
+   "area": "account",
+   "areaLabel": "Account",
+   "file": "test-scenarios/ui/account/change-password.yml",
+   "fileLabel": "Change password",
+   "suite": "Change password",
+   "tags": [
+    "@account"
+   ],
+   "yaml": "- id: UI-036\n  name: A new password meeting all 5 criteria is rated Excellent\n  ref: docs/ui/user-stories/Change_Password.md#AC2\n  status: manual\n  steps:\n    - Open the profile page.\n    - Type \"Abcdefg1!\" in \"New Password\".\n    - Verify \"Excellent\" is highlighted as the password strength.\n    - Verify the strength bar is filled to 100%."
+  },
+  {
+   "id": "UI-037",
+   "name": "A confirmation that differs from the new password shows \"Passwords do not match.\"",
+   "ref": [
+    "docs/ui/user-stories/Change_Password.md#AC3"
+   ],
+   "status": "manual",
+   "steps": [
+    "Open the profile page.",
+    "Type \"Abcdefg1!\" in \"New Password\".",
+    "Type \"Abcdefg2!\" in \"Confirm New Password\".",
+    "Verify the message \"Passwords do not match.\" is shown under \"Confirm New Password\"."
+   ],
+   "area": "account",
+   "areaLabel": "Account",
+   "file": "test-scenarios/ui/account/change-password.yml",
+   "fileLabel": "Change password",
+   "suite": "Change password",
+   "tags": [
+    "@account"
+   ],
+   "yaml": "- id: UI-037\n  name: A confirmation that differs from the new password shows \"Passwords do not match.\"\n  ref: docs/ui/user-stories/Change_Password.md#AC3\n  status: manual\n  steps:\n    - Open the profile page.\n    - Type \"Abcdefg1!\" in \"New Password\".\n    - Type \"Abcdefg2!\" in \"Confirm New Password\".\n    - Verify the message \"Passwords do not match.\" is shown under \"Confirm New Password\"."
+  },
+  {
+   "id": "UI-038",
+   "name": "Changing the password with a wrong current password shows an error",
+   "ref": [
+    "docs/ui/user-stories/Change_Password.md#AC4"
+   ],
+   "status": "manual",
+   "steps": [
+    "A newly registered customer is logged in.",
+    "Open the profile page.",
+    "Enter a password that isn't the customer's in \"Current Password\".",
+    "Enter a new valid password in \"New Password\".",
+    "Enter the same new password in \"Confirm New Password\".",
+    "Click \"Change Password\".",
+    "Verify the error \"Your current password does not matches with the password.\" is shown."
+   ],
+   "area": "account",
+   "areaLabel": "Account",
+   "file": "test-scenarios/ui/account/change-password.yml",
+   "fileLabel": "Change password",
+   "suite": "Change password",
+   "tags": [
+    "@account"
+   ],
+   "yaml": "- id: UI-038\n  name: Changing the password with a wrong current password shows an error\n  ref: docs/ui/user-stories/Change_Password.md#AC4\n  status: manual\n  steps:\n    - A newly registered customer is logged in.\n    - Open the profile page.\n    - Enter a password that isn't the customer's in \"Current Password\".\n    - Enter a new valid password in \"New Password\".\n    - Enter the same new password in \"Confirm New Password\".\n    - Click \"Change Password\".\n    - Verify the error \"Your current password does not matches with the password.\" is shown."
+  },
+  {
+   "id": "UI-039",
+   "name": "Changing the password to the current one shows an error",
+   "ref": [
+    "docs/ui/user-stories/Change_Password.md#AC5"
+   ],
+   "status": "manual",
+   "steps": [
+    "Open the profile page.",
+    "Enter the user's current password in \"Current Password\".",
+    "Enter the user's current password in \"New Password\".",
+    "Enter the user's current password in \"Confirm New Password\".",
+    "Click \"Change Password\".",
+    "Verify the error \"New Password cannot be same as your current password.\" is shown."
+   ],
+   "area": "account",
+   "areaLabel": "Account",
+   "file": "test-scenarios/ui/account/change-password.yml",
+   "fileLabel": "Change password",
+   "suite": "Change password",
+   "tags": [
+    "@account"
+   ],
+   "yaml": "- id: UI-039\n  name: Changing the password to the current one shows an error\n  ref: docs/ui/user-stories/Change_Password.md#AC5\n  status: manual\n  steps:\n    - Open the profile page.\n    - Enter the user's current password in \"Current Password\".\n    - Enter the user's current password in \"New Password\".\n    - Enter the user's current password in \"Confirm New Password\".\n    - Click \"Change Password\".\n    - Verify the error \"New Password cannot be same as your current password.\" is shown."
+  },
+  {
+   "id": "UI-040",
+   "name": "A successful password change shows a success message and logs the user out",
+   "ref": [
+    "docs/ui/user-stories/Change_Password.md#AC6"
+   ],
+   "status": "manual",
+   "steps": [
+    "A newly registered customer is logged in.",
+    "Open the profile page.",
+    "Enter the customer's current password in \"Current Password\".",
+    "Enter a new valid password in \"New Password\".",
+    "Enter the same new password in \"Confirm New Password\".",
+    "Click \"Change Password\".",
+    "Verify the success message \"Your password is successfully updated!\" is shown.",
+    "Verify that within about 5 seconds \"Sign in\" is shown in the navigation.",
+    "Verify the user menu is not shown."
+   ],
+   "area": "account",
+   "areaLabel": "Account",
+   "file": "test-scenarios/ui/account/change-password.yml",
+   "fileLabel": "Change password",
+   "suite": "Change password",
+   "tags": [
+    "@account"
+   ],
+   "yaml": "- id: UI-040\n  name: A successful password change shows a success message and logs the user out\n  ref: docs/ui/user-stories/Change_Password.md#AC6\n  status: manual\n  steps:\n    - A newly registered customer is logged in.\n    - Open the profile page.\n    - Enter the customer's current password in \"Current Password\".\n    - Enter a new valid password in \"New Password\".\n    - Enter the same new password in \"Confirm New Password\".\n    - Click \"Change Password\".\n    - Verify the success message \"Your password is successfully updated!\" is shown.\n    - Verify that within about 5 seconds \"Sign in\" is shown in the navigation.\n    - Verify the user menu is not shown."
+  },
   {
    "id": "UI-002",
    "name": "Add a product with quantity 2 to the cart",

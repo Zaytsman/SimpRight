@@ -3,17 +3,17 @@ window.SCENARIO_CATALOG = {
  "layer": "api",
  "title": "API Test Cases",
  "prefix": "API",
- "generatedAt": "2026-10-10T09:14:57.675Z",
- "commit": "0d8ca228b4077ccca37bcacf688a7928966d41b7",
+ "generatedAt": "2026-10-10T10:10:26.456Z",
+ "commit": "debe7df25f6e43e503b236eb72845637cbf53a95",
  "repoUrl": "https://github.com/Zaytsman/SimpRight",
  "branch": "main",
  "workflowUrl": "https://github.com/Zaytsman/SimpRight/actions/workflows/custom-api-tests.yml",
  "stats": {
-  "total": 289,
+  "total": 296,
   "automated": 118,
-  "manual": 171,
+  "manual": 178,
   "knownIssues": 40,
-  "automatedPct": 41
+  "automatedPct": 40
  },
  "tree": [
   {
@@ -720,6 +720,24 @@ window.SCENARIO_CATALOG = {
    "area": "users",
    "label": "Users",
    "files": [
+    {
+     "file": "test-scenarios/api/users/post-users-change-password.yml",
+     "name": "post-users-change-password",
+     "label": "POST /users/change-password",
+     "suite": "Users API",
+     "tags": [
+      "@users-api"
+     ],
+     "ids": [
+      "API-0290",
+      "API-0291",
+      "API-0292",
+      "API-0293",
+      "API-0294",
+      "API-0295",
+      "API-0296"
+     ]
+    },
     {
      "file": "test-scenarios/api/users/post-users-login.yml",
      "name": "post-users-login",
@@ -6544,6 +6562,172 @@ window.SCENARIO_CATALOG = {
     "@products-api"
    ],
    "yaml": "- id: API-0025\n  name: Related products include their CO2 rating\n  status: automated\n  automatedIn: tests/api/products/get-products-by-product-id-related.spec.ts\n  knownIssue: Omits co2_rating from related products, so is_eco_friendly is always false.\n  bug: BUG-005\n  steps:\n    - Send GET /products and take the first item's id.\n    - Send GET /products/{productId}/related with that id.\n    - Verify every item has a co2_rating field."
+  },
+  {
+   "id": "API-0290",
+   "name": "Change password with a valid new password returns 200 and the new password logs in",
+   "ref": [
+    "docs/ui/user-stories/Change_Password.md#AC6"
+   ],
+   "status": "manual",
+   "steps": [
+    "Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.",
+    "Send POST /users/login with that email and password, and take the new access_token.",
+    "Send POST /users/change-password with that token, current_password set to that password, and new_password and new_password_confirmation both set to a different random strong password.",
+    "Verify the response status is 200.",
+    "Verify the body's success is true.",
+    "Verify POST /users/login with that email and the new password returns 200 with a non-empty access_token."
+   ],
+   "area": "users",
+   "areaLabel": "Users",
+   "file": "test-scenarios/api/users/post-users-change-password.yml",
+   "fileLabel": "POST /users/change-password",
+   "suite": "Users API",
+   "tags": [
+    "@users-api"
+   ],
+   "yaml": "- id: API-0290\n  name: Change password with a valid new password returns 200 and the new password logs in\n  ref: docs/ui/user-stories/Change_Password.md#AC6\n  status: manual\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.\n    - Send POST /users/login with that email and password, and take the new access_token.\n    - Send POST /users/change-password with that token, current_password set to that password, and new_password and new_password_confirmation both set to a different random strong password.\n    - Verify the response status is 200.\n    - Verify the body's success is true.\n    - Verify POST /users/login with that email and the new password returns 200 with a non-empty access_token."
+  },
+  {
+   "id": "API-0291",
+   "name": "Change password without new_password returns 422",
+   "ref": [
+    "docs/ui/user-stories/Change_Password.md#AC1"
+   ],
+   "status": "manual",
+   "steps": [
+    "Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.",
+    "Send POST /users/login with that email and password, and take the new access_token.",
+    "Send POST /users/change-password with that token, current_password set to that password and new_password_confirmation set to a different random strong password, without new_password.",
+    "Verify the response status is 422.",
+    "Verify the body's errors.new_password is a non-empty list."
+   ],
+   "area": "users",
+   "areaLabel": "Users",
+   "file": "test-scenarios/api/users/post-users-change-password.yml",
+   "fileLabel": "POST /users/change-password",
+   "suite": "Users API",
+   "tags": [
+    "@users-api"
+   ],
+   "yaml": "- id: API-0291\n  name: Change password without new_password returns 422\n  ref: docs/ui/user-stories/Change_Password.md#AC1\n  status: manual\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.\n    - Send POST /users/login with that email and password, and take the new access_token.\n    - Send POST /users/change-password with that token, current_password set to that password and new_password_confirmation set to a different random strong password, without new_password.\n    - Verify the response status is 422.\n    - Verify the body's errors.new_password is a non-empty list."
+  },
+  {
+   "id": "API-0292",
+   "name": "Change password without new_password_confirmation returns 422",
+   "ref": [
+    "docs/ui/user-stories/Change_Password.md#AC1"
+   ],
+   "status": "manual",
+   "steps": [
+    "Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.",
+    "Send POST /users/login with that email and password, and take the new access_token.",
+    "Send POST /users/change-password with that token, current_password set to that password and new_password set to a different random strong password, without new_password_confirmation.",
+    "Verify the response status is 422.",
+    "Verify the body's errors.new_password is a non-empty list."
+   ],
+   "area": "users",
+   "areaLabel": "Users",
+   "file": "test-scenarios/api/users/post-users-change-password.yml",
+   "fileLabel": "POST /users/change-password",
+   "suite": "Users API",
+   "tags": [
+    "@users-api"
+   ],
+   "yaml": "- id: API-0292\n  name: Change password without new_password_confirmation returns 422\n  ref: docs/ui/user-stories/Change_Password.md#AC1\n  status: manual\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.\n    - Send POST /users/login with that email and password, and take the new access_token.\n    - Send POST /users/change-password with that token, current_password set to that password and new_password set to a different random strong password, without new_password_confirmation.\n    - Verify the response status is 422.\n    - Verify the body's errors.new_password is a non-empty list."
+  },
+  {
+   "id": "API-0293",
+   "name": "Change password with a confirmation that doesn't match returns 422",
+   "ref": [
+    "docs/ui/user-stories/Change_Password.md#AC3"
+   ],
+   "status": "manual",
+   "steps": [
+    "Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.",
+    "Send POST /users/login with that email and password, and take the new access_token.",
+    "Send POST /users/change-password with that token, current_password set to that password, new_password set to a different random strong password and new_password_confirmation set to a third random strong password.",
+    "Verify the response status is 422.",
+    "Verify the body's errors.new_password is a non-empty list."
+   ],
+   "area": "users",
+   "areaLabel": "Users",
+   "file": "test-scenarios/api/users/post-users-change-password.yml",
+   "fileLabel": "POST /users/change-password",
+   "suite": "Users API",
+   "tags": [
+    "@users-api"
+   ],
+   "yaml": "- id: API-0293\n  name: Change password with a confirmation that doesn't match returns 422\n  ref: docs/ui/user-stories/Change_Password.md#AC3\n  status: manual\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.\n    - Send POST /users/login with that email and password, and take the new access_token.\n    - Send POST /users/change-password with that token, current_password set to that password, new_password set to a different random strong password and new_password_confirmation set to a third random strong password.\n    - Verify the response status is 422.\n    - Verify the body's errors.new_password is a non-empty list."
+  },
+  {
+   "id": "API-0294",
+   "name": "Change password without current_password returns 400",
+   "ref": [
+    "docs/ui/user-stories/Change_Password.md#AC1"
+   ],
+   "status": "manual",
+   "steps": [
+    "Send POST /users/change-password with the default user's token, and new_password and new_password_confirmation both set to a random strong password, without current_password.",
+    "Verify the response status is 400.",
+    "Verify the body's success is false.",
+    "Verify the body's message is \"Your current password does not matches with the password.\"."
+   ],
+   "area": "users",
+   "areaLabel": "Users",
+   "file": "test-scenarios/api/users/post-users-change-password.yml",
+   "fileLabel": "POST /users/change-password",
+   "suite": "Users API",
+   "tags": [
+    "@users-api"
+   ],
+   "yaml": "- id: API-0294\n  name: Change password without current_password returns 400\n  ref: docs/ui/user-stories/Change_Password.md#AC1\n  status: manual\n  steps:\n    - Send POST /users/change-password with the default user's token, and new_password and new_password_confirmation both set to a random strong password, without current_password.\n    - Verify the response status is 400.\n    - Verify the body's success is false.\n    - Verify the body's message is \"Your current password does not matches with the password.\"."
+  },
+  {
+   "id": "API-0295",
+   "name": "Change password with a wrong current password returns 400",
+   "ref": [
+    "docs/ui/user-stories/Change_Password.md#AC4"
+   ],
+   "status": "manual",
+   "steps": [
+    "Send POST /users/change-password with the default user's token, current_password set to a random strong password that isn't the default user's password, and new_password and new_password_confirmation both set to another random strong password.",
+    "Verify the response status is 400.",
+    "Verify the body's success is false.",
+    "Verify the body's message is \"Your current password does not matches with the password.\"."
+   ],
+   "area": "users",
+   "areaLabel": "Users",
+   "file": "test-scenarios/api/users/post-users-change-password.yml",
+   "fileLabel": "POST /users/change-password",
+   "suite": "Users API",
+   "tags": [
+    "@users-api"
+   ],
+   "yaml": "- id: API-0295\n  name: Change password with a wrong current password returns 400\n  ref: docs/ui/user-stories/Change_Password.md#AC4\n  status: manual\n  steps:\n    - Send POST /users/change-password with the default user's token, current_password set to a random strong password that isn't the default user's password, and new_password and new_password_confirmation both set to another random strong password.\n    - Verify the response status is 400.\n    - Verify the body's success is false.\n    - Verify the body's message is \"Your current password does not matches with the password.\"."
+  },
+  {
+   "id": "API-0296",
+   "name": "Change password with the current password as the new one returns 400",
+   "ref": [
+    "docs/ui/user-stories/Change_Password.md#AC5"
+   ],
+   "status": "manual",
+   "steps": [
+    "Send POST /users/change-password with the default user's token, and current_password, new_password and new_password_confirmation all set to the default user's password.",
+    "Verify the response status is 400.",
+    "Verify the body's success is false.",
+    "Verify the body's message is \"New Password cannot be same as your current password.\"."
+   ],
+   "area": "users",
+   "areaLabel": "Users",
+   "file": "test-scenarios/api/users/post-users-change-password.yml",
+   "fileLabel": "POST /users/change-password",
+   "suite": "Users API",
+   "tags": [
+    "@users-api"
+   ],
+   "yaml": "- id: API-0296\n  name: Change password with the current password as the new one returns 400\n  ref: docs/ui/user-stories/Change_Password.md#AC5\n  status: manual\n  steps:\n    - Send POST /users/change-password with the default user's token, and current_password, new_password and new_password_confirmation all set to the default user's password.\n    - Verify the response status is 400.\n    - Verify the body's success is false.\n    - Verify the body's message is \"New Password cannot be same as your current password.\"."
   },
   {
    "id": "API-0078",
