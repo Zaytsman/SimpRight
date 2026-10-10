@@ -325,7 +325,7 @@
     <header>
       <div>
         <h1>API Coverage Report</h1>
-        <div class="generated-at">Generated: 2026-10-09T08:21:15.685Z</div>
+        <div class="generated-at">Generated: 2026-10-10T07:49:57.711Z</div>
       </div>
       <div>
         <span class="service-tag">playwright-api-coverage</span>
@@ -341,23 +341,23 @@
     <div class="stats-grid">
       <div class="stat-card">
         <div class="stat-title">Overall Coverage</div>
-        <div class="stat-value color-warning">52%</div>
+        <div class="stat-value color-warning">62%</div>
         <div class="stat-sub">Across all API endpoints</div>
       </div>
       <div class="stat-card">
         <div class="stat-title">Endpoint Hits</div>
-        <div class="stat-value color-primary">17 / 30</div>
-        <div class="stat-sub">57% covered</div>
+        <div class="stat-value color-primary">21 / 30</div>
+        <div class="stat-sub">70% covered</div>
       </div>
       <div class="stat-card">
         <div class="stat-title">Status Codes</div>
-        <div class="stat-value color-success">41 / 87</div>
-        <div class="stat-sub">47% documented codes tested</div>
+        <div class="stat-value color-success">46 / 87</div>
+        <div class="stat-sub">53% documented codes tested</div>
       </div>
       <div class="stat-card">
         <div class="stat-title">Required Fields</div>
-        <div class="stat-value color-warning">11 / 26</div>
-        <div class="stat-sub">42% tested in requests</div>
+        <div class="stat-value color-warning">13 / 26</div>
+        <div class="stat-sub">50% tested in requests</div>
       </div>
     </div>
 
@@ -377,15 +377,15 @@
         
         <tr>
           <td><strong>Carts</strong></td>
-          <td>0 / 6 (0%)</td>
-          <td>0 / 15 (0%)</td>
-          <td>0 / 4 (0%)</td>
+          <td>4 / 6 (67%)</td>
+          <td>5 / 15 (33%)</td>
+          <td>2 / 4 (50%)</td>
           <td style="width: 250px;">
             <div style="display: flex; align-items: center; gap: 10px;">
               <div class="progress-bar-container">
-                <div class="progress-bar-fill fill-red" style="width: 0%;"></div>
+                <div class="progress-bar-fill fill-yellow" style="width: 50%;"></div>
               </div>
-              <span style="font-weight: 600; font-size: 13px; min-width: 35px;">0%</span>
+              <span style="font-weight: 600; font-size: 13px; min-width: 35px;">50%</span>
             </div>
           </td>
         </tr>
@@ -439,7 +439,7 @@
     <!-- Endpoint Cards List -->
     <div class="endpoint-list" id="endpointList">
       
-      <div class="endpoint-card" id="endpoint-post-carts" data-service="Carts" data-covered="false" data-coverage="0" data-search="POST /carts Create cart">
+      <div class="endpoint-card" id="endpoint-post-carts" data-service="Carts" data-covered="true" data-coverage="77" data-search="POST /carts Create cart">
         <div class="endpoint-header" onclick="toggleDetails(this)">
           <div class="endpoint-left">
             <span class="method-badge method-POST">POST</span>
@@ -447,13 +447,13 @@
             <span class="service-tag">Carts</span>
           </div>
           <div class="endpoint-right">
-            <span class="hits-badge hits-uncovered">0 calls</span>
+            <span class="hits-badge hits-covered">5 calls</span>
             <div style="width: 100px;">
               <div class="progress-bar-container">
-                <div class="progress-bar-fill fill-red" style="width: 0%;"></div>
+                <div class="progress-bar-fill fill-green" style="width: 77%;"></div>
               </div>
             </div>
-            <span style="font-size: 13px; font-weight: 700; width: 40px; text-align: right;">0%</span>
+            <span style="font-size: 13px; font-weight: 700; width: 40px; text-align: right;">77%</span>
             <span class="chevron">▼</span>
           </div>
         </div>
@@ -462,9 +462,9 @@
           <p style="margin-bottom: 14px; color: var(--text-muted); font-size: 14px;"><strong>Create cart:</strong> Creates an empty cart and returns its id. The optional coordinates are stored on the cart and later decide the location discount of the items added to it. Nothing is validated. _(source)_</p>
           <div class="details-grid">
             <div class="detail-section">
-              <div class="detail-heading">Status Codes (0 tested / 1 documented)</div>
+              <div class="detail-heading">Status Codes (1 tested / 1 documented)</div>
               <div class="tag-list">
-                <span class="tag tag-missing">201 ✗</span>
+                <span class="tag tag-success">201 ✓</span>
               </div>
             </div>
             <div class="detail-section">
@@ -488,7 +488,7 @@
           </div>
         </div>
       </div>
-      <div class="endpoint-card" id="endpoint-post-carts-cartid" data-service="Carts" data-covered="false" data-coverage="0" data-search="POST /carts/:cartId Add item to cart">
+      <div class="endpoint-card" id="endpoint-post-carts-cartid" data-service="Carts" data-covered="true" data-coverage="80" data-search="POST /carts/:cartId Add item to cart">
         <div class="endpoint-header" onclick="toggleDetails(this)">
           <div class="endpoint-left">
             <span class="method-badge method-POST">POST</span>
@@ -496,13 +496,13 @@
             <span class="service-tag">Carts</span>
           </div>
           <div class="endpoint-right">
-            <span class="hits-badge hits-uncovered">0 calls</span>
+            <span class="hits-badge hits-covered">5 calls</span>
             <div style="width: 100px;">
               <div class="progress-bar-container">
-                <div class="progress-bar-fill fill-red" style="width: 0%;"></div>
+                <div class="progress-bar-fill fill-green" style="width: 80%;"></div>
               </div>
             </div>
-            <span style="font-size: 13px; font-weight: 700; width: 40px; text-align: right;">0%</span>
+            <span style="font-size: 13px; font-weight: 700; width: 40px; text-align: right;">80%</span>
             <span class="chevron">▼</span>
           </div>
         </div>
@@ -511,15 +511,15 @@
           <p style="margin-bottom: 14px; color: var(--text-muted); font-size: 14px;"><strong>Add item to cart:</strong> Adds a product to the cart. When the product is already in the cart, its quantity is **increased** by `quantity` (`firstOrCreate` + `increment`); no second line is created. _(source)_ The service&#039;s own test adds 2 to an item with quantity 1 and expects 3. _(source)_</p>
           <div class="details-grid">
             <div class="detail-section">
-              <div class="detail-heading">Status Codes (0 tested / 4 documented)</div>
+              <div class="detail-heading">Status Codes (2 tested / 4 documented)</div>
               <div class="tag-list">
-                <span class="tag tag-missing">200 ✗</span><span class="tag tag-missing">400 ✗</span><span class="tag tag-missing">404 ✗</span><span class="tag tag-missing">422 ✗</span>
+                <span class="tag tag-success">200 ✓</span><span class="tag tag-missing">400 ✗</span><span class="tag tag-missing">404 ✗</span><span class="tag tag-success">422 ✓</span>
               </div>
             </div>
             <div class="detail-section">
-              <div class="detail-heading">Required Request Fields (0/2)</div>
+              <div class="detail-heading">Required Request Fields (2/2)</div>
               <div class="tag-list">
-                <span class="tag tag-missing">product_id ✗</span><span class="tag tag-missing">quantity ✗</span>
+                <span class="tag tag-success">product_id ✓</span><span class="tag tag-success">quantity ✓</span>
               </div>
             </div>
             <div class="detail-section">
@@ -537,7 +537,7 @@
           </div>
         </div>
       </div>
-      <div class="endpoint-card" id="endpoint-get-carts-cartid" data-service="Carts" data-covered="false" data-coverage="0" data-search="GET /carts/:cartId Get cart">
+      <div class="endpoint-card" id="endpoint-get-carts-cartid" data-service="Carts" data-covered="true" data-coverage="70" data-search="GET /carts/:cartId Get cart">
         <div class="endpoint-header" onclick="toggleDetails(this)">
           <div class="endpoint-left">
             <span class="method-badge method-GET">GET</span>
@@ -545,13 +545,13 @@
             <span class="service-tag">Carts</span>
           </div>
           <div class="endpoint-right">
-            <span class="hits-badge hits-uncovered">0 calls</span>
+            <span class="hits-badge hits-covered">4 calls</span>
             <div style="width: 100px;">
               <div class="progress-bar-container">
-                <div class="progress-bar-fill fill-red" style="width: 0%;"></div>
+                <div class="progress-bar-fill fill-yellow" style="width: 70%;"></div>
               </div>
             </div>
-            <span style="font-size: 13px; font-weight: 700; width: 40px; text-align: right;">0%</span>
+            <span style="font-size: 13px; font-weight: 700; width: 40px; text-align: right;">70%</span>
             <span class="chevron">▼</span>
           </div>
         </div>
@@ -560,9 +560,9 @@
           <p style="margin-bottom: 14px; color: var(--text-muted); font-size: 14px;"><strong>Get cart:</strong> Returns the cart with its items, each with its product. For an item with a non-zero `discount_percentage`, `discounted_price` is added: the product price minus the discount, rounded to 2 decimals. _(source)_</p>
           <div class="details-grid">
             <div class="detail-section">
-              <div class="detail-heading">Status Codes (0 tested / 2 documented)</div>
+              <div class="detail-heading">Status Codes (1 tested / 2 documented)</div>
               <div class="tag-list">
-                <span class="tag tag-missing">200 ✗</span><span class="tag tag-missing">404 ✗</span>
+                <span class="tag tag-success">200 ✓</span><span class="tag tag-missing">404 ✗</span>
               </div>
             </div>
             <div class="detail-section">
@@ -684,7 +684,7 @@
           </div>
         </div>
       </div>
-      <div class="endpoint-card" id="endpoint-delete-carts-cartid" data-service="Carts" data-covered="false" data-coverage="0" data-search="DELETE /carts/:cartId Delete cart">
+      <div class="endpoint-card" id="endpoint-delete-carts-cartid" data-service="Carts" data-covered="true" data-coverage="70" data-search="DELETE /carts/:cartId Delete cart">
         <div class="endpoint-header" onclick="toggleDetails(this)">
           <div class="endpoint-left">
             <span class="method-badge method-DELETE">DELETE</span>
@@ -692,13 +692,13 @@
             <span class="service-tag">Carts</span>
           </div>
           <div class="endpoint-right">
-            <span class="hits-badge hits-uncovered">0 calls</span>
+            <span class="hits-badge hits-covered">5 calls</span>
             <div style="width: 100px;">
               <div class="progress-bar-container">
-                <div class="progress-bar-fill fill-red" style="width: 0%;"></div>
+                <div class="progress-bar-fill fill-yellow" style="width: 70%;"></div>
               </div>
             </div>
-            <span style="font-size: 13px; font-weight: 700; width: 40px; text-align: right;">0%</span>
+            <span style="font-size: 13px; font-weight: 700; width: 40px; text-align: right;">70%</span>
             <span class="chevron">▼</span>
           </div>
         </div>
@@ -707,9 +707,9 @@
           <p style="margin-bottom: 14px; color: var(--text-muted); font-size: 14px;"><strong>Delete cart:</strong> No description</p>
           <div class="details-grid">
             <div class="detail-section">
-              <div class="detail-heading">Status Codes (0 tested / 2 documented)</div>
+              <div class="detail-heading">Status Codes (1 tested / 2 documented)</div>
               <div class="tag-list">
-                <span class="tag tag-missing">204 ✗</span><span class="tag tag-missing">404 ✗</span>
+                <span class="tag tag-success">204 ✓</span><span class="tag tag-missing">404 ✗</span>
               </div>
             </div>
             <div class="detail-section">
@@ -741,7 +741,7 @@
             <span class="service-tag">Products</span>
           </div>
           <div class="endpoint-right">
-            <span class="hits-badge hits-covered">65 calls</span>
+            <span class="hits-badge hits-covered">70 calls</span>
             <div style="width: 100px;">
               <div class="progress-bar-container">
                 <div class="progress-bar-fill fill-green" style="width: 100%;"></div>
@@ -839,7 +839,7 @@
             <span class="service-tag">Products</span>
           </div>
           <div class="endpoint-right">
-            <span class="hits-badge hits-covered">32 calls</span>
+            <span class="hits-badge hits-covered">37 calls</span>
             <div style="width: 100px;">
               <div class="progress-bar-container">
                 <div class="progress-bar-fill fill-green" style="width: 100%;"></div>
@@ -1035,7 +1035,7 @@
             <span class="service-tag">Products</span>
           </div>
           <div class="endpoint-right">
-            <span class="hits-badge hits-covered">29 calls</span>
+            <span class="hits-badge hits-covered">34 calls</span>
             <div style="width: 100px;">
               <div class="progress-bar-container">
                 <div class="progress-bar-fill fill-green" style="width: 88%;"></div>
@@ -1920,10 +1920,10 @@
         <div class="nav-file" data-file="Carts_API.md">
           <div class="nav-file-row">
             <button type="button" class="nav-toggle" aria-expanded="false" aria-controls="nav-endpoints-0" title="Show or hide the endpoints"><span class="chevron">▶</span></button>
-            <a class="nav-file-link" href="#contract/Carts_API.md" data-file="Carts_API.md">Carts <span class="nav-file-name">Carts_API.md · 6 endpoints, 0 covered</span></a>
+            <a class="nav-file-link" href="#contract/Carts_API.md" data-file="Carts_API.md">Carts <span class="nav-file-name">Carts_API.md · 6 endpoints, 4 covered</span></a>
           </div>
           <ul class="nav-endpoints" id="nav-endpoints-0" hidden>
-            <li><a href="#contract/Carts_API.md/post-carts" title="POST /carts"><span class="mini-method method-POST">POST</span><span class="mini-path">/carts</span><span class="mini-pct color-danger">0%</span></a></li><li><a href="#contract/Carts_API.md/post-carts-cartid" title="POST /carts/:cartId"><span class="mini-method method-POST">POST</span><span class="mini-path">/carts/{cartId}</span><span class="mini-pct color-danger">0%</span></a></li><li><a href="#contract/Carts_API.md/get-carts-cartid" title="GET /carts/:cartId"><span class="mini-method method-GET">GET</span><span class="mini-path">/carts/{cartId}</span><span class="mini-pct color-danger">0%</span></a></li><li><a href="#contract/Carts_API.md/put-carts-cartid-product-quantity" title="PUT /carts/:cartId/product/quantity"><span class="mini-method method-PUT">PUT</span><span class="mini-path">/carts/{cartId}/product/quantity</span><span class="mini-pct color-danger">0%</span></a></li><li><a href="#contract/Carts_API.md/delete-carts-cartid-product-productid" title="DELETE /carts/:cartId/product/:productId"><span class="mini-method method-DELETE">DELETE</span><span class="mini-path">/carts/{cartId}/product/{productId}</span><span class="mini-pct color-danger">0%</span></a></li><li><a href="#contract/Carts_API.md/delete-carts-cartid" title="DELETE /carts/:cartId"><span class="mini-method method-DELETE">DELETE</span><span class="mini-path">/carts/{cartId}</span><span class="mini-pct color-danger">0%</span></a></li>
+            <li><a href="#contract/Carts_API.md/post-carts" title="POST /carts"><span class="mini-method method-POST">POST</span><span class="mini-path">/carts</span><span class="mini-pct color-success">77%</span></a></li><li><a href="#contract/Carts_API.md/post-carts-cartid" title="POST /carts/:cartId"><span class="mini-method method-POST">POST</span><span class="mini-path">/carts/{cartId}</span><span class="mini-pct color-success">80%</span></a></li><li><a href="#contract/Carts_API.md/get-carts-cartid" title="GET /carts/:cartId"><span class="mini-method method-GET">GET</span><span class="mini-path">/carts/{cartId}</span><span class="mini-pct color-warning">70%</span></a></li><li><a href="#contract/Carts_API.md/put-carts-cartid-product-quantity" title="PUT /carts/:cartId/product/quantity"><span class="mini-method method-PUT">PUT</span><span class="mini-path">/carts/{cartId}/product/quantity</span><span class="mini-pct color-danger">0%</span></a></li><li><a href="#contract/Carts_API.md/delete-carts-cartid-product-productid" title="DELETE /carts/:cartId/product/:productId"><span class="mini-method method-DELETE">DELETE</span><span class="mini-path">/carts/{cartId}/product/{productId}</span><span class="mini-pct color-danger">0%</span></a></li><li><a href="#contract/Carts_API.md/delete-carts-cartid" title="DELETE /carts/:cartId"><span class="mini-method method-DELETE">DELETE</span><span class="mini-path">/carts/{cartId}</span><span class="mini-pct color-warning">70%</span></a></li>
           </ul>
         </div>
         <div class="nav-file" data-file="Products_API.md">
@@ -1958,7 +1958,7 @@
 <h2 id="contract-carts-api-md--data-required-for-successful-requests">Data required for successful requests</h2>
 <div class="table-wrap"><table><thead><tr><th>Data</th><th>Needed by</th><th>Requirements</th></tr></thead><tbody><tr><td>Cart id (ULID)</td><td>every endpoint except <code>POST /carts</code></td><td>The <code>id</code> returned by <code>POST /carts</code>. Carts are never listed, so a test must create its own (and delete it afterwards).</td></tr><tr><td>Product id (ULID)</td><td><code>POST /carts/{cartId}</code>, <code>PUT /carts/{cartId}/product/quantity</code> (<code>product_id</code>)</td><td>An existing product (<code>exists:products,id</code>), e.g. an <code>id</code> from <code>GET /products</code>. An unknown id gives <code>422</code>.</td></tr><tr><td>Quantity</td><td><code>POST /carts/{cartId}</code>, <code>PUT /carts/{cartId}/product/quantity</code></td><td>An integer from 1 to 99.</td></tr><tr><td>A product that isn&#039;t &quot;Thor Hammer&quot;</td><td>quantities above 1</td><td>The product named exactly <code>Thor Hammer</code> (seeded) is limited to one per cart. The rule matches the name, so a product created with that name gets the same limit.</td></tr><tr><td>Coordinates (optional)</td><td><code>POST /carts</code> (<code>lat</code>, <code>lng</code>)</td><td>Only needed for the location discount: within 2 degrees of one of the cities listed under Enums.</td></tr></tbody></table></div>
 <h2 id="contract-carts-api-md--endpoints">Endpoints</h2>
-<h3 id="contract-carts-api-md--post-carts">1. Create cart<a class="cov-chip chip-uncovered" href="#coverage/endpoint-post-carts" title="Show on the coverage tab">0 calls · 0%</a></h3>
+<h3 id="contract-carts-api-md--post-carts">1. Create cart<a class="cov-chip chip-covered" href="#coverage/endpoint-post-carts" title="Show on the coverage tab">5 calls · 77%</a></h3>
 <p>Creates an empty cart and returns its id. The optional coordinates are stored on the cart and later decide the location discount of the items added to it. Nothing is validated. <em>(source)</em></p>
 <p><strong>Endpoint:</strong> <code>POST /carts</code></p>
 <p><strong>Auth:</strong> None <em>(source)</em></p>
@@ -1968,13 +1968,13 @@
   lng?: number;   // longitude; stored as a decimal, no validation
 }</code></pre>
 <p>An empty body (or none) is fine (<code>CartTest</code>: &quot;create cart without coordinates&quot;). Any other field is ignored (<code>$request-&gt;only([&#039;lat&#039;, &#039;lng&#039;])</code>). <em>(source)</em></p>
-<p><strong>Response:</strong> <code>201 Created</code> <em>(source)</em><span class="st st-miss" title="No test got 201">✗ not tested</span></p>
+<p><strong>Response:</strong> <code>201 Created</code> <em>(source)</em><span class="st st-ok" title="A test got 201">✓ tested</span></p>
 <pre><code class="lang-ts">{
   id: string;   // ULID of the new cart
 }</code></pre>
 <p>The handler has no error branch of its own. The source doesn&#039;t show what happens with a non-numeric <code>lat</code>/<code>lng</code> (the columns are <code>decimal</code>; the database may reject the value, which the global handler would turn into a <code>500</code>).</p>
 <hr>
-<h3 id="contract-carts-api-md--post-carts-cartid">2. Add item to cart<a class="cov-chip chip-uncovered" href="#coverage/endpoint-post-carts-cartid" title="Show on the coverage tab">0 calls · 0%</a></h3>
+<h3 id="contract-carts-api-md--post-carts-cartid">2. Add item to cart<a class="cov-chip chip-covered" href="#coverage/endpoint-post-carts-cartid" title="Show on the coverage tab">5 calls · 80%</a></h3>
 <p>Adds a product to the cart. When the product is already in the cart, its quantity is <strong>increased</strong> by <code>quantity</code> (<code>firstOrCreate</code> + <code>increment</code>); no second line is created. <em>(source)</em> The service&#039;s own test adds 2 to an item with quantity 1 and expects 3. <em>(source)</em></p>
 <p><strong>Endpoint:</strong> <code>POST /carts/{cartId}</code></p>
 <p><strong>Auth:</strong> None <em>(source)</em></p>
@@ -1988,13 +1988,13 @@
 <p>Validation runs before the cart is looked up, so a bad body on an unknown cart gives <code>422</code>, not <code>404</code>. <em>(source)</em> The handler also reads <code>lat</code> and <code>lng</code> from the body and passes them to the service, which ignores them: the discount uses the cart&#039;s coordinates from <code>POST /carts</code>. <em>(source)</em></p>
 <p>Rules worth testing <em>(source)</em>:</p>
 <ul><li><strong>Quantity per request:</strong> 1 to 99. The limit applies to each request only: the running total isn&#039;t checked, so adding 99 twice gives a quantity of 198 (<code>increment</code> without a cap).</li><li><strong>Thor Hammer:</strong> for the product named <code>Thor Hammer</code>, a <code>quantity</code> above 1, or adding it when it&#039;s already in the cart, fails with <code>400</code> and <code>&quot;You can only have one Thor Hammer in the cart.&quot;</code>. Adding it once with <code>quantity: 1</code> creates the line with quantity 1.</li><li><strong>No stock check:</strong> neither the controller nor the service looks at the product&#039;s stock, so out-of-stock products can be added.</li><li><strong>Discounts:</strong> after each add, the cart&#039;s <code>additional_discount_percentage</code> becomes <code>15</code> when the cart holds both a rental and a non-rental product, otherwise <code>null</code>. When the cart has non-zero <code>lat</code> and <code>lng</code>, the added item&#039;s <code>discount_percentage</code> is set from the city table (see Enums; <code>0</code> when no city matches).</li></ul>
-<p><strong>Response:</strong> <code>200 OK</code> <em>(source)</em><span class="st st-miss" title="No test got 200">✗ not tested</span></p>
+<p><strong>Response:</strong> <code>200 OK</code> <em>(verified)</em><span class="st st-ok" title="A test got 200">✓ tested</span></p>
 <pre><code class="lang-ts">{
   result: &quot;item added or updated&quot;;
 }</code></pre>
 <p>The response has no ids: read the cart (<code>GET /carts/{cartId}</code>) to see the item&#039;s <code>id</code> and quantity. <em>(source)</em></p>
 <p><strong>Error Responses:</strong></p>
-<ul><li><code>400 Bad Request</code>: a Thor Hammer rule is broken (quantity above 1, or already in the cart), with <code>{ message: &quot;You can only have one Thor Hammer in the cart.&quot; }</code>; any other unexpected exception in the service also becomes a <code>400</code> with its message <em>(source)</em><span class="st st-miss" title="No test got 400">✗ not tested</span></li><li><code>404 Not Found</code>: no cart with this id, with <code>{ message: &quot;Cart not found&quot; }</code> <em>(source)</em><span class="st st-miss" title="No test got 404">✗ not tested</span></li><li><code>422 Unprocessable Entity</code>: <code>product_id</code> missing, not a string or not an existing product; <code>quantity</code> missing, not an integer, below 1 or above 99. Framework default body <code>{ message, errors }</code> (see Error Handling) <em>(source)</em><span class="st st-miss" title="No test got 422">✗ not tested</span></li></ul>
+<ul><li><code>400 Bad Request</code>: a Thor Hammer rule is broken (quantity above 1, or already in the cart), with <code>{ message: &quot;You can only have one Thor Hammer in the cart.&quot; }</code>; any other unexpected exception in the service also becomes a <code>400</code> with its message <em>(source)</em><span class="st st-miss" title="No test got 400">✗ not tested</span></li><li><code>404 Not Found</code>: no cart with this id, with <code>{ message: &quot;Cart not found&quot; }</code> <em>(source)</em><span class="st st-miss" title="No test got 404">✗ not tested</span></li><li><code>422 Unprocessable Entity</code>: <code>product_id</code> missing, not a string or not an existing product; <code>quantity</code> missing or not an integer. Framework default body <code>{ message, errors }</code> (see Error Handling) <em>(source)</em>; <code>quantity</code> below 1 or above 99 <em>(source)</em>; <code>quantity</code> 0 and 1,000,000,000 give it with a <code>quantity</code> key in <code>errors</code> <em>(verified)</em><span class="st st-ok" title="A test got 422">✓ tested</span></li></ul>
 <p><strong>Example:</strong></p>
 <pre><code class="lang-http">POST /carts/01JABCDEF0123456789ABCDEFG
 { &quot;product_id&quot;: &quot;01JPRODUCT0123456789ABCDE&quot;, &quot;quantity&quot;: 2 }
@@ -2002,13 +2002,13 @@
 200 OK
 { &quot;result&quot;: &quot;item added or updated&quot; }</code></pre>
 <hr>
-<h3 id="contract-carts-api-md--get-carts-cartid">3. Get cart<a class="cov-chip chip-uncovered" href="#coverage/endpoint-get-carts-cartid" title="Show on the coverage tab">0 calls · 0%</a></h3>
+<h3 id="contract-carts-api-md--get-carts-cartid">3. Get cart<a class="cov-chip chip-covered" href="#coverage/endpoint-get-carts-cartid" title="Show on the coverage tab">4 calls · 70%</a></h3>
 <p>Returns the cart with its items, each with its product. For an item with a non-zero <code>discount_percentage</code>, <code>discounted_price</code> is added: the product price minus the discount, rounded to 2 decimals. <em>(source)</em></p>
 <p><strong>Endpoint:</strong> <code>GET /carts/{cartId}</code></p>
 <p><strong>Auth:</strong> None <em>(verified)</em></p>
 <p><strong>Path Parameters:</strong></p>
 <div class="table-wrap"><table><thead><tr><th>Parameter</th><th>Type</th><th>Required</th><th>Description</th></tr></thead><tbody><tr><td><code>cartId</code></td><td>string (ULID)</td><td>Yes</td><td>The cart&#039;s id (named <code>{id}</code> in the route)</td></tr></tbody></table></div>
-<p><strong>Response:</strong> <code>200 OK</code> <em>(source)</em><span class="st st-miss" title="No test got 200">✗ not tested</span></p>
+<p><strong>Response:</strong> <code>200 OK</code> <em>(verified)</em><span class="st st-ok" title="A test got 200">✓ tested</span></p>
 <pre><code class="lang-ts">Cart   // see Data Models</code></pre>
 <p>The route has no cache headers (<code>Cache-Control: no-cache, private</code>), unlike the product routes. <em>(verified)</em></p>
 <p><strong>Error Responses:</strong></p>
@@ -2045,12 +2045,12 @@
 <p><strong>Error Responses:</strong></p>
 <ul><li><code>404 Not Found</code>: no cart with this id, with <code>{ message: &quot;Cart doesnt exists&quot; }</code> <em>(source)</em><span class="st st-miss" title="No test got 404">✗ not tested</span></li></ul>
 <hr>
-<h3 id="contract-carts-api-md--delete-carts-cartid">6. Delete cart<a class="cov-chip chip-uncovered" href="#coverage/endpoint-delete-carts-cartid" title="Show on the coverage tab">0 calls · 0%</a></h3>
+<h3 id="contract-carts-api-md--delete-carts-cartid">6. Delete cart<a class="cov-chip chip-covered" href="#coverage/endpoint-delete-carts-cartid" title="Show on the coverage tab">5 calls · 70%</a></h3>
 <p><strong>Endpoint:</strong> <code>DELETE /carts/{cartId}</code></p>
 <p>Deletes the cart&#039;s items, then the cart. A product can&#039;t be deleted while a cart item points to it (<code>DELETE /products/{productId}</code> returns <code>409</code>), so remove the cart first. <em>(source)</em></p>
 <p><strong>Path Parameters:</strong></p>
 <div class="table-wrap"><table><thead><tr><th>Parameter</th><th>Type</th><th>Required</th><th>Description</th></tr></thead><tbody><tr><td><code>cartId</code></td><td>string (ULID)</td><td>Yes</td><td>The cart&#039;s id</td></tr></tbody></table></div>
-<p><strong>Response:</strong> <code>204 No Content</code> <em>(source)</em><span class="st st-miss" title="No test got 204">✗ not tested</span></p>
+<p><strong>Response:</strong> <code>204 No Content</code> <em>(source)</em><span class="st st-ok" title="A test got 204">✓ tested</span></p>
 <p><strong>Error Responses:</strong></p>
 <ul><li><code>404 Not Found</code>: no cart with this id, with <code>{ message: &quot;Cart doesnt exists&quot; }</code> <em>(source)</em><span class="st st-miss" title="No test got 404">✗ not tested</span></li></ul>
 <h2 id="contract-carts-api-md--data-models">Data Models</h2>
@@ -2106,7 +2106,7 @@
 <h2 id="contract-products-api-md--data-required-for-successful-requests">Data required for successful requests</h2>
 <div class="table-wrap"><table><thead><tr><th>Data</th><th>Needed by</th><th>Requirements</th></tr></thead><tbody><tr><td>Product id (ULID)</td><td><code>GET</code>/<code>PUT</code>/<code>PATCH</code>/<code>DELETE /products/{productId}</code>, <code>/related</code></td><td>An existing product, e.g. the <code>id</code> of an item from <code>GET /products</code>.</td></tr><tr><td>Admin token</td><td><code>DELETE /products/{productId}</code></td><td>A token from <code>POST /users/login</code> for a user whose <code>role</code> is <code>admin</code>.</td></tr><tr><td>Brand id</td><td><code>POST /products</code> (<code>brand_id</code>), filter <code>by_brand</code></td><td>An existing brand id (Brands API). An unknown id makes <code>POST</code> fail with <code>500</code>.</td></tr><tr><td>Category id</td><td><code>POST /products</code> (<code>category_id</code>), filter <code>by_category</code></td><td>An existing category id (Categories API). An unknown id makes <code>POST</code> fail with <code>500</code>.</td></tr><tr><td>Product image id</td><td><code>POST /products</code> (<code>product_image_id</code>)</td><td>An existing product image id (Images API).</td></tr><tr><td>A product nobody references</td><td><code>DELETE /products/{productId}</code></td><td>A product used in an invoice line (or other foreign key) can&#039;t be deleted (<code>409</code>). Create a throw-away product first.</td></tr></tbody></table></div>
 <h2 id="contract-products-api-md--endpoints">Endpoints</h2>
-<h3 id="contract-products-api-md--get-products">1. List products<a class="cov-chip chip-covered" href="#coverage/endpoint-get-products" title="Show on the coverage tab">65 calls · 100%</a></h3>
+<h3 id="contract-products-api-md--get-products">1. List products<a class="cov-chip chip-covered" href="#coverage/endpoint-get-products" title="Show on the coverage tab">70 calls · 100%</a></h3>
 <p>Returns the products, 9 per page. Without <code>is_rental</code>, rental products are excluded (<code>is_rental</code> defaults to false). <em>(verified)</em></p>
 <p><strong>Endpoint:</strong> <code>GET /products</code></p>
 <p><strong>Auth:</strong> None <em>(verified)</em></p>
@@ -2154,7 +2154,7 @@ Accept: application/json
 
 { &quot;sort&quot;: &quot;name,asc&quot; }</code></pre>
 <hr>
-<h3 id="contract-products-api-md--post-products">3. Create product<a class="cov-chip chip-covered" href="#coverage/endpoint-post-products" title="Show on the coverage tab">32 calls · 100%</a></h3>
+<h3 id="contract-products-api-md--post-products">3. Create product<a class="cov-chip chip-covered" href="#coverage/endpoint-post-products" title="Show on the coverage tab">37 calls · 100%</a></h3>
 <p>Creates a product. No token is needed (see Notes). <em>(source)</em></p>
 <p><strong>Endpoint:</strong> <code>POST /products</code></p>
 <p><strong>Auth:</strong> None <em>(source)</em></p>
@@ -2236,7 +2236,7 @@ Accept: application/json
 <p><strong>Error Responses:</strong></p>
 <ul><li><code>404 Not Found</code>: no product with this id; <code>{ message: &quot;Requested item not found&quot; }</code> <em>(verified)</em><span class="st st-ok" title="A test got 404">✓ tested</span></li><li><code>422 Unprocessable Entity</code>: a sent field fails its rule (e.g. <code>price</code> not numeric) <em>(verified)</em><span class="st st-ok" title="A test got 422">✓ tested</span></li></ul>
 <hr>
-<h3 id="contract-products-api-md--delete-products-productid">7. Delete product<a class="cov-chip chip-covered" href="#coverage/endpoint-delete-products-productid" title="Show on the coverage tab">29 calls · 88%</a></h3>
+<h3 id="contract-products-api-md--delete-products-productid">7. Delete product<a class="cov-chip chip-covered" href="#coverage/endpoint-delete-products-productid" title="Show on the coverage tab">34 calls · 88%</a></h3>
 <p>Deletes a product. Admin only. <em>(source)</em></p>
 <p><strong>Endpoint:</strong> <code>DELETE /products/{productId}</code></p>
 <p><strong>Auth:</strong> Bearer token, <code>admin</code> role <em>(source)</em></p>
