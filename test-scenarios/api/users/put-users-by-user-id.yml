@@ -1,0 +1,70 @@
+# yaml-language-server: $schema=../../scenarios.schema.json
+suite: Users API
+tags: ["@users-api"]
+scenarios:
+  - id: API-0313
+    name: Update user with valid changed values returns 200 and the profile shows them
+    ref: docs/ui/user-stories/Customer_Profile.md#AC4
+    status: manual
+    steps:
+      - Send POST /users/register with a unique email, a first name, a last name of at most 20 characters, a random strong password, a phone of digits, and an address with a street, a city, a state, country "NL" and postal_code "1011AB", and take the new user's id.
+      - Send POST /users/login with that email and password, and take its access_token.
+      - Send PUT /users/{userId} with that id and access_token, the customer's own email, and a new first_name, last_name (at most 20 characters), phone of digits, street, city, state, country and postal_code, each different from the registered value.
+      - Verify the response status is 200.
+      - Verify the body's success is true.
+      - Verify GET /users/me with that access_token returns the new first_name, last_name, phone, and address street, city, state, country and postal_code.
+  - id: API-0314
+    name: Update user without first_name returns 422 and leaves the profile unchanged
+    ref: docs/ui/user-stories/Customer_Profile.md#AC2
+    status: manual
+    steps:
+      - Send POST /users/register with a unique email, a first name, a last name of at most 20 characters, a random strong password, a phone of digits, and an address with a street, a city, a state, country "NL" and postal_code "1011AB", and take the new user's id.
+      - Send POST /users/login with that email and password, and take its access_token.
+      - Send PUT /users/{userId} with that id and access_token, the customer's own email, and a new last_name (at most 20 characters), phone of digits, street, city, state, country and postal_code, each different from the registered value, without first_name.
+      - Verify the response status is 422.
+      - Verify the body has a first_name key with at least one message.
+      - Verify GET /users/me with that access_token returns the registered first_name, last_name, phone, and address street, city, state, country and postal_code.
+  - id: API-0315
+    name: Update user without last_name returns 422 and leaves the profile unchanged
+    ref: docs/ui/user-stories/Customer_Profile.md#AC2
+    status: manual
+    steps:
+      - Send POST /users/register with a unique email, a first name, a last name of at most 20 characters, a random strong password, a phone of digits, and an address with a street, a city, a state, country "NL" and postal_code "1011AB", and take the new user's id.
+      - Send POST /users/login with that email and password, and take its access_token.
+      - Send PUT /users/{userId} with that id and access_token, the customer's own email, and a new first_name, phone of digits, street, city, state, country and postal_code, each different from the registered value, without last_name.
+      - Verify the response status is 422.
+      - Verify the body has a last_name key with at least one message.
+      - Verify GET /users/me with that access_token returns the registered first_name, last_name, phone, and address street, city, state, country and postal_code.
+  - id: API-0316
+    name: Update user without address.street returns 422 and leaves the profile unchanged
+    ref: docs/ui/user-stories/Customer_Profile.md#AC2
+    status: manual
+    steps:
+      - Send POST /users/register with a unique email, a first name, a last name of at most 20 characters, a random strong password, a phone of digits, and an address with a street, a city, a state, country "NL" and postal_code "1011AB", and take the new user's id.
+      - Send POST /users/login with that email and password, and take its access_token.
+      - Send PUT /users/{userId} with that id and access_token, the customer's own email, and a new first_name, last_name (at most 20 characters), phone of digits, city, state, country and postal_code, each different from the registered value, without address.street.
+      - Verify the response status is 422.
+      - Verify the body has an address.street key with at least one message.
+      - Verify GET /users/me with that access_token returns the registered first_name, last_name, phone, and address street, city, state, country and postal_code.
+  - id: API-0317
+    name: Update user without address.city returns 422 and leaves the profile unchanged
+    ref: docs/ui/user-stories/Customer_Profile.md#AC2
+    status: manual
+    steps:
+      - Send POST /users/register with a unique email, a first name, a last name of at most 20 characters, a random strong password, a phone of digits, and an address with a street, a city, a state, country "NL" and postal_code "1011AB", and take the new user's id.
+      - Send POST /users/login with that email and password, and take its access_token.
+      - Send PUT /users/{userId} with that id and access_token, the customer's own email, and a new first_name, last_name (at most 20 characters), phone of digits, street, state, country and postal_code, each different from the registered value, without address.city.
+      - Verify the response status is 422.
+      - Verify the body has an address.city key with at least one message.
+      - Verify GET /users/me with that access_token returns the registered first_name, last_name, phone, and address street, city, state, country and postal_code.
+  - id: API-0318
+    name: Update user without address.country returns 422 and leaves the profile unchanged
+    ref: docs/ui/user-stories/Customer_Profile.md#AC2
+    status: manual
+    steps:
+      - Send POST /users/register with a unique email, a first name, a last name of at most 20 characters, a random strong password, a phone of digits, and an address with a street, a city, a state, country "NL" and postal_code "1011AB", and take the new user's id.
+      - Send POST /users/login with that email and password, and take its access_token.
+      - Send PUT /users/{userId} with that id and access_token, the customer's own email, and a new first_name, last_name (at most 20 characters), phone of digits, street, city, state and postal_code, each different from the registered value, without address.country.
+      - Verify the response status is 422.
+      - Verify the body has an address.country key with at least one message.
+      - Verify GET /users/me with that access_token returns the registered first_name, last_name, phone, and address street, city, state, country and postal_code.

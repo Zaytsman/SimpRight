@@ -1,0 +1,85 @@
+# yaml-language-server: $schema=../../scenarios.schema.json
+suite: Messages API
+tags: ["@messages-api"]
+scenarios:
+  - id: API-0364
+    name: Get a message as its sender returns 200 with the message, its sender and no replies
+    status: manual
+    steps:
+      - Send GET /users/me with the default user's token and take its id.
+      - Send POST /messages with the default user's token, a name, an email address, a unique subject and a message text, and take the new message's id.
+      - Send GET /messages/{messageId} with that id and the default user's token.
+      - Verify the response status is 200.
+      - Verify the body's id equals the new message's id, its user_id equals the default user's id, its subject and message equal the values sent, its status is "NEW" and it has a created_at.
+      - Verify the body's replies is an empty array.
+      - Verify the body's user has the default user's id as id and has no role, enabled and failed_login_attempts keys.
+  - id: API-0365
+    name: Get a customer's message as an admin returns 200 with the sender's admin-only fields
+    status: manual
+    role: admin
+    steps:
+      - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.
+      - Send POST /users/login with that email and password, and take its access_token.
+      - Send POST /messages with that token, a unique subject and a message text, and take the new message's id.
+      - Send GET /messages/{messageId} with that id and the admin's token.
+      - Verify the response status is 200.
+      - Verify the body's user_id and its user's id equal the new user's id.
+      - Verify the body's user has the keys role, enabled and failed_login_attempts.
+  - id: API-0366
+    name: Get a guest message as an admin returns 200 with no sender
+    status: manual
+    role: admin
+    steps:
+      - Send POST /messages without an Authorization header, with a unique subject and a message text, and take the new message's id.
+      - Send GET /messages/{messageId} with that id and the admin's token.
+      - Verify the response status is 200.
+      - Verify the body's id equals the new message's id, its user_id is null and its user is null.
+      - Verify the body's replies is an empty array.
+  - id: API-0367
+    name: Get a message with a reply returns 200 with the reply and its author
+    status: manual
+    role: admin
+    steps:
+      - Send POST /messages without an Authorization header, with a unique subject and a message text, and take the new message's id.
+      - Send GET /users/me with the admin's token and take its id.
+      - Send POST /messages/{messageId}/reply with that id, the admin's token and a body with a message text, and take the reply's id.
+      - Send GET /messages/{messageId} with that id and the admin's token.
+      - Verify the response status is 200.
+      - Verify the body's replies has exactly one item, with the reply's id as id, the text sent as message and a created_at.
+      - Verify that reply's user has the admin's id as id.
+  - id: API-0368
+    name: Get a message without a token returns 401
+    status: manual
+    steps:
+      - Send GET /messages/{messageId} without an Authorization header, with a well-formed message id that doesn't exist.
+      - Verify the response status is 401.
+      - Verify the body's message is "Unauthorized".
+  - id: API-0369
+    name: Get a message with a malformed token returns 401
+    status: manual
+    steps:
+      - Send GET /messages/{messageId} with a malformed token and a well-formed message id that doesn't exist.
+      - Verify the response status is 401.
+      - Verify the body's message is "Unauthorized".
+  - id: API-0370
+    name: Get another user's message as a customer returns 404
+    ref: BUG-029
+    status: manual
+    knownIssue: Returns 200 with an empty body for a message the customer doesn't own instead of 404.
+    bug: BUG-029
+    steps:
+      - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.
+      - Send POST /users/login with that email and password, and take its access_token.
+      - Send POST /messages with that token, a unique subject and a message text, and take the new message's id.
+      - Send GET /messages/{messageId} with that id and the default user's token.
+      - Verify the response status is 404.
+  - id: API-0371
+    name: Get an unknown message id as an admin returns 404
+    ref: BUG-029
+    status: manual
+    role: admin
+    knownIssue: Returns 200 with an empty body for an unknown message id instead of 404.
+    bug: BUG-029
+    steps:
+      - Send GET /messages/{messageId} with a well-formed message id that doesn't exist and the admin's token.
+      - Verify the response status is 404.

@@ -45,3 +45,19 @@ scenarios:
       - Send GET /carts/{cartId} with abc as the cart id.
       - Verify the response status is 404.
       - Verify the body's message is "Requested item not found".
+  - id: API-0327
+    name: Get cart returns product.is_rental true for a rental line and false for a non-rental line
+    ref: docs/ui/user-stories/Rental_Products.md#AC4
+    status: manual
+    steps:
+      - Send GET /products and take the first item's brand id, category id and product image id.
+      - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental false and stock 10, and take the new product's id as the non-rental product's id.
+      - Send POST /products with a unique product name, a positive price, the same brand, category and product image ids, is_location_offer false, is_rental true and stock 10, and take the new product's id as the rental product's id.
+      - Send POST /carts with an empty body and take the returned id as the cart's id.
+      - Send POST /carts/{cartId} with the cart's id and a body with the non-rental product's id as product_id and quantity 1.
+      - Send POST /carts/{cartId} with the cart's id and a body with the rental product's id as product_id and quantity 1.
+      - Send GET /carts/{cartId} with the cart's id.
+      - Verify the response status is 200.
+      - Verify cart_items has exactly two items.
+      - Verify the item whose product_id is the rental product's id has a product with is_rental true.
+      - Verify the item whose product_id is the non-rental product's id has a product with is_rental false.

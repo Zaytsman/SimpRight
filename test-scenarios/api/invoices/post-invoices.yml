@@ -1,0 +1,77 @@
+# yaml-language-server: $schema=../../scenarios.schema.json
+suite: Invoices API
+tags: ["@invoices-api"]
+scenarios:
+  - id: API-0297
+    name: Create invoice with billing address fields at their maximum length returns 201
+    ref: docs/ui/user-stories/Checkout_Billing_Address.md#AC1
+    status: manual
+    steps:
+      - Send POST /users/register with a unique email, a first name, a last name and a random strong password.
+      - Send POST /users/login with that email and password, and take the access_token.
+      - Send POST /carts with an empty body and take the returned id as the cart's id.
+      - Send POST /invoices with that token, payment_method "cash-on-delivery", payment_details {}, a 70-character billing_street, a 40-character billing_city, a 40-character billing_state, a 40-character billing_country (no billing_postal_code) and the cart's id as cart_id.
+      - Verify the response status is 201.
+      - Verify the body's id is a non-empty string, and its billing_street, billing_city, billing_state and billing_country equal the values sent.
+      - Verify GET /invoices/{invoiceId} with the new id and that token returns 200 with the same billing_street, billing_city, billing_state and billing_country.
+  - id: API-0298
+    name: Create invoice with a 10-character postal code returns 201
+    ref: docs/ui/user-stories/Checkout_Billing_Address.md#AC1
+    status: manual
+    steps:
+      - Send POST /users/register with a unique email, a first name, a last name and a random strong password.
+      - Send POST /users/login with that email and password, and take the access_token.
+      - Send POST /carts with an empty body and take the returned id as the cart's id.
+      - Send GET /postcode-lookup with country "US" and postcode "12345-6789", and take the returned city and state.
+      - Send POST /invoices with that token, payment_method "cash-on-delivery", payment_details {}, a billing_street, billing_city and billing_state set to the lookup's city and state, billing_country "US", billing_postal_code "12345-6789" (10 characters) and the cart's id as cart_id.
+      - Verify the response status is 201.
+      - Verify the body's id is a non-empty string, and its billing_city, billing_state, billing_country and billing_postal_code equal the values sent.
+      - Verify GET /invoices/{invoiceId} with the new id and that token returns 200 with the same billing_city, billing_state, billing_country and billing_postal_code.
+  - id: API-0299
+    name: Create invoice without the required billing address fields returns 422 for each of them
+    ref: docs/ui/user-stories/Checkout_Billing_Address.md#AC2
+    status: manual
+    steps:
+      - Send POST /invoices with the default user's token, payment_method "cash-on-delivery", payment_details {} and a non-empty string as cart_id, without billing_street, billing_city and billing_country.
+      - Verify the response status is 422.
+      - Verify the body has the keys billing_street, billing_city and billing_country, each with at least one message.
+  - id: API-0300
+    name: Create invoice with a billing street longer than 70 characters returns 422
+    ref: docs/ui/user-stories/Checkout_Billing_Address.md#AC1
+    status: manual
+    steps:
+      - Send POST /invoices with the default user's token, payment_method "cash-on-delivery", payment_details {}, a 71-character billing_street, billing_city "Wien", billing_country "AT" (no billing_postal_code) and a non-empty string as cart_id.
+      - Verify the response status is 422.
+      - Verify the body has a billing_street key with at least one message.
+  - id: API-0301
+    name: Create invoice with a billing city longer than 40 characters returns 422
+    ref: docs/ui/user-stories/Checkout_Billing_Address.md#AC1
+    status: manual
+    steps:
+      - Send POST /invoices with the default user's token, payment_method "cash-on-delivery", payment_details {}, billing_street "Stephansplatz 1", a 41-character billing_city, billing_country "AT" (no billing_postal_code) and a non-empty string as cart_id.
+      - Verify the response status is 422.
+      - Verify the body has a billing_city key with at least one message.
+  - id: API-0302
+    name: Create invoice with a billing state longer than 40 characters returns 422
+    ref: docs/ui/user-stories/Checkout_Billing_Address.md#AC1
+    status: manual
+    steps:
+      - Send POST /invoices with the default user's token, payment_method "cash-on-delivery", payment_details {}, billing_street "Stephansplatz 1", billing_city "Wien", a 41-character billing_state, billing_country "AT" (no billing_postal_code) and a non-empty string as cart_id.
+      - Verify the response status is 422.
+      - Verify the body has a billing_state key with at least one message.
+  - id: API-0303
+    name: Create invoice with a billing country longer than 40 characters returns 422
+    ref: docs/ui/user-stories/Checkout_Billing_Address.md#AC1
+    status: manual
+    steps:
+      - Send POST /invoices with the default user's token, payment_method "cash-on-delivery", payment_details {}, billing_street "Stephansplatz 1", billing_city "Wien", a 41-character billing_country (no billing_postal_code) and a non-empty string as cart_id.
+      - Verify the response status is 422.
+      - Verify the body has a billing_country key with at least one message.
+  - id: API-0304
+    name: Create invoice with a billing postal code longer than 10 characters returns 422
+    ref: docs/ui/user-stories/Checkout_Billing_Address.md#AC1
+    status: manual
+    steps:
+      - Send POST /invoices with the default user's token, payment_method "cash-on-delivery", payment_details {}, billing_street "Stephansplatz 1", billing_city "Wien", billing_country "AT", an 11-character billing_postal_code and a non-empty string as cart_id.
+      - Verify the response status is 422.
+      - Verify the body has a billing_postal_code key with at least one message.

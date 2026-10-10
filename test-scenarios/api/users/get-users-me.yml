@@ -57,3 +57,13 @@ scenarios:
       - Send GET /users/me with the throwaway customer's access_token.
       - Verify the response status is 403.
       - Verify the body's message is "Account disabled.".
+  - id: API-0312
+    name: Current user returns the first and last name the customer registered with
+    ref: docs/ui/user-stories/Checkout_Sign_In.md#AC5
+    status: manual
+    steps:
+      - Send POST /users/register with a unique email, a first name, a different last name of at most 20 characters, and a random strong password, and take the new user's id.
+      - Send POST /users/login with that email and password, and take its access_token.
+      - Send GET /users/me with that access_token.
+      - Verify the response status is 200.
+      - Verify the body's first_name and last_name equal the values sent in the registration.

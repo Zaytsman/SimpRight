@@ -1,0 +1,78 @@
+# yaml-language-server: $schema=../../scenarios.schema.json
+suite: Checkout sign-in
+tags: ["@cart"]
+scenarios:
+  - id: UI-058
+    name: A guest who proceeds from the cart step sees the sign-in step with a login form
+    ref: docs/ui/user-stories/Checkout_Sign_In.md#AC1
+    status: manual
+    role: guest
+    steps:
+      - A product that is in stock is in the cart.
+      - Open the checkout page.
+      - Click "Proceed to checkout".
+      - Verify the "Sign in" step is shown.
+      - Verify the login form is shown.
+  - id: UI-059
+    name: The sign-in step shows the email and password fields and the "Login" button
+    ref: docs/ui/user-stories/Checkout_Sign_In.md#AC2
+    status: manual
+    role: guest
+    steps:
+      - A product that is in stock is in the cart.
+      - Open the checkout page.
+      - Click "Proceed to checkout".
+      - Verify the field "Email address" is shown.
+      - Verify the field "Password" is shown.
+      - Verify the button "Login" is shown.
+  - id: UI-060
+    name: An account with TOTP enabled must enter a valid code on the sign-in step to sign in
+    ref: docs/ui/user-stories/Checkout_Sign_In.md#AC3
+    status: manual
+    role: guest
+    steps:
+      - A product that is in stock is in the cart.
+      - A customer with TOTP enabled is registered; the test can compute the account's current TOTP code.
+      - Open the checkout page.
+      - Click "Proceed to checkout".
+      - Enter the customer's email in the field "Email address".
+      - Enter the customer's password in the field "Password".
+      - Click "Login".
+      - Verify the field "TOTP Code" is shown.
+      - Verify the button "Verify TOTP" is shown.
+      - Verify the fields "Email address" and "Password" are no longer shown.
+      - Enter the code "000000" in the field "TOTP Code".
+      - Click "Verify TOTP".
+      - Verify the button "Proceed to checkout" is not shown.
+      - Enter the account's current TOTP code in the field "TOTP Code" (replacing the wrong one).
+      - Click "Verify TOTP".
+      - Verify a message that the customer is already signed in is shown.
+      - Verify the button "Proceed to checkout" is shown.
+  - id: UI-061
+    name: Valid credentials on the sign-in step sign the guest in and lead to the billing address step
+    ref: docs/ui/user-stories/Checkout_Sign_In.md#AC4
+    status: manual
+    role: guest
+    steps:
+      - A product that is in stock is in the cart.
+      - Open the checkout page.
+      - Click "Proceed to checkout".
+      - Enter the default user's email in the field "Email address".
+      - Enter the default user's password in the field "Password".
+      - Click "Login".
+      - Verify the login form is no longer shown.
+      - Verify the user menu is shown in the navigation.
+      - Click "Proceed to checkout" on the sign-in step.
+      - Verify the "Billing Address" step is shown.
+  - id: UI-062
+    name: A logged-in customer sees the already-signed-in message on the sign-in step and proceeds to the billing address step
+    ref: docs/ui/user-stories/Checkout_Sign_In.md#AC5
+    status: manual
+    steps:
+      - A product that is in stock is in the cart.
+      - Open the checkout page.
+      - Click "Proceed to checkout".
+      - Verify the message "You are already signed in as" followed by the default user's first and last name is shown.
+      - Verify the login form is not shown.
+      - Click "Proceed to checkout" on the sign-in step.
+      - Verify the "Billing Address" step is shown.

@@ -1,0 +1,108 @@
+# yaml-language-server: $schema=../../scenarios.schema.json
+suite: Customer profile
+tags: ["@account"]
+scenarios:
+  - id: UI-063
+    name: '"My profile" in the user menu opens the profile page with the saved details'
+    ref: docs/ui/user-stories/Customer_Profile.md#AC1
+    status: manual
+    steps:
+      - A newly registered customer with a saved phone and address, country included, is logged in.
+      - Open the home page.
+      - Open the user menu in the navigation.
+      - Click "My profile".
+      - Verify the page heading "Profile" is shown.
+      - Verify the field "First name" holds the first name saved in the account.
+      - Verify the field "Last name" holds the last name saved in the account.
+      - Verify the field "Email address" holds the account's email address.
+      - Verify the field "Phone" holds the phone saved in the account.
+      - Verify the field "Street" holds the street saved in the account.
+      - Verify the field "Postal code" holds the postal code saved in the account.
+      - Verify the field "City" holds the city saved in the account.
+      - Verify the field "State" holds the state saved in the account.
+      - Verify the field "Country" holds the country saved in the account.
+  - id: UI-064
+    name: Every editable field of the profile page accepts typing
+    ref: docs/ui/user-stories/Customer_Profile.md#AC2
+    status: manual
+    steps:
+      - Open the profile page.
+      - Enter "Jane" in the field "First name", replacing what is there.
+      - Enter "Doe" in the field "Last name", replacing what is there.
+      - Enter "0612345678" in the field "Phone", replacing what is there.
+      - Enter "Teststraat" in the field "Street", replacing what is there.
+      - Enter "1012AB" in the field "Postal code", replacing what is there.
+      - Enter "Rotterdam" in the field "City", replacing what is there.
+      - Enter "Zuid-Holland" in the field "State", replacing what is there.
+      - Enter "NL" in the field "Country", replacing what is there.
+      - Verify the field "First name" holds "Jane".
+      - Verify the field "Last name" holds "Doe".
+      - Verify the field "Phone" holds "0612345678".
+      - Verify the field "Street" holds "Teststraat".
+      - Verify the field "Postal code" holds "1012AB".
+      - Verify the field "City" holds "Rotterdam".
+      - Verify the field "State" holds "Zuid-Holland".
+      - Verify the field "Country" holds "NL".
+  - id: UI-065
+    name: An empty phone is highlighted as invalid and the profile is not updated
+    ref: docs/ui/user-stories/Customer_Profile.md#AC2
+    status: manual
+    steps:
+      - A newly registered customer with a saved phone and address, country included, is logged in.
+      - Open the profile page.
+      - Clear the field "Phone".
+      - Click "Update Profile".
+      - Verify the field "Phone" is highlighted as invalid.
+      - Verify the error "Please correct the highlighted fields before saving." is shown.
+      - Verify no success message is shown.
+  - id: UI-066
+    name: An empty state is highlighted as invalid and the profile is not updated
+    ref: docs/ui/user-stories/Customer_Profile.md#AC2
+    status: manual
+    steps:
+      - A newly registered customer with a saved phone and address, country included, is logged in.
+      - Open the profile page.
+      - Clear the field "State".
+      - Click "Update Profile".
+      - Verify the field "State" is highlighted as invalid.
+      - Verify the error "Please correct the highlighted fields before saving." is shown.
+      - Verify no success message is shown.
+  - id: UI-067
+    name: An empty postal code is highlighted as invalid and the profile is not updated
+    ref: docs/ui/user-stories/Customer_Profile.md#AC2
+    status: manual
+    steps:
+      - A newly registered customer with a saved phone and address, country included, is logged in.
+      - Open the profile page.
+      - Clear the field "Postal code".
+      - Click "Update Profile".
+      - Verify the field "Postal code" is highlighted as invalid.
+      - Verify the error "Please correct the highlighted fields before saving." is shown.
+      - Verify no success message is shown.
+  - id: UI-068
+    name: The email field of the profile page is read-only
+    ref: docs/ui/user-stories/Customer_Profile.md#AC3
+    status: manual
+    steps:
+      - Open the profile page.
+      - Try to type "changed" in the field "Email address".
+      - Verify the field "Email address" is not editable.
+      - Verify the field "Email address" still holds the account's email address.
+  - id: UI-069
+    name: Updating the profile shows a success message that disappears after about 5 seconds
+    ref: docs/ui/user-stories/Customer_Profile.md#AC4
+    status: manual
+    steps:
+      - A newly registered customer with a saved phone and address, country included, is logged in.
+      - Open the profile page.
+      - Enter "Alex" in the field "First name", replacing what is there.
+      - Enter "Tester" in the field "Last name", replacing what is there.
+      - Enter "0612345678" in the field "Phone", replacing what is there.
+      - Enter "Teststraat" in the field "Street", replacing what is there.
+      - Enter "1012AB" in the field "Postal code", replacing what is there.
+      - Enter "Rotterdam" in the field "City", replacing what is there.
+      - Enter "Zuid-Holland" in the field "State", replacing what is there.
+      - Enter "NL" in the field "Country", replacing what is there.
+      - Click "Update Profile".
+      - Verify the success message "Your profile is successfully updated!" is shown.
+      - Verify that within about 6 seconds of saving the success message is no longer shown.

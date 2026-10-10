@@ -1,0 +1,33 @@
+# yaml-language-server: $schema=../../scenarios.schema.json
+suite: Rentals
+tags: ["@products"]
+scenarios:
+  - id: UI-081
+    name: The Rentals page opens from the Categories menu and lists the rental products
+    ref: docs/ui/user-stories/Rental_Products.md#AC1
+    status: manual
+    steps:
+      - Open the home page.
+      - Open the "Categories" menu.
+      - Click "Rentals".
+      - Verify the "Rentals" page is shown, with the heading "Rentals".
+      - Verify the cards of "Excavator", "Bulldozer" and "Crane" are shown.
+  - id: UI-082
+    name: Each rental card shows an image, a name and a description
+    ref: docs/ui/user-stories/Rental_Products.md#AC2
+    status: manual
+    steps:
+      - Open the rentals page.
+      - Verify the page shows at least one rental card.
+      - Verify every rental card shows a product image.
+      - Verify every rental card shows its name.
+      - Verify every rental card shows a description that is not empty.
+  - id: UI-083
+    name: Clicking a rental card opens its product page with the duration slider
+    ref: docs/ui/user-stories/Rental_Products.md#AC3
+    status: manual
+    steps:
+      - Open the rentals page.
+      - Click the card of "Excavator".
+      - Verify the product page of "Excavator" is shown, with the name "Excavator".
+      - Verify a duration slider is shown.

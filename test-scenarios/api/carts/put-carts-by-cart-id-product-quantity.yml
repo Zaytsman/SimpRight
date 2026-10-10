@@ -4,6 +4,7 @@ tags: ["@carts-api"]
 scenarios:
   - id: API-0251
     name: Update item quantity replaces the quantity of a product in the cart
+    ref: docs/ui/user-stories/Checkout_Cart_Review.md#AC2
     status: manual
     steps:
       - Send GET /products and take the first item's brand id, category id and product image id.

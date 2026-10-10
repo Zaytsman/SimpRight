@@ -1,0 +1,28 @@
+# yaml-language-server: $schema=./bug.schema.json
+id: BUG-031
+title: Attaching a file to a message that doesn't exist returns 200, because the message is never looked up
+status: open
+severity: minor
+layer: api
+area: messages
+affects:
+  - POST /messages/{messageId}/attach-file
+found: 2026-10-10
+ref:
+  - docs/api/contracts/Messages_API.md#5-attach-file-to-message
+  - docs/api/contracts/Messages_API.md#notes
+description: >-
+  POST /messages/{messageId}/attach-file validates the upload and logs it, and never reads the message
+  id, so a valid upload (an empty .txt file) gets 200 { success: true } for any id, including one that
+  doesn't exist. The OpenAPI spec documents 404 for this endpoint, and PUT /messages/{messageId}/status
+  answers 404 for an unknown id.
+steps:
+  - Send POST /messages/{messageId}/attach-file with a well-formed message id that doesn't exist, as multipart/form-data with a file field holding an empty file named "note.txt".
+expected: 404 (the spec documents 404 for an unknown message).
+actual: >-
+  200 with { success: true } (from the source code; not reproduced live, as it would be a successful upload).
+evidence: |-
+  Not reproduced live, from the source code. Messages_API.md, section 5 "Attach file to message"
+  (read from ContactController and ContactService in sprint5/API, 2026-10-10): the service only checks
+  the file (no file, not empty, extension txt) and logs it; the message id is never used. The 400
+  responses for bad files were seen live (id that can't exist).

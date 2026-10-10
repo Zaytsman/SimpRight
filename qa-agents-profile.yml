@@ -53,7 +53,7 @@ ids:
   layers:
     ui: { prefix: UI, digits: 3 }
     api: { prefix: API, digits: 4 }
-  areas: [products, users, cart, carts, brands, categories, favorites, invoices, account]   # cart: UI (the cart page); carts: API (/carts endpoints); account: UI (the /account pages)
+  areas: [products, users, cart, carts, brands, categories, favorites, images, invoices, messages, account, reports]   # cart: UI (the cart page); carts: API (/carts endpoints); account: UI (the /account pages)
   # Bug IDs: BUG-001, one number sequence for all bugs (validate:scenarios prints the next free one).
   # One bug per root cause: scenarios that hit the same defect name the same bug.
   bugs: { prefix: BUG, digits: 3 }

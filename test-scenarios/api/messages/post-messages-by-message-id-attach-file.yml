@@ -1,0 +1,57 @@
+# yaml-language-server: $schema=../../scenarios.schema.json
+suite: Messages API
+tags: ["@messages-api"]
+scenarios:
+  - id: API-0381
+    name: Attach an empty txt file to a message returns 200
+    status: manual
+    steps:
+      - Send POST /messages without an Authorization header, with a unique subject and a message text, and take the new message's id.
+      - Send POST /messages/{messageId}/attach-file with that id, without an Authorization header, as multipart/form-data with a file field holding an empty file named "note.txt".
+      - Verify the response status is 200.
+      - Verify the body's success is true.
+  - id: API-0382
+    name: Attach no file to a message returns 400
+    status: manual
+    steps:
+      - Send POST /messages/{messageId}/attach-file with a well-formed message id that doesn't exist, as multipart/form-data with no file field.
+      - Verify the response status is 400.
+      - Verify the body's errors is a list with the single item "No file attached.".
+  - id: API-0383
+    name: Attach a non-empty txt file to a message returns 400
+    status: manual
+    steps:
+      - Send POST /messages/{messageId}/attach-file with a well-formed message id that doesn't exist, as multipart/form-data with a file field holding a 1-byte file named "note.txt".
+      - Verify the response status is 400.
+      - Verify the body's errors is a list with the single item "Currently we only allow empty files.".
+  - id: API-0384
+    name: Attach an empty pdf file to a message returns 400
+    status: manual
+    steps:
+      - Send POST /messages/{messageId}/attach-file with a well-formed message id that doesn't exist, as multipart/form-data with a file field holding an empty file named "note.pdf".
+      - Verify the response status is 400.
+      - Verify the body's errors is a list with the single item "The file extension is incorrect, we only accept txt files.".
+  - id: API-0385
+    name: Attach a non-empty pdf file to a message reports the empty-file rule first
+    status: manual
+    steps:
+      - Send POST /messages/{messageId}/attach-file with a well-formed message id that doesn't exist, as multipart/form-data with a file field holding a 1-byte file named "note.pdf".
+      - Verify the response status is 400.
+      - Verify the body's errors is a list with the single item "Currently we only allow empty files.".
+  - id: API-0386
+    name: Attach an empty file with the upper-case extension TXT to a message returns 400
+    status: manual
+    steps:
+      - Send POST /messages/{messageId}/attach-file with a well-formed message id that doesn't exist, as multipart/form-data with a file field holding an empty file named "note.TXT".
+      - Verify the response status is 400.
+      - Verify the body's errors is a list with the single item "The file extension is incorrect, we only accept txt files.".
+  # Unconfirmed: only in the API spec (_(spec)_ in Messages_API.md).
+  - id: API-0387
+    name: Attach an empty txt file to an unknown message id returns 404
+    ref: BUG-031
+    status: manual
+    knownIssue: Returns 200 for a message id that doesn't exist instead of 404 (the message is never looked up).
+    bug: BUG-031
+    steps:
+      - Send POST /messages/{messageId}/attach-file with a well-formed message id that doesn't exist, as multipart/form-data with a file field holding an empty file named "note.txt".
+      - Verify the response status is 404.

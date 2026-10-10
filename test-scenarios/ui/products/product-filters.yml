@@ -1,0 +1,62 @@
+# yaml-language-server: $schema=../../scenarios.schema.json
+suite: Product filters
+tags: ["@products"]
+scenarios:
+  - id: UI-075
+    name: Checking a category shows only that category's products
+    ref: docs/ui/user-stories/Product_Overview.md#AC5
+    status: manual
+    steps:
+      - Open the home page.
+      - Check the category "Pliers" in the sidebar.
+      - 'Verify the grid shows only the products of the category "Pliers": the products the catalogue lists for it in the page''s default price range, $1 to $100.'
+  - id: UI-076
+    name: Checking a parent category checks all its child categories
+    ref: docs/ui/user-stories/Product_Overview.md#AC6
+    status: manual
+    steps:
+      - Open the home page.
+      - Check the category "Hand Tools" in the sidebar.
+      - Verify the child categories "Hammer", "Hand Saw", "Wrench", "Screwdriver", "Pliers", "Chisels" and "Measures" are checked.
+  - id: UI-077
+    name: Unchecking all child categories unchecks the parent category
+    ref: docs/ui/user-stories/Product_Overview.md#AC6
+    status: manual
+    steps:
+      - Open the home page.
+      - Check the category "Hand Tools" in the sidebar.
+      - Uncheck the child category "Hammer".
+      - Uncheck the child category "Hand Saw".
+      - Uncheck the child category "Wrench".
+      - Uncheck the child category "Screwdriver".
+      - Uncheck the child category "Pliers".
+      - Uncheck the child category "Chisels".
+      - Uncheck the child category "Measures".
+      - Verify the category "Hand Tools" is not checked.
+  - id: UI-078
+    name: Checking a brand shows only that brand's products
+    ref: docs/ui/user-stories/Product_Overview.md#AC7
+    status: manual
+    steps:
+      - Open the home page.
+      - Check the brand "MightyCraft Hardware" in the sidebar.
+      - 'Verify the grid shows only the products of the brand "MightyCraft Hardware": the products the catalogue lists for it in the page''s default price range, $1 to $100.'
+  - id: UI-079
+    name: Checking a category and a brand shows only products that match both
+    ref: docs/ui/user-stories/Product_Overview.md#AC8
+    status: manual
+    steps:
+      - Open the home page.
+      - Check the category "Pliers" in the sidebar.
+      - Check the brand "ForgeFlex Tools" in the sidebar.
+      - 'Verify the grid shows only the products that belong to both the category "Pliers" and the brand "ForgeFlex Tools": the products the catalogue lists for both filters in the page''s default price range, $1 to $100.'
+  - id: UI-080
+    name: Moving the price range slider shows only products within the new range
+    ref: docs/ui/user-stories/Product_Overview.md#AC11
+    status: manual
+    steps:
+      - Open the home page.
+      - Move the upper handle of the price range slider to 15.
+      - Move the lower handle of the price range slider to 10.
+      - Verify at least one product is shown.
+      - Verify the price of every product shown is between $10 and $15.

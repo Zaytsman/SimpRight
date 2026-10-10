@@ -1,0 +1,40 @@
+# yaml-language-server: $schema=./bug.schema.json
+id: BUG-028
+title: Sending a message stores unvalidated body keys, so a guest can set another user's user_id and a parent_id key gives 500
+status: open
+severity: major
+layer: api
+area: messages
+affects:
+  - POST /messages
+  - GET /messages
+found: 2026-10-10
+ref:
+  - docs/api/contracts/Messages_API.md#2-send-message
+  - docs/api/contracts/Messages_API.md#notes
+description: >-
+  POST /messages passes the whole request body to ContactRequests::create, and user_id, parent_id and
+  status are in the model's fillable list. The service overwrites user_id only when a valid token is
+  sent. A guest can send the user_id of another user, and the message then shows in that user's
+  GET /messages (there is no foreign key on contact_requests.user_id), so a message can be attributed
+  to anyone. A parent_id key has no column and makes the insert fail with 500 { message: "Something went
+  wrong" }, and so does a user_id longer than 26 characters. The body should be limited to the validated
+  fields.
+steps:
+  - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.
+  - Send POST /users/login with that email and password, and take its access_token.
+  - Send POST /messages without an Authorization header, with a unique subject, a message text and user_id set to the new user's id.
+  - Send GET /messages with the new customer's access_token.
+  - Send POST /messages without an Authorization header, with a unique subject, a message text and a parent_id key set to any string.
+expected: >-
+  The guest message has no owner and isn't in the customer's list; a body with a parent_id key is
+  ignored (200) or rejected (422), never a server error.
+actual: >-
+  The message is stored with the customer's user_id and shows in their list; the body with parent_id
+  gets 500 (from the source code; not reproduced live).
+evidence: |-
+  Not reproduced live (it would create messages), from the source code. Messages_API.md, Notes,
+  "A guest can attribute a message to any user" (read from ContactService and the ContactRequests
+  model in sprint5/API, 2026-10-10): create() receives the whole body; user_id, parent_id and status
+  are fillable; the service sets user_id and status afterwards only for a logged-in user (status is
+  always set to NEW); parent_id has no column.
