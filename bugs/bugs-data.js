@@ -2,8 +2,8 @@
 window.BUG_CATALOG = {
  "title": "Bugs",
  "prefix": "BUG",
- "generatedAt": "2026-10-09T19:25:38.124Z",
- "commit": "b15b7923f10f60c57e5a73beb6baeb21d6b06604",
+ "generatedAt": "2026-10-10T08:20:23.949Z",
+ "commit": "0ef9b23b0a0746bd9bdad3adf7292666bb9acab4",
  "repoUrl": "https://github.com/Zaytsman/SimpRight",
  "branch": "main",
  "bugsDir": "bugs",
@@ -26,8 +26,8 @@ window.BUG_CATALOG = {
   }
  ],
  "stats": {
-  "total": 8,
-  "open": 8,
+  "total": 13,
+  "open": 13,
   "fixed": 0,
   "wontFix": 0
  },
@@ -93,6 +93,36 @@ window.BUG_CATALOG = {
      "knownIssue": "Accepts PUT without a token instead of returning 401."
     }
    ]
+  },
+  {
+   "id": "BUG-009",
+   "title": "Brand writes (POST, PUT, PATCH /brands) succeed without a token instead of returning 401",
+   "status": "open",
+   "severity": "critical",
+   "layer": "api",
+   "area": "brands",
+   "affects": [
+    "POST /brands",
+    "PUT /brands/{brandId}",
+    "PATCH /brands/{brandId}"
+   ],
+   "found": "2026-10-10",
+   "ref": [
+    "docs/api/contracts/Brands_API.md#authentication",
+    "docs/api/contracts/Brands_API.md#notes"
+   ],
+   "description": "Anyone can create brands or rename seeded ones without logging in: BrandController has no auth middleware on these routes (only DELETE is admin-only), and the OpenAPI spec declares no security on them either. The same pattern as BUG-001 (products), in a separate controller.",
+   "steps": [
+    "Send POST /brands with a unique name and a unique slug, without an Authorization header, and take the new brand's id.",
+    "Send PUT /brands/{brandId} for the new brand with a new name, without an Authorization header.",
+    "Send PATCH /brands/{brandId} for the new brand with a new name, without an Authorization header."
+   ],
+   "expected": "Each write without a token returns 401 and changes nothing, like DELETE /brands/{brandId} without a token.",
+   "actual": "POST returns 201 and creates the brand; PUT and PATCH return 200 and change it.",
+   "evidence": "Throwaway brand, no Authorization header, 2026-10-10 08:07 UTC (deleted as admin afterwards, 204)\nPOST /brands { name, slug: unique } -> 201 { name, slug, id }\nPUT /brands/{brandId} { name: new } -> 200 {\"success\":true}\nPATCH /brands/{brandId} { name: new } -> 200 {\"success\":true}\nGET /brands/{brandId} -> 200, the name from the PATCH\nSource (practice-software-testing, sprint5/API): BrandController::__construct:\n  $this->middleware('role:admin', ['only' => ['destroy']]); no other auth middleware",
+   "file": "bugs/BUG-009.yml",
+   "yaml": "id: BUG-009\ntitle: Brand writes (POST, PUT, PATCH /brands) succeed without a token instead of returning 401\nstatus: open\nseverity: critical\nlayer: api\narea: brands\naffects:\n  - POST /brands\n  - PUT /brands/{brandId}\n  - PATCH /brands/{brandId}\nfound: 2026-10-10\nref:\n  - docs/api/contracts/Brands_API.md#authentication\n  - docs/api/contracts/Brands_API.md#notes\ndescription: >-\n  Anyone can create brands or rename seeded ones without logging in: BrandController has no auth\n  middleware on these routes (only DELETE is admin-only), and the OpenAPI spec declares no security on\n  them either. The same pattern as BUG-001 (products), in a separate controller.\nsteps:\n  - Send POST /brands with a unique name and a unique slug, without an Authorization header, and take the new brand's id.\n  - Send PUT /brands/{brandId} for the new brand with a new name, without an Authorization header.\n  - Send PATCH /brands/{brandId} for the new brand with a new name, without an Authorization header.\nexpected: Each write without a token returns 401 and changes nothing, like DELETE /brands/{brandId} without a token.\nactual: POST returns 201 and creates the brand; PUT and PATCH return 200 and change it.\nevidence: |-\n  Throwaway brand, no Authorization header, 2026-10-10 08:07 UTC (deleted as admin afterwards, 204)\n  POST /brands { name, slug: unique } -> 201 { name, slug, id }\n  PUT /brands/{brandId} { name: new } -> 200 {\"success\":true}\n  PATCH /brands/{brandId} { name: new } -> 200 {\"success\":true}\n  GET /brands/{brandId} -> 200, the name from the PATCH\n  Source (practice-software-testing, sprint5/API): BrandController::__construct:\n    $this->middleware('role:admin', ['only' => ['destroy']]); no other auth middleware",
+   "scenarios": []
   },
   {
    "id": "BUG-002",
@@ -385,6 +415,34 @@ window.BUG_CATALOG = {
    ]
   },
   {
+   "id": "BUG-011",
+   "title": "Brand search returns 500 instead of 422 when q is sent as an array",
+   "status": "open",
+   "severity": "major",
+   "layer": "api",
+   "area": "brands",
+   "affects": [
+    "GET /brands/search",
+    "QUERY /brands/search"
+   ],
+   "found": "2026-10-10",
+   "ref": [
+    "docs/api/contracts/Brands_API.md#7-search-brands",
+    "docs/api/contracts/Brands_API.md#8-search-brands-http-query"
+   ],
+   "description": "q isn't validated: BrandService::searchBrands builds its cache key and log line from it, and an array fails the string conversion, which ends in a server error. GET and QUERY share the code path.",
+   "steps": [
+    "Send GET /brands/search with q as an array (q[]=x).",
+    "Send QUERY /brands/search with Content-Type: application/json and the body { \"q\": [\"x\"] }."
+   ],
+   "expected": "422 naming q, or 200 with q treated as text.",
+   "actual": "500 with { \"message\": \"Server Error\" } for GET (reproduced); QUERY from the source (same code path).",
+   "evidence": "GET /brands/search?q[]=x (Accept: application/json), 2026-10-10 08:03 UTC\n-> 500 {\"message\":\"Server Error\"}\nGET /brands/search?q=forge, 2026-10-10 -> 200, 1 brand (control)\nSource (practice-software-testing, sprint5/API): BrandService::searchBrands: $cacheKey = \"brands.search.{$query}\"",
+   "file": "bugs/BUG-011.yml",
+   "yaml": "id: BUG-011\ntitle: Brand search returns 500 instead of 422 when q is sent as an array\nstatus: open\nseverity: major\nlayer: api\narea: brands\naffects:\n  - GET /brands/search\n  - QUERY /brands/search\nfound: 2026-10-10\nref:\n  - docs/api/contracts/Brands_API.md#7-search-brands\n  - docs/api/contracts/Brands_API.md#8-search-brands-http-query\ndescription: >-\n  q isn't validated: BrandService::searchBrands builds its cache key and log line from it, and an array\n  fails the string conversion, which ends in a server error. GET and QUERY share the code path.\nsteps:\n  - Send GET /brands/search with q as an array (q[]=x).\n  - 'Send QUERY /brands/search with Content-Type: application/json and the body { \"q\": [\"x\"] }.'\nexpected: 422 naming q, or 200 with q treated as text.\nactual: '500 with { \"message\": \"Server Error\" } for GET (reproduced); QUERY from the source (same code path).'\nevidence: |-\n  GET /brands/search?q[]=x (Accept: application/json), 2026-10-10 08:03 UTC\n  -> 500 {\"message\":\"Server Error\"}\n  GET /brands/search?q=forge, 2026-10-10 -> 200, 1 brand (control)\n  Source (practice-software-testing, sprint5/API): BrandService::searchBrands: $cacheKey = \"brands.search.{$query}\"",
+   "scenarios": []
+  },
+  {
    "id": "BUG-005",
    "title": "Related products omit co2_rating, so is_eco_friendly is always false",
    "status": "open",
@@ -422,6 +480,90 @@ window.BUG_CATALOG = {
      "knownIssue": "Omits co2_rating from related products, so is_eco_friendly is always false."
     }
    ]
+  },
+  {
+   "id": "BUG-010",
+   "title": "Partial brand update returns 409 when the body repeats the brand's own slug, instead of 200",
+   "status": "open",
+   "severity": "minor",
+   "layer": "api",
+   "area": "brands",
+   "affects": [
+    "PATCH /brands/{brandId}"
+   ],
+   "found": "2026-10-10",
+   "ref": [
+    "docs/api/contracts/Brands_API.md#5-partially-update-brand",
+    "docs/api/contracts/Brands_API.md#notes"
+   ],
+   "description": "The slug's uniqueness rule in PatchBrand doesn't ignore the brand being patched, so a client that sends every field (the current slug unchanged) can't update the name. Workaround: leave slug out of the body. PUT has no uniqueness rule and accepts the own slug.",
+   "steps": [
+    "Send POST /brands with a unique name and a unique slug, and take the new brand's id.",
+    "Send PATCH /brands/{brandId} for that brand with a new name and the brand's own slug."
+   ],
+   "expected": "200 with { success true }, and the brand has the new name; a slug only conflicts with other brands' slugs.",
+   "actual": "409 with { \"slug\": [\"A brand already exists with this slug.\"] }, and the name doesn't change.",
+   "evidence": "Throwaway brand, 2026-10-10 08:07 UTC (deleted as admin afterwards, 204)\nPATCH /brands/{brandId} { name: new, slug: the brand's own slug }\n-> 409 {\"slug\":[\"A brand already exists with this slug.\"]}\nGET /brands/{brandId} -> 200, the previous name\nSource (practice-software-testing, sprint5/API): PatchBrand::rules():\n  'slug' => ['sometimes', 'alpha_dash:ascii', 'unique:brands,slug', ...] (no ignore of the current id)",
+   "file": "bugs/BUG-010.yml",
+   "yaml": "id: BUG-010\ntitle: Partial brand update returns 409 when the body repeats the brand's own slug, instead of 200\nstatus: open\nseverity: minor\nlayer: api\narea: brands\naffects:\n  - PATCH /brands/{brandId}\nfound: 2026-10-10\nref:\n  - docs/api/contracts/Brands_API.md#5-partially-update-brand\n  - docs/api/contracts/Brands_API.md#notes\ndescription: >-\n  The slug's uniqueness rule in PatchBrand doesn't ignore the brand being patched, so a client that sends\n  every field (the current slug unchanged) can't update the name. Workaround: leave slug out of the body.\n  PUT has no uniqueness rule and accepts the own slug.\nsteps:\n  - Send POST /brands with a unique name and a unique slug, and take the new brand's id.\n  - Send PATCH /brands/{brandId} for that brand with a new name and the brand's own slug.\nexpected: 200 with { success true }, and the brand has the new name; a slug only conflicts with other brands' slugs.\nactual: >-\n  409 with { \"slug\": [\"A brand already exists with this slug.\"] }, and the name doesn't change.\nevidence: |-\n  Throwaway brand, 2026-10-10 08:07 UTC (deleted as admin afterwards, 204)\n  PATCH /brands/{brandId} { name: new, slug: the brand's own slug }\n  -> 409 {\"slug\":[\"A brand already exists with this slug.\"]}\n  GET /brands/{brandId} -> 200, the previous name\n  Source (practice-software-testing, sprint5/API): PatchBrand::rules():\n    'slug' => ['sometimes', 'alpha_dash:ascii', 'unique:brands,slug', ...] (no ignore of the current id)",
+   "scenarios": []
+  },
+  {
+   "id": "BUG-013",
+   "title": "Brand search keeps returning stale results for up to an hour after a brand is created, updated or deleted",
+   "status": "open",
+   "severity": "minor",
+   "layer": "api",
+   "area": "brands",
+   "affects": [
+    "GET /brands/search",
+    "QUERY /brands/search"
+   ],
+   "found": "2026-10-10",
+   "ref": [
+    "docs/api/contracts/Brands_API.md#7-search-brands",
+    "docs/api/contracts/Brands_API.md#notes"
+   ],
+   "description": "BrandService caches each search term for 1 hour, but create, update and delete clear only the list and the brand's own entry, never the search entries. A term searched before the change keeps its old result: a new or renamed brand is missing, a deleted one is still listed.",
+   "steps": [
+    "Send GET /brands/search with a unique term that no brand matches.",
+    "Send POST /brands with that term as the name and a unique slug.",
+    "Send GET /brands/search with the same term.",
+    "Send DELETE /brands/{brandId} for the new brand as admin."
+   ],
+   "expected": "The search right after the POST returns the new brand, like GET /brands does.",
+   "actual": "The search returns the cached empty list until the entry expires, up to an hour later (from the source, not reproduced).",
+   "evidence": "Source (practice-software-testing, sprint5/API), 2026-10-10, BrandService:\nsearchBrands: Cache::remember(\"brands.search.{$query}\", 60 * 60, ...)\ncreate, update, delete: Cache::forget('brands.all') and Cache::forget(\"brands.{$id}\") only",
+   "file": "bugs/BUG-013.yml",
+   "yaml": "id: BUG-013\ntitle: Brand search keeps returning stale results for up to an hour after a brand is created, updated or deleted\nstatus: open\nseverity: minor\nlayer: api\narea: brands\naffects:\n  - GET /brands/search\n  - QUERY /brands/search\nfound: 2026-10-10\nref:\n  - docs/api/contracts/Brands_API.md#7-search-brands\n  - docs/api/contracts/Brands_API.md#notes\ndescription: >-\n  BrandService caches each search term for 1 hour, but create, update and delete clear only the list and\n  the brand's own entry, never the search entries. A term searched before the change keeps its old result:\n  a new or renamed brand is missing, a deleted one is still listed.\nsteps:\n  - Send GET /brands/search with a unique term that no brand matches.\n  - Send POST /brands with that term as the name and a unique slug.\n  - Send GET /brands/search with the same term.\n  - Send DELETE /brands/{brandId} for the new brand as admin.\nexpected: The search right after the POST returns the new brand, like GET /brands does.\nactual: >-\n  The search returns the cached empty list until the entry expires, up to an hour later (from the source,\n  not reproduced).\nevidence: |-\n  Source (practice-software-testing, sprint5/API), 2026-10-10, BrandService:\n  searchBrands: Cache::remember(\"brands.search.{$query}\", 60 * 60, ...)\n  create, update, delete: Cache::forget('brands.all') and Cache::forget(\"brands.{$id}\") only",
+   "scenarios": []
+  },
+  {
+   "id": "BUG-012",
+   "title": "Brand update with a duplicate slug returns 409 with \"Duplicate Entry\" instead of the slug's validation message",
+   "status": "open",
+   "severity": "trivial",
+   "layer": "api",
+   "area": "brands",
+   "affects": [
+    "PUT /brands/{brandId}"
+   ],
+   "found": "2026-10-10",
+   "ref": [
+    "docs/api/contracts/Brands_API.md#4-update-brand",
+    "docs/api/contracts/Brands_API.md#notes"
+   ],
+   "description": "UpdateBrand has no uniqueness rule for slug, so a duplicate reaches the database's unique index and the global handler answers with a generic message. The status is right; only the body differs from POST and PATCH (and from the OpenAPI spec), so a client can't tell which field is wrong.",
+   "steps": [
+    "Send POST /brands twice with unique names and unique slugs, and take both brands' ids and slugs.",
+    "Send PUT /brands/{brandId} for the second brand with the first brand's slug."
+   ],
+   "expected": "409 with { \"slug\": [\"A brand already exists with this slug.\"] }, like POST and PATCH /brands.",
+   "actual": "409 with { \"message\": \"Duplicate Entry\" } (from the source; observed by the contract writer's live calls on 2026-10-10, not reproduced here).",
+   "evidence": "Source (practice-software-testing, sprint5/API), 2026-10-10:\nUpdateBrand::rules(): 'slug' => ['alpha_dash:ascii', 'string', 'max:120', ...] (no unique rule)\napp/Exceptions/Handler.php: a unique-index violation (SQLSTATE 23000) -> 409 { message: \"Duplicate Entry\" }\nContract writer's live calls, 2026-10-10 (Brands_API.md, Update brand): 409 {\"message\":\"Duplicate Entry\"}",
+   "file": "bugs/BUG-012.yml",
+   "yaml": "id: BUG-012\ntitle: Brand update with a duplicate slug returns 409 with \"Duplicate Entry\" instead of the slug's validation message\nstatus: open\nseverity: trivial\nlayer: api\narea: brands\naffects:\n  - PUT /brands/{brandId}\nfound: 2026-10-10\nref:\n  - docs/api/contracts/Brands_API.md#4-update-brand\n  - docs/api/contracts/Brands_API.md#notes\ndescription: >-\n  UpdateBrand has no uniqueness rule for slug, so a duplicate reaches the database's unique index and the\n  global handler answers with a generic message. The status is right; only the body differs from POST and\n  PATCH (and from the OpenAPI spec), so a client can't tell which field is wrong.\nsteps:\n  - Send POST /brands twice with unique names and unique slugs, and take both brands' ids and slugs.\n  - Send PUT /brands/{brandId} for the second brand with the first brand's slug.\nexpected: '409 with { \"slug\": [\"A brand already exists with this slug.\"] }, like POST and PATCH /brands.'\nactual: >-\n  409 with { \"message\": \"Duplicate Entry\" } (from the source; observed by the contract writer's live\n  calls on 2026-10-10, not reproduced here).\nevidence: |-\n  Source (practice-software-testing, sprint5/API), 2026-10-10:\n  UpdateBrand::rules(): 'slug' => ['alpha_dash:ascii', 'string', 'max:120', ...] (no unique rule)\n  app/Exceptions/Handler.php: a unique-index violation (SQLSTATE 23000) -> 409 { message: \"Duplicate Entry\" }\n  Contract writer's live calls, 2026-10-10 (Brands_API.md, Update brand): 409 {\"message\":\"Duplicate Entry\"}",
+   "scenarios": []
   }
  ]
 };

@@ -3,8 +3,8 @@ window.SCENARIO_CATALOG = {
  "layer": "ui",
  "title": "UI Test Cases",
  "prefix": "UI",
- "generatedAt": "2026-10-09T19:25:37.814Z",
- "commit": "b15b7923f10f60c57e5a73beb6baeb21d6b06604",
+ "generatedAt": "2026-10-10T08:20:23.661Z",
+ "commit": "0ef9b23b0a0746bd9bdad3adf7292666bb9acab4",
  "repoUrl": "https://github.com/Zaytsman/SimpRight",
  "branch": "main",
  "workflowUrl": "https://github.com/Zaytsman/SimpRight/actions/workflows/custom-ui-tests.yml",
@@ -140,6 +140,9 @@ window.SCENARIO_CATALOG = {
   {
    "id": "UI-002",
    "name": "Add a product with quantity 2 to the cart",
+   "ref": [
+    "docs/ui/user-stories/Product_Detail.md#AC8"
+   ],
    "status": "automated",
    "automatedIn": "tests/ui/cart/add-to-cart.spec.ts",
    "steps": [
@@ -151,7 +154,6 @@ window.SCENARIO_CATALOG = {
     "Verify the cart has exactly one line: that product with quantity 2.",
     "Verify the cart total equals 2 × the product's unit price."
    ],
-   "ref": [],
    "specLine": 6,
    "area": "cart",
    "areaLabel": "Cart",
@@ -161,7 +163,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@cart"
    ],
-   "yaml": "- id: UI-002\n  name: Add a product with quantity 2 to the cart\n  status: automated\n  automatedIn: tests/ui/cart/add-to-cart.spec.ts\n  steps:\n    - 'Create a product for this test through the API: a unique name, in stock.'\n    - Search for that product and open it.\n    - Set the quantity to 2 and click \"Add to cart\".\n    - Verify the cart badge in the nav bar shows 2.\n    - Open the cart.\n    - 'Verify the cart has exactly one line: that product with quantity 2.'\n    - Verify the cart total equals 2 × the product's unit price."
+   "yaml": "- id: UI-002\n  name: Add a product with quantity 2 to the cart\n  ref: docs/ui/user-stories/Product_Detail.md#AC8\n  status: automated\n  automatedIn: tests/ui/cart/add-to-cart.spec.ts\n  steps:\n    - 'Create a product for this test through the API: a unique name, in stock.'\n    - Search for that product and open it.\n    - Set the quantity to 2 and click \"Add to cart\".\n    - Verify the cart badge in the nav bar shows 2.\n    - Open the cart.\n    - 'Verify the cart has exactly one line: that product with quantity 2.'\n    - Verify the cart total equals 2 × the product's unit price."
   },
   {
    "id": "UI-027",
