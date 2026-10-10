@@ -3,23 +3,190 @@ window.SCENARIO_CATALOG = {
  "layer": "api",
  "title": "API Test Cases",
  "prefix": "API",
- "generatedAt": "2026-10-10T08:20:23.661Z",
- "commit": "0ef9b23b0a0746bd9bdad3adf7292666bb9acab4",
+ "generatedAt": "2026-10-10T09:14:57.675Z",
+ "commit": "0d8ca228b4077ccca37bcacf688a7928966d41b7",
  "repoUrl": "https://github.com/Zaytsman/SimpRight",
  "branch": "main",
  "workflowUrl": "https://github.com/Zaytsman/SimpRight/actions/workflows/custom-api-tests.yml",
  "stats": {
-  "total": 118,
+  "total": 289,
   "automated": 118,
-  "manual": 0,
-  "knownIssues": 14,
-  "automatedPct": 100
+  "manual": 171,
+  "knownIssues": 40,
+  "automatedPct": 41
  },
  "tree": [
+  {
+   "area": "brands",
+   "label": "Brands",
+   "files": [
+    {
+     "file": "test-scenarios/api/brands/get-brands.yml",
+     "name": "get-brands",
+     "label": "GET /brands",
+     "suite": "Brands API",
+     "tags": [
+      "@brands-api"
+     ],
+     "ids": [
+      "API-0119"
+     ]
+    },
+    {
+     "file": "test-scenarios/api/brands/post-brands.yml",
+     "name": "post-brands",
+     "label": "POST /brands",
+     "suite": "Brands API",
+     "tags": [
+      "@brands-api"
+     ],
+     "ids": [
+      "API-0120",
+      "API-0121",
+      "API-0122",
+      "API-0123",
+      "API-0124",
+      "API-0125",
+      "API-0126",
+      "API-0127",
+      "API-0128",
+      "API-0129"
+     ]
+    },
+    {
+     "file": "test-scenarios/api/brands/get-brands-search.yml",
+     "name": "get-brands-search",
+     "label": "GET /brands/search",
+     "suite": "Brands API",
+     "tags": [
+      "@brands-api"
+     ],
+     "ids": [
+      "API-0154",
+      "API-0155",
+      "API-0156",
+      "API-0157",
+      "API-0158",
+      "API-0159"
+     ]
+    },
+    {
+     "file": "test-scenarios/api/brands/query-brands-search.yml",
+     "name": "query-brands-search",
+     "label": "QUERY /brands/search",
+     "suite": "Brands API",
+     "tags": [
+      "@brands-api"
+     ],
+     "ids": [
+      "API-0160",
+      "API-0161",
+      "API-0162",
+      "API-0163"
+     ]
+    },
+    {
+     "file": "test-scenarios/api/brands/get-brands-by-brand-id.yml",
+     "name": "get-brands-by-brand-id",
+     "label": "GET /brands/{brandId}",
+     "suite": "Brands API",
+     "tags": [
+      "@brands-api"
+     ],
+     "ids": [
+      "API-0130",
+      "API-0131"
+     ]
+    },
+    {
+     "file": "test-scenarios/api/brands/put-brands-by-brand-id.yml",
+     "name": "put-brands-by-brand-id",
+     "label": "PUT /brands/{brandId}",
+     "suite": "Brands API",
+     "tags": [
+      "@brands-api"
+     ],
+     "ids": [
+      "API-0132",
+      "API-0133",
+      "API-0134",
+      "API-0135",
+      "API-0136",
+      "API-0137",
+      "API-0138",
+      "API-0139",
+      "API-0140"
+     ]
+    },
+    {
+     "file": "test-scenarios/api/brands/patch-brands-by-brand-id.yml",
+     "name": "patch-brands-by-brand-id",
+     "label": "PATCH /brands/{brandId}",
+     "suite": "Brands API",
+     "tags": [
+      "@brands-api"
+     ],
+     "ids": [
+      "API-0141",
+      "API-0142",
+      "API-0143",
+      "API-0144",
+      "API-0145",
+      "API-0146",
+      "API-0147"
+     ]
+    },
+    {
+     "file": "test-scenarios/api/brands/delete-brands-by-brand-id.yml",
+     "name": "delete-brands-by-brand-id",
+     "label": "DELETE /brands/{brandId}",
+     "suite": "Brands API",
+     "tags": [
+      "@brands-api"
+     ],
+     "ids": [
+      "API-0148",
+      "API-0149",
+      "API-0150",
+      "API-0151",
+      "API-0152",
+      "API-0153"
+     ]
+    }
+   ]
+  },
   {
    "area": "carts",
    "label": "Carts",
    "files": [
+    {
+     "file": "test-scenarios/api/carts/post-carts.yml",
+     "name": "post-carts",
+     "label": "POST /carts",
+     "suite": "Carts API",
+     "tags": [
+      "@carts-api"
+     ],
+     "ids": [
+      "API-0230",
+      "API-0231"
+     ]
+    },
+    {
+     "file": "test-scenarios/api/carts/get-carts-by-cart-id.yml",
+     "name": "get-carts-by-cart-id",
+     "label": "GET /carts/{cartId}",
+     "suite": "Carts API",
+     "tags": [
+      "@carts-api"
+     ],
+     "ids": [
+      "API-0247",
+      "API-0248",
+      "API-0249",
+      "API-0250"
+     ]
+    },
     {
      "file": "test-scenarios/api/carts/post-carts-by-cart-id.yml",
      "name": "post-carts-by-cart-id",
@@ -33,7 +200,326 @@ window.SCENARIO_CATALOG = {
       "API-0115",
       "API-0116",
       "API-0117",
-      "API-0118"
+      "API-0118",
+      "API-0232",
+      "API-0233",
+      "API-0234",
+      "API-0235",
+      "API-0236",
+      "API-0237",
+      "API-0238",
+      "API-0239",
+      "API-0240",
+      "API-0241",
+      "API-0242",
+      "API-0243",
+      "API-0244",
+      "API-0245",
+      "API-0246",
+      "API-0289"
+     ]
+    },
+    {
+     "file": "test-scenarios/api/carts/delete-carts-by-cart-id.yml",
+     "name": "delete-carts-by-cart-id",
+     "label": "DELETE /carts/{cartId}",
+     "suite": "Carts API",
+     "tags": [
+      "@carts-api"
+     ],
+     "ids": [
+      "API-0265",
+      "API-0266"
+     ]
+    },
+    {
+     "file": "test-scenarios/api/carts/put-carts-by-cart-id-product-quantity.yml",
+     "name": "put-carts-by-cart-id-product-quantity",
+     "label": "PUT /carts/{cartId}/product/quantity",
+     "suite": "Carts API",
+     "tags": [
+      "@carts-api"
+     ],
+     "ids": [
+      "API-0251",
+      "API-0252",
+      "API-0253",
+      "API-0254",
+      "API-0255",
+      "API-0256",
+      "API-0257",
+      "API-0258",
+      "API-0259"
+     ]
+    },
+    {
+     "file": "test-scenarios/api/carts/delete-carts-by-cart-id-product-by-product-id.yml",
+     "name": "delete-carts-by-cart-id-product-by-product-id",
+     "label": "DELETE /carts/{cartId}/product/{productId}",
+     "suite": "Carts API",
+     "tags": [
+      "@carts-api"
+     ],
+     "ids": [
+      "API-0260",
+      "API-0261",
+      "API-0262",
+      "API-0263",
+      "API-0264"
+     ]
+    }
+   ]
+  },
+  {
+   "area": "categories",
+   "label": "Categories",
+   "files": [
+    {
+     "file": "test-scenarios/api/categories/get-categories.yml",
+     "name": "get-categories",
+     "label": "GET /categories",
+     "suite": "Categories API",
+     "tags": [
+      "@categories-api"
+     ],
+     "ids": [
+      "API-0164"
+     ]
+    },
+    {
+     "file": "test-scenarios/api/categories/post-categories.yml",
+     "name": "post-categories",
+     "label": "POST /categories",
+     "suite": "Categories API",
+     "tags": [
+      "@categories-api"
+     ],
+     "ids": [
+      "API-0165",
+      "API-0166",
+      "API-0167",
+      "API-0168",
+      "API-0169",
+      "API-0170",
+      "API-0171",
+      "API-0172",
+      "API-0173",
+      "API-0174",
+      "API-0175",
+      "API-0176",
+      "API-0177"
+     ]
+    },
+    {
+     "file": "test-scenarios/api/categories/get-categories-search.yml",
+     "name": "get-categories-search",
+     "label": "GET /categories/search",
+     "suite": "Categories API",
+     "tags": [
+      "@categories-api"
+     ],
+     "ids": [
+      "API-0191",
+      "API-0192",
+      "API-0193",
+      "API-0194",
+      "API-0195",
+      "API-0196"
+     ]
+    },
+    {
+     "file": "test-scenarios/api/categories/query-categories-search.yml",
+     "name": "query-categories-search",
+     "label": "QUERY /categories/search",
+     "suite": "Categories API",
+     "tags": [
+      "@categories-api"
+     ],
+     "ids": [
+      "API-0197",
+      "API-0198",
+      "API-0199",
+      "API-0200"
+     ]
+    },
+    {
+     "file": "test-scenarios/api/categories/get-categories-tree.yml",
+     "name": "get-categories-tree",
+     "label": "GET /categories/tree",
+     "suite": "Categories API",
+     "tags": [
+      "@categories-api"
+     ],
+     "ids": [
+      "API-0178",
+      "API-0179",
+      "API-0180",
+      "API-0181",
+      "API-0182"
+     ]
+    },
+    {
+     "file": "test-scenarios/api/categories/query-categories-tree.yml",
+     "name": "query-categories-tree",
+     "label": "QUERY /categories/tree",
+     "suite": "Categories API",
+     "tags": [
+      "@categories-api"
+     ],
+     "ids": [
+      "API-0183",
+      "API-0184",
+      "API-0185",
+      "API-0186"
+     ]
+    },
+    {
+     "file": "test-scenarios/api/categories/get-categories-tree-by-category-id.yml",
+     "name": "get-categories-tree-by-category-id",
+     "label": "GET /categories/tree/{categoryId}",
+     "suite": "Categories API",
+     "tags": [
+      "@categories-api"
+     ],
+     "ids": [
+      "API-0187",
+      "API-0188",
+      "API-0189",
+      "API-0190"
+     ]
+    },
+    {
+     "file": "test-scenarios/api/categories/put-categories-by-category-id.yml",
+     "name": "put-categories-by-category-id",
+     "label": "PUT /categories/{categoryId}",
+     "suite": "Categories API",
+     "tags": [
+      "@categories-api"
+     ],
+     "ids": [
+      "API-0201",
+      "API-0202",
+      "API-0203",
+      "API-0204",
+      "API-0205",
+      "API-0206",
+      "API-0207",
+      "API-0208",
+      "API-0209",
+      "API-0210",
+      "API-0211",
+      "API-0212",
+      "API-0213"
+     ]
+    },
+    {
+     "file": "test-scenarios/api/categories/patch-categories-by-category-id.yml",
+     "name": "patch-categories-by-category-id",
+     "label": "PATCH /categories/{categoryId}",
+     "suite": "Categories API",
+     "tags": [
+      "@categories-api"
+     ],
+     "ids": [
+      "API-0214",
+      "API-0215",
+      "API-0216",
+      "API-0217",
+      "API-0218",
+      "API-0219",
+      "API-0220",
+      "API-0221",
+      "API-0222"
+     ]
+    },
+    {
+     "file": "test-scenarios/api/categories/delete-categories-by-category-id.yml",
+     "name": "delete-categories-by-category-id",
+     "label": "DELETE /categories/{categoryId}",
+     "suite": "Categories API",
+     "tags": [
+      "@categories-api"
+     ],
+     "ids": [
+      "API-0223",
+      "API-0224",
+      "API-0225",
+      "API-0226",
+      "API-0227",
+      "API-0228",
+      "API-0229"
+     ]
+    }
+   ]
+  },
+  {
+   "area": "favorites",
+   "label": "Favorites",
+   "files": [
+    {
+     "file": "test-scenarios/api/favorites/get-favorites.yml",
+     "name": "get-favorites",
+     "label": "GET /favorites",
+     "suite": "Favorites API",
+     "tags": [
+      "@favorites-api"
+     ],
+     "ids": [
+      "API-0267",
+      "API-0268",
+      "API-0269",
+      "API-0270",
+      "API-0271"
+     ]
+    },
+    {
+     "file": "test-scenarios/api/favorites/post-favorites.yml",
+     "name": "post-favorites",
+     "label": "POST /favorites",
+     "suite": "Favorites API",
+     "tags": [
+      "@favorites-api"
+     ],
+     "ids": [
+      "API-0272",
+      "API-0273",
+      "API-0274",
+      "API-0275",
+      "API-0276",
+      "API-0277",
+      "API-0278"
+     ]
+    },
+    {
+     "file": "test-scenarios/api/favorites/get-favorites-by-favorite-id.yml",
+     "name": "get-favorites-by-favorite-id",
+     "label": "GET /favorites/{favoriteId}",
+     "suite": "Favorites API",
+     "tags": [
+      "@favorites-api"
+     ],
+     "ids": [
+      "API-0279",
+      "API-0280",
+      "API-0281",
+      "API-0282",
+      "API-0283"
+     ]
+    },
+    {
+     "file": "test-scenarios/api/favorites/delete-favorites-by-favorite-id.yml",
+     "name": "delete-favorites-by-favorite-id",
+     "label": "DELETE /favorites/{favoriteId}",
+     "suite": "Favorites API",
+     "tags": [
+      "@favorites-api"
+     ],
+     "ids": [
+      "API-0284",
+      "API-0285",
+      "API-0286",
+      "API-0287",
+      "API-0288"
      ]
     }
    ]
@@ -331,6 +817,1113 @@ window.SCENARIO_CATALOG = {
  ],
  "scenarios": [
   {
+   "id": "API-0119",
+   "name": "List brands returns every brand",
+   "status": "manual",
+   "steps": [
+    "Send GET /brands.",
+    "Verify the response status is 200.",
+    "Verify the body is a non-empty array.",
+    "Verify every item has a non-empty string id, name and slug."
+   ],
+   "ref": [],
+   "area": "brands",
+   "areaLabel": "Brands",
+   "file": "test-scenarios/api/brands/get-brands.yml",
+   "fileLabel": "GET /brands",
+   "suite": "Brands API",
+   "tags": [
+    "@brands-api"
+   ],
+   "yaml": "- id: API-0119\n  name: List brands returns every brand\n  status: manual\n  steps:\n    - Send GET /brands.\n    - Verify the response status is 200.\n    - Verify the body is a non-empty array.\n    - Verify every item has a non-empty string id, name and slug."
+  },
+  {
+   "id": "API-0120",
+   "name": "Create brand returns 201 with the new brand",
+   "status": "manual",
+   "role": "admin",
+   "steps": [
+    "Send POST /brands with a unique brand name and a unique slug, with the admin's token, and take the new brand's id.",
+    "Verify the response status is 201.",
+    "Verify the body's name and slug equal the values sent.",
+    "Verify the body has a non-empty id.",
+    "Verify GET /brands/{brandId} with the new id returns 200 with the same name and slug."
+   ],
+   "ref": [],
+   "area": "brands",
+   "areaLabel": "Brands",
+   "file": "test-scenarios/api/brands/post-brands.yml",
+   "fileLabel": "POST /brands",
+   "suite": "Brands API",
+   "tags": [
+    "@brands-api"
+   ],
+   "yaml": "- id: API-0120\n  name: Create brand returns 201 with the new brand\n  status: manual\n  role: admin\n  steps:\n    - Send POST /brands with a unique brand name and a unique slug, with the admin's token, and take the new brand's id.\n    - Verify the response status is 201.\n    - Verify the body's name and slug equal the values sent.\n    - Verify the body has a non-empty id.\n    - Verify GET /brands/{brandId} with the new id returns 200 with the same name and slug."
+  },
+  {
+   "id": "API-0121",
+   "name": "Create brand without the required fields returns 422 for each of them",
+   "status": "manual",
+   "steps": [
+    "Send POST /brands with an empty JSON object as the body.",
+    "Verify the response status is 422.",
+    "Verify the body has the keys name and slug, each with at least one message.",
+    "Verify the body's name messages include \"The name field is required.\" and its slug messages include \"The slug field is required.\"."
+   ],
+   "ref": [],
+   "area": "brands",
+   "areaLabel": "Brands",
+   "file": "test-scenarios/api/brands/post-brands.yml",
+   "fileLabel": "POST /brands",
+   "suite": "Brands API",
+   "tags": [
+    "@brands-api"
+   ],
+   "yaml": "- id: API-0121\n  name: Create brand without the required fields returns 422 for each of them\n  status: manual\n  steps:\n    - Send POST /brands with an empty JSON object as the body.\n    - Verify the response status is 422.\n    - Verify the body has the keys name and slug, each with at least one message.\n    - Verify the body's name messages include \"The name field is required.\" and its slug messages include \"The slug field is required.\"."
+  },
+  {
+   "id": "API-0122",
+   "name": "Create brand with a slug outside letters, digits, dashes and underscores returns 422",
+   "status": "manual",
+   "steps": [
+    "Send POST /brands with a unique brand name and a slug made of a unique slug followed by \" x!\" (a space and an exclamation mark).",
+    "Verify the response status is 422.",
+    "Verify the body has a slug key with at least one message."
+   ],
+   "ref": [],
+   "area": "brands",
+   "areaLabel": "Brands",
+   "file": "test-scenarios/api/brands/post-brands.yml",
+   "fileLabel": "POST /brands",
+   "suite": "Brands API",
+   "tags": [
+    "@brands-api"
+   ],
+   "yaml": "- id: API-0122\n  name: Create brand with a slug outside letters, digits, dashes and underscores returns 422\n  status: manual\n  steps:\n    - Send POST /brands with a unique brand name and a slug made of a unique slug followed by \" x!\" (a space and an exclamation mark).\n    - Verify the response status is 422.\n    - Verify the body has a slug key with at least one message."
+  },
+  {
+   "id": "API-0123",
+   "name": "Create brand with a name longer than 120 characters returns 422",
+   "status": "manual",
+   "steps": [
+    "Send POST /brands with a 121-character name that starts with a unique brand name, and a unique slug.",
+    "Verify the response status is 422.",
+    "Verify the body has a name key with at least one message."
+   ],
+   "ref": [],
+   "area": "brands",
+   "areaLabel": "Brands",
+   "file": "test-scenarios/api/brands/post-brands.yml",
+   "fileLabel": "POST /brands",
+   "suite": "Brands API",
+   "tags": [
+    "@brands-api"
+   ],
+   "yaml": "- id: API-0123\n  name: Create brand with a name longer than 120 characters returns 422\n  status: manual\n  steps:\n    - Send POST /brands with a 121-character name that starts with a unique brand name, and a unique slug.\n    - Verify the response status is 422.\n    - Verify the body has a name key with at least one message."
+  },
+  {
+   "id": "API-0124",
+   "name": "Create brand with a slug longer than 120 characters returns 422",
+   "status": "manual",
+   "steps": [
+    "Send POST /brands with a unique brand name and a 121-character slug that starts with a unique slug and contains only letters, digits and dashes.",
+    "Verify the response status is 422.",
+    "Verify the body has a slug key with at least one message."
+   ],
+   "ref": [],
+   "area": "brands",
+   "areaLabel": "Brands",
+   "file": "test-scenarios/api/brands/post-brands.yml",
+   "fileLabel": "POST /brands",
+   "suite": "Brands API",
+   "tags": [
+    "@brands-api"
+   ],
+   "yaml": "- id: API-0124\n  name: Create brand with a slug longer than 120 characters returns 422\n  status: manual\n  steps:\n    - Send POST /brands with a unique brand name and a 121-character slug that starts with a unique slug and contains only letters, digits and dashes.\n    - Verify the response status is 422.\n    - Verify the body has a slug key with at least one message."
+  },
+  {
+   "id": "API-0125",
+   "name": "Create brand with a subscript character in the name returns 422",
+   "status": "manual",
+   "steps": [
+    "Send POST /brands with a unique brand name followed by a Unicode subscript character, and a unique slug.",
+    "Verify the response status is 422.",
+    "Verify the body has a name key with at least one message."
+   ],
+   "ref": [],
+   "area": "brands",
+   "areaLabel": "Brands",
+   "file": "test-scenarios/api/brands/post-brands.yml",
+   "fileLabel": "POST /brands",
+   "suite": "Brands API",
+   "tags": [
+    "@brands-api"
+   ],
+   "yaml": "- id: API-0125\n  name: Create brand with a subscript character in the name returns 422\n  status: manual\n  steps:\n    - Send POST /brands with a unique brand name followed by a Unicode subscript character, and a unique slug.\n    - Verify the response status is 422.\n    - Verify the body has a name key with at least one message."
+  },
+  {
+   "id": "API-0126",
+   "name": "Create brand with an existing slug returns 409",
+   "status": "manual",
+   "steps": [
+    "Send GET /brands and take the first brand's slug.",
+    "Send POST /brands with a unique brand name and that slug.",
+    "Verify the response status is 409.",
+    "Verify the body's slug messages include \"A brand already exists with this slug.\"."
+   ],
+   "ref": [],
+   "area": "brands",
+   "areaLabel": "Brands",
+   "file": "test-scenarios/api/brands/post-brands.yml",
+   "fileLabel": "POST /brands",
+   "suite": "Brands API",
+   "tags": [
+    "@brands-api"
+   ],
+   "yaml": "- id: API-0126\n  name: Create brand with an existing slug returns 409\n  status: manual\n  steps:\n    - Send GET /brands and take the first brand's slug.\n    - Send POST /brands with a unique brand name and that slug.\n    - Verify the response status is 409.\n    - Verify the body's slug messages include \"A brand already exists with this slug.\"."
+  },
+  {
+   "id": "API-0127",
+   "name": "Create brand with an existing slug and a too-long name returns 422",
+   "status": "manual",
+   "steps": [
+    "Send GET /brands and take the first brand's slug.",
+    "Send POST /brands with a 121-character name that starts with a unique brand name, and that slug.",
+    "Verify the response status is 422.",
+    "Verify the body has a name key with at least one message."
+   ],
+   "ref": [],
+   "area": "brands",
+   "areaLabel": "Brands",
+   "file": "test-scenarios/api/brands/post-brands.yml",
+   "fileLabel": "POST /brands",
+   "suite": "Brands API",
+   "tags": [
+    "@brands-api"
+   ],
+   "yaml": "- id: API-0127\n  name: Create brand with an existing slug and a too-long name returns 422\n  status: manual\n  steps:\n    - Send GET /brands and take the first brand's slug.\n    - Send POST /brands with a 121-character name that starts with a unique brand name, and that slug.\n    - Verify the response status is 422.\n    - Verify the body has a name key with at least one message."
+  },
+  {
+   "id": "API-0128",
+   "name": "Create brand ignores fields other than name and slug",
+   "status": "manual",
+   "role": "admin",
+   "steps": [
+    "Send POST /brands with a unique brand name, a unique slug and a description field set to \"ignored\", with the admin's token, and take the new brand's id.",
+    "Verify the response status is 201.",
+    "Verify the body has the keys id, name and slug only.",
+    "Verify GET /brands/{brandId} with the new id has no description key."
+   ],
+   "ref": [],
+   "area": "brands",
+   "areaLabel": "Brands",
+   "file": "test-scenarios/api/brands/post-brands.yml",
+   "fileLabel": "POST /brands",
+   "suite": "Brands API",
+   "tags": [
+    "@brands-api"
+   ],
+   "yaml": "- id: API-0128\n  name: Create brand ignores fields other than name and slug\n  status: manual\n  role: admin\n  steps:\n    - Send POST /brands with a unique brand name, a unique slug and a description field set to \"ignored\", with the admin's token, and take the new brand's id.\n    - Verify the response status is 201.\n    - Verify the body has the keys id, name and slug only.\n    - Verify GET /brands/{brandId} with the new id has no description key."
+  },
+  {
+   "id": "API-0129",
+   "name": "Create brand without a token returns 401",
+   "status": "manual",
+   "knownIssue": "Accepts POST without a token instead of returning 401.",
+   "bug": "BUG-009",
+   "steps": [
+    "Send POST /brands with a unique brand name and a unique slug, without an Authorization header.",
+    "Verify the response status is 401."
+   ],
+   "ref": [],
+   "area": "brands",
+   "areaLabel": "Brands",
+   "file": "test-scenarios/api/brands/post-brands.yml",
+   "fileLabel": "POST /brands",
+   "suite": "Brands API",
+   "tags": [
+    "@brands-api"
+   ],
+   "yaml": "- id: API-0129\n  name: Create brand without a token returns 401\n  status: manual\n  knownIssue: Accepts POST without a token instead of returning 401.\n  bug: BUG-009\n  steps:\n    - Send POST /brands with a unique brand name and a unique slug, without an Authorization header.\n    - Verify the response status is 401."
+  },
+  {
+   "id": "API-0154",
+   "name": "Search brands returns only matching brands",
+   "status": "manual",
+   "steps": [
+    "Send GET /brands/search with q=forge.",
+    "Verify the response status is 200.",
+    "Verify the body is a non-empty array and every item's name contains \"forge\" (case-insensitive).",
+    "Verify every item has a non-empty string id, name and slug."
+   ],
+   "ref": [],
+   "area": "brands",
+   "areaLabel": "Brands",
+   "file": "test-scenarios/api/brands/get-brands-search.yml",
+   "fileLabel": "GET /brands/search",
+   "suite": "Brands API",
+   "tags": [
+    "@brands-api"
+   ],
+   "yaml": "- id: API-0154\n  name: Search brands returns only matching brands\n  status: manual\n  steps:\n    - Send GET /brands/search with q=forge.\n    - Verify the response status is 200.\n    - Verify the body is a non-empty array and every item's name contains \"forge\" (case-insensitive).\n    - Verify every item has a non-empty string id, name and slug."
+  },
+  {
+   "id": "API-0155",
+   "name": "Search brands with a term shorter than 4 characters matches inside names",
+   "status": "manual",
+   "steps": [
+    "Send GET /brands/search with q=fle.",
+    "Verify the response status is 200.",
+    "Verify the body is a non-empty array and every item's name contains \"fle\" (case-insensitive)."
+   ],
+   "ref": [],
+   "area": "brands",
+   "areaLabel": "Brands",
+   "file": "test-scenarios/api/brands/get-brands-search.yml",
+   "fileLabel": "GET /brands/search",
+   "suite": "Brands API",
+   "tags": [
+    "@brands-api"
+   ],
+   "yaml": "- id: API-0155\n  name: Search brands with a term shorter than 4 characters matches inside names\n  status: manual\n  steps:\n    - Send GET /brands/search with q=fle.\n    - Verify the response status is 200.\n    - Verify the body is a non-empty array and every item's name contains \"fle\" (case-insensitive)."
+  },
+  {
+   "id": "API-0156",
+   "name": "Search brands with a term no brand matches returns an empty array",
+   "status": "manual",
+   "steps": [
+    "Send GET /brands/search with q set to a unique term of letters and digits only that no brand has.",
+    "Verify the response status is 200.",
+    "Verify the body is an empty array."
+   ],
+   "ref": [],
+   "area": "brands",
+   "areaLabel": "Brands",
+   "file": "test-scenarios/api/brands/get-brands-search.yml",
+   "fileLabel": "GET /brands/search",
+   "suite": "Brands API",
+   "tags": [
+    "@brands-api"
+   ],
+   "yaml": "- id: API-0156\n  name: Search brands with a term no brand matches returns an empty array\n  status: manual\n  steps:\n    - Send GET /brands/search with q set to a unique term of letters and digits only that no brand has.\n    - Verify the response status is 200.\n    - Verify the body is an empty array."
+  },
+  {
+   "id": "API-0157",
+   "name": "Search brands without a term returns every brand",
+   "status": "manual",
+   "steps": [
+    "Send GET /brands and keep the brand ids.",
+    "Send GET /brands/search without a q parameter.",
+    "Verify the response status is 200.",
+    "Verify the body's brand ids equal the GET /brands ids, in any order."
+   ],
+   "ref": [],
+   "area": "brands",
+   "areaLabel": "Brands",
+   "file": "test-scenarios/api/brands/get-brands-search.yml",
+   "fileLabel": "GET /brands/search",
+   "suite": "Brands API",
+   "tags": [
+    "@brands-api"
+   ],
+   "yaml": "- id: API-0157\n  name: Search brands without a term returns every brand\n  status: manual\n  steps:\n    - Send GET /brands and keep the brand ids.\n    - Send GET /brands/search without a q parameter.\n    - Verify the response status is 200.\n    - Verify the body's brand ids equal the GET /brands ids, in any order."
+  },
+  {
+   "id": "API-0158",
+   "name": "Search brands with q as an array returns 422",
+   "status": "manual",
+   "knownIssue": "Returns 500 instead of 422 when q is sent as an array.",
+   "bug": "BUG-011",
+   "steps": [
+    "Send GET /brands/search with q as an array (q[]=x).",
+    "Verify the response status is 422."
+   ],
+   "ref": [],
+   "area": "brands",
+   "areaLabel": "Brands",
+   "file": "test-scenarios/api/brands/get-brands-search.yml",
+   "fileLabel": "GET /brands/search",
+   "suite": "Brands API",
+   "tags": [
+    "@brands-api"
+   ],
+   "yaml": "- id: API-0158\n  name: Search brands with q as an array returns 422\n  status: manual\n  knownIssue: Returns 500 instead of 422 when q is sent as an array.\n  bug: BUG-011\n  steps:\n    - Send GET /brands/search with q as an array (q[]=x).\n    - Verify the response status is 422."
+  },
+  {
+   "id": "API-0159",
+   "name": "Search brands finds a brand created after the same term was searched",
+   "status": "manual",
+   "role": "admin",
+   "knownIssue": "Returns the cached search result instead of the new brand for a term searched before the brand was created.",
+   "bug": "BUG-013",
+   "steps": [
+    "Send GET /brands/search with q set to a unique term of letters and digits only, at least 4 characters long, that no brand has.",
+    "Send POST /brands with that term as the name and a unique slug, with the admin's token, and take the new brand's id.",
+    "Send GET /brands/search with the same term.",
+    "Verify the body includes a brand with the new id."
+   ],
+   "ref": [],
+   "area": "brands",
+   "areaLabel": "Brands",
+   "file": "test-scenarios/api/brands/get-brands-search.yml",
+   "fileLabel": "GET /brands/search",
+   "suite": "Brands API",
+   "tags": [
+    "@brands-api"
+   ],
+   "yaml": "- id: API-0159\n  name: Search brands finds a brand created after the same term was searched\n  status: manual\n  role: admin\n  knownIssue: Returns the cached search result instead of the new brand for a term searched before the brand was created.\n  bug: BUG-013\n  steps:\n    - Send GET /brands/search with q set to a unique term of letters and digits only, at least 4 characters long, that no brand has.\n    - Send POST /brands with that term as the name and a unique slug, with the admin's token, and take the new brand's id.\n    - Send GET /brands/search with the same term.\n    - Verify the body includes a brand with the new id."
+  },
+  {
+   "id": "API-0160",
+   "name": "QUERY search returns only matching brands",
+   "status": "manual",
+   "steps": [
+    "Send QUERY /brands/search with Content-Type: application/json, Accept: application/json and the body { \"q\": \"forge\" }.",
+    "Verify the response status is 200.",
+    "Verify the Accept-Query response header is application/json.",
+    "Verify the body is a non-empty array and every item's name contains \"forge\" (case-insensitive)."
+   ],
+   "ref": [],
+   "area": "brands",
+   "areaLabel": "Brands",
+   "file": "test-scenarios/api/brands/query-brands-search.yml",
+   "fileLabel": "QUERY /brands/search",
+   "suite": "Brands API",
+   "tags": [
+    "@brands-api"
+   ],
+   "yaml": "- id: API-0160\n  name: QUERY search returns only matching brands\n  status: manual\n  steps:\n    - 'Send QUERY /brands/search with Content-Type: application/json, Accept: application/json and the body { \"q\": \"forge\" }.'\n    - Verify the response status is 200.\n    - Verify the Accept-Query response header is application/json.\n    - Verify the body is a non-empty array and every item's name contains \"forge\" (case-insensitive)."
+  },
+  {
+   "id": "API-0161",
+   "name": "QUERY search with an empty body returns every brand",
+   "status": "manual",
+   "steps": [
+    "Send GET /brands and keep the brand ids.",
+    "Send QUERY /brands/search with Content-Type: application/json, Accept: application/json and an empty JSON object as the body.",
+    "Verify the response status is 200.",
+    "Verify the body's brand ids equal the GET /brands ids, in any order."
+   ],
+   "ref": [],
+   "area": "brands",
+   "areaLabel": "Brands",
+   "file": "test-scenarios/api/brands/query-brands-search.yml",
+   "fileLabel": "QUERY /brands/search",
+   "suite": "Brands API",
+   "tags": [
+    "@brands-api"
+   ],
+   "yaml": "- id: API-0161\n  name: QUERY search with an empty body returns every brand\n  status: manual\n  steps:\n    - Send GET /brands and keep the brand ids.\n    - \"Send QUERY /brands/search with Content-Type: application/json, Accept: application/json and an empty JSON object as the body.\"\n    - Verify the response status is 200.\n    - Verify the body's brand ids equal the GET /brands ids, in any order."
+  },
+  {
+   "id": "API-0162",
+   "name": "QUERY search without a JSON Content-Type returns 415",
+   "status": "manual",
+   "steps": [
+    "Send QUERY /brands/search with Content-Type: text/plain, Accept: application/json and a plain-text body.",
+    "Verify the response status is 415.",
+    "Verify the body's message is \"QUERY requests must use Content-Type: application/json\"."
+   ],
+   "ref": [],
+   "area": "brands",
+   "areaLabel": "Brands",
+   "file": "test-scenarios/api/brands/query-brands-search.yml",
+   "fileLabel": "QUERY /brands/search",
+   "suite": "Brands API",
+   "tags": [
+    "@brands-api"
+   ],
+   "yaml": "- id: API-0162\n  name: QUERY search without a JSON Content-Type returns 415\n  status: manual\n  steps:\n    - \"Send QUERY /brands/search with Content-Type: text/plain, Accept: application/json and a plain-text body.\"\n    - Verify the response status is 415.\n    - 'Verify the body''s message is \"QUERY requests must use Content-Type: application/json\".'"
+  },
+  {
+   "id": "API-0163",
+   "name": "QUERY search with q as an array returns 422",
+   "status": "manual",
+   "knownIssue": "Returns 500 instead of 422 when q is sent as an array.",
+   "bug": "BUG-011",
+   "steps": [
+    "Send QUERY /brands/search with Content-Type: application/json, Accept: application/json and the body { \"q\": [\"x\"] }.",
+    "Verify the response status is 422."
+   ],
+   "ref": [],
+   "area": "brands",
+   "areaLabel": "Brands",
+   "file": "test-scenarios/api/brands/query-brands-search.yml",
+   "fileLabel": "QUERY /brands/search",
+   "suite": "Brands API",
+   "tags": [
+    "@brands-api"
+   ],
+   "yaml": "- id: API-0163\n  name: QUERY search with q as an array returns 422\n  status: manual\n  knownIssue: Returns 500 instead of 422 when q is sent as an array.\n  bug: BUG-011\n  steps:\n    - 'Send QUERY /brands/search with Content-Type: application/json, Accept: application/json and the body { \"q\": [\"x\"] }.'\n    - Verify the response status is 422."
+  },
+  {
+   "id": "API-0130",
+   "name": "Get brand returns 200 with the brand",
+   "status": "manual",
+   "steps": [
+    "Send GET /brands and take the first brand's id, name and slug.",
+    "Send GET /brands/{brandId} with that id.",
+    "Verify the response status is 200.",
+    "Verify the body's id, name and slug equal the list item's."
+   ],
+   "ref": [],
+   "area": "brands",
+   "areaLabel": "Brands",
+   "file": "test-scenarios/api/brands/get-brands-by-brand-id.yml",
+   "fileLabel": "GET /brands/{brandId}",
+   "suite": "Brands API",
+   "tags": [
+    "@brands-api"
+   ],
+   "yaml": "- id: API-0130\n  name: Get brand returns 200 with the brand\n  status: manual\n  steps:\n    - Send GET /brands and take the first brand's id, name and slug.\n    - Send GET /brands/{brandId} with that id.\n    - Verify the response status is 200.\n    - Verify the body's id, name and slug equal the list item's."
+  },
+  {
+   "id": "API-0131",
+   "name": "Get brand with an unknown id returns 404",
+   "status": "manual",
+   "steps": [
+    "Send GET /brands/{brandId} with a well-formed ULID that no brand has.",
+    "Verify the response status is 404.",
+    "Verify the body's message is \"Requested item not found\"."
+   ],
+   "ref": [],
+   "area": "brands",
+   "areaLabel": "Brands",
+   "file": "test-scenarios/api/brands/get-brands-by-brand-id.yml",
+   "fileLabel": "GET /brands/{brandId}",
+   "suite": "Brands API",
+   "tags": [
+    "@brands-api"
+   ],
+   "yaml": "- id: API-0131\n  name: Get brand with an unknown id returns 404\n  status: manual\n  steps:\n    - Send GET /brands/{brandId} with a well-formed ULID that no brand has.\n    - Verify the response status is 404.\n    - Verify the body's message is \"Requested item not found\"."
+  },
+  {
+   "id": "API-0132",
+   "name": "Update brand returns success and saves the new name and slug",
+   "status": "manual",
+   "role": "admin",
+   "steps": [
+    "Send POST /brands with a unique brand name and a unique slug, with the admin's token, and take the new brand's id.",
+    "Send PUT /brands/{brandId} with that id and a body with a new unique brand name and a new unique slug, with the admin's token.",
+    "Verify the response status is 200.",
+    "Verify the body's success is true.",
+    "Verify GET /brands/{brandId} with that id returns the new name and the new slug."
+   ],
+   "ref": [],
+   "area": "brands",
+   "areaLabel": "Brands",
+   "file": "test-scenarios/api/brands/put-brands-by-brand-id.yml",
+   "fileLabel": "PUT /brands/{brandId}",
+   "suite": "Brands API",
+   "tags": [
+    "@brands-api"
+   ],
+   "yaml": "- id: API-0132\n  name: Update brand returns success and saves the new name and slug\n  status: manual\n  role: admin\n  steps:\n    - Send POST /brands with a unique brand name and a unique slug, with the admin's token, and take the new brand's id.\n    - Send PUT /brands/{brandId} with that id and a body with a new unique brand name and a new unique slug, with the admin's token.\n    - Verify the response status is 200.\n    - Verify the body's success is true.\n    - Verify GET /brands/{brandId} with that id returns the new name and the new slug."
+  },
+  {
+   "id": "API-0133",
+   "name": "Update brand with a name longer than 120 characters returns 422",
+   "status": "manual",
+   "role": "admin",
+   "steps": [
+    "Send POST /brands with a unique brand name and a unique slug, with the admin's token, and take the new brand's id.",
+    "Send PUT /brands/{brandId} with that id and a body with only a 121-character name that starts with a unique brand name, with the admin's token.",
+    "Verify the response status is 422.",
+    "Verify the body has a name key with at least one message."
+   ],
+   "ref": [],
+   "area": "brands",
+   "areaLabel": "Brands",
+   "file": "test-scenarios/api/brands/put-brands-by-brand-id.yml",
+   "fileLabel": "PUT /brands/{brandId}",
+   "suite": "Brands API",
+   "tags": [
+    "@brands-api"
+   ],
+   "yaml": "- id: API-0133\n  name: Update brand with a name longer than 120 characters returns 422\n  status: manual\n  role: admin\n  steps:\n    - Send POST /brands with a unique brand name and a unique slug, with the admin's token, and take the new brand's id.\n    - Send PUT /brands/{brandId} with that id and a body with only a 121-character name that starts with a unique brand name, with the admin's token.\n    - Verify the response status is 422.\n    - Verify the body has a name key with at least one message."
+  },
+  {
+   "id": "API-0134",
+   "name": "Update brand with a slug outside letters, digits, dashes and underscores returns 422",
+   "status": "manual",
+   "role": "admin",
+   "steps": [
+    "Send POST /brands with a unique brand name and a unique slug, with the admin's token, and take the new brand's id.",
+    "Send PUT /brands/{brandId} with that id and a body with only a slug made of a unique slug followed by \" x!\" (a space and an exclamation mark), with the admin's token.",
+    "Verify the response status is 422.",
+    "Verify the body has a slug key with at least one message."
+   ],
+   "ref": [],
+   "area": "brands",
+   "areaLabel": "Brands",
+   "file": "test-scenarios/api/brands/put-brands-by-brand-id.yml",
+   "fileLabel": "PUT /brands/{brandId}",
+   "suite": "Brands API",
+   "tags": [
+    "@brands-api"
+   ],
+   "yaml": "- id: API-0134\n  name: Update brand with a slug outside letters, digits, dashes and underscores returns 422\n  status: manual\n  role: admin\n  steps:\n    - Send POST /brands with a unique brand name and a unique slug, with the admin's token, and take the new brand's id.\n    - Send PUT /brands/{brandId} with that id and a body with only a slug made of a unique slug followed by \" x!\" (a space and an exclamation mark), with the admin's token.\n    - Verify the response status is 422.\n    - Verify the body has a slug key with at least one message."
+  },
+  {
+   "id": "API-0135",
+   "name": "Update brand with a name that isn't a string returns 422",
+   "status": "manual",
+   "role": "admin",
+   "steps": [
+    "Send POST /brands with a unique brand name and a unique slug, with the admin's token, and take the new brand's id.",
+    "Send PUT /brands/{brandId} with that id and a body with only name set to the number 123, with the admin's token.",
+    "Verify the response status is 422.",
+    "Verify the body has a name key with at least one message."
+   ],
+   "ref": [],
+   "area": "brands",
+   "areaLabel": "Brands",
+   "file": "test-scenarios/api/brands/put-brands-by-brand-id.yml",
+   "fileLabel": "PUT /brands/{brandId}",
+   "suite": "Brands API",
+   "tags": [
+    "@brands-api"
+   ],
+   "yaml": "- id: API-0135\n  name: Update brand with a name that isn't a string returns 422\n  status: manual\n  role: admin\n  steps:\n    - Send POST /brands with a unique brand name and a unique slug, with the admin's token, and take the new brand's id.\n    - Send PUT /brands/{brandId} with that id and a body with only name set to the number 123, with the admin's token.\n    - Verify the response status is 422.\n    - Verify the body has a name key with at least one message."
+  },
+  {
+   "id": "API-0136",
+   "name": "Update brand with an unknown id returns 404",
+   "status": "manual",
+   "steps": [
+    "Send PUT /brands/{brandId} with a well-formed ULID that no brand has and a body with only a unique brand name.",
+    "Verify the response status is 404.",
+    "Verify the body's message is \"Requested item not found\"."
+   ],
+   "ref": [],
+   "area": "brands",
+   "areaLabel": "Brands",
+   "file": "test-scenarios/api/brands/put-brands-by-brand-id.yml",
+   "fileLabel": "PUT /brands/{brandId}",
+   "suite": "Brands API",
+   "tags": [
+    "@brands-api"
+   ],
+   "yaml": "- id: API-0136\n  name: Update brand with an unknown id returns 404\n  status: manual\n  steps:\n    - Send PUT /brands/{brandId} with a well-formed ULID that no brand has and a body with only a unique brand name.\n    - Verify the response status is 404.\n    - Verify the body's message is \"Requested item not found\"."
+  },
+  {
+   "id": "API-0137",
+   "name": "Update brand with an unknown id and an invalid body returns 422",
+   "status": "manual",
+   "steps": [
+    "Send PUT /brands/{brandId} with a well-formed ULID that no brand has and a body with only a 121-character name that starts with a unique brand name.",
+    "Verify the response status is 422.",
+    "Verify the body has a name key with at least one message."
+   ],
+   "ref": [],
+   "area": "brands",
+   "areaLabel": "Brands",
+   "file": "test-scenarios/api/brands/put-brands-by-brand-id.yml",
+   "fileLabel": "PUT /brands/{brandId}",
+   "suite": "Brands API",
+   "tags": [
+    "@brands-api"
+   ],
+   "yaml": "- id: API-0137\n  name: Update brand with an unknown id and an invalid body returns 422\n  status: manual\n  steps:\n    - Send PUT /brands/{brandId} with a well-formed ULID that no brand has and a body with only a 121-character name that starts with a unique brand name.\n    - Verify the response status is 422.\n    - Verify the body has a name key with at least one message."
+  },
+  {
+   "id": "API-0138",
+   "name": "Update brand with another brand's slug returns 409",
+   "status": "manual",
+   "role": "admin",
+   "steps": [
+    "Send POST /brands with a unique brand name and a unique slug, with the admin's token, and take the new brand's id and slug.",
+    "Send GET /brands and take the slug of a brand other than the new one.",
+    "Send PUT /brands/{brandId} with the new brand's id and a body with only that other slug, with the admin's token.",
+    "Verify the response status is 409.",
+    "Verify GET /brands/{brandId} with the new brand's id still returns its own slug."
+   ],
+   "ref": [],
+   "area": "brands",
+   "areaLabel": "Brands",
+   "file": "test-scenarios/api/brands/put-brands-by-brand-id.yml",
+   "fileLabel": "PUT /brands/{brandId}",
+   "suite": "Brands API",
+   "tags": [
+    "@brands-api"
+   ],
+   "yaml": "- id: API-0138\n  name: Update brand with another brand's slug returns 409\n  status: manual\n  role: admin\n  steps:\n    - Send POST /brands with a unique brand name and a unique slug, with the admin's token, and take the new brand's id and slug.\n    - Send GET /brands and take the slug of a brand other than the new one.\n    - Send PUT /brands/{brandId} with the new brand's id and a body with only that other slug, with the admin's token.\n    - Verify the response status is 409.\n    - Verify GET /brands/{brandId} with the new brand's id still returns its own slug."
+  },
+  {
+   "id": "API-0139",
+   "name": "Update brand with another brand's slug names the slug in the error",
+   "status": "manual",
+   "role": "admin",
+   "knownIssue": "Returns { message: \"Duplicate Entry\" } instead of the slug's validation message for a duplicate slug.",
+   "bug": "BUG-012",
+   "steps": [
+    "Send POST /brands with a unique brand name and a unique slug, with the admin's token, and take the new brand's id.",
+    "Send GET /brands and take the slug of a brand other than the new one.",
+    "Send PUT /brands/{brandId} with the new brand's id and a body with only that other slug, with the admin's token.",
+    "Verify the body's slug messages include \"A brand already exists with this slug.\"."
+   ],
+   "ref": [],
+   "area": "brands",
+   "areaLabel": "Brands",
+   "file": "test-scenarios/api/brands/put-brands-by-brand-id.yml",
+   "fileLabel": "PUT /brands/{brandId}",
+   "suite": "Brands API",
+   "tags": [
+    "@brands-api"
+   ],
+   "yaml": "- id: API-0139\n  name: Update brand with another brand's slug names the slug in the error\n  status: manual\n  role: admin\n  knownIssue: 'Returns { message: \"Duplicate Entry\" } instead of the slug''s validation message for a duplicate slug.'\n  bug: BUG-012\n  steps:\n    - Send POST /brands with a unique brand name and a unique slug, with the admin's token, and take the new brand's id.\n    - Send GET /brands and take the slug of a brand other than the new one.\n    - Send PUT /brands/{brandId} with the new brand's id and a body with only that other slug, with the admin's token.\n    - Verify the body's slug messages include \"A brand already exists with this slug.\"."
+  },
+  {
+   "id": "API-0140",
+   "name": "Update brand without a token returns 401",
+   "status": "manual",
+   "role": "admin",
+   "knownIssue": "Accepts PUT without a token instead of returning 401.",
+   "bug": "BUG-009",
+   "steps": [
+    "Send POST /brands with a unique brand name and a unique slug, with the admin's token, and take the new brand's id.",
+    "Send PUT /brands/{brandId} with that id and a body with only a new unique brand name, without an Authorization header.",
+    "Verify the response status is 401."
+   ],
+   "ref": [],
+   "area": "brands",
+   "areaLabel": "Brands",
+   "file": "test-scenarios/api/brands/put-brands-by-brand-id.yml",
+   "fileLabel": "PUT /brands/{brandId}",
+   "suite": "Brands API",
+   "tags": [
+    "@brands-api"
+   ],
+   "yaml": "- id: API-0140\n  name: Update brand without a token returns 401\n  status: manual\n  role: admin\n  knownIssue: Accepts PUT without a token instead of returning 401.\n  bug: BUG-009\n  steps:\n    - Send POST /brands with a unique brand name and a unique slug, with the admin's token, and take the new brand's id.\n    - Send PUT /brands/{brandId} with that id and a body with only a new unique brand name, without an Authorization header.\n    - Verify the response status is 401."
+  },
+  {
+   "id": "API-0141",
+   "name": "Partially update brand name returns success and keeps the slug",
+   "status": "manual",
+   "role": "admin",
+   "steps": [
+    "Send POST /brands with a unique brand name and a unique slug, with the admin's token, and take the new brand's id and slug.",
+    "Send PATCH /brands/{brandId} with that id and a body with only a new unique brand name, with the admin's token.",
+    "Verify the response status is 200.",
+    "Verify the body's success is true.",
+    "Verify GET /brands/{brandId} with that id returns the new name and the original slug."
+   ],
+   "ref": [],
+   "area": "brands",
+   "areaLabel": "Brands",
+   "file": "test-scenarios/api/brands/patch-brands-by-brand-id.yml",
+   "fileLabel": "PATCH /brands/{brandId}",
+   "suite": "Brands API",
+   "tags": [
+    "@brands-api"
+   ],
+   "yaml": "- id: API-0141\n  name: Partially update brand name returns success and keeps the slug\n  status: manual\n  role: admin\n  steps:\n    - Send POST /brands with a unique brand name and a unique slug, with the admin's token, and take the new brand's id and slug.\n    - Send PATCH /brands/{brandId} with that id and a body with only a new unique brand name, with the admin's token.\n    - Verify the response status is 200.\n    - Verify the body's success is true.\n    - Verify GET /brands/{brandId} with that id returns the new name and the original slug."
+  },
+  {
+   "id": "API-0142",
+   "name": "Partially update brand with a slug outside letters, digits, dashes and underscores returns 422",
+   "status": "manual",
+   "role": "admin",
+   "steps": [
+    "Send POST /brands with a unique brand name and a unique slug, with the admin's token, and take the new brand's id.",
+    "Send PATCH /brands/{brandId} with that id and a body with only a slug made of a unique slug followed by \" x!\" (a space and an exclamation mark), with the admin's token.",
+    "Verify the response status is 422.",
+    "Verify the body has a slug key with at least one message."
+   ],
+   "ref": [],
+   "area": "brands",
+   "areaLabel": "Brands",
+   "file": "test-scenarios/api/brands/patch-brands-by-brand-id.yml",
+   "fileLabel": "PATCH /brands/{brandId}",
+   "suite": "Brands API",
+   "tags": [
+    "@brands-api"
+   ],
+   "yaml": "- id: API-0142\n  name: Partially update brand with a slug outside letters, digits, dashes and underscores returns 422\n  status: manual\n  role: admin\n  steps:\n    - Send POST /brands with a unique brand name and a unique slug, with the admin's token, and take the new brand's id.\n    - Send PATCH /brands/{brandId} with that id and a body with only a slug made of a unique slug followed by \" x!\" (a space and an exclamation mark), with the admin's token.\n    - Verify the response status is 422.\n    - Verify the body has a slug key with at least one message."
+  },
+  {
+   "id": "API-0143",
+   "name": "Partially update brand with a name longer than 120 characters returns 422",
+   "status": "manual",
+   "role": "admin",
+   "steps": [
+    "Send POST /brands with a unique brand name and a unique slug, with the admin's token, and take the new brand's id.",
+    "Send PATCH /brands/{brandId} with that id and a body with only a 121-character name that starts with a unique brand name, with the admin's token.",
+    "Verify the response status is 422.",
+    "Verify the body has a name key with at least one message."
+   ],
+   "ref": [],
+   "area": "brands",
+   "areaLabel": "Brands",
+   "file": "test-scenarios/api/brands/patch-brands-by-brand-id.yml",
+   "fileLabel": "PATCH /brands/{brandId}",
+   "suite": "Brands API",
+   "tags": [
+    "@brands-api"
+   ],
+   "yaml": "- id: API-0143\n  name: Partially update brand with a name longer than 120 characters returns 422\n  status: manual\n  role: admin\n  steps:\n    - Send POST /brands with a unique brand name and a unique slug, with the admin's token, and take the new brand's id.\n    - Send PATCH /brands/{brandId} with that id and a body with only a 121-character name that starts with a unique brand name, with the admin's token.\n    - Verify the response status is 422.\n    - Verify the body has a name key with at least one message."
+  },
+  {
+   "id": "API-0144",
+   "name": "Partially update brand with an unknown id returns 404",
+   "status": "manual",
+   "steps": [
+    "Send PATCH /brands/{brandId} with a well-formed ULID that no brand has and a body with only a unique brand name.",
+    "Verify the response status is 404.",
+    "Verify the body's message is \"Requested item not found\"."
+   ],
+   "ref": [],
+   "area": "brands",
+   "areaLabel": "Brands",
+   "file": "test-scenarios/api/brands/patch-brands-by-brand-id.yml",
+   "fileLabel": "PATCH /brands/{brandId}",
+   "suite": "Brands API",
+   "tags": [
+    "@brands-api"
+   ],
+   "yaml": "- id: API-0144\n  name: Partially update brand with an unknown id returns 404\n  status: manual\n  steps:\n    - Send PATCH /brands/{brandId} with a well-formed ULID that no brand has and a body with only a unique brand name.\n    - Verify the response status is 404.\n    - Verify the body's message is \"Requested item not found\"."
+  },
+  {
+   "id": "API-0145",
+   "name": "Partially update brand with another brand's slug returns 409",
+   "status": "manual",
+   "role": "admin",
+   "steps": [
+    "Send POST /brands with a unique brand name and a unique slug, with the admin's token, and take the new brand's id.",
+    "Send GET /brands and take the slug of a brand other than the new one.",
+    "Send PATCH /brands/{brandId} with the new brand's id and a body with only that other slug, with the admin's token.",
+    "Verify the response status is 409.",
+    "Verify the body has a slug key with at least one message.",
+    "Verify GET /brands/{brandId} with the new brand's id still returns its own slug."
+   ],
+   "ref": [],
+   "area": "brands",
+   "areaLabel": "Brands",
+   "file": "test-scenarios/api/brands/patch-brands-by-brand-id.yml",
+   "fileLabel": "PATCH /brands/{brandId}",
+   "suite": "Brands API",
+   "tags": [
+    "@brands-api"
+   ],
+   "yaml": "- id: API-0145\n  name: Partially update brand with another brand's slug returns 409\n  status: manual\n  role: admin\n  steps:\n    - Send POST /brands with a unique brand name and a unique slug, with the admin's token, and take the new brand's id.\n    - Send GET /brands and take the slug of a brand other than the new one.\n    - Send PATCH /brands/{brandId} with the new brand's id and a body with only that other slug, with the admin's token.\n    - Verify the response status is 409.\n    - Verify the body has a slug key with at least one message.\n    - Verify GET /brands/{brandId} with the new brand's id still returns its own slug."
+  },
+  {
+   "id": "API-0146",
+   "name": "Partially update brand with its own slug returns success",
+   "status": "manual",
+   "role": "admin",
+   "knownIssue": "Returns 409 instead of 200 when the body repeats the brand's own slug.",
+   "bug": "BUG-010",
+   "steps": [
+    "Send POST /brands with a unique brand name and a unique slug, with the admin's token, and take the new brand's id and slug.",
+    "Send PATCH /brands/{brandId} with that id and a body with a new unique brand name and the brand's own slug, with the admin's token.",
+    "Verify the response status is 200.",
+    "Verify GET /brands/{brandId} with that id returns the new name."
+   ],
+   "ref": [],
+   "area": "brands",
+   "areaLabel": "Brands",
+   "file": "test-scenarios/api/brands/patch-brands-by-brand-id.yml",
+   "fileLabel": "PATCH /brands/{brandId}",
+   "suite": "Brands API",
+   "tags": [
+    "@brands-api"
+   ],
+   "yaml": "- id: API-0146\n  name: Partially update brand with its own slug returns success\n  status: manual\n  role: admin\n  knownIssue: Returns 409 instead of 200 when the body repeats the brand's own slug.\n  bug: BUG-010\n  steps:\n    - Send POST /brands with a unique brand name and a unique slug, with the admin's token, and take the new brand's id and slug.\n    - Send PATCH /brands/{brandId} with that id and a body with a new unique brand name and the brand's own slug, with the admin's token.\n    - Verify the response status is 200.\n    - Verify GET /brands/{brandId} with that id returns the new name."
+  },
+  {
+   "id": "API-0147",
+   "name": "Partially update brand without a token returns 401",
+   "status": "manual",
+   "role": "admin",
+   "knownIssue": "Accepts PATCH without a token instead of returning 401.",
+   "bug": "BUG-009",
+   "steps": [
+    "Send POST /brands with a unique brand name and a unique slug, with the admin's token, and take the new brand's id.",
+    "Send PATCH /brands/{brandId} with that id and a body with only a new unique brand name, without an Authorization header.",
+    "Verify the response status is 401."
+   ],
+   "ref": [],
+   "area": "brands",
+   "areaLabel": "Brands",
+   "file": "test-scenarios/api/brands/patch-brands-by-brand-id.yml",
+   "fileLabel": "PATCH /brands/{brandId}",
+   "suite": "Brands API",
+   "tags": [
+    "@brands-api"
+   ],
+   "yaml": "- id: API-0147\n  name: Partially update brand without a token returns 401\n  status: manual\n  role: admin\n  knownIssue: Accepts PATCH without a token instead of returning 401.\n  bug: BUG-009\n  steps:\n    - Send POST /brands with a unique brand name and a unique slug, with the admin's token, and take the new brand's id.\n    - Send PATCH /brands/{brandId} with that id and a body with only a new unique brand name, without an Authorization header.\n    - Verify the response status is 401."
+  },
+  {
+   "id": "API-0148",
+   "name": "Admin deletes a brand",
+   "status": "manual",
+   "role": "admin",
+   "steps": [
+    "Send POST /brands with a unique brand name and a unique slug, with the admin's token, and take the new brand's id.",
+    "Send DELETE /brands/{brandId} with that id, with the admin's token.",
+    "Verify the response status is 204.",
+    "Verify GET /brands/{brandId} with that id returns 404."
+   ],
+   "ref": [],
+   "area": "brands",
+   "areaLabel": "Brands",
+   "file": "test-scenarios/api/brands/delete-brands-by-brand-id.yml",
+   "fileLabel": "DELETE /brands/{brandId}",
+   "suite": "Brands API",
+   "tags": [
+    "@brands-api"
+   ],
+   "yaml": "- id: API-0148\n  name: Admin deletes a brand\n  status: manual\n  role: admin\n  steps:\n    - Send POST /brands with a unique brand name and a unique slug, with the admin's token, and take the new brand's id.\n    - Send DELETE /brands/{brandId} with that id, with the admin's token.\n    - Verify the response status is 204.\n    - Verify GET /brands/{brandId} with that id returns 404."
+  },
+  {
+   "id": "API-0149",
+   "name": "Delete brand without a token returns 401",
+   "status": "manual",
+   "role": "admin",
+   "steps": [
+    "Send POST /brands with a unique brand name and a unique slug, with the admin's token, and take the new brand's id.",
+    "Send DELETE /brands/{brandId} with that id, without an Authorization header.",
+    "Verify the response status is 401.",
+    "Verify the body's message is \"Unauthorized\"."
+   ],
+   "ref": [],
+   "area": "brands",
+   "areaLabel": "Brands",
+   "file": "test-scenarios/api/brands/delete-brands-by-brand-id.yml",
+   "fileLabel": "DELETE /brands/{brandId}",
+   "suite": "Brands API",
+   "tags": [
+    "@brands-api"
+   ],
+   "yaml": "- id: API-0149\n  name: Delete brand without a token returns 401\n  status: manual\n  role: admin\n  steps:\n    - Send POST /brands with a unique brand name and a unique slug, with the admin's token, and take the new brand's id.\n    - Send DELETE /brands/{brandId} with that id, without an Authorization header.\n    - Verify the response status is 401.\n    - Verify the body's message is \"Unauthorized\"."
+  },
+  {
+   "id": "API-0150",
+   "name": "Delete brand with an invalid token returns 401",
+   "status": "manual",
+   "role": "admin",
+   "steps": [
+    "Send POST /brands with a unique brand name and a unique slug, with the admin's token, and take the new brand's id.",
+    "Send DELETE /brands/{brandId} with that id, with an invalid token.",
+    "Verify the response status is 401.",
+    "Verify the body's message is \"Unauthorized\"."
+   ],
+   "ref": [],
+   "area": "brands",
+   "areaLabel": "Brands",
+   "file": "test-scenarios/api/brands/delete-brands-by-brand-id.yml",
+   "fileLabel": "DELETE /brands/{brandId}",
+   "suite": "Brands API",
+   "tags": [
+    "@brands-api"
+   ],
+   "yaml": "- id: API-0150\n  name: Delete brand with an invalid token returns 401\n  status: manual\n  role: admin\n  steps:\n    - Send POST /brands with a unique brand name and a unique slug, with the admin's token, and take the new brand's id.\n    - Send DELETE /brands/{brandId} with that id, with an invalid token.\n    - Verify the response status is 401.\n    - Verify the body's message is \"Unauthorized\"."
+  },
+  {
+   "id": "API-0151",
+   "name": "Delete brand as a non-admin user returns 403",
+   "status": "manual",
+   "steps": [
+    "Send POST /brands with a unique brand name and a unique slug, with the admin's token, and take the new brand's id.",
+    "Send DELETE /brands/{brandId} with that id, with the default user's token.",
+    "Verify the response status is 403.",
+    "Verify the body's message is \"Forbidden\"."
+   ],
+   "ref": [],
+   "area": "brands",
+   "areaLabel": "Brands",
+   "file": "test-scenarios/api/brands/delete-brands-by-brand-id.yml",
+   "fileLabel": "DELETE /brands/{brandId}",
+   "suite": "Brands API",
+   "tags": [
+    "@brands-api"
+   ],
+   "yaml": "- id: API-0151\n  name: Delete brand as a non-admin user returns 403\n  status: manual\n  steps:\n    - Send POST /brands with a unique brand name and a unique slug, with the admin's token, and take the new brand's id.\n    - Send DELETE /brands/{brandId} with that id, with the default user's token.\n    - Verify the response status is 403.\n    - Verify the body's message is \"Forbidden\"."
+  },
+  {
+   "id": "API-0152",
+   "name": "Delete brand with an unknown id returns 404",
+   "status": "manual",
+   "role": "admin",
+   "steps": [
+    "Send DELETE /brands/{brandId} with a well-formed ULID that no brand has, with the admin's token.",
+    "Verify the response status is 404.",
+    "Verify the body's message is \"Requested item not found\"."
+   ],
+   "ref": [],
+   "area": "brands",
+   "areaLabel": "Brands",
+   "file": "test-scenarios/api/brands/delete-brands-by-brand-id.yml",
+   "fileLabel": "DELETE /brands/{brandId}",
+   "suite": "Brands API",
+   "tags": [
+    "@brands-api"
+   ],
+   "yaml": "- id: API-0152\n  name: Delete brand with an unknown id returns 404\n  status: manual\n  role: admin\n  steps:\n    - Send DELETE /brands/{brandId} with a well-formed ULID that no brand has, with the admin's token.\n    - Verify the response status is 404.\n    - Verify the body's message is \"Requested item not found\"."
+  },
+  {
+   "id": "API-0153",
+   "name": "Delete brand that a product uses returns 409",
+   "status": "manual",
+   "role": "admin",
+   "steps": [
+    "Send POST /brands with a unique brand name and a unique slug, with the admin's token, and take the new brand's id.",
+    "Send GET /products and take the first item's category id and product image id.",
+    "Send POST /products with a unique product name, a positive price, that category id, the new brand's id as brand_id, that product image id, is_location_offer false and is_rental false, with the admin's token, and take the new product's id.",
+    "Send DELETE /brands/{brandId} with the new brand's id, with the admin's token.",
+    "Verify the response status is 409.",
+    "Verify the body's success is false and its message is \"Seems like this brand is used elsewhere.\".",
+    "Verify GET /brands/{brandId} with the new brand's id returns 200."
+   ],
+   "ref": [],
+   "area": "brands",
+   "areaLabel": "Brands",
+   "file": "test-scenarios/api/brands/delete-brands-by-brand-id.yml",
+   "fileLabel": "DELETE /brands/{brandId}",
+   "suite": "Brands API",
+   "tags": [
+    "@brands-api"
+   ],
+   "yaml": "- id: API-0153\n  name: Delete brand that a product uses returns 409\n  status: manual\n  role: admin\n  steps:\n    - Send POST /brands with a unique brand name and a unique slug, with the admin's token, and take the new brand's id.\n    - Send GET /products and take the first item's category id and product image id.\n    - Send POST /products with a unique product name, a positive price, that category id, the new brand's id as brand_id, that product image id, is_location_offer false and is_rental false, with the admin's token, and take the new product's id.\n    - Send DELETE /brands/{brandId} with the new brand's id, with the admin's token.\n    - Verify the response status is 409.\n    - Verify the body's success is false and its message is \"Seems like this brand is used elsewhere.\".\n    - Verify GET /brands/{brandId} with the new brand's id returns 200."
+  },
+  {
+   "id": "API-0230",
+   "name": "Create cart with an empty body returns 201 and an empty cart",
+   "status": "manual",
+   "steps": [
+    "Send POST /carts with an empty body.",
+    "Verify the response status is 201.",
+    "Verify the body's id is a non-empty string.",
+    "Verify GET /carts/{cartId} with that id returns 200 with the same id and an empty cart_items."
+   ],
+   "ref": [],
+   "area": "carts",
+   "areaLabel": "Carts",
+   "file": "test-scenarios/api/carts/post-carts.yml",
+   "fileLabel": "POST /carts",
+   "suite": "Carts API",
+   "tags": [
+    "@carts-api"
+   ],
+   "yaml": "- id: API-0230\n  name: Create cart with an empty body returns 201 and an empty cart\n  status: manual\n  steps:\n    - Send POST /carts with an empty body.\n    - Verify the response status is 201.\n    - Verify the body's id is a non-empty string.\n    - Verify GET /carts/{cartId} with that id returns 200 with the same id and an empty cart_items."
+  },
+  {
+   "id": "API-0231",
+   "name": "Create cart with coordinates stores them on the cart",
+   "status": "manual",
+   "steps": [
+    "Send POST /carts with lat 52 and lng 5 and take the returned id as the cart's id.",
+    "Verify the response status is 201.",
+    "Verify GET /carts/{cartId} with the cart's id returns 200 with lat numerically equal to 52 and lng numerically equal to 5."
+   ],
+   "ref": [],
+   "area": "carts",
+   "areaLabel": "Carts",
+   "file": "test-scenarios/api/carts/post-carts.yml",
+   "fileLabel": "POST /carts",
+   "suite": "Carts API",
+   "tags": [
+    "@carts-api"
+   ],
+   "yaml": "- id: API-0231\n  name: Create cart with coordinates stores them on the cart\n  status: manual\n  steps:\n    - Send POST /carts with lat 52 and lng 5 and take the returned id as the cart's id.\n    - Verify the response status is 201.\n    - Verify GET /carts/{cartId} with the cart's id returns 200 with lat numerically equal to 52 and lng numerically equal to 5."
+  },
+  {
+   "id": "API-0247",
+   "name": "Get cart returns 200 with its items and their products",
+   "status": "manual",
+   "steps": [
+    "Send GET /products and take the first item's brand id, category id and product image id.",
+    "Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental false and stock 10, and take the new product's id.",
+    "Send POST /carts with an empty body and take the returned id as the cart's id.",
+    "Send POST /carts/{cartId} with the cart's id and a body with the new product's id as product_id and quantity 2.",
+    "Send GET /carts/{cartId} with the cart's id, without an Authorization header.",
+    "Verify the response status is 200.",
+    "Verify the Cache-Control header contains no-cache and private.",
+    "Verify the body's id is the cart's id and it has the keys additional_discount_percentage, lat, lng and cart_items.",
+    "Verify cart_items has exactly one item with a non-empty id, quantity 2, the cart's id as cart_id and the new product's id as product_id.",
+    "Verify the item's discount_percentage is null and it has no discounted_price.",
+    "Verify the item's product has the keys id, name, description, price, is_location_offer, is_rental, co2_rating, in_stock and is_eco_friendly, with the new product's name as name.",
+    "Verify the item's product in_stock is a boolean.",
+    "Verify the item's product has no product_image, category or brand key."
+   ],
+   "ref": [],
+   "area": "carts",
+   "areaLabel": "Carts",
+   "file": "test-scenarios/api/carts/get-carts-by-cart-id.yml",
+   "fileLabel": "GET /carts/{cartId}",
+   "suite": "Carts API",
+   "tags": [
+    "@carts-api"
+   ],
+   "yaml": "- id: API-0247\n  name: Get cart returns 200 with its items and their products\n  status: manual\n  steps:\n    - Send GET /products and take the first item's brand id, category id and product image id.\n    - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental false and stock 10, and take the new product's id.\n    - Send POST /carts with an empty body and take the returned id as the cart's id.\n    - Send POST /carts/{cartId} with the cart's id and a body with the new product's id as product_id and quantity 2.\n    - Send GET /carts/{cartId} with the cart's id, without an Authorization header.\n    - Verify the response status is 200.\n    - Verify the Cache-Control header contains no-cache and private.\n    - Verify the body's id is the cart's id and it has the keys additional_discount_percentage, lat, lng and cart_items.\n    - Verify cart_items has exactly one item with a non-empty id, quantity 2, the cart's id as cart_id and the new product's id as product_id.\n    - Verify the item's discount_percentage is null and it has no discounted_price.\n    - Verify the item's product has the keys id, name, description, price, is_location_offer, is_rental, co2_rating, in_stock and is_eco_friendly, with the new product's name as name.\n    - Verify the item's product in_stock is a boolean.\n    - Verify the item's product has no product_image, category or brand key."
+  },
+  {
+   "id": "API-0248",
+   "name": "Get cart with an admin token returns each product's in_stock as the stock count",
+   "status": "manual",
+   "role": "admin",
+   "steps": [
+    "Send GET /products and take the first item's brand id, category id and product image id.",
+    "Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental false and stock 10, and take the new product's id.",
+    "Send POST /carts with an empty body and take the returned id as the cart's id.",
+    "Send POST /carts/{cartId} with the cart's id and a body with the new product's id as product_id and quantity 1.",
+    "Send GET /carts/{cartId} with the cart's id, with the admin's token.",
+    "Verify the response status is 200.",
+    "Verify the only item's product in_stock is the number 10."
+   ],
+   "ref": [],
+   "area": "carts",
+   "areaLabel": "Carts",
+   "file": "test-scenarios/api/carts/get-carts-by-cart-id.yml",
+   "fileLabel": "GET /carts/{cartId}",
+   "suite": "Carts API",
+   "tags": [
+    "@carts-api"
+   ],
+   "yaml": "- id: API-0248\n  name: Get cart with an admin token returns each product's in_stock as the stock count\n  status: manual\n  role: admin\n  steps:\n    - Send GET /products and take the first item's brand id, category id and product image id.\n    - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental false and stock 10, and take the new product's id.\n    - Send POST /carts with an empty body and take the returned id as the cart's id.\n    - Send POST /carts/{cartId} with the cart's id and a body with the new product's id as product_id and quantity 1.\n    - Send GET /carts/{cartId} with the cart's id, with the admin's token.\n    - Verify the response status is 200.\n    - Verify the only item's product in_stock is the number 10."
+  },
+  {
+   "id": "API-0249",
+   "name": "Get cart with an unknown cart id returns 404",
+   "status": "manual",
+   "steps": [
+    "Send GET /carts/{cartId} with a well-formed cart id that doesn't exist.",
+    "Verify the response status is 404.",
+    "Verify the body's message is \"Requested item not found\"."
+   ],
+   "ref": [],
+   "area": "carts",
+   "areaLabel": "Carts",
+   "file": "test-scenarios/api/carts/get-carts-by-cart-id.yml",
+   "fileLabel": "GET /carts/{cartId}",
+   "suite": "Carts API",
+   "tags": [
+    "@carts-api"
+   ],
+   "yaml": "- id: API-0249\n  name: Get cart with an unknown cart id returns 404\n  status: manual\n  steps:\n    - Send GET /carts/{cartId} with a well-formed cart id that doesn't exist.\n    - Verify the response status is 404.\n    - Verify the body's message is \"Requested item not found\"."
+  },
+  {
+   "id": "API-0250",
+   "name": "Get cart with a malformed cart id returns 404",
+   "status": "manual",
+   "steps": [
+    "Send GET /carts/{cartId} with abc as the cart id.",
+    "Verify the response status is 404.",
+    "Verify the body's message is \"Requested item not found\"."
+   ],
+   "ref": [],
+   "area": "carts",
+   "areaLabel": "Carts",
+   "file": "test-scenarios/api/carts/get-carts-by-cart-id.yml",
+   "fileLabel": "GET /carts/{cartId}",
+   "suite": "Carts API",
+   "tags": [
+    "@carts-api"
+   ],
+   "yaml": "- id: API-0250\n  name: Get cart with a malformed cart id returns 404\n  status: manual\n  steps:\n    - Send GET /carts/{cartId} with abc as the cart id.\n    - Verify the response status is 404.\n    - Verify the body's message is \"Requested item not found\"."
+  },
+  {
    "id": "API-0114",
    "name": "Add a product with quantity 1 to a cart returns 200 and the cart holds it",
    "ref": [
@@ -471,6 +2064,2675 @@ window.SCENARIO_CATALOG = {
     "@carts-api"
    ],
    "yaml": "- id: API-0118\n  name: Add a product with quantity 999,999,999 to a cart returns 200 and the cart holds it\n  ref: docs/ui/user-stories/Product_Detail.md#AC7\n  status: automated\n  automatedIn: tests/api/carts/post-carts-by-cart-id.spec.ts\n  knownIssue: Returns 422 for a quantity of 999,999,999 (the server allows at most 99) instead of adding it to the cart as the story's range 1 to 999,999,999 requires.\n  bug: BUG-008\n  steps:\n    - Send GET /products and take the first item's brand id, category id and product image id.\n    - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental false and stock 10, and take the new product's id.\n    - Send POST /carts with an empty body and take the returned id as the cart's id.\n    - Send POST /carts/{cartId} with the cart's id and a body with the new product's id as product_id and quantity 999999999.\n    - Verify the response status is 200.\n    - Verify GET /carts/{cartId} with the cart's id returns 200 and its cart_items has exactly one item, with the new product's id as product_id and quantity 999999999."
+  },
+  {
+   "id": "API-0232",
+   "name": "Add a product that is already in the cart increases its quantity",
+   "status": "manual",
+   "steps": [
+    "Send GET /products and take the first item's brand id, category id and product image id.",
+    "Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental false and stock 10, and take the new product's id.",
+    "Send POST /carts with an empty body and take the returned id as the cart's id.",
+    "Send POST /carts/{cartId} with the cart's id and a body with the new product's id as product_id and quantity 1.",
+    "Send POST /carts/{cartId} with the cart's id and a body with the new product's id as product_id and quantity 2.",
+    "Verify the response status is 200.",
+    "Verify GET /carts/{cartId} with the cart's id returns 200 and its cart_items has exactly one item, with the new product's id as product_id and quantity 3."
+   ],
+   "ref": [],
+   "area": "carts",
+   "areaLabel": "Carts",
+   "file": "test-scenarios/api/carts/post-carts-by-cart-id.yml",
+   "fileLabel": "POST /carts/{cartId}",
+   "suite": "Carts API",
+   "tags": [
+    "@carts-api"
+   ],
+   "yaml": "- id: API-0232\n  name: Add a product that is already in the cart increases its quantity\n  status: manual\n  steps:\n    - Send GET /products and take the first item's brand id, category id and product image id.\n    - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental false and stock 10, and take the new product's id.\n    - Send POST /carts with an empty body and take the returned id as the cart's id.\n    - Send POST /carts/{cartId} with the cart's id and a body with the new product's id as product_id and quantity 1.\n    - Send POST /carts/{cartId} with the cart's id and a body with the new product's id as product_id and quantity 2.\n    - Verify the response status is 200.\n    - Verify GET /carts/{cartId} with the cart's id returns 200 and its cart_items has exactly one item, with the new product's id as product_id and quantity 3."
+  },
+  {
+   "id": "API-0233",
+   "name": "Add a product with quantity 99 to a cart returns 200 and the cart holds it",
+   "status": "manual",
+   "steps": [
+    "Send GET /products and take the first item's brand id, category id and product image id.",
+    "Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental false and stock 10, and take the new product's id.",
+    "Send POST /carts with an empty body and take the returned id as the cart's id.",
+    "Send POST /carts/{cartId} with the cart's id and a body with the new product's id as product_id and quantity 99.",
+    "Verify the response status is 200.",
+    "Verify GET /carts/{cartId} with the cart's id returns 200 and its cart_items has exactly one item, with the new product's id as product_id and quantity 99."
+   ],
+   "ref": [],
+   "area": "carts",
+   "areaLabel": "Carts",
+   "file": "test-scenarios/api/carts/post-carts-by-cart-id.yml",
+   "fileLabel": "POST /carts/{cartId}",
+   "suite": "Carts API",
+   "tags": [
+    "@carts-api"
+   ],
+   "yaml": "- id: API-0233\n  name: Add a product with quantity 99 to a cart returns 200 and the cart holds it\n  status: manual\n  steps:\n    - Send GET /products and take the first item's brand id, category id and product image id.\n    - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental false and stock 10, and take the new product's id.\n    - Send POST /carts with an empty body and take the returned id as the cart's id.\n    - Send POST /carts/{cartId} with the cart's id and a body with the new product's id as product_id and quantity 99.\n    - Verify the response status is 200.\n    - Verify GET /carts/{cartId} with the cart's id returns 200 and its cart_items has exactly one item, with the new product's id as product_id and quantity 99."
+  },
+  {
+   "id": "API-0234",
+   "name": "Add a product with quantity 99 twice gives a cart line with quantity 198",
+   "status": "manual",
+   "steps": [
+    "Send GET /products and take the first item's brand id, category id and product image id.",
+    "Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental false and stock 10, and take the new product's id.",
+    "Send POST /carts with an empty body and take the returned id as the cart's id.",
+    "Send POST /carts/{cartId} with the cart's id and a body with the new product's id as product_id and quantity 99.",
+    "Send POST /carts/{cartId} with the same cart id and body again.",
+    "Verify the response status is 200.",
+    "Verify GET /carts/{cartId} with the cart's id returns 200 and its cart_items has exactly one item, with the new product's id as product_id and quantity 198."
+   ],
+   "ref": [],
+   "area": "carts",
+   "areaLabel": "Carts",
+   "file": "test-scenarios/api/carts/post-carts-by-cart-id.yml",
+   "fileLabel": "POST /carts/{cartId}",
+   "suite": "Carts API",
+   "tags": [
+    "@carts-api"
+   ],
+   "yaml": "- id: API-0234\n  name: Add a product with quantity 99 twice gives a cart line with quantity 198\n  status: manual\n  steps:\n    - Send GET /products and take the first item's brand id, category id and product image id.\n    - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental false and stock 10, and take the new product's id.\n    - Send POST /carts with an empty body and take the returned id as the cart's id.\n    - Send POST /carts/{cartId} with the cart's id and a body with the new product's id as product_id and quantity 99.\n    - Send POST /carts/{cartId} with the same cart id and body again.\n    - Verify the response status is 200.\n    - Verify GET /carts/{cartId} with the cart's id returns 200 and its cart_items has exactly one item, with the new product's id as product_id and quantity 198."
+  },
+  {
+   "id": "API-0235",
+   "name": "Add an out-of-stock product to a cart returns 200 and the cart holds it",
+   "status": "manual",
+   "steps": [
+    "Send GET /products and take the first item's brand id, category id and product image id.",
+    "Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental false and stock 0, and take the new product's id.",
+    "Send POST /carts with an empty body and take the returned id as the cart's id.",
+    "Send POST /carts/{cartId} with the cart's id and a body with the new product's id as product_id and quantity 1.",
+    "Verify the response status is 200.",
+    "Verify GET /carts/{cartId} with the cart's id returns 200 and its cart_items has exactly one item, with the new product's id as product_id and quantity 1."
+   ],
+   "ref": [],
+   "area": "carts",
+   "areaLabel": "Carts",
+   "file": "test-scenarios/api/carts/post-carts-by-cart-id.yml",
+   "fileLabel": "POST /carts/{cartId}",
+   "suite": "Carts API",
+   "tags": [
+    "@carts-api"
+   ],
+   "yaml": "- id: API-0235\n  name: Add an out-of-stock product to a cart returns 200 and the cart holds it\n  status: manual\n  steps:\n    - Send GET /products and take the first item's brand id, category id and product image id.\n    - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental false and stock 0, and take the new product's id.\n    - Send POST /carts with an empty body and take the returned id as the cart's id.\n    - Send POST /carts/{cartId} with the cart's id and a body with the new product's id as product_id and quantity 1.\n    - Verify the response status is 200.\n    - Verify GET /carts/{cartId} with the cart's id returns 200 and its cart_items has exactly one item, with the new product's id as product_id and quantity 1."
+  },
+  {
+   "id": "API-0236",
+   "name": "Add a rental and a non-rental product to a cart sets the additional discount to 15",
+   "status": "manual",
+   "steps": [
+    "Send GET /products and take the first item's brand id, category id and product image id.",
+    "Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental false and stock 10, and take the new product's id as the non-rental product's id.",
+    "Send POST /products with a unique product name, a positive price, the same brand, category and product image ids, is_location_offer false, is_rental true and stock 10, and take the new product's id as the rental product's id.",
+    "Send POST /carts with an empty body and take the returned id as the cart's id.",
+    "Send POST /carts/{cartId} with the cart's id and a body with the non-rental product's id as product_id and quantity 1.",
+    "Send POST /carts/{cartId} with the cart's id and a body with the rental product's id as product_id and quantity 1.",
+    "Verify the response status is 200.",
+    "Verify GET /carts/{cartId} with the cart's id returns 200 with additional_discount_percentage 15."
+   ],
+   "ref": [],
+   "area": "carts",
+   "areaLabel": "Carts",
+   "file": "test-scenarios/api/carts/post-carts-by-cart-id.yml",
+   "fileLabel": "POST /carts/{cartId}",
+   "suite": "Carts API",
+   "tags": [
+    "@carts-api"
+   ],
+   "yaml": "- id: API-0236\n  name: Add a rental and a non-rental product to a cart sets the additional discount to 15\n  status: manual\n  steps:\n    - Send GET /products and take the first item's brand id, category id and product image id.\n    - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental false and stock 10, and take the new product's id as the non-rental product's id.\n    - Send POST /products with a unique product name, a positive price, the same brand, category and product image ids, is_location_offer false, is_rental true and stock 10, and take the new product's id as the rental product's id.\n    - Send POST /carts with an empty body and take the returned id as the cart's id.\n    - Send POST /carts/{cartId} with the cart's id and a body with the non-rental product's id as product_id and quantity 1.\n    - Send POST /carts/{cartId} with the cart's id and a body with the rental product's id as product_id and quantity 1.\n    - Verify the response status is 200.\n    - Verify GET /carts/{cartId} with the cart's id returns 200 with additional_discount_percentage 15."
+  },
+  {
+   "id": "API-0237",
+   "name": "Add a location offer to a cart near Amsterdam gives it a 20% discount",
+   "status": "manual",
+   "steps": [
+    "Send GET /products and take the first item's brand id, category id and product image id.",
+    "Send POST /products with a unique product name, a positive price, those ids, is_location_offer true, is_rental false and stock 10, and take the new product's id.",
+    "Send POST /carts with lat 52 and lng 5 and take the returned id as the cart's id.",
+    "Send POST /carts/{cartId} with the cart's id and a body with the new product's id as product_id and quantity 1.",
+    "Verify the response status is 200.",
+    "Verify GET /carts/{cartId} with the cart's id returns 200 and its only item has discount_percentage 20.",
+    "Verify the item's discounted_price equals its product's price × 0.8, rounded to 2 decimals."
+   ],
+   "ref": [],
+   "area": "carts",
+   "areaLabel": "Carts",
+   "file": "test-scenarios/api/carts/post-carts-by-cart-id.yml",
+   "fileLabel": "POST /carts/{cartId}",
+   "suite": "Carts API",
+   "tags": [
+    "@carts-api"
+   ],
+   "yaml": "- id: API-0237\n  name: Add a location offer to a cart near Amsterdam gives it a 20% discount\n  status: manual\n  steps:\n    - Send GET /products and take the first item's brand id, category id and product image id.\n    - Send POST /products with a unique product name, a positive price, those ids, is_location_offer true, is_rental false and stock 10, and take the new product's id.\n    - Send POST /carts with lat 52 and lng 5 and take the returned id as the cart's id.\n    - Send POST /carts/{cartId} with the cart's id and a body with the new product's id as product_id and quantity 1.\n    - Verify the response status is 200.\n    - Verify GET /carts/{cartId} with the cart's id returns 200 and its only item has discount_percentage 20.\n    - Verify the item's discounted_price equals its product's price × 0.8, rounded to 2 decimals."
+  },
+  {
+   "id": "API-0238",
+   "name": "Add a location offer to a cart at real New York coordinates gives it a 5% discount",
+   "ref": [
+    "BUG-025"
+   ],
+   "status": "manual",
+   "knownIssue": "Gives a location offer no discount at real New York coordinates (41, -74) instead of New York's 5% discount.",
+   "bug": "BUG-025",
+   "steps": [
+    "Send GET /products and take the first item's brand id, category id and product image id.",
+    "Send POST /products with a unique product name, a positive price, those ids, is_location_offer true, is_rental false and stock 10, and take the new product's id.",
+    "Send POST /carts with lat 41 and lng -74 and take the returned id as the cart's id.",
+    "Send POST /carts/{cartId} with the cart's id and a body with the new product's id as product_id and quantity 1.",
+    "Verify the response status is 200.",
+    "Verify GET /carts/{cartId} with the cart's id returns 200 and its only item has discount_percentage 5.",
+    "Verify the item's discounted_price equals its product's price × 0.95, rounded to 2 decimals."
+   ],
+   "area": "carts",
+   "areaLabel": "Carts",
+   "file": "test-scenarios/api/carts/post-carts-by-cart-id.yml",
+   "fileLabel": "POST /carts/{cartId}",
+   "suite": "Carts API",
+   "tags": [
+    "@carts-api"
+   ],
+   "yaml": "- id: API-0238\n  name: Add a location offer to a cart at real New York coordinates gives it a 5% discount\n  ref: BUG-025\n  status: manual\n  knownIssue: Gives a location offer no discount at real New York coordinates (41, -74) instead of New York's 5% discount.\n  bug: BUG-025\n  steps:\n    - Send GET /products and take the first item's brand id, category id and product image id.\n    - Send POST /products with a unique product name, a positive price, those ids, is_location_offer true, is_rental false and stock 10, and take the new product's id.\n    - Send POST /carts with lat 41 and lng -74 and take the returned id as the cart's id.\n    - Send POST /carts/{cartId} with the cart's id and a body with the new product's id as product_id and quantity 1.\n    - Verify the response status is 200.\n    - Verify GET /carts/{cartId} with the cart's id returns 200 and its only item has discount_percentage 5.\n    - Verify the item's discounted_price equals its product's price × 0.95, rounded to 2 decimals."
+  },
+  {
+   "id": "API-0239",
+   "name": "Add to cart without the required fields returns 422 for each of them",
+   "status": "manual",
+   "steps": [
+    "Send POST /carts with an empty body and take the returned id as the cart's id.",
+    "Send POST /carts/{cartId} with the cart's id and an empty JSON object as the body.",
+    "Verify the response status is 422.",
+    "Verify the body's errors has the keys product_id and quantity, each with at least one message.",
+    "Verify GET /carts/{cartId} with the cart's id returns 200 and its cart_items is empty."
+   ],
+   "ref": [],
+   "area": "carts",
+   "areaLabel": "Carts",
+   "file": "test-scenarios/api/carts/post-carts-by-cart-id.yml",
+   "fileLabel": "POST /carts/{cartId}",
+   "suite": "Carts API",
+   "tags": [
+    "@carts-api"
+   ],
+   "yaml": "- id: API-0239\n  name: Add to cart without the required fields returns 422 for each of them\n  status: manual\n  steps:\n    - Send POST /carts with an empty body and take the returned id as the cart's id.\n    - Send POST /carts/{cartId} with the cart's id and an empty JSON object as the body.\n    - Verify the response status is 422.\n    - Verify the body's errors has the keys product_id and quantity, each with at least one message.\n    - Verify GET /carts/{cartId} with the cart's id returns 200 and its cart_items is empty."
+  },
+  {
+   "id": "API-0240",
+   "name": "Add to cart with an unknown product id returns 422 and adds nothing",
+   "status": "manual",
+   "steps": [
+    "Send POST /carts with an empty body and take the returned id as the cart's id.",
+    "Send POST /carts/{cartId} with the cart's id and a body with a well-formed product id that doesn't exist as product_id and quantity 1.",
+    "Verify the response status is 422.",
+    "Verify the body's errors has a product_id key with at least one message.",
+    "Verify GET /carts/{cartId} with the cart's id returns 200 and its cart_items is empty."
+   ],
+   "ref": [],
+   "area": "carts",
+   "areaLabel": "Carts",
+   "file": "test-scenarios/api/carts/post-carts-by-cart-id.yml",
+   "fileLabel": "POST /carts/{cartId}",
+   "suite": "Carts API",
+   "tags": [
+    "@carts-api"
+   ],
+   "yaml": "- id: API-0240\n  name: Add to cart with an unknown product id returns 422 and adds nothing\n  status: manual\n  steps:\n    - Send POST /carts with an empty body and take the returned id as the cart's id.\n    - Send POST /carts/{cartId} with the cart's id and a body with a well-formed product id that doesn't exist as product_id and quantity 1.\n    - Verify the response status is 422.\n    - Verify the body's errors has a product_id key with at least one message.\n    - Verify GET /carts/{cartId} with the cart's id returns 200 and its cart_items is empty."
+  },
+  {
+   "id": "API-0241",
+   "name": "Add to cart with a non-integer quantity returns 422 and adds nothing",
+   "status": "manual",
+   "steps": [
+    "Send GET /products and take the first item's brand id, category id and product image id.",
+    "Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental false and stock 10, and take the new product's id.",
+    "Send POST /carts with an empty body and take the returned id as the cart's id.",
+    "Send POST /carts/{cartId} with the cart's id and a body with the new product's id as product_id and quantity 1.5.",
+    "Verify the response status is 422.",
+    "Verify the body's errors has a quantity key with at least one message.",
+    "Verify GET /carts/{cartId} with the cart's id returns 200 and its cart_items is empty."
+   ],
+   "ref": [],
+   "area": "carts",
+   "areaLabel": "Carts",
+   "file": "test-scenarios/api/carts/post-carts-by-cart-id.yml",
+   "fileLabel": "POST /carts/{cartId}",
+   "suite": "Carts API",
+   "tags": [
+    "@carts-api"
+   ],
+   "yaml": "- id: API-0241\n  name: Add to cart with a non-integer quantity returns 422 and adds nothing\n  status: manual\n  steps:\n    - Send GET /products and take the first item's brand id, category id and product image id.\n    - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental false and stock 10, and take the new product's id.\n    - Send POST /carts with an empty body and take the returned id as the cart's id.\n    - Send POST /carts/{cartId} with the cart's id and a body with the new product's id as product_id and quantity 1.5.\n    - Verify the response status is 422.\n    - Verify the body's errors has a quantity key with at least one message.\n    - Verify GET /carts/{cartId} with the cart's id returns 200 and its cart_items is empty."
+  },
+  {
+   "id": "API-0242",
+   "name": "Add to cart with an unknown cart id returns 404",
+   "status": "manual",
+   "steps": [
+    "Send POST /carts/{cartId} with a well-formed cart id that doesn't exist and a body with an existing product's id (taken from GET /products) as product_id and quantity 1.",
+    "Verify the response status is 404.",
+    "Verify the body's message is \"Cart not found\"."
+   ],
+   "ref": [],
+   "area": "carts",
+   "areaLabel": "Carts",
+   "file": "test-scenarios/api/carts/post-carts-by-cart-id.yml",
+   "fileLabel": "POST /carts/{cartId}",
+   "suite": "Carts API",
+   "tags": [
+    "@carts-api"
+   ],
+   "yaml": "- id: API-0242\n  name: Add to cart with an unknown cart id returns 404\n  status: manual\n  steps:\n    - Send POST /carts/{cartId} with a well-formed cart id that doesn't exist and a body with an existing product's id (taken from GET /products) as product_id and quantity 1.\n    - Verify the response status is 404.\n    - Verify the body's message is \"Cart not found\"."
+  },
+  {
+   "id": "API-0243",
+   "name": "Add to cart with an empty body and an unknown cart id returns 422, not 404",
+   "status": "manual",
+   "steps": [
+    "Send POST /carts/{cartId} with a well-formed cart id that doesn't exist and an empty JSON object as the body.",
+    "Verify the response status is 422.",
+    "Verify the body's errors has the keys product_id and quantity."
+   ],
+   "ref": [],
+   "area": "carts",
+   "areaLabel": "Carts",
+   "file": "test-scenarios/api/carts/post-carts-by-cart-id.yml",
+   "fileLabel": "POST /carts/{cartId}",
+   "suite": "Carts API",
+   "tags": [
+    "@carts-api"
+   ],
+   "yaml": "- id: API-0243\n  name: Add to cart with an empty body and an unknown cart id returns 422, not 404\n  status: manual\n  steps:\n    - Send POST /carts/{cartId} with a well-formed cart id that doesn't exist and an empty JSON object as the body.\n    - Verify the response status is 422.\n    - Verify the body's errors has the keys product_id and quantity."
+  },
+  {
+   "id": "API-0244",
+   "name": "Add Thor Hammer with quantity 2 to a cart returns 400 and adds nothing",
+   "status": "manual",
+   "steps": [
+    "Send GET /products/search with q set to Thor Hammer and take the id of the item whose name is exactly \"Thor Hammer\".",
+    "Send POST /carts with an empty body and take the returned id as the cart's id.",
+    "Send POST /carts/{cartId} with the cart's id and a body with Thor Hammer's id as product_id and quantity 2.",
+    "Verify the response status is 400.",
+    "Verify the body's message is \"You can only have one Thor Hammer in the cart.\".",
+    "Verify GET /carts/{cartId} with the cart's id returns 200 and its cart_items is empty."
+   ],
+   "ref": [],
+   "area": "carts",
+   "areaLabel": "Carts",
+   "file": "test-scenarios/api/carts/post-carts-by-cart-id.yml",
+   "fileLabel": "POST /carts/{cartId}",
+   "suite": "Carts API",
+   "tags": [
+    "@carts-api"
+   ],
+   "yaml": "- id: API-0244\n  name: Add Thor Hammer with quantity 2 to a cart returns 400 and adds nothing\n  status: manual\n  steps:\n    - Send GET /products/search with q set to Thor Hammer and take the id of the item whose name is exactly \"Thor Hammer\".\n    - Send POST /carts with an empty body and take the returned id as the cart's id.\n    - Send POST /carts/{cartId} with the cart's id and a body with Thor Hammer's id as product_id and quantity 2.\n    - Verify the response status is 400.\n    - Verify the body's message is \"You can only have one Thor Hammer in the cart.\".\n    - Verify GET /carts/{cartId} with the cart's id returns 200 and its cart_items is empty."
+  },
+  {
+   "id": "API-0245",
+   "name": "Add Thor Hammer to a cart that already holds it returns 400",
+   "status": "manual",
+   "steps": [
+    "Send GET /products/search with q set to Thor Hammer and take the id of the item whose name is exactly \"Thor Hammer\".",
+    "Send POST /carts with an empty body and take the returned id as the cart's id.",
+    "Send POST /carts/{cartId} with the cart's id and a body with Thor Hammer's id as product_id and quantity 1.",
+    "Send POST /carts/{cartId} with the same cart id and body again.",
+    "Verify the response status is 400.",
+    "Verify the body's message is \"You can only have one Thor Hammer in the cart.\".",
+    "Verify GET /carts/{cartId} with the cart's id returns 200 and its cart_items has exactly one item, with Thor Hammer's id as product_id and quantity 1."
+   ],
+   "ref": [],
+   "area": "carts",
+   "areaLabel": "Carts",
+   "file": "test-scenarios/api/carts/post-carts-by-cart-id.yml",
+   "fileLabel": "POST /carts/{cartId}",
+   "suite": "Carts API",
+   "tags": [
+    "@carts-api"
+   ],
+   "yaml": "- id: API-0245\n  name: Add Thor Hammer to a cart that already holds it returns 400\n  status: manual\n  steps:\n    - Send GET /products/search with q set to Thor Hammer and take the id of the item whose name is exactly \"Thor Hammer\".\n    - Send POST /carts with an empty body and take the returned id as the cart's id.\n    - Send POST /carts/{cartId} with the cart's id and a body with Thor Hammer's id as product_id and quantity 1.\n    - Send POST /carts/{cartId} with the same cart id and body again.\n    - Verify the response status is 400.\n    - Verify the body's message is \"You can only have one Thor Hammer in the cart.\".\n    - Verify GET /carts/{cartId} with the cart's id returns 200 and its cart_items has exactly one item, with Thor Hammer's id as product_id and quantity 1."
+  },
+  {
+   "id": "API-0246",
+   "name": "Add a product that isn't a location offer to a cart near Amsterdam gives it no discount",
+   "ref": [
+    "BUG-024"
+   ],
+   "status": "manual",
+   "knownIssue": "Applies the location discount to a product that isn't a location offer instead of leaving it undiscounted.",
+   "bug": "BUG-024",
+   "steps": [
+    "Send GET /products and take the first item's brand id, category id and product image id.",
+    "Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental false and stock 10, and take the new product's id.",
+    "Send POST /carts with lat 52 and lng 5 and take the returned id as the cart's id.",
+    "Send POST /carts/{cartId} with the cart's id and a body with the new product's id as product_id and quantity 1.",
+    "Verify the response status is 200.",
+    "Verify GET /carts/{cartId} with the cart's id returns 200 and its only item has discount_percentage null or 0.",
+    "Verify the item has no discounted_price."
+   ],
+   "area": "carts",
+   "areaLabel": "Carts",
+   "file": "test-scenarios/api/carts/post-carts-by-cart-id.yml",
+   "fileLabel": "POST /carts/{cartId}",
+   "suite": "Carts API",
+   "tags": [
+    "@carts-api"
+   ],
+   "yaml": "- id: API-0246\n  name: Add a product that isn't a location offer to a cart near Amsterdam gives it no discount\n  ref: BUG-024\n  status: manual\n  knownIssue: Applies the location discount to a product that isn't a location offer instead of leaving it undiscounted.\n  bug: BUG-024\n  steps:\n    - Send GET /products and take the first item's brand id, category id and product image id.\n    - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental false and stock 10, and take the new product's id.\n    - Send POST /carts with lat 52 and lng 5 and take the returned id as the cart's id.\n    - Send POST /carts/{cartId} with the cart's id and a body with the new product's id as product_id and quantity 1.\n    - Verify the response status is 200.\n    - Verify GET /carts/{cartId} with the cart's id returns 200 and its only item has discount_percentage null or 0.\n    - Verify the item has no discounted_price."
+  },
+  {
+   "id": "API-0289",
+   "name": "Add a location offer to a cart at London's coordinates (lat 51, lng 0) gives it a 25% discount",
+   "ref": [
+    "BUG-026"
+   ],
+   "status": "manual",
+   "knownIssue": "Gives a location offer no discount in a cart at longitude 0 (London, 51, 0) instead of London's 25% discount.",
+   "bug": "BUG-026",
+   "steps": [
+    "Send GET /products and take the first item's brand id, category id and product image id.",
+    "Send POST /products with a unique product name, a positive price, those ids, is_location_offer true, is_rental false and stock 10, and take the new product's id.",
+    "Send POST /carts with lat 51 and lng 0 and take the returned id as the cart's id.",
+    "Send POST /carts/{cartId} with the cart's id and a body with the new product's id as product_id and quantity 1.",
+    "Verify the response status is 200.",
+    "Verify GET /carts/{cartId} with the cart's id returns 200 and its only item has discount_percentage 25.",
+    "Verify the item's discounted_price equals its product's price × 0.75, rounded to 2 decimals."
+   ],
+   "area": "carts",
+   "areaLabel": "Carts",
+   "file": "test-scenarios/api/carts/post-carts-by-cart-id.yml",
+   "fileLabel": "POST /carts/{cartId}",
+   "suite": "Carts API",
+   "tags": [
+    "@carts-api"
+   ],
+   "yaml": "- id: API-0289\n  name: Add a location offer to a cart at London's coordinates (lat 51, lng 0) gives it a 25% discount\n  ref: BUG-026\n  status: manual\n  knownIssue: Gives a location offer no discount in a cart at longitude 0 (London, 51, 0) instead of London's 25% discount.\n  bug: BUG-026\n  steps:\n    - Send GET /products and take the first item's brand id, category id and product image id.\n    - Send POST /products with a unique product name, a positive price, those ids, is_location_offer true, is_rental false and stock 10, and take the new product's id.\n    - Send POST /carts with lat 51 and lng 0 and take the returned id as the cart's id.\n    - Send POST /carts/{cartId} with the cart's id and a body with the new product's id as product_id and quantity 1.\n    - Verify the response status is 200.\n    - Verify GET /carts/{cartId} with the cart's id returns 200 and its only item has discount_percentage 25.\n    - Verify the item's discounted_price equals its product's price × 0.75, rounded to 2 decimals."
+  },
+  {
+   "id": "API-0265",
+   "name": "Delete cart returns 204 and the cart is gone",
+   "status": "manual",
+   "steps": [
+    "Send GET /products and take the first item's brand id, category id and product image id.",
+    "Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental false and stock 10, and take the new product's id.",
+    "Send POST /carts with an empty body and take the returned id as the cart's id.",
+    "Send POST /carts/{cartId} with the cart's id and a body with the new product's id as product_id and quantity 1.",
+    "Send DELETE /carts/{cartId} with the cart's id.",
+    "Verify the response status is 204.",
+    "Verify GET /carts/{cartId} with the cart's id returns 404."
+   ],
+   "ref": [],
+   "area": "carts",
+   "areaLabel": "Carts",
+   "file": "test-scenarios/api/carts/delete-carts-by-cart-id.yml",
+   "fileLabel": "DELETE /carts/{cartId}",
+   "suite": "Carts API",
+   "tags": [
+    "@carts-api"
+   ],
+   "yaml": "- id: API-0265\n  name: Delete cart returns 204 and the cart is gone\n  status: manual\n  steps:\n    - Send GET /products and take the first item's brand id, category id and product image id.\n    - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental false and stock 10, and take the new product's id.\n    - Send POST /carts with an empty body and take the returned id as the cart's id.\n    - Send POST /carts/{cartId} with the cart's id and a body with the new product's id as product_id and quantity 1.\n    - Send DELETE /carts/{cartId} with the cart's id.\n    - Verify the response status is 204.\n    - Verify GET /carts/{cartId} with the cart's id returns 404."
+  },
+  {
+   "id": "API-0266",
+   "name": "Delete cart with an unknown cart id returns 404",
+   "status": "manual",
+   "steps": [
+    "Send DELETE /carts/{cartId} with a well-formed cart id that doesn't exist.",
+    "Verify the response status is 404.",
+    "Verify the body's message is \"Cart doesnt exists\"."
+   ],
+   "ref": [],
+   "area": "carts",
+   "areaLabel": "Carts",
+   "file": "test-scenarios/api/carts/delete-carts-by-cart-id.yml",
+   "fileLabel": "DELETE /carts/{cartId}",
+   "suite": "Carts API",
+   "tags": [
+    "@carts-api"
+   ],
+   "yaml": "- id: API-0266\n  name: Delete cart with an unknown cart id returns 404\n  status: manual\n  steps:\n    - Send DELETE /carts/{cartId} with a well-formed cart id that doesn't exist.\n    - Verify the response status is 404.\n    - Verify the body's message is \"Cart doesnt exists\"."
+  },
+  {
+   "id": "API-0251",
+   "name": "Update item quantity replaces the quantity of a product in the cart",
+   "status": "manual",
+   "steps": [
+    "Send GET /products and take the first item's brand id, category id and product image id.",
+    "Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental false and stock 10, and take the new product's id.",
+    "Send POST /carts with an empty body and take the returned id as the cart's id.",
+    "Send POST /carts/{cartId} with the cart's id and a body with the new product's id as product_id and quantity 2.",
+    "Send PUT /carts/{cartId}/product/quantity with the cart's id and a body with the new product's id as product_id and quantity 5.",
+    "Verify the response status is 200.",
+    "Verify the body's result is \"item added or updated\".",
+    "Verify GET /carts/{cartId} with the cart's id returns 200 and its cart_items has exactly one item, with the new product's id as product_id and quantity 5."
+   ],
+   "ref": [],
+   "area": "carts",
+   "areaLabel": "Carts",
+   "file": "test-scenarios/api/carts/put-carts-by-cart-id-product-quantity.yml",
+   "fileLabel": "PUT /carts/{cartId}/product/quantity",
+   "suite": "Carts API",
+   "tags": [
+    "@carts-api"
+   ],
+   "yaml": "- id: API-0251\n  name: Update item quantity replaces the quantity of a product in the cart\n  status: manual\n  steps:\n    - Send GET /products and take the first item's brand id, category id and product image id.\n    - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental false and stock 10, and take the new product's id.\n    - Send POST /carts with an empty body and take the returned id as the cart's id.\n    - Send POST /carts/{cartId} with the cart's id and a body with the new product's id as product_id and quantity 2.\n    - Send PUT /carts/{cartId}/product/quantity with the cart's id and a body with the new product's id as product_id and quantity 5.\n    - Verify the response status is 200.\n    - Verify the body's result is \"item added or updated\".\n    - Verify GET /carts/{cartId} with the cart's id returns 200 and its cart_items has exactly one item, with the new product's id as product_id and quantity 5."
+  },
+  {
+   "id": "API-0252",
+   "name": "Update item quantity for a product that isn't in the cart returns 200 and changes nothing",
+   "status": "manual",
+   "steps": [
+    "Send GET /products and take the first item's brand id, category id and product image id.",
+    "Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental false and stock 10, and take the new product's id.",
+    "Send POST /carts with an empty body and take the returned id as the cart's id.",
+    "Send PUT /carts/{cartId}/product/quantity with the cart's id and a body with the new product's id as product_id and quantity 5.",
+    "Verify the response status is 200.",
+    "Verify the body's result is \"item added or updated\".",
+    "Verify GET /carts/{cartId} with the cart's id returns 200 and its cart_items is empty."
+   ],
+   "ref": [],
+   "area": "carts",
+   "areaLabel": "Carts",
+   "file": "test-scenarios/api/carts/put-carts-by-cart-id-product-quantity.yml",
+   "fileLabel": "PUT /carts/{cartId}/product/quantity",
+   "suite": "Carts API",
+   "tags": [
+    "@carts-api"
+   ],
+   "yaml": "- id: API-0252\n  name: Update item quantity for a product that isn't in the cart returns 200 and changes nothing\n  status: manual\n  steps:\n    - Send GET /products and take the first item's brand id, category id and product image id.\n    - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental false and stock 10, and take the new product's id.\n    - Send POST /carts with an empty body and take the returned id as the cart's id.\n    - Send PUT /carts/{cartId}/product/quantity with the cart's id and a body with the new product's id as product_id and quantity 5.\n    - Verify the response status is 200.\n    - Verify the body's result is \"item added or updated\".\n    - Verify GET /carts/{cartId} with the cart's id returns 200 and its cart_items is empty."
+  },
+  {
+   "id": "API-0253",
+   "name": "Update item quantity without the required fields returns 422 for each of them",
+   "status": "manual",
+   "steps": [
+    "Send POST /carts with an empty body and take the returned id as the cart's id.",
+    "Send PUT /carts/{cartId}/product/quantity with the cart's id and an empty JSON object as the body.",
+    "Verify the response status is 422.",
+    "Verify the body's errors has the keys product_id and quantity, each with at least one message.",
+    "Verify the body's errors quantity messages include \"The quantity field is required.\"."
+   ],
+   "ref": [],
+   "area": "carts",
+   "areaLabel": "Carts",
+   "file": "test-scenarios/api/carts/put-carts-by-cart-id-product-quantity.yml",
+   "fileLabel": "PUT /carts/{cartId}/product/quantity",
+   "suite": "Carts API",
+   "tags": [
+    "@carts-api"
+   ],
+   "yaml": "- id: API-0253\n  name: Update item quantity without the required fields returns 422 for each of them\n  status: manual\n  steps:\n    - Send POST /carts with an empty body and take the returned id as the cart's id.\n    - Send PUT /carts/{cartId}/product/quantity with the cart's id and an empty JSON object as the body.\n    - Verify the response status is 422.\n    - Verify the body's errors has the keys product_id and quantity, each with at least one message.\n    - Verify the body's errors quantity messages include \"The quantity field is required.\"."
+  },
+  {
+   "id": "API-0254",
+   "name": "Update item quantity with a non-integer quantity returns 422 and keeps the quantity",
+   "status": "manual",
+   "steps": [
+    "Send GET /products and take the first item's brand id, category id and product image id.",
+    "Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental false and stock 10, and take the new product's id.",
+    "Send POST /carts with an empty body and take the returned id as the cart's id.",
+    "Send POST /carts/{cartId} with the cart's id and a body with the new product's id as product_id and quantity 1.",
+    "Send PUT /carts/{cartId}/product/quantity with the cart's id and a body with the new product's id as product_id and quantity 1.5.",
+    "Verify the response status is 422.",
+    "Verify the body's errors quantity messages include \"The quantity field must be an integer.\".",
+    "Verify GET /carts/{cartId} with the cart's id returns 200 and its only item has quantity 1."
+   ],
+   "ref": [],
+   "area": "carts",
+   "areaLabel": "Carts",
+   "file": "test-scenarios/api/carts/put-carts-by-cart-id-product-quantity.yml",
+   "fileLabel": "PUT /carts/{cartId}/product/quantity",
+   "suite": "Carts API",
+   "tags": [
+    "@carts-api"
+   ],
+   "yaml": "- id: API-0254\n  name: Update item quantity with a non-integer quantity returns 422 and keeps the quantity\n  status: manual\n  steps:\n    - Send GET /products and take the first item's brand id, category id and product image id.\n    - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental false and stock 10, and take the new product's id.\n    - Send POST /carts with an empty body and take the returned id as the cart's id.\n    - Send POST /carts/{cartId} with the cart's id and a body with the new product's id as product_id and quantity 1.\n    - Send PUT /carts/{cartId}/product/quantity with the cart's id and a body with the new product's id as product_id and quantity 1.5.\n    - Verify the response status is 422.\n    - Verify the body's errors quantity messages include \"The quantity field must be an integer.\".\n    - Verify GET /carts/{cartId} with the cart's id returns 200 and its only item has quantity 1."
+  },
+  {
+   "id": "API-0255",
+   "name": "Update item quantity with quantity 0 returns 422 and keeps the quantity",
+   "status": "manual",
+   "steps": [
+    "Send GET /products and take the first item's brand id, category id and product image id.",
+    "Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental false and stock 10, and take the new product's id.",
+    "Send POST /carts with an empty body and take the returned id as the cart's id.",
+    "Send POST /carts/{cartId} with the cart's id and a body with the new product's id as product_id and quantity 1.",
+    "Send PUT /carts/{cartId}/product/quantity with the cart's id and a body with the new product's id as product_id and quantity 0.",
+    "Verify the response status is 422.",
+    "Verify the body's errors has a quantity key with at least one message.",
+    "Verify GET /carts/{cartId} with the cart's id returns 200 and its only item has quantity 1."
+   ],
+   "ref": [],
+   "area": "carts",
+   "areaLabel": "Carts",
+   "file": "test-scenarios/api/carts/put-carts-by-cart-id-product-quantity.yml",
+   "fileLabel": "PUT /carts/{cartId}/product/quantity",
+   "suite": "Carts API",
+   "tags": [
+    "@carts-api"
+   ],
+   "yaml": "- id: API-0255\n  name: Update item quantity with quantity 0 returns 422 and keeps the quantity\n  status: manual\n  steps:\n    - Send GET /products and take the first item's brand id, category id and product image id.\n    - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental false and stock 10, and take the new product's id.\n    - Send POST /carts with an empty body and take the returned id as the cart's id.\n    - Send POST /carts/{cartId} with the cart's id and a body with the new product's id as product_id and quantity 1.\n    - Send PUT /carts/{cartId}/product/quantity with the cart's id and a body with the new product's id as product_id and quantity 0.\n    - Verify the response status is 422.\n    - Verify the body's errors has a quantity key with at least one message.\n    - Verify GET /carts/{cartId} with the cart's id returns 200 and its only item has quantity 1."
+  },
+  {
+   "id": "API-0256",
+   "name": "Update item quantity with an unknown product id returns 422",
+   "status": "manual",
+   "steps": [
+    "Send POST /carts with an empty body and take the returned id as the cart's id.",
+    "Send PUT /carts/{cartId}/product/quantity with the cart's id and a body with a well-formed product id that doesn't exist as product_id and quantity 1.",
+    "Verify the response status is 422.",
+    "Verify the body's errors has a product_id key with at least one message."
+   ],
+   "ref": [],
+   "area": "carts",
+   "areaLabel": "Carts",
+   "file": "test-scenarios/api/carts/put-carts-by-cart-id-product-quantity.yml",
+   "fileLabel": "PUT /carts/{cartId}/product/quantity",
+   "suite": "Carts API",
+   "tags": [
+    "@carts-api"
+   ],
+   "yaml": "- id: API-0256\n  name: Update item quantity with an unknown product id returns 422\n  status: manual\n  steps:\n    - Send POST /carts with an empty body and take the returned id as the cart's id.\n    - Send PUT /carts/{cartId}/product/quantity with the cart's id and a body with a well-formed product id that doesn't exist as product_id and quantity 1.\n    - Verify the response status is 422.\n    - Verify the body's errors has a product_id key with at least one message."
+  },
+  {
+   "id": "API-0257",
+   "name": "Update item quantity with an unknown cart id returns 404",
+   "status": "manual",
+   "steps": [
+    "Send PUT /carts/{cartId}/product/quantity with a well-formed cart id that doesn't exist and a body with an existing product's id (taken from GET /products) as product_id and quantity 1.",
+    "Verify the response status is 404.",
+    "Verify the body's message is \"Cart doesn't exist\"."
+   ],
+   "ref": [],
+   "area": "carts",
+   "areaLabel": "Carts",
+   "file": "test-scenarios/api/carts/put-carts-by-cart-id-product-quantity.yml",
+   "fileLabel": "PUT /carts/{cartId}/product/quantity",
+   "suite": "Carts API",
+   "tags": [
+    "@carts-api"
+   ],
+   "yaml": "- id: API-0257\n  name: Update item quantity with an unknown cart id returns 404\n  status: manual\n  steps:\n    - Send PUT /carts/{cartId}/product/quantity with a well-formed cart id that doesn't exist and a body with an existing product's id (taken from GET /products) as product_id and quantity 1.\n    - Verify the response status is 404.\n    - Verify the body's message is \"Cart doesn't exist\"."
+  },
+  {
+   "id": "API-0258",
+   "name": "Update item quantity with an empty body and an unknown cart id returns 422, not 404",
+   "status": "manual",
+   "steps": [
+    "Send PUT /carts/{cartId}/product/quantity with a well-formed cart id that doesn't exist and an empty JSON object as the body.",
+    "Verify the response status is 422.",
+    "Verify the body's errors has the keys product_id and quantity."
+   ],
+   "ref": [],
+   "area": "carts",
+   "areaLabel": "Carts",
+   "file": "test-scenarios/api/carts/put-carts-by-cart-id-product-quantity.yml",
+   "fileLabel": "PUT /carts/{cartId}/product/quantity",
+   "suite": "Carts API",
+   "tags": [
+    "@carts-api"
+   ],
+   "yaml": "- id: API-0258\n  name: Update item quantity with an empty body and an unknown cart id returns 422, not 404\n  status: manual\n  steps:\n    - Send PUT /carts/{cartId}/product/quantity with a well-formed cart id that doesn't exist and an empty JSON object as the body.\n    - Verify the response status is 422.\n    - Verify the body's errors has the keys product_id and quantity."
+  },
+  {
+   "id": "API-0259",
+   "name": "Update Thor Hammer's quantity to 2 returns 400 and keeps quantity 1",
+   "status": "manual",
+   "steps": [
+    "Send GET /products/search with q set to Thor Hammer and take the id of the item whose name is exactly \"Thor Hammer\".",
+    "Send POST /carts with an empty body and take the returned id as the cart's id.",
+    "Send POST /carts/{cartId} with the cart's id and a body with Thor Hammer's id as product_id and quantity 1.",
+    "Send PUT /carts/{cartId}/product/quantity with the cart's id and a body with Thor Hammer's id as product_id and quantity 2.",
+    "Verify the response status is 400.",
+    "Verify the body's message is \"You can only have one Thor Hammer in the cart.\".",
+    "Verify GET /carts/{cartId} with the cart's id returns 200 and its only item has quantity 1."
+   ],
+   "ref": [],
+   "area": "carts",
+   "areaLabel": "Carts",
+   "file": "test-scenarios/api/carts/put-carts-by-cart-id-product-quantity.yml",
+   "fileLabel": "PUT /carts/{cartId}/product/quantity",
+   "suite": "Carts API",
+   "tags": [
+    "@carts-api"
+   ],
+   "yaml": "- id: API-0259\n  name: Update Thor Hammer's quantity to 2 returns 400 and keeps quantity 1\n  status: manual\n  steps:\n    - Send GET /products/search with q set to Thor Hammer and take the id of the item whose name is exactly \"Thor Hammer\".\n    - Send POST /carts with an empty body and take the returned id as the cart's id.\n    - Send POST /carts/{cartId} with the cart's id and a body with Thor Hammer's id as product_id and quantity 1.\n    - Send PUT /carts/{cartId}/product/quantity with the cart's id and a body with Thor Hammer's id as product_id and quantity 2.\n    - Verify the response status is 400.\n    - Verify the body's message is \"You can only have one Thor Hammer in the cart.\".\n    - Verify GET /carts/{cartId} with the cart's id returns 200 and its only item has quantity 1."
+  },
+  {
+   "id": "API-0260",
+   "name": "Remove a product from a cart returns 204 and the cart no longer holds it",
+   "status": "manual",
+   "steps": [
+    "Send GET /products and take the first item's brand id, category id and product image id.",
+    "Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental false and stock 10, and take the new product's id.",
+    "Send POST /carts with an empty body and take the returned id as the cart's id.",
+    "Send POST /carts/{cartId} with the cart's id and a body with the new product's id as product_id and quantity 1.",
+    "Send DELETE /carts/{cartId}/product/{productId} with the cart's id and the new product's id.",
+    "Verify the response status is 204.",
+    "Verify GET /carts/{cartId} with the cart's id returns 200 and its cart_items is empty."
+   ],
+   "ref": [],
+   "area": "carts",
+   "areaLabel": "Carts",
+   "file": "test-scenarios/api/carts/delete-carts-by-cart-id-product-by-product-id.yml",
+   "fileLabel": "DELETE /carts/{cartId}/product/{productId}",
+   "suite": "Carts API",
+   "tags": [
+    "@carts-api"
+   ],
+   "yaml": "- id: API-0260\n  name: Remove a product from a cart returns 204 and the cart no longer holds it\n  status: manual\n  steps:\n    - Send GET /products and take the first item's brand id, category id and product image id.\n    - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental false and stock 10, and take the new product's id.\n    - Send POST /carts with an empty body and take the returned id as the cart's id.\n    - Send POST /carts/{cartId} with the cart's id and a body with the new product's id as product_id and quantity 1.\n    - Send DELETE /carts/{cartId}/product/{productId} with the cart's id and the new product's id.\n    - Verify the response status is 204.\n    - Verify GET /carts/{cartId} with the cart's id returns 200 and its cart_items is empty."
+  },
+  {
+   "id": "API-0261",
+   "name": "Remove the rental product from a rental and non-rental cart clears the additional discount",
+   "status": "manual",
+   "steps": [
+    "Send GET /products and take the first item's brand id, category id and product image id.",
+    "Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental false and stock 10, and take the new product's id as the non-rental product's id.",
+    "Send POST /products with a unique product name, a positive price, the same brand, category and product image ids, is_location_offer false, is_rental true and stock 10, and take the new product's id as the rental product's id.",
+    "Send POST /carts with an empty body and take the returned id as the cart's id.",
+    "Send POST /carts/{cartId} with the cart's id and a body with the non-rental product's id as product_id and quantity 1.",
+    "Send POST /carts/{cartId} with the cart's id and a body with the rental product's id as product_id and quantity 1.",
+    "Send DELETE /carts/{cartId}/product/{productId} with the cart's id and the rental product's id.",
+    "Verify the response status is 204.",
+    "Verify GET /carts/{cartId} with the cart's id returns 200 with additional_discount_percentage null.",
+    "Verify its cart_items has exactly one item, with the non-rental product's id as product_id."
+   ],
+   "ref": [],
+   "area": "carts",
+   "areaLabel": "Carts",
+   "file": "test-scenarios/api/carts/delete-carts-by-cart-id-product-by-product-id.yml",
+   "fileLabel": "DELETE /carts/{cartId}/product/{productId}",
+   "suite": "Carts API",
+   "tags": [
+    "@carts-api"
+   ],
+   "yaml": "- id: API-0261\n  name: Remove the rental product from a rental and non-rental cart clears the additional discount\n  status: manual\n  steps:\n    - Send GET /products and take the first item's brand id, category id and product image id.\n    - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental false and stock 10, and take the new product's id as the non-rental product's id.\n    - Send POST /products with a unique product name, a positive price, the same brand, category and product image ids, is_location_offer false, is_rental true and stock 10, and take the new product's id as the rental product's id.\n    - Send POST /carts with an empty body and take the returned id as the cart's id.\n    - Send POST /carts/{cartId} with the cart's id and a body with the non-rental product's id as product_id and quantity 1.\n    - Send POST /carts/{cartId} with the cart's id and a body with the rental product's id as product_id and quantity 1.\n    - Send DELETE /carts/{cartId}/product/{productId} with the cart's id and the rental product's id.\n    - Verify the response status is 204.\n    - Verify GET /carts/{cartId} with the cart's id returns 200 with additional_discount_percentage null.\n    - Verify its cart_items has exactly one item, with the non-rental product's id as product_id."
+  },
+  {
+   "id": "API-0262",
+   "name": "Remove an unknown product from a cart returns 204 and keeps the cart's items",
+   "status": "manual",
+   "steps": [
+    "Send GET /products and take the first item's brand id, category id and product image id.",
+    "Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental false and stock 10, and take the new product's id.",
+    "Send POST /carts with an empty body and take the returned id as the cart's id.",
+    "Send POST /carts/{cartId} with the cart's id and a body with the new product's id as product_id and quantity 1.",
+    "Send DELETE /carts/{cartId}/product/{productId} with the cart's id and a well-formed product id that doesn't exist.",
+    "Verify the response status is 204.",
+    "Verify GET /carts/{cartId} with the cart's id returns 200 and its cart_items has exactly one item, with the new product's id as product_id and quantity 1."
+   ],
+   "ref": [],
+   "area": "carts",
+   "areaLabel": "Carts",
+   "file": "test-scenarios/api/carts/delete-carts-by-cart-id-product-by-product-id.yml",
+   "fileLabel": "DELETE /carts/{cartId}/product/{productId}",
+   "suite": "Carts API",
+   "tags": [
+    "@carts-api"
+   ],
+   "yaml": "- id: API-0262\n  name: Remove an unknown product from a cart returns 204 and keeps the cart's items\n  status: manual\n  steps:\n    - Send GET /products and take the first item's brand id, category id and product image id.\n    - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental false and stock 10, and take the new product's id.\n    - Send POST /carts with an empty body and take the returned id as the cart's id.\n    - Send POST /carts/{cartId} with the cart's id and a body with the new product's id as product_id and quantity 1.\n    - Send DELETE /carts/{cartId}/product/{productId} with the cart's id and a well-formed product id that doesn't exist.\n    - Verify the response status is 204.\n    - Verify GET /carts/{cartId} with the cart's id returns 200 and its cart_items has exactly one item, with the new product's id as product_id and quantity 1."
+  },
+  {
+   "id": "API-0263",
+   "name": "Remove a product from an unknown cart returns 404",
+   "status": "manual",
+   "steps": [
+    "Send DELETE /carts/{cartId}/product/{productId} with a well-formed cart id that doesn't exist and an existing product's id (taken from GET /products).",
+    "Verify the response status is 404.",
+    "Verify the body's message is \"Cart doesnt exists\"."
+   ],
+   "ref": [],
+   "area": "carts",
+   "areaLabel": "Carts",
+   "file": "test-scenarios/api/carts/delete-carts-by-cart-id-product-by-product-id.yml",
+   "fileLabel": "DELETE /carts/{cartId}/product/{productId}",
+   "suite": "Carts API",
+   "tags": [
+    "@carts-api"
+   ],
+   "yaml": "- id: API-0263\n  name: Remove a product from an unknown cart returns 404\n  status: manual\n  steps:\n    - Send DELETE /carts/{cartId}/product/{productId} with a well-formed cart id that doesn't exist and an existing product's id (taken from GET /products).\n    - Verify the response status is 404.\n    - Verify the body's message is \"Cart doesnt exists\"."
+  },
+  {
+   "id": "API-0264",
+   "name": "DELETE /carts/{cartId}/product/quantity returns 204 and removes nothing",
+   "status": "manual",
+   "steps": [
+    "Send GET /products and take the first item's brand id, category id and product image id.",
+    "Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental false and stock 10, and take the new product's id.",
+    "Send POST /carts with an empty body and take the returned id as the cart's id.",
+    "Send POST /carts/{cartId} with the cart's id and a body with the new product's id as product_id and quantity 1.",
+    "Send DELETE /carts/{cartId}/product/quantity with the cart's id.",
+    "Verify the response status is 204.",
+    "Verify GET /carts/{cartId} with the cart's id returns 200 and its cart_items has exactly one item, with the new product's id as product_id."
+   ],
+   "ref": [],
+   "area": "carts",
+   "areaLabel": "Carts",
+   "file": "test-scenarios/api/carts/delete-carts-by-cart-id-product-by-product-id.yml",
+   "fileLabel": "DELETE /carts/{cartId}/product/{productId}",
+   "suite": "Carts API",
+   "tags": [
+    "@carts-api"
+   ],
+   "yaml": "- id: API-0264\n  name: DELETE /carts/{cartId}/product/quantity returns 204 and removes nothing\n  status: manual\n  steps:\n    - Send GET /products and take the first item's brand id, category id and product image id.\n    - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental false and stock 10, and take the new product's id.\n    - Send POST /carts with an empty body and take the returned id as the cart's id.\n    - Send POST /carts/{cartId} with the cart's id and a body with the new product's id as product_id and quantity 1.\n    - Send DELETE /carts/{cartId}/product/quantity with the cart's id.\n    - Verify the response status is 204.\n    - Verify GET /carts/{cartId} with the cart's id returns 200 and its cart_items has exactly one item, with the new product's id as product_id."
+  },
+  {
+   "id": "API-0164",
+   "name": "List categories returns every category as a flat list",
+   "status": "manual",
+   "steps": [
+    "Send GET /categories.",
+    "Verify the response status is 200.",
+    "Verify the body is a non-empty array.",
+    "Verify every item has a non-empty string id, name and slug, and a parent_id that is null or a string.",
+    "Verify no item has a sub_categories key.",
+    "Verify the body includes at least one item whose parent_id is null and at least one whose parent_id is a string."
+   ],
+   "ref": [],
+   "area": "categories",
+   "areaLabel": "Categories",
+   "file": "test-scenarios/api/categories/get-categories.yml",
+   "fileLabel": "GET /categories",
+   "suite": "Categories API",
+   "tags": [
+    "@categories-api"
+   ],
+   "yaml": "- id: API-0164\n  name: List categories returns every category as a flat list\n  status: manual\n  steps:\n    - Send GET /categories.\n    - Verify the response status is 200.\n    - Verify the body is a non-empty array.\n    - Verify every item has a non-empty string id, name and slug, and a parent_id that is null or a string.\n    - Verify no item has a sub_categories key.\n    - Verify the body includes at least one item whose parent_id is null and at least one whose parent_id is a string."
+  },
+  {
+   "id": "API-0165",
+   "name": "Create category returns 201 with the new category",
+   "status": "manual",
+   "role": "admin",
+   "steps": [
+    "Send POST /categories with a unique category name and a unique slug, with the admin's token, and take the new category's id.",
+    "Verify the response status is 201.",
+    "Verify the body's name and slug equal the values sent.",
+    "Verify the body has a non-empty id.",
+    "Verify GET /categories/tree/{categoryId} with the new id returns 200 with the same name and slug, a null parent_id and an empty sub_categories."
+   ],
+   "ref": [],
+   "area": "categories",
+   "areaLabel": "Categories",
+   "file": "test-scenarios/api/categories/post-categories.yml",
+   "fileLabel": "POST /categories",
+   "suite": "Categories API",
+   "tags": [
+    "@categories-api"
+   ],
+   "yaml": "- id: API-0165\n  name: Create category returns 201 with the new category\n  status: manual\n  role: admin\n  steps:\n    - Send POST /categories with a unique category name and a unique slug, with the admin's token, and take the new category's id.\n    - Verify the response status is 201.\n    - Verify the body's name and slug equal the values sent.\n    - Verify the body has a non-empty id.\n    - Verify GET /categories/tree/{categoryId} with the new id returns 200 with the same name and slug, a null parent_id and an empty sub_categories."
+  },
+  {
+   "id": "API-0166",
+   "name": "Create category with a parent_id creates a sub-category",
+   "status": "manual",
+   "role": "admin",
+   "steps": [
+    "Send POST /categories with a unique category name and a unique slug, with the admin's token, and take the new category's id as the parent's id.",
+    "Send POST /categories with a unique category name, a unique slug and the parent's id as parent_id, with the admin's token, and take the new category's id.",
+    "Verify the response status is 201.",
+    "Verify the body's parent_id equals the parent's id.",
+    "Verify GET /categories/tree/{categoryId} with the new id returns the parent's id as parent_id.",
+    "Verify GET /categories/tree/{categoryId} with the parent's id returns sub_categories with exactly one item, whose id is the new category's id."
+   ],
+   "ref": [],
+   "area": "categories",
+   "areaLabel": "Categories",
+   "file": "test-scenarios/api/categories/post-categories.yml",
+   "fileLabel": "POST /categories",
+   "suite": "Categories API",
+   "tags": [
+    "@categories-api"
+   ],
+   "yaml": "- id: API-0166\n  name: Create category with a parent_id creates a sub-category\n  status: manual\n  role: admin\n  steps:\n    - Send POST /categories with a unique category name and a unique slug, with the admin's token, and take the new category's id as the parent's id.\n    - Send POST /categories with a unique category name, a unique slug and the parent's id as parent_id, with the admin's token, and take the new category's id.\n    - Verify the response status is 201.\n    - Verify the body's parent_id equals the parent's id.\n    - Verify GET /categories/tree/{categoryId} with the new id returns the parent's id as parent_id.\n    - Verify GET /categories/tree/{categoryId} with the parent's id returns sub_categories with exactly one item, whose id is the new category's id."
+  },
+  {
+   "id": "API-0167",
+   "name": "Create category without the required fields returns 422 for each of them",
+   "status": "manual",
+   "steps": [
+    "Send POST /categories with an empty JSON object as the body.",
+    "Verify the response status is 422.",
+    "Verify the body has the keys name and slug, each with at least one message.",
+    "Verify the body's name messages include \"The name field is required.\" and its slug messages include \"The slug field is required.\"."
+   ],
+   "ref": [],
+   "area": "categories",
+   "areaLabel": "Categories",
+   "file": "test-scenarios/api/categories/post-categories.yml",
+   "fileLabel": "POST /categories",
+   "suite": "Categories API",
+   "tags": [
+    "@categories-api"
+   ],
+   "yaml": "- id: API-0167\n  name: Create category without the required fields returns 422 for each of them\n  status: manual\n  steps:\n    - Send POST /categories with an empty JSON object as the body.\n    - Verify the response status is 422.\n    - Verify the body has the keys name and slug, each with at least one message.\n    - Verify the body's name messages include \"The name field is required.\" and its slug messages include \"The slug field is required.\"."
+  },
+  {
+   "id": "API-0168",
+   "name": "Create category with a slug outside letters, digits, dashes and underscores returns 422",
+   "status": "manual",
+   "steps": [
+    "Send POST /categories with a unique category name and a slug made of a unique slug followed by \" x!\" (a space and an exclamation mark).",
+    "Verify the response status is 422.",
+    "Verify the body has a slug key with at least one message."
+   ],
+   "ref": [],
+   "area": "categories",
+   "areaLabel": "Categories",
+   "file": "test-scenarios/api/categories/post-categories.yml",
+   "fileLabel": "POST /categories",
+   "suite": "Categories API",
+   "tags": [
+    "@categories-api"
+   ],
+   "yaml": "- id: API-0168\n  name: Create category with a slug outside letters, digits, dashes and underscores returns 422\n  status: manual\n  steps:\n    - Send POST /categories with a unique category name and a slug made of a unique slug followed by \" x!\" (a space and an exclamation mark).\n    - Verify the response status is 422.\n    - Verify the body has a slug key with at least one message."
+  },
+  {
+   "id": "API-0169",
+   "name": "Create category with a name longer than 120 characters returns 422",
+   "status": "manual",
+   "steps": [
+    "Send POST /categories with a 121-character name that starts with a unique category name, and a unique slug.",
+    "Verify the response status is 422.",
+    "Verify the body has a name key with at least one message."
+   ],
+   "ref": [],
+   "area": "categories",
+   "areaLabel": "Categories",
+   "file": "test-scenarios/api/categories/post-categories.yml",
+   "fileLabel": "POST /categories",
+   "suite": "Categories API",
+   "tags": [
+    "@categories-api"
+   ],
+   "yaml": "- id: API-0169\n  name: Create category with a name longer than 120 characters returns 422\n  status: manual\n  steps:\n    - Send POST /categories with a 121-character name that starts with a unique category name, and a unique slug.\n    - Verify the response status is 422.\n    - Verify the body has a name key with at least one message."
+  },
+  {
+   "id": "API-0170",
+   "name": "Create category with a slug longer than 120 characters returns 422",
+   "status": "manual",
+   "steps": [
+    "Send POST /categories with a unique category name and a 121-character slug that starts with a unique slug and contains only letters, digits and dashes.",
+    "Verify the response status is 422.",
+    "Verify the body has a slug key with at least one message."
+   ],
+   "ref": [],
+   "area": "categories",
+   "areaLabel": "Categories",
+   "file": "test-scenarios/api/categories/post-categories.yml",
+   "fileLabel": "POST /categories",
+   "suite": "Categories API",
+   "tags": [
+    "@categories-api"
+   ],
+   "yaml": "- id: API-0170\n  name: Create category with a slug longer than 120 characters returns 422\n  status: manual\n  steps:\n    - Send POST /categories with a unique category name and a 121-character slug that starts with a unique slug and contains only letters, digits and dashes.\n    - Verify the response status is 422.\n    - Verify the body has a slug key with at least one message."
+  },
+  {
+   "id": "API-0171",
+   "name": "Create category with a parent_id that isn't a string returns 422",
+   "status": "manual",
+   "steps": [
+    "Send POST /categories with a unique category name, a unique slug and parent_id set to the number 123.",
+    "Verify the response status is 422.",
+    "Verify the body has a parent_id key with at least one message."
+   ],
+   "ref": [],
+   "area": "categories",
+   "areaLabel": "Categories",
+   "file": "test-scenarios/api/categories/post-categories.yml",
+   "fileLabel": "POST /categories",
+   "suite": "Categories API",
+   "tags": [
+    "@categories-api"
+   ],
+   "yaml": "- id: API-0171\n  name: Create category with a parent_id that isn't a string returns 422\n  status: manual\n  steps:\n    - Send POST /categories with a unique category name, a unique slug and parent_id set to the number 123.\n    - Verify the response status is 422.\n    - Verify the body has a parent_id key with at least one message."
+  },
+  {
+   "id": "API-0172",
+   "name": "Create category with a subscript character in the name returns 422",
+   "status": "manual",
+   "steps": [
+    "Send POST /categories with a unique category name followed by a Unicode subscript character, and a unique slug.",
+    "Verify the response status is 422.",
+    "Verify the body has a name key with at least one message."
+   ],
+   "ref": [],
+   "area": "categories",
+   "areaLabel": "Categories",
+   "file": "test-scenarios/api/categories/post-categories.yml",
+   "fileLabel": "POST /categories",
+   "suite": "Categories API",
+   "tags": [
+    "@categories-api"
+   ],
+   "yaml": "- id: API-0172\n  name: Create category with a subscript character in the name returns 422\n  status: manual\n  steps:\n    - Send POST /categories with a unique category name followed by a Unicode subscript character, and a unique slug.\n    - Verify the response status is 422.\n    - Verify the body has a name key with at least one message."
+  },
+  {
+   "id": "API-0173",
+   "name": "Create category with an existing slug returns 409",
+   "status": "manual",
+   "steps": [
+    "Send POST /categories with a unique category name and the slug hand-tools.",
+    "Verify the response status is 409.",
+    "Verify the body's slug messages include \"A category already exists with this slug.\"."
+   ],
+   "ref": [],
+   "area": "categories",
+   "areaLabel": "Categories",
+   "file": "test-scenarios/api/categories/post-categories.yml",
+   "fileLabel": "POST /categories",
+   "suite": "Categories API",
+   "tags": [
+    "@categories-api"
+   ],
+   "yaml": "- id: API-0173\n  name: Create category with an existing slug returns 409\n  status: manual\n  steps:\n    - Send POST /categories with a unique category name and the slug hand-tools.\n    - Verify the response status is 409.\n    - Verify the body's slug messages include \"A category already exists with this slug.\"."
+  },
+  {
+   "id": "API-0174",
+   "name": "Create category with an existing slug and a too-long name returns 422",
+   "status": "manual",
+   "steps": [
+    "Send POST /categories with a 121-character name that starts with a unique category name, and the slug hand-tools.",
+    "Verify the response status is 422.",
+    "Verify the body has a name key with at least one message."
+   ],
+   "ref": [],
+   "area": "categories",
+   "areaLabel": "Categories",
+   "file": "test-scenarios/api/categories/post-categories.yml",
+   "fileLabel": "POST /categories",
+   "suite": "Categories API",
+   "tags": [
+    "@categories-api"
+   ],
+   "yaml": "- id: API-0174\n  name: Create category with an existing slug and a too-long name returns 422\n  status: manual\n  steps:\n    - Send POST /categories with a 121-character name that starts with a unique category name, and the slug hand-tools.\n    - Verify the response status is 422.\n    - Verify the body has a name key with at least one message."
+  },
+  {
+   "id": "API-0175",
+   "name": "Create category ignores fields other than name, slug and parent_id",
+   "status": "manual",
+   "role": "admin",
+   "steps": [
+    "Send POST /categories with a unique category name, a unique slug and a description field set to \"ignored\", with the admin's token, and take the new category's id.",
+    "Verify the response status is 201.",
+    "Verify the body has the keys id, name and slug only.",
+    "Verify GET /categories/tree/{categoryId} with the new id has no description key."
+   ],
+   "ref": [],
+   "area": "categories",
+   "areaLabel": "Categories",
+   "file": "test-scenarios/api/categories/post-categories.yml",
+   "fileLabel": "POST /categories",
+   "suite": "Categories API",
+   "tags": [
+    "@categories-api"
+   ],
+   "yaml": "- id: API-0175\n  name: Create category ignores fields other than name, slug and parent_id\n  status: manual\n  role: admin\n  steps:\n    - Send POST /categories with a unique category name, a unique slug and a description field set to \"ignored\", with the admin's token, and take the new category's id.\n    - Verify the response status is 201.\n    - Verify the body has the keys id, name and slug only.\n    - Verify GET /categories/tree/{categoryId} with the new id has no description key."
+  },
+  {
+   "id": "API-0176",
+   "name": "Create category with an unknown parent_id returns 422",
+   "status": "manual",
+   "knownIssue": "Returns 500 instead of 422 when parent_id is not the id of an existing category.",
+   "bug": "BUG-015",
+   "steps": [
+    "Send POST /categories with a unique category name, a unique slug and a well-formed ULID that no category has as parent_id.",
+    "Verify the response status is 422."
+   ],
+   "ref": [],
+   "area": "categories",
+   "areaLabel": "Categories",
+   "file": "test-scenarios/api/categories/post-categories.yml",
+   "fileLabel": "POST /categories",
+   "suite": "Categories API",
+   "tags": [
+    "@categories-api"
+   ],
+   "yaml": "- id: API-0176\n  name: Create category with an unknown parent_id returns 422\n  status: manual\n  knownIssue: Returns 500 instead of 422 when parent_id is not the id of an existing category.\n  bug: BUG-015\n  steps:\n    - Send POST /categories with a unique category name, a unique slug and a well-formed ULID that no category has as parent_id.\n    - Verify the response status is 422."
+  },
+  {
+   "id": "API-0177",
+   "name": "Create category without a token returns 401",
+   "status": "manual",
+   "knownIssue": "Accepts POST without a token instead of returning 401.",
+   "bug": "BUG-014",
+   "steps": [
+    "Send POST /categories with a unique category name and a unique slug, without an Authorization header.",
+    "Verify the response status is 401."
+   ],
+   "ref": [],
+   "area": "categories",
+   "areaLabel": "Categories",
+   "file": "test-scenarios/api/categories/post-categories.yml",
+   "fileLabel": "POST /categories",
+   "suite": "Categories API",
+   "tags": [
+    "@categories-api"
+   ],
+   "yaml": "- id: API-0177\n  name: Create category without a token returns 401\n  status: manual\n  knownIssue: Accepts POST without a token instead of returning 401.\n  bug: BUG-014\n  steps:\n    - Send POST /categories with a unique category name and a unique slug, without an Authorization header.\n    - Verify the response status is 401."
+  },
+  {
+   "id": "API-0191",
+   "name": "Search categories returns only matching categories",
+   "status": "manual",
+   "steps": [
+    "Send GET /categories/search with q=hand.",
+    "Verify the response status is 200.",
+    "Verify the body is a non-empty array and every item's name contains \"hand\" (case-insensitive).",
+    "Verify the body's slugs include hand-tools and hand-saw.",
+    "Verify the item whose slug is hand-tools has a non-empty sub_categories."
+   ],
+   "ref": [],
+   "area": "categories",
+   "areaLabel": "Categories",
+   "file": "test-scenarios/api/categories/get-categories-search.yml",
+   "fileLabel": "GET /categories/search",
+   "suite": "Categories API",
+   "tags": [
+    "@categories-api"
+   ],
+   "yaml": "- id: API-0191\n  name: Search categories returns only matching categories\n  status: manual\n  steps:\n    - Send GET /categories/search with q=hand.\n    - Verify the response status is 200.\n    - Verify the body is a non-empty array and every item's name contains \"hand\" (case-insensitive).\n    - Verify the body's slugs include hand-tools and hand-saw.\n    - Verify the item whose slug is hand-tools has a non-empty sub_categories."
+  },
+  {
+   "id": "API-0192",
+   "name": "Search categories with a term shorter than 4 characters matches inside names",
+   "status": "manual",
+   "steps": [
+    "Send GET /categories/search with q=saw.",
+    "Verify the response status is 200.",
+    "Verify the body is a non-empty array and every item's name contains \"saw\" (case-insensitive).",
+    "Verify the body's slugs include hand-saw and saw."
+   ],
+   "ref": [],
+   "area": "categories",
+   "areaLabel": "Categories",
+   "file": "test-scenarios/api/categories/get-categories-search.yml",
+   "fileLabel": "GET /categories/search",
+   "suite": "Categories API",
+   "tags": [
+    "@categories-api"
+   ],
+   "yaml": "- id: API-0192\n  name: Search categories with a term shorter than 4 characters matches inside names\n  status: manual\n  steps:\n    - Send GET /categories/search with q=saw.\n    - Verify the response status is 200.\n    - Verify the body is a non-empty array and every item's name contains \"saw\" (case-insensitive).\n    - Verify the body's slugs include hand-saw and saw."
+  },
+  {
+   "id": "API-0193",
+   "name": "Search categories with a term no category matches returns an empty array",
+   "status": "manual",
+   "steps": [
+    "Send GET /categories/search with q set to a unique term of letters and digits only that no category has.",
+    "Verify the response status is 200.",
+    "Verify the body is an empty array."
+   ],
+   "ref": [],
+   "area": "categories",
+   "areaLabel": "Categories",
+   "file": "test-scenarios/api/categories/get-categories-search.yml",
+   "fileLabel": "GET /categories/search",
+   "suite": "Categories API",
+   "tags": [
+    "@categories-api"
+   ],
+   "yaml": "- id: API-0193\n  name: Search categories with a term no category matches returns an empty array\n  status: manual\n  steps:\n    - Send GET /categories/search with q set to a unique term of letters and digits only that no category has.\n    - Verify the response status is 200.\n    - Verify the body is an empty array."
+  },
+  {
+   "id": "API-0194",
+   "name": "Search categories without a term returns every category",
+   "status": "manual",
+   "steps": [
+    "Send GET /categories and keep the category ids.",
+    "Send GET /categories/search without a q parameter.",
+    "Verify the response status is 200.",
+    "Verify the body's category ids equal the GET /categories ids, in any order."
+   ],
+   "ref": [],
+   "area": "categories",
+   "areaLabel": "Categories",
+   "file": "test-scenarios/api/categories/get-categories-search.yml",
+   "fileLabel": "GET /categories/search",
+   "suite": "Categories API",
+   "tags": [
+    "@categories-api"
+   ],
+   "yaml": "- id: API-0194\n  name: Search categories without a term returns every category\n  status: manual\n  steps:\n    - Send GET /categories and keep the category ids.\n    - Send GET /categories/search without a q parameter.\n    - Verify the response status is 200.\n    - Verify the body's category ids equal the GET /categories ids, in any order."
+  },
+  {
+   "id": "API-0195",
+   "name": "Search categories with q as an array returns 422",
+   "status": "manual",
+   "knownIssue": "Returns 500 instead of 422 when q is sent as an array.",
+   "bug": "BUG-017",
+   "steps": [
+    "Send GET /categories/search with q as an array (q[]=x).",
+    "Verify the response status is 422."
+   ],
+   "ref": [],
+   "area": "categories",
+   "areaLabel": "Categories",
+   "file": "test-scenarios/api/categories/get-categories-search.yml",
+   "fileLabel": "GET /categories/search",
+   "suite": "Categories API",
+   "tags": [
+    "@categories-api"
+   ],
+   "yaml": "- id: API-0195\n  name: Search categories with q as an array returns 422\n  status: manual\n  knownIssue: Returns 500 instead of 422 when q is sent as an array.\n  bug: BUG-017\n  steps:\n    - Send GET /categories/search with q as an array (q[]=x).\n    - Verify the response status is 422."
+  },
+  {
+   "id": "API-0196",
+   "name": "Search categories finds a category created after the same term was searched",
+   "status": "manual",
+   "role": "admin",
+   "knownIssue": "Returns the cached search result instead of the new category for a term searched before the category was created.",
+   "bug": "BUG-020",
+   "steps": [
+    "Send GET /categories/search with q set to a unique term of letters and digits only, at least 4 characters long, that no category has.",
+    "Send POST /categories with that term as the name and a unique slug, with the admin's token, and take the new category's id.",
+    "Send GET /categories/search with the same term.",
+    "Verify the body includes a category with the new id."
+   ],
+   "ref": [],
+   "area": "categories",
+   "areaLabel": "Categories",
+   "file": "test-scenarios/api/categories/get-categories-search.yml",
+   "fileLabel": "GET /categories/search",
+   "suite": "Categories API",
+   "tags": [
+    "@categories-api"
+   ],
+   "yaml": "- id: API-0196\n  name: Search categories finds a category created after the same term was searched\n  status: manual\n  role: admin\n  knownIssue: Returns the cached search result instead of the new category for a term searched before the category was created.\n  bug: BUG-020\n  steps:\n    - Send GET /categories/search with q set to a unique term of letters and digits only, at least 4 characters long, that no category has.\n    - Send POST /categories with that term as the name and a unique slug, with the admin's token, and take the new category's id.\n    - Send GET /categories/search with the same term.\n    - Verify the body includes a category with the new id."
+  },
+  {
+   "id": "API-0197",
+   "name": "QUERY search returns only matching categories",
+   "status": "manual",
+   "steps": [
+    "Send QUERY /categories/search with Content-Type: application/json, Accept: application/json and the body { \"q\": \"saw\" }.",
+    "Verify the response status is 200.",
+    "Verify the Accept-Query response header is application/json.",
+    "Verify the body is a non-empty array and every item's name contains \"saw\" (case-insensitive).",
+    "Verify the body's slugs include hand-saw and saw."
+   ],
+   "ref": [],
+   "area": "categories",
+   "areaLabel": "Categories",
+   "file": "test-scenarios/api/categories/query-categories-search.yml",
+   "fileLabel": "QUERY /categories/search",
+   "suite": "Categories API",
+   "tags": [
+    "@categories-api"
+   ],
+   "yaml": "- id: API-0197\n  name: QUERY search returns only matching categories\n  status: manual\n  steps:\n    - 'Send QUERY /categories/search with Content-Type: application/json, Accept: application/json and the body { \"q\": \"saw\" }.'\n    - Verify the response status is 200.\n    - Verify the Accept-Query response header is application/json.\n    - Verify the body is a non-empty array and every item's name contains \"saw\" (case-insensitive).\n    - Verify the body's slugs include hand-saw and saw."
+  },
+  {
+   "id": "API-0198",
+   "name": "QUERY search with an empty body returns every category",
+   "status": "manual",
+   "steps": [
+    "Send GET /categories and keep the category ids.",
+    "Send QUERY /categories/search with Content-Type: application/json, Accept: application/json and an empty JSON object as the body.",
+    "Verify the response status is 200.",
+    "Verify the body's category ids equal the GET /categories ids, in any order."
+   ],
+   "ref": [],
+   "area": "categories",
+   "areaLabel": "Categories",
+   "file": "test-scenarios/api/categories/query-categories-search.yml",
+   "fileLabel": "QUERY /categories/search",
+   "suite": "Categories API",
+   "tags": [
+    "@categories-api"
+   ],
+   "yaml": "- id: API-0198\n  name: QUERY search with an empty body returns every category\n  status: manual\n  steps:\n    - Send GET /categories and keep the category ids.\n    - \"Send QUERY /categories/search with Content-Type: application/json, Accept: application/json and an empty JSON object as the body.\"\n    - Verify the response status is 200.\n    - Verify the body's category ids equal the GET /categories ids, in any order."
+  },
+  {
+   "id": "API-0199",
+   "name": "QUERY search without a JSON Content-Type returns 415",
+   "status": "manual",
+   "steps": [
+    "Send QUERY /categories/search with Content-Type: text/plain, Accept: application/json and a plain-text body.",
+    "Verify the response status is 415.",
+    "Verify the body's message is \"QUERY requests must use Content-Type: application/json\"."
+   ],
+   "ref": [],
+   "area": "categories",
+   "areaLabel": "Categories",
+   "file": "test-scenarios/api/categories/query-categories-search.yml",
+   "fileLabel": "QUERY /categories/search",
+   "suite": "Categories API",
+   "tags": [
+    "@categories-api"
+   ],
+   "yaml": "- id: API-0199\n  name: QUERY search without a JSON Content-Type returns 415\n  status: manual\n  steps:\n    - \"Send QUERY /categories/search with Content-Type: text/plain, Accept: application/json and a plain-text body.\"\n    - Verify the response status is 415.\n    - 'Verify the body''s message is \"QUERY requests must use Content-Type: application/json\".'"
+  },
+  {
+   "id": "API-0200",
+   "name": "QUERY search with q as an array returns 422",
+   "status": "manual",
+   "knownIssue": "Returns 500 instead of 422 when q is sent as an array.",
+   "bug": "BUG-017",
+   "steps": [
+    "Send QUERY /categories/search with Content-Type: application/json, Accept: application/json and the body { \"q\": [\"x\"] }.",
+    "Verify the response status is 422."
+   ],
+   "ref": [],
+   "area": "categories",
+   "areaLabel": "Categories",
+   "file": "test-scenarios/api/categories/query-categories-search.yml",
+   "fileLabel": "QUERY /categories/search",
+   "suite": "Categories API",
+   "tags": [
+    "@categories-api"
+   ],
+   "yaml": "- id: API-0200\n  name: QUERY search with q as an array returns 422\n  status: manual\n  knownIssue: Returns 500 instead of 422 when q is sent as an array.\n  bug: BUG-017\n  steps:\n    - 'Send QUERY /categories/search with Content-Type: application/json, Accept: application/json and the body { \"q\": [\"x\"] }.'\n    - Verify the response status is 422."
+  },
+  {
+   "id": "API-0178",
+   "name": "Category tree returns the top-level categories with their sub-categories",
+   "status": "manual",
+   "steps": [
+    "Send GET /categories/tree.",
+    "Verify the response status is 200.",
+    "Verify the body is a non-empty array and every item's parent_id is null.",
+    "Verify the body's slugs include hand-tools, power-tools and other.",
+    "Verify every item has a sub_categories array, and every sub-category's parent_id equals its item's id."
+   ],
+   "ref": [],
+   "area": "categories",
+   "areaLabel": "Categories",
+   "file": "test-scenarios/api/categories/get-categories-tree.yml",
+   "fileLabel": "GET /categories/tree",
+   "suite": "Categories API",
+   "tags": [
+    "@categories-api"
+   ],
+   "yaml": "- id: API-0178\n  name: Category tree returns the top-level categories with their sub-categories\n  status: manual\n  steps:\n    - Send GET /categories/tree.\n    - Verify the response status is 200.\n    - Verify the body is a non-empty array and every item's parent_id is null.\n    - Verify the body's slugs include hand-tools, power-tools and other.\n    - Verify every item has a sub_categories array, and every sub-category's parent_id equals its item's id."
+  },
+  {
+   "id": "API-0179",
+   "name": "Category tree filtered by a top-level slug returns only that category",
+   "status": "manual",
+   "steps": [
+    "Send GET /categories/tree with by_category_slug=hand-tools.",
+    "Verify the response status is 200.",
+    "Verify the body has exactly one item, whose slug is hand-tools and whose parent_id is null.",
+    "Verify the item's sub_categories is non-empty, includes the slug hammer, and every sub-category's parent_id equals the item's id."
+   ],
+   "ref": [],
+   "area": "categories",
+   "areaLabel": "Categories",
+   "file": "test-scenarios/api/categories/get-categories-tree.yml",
+   "fileLabel": "GET /categories/tree",
+   "suite": "Categories API",
+   "tags": [
+    "@categories-api"
+   ],
+   "yaml": "- id: API-0179\n  name: Category tree filtered by a top-level slug returns only that category\n  status: manual\n  steps:\n    - Send GET /categories/tree with by_category_slug=hand-tools.\n    - Verify the response status is 200.\n    - Verify the body has exactly one item, whose slug is hand-tools and whose parent_id is null.\n    - Verify the item's sub_categories is non-empty, includes the slug hammer, and every sub-category's parent_id equals the item's id."
+  },
+  {
+   "id": "API-0180",
+   "name": "Category tree filtered by a sub-category's slug returns an empty array",
+   "status": "manual",
+   "steps": [
+    "Send GET /categories/tree with by_category_slug=hammer.",
+    "Verify the response status is 200.",
+    "Verify the body is an empty array."
+   ],
+   "ref": [],
+   "area": "categories",
+   "areaLabel": "Categories",
+   "file": "test-scenarios/api/categories/get-categories-tree.yml",
+   "fileLabel": "GET /categories/tree",
+   "suite": "Categories API",
+   "tags": [
+    "@categories-api"
+   ],
+   "yaml": "- id: API-0180\n  name: Category tree filtered by a sub-category's slug returns an empty array\n  status: manual\n  steps:\n    - Send GET /categories/tree with by_category_slug=hammer.\n    - Verify the response status is 200.\n    - Verify the body is an empty array."
+  },
+  {
+   "id": "API-0181",
+   "name": "Category tree filtered by an unknown slug returns an empty array",
+   "status": "manual",
+   "steps": [
+    "Send GET /categories/tree with by_category_slug set to a unique slug that no category has.",
+    "Verify the response status is 200.",
+    "Verify the body is an empty array."
+   ],
+   "ref": [],
+   "area": "categories",
+   "areaLabel": "Categories",
+   "file": "test-scenarios/api/categories/get-categories-tree.yml",
+   "fileLabel": "GET /categories/tree",
+   "suite": "Categories API",
+   "tags": [
+    "@categories-api"
+   ],
+   "yaml": "- id: API-0181\n  name: Category tree filtered by an unknown slug returns an empty array\n  status: manual\n  steps:\n    - Send GET /categories/tree with by_category_slug set to a unique slug that no category has.\n    - Verify the response status is 200.\n    - Verify the body is an empty array."
+  },
+  {
+   "id": "API-0182",
+   "name": "Category tree with by_category_slug as an array returns 422",
+   "status": "manual",
+   "knownIssue": "Returns 500 instead of 422 when by_category_slug is sent as an array.",
+   "bug": "BUG-016",
+   "steps": [
+    "Send GET /categories/tree with by_category_slug as an array (by_category_slug[]=x).",
+    "Verify the response status is 422."
+   ],
+   "ref": [],
+   "area": "categories",
+   "areaLabel": "Categories",
+   "file": "test-scenarios/api/categories/get-categories-tree.yml",
+   "fileLabel": "GET /categories/tree",
+   "suite": "Categories API",
+   "tags": [
+    "@categories-api"
+   ],
+   "yaml": "- id: API-0182\n  name: Category tree with by_category_slug as an array returns 422\n  status: manual\n  knownIssue: Returns 500 instead of 422 when by_category_slug is sent as an array.\n  bug: BUG-016\n  steps:\n    - Send GET /categories/tree with by_category_slug as an array (by_category_slug[]=x).\n    - Verify the response status is 422."
+  },
+  {
+   "id": "API-0183",
+   "name": "QUERY category tree filtered by a top-level slug returns only that category",
+   "status": "manual",
+   "steps": [
+    "Send QUERY /categories/tree with Content-Type: application/json, Accept: application/json and the body { \"by_category_slug\": \"power-tools\" }.",
+    "Verify the response status is 200.",
+    "Verify the Accept-Query response header is application/json.",
+    "Verify the body has exactly one item, whose slug is power-tools and whose parent_id is null.",
+    "Verify the item's sub_categories is non-empty and every sub-category's parent_id equals the item's id."
+   ],
+   "ref": [],
+   "area": "categories",
+   "areaLabel": "Categories",
+   "file": "test-scenarios/api/categories/query-categories-tree.yml",
+   "fileLabel": "QUERY /categories/tree",
+   "suite": "Categories API",
+   "tags": [
+    "@categories-api"
+   ],
+   "yaml": "- id: API-0183\n  name: QUERY category tree filtered by a top-level slug returns only that category\n  status: manual\n  steps:\n    - 'Send QUERY /categories/tree with Content-Type: application/json, Accept: application/json and the body { \"by_category_slug\": \"power-tools\" }.'\n    - Verify the response status is 200.\n    - Verify the Accept-Query response header is application/json.\n    - Verify the body has exactly one item, whose slug is power-tools and whose parent_id is null.\n    - Verify the item's sub_categories is non-empty and every sub-category's parent_id equals the item's id."
+  },
+  {
+   "id": "API-0184",
+   "name": "QUERY category tree with an empty body returns the whole tree",
+   "status": "manual",
+   "steps": [
+    "Send GET /categories/tree and keep the item ids.",
+    "Send QUERY /categories/tree with Content-Type: application/json, Accept: application/json and an empty JSON object as the body.",
+    "Verify the response status is 200.",
+    "Verify the body's item ids equal the GET /categories/tree ids, in any order."
+   ],
+   "ref": [],
+   "area": "categories",
+   "areaLabel": "Categories",
+   "file": "test-scenarios/api/categories/query-categories-tree.yml",
+   "fileLabel": "QUERY /categories/tree",
+   "suite": "Categories API",
+   "tags": [
+    "@categories-api"
+   ],
+   "yaml": "- id: API-0184\n  name: QUERY category tree with an empty body returns the whole tree\n  status: manual\n  steps:\n    - Send GET /categories/tree and keep the item ids.\n    - \"Send QUERY /categories/tree with Content-Type: application/json, Accept: application/json and an empty JSON object as the body.\"\n    - Verify the response status is 200.\n    - Verify the body's item ids equal the GET /categories/tree ids, in any order."
+  },
+  {
+   "id": "API-0185",
+   "name": "QUERY category tree without a JSON Content-Type returns 415",
+   "status": "manual",
+   "steps": [
+    "Send QUERY /categories/tree with Content-Type: text/plain, Accept: application/json and a plain-text body.",
+    "Verify the response status is 415.",
+    "Verify the body's message is \"QUERY requests must use Content-Type: application/json\"."
+   ],
+   "ref": [],
+   "area": "categories",
+   "areaLabel": "Categories",
+   "file": "test-scenarios/api/categories/query-categories-tree.yml",
+   "fileLabel": "QUERY /categories/tree",
+   "suite": "Categories API",
+   "tags": [
+    "@categories-api"
+   ],
+   "yaml": "- id: API-0185\n  name: QUERY category tree without a JSON Content-Type returns 415\n  status: manual\n  steps:\n    - \"Send QUERY /categories/tree with Content-Type: text/plain, Accept: application/json and a plain-text body.\"\n    - Verify the response status is 415.\n    - 'Verify the body''s message is \"QUERY requests must use Content-Type: application/json\".'"
+  },
+  {
+   "id": "API-0186",
+   "name": "QUERY category tree with by_category_slug as an array returns 422",
+   "status": "manual",
+   "knownIssue": "Returns 500 instead of 422 when by_category_slug is sent as an array.",
+   "bug": "BUG-016",
+   "steps": [
+    "Send QUERY /categories/tree with Content-Type: application/json, Accept: application/json and the body { \"by_category_slug\": [\"x\"] }.",
+    "Verify the response status is 422."
+   ],
+   "ref": [],
+   "area": "categories",
+   "areaLabel": "Categories",
+   "file": "test-scenarios/api/categories/query-categories-tree.yml",
+   "fileLabel": "QUERY /categories/tree",
+   "suite": "Categories API",
+   "tags": [
+    "@categories-api"
+   ],
+   "yaml": "- id: API-0186\n  name: QUERY category tree with by_category_slug as an array returns 422\n  status: manual\n  knownIssue: Returns 500 instead of 422 when by_category_slug is sent as an array.\n  bug: BUG-016\n  steps:\n    - 'Send QUERY /categories/tree with Content-Type: application/json, Accept: application/json and the body { \"by_category_slug\": [\"x\"] }.'\n    - Verify the response status is 422."
+  },
+  {
+   "id": "API-0187",
+   "name": "Get top-level category returns 200 with its sub-categories",
+   "status": "manual",
+   "steps": [
+    "Send GET /categories and take the id, name and slug of the category whose slug is hand-tools.",
+    "Send GET /categories/tree/{categoryId} with that id.",
+    "Verify the response status is 200.",
+    "Verify the body's id, name and slug equal the list item's and its parent_id is null.",
+    "Verify the body's sub_categories is non-empty and every sub-category's parent_id equals the body's id."
+   ],
+   "ref": [],
+   "area": "categories",
+   "areaLabel": "Categories",
+   "file": "test-scenarios/api/categories/get-categories-tree-by-category-id.yml",
+   "fileLabel": "GET /categories/tree/{categoryId}",
+   "suite": "Categories API",
+   "tags": [
+    "@categories-api"
+   ],
+   "yaml": "- id: API-0187\n  name: Get top-level category returns 200 with its sub-categories\n  status: manual\n  steps:\n    - Send GET /categories and take the id, name and slug of the category whose slug is hand-tools.\n    - Send GET /categories/tree/{categoryId} with that id.\n    - Verify the response status is 200.\n    - Verify the body's id, name and slug equal the list item's and its parent_id is null.\n    - Verify the body's sub_categories is non-empty and every sub-category's parent_id equals the body's id."
+  },
+  {
+   "id": "API-0188",
+   "name": "Get sub-category returns 200 with its parent_id and no sub-categories",
+   "status": "manual",
+   "steps": [
+    "Send GET /categories and take the id, name, slug and parent_id of the category whose slug is hammer.",
+    "Send GET /categories/tree/{categoryId} with that id.",
+    "Verify the response status is 200.",
+    "Verify the body's id, name, slug and parent_id equal the list item's.",
+    "Verify the body's sub_categories is an empty array."
+   ],
+   "ref": [],
+   "area": "categories",
+   "areaLabel": "Categories",
+   "file": "test-scenarios/api/categories/get-categories-tree-by-category-id.yml",
+   "fileLabel": "GET /categories/tree/{categoryId}",
+   "suite": "Categories API",
+   "tags": [
+    "@categories-api"
+   ],
+   "yaml": "- id: API-0188\n  name: Get sub-category returns 200 with its parent_id and no sub-categories\n  status: manual\n  steps:\n    - Send GET /categories and take the id, name, slug and parent_id of the category whose slug is hammer.\n    - Send GET /categories/tree/{categoryId} with that id.\n    - Verify the response status is 200.\n    - Verify the body's id, name, slug and parent_id equal the list item's.\n    - Verify the body's sub_categories is an empty array."
+  },
+  {
+   "id": "API-0189",
+   "name": "Get category with an unknown id returns 404",
+   "status": "manual",
+   "steps": [
+    "Send GET /categories/tree/{categoryId} with a well-formed ULID that no category has.",
+    "Verify the response status is 404.",
+    "Verify the body's message is \"Requested item not found\"."
+   ],
+   "ref": [],
+   "area": "categories",
+   "areaLabel": "Categories",
+   "file": "test-scenarios/api/categories/get-categories-tree-by-category-id.yml",
+   "fileLabel": "GET /categories/tree/{categoryId}",
+   "suite": "Categories API",
+   "tags": [
+    "@categories-api"
+   ],
+   "yaml": "- id: API-0189\n  name: Get category with an unknown id returns 404\n  status: manual\n  steps:\n    - Send GET /categories/tree/{categoryId} with a well-formed ULID that no category has.\n    - Verify the response status is 404.\n    - Verify the body's message is \"Requested item not found\"."
+  },
+  {
+   "id": "API-0190",
+   "name": "Get category lists a sub-category created after the category was read",
+   "status": "manual",
+   "role": "admin",
+   "knownIssue": "Returns the cached category without a sub-category created after the category was first read.",
+   "bug": "BUG-020",
+   "steps": [
+    "Send POST /categories with a unique category name and a unique slug, with the admin's token, and take the new category's id as the parent's id.",
+    "Send GET /categories/tree/{categoryId} with the parent's id.",
+    "Send POST /categories with a unique category name, a unique slug and the parent's id as parent_id, with the admin's token, and take the new category's id.",
+    "Send GET /categories/tree/{categoryId} with the parent's id.",
+    "Verify the body's sub_categories include the new category's id."
+   ],
+   "ref": [],
+   "area": "categories",
+   "areaLabel": "Categories",
+   "file": "test-scenarios/api/categories/get-categories-tree-by-category-id.yml",
+   "fileLabel": "GET /categories/tree/{categoryId}",
+   "suite": "Categories API",
+   "tags": [
+    "@categories-api"
+   ],
+   "yaml": "- id: API-0190\n  name: Get category lists a sub-category created after the category was read\n  status: manual\n  role: admin\n  knownIssue: Returns the cached category without a sub-category created after the category was first read.\n  bug: BUG-020\n  steps:\n    - Send POST /categories with a unique category name and a unique slug, with the admin's token, and take the new category's id as the parent's id.\n    - Send GET /categories/tree/{categoryId} with the parent's id.\n    - Send POST /categories with a unique category name, a unique slug and the parent's id as parent_id, with the admin's token, and take the new category's id.\n    - Send GET /categories/tree/{categoryId} with the parent's id.\n    - Verify the body's sub_categories include the new category's id."
+  },
+  {
+   "id": "API-0201",
+   "name": "Update category returns success and saves the new name and slug",
+   "status": "manual",
+   "role": "admin",
+   "steps": [
+    "Send POST /categories with a unique category name and a unique slug, with the admin's token, and take the new category's id.",
+    "Send PUT /categories/{categoryId} with that id and a body with a new unique category name and a new unique slug, with the admin's token.",
+    "Verify the response status is 200.",
+    "Verify the body's success is true.",
+    "Verify GET /categories/tree/{categoryId} with that id returns the new name and the new slug."
+   ],
+   "ref": [],
+   "area": "categories",
+   "areaLabel": "Categories",
+   "file": "test-scenarios/api/categories/put-categories-by-category-id.yml",
+   "fileLabel": "PUT /categories/{categoryId}",
+   "suite": "Categories API",
+   "tags": [
+    "@categories-api"
+   ],
+   "yaml": "- id: API-0201\n  name: Update category returns success and saves the new name and slug\n  status: manual\n  role: admin\n  steps:\n    - Send POST /categories with a unique category name and a unique slug, with the admin's token, and take the new category's id.\n    - Send PUT /categories/{categoryId} with that id and a body with a new unique category name and a new unique slug, with the admin's token.\n    - Verify the response status is 200.\n    - Verify the body's success is true.\n    - Verify GET /categories/tree/{categoryId} with that id returns the new name and the new slug."
+  },
+  {
+   "id": "API-0202",
+   "name": "Update category with a parent_id makes it a sub-category of that parent",
+   "status": "manual",
+   "role": "admin",
+   "steps": [
+    "Send POST /categories with a unique category name and a unique slug, with the admin's token, and take the new category's id as the parent's id.",
+    "Send POST /categories with a unique category name and a unique slug, with the admin's token, and take the new category's id.",
+    "Send PUT /categories/{categoryId} with the new category's id and a body with only the parent's id as parent_id, with the admin's token.",
+    "Verify the response status is 200.",
+    "Verify GET /categories/tree/{categoryId} with the new category's id returns the parent's id as parent_id.",
+    "Verify GET /categories/tree doesn't include the new category's id among its items."
+   ],
+   "ref": [],
+   "area": "categories",
+   "areaLabel": "Categories",
+   "file": "test-scenarios/api/categories/put-categories-by-category-id.yml",
+   "fileLabel": "PUT /categories/{categoryId}",
+   "suite": "Categories API",
+   "tags": [
+    "@categories-api"
+   ],
+   "yaml": "- id: API-0202\n  name: Update category with a parent_id makes it a sub-category of that parent\n  status: manual\n  role: admin\n  steps:\n    - Send POST /categories with a unique category name and a unique slug, with the admin's token, and take the new category's id as the parent's id.\n    - Send POST /categories with a unique category name and a unique slug, with the admin's token, and take the new category's id.\n    - Send PUT /categories/{categoryId} with the new category's id and a body with only the parent's id as parent_id, with the admin's token.\n    - Verify the response status is 200.\n    - Verify GET /categories/tree/{categoryId} with the new category's id returns the parent's id as parent_id.\n    - Verify GET /categories/tree doesn't include the new category's id among its items."
+  },
+  {
+   "id": "API-0203",
+   "name": "Update category with a null parent_id makes it a top-level category",
+   "status": "manual",
+   "role": "admin",
+   "steps": [
+    "Send POST /categories with a unique category name and a unique slug, with the admin's token, and take the new category's id as the parent's id.",
+    "Send POST /categories with a unique category name, a unique slug and the parent's id as parent_id, with the admin's token, and take the new category's id.",
+    "Send PUT /categories/{categoryId} with the new category's id and a body with only parent_id set to null, with the admin's token.",
+    "Verify the response status is 200.",
+    "Verify GET /categories/tree/{categoryId} with the new category's id returns a null parent_id.",
+    "Verify GET /categories/tree includes the new category's id among its items."
+   ],
+   "ref": [],
+   "area": "categories",
+   "areaLabel": "Categories",
+   "file": "test-scenarios/api/categories/put-categories-by-category-id.yml",
+   "fileLabel": "PUT /categories/{categoryId}",
+   "suite": "Categories API",
+   "tags": [
+    "@categories-api"
+   ],
+   "yaml": "- id: API-0203\n  name: Update category with a null parent_id makes it a top-level category\n  status: manual\n  role: admin\n  steps:\n    - Send POST /categories with a unique category name and a unique slug, with the admin's token, and take the new category's id as the parent's id.\n    - Send POST /categories with a unique category name, a unique slug and the parent's id as parent_id, with the admin's token, and take the new category's id.\n    - Send PUT /categories/{categoryId} with the new category's id and a body with only parent_id set to null, with the admin's token.\n    - Verify the response status is 200.\n    - Verify GET /categories/tree/{categoryId} with the new category's id returns a null parent_id.\n    - Verify GET /categories/tree includes the new category's id among its items."
+  },
+  {
+   "id": "API-0204",
+   "name": "Update category with a name longer than 120 characters returns 422",
+   "status": "manual",
+   "role": "admin",
+   "steps": [
+    "Send POST /categories with a unique category name and a unique slug, with the admin's token, and take the new category's id.",
+    "Send PUT /categories/{categoryId} with that id and a body with only a 121-character name that starts with a unique category name, with the admin's token.",
+    "Verify the response status is 422.",
+    "Verify the body has a name key with at least one message."
+   ],
+   "ref": [],
+   "area": "categories",
+   "areaLabel": "Categories",
+   "file": "test-scenarios/api/categories/put-categories-by-category-id.yml",
+   "fileLabel": "PUT /categories/{categoryId}",
+   "suite": "Categories API",
+   "tags": [
+    "@categories-api"
+   ],
+   "yaml": "- id: API-0204\n  name: Update category with a name longer than 120 characters returns 422\n  status: manual\n  role: admin\n  steps:\n    - Send POST /categories with a unique category name and a unique slug, with the admin's token, and take the new category's id.\n    - Send PUT /categories/{categoryId} with that id and a body with only a 121-character name that starts with a unique category name, with the admin's token.\n    - Verify the response status is 422.\n    - Verify the body has a name key with at least one message."
+  },
+  {
+   "id": "API-0205",
+   "name": "Update category with a slug outside letters, digits, dashes and underscores returns 422",
+   "status": "manual",
+   "role": "admin",
+   "steps": [
+    "Send POST /categories with a unique category name and a unique slug, with the admin's token, and take the new category's id.",
+    "Send PUT /categories/{categoryId} with that id and a body with only a slug made of a unique slug followed by \" x!\" (a space and an exclamation mark), with the admin's token.",
+    "Verify the response status is 422.",
+    "Verify the body has a slug key with at least one message."
+   ],
+   "ref": [],
+   "area": "categories",
+   "areaLabel": "Categories",
+   "file": "test-scenarios/api/categories/put-categories-by-category-id.yml",
+   "fileLabel": "PUT /categories/{categoryId}",
+   "suite": "Categories API",
+   "tags": [
+    "@categories-api"
+   ],
+   "yaml": "- id: API-0205\n  name: Update category with a slug outside letters, digits, dashes and underscores returns 422\n  status: manual\n  role: admin\n  steps:\n    - Send POST /categories with a unique category name and a unique slug, with the admin's token, and take the new category's id.\n    - Send PUT /categories/{categoryId} with that id and a body with only a slug made of a unique slug followed by \" x!\" (a space and an exclamation mark), with the admin's token.\n    - Verify the response status is 422.\n    - Verify the body has a slug key with at least one message."
+  },
+  {
+   "id": "API-0206",
+   "name": "Update category with a name that isn't a string returns 422",
+   "status": "manual",
+   "role": "admin",
+   "steps": [
+    "Send POST /categories with a unique category name and a unique slug, with the admin's token, and take the new category's id.",
+    "Send PUT /categories/{categoryId} with that id and a body with only name set to the number 123, with the admin's token.",
+    "Verify the response status is 422.",
+    "Verify the body has a name key with at least one message."
+   ],
+   "ref": [],
+   "area": "categories",
+   "areaLabel": "Categories",
+   "file": "test-scenarios/api/categories/put-categories-by-category-id.yml",
+   "fileLabel": "PUT /categories/{categoryId}",
+   "suite": "Categories API",
+   "tags": [
+    "@categories-api"
+   ],
+   "yaml": "- id: API-0206\n  name: Update category with a name that isn't a string returns 422\n  status: manual\n  role: admin\n  steps:\n    - Send POST /categories with a unique category name and a unique slug, with the admin's token, and take the new category's id.\n    - Send PUT /categories/{categoryId} with that id and a body with only name set to the number 123, with the admin's token.\n    - Verify the response status is 422.\n    - Verify the body has a name key with at least one message."
+  },
+  {
+   "id": "API-0207",
+   "name": "Update category with a parent_id that isn't a string returns 422",
+   "status": "manual",
+   "role": "admin",
+   "steps": [
+    "Send POST /categories with a unique category name and a unique slug, with the admin's token, and take the new category's id.",
+    "Send PUT /categories/{categoryId} with that id and a body with only parent_id set to the number 123, with the admin's token.",
+    "Verify the response status is 422.",
+    "Verify the body has a parent_id key with at least one message."
+   ],
+   "ref": [],
+   "area": "categories",
+   "areaLabel": "Categories",
+   "file": "test-scenarios/api/categories/put-categories-by-category-id.yml",
+   "fileLabel": "PUT /categories/{categoryId}",
+   "suite": "Categories API",
+   "tags": [
+    "@categories-api"
+   ],
+   "yaml": "- id: API-0207\n  name: Update category with a parent_id that isn't a string returns 422\n  status: manual\n  role: admin\n  steps:\n    - Send POST /categories with a unique category name and a unique slug, with the admin's token, and take the new category's id.\n    - Send PUT /categories/{categoryId} with that id and a body with only parent_id set to the number 123, with the admin's token.\n    - Verify the response status is 422.\n    - Verify the body has a parent_id key with at least one message."
+  },
+  {
+   "id": "API-0208",
+   "name": "Update category with an unknown id returns 404",
+   "status": "manual",
+   "steps": [
+    "Send PUT /categories/{categoryId} with a well-formed ULID that no category has and a body with only a unique category name.",
+    "Verify the response status is 404.",
+    "Verify the body's message is \"Requested item not found\"."
+   ],
+   "ref": [],
+   "area": "categories",
+   "areaLabel": "Categories",
+   "file": "test-scenarios/api/categories/put-categories-by-category-id.yml",
+   "fileLabel": "PUT /categories/{categoryId}",
+   "suite": "Categories API",
+   "tags": [
+    "@categories-api"
+   ],
+   "yaml": "- id: API-0208\n  name: Update category with an unknown id returns 404\n  status: manual\n  steps:\n    - Send PUT /categories/{categoryId} with a well-formed ULID that no category has and a body with only a unique category name.\n    - Verify the response status is 404.\n    - Verify the body's message is \"Requested item not found\"."
+  },
+  {
+   "id": "API-0209",
+   "name": "Update category with an unknown id and an invalid body returns 422",
+   "status": "manual",
+   "steps": [
+    "Send PUT /categories/{categoryId} with a well-formed ULID that no category has and a body with only a 121-character name that starts with a unique category name.",
+    "Verify the response status is 422.",
+    "Verify the body has a name key with at least one message."
+   ],
+   "ref": [],
+   "area": "categories",
+   "areaLabel": "Categories",
+   "file": "test-scenarios/api/categories/put-categories-by-category-id.yml",
+   "fileLabel": "PUT /categories/{categoryId}",
+   "suite": "Categories API",
+   "tags": [
+    "@categories-api"
+   ],
+   "yaml": "- id: API-0209\n  name: Update category with an unknown id and an invalid body returns 422\n  status: manual\n  steps:\n    - Send PUT /categories/{categoryId} with a well-formed ULID that no category has and a body with only a 121-character name that starts with a unique category name.\n    - Verify the response status is 422.\n    - Verify the body has a name key with at least one message."
+  },
+  {
+   "id": "API-0210",
+   "name": "Update category with another category's slug returns 409",
+   "status": "manual",
+   "role": "admin",
+   "steps": [
+    "Send POST /categories with a unique category name and a unique slug, with the admin's token, and take the new category's id and slug.",
+    "Send PUT /categories/{categoryId} with that id and a body with only the slug hand-tools, with the admin's token.",
+    "Verify the response status is 409.",
+    "Verify GET /categories/tree/{categoryId} with that id still returns its own slug."
+   ],
+   "ref": [],
+   "area": "categories",
+   "areaLabel": "Categories",
+   "file": "test-scenarios/api/categories/put-categories-by-category-id.yml",
+   "fileLabel": "PUT /categories/{categoryId}",
+   "suite": "Categories API",
+   "tags": [
+    "@categories-api"
+   ],
+   "yaml": "- id: API-0210\n  name: Update category with another category's slug returns 409\n  status: manual\n  role: admin\n  steps:\n    - Send POST /categories with a unique category name and a unique slug, with the admin's token, and take the new category's id and slug.\n    - Send PUT /categories/{categoryId} with that id and a body with only the slug hand-tools, with the admin's token.\n    - Verify the response status is 409.\n    - Verify GET /categories/tree/{categoryId} with that id still returns its own slug."
+  },
+  {
+   "id": "API-0211",
+   "name": "Update category with another category's slug names the slug in the error",
+   "status": "manual",
+   "role": "admin",
+   "knownIssue": "Returns { message: \"Duplicate Entry\" } instead of the slug's validation message for a duplicate slug.",
+   "bug": "BUG-019",
+   "steps": [
+    "Send POST /categories with a unique category name and a unique slug, with the admin's token, and take the new category's id.",
+    "Send PUT /categories/{categoryId} with that id and a body with only the slug hand-tools, with the admin's token.",
+    "Verify the body's slug messages include \"A category already exists with this slug.\"."
+   ],
+   "ref": [],
+   "area": "categories",
+   "areaLabel": "Categories",
+   "file": "test-scenarios/api/categories/put-categories-by-category-id.yml",
+   "fileLabel": "PUT /categories/{categoryId}",
+   "suite": "Categories API",
+   "tags": [
+    "@categories-api"
+   ],
+   "yaml": "- id: API-0211\n  name: Update category with another category's slug names the slug in the error\n  status: manual\n  role: admin\n  knownIssue: 'Returns { message: \"Duplicate Entry\" } instead of the slug''s validation message for a duplicate slug.'\n  bug: BUG-019\n  steps:\n    - Send POST /categories with a unique category name and a unique slug, with the admin's token, and take the new category's id.\n    - Send PUT /categories/{categoryId} with that id and a body with only the slug hand-tools, with the admin's token.\n    - Verify the body's slug messages include \"A category already exists with this slug.\"."
+  },
+  {
+   "id": "API-0212",
+   "name": "Update category with an unknown parent_id returns 422",
+   "status": "manual",
+   "role": "admin",
+   "knownIssue": "Returns 500 instead of 422 when parent_id is not the id of an existing category.",
+   "bug": "BUG-015",
+   "steps": [
+    "Send POST /categories with a unique category name and a unique slug, with the admin's token, and take the new category's id.",
+    "Send PUT /categories/{categoryId} with that id and a body with only a well-formed ULID that no category has as parent_id, with the admin's token.",
+    "Verify the response status is 422."
+   ],
+   "ref": [],
+   "area": "categories",
+   "areaLabel": "Categories",
+   "file": "test-scenarios/api/categories/put-categories-by-category-id.yml",
+   "fileLabel": "PUT /categories/{categoryId}",
+   "suite": "Categories API",
+   "tags": [
+    "@categories-api"
+   ],
+   "yaml": "- id: API-0212\n  name: Update category with an unknown parent_id returns 422\n  status: manual\n  role: admin\n  knownIssue: Returns 500 instead of 422 when parent_id is not the id of an existing category.\n  bug: BUG-015\n  steps:\n    - Send POST /categories with a unique category name and a unique slug, with the admin's token, and take the new category's id.\n    - Send PUT /categories/{categoryId} with that id and a body with only a well-formed ULID that no category has as parent_id, with the admin's token.\n    - Verify the response status is 422."
+  },
+  {
+   "id": "API-0213",
+   "name": "Update category without a token returns 401",
+   "status": "manual",
+   "role": "admin",
+   "knownIssue": "Accepts PUT without a token instead of returning 401.",
+   "bug": "BUG-014",
+   "steps": [
+    "Send POST /categories with a unique category name and a unique slug, with the admin's token, and take the new category's id.",
+    "Send PUT /categories/{categoryId} with that id and a body with only a new unique category name, without an Authorization header.",
+    "Verify the response status is 401."
+   ],
+   "ref": [],
+   "area": "categories",
+   "areaLabel": "Categories",
+   "file": "test-scenarios/api/categories/put-categories-by-category-id.yml",
+   "fileLabel": "PUT /categories/{categoryId}",
+   "suite": "Categories API",
+   "tags": [
+    "@categories-api"
+   ],
+   "yaml": "- id: API-0213\n  name: Update category without a token returns 401\n  status: manual\n  role: admin\n  knownIssue: Accepts PUT without a token instead of returning 401.\n  bug: BUG-014\n  steps:\n    - Send POST /categories with a unique category name and a unique slug, with the admin's token, and take the new category's id.\n    - Send PUT /categories/{categoryId} with that id and a body with only a new unique category name, without an Authorization header.\n    - Verify the response status is 401."
+  },
+  {
+   "id": "API-0214",
+   "name": "Partially update category name returns success and keeps the slug",
+   "status": "manual",
+   "role": "admin",
+   "steps": [
+    "Send POST /categories with a unique category name and a unique slug, with the admin's token, and take the new category's id and slug.",
+    "Send PATCH /categories/{categoryId} with that id and a body with only a new unique category name, with the admin's token.",
+    "Verify the response status is 200.",
+    "Verify the body's success is true.",
+    "Verify GET /categories/tree/{categoryId} with that id returns the new name and the original slug."
+   ],
+   "ref": [],
+   "area": "categories",
+   "areaLabel": "Categories",
+   "file": "test-scenarios/api/categories/patch-categories-by-category-id.yml",
+   "fileLabel": "PATCH /categories/{categoryId}",
+   "suite": "Categories API",
+   "tags": [
+    "@categories-api"
+   ],
+   "yaml": "- id: API-0214\n  name: Partially update category name returns success and keeps the slug\n  status: manual\n  role: admin\n  steps:\n    - Send POST /categories with a unique category name and a unique slug, with the admin's token, and take the new category's id and slug.\n    - Send PATCH /categories/{categoryId} with that id and a body with only a new unique category name, with the admin's token.\n    - Verify the response status is 200.\n    - Verify the body's success is true.\n    - Verify GET /categories/tree/{categoryId} with that id returns the new name and the original slug."
+  },
+  {
+   "id": "API-0215",
+   "name": "Partially update category with an empty slug returns 422",
+   "status": "manual",
+   "role": "admin",
+   "steps": [
+    "Send POST /categories with a unique category name and a unique slug, with the admin's token, and take the new category's id.",
+    "Send PATCH /categories/{categoryId} with that id and a body with only slug set to an empty string, with the admin's token.",
+    "Verify the response status is 422.",
+    "Verify the body has a slug key with at least one message."
+   ],
+   "ref": [],
+   "area": "categories",
+   "areaLabel": "Categories",
+   "file": "test-scenarios/api/categories/patch-categories-by-category-id.yml",
+   "fileLabel": "PATCH /categories/{categoryId}",
+   "suite": "Categories API",
+   "tags": [
+    "@categories-api"
+   ],
+   "yaml": "- id: API-0215\n  name: Partially update category with an empty slug returns 422\n  status: manual\n  role: admin\n  steps:\n    - Send POST /categories with a unique category name and a unique slug, with the admin's token, and take the new category's id.\n    - Send PATCH /categories/{categoryId} with that id and a body with only slug set to an empty string, with the admin's token.\n    - Verify the response status is 422.\n    - Verify the body has a slug key with at least one message."
+  },
+  {
+   "id": "API-0216",
+   "name": "Partially update category with a slug outside letters, digits, dashes and underscores returns 422",
+   "status": "manual",
+   "role": "admin",
+   "steps": [
+    "Send POST /categories with a unique category name and a unique slug, with the admin's token, and take the new category's id.",
+    "Send PATCH /categories/{categoryId} with that id and a body with only a slug made of a unique slug followed by \" x!\" (a space and an exclamation mark), with the admin's token.",
+    "Verify the response status is 422.",
+    "Verify the body has a slug key with at least one message."
+   ],
+   "ref": [],
+   "area": "categories",
+   "areaLabel": "Categories",
+   "file": "test-scenarios/api/categories/patch-categories-by-category-id.yml",
+   "fileLabel": "PATCH /categories/{categoryId}",
+   "suite": "Categories API",
+   "tags": [
+    "@categories-api"
+   ],
+   "yaml": "- id: API-0216\n  name: Partially update category with a slug outside letters, digits, dashes and underscores returns 422\n  status: manual\n  role: admin\n  steps:\n    - Send POST /categories with a unique category name and a unique slug, with the admin's token, and take the new category's id.\n    - Send PATCH /categories/{categoryId} with that id and a body with only a slug made of a unique slug followed by \" x!\" (a space and an exclamation mark), with the admin's token.\n    - Verify the response status is 422.\n    - Verify the body has a slug key with at least one message."
+  },
+  {
+   "id": "API-0217",
+   "name": "Partially update category with a name longer than 120 characters returns 422",
+   "status": "manual",
+   "role": "admin",
+   "steps": [
+    "Send POST /categories with a unique category name and a unique slug, with the admin's token, and take the new category's id.",
+    "Send PATCH /categories/{categoryId} with that id and a body with only a 121-character name that starts with a unique category name, with the admin's token.",
+    "Verify the response status is 422.",
+    "Verify the body has a name key with at least one message."
+   ],
+   "ref": [],
+   "area": "categories",
+   "areaLabel": "Categories",
+   "file": "test-scenarios/api/categories/patch-categories-by-category-id.yml",
+   "fileLabel": "PATCH /categories/{categoryId}",
+   "suite": "Categories API",
+   "tags": [
+    "@categories-api"
+   ],
+   "yaml": "- id: API-0217\n  name: Partially update category with a name longer than 120 characters returns 422\n  status: manual\n  role: admin\n  steps:\n    - Send POST /categories with a unique category name and a unique slug, with the admin's token, and take the new category's id.\n    - Send PATCH /categories/{categoryId} with that id and a body with only a 121-character name that starts with a unique category name, with the admin's token.\n    - Verify the response status is 422.\n    - Verify the body has a name key with at least one message."
+  },
+  {
+   "id": "API-0218",
+   "name": "Partially update category with an unknown id returns 404",
+   "status": "manual",
+   "steps": [
+    "Send PATCH /categories/{categoryId} with a well-formed ULID that no category has and a body with only a unique category name.",
+    "Verify the response status is 404.",
+    "Verify the body's message is \"Requested item not found\"."
+   ],
+   "ref": [],
+   "area": "categories",
+   "areaLabel": "Categories",
+   "file": "test-scenarios/api/categories/patch-categories-by-category-id.yml",
+   "fileLabel": "PATCH /categories/{categoryId}",
+   "suite": "Categories API",
+   "tags": [
+    "@categories-api"
+   ],
+   "yaml": "- id: API-0218\n  name: Partially update category with an unknown id returns 404\n  status: manual\n  steps:\n    - Send PATCH /categories/{categoryId} with a well-formed ULID that no category has and a body with only a unique category name.\n    - Verify the response status is 404.\n    - Verify the body's message is \"Requested item not found\"."
+  },
+  {
+   "id": "API-0219",
+   "name": "Partially update category with another category's slug returns 409",
+   "status": "manual",
+   "role": "admin",
+   "steps": [
+    "Send POST /categories with a unique category name and a unique slug, with the admin's token, and take the new category's id and slug.",
+    "Send PATCH /categories/{categoryId} with that id and a body with only the slug hand-tools, with the admin's token.",
+    "Verify the response status is 409.",
+    "Verify the body has a slug key with at least one message.",
+    "Verify GET /categories/tree/{categoryId} with that id still returns its own slug."
+   ],
+   "ref": [],
+   "area": "categories",
+   "areaLabel": "Categories",
+   "file": "test-scenarios/api/categories/patch-categories-by-category-id.yml",
+   "fileLabel": "PATCH /categories/{categoryId}",
+   "suite": "Categories API",
+   "tags": [
+    "@categories-api"
+   ],
+   "yaml": "- id: API-0219\n  name: Partially update category with another category's slug returns 409\n  status: manual\n  role: admin\n  steps:\n    - Send POST /categories with a unique category name and a unique slug, with the admin's token, and take the new category's id and slug.\n    - Send PATCH /categories/{categoryId} with that id and a body with only the slug hand-tools, with the admin's token.\n    - Verify the response status is 409.\n    - Verify the body has a slug key with at least one message.\n    - Verify GET /categories/tree/{categoryId} with that id still returns its own slug."
+  },
+  {
+   "id": "API-0220",
+   "name": "Partially update category with its own slug returns success",
+   "status": "manual",
+   "role": "admin",
+   "knownIssue": "Returns 409 instead of 200 when the body repeats the category's own slug.",
+   "bug": "BUG-018",
+   "steps": [
+    "Send POST /categories with a unique category name and a unique slug, with the admin's token, and take the new category's id and slug.",
+    "Send PATCH /categories/{categoryId} with that id and a body with a new unique category name and the category's own slug, with the admin's token.",
+    "Verify the response status is 200.",
+    "Verify GET /categories/tree/{categoryId} with that id returns the new name."
+   ],
+   "ref": [],
+   "area": "categories",
+   "areaLabel": "Categories",
+   "file": "test-scenarios/api/categories/patch-categories-by-category-id.yml",
+   "fileLabel": "PATCH /categories/{categoryId}",
+   "suite": "Categories API",
+   "tags": [
+    "@categories-api"
+   ],
+   "yaml": "- id: API-0220\n  name: Partially update category with its own slug returns success\n  status: manual\n  role: admin\n  knownIssue: Returns 409 instead of 200 when the body repeats the category's own slug.\n  bug: BUG-018\n  steps:\n    - Send POST /categories with a unique category name and a unique slug, with the admin's token, and take the new category's id and slug.\n    - Send PATCH /categories/{categoryId} with that id and a body with a new unique category name and the category's own slug, with the admin's token.\n    - Verify the response status is 200.\n    - Verify GET /categories/tree/{categoryId} with that id returns the new name."
+  },
+  {
+   "id": "API-0221",
+   "name": "Partially update category with an unknown parent_id returns 422",
+   "status": "manual",
+   "role": "admin",
+   "knownIssue": "Returns 500 instead of 422 when parent_id is not the id of an existing category.",
+   "bug": "BUG-015",
+   "steps": [
+    "Send POST /categories with a unique category name and a unique slug, with the admin's token, and take the new category's id.",
+    "Send PATCH /categories/{categoryId} with that id and a body with only a well-formed ULID that no category has as parent_id, with the admin's token.",
+    "Verify the response status is 422."
+   ],
+   "ref": [],
+   "area": "categories",
+   "areaLabel": "Categories",
+   "file": "test-scenarios/api/categories/patch-categories-by-category-id.yml",
+   "fileLabel": "PATCH /categories/{categoryId}",
+   "suite": "Categories API",
+   "tags": [
+    "@categories-api"
+   ],
+   "yaml": "- id: API-0221\n  name: Partially update category with an unknown parent_id returns 422\n  status: manual\n  role: admin\n  knownIssue: Returns 500 instead of 422 when parent_id is not the id of an existing category.\n  bug: BUG-015\n  steps:\n    - Send POST /categories with a unique category name and a unique slug, with the admin's token, and take the new category's id.\n    - Send PATCH /categories/{categoryId} with that id and a body with only a well-formed ULID that no category has as parent_id, with the admin's token.\n    - Verify the response status is 422."
+  },
+  {
+   "id": "API-0222",
+   "name": "Partially update category without a token returns 401",
+   "status": "manual",
+   "role": "admin",
+   "knownIssue": "Accepts PATCH without a token instead of returning 401.",
+   "bug": "BUG-014",
+   "steps": [
+    "Send POST /categories with a unique category name and a unique slug, with the admin's token, and take the new category's id.",
+    "Send PATCH /categories/{categoryId} with that id and a body with only a new unique category name, without an Authorization header.",
+    "Verify the response status is 401."
+   ],
+   "ref": [],
+   "area": "categories",
+   "areaLabel": "Categories",
+   "file": "test-scenarios/api/categories/patch-categories-by-category-id.yml",
+   "fileLabel": "PATCH /categories/{categoryId}",
+   "suite": "Categories API",
+   "tags": [
+    "@categories-api"
+   ],
+   "yaml": "- id: API-0222\n  name: Partially update category without a token returns 401\n  status: manual\n  role: admin\n  knownIssue: Accepts PATCH without a token instead of returning 401.\n  bug: BUG-014\n  steps:\n    - Send POST /categories with a unique category name and a unique slug, with the admin's token, and take the new category's id.\n    - Send PATCH /categories/{categoryId} with that id and a body with only a new unique category name, without an Authorization header.\n    - Verify the response status is 401."
+  },
+  {
+   "id": "API-0223",
+   "name": "Admin deletes a category",
+   "status": "manual",
+   "role": "admin",
+   "steps": [
+    "Send POST /categories with a unique category name and a unique slug, with the admin's token, and take the new category's id.",
+    "Send DELETE /categories/{categoryId} with that id, with the admin's token.",
+    "Verify the response status is 204.",
+    "Verify GET /categories/tree/{categoryId} with that id returns 404."
+   ],
+   "ref": [],
+   "area": "categories",
+   "areaLabel": "Categories",
+   "file": "test-scenarios/api/categories/delete-categories-by-category-id.yml",
+   "fileLabel": "DELETE /categories/{categoryId}",
+   "suite": "Categories API",
+   "tags": [
+    "@categories-api"
+   ],
+   "yaml": "- id: API-0223\n  name: Admin deletes a category\n  status: manual\n  role: admin\n  steps:\n    - Send POST /categories with a unique category name and a unique slug, with the admin's token, and take the new category's id.\n    - Send DELETE /categories/{categoryId} with that id, with the admin's token.\n    - Verify the response status is 204.\n    - Verify GET /categories/tree/{categoryId} with that id returns 404."
+  },
+  {
+   "id": "API-0224",
+   "name": "Delete category without a token returns 401",
+   "status": "manual",
+   "role": "admin",
+   "steps": [
+    "Send POST /categories with a unique category name and a unique slug, with the admin's token, and take the new category's id.",
+    "Send DELETE /categories/{categoryId} with that id, without an Authorization header.",
+    "Verify the response status is 401.",
+    "Verify the body's message is \"Unauthorized\"."
+   ],
+   "ref": [],
+   "area": "categories",
+   "areaLabel": "Categories",
+   "file": "test-scenarios/api/categories/delete-categories-by-category-id.yml",
+   "fileLabel": "DELETE /categories/{categoryId}",
+   "suite": "Categories API",
+   "tags": [
+    "@categories-api"
+   ],
+   "yaml": "- id: API-0224\n  name: Delete category without a token returns 401\n  status: manual\n  role: admin\n  steps:\n    - Send POST /categories with a unique category name and a unique slug, with the admin's token, and take the new category's id.\n    - Send DELETE /categories/{categoryId} with that id, without an Authorization header.\n    - Verify the response status is 401.\n    - Verify the body's message is \"Unauthorized\"."
+  },
+  {
+   "id": "API-0225",
+   "name": "Delete category with an invalid token returns 401",
+   "status": "manual",
+   "role": "admin",
+   "steps": [
+    "Send POST /categories with a unique category name and a unique slug, with the admin's token, and take the new category's id.",
+    "Send DELETE /categories/{categoryId} with that id, with an invalid token.",
+    "Verify the response status is 401.",
+    "Verify the body's message is \"Unauthorized\"."
+   ],
+   "ref": [],
+   "area": "categories",
+   "areaLabel": "Categories",
+   "file": "test-scenarios/api/categories/delete-categories-by-category-id.yml",
+   "fileLabel": "DELETE /categories/{categoryId}",
+   "suite": "Categories API",
+   "tags": [
+    "@categories-api"
+   ],
+   "yaml": "- id: API-0225\n  name: Delete category with an invalid token returns 401\n  status: manual\n  role: admin\n  steps:\n    - Send POST /categories with a unique category name and a unique slug, with the admin's token, and take the new category's id.\n    - Send DELETE /categories/{categoryId} with that id, with an invalid token.\n    - Verify the response status is 401.\n    - Verify the body's message is \"Unauthorized\"."
+  },
+  {
+   "id": "API-0226",
+   "name": "Delete category as a non-admin user returns 403",
+   "status": "manual",
+   "steps": [
+    "Send POST /categories with a unique category name and a unique slug, with the admin's token, and take the new category's id.",
+    "Send DELETE /categories/{categoryId} with that id, with the default user's token.",
+    "Verify the response status is 403.",
+    "Verify the body's message is \"Forbidden\"."
+   ],
+   "ref": [],
+   "area": "categories",
+   "areaLabel": "Categories",
+   "file": "test-scenarios/api/categories/delete-categories-by-category-id.yml",
+   "fileLabel": "DELETE /categories/{categoryId}",
+   "suite": "Categories API",
+   "tags": [
+    "@categories-api"
+   ],
+   "yaml": "- id: API-0226\n  name: Delete category as a non-admin user returns 403\n  status: manual\n  steps:\n    - Send POST /categories with a unique category name and a unique slug, with the admin's token, and take the new category's id.\n    - Send DELETE /categories/{categoryId} with that id, with the default user's token.\n    - Verify the response status is 403.\n    - Verify the body's message is \"Forbidden\"."
+  },
+  {
+   "id": "API-0227",
+   "name": "Delete category with an unknown id returns 404",
+   "status": "manual",
+   "role": "admin",
+   "steps": [
+    "Send DELETE /categories/{categoryId} with a well-formed ULID that no category has, with the admin's token.",
+    "Verify the response status is 404.",
+    "Verify the body's message is \"Requested item not found\"."
+   ],
+   "ref": [],
+   "area": "categories",
+   "areaLabel": "Categories",
+   "file": "test-scenarios/api/categories/delete-categories-by-category-id.yml",
+   "fileLabel": "DELETE /categories/{categoryId}",
+   "suite": "Categories API",
+   "tags": [
+    "@categories-api"
+   ],
+   "yaml": "- id: API-0227\n  name: Delete category with an unknown id returns 404\n  status: manual\n  role: admin\n  steps:\n    - Send DELETE /categories/{categoryId} with a well-formed ULID that no category has, with the admin's token.\n    - Verify the response status is 404.\n    - Verify the body's message is \"Requested item not found\"."
+  },
+  {
+   "id": "API-0228",
+   "name": "Delete category that has sub-categories returns 409",
+   "status": "manual",
+   "role": "admin",
+   "steps": [
+    "Send POST /categories with a unique category name and a unique slug, with the admin's token, and take the new category's id as the parent's id.",
+    "Send POST /categories with a unique category name, a unique slug and the parent's id as parent_id, with the admin's token, and take the new category's id.",
+    "Send DELETE /categories/{categoryId} with the parent's id, with the admin's token.",
+    "Verify the response status is 409.",
+    "Verify the body's success is false and its message is \"Seems like this category is used elsewhere.\".",
+    "Verify GET /categories/tree/{categoryId} with the parent's id returns 200."
+   ],
+   "ref": [],
+   "area": "categories",
+   "areaLabel": "Categories",
+   "file": "test-scenarios/api/categories/delete-categories-by-category-id.yml",
+   "fileLabel": "DELETE /categories/{categoryId}",
+   "suite": "Categories API",
+   "tags": [
+    "@categories-api"
+   ],
+   "yaml": "- id: API-0228\n  name: Delete category that has sub-categories returns 409\n  status: manual\n  role: admin\n  steps:\n    - Send POST /categories with a unique category name and a unique slug, with the admin's token, and take the new category's id as the parent's id.\n    - Send POST /categories with a unique category name, a unique slug and the parent's id as parent_id, with the admin's token, and take the new category's id.\n    - Send DELETE /categories/{categoryId} with the parent's id, with the admin's token.\n    - Verify the response status is 409.\n    - Verify the body's success is false and its message is \"Seems like this category is used elsewhere.\".\n    - Verify GET /categories/tree/{categoryId} with the parent's id returns 200."
+  },
+  {
+   "id": "API-0229",
+   "name": "Delete category that a product uses returns 409",
+   "status": "manual",
+   "role": "admin",
+   "steps": [
+    "Send POST /categories with a unique category name and a unique slug, with the admin's token, and take the new category's id.",
+    "Send GET /products and take the first item's brand id and product image id.",
+    "Send POST /products with a unique product name, a positive price, the new category's id as category_id, that brand id, that product image id, is_location_offer false and is_rental false, with the admin's token, and take the new product's id.",
+    "Send DELETE /categories/{categoryId} with the new category's id, with the admin's token.",
+    "Verify the response status is 409.",
+    "Verify the body's success is false and its message is \"Seems like this category is used elsewhere.\".",
+    "Verify GET /categories/tree/{categoryId} with the new category's id returns 200."
+   ],
+   "ref": [],
+   "area": "categories",
+   "areaLabel": "Categories",
+   "file": "test-scenarios/api/categories/delete-categories-by-category-id.yml",
+   "fileLabel": "DELETE /categories/{categoryId}",
+   "suite": "Categories API",
+   "tags": [
+    "@categories-api"
+   ],
+   "yaml": "- id: API-0229\n  name: Delete category that a product uses returns 409\n  status: manual\n  role: admin\n  steps:\n    - Send POST /categories with a unique category name and a unique slug, with the admin's token, and take the new category's id.\n    - Send GET /products and take the first item's brand id and product image id.\n    - Send POST /products with a unique product name, a positive price, the new category's id as category_id, that brand id, that product image id, is_location_offer false and is_rental false, with the admin's token, and take the new product's id.\n    - Send DELETE /categories/{categoryId} with the new category's id, with the admin's token.\n    - Verify the response status is 409.\n    - Verify the body's success is false and its message is \"Seems like this category is used elsewhere.\".\n    - Verify GET /categories/tree/{categoryId} with the new category's id returns 200."
+  },
+  {
+   "id": "API-0267",
+   "name": "List favorites returns 200 with the user's favorites and their products",
+   "status": "manual",
+   "steps": [
+    "Send GET /products and take the id of a product that isn't among the default user's favorites (compare with GET /favorites).",
+    "Send POST /favorites with that product id, and take the new favorite's id and its user_id.",
+    "Send GET /favorites.",
+    "Verify the response status is 200.",
+    "Verify the body is an array that includes an item with the new favorite's id.",
+    "Verify that item's product_id equals the product id sent and its user_id equals the user_id returned by POST /favorites.",
+    "Verify that item's product has an id equal to its product_id, a name, a price and a product_image.",
+    "Verify that item's product has no category key and no brand key."
+   ],
+   "ref": [],
+   "area": "favorites",
+   "areaLabel": "Favorites",
+   "file": "test-scenarios/api/favorites/get-favorites.yml",
+   "fileLabel": "GET /favorites",
+   "suite": "Favorites API",
+   "tags": [
+    "@favorites-api"
+   ],
+   "yaml": "- id: API-0267\n  name: List favorites returns 200 with the user's favorites and their products\n  status: manual\n  steps:\n    - Send GET /products and take the id of a product that isn't among the default user's favorites (compare with GET /favorites).\n    - Send POST /favorites with that product id, and take the new favorite's id and its user_id.\n    - Send GET /favorites.\n    - Verify the response status is 200.\n    - Verify the body is an array that includes an item with the new favorite's id.\n    - Verify that item's product_id equals the product id sent and its user_id equals the user_id returned by POST /favorites.\n    - Verify that item's product has an id equal to its product_id, a name, a price and a product_image.\n    - Verify that item's product has no category key and no brand key."
+  },
+  {
+   "id": "API-0268",
+   "name": "List favorites of a new customer returns an empty list",
+   "status": "manual",
+   "steps": [
+    "Send GET /products and take the id of a product that isn't among the default user's favorites (compare with GET /favorites).",
+    "Send POST /favorites with that product id.",
+    "Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.",
+    "Send POST /users/login with that email and password, and take its access_token.",
+    "Send GET /favorites with the throwaway customer's access_token.",
+    "Verify the response status is 200.",
+    "Verify the body is an empty array."
+   ],
+   "ref": [],
+   "area": "favorites",
+   "areaLabel": "Favorites",
+   "file": "test-scenarios/api/favorites/get-favorites.yml",
+   "fileLabel": "GET /favorites",
+   "suite": "Favorites API",
+   "tags": [
+    "@favorites-api"
+   ],
+   "yaml": "- id: API-0268\n  name: List favorites of a new customer returns an empty list\n  status: manual\n  steps:\n    - Send GET /products and take the id of a product that isn't among the default user's favorites (compare with GET /favorites).\n    - Send POST /favorites with that product id.\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.\n    - Send POST /users/login with that email and password, and take its access_token.\n    - Send GET /favorites with the throwaway customer's access_token.\n    - Verify the response status is 200.\n    - Verify the body is an empty array."
+  },
+  {
+   "id": "API-0269",
+   "name": "List favorites without a token returns 401",
+   "status": "manual",
+   "steps": [
+    "Send GET /favorites without an Authorization header.",
+    "Verify the response status is 401.",
+    "Verify the body's message is \"Unauthorized\"."
+   ],
+   "ref": [],
+   "area": "favorites",
+   "areaLabel": "Favorites",
+   "file": "test-scenarios/api/favorites/get-favorites.yml",
+   "fileLabel": "GET /favorites",
+   "suite": "Favorites API",
+   "tags": [
+    "@favorites-api"
+   ],
+   "yaml": "- id: API-0269\n  name: List favorites without a token returns 401\n  status: manual\n  steps:\n    - Send GET /favorites without an Authorization header.\n    - Verify the response status is 401.\n    - Verify the body's message is \"Unauthorized\"."
+  },
+  {
+   "id": "API-0270",
+   "name": "List favorites with a malformed token returns 401",
+   "status": "manual",
+   "steps": [
+    "Send GET /favorites with a malformed token.",
+    "Verify the response status is 401.",
+    "Verify the body's message is \"Unauthorized\"."
+   ],
+   "ref": [],
+   "area": "favorites",
+   "areaLabel": "Favorites",
+   "file": "test-scenarios/api/favorites/get-favorites.yml",
+   "fileLabel": "GET /favorites",
+   "suite": "Favorites API",
+   "tags": [
+    "@favorites-api"
+   ],
+   "yaml": "- id: API-0270\n  name: List favorites with a malformed token returns 401\n  status: manual\n  steps:\n    - Send GET /favorites with a malformed token.\n    - Verify the response status is 401.\n    - Verify the body's message is \"Unauthorized\"."
+  },
+  {
+   "id": "API-0271",
+   "name": "List favorites with a disabled account's token returns 403",
+   "status": "manual",
+   "role": "admin",
+   "steps": [
+    "Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.",
+    "Send POST /users/login with that email and password, and take its access_token.",
+    "Send PATCH /users/{userId} with that id and enabled false, with the admin's token.",
+    "Send GET /favorites with the throwaway customer's access_token.",
+    "Verify the response status is 403.",
+    "Verify the body's message is \"Account disabled.\"."
+   ],
+   "ref": [],
+   "area": "favorites",
+   "areaLabel": "Favorites",
+   "file": "test-scenarios/api/favorites/get-favorites.yml",
+   "fileLabel": "GET /favorites",
+   "suite": "Favorites API",
+   "tags": [
+    "@favorites-api"
+   ],
+   "yaml": "- id: API-0271\n  name: List favorites with a disabled account's token returns 403\n  status: manual\n  role: admin\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.\n    - Send POST /users/login with that email and password, and take its access_token.\n    - Send PATCH /users/{userId} with that id and enabled false, with the admin's token.\n    - Send GET /favorites with the throwaway customer's access_token.\n    - Verify the response status is 403.\n    - Verify the body's message is \"Account disabled.\"."
+  },
+  {
+   "id": "API-0272",
+   "name": "Add favorite returns 201 with the new favorite",
+   "status": "manual",
+   "steps": [
+    "Send GET /products and take the id of a product that isn't among the default user's favorites (compare with GET /favorites).",
+    "Send POST /favorites with that product id, and take the new favorite's id.",
+    "Verify the response status is 201.",
+    "Verify the body's product_id equals the product id sent.",
+    "Verify the body has a non-empty id.",
+    "Verify the body's user_id equals the default user's id from GET /users/me.",
+    "Verify GET /favorites/{favoriteId} with the new id returns 200 with the same product_id and user_id."
+   ],
+   "ref": [],
+   "area": "favorites",
+   "areaLabel": "Favorites",
+   "file": "test-scenarios/api/favorites/post-favorites.yml",
+   "fileLabel": "POST /favorites",
+   "suite": "Favorites API",
+   "tags": [
+    "@favorites-api"
+   ],
+   "yaml": "- id: API-0272\n  name: Add favorite returns 201 with the new favorite\n  status: manual\n  steps:\n    - Send GET /products and take the id of a product that isn't among the default user's favorites (compare with GET /favorites).\n    - Send POST /favorites with that product id, and take the new favorite's id.\n    - Verify the response status is 201.\n    - Verify the body's product_id equals the product id sent.\n    - Verify the body has a non-empty id.\n    - Verify the body's user_id equals the default user's id from GET /users/me.\n    - Verify GET /favorites/{favoriteId} with the new id returns 200 with the same product_id and user_id."
+  },
+  {
+   "id": "API-0273",
+   "name": "Add favorite takes the user from the token, not from the body",
+   "status": "manual",
+   "steps": [
+    "Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.",
+    "Send GET /products and take the id of a product that isn't among the default user's favorites (compare with GET /favorites).",
+    "Send POST /favorites with that product id and user_id set to the throwaway customer's id, with the default user's token, and take the new favorite's id.",
+    "Verify the response status is 201.",
+    "Verify the body's user_id equals the default user's id from GET /users/me."
+   ],
+   "ref": [],
+   "area": "favorites",
+   "areaLabel": "Favorites",
+   "file": "test-scenarios/api/favorites/post-favorites.yml",
+   "fileLabel": "POST /favorites",
+   "suite": "Favorites API",
+   "tags": [
+    "@favorites-api"
+   ],
+   "yaml": "- id: API-0273\n  name: Add favorite takes the user from the token, not from the body\n  status: manual\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.\n    - Send GET /products and take the id of a product that isn't among the default user's favorites (compare with GET /favorites).\n    - Send POST /favorites with that product id and user_id set to the throwaway customer's id, with the default user's token, and take the new favorite's id.\n    - Verify the response status is 201.\n    - Verify the body's user_id equals the default user's id from GET /users/me."
+  },
+  {
+   "id": "API-0274",
+   "name": "Add favorite without a token returns 401",
+   "status": "manual",
+   "steps": [
+    "Send GET /products and take the first product's id.",
+    "Send POST /favorites with that product id, without an Authorization header.",
+    "Verify the response status is 401.",
+    "Verify the body's message is \"Unauthorized\"."
+   ],
+   "ref": [],
+   "area": "favorites",
+   "areaLabel": "Favorites",
+   "file": "test-scenarios/api/favorites/post-favorites.yml",
+   "fileLabel": "POST /favorites",
+   "suite": "Favorites API",
+   "tags": [
+    "@favorites-api"
+   ],
+   "yaml": "- id: API-0274\n  name: Add favorite without a token returns 401\n  status: manual\n  steps:\n    - Send GET /products and take the first product's id.\n    - Send POST /favorites with that product id, without an Authorization header.\n    - Verify the response status is 401.\n    - Verify the body's message is \"Unauthorized\"."
+  },
+  {
+   "id": "API-0275",
+   "name": "Add favorite with a malformed token returns 401",
+   "status": "manual",
+   "steps": [
+    "Send GET /products and take the first product's id.",
+    "Send POST /favorites with that product id, with a malformed token.",
+    "Verify the response status is 401.",
+    "Verify the body's message is \"Unauthorized\"."
+   ],
+   "ref": [],
+   "area": "favorites",
+   "areaLabel": "Favorites",
+   "file": "test-scenarios/api/favorites/post-favorites.yml",
+   "fileLabel": "POST /favorites",
+   "suite": "Favorites API",
+   "tags": [
+    "@favorites-api"
+   ],
+   "yaml": "- id: API-0275\n  name: Add favorite with a malformed token returns 401\n  status: manual\n  steps:\n    - Send GET /products and take the first product's id.\n    - Send POST /favorites with that product id, with a malformed token.\n    - Verify the response status is 401.\n    - Verify the body's message is \"Unauthorized\"."
+  },
+  {
+   "id": "API-0276",
+   "name": "Add favorite without product_id returns 422",
+   "status": "manual",
+   "steps": [
+    "Send POST /favorites with an empty JSON object as the body.",
+    "Verify the response status is 422.",
+    "Verify the body has a product_id key with at least one message.",
+    "Verify the body's product_id messages include \"The product id field is required.\"."
+   ],
+   "ref": [],
+   "area": "favorites",
+   "areaLabel": "Favorites",
+   "file": "test-scenarios/api/favorites/post-favorites.yml",
+   "fileLabel": "POST /favorites",
+   "suite": "Favorites API",
+   "tags": [
+    "@favorites-api"
+   ],
+   "yaml": "- id: API-0276\n  name: Add favorite without product_id returns 422\n  status: manual\n  steps:\n    - Send POST /favorites with an empty JSON object as the body.\n    - Verify the response status is 422.\n    - Verify the body has a product_id key with at least one message.\n    - Verify the body's product_id messages include \"The product id field is required.\"."
+  },
+  {
+   "id": "API-0277",
+   "name": "Add favorite with an unknown product id returns 422",
+   "status": "manual",
+   "steps": [
+    "Send POST /favorites with product_id set to a well-formed ULID that no product has.",
+    "Verify the response status is 422.",
+    "Verify the body's product_id messages include \"The selected product id is invalid.\"."
+   ],
+   "ref": [],
+   "area": "favorites",
+   "areaLabel": "Favorites",
+   "file": "test-scenarios/api/favorites/post-favorites.yml",
+   "fileLabel": "POST /favorites",
+   "suite": "Favorites API",
+   "tags": [
+    "@favorites-api"
+   ],
+   "yaml": "- id: API-0277\n  name: Add favorite with an unknown product id returns 422\n  status: manual\n  steps:\n    - Send POST /favorites with product_id set to a well-formed ULID that no product has.\n    - Verify the response status is 422.\n    - Verify the body's product_id messages include \"The selected product id is invalid.\"."
+  },
+  {
+   "id": "API-0278",
+   "name": "Add favorite with a product already in the favorites returns 409",
+   "status": "manual",
+   "steps": [
+    "Send GET /products and take the id of a product that isn't among the default user's favorites (compare with GET /favorites).",
+    "Send POST /favorites with that product id, and take the new favorite's id.",
+    "Send POST /favorites with the same product id again.",
+    "Verify the response status is 409.",
+    "Verify the body's message is \"Duplicate Entry\".",
+    "Verify GET /favorites includes exactly one favorite with that product id."
+   ],
+   "ref": [],
+   "area": "favorites",
+   "areaLabel": "Favorites",
+   "file": "test-scenarios/api/favorites/post-favorites.yml",
+   "fileLabel": "POST /favorites",
+   "suite": "Favorites API",
+   "tags": [
+    "@favorites-api"
+   ],
+   "yaml": "- id: API-0278\n  name: Add favorite with a product already in the favorites returns 409\n  status: manual\n  steps:\n    - Send GET /products and take the id of a product that isn't among the default user's favorites (compare with GET /favorites).\n    - Send POST /favorites with that product id, and take the new favorite's id.\n    - Send POST /favorites with the same product id again.\n    - Verify the response status is 409.\n    - Verify the body's message is \"Duplicate Entry\".\n    - Verify GET /favorites includes exactly one favorite with that product id."
+  },
+  {
+   "id": "API-0279",
+   "name": "Get favorite returns 200 with the favorite",
+   "status": "manual",
+   "steps": [
+    "Send GET /products and take the id of a product that isn't among the default user's favorites (compare with GET /favorites).",
+    "Send POST /favorites with that product id, and take the new favorite's id, user_id and product_id.",
+    "Send GET /favorites/{favoriteId} with that id.",
+    "Verify the response status is 200.",
+    "Verify the body's id, user_id and product_id equal the values POST /favorites returned.",
+    "Verify the body has no product key."
+   ],
+   "ref": [],
+   "area": "favorites",
+   "areaLabel": "Favorites",
+   "file": "test-scenarios/api/favorites/get-favorites-by-favorite-id.yml",
+   "fileLabel": "GET /favorites/{favoriteId}",
+   "suite": "Favorites API",
+   "tags": [
+    "@favorites-api"
+   ],
+   "yaml": "- id: API-0279\n  name: Get favorite returns 200 with the favorite\n  status: manual\n  steps:\n    - Send GET /products and take the id of a product that isn't among the default user's favorites (compare with GET /favorites).\n    - Send POST /favorites with that product id, and take the new favorite's id, user_id and product_id.\n    - Send GET /favorites/{favoriteId} with that id.\n    - Verify the response status is 200.\n    - Verify the body's id, user_id and product_id equal the values POST /favorites returned.\n    - Verify the body has no product key."
+  },
+  {
+   "id": "API-0280",
+   "name": "Get favorite without a token returns 401",
+   "status": "manual",
+   "steps": [
+    "Send GET /favorites/{favoriteId} with a well-formed ULID that no favorite has, without an Authorization header.",
+    "Verify the response status is 401.",
+    "Verify the body's message is \"Unauthorized\"."
+   ],
+   "ref": [],
+   "area": "favorites",
+   "areaLabel": "Favorites",
+   "file": "test-scenarios/api/favorites/get-favorites-by-favorite-id.yml",
+   "fileLabel": "GET /favorites/{favoriteId}",
+   "suite": "Favorites API",
+   "tags": [
+    "@favorites-api"
+   ],
+   "yaml": "- id: API-0280\n  name: Get favorite without a token returns 401\n  status: manual\n  steps:\n    - Send GET /favorites/{favoriteId} with a well-formed ULID that no favorite has, without an Authorization header.\n    - Verify the response status is 401.\n    - Verify the body's message is \"Unauthorized\"."
+  },
+  {
+   "id": "API-0281",
+   "name": "Get favorite with a malformed token returns 401",
+   "status": "manual",
+   "steps": [
+    "Send GET /favorites/{favoriteId} with a well-formed ULID that no favorite has, with a malformed token.",
+    "Verify the response status is 401.",
+    "Verify the body's message is \"Unauthorized\"."
+   ],
+   "ref": [],
+   "area": "favorites",
+   "areaLabel": "Favorites",
+   "file": "test-scenarios/api/favorites/get-favorites-by-favorite-id.yml",
+   "fileLabel": "GET /favorites/{favoriteId}",
+   "suite": "Favorites API",
+   "tags": [
+    "@favorites-api"
+   ],
+   "yaml": "- id: API-0281\n  name: Get favorite with a malformed token returns 401\n  status: manual\n  steps:\n    - Send GET /favorites/{favoriteId} with a well-formed ULID that no favorite has, with a malformed token.\n    - Verify the response status is 401.\n    - Verify the body's message is \"Unauthorized\"."
+  },
+  {
+   "id": "API-0282",
+   "name": "Get favorite with an unknown id returns 404",
+   "status": "manual",
+   "steps": [
+    "Send GET /favorites/{favoriteId} with a well-formed ULID that no favorite has.",
+    "Verify the response status is 404.",
+    "Verify the body's message is \"Requested item not found\"."
+   ],
+   "ref": [],
+   "area": "favorites",
+   "areaLabel": "Favorites",
+   "file": "test-scenarios/api/favorites/get-favorites-by-favorite-id.yml",
+   "fileLabel": "GET /favorites/{favoriteId}",
+   "suite": "Favorites API",
+   "tags": [
+    "@favorites-api"
+   ],
+   "yaml": "- id: API-0282\n  name: Get favorite with an unknown id returns 404\n  status: manual\n  steps:\n    - Send GET /favorites/{favoriteId} with a well-formed ULID that no favorite has.\n    - Verify the response status is 404.\n    - Verify the body's message is \"Requested item not found\"."
+  },
+  {
+   "id": "API-0283",
+   "name": "Get another user's favorite is refused",
+   "status": "manual",
+   "knownIssue": "Returns 200 with another user's favorite instead of 404 or 403.",
+   "bug": "BUG-021",
+   "steps": [
+    "Send GET /products and take the id of a product that isn't among the default user's favorites (compare with GET /favorites).",
+    "Send POST /favorites with that product id, and take the new favorite's id.",
+    "Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.",
+    "Send POST /users/login with that email and password, and take its access_token.",
+    "Send GET /favorites/{favoriteId} with that favorite's id, with the throwaway customer's access_token.",
+    "Verify the response status is 404 or 403."
+   ],
+   "ref": [],
+   "area": "favorites",
+   "areaLabel": "Favorites",
+   "file": "test-scenarios/api/favorites/get-favorites-by-favorite-id.yml",
+   "fileLabel": "GET /favorites/{favoriteId}",
+   "suite": "Favorites API",
+   "tags": [
+    "@favorites-api"
+   ],
+   "yaml": "- id: API-0283\n  name: Get another user's favorite is refused\n  status: manual\n  knownIssue: Returns 200 with another user's favorite instead of 404 or 403.\n  bug: BUG-021\n  steps:\n    - Send GET /products and take the id of a product that isn't among the default user's favorites (compare with GET /favorites).\n    - Send POST /favorites with that product id, and take the new favorite's id.\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.\n    - Send POST /users/login with that email and password, and take its access_token.\n    - Send GET /favorites/{favoriteId} with that favorite's id, with the throwaway customer's access_token.\n    - Verify the response status is 404 or 403."
+  },
+  {
+   "id": "API-0284",
+   "name": "Delete favorite returns 204 and removes it",
+   "status": "manual",
+   "steps": [
+    "Send GET /products and take the id of a product that isn't among the default user's favorites (compare with GET /favorites).",
+    "Send POST /favorites with that product id, and take the new favorite's id.",
+    "Send DELETE /favorites/{favoriteId} with that id.",
+    "Verify the response status is 204.",
+    "Verify GET /favorites/{favoriteId} with that id returns 404."
+   ],
+   "ref": [],
+   "area": "favorites",
+   "areaLabel": "Favorites",
+   "file": "test-scenarios/api/favorites/delete-favorites-by-favorite-id.yml",
+   "fileLabel": "DELETE /favorites/{favoriteId}",
+   "suite": "Favorites API",
+   "tags": [
+    "@favorites-api"
+   ],
+   "yaml": "- id: API-0284\n  name: Delete favorite returns 204 and removes it\n  status: manual\n  steps:\n    - Send GET /products and take the id of a product that isn't among the default user's favorites (compare with GET /favorites).\n    - Send POST /favorites with that product id, and take the new favorite's id.\n    - Send DELETE /favorites/{favoriteId} with that id.\n    - Verify the response status is 204.\n    - Verify GET /favorites/{favoriteId} with that id returns 404."
+  },
+  {
+   "id": "API-0285",
+   "name": "Delete favorite without a token returns 401",
+   "status": "manual",
+   "steps": [
+    "Send GET /products and take the id of a product that isn't among the default user's favorites (compare with GET /favorites).",
+    "Send POST /favorites with that product id, and take the new favorite's id.",
+    "Send DELETE /favorites/{favoriteId} with that id, without an Authorization header.",
+    "Verify the response status is 401.",
+    "Verify the body's message is \"Unauthorized\".",
+    "Verify GET /favorites/{favoriteId} with that id returns 200."
+   ],
+   "ref": [],
+   "area": "favorites",
+   "areaLabel": "Favorites",
+   "file": "test-scenarios/api/favorites/delete-favorites-by-favorite-id.yml",
+   "fileLabel": "DELETE /favorites/{favoriteId}",
+   "suite": "Favorites API",
+   "tags": [
+    "@favorites-api"
+   ],
+   "yaml": "- id: API-0285\n  name: Delete favorite without a token returns 401\n  status: manual\n  steps:\n    - Send GET /products and take the id of a product that isn't among the default user's favorites (compare with GET /favorites).\n    - Send POST /favorites with that product id, and take the new favorite's id.\n    - Send DELETE /favorites/{favoriteId} with that id, without an Authorization header.\n    - Verify the response status is 401.\n    - Verify the body's message is \"Unauthorized\".\n    - Verify GET /favorites/{favoriteId} with that id returns 200."
+  },
+  {
+   "id": "API-0286",
+   "name": "Delete favorite with a malformed token returns 401",
+   "status": "manual",
+   "steps": [
+    "Send GET /products and take the id of a product that isn't among the default user's favorites (compare with GET /favorites).",
+    "Send POST /favorites with that product id, and take the new favorite's id.",
+    "Send DELETE /favorites/{favoriteId} with that id, with a malformed token.",
+    "Verify the response status is 401.",
+    "Verify the body's message is \"Unauthorized\".",
+    "Verify GET /favorites/{favoriteId} with that id returns 200."
+   ],
+   "ref": [],
+   "area": "favorites",
+   "areaLabel": "Favorites",
+   "file": "test-scenarios/api/favorites/delete-favorites-by-favorite-id.yml",
+   "fileLabel": "DELETE /favorites/{favoriteId}",
+   "suite": "Favorites API",
+   "tags": [
+    "@favorites-api"
+   ],
+   "yaml": "- id: API-0286\n  name: Delete favorite with a malformed token returns 401\n  status: manual\n  steps:\n    - Send GET /products and take the id of a product that isn't among the default user's favorites (compare with GET /favorites).\n    - Send POST /favorites with that product id, and take the new favorite's id.\n    - Send DELETE /favorites/{favoriteId} with that id, with a malformed token.\n    - Verify the response status is 401.\n    - Verify the body's message is \"Unauthorized\".\n    - Verify GET /favorites/{favoriteId} with that id returns 200."
+  },
+  {
+   "id": "API-0287",
+   "name": "Delete favorite with an unknown id returns 204",
+   "status": "manual",
+   "steps": [
+    "Send DELETE /favorites/{favoriteId} with a well-formed ULID that no favorite has.",
+    "Verify the response status is 204."
+   ],
+   "ref": [],
+   "area": "favorites",
+   "areaLabel": "Favorites",
+   "file": "test-scenarios/api/favorites/delete-favorites-by-favorite-id.yml",
+   "fileLabel": "DELETE /favorites/{favoriteId}",
+   "suite": "Favorites API",
+   "tags": [
+    "@favorites-api"
+   ],
+   "yaml": "- id: API-0287\n  name: Delete favorite with an unknown id returns 204\n  status: manual\n  steps:\n    - Send DELETE /favorites/{favoriteId} with a well-formed ULID that no favorite has.\n    - Verify the response status is 204."
+  },
+  {
+   "id": "API-0288",
+   "name": "Delete another user's favorite returns 204 and keeps it",
+   "status": "manual",
+   "steps": [
+    "Send GET /products and take the id of a product that isn't among the default user's favorites (compare with GET /favorites).",
+    "Send POST /favorites with that product id, and take the new favorite's id.",
+    "Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.",
+    "Send POST /users/login with that email and password, and take its access_token.",
+    "Send DELETE /favorites/{favoriteId} with that favorite's id, with the throwaway customer's access_token.",
+    "Verify the response status is 204.",
+    "Verify GET /favorites/{favoriteId} with that id, with the default user's token, returns 200."
+   ],
+   "ref": [],
+   "area": "favorites",
+   "areaLabel": "Favorites",
+   "file": "test-scenarios/api/favorites/delete-favorites-by-favorite-id.yml",
+   "fileLabel": "DELETE /favorites/{favoriteId}",
+   "suite": "Favorites API",
+   "tags": [
+    "@favorites-api"
+   ],
+   "yaml": "- id: API-0288\n  name: Delete another user's favorite returns 204 and keeps it\n  status: manual\n  steps:\n    - Send GET /products and take the id of a product that isn't among the default user's favorites (compare with GET /favorites).\n    - Send POST /favorites with that product id, and take the new favorite's id.\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.\n    - Send POST /users/login with that email and password, and take its access_token.\n    - Send DELETE /favorites/{favoriteId} with that favorite's id, with the throwaway customer's access_token.\n    - Verify the response status is 204.\n    - Verify GET /favorites/{favoriteId} with that id, with the default user's token, returns 200."
   },
   {
    "id": "API-0002",

@@ -2,8 +2,8 @@
 window.BUG_CATALOG = {
  "title": "Bugs",
  "prefix": "BUG",
- "generatedAt": "2026-10-10T08:20:23.949Z",
- "commit": "0ef9b23b0a0746bd9bdad3adf7292666bb9acab4",
+ "generatedAt": "2026-10-10T09:14:58.058Z",
+ "commit": "0d8ca228b4077ccca37bcacf688a7928966d41b7",
  "repoUrl": "https://github.com/Zaytsman/SimpRight",
  "branch": "main",
  "bugsDir": "bugs",
@@ -26,8 +26,8 @@ window.BUG_CATALOG = {
   }
  ],
  "stats": {
-  "total": 13,
-  "open": 13,
+  "total": 24,
+  "open": 24,
   "fixed": 0,
   "wontFix": 0
  },
@@ -122,7 +122,93 @@ window.BUG_CATALOG = {
    "evidence": "Throwaway brand, no Authorization header, 2026-10-10 08:07 UTC (deleted as admin afterwards, 204)\nPOST /brands { name, slug: unique } -> 201 { name, slug, id }\nPUT /brands/{brandId} { name: new } -> 200 {\"success\":true}\nPATCH /brands/{brandId} { name: new } -> 200 {\"success\":true}\nGET /brands/{brandId} -> 200, the name from the PATCH\nSource (practice-software-testing, sprint5/API): BrandController::__construct:\n  $this->middleware('role:admin', ['only' => ['destroy']]); no other auth middleware",
    "file": "bugs/BUG-009.yml",
    "yaml": "id: BUG-009\ntitle: Brand writes (POST, PUT, PATCH /brands) succeed without a token instead of returning 401\nstatus: open\nseverity: critical\nlayer: api\narea: brands\naffects:\n  - POST /brands\n  - PUT /brands/{brandId}\n  - PATCH /brands/{brandId}\nfound: 2026-10-10\nref:\n  - docs/api/contracts/Brands_API.md#authentication\n  - docs/api/contracts/Brands_API.md#notes\ndescription: >-\n  Anyone can create brands or rename seeded ones without logging in: BrandController has no auth\n  middleware on these routes (only DELETE is admin-only), and the OpenAPI spec declares no security on\n  them either. The same pattern as BUG-001 (products), in a separate controller.\nsteps:\n  - Send POST /brands with a unique name and a unique slug, without an Authorization header, and take the new brand's id.\n  - Send PUT /brands/{brandId} for the new brand with a new name, without an Authorization header.\n  - Send PATCH /brands/{brandId} for the new brand with a new name, without an Authorization header.\nexpected: Each write without a token returns 401 and changes nothing, like DELETE /brands/{brandId} without a token.\nactual: POST returns 201 and creates the brand; PUT and PATCH return 200 and change it.\nevidence: |-\n  Throwaway brand, no Authorization header, 2026-10-10 08:07 UTC (deleted as admin afterwards, 204)\n  POST /brands { name, slug: unique } -> 201 { name, slug, id }\n  PUT /brands/{brandId} { name: new } -> 200 {\"success\":true}\n  PATCH /brands/{brandId} { name: new } -> 200 {\"success\":true}\n  GET /brands/{brandId} -> 200, the name from the PATCH\n  Source (practice-software-testing, sprint5/API): BrandController::__construct:\n    $this->middleware('role:admin', ['only' => ['destroy']]); no other auth middleware",
-   "scenarios": []
+   "scenarios": [
+    {
+     "id": "API-0147",
+     "name": "Partially update brand without a token returns 401",
+     "layer": "api",
+     "area": "brands",
+     "file": "test-scenarios/api/brands/patch-brands-by-brand-id.yml",
+     "status": "manual",
+     "knownIssue": "Accepts PATCH without a token instead of returning 401."
+    },
+    {
+     "id": "API-0129",
+     "name": "Create brand without a token returns 401",
+     "layer": "api",
+     "area": "brands",
+     "file": "test-scenarios/api/brands/post-brands.yml",
+     "status": "manual",
+     "knownIssue": "Accepts POST without a token instead of returning 401."
+    },
+    {
+     "id": "API-0140",
+     "name": "Update brand without a token returns 401",
+     "layer": "api",
+     "area": "brands",
+     "file": "test-scenarios/api/brands/put-brands-by-brand-id.yml",
+     "status": "manual",
+     "knownIssue": "Accepts PUT without a token instead of returning 401."
+    }
+   ]
+  },
+  {
+   "id": "BUG-014",
+   "title": "Category writes (POST, PUT, PATCH /categories) succeed without a token instead of returning 401",
+   "status": "open",
+   "severity": "critical",
+   "layer": "api",
+   "area": "categories",
+   "affects": [
+    "POST /categories",
+    "PUT /categories/{categoryId}",
+    "PATCH /categories/{categoryId}"
+   ],
+   "found": "2026-10-10",
+   "ref": [
+    "docs/api/contracts/Categories_API.md#authentication",
+    "docs/api/contracts/Categories_API.md#notes"
+   ],
+   "description": "Anyone can create categories or rename and re-parent seeded ones without logging in: CategoryController has no auth middleware on these routes (only DELETE is admin-only), and the OpenAPI spec declares no security on them either. The same pattern as BUG-009 (brands) and BUG-001 (products), in a separate controller.",
+   "steps": [
+    "Send POST /categories with a unique name and a unique slug, without an Authorization header, and take the new category's id.",
+    "Send PUT /categories/{categoryId} for the new category with a new name, without an Authorization header.",
+    "Send PATCH /categories/{categoryId} for the new category with a new name, without an Authorization header."
+   ],
+   "expected": "Each write without a token returns 401 and changes nothing, like DELETE /categories/{categoryId} without a token.",
+   "actual": "From the source (not called live): POST returns 201 and creates the category; PUT and PATCH return 200 and change it.",
+   "evidence": "Source (practice-software-testing, sprint5/API), 2026-10-10: CategoryController::__construct\n  applies role:admin only to destroy; no other auth middleware on store, update or patch\nThe identical Brands routes were reproduced live (BUG-009).",
+   "file": "bugs/BUG-014.yml",
+   "yaml": "id: BUG-014\ntitle: Category writes (POST, PUT, PATCH /categories) succeed without a token instead of returning 401\nstatus: open\nseverity: critical\nlayer: api\narea: categories\naffects:\n  - POST /categories\n  - PUT /categories/{categoryId}\n  - PATCH /categories/{categoryId}\nfound: 2026-10-10\nref:\n  - docs/api/contracts/Categories_API.md#authentication\n  - docs/api/contracts/Categories_API.md#notes\ndescription: >-\n  Anyone can create categories or rename and re-parent seeded ones without logging in: CategoryController\n  has no auth middleware on these routes (only DELETE is admin-only), and the OpenAPI spec declares no\n  security on them either. The same pattern as BUG-009 (brands) and BUG-001 (products), in a separate controller.\nsteps:\n  - Send POST /categories with a unique name and a unique slug, without an Authorization header, and take the new category's id.\n  - Send PUT /categories/{categoryId} for the new category with a new name, without an Authorization header.\n  - Send PATCH /categories/{categoryId} for the new category with a new name, without an Authorization header.\nexpected: Each write without a token returns 401 and changes nothing, like DELETE /categories/{categoryId} without a token.\nactual: >-\n  From the source (not called live): POST returns 201 and creates the category; PUT and PATCH return 200 and change it.\nevidence: |-\n  Source (practice-software-testing, sprint5/API), 2026-10-10: CategoryController::__construct\n    applies role:admin only to destroy; no other auth middleware on store, update or patch\n  The identical Brands routes were reproduced live (BUG-009).",
+   "scenarios": [
+    {
+     "id": "API-0222",
+     "name": "Partially update category without a token returns 401",
+     "layer": "api",
+     "area": "categories",
+     "file": "test-scenarios/api/categories/patch-categories-by-category-id.yml",
+     "status": "manual",
+     "knownIssue": "Accepts PATCH without a token instead of returning 401."
+    },
+    {
+     "id": "API-0177",
+     "name": "Create category without a token returns 401",
+     "layer": "api",
+     "area": "categories",
+     "file": "test-scenarios/api/categories/post-categories.yml",
+     "status": "manual",
+     "knownIssue": "Accepts POST without a token instead of returning 401."
+    },
+    {
+     "id": "API-0213",
+     "name": "Update category without a token returns 401",
+     "layer": "api",
+     "area": "categories",
+     "file": "test-scenarios/api/categories/put-categories-by-category-id.yml",
+     "status": "manual",
+     "knownIssue": "Accepts PUT without a token instead of returning 401."
+    }
+   ]
   },
   {
    "id": "BUG-002",
@@ -440,7 +526,257 @@ window.BUG_CATALOG = {
    "evidence": "GET /brands/search?q[]=x (Accept: application/json), 2026-10-10 08:03 UTC\n-> 500 {\"message\":\"Server Error\"}\nGET /brands/search?q=forge, 2026-10-10 -> 200, 1 brand (control)\nSource (practice-software-testing, sprint5/API): BrandService::searchBrands: $cacheKey = \"brands.search.{$query}\"",
    "file": "bugs/BUG-011.yml",
    "yaml": "id: BUG-011\ntitle: Brand search returns 500 instead of 422 when q is sent as an array\nstatus: open\nseverity: major\nlayer: api\narea: brands\naffects:\n  - GET /brands/search\n  - QUERY /brands/search\nfound: 2026-10-10\nref:\n  - docs/api/contracts/Brands_API.md#7-search-brands\n  - docs/api/contracts/Brands_API.md#8-search-brands-http-query\ndescription: >-\n  q isn't validated: BrandService::searchBrands builds its cache key and log line from it, and an array\n  fails the string conversion, which ends in a server error. GET and QUERY share the code path.\nsteps:\n  - Send GET /brands/search with q as an array (q[]=x).\n  - 'Send QUERY /brands/search with Content-Type: application/json and the body { \"q\": [\"x\"] }.'\nexpected: 422 naming q, or 200 with q treated as text.\nactual: '500 with { \"message\": \"Server Error\" } for GET (reproduced); QUERY from the source (same code path).'\nevidence: |-\n  GET /brands/search?q[]=x (Accept: application/json), 2026-10-10 08:03 UTC\n  -> 500 {\"message\":\"Server Error\"}\n  GET /brands/search?q=forge, 2026-10-10 -> 200, 1 brand (control)\n  Source (practice-software-testing, sprint5/API): BrandService::searchBrands: $cacheKey = \"brands.search.{$query}\"",
-   "scenarios": []
+   "scenarios": [
+    {
+     "id": "API-0158",
+     "name": "Search brands with q as an array returns 422",
+     "layer": "api",
+     "area": "brands",
+     "file": "test-scenarios/api/brands/get-brands-search.yml",
+     "status": "manual",
+     "knownIssue": "Returns 500 instead of 422 when q is sent as an array."
+    },
+    {
+     "id": "API-0163",
+     "name": "QUERY search with q as an array returns 422",
+     "layer": "api",
+     "area": "brands",
+     "file": "test-scenarios/api/brands/query-brands-search.yml",
+     "status": "manual",
+     "knownIssue": "Returns 500 instead of 422 when q is sent as an array."
+    }
+   ]
+  },
+  {
+   "id": "BUG-015",
+   "title": "Create or update category returns 500 instead of 422 when parent_id isn't an existing category",
+   "status": "open",
+   "severity": "major",
+   "layer": "api",
+   "area": "categories",
+   "affects": [
+    "POST /categories",
+    "PUT /categories/{categoryId}",
+    "PATCH /categories/{categoryId}"
+   ],
+   "found": "2026-10-10",
+   "ref": [
+    "docs/api/contracts/Categories_API.md#2-create-category",
+    "docs/api/contracts/Categories_API.md#8-update-category",
+    "docs/api/contracts/Categories_API.md#9-partially-update-category",
+    "docs/api/contracts/Categories_API.md#notes"
+   ],
+   "description": "No validation rule checks that parent_id exists, so the foreign key categories.parent_id rejects it and the global handler answers with a server error instead of a validation message. The same kind of defect as BUG-002 (category_id, brand_id and product_image_id on POST /products).",
+   "steps": [
+    "Send POST /categories with a unique name, a unique slug and a well-formed ULID that no category has as parent_id.",
+    "Send PUT and PATCH /categories/{categoryId} for an existing throwaway category with only that ULID as parent_id."
+   ],
+   "expected": "422 with a validation message for parent_id.",
+   "actual": "500 with { \"message\": \"Something went wrong\" } (from the source, not reproduced).",
+   "evidence": "Source (practice-software-testing, sprint5/API), 2026-10-10: the Category form requests validate parent_id\nas a string only (no exists rule); a foreign-key violation (MySQL 1452) falls to the default branch of\napp/Exceptions/Handler.php -> 500 { message: \"Something went wrong\" }",
+   "file": "bugs/BUG-015.yml",
+   "yaml": "id: BUG-015\ntitle: Create or update category returns 500 instead of 422 when parent_id isn't an existing category\nstatus: open\nseverity: major\nlayer: api\narea: categories\naffects:\n  - POST /categories\n  - PUT /categories/{categoryId}\n  - PATCH /categories/{categoryId}\nfound: 2026-10-10\nref:\n  - docs/api/contracts/Categories_API.md#2-create-category\n  - docs/api/contracts/Categories_API.md#8-update-category\n  - docs/api/contracts/Categories_API.md#9-partially-update-category\n  - docs/api/contracts/Categories_API.md#notes\ndescription: >-\n  No validation rule checks that parent_id exists, so the foreign key categories.parent_id rejects it and\n  the global handler answers with a server error instead of a validation message. The same kind of defect\n  as BUG-002 (category_id, brand_id and product_image_id on POST /products).\nsteps:\n  - Send POST /categories with a unique name, a unique slug and a well-formed ULID that no category has as parent_id.\n  - Send PUT and PATCH /categories/{categoryId} for an existing throwaway category with only that ULID as parent_id.\nexpected: 422 with a validation message for parent_id.\nactual: '500 with { \"message\": \"Something went wrong\" } (from the source, not reproduced).'\nevidence: |-\n  Source (practice-software-testing, sprint5/API), 2026-10-10: the Category form requests validate parent_id\n  as a string only (no exists rule); a foreign-key violation (MySQL 1452) falls to the default branch of\n  app/Exceptions/Handler.php -> 500 { message: \"Something went wrong\" }",
+   "scenarios": [
+    {
+     "id": "API-0221",
+     "name": "Partially update category with an unknown parent_id returns 422",
+     "layer": "api",
+     "area": "categories",
+     "file": "test-scenarios/api/categories/patch-categories-by-category-id.yml",
+     "status": "manual",
+     "knownIssue": "Returns 500 instead of 422 when parent_id is not the id of an existing category."
+    },
+    {
+     "id": "API-0176",
+     "name": "Create category with an unknown parent_id returns 422",
+     "layer": "api",
+     "area": "categories",
+     "file": "test-scenarios/api/categories/post-categories.yml",
+     "status": "manual",
+     "knownIssue": "Returns 500 instead of 422 when parent_id is not the id of an existing category."
+    },
+    {
+     "id": "API-0212",
+     "name": "Update category with an unknown parent_id returns 422",
+     "layer": "api",
+     "area": "categories",
+     "file": "test-scenarios/api/categories/put-categories-by-category-id.yml",
+     "status": "manual",
+     "knownIssue": "Returns 500 instead of 422 when parent_id is not the id of an existing category."
+    }
+   ]
+  },
+  {
+   "id": "BUG-016",
+   "title": "Category tree returns 500 instead of 422 when by_category_slug is sent as an array",
+   "status": "open",
+   "severity": "major",
+   "layer": "api",
+   "area": "categories",
+   "affects": [
+    "GET /categories/tree",
+    "QUERY /categories/tree"
+   ],
+   "found": "2026-10-10",
+   "ref": [
+    "docs/api/contracts/Categories_API.md#3-get-category-tree",
+    "docs/api/contracts/Categories_API.md#4-get-category-tree-http-query"
+   ],
+   "description": "by_category_slug isn't validated, and an array ends in a server error instead of a validation message (or being treated as text). GET and QUERY share the code path.",
+   "steps": [
+    "Send GET /categories/tree with by_category_slug as an array (by_category_slug[]=x).",
+    "Send QUERY /categories/tree with Content-Type: application/json and the body { \"by_category_slug\": [\"x\"] }."
+   ],
+   "expected": "422 naming by_category_slug, or 200 with the value treated as text.",
+   "actual": "500 with { \"message\": \"Server Error\" } for GET (observed by the contract writer); QUERY from the source (same code path).",
+   "evidence": "Contract writer's live calls, 2026-10-10 07:49-07:51 UTC (Categories_API.md, Get category tree):\nGET /categories/tree?by_category_slug[]=x -> 500 {\"message\":\"Server Error\"}",
+   "file": "bugs/BUG-016.yml",
+   "yaml": "id: BUG-016\ntitle: Category tree returns 500 instead of 422 when by_category_slug is sent as an array\nstatus: open\nseverity: major\nlayer: api\narea: categories\naffects:\n  - GET /categories/tree\n  - QUERY /categories/tree\nfound: 2026-10-10\nref:\n  - docs/api/contracts/Categories_API.md#3-get-category-tree\n  - docs/api/contracts/Categories_API.md#4-get-category-tree-http-query\ndescription: >-\n  by_category_slug isn't validated, and an array ends in a server error instead of a validation message\n  (or being treated as text). GET and QUERY share the code path.\nsteps:\n  - Send GET /categories/tree with by_category_slug as an array (by_category_slug[]=x).\n  - 'Send QUERY /categories/tree with Content-Type: application/json and the body { \"by_category_slug\": [\"x\"] }.'\nexpected: 422 naming by_category_slug, or 200 with the value treated as text.\nactual: '500 with { \"message\": \"Server Error\" } for GET (observed by the contract writer); QUERY from the source (same code path).'\nevidence: |-\n  Contract writer's live calls, 2026-10-10 07:49-07:51 UTC (Categories_API.md, Get category tree):\n  GET /categories/tree?by_category_slug[]=x -> 500 {\"message\":\"Server Error\"}",
+   "scenarios": [
+    {
+     "id": "API-0182",
+     "name": "Category tree with by_category_slug as an array returns 422",
+     "layer": "api",
+     "area": "categories",
+     "file": "test-scenarios/api/categories/get-categories-tree.yml",
+     "status": "manual",
+     "knownIssue": "Returns 500 instead of 422 when by_category_slug is sent as an array."
+    },
+    {
+     "id": "API-0186",
+     "name": "QUERY category tree with by_category_slug as an array returns 422",
+     "layer": "api",
+     "area": "categories",
+     "file": "test-scenarios/api/categories/query-categories-tree.yml",
+     "status": "manual",
+     "knownIssue": "Returns 500 instead of 422 when by_category_slug is sent as an array."
+    }
+   ]
+  },
+  {
+   "id": "BUG-017",
+   "title": "Category search returns 500 instead of 422 when q is sent as an array",
+   "status": "open",
+   "severity": "major",
+   "layer": "api",
+   "area": "categories",
+   "affects": [
+    "GET /categories/search",
+    "QUERY /categories/search"
+   ],
+   "found": "2026-10-10",
+   "ref": [
+    "docs/api/contracts/Categories_API.md#6-search-categories",
+    "docs/api/contracts/Categories_API.md#7-search-categories-http-query"
+   ],
+   "description": "q isn't validated, and an array ends in a server error instead of a validation message (or being treated as text). GET and QUERY share the code path. The same defect as BUG-011 (brand search), in CategoryService.",
+   "steps": [
+    "Send GET /categories/search with q as an array (q[]=x).",
+    "Send QUERY /categories/search with Content-Type: application/json and the body { \"q\": [\"x\"] }."
+   ],
+   "expected": "422 naming q, or 200 with q treated as text.",
+   "actual": "500 with { \"message\": \"Server Error\" } for GET (observed by the contract writer); QUERY from the source (same code path).",
+   "evidence": "Contract writer's live calls, 2026-10-10 07:49-07:51 UTC (Categories_API.md, Search categories):\nGET /categories/search?q[]=x -> 500 {\"message\":\"Server Error\"}",
+   "file": "bugs/BUG-017.yml",
+   "yaml": "id: BUG-017\ntitle: Category search returns 500 instead of 422 when q is sent as an array\nstatus: open\nseverity: major\nlayer: api\narea: categories\naffects:\n  - GET /categories/search\n  - QUERY /categories/search\nfound: 2026-10-10\nref:\n  - docs/api/contracts/Categories_API.md#6-search-categories\n  - docs/api/contracts/Categories_API.md#7-search-categories-http-query\ndescription: >-\n  q isn't validated, and an array ends in a server error instead of a validation message (or being\n  treated as text). GET and QUERY share the code path. The same defect as BUG-011 (brand search), in\n  CategoryService.\nsteps:\n  - Send GET /categories/search with q as an array (q[]=x).\n  - 'Send QUERY /categories/search with Content-Type: application/json and the body { \"q\": [\"x\"] }.'\nexpected: 422 naming q, or 200 with q treated as text.\nactual: '500 with { \"message\": \"Server Error\" } for GET (observed by the contract writer); QUERY from the source (same code path).'\nevidence: |-\n  Contract writer's live calls, 2026-10-10 07:49-07:51 UTC (Categories_API.md, Search categories):\n  GET /categories/search?q[]=x -> 500 {\"message\":\"Server Error\"}",
+   "scenarios": [
+    {
+     "id": "API-0195",
+     "name": "Search categories with q as an array returns 422",
+     "layer": "api",
+     "area": "categories",
+     "file": "test-scenarios/api/categories/get-categories-search.yml",
+     "status": "manual",
+     "knownIssue": "Returns 500 instead of 422 when q is sent as an array."
+    },
+    {
+     "id": "API-0200",
+     "name": "QUERY search with q as an array returns 422",
+     "layer": "api",
+     "area": "categories",
+     "file": "test-scenarios/api/categories/query-categories-search.yml",
+     "status": "manual",
+     "knownIssue": "Returns 500 instead of 422 when q is sent as an array."
+    }
+   ]
+  },
+  {
+   "id": "BUG-021",
+   "title": "Any logged-in user can read another user's favorite by id",
+   "status": "open",
+   "severity": "major",
+   "layer": "api",
+   "area": "favorites",
+   "affects": [
+    "GET /favorites/{favoriteId}"
+   ],
+   "found": "2026-10-10",
+   "ref": [
+    "docs/api/contracts/Favorites_API.md#3-get-favorite"
+   ],
+   "description": "GET /favorites/{favoriteId} loads the favorite with Favorite::findOrFail($id) and doesn't check its owner, while GET /favorites and DELETE /favorites/{favoriteId} are limited to the token's user. Any logged-in user can read another user's favorite (its user_id and product_id) when they know its id.",
+   "steps": [
+    "User A sends POST /favorites with an existing product id and takes the new favorite's id.",
+    "User B sends GET /favorites/{favoriteId} with that id, with user B's token."
+   ],
+   "expected": "404 or 403, as the list and the delete hide other users' favorites.",
+   "actual": "200 with user A's favorite (from the source code; not reproduced live).",
+   "evidence": "Favorites_API.md, Notes, \"Reading other users' favorites\" (read from FavoriteController in sprint5/API):\nGET /favorites/{favoriteId} uses Favorite::findOrFail($id) with no user_id condition.",
+   "file": "bugs/BUG-021.yml",
+   "yaml": "id: BUG-021\ntitle: Any logged-in user can read another user's favorite by id\nstatus: open\nseverity: major\nlayer: api\narea: favorites\naffects:\n  - GET /favorites/{favoriteId}\nfound: 2026-10-10\nref:\n  - docs/api/contracts/Favorites_API.md#3-get-favorite\ndescription: >-\n  GET /favorites/{favoriteId} loads the favorite with Favorite::findOrFail($id) and doesn't check its owner,\n  while GET /favorites and DELETE /favorites/{favoriteId} are limited to the token's user. Any logged-in user\n  can read another user's favorite (its user_id and product_id) when they know its id.\nsteps:\n  - User A sends POST /favorites with an existing product id and takes the new favorite's id.\n  - User B sends GET /favorites/{favoriteId} with that id, with user B's token.\nexpected: 404 or 403, as the list and the delete hide other users' favorites.\nactual: 200 with user A's favorite (from the source code; not reproduced live).\nevidence: |-\n  Favorites_API.md, Notes, \"Reading other users' favorites\" (read from FavoriteController in sprint5/API):\n  GET /favorites/{favoriteId} uses Favorite::findOrFail($id) with no user_id condition.",
+   "scenarios": [
+    {
+     "id": "API-0283",
+     "name": "Get another user's favorite is refused",
+     "layer": "api",
+     "area": "favorites",
+     "file": "test-scenarios/api/favorites/get-favorites-by-favorite-id.yml",
+     "status": "manual",
+     "knownIssue": "Returns 200 with another user's favorite instead of 404 or 403."
+    }
+   ]
+  },
+  {
+   "id": "BUG-024",
+   "title": "Products that aren't location offers get the location discount in a cart near a listed city, instead of none",
+   "status": "open",
+   "severity": "major",
+   "layer": "api",
+   "area": "carts",
+   "affects": [
+    "POST /carts/{cartId}",
+    "GET /carts/{cartId}"
+   ],
+   "found": "2026-10-10",
+   "ref": [
+    "docs/api/contracts/Carts_API.md#notes",
+    "docs/api/contracts/Carts_API.md#2-add-item-to-cart",
+    "docs/ui/user-stories/Rental_Products.md#AC5"
+   ],
+   "description": "The location discount (5 to 25 % by city) should apply only to products marked as location offers, but CartService::addItemToCart checks isset($existingItem->product->is_location_offer), which is true for false as well as true. So every product added to a cart whose coordinates match a city gets the city's discount and a discounted_price. The UI creates carts with the browser's geolocation, so visitors near a listed city see every item discounted at checkout.",
+   "steps": [
+    "Send GET /products and take the id of an item with is_location_offer false.",
+    "Send POST /carts with lat 52 and lng 5 (Amsterdam) and take the returned id as the cart's id.",
+    "Send POST /carts/{cartId} with the cart's id and a body with that product's id as product_id and quantity 1.",
+    "Send GET /carts/{cartId} with the cart's id.",
+    "Send DELETE /carts/{cartId} with the cart's id."
+   ],
+   "expected": "The item has no location discount (discount_percentage null or 0) and no discounted_price, because only a product marked as a location offer gets the location discount (Rental_Products.md AC5; Carts_API.md, Enums).",
+   "actual": "The item gets discount_percentage 20 and a discounted_price of its price x 0.8, like a location offer.",
+   "evidence": "Live, 2026-10-10 09:07 UTC (cart deleted afterwards, 204):\nProduct: Combination Pliers (seeded), price 14.15, is_location_offer false\nPOST /carts { lat: 52, lng: 5 } -> 201 { id }\nPOST /carts/{cartId} { product_id, quantity: 1 } -> 200 {\"result\":\"item added or updated\"}\nGET /carts/{cartId} -> 200, its only item: discount_percentage 20, discounted_price 11.32\nSource (practice-software-testing, sprint5/API), 2026-10-10:\nCartService::addItemToCart: if ($cart->lat && $cart->lng && isset($existingItem->product->is_location_offer))\n  -> discount_percentage = calculateDiscountPercentage(lat, lng)\nProduct model: 'is_location_offer' => 'boolean'; migration: $table->boolean('is_location_offer') (not nullable)",
+   "file": "bugs/BUG-024.yml",
+   "yaml": "id: BUG-024\ntitle: Products that aren't location offers get the location discount in a cart near a listed city, instead of none\nstatus: open\nseverity: major\nlayer: api\narea: carts\naffects:\n  - POST /carts/{cartId}\n  - GET /carts/{cartId}\nfound: 2026-10-10\nref:\n  - docs/api/contracts/Carts_API.md#notes\n  - docs/api/contracts/Carts_API.md#2-add-item-to-cart\n  - docs/ui/user-stories/Rental_Products.md#AC5\ndescription: >-\n  The location discount (5 to 25 % by city) should apply only to products marked as location offers, but\n  CartService::addItemToCart checks isset($existingItem->product->is_location_offer), which is true for\n  false as well as true. So every product added to a cart whose coordinates match a city gets the city's\n  discount and a discounted_price. The UI creates carts with the browser's geolocation, so visitors near\n  a listed city see every item discounted at checkout.\nsteps:\n  - Send GET /products and take the id of an item with is_location_offer false.\n  - Send POST /carts with lat 52 and lng 5 (Amsterdam) and take the returned id as the cart's id.\n  - Send POST /carts/{cartId} with the cart's id and a body with that product's id as product_id and quantity 1.\n  - Send GET /carts/{cartId} with the cart's id.\n  - Send DELETE /carts/{cartId} with the cart's id.\nexpected: >-\n  The item has no location discount (discount_percentage null or 0) and no discounted_price, because only\n  a product marked as a location offer gets the location discount (Rental_Products.md AC5; Carts_API.md, Enums).\nactual: The item gets discount_percentage 20 and a discounted_price of its price x 0.8, like a location offer.\nevidence: |-\n  Live, 2026-10-10 09:07 UTC (cart deleted afterwards, 204):\n  Product: Combination Pliers (seeded), price 14.15, is_location_offer false\n  POST /carts { lat: 52, lng: 5 } -> 201 { id }\n  POST /carts/{cartId} { product_id, quantity: 1 } -> 200 {\"result\":\"item added or updated\"}\n  GET /carts/{cartId} -> 200, its only item: discount_percentage 20, discounted_price 11.32\n  Source (practice-software-testing, sprint5/API), 2026-10-10:\n  CartService::addItemToCart: if ($cart->lat && $cart->lng && isset($existingItem->product->is_location_offer))\n    -> discount_percentage = calculateDiscountPercentage(lat, lng)\n  Product model: 'is_location_offer' => 'boolean'; migration: $table->boolean('is_location_offer') (not nullable)",
+   "scenarios": [
+    {
+     "id": "API-0246",
+     "name": "Add a product that isn't a location offer to a cart near Amsterdam gives it no discount",
+     "layer": "api",
+     "area": "carts",
+     "file": "test-scenarios/api/carts/post-carts-by-cart-id.yml",
+     "status": "manual",
+     "knownIssue": "Applies the location discount to a product that isn't a location offer instead of leaving it undiscounted."
+    }
+   ]
   },
   {
    "id": "BUG-005",
@@ -506,7 +842,17 @@ window.BUG_CATALOG = {
    "evidence": "Throwaway brand, 2026-10-10 08:07 UTC (deleted as admin afterwards, 204)\nPATCH /brands/{brandId} { name: new, slug: the brand's own slug }\n-> 409 {\"slug\":[\"A brand already exists with this slug.\"]}\nGET /brands/{brandId} -> 200, the previous name\nSource (practice-software-testing, sprint5/API): PatchBrand::rules():\n  'slug' => ['sometimes', 'alpha_dash:ascii', 'unique:brands,slug', ...] (no ignore of the current id)",
    "file": "bugs/BUG-010.yml",
    "yaml": "id: BUG-010\ntitle: Partial brand update returns 409 when the body repeats the brand's own slug, instead of 200\nstatus: open\nseverity: minor\nlayer: api\narea: brands\naffects:\n  - PATCH /brands/{brandId}\nfound: 2026-10-10\nref:\n  - docs/api/contracts/Brands_API.md#5-partially-update-brand\n  - docs/api/contracts/Brands_API.md#notes\ndescription: >-\n  The slug's uniqueness rule in PatchBrand doesn't ignore the brand being patched, so a client that sends\n  every field (the current slug unchanged) can't update the name. Workaround: leave slug out of the body.\n  PUT has no uniqueness rule and accepts the own slug.\nsteps:\n  - Send POST /brands with a unique name and a unique slug, and take the new brand's id.\n  - Send PATCH /brands/{brandId} for that brand with a new name and the brand's own slug.\nexpected: 200 with { success true }, and the brand has the new name; a slug only conflicts with other brands' slugs.\nactual: >-\n  409 with { \"slug\": [\"A brand already exists with this slug.\"] }, and the name doesn't change.\nevidence: |-\n  Throwaway brand, 2026-10-10 08:07 UTC (deleted as admin afterwards, 204)\n  PATCH /brands/{brandId} { name: new, slug: the brand's own slug }\n  -> 409 {\"slug\":[\"A brand already exists with this slug.\"]}\n  GET /brands/{brandId} -> 200, the previous name\n  Source (practice-software-testing, sprint5/API): PatchBrand::rules():\n    'slug' => ['sometimes', 'alpha_dash:ascii', 'unique:brands,slug', ...] (no ignore of the current id)",
-   "scenarios": []
+   "scenarios": [
+    {
+     "id": "API-0146",
+     "name": "Partially update brand with its own slug returns success",
+     "layer": "api",
+     "area": "brands",
+     "file": "test-scenarios/api/brands/patch-brands-by-brand-id.yml",
+     "status": "manual",
+     "knownIssue": "Returns 409 instead of 200 when the body repeats the brand's own slug."
+    }
+   ]
   },
   {
    "id": "BUG-013",
@@ -536,7 +882,188 @@ window.BUG_CATALOG = {
    "evidence": "Source (practice-software-testing, sprint5/API), 2026-10-10, BrandService:\nsearchBrands: Cache::remember(\"brands.search.{$query}\", 60 * 60, ...)\ncreate, update, delete: Cache::forget('brands.all') and Cache::forget(\"brands.{$id}\") only",
    "file": "bugs/BUG-013.yml",
    "yaml": "id: BUG-013\ntitle: Brand search keeps returning stale results for up to an hour after a brand is created, updated or deleted\nstatus: open\nseverity: minor\nlayer: api\narea: brands\naffects:\n  - GET /brands/search\n  - QUERY /brands/search\nfound: 2026-10-10\nref:\n  - docs/api/contracts/Brands_API.md#7-search-brands\n  - docs/api/contracts/Brands_API.md#notes\ndescription: >-\n  BrandService caches each search term for 1 hour, but create, update and delete clear only the list and\n  the brand's own entry, never the search entries. A term searched before the change keeps its old result:\n  a new or renamed brand is missing, a deleted one is still listed.\nsteps:\n  - Send GET /brands/search with a unique term that no brand matches.\n  - Send POST /brands with that term as the name and a unique slug.\n  - Send GET /brands/search with the same term.\n  - Send DELETE /brands/{brandId} for the new brand as admin.\nexpected: The search right after the POST returns the new brand, like GET /brands does.\nactual: >-\n  The search returns the cached empty list until the entry expires, up to an hour later (from the source,\n  not reproduced).\nevidence: |-\n  Source (practice-software-testing, sprint5/API), 2026-10-10, BrandService:\n  searchBrands: Cache::remember(\"brands.search.{$query}\", 60 * 60, ...)\n  create, update, delete: Cache::forget('brands.all') and Cache::forget(\"brands.{$id}\") only",
-   "scenarios": []
+   "scenarios": [
+    {
+     "id": "API-0159",
+     "name": "Search brands finds a brand created after the same term was searched",
+     "layer": "api",
+     "area": "brands",
+     "file": "test-scenarios/api/brands/get-brands-search.yml",
+     "status": "manual",
+     "knownIssue": "Returns the cached search result instead of the new brand for a term searched before the brand was created."
+    }
+   ]
+  },
+  {
+   "id": "BUG-018",
+   "title": "Partial category update returns 409 when the body repeats the category's own slug, instead of 200",
+   "status": "open",
+   "severity": "minor",
+   "layer": "api",
+   "area": "categories",
+   "affects": [
+    "PATCH /categories/{categoryId}"
+   ],
+   "found": "2026-10-10",
+   "ref": [
+    "docs/api/contracts/Categories_API.md#9-partially-update-category",
+    "docs/api/contracts/Categories_API.md#notes"
+   ],
+   "description": "The slug's uniqueness rule in PatchCategory doesn't ignore the category being patched, so a client that sends every field (the current slug unchanged) can't update the name. Workaround: leave slug out of the body. PUT has no uniqueness rule and accepts the own slug. The same defect as BUG-010 (brands).",
+   "steps": [
+    "Send POST /categories with a unique name and a unique slug, and take the new category's id.",
+    "Send PATCH /categories/{categoryId} for that category with a new name and the category's own slug."
+   ],
+   "expected": "200 with { success true }, and the category has the new name; a slug only conflicts with other categories' slugs.",
+   "actual": "409 with a slug message, and the name doesn't change (from the source; the identical Brands rule was reproduced live, BUG-010).",
+   "evidence": "Source (practice-software-testing, sprint5/API), 2026-10-10: PatchCategory::rules():\n  'slug' => [..., 'unique:categories,slug', ...] (no ignore of the current id)",
+   "file": "bugs/BUG-018.yml",
+   "yaml": "id: BUG-018\ntitle: Partial category update returns 409 when the body repeats the category's own slug, instead of 200\nstatus: open\nseverity: minor\nlayer: api\narea: categories\naffects:\n  - PATCH /categories/{categoryId}\nfound: 2026-10-10\nref:\n  - docs/api/contracts/Categories_API.md#9-partially-update-category\n  - docs/api/contracts/Categories_API.md#notes\ndescription: >-\n  The slug's uniqueness rule in PatchCategory doesn't ignore the category being patched, so a client that\n  sends every field (the current slug unchanged) can't update the name. Workaround: leave slug out of the\n  body. PUT has no uniqueness rule and accepts the own slug. The same defect as BUG-010 (brands).\nsteps:\n  - Send POST /categories with a unique name and a unique slug, and take the new category's id.\n  - Send PATCH /categories/{categoryId} for that category with a new name and the category's own slug.\nexpected: 200 with { success true }, and the category has the new name; a slug only conflicts with other categories' slugs.\nactual: >-\n  409 with a slug message, and the name doesn't change (from the source; the identical Brands rule was\n  reproduced live, BUG-010).\nevidence: |-\n  Source (practice-software-testing, sprint5/API), 2026-10-10: PatchCategory::rules():\n    'slug' => [..., 'unique:categories,slug', ...] (no ignore of the current id)",
+   "scenarios": [
+    {
+     "id": "API-0220",
+     "name": "Partially update category with its own slug returns success",
+     "layer": "api",
+     "area": "categories",
+     "file": "test-scenarios/api/categories/patch-categories-by-category-id.yml",
+     "status": "manual",
+     "knownIssue": "Returns 409 instead of 200 when the body repeats the category's own slug."
+    }
+   ]
+  },
+  {
+   "id": "BUG-020",
+   "title": "Category tree, single category and search return stale results for up to an hour after a category is created, updated or deleted",
+   "status": "open",
+   "severity": "minor",
+   "layer": "api",
+   "area": "categories",
+   "affects": [
+    "GET /categories/tree/{categoryId}",
+    "GET /categories/tree",
+    "QUERY /categories/tree",
+    "GET /categories/search",
+    "QUERY /categories/search"
+   ],
+   "found": "2026-10-10",
+   "ref": [
+    "docs/api/contracts/Categories_API.md#notes"
+   ],
+   "description": "CategoryService caches the list, the whole tree, each by_category_slug tree, each category with its sub-categories and each search term for 1 hour. Create clears only the list and the whole tree; update and delete also clear the category's own entry. The per-slug trees, the parent's entry and the search entries are never cleared, so a new, changed or deleted sub-category is missing from (or still shown in) its parent and in earlier searches. The same defect as BUG-013 (brand search).",
+   "steps": [
+    "Send POST /categories with a unique name and a unique slug, and take its id as the parent's id.",
+    "Send GET /categories/tree/{categoryId} with the parent's id.",
+    "Send POST /categories with a unique name, a unique slug and the parent's id as parent_id.",
+    "Send GET /categories/tree/{categoryId} with the parent's id again.",
+    "Send GET /categories/search with a unique term no category matches, POST /categories with that term as the name, and search again."
+   ],
+   "expected": "The second read of the parent lists the new sub-category, and the second search returns the new category, like GET /categories does.",
+   "actual": "Both return the cached result until the entry expires, up to an hour later (from the source, not reproduced).",
+   "evidence": "Source (practice-software-testing, sprint5/API), 2026-10-10, CategoryService (Categories_API.md, Notes, Caching):\nthe tree, per-slug trees, categories.{id} and search terms are cached for 1 hour;\ncreate forgets the list and the whole tree; update and delete also forget categories.{id} only",
+   "file": "bugs/BUG-020.yml",
+   "yaml": "id: BUG-020\ntitle: Category tree, single category and search return stale results for up to an hour after a category is created, updated or deleted\nstatus: open\nseverity: minor\nlayer: api\narea: categories\naffects:\n  - GET /categories/tree/{categoryId}\n  - GET /categories/tree\n  - QUERY /categories/tree\n  - GET /categories/search\n  - QUERY /categories/search\nfound: 2026-10-10\nref:\n  - docs/api/contracts/Categories_API.md#notes\ndescription: >-\n  CategoryService caches the list, the whole tree, each by_category_slug tree, each category with its\n  sub-categories and each search term for 1 hour. Create clears only the list and the whole tree; update\n  and delete also clear the category's own entry. The per-slug trees, the parent's entry and the search\n  entries are never cleared, so a new, changed or deleted sub-category is missing from (or still shown in)\n  its parent and in earlier searches. The same defect as BUG-013 (brand search).\nsteps:\n  - Send POST /categories with a unique name and a unique slug, and take its id as the parent's id.\n  - Send GET /categories/tree/{categoryId} with the parent's id.\n  - Send POST /categories with a unique name, a unique slug and the parent's id as parent_id.\n  - Send GET /categories/tree/{categoryId} with the parent's id again.\n  - Send GET /categories/search with a unique term no category matches, POST /categories with that term as the name, and search again.\nexpected: The second read of the parent lists the new sub-category, and the second search returns the new category, like GET /categories does.\nactual: >-\n  Both return the cached result until the entry expires, up to an hour later (from the source, not reproduced).\nevidence: |-\n  Source (practice-software-testing, sprint5/API), 2026-10-10, CategoryService (Categories_API.md, Notes, Caching):\n  the tree, per-slug trees, categories.{id} and search terms are cached for 1 hour;\n  create forgets the list and the whole tree; update and delete also forget categories.{id} only",
+   "scenarios": [
+    {
+     "id": "API-0196",
+     "name": "Search categories finds a category created after the same term was searched",
+     "layer": "api",
+     "area": "categories",
+     "file": "test-scenarios/api/categories/get-categories-search.yml",
+     "status": "manual",
+     "knownIssue": "Returns the cached search result instead of the new category for a term searched before the category was created."
+    },
+    {
+     "id": "API-0190",
+     "name": "Get category lists a sub-category created after the category was read",
+     "layer": "api",
+     "area": "categories",
+     "file": "test-scenarios/api/categories/get-categories-tree-by-category-id.yml",
+     "status": "manual",
+     "knownIssue": "Returns the cached category without a sub-category created after the category was first read."
+    }
+   ]
+  },
+  {
+   "id": "BUG-025",
+   "title": "Location offers get no discount at real New York coordinates, because the city table has New York at longitude +74 instead of -74",
+   "status": "open",
+   "severity": "minor",
+   "layer": "api",
+   "area": "carts",
+   "affects": [
+    "POST /carts/{cartId}",
+    "GET /carts/{cartId}"
+   ],
+   "found": "2026-10-10",
+   "ref": [
+    "docs/api/contracts/Carts_API.md#enums",
+    "docs/ui/user-stories/Rental_Products.md#AC5"
+   ],
+   "description": "CartService::calculateDiscountPercentage matches the cart's coordinates against a city table within 2 degrees of latitude and longitude. New York is listed at lat 41, lng 74, but its real longitude is west of Greenwich (about -74), so a cart in New York never matches and its location offers get 0 % instead of 5 %. Only coordinates in Central Asia (around 41, 74) get New York's discount. The app's own test \"add product to cart no discount location\" uses New York's real coordinates and relies on the wrong sign.",
+   "steps": [
+    "Send GET /products and take the id of an item with is_location_offer true.",
+    "Send POST /carts with lat 41 and lng -74 (New York) and take the returned id as the cart's id.",
+    "Send POST /carts/{cartId} with the cart's id and a body with that product's id as product_id and quantity 1.",
+    "Send GET /carts/{cartId} with the cart's id.",
+    "Send DELETE /carts/{cartId} with the cart's id."
+   ],
+   "expected": "The item has discount_percentage 5 and a discounted_price of its price x 0.95, rounded to 2 decimals: a location offer in a cart in a supported city gets that city's discount (Rental_Products.md AC5; New York 5 % in Carts_API.md, Enums).",
+   "actual": "The item has discount_percentage 0 and no discounted_price.",
+   "evidence": "Live, 2026-10-10 09:07 UTC (cart deleted afterwards, 204):\nProduct: Bolt Cutters (seeded), price 48.41, is_location_offer true\nPOST /carts { lat: 41, lng: -74 } -> 201 { id }\nPOST /carts/{cartId} { product_id, quantity: 1 } -> 200 {\"result\":\"item added or updated\"}\nGET /carts/{cartId} -> 200, its only item: discount_percentage 0, no discounted_price\nSource (practice-software-testing, sprint5/API), 2026-10-10, CartService::calculateDiscountPercentage:\n\"new york\" => [\"lat\" => 41, \"lng\" => 74, \"discount_percentage\" => 5];\nmatch when abs($lat - lat) <= 2 && abs($lng - lng) <= 2, else 0",
+   "file": "bugs/BUG-025.yml",
+   "yaml": "id: BUG-025\ntitle: Location offers get no discount at real New York coordinates, because the city table has New York at longitude +74 instead of -74\nstatus: open\nseverity: minor\nlayer: api\narea: carts\naffects:\n  - POST /carts/{cartId}\n  - GET /carts/{cartId}\nfound: 2026-10-10\nref:\n  - docs/api/contracts/Carts_API.md#enums\n  - docs/ui/user-stories/Rental_Products.md#AC5\ndescription: >-\n  CartService::calculateDiscountPercentage matches the cart's coordinates against a city table within\n  2 degrees of latitude and longitude. New York is listed at lat 41, lng 74, but its real longitude is\n  west of Greenwich (about -74), so a cart in New York never matches and its location offers get 0 %\n  instead of 5 %. Only coordinates in Central Asia (around 41, 74) get New York's discount. The app's\n  own test \"add product to cart no discount location\" uses New York's real coordinates and relies on the\n  wrong sign.\nsteps:\n  - Send GET /products and take the id of an item with is_location_offer true.\n  - Send POST /carts with lat 41 and lng -74 (New York) and take the returned id as the cart's id.\n  - Send POST /carts/{cartId} with the cart's id and a body with that product's id as product_id and quantity 1.\n  - Send GET /carts/{cartId} with the cart's id.\n  - Send DELETE /carts/{cartId} with the cart's id.\nexpected: >-\n  The item has discount_percentage 5 and a discounted_price of its price x 0.95, rounded to 2 decimals:\n  a location offer in a cart in a supported city gets that city's discount (Rental_Products.md AC5;\n  New York 5 % in Carts_API.md, Enums).\nactual: The item has discount_percentage 0 and no discounted_price.\nevidence: |-\n  Live, 2026-10-10 09:07 UTC (cart deleted afterwards, 204):\n  Product: Bolt Cutters (seeded), price 48.41, is_location_offer true\n  POST /carts { lat: 41, lng: -74 } -> 201 { id }\n  POST /carts/{cartId} { product_id, quantity: 1 } -> 200 {\"result\":\"item added or updated\"}\n  GET /carts/{cartId} -> 200, its only item: discount_percentage 0, no discounted_price\n  Source (practice-software-testing, sprint5/API), 2026-10-10, CartService::calculateDiscountPercentage:\n  \"new york\" => [\"lat\" => 41, \"lng\" => 74, \"discount_percentage\" => 5];\n  match when abs($lat - lat) <= 2 && abs($lng - lng) <= 2, else 0",
+   "scenarios": [
+    {
+     "id": "API-0238",
+     "name": "Add a location offer to a cart at real New York coordinates gives it a 5% discount",
+     "layer": "api",
+     "area": "carts",
+     "file": "test-scenarios/api/carts/post-carts-by-cart-id.yml",
+     "status": "manual",
+     "knownIssue": "Gives a location offer no discount at real New York coordinates (41, -74) instead of New York's 5% discount."
+    }
+   ]
+  },
+  {
+   "id": "BUG-026",
+   "title": "A cart at longitude or latitude 0 gets no location discount, so location offers at London's coordinates (51, 0) aren't discounted",
+   "status": "open",
+   "severity": "minor",
+   "layer": "api",
+   "area": "carts",
+   "affects": [
+    "POST /carts/{cartId}",
+    "GET /carts/{cartId}"
+   ],
+   "found": "2026-10-10",
+   "ref": [
+    "docs/api/contracts/Carts_API.md#enums",
+    "docs/ui/user-stories/Rental_Products.md#AC5"
+   ],
+   "description": "CartService::addItemToCart applies the location discount only when $cart->lat && $cart->lng is true. The coordinates are cast to double, so 0 (or any value stored as 0.00) is false and the discount is skipped without looking at the city table. London is listed at lat 51, lng 0 with 25 %, so a cart at London's own coordinates, or anywhere on the prime meridian, gets no discount; the item's discount_percentage stays null, as for a cart without coordinates. Carts a little east or west of it (lng 0.01 to 2 or -2 to -0.01) do get 25 %.",
+   "steps": [
+    "Send GET /products and take the id of an item with is_location_offer true.",
+    "Send POST /carts with lat 51 and lng 0 (London) and take the returned id as the cart's id.",
+    "Send POST /carts/{cartId} with the cart's id and a body with that product's id as product_id and quantity 1.",
+    "Send GET /carts/{cartId} with the cart's id.",
+    "Send DELETE /carts/{cartId} with the cart's id."
+   ],
+   "expected": "The item has discount_percentage 25 and a discounted_price of its price x 0.75, rounded to 2 decimals: a location offer in a cart in a supported city gets that city's discount (Rental_Products.md AC5; London 25 % at lat 51, lng 0 in Carts_API.md, Enums), and 0 is a valid coordinate.",
+   "actual": "The item has discount_percentage null and no discounted_price.",
+   "evidence": "Live, 2026-10-10 09:07 UTC (cart deleted afterwards, 204):\nProduct: Bolt Cutters (seeded), price 48.41, is_location_offer true\nPOST /carts { lat: 51, lng: 0 } -> 201 { id }\nPOST /carts/{cartId} { product_id, quantity: 1 } -> 200 {\"result\":\"item added or updated\"}\nGET /carts/{cartId} -> 200 with lat 51, lng 0; its only item: discount_percentage null, no discounted_price\nSource (practice-software-testing, sprint5/API), 2026-10-10:\nCartService::addItemToCart: if ($cart->lat && $cart->lng && ...) (0.0 is false)\nCart model casts lat and lng to double; calculateDiscountPercentage: \"london\" => [\"lat\" => 51, \"lng\" => 0, \"discount_percentage\" => 25]",
+   "file": "bugs/BUG-026.yml",
+   "yaml": "id: BUG-026\ntitle: A cart at longitude or latitude 0 gets no location discount, so location offers at London's coordinates (51, 0) aren't discounted\nstatus: open\nseverity: minor\nlayer: api\narea: carts\naffects:\n  - POST /carts/{cartId}\n  - GET /carts/{cartId}\nfound: 2026-10-10\nref:\n  - docs/api/contracts/Carts_API.md#enums\n  - docs/ui/user-stories/Rental_Products.md#AC5\ndescription: >-\n  CartService::addItemToCart applies the location discount only when $cart->lat && $cart->lng is true.\n  The coordinates are cast to double, so 0 (or any value stored as 0.00) is false and the discount is\n  skipped without looking at the city table. London is listed at lat 51, lng 0 with 25 %, so a cart at\n  London's own coordinates, or anywhere on the prime meridian, gets no discount; the item's\n  discount_percentage stays null, as for a cart without coordinates. Carts a little east or west of it\n  (lng 0.01 to 2 or -2 to -0.01) do get 25 %.\nsteps:\n  - Send GET /products and take the id of an item with is_location_offer true.\n  - Send POST /carts with lat 51 and lng 0 (London) and take the returned id as the cart's id.\n  - Send POST /carts/{cartId} with the cart's id and a body with that product's id as product_id and quantity 1.\n  - Send GET /carts/{cartId} with the cart's id.\n  - Send DELETE /carts/{cartId} with the cart's id.\nexpected: >-\n  The item has discount_percentage 25 and a discounted_price of its price x 0.75, rounded to 2 decimals:\n  a location offer in a cart in a supported city gets that city's discount (Rental_Products.md AC5;\n  London 25 % at lat 51, lng 0 in Carts_API.md, Enums), and 0 is a valid coordinate.\nactual: The item has discount_percentage null and no discounted_price.\nevidence: |-\n  Live, 2026-10-10 09:07 UTC (cart deleted afterwards, 204):\n  Product: Bolt Cutters (seeded), price 48.41, is_location_offer true\n  POST /carts { lat: 51, lng: 0 } -> 201 { id }\n  POST /carts/{cartId} { product_id, quantity: 1 } -> 200 {\"result\":\"item added or updated\"}\n  GET /carts/{cartId} -> 200 with lat 51, lng 0; its only item: discount_percentage null, no discounted_price\n  Source (practice-software-testing, sprint5/API), 2026-10-10:\n  CartService::addItemToCart: if ($cart->lat && $cart->lng && ...) (0.0 is false)\n  Cart model casts lat and lng to double; calculateDiscountPercentage: \"london\" => [\"lat\" => 51, \"lng\" => 0, \"discount_percentage\" => 25]",
+   "scenarios": [
+    {
+     "id": "API-0289",
+     "name": "Add a location offer to a cart at London's coordinates (lat 51, lng 0) gives it a 25% discount",
+     "layer": "api",
+     "area": "carts",
+     "file": "test-scenarios/api/carts/post-carts-by-cart-id.yml",
+     "status": "manual",
+     "knownIssue": "Gives a location offer no discount in a cart at longitude 0 (London, 51, 0) instead of London's 25% discount."
+    }
+   ]
   },
   {
    "id": "BUG-012",
@@ -563,7 +1090,54 @@ window.BUG_CATALOG = {
    "evidence": "Source (practice-software-testing, sprint5/API), 2026-10-10:\nUpdateBrand::rules(): 'slug' => ['alpha_dash:ascii', 'string', 'max:120', ...] (no unique rule)\napp/Exceptions/Handler.php: a unique-index violation (SQLSTATE 23000) -> 409 { message: \"Duplicate Entry\" }\nContract writer's live calls, 2026-10-10 (Brands_API.md, Update brand): 409 {\"message\":\"Duplicate Entry\"}",
    "file": "bugs/BUG-012.yml",
    "yaml": "id: BUG-012\ntitle: Brand update with a duplicate slug returns 409 with \"Duplicate Entry\" instead of the slug's validation message\nstatus: open\nseverity: trivial\nlayer: api\narea: brands\naffects:\n  - PUT /brands/{brandId}\nfound: 2026-10-10\nref:\n  - docs/api/contracts/Brands_API.md#4-update-brand\n  - docs/api/contracts/Brands_API.md#notes\ndescription: >-\n  UpdateBrand has no uniqueness rule for slug, so a duplicate reaches the database's unique index and the\n  global handler answers with a generic message. The status is right; only the body differs from POST and\n  PATCH (and from the OpenAPI spec), so a client can't tell which field is wrong.\nsteps:\n  - Send POST /brands twice with unique names and unique slugs, and take both brands' ids and slugs.\n  - Send PUT /brands/{brandId} for the second brand with the first brand's slug.\nexpected: '409 with { \"slug\": [\"A brand already exists with this slug.\"] }, like POST and PATCH /brands.'\nactual: >-\n  409 with { \"message\": \"Duplicate Entry\" } (from the source; observed by the contract writer's live\n  calls on 2026-10-10, not reproduced here).\nevidence: |-\n  Source (practice-software-testing, sprint5/API), 2026-10-10:\n  UpdateBrand::rules(): 'slug' => ['alpha_dash:ascii', 'string', 'max:120', ...] (no unique rule)\n  app/Exceptions/Handler.php: a unique-index violation (SQLSTATE 23000) -> 409 { message: \"Duplicate Entry\" }\n  Contract writer's live calls, 2026-10-10 (Brands_API.md, Update brand): 409 {\"message\":\"Duplicate Entry\"}",
-   "scenarios": []
+   "scenarios": [
+    {
+     "id": "API-0139",
+     "name": "Update brand with another brand's slug names the slug in the error",
+     "layer": "api",
+     "area": "brands",
+     "file": "test-scenarios/api/brands/put-brands-by-brand-id.yml",
+     "status": "manual",
+     "knownIssue": "Returns { message: \"Duplicate Entry\" } instead of the slug's validation message for a duplicate slug."
+    }
+   ]
+  },
+  {
+   "id": "BUG-019",
+   "title": "Category update with a duplicate slug returns 409 with \"Duplicate Entry\" instead of the slug's validation message",
+   "status": "open",
+   "severity": "trivial",
+   "layer": "api",
+   "area": "categories",
+   "affects": [
+    "PUT /categories/{categoryId}"
+   ],
+   "found": "2026-10-10",
+   "ref": [
+    "docs/api/contracts/Categories_API.md#8-update-category",
+    "docs/api/contracts/Categories_API.md#notes"
+   ],
+   "description": "UpdateCategory has no uniqueness rule for slug, so a duplicate reaches the database's unique index and the global handler answers with a generic message. The status is right; only the body differs from POST and PATCH (and from the OpenAPI spec), so a client can't tell which field is wrong. The same defect as BUG-012 (brands).",
+   "steps": [
+    "Send POST /categories with a unique name and a unique slug, and take the new category's id.",
+    "Send PUT /categories/{categoryId} for that category with the slug hand-tools."
+   ],
+   "expected": "409 with { \"slug\": [\"A category already exists with this slug.\"] }, like POST and PATCH /categories.",
+   "actual": "409 with { \"message\": \"Duplicate Entry\" } (from the source, not reproduced).",
+   "evidence": "Source (practice-software-testing, sprint5/API), 2026-10-10:\nUpdateCategory::rules(): slug has alpha_dash, string and max:120 (no unique rule)\napp/Exceptions/Handler.php: a unique-index violation (SQLSTATE 23000) -> 409 { message: \"Duplicate Entry\" }",
+   "file": "bugs/BUG-019.yml",
+   "yaml": "id: BUG-019\ntitle: Category update with a duplicate slug returns 409 with \"Duplicate Entry\" instead of the slug's validation message\nstatus: open\nseverity: trivial\nlayer: api\narea: categories\naffects:\n  - PUT /categories/{categoryId}\nfound: 2026-10-10\nref:\n  - docs/api/contracts/Categories_API.md#8-update-category\n  - docs/api/contracts/Categories_API.md#notes\ndescription: >-\n  UpdateCategory has no uniqueness rule for slug, so a duplicate reaches the database's unique index and\n  the global handler answers with a generic message. The status is right; only the body differs from POST\n  and PATCH (and from the OpenAPI spec), so a client can't tell which field is wrong. The same defect as\n  BUG-012 (brands).\nsteps:\n  - Send POST /categories with a unique name and a unique slug, and take the new category's id.\n  - Send PUT /categories/{categoryId} for that category with the slug hand-tools.\nexpected: '409 with { \"slug\": [\"A category already exists with this slug.\"] }, like POST and PATCH /categories.'\nactual: '409 with { \"message\": \"Duplicate Entry\" } (from the source, not reproduced).'\nevidence: |-\n  Source (practice-software-testing, sprint5/API), 2026-10-10:\n  UpdateCategory::rules(): slug has alpha_dash, string and max:120 (no unique rule)\n  app/Exceptions/Handler.php: a unique-index violation (SQLSTATE 23000) -> 409 { message: \"Duplicate Entry\" }",
+   "scenarios": [
+    {
+     "id": "API-0211",
+     "name": "Update category with another category's slug names the slug in the error",
+     "layer": "api",
+     "area": "categories",
+     "file": "test-scenarios/api/categories/put-categories-by-category-id.yml",
+     "status": "manual",
+     "knownIssue": "Returns { message: \"Duplicate Entry\" } instead of the slug's validation message for a duplicate slug."
+    }
+   ]
   }
  ]
 };
