@@ -2,8 +2,8 @@
 window.BUG_CATALOG = {
  "title": "Bugs",
  "prefix": "BUG",
- "generatedAt": "2026-10-11T09:26:25.629Z",
- "commit": "0f8ab138060082432a2cfda27247fe5dada029d4",
+ "generatedAt": "2026-10-11T14:21:25.386Z",
+ "commit": "42d7b32371863fbce1d5c4f0c02fd731fdd3d642",
  "repoUrl": "https://github.com/Zaytsman/SimpRight",
  "branch": "main",
  "bugsDir": "bugs",
@@ -78,7 +78,7 @@ window.BUG_CATALOG = {
      "file": "test-scenarios/api/products/post-products.yml",
      "status": "automated",
      "automatedIn": "tests/api/products/post-products.spec.ts",
-     "specLine": 352,
+     "specLine": 314,
      "knownIssue": "Accepts POST without a token instead of returning 401."
     },
     {
@@ -242,7 +242,7 @@ window.BUG_CATALOG = {
      "file": "test-scenarios/api/products/post-products.yml",
      "status": "automated",
      "automatedIn": "tests/api/products/post-products.spec.ts",
-     "specLine": 256,
+     "specLine": 218,
      "knownIssue": "Returns 500 instead of 422 when category_id doesn't exist."
     },
     {
@@ -253,7 +253,7 @@ window.BUG_CATALOG = {
      "file": "test-scenarios/api/products/post-products.yml",
      "status": "automated",
      "automatedIn": "tests/api/products/post-products.spec.ts",
-     "specLine": 288,
+     "specLine": 250,
      "knownIssue": "Returns 500 instead of 422 when brand_id doesn't exist."
     },
     {
@@ -264,7 +264,7 @@ window.BUG_CATALOG = {
      "file": "test-scenarios/api/products/post-products.yml",
      "status": "automated",
      "automatedIn": "tests/api/products/post-products.spec.ts",
-     "specLine": 320,
+     "specLine": 282,
      "knownIssue": "Returns 500 instead of 422 when product_image_id doesn't exist."
     }
    ]
@@ -304,7 +304,7 @@ window.BUG_CATALOG = {
      "file": "test-scenarios/api/products/get-products.yml",
      "status": "automated",
      "automatedIn": "tests/api/products/get-products.spec.ts",
-     "specLine": 410,
+     "specLine": 662,
      "knownIssue": "Returns 500 instead of a client error (or ignoring the column) for an unknown sort column."
     },
     {
@@ -436,7 +436,7 @@ window.BUG_CATALOG = {
      "file": "test-scenarios/api/users/post-users-register.yml",
      "status": "automated",
      "automatedIn": "tests/api/users/post-users-register.spec.ts",
-     "specLine": 421,
+     "specLine": 448,
      "knownIssue": "Accepts a customer born 80 years ago (201) instead of 422; the 75-year age limit only rejects birth dates more than 93 years ago."
     }
    ]
@@ -477,7 +477,7 @@ window.BUG_CATALOG = {
      "file": "test-scenarios/api/carts/post-carts-by-cart-id.yml",
      "status": "automated",
      "automatedIn": "tests/api/carts/post-carts-by-cart-id.spec.ts",
-     "specLine": 235,
+     "specLine": 222,
      "knownIssue": "Returns 422 for a quantity of 999,999,999 (the server allows at most 99) instead of adding it to the cart as the story's range 1 to 999,999,999 requires."
     },
     {
@@ -773,7 +773,9 @@ window.BUG_CATALOG = {
      "layer": "api",
      "area": "carts",
      "file": "test-scenarios/api/carts/post-carts-by-cart-id.yml",
-     "status": "manual",
+     "status": "automated",
+     "automatedIn": "tests/api/carts/post-carts-by-cart-id.spec.ts",
+     "specLine": 660,
      "knownIssue": "Applies the location discount to a product that isn't a location offer instead of leaving it undiscounted."
     }
    ]
@@ -1353,7 +1355,9 @@ window.BUG_CATALOG = {
      "layer": "api",
      "area": "carts",
      "file": "test-scenarios/api/carts/post-carts-by-cart-id.yml",
-     "status": "manual",
+     "status": "automated",
+     "automatedIn": "tests/api/carts/post-carts-by-cart-id.spec.ts",
+     "specLine": 448,
      "knownIssue": "Gives a location offer no discount at real New York coordinates (41, -74) instead of New York's 5% discount."
     }
    ]
@@ -1394,7 +1398,9 @@ window.BUG_CATALOG = {
      "layer": "api",
      "area": "carts",
      "file": "test-scenarios/api/carts/post-carts-by-cart-id.yml",
-     "status": "manual",
+     "status": "automated",
+     "automatedIn": "tests/api/carts/post-carts-by-cart-id.spec.ts",
+     "specLine": 704,
      "knownIssue": "Gives a location offer no discount in a cart at longitude 0 (London, 51, 0) instead of London's 25% discount."
     }
    ]

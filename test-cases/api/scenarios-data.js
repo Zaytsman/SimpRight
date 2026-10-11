@@ -3,17 +3,17 @@ window.SCENARIO_CATALOG = {
  "layer": "api",
  "title": "API Test Cases",
  "prefix": "API",
- "generatedAt": "2026-10-11T09:26:24.834Z",
- "commit": "0f8ab138060082432a2cfda27247fe5dada029d4",
+ "generatedAt": "2026-10-11T14:21:25.017Z",
+ "commit": "42d7b32371863fbce1d5c4f0c02fd731fdd3d642",
  "repoUrl": "https://github.com/Zaytsman/SimpRight",
  "branch": "main",
  "workflowUrl": "https://github.com/Zaytsman/SimpRight/actions/workflows/custom-api-tests.yml",
  "stats": {
   "total": 667,
-  "automated": 172,
-  "manual": 495,
+  "automated": 251,
+  "manual": 416,
   "knownIssues": 65,
-  "automatedPct": 26
+  "automatedPct": 38
  },
  "tree": [
   {
@@ -2672,7 +2672,8 @@ window.SCENARIO_CATALOG = {
   {
    "id": "API-0230",
    "name": "Create cart with an empty body returns 201 and an empty cart",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/carts/post-carts.spec.ts",
    "steps": [
     "Send POST /carts with an empty body.",
     "Verify the response status is 201.",
@@ -2680,6 +2681,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /carts/{cartId} with that id returns 200 with the same id and an empty cart_items."
    ],
    "ref": [],
+   "specLine": 31,
    "area": "carts",
    "areaLabel": "Carts",
    "file": "test-scenarios/api/carts/post-carts.yml",
@@ -2688,18 +2690,20 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@carts-api"
    ],
-   "yaml": "- id: API-0230\n  name: Create cart with an empty body returns 201 and an empty cart\n  status: manual\n  steps:\n    - Send POST /carts with an empty body.\n    - Verify the response status is 201.\n    - Verify the body's id is a non-empty string.\n    - Verify GET /carts/{cartId} with that id returns 200 with the same id and an empty cart_items."
+   "yaml": "- id: API-0230\n  name: Create cart with an empty body returns 201 and an empty cart\n  status: automated\n  automatedIn: tests/api/carts/post-carts.spec.ts\n  steps:\n    - Send POST /carts with an empty body.\n    - Verify the response status is 201.\n    - Verify the body's id is a non-empty string.\n    - Verify GET /carts/{cartId} with that id returns 200 with the same id and an empty cart_items."
   },
   {
    "id": "API-0231",
    "name": "Create cart with coordinates stores them on the cart",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/carts/post-carts.spec.ts",
    "steps": [
     "Send POST /carts with lat 52 and lng 5 and take the returned id as the cart's id.",
     "Verify the response status is 201.",
     "Verify GET /carts/{cartId} with the cart's id returns 200 with lat numerically equal to 52 and lng numerically equal to 5."
    ],
    "ref": [],
+   "specLine": 61,
    "area": "carts",
    "areaLabel": "Carts",
    "file": "test-scenarios/api/carts/post-carts.yml",
@@ -2708,12 +2712,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@carts-api"
    ],
-   "yaml": "- id: API-0231\n  name: Create cart with coordinates stores them on the cart\n  status: manual\n  steps:\n    - Send POST /carts with lat 52 and lng 5 and take the returned id as the cart's id.\n    - Verify the response status is 201.\n    - Verify GET /carts/{cartId} with the cart's id returns 200 with lat numerically equal to 52 and lng numerically equal to 5."
+   "yaml": "- id: API-0231\n  name: Create cart with coordinates stores them on the cart\n  status: automated\n  automatedIn: tests/api/carts/post-carts.spec.ts\n  steps:\n    - Send POST /carts with lat 52 and lng 5 and take the returned id as the cart's id.\n    - Verify the response status is 201.\n    - Verify GET /carts/{cartId} with the cart's id returns 200 with lat numerically equal to 52 and lng numerically equal to 5."
   },
   {
    "id": "API-0247",
    "name": "Get cart returns 200 with its items and their products",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/carts/get-carts-by-cart-id.spec.ts",
    "steps": [
     "Send GET /products and take the first item's brand id, category id and product image id.",
     "Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental false and stock 10, and take the new product's id.",
@@ -2730,6 +2735,7 @@ window.SCENARIO_CATALOG = {
     "Verify the item's product has no product_image, category or brand key."
    ],
    "ref": [],
+   "specLine": 42,
    "area": "carts",
    "areaLabel": "Carts",
    "file": "test-scenarios/api/carts/get-carts-by-cart-id.yml",
@@ -2738,12 +2744,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@carts-api"
    ],
-   "yaml": "- id: API-0247\n  name: Get cart returns 200 with its items and their products\n  status: manual\n  steps:\n    - Send GET /products and take the first item's brand id, category id and product image id.\n    - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental false and stock 10, and take the new product's id.\n    - Send POST /carts with an empty body and take the returned id as the cart's id.\n    - Send POST /carts/{cartId} with the cart's id and a body with the new product's id as product_id and quantity 2.\n    - Send GET /carts/{cartId} with the cart's id, without an Authorization header.\n    - Verify the response status is 200.\n    - Verify the Cache-Control header contains no-cache and private.\n    - Verify the body's id is the cart's id and it has the keys additional_discount_percentage, lat, lng and cart_items.\n    - Verify cart_items has exactly one item with a non-empty id, quantity 2, the cart's id as cart_id and the new product's id as product_id.\n    - Verify the item's discount_percentage is null and it has no discounted_price.\n    - Verify the item's product has the keys id, name, description, price, is_location_offer, is_rental, co2_rating, in_stock and is_eco_friendly, with the new product's name as name.\n    - Verify the item's product in_stock is a boolean.\n    - Verify the item's product has no product_image, category or brand key."
+   "yaml": "- id: API-0247\n  name: Get cart returns 200 with its items and their products\n  status: automated\n  automatedIn: tests/api/carts/get-carts-by-cart-id.spec.ts\n  steps:\n    - Send GET /products and take the first item's brand id, category id and product image id.\n    - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental false and stock 10, and take the new product's id.\n    - Send POST /carts with an empty body and take the returned id as the cart's id.\n    - Send POST /carts/{cartId} with the cart's id and a body with the new product's id as product_id and quantity 2.\n    - Send GET /carts/{cartId} with the cart's id, without an Authorization header.\n    - Verify the response status is 200.\n    - Verify the Cache-Control header contains no-cache and private.\n    - Verify the body's id is the cart's id and it has the keys additional_discount_percentage, lat, lng and cart_items.\n    - Verify cart_items has exactly one item with a non-empty id, quantity 2, the cart's id as cart_id and the new product's id as product_id.\n    - Verify the item's discount_percentage is null and it has no discounted_price.\n    - Verify the item's product has the keys id, name, description, price, is_location_offer, is_rental, co2_rating, in_stock and is_eco_friendly, with the new product's name as name.\n    - Verify the item's product in_stock is a boolean.\n    - Verify the item's product has no product_image, category or brand key."
   },
   {
    "id": "API-0248",
    "name": "Get cart with an admin token returns each product's in_stock as the stock count",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/carts/get-carts-by-cart-id.spec.ts",
    "role": "admin",
    "steps": [
     "Send GET /products and take the first item's brand id, category id and product image id.",
@@ -2755,6 +2762,7 @@ window.SCENARIO_CATALOG = {
     "Verify the only item's product in_stock is the number 10."
    ],
    "ref": [],
+   "specLine": 116,
    "area": "carts",
    "areaLabel": "Carts",
    "file": "test-scenarios/api/carts/get-carts-by-cart-id.yml",
@@ -2763,18 +2771,20 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@carts-api"
    ],
-   "yaml": "- id: API-0248\n  name: Get cart with an admin token returns each product's in_stock as the stock count\n  status: manual\n  role: admin\n  steps:\n    - Send GET /products and take the first item's brand id, category id and product image id.\n    - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental false and stock 10, and take the new product's id.\n    - Send POST /carts with an empty body and take the returned id as the cart's id.\n    - Send POST /carts/{cartId} with the cart's id and a body with the new product's id as product_id and quantity 1.\n    - Send GET /carts/{cartId} with the cart's id, with the admin's token.\n    - Verify the response status is 200.\n    - Verify the only item's product in_stock is the number 10."
+   "yaml": "- id: API-0248\n  name: Get cart with an admin token returns each product's in_stock as the stock count\n  status: automated\n  automatedIn: tests/api/carts/get-carts-by-cart-id.spec.ts\n  role: admin\n  steps:\n    - Send GET /products and take the first item's brand id, category id and product image id.\n    - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental false and stock 10, and take the new product's id.\n    - Send POST /carts with an empty body and take the returned id as the cart's id.\n    - Send POST /carts/{cartId} with the cart's id and a body with the new product's id as product_id and quantity 1.\n    - Send GET /carts/{cartId} with the cart's id, with the admin's token.\n    - Verify the response status is 200.\n    - Verify the only item's product in_stock is the number 10."
   },
   {
    "id": "API-0249",
    "name": "Get cart with an unknown cart id returns 404",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/carts/get-carts-by-cart-id.spec.ts",
    "steps": [
     "Send GET /carts/{cartId} with a well-formed cart id that doesn't exist.",
     "Verify the response status is 404.",
     "Verify the body's message is \"Requested item not found\"."
    ],
    "ref": [],
+   "specLine": 148,
    "area": "carts",
    "areaLabel": "Carts",
    "file": "test-scenarios/api/carts/get-carts-by-cart-id.yml",
@@ -2783,18 +2793,20 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@carts-api"
    ],
-   "yaml": "- id: API-0249\n  name: Get cart with an unknown cart id returns 404\n  status: manual\n  steps:\n    - Send GET /carts/{cartId} with a well-formed cart id that doesn't exist.\n    - Verify the response status is 404.\n    - Verify the body's message is \"Requested item not found\"."
+   "yaml": "- id: API-0249\n  name: Get cart with an unknown cart id returns 404\n  status: automated\n  automatedIn: tests/api/carts/get-carts-by-cart-id.spec.ts\n  steps:\n    - Send GET /carts/{cartId} with a well-formed cart id that doesn't exist.\n    - Verify the response status is 404.\n    - Verify the body's message is \"Requested item not found\"."
   },
   {
    "id": "API-0250",
    "name": "Get cart with a malformed cart id returns 404",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/carts/get-carts-by-cart-id.spec.ts",
    "steps": [
     "Send GET /carts/{cartId} with abc as the cart id.",
     "Verify the response status is 404.",
     "Verify the body's message is \"Requested item not found\"."
    ],
    "ref": [],
+   "specLine": 165,
    "area": "carts",
    "areaLabel": "Carts",
    "file": "test-scenarios/api/carts/get-carts-by-cart-id.yml",
@@ -2803,7 +2815,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@carts-api"
    ],
-   "yaml": "- id: API-0250\n  name: Get cart with a malformed cart id returns 404\n  status: manual\n  steps:\n    - Send GET /carts/{cartId} with abc as the cart id.\n    - Verify the response status is 404.\n    - Verify the body's message is \"Requested item not found\"."
+   "yaml": "- id: API-0250\n  name: Get cart with a malformed cart id returns 404\n  status: automated\n  automatedIn: tests/api/carts/get-carts-by-cart-id.spec.ts\n  steps:\n    - Send GET /carts/{cartId} with abc as the cart id.\n    - Verify the response status is 404.\n    - Verify the body's message is \"Requested item not found\"."
   },
   {
    "id": "API-0327",
@@ -2811,7 +2823,8 @@ window.SCENARIO_CATALOG = {
    "ref": [
     "docs/ui/user-stories/Rental_Products.md#AC4"
    ],
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/carts/get-carts-by-cart-id.spec.ts",
    "steps": [
     "Send GET /products and take the first item's brand id, category id and product image id.",
     "Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental false and stock 10, and take the new product's id as the non-rental product's id.",
@@ -2825,6 +2838,7 @@ window.SCENARIO_CATALOG = {
     "Verify the item whose product_id is the rental product's id has a product with is_rental true.",
     "Verify the item whose product_id is the non-rental product's id has a product with is_rental false."
    ],
+   "specLine": 183,
    "area": "carts",
    "areaLabel": "Carts",
    "file": "test-scenarios/api/carts/get-carts-by-cart-id.yml",
@@ -2833,7 +2847,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@carts-api"
    ],
-   "yaml": "- id: API-0327\n  name: Get cart returns product.is_rental true for a rental line and false for a non-rental line\n  ref: docs/ui/user-stories/Rental_Products.md#AC4\n  status: manual\n  steps:\n    - Send GET /products and take the first item's brand id, category id and product image id.\n    - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental false and stock 10, and take the new product's id as the non-rental product's id.\n    - Send POST /products with a unique product name, a positive price, the same brand, category and product image ids, is_location_offer false, is_rental true and stock 10, and take the new product's id as the rental product's id.\n    - Send POST /carts with an empty body and take the returned id as the cart's id.\n    - Send POST /carts/{cartId} with the cart's id and a body with the non-rental product's id as product_id and quantity 1.\n    - Send POST /carts/{cartId} with the cart's id and a body with the rental product's id as product_id and quantity 1.\n    - Send GET /carts/{cartId} with the cart's id.\n    - Verify the response status is 200.\n    - Verify cart_items has exactly two items.\n    - Verify the item whose product_id is the rental product's id has a product with is_rental true.\n    - Verify the item whose product_id is the non-rental product's id has a product with is_rental false."
+   "yaml": "- id: API-0327\n  name: Get cart returns product.is_rental true for a rental line and false for a non-rental line\n  ref: docs/ui/user-stories/Rental_Products.md#AC4\n  status: automated\n  automatedIn: tests/api/carts/get-carts-by-cart-id.spec.ts\n  steps:\n    - Send GET /products and take the first item's brand id, category id and product image id.\n    - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental false and stock 10, and take the new product's id as the non-rental product's id.\n    - Send POST /products with a unique product name, a positive price, the same brand, category and product image ids, is_location_offer false, is_rental true and stock 10, and take the new product's id as the rental product's id.\n    - Send POST /carts with an empty body and take the returned id as the cart's id.\n    - Send POST /carts/{cartId} with the cart's id and a body with the non-rental product's id as product_id and quantity 1.\n    - Send POST /carts/{cartId} with the cart's id and a body with the rental product's id as product_id and quantity 1.\n    - Send GET /carts/{cartId} with the cart's id.\n    - Verify the response status is 200.\n    - Verify cart_items has exactly two items.\n    - Verify the item whose product_id is the rental product's id has a product with is_rental true.\n    - Verify the item whose product_id is the non-rental product's id has a product with is_rental false."
   },
   {
    "id": "API-0114",
@@ -2853,7 +2867,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /carts/{cartId} with the cart's id returns 200.",
     "Verify its cart_items has exactly one item, with the new product's id as product_id and quantity 1."
    ],
-   "specLine": 98,
+   "specLine": 85,
    "area": "carts",
    "areaLabel": "Carts",
    "file": "test-scenarios/api/carts/post-carts-by-cart-id.yml",
@@ -2881,7 +2895,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /carts/{cartId} with the cart's id returns 200.",
     "Verify its cart_items has exactly one item, with the new product's id as product_id and quantity 2."
    ],
-   "specLine": 136,
+   "specLine": 123,
    "area": "carts",
    "areaLabel": "Carts",
    "file": "test-scenarios/api/carts/post-carts-by-cart-id.yml",
@@ -2909,7 +2923,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's errors has a quantity key with at least one message.",
     "Verify GET /carts/{cartId} with the cart's id returns 200 and its cart_items is empty."
    ],
-   "specLine": 169,
+   "specLine": 156,
    "area": "carts",
    "areaLabel": "Carts",
    "file": "test-scenarios/api/carts/post-carts-by-cart-id.yml",
@@ -2937,7 +2951,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's errors has a quantity key with at least one message.",
     "Verify GET /carts/{cartId} with the cart's id returns 200 and its cart_items is empty."
    ],
-   "specLine": 202,
+   "specLine": 189,
    "area": "carts",
    "areaLabel": "Carts",
    "file": "test-scenarios/api/carts/post-carts-by-cart-id.yml",
@@ -2966,7 +2980,7 @@ window.SCENARIO_CATALOG = {
     "Verify the response status is 200.",
     "Verify GET /carts/{cartId} with the cart's id returns 200 and its cart_items has exactly one item, with the new product's id as product_id and quantity 999999999."
    ],
-   "specLine": 235,
+   "specLine": 222,
    "area": "carts",
    "areaLabel": "Carts",
    "file": "test-scenarios/api/carts/post-carts-by-cart-id.yml",
@@ -2980,7 +2994,8 @@ window.SCENARIO_CATALOG = {
   {
    "id": "API-0232",
    "name": "Add a product that is already in the cart increases its quantity",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/carts/post-carts-by-cart-id.spec.ts",
    "steps": [
     "Send GET /products and take the first item's brand id, category id and product image id.",
     "Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental false and stock 10, and take the new product's id.",
@@ -2991,6 +3006,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /carts/{cartId} with the cart's id returns 200 and its cart_items has exactly one item, with the new product's id as product_id and quantity 3."
    ],
    "ref": [],
+   "specLine": 252,
    "area": "carts",
    "areaLabel": "Carts",
    "file": "test-scenarios/api/carts/post-carts-by-cart-id.yml",
@@ -2999,12 +3015,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@carts-api"
    ],
-   "yaml": "- id: API-0232\n  name: Add a product that is already in the cart increases its quantity\n  status: manual\n  steps:\n    - Send GET /products and take the first item's brand id, category id and product image id.\n    - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental false and stock 10, and take the new product's id.\n    - Send POST /carts with an empty body and take the returned id as the cart's id.\n    - Send POST /carts/{cartId} with the cart's id and a body with the new product's id as product_id and quantity 1.\n    - Send POST /carts/{cartId} with the cart's id and a body with the new product's id as product_id and quantity 2.\n    - Verify the response status is 200.\n    - Verify GET /carts/{cartId} with the cart's id returns 200 and its cart_items has exactly one item, with the new product's id as product_id and quantity 3."
+   "yaml": "- id: API-0232\n  name: Add a product that is already in the cart increases its quantity\n  status: automated\n  automatedIn: tests/api/carts/post-carts-by-cart-id.spec.ts\n  steps:\n    - Send GET /products and take the first item's brand id, category id and product image id.\n    - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental false and stock 10, and take the new product's id.\n    - Send POST /carts with an empty body and take the returned id as the cart's id.\n    - Send POST /carts/{cartId} with the cart's id and a body with the new product's id as product_id and quantity 1.\n    - Send POST /carts/{cartId} with the cart's id and a body with the new product's id as product_id and quantity 2.\n    - Verify the response status is 200.\n    - Verify GET /carts/{cartId} with the cart's id returns 200 and its cart_items has exactly one item, with the new product's id as product_id and quantity 3."
   },
   {
    "id": "API-0233",
    "name": "Add a product with quantity 99 to a cart returns 200 and the cart holds it",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/carts/post-carts-by-cart-id.spec.ts",
    "steps": [
     "Send GET /products and take the first item's brand id, category id and product image id.",
     "Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental false and stock 10, and take the new product's id.",
@@ -3014,6 +3031,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /carts/{cartId} with the cart's id returns 200 and its cart_items has exactly one item, with the new product's id as product_id and quantity 99."
    ],
    "ref": [],
+   "specLine": 282,
    "area": "carts",
    "areaLabel": "Carts",
    "file": "test-scenarios/api/carts/post-carts-by-cart-id.yml",
@@ -3022,12 +3040,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@carts-api"
    ],
-   "yaml": "- id: API-0233\n  name: Add a product with quantity 99 to a cart returns 200 and the cart holds it\n  status: manual\n  steps:\n    - Send GET /products and take the first item's brand id, category id and product image id.\n    - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental false and stock 10, and take the new product's id.\n    - Send POST /carts with an empty body and take the returned id as the cart's id.\n    - Send POST /carts/{cartId} with the cart's id and a body with the new product's id as product_id and quantity 99.\n    - Verify the response status is 200.\n    - Verify GET /carts/{cartId} with the cart's id returns 200 and its cart_items has exactly one item, with the new product's id as product_id and quantity 99."
+   "yaml": "- id: API-0233\n  name: Add a product with quantity 99 to a cart returns 200 and the cart holds it\n  status: automated\n  automatedIn: tests/api/carts/post-carts-by-cart-id.spec.ts\n  steps:\n    - Send GET /products and take the first item's brand id, category id and product image id.\n    - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental false and stock 10, and take the new product's id.\n    - Send POST /carts with an empty body and take the returned id as the cart's id.\n    - Send POST /carts/{cartId} with the cart's id and a body with the new product's id as product_id and quantity 99.\n    - Verify the response status is 200.\n    - Verify GET /carts/{cartId} with the cart's id returns 200 and its cart_items has exactly one item, with the new product's id as product_id and quantity 99."
   },
   {
    "id": "API-0234",
    "name": "Add a product with quantity 99 twice gives a cart line with quantity 198",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/carts/post-carts-by-cart-id.spec.ts",
    "steps": [
     "Send GET /products and take the first item's brand id, category id and product image id.",
     "Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental false and stock 10, and take the new product's id.",
@@ -3038,6 +3057,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /carts/{cartId} with the cart's id returns 200 and its cart_items has exactly one item, with the new product's id as product_id and quantity 198."
    ],
    "ref": [],
+   "specLine": 311,
    "area": "carts",
    "areaLabel": "Carts",
    "file": "test-scenarios/api/carts/post-carts-by-cart-id.yml",
@@ -3046,12 +3066,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@carts-api"
    ],
-   "yaml": "- id: API-0234\n  name: Add a product with quantity 99 twice gives a cart line with quantity 198\n  status: manual\n  steps:\n    - Send GET /products and take the first item's brand id, category id and product image id.\n    - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental false and stock 10, and take the new product's id.\n    - Send POST /carts with an empty body and take the returned id as the cart's id.\n    - Send POST /carts/{cartId} with the cart's id and a body with the new product's id as product_id and quantity 99.\n    - Send POST /carts/{cartId} with the same cart id and body again.\n    - Verify the response status is 200.\n    - Verify GET /carts/{cartId} with the cart's id returns 200 and its cart_items has exactly one item, with the new product's id as product_id and quantity 198."
+   "yaml": "- id: API-0234\n  name: Add a product with quantity 99 twice gives a cart line with quantity 198\n  status: automated\n  automatedIn: tests/api/carts/post-carts-by-cart-id.spec.ts\n  steps:\n    - Send GET /products and take the first item's brand id, category id and product image id.\n    - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental false and stock 10, and take the new product's id.\n    - Send POST /carts with an empty body and take the returned id as the cart's id.\n    - Send POST /carts/{cartId} with the cart's id and a body with the new product's id as product_id and quantity 99.\n    - Send POST /carts/{cartId} with the same cart id and body again.\n    - Verify the response status is 200.\n    - Verify GET /carts/{cartId} with the cart's id returns 200 and its cart_items has exactly one item, with the new product's id as product_id and quantity 198."
   },
   {
    "id": "API-0235",
    "name": "Add an out-of-stock product to a cart returns 200 and the cart holds it",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/carts/post-carts-by-cart-id.spec.ts",
    "steps": [
     "Send GET /products and take the first item's brand id, category id and product image id.",
     "Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental false and stock 0, and take the new product's id.",
@@ -3061,6 +3082,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /carts/{cartId} with the cart's id returns 200 and its cart_items has exactly one item, with the new product's id as product_id and quantity 1."
    ],
    "ref": [],
+   "specLine": 341,
    "area": "carts",
    "areaLabel": "Carts",
    "file": "test-scenarios/api/carts/post-carts-by-cart-id.yml",
@@ -3069,7 +3091,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@carts-api"
    ],
-   "yaml": "- id: API-0235\n  name: Add an out-of-stock product to a cart returns 200 and the cart holds it\n  status: manual\n  steps:\n    - Send GET /products and take the first item's brand id, category id and product image id.\n    - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental false and stock 0, and take the new product's id.\n    - Send POST /carts with an empty body and take the returned id as the cart's id.\n    - Send POST /carts/{cartId} with the cart's id and a body with the new product's id as product_id and quantity 1.\n    - Verify the response status is 200.\n    - Verify GET /carts/{cartId} with the cart's id returns 200 and its cart_items has exactly one item, with the new product's id as product_id and quantity 1."
+   "yaml": "- id: API-0235\n  name: Add an out-of-stock product to a cart returns 200 and the cart holds it\n  status: automated\n  automatedIn: tests/api/carts/post-carts-by-cart-id.spec.ts\n  steps:\n    - Send GET /products and take the first item's brand id, category id and product image id.\n    - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental false and stock 0, and take the new product's id.\n    - Send POST /carts with an empty body and take the returned id as the cart's id.\n    - Send POST /carts/{cartId} with the cart's id and a body with the new product's id as product_id and quantity 1.\n    - Verify the response status is 200.\n    - Verify GET /carts/{cartId} with the cart's id returns 200 and its cart_items has exactly one item, with the new product's id as product_id and quantity 1."
   },
   {
    "id": "API-0236",
@@ -3077,7 +3099,8 @@ window.SCENARIO_CATALOG = {
    "ref": [
     "docs/ui/user-stories/Checkout_Cart_Review.md#AC7"
    ],
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/carts/post-carts-by-cart-id.spec.ts",
    "steps": [
     "Send GET /products and take the first item's brand id, category id and product image id.",
     "Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental false and stock 10, and take the new product's id as the non-rental product's id.",
@@ -3088,6 +3111,7 @@ window.SCENARIO_CATALOG = {
     "Verify the response status is 200.",
     "Verify GET /carts/{cartId} with the cart's id returns 200 with additional_discount_percentage 15."
    ],
+   "specLine": 377,
    "area": "carts",
    "areaLabel": "Carts",
    "file": "test-scenarios/api/carts/post-carts-by-cart-id.yml",
@@ -3096,7 +3120,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@carts-api"
    ],
-   "yaml": "- id: API-0236\n  name: Add a rental and a non-rental product to a cart sets the additional discount to 15\n  ref: docs/ui/user-stories/Checkout_Cart_Review.md#AC7\n  status: manual\n  steps:\n    - Send GET /products and take the first item's brand id, category id and product image id.\n    - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental false and stock 10, and take the new product's id as the non-rental product's id.\n    - Send POST /products with a unique product name, a positive price, the same brand, category and product image ids, is_location_offer false, is_rental true and stock 10, and take the new product's id as the rental product's id.\n    - Send POST /carts with an empty body and take the returned id as the cart's id.\n    - Send POST /carts/{cartId} with the cart's id and a body with the non-rental product's id as product_id and quantity 1.\n    - Send POST /carts/{cartId} with the cart's id and a body with the rental product's id as product_id and quantity 1.\n    - Verify the response status is 200.\n    - Verify GET /carts/{cartId} with the cart's id returns 200 with additional_discount_percentage 15."
+   "yaml": "- id: API-0236\n  name: Add a rental and a non-rental product to a cart sets the additional discount to 15\n  ref: docs/ui/user-stories/Checkout_Cart_Review.md#AC7\n  status: automated\n  automatedIn: tests/api/carts/post-carts-by-cart-id.spec.ts\n  steps:\n    - Send GET /products and take the first item's brand id, category id and product image id.\n    - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental false and stock 10, and take the new product's id as the non-rental product's id.\n    - Send POST /products with a unique product name, a positive price, the same brand, category and product image ids, is_location_offer false, is_rental true and stock 10, and take the new product's id as the rental product's id.\n    - Send POST /carts with an empty body and take the returned id as the cart's id.\n    - Send POST /carts/{cartId} with the cart's id and a body with the non-rental product's id as product_id and quantity 1.\n    - Send POST /carts/{cartId} with the cart's id and a body with the rental product's id as product_id and quantity 1.\n    - Verify the response status is 200.\n    - Verify GET /carts/{cartId} with the cart's id returns 200 with additional_discount_percentage 15."
   },
   {
    "id": "API-0237",
@@ -3104,7 +3128,8 @@ window.SCENARIO_CATALOG = {
    "ref": [
     "docs/ui/user-stories/Checkout_Cart_Review.md#AC6"
    ],
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/carts/post-carts-by-cart-id.spec.ts",
    "steps": [
     "Send GET /products and take the first item's brand id, category id and product image id.",
     "Send POST /products with a unique product name, a positive price, those ids, is_location_offer true, is_rental false and stock 10, and take the new product's id.",
@@ -3114,6 +3139,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /carts/{cartId} with the cart's id returns 200 and its only item has discount_percentage 20.",
     "Verify the item's discounted_price equals its product's price × 0.8, rounded to 2 decimals."
    ],
+   "specLine": 413,
    "area": "carts",
    "areaLabel": "Carts",
    "file": "test-scenarios/api/carts/post-carts-by-cart-id.yml",
@@ -3122,7 +3148,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@carts-api"
    ],
-   "yaml": "- id: API-0237\n  name: Add a location offer to a cart near Amsterdam gives it a 20% discount\n  ref: docs/ui/user-stories/Checkout_Cart_Review.md#AC6\n  status: manual\n  steps:\n    - Send GET /products and take the first item's brand id, category id and product image id.\n    - Send POST /products with a unique product name, a positive price, those ids, is_location_offer true, is_rental false and stock 10, and take the new product's id.\n    - Send POST /carts with lat 52 and lng 5 and take the returned id as the cart's id.\n    - Send POST /carts/{cartId} with the cart's id and a body with the new product's id as product_id and quantity 1.\n    - Verify the response status is 200.\n    - Verify GET /carts/{cartId} with the cart's id returns 200 and its only item has discount_percentage 20.\n    - Verify the item's discounted_price equals its product's price × 0.8, rounded to 2 decimals."
+   "yaml": "- id: API-0237\n  name: Add a location offer to a cart near Amsterdam gives it a 20% discount\n  ref: docs/ui/user-stories/Checkout_Cart_Review.md#AC6\n  status: automated\n  automatedIn: tests/api/carts/post-carts-by-cart-id.spec.ts\n  steps:\n    - Send GET /products and take the first item's brand id, category id and product image id.\n    - Send POST /products with a unique product name, a positive price, those ids, is_location_offer true, is_rental false and stock 10, and take the new product's id.\n    - Send POST /carts with lat 52 and lng 5 and take the returned id as the cart's id.\n    - Send POST /carts/{cartId} with the cart's id and a body with the new product's id as product_id and quantity 1.\n    - Verify the response status is 200.\n    - Verify GET /carts/{cartId} with the cart's id returns 200 and its only item has discount_percentage 20.\n    - Verify the item's discounted_price equals its product's price × 0.8, rounded to 2 decimals."
   },
   {
    "id": "API-0238",
@@ -3130,7 +3156,8 @@ window.SCENARIO_CATALOG = {
    "ref": [
     "BUG-025"
    ],
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/carts/post-carts-by-cart-id.spec.ts",
    "knownIssue": "Gives a location offer no discount at real New York coordinates (41, -74) instead of New York's 5% discount.",
    "bug": "BUG-025",
    "steps": [
@@ -3142,6 +3169,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /carts/{cartId} with the cart's id returns 200 and its only item has discount_percentage 5.",
     "Verify the item's discounted_price equals its product's price × 0.95, rounded to 2 decimals."
    ],
+   "specLine": 448,
    "area": "carts",
    "areaLabel": "Carts",
    "file": "test-scenarios/api/carts/post-carts-by-cart-id.yml",
@@ -3150,12 +3178,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@carts-api"
    ],
-   "yaml": "- id: API-0238\n  name: Add a location offer to a cart at real New York coordinates gives it a 5% discount\n  ref: BUG-025\n  status: manual\n  knownIssue: Gives a location offer no discount at real New York coordinates (41, -74) instead of New York's 5% discount.\n  bug: BUG-025\n  steps:\n    - Send GET /products and take the first item's brand id, category id and product image id.\n    - Send POST /products with a unique product name, a positive price, those ids, is_location_offer true, is_rental false and stock 10, and take the new product's id.\n    - Send POST /carts with lat 41 and lng -74 and take the returned id as the cart's id.\n    - Send POST /carts/{cartId} with the cart's id and a body with the new product's id as product_id and quantity 1.\n    - Verify the response status is 200.\n    - Verify GET /carts/{cartId} with the cart's id returns 200 and its only item has discount_percentage 5.\n    - Verify the item's discounted_price equals its product's price × 0.95, rounded to 2 decimals."
+   "yaml": "- id: API-0238\n  name: Add a location offer to a cart at real New York coordinates gives it a 5% discount\n  ref: BUG-025\n  status: automated\n  automatedIn: tests/api/carts/post-carts-by-cart-id.spec.ts\n  knownIssue: Gives a location offer no discount at real New York coordinates (41, -74) instead of New York's 5% discount.\n  bug: BUG-025\n  steps:\n    - Send GET /products and take the first item's brand id, category id and product image id.\n    - Send POST /products with a unique product name, a positive price, those ids, is_location_offer true, is_rental false and stock 10, and take the new product's id.\n    - Send POST /carts with lat 41 and lng -74 and take the returned id as the cart's id.\n    - Send POST /carts/{cartId} with the cart's id and a body with the new product's id as product_id and quantity 1.\n    - Verify the response status is 200.\n    - Verify GET /carts/{cartId} with the cart's id returns 200 and its only item has discount_percentage 5.\n    - Verify the item's discounted_price equals its product's price × 0.95, rounded to 2 decimals."
   },
   {
    "id": "API-0239",
    "name": "Add to cart without the required fields returns 422 for each of them",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/carts/post-carts-by-cart-id.spec.ts",
    "steps": [
     "Send POST /carts with an empty body and take the returned id as the cart's id.",
     "Send POST /carts/{cartId} with the cart's id and an empty JSON object as the body.",
@@ -3164,6 +3193,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /carts/{cartId} with the cart's id returns 200 and its cart_items is empty."
    ],
    "ref": [],
+   "specLine": 484,
    "area": "carts",
    "areaLabel": "Carts",
    "file": "test-scenarios/api/carts/post-carts-by-cart-id.yml",
@@ -3172,12 +3202,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@carts-api"
    ],
-   "yaml": "- id: API-0239\n  name: Add to cart without the required fields returns 422 for each of them\n  status: manual\n  steps:\n    - Send POST /carts with an empty body and take the returned id as the cart's id.\n    - Send POST /carts/{cartId} with the cart's id and an empty JSON object as the body.\n    - Verify the response status is 422.\n    - Verify the body's errors has the keys product_id and quantity, each with at least one message.\n    - Verify GET /carts/{cartId} with the cart's id returns 200 and its cart_items is empty."
+   "yaml": "- id: API-0239\n  name: Add to cart without the required fields returns 422 for each of them\n  status: automated\n  automatedIn: tests/api/carts/post-carts-by-cart-id.spec.ts\n  steps:\n    - Send POST /carts with an empty body and take the returned id as the cart's id.\n    - Send POST /carts/{cartId} with the cart's id and an empty JSON object as the body.\n    - Verify the response status is 422.\n    - Verify the body's errors has the keys product_id and quantity, each with at least one message.\n    - Verify GET /carts/{cartId} with the cart's id returns 200 and its cart_items is empty."
   },
   {
    "id": "API-0240",
    "name": "Add to cart with an unknown product id returns 422 and adds nothing",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/carts/post-carts-by-cart-id.spec.ts",
    "steps": [
     "Send POST /carts with an empty body and take the returned id as the cart's id.",
     "Send POST /carts/{cartId} with the cart's id and a body with a well-formed product id that doesn't exist as product_id and quantity 1.",
@@ -3186,6 +3217,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /carts/{cartId} with the cart's id returns 200 and its cart_items is empty."
    ],
    "ref": [],
+   "specLine": 510,
    "area": "carts",
    "areaLabel": "Carts",
    "file": "test-scenarios/api/carts/post-carts-by-cart-id.yml",
@@ -3194,12 +3226,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@carts-api"
    ],
-   "yaml": "- id: API-0240\n  name: Add to cart with an unknown product id returns 422 and adds nothing\n  status: manual\n  steps:\n    - Send POST /carts with an empty body and take the returned id as the cart's id.\n    - Send POST /carts/{cartId} with the cart's id and a body with a well-formed product id that doesn't exist as product_id and quantity 1.\n    - Verify the response status is 422.\n    - Verify the body's errors has a product_id key with at least one message.\n    - Verify GET /carts/{cartId} with the cart's id returns 200 and its cart_items is empty."
+   "yaml": "- id: API-0240\n  name: Add to cart with an unknown product id returns 422 and adds nothing\n  status: automated\n  automatedIn: tests/api/carts/post-carts-by-cart-id.spec.ts\n  steps:\n    - Send POST /carts with an empty body and take the returned id as the cart's id.\n    - Send POST /carts/{cartId} with the cart's id and a body with a well-formed product id that doesn't exist as product_id and quantity 1.\n    - Verify the response status is 422.\n    - Verify the body's errors has a product_id key with at least one message.\n    - Verify GET /carts/{cartId} with the cart's id returns 200 and its cart_items is empty."
   },
   {
    "id": "API-0241",
    "name": "Add to cart with a non-integer quantity returns 422 and adds nothing",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/carts/post-carts-by-cart-id.spec.ts",
    "steps": [
     "Send GET /products and take the first item's brand id, category id and product image id.",
     "Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental false and stock 10, and take the new product's id.",
@@ -3210,6 +3243,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /carts/{cartId} with the cart's id returns 200 and its cart_items is empty."
    ],
    "ref": [],
+   "specLine": 535,
    "area": "carts",
    "areaLabel": "Carts",
    "file": "test-scenarios/api/carts/post-carts-by-cart-id.yml",
@@ -3218,18 +3252,20 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@carts-api"
    ],
-   "yaml": "- id: API-0241\n  name: Add to cart with a non-integer quantity returns 422 and adds nothing\n  status: manual\n  steps:\n    - Send GET /products and take the first item's brand id, category id and product image id.\n    - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental false and stock 10, and take the new product's id.\n    - Send POST /carts with an empty body and take the returned id as the cart's id.\n    - Send POST /carts/{cartId} with the cart's id and a body with the new product's id as product_id and quantity 1.5.\n    - Verify the response status is 422.\n    - Verify the body's errors has a quantity key with at least one message.\n    - Verify GET /carts/{cartId} with the cart's id returns 200 and its cart_items is empty."
+   "yaml": "- id: API-0241\n  name: Add to cart with a non-integer quantity returns 422 and adds nothing\n  status: automated\n  automatedIn: tests/api/carts/post-carts-by-cart-id.spec.ts\n  steps:\n    - Send GET /products and take the first item's brand id, category id and product image id.\n    - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental false and stock 10, and take the new product's id.\n    - Send POST /carts with an empty body and take the returned id as the cart's id.\n    - Send POST /carts/{cartId} with the cart's id and a body with the new product's id as product_id and quantity 1.5.\n    - Verify the response status is 422.\n    - Verify the body's errors has a quantity key with at least one message.\n    - Verify GET /carts/{cartId} with the cart's id returns 200 and its cart_items is empty."
   },
   {
    "id": "API-0242",
    "name": "Add to cart with an unknown cart id returns 404",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/carts/post-carts-by-cart-id.spec.ts",
    "steps": [
     "Send POST /carts/{cartId} with a well-formed cart id that doesn't exist and a body with an existing product's id (taken from GET /products) as product_id and quantity 1.",
     "Verify the response status is 404.",
     "Verify the body's message is \"Cart not found\"."
    ],
    "ref": [],
+   "specLine": 567,
    "area": "carts",
    "areaLabel": "Carts",
    "file": "test-scenarios/api/carts/post-carts-by-cart-id.yml",
@@ -3238,18 +3274,20 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@carts-api"
    ],
-   "yaml": "- id: API-0242\n  name: Add to cart with an unknown cart id returns 404\n  status: manual\n  steps:\n    - Send POST /carts/{cartId} with a well-formed cart id that doesn't exist and a body with an existing product's id (taken from GET /products) as product_id and quantity 1.\n    - Verify the response status is 404.\n    - Verify the body's message is \"Cart not found\"."
+   "yaml": "- id: API-0242\n  name: Add to cart with an unknown cart id returns 404\n  status: automated\n  automatedIn: tests/api/carts/post-carts-by-cart-id.spec.ts\n  steps:\n    - Send POST /carts/{cartId} with a well-formed cart id that doesn't exist and a body with an existing product's id (taken from GET /products) as product_id and quantity 1.\n    - Verify the response status is 404.\n    - Verify the body's message is \"Cart not found\"."
   },
   {
    "id": "API-0243",
    "name": "Add to cart with an empty body and an unknown cart id returns 422, not 404",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/carts/post-carts-by-cart-id.spec.ts",
    "steps": [
     "Send POST /carts/{cartId} with a well-formed cart id that doesn't exist and an empty JSON object as the body.",
     "Verify the response status is 422.",
     "Verify the body's errors has the keys product_id and quantity."
    ],
    "ref": [],
+   "specLine": 588,
    "area": "carts",
    "areaLabel": "Carts",
    "file": "test-scenarios/api/carts/post-carts-by-cart-id.yml",
@@ -3258,12 +3296,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@carts-api"
    ],
-   "yaml": "- id: API-0243\n  name: Add to cart with an empty body and an unknown cart id returns 422, not 404\n  status: manual\n  steps:\n    - Send POST /carts/{cartId} with a well-formed cart id that doesn't exist and an empty JSON object as the body.\n    - Verify the response status is 422.\n    - Verify the body's errors has the keys product_id and quantity."
+   "yaml": "- id: API-0243\n  name: Add to cart with an empty body and an unknown cart id returns 422, not 404\n  status: automated\n  automatedIn: tests/api/carts/post-carts-by-cart-id.spec.ts\n  steps:\n    - Send POST /carts/{cartId} with a well-formed cart id that doesn't exist and an empty JSON object as the body.\n    - Verify the response status is 422.\n    - Verify the body's errors has the keys product_id and quantity."
   },
   {
    "id": "API-0244",
    "name": "Add Thor Hammer with quantity 2 to a cart returns 400 and adds nothing",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/carts/post-carts-by-cart-id.spec.ts",
    "steps": [
     "Send GET /products/search with q set to Thor Hammer and take the id of the item whose name is exactly \"Thor Hammer\".",
     "Send POST /carts with an empty body and take the returned id as the cart's id.",
@@ -3273,6 +3312,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /carts/{cartId} with the cart's id returns 200 and its cart_items is empty."
    ],
    "ref": [],
+   "specLine": 605,
    "area": "carts",
    "areaLabel": "Carts",
    "file": "test-scenarios/api/carts/post-carts-by-cart-id.yml",
@@ -3281,12 +3321,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@carts-api"
    ],
-   "yaml": "- id: API-0244\n  name: Add Thor Hammer with quantity 2 to a cart returns 400 and adds nothing\n  status: manual\n  steps:\n    - Send GET /products/search with q set to Thor Hammer and take the id of the item whose name is exactly \"Thor Hammer\".\n    - Send POST /carts with an empty body and take the returned id as the cart's id.\n    - Send POST /carts/{cartId} with the cart's id and a body with Thor Hammer's id as product_id and quantity 2.\n    - Verify the response status is 400.\n    - Verify the body's message is \"You can only have one Thor Hammer in the cart.\".\n    - Verify GET /carts/{cartId} with the cart's id returns 200 and its cart_items is empty."
+   "yaml": "- id: API-0244\n  name: Add Thor Hammer with quantity 2 to a cart returns 400 and adds nothing\n  status: automated\n  automatedIn: tests/api/carts/post-carts-by-cart-id.spec.ts\n  steps:\n    - Send GET /products/search with q set to Thor Hammer and take the id of the item whose name is exactly \"Thor Hammer\".\n    - Send POST /carts with an empty body and take the returned id as the cart's id.\n    - Send POST /carts/{cartId} with the cart's id and a body with Thor Hammer's id as product_id and quantity 2.\n    - Verify the response status is 400.\n    - Verify the body's message is \"You can only have one Thor Hammer in the cart.\".\n    - Verify GET /carts/{cartId} with the cart's id returns 200 and its cart_items is empty."
   },
   {
    "id": "API-0245",
    "name": "Add Thor Hammer to a cart that already holds it returns 400",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/carts/post-carts-by-cart-id.spec.ts",
    "steps": [
     "Send GET /products/search with q set to Thor Hammer and take the id of the item whose name is exactly \"Thor Hammer\".",
     "Send POST /carts with an empty body and take the returned id as the cart's id.",
@@ -3297,6 +3338,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /carts/{cartId} with the cart's id returns 200 and its cart_items has exactly one item, with Thor Hammer's id as product_id and quantity 1."
    ],
    "ref": [],
+   "specLine": 632,
    "area": "carts",
    "areaLabel": "Carts",
    "file": "test-scenarios/api/carts/post-carts-by-cart-id.yml",
@@ -3305,7 +3347,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@carts-api"
    ],
-   "yaml": "- id: API-0245\n  name: Add Thor Hammer to a cart that already holds it returns 400\n  status: manual\n  steps:\n    - Send GET /products/search with q set to Thor Hammer and take the id of the item whose name is exactly \"Thor Hammer\".\n    - Send POST /carts with an empty body and take the returned id as the cart's id.\n    - Send POST /carts/{cartId} with the cart's id and a body with Thor Hammer's id as product_id and quantity 1.\n    - Send POST /carts/{cartId} with the same cart id and body again.\n    - Verify the response status is 400.\n    - Verify the body's message is \"You can only have one Thor Hammer in the cart.\".\n    - Verify GET /carts/{cartId} with the cart's id returns 200 and its cart_items has exactly one item, with Thor Hammer's id as product_id and quantity 1."
+   "yaml": "- id: API-0245\n  name: Add Thor Hammer to a cart that already holds it returns 400\n  status: automated\n  automatedIn: tests/api/carts/post-carts-by-cart-id.spec.ts\n  steps:\n    - Send GET /products/search with q set to Thor Hammer and take the id of the item whose name is exactly \"Thor Hammer\".\n    - Send POST /carts with an empty body and take the returned id as the cart's id.\n    - Send POST /carts/{cartId} with the cart's id and a body with Thor Hammer's id as product_id and quantity 1.\n    - Send POST /carts/{cartId} with the same cart id and body again.\n    - Verify the response status is 400.\n    - Verify the body's message is \"You can only have one Thor Hammer in the cart.\".\n    - Verify GET /carts/{cartId} with the cart's id returns 200 and its cart_items has exactly one item, with Thor Hammer's id as product_id and quantity 1."
   },
   {
    "id": "API-0246",
@@ -3313,7 +3355,8 @@ window.SCENARIO_CATALOG = {
    "ref": [
     "BUG-024"
    ],
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/carts/post-carts-by-cart-id.spec.ts",
    "knownIssue": "Applies the location discount to a product that isn't a location offer instead of leaving it undiscounted.",
    "bug": "BUG-024",
    "steps": [
@@ -3325,6 +3368,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /carts/{cartId} with the cart's id returns 200 and its only item has discount_percentage null or 0.",
     "Verify the item has no discounted_price."
    ],
+   "specLine": 660,
    "area": "carts",
    "areaLabel": "Carts",
    "file": "test-scenarios/api/carts/post-carts-by-cart-id.yml",
@@ -3333,7 +3377,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@carts-api"
    ],
-   "yaml": "- id: API-0246\n  name: Add a product that isn't a location offer to a cart near Amsterdam gives it no discount\n  ref: BUG-024\n  status: manual\n  knownIssue: Applies the location discount to a product that isn't a location offer instead of leaving it undiscounted.\n  bug: BUG-024\n  steps:\n    - Send GET /products and take the first item's brand id, category id and product image id.\n    - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental false and stock 10, and take the new product's id.\n    - Send POST /carts with lat 52 and lng 5 and take the returned id as the cart's id.\n    - Send POST /carts/{cartId} with the cart's id and a body with the new product's id as product_id and quantity 1.\n    - Verify the response status is 200.\n    - Verify GET /carts/{cartId} with the cart's id returns 200 and its only item has discount_percentage null or 0.\n    - Verify the item has no discounted_price."
+   "yaml": "- id: API-0246\n  name: Add a product that isn't a location offer to a cart near Amsterdam gives it no discount\n  ref: BUG-024\n  status: automated\n  automatedIn: tests/api/carts/post-carts-by-cart-id.spec.ts\n  knownIssue: Applies the location discount to a product that isn't a location offer instead of leaving it undiscounted.\n  bug: BUG-024\n  steps:\n    - Send GET /products and take the first item's brand id, category id and product image id.\n    - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental false and stock 10, and take the new product's id.\n    - Send POST /carts with lat 52 and lng 5 and take the returned id as the cart's id.\n    - Send POST /carts/{cartId} with the cart's id and a body with the new product's id as product_id and quantity 1.\n    - Verify the response status is 200.\n    - Verify GET /carts/{cartId} with the cart's id returns 200 and its only item has discount_percentage null or 0.\n    - Verify the item has no discounted_price."
   },
   {
    "id": "API-0289",
@@ -3341,7 +3385,8 @@ window.SCENARIO_CATALOG = {
    "ref": [
     "BUG-026"
    ],
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/carts/post-carts-by-cart-id.spec.ts",
    "knownIssue": "Gives a location offer no discount in a cart at longitude 0 (London, 51, 0) instead of London's 25% discount.",
    "bug": "BUG-026",
    "steps": [
@@ -3353,6 +3398,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /carts/{cartId} with the cart's id returns 200 and its only item has discount_percentage 25.",
     "Verify the item's discounted_price equals its product's price × 0.75, rounded to 2 decimals."
    ],
+   "specLine": 704,
    "area": "carts",
    "areaLabel": "Carts",
    "file": "test-scenarios/api/carts/post-carts-by-cart-id.yml",
@@ -3361,7 +3407,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@carts-api"
    ],
-   "yaml": "- id: API-0289\n  name: Add a location offer to a cart at London's coordinates (lat 51, lng 0) gives it a 25% discount\n  ref: BUG-026\n  status: manual\n  knownIssue: Gives a location offer no discount in a cart at longitude 0 (London, 51, 0) instead of London's 25% discount.\n  bug: BUG-026\n  steps:\n    - Send GET /products and take the first item's brand id, category id and product image id.\n    - Send POST /products with a unique product name, a positive price, those ids, is_location_offer true, is_rental false and stock 10, and take the new product's id.\n    - Send POST /carts with lat 51 and lng 0 and take the returned id as the cart's id.\n    - Send POST /carts/{cartId} with the cart's id and a body with the new product's id as product_id and quantity 1.\n    - Verify the response status is 200.\n    - Verify GET /carts/{cartId} with the cart's id returns 200 and its only item has discount_percentage 25.\n    - Verify the item's discounted_price equals its product's price × 0.75, rounded to 2 decimals."
+   "yaml": "- id: API-0289\n  name: Add a location offer to a cart at London's coordinates (lat 51, lng 0) gives it a 25% discount\n  ref: BUG-026\n  status: automated\n  automatedIn: tests/api/carts/post-carts-by-cart-id.spec.ts\n  knownIssue: Gives a location offer no discount in a cart at longitude 0 (London, 51, 0) instead of London's 25% discount.\n  bug: BUG-026\n  steps:\n    - Send GET /products and take the first item's brand id, category id and product image id.\n    - Send POST /products with a unique product name, a positive price, those ids, is_location_offer true, is_rental false and stock 10, and take the new product's id.\n    - Send POST /carts with lat 51 and lng 0 and take the returned id as the cart's id.\n    - Send POST /carts/{cartId} with the cart's id and a body with the new product's id as product_id and quantity 1.\n    - Verify the response status is 200.\n    - Verify GET /carts/{cartId} with the cart's id returns 200 and its only item has discount_percentage 25.\n    - Verify the item's discounted_price equals its product's price × 0.75, rounded to 2 decimals."
   },
   {
    "id": "API-0326",
@@ -3369,7 +3415,8 @@ window.SCENARIO_CATALOG = {
    "ref": [
     "docs/ui/user-stories/Rental_Products.md#AC5"
    ],
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/carts/post-carts-by-cart-id.spec.ts",
    "steps": [
     "Send GET /products and take the first item's brand id, category id and product image id.",
     "Send POST /products with a unique product name, a positive price, those ids, is_location_offer true, is_rental true and stock 10, and take the new product's id.",
@@ -3379,6 +3426,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /carts/{cartId} with the cart's id returns 200 and its only item has discount_percentage 20.",
     "Verify the item's discounted_price equals its product's price × 0.8, rounded to 2 decimals."
    ],
+   "specLine": 740,
    "area": "carts",
    "areaLabel": "Carts",
    "file": "test-scenarios/api/carts/post-carts-by-cart-id.yml",
@@ -3387,12 +3435,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@carts-api"
    ],
-   "yaml": "- id: API-0326\n  name: Add a rental that is a location offer to a cart near Amsterdam gives it a 20% discount\n  ref: docs/ui/user-stories/Rental_Products.md#AC5\n  status: manual\n  steps:\n    - Send GET /products and take the first item's brand id, category id and product image id.\n    - Send POST /products with a unique product name, a positive price, those ids, is_location_offer true, is_rental true and stock 10, and take the new product's id.\n    - Send POST /carts with lat 52 and lng 5 and take the returned id as the cart's id.\n    - Send POST /carts/{cartId} with the cart's id and a body with the new product's id as product_id and quantity 1.\n    - Verify the response status is 200.\n    - Verify GET /carts/{cartId} with the cart's id returns 200 and its only item has discount_percentage 20.\n    - Verify the item's discounted_price equals its product's price × 0.8, rounded to 2 decimals."
+   "yaml": "- id: API-0326\n  name: Add a rental that is a location offer to a cart near Amsterdam gives it a 20% discount\n  ref: docs/ui/user-stories/Rental_Products.md#AC5\n  status: automated\n  automatedIn: tests/api/carts/post-carts-by-cart-id.spec.ts\n  steps:\n    - Send GET /products and take the first item's brand id, category id and product image id.\n    - Send POST /products with a unique product name, a positive price, those ids, is_location_offer true, is_rental true and stock 10, and take the new product's id.\n    - Send POST /carts with lat 52 and lng 5 and take the returned id as the cart's id.\n    - Send POST /carts/{cartId} with the cart's id and a body with the new product's id as product_id and quantity 1.\n    - Verify the response status is 200.\n    - Verify GET /carts/{cartId} with the cart's id returns 200 and its only item has discount_percentage 20.\n    - Verify the item's discounted_price equals its product's price × 0.8, rounded to 2 decimals."
   },
   {
    "id": "API-0265",
    "name": "Delete cart returns 204 and the cart is gone",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/carts/delete-carts-by-cart-id.spec.ts",
    "steps": [
     "Send GET /products and take the first item's brand id, category id and product image id.",
     "Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental false and stock 10, and take the new product's id.",
@@ -3403,6 +3452,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /carts/{cartId} with the cart's id returns 404."
    ],
    "ref": [],
+   "specLine": 22,
    "area": "carts",
    "areaLabel": "Carts",
    "file": "test-scenarios/api/carts/delete-carts-by-cart-id.yml",
@@ -3411,18 +3461,20 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@carts-api"
    ],
-   "yaml": "- id: API-0265\n  name: Delete cart returns 204 and the cart is gone\n  status: manual\n  steps:\n    - Send GET /products and take the first item's brand id, category id and product image id.\n    - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental false and stock 10, and take the new product's id.\n    - Send POST /carts with an empty body and take the returned id as the cart's id.\n    - Send POST /carts/{cartId} with the cart's id and a body with the new product's id as product_id and quantity 1.\n    - Send DELETE /carts/{cartId} with the cart's id.\n    - Verify the response status is 204.\n    - Verify GET /carts/{cartId} with the cart's id returns 404."
+   "yaml": "- id: API-0265\n  name: Delete cart returns 204 and the cart is gone\n  status: automated\n  automatedIn: tests/api/carts/delete-carts-by-cart-id.spec.ts\n  steps:\n    - Send GET /products and take the first item's brand id, category id and product image id.\n    - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental false and stock 10, and take the new product's id.\n    - Send POST /carts with an empty body and take the returned id as the cart's id.\n    - Send POST /carts/{cartId} with the cart's id and a body with the new product's id as product_id and quantity 1.\n    - Send DELETE /carts/{cartId} with the cart's id.\n    - Verify the response status is 204.\n    - Verify GET /carts/{cartId} with the cart's id returns 404."
   },
   {
    "id": "API-0266",
    "name": "Delete cart with an unknown cart id returns 404",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/carts/delete-carts-by-cart-id.spec.ts",
    "steps": [
     "Send DELETE /carts/{cartId} with a well-formed cart id that doesn't exist.",
     "Verify the response status is 404.",
     "Verify the body's message is \"Cart doesnt exists\"."
    ],
    "ref": [],
+   "specLine": 48,
    "area": "carts",
    "areaLabel": "Carts",
    "file": "test-scenarios/api/carts/delete-carts-by-cart-id.yml",
@@ -3431,7 +3483,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@carts-api"
    ],
-   "yaml": "- id: API-0266\n  name: Delete cart with an unknown cart id returns 404\n  status: manual\n  steps:\n    - Send DELETE /carts/{cartId} with a well-formed cart id that doesn't exist.\n    - Verify the response status is 404.\n    - Verify the body's message is \"Cart doesnt exists\"."
+   "yaml": "- id: API-0266\n  name: Delete cart with an unknown cart id returns 404\n  status: automated\n  automatedIn: tests/api/carts/delete-carts-by-cart-id.spec.ts\n  steps:\n    - Send DELETE /carts/{cartId} with a well-formed cart id that doesn't exist.\n    - Verify the response status is 404.\n    - Verify the body's message is \"Cart doesnt exists\"."
   },
   {
    "id": "API-0251",
@@ -3439,7 +3491,8 @@ window.SCENARIO_CATALOG = {
    "ref": [
     "docs/ui/user-stories/Checkout_Cart_Review.md#AC2"
    ],
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/carts/put-carts-by-cart-id-product-quantity.spec.ts",
    "steps": [
     "Send GET /products and take the first item's brand id, category id and product image id.",
     "Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental false and stock 10, and take the new product's id.",
@@ -3450,6 +3503,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's result is \"item added or updated\".",
     "Verify GET /carts/{cartId} with the cart's id returns 200 and its cart_items has exactly one item, with the new product's id as product_id and quantity 5."
    ],
+   "specLine": 64,
    "area": "carts",
    "areaLabel": "Carts",
    "file": "test-scenarios/api/carts/put-carts-by-cart-id-product-quantity.yml",
@@ -3458,12 +3512,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@carts-api"
    ],
-   "yaml": "- id: API-0251\n  name: Update item quantity replaces the quantity of a product in the cart\n  ref: docs/ui/user-stories/Checkout_Cart_Review.md#AC2\n  status: manual\n  steps:\n    - Send GET /products and take the first item's brand id, category id and product image id.\n    - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental false and stock 10, and take the new product's id.\n    - Send POST /carts with an empty body and take the returned id as the cart's id.\n    - Send POST /carts/{cartId} with the cart's id and a body with the new product's id as product_id and quantity 2.\n    - Send PUT /carts/{cartId}/product/quantity with the cart's id and a body with the new product's id as product_id and quantity 5.\n    - Verify the response status is 200.\n    - Verify the body's result is \"item added or updated\".\n    - Verify GET /carts/{cartId} with the cart's id returns 200 and its cart_items has exactly one item, with the new product's id as product_id and quantity 5."
+   "yaml": "- id: API-0251\n  name: Update item quantity replaces the quantity of a product in the cart\n  ref: docs/ui/user-stories/Checkout_Cart_Review.md#AC2\n  status: automated\n  automatedIn: tests/api/carts/put-carts-by-cart-id-product-quantity.spec.ts\n  steps:\n    - Send GET /products and take the first item's brand id, category id and product image id.\n    - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental false and stock 10, and take the new product's id.\n    - Send POST /carts with an empty body and take the returned id as the cart's id.\n    - Send POST /carts/{cartId} with the cart's id and a body with the new product's id as product_id and quantity 2.\n    - Send PUT /carts/{cartId}/product/quantity with the cart's id and a body with the new product's id as product_id and quantity 5.\n    - Verify the response status is 200.\n    - Verify the body's result is \"item added or updated\".\n    - Verify GET /carts/{cartId} with the cart's id returns 200 and its cart_items has exactly one item, with the new product's id as product_id and quantity 5."
   },
   {
    "id": "API-0252",
    "name": "Update item quantity for a product that isn't in the cart returns 200 and changes nothing",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/carts/put-carts-by-cart-id-product-quantity.spec.ts",
    "steps": [
     "Send GET /products and take the first item's brand id, category id and product image id.",
     "Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental false and stock 10, and take the new product's id.",
@@ -3474,6 +3529,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /carts/{cartId} with the cart's id returns 200 and its cart_items is empty."
    ],
    "ref": [],
+   "specLine": 97,
    "area": "carts",
    "areaLabel": "Carts",
    "file": "test-scenarios/api/carts/put-carts-by-cart-id-product-quantity.yml",
@@ -3482,12 +3538,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@carts-api"
    ],
-   "yaml": "- id: API-0252\n  name: Update item quantity for a product that isn't in the cart returns 200 and changes nothing\n  status: manual\n  steps:\n    - Send GET /products and take the first item's brand id, category id and product image id.\n    - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental false and stock 10, and take the new product's id.\n    - Send POST /carts with an empty body and take the returned id as the cart's id.\n    - Send PUT /carts/{cartId}/product/quantity with the cart's id and a body with the new product's id as product_id and quantity 5.\n    - Verify the response status is 200.\n    - Verify the body's result is \"item added or updated\".\n    - Verify GET /carts/{cartId} with the cart's id returns 200 and its cart_items is empty."
+   "yaml": "- id: API-0252\n  name: Update item quantity for a product that isn't in the cart returns 200 and changes nothing\n  status: automated\n  automatedIn: tests/api/carts/put-carts-by-cart-id-product-quantity.spec.ts\n  steps:\n    - Send GET /products and take the first item's brand id, category id and product image id.\n    - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental false and stock 10, and take the new product's id.\n    - Send POST /carts with an empty body and take the returned id as the cart's id.\n    - Send PUT /carts/{cartId}/product/quantity with the cart's id and a body with the new product's id as product_id and quantity 5.\n    - Verify the response status is 200.\n    - Verify the body's result is \"item added or updated\".\n    - Verify GET /carts/{cartId} with the cart's id returns 200 and its cart_items is empty."
   },
   {
    "id": "API-0253",
    "name": "Update item quantity without the required fields returns 422 for each of them",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/carts/put-carts-by-cart-id-product-quantity.spec.ts",
    "steps": [
     "Send POST /carts with an empty body and take the returned id as the cart's id.",
     "Send PUT /carts/{cartId}/product/quantity with the cart's id and an empty JSON object as the body.",
@@ -3496,6 +3553,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's errors quantity messages include \"The quantity field is required.\"."
    ],
    "ref": [],
+   "specLine": 129,
    "area": "carts",
    "areaLabel": "Carts",
    "file": "test-scenarios/api/carts/put-carts-by-cart-id-product-quantity.yml",
@@ -3504,12 +3562,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@carts-api"
    ],
-   "yaml": "- id: API-0253\n  name: Update item quantity without the required fields returns 422 for each of them\n  status: manual\n  steps:\n    - Send POST /carts with an empty body and take the returned id as the cart's id.\n    - Send PUT /carts/{cartId}/product/quantity with the cart's id and an empty JSON object as the body.\n    - Verify the response status is 422.\n    - Verify the body's errors has the keys product_id and quantity, each with at least one message.\n    - Verify the body's errors quantity messages include \"The quantity field is required.\"."
+   "yaml": "- id: API-0253\n  name: Update item quantity without the required fields returns 422 for each of them\n  status: automated\n  automatedIn: tests/api/carts/put-carts-by-cart-id-product-quantity.spec.ts\n  steps:\n    - Send POST /carts with an empty body and take the returned id as the cart's id.\n    - Send PUT /carts/{cartId}/product/quantity with the cart's id and an empty JSON object as the body.\n    - Verify the response status is 422.\n    - Verify the body's errors has the keys product_id and quantity, each with at least one message.\n    - Verify the body's errors quantity messages include \"The quantity field is required.\"."
   },
   {
    "id": "API-0254",
    "name": "Update item quantity with a non-integer quantity returns 422 and keeps the quantity",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/carts/put-carts-by-cart-id-product-quantity.spec.ts",
    "steps": [
     "Send GET /products and take the first item's brand id, category id and product image id.",
     "Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental false and stock 10, and take the new product's id.",
@@ -3521,6 +3580,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /carts/{cartId} with the cart's id returns 200 and its only item has quantity 1."
    ],
    "ref": [],
+   "specLine": 153,
    "area": "carts",
    "areaLabel": "Carts",
    "file": "test-scenarios/api/carts/put-carts-by-cart-id-product-quantity.yml",
@@ -3529,12 +3589,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@carts-api"
    ],
-   "yaml": "- id: API-0254\n  name: Update item quantity with a non-integer quantity returns 422 and keeps the quantity\n  status: manual\n  steps:\n    - Send GET /products and take the first item's brand id, category id and product image id.\n    - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental false and stock 10, and take the new product's id.\n    - Send POST /carts with an empty body and take the returned id as the cart's id.\n    - Send POST /carts/{cartId} with the cart's id and a body with the new product's id as product_id and quantity 1.\n    - Send PUT /carts/{cartId}/product/quantity with the cart's id and a body with the new product's id as product_id and quantity 1.5.\n    - Verify the response status is 422.\n    - Verify the body's errors quantity messages include \"The quantity field must be an integer.\".\n    - Verify GET /carts/{cartId} with the cart's id returns 200 and its only item has quantity 1."
+   "yaml": "- id: API-0254\n  name: Update item quantity with a non-integer quantity returns 422 and keeps the quantity\n  status: automated\n  automatedIn: tests/api/carts/put-carts-by-cart-id-product-quantity.spec.ts\n  steps:\n    - Send GET /products and take the first item's brand id, category id and product image id.\n    - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental false and stock 10, and take the new product's id.\n    - Send POST /carts with an empty body and take the returned id as the cart's id.\n    - Send POST /carts/{cartId} with the cart's id and a body with the new product's id as product_id and quantity 1.\n    - Send PUT /carts/{cartId}/product/quantity with the cart's id and a body with the new product's id as product_id and quantity 1.5.\n    - Verify the response status is 422.\n    - Verify the body's errors quantity messages include \"The quantity field must be an integer.\".\n    - Verify GET /carts/{cartId} with the cart's id returns 200 and its only item has quantity 1."
   },
   {
    "id": "API-0255",
    "name": "Update item quantity with quantity 0 returns 422 and keeps the quantity",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/carts/put-carts-by-cart-id-product-quantity.spec.ts",
    "steps": [
     "Send GET /products and take the first item's brand id, category id and product image id.",
     "Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental false and stock 10, and take the new product's id.",
@@ -3546,6 +3607,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /carts/{cartId} with the cart's id returns 200 and its only item has quantity 1."
    ],
    "ref": [],
+   "specLine": 186,
    "area": "carts",
    "areaLabel": "Carts",
    "file": "test-scenarios/api/carts/put-carts-by-cart-id-product-quantity.yml",
@@ -3554,12 +3616,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@carts-api"
    ],
-   "yaml": "- id: API-0255\n  name: Update item quantity with quantity 0 returns 422 and keeps the quantity\n  status: manual\n  steps:\n    - Send GET /products and take the first item's brand id, category id and product image id.\n    - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental false and stock 10, and take the new product's id.\n    - Send POST /carts with an empty body and take the returned id as the cart's id.\n    - Send POST /carts/{cartId} with the cart's id and a body with the new product's id as product_id and quantity 1.\n    - Send PUT /carts/{cartId}/product/quantity with the cart's id and a body with the new product's id as product_id and quantity 0.\n    - Verify the response status is 422.\n    - Verify the body's errors has a quantity key with at least one message.\n    - Verify GET /carts/{cartId} with the cart's id returns 200 and its only item has quantity 1."
+   "yaml": "- id: API-0255\n  name: Update item quantity with quantity 0 returns 422 and keeps the quantity\n  status: automated\n  automatedIn: tests/api/carts/put-carts-by-cart-id-product-quantity.spec.ts\n  steps:\n    - Send GET /products and take the first item's brand id, category id and product image id.\n    - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental false and stock 10, and take the new product's id.\n    - Send POST /carts with an empty body and take the returned id as the cart's id.\n    - Send POST /carts/{cartId} with the cart's id and a body with the new product's id as product_id and quantity 1.\n    - Send PUT /carts/{cartId}/product/quantity with the cart's id and a body with the new product's id as product_id and quantity 0.\n    - Verify the response status is 422.\n    - Verify the body's errors has a quantity key with at least one message.\n    - Verify GET /carts/{cartId} with the cart's id returns 200 and its only item has quantity 1."
   },
   {
    "id": "API-0256",
    "name": "Update item quantity with an unknown product id returns 422",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/carts/put-carts-by-cart-id-product-quantity.spec.ts",
    "steps": [
     "Send POST /carts with an empty body and take the returned id as the cart's id.",
     "Send PUT /carts/{cartId}/product/quantity with the cart's id and a body with a well-formed product id that doesn't exist as product_id and quantity 1.",
@@ -3567,6 +3630,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's errors has a product_id key with at least one message."
    ],
    "ref": [],
+   "specLine": 219,
    "area": "carts",
    "areaLabel": "Carts",
    "file": "test-scenarios/api/carts/put-carts-by-cart-id-product-quantity.yml",
@@ -3575,18 +3639,20 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@carts-api"
    ],
-   "yaml": "- id: API-0256\n  name: Update item quantity with an unknown product id returns 422\n  status: manual\n  steps:\n    - Send POST /carts with an empty body and take the returned id as the cart's id.\n    - Send PUT /carts/{cartId}/product/quantity with the cart's id and a body with a well-formed product id that doesn't exist as product_id and quantity 1.\n    - Verify the response status is 422.\n    - Verify the body's errors has a product_id key with at least one message."
+   "yaml": "- id: API-0256\n  name: Update item quantity with an unknown product id returns 422\n  status: automated\n  automatedIn: tests/api/carts/put-carts-by-cart-id-product-quantity.spec.ts\n  steps:\n    - Send POST /carts with an empty body and take the returned id as the cart's id.\n    - Send PUT /carts/{cartId}/product/quantity with the cart's id and a body with a well-formed product id that doesn't exist as product_id and quantity 1.\n    - Verify the response status is 422.\n    - Verify the body's errors has a product_id key with at least one message."
   },
   {
    "id": "API-0257",
    "name": "Update item quantity with an unknown cart id returns 404",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/carts/put-carts-by-cart-id-product-quantity.spec.ts",
    "steps": [
     "Send PUT /carts/{cartId}/product/quantity with a well-formed cart id that doesn't exist and a body with an existing product's id (taken from GET /products) as product_id and quantity 1.",
     "Verify the response status is 404.",
     "Verify the body's message is \"Cart doesn't exist\"."
    ],
    "ref": [],
+   "specLine": 242,
    "area": "carts",
    "areaLabel": "Carts",
    "file": "test-scenarios/api/carts/put-carts-by-cart-id-product-quantity.yml",
@@ -3595,18 +3661,20 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@carts-api"
    ],
-   "yaml": "- id: API-0257\n  name: Update item quantity with an unknown cart id returns 404\n  status: manual\n  steps:\n    - Send PUT /carts/{cartId}/product/quantity with a well-formed cart id that doesn't exist and a body with an existing product's id (taken from GET /products) as product_id and quantity 1.\n    - Verify the response status is 404.\n    - Verify the body's message is \"Cart doesn't exist\"."
+   "yaml": "- id: API-0257\n  name: Update item quantity with an unknown cart id returns 404\n  status: automated\n  automatedIn: tests/api/carts/put-carts-by-cart-id-product-quantity.spec.ts\n  steps:\n    - Send PUT /carts/{cartId}/product/quantity with a well-formed cart id that doesn't exist and a body with an existing product's id (taken from GET /products) as product_id and quantity 1.\n    - Verify the response status is 404.\n    - Verify the body's message is \"Cart doesn't exist\"."
   },
   {
    "id": "API-0258",
    "name": "Update item quantity with an empty body and an unknown cart id returns 422, not 404",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/carts/put-carts-by-cart-id-product-quantity.spec.ts",
    "steps": [
     "Send PUT /carts/{cartId}/product/quantity with a well-formed cart id that doesn't exist and an empty JSON object as the body.",
     "Verify the response status is 422.",
     "Verify the body's errors has the keys product_id and quantity."
    ],
    "ref": [],
+   "specLine": 263,
    "area": "carts",
    "areaLabel": "Carts",
    "file": "test-scenarios/api/carts/put-carts-by-cart-id-product-quantity.yml",
@@ -3615,12 +3683,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@carts-api"
    ],
-   "yaml": "- id: API-0258\n  name: Update item quantity with an empty body and an unknown cart id returns 422, not 404\n  status: manual\n  steps:\n    - Send PUT /carts/{cartId}/product/quantity with a well-formed cart id that doesn't exist and an empty JSON object as the body.\n    - Verify the response status is 422.\n    - Verify the body's errors has the keys product_id and quantity."
+   "yaml": "- id: API-0258\n  name: Update item quantity with an empty body and an unknown cart id returns 422, not 404\n  status: automated\n  automatedIn: tests/api/carts/put-carts-by-cart-id-product-quantity.spec.ts\n  steps:\n    - Send PUT /carts/{cartId}/product/quantity with a well-formed cart id that doesn't exist and an empty JSON object as the body.\n    - Verify the response status is 422.\n    - Verify the body's errors has the keys product_id and quantity."
   },
   {
    "id": "API-0259",
    "name": "Update Thor Hammer's quantity to 2 returns 400 and keeps quantity 1",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/carts/put-carts-by-cart-id-product-quantity.spec.ts",
    "steps": [
     "Send GET /products/search with q set to Thor Hammer and take the id of the item whose name is exactly \"Thor Hammer\".",
     "Send POST /carts with an empty body and take the returned id as the cart's id.",
@@ -3631,6 +3700,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /carts/{cartId} with the cart's id returns 200 and its only item has quantity 1."
    ],
    "ref": [],
+   "specLine": 280,
    "area": "carts",
    "areaLabel": "Carts",
    "file": "test-scenarios/api/carts/put-carts-by-cart-id-product-quantity.yml",
@@ -3639,7 +3709,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@carts-api"
    ],
-   "yaml": "- id: API-0259\n  name: Update Thor Hammer's quantity to 2 returns 400 and keeps quantity 1\n  status: manual\n  steps:\n    - Send GET /products/search with q set to Thor Hammer and take the id of the item whose name is exactly \"Thor Hammer\".\n    - Send POST /carts with an empty body and take the returned id as the cart's id.\n    - Send POST /carts/{cartId} with the cart's id and a body with Thor Hammer's id as product_id and quantity 1.\n    - Send PUT /carts/{cartId}/product/quantity with the cart's id and a body with Thor Hammer's id as product_id and quantity 2.\n    - Verify the response status is 400.\n    - Verify the body's message is \"You can only have one Thor Hammer in the cart.\".\n    - Verify GET /carts/{cartId} with the cart's id returns 200 and its only item has quantity 1."
+   "yaml": "- id: API-0259\n  name: Update Thor Hammer's quantity to 2 returns 400 and keeps quantity 1\n  status: automated\n  automatedIn: tests/api/carts/put-carts-by-cart-id-product-quantity.spec.ts\n  steps:\n    - Send GET /products/search with q set to Thor Hammer and take the id of the item whose name is exactly \"Thor Hammer\".\n    - Send POST /carts with an empty body and take the returned id as the cart's id.\n    - Send POST /carts/{cartId} with the cart's id and a body with Thor Hammer's id as product_id and quantity 1.\n    - Send PUT /carts/{cartId}/product/quantity with the cart's id and a body with Thor Hammer's id as product_id and quantity 2.\n    - Verify the response status is 400.\n    - Verify the body's message is \"You can only have one Thor Hammer in the cart.\".\n    - Verify GET /carts/{cartId} with the cart's id returns 200 and its only item has quantity 1."
   },
   {
    "id": "API-0260",
@@ -3647,7 +3717,8 @@ window.SCENARIO_CATALOG = {
    "ref": [
     "docs/ui/user-stories/Checkout_Cart_Review.md#AC3"
    ],
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/carts/delete-carts-by-cart-id-product-by-product-id.spec.ts",
    "steps": [
     "Send GET /products and take the first item's brand id, category id and product image id.",
     "Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental false and stock 10, and take the new product's id.",
@@ -3657,6 +3728,7 @@ window.SCENARIO_CATALOG = {
     "Verify the response status is 204.",
     "Verify GET /carts/{cartId} with the cart's id returns 200 and its cart_items is empty."
    ],
+   "specLine": 79,
    "area": "carts",
    "areaLabel": "Carts",
    "file": "test-scenarios/api/carts/delete-carts-by-cart-id-product-by-product-id.yml",
@@ -3665,7 +3737,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@carts-api"
    ],
-   "yaml": "- id: API-0260\n  name: Remove a product from a cart returns 204 and the cart no longer holds it\n  ref: docs/ui/user-stories/Checkout_Cart_Review.md#AC3\n  status: manual\n  steps:\n    - Send GET /products and take the first item's brand id, category id and product image id.\n    - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental false and stock 10, and take the new product's id.\n    - Send POST /carts with an empty body and take the returned id as the cart's id.\n    - Send POST /carts/{cartId} with the cart's id and a body with the new product's id as product_id and quantity 1.\n    - Send DELETE /carts/{cartId}/product/{productId} with the cart's id and the new product's id.\n    - Verify the response status is 204.\n    - Verify GET /carts/{cartId} with the cart's id returns 200 and its cart_items is empty."
+   "yaml": "- id: API-0260\n  name: Remove a product from a cart returns 204 and the cart no longer holds it\n  ref: docs/ui/user-stories/Checkout_Cart_Review.md#AC3\n  status: automated\n  automatedIn: tests/api/carts/delete-carts-by-cart-id-product-by-product-id.spec.ts\n  steps:\n    - Send GET /products and take the first item's brand id, category id and product image id.\n    - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental false and stock 10, and take the new product's id.\n    - Send POST /carts with an empty body and take the returned id as the cart's id.\n    - Send POST /carts/{cartId} with the cart's id and a body with the new product's id as product_id and quantity 1.\n    - Send DELETE /carts/{cartId}/product/{productId} with the cart's id and the new product's id.\n    - Verify the response status is 204.\n    - Verify GET /carts/{cartId} with the cart's id returns 200 and its cart_items is empty."
   },
   {
    "id": "API-0261",
@@ -3673,7 +3745,8 @@ window.SCENARIO_CATALOG = {
    "ref": [
     "docs/ui/user-stories/Checkout_Cart_Review.md#AC8"
    ],
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/carts/delete-carts-by-cart-id-product-by-product-id.spec.ts",
    "steps": [
     "Send GET /products and take the first item's brand id, category id and product image id.",
     "Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental false and stock 10, and take the new product's id as the non-rental product's id.",
@@ -3686,6 +3759,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /carts/{cartId} with the cart's id returns 200 with additional_discount_percentage null.",
     "Verify its cart_items has exactly one item, with the non-rental product's id as product_id."
    ],
+   "specLine": 108,
    "area": "carts",
    "areaLabel": "Carts",
    "file": "test-scenarios/api/carts/delete-carts-by-cart-id-product-by-product-id.yml",
@@ -3694,12 +3768,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@carts-api"
    ],
-   "yaml": "- id: API-0261\n  name: Remove the rental product from a rental and non-rental cart clears the additional discount\n  ref: docs/ui/user-stories/Checkout_Cart_Review.md#AC8\n  status: manual\n  steps:\n    - Send GET /products and take the first item's brand id, category id and product image id.\n    - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental false and stock 10, and take the new product's id as the non-rental product's id.\n    - Send POST /products with a unique product name, a positive price, the same brand, category and product image ids, is_location_offer false, is_rental true and stock 10, and take the new product's id as the rental product's id.\n    - Send POST /carts with an empty body and take the returned id as the cart's id.\n    - Send POST /carts/{cartId} with the cart's id and a body with the non-rental product's id as product_id and quantity 1.\n    - Send POST /carts/{cartId} with the cart's id and a body with the rental product's id as product_id and quantity 1.\n    - Send DELETE /carts/{cartId}/product/{productId} with the cart's id and the rental product's id.\n    - Verify the response status is 204.\n    - Verify GET /carts/{cartId} with the cart's id returns 200 with additional_discount_percentage null.\n    - Verify its cart_items has exactly one item, with the non-rental product's id as product_id."
+   "yaml": "- id: API-0261\n  name: Remove the rental product from a rental and non-rental cart clears the additional discount\n  ref: docs/ui/user-stories/Checkout_Cart_Review.md#AC8\n  status: automated\n  automatedIn: tests/api/carts/delete-carts-by-cart-id-product-by-product-id.spec.ts\n  steps:\n    - Send GET /products and take the first item's brand id, category id and product image id.\n    - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental false and stock 10, and take the new product's id as the non-rental product's id.\n    - Send POST /products with a unique product name, a positive price, the same brand, category and product image ids, is_location_offer false, is_rental true and stock 10, and take the new product's id as the rental product's id.\n    - Send POST /carts with an empty body and take the returned id as the cart's id.\n    - Send POST /carts/{cartId} with the cart's id and a body with the non-rental product's id as product_id and quantity 1.\n    - Send POST /carts/{cartId} with the cart's id and a body with the rental product's id as product_id and quantity 1.\n    - Send DELETE /carts/{cartId}/product/{productId} with the cart's id and the rental product's id.\n    - Verify the response status is 204.\n    - Verify GET /carts/{cartId} with the cart's id returns 200 with additional_discount_percentage null.\n    - Verify its cart_items has exactly one item, with the non-rental product's id as product_id."
   },
   {
    "id": "API-0262",
    "name": "Remove an unknown product from a cart returns 204 and keeps the cart's items",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/carts/delete-carts-by-cart-id-product-by-product-id.spec.ts",
    "steps": [
     "Send GET /products and take the first item's brand id, category id and product image id.",
     "Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental false and stock 10, and take the new product's id.",
@@ -3710,6 +3785,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /carts/{cartId} with the cart's id returns 200 and its cart_items has exactly one item, with the new product's id as product_id and quantity 1."
    ],
    "ref": [],
+   "specLine": 141,
    "area": "carts",
    "areaLabel": "Carts",
    "file": "test-scenarios/api/carts/delete-carts-by-cart-id-product-by-product-id.yml",
@@ -3718,18 +3794,20 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@carts-api"
    ],
-   "yaml": "- id: API-0262\n  name: Remove an unknown product from a cart returns 204 and keeps the cart's items\n  status: manual\n  steps:\n    - Send GET /products and take the first item's brand id, category id and product image id.\n    - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental false and stock 10, and take the new product's id.\n    - Send POST /carts with an empty body and take the returned id as the cart's id.\n    - Send POST /carts/{cartId} with the cart's id and a body with the new product's id as product_id and quantity 1.\n    - Send DELETE /carts/{cartId}/product/{productId} with the cart's id and a well-formed product id that doesn't exist.\n    - Verify the response status is 204.\n    - Verify GET /carts/{cartId} with the cart's id returns 200 and its cart_items has exactly one item, with the new product's id as product_id and quantity 1."
+   "yaml": "- id: API-0262\n  name: Remove an unknown product from a cart returns 204 and keeps the cart's items\n  status: automated\n  automatedIn: tests/api/carts/delete-carts-by-cart-id-product-by-product-id.spec.ts\n  steps:\n    - Send GET /products and take the first item's brand id, category id and product image id.\n    - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental false and stock 10, and take the new product's id.\n    - Send POST /carts with an empty body and take the returned id as the cart's id.\n    - Send POST /carts/{cartId} with the cart's id and a body with the new product's id as product_id and quantity 1.\n    - Send DELETE /carts/{cartId}/product/{productId} with the cart's id and a well-formed product id that doesn't exist.\n    - Verify the response status is 204.\n    - Verify GET /carts/{cartId} with the cart's id returns 200 and its cart_items has exactly one item, with the new product's id as product_id and quantity 1."
   },
   {
    "id": "API-0263",
    "name": "Remove a product from an unknown cart returns 404",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/carts/delete-carts-by-cart-id-product-by-product-id.spec.ts",
    "steps": [
     "Send DELETE /carts/{cartId}/product/{productId} with a well-formed cart id that doesn't exist and an existing product's id (taken from GET /products).",
     "Verify the response status is 404.",
     "Verify the body's message is \"Cart doesnt exists\"."
    ],
    "ref": [],
+   "specLine": 170,
    "area": "carts",
    "areaLabel": "Carts",
    "file": "test-scenarios/api/carts/delete-carts-by-cart-id-product-by-product-id.yml",
@@ -3738,12 +3816,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@carts-api"
    ],
-   "yaml": "- id: API-0263\n  name: Remove a product from an unknown cart returns 404\n  status: manual\n  steps:\n    - Send DELETE /carts/{cartId}/product/{productId} with a well-formed cart id that doesn't exist and an existing product's id (taken from GET /products).\n    - Verify the response status is 404.\n    - Verify the body's message is \"Cart doesnt exists\"."
+   "yaml": "- id: API-0263\n  name: Remove a product from an unknown cart returns 404\n  status: automated\n  automatedIn: tests/api/carts/delete-carts-by-cart-id-product-by-product-id.spec.ts\n  steps:\n    - Send DELETE /carts/{cartId}/product/{productId} with a well-formed cart id that doesn't exist and an existing product's id (taken from GET /products).\n    - Verify the response status is 404.\n    - Verify the body's message is \"Cart doesnt exists\"."
   },
   {
    "id": "API-0264",
    "name": "DELETE /carts/{cartId}/product/quantity returns 204 and removes nothing",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/carts/delete-carts-by-cart-id-product-by-product-id.spec.ts",
    "steps": [
     "Send GET /products and take the first item's brand id, category id and product image id.",
     "Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental false and stock 10, and take the new product's id.",
@@ -3754,6 +3833,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /carts/{cartId} with the cart's id returns 200 and its cart_items has exactly one item, with the new product's id as product_id."
    ],
    "ref": [],
+   "specLine": 191,
    "area": "carts",
    "areaLabel": "Carts",
    "file": "test-scenarios/api/carts/delete-carts-by-cart-id-product-by-product-id.yml",
@@ -3762,7 +3842,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@carts-api"
    ],
-   "yaml": "- id: API-0264\n  name: DELETE /carts/{cartId}/product/quantity returns 204 and removes nothing\n  status: manual\n  steps:\n    - Send GET /products and take the first item's brand id, category id and product image id.\n    - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental false and stock 10, and take the new product's id.\n    - Send POST /carts with an empty body and take the returned id as the cart's id.\n    - Send POST /carts/{cartId} with the cart's id and a body with the new product's id as product_id and quantity 1.\n    - Send DELETE /carts/{cartId}/product/quantity with the cart's id.\n    - Verify the response status is 204.\n    - Verify GET /carts/{cartId} with the cart's id returns 200 and its cart_items has exactly one item, with the new product's id as product_id."
+   "yaml": "- id: API-0264\n  name: DELETE /carts/{cartId}/product/quantity returns 204 and removes nothing\n  status: automated\n  automatedIn: tests/api/carts/delete-carts-by-cart-id-product-by-product-id.spec.ts\n  steps:\n    - Send GET /products and take the first item's brand id, category id and product image id.\n    - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental false and stock 10, and take the new product's id.\n    - Send POST /carts with an empty body and take the returned id as the cart's id.\n    - Send POST /carts/{cartId} with the cart's id and a body with the new product's id as product_id and quantity 1.\n    - Send DELETE /carts/{cartId}/product/quantity with the cart's id.\n    - Verify the response status is 204.\n    - Verify GET /carts/{cartId} with the cart's id returns 200 and its cart_items has exactly one item, with the new product's id as product_id."
   },
   {
    "id": "API-0306",
@@ -3770,7 +3850,8 @@ window.SCENARIO_CATALOG = {
    "ref": [
     "docs/ui/user-stories/Checkout_Cart_Review.md#AC8"
    ],
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/carts/delete-carts-by-cart-id-product-by-product-id.spec.ts",
    "steps": [
     "Send GET /products and take the first item's brand id, category id and product image id.",
     "Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental false and stock 10, and take the new product's id as the non-rental product's id.",
@@ -3783,6 +3864,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /carts/{cartId} with the cart's id returns 200 with additional_discount_percentage null.",
     "Verify its cart_items has exactly one item, with the rental product's id as product_id."
    ],
+   "specLine": 220,
    "area": "carts",
    "areaLabel": "Carts",
    "file": "test-scenarios/api/carts/delete-carts-by-cart-id-product-by-product-id.yml",
@@ -3791,7 +3873,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@carts-api"
    ],
-   "yaml": "- id: API-0306\n  name: Remove the non-rental product from a rental and non-rental cart clears the additional discount and keeps the rental line\n  ref: docs/ui/user-stories/Checkout_Cart_Review.md#AC8\n  status: manual\n  steps:\n    - Send GET /products and take the first item's brand id, category id and product image id.\n    - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental false and stock 10, and take the new product's id as the non-rental product's id.\n    - Send POST /products with a unique product name, a positive price, the same brand, category and product image ids, is_location_offer false, is_rental true and stock 10, and take the new product's id as the rental product's id.\n    - Send POST /carts with an empty body and take the returned id as the cart's id.\n    - Send POST /carts/{cartId} with the cart's id and a body with the non-rental product's id as product_id and quantity 1.\n    - Send POST /carts/{cartId} with the cart's id and a body with the rental product's id as product_id and quantity 1.\n    - Send DELETE /carts/{cartId}/product/{productId} with the cart's id and the non-rental product's id.\n    - Verify the response status is 204.\n    - Verify GET /carts/{cartId} with the cart's id returns 200 with additional_discount_percentage null.\n    - Verify its cart_items has exactly one item, with the rental product's id as product_id."
+   "yaml": "- id: API-0306\n  name: Remove the non-rental product from a rental and non-rental cart clears the additional discount and keeps the rental line\n  ref: docs/ui/user-stories/Checkout_Cart_Review.md#AC8\n  status: automated\n  automatedIn: tests/api/carts/delete-carts-by-cart-id-product-by-product-id.spec.ts\n  steps:\n    - Send GET /products and take the first item's brand id, category id and product image id.\n    - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental false and stock 10, and take the new product's id as the non-rental product's id.\n    - Send POST /products with a unique product name, a positive price, the same brand, category and product image ids, is_location_offer false, is_rental true and stock 10, and take the new product's id as the rental product's id.\n    - Send POST /carts with an empty body and take the returned id as the cart's id.\n    - Send POST /carts/{cartId} with the cart's id and a body with the non-rental product's id as product_id and quantity 1.\n    - Send POST /carts/{cartId} with the cart's id and a body with the rental product's id as product_id and quantity 1.\n    - Send DELETE /carts/{cartId}/product/{productId} with the cart's id and the non-rental product's id.\n    - Verify the response status is 204.\n    - Verify GET /carts/{cartId} with the cart's id returns 200 with additional_discount_percentage null.\n    - Verify its cart_items has exactly one item, with the rental product's id as product_id."
   },
   {
    "id": "API-0307",
@@ -3799,7 +3881,8 @@ window.SCENARIO_CATALOG = {
    "ref": [
     "docs/ui/user-stories/Checkout_Cart_Review.md#AC8"
    ],
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/carts/delete-carts-by-cart-id-product-by-product-id.spec.ts",
    "steps": [
     "Send GET /products and take the first item's brand id, category id and product image id.",
     "Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental false and stock 10, and take the new product's id as the non-rental product's id.",
@@ -3814,6 +3897,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /carts/{cartId} with the cart's id returns 200 with additional_discount_percentage 15.",
     "Verify its cart_items has exactly two items, with the non-rental product's id and the second rental product's id as product_id."
    ],
+   "specLine": 253,
    "area": "carts",
    "areaLabel": "Carts",
    "file": "test-scenarios/api/carts/delete-carts-by-cart-id-product-by-product-id.yml",
@@ -3822,7 +3906,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@carts-api"
    ],
-   "yaml": "- id: API-0307\n  name: Remove one of two rental products from a cart with a non-rental product keeps the additional discount\n  ref: docs/ui/user-stories/Checkout_Cart_Review.md#AC8\n  status: manual\n  steps:\n    - Send GET /products and take the first item's brand id, category id and product image id.\n    - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental false and stock 10, and take the new product's id as the non-rental product's id.\n    - Send POST /products with a unique product name, a positive price, the same brand, category and product image ids, is_location_offer false, is_rental true and stock 10, and take the new product's id as the first rental product's id.\n    - Send POST /products with another unique product name, a positive price, the same brand, category and product image ids, is_location_offer false, is_rental true and stock 10, and take the new product's id as the second rental product's id.\n    - Send POST /carts with an empty body and take the returned id as the cart's id.\n    - Send POST /carts/{cartId} with the cart's id and a body with the non-rental product's id as product_id and quantity 1.\n    - Send POST /carts/{cartId} with the cart's id and a body with the first rental product's id as product_id and quantity 1.\n    - Send POST /carts/{cartId} with the cart's id and a body with the second rental product's id as product_id and quantity 1.\n    - Send DELETE /carts/{cartId}/product/{productId} with the cart's id and the first rental product's id.\n    - Verify the response status is 204.\n    - Verify GET /carts/{cartId} with the cart's id returns 200 with additional_discount_percentage 15.\n    - Verify its cart_items has exactly two items, with the non-rental product's id and the second rental product's id as product_id."
+   "yaml": "- id: API-0307\n  name: Remove one of two rental products from a cart with a non-rental product keeps the additional discount\n  ref: docs/ui/user-stories/Checkout_Cart_Review.md#AC8\n  status: automated\n  automatedIn: tests/api/carts/delete-carts-by-cart-id-product-by-product-id.spec.ts\n  steps:\n    - Send GET /products and take the first item's brand id, category id and product image id.\n    - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental false and stock 10, and take the new product's id as the non-rental product's id.\n    - Send POST /products with a unique product name, a positive price, the same brand, category and product image ids, is_location_offer false, is_rental true and stock 10, and take the new product's id as the first rental product's id.\n    - Send POST /products with another unique product name, a positive price, the same brand, category and product image ids, is_location_offer false, is_rental true and stock 10, and take the new product's id as the second rental product's id.\n    - Send POST /carts with an empty body and take the returned id as the cart's id.\n    - Send POST /carts/{cartId} with the cart's id and a body with the non-rental product's id as product_id and quantity 1.\n    - Send POST /carts/{cartId} with the cart's id and a body with the first rental product's id as product_id and quantity 1.\n    - Send POST /carts/{cartId} with the cart's id and a body with the second rental product's id as product_id and quantity 1.\n    - Send DELETE /carts/{cartId}/product/{productId} with the cart's id and the first rental product's id.\n    - Verify the response status is 204.\n    - Verify GET /carts/{cartId} with the cart's id returns 200 with additional_discount_percentage 15.\n    - Verify its cart_items has exactly two items, with the non-rental product's id and the second rental product's id as product_id."
   },
   {
    "id": "API-0164",
@@ -10725,7 +10809,7 @@ window.SCENARIO_CATALOG = {
     "Verify every item's is_eco_friendly is true exactly when its co2_rating is A or B."
    ],
    "ref": [],
-   "specLine": 33,
+   "specLine": 285,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/api/products/get-products.yml",
@@ -10748,7 +10832,7 @@ window.SCENARIO_CATALOG = {
     "Verify data is not empty and every item's brand id equals that brand id."
    ],
    "ref": [],
-   "specLine": 105,
+   "specLine": 357,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/api/products/get-products.yml",
@@ -10771,7 +10855,7 @@ window.SCENARIO_CATALOG = {
     "Verify data is not empty and every item's category id equals that category id."
    ],
    "ref": [],
-   "specLine": 135,
+   "specLine": 387,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/api/products/get-products.yml",
@@ -10795,7 +10879,7 @@ window.SCENARIO_CATALOG = {
     "Verify every item's category is that category or a direct sub-category of it: its category id equals that category id, or GET /products/{productId} for the item returns a category parent_id equal to that category id."
    ],
    "ref": [],
-   "specLine": 165,
+   "specLine": 417,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/api/products/get-products.yml",
@@ -10817,7 +10901,7 @@ window.SCENARIO_CATALOG = {
     "Verify every item's is_rental is true."
    ],
    "ref": [],
-   "specLine": 216,
+   "specLine": 468,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/api/products/get-products.yml",
@@ -10839,7 +10923,7 @@ window.SCENARIO_CATALOG = {
     "Verify every item's price is at least 10 and at most 30."
    ],
    "ref": [],
-   "specLine": 236,
+   "specLine": 488,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/api/products/get-products.yml",
@@ -10861,7 +10945,7 @@ window.SCENARIO_CATALOG = {
     "Verify the items' prices are in descending order."
    ],
    "ref": [],
-   "specLine": 258,
+   "specLine": 510,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/api/products/get-products.yml",
@@ -10883,7 +10967,7 @@ window.SCENARIO_CATALOG = {
     "Verify every item's co2_rating is A or B (case-insensitive) and its is_eco_friendly is true."
    ],
    "ref": [],
-   "specLine": 278,
+   "specLine": 530,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/api/products/get-products.yml",
@@ -10905,7 +10989,7 @@ window.SCENARIO_CATALOG = {
     "Verify data is not empty and every item's name contains \"pliers\" (case-insensitive)."
    ],
    "ref": [],
-   "specLine": 300,
+   "specLine": 552,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/api/products/get-products.yml",
@@ -10929,7 +11013,7 @@ window.SCENARIO_CATALOG = {
     "Verify every item's specs, from GET /products/{productId} for the item, include a spec with that spec_name and spec_value."
    ],
    "ref": [],
-   "specLine": 322,
+   "specLine": 574,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/api/products/get-products.yml",
@@ -10953,7 +11037,7 @@ window.SCENARIO_CATALOG = {
     "Verify no item id on page 2 is among the page 1 ids."
    ],
    "ref": [],
-   "specLine": 358,
+   "specLine": 610,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/api/products/get-products.yml",
@@ -10975,7 +11059,7 @@ window.SCENARIO_CATALOG = {
     "Verify data is an empty array."
    ],
    "ref": [],
-   "specLine": 389,
+   "specLine": 641,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/api/products/get-products.yml",
@@ -10998,7 +11082,7 @@ window.SCENARIO_CATALOG = {
     "Verify the response status is not 500."
    ],
    "ref": [],
-   "specLine": 410,
+   "specLine": 662,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/api/products/get-products.yml",
@@ -11015,9 +11099,10 @@ window.SCENARIO_CATALOG = {
    "ref": [
     "docs/ui/user-stories/Product_Overview.md#AC5"
    ],
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/products/get-products.spec.ts",
    "steps": [
-    "Send GET /products and take the category ids of two items that have different categories; when the first page holds only one category, read page=2, 3, ... until a second category is found. Call them category A and category B.",
+    "Send GET /products and take the ids of the second and third categories in list order other than the first item's category, reading page=2, 3, ... until both are found (other tests create products in the first item's category and move them to the first other one). Call them category A and category B.",
     "Send GET /products with by_category set to category A and take its total as totalA.",
     "Send GET /products with by_category set to category B and take its total as totalB.",
     "Send GET /products with by_category set to category A's id and category B's id separated by a comma.",
@@ -11025,6 +11110,7 @@ window.SCENARIO_CATALOG = {
     "Verify data is not empty and every item's category id is category A's id or category B's id.",
     "Verify total equals totalA plus totalB, so both categories are present in the result."
    ],
+   "specLine": 676,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/api/products/get-products.yml",
@@ -11033,7 +11119,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@products-api"
    ],
-   "yaml": "- id: API-0319\n  name: Filter by two category ids returns only products of those two categories\n  ref: docs/ui/user-stories/Product_Overview.md#AC5\n  status: manual\n  steps:\n    - \"Send GET /products and take the category ids of two items that have different categories; when the first page holds only one category, read page=2, 3, ... until a second category is found. Call them category A and category B.\"\n    - Send GET /products with by_category set to category A and take its total as totalA.\n    - Send GET /products with by_category set to category B and take its total as totalB.\n    - Send GET /products with by_category set to category A's id and category B's id separated by a comma.\n    - Verify the response status is 200.\n    - Verify data is not empty and every item's category id is category A's id or category B's id.\n    - Verify total equals totalA plus totalB, so both categories are present in the result."
+   "yaml": "- id: API-0319\n  name: Filter by two category ids returns only products of those two categories\n  ref: docs/ui/user-stories/Product_Overview.md#AC5\n  status: automated\n  automatedIn: tests/api/products/get-products.spec.ts\n  steps:\n    - \"Send GET /products and take the ids of the second and third categories in list order other than the first item's category, reading page=2, 3, ... until both are found (other tests create products in the first item's category and move them to the first other one). Call them category A and category B.\"\n    - Send GET /products with by_category set to category A and take its total as totalA.\n    - Send GET /products with by_category set to category B and take its total as totalB.\n    - Send GET /products with by_category set to category A's id and category B's id separated by a comma.\n    - Verify the response status is 200.\n    - Verify data is not empty and every item's category id is category A's id or category B's id.\n    - Verify total equals totalA plus totalB, so both categories are present in the result."
   },
   {
    "id": "API-0320",
@@ -11041,16 +11127,16 @@ window.SCENARIO_CATALOG = {
    "ref": [
     "docs/ui/user-stories/Product_Overview.md#AC7"
    ],
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/products/get-products.spec.ts",
    "steps": [
     "Send GET /products and take the brand ids of two items that have different brands; when the first page holds only one brand, read page=2, 3, ... until a second brand is found. Call them brand A and brand B.",
-    "Send GET /products with by_brand set to brand A and take its total as totalA.",
-    "Send GET /products with by_brand set to brand B and take its total as totalB.",
     "Send GET /products with by_brand set to brand A's id and brand B's id separated by a comma.",
     "Verify the response status is 200.",
     "Verify data is not empty and every item's brand id is brand A's id or brand B's id.",
-    "Verify total equals totalA plus totalB, so both brands are present in the result."
+    "Verify brand A and brand B both appear among the items, reading page=2, 3, ... of the same request until both have appeared, and every item read has brand A's id or brand B's id."
    ],
+   "specLine": 680,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/api/products/get-products.yml",
@@ -11059,7 +11145,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@products-api"
    ],
-   "yaml": "- id: API-0320\n  name: Filter by two brand ids returns only products of those two brands\n  ref: docs/ui/user-stories/Product_Overview.md#AC7\n  status: manual\n  steps:\n    - \"Send GET /products and take the brand ids of two items that have different brands; when the first page holds only one brand, read page=2, 3, ... until a second brand is found. Call them brand A and brand B.\"\n    - Send GET /products with by_brand set to brand A and take its total as totalA.\n    - Send GET /products with by_brand set to brand B and take its total as totalB.\n    - Send GET /products with by_brand set to brand A's id and brand B's id separated by a comma.\n    - Verify the response status is 200.\n    - Verify data is not empty and every item's brand id is brand A's id or brand B's id.\n    - Verify total equals totalA plus totalB, so both brands are present in the result."
+   "yaml": "- id: API-0320\n  name: Filter by two brand ids returns only products of those two brands\n  ref: docs/ui/user-stories/Product_Overview.md#AC7\n  status: automated\n  automatedIn: tests/api/products/get-products.spec.ts\n  steps:\n    - \"Send GET /products and take the brand ids of two items that have different brands; when the first page holds only one brand, read page=2, 3, ... until a second brand is found. Call them brand A and brand B.\"\n    - Send GET /products with by_brand set to brand A's id and brand B's id separated by a comma.\n    - Verify the response status is 200.\n    - Verify data is not empty and every item's brand id is brand A's id or brand B's id.\n    - Verify brand A and brand B both appear among the items, reading page=2, 3, ... of the same request until both have appeared, and every item read has brand A's id or brand B's id."
   },
   {
    "id": "API-0321",
@@ -11067,7 +11153,8 @@ window.SCENARIO_CATALOG = {
    "ref": [
     "docs/ui/user-stories/Product_Overview.md#AC8"
    ],
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/products/get-products.spec.ts",
    "steps": [
     "Send GET /products and take the first item's brand id and category id.",
     "Send GET /products with by_brand set to that brand id and by_category set to that category id.",
@@ -11075,6 +11162,7 @@ window.SCENARIO_CATALOG = {
     "Verify data is not empty.",
     "Verify every item's brand id equals that brand id and its category id equals that category id."
    ],
+   "specLine": 684,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/api/products/get-products.yml",
@@ -11083,7 +11171,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@products-api"
    ],
-   "yaml": "- id: API-0321\n  name: Filter by brand and category together returns only products that match both\n  ref: docs/ui/user-stories/Product_Overview.md#AC8\n  status: manual\n  steps:\n    - Send GET /products and take the first item's brand id and category id.\n    - Send GET /products with by_brand set to that brand id and by_category set to that category id.\n    - Verify the response status is 200.\n    - Verify data is not empty.\n    - Verify every item's brand id equals that brand id and its category id equals that category id."
+   "yaml": "- id: API-0321\n  name: Filter by brand and category together returns only products that match both\n  ref: docs/ui/user-stories/Product_Overview.md#AC8\n  status: automated\n  automatedIn: tests/api/products/get-products.spec.ts\n  steps:\n    - Send GET /products and take the first item's brand id and category id.\n    - Send GET /products with by_brand set to that brand id and by_category set to that category id.\n    - Verify the response status is 200.\n    - Verify data is not empty.\n    - Verify every item's brand id equals that brand id and its category id equals that category id."
   },
   {
    "id": "API-0322",
@@ -11091,7 +11179,8 @@ window.SCENARIO_CATALOG = {
    "ref": [
     "docs/ui/user-stories/Product_Overview.md#AC13"
    ],
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/products/get-products.spec.ts",
    "role": "guest",
    "steps": [
     "Send GET /products and take the first item's brand id, category id and product image id.",
@@ -11102,6 +11191,7 @@ window.SCENARIO_CATALOG = {
     "Verify data has exactly one item and its id is the new product's id.",
     "Verify that item's in_stock is false."
    ],
+   "specLine": 715,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/api/products/get-products.yml",
@@ -11110,7 +11200,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@products-api"
    ],
-   "yaml": "- id: API-0322\n  name: A product created with stock 0 is listed as not in stock\n  ref: docs/ui/user-stories/Product_Overview.md#AC13\n  status: manual\n  role: guest\n  steps:\n    - Send GET /products and take the first item's brand id, category id and product image id.\n    - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental false and stock 0, and take the new product's id.\n    - Verify the response status is 201.\n    - Send GET /products with q set to that unique product name, without an Authorization header.\n    - Verify the response status is 200.\n    - Verify data has exactly one item and its id is the new product's id.\n    - Verify that item's in_stock is false."
+   "yaml": "- id: API-0322\n  name: A product created with stock 0 is listed as not in stock\n  ref: docs/ui/user-stories/Product_Overview.md#AC13\n  status: automated\n  automatedIn: tests/api/products/get-products.spec.ts\n  role: guest\n  steps:\n    - Send GET /products and take the first item's brand id, category id and product image id.\n    - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental false and stock 0, and take the new product's id.\n    - Verify the response status is 201.\n    - Send GET /products with q set to that unique product name, without an Authorization header.\n    - Verify the response status is 200.\n    - Verify data has exactly one item and its id is the new product's id.\n    - Verify that item's in_stock is false."
   },
   {
    "id": "API-0323",
@@ -11118,7 +11208,8 @@ window.SCENARIO_CATALOG = {
    "ref": [
     "docs/ui/user-stories/Product_Overview.md#AC13"
    ],
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/products/get-products.spec.ts",
    "role": "guest",
    "steps": [
     "Send GET /products and take the first item's brand id, category id and product image id.",
@@ -11129,6 +11220,7 @@ window.SCENARIO_CATALOG = {
     "Verify data has exactly one item and its id is the new product's id.",
     "Verify that item's in_stock is true."
    ],
+   "specLine": 719,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/api/products/get-products.yml",
@@ -11137,7 +11229,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@products-api"
    ],
-   "yaml": "- id: API-0323\n  name: A product created with stock above 0 is listed as in stock\n  ref: docs/ui/user-stories/Product_Overview.md#AC13\n  status: manual\n  role: guest\n  steps:\n    - Send GET /products and take the first item's brand id, category id and product image id.\n    - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental false and stock 10, and take the new product's id.\n    - Verify the response status is 201.\n    - Send GET /products with q set to that unique product name, without an Authorization header.\n    - Verify the response status is 200.\n    - Verify data has exactly one item and its id is the new product's id.\n    - Verify that item's in_stock is true."
+   "yaml": "- id: API-0323\n  name: A product created with stock above 0 is listed as in stock\n  ref: docs/ui/user-stories/Product_Overview.md#AC13\n  status: automated\n  automatedIn: tests/api/products/get-products.spec.ts\n  role: guest\n  steps:\n    - Send GET /products and take the first item's brand id, category id and product image id.\n    - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental false and stock 10, and take the new product's id.\n    - Verify the response status is 201.\n    - Send GET /products with q set to that unique product name, without an Authorization header.\n    - Verify the response status is 200.\n    - Verify data has exactly one item and its id is the new product's id.\n    - Verify that item's in_stock is true."
   },
   {
    "id": "API-0324",
@@ -11145,7 +11237,8 @@ window.SCENARIO_CATALOG = {
    "ref": [
     "docs/ui/user-stories/Rental_Products.md#AC1"
    ],
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/products/get-products.spec.ts",
    "steps": [
     "Send GET /products and take the first item's brand id, category id and product image id.",
     "Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental true and stock 10, and take the new product's id.",
@@ -11155,6 +11248,7 @@ window.SCENARIO_CATALOG = {
     "Verify data has exactly one item and its id is the new product's id.",
     "Verify that item's is_rental is true."
    ],
+   "specLine": 724,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/api/products/get-products.yml",
@@ -11163,7 +11257,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@products-api"
    ],
-   "yaml": "- id: API-0324\n  name: A product created as a rental is listed by the rental filter\n  ref: docs/ui/user-stories/Rental_Products.md#AC1\n  status: manual\n  steps:\n    - Send GET /products and take the first item's brand id, category id and product image id.\n    - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental true and stock 10, and take the new product's id.\n    - Verify the response status is 201.\n    - Send GET /products with is_rental=true and q set to that unique product name.\n    - Verify the response status is 200.\n    - Verify data has exactly one item and its id is the new product's id.\n    - Verify that item's is_rental is true."
+   "yaml": "- id: API-0324\n  name: A product created as a rental is listed by the rental filter\n  ref: docs/ui/user-stories/Rental_Products.md#AC1\n  status: automated\n  automatedIn: tests/api/products/get-products.spec.ts\n  steps:\n    - Send GET /products and take the first item's brand id, category id and product image id.\n    - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental true and stock 10, and take the new product's id.\n    - Verify the response status is 201.\n    - Send GET /products with is_rental=true and q set to that unique product name.\n    - Verify the response status is 200.\n    - Verify data has exactly one item and its id is the new product's id.\n    - Verify that item's is_rental is true."
   },
   {
    "id": "API-0325",
@@ -11171,7 +11265,8 @@ window.SCENARIO_CATALOG = {
    "ref": [
     "docs/ui/user-stories/Rental_Products.md#AC2"
    ],
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/products/get-products.spec.ts",
    "steps": [
     "Send GET /products with is_rental=true.",
     "Verify the response status is 200.",
@@ -11180,6 +11275,7 @@ window.SCENARIO_CATALOG = {
     "Verify every remaining item has a non-empty description, ignoring products created by tests (names starting with \"Product-\").",
     "Verify every remaining item has a product_image with a non-empty file_name, ignoring products created by tests (names starting with \"Product-\")."
    ],
+   "specLine": 777,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/api/products/get-products.yml",
@@ -11188,7 +11284,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@products-api"
    ],
-   "yaml": "- id: API-0325\n  name: Every rental in the rental list has a name, a description and a product image file name\n  ref: docs/ui/user-stories/Rental_Products.md#AC2\n  status: manual\n  steps:\n    - Send GET /products with is_rental=true.\n    - Verify the response status is 200.\n    - 'Verify data is not empty after ignoring products created by tests (names starting with \"Product-\").'\n    - 'Verify every remaining item has a non-empty name, ignoring products created by tests (names starting with \"Product-\").'\n    - 'Verify every remaining item has a non-empty description, ignoring products created by tests (names starting with \"Product-\").'\n    - 'Verify every remaining item has a product_image with a non-empty file_name, ignoring products created by tests (names starting with \"Product-\").'"
+   "yaml": "- id: API-0325\n  name: Every rental in the rental list has a name, a description and a product image file name\n  ref: docs/ui/user-stories/Rental_Products.md#AC2\n  status: automated\n  automatedIn: tests/api/products/get-products.spec.ts\n  steps:\n    - Send GET /products with is_rental=true.\n    - Verify the response status is 200.\n    - 'Verify data is not empty after ignoring products created by tests (names starting with \"Product-\").'\n    - 'Verify every remaining item has a non-empty name, ignoring products created by tests (names starting with \"Product-\").'\n    - 'Verify every remaining item has a non-empty description, ignoring products created by tests (names starting with \"Product-\").'\n    - 'Verify every remaining item has a product_image with a non-empty file_name, ignoring products created by tests (names starting with \"Product-\").'"
   },
   {
    "id": "API-0015",
@@ -11514,7 +11610,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /products/{productId} with the new id returns 200 with the same name."
    ],
    "ref": [],
-   "specLine": 51,
+   "specLine": 13,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/api/products/post-products.yml",
@@ -11537,7 +11633,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's name messages include \"The name field is required.\"."
    ],
    "ref": [],
-   "specLine": 110,
+   "specLine": 72,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/api/products/post-products.yml",
@@ -11560,7 +11656,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body has a name key with at least one message."
    ],
    "ref": [],
-   "specLine": 144,
+   "specLine": 106,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/api/products/post-products.yml",
@@ -11583,7 +11679,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body has a description key with at least one message."
    ],
    "ref": [],
-   "specLine": 172,
+   "specLine": 134,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/api/products/post-products.yml",
@@ -11606,7 +11702,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body has a name key with at least one message."
    ],
    "ref": [],
-   "specLine": 200,
+   "specLine": 162,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/api/products/post-products.yml",
@@ -11629,7 +11725,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body has a description key with at least one message."
    ],
    "ref": [],
-   "specLine": 228,
+   "specLine": 190,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/api/products/post-products.yml",
@@ -11653,7 +11749,7 @@ window.SCENARIO_CATALOG = {
     "Verify the response status is 422."
    ],
    "ref": [],
-   "specLine": 256,
+   "specLine": 218,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/api/products/post-products.yml",
@@ -11677,7 +11773,7 @@ window.SCENARIO_CATALOG = {
     "Verify the response status is 422."
    ],
    "ref": [],
-   "specLine": 288,
+   "specLine": 250,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/api/products/post-products.yml",
@@ -11701,7 +11797,7 @@ window.SCENARIO_CATALOG = {
     "Verify the response status is 422."
    ],
    "ref": [],
-   "specLine": 320,
+   "specLine": 282,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/api/products/post-products.yml",
@@ -11725,7 +11821,7 @@ window.SCENARIO_CATALOG = {
     "Verify the response status is 401."
    ],
    "ref": [],
-   "specLine": 352,
+   "specLine": 314,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/api/products/post-products.yml",
@@ -11752,7 +11848,7 @@ window.SCENARIO_CATALOG = {
     "Verify its in_stock is 10."
    ],
    "ref": [],
-   "specLine": 375,
+   "specLine": 337,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/api/products/post-products.yml",
@@ -14584,7 +14680,8 @@ window.SCENARIO_CATALOG = {
    "ref": [
     "docs/ui/user-stories/Change_Password.md#AC6"
    ],
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/users/post-users-change-password.spec.ts",
    "steps": [
     "Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.",
     "Send POST /users/login with that email and password, and take the new access_token.",
@@ -14593,6 +14690,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's success is true.",
     "Verify POST /users/login with that email and the new password returns 200 with a non-empty access_token."
    ],
+   "specLine": 62,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/post-users-change-password.yml",
@@ -14601,7 +14699,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@users-api"
    ],
-   "yaml": "- id: API-0290\n  name: Change password with a valid new password returns 200 and the new password logs in\n  ref: docs/ui/user-stories/Change_Password.md#AC6\n  status: manual\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.\n    - Send POST /users/login with that email and password, and take the new access_token.\n    - Send POST /users/change-password with that token, current_password set to that password, and new_password and new_password_confirmation both set to a different random strong password.\n    - Verify the response status is 200.\n    - Verify the body's success is true.\n    - Verify POST /users/login with that email and the new password returns 200 with a non-empty access_token."
+   "yaml": "- id: API-0290\n  name: Change password with a valid new password returns 200 and the new password logs in\n  ref: docs/ui/user-stories/Change_Password.md#AC6\n  status: automated\n  automatedIn: tests/api/users/post-users-change-password.spec.ts\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.\n    - Send POST /users/login with that email and password, and take the new access_token.\n    - Send POST /users/change-password with that token, current_password set to that password, and new_password and new_password_confirmation both set to a different random strong password.\n    - Verify the response status is 200.\n    - Verify the body's success is true.\n    - Verify POST /users/login with that email and the new password returns 200 with a non-empty access_token."
   },
   {
    "id": "API-0291",
@@ -14609,7 +14707,8 @@ window.SCENARIO_CATALOG = {
    "ref": [
     "docs/ui/user-stories/Change_Password.md#AC1"
    ],
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/users/post-users-change-password.spec.ts",
    "steps": [
     "Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.",
     "Send POST /users/login with that email and password, and take the new access_token.",
@@ -14617,6 +14716,7 @@ window.SCENARIO_CATALOG = {
     "Verify the response status is 422.",
     "Verify the body's errors.new_password is a non-empty list."
    ],
+   "specLine": 98,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/post-users-change-password.yml",
@@ -14625,7 +14725,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@users-api"
    ],
-   "yaml": "- id: API-0291\n  name: Change password without new_password returns 422\n  ref: docs/ui/user-stories/Change_Password.md#AC1\n  status: manual\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.\n    - Send POST /users/login with that email and password, and take the new access_token.\n    - Send POST /users/change-password with that token, current_password set to that password and new_password_confirmation set to a different random strong password, without new_password.\n    - Verify the response status is 422.\n    - Verify the body's errors.new_password is a non-empty list."
+   "yaml": "- id: API-0291\n  name: Change password without new_password returns 422\n  ref: docs/ui/user-stories/Change_Password.md#AC1\n  status: automated\n  automatedIn: tests/api/users/post-users-change-password.spec.ts\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.\n    - Send POST /users/login with that email and password, and take the new access_token.\n    - Send POST /users/change-password with that token, current_password set to that password and new_password_confirmation set to a different random strong password, without new_password.\n    - Verify the response status is 422.\n    - Verify the body's errors.new_password is a non-empty list."
   },
   {
    "id": "API-0292",
@@ -14633,7 +14733,8 @@ window.SCENARIO_CATALOG = {
    "ref": [
     "docs/ui/user-stories/Change_Password.md#AC1"
    ],
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/users/post-users-change-password.spec.ts",
    "steps": [
     "Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.",
     "Send POST /users/login with that email and password, and take the new access_token.",
@@ -14641,6 +14742,7 @@ window.SCENARIO_CATALOG = {
     "Verify the response status is 422.",
     "Verify the body's errors.new_password is a non-empty list."
    ],
+   "specLine": 121,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/post-users-change-password.yml",
@@ -14649,7 +14751,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@users-api"
    ],
-   "yaml": "- id: API-0292\n  name: Change password without new_password_confirmation returns 422\n  ref: docs/ui/user-stories/Change_Password.md#AC1\n  status: manual\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.\n    - Send POST /users/login with that email and password, and take the new access_token.\n    - Send POST /users/change-password with that token, current_password set to that password and new_password set to a different random strong password, without new_password_confirmation.\n    - Verify the response status is 422.\n    - Verify the body's errors.new_password is a non-empty list."
+   "yaml": "- id: API-0292\n  name: Change password without new_password_confirmation returns 422\n  ref: docs/ui/user-stories/Change_Password.md#AC1\n  status: automated\n  automatedIn: tests/api/users/post-users-change-password.spec.ts\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.\n    - Send POST /users/login with that email and password, and take the new access_token.\n    - Send POST /users/change-password with that token, current_password set to that password and new_password set to a different random strong password, without new_password_confirmation.\n    - Verify the response status is 422.\n    - Verify the body's errors.new_password is a non-empty list."
   },
   {
    "id": "API-0293",
@@ -14657,7 +14759,8 @@ window.SCENARIO_CATALOG = {
    "ref": [
     "docs/ui/user-stories/Change_Password.md#AC3"
    ],
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/users/post-users-change-password.spec.ts",
    "steps": [
     "Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.",
     "Send POST /users/login with that email and password, and take the new access_token.",
@@ -14665,6 +14768,7 @@ window.SCENARIO_CATALOG = {
     "Verify the response status is 422.",
     "Verify the body's errors.new_password is a non-empty list."
    ],
+   "specLine": 150,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/post-users-change-password.yml",
@@ -14673,7 +14777,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@users-api"
    ],
-   "yaml": "- id: API-0293\n  name: Change password with a confirmation that doesn't match returns 422\n  ref: docs/ui/user-stories/Change_Password.md#AC3\n  status: manual\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.\n    - Send POST /users/login with that email and password, and take the new access_token.\n    - Send POST /users/change-password with that token, current_password set to that password, new_password set to a different random strong password and new_password_confirmation set to a third random strong password.\n    - Verify the response status is 422.\n    - Verify the body's errors.new_password is a non-empty list."
+   "yaml": "- id: API-0293\n  name: Change password with a confirmation that doesn't match returns 422\n  ref: docs/ui/user-stories/Change_Password.md#AC3\n  status: automated\n  automatedIn: tests/api/users/post-users-change-password.spec.ts\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.\n    - Send POST /users/login with that email and password, and take the new access_token.\n    - Send POST /users/change-password with that token, current_password set to that password, new_password set to a different random strong password and new_password_confirmation set to a third random strong password.\n    - Verify the response status is 422.\n    - Verify the body's errors.new_password is a non-empty list."
   },
   {
    "id": "API-0294",
@@ -14681,13 +14785,17 @@ window.SCENARIO_CATALOG = {
    "ref": [
     "docs/ui/user-stories/Change_Password.md#AC1"
    ],
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/users/post-users-change-password.spec.ts",
    "steps": [
-    "Send POST /users/change-password with the default user's token, and new_password and new_password_confirmation both set to a random strong password, without current_password.",
+    "Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.",
+    "Send POST /users/login with that email and password, and take the new access_token.",
+    "Send POST /users/change-password with that token, and new_password and new_password_confirmation both set to a different random strong password, without current_password.",
     "Verify the response status is 400.",
     "Verify the body's success is false.",
     "Verify the body's message is \"Your current password does not matches with the password.\"."
    ],
+   "specLine": 181,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/post-users-change-password.yml",
@@ -14696,7 +14804,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@users-api"
    ],
-   "yaml": "- id: API-0294\n  name: Change password without current_password returns 400\n  ref: docs/ui/user-stories/Change_Password.md#AC1\n  status: manual\n  steps:\n    - Send POST /users/change-password with the default user's token, and new_password and new_password_confirmation both set to a random strong password, without current_password.\n    - Verify the response status is 400.\n    - Verify the body's success is false.\n    - Verify the body's message is \"Your current password does not matches with the password.\"."
+   "yaml": "- id: API-0294\n  name: Change password without current_password returns 400\n  ref: docs/ui/user-stories/Change_Password.md#AC1\n  status: automated\n  automatedIn: tests/api/users/post-users-change-password.spec.ts\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.\n    - Send POST /users/login with that email and password, and take the new access_token.\n    - Send POST /users/change-password with that token, and new_password and new_password_confirmation both set to a different random strong password, without current_password.\n    - Verify the response status is 400.\n    - Verify the body's success is false.\n    - Verify the body's message is \"Your current password does not matches with the password.\"."
   },
   {
    "id": "API-0295",
@@ -14704,13 +14812,17 @@ window.SCENARIO_CATALOG = {
    "ref": [
     "docs/ui/user-stories/Change_Password.md#AC4"
    ],
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/users/post-users-change-password.spec.ts",
    "steps": [
-    "Send POST /users/change-password with the default user's token, current_password set to a random strong password that isn't the default user's password, and new_password and new_password_confirmation both set to another random strong password.",
+    "Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.",
+    "Send POST /users/login with that email and password, and take the new access_token.",
+    "Send POST /users/change-password with that token, current_password set to a random strong password that isn't that user's password, and new_password and new_password_confirmation both set to another random strong password.",
     "Verify the response status is 400.",
     "Verify the body's success is false.",
     "Verify the body's message is \"Your current password does not matches with the password.\"."
    ],
+   "specLine": 209,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/post-users-change-password.yml",
@@ -14719,7 +14831,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@users-api"
    ],
-   "yaml": "- id: API-0295\n  name: Change password with a wrong current password returns 400\n  ref: docs/ui/user-stories/Change_Password.md#AC4\n  status: manual\n  steps:\n    - Send POST /users/change-password with the default user's token, current_password set to a random strong password that isn't the default user's password, and new_password and new_password_confirmation both set to another random strong password.\n    - Verify the response status is 400.\n    - Verify the body's success is false.\n    - Verify the body's message is \"Your current password does not matches with the password.\"."
+   "yaml": "- id: API-0295\n  name: Change password with a wrong current password returns 400\n  ref: docs/ui/user-stories/Change_Password.md#AC4\n  status: automated\n  automatedIn: tests/api/users/post-users-change-password.spec.ts\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.\n    - Send POST /users/login with that email and password, and take the new access_token.\n    - Send POST /users/change-password with that token, current_password set to a random strong password that isn't that user's password, and new_password and new_password_confirmation both set to another random strong password.\n    - Verify the response status is 400.\n    - Verify the body's success is false.\n    - Verify the body's message is \"Your current password does not matches with the password.\"."
   },
   {
    "id": "API-0296",
@@ -14727,13 +14839,15 @@ window.SCENARIO_CATALOG = {
    "ref": [
     "docs/ui/user-stories/Change_Password.md#AC5"
    ],
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/users/post-users-change-password.spec.ts",
    "steps": [
     "Send POST /users/change-password with the default user's token, and current_password, new_password and new_password_confirmation all set to the default user's password.",
     "Verify the response status is 400.",
     "Verify the body's success is false.",
     "Verify the body's message is \"New Password cannot be same as your current password.\"."
    ],
+   "specLine": 239,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/post-users-change-password.yml",
@@ -14742,12 +14856,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@users-api"
    ],
-   "yaml": "- id: API-0296\n  name: Change password with the current password as the new one returns 400\n  ref: docs/ui/user-stories/Change_Password.md#AC5\n  status: manual\n  steps:\n    - Send POST /users/change-password with the default user's token, and current_password, new_password and new_password_confirmation all set to the default user's password.\n    - Verify the response status is 400.\n    - Verify the body's success is false.\n    - Verify the body's message is \"New Password cannot be same as your current password.\"."
+   "yaml": "- id: API-0296\n  name: Change password with the current password as the new one returns 400\n  ref: docs/ui/user-stories/Change_Password.md#AC5\n  status: automated\n  automatedIn: tests/api/users/post-users-change-password.spec.ts\n  steps:\n    - Send POST /users/change-password with the default user's token, and current_password, new_password and new_password_confirmation all set to the default user's password.\n    - Verify the response status is 400.\n    - Verify the body's success is false.\n    - Verify the body's message is \"New Password cannot be same as your current password.\"."
   },
   {
    "id": "API-0399",
    "name": "Forgot password for an existing email returns 200 and resets the password to welcome02",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/users/post-users-forgot-password.spec.ts",
    "steps": [
     "Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.",
     "Send POST /users/forgot-password with that email.",
@@ -14756,6 +14871,7 @@ window.SCENARIO_CATALOG = {
     "Verify POST /users/login with that email and the password \"welcome02\" returns 200 with a non-empty access_token."
    ],
    "ref": [],
+   "specLine": 26,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/post-users-forgot-password.yml",
@@ -14764,18 +14880,20 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@users-api"
    ],
-   "yaml": "- id: API-0399\n  name: Forgot password for an existing email returns 200 and resets the password to welcome02\n  status: manual\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.\n    - Send POST /users/forgot-password with that email.\n    - Verify the response status is 200.\n    - Verify the body's success is true.\n    - Verify POST /users/login with that email and the password \"welcome02\" returns 200 with a non-empty access_token."
+   "yaml": "- id: API-0399\n  name: Forgot password for an existing email returns 200 and resets the password to welcome02\n  status: automated\n  automatedIn: tests/api/users/post-users-forgot-password.spec.ts\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.\n    - Send POST /users/forgot-password with that email.\n    - Verify the response status is 200.\n    - Verify the body's success is true.\n    - Verify POST /users/login with that email and the password \"welcome02\" returns 200 with a non-empty access_token."
   },
   {
    "id": "API-0400",
    "name": "Forgot password without email returns 404",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/users/post-users-forgot-password.spec.ts",
    "steps": [
     "Send POST /users/forgot-password with an empty JSON object as the body.",
     "Verify the response status is 404.",
     "Verify the body's message is \"Requested item not found\"."
    ],
    "ref": [],
+   "specLine": 56,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/post-users-forgot-password.yml",
@@ -14784,18 +14902,20 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@users-api"
    ],
-   "yaml": "- id: API-0400\n  name: Forgot password without email returns 404\n  status: manual\n  steps:\n    - Send POST /users/forgot-password with an empty JSON object as the body.\n    - Verify the response status is 404.\n    - Verify the body's message is \"Requested item not found\"."
+   "yaml": "- id: API-0400\n  name: Forgot password without email returns 404\n  status: automated\n  automatedIn: tests/api/users/post-users-forgot-password.spec.ts\n  steps:\n    - Send POST /users/forgot-password with an empty JSON object as the body.\n    - Verify the response status is 404.\n    - Verify the body's message is \"Requested item not found\"."
   },
   {
    "id": "API-0401",
    "name": "Forgot password for an unknown email returns 422",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/users/post-users-forgot-password.spec.ts",
    "steps": [
     "Send POST /users/forgot-password with a unique email that no account has.",
     "Verify the response status is 422.",
     "Verify the body's errors.email is a non-empty list."
    ],
    "ref": [],
+   "specLine": 74,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/post-users-forgot-password.yml",
@@ -14804,7 +14924,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@users-api"
    ],
-   "yaml": "- id: API-0401\n  name: Forgot password for an unknown email returns 422\n  status: manual\n  steps:\n    - Send POST /users/forgot-password with a unique email that no account has.\n    - Verify the response status is 422.\n    - Verify the body's errors.email is a non-empty list."
+   "yaml": "- id: API-0401\n  name: Forgot password for an unknown email returns 422\n  status: automated\n  automatedIn: tests/api/users/post-users-forgot-password.spec.ts\n  steps:\n    - Send POST /users/forgot-password with a unique email that no account has.\n    - Verify the response status is 422.\n    - Verify the body's errors.email is a non-empty list."
   },
   {
    "id": "API-0078",
@@ -14820,7 +14940,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /users/me with the new access_token returns 200 with the default user's email."
    ],
    "ref": [],
-   "specLine": 43,
+   "specLine": 110,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/post-users-login.yml",
@@ -14843,7 +14963,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's error is \"Unauthorized\" or \"Invalid login request\"."
    ],
    "ref": [],
-   "specLine": 88,
+   "specLine": 155,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/post-users-login.yml",
@@ -14865,7 +14985,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's error is \"Unauthorized\" or \"Invalid login request\"."
    ],
    "ref": [],
-   "specLine": 110,
+   "specLine": 177,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/post-users-login.yml",
@@ -14887,7 +15007,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's error is \"Unauthorized\" or \"Invalid login request\"."
    ],
    "ref": [],
-   "specLine": 129,
+   "specLine": 196,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/post-users-login.yml",
@@ -14908,7 +15028,7 @@ window.SCENARIO_CATALOG = {
     "Verify the response status is 401."
    ],
    "ref": [],
-   "specLine": 146,
+   "specLine": 213,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/post-users-login.yml",
@@ -14930,7 +15050,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's error is \"Invalid or expired token\"."
    ],
    "ref": [],
-   "specLine": 159,
+   "specLine": 226,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/post-users-login.yml",
@@ -14955,7 +15075,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's error is \"Account disabled\"."
    ],
    "ref": [],
-   "specLine": 180,
+   "specLine": 247,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/post-users-login.yml",
@@ -14972,7 +15092,8 @@ window.SCENARIO_CATALOG = {
    "ref": [
     "docs/ui/user-stories/Checkout_Sign_In.md#AC3"
    ],
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/users/post-users-login.spec.ts",
    "steps": [
     "Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.",
     "Send POST /users/login with that email and password, and take its access_token.",
@@ -14983,6 +15104,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's access_token is a non-empty string.",
     "Verify the body has no token_type or expires_in key."
    ],
+   "specLine": 275,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/post-users-login.yml",
@@ -14991,7 +15113,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@users-api"
    ],
-   "yaml": "- id: API-0308\n  name: Login of a TOTP account returns \"TOTP required\" with a restricted token\n  ref: docs/ui/user-stories/Checkout_Sign_In.md#AC3\n  status: manual\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.\n    - Send POST /users/login with that email and password, and take its access_token.\n    - Send PATCH /users/{userId} with that id, totp_enabled true and totp_secret set to a known base32 secret, with the customer's own access_token.\n    - Send POST /users/login with that email and password.\n    - Verify the response status is 200.\n    - Verify the body's message is \"TOTP required\" and requires_totp is true.\n    - Verify the body's access_token is a non-empty string.\n    - Verify the body has no token_type or expires_in key."
+   "yaml": "- id: API-0308\n  name: Login of a TOTP account returns \"TOTP required\" with a restricted token\n  ref: docs/ui/user-stories/Checkout_Sign_In.md#AC3\n  status: automated\n  automatedIn: tests/api/users/post-users-login.spec.ts\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.\n    - Send POST /users/login with that email and password, and take its access_token.\n    - Send PATCH /users/{userId} with that id, totp_enabled true and totp_secret set to a known base32 secret, with the customer's own access_token.\n    - Send POST /users/login with that email and password.\n    - Verify the response status is 200.\n    - Verify the body's message is \"TOTP required\" and requires_totp is true.\n    - Verify the body's access_token is a non-empty string.\n    - Verify the body has no token_type or expires_in key."
   },
   {
    "id": "API-0309",
@@ -14999,7 +15121,8 @@ window.SCENARIO_CATALOG = {
    "ref": [
     "docs/ui/user-stories/Checkout_Sign_In.md#AC3"
    ],
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/users/post-users-login.spec.ts",
    "steps": [
     "Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.",
     "Send POST /users/login with that email and password, and take its access_token.",
@@ -15011,6 +15134,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's token_type is \"bearer\".",
     "Verify GET /users/me with the new access_token returns 200 with the throwaway customer's email."
    ],
+   "specLine": 317,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/post-users-login.yml",
@@ -15019,7 +15143,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@users-api"
    ],
-   "yaml": "- id: API-0309\n  name: TOTP login step with the right code returns a full token\n  ref: docs/ui/user-stories/Checkout_Sign_In.md#AC3\n  status: manual\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.\n    - Send POST /users/login with that email and password, and take its access_token.\n    - Send PATCH /users/{userId} with that id, totp_enabled true and totp_secret set to a known base32 secret, with the customer's own access_token.\n    - Send POST /users/login with that email and password, and take the restricted access_token from the response.\n    - Send POST /users/login with access_token set to the restricted access_token and totp set to the current 6-digit code for that secret.\n    - Verify the response status is 200.\n    - Verify the body's access_token is a non-empty string.\n    - Verify the body's token_type is \"bearer\".\n    - Verify GET /users/me with the new access_token returns 200 with the throwaway customer's email."
+   "yaml": "- id: API-0309\n  name: TOTP login step with the right code returns a full token\n  ref: docs/ui/user-stories/Checkout_Sign_In.md#AC3\n  status: automated\n  automatedIn: tests/api/users/post-users-login.spec.ts\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.\n    - Send POST /users/login with that email and password, and take its access_token.\n    - Send PATCH /users/{userId} with that id, totp_enabled true and totp_secret set to a known base32 secret, with the customer's own access_token.\n    - Send POST /users/login with that email and password, and take the restricted access_token from the response.\n    - Send POST /users/login with access_token set to the restricted access_token and totp set to the current 6-digit code for that secret.\n    - Verify the response status is 200.\n    - Verify the body's access_token is a non-empty string.\n    - Verify the body's token_type is \"bearer\".\n    - Verify GET /users/me with the new access_token returns 200 with the throwaway customer's email."
   },
   {
    "id": "API-0310",
@@ -15027,7 +15151,8 @@ window.SCENARIO_CATALOG = {
    "ref": [
     "docs/ui/user-stories/Checkout_Sign_In.md#AC3"
    ],
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/users/post-users-login.spec.ts",
    "steps": [
     "Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.",
     "Send POST /users/login with that email and password, and take its access_token.",
@@ -15037,6 +15162,7 @@ window.SCENARIO_CATALOG = {
     "Verify the response status is 401.",
     "Verify the body's message is \"Unauthorized token usage\"."
    ],
+   "specLine": 367,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/post-users-login.yml",
@@ -15045,7 +15171,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@users-api"
    ],
-   "yaml": "- id: API-0310\n  name: Restricted token of the TOTP first step is rejected as a session\n  ref: docs/ui/user-stories/Checkout_Sign_In.md#AC3\n  status: manual\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.\n    - Send POST /users/login with that email and password, and take its access_token.\n    - Send PATCH /users/{userId} with that id, totp_enabled true and totp_secret set to a known base32 secret, with the customer's own access_token.\n    - Send POST /users/login with that email and password, and take the restricted access_token from the response.\n    - Send GET /users/me with the restricted access_token.\n    - Verify the response status is 401.\n    - Verify the body's message is \"Unauthorized token usage\"."
+   "yaml": "- id: API-0310\n  name: Restricted token of the TOTP first step is rejected as a session\n  ref: docs/ui/user-stories/Checkout_Sign_In.md#AC3\n  status: automated\n  automatedIn: tests/api/users/post-users-login.spec.ts\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.\n    - Send POST /users/login with that email and password, and take its access_token.\n    - Send PATCH /users/{userId} with that id, totp_enabled true and totp_secret set to a known base32 secret, with the customer's own access_token.\n    - Send POST /users/login with that email and password, and take the restricted access_token from the response.\n    - Send GET /users/me with the restricted access_token.\n    - Verify the response status is 401.\n    - Verify the body's message is \"Unauthorized token usage\"."
   },
   {
    "id": "API-0311",
@@ -15053,7 +15179,8 @@ window.SCENARIO_CATALOG = {
    "ref": [
     "docs/ui/user-stories/Checkout_Sign_In.md#AC3"
    ],
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/users/post-users-login.spec.ts",
    "steps": [
     "Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.",
     "Send POST /users/login with that email and password, and take its access_token.",
@@ -15064,6 +15191,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's error is \"Invalid TOTP\".",
     "Verify the body has no access_token key."
    ],
+   "specLine": 397,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/post-users-login.yml",
@@ -15072,7 +15200,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@users-api"
    ],
-   "yaml": "- id: API-0311\n  name: TOTP login step with a wrong code returns 401\n  ref: docs/ui/user-stories/Checkout_Sign_In.md#AC3\n  status: manual\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.\n    - Send POST /users/login with that email and password, and take its access_token.\n    - Send PATCH /users/{userId} with that id, totp_enabled true and totp_secret set to a known base32 secret, with the customer's own access_token.\n    - Send POST /users/login with that email and password, and take the restricted access_token from the response.\n    - Send POST /users/login with access_token set to the restricted access_token and totp set to a 6-digit code that differs from the secret's codes for the current and the neighbouring 30-second periods.\n    - Verify the response status is 401.\n    - Verify the body's error is \"Invalid TOTP\".\n    - Verify the body has no access_token key."
+   "yaml": "- id: API-0311\n  name: TOTP login step with a wrong code returns 401\n  ref: docs/ui/user-stories/Checkout_Sign_In.md#AC3\n  status: automated\n  automatedIn: tests/api/users/post-users-login.spec.ts\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.\n    - Send POST /users/login with that email and password, and take its access_token.\n    - Send PATCH /users/{userId} with that id, totp_enabled true and totp_secret set to a known base32 secret, with the customer's own access_token.\n    - Send POST /users/login with that email and password, and take the restricted access_token from the response.\n    - Send POST /users/login with access_token set to the restricted access_token and totp set to a 6-digit code that differs from the secret's codes for the current and the neighbouring 30-second periods.\n    - Verify the response status is 401.\n    - Verify the body's error is \"Invalid TOTP\".\n    - Verify the body has no access_token key."
   },
   {
    "id": "API-0105",
@@ -15177,7 +15305,7 @@ window.SCENARIO_CATALOG = {
     "Verify email equals the default user's email, and id, first_name and last_name are not empty."
    ],
    "ref": [],
-   "specLine": 32,
+   "specLine": 33,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/get-users-me.yml",
@@ -15201,7 +15329,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's enabled is a boolean and failed_login_attempts is a number."
    ],
    "ref": [],
-   "specLine": 62,
+   "specLine": 63,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/get-users-me.yml",
@@ -15224,7 +15352,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body has no role, enabled or failed_login_attempts key."
    ],
    "ref": [],
-   "specLine": 88,
+   "specLine": 89,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/get-users-me.yml",
@@ -15246,7 +15374,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's message is \"Unauthorized\"."
    ],
    "ref": [],
-   "specLine": 115,
+   "specLine": 116,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/get-users-me.yml",
@@ -15268,7 +15396,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's message is \"Unauthorized\"."
    ],
    "ref": [],
-   "specLine": 132,
+   "specLine": 133,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/get-users-me.yml",
@@ -15294,7 +15422,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's message is \"Account disabled.\"."
    ],
    "ref": [],
-   "specLine": 152,
+   "specLine": 153,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/get-users-me.yml",
@@ -15311,7 +15439,8 @@ window.SCENARIO_CATALOG = {
    "ref": [
     "docs/ui/user-stories/Checkout_Sign_In.md#AC5"
    ],
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/users/get-users-me.spec.ts",
    "steps": [
     "Send POST /users/register with a unique email, a first name, a different last name of at most 20 characters, and a random strong password, and take the new user's id.",
     "Send POST /users/login with that email and password, and take its access_token.",
@@ -15319,6 +15448,7 @@ window.SCENARIO_CATALOG = {
     "Verify the response status is 200.",
     "Verify the body's first_name and last_name equal the values sent in the registration."
    ],
+   "specLine": 198,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/get-users-me.yml",
@@ -15327,7 +15457,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@users-api"
    ],
-   "yaml": "- id: API-0312\n  name: Current user returns the first and last name the customer registered with\n  ref: docs/ui/user-stories/Checkout_Sign_In.md#AC5\n  status: manual\n  steps:\n    - Send POST /users/register with a unique email, a first name, a different last name of at most 20 characters, and a random strong password, and take the new user's id.\n    - Send POST /users/login with that email and password, and take its access_token.\n    - Send GET /users/me with that access_token.\n    - Verify the response status is 200.\n    - Verify the body's first_name and last_name equal the values sent in the registration."
+   "yaml": "- id: API-0312\n  name: Current user returns the first and last name the customer registered with\n  ref: docs/ui/user-stories/Checkout_Sign_In.md#AC5\n  status: automated\n  automatedIn: tests/api/users/get-users-me.spec.ts\n  steps:\n    - Send POST /users/register with a unique email, a first name, a different last name of at most 20 characters, and a random strong password, and take the new user's id.\n    - Send POST /users/login with that email and password, and take its access_token.\n    - Send GET /users/me with that access_token.\n    - Verify the response status is 200.\n    - Verify the body's first_name and last_name equal the values sent in the registration."
   },
   {
    "id": "API-0109",
@@ -15463,7 +15593,7 @@ window.SCENARIO_CATALOG = {
     "Verify POST /users/login with that email and password returns 200, and GET /users/me with its access_token returns the new id and email."
    ],
    "ref": [],
-   "specLine": 81,
+   "specLine": 108,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/post-users-register.yml",
@@ -15487,7 +15617,7 @@ window.SCENARIO_CATALOG = {
     "Verify POST /users/login with that email and password returns 200, and GET /users/me with its access_token returns the same phone, dob and address values."
    ],
    "ref": [],
-   "specLine": 129,
+   "specLine": 156,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/post-users-register.yml",
@@ -15509,7 +15639,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body has the keys first_name, last_name, email and password, each with at least one message."
    ],
    "ref": [],
-   "specLine": 185,
+   "specLine": 212,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/post-users-register.yml",
@@ -15531,7 +15661,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body has a first_name key with at least one message."
    ],
    "ref": [],
-   "specLine": 204,
+   "specLine": 231,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/post-users-register.yml",
@@ -15553,7 +15683,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body has a last_name key with at least one message."
    ],
    "ref": [],
-   "specLine": 222,
+   "specLine": 249,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/post-users-register.yml",
@@ -15575,7 +15705,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body has a password key with at least one message."
    ],
    "ref": [],
-   "specLine": 240,
+   "specLine": 267,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/post-users-register.yml",
@@ -15597,7 +15727,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body has a dob key with at least one message."
    ],
    "ref": [],
-   "specLine": 258,
+   "specLine": 285,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/post-users-register.yml",
@@ -15619,7 +15749,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body has a first_name key with at least one message."
    ],
    "ref": [],
-   "specLine": 276,
+   "specLine": 303,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/post-users-register.yml",
@@ -15641,7 +15771,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body has a dob key with at least one message."
    ],
    "ref": [],
-   "specLine": 294,
+   "specLine": 321,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/post-users-register.yml",
@@ -15663,7 +15793,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body has an email key with at least one message."
    ],
    "ref": [],
-   "specLine": 312,
+   "specLine": 339,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/post-users-register.yml",
@@ -15685,7 +15815,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body has a phone key with at least one message."
    ],
    "ref": [],
-   "specLine": 335,
+   "specLine": 362,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/post-users-register.yml",
@@ -15708,7 +15838,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's email messages include \"A customer with this email address already exists.\"."
    ],
    "ref": [],
-   "specLine": 353,
+   "specLine": 380,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/post-users-register.yml",
@@ -15731,7 +15861,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body has a first_name key with at least one message."
    ],
    "ref": [],
-   "specLine": 378,
+   "specLine": 405,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/post-users-register.yml",
@@ -15753,7 +15883,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's dob messages include \"Customer must be younger than 75 years old.\"."
    ],
    "ref": [],
-   "specLine": 403,
+   "specLine": 430,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/post-users-register.yml",
@@ -15776,7 +15906,7 @@ window.SCENARIO_CATALOG = {
     "Verify the response status is 422."
    ],
    "ref": [],
-   "specLine": 421,
+   "specLine": 448,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/post-users-register.yml",
@@ -15793,13 +15923,15 @@ window.SCENARIO_CATALOG = {
    "ref": [
     "docs/ui/user-stories/Checkout_Billing_Address.md#AC4"
    ],
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/users/post-users-register.spec.ts",
    "steps": [
     "Send POST /users/register with a unique email, a first name, a last name, a random strong password, and an address with a street, a city, a state, country \"NL\" and postal_code \"1011AB\".",
     "Verify the response status is 201.",
     "Verify the body's address street, city, state, country and postal_code equal the values sent.",
     "Verify POST /users/login with that email and password returns 200, and GET /users/me with its access_token returns the same address street, city, state, country and postal_code."
    ],
+   "specLine": 463,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/post-users-register.yml",
@@ -15808,7 +15940,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@users-api"
    ],
-   "yaml": "- id: API-0305\n  name: Register stores the country and a postal code in that country's format\n  ref: docs/ui/user-stories/Checkout_Billing_Address.md#AC4\n  status: manual\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name, a random strong password, and an address with a street, a city, a state, country \"NL\" and postal_code \"1011AB\".\n    - Verify the response status is 201.\n    - Verify the body's address street, city, state, country and postal_code equal the values sent.\n    - Verify POST /users/login with that email and password returns 200, and GET /users/me with its access_token returns the same address street, city, state, country and postal_code."
+   "yaml": "- id: API-0305\n  name: Register stores the country and a postal code in that country's format\n  ref: docs/ui/user-stories/Checkout_Billing_Address.md#AC4\n  status: automated\n  automatedIn: tests/api/users/post-users-register.spec.ts\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name, a random strong password, and an address with a street, a city, a state, country \"NL\" and postal_code \"1011AB\".\n    - Verify the response status is 201.\n    - Verify the body's address street, city, state, country and postal_code equal the values sent.\n    - Verify POST /users/login with that email and password returns 200, and GET /users/me with its access_token returns the same address street, city, state, country and postal_code."
   },
   {
    "id": "API-0328",
@@ -15816,13 +15948,15 @@ window.SCENARIO_CATALOG = {
    "ref": [
     "docs/ui/user-stories/User_Registration.md#AC1"
    ],
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/users/post-users-register.spec.ts",
    "steps": [
     "Send POST /users/register with a well-formed 256-character email that starts with a unique value, a first name, a last name and a random strong password.",
     "Verify the response status is 201.",
     "Verify the body's email equals the email sent.",
     "Verify POST /users/login with that email and password returns 200, and GET /users/me with its access_token returns the new id and the same email."
    ],
+   "specLine": 511,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/post-users-register.yml",
@@ -15831,7 +15965,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@users-api"
    ],
-   "yaml": "- id: API-0328\n  name: Register with an email of exactly 256 characters returns 201 and stores it\n  ref: docs/ui/user-stories/User_Registration.md#AC1\n  status: manual\n  steps:\n    - Send POST /users/register with a well-formed 256-character email that starts with a unique value, a first name, a last name and a random strong password.\n    - Verify the response status is 201.\n    - Verify the body's email equals the email sent.\n    - Verify POST /users/login with that email and password returns 200, and GET /users/me with its access_token returns the new id and the same email."
+   "yaml": "- id: API-0328\n  name: Register with an email of exactly 256 characters returns 201 and stores it\n  ref: docs/ui/user-stories/User_Registration.md#AC1\n  status: automated\n  automatedIn: tests/api/users/post-users-register.spec.ts\n  steps:\n    - Send POST /users/register with a well-formed 256-character email that starts with a unique value, a first name, a last name and a random strong password.\n    - Verify the response status is 201.\n    - Verify the body's email equals the email sent.\n    - Verify POST /users/login with that email and password returns 200, and GET /users/me with its access_token returns the new id and the same email."
   },
   {
    "id": "API-0329",
@@ -15839,13 +15973,15 @@ window.SCENARIO_CATALOG = {
    "ref": [
     "docs/ui/user-stories/User_Registration.md#AC2"
    ],
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/users/post-users-register.spec.ts",
    "steps": [
     "Send POST /users/register with a unique email, a first name, a last name and a random password of exactly 8 characters with an upper-case letter, a lower-case letter, a number and a special character.",
     "Verify the response status is 201.",
     "Verify the body has a non-empty id and the email sent.",
     "Verify POST /users/login with that email and password returns 200, and GET /users/me with its access_token returns the new id and email."
    ],
+   "specLine": 552,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/post-users-register.yml",
@@ -15854,7 +15990,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@users-api"
    ],
-   "yaml": "- id: API-0329\n  name: Register with an 8-character password that meets all rules returns 201\n  ref: docs/ui/user-stories/User_Registration.md#AC2\n  status: manual\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random password of exactly 8 characters with an upper-case letter, a lower-case letter, a number and a special character.\n    - Verify the response status is 201.\n    - Verify the body has a non-empty id and the email sent.\n    - Verify POST /users/login with that email and password returns 200, and GET /users/me with its access_token returns the new id and email."
+   "yaml": "- id: API-0329\n  name: Register with an 8-character password that meets all rules returns 201\n  ref: docs/ui/user-stories/User_Registration.md#AC2\n  status: automated\n  automatedIn: tests/api/users/post-users-register.spec.ts\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random password of exactly 8 characters with an upper-case letter, a lower-case letter, a number and a special character.\n    - Verify the response status is 201.\n    - Verify the body has a non-empty id and the email sent.\n    - Verify POST /users/login with that email and password returns 200, and GET /users/me with its access_token returns the new id and email."
   },
   {
    "id": "API-0330",
@@ -15862,12 +15998,14 @@ window.SCENARIO_CATALOG = {
    "ref": [
     "docs/ui/user-stories/User_Registration.md#AC1"
    ],
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/users/post-users-register.spec.ts",
    "steps": [
     "Send POST /users/register with a unique email, a first name, a last name, a random strong password, and an address with a street, a city, a state, country \"DE\" and postal_code \"ABCDE\".",
     "Verify the response status is 422.",
     "Verify the body has an address.postal_code key with at least one message."
    ],
+   "specLine": 591,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/post-users-register.yml",
@@ -15876,7 +16014,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@users-api"
    ],
-   "yaml": "- id: API-0330\n  name: Register with a letters-only postal code for country DE returns 422\n  ref: docs/ui/user-stories/User_Registration.md#AC1\n  status: manual\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name, a random strong password, and an address with a street, a city, a state, country \"DE\" and postal_code \"ABCDE\".\n    - Verify the response status is 422.\n    - Verify the body has an address.postal_code key with at least one message."
+   "yaml": "- id: API-0330\n  name: Register with a letters-only postal code for country DE returns 422\n  ref: docs/ui/user-stories/User_Registration.md#AC1\n  status: automated\n  automatedIn: tests/api/users/post-users-register.spec.ts\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name, a random strong password, and an address with a street, a city, a state, country \"DE\" and postal_code \"ABCDE\".\n    - Verify the response status is 422.\n    - Verify the body has an address.postal_code key with at least one message."
   },
   {
    "id": "API-0331",
@@ -15884,12 +16022,14 @@ window.SCENARIO_CATALOG = {
    "ref": [
     "docs/ui/user-stories/User_Registration.md#AC2"
    ],
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/users/post-users-register.spec.ts",
    "steps": [
     "Send POST /users/register with a unique email, a first name, a last name and a random 7-character password with an upper-case letter, a lower-case letter, a number and a special character.",
     "Verify the response status is 422.",
     "Verify the body has a password key with at least one message."
    ],
+   "specLine": 612,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/post-users-register.yml",
@@ -15898,7 +16038,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@users-api"
    ],
-   "yaml": "- id: API-0331\n  name: Register with a 7-character password returns 422\n  ref: docs/ui/user-stories/User_Registration.md#AC2\n  status: manual\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random 7-character password with an upper-case letter, a lower-case letter, a number and a special character.\n    - Verify the response status is 422.\n    - Verify the body has a password key with at least one message."
+   "yaml": "- id: API-0331\n  name: Register with a 7-character password returns 422\n  ref: docs/ui/user-stories/User_Registration.md#AC2\n  status: automated\n  automatedIn: tests/api/users/post-users-register.spec.ts\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random 7-character password with an upper-case letter, a lower-case letter, a number and a special character.\n    - Verify the response status is 422.\n    - Verify the body has a password key with at least one message."
   },
   {
    "id": "API-0332",
@@ -15906,12 +16046,14 @@ window.SCENARIO_CATALOG = {
    "ref": [
     "docs/ui/user-stories/User_Registration.md#AC2"
    ],
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/users/post-users-register.spec.ts",
    "steps": [
     "Send POST /users/register with a unique email, a first name, a last name and a random password of at least 8 characters with lower-case letters, a number and a special character, and no upper-case letter.",
     "Verify the response status is 422.",
     "Verify the body has a password key with at least one message."
    ],
+   "specLine": 622,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/post-users-register.yml",
@@ -15920,7 +16062,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@users-api"
    ],
-   "yaml": "- id: API-0332\n  name: Register with a password without an upper-case letter returns 422\n  ref: docs/ui/user-stories/User_Registration.md#AC2\n  status: manual\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random password of at least 8 characters with lower-case letters, a number and a special character, and no upper-case letter.\n    - Verify the response status is 422.\n    - Verify the body has a password key with at least one message."
+   "yaml": "- id: API-0332\n  name: Register with a password without an upper-case letter returns 422\n  ref: docs/ui/user-stories/User_Registration.md#AC2\n  status: automated\n  automatedIn: tests/api/users/post-users-register.spec.ts\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random password of at least 8 characters with lower-case letters, a number and a special character, and no upper-case letter.\n    - Verify the response status is 422.\n    - Verify the body has a password key with at least one message."
   },
   {
    "id": "API-0333",
@@ -15928,12 +16070,14 @@ window.SCENARIO_CATALOG = {
    "ref": [
     "docs/ui/user-stories/User_Registration.md#AC2"
    ],
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/users/post-users-register.spec.ts",
    "steps": [
     "Send POST /users/register with a unique email, a first name, a last name and a random password of at least 8 characters with upper-case letters, a number and a special character, and no lower-case letter.",
     "Verify the response status is 422.",
     "Verify the body has a password key with at least one message."
    ],
+   "specLine": 632,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/post-users-register.yml",
@@ -15942,7 +16086,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@users-api"
    ],
-   "yaml": "- id: API-0333\n  name: Register with a password without a lower-case letter returns 422\n  ref: docs/ui/user-stories/User_Registration.md#AC2\n  status: manual\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random password of at least 8 characters with upper-case letters, a number and a special character, and no lower-case letter.\n    - Verify the response status is 422.\n    - Verify the body has a password key with at least one message."
+   "yaml": "- id: API-0333\n  name: Register with a password without a lower-case letter returns 422\n  ref: docs/ui/user-stories/User_Registration.md#AC2\n  status: automated\n  automatedIn: tests/api/users/post-users-register.spec.ts\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random password of at least 8 characters with upper-case letters, a number and a special character, and no lower-case letter.\n    - Verify the response status is 422.\n    - Verify the body has a password key with at least one message."
   },
   {
    "id": "API-0334",
@@ -15950,12 +16094,14 @@ window.SCENARIO_CATALOG = {
    "ref": [
     "docs/ui/user-stories/User_Registration.md#AC2"
    ],
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/users/post-users-register.spec.ts",
    "steps": [
     "Send POST /users/register with a unique email, a first name, a last name and a random password of at least 8 characters with upper-case and lower-case letters and a special character, and no number.",
     "Verify the response status is 422.",
     "Verify the body has a password key with at least one message."
    ],
+   "specLine": 642,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/post-users-register.yml",
@@ -15964,7 +16110,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@users-api"
    ],
-   "yaml": "- id: API-0334\n  name: Register with a password without a number returns 422\n  ref: docs/ui/user-stories/User_Registration.md#AC2\n  status: manual\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random password of at least 8 characters with upper-case and lower-case letters and a special character, and no number.\n    - Verify the response status is 422.\n    - Verify the body has a password key with at least one message."
+   "yaml": "- id: API-0334\n  name: Register with a password without a number returns 422\n  ref: docs/ui/user-stories/User_Registration.md#AC2\n  status: automated\n  automatedIn: tests/api/users/post-users-register.spec.ts\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random password of at least 8 characters with upper-case and lower-case letters and a special character, and no number.\n    - Verify the response status is 422.\n    - Verify the body has a password key with at least one message."
   },
   {
    "id": "API-0335",
@@ -15972,12 +16118,14 @@ window.SCENARIO_CATALOG = {
    "ref": [
     "docs/ui/user-stories/User_Registration.md#AC2"
    ],
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/users/post-users-register.spec.ts",
    "steps": [
     "Send POST /users/register with a unique email, a first name, a last name and a random password of at least 8 characters with upper-case and lower-case letters and a number, and no special character.",
     "Verify the response status is 422.",
     "Verify the body has a password key with at least one message."
    ],
+   "specLine": 652,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/post-users-register.yml",
@@ -15986,7 +16134,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@users-api"
    ],
-   "yaml": "- id: API-0335\n  name: Register with a password without a special character returns 422\n  ref: docs/ui/user-stories/User_Registration.md#AC2\n  status: manual\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random password of at least 8 characters with upper-case and lower-case letters and a number, and no special character.\n    - Verify the response status is 422.\n    - Verify the body has a password key with at least one message."
+   "yaml": "- id: API-0335\n  name: Register with a password without a special character returns 422\n  ref: docs/ui/user-stories/User_Registration.md#AC2\n  status: automated\n  automatedIn: tests/api/users/post-users-register.spec.ts\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random password of at least 8 characters with upper-case and lower-case letters and a number, and no special character.\n    - Verify the response status is 422.\n    - Verify the body has a password key with at least one message."
   },
   {
    "id": "API-0406",
@@ -16404,7 +16552,8 @@ window.SCENARIO_CATALOG = {
    "ref": [
     "docs/ui/user-stories/Customer_Profile.md#AC4"
    ],
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/users/put-users-by-user-id.spec.ts",
    "steps": [
     "Send POST /users/register with a unique email, a first name, a last name of at most 20 characters, a random strong password, a phone of digits, and an address with a street, a city, a state, country \"NL\" and postal_code \"1011AB\", and take the new user's id.",
     "Send POST /users/login with that email and password, and take its access_token.",
@@ -16413,6 +16562,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's success is true.",
     "Verify GET /users/me with that access_token returns the new first_name, last_name, phone, and address street, city, state, country and postal_code."
    ],
+   "specLine": 122,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/put-users-by-user-id.yml",
@@ -16421,7 +16571,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@users-api"
    ],
-   "yaml": "- id: API-0313\n  name: Update user with valid changed values returns 200 and the profile shows them\n  ref: docs/ui/user-stories/Customer_Profile.md#AC4\n  status: manual\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name of at most 20 characters, a random strong password, a phone of digits, and an address with a street, a city, a state, country \"NL\" and postal_code \"1011AB\", and take the new user's id.\n    - Send POST /users/login with that email and password, and take its access_token.\n    - Send PUT /users/{userId} with that id and access_token, the customer's own email, and a new first_name, last_name (at most 20 characters), phone of digits, street, city, state, country and postal_code, each different from the registered value.\n    - Verify the response status is 200.\n    - Verify the body's success is true.\n    - Verify GET /users/me with that access_token returns the new first_name, last_name, phone, and address street, city, state, country and postal_code."
+   "yaml": "- id: API-0313\n  name: Update user with valid changed values returns 200 and the profile shows them\n  ref: docs/ui/user-stories/Customer_Profile.md#AC4\n  status: automated\n  automatedIn: tests/api/users/put-users-by-user-id.spec.ts\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name of at most 20 characters, a random strong password, a phone of digits, and an address with a street, a city, a state, country \"NL\" and postal_code \"1011AB\", and take the new user's id.\n    - Send POST /users/login with that email and password, and take its access_token.\n    - Send PUT /users/{userId} with that id and access_token, the customer's own email, and a new first_name, last_name (at most 20 characters), phone of digits, street, city, state, country and postal_code, each different from the registered value.\n    - Verify the response status is 200.\n    - Verify the body's success is true.\n    - Verify GET /users/me with that access_token returns the new first_name, last_name, phone, and address street, city, state, country and postal_code."
   },
   {
    "id": "API-0314",
@@ -16429,7 +16579,8 @@ window.SCENARIO_CATALOG = {
    "ref": [
     "docs/ui/user-stories/Customer_Profile.md#AC2"
    ],
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/users/put-users-by-user-id.spec.ts",
    "steps": [
     "Send POST /users/register with a unique email, a first name, a last name of at most 20 characters, a random strong password, a phone of digits, and an address with a street, a city, a state, country \"NL\" and postal_code \"1011AB\", and take the new user's id.",
     "Send POST /users/login with that email and password, and take its access_token.",
@@ -16438,6 +16589,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body has a first_name key with at least one message.",
     "Verify GET /users/me with that access_token returns the registered first_name, last_name, phone, and address street, city, state, country and postal_code."
    ],
+   "specLine": 159,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/put-users-by-user-id.yml",
@@ -16446,7 +16598,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@users-api"
    ],
-   "yaml": "- id: API-0314\n  name: Update user without first_name returns 422 and leaves the profile unchanged\n  ref: docs/ui/user-stories/Customer_Profile.md#AC2\n  status: manual\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name of at most 20 characters, a random strong password, a phone of digits, and an address with a street, a city, a state, country \"NL\" and postal_code \"1011AB\", and take the new user's id.\n    - Send POST /users/login with that email and password, and take its access_token.\n    - Send PUT /users/{userId} with that id and access_token, the customer's own email, and a new last_name (at most 20 characters), phone of digits, street, city, state, country and postal_code, each different from the registered value, without first_name.\n    - Verify the response status is 422.\n    - Verify the body has a first_name key with at least one message.\n    - Verify GET /users/me with that access_token returns the registered first_name, last_name, phone, and address street, city, state, country and postal_code."
+   "yaml": "- id: API-0314\n  name: Update user without first_name returns 422 and leaves the profile unchanged\n  ref: docs/ui/user-stories/Customer_Profile.md#AC2\n  status: automated\n  automatedIn: tests/api/users/put-users-by-user-id.spec.ts\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name of at most 20 characters, a random strong password, a phone of digits, and an address with a street, a city, a state, country \"NL\" and postal_code \"1011AB\", and take the new user's id.\n    - Send POST /users/login with that email and password, and take its access_token.\n    - Send PUT /users/{userId} with that id and access_token, the customer's own email, and a new last_name (at most 20 characters), phone of digits, street, city, state, country and postal_code, each different from the registered value, without first_name.\n    - Verify the response status is 422.\n    - Verify the body has a first_name key with at least one message.\n    - Verify GET /users/me with that access_token returns the registered first_name, last_name, phone, and address street, city, state, country and postal_code."
   },
   {
    "id": "API-0315",
@@ -16454,7 +16606,8 @@ window.SCENARIO_CATALOG = {
    "ref": [
     "docs/ui/user-stories/Customer_Profile.md#AC2"
    ],
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/users/put-users-by-user-id.spec.ts",
    "steps": [
     "Send POST /users/register with a unique email, a first name, a last name of at most 20 characters, a random strong password, a phone of digits, and an address with a street, a city, a state, country \"NL\" and postal_code \"1011AB\", and take the new user's id.",
     "Send POST /users/login with that email and password, and take its access_token.",
@@ -16463,6 +16616,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body has a last_name key with at least one message.",
     "Verify GET /users/me with that access_token returns the registered first_name, last_name, phone, and address street, city, state, country and postal_code."
    ],
+   "specLine": 178,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/put-users-by-user-id.yml",
@@ -16471,7 +16625,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@users-api"
    ],
-   "yaml": "- id: API-0315\n  name: Update user without last_name returns 422 and leaves the profile unchanged\n  ref: docs/ui/user-stories/Customer_Profile.md#AC2\n  status: manual\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name of at most 20 characters, a random strong password, a phone of digits, and an address with a street, a city, a state, country \"NL\" and postal_code \"1011AB\", and take the new user's id.\n    - Send POST /users/login with that email and password, and take its access_token.\n    - Send PUT /users/{userId} with that id and access_token, the customer's own email, and a new first_name, phone of digits, street, city, state, country and postal_code, each different from the registered value, without last_name.\n    - Verify the response status is 422.\n    - Verify the body has a last_name key with at least one message.\n    - Verify GET /users/me with that access_token returns the registered first_name, last_name, phone, and address street, city, state, country and postal_code."
+   "yaml": "- id: API-0315\n  name: Update user without last_name returns 422 and leaves the profile unchanged\n  ref: docs/ui/user-stories/Customer_Profile.md#AC2\n  status: automated\n  automatedIn: tests/api/users/put-users-by-user-id.spec.ts\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name of at most 20 characters, a random strong password, a phone of digits, and an address with a street, a city, a state, country \"NL\" and postal_code \"1011AB\", and take the new user's id.\n    - Send POST /users/login with that email and password, and take its access_token.\n    - Send PUT /users/{userId} with that id and access_token, the customer's own email, and a new first_name, phone of digits, street, city, state, country and postal_code, each different from the registered value, without last_name.\n    - Verify the response status is 422.\n    - Verify the body has a last_name key with at least one message.\n    - Verify GET /users/me with that access_token returns the registered first_name, last_name, phone, and address street, city, state, country and postal_code."
   },
   {
    "id": "API-0316",
@@ -16479,7 +16633,8 @@ window.SCENARIO_CATALOG = {
    "ref": [
     "docs/ui/user-stories/Customer_Profile.md#AC2"
    ],
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/users/put-users-by-user-id.spec.ts",
    "steps": [
     "Send POST /users/register with a unique email, a first name, a last name of at most 20 characters, a random strong password, a phone of digits, and an address with a street, a city, a state, country \"NL\" and postal_code \"1011AB\", and take the new user's id.",
     "Send POST /users/login with that email and password, and take its access_token.",
@@ -16488,6 +16643,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body has an address.street key with at least one message.",
     "Verify GET /users/me with that access_token returns the registered first_name, last_name, phone, and address street, city, state, country and postal_code."
    ],
+   "specLine": 197,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/put-users-by-user-id.yml",
@@ -16496,7 +16652,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@users-api"
    ],
-   "yaml": "- id: API-0316\n  name: Update user without address.street returns 422 and leaves the profile unchanged\n  ref: docs/ui/user-stories/Customer_Profile.md#AC2\n  status: manual\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name of at most 20 characters, a random strong password, a phone of digits, and an address with a street, a city, a state, country \"NL\" and postal_code \"1011AB\", and take the new user's id.\n    - Send POST /users/login with that email and password, and take its access_token.\n    - Send PUT /users/{userId} with that id and access_token, the customer's own email, and a new first_name, last_name (at most 20 characters), phone of digits, city, state, country and postal_code, each different from the registered value, without address.street.\n    - Verify the response status is 422.\n    - Verify the body has an address.street key with at least one message.\n    - Verify GET /users/me with that access_token returns the registered first_name, last_name, phone, and address street, city, state, country and postal_code."
+   "yaml": "- id: API-0316\n  name: Update user without address.street returns 422 and leaves the profile unchanged\n  ref: docs/ui/user-stories/Customer_Profile.md#AC2\n  status: automated\n  automatedIn: tests/api/users/put-users-by-user-id.spec.ts\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name of at most 20 characters, a random strong password, a phone of digits, and an address with a street, a city, a state, country \"NL\" and postal_code \"1011AB\", and take the new user's id.\n    - Send POST /users/login with that email and password, and take its access_token.\n    - Send PUT /users/{userId} with that id and access_token, the customer's own email, and a new first_name, last_name (at most 20 characters), phone of digits, city, state, country and postal_code, each different from the registered value, without address.street.\n    - Verify the response status is 422.\n    - Verify the body has an address.street key with at least one message.\n    - Verify GET /users/me with that access_token returns the registered first_name, last_name, phone, and address street, city, state, country and postal_code."
   },
   {
    "id": "API-0317",
@@ -16504,7 +16660,8 @@ window.SCENARIO_CATALOG = {
    "ref": [
     "docs/ui/user-stories/Customer_Profile.md#AC2"
    ],
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/users/put-users-by-user-id.spec.ts",
    "steps": [
     "Send POST /users/register with a unique email, a first name, a last name of at most 20 characters, a random strong password, a phone of digits, and an address with a street, a city, a state, country \"NL\" and postal_code \"1011AB\", and take the new user's id.",
     "Send POST /users/login with that email and password, and take its access_token.",
@@ -16513,6 +16670,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body has an address.city key with at least one message.",
     "Verify GET /users/me with that access_token returns the registered first_name, last_name, phone, and address street, city, state, country and postal_code."
    ],
+   "specLine": 216,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/put-users-by-user-id.yml",
@@ -16521,7 +16679,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@users-api"
    ],
-   "yaml": "- id: API-0317\n  name: Update user without address.city returns 422 and leaves the profile unchanged\n  ref: docs/ui/user-stories/Customer_Profile.md#AC2\n  status: manual\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name of at most 20 characters, a random strong password, a phone of digits, and an address with a street, a city, a state, country \"NL\" and postal_code \"1011AB\", and take the new user's id.\n    - Send POST /users/login with that email and password, and take its access_token.\n    - Send PUT /users/{userId} with that id and access_token, the customer's own email, and a new first_name, last_name (at most 20 characters), phone of digits, street, state, country and postal_code, each different from the registered value, without address.city.\n    - Verify the response status is 422.\n    - Verify the body has an address.city key with at least one message.\n    - Verify GET /users/me with that access_token returns the registered first_name, last_name, phone, and address street, city, state, country and postal_code."
+   "yaml": "- id: API-0317\n  name: Update user without address.city returns 422 and leaves the profile unchanged\n  ref: docs/ui/user-stories/Customer_Profile.md#AC2\n  status: automated\n  automatedIn: tests/api/users/put-users-by-user-id.spec.ts\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name of at most 20 characters, a random strong password, a phone of digits, and an address with a street, a city, a state, country \"NL\" and postal_code \"1011AB\", and take the new user's id.\n    - Send POST /users/login with that email and password, and take its access_token.\n    - Send PUT /users/{userId} with that id and access_token, the customer's own email, and a new first_name, last_name (at most 20 characters), phone of digits, street, state, country and postal_code, each different from the registered value, without address.city.\n    - Verify the response status is 422.\n    - Verify the body has an address.city key with at least one message.\n    - Verify GET /users/me with that access_token returns the registered first_name, last_name, phone, and address street, city, state, country and postal_code."
   },
   {
    "id": "API-0318",
@@ -16529,7 +16687,8 @@ window.SCENARIO_CATALOG = {
    "ref": [
     "docs/ui/user-stories/Customer_Profile.md#AC2"
    ],
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/users/put-users-by-user-id.spec.ts",
    "steps": [
     "Send POST /users/register with a unique email, a first name, a last name of at most 20 characters, a random strong password, a phone of digits, and an address with a street, a city, a state, country \"NL\" and postal_code \"1011AB\", and take the new user's id.",
     "Send POST /users/login with that email and password, and take its access_token.",
@@ -16538,6 +16697,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body has an address.country key with at least one message.",
     "Verify GET /users/me with that access_token returns the registered first_name, last_name, phone, and address street, city, state, country and postal_code."
    ],
+   "specLine": 235,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/put-users-by-user-id.yml",
@@ -16546,7 +16706,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@users-api"
    ],
-   "yaml": "- id: API-0318\n  name: Update user without address.country returns 422 and leaves the profile unchanged\n  ref: docs/ui/user-stories/Customer_Profile.md#AC2\n  status: manual\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name of at most 20 characters, a random strong password, a phone of digits, and an address with a street, a city, a state, country \"NL\" and postal_code \"1011AB\", and take the new user's id.\n    - Send POST /users/login with that email and password, and take its access_token.\n    - Send PUT /users/{userId} with that id and access_token, the customer's own email, and a new first_name, last_name (at most 20 characters), phone of digits, street, city, state and postal_code, each different from the registered value, without address.country.\n    - Verify the response status is 422.\n    - Verify the body has an address.country key with at least one message.\n    - Verify GET /users/me with that access_token returns the registered first_name, last_name, phone, and address street, city, state, country and postal_code."
+   "yaml": "- id: API-0318\n  name: Update user without address.country returns 422 and leaves the profile unchanged\n  ref: docs/ui/user-stories/Customer_Profile.md#AC2\n  status: automated\n  automatedIn: tests/api/users/put-users-by-user-id.spec.ts\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name of at most 20 characters, a random strong password, a phone of digits, and an address with a street, a city, a state, country \"NL\" and postal_code \"1011AB\", and take the new user's id.\n    - Send POST /users/login with that email and password, and take its access_token.\n    - Send PUT /users/{userId} with that id and access_token, the customer's own email, and a new first_name, last_name (at most 20 characters), phone of digits, street, city, state and postal_code, each different from the registered value, without address.country.\n    - Verify the response status is 422.\n    - Verify the body has an address.country key with at least one message.\n    - Verify GET /users/me with that access_token returns the registered first_name, last_name, phone, and address street, city, state, country and postal_code."
   },
   {
    "id": "API-0425",
