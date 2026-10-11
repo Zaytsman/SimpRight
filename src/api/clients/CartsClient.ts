@@ -1,5 +1,5 @@
 import { BaseClient, type ApiResponse } from './BaseClient';
-import type { AddCartItemRequest, CreateCartRequest } from '../dto/cart';
+import type { AddCartItemRequest, CreateCartRequest, UpdateCartItemQuantityRequest } from '../dto/cart';
 
 /** Carts endpoints. Carts are anonymous: the UI keeps its cart id in `sessionStorage['cart_id']`, and no token is needed. */
 export class CartsClient extends BaseClient {
@@ -19,6 +19,22 @@ export class CartsClient extends BaseClient {
   /** GET /carts/{cartId}: the cart with its items and their products. */
   async getById(cartId: string): Promise<ApiResponse> {
     return this.get(`/carts/${cartId}`);
+  }
+
+  /**
+   * PUT /carts/{cartId}/product/quantity: sets (replaces) the quantity of a product in the cart. Accepts any object
+   * as the body, so tests can send the invalid payloads validation scenarios need.
+   */
+  async updateQuantity(cartId: string, body: UpdateCartItemQuantityRequest | Record<string, unknown>): Promise<ApiResponse> {
+    return this.put(`/carts/${cartId}/product/quantity`, { data: body });
+  }
+
+  /**
+   * DELETE /carts/{cartId}/product/{productId}: removes the cart's line for this product (204, also when the product
+   * isn't in the cart). `productId` is the product's id, not the cart item's.
+   */
+  async removeProduct(cartId: string, productId: string): Promise<ApiResponse> {
+    return this.delete(`/carts/${cartId}/product/${productId}`);
   }
 
   /** DELETE /carts/{cartId}: removes the cart with its items. */

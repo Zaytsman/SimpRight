@@ -99,7 +99,7 @@ Specs import from `src/fixtures` (`index.ts`): `test`, `expect` and `openHomePag
 - **API spec style:**
   - Every assertion passes `assertMessage({ request, expected, actual })` from `@utils/assertHelpers`.
   - Action steps make the call and attach the payloads.
-  - Requests and responses are attached with `attachJson(name, data)`, never `test.info().attach` directly. Both helpers mask `password`, `access_token`, `token`, `authorization` and the test users' emails and passwords, because the HTML reports are published. The matcher's own diff isn't masked, so compare a secret value as a condition (`expect(a === b, message).toBe(true)`).
+  - Requests and responses are attached with `attachJson(name, data)`, never `test.info().attach` directly. Both helpers mask the keys `password`, `current_password`, `new_password`, `new_password_confirmation`, `access_token`, `token`, `authorization`, `totp_secret` and `totp` (`SECRET_KEYS` in `assertHelpers.ts`), and the test users' emails and passwords, because the HTML reports are published. The matcher's own diff isn't masked, so compare a secret value as a condition (`expect(a === b, message).toBe(true)`).
   - Records a test creates are removed with the `cleanup` fixture (`cleanup.add(() => service.delete(id))`), not `afterAll`: clients and services are test-scoped, so `afterAll` can't use them.
 - **Imports:** specs import from `@fixtures` (`test`, `expect`, `openHomePageTest`) and use fixtures for pages, flows, clients and services. They never construct them or call `page.goto` directly.
 - **API assertions:** happy paths use a service (it returns parsed, typed bodies and throws on non-2xx). Any step that checks a status code, including `200`, uses the client and asserts `response.status`.
