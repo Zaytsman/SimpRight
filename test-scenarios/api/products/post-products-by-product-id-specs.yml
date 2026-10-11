@@ -4,7 +4,8 @@ tags: ["@products-api"]
 scenarios:
   - id: API-0534
     name: Add a spec to a product returns 201 and the spec
-    status: manual
+    status: automated
+    automatedIn: tests/api/products/post-products-by-product-id-specs.spec.ts
     steps:
       - Send GET /products and take the first item's brand id, category id and product image id.
       - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false and is_rental false, and take the new product's id.
@@ -16,7 +17,8 @@ scenarios:
       - Verify GET /products/{productId}/specs with the new product's id returns a spec with that id and those spec_name, spec_value and spec_unit.
   - id: API-0535
     name: Add a spec without spec_unit returns spec_unit null
-    status: manual
+    status: automated
+    automatedIn: tests/api/products/post-products-by-product-id-specs.spec.ts
     steps:
       - Send GET /products and take the first item's brand id, category id and product image id.
       - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false and is_rental false, and take the new product's id.
@@ -26,7 +28,8 @@ scenarios:
       - Verify GET /products/{productId}/specs/{specId} with the new product's id and the new spec's id returns spec_unit null.
   - id: API-0536
     name: Add a spec without a token returns 401
-    status: manual
+    status: automated
+    automatedIn: tests/api/products/post-products-by-product-id-specs.spec.ts
     steps:
       - Send GET /products and take the first item's brand id, category id and product image id.
       - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false and is_rental false, and take the new product's id.
@@ -35,7 +38,8 @@ scenarios:
       - Verify the body's message is "Unauthorized".
   - id: API-0537
     name: Add a spec with an invalid token returns 401
-    status: manual
+    status: automated
+    automatedIn: tests/api/products/post-products-by-product-id-specs.spec.ts
     steps:
       - Send GET /products and take the first item's brand id, category id and product image id.
       - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false and is_rental false, and take the new product's id.
@@ -44,7 +48,8 @@ scenarios:
       - Verify the body's message is "Unauthorized".
   - id: API-0538
     name: Add a spec without the required fields returns 422
-    status: manual
+    status: automated
+    automatedIn: tests/api/products/post-products-by-product-id-specs.spec.ts
     steps:
       - Send GET /products and take the first item's id.
       - Send POST /products/{productId}/specs with that id and an empty body {}, with the default user's token.
@@ -53,7 +58,8 @@ scenarios:
       - Verify the body's errors has the keys spec_name and spec_value, each with at least one message.
   - id: API-0539
     name: Add a spec with a spec_name longer than 100 characters returns 422
-    status: manual
+    status: automated
+    automatedIn: tests/api/products/post-products-by-product-id-specs.spec.ts
     steps:
       - Send GET /products and take the first item's id.
       - Send POST /products/{productId}/specs with that id and a body with a 101-character spec_name and spec_value "1.5", with the default user's token.
@@ -61,7 +67,8 @@ scenarios:
       - Verify the body's errors has a spec_name key with at least one message.
   - id: API-0540
     name: Add a spec with a spec_value longer than 255 characters returns 422
-    status: manual
+    status: automated
+    automatedIn: tests/api/products/post-products-by-product-id-specs.spec.ts
     steps:
       - Send GET /products and take the first item's id.
       - Send POST /products/{productId}/specs with that id and a body with a unique spec_name and a 256-character spec_value, with the default user's token.
@@ -69,7 +76,8 @@ scenarios:
       - Verify the body's errors has a spec_value key with at least one message.
   - id: API-0541
     name: Add a spec with a spec_unit longer than 30 characters returns 422
-    status: manual
+    status: automated
+    automatedIn: tests/api/products/post-products-by-product-id-specs.spec.ts
     steps:
       - Send GET /products and take the first item's id.
       - Send POST /products/{productId}/specs with that id and a body with a unique spec_name, spec_value "1.5" and a 31-character spec_unit, with the default user's token.
@@ -77,7 +85,8 @@ scenarios:
       - Verify the body's errors has a spec_unit key with at least one message.
   - id: API-0542
     name: Add a spec with a spec_value that isn't a string returns 422
-    status: manual
+    status: automated
+    automatedIn: tests/api/products/post-products-by-product-id-specs.spec.ts
     steps:
       - Send GET /products and take the first item's id.
       - Send POST /products/{productId}/specs with that id and a body with a unique spec_name and spec_value set to the number 1.5, with the default user's token.
@@ -85,7 +94,8 @@ scenarios:
       - Verify the body's errors has a spec_value key with at least one message.
   - id: API-0543
     name: Add a spec with a spec_unit that isn't a string returns 422
-    status: manual
+    status: automated
+    automatedIn: tests/api/products/post-products-by-product-id-specs.spec.ts
     steps:
       - Send GET /products and take the first item's id.
       - Send POST /products/{productId}/specs with that id and a body with a unique spec_name, spec_value "1.5" and spec_unit set to the number 5, with the default user's token.
@@ -93,7 +103,8 @@ scenarios:
       - Verify the body's errors has a spec_unit key with at least one message.
   - id: API-0544
     name: Add a spec with an empty spec_name returns 422
-    status: manual
+    status: automated
+    automatedIn: tests/api/products/post-products-by-product-id-specs.spec.ts
     steps:
       - Send GET /products and take the first item's id.
       - Send POST /products/{productId}/specs with that id and a body with spec_name set to an empty string and spec_value "1.5", with the default user's token.
@@ -101,21 +112,24 @@ scenarios:
       - Verify the body's errors has a spec_name key with at least one message.
   - id: API-0545
     name: Add an invalid spec to an unknown product returns 422, not 500
-    status: manual
+    status: automated
+    automatedIn: tests/api/products/post-products-by-product-id-specs.spec.ts
     steps:
       - Send POST /products/{productId}/specs with a well-formed ULID that no product has and an empty body {}, with the default user's token.
       - Verify the response status is 422.
       - Verify the body's errors has the keys spec_name and spec_value.
   - id: API-0546
     name: Add an invalid spec without an Accept header returns 302
-    status: manual
+    status: automated
+    automatedIn: tests/api/products/post-products-by-product-id-specs.spec.ts
     steps:
       - Send GET /products and take the first item's id.
-      - Send POST /products/{productId}/specs with that id and an empty body {}, with the default user's token, without an Accept header and without following redirects.
+      - Send POST /products/{productId}/specs with that id and an empty body {}, with the default user's token, with the Accept header left out and without following redirects.
       - Verify the response status is 302.
   - id: API-0547
     name: Add a spec to an unknown product returns 404
-    status: manual
+    status: automated
+    automatedIn: tests/api/products/post-products-by-product-id-specs.spec.ts
     knownIssue: Returns 500 instead of 404 for an unknown product id.
     bug: BUG-043
     steps:

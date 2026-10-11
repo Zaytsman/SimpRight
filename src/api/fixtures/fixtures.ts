@@ -1,14 +1,20 @@
 import { test as base } from '../../fixtures/base';
 import { AuthClient } from '../clients/AuthClient';
+import { BrandsClient } from '../clients/BrandsClient';
 import { CartsClient } from '../clients/CartsClient';
+import { CategoriesClient } from '../clients/CategoriesClient';
 import { FavoritesClient } from '../clients/FavoritesClient';
 import { PaymentClient } from '../clients/PaymentClient';
 import { PostcodeClient } from '../clients/PostcodeClient';
 import { ProductsClient } from '../clients/ProductsClient';
+import { ProductSpecsClient } from '../clients/ProductSpecsClient';
 import { UsersClient } from '../clients/UsersClient';
 import { ProductsService } from '../services/ProductsService';
+import { ProductSpecsService } from '../services/ProductSpecsService';
 import { AuthService } from '../services/AuthService';
+import { BrandsService } from '../services/BrandsService';
 import { CartsService } from '../services/CartsService';
+import { CategoriesService } from '../services/CategoriesService';
 import { FavoritesService } from '../services/FavoritesService';
 import { UsersService } from '../services/UsersService';
 
@@ -29,6 +35,16 @@ export type ApiFixtures = {
   productsClientWithInvalidToken: ProductsClient;
   /** Always authenticated as admin, whatever the test's `role`: setup creates and cleanup deletes (DELETE is admin-only). */
   adminProductsService: ProductsService;
+  /** Product specs endpoints with no token (the reads, and the writes the scenarios send without a token). */
+  productSpecsClient: ProductSpecsClient;
+  /** Public spec operations (list, get, names); no token. */
+  productSpecsService: ProductSpecsService;
+  /** Product specs endpoints authenticated as the test's `role` ("with the default user's token"). */
+  productSpecsClientWithToken: ProductSpecsClient;
+  /** Sends a fixed malformed bearer token (`INVALID_TOKEN`), for the "invalid token" 401 checks. */
+  productSpecsClientWithInvalidToken: ProductSpecsClient;
+  /** Authenticated as the test's `role` (writes need a token, any role): setup creates and deletes specs, cleanup deletes them. */
+  productSpecsServiceWithToken: ProductSpecsService;
   /** Authenticated as the test's `role`. */
   usersClient: UsersClient;
   /** Users endpoints with no token (public ones such as register, and the "no token" 401 checks). */
@@ -43,6 +59,26 @@ export type ApiFixtures = {
   usersServiceForToken: (token: string) => UsersService;
   /** Always authenticated as admin, whatever the test's `role`: patches throwaway customers and deletes them in cleanup. */
   adminUsersService: UsersService;
+  /** Brands endpoints with no token (reads, and the writes the brands scenarios send without a token). */
+  brandsClient: BrandsClient;
+  /** Public brand operations (list, get, search); no token. */
+  brandsService: BrandsService;
+  /** Brands endpoints authenticated as the test's `role` ("with the admin's token", or the default user's for the 403 check). */
+  brandsClientWithToken: BrandsClient;
+  /** Sends a fixed malformed bearer token (`INVALID_TOKEN`), for the "invalid token" 401 checks. */
+  brandsClientWithInvalidToken: BrandsClient;
+  /** Always authenticated as admin, whatever the test's `role`: setup creates and cleanup deletes (DELETE is admin-only). */
+  adminBrandsService: BrandsService;
+  /** Categories endpoints with no token (reads, and the writes the categories scenarios send without a token). */
+  categoriesClient: CategoriesClient;
+  /** Public category operations (list, tree, get, search); no token. */
+  categoriesService: CategoriesService;
+  /** Categories endpoints authenticated as the test's `role` ("with the admin's token", or the default user's for the 403 check). */
+  categoriesClientWithToken: CategoriesClient;
+  /** Sends a fixed malformed bearer token (`INVALID_TOKEN`), for the "invalid token" 401 checks. */
+  categoriesClientWithInvalidToken: CategoriesClient;
+  /** Always authenticated as admin, whatever the test's `role`: setup creates and cleanup deletes (DELETE is admin-only). */
+  adminCategoriesService: CategoriesService;
   /** Public: carts need no token (the carts specs check statuses with it). */
   cartsClient: CartsClient;
   /** Public: carts need no token (setup creates carts; cleanup removes the carts tests filled). */
@@ -89,6 +125,22 @@ export const test = base.extend<ApiFixtures>({
     await use(new ProductsService(new ProductsClient(request, config, await tokenService.getAccessToken('admin'))));
   },
 
+  productSpecsClient: async ({ request, config }, use) => {
+    await use(new ProductSpecsClient(request, config));
+  },
+  productSpecsService: async ({ productSpecsClient }, use) => {
+    await use(new ProductSpecsService(productSpecsClient));
+  },
+  productSpecsClientWithToken: async ({ request, config, accessToken }, use) => {
+    await use(new ProductSpecsClient(request, config, accessToken));
+  },
+  productSpecsClientWithInvalidToken: async ({ request, config }, use) => {
+    await use(new ProductSpecsClient(request, config, INVALID_TOKEN));
+  },
+  productSpecsServiceWithToken: async ({ productSpecsClientWithToken }, use) => {
+    await use(new ProductSpecsService(productSpecsClientWithToken));
+  },
+
   usersClient: async ({ request, config, accessToken }, use) => {
     await use(new UsersClient(request, config, accessToken));
   },
@@ -109,6 +161,38 @@ export const test = base.extend<ApiFixtures>({
   },
   adminUsersService: async ({ request, config, tokenService }, use) => {
     await use(new UsersService(new UsersClient(request, config, await tokenService.getAccessToken('admin'))));
+  },
+
+  brandsClient: async ({ request, config }, use) => {
+    await use(new BrandsClient(request, config));
+  },
+  brandsService: async ({ brandsClient }, use) => {
+    await use(new BrandsService(brandsClient));
+  },
+  brandsClientWithToken: async ({ request, config, accessToken }, use) => {
+    await use(new BrandsClient(request, config, accessToken));
+  },
+  brandsClientWithInvalidToken: async ({ request, config }, use) => {
+    await use(new BrandsClient(request, config, INVALID_TOKEN));
+  },
+  adminBrandsService: async ({ request, config, tokenService }, use) => {
+    await use(new BrandsService(new BrandsClient(request, config, await tokenService.getAccessToken('admin'))));
+  },
+
+  categoriesClient: async ({ request, config }, use) => {
+    await use(new CategoriesClient(request, config));
+  },
+  categoriesService: async ({ categoriesClient }, use) => {
+    await use(new CategoriesService(categoriesClient));
+  },
+  categoriesClientWithToken: async ({ request, config, accessToken }, use) => {
+    await use(new CategoriesClient(request, config, accessToken));
+  },
+  categoriesClientWithInvalidToken: async ({ request, config }, use) => {
+    await use(new CategoriesClient(request, config, INVALID_TOKEN));
+  },
+  adminCategoriesService: async ({ request, config, tokenService }, use) => {
+    await use(new CategoriesService(new CategoriesClient(request, config, await tokenService.getAccessToken('admin'))));
   },
 
   cartsClient: async ({ request, config }, use) => {

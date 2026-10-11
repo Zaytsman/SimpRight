@@ -12,7 +12,7 @@ The product brands of the Toolshop API: listing, searching and reading brands, p
 
 - Scheme: `Authorization: Bearer <JWT>`. Get a token with `POST /users/login` (see `Users_API.md`). _(source)_
 - Only `DELETE /brands/{brandId}` checks a token: it requires the `admin` role (`role:admin` middleware in `BrandController`). Every other brand endpoint, including create and update, accepts requests without a token. _(source)_ `POST`, `PUT` and `PATCH` succeeded without a token. _(verified)_
-- Without a token, or with an invalid one, `DELETE` returns `401` with `{ message: "Unauthorized" }` _(verified)_; a token whose user isn't an admin gets `403` with `{ message: "Forbidden" }` _(source)_.
+- Without a token, or with an invalid one, `DELETE` returns `401` with `{ message: "Unauthorized" }` _(verified)_; a token whose user isn't an admin gets `403` with `{ message: "Forbidden" }` _(verified)_.
 - `DELETE` uses only the `role` middleware, not the `auth:users` middleware of the Users API, so the source doesn't show the "Account disabled." check (`Users_API.md`) applying here. _(source)_
 
 ## Endpoints Overview
@@ -145,7 +145,7 @@ Updates a brand with the fields sent. No token is needed (see Notes). Despite be
 }
 ```
 
-Validation runs before the brand is looked up, so an invalid body on an unknown id gives `422`, not `404`. _(source)_
+Validation runs before the brand is looked up, so an invalid body on an unknown id gives `422`, not `404`. _(verified)_
 
 **Response:** `200 OK` _(verified)_
 ```ts
@@ -155,7 +155,7 @@ Validation runs before the brand is looked up, so an invalid body on an unknown 
 **Error Responses:**
 - `404 Not Found`: no brand with this id; `{ message: "Requested item not found" }` _(verified)_
 - `409 Conflict`: `slug` is already used by another brand; the database's unique index rejects it and the global handler answers `{ message: "Duplicate Entry" }` (not the field map that `POST` and `PATCH` return) _(verified)_
-- `422 Unprocessable Entity`: `name` longer than 120 characters _(verified)_; `name` or `slug` not a string, `slug` outside `alpha_dash`, subscript/superscript characters _(source)_
+- `422 Unprocessable Entity`: `name` longer than 120 characters, `name` not a string, `slug` outside `alpha_dash` _(verified)_; `slug` not a string, subscript/superscript characters _(source)_
 
 ---
 
@@ -189,7 +189,7 @@ Updates only the validated fields that are sent (`$request->validated()`). _(sou
 **Error Responses:**
 - `404 Not Found`: no brand with this id (and the body is valid); `{ message: "Requested item not found" }` _(verified)_
 - `409 Conflict`: `slug` is already used by a brand, including the brand being patched: sending its own current slug is refused; `{ slug: [...] }`. Suspected bug for the own-slug case: the `unique` rule doesn't ignore the current brand _(verified)_
-- `422 Unprocessable Entity`: `slug` outside `alpha_dash` _(verified)_; `name` too long or not a string, subscript/superscript characters _(source)_
+- `422 Unprocessable Entity`: `slug` outside `alpha_dash`, `name` too long _(verified)_; `name` not a string, subscript/superscript characters _(source)_
 
 ---
 
@@ -211,7 +211,7 @@ Deletes a brand. Admin only. _(source)_
 
 **Error Responses:**
 - `401 Unauthorized`: no token, or an invalid one; `{ message: "Unauthorized" }` _(verified)_
-- `403 Forbidden`: the token's user isn't an admin; `{ message: "Forbidden" }` _(source)_
+- `403 Forbidden`: the token's user isn't an admin; `{ message: "Forbidden" }` _(verified)_
 - `404 Not Found`: no brand with this id; `{ message: "Requested item not found" }` _(verified)_
 - `409 Conflict`: a product uses the brand (foreign key `products.brand_id`); `{ success: false, message: "Seems like this brand is used elsewhere." }` _(verified)_
 

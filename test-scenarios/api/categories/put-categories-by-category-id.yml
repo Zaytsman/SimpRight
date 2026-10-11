@@ -4,7 +4,8 @@ tags: ["@categories-api"]
 scenarios:
   - id: API-0201
     name: Update category returns success and saves the new name and slug
-    status: manual
+    status: automated
+    automatedIn: tests/api/categories/put-categories-by-category-id.spec.ts
     role: admin
     steps:
       - Send POST /categories with a unique category name and a unique slug, with the admin's token, and take the new category's id.
@@ -14,7 +15,8 @@ scenarios:
       - Verify GET /categories/tree/{categoryId} with that id returns the new name and the new slug.
   - id: API-0202
     name: Update category with a parent_id makes it a sub-category of that parent
-    status: manual
+    status: automated
+    automatedIn: tests/api/categories/put-categories-by-category-id.spec.ts
     role: admin
     steps:
       - Send POST /categories with a unique category name and a unique slug, with the admin's token, and take the new category's id as the parent's id.
@@ -25,7 +27,8 @@ scenarios:
       - Verify GET /categories/tree doesn't include the new category's id among its items.
   - id: API-0203
     name: Update category with a null parent_id makes it a top-level category
-    status: manual
+    status: automated
+    automatedIn: tests/api/categories/put-categories-by-category-id.spec.ts
     role: admin
     steps:
       - Send POST /categories with a unique category name and a unique slug, with the admin's token, and take the new category's id as the parent's id.
@@ -36,7 +39,8 @@ scenarios:
       - Verify GET /categories/tree includes the new category's id among its items.
   - id: API-0204
     name: Update category with a name longer than 120 characters returns 422
-    status: manual
+    status: automated
+    automatedIn: tests/api/categories/put-categories-by-category-id.spec.ts
     role: admin
     steps:
       - Send POST /categories with a unique category name and a unique slug, with the admin's token, and take the new category's id.
@@ -45,7 +49,8 @@ scenarios:
       - Verify the body has a name key with at least one message.
   - id: API-0205
     name: Update category with a slug outside letters, digits, dashes and underscores returns 422
-    status: manual
+    status: automated
+    automatedIn: tests/api/categories/put-categories-by-category-id.spec.ts
     role: admin
     steps:
       - Send POST /categories with a unique category name and a unique slug, with the admin's token, and take the new category's id.
@@ -54,7 +59,8 @@ scenarios:
       - Verify the body has a slug key with at least one message.
   - id: API-0206
     name: Update category with a name that isn't a string returns 422
-    status: manual
+    status: automated
+    automatedIn: tests/api/categories/put-categories-by-category-id.spec.ts
     role: admin
     steps:
       - Send POST /categories with a unique category name and a unique slug, with the admin's token, and take the new category's id.
@@ -63,7 +69,8 @@ scenarios:
       - Verify the body has a name key with at least one message.
   - id: API-0207
     name: Update category with a parent_id that isn't a string returns 422
-    status: manual
+    status: automated
+    automatedIn: tests/api/categories/put-categories-by-category-id.spec.ts
     role: admin
     steps:
       - Send POST /categories with a unique category name and a unique slug, with the admin's token, and take the new category's id.
@@ -72,21 +79,24 @@ scenarios:
       - Verify the body has a parent_id key with at least one message.
   - id: API-0208
     name: Update category with an unknown id returns 404
-    status: manual
+    status: automated
+    automatedIn: tests/api/categories/put-categories-by-category-id.spec.ts
     steps:
       - Send PUT /categories/{categoryId} with a well-formed ULID that no category has and a body with only a unique category name.
       - Verify the response status is 404.
       - Verify the body's message is "Requested item not found".
   - id: API-0209
     name: Update category with an unknown id and an invalid body returns 422
-    status: manual
+    status: automated
+    automatedIn: tests/api/categories/put-categories-by-category-id.spec.ts
     steps:
       - Send PUT /categories/{categoryId} with a well-formed ULID that no category has and a body with only a 121-character name that starts with a unique category name.
       - Verify the response status is 422.
       - Verify the body has a name key with at least one message.
   - id: API-0210
     name: Update category with another category's slug returns 409
-    status: manual
+    status: automated
+    automatedIn: tests/api/categories/put-categories-by-category-id.spec.ts
     role: admin
     steps:
       - Send POST /categories with a unique category name and a unique slug, with the admin's token, and take the new category's id and slug.
@@ -95,7 +105,8 @@ scenarios:
       - Verify GET /categories/tree/{categoryId} with that id still returns its own slug.
   - id: API-0211
     name: Update category with another category's slug names the slug in the error
-    status: manual
+    status: automated
+    automatedIn: tests/api/categories/put-categories-by-category-id.spec.ts
     role: admin
     knownIssue: 'Returns { message: "Duplicate Entry" } instead of the slug''s validation message for a duplicate slug.'
     bug: BUG-019
@@ -105,7 +116,8 @@ scenarios:
       - Verify the body's slug messages include "A category already exists with this slug.".
   - id: API-0212
     name: Update category with an unknown parent_id returns 422
-    status: manual
+    status: automated
+    automatedIn: tests/api/categories/put-categories-by-category-id.spec.ts
     role: admin
     knownIssue: Returns 500 instead of 422 when parent_id is not the id of an existing category.
     bug: BUG-015
@@ -115,7 +127,8 @@ scenarios:
       - Verify the response status is 422.
   - id: API-0213
     name: Update category without a token returns 401
-    status: manual
+    status: automated
+    automatedIn: tests/api/categories/put-categories-by-category-id.spec.ts
     role: admin
     knownIssue: Accepts PUT without a token instead of returning 401.
     bug: BUG-014

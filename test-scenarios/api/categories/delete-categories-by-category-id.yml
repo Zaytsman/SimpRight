@@ -4,7 +4,8 @@ tags: ["@categories-api"]
 scenarios:
   - id: API-0223
     name: Admin deletes a category
-    status: manual
+    status: automated
+    automatedIn: tests/api/categories/delete-categories-by-category-id.spec.ts
     role: admin
     steps:
       - Send POST /categories with a unique category name and a unique slug, with the admin's token, and take the new category's id.
@@ -13,7 +14,8 @@ scenarios:
       - Verify GET /categories/tree/{categoryId} with that id returns 404.
   - id: API-0224
     name: Delete category without a token returns 401
-    status: manual
+    status: automated
+    automatedIn: tests/api/categories/delete-categories-by-category-id.spec.ts
     role: admin
     steps:
       - Send POST /categories with a unique category name and a unique slug, with the admin's token, and take the new category's id.
@@ -22,7 +24,8 @@ scenarios:
       - Verify the body's message is "Unauthorized".
   - id: API-0225
     name: Delete category with an invalid token returns 401
-    status: manual
+    status: automated
+    automatedIn: tests/api/categories/delete-categories-by-category-id.spec.ts
     role: admin
     steps:
       - Send POST /categories with a unique category name and a unique slug, with the admin's token, and take the new category's id.
@@ -31,7 +34,8 @@ scenarios:
       - Verify the body's message is "Unauthorized".
   - id: API-0226
     name: Delete category as a non-admin user returns 403
-    status: manual
+    status: automated
+    automatedIn: tests/api/categories/delete-categories-by-category-id.spec.ts
     steps:
       - Send POST /categories with a unique category name and a unique slug, with the admin's token, and take the new category's id.
       - Send DELETE /categories/{categoryId} with that id, with the default user's token.
@@ -39,7 +43,8 @@ scenarios:
       - Verify the body's message is "Forbidden".
   - id: API-0227
     name: Delete category with an unknown id returns 404
-    status: manual
+    status: automated
+    automatedIn: tests/api/categories/delete-categories-by-category-id.spec.ts
     role: admin
     steps:
       - Send DELETE /categories/{categoryId} with a well-formed ULID that no category has, with the admin's token.
@@ -47,7 +52,8 @@ scenarios:
       - Verify the body's message is "Requested item not found".
   - id: API-0228
     name: Delete category that has sub-categories returns 409
-    status: manual
+    status: automated
+    automatedIn: tests/api/categories/delete-categories-by-category-id.spec.ts
     role: admin
     steps:
       - Send POST /categories with a unique category name and a unique slug, with the admin's token, and take the new category's id as the parent's id.
@@ -58,7 +64,8 @@ scenarios:
       - Verify GET /categories/tree/{categoryId} with the parent's id returns 200.
   - id: API-0229
     name: Delete category that a product uses returns 409
-    status: manual
+    status: automated
+    automatedIn: tests/api/categories/delete-categories-by-category-id.spec.ts
     role: admin
     steps:
       - Send POST /categories with a unique category name and a unique slug, with the admin's token, and take the new category's id.

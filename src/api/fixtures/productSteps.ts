@@ -1,9 +1,9 @@
 import { test, expect } from '@playwright/test';
 import type { Cleanup } from '../../fixtures/base';
 import type { ApiResponse } from '../clients/BaseClient';
-import type { ValidationErrors } from '../dto/common';
 import type { ProductsClient } from '../clients/ProductsClient';
-import type { CreateProductRequest, Product } from '../dto/product';
+import type { Paginated } from '../dto/common';
+import type { CreateProductRequest, Product, ProductDetails } from '../dto/product';
 import type { ProductsService } from '../services/ProductsService';
 import { ProductFactory, type ProductRefs } from '../../data/factories/ProductFactory';
 import { assertMessage, attachJson } from '../../utils/assertHelpers';
@@ -27,7 +27,6 @@ export async function createProductToUpdate(
   cleanup: Cleanup
 ): Promise<string> {
   let refs: ProductRefs;
-  let productId = '';
 
   await test.step(PRODUCT_LIST_STEP, async () => {
     const list = await productsService.list();
@@ -41,7 +40,23 @@ export async function createProductToUpdate(
     ).toBe(true);
   });
 
-  await test.step(PRODUCT_CREATE_STEP, async () => {
+  return createProductFromRefs(refs!, adminProductsService, cleanup);
+}
+
+/**
+ * The PRODUCT_CREATE_STEP step (or another create step with the title `title`): creates a product with the given ids of
+ * seeded records (as admin, so setup doesn't rely on writes without a token) and registers its removal right away.
+ * Returns the new product's id.
+ */
+export async function createProductFromRefs(
+  refs: ProductRefs,
+  adminProductsService: ProductsService,
+  cleanup: Cleanup,
+  title: string = PRODUCT_CREATE_STEP
+): Promise<string> {
+  let productId = '';
+
+  await test.step(title, async () => {
     const body = ProductFactory.createProduct(refs);
     await attachJson('Create Product Request', { method: 'POST', path: '/products', auth: "admin's token", body });
     const product = await adminProductsService.create(body);
@@ -72,19 +87,28 @@ export async function takeProductRefs(
   await test.step(title, async () => {
     const list = await productsService.list();
     await attachJson('List Products Response', list);
-    expect(list.data.length, assertMessage({ request: { method: 'GET', path: '/products' }, expected: 'At least one product', actual: list.total })).toBeGreaterThan(0);
-    const first = list.data[0]!;
-    refs = { brandId: first.brand?.id, categoryId: first.category?.id, productImageId: first.product_image?.id };
-    expect(
-      required.every((key) => Boolean(refs[key])),
-      assertMessage({
-        request: { method: 'GET', path: '/products' },
-        expected: `The first product has ${required.map((key) => REF_LABELS[key]).join(', ')}`,
-        actual: refs,
-      })
-    ).toBe(true);
+    refs = firstProductRefs(list, required);
   });
 
+  return refs;
+}
+
+/**
+ * The ids a "take the first item's ... ids" step takes from a GET /products page: checks that the page has an item and
+ * that the first one has the ids in `required` (default: all three), and returns its ids. Not a step.
+ */
+export function firstProductRefs(list: Paginated<Product>, required: (keyof ProductRefs)[] = ALL_REFS): Partial<ProductRefs> {
+  expect(list.data.length, assertMessage({ request: { method: 'GET', path: '/products' }, expected: 'At least one product', actual: list.total })).toBeGreaterThan(0);
+  const first = list.data[0]!;
+  const refs: Partial<ProductRefs> = { brandId: first.brand?.id, categoryId: first.category?.id, productImageId: first.product_image?.id };
+  expect(
+    required.every((key) => Boolean(refs[key])),
+    assertMessage({
+      request: { method: 'GET', path: '/products' },
+      expected: `The first product has ${required.map((key) => REF_LABELS[key]).join(', ')}`,
+      actual: refs,
+    })
+  ).toBe(true);
   return refs;
 }
 
@@ -164,10 +188,19 @@ export const FIND_PRODUCT_SPEC_STEP =
 
 /** The FIND_PRODUCT_SPEC_STEP step: returns the first spec of the first product on page 1 that has one. */
 export async function findProductSpec(productsService: ProductsService): Promise<{ specName: string; specValue: string }> {
-  let specName = '';
-  let specValue = '';
+  const product = await findProductWithSpecs(productsService, FIND_PRODUCT_SPEC_STEP);
+  return { specName: product.specs[0]!.spec_name, specValue: product.specs[0]!.spec_value };
+}
 
-  await test.step(FIND_PRODUCT_SPEC_STEP, async () => {
+/**
+ * A "Find a product with at least one spec: send GET /products/{productId} for the items of GET /products until one
+ * returns a non-empty specs array, and take ..." step (title `title`): returns the details of the first product on page 1
+ * of GET /products whose specs aren't empty.
+ */
+export async function findProductWithSpecs(productsService: ProductsService, title: string): Promise<ProductDetails> {
+  let found: ProductDetails | undefined;
+
+  await test.step(title, async () => {
     const list = await productsService.list();
     await attachJson('List Products Response', list);
     const checked: string[] = [];
@@ -176,13 +209,12 @@ export async function findProductSpec(productsService: ProductsService): Promise
       checked.push(item.id);
       if (details.specs?.length) {
         await attachJson('Get Product Response', details);
-        specName = details.specs[0]!.spec_name;
-        specValue = details.specs[0]!.spec_value;
+        found = details;
         break;
       }
     }
     expect(
-      Boolean(specName),
+      Boolean(found),
       assertMessage({
         request: { method: 'GET', path: '/products' },
         expected: 'A product on page 1 of GET /products has at least one spec',
@@ -191,7 +223,16 @@ export async function findProductSpec(productsService: ProductsService): Promise
     ).toBe(true);
   });
 
-  return { specName, specValue };
+  return found!;
+}
+
+/** Not a step: the id of the first item of GET /products, for steps that need "an existing product's id (taken from GET /products)". */
+export async function firstListedProductId(productsService: ProductsService): Promise<string> {
+  const list = await productsService.list();
+  await attachJson('List Products Response', list);
+  const id = list.data[0]?.id;
+  expect(Boolean(id), assertMessage({ request: { method: 'GET', path: '/products' }, expected: 'At least one product', actual: list.total })).toBe(true);
+  return id!;
 }
 
 /** Setup step of UI tests that need a product to buy: one nobody else can change (no seeded product, which any visitor of the demo site can). */
@@ -229,15 +270,8 @@ export async function createProductInStock(
   return product!;
 }
 
-/** The checks of a "Verify the body has a <field> key with at least one message." step. */
-export function expectFieldMessages(response: ApiResponse, field: string, request: unknown): void {
-  const body = JSON.parse(response.body) as ValidationErrors;
-  const messages = body[field];
-  expect(
-    Array.isArray(messages) && messages.length > 0,
-    assertMessage({ request, expected: `Body has a "${field}" key with at least one message`, actual: body })
-  ).toBe(true);
-}
+/** Moved to the shared checks; re-exported so existing imports from `@fixtures` keep working. */
+export { expectFieldMessages } from '../../utils/apiChecks';
 
 /** The request record that `sendCreateProduct` attaches and that assertion messages show. */
 export type CreateProductRequestInfo = { method: string; path: string; auth: string; body: unknown };

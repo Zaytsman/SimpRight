@@ -4,7 +4,8 @@ tags: ["@brands-api"]
 scenarios:
   - id: API-0130
     name: Get brand returns 200 with the brand
-    status: manual
+    status: automated
+    automatedIn: tests/api/brands/get-brands-by-brand-id.spec.ts
     steps:
       - Send GET /brands and take the first brand's id, name and slug.
       - Send GET /brands/{brandId} with that id.
@@ -12,7 +13,8 @@ scenarios:
       - Verify the body's id, name and slug equal the list item's.
   - id: API-0131
     name: Get brand with an unknown id returns 404
-    status: manual
+    status: automated
+    automatedIn: tests/api/brands/get-brands-by-brand-id.spec.ts
     steps:
       - Send GET /brands/{brandId} with a well-formed ULID that no brand has.
       - Verify the response status is 404.

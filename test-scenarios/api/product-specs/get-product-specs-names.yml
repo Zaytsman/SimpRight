@@ -4,7 +4,8 @@ tags: ["@product-specs-api"]
 scenarios:
   - id: API-0574
     name: List spec names returns 200 with names, values and units
-    status: manual
+    status: automated
+    automatedIn: tests/api/product-specs/get-product-specs-names.spec.ts
     role: guest
     steps:
       - Send GET /product-specs/names, without an Authorization header.
@@ -15,7 +16,8 @@ scenarios:
       - Verify no item's values has a repeated value.
   - id: API-0575
     name: A spec added to a product appears in the spec names
-    status: manual
+    status: automated
+    automatedIn: tests/api/product-specs/get-product-specs-names.spec.ts
     steps:
       - Send GET /products and take the first item's brand id, category id and product image id.
       - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false and is_rental false, and take the new product's id.
@@ -26,11 +28,14 @@ scenarios:
       - Verify that item's values are ["1.5"] and its unit is "kg".
   - id: API-0576
     name: A deleted spec disappears from the spec names
-    status: manual
+    status: automated
+    automatedIn: tests/api/product-specs/get-product-specs-names.spec.ts
     steps:
       - Send GET /products and take the first item's brand id, category id and product image id.
       - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false and is_rental false, and take the new product's id.
       - Send POST /products/{productId}/specs with the new product's id, a body with a unique spec_name, spec_value "1.5" and spec_unit "kg", and the default user's token, and take the new spec's id.
+      - Send GET /product-specs/names.
+      - Verify an item's name is that spec_name.
       - Send DELETE /products/{productId}/specs/{specId} with the new product's id, the new spec's id and the default user's token.
       - Send GET /product-specs/names.
       - Verify the response status is 200.
