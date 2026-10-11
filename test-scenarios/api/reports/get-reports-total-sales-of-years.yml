@@ -1,0 +1,104 @@
+# yaml-language-server: $schema=../../scenarios.schema.json
+suite: Reports API
+tags: ["@reports-api"]
+scenarios:
+  - id: API-0577
+    name: Total sales of years returns 200 with the current and the previous year
+    status: manual
+    role: admin
+    steps:
+      - Send GET /reports/total-sales-of-years with the admin's token.
+      - Verify the response status is 200.
+      - Verify the body has 2 items.
+      - Verify the items' year values are the current year minus 1 and the current year, in that order.
+      - Verify every item has a year and a total, both numbers.
+  - id: API-0578
+    name: Total sales of years with years 3 returns four years in ascending order
+    status: manual
+    role: admin
+    steps:
+      - Send GET /reports/total-sales-of-years with years 3 and the admin's token.
+      - Verify the response status is 200.
+      - Verify the body has 4 items.
+      - Verify the items' year values go up by one from the current year minus 3 to the current year.
+      - Verify every item has a year and a total, both numbers.
+  - id: API-0579
+    name: Total sales of years with years 0 returns only the current year
+    status: manual
+    role: admin
+    steps:
+      - Send GET /reports/total-sales-of-years with years 0 and the admin's token.
+      - Verify the response status is 200.
+      - Verify the body has exactly one item, whose year is the current year.
+  - id: API-0580
+    name: Total sales of years with a negative years returns an empty list
+    status: manual
+    role: admin
+    steps:
+      - Send GET /reports/total-sales-of-years with years -1 and the admin's token.
+      - Verify the response status is 200.
+      - Verify the body is an empty array.
+  - id: API-0581
+    name: Total sales of years without a token returns 401
+    status: manual
+    steps:
+      - Send GET /reports/total-sales-of-years without an Authorization header.
+      - Verify the response status is 401.
+      - Verify the body's message is "Unauthorized".
+  - id: API-0582
+    name: Total sales of years with a malformed token returns 401
+    status: manual
+    steps:
+      - Send GET /reports/total-sales-of-years with a malformed token.
+      - Verify the response status is 401.
+      - Verify the body's message is "Unauthorized".
+  - id: API-0583
+    name: Total sales of years as a customer returns 403
+    status: manual
+    steps:
+      - Send GET /reports/total-sales-of-years with the default user's token.
+      - Verify the response status is 403.
+      - Verify the body's message is "Forbidden".
+  - id: API-0584
+    name: Total sales of years with a non-numeric years does not return 500
+    status: manual
+    role: admin
+    knownIssue: Returns 500 for a non-numeric years instead of 422 or ignoring the value.
+    bug: BUG-044
+    steps:
+      - Send GET /reports/total-sales-of-years with years "abc" and the admin's token.
+      - Verify the response status is 200 or 422.
+  - id: API-0585
+    name: Total sales of years counts a completed invoice
+    status: manual
+    role: admin
+    steps:
+      - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.
+      - Send POST /users/login with that email and password, and take its access_token.
+      - Send GET /products and take the first item's id as the product's id.
+      - Send POST /carts with an empty body and take the returned id as the cart's id.
+      - Send POST /carts/{cartId} with the cart's id, the product's id as product_id and quantity 2.
+      - Send POST /invoices with that access_token, payment_method "cash-on-delivery", payment_details {}, billing_street "Stephansplatz 1", billing_city "Wien", billing_country "AT" and the cart's id as cart_id, and take the new invoice's id and total.
+      - Send PUT /invoices/{invoiceId}/status with the invoice's id, that access_token and a body with status "COMPLETED".
+      - Send GET /reports/total-sales-of-years with a years value picked at random between 20 and 99 (so the report is computed fresh, not read from the cache) and the admin's token.
+      - Verify the response status is 200.
+      - Verify the body has years + 1 items and its last item's year is the current year.
+      - Verify the last item's total is not less than the invoice's total.
+  - id: API-0586
+    name: Report requests share one rate limit counter
+    status: manual
+    steps:
+      - Send GET /reports/total-sales-of-years without an Authorization header, and note the X-RateLimit-Remaining header.
+      - Send GET /reports/top10-purchased-products without an Authorization header, and note its X-RateLimit-Remaining header.
+      - Verify both responses have status 401.
+      - Verify both responses have X-RateLimit-Limit 60.
+      - Verify the second response's X-RateLimit-Remaining is lower than the first's.
+  - id: API-0587
+    name: Report requests over 60 per minute for one user return 429
+    status: manual
+    steps:
+      - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.
+      - Send POST /users/login with that email and password, and take its access_token.
+      - Send GET /reports/total-sales-of-years 61 times in a row, within one minute, with that access_token.
+      - Verify the 61st response status is 429.
+      - Verify the 61st response body's message is "Too many requests".

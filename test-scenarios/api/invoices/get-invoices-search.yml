@@ -1,0 +1,106 @@
+# yaml-language-server: $schema=../../scenarios.schema.json
+suite: Invoices API
+tags: ["@invoices-api"]
+scenarios:
+  - id: API-0449
+    name: Search invoices by invoice number returns 200 with the matching invoice
+    status: manual
+    steps:
+      - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.
+      - Send POST /users/login with that email and password, and take its access_token.
+      - Send POST /carts with an empty body and take the returned id as the cart's id.
+      - Send POST /invoices with that access_token, payment_method "cash-on-delivery", payment_details {}, billing_street "Stephansplatz 1", billing_city "Wien", billing_country "AT" and the cart's id as cart_id, and take the new invoice's id, invoice_number and total.
+      - Send GET /invoices/search with q set to the invoice's number and that access_token.
+      - Verify the response status is 200.
+      - Verify the body has the keys current_page, data, from, last_page, per_page, to and total.
+      - Verify the body's total is 1 and data has exactly one item, whose id is the new invoice's id and invoice_number is the invoice's number.
+  - id: API-0450
+    name: Search invoices by billing street returns 200 with the matching invoice
+    status: manual
+    steps:
+      - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.
+      - Send POST /users/login with that email and password, and take its access_token.
+      - Send POST /carts with an empty body and take the returned id as the cart's id.
+      - Send POST /invoices with that access_token, payment_method "cash-on-delivery", payment_details {}, a unique billing_street of at most 70 characters, billing_city "Wien", billing_country "AT" and the cart's id as cart_id, and take the new invoice's id.
+      - Send GET /invoices/search with q set to that billing_street and that access_token.
+      - Verify the response status is 200.
+      - Verify the body's total is 1 and data has exactly one item, whose id is the new invoice's id and billing_street equals the value sent.
+  - id: API-0451
+    name: Search invoices by status returns 200 with the matching invoice
+    status: manual
+    steps:
+      - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.
+      - Send POST /users/login with that email and password, and take its access_token.
+      - Send POST /carts with an empty body and take the returned id as the cart's id.
+      - Send POST /invoices with that access_token, payment_method "cash-on-delivery", payment_details {}, billing_street "Stephansplatz 1", billing_city "Wien", billing_country "AT" and the cart's id as cart_id, and take the new invoice's id, invoice_number and total.
+      - Send PUT /invoices/{invoiceId}/status with the invoice's id, that access_token and a body with status "ON_HOLD".
+      - Send GET /invoices/search with q "ON_HOLD" and that access_token.
+      - Verify the response status is 200.
+      - Verify the body's total is 1 and data has exactly one item, whose id is the invoice's id and status is "ON_HOLD".
+  - id: API-0452
+    name: Search invoices without q returns 200 with all of the caller's invoices
+    status: manual
+    steps:
+      - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.
+      - Send POST /users/login with that email and password, and take its access_token.
+      - Send POST /carts with an empty body and take the returned id as the cart's id.
+      - Send POST /invoices with that access_token, payment_method "cash-on-delivery", payment_details {}, billing_street "Stephansplatz 1", billing_city "Wien", billing_country "AT" and the cart's id as cart_id, and take the new invoice's id, invoice_number and total.
+      - Send GET /invoices/search without q and with that access_token.
+      - Verify the response status is 200.
+      - Verify the body's total is 1 and data has exactly one item, whose id is the new invoice's id.
+  - id: API-0453
+    name: Search invoices with a term nobody matches returns 200 with an empty list
+    status: manual
+    steps:
+      - Send GET /invoices/search with q set to a unique string no invoice has and the default user's token.
+      - Verify the response status is 200.
+      - Verify the body's total is 0.
+      - Verify the body's data is an empty array.
+  - id: API-0454
+    name: Search invoices does not return another customer's invoices
+    status: manual
+    steps:
+      - Send POST /users/register with a unique email, a first name, a last name and a random strong password (customer A), and take the new user's id.
+      - Send POST /users/login with customer A's email and password, and take its access_token.
+      - Send POST /users/register with a unique email, a first name, a last name and a random strong password (customer B), and take the new user's id.
+      - Send POST /users/login with customer B's email and password, and take its access_token.
+      - Send POST /carts with an empty body and take the returned id as the cart's id.
+      - Send POST /invoices with customer A's access_token, payment_method "cash-on-delivery", payment_details {}, billing_street "Stephansplatz 1", billing_city "Wien", billing_country "AT" and the cart's id as cart_id, and take the new invoice's invoice_number.
+      - Send GET /invoices/search with q set to that invoice number and customer B's access_token.
+      - Verify the response status is 200.
+      - Verify the body's total is 0 and data is an empty array.
+  - id: API-0455
+    name: Search invoices as an admin finds a guest invoice
+    status: manual
+    role: admin
+    steps:
+      - Send POST /carts with an empty body and take the returned id as the cart's id.
+      - Send POST /invoices/guest without an Authorization header, with payment_method "cash-on-delivery", payment_details {}, billing_street "Stephansplatz 1", billing_city "Wien", billing_country "AT", the cart's id as cart_id, a unique guest_email, a guest_first_name and a guest_last_name, and take the new invoice's id and invoice_number.
+      - Send GET /invoices/search with q set to that invoice number and the admin's token.
+      - Verify the response status is 200.
+      - Verify the body's total is 1 and data has exactly one item, whose id is the new invoice's id and whose user_id is null.
+  - id: API-0456
+    name: Search invoices with a page past the last returns 200 with an empty list
+    status: manual
+    steps:
+      - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.
+      - Send POST /users/login with that email and password, and take its access_token.
+      - Send POST /carts with an empty body and take the returned id as the cart's id.
+      - Send POST /invoices with that access_token, payment_method "cash-on-delivery", payment_details {}, billing_street "Stephansplatz 1", billing_city "Wien", billing_country "AT" and the cart's id as cart_id, and take the new invoice's id, invoice_number and total.
+      - Send GET /invoices/search with q set to the invoice's number, page 2 and that access_token.
+      - Verify the response status is 200.
+      - Verify the body's data is an empty array.
+  - id: API-0457
+    name: Search invoices without a token returns 401
+    status: manual
+    steps:
+      - Send GET /invoices/search with q "INV", without an Authorization header.
+      - Verify the response status is 401.
+      - Verify the body's message is "Unauthorized".
+  - id: API-0458
+    name: Search invoices with a malformed token returns 401
+    status: manual
+    steps:
+      - Send GET /invoices/search with q "INV" and a malformed token.
+      - Verify the response status is 401.
+      - Verify the body's message is "Unauthorized".

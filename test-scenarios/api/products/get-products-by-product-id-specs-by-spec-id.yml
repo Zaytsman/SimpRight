@@ -1,0 +1,48 @@
+# yaml-language-server: $schema=../../scenarios.schema.json
+suite: Products API
+tags: ["@products-api"]
+scenarios:
+  - id: API-0548
+    name: Get a spec returns 200 and the spec
+    status: manual
+    role: guest
+    steps:
+      - "Find a product with at least one spec: send GET /products/{productId} for the items of GET /products until one returns a non-empty specs array, and take its id and its first spec's id, spec_name, spec_value and spec_unit."
+      - Send GET /products/{productId}/specs/{specId} with that product's id and that spec's id, without an Authorization header.
+      - Verify the response status is 200.
+      - Verify the body's id equals the spec's id and its product_id equals the product's id.
+      - Verify the body's spec_name, spec_value and spec_unit equal the values taken from the product.
+  - id: API-0549
+    name: Get a spec with an unknown spec id returns 404
+    status: manual
+    steps:
+      - Send GET /products and take the first item's id.
+      - Send GET /products/{productId}/specs/{specId} with that id and a well-formed ULID that no spec has.
+      - Verify the response status is 404.
+      - Verify the body's message is "Requested item not found".
+  - id: API-0550
+    name: Get a spec under another product's id returns 404
+    status: manual
+    steps:
+      - "Find a product with at least one spec: send GET /products/{productId} for the items of GET /products until one returns a non-empty specs array, and take its id and its first spec's id."
+      - Take the id of another item of GET /products that differs from that product's id.
+      - Send GET /products/{productId}/specs/{specId} with the other product's id and that spec's id.
+      - Verify the response status is 404.
+      - Verify the body's message is "Requested item not found".
+  - id: API-0551
+    name: Get a spec of an unknown product returns 404
+    status: manual
+    steps:
+      - "Find a product with at least one spec: send GET /products/{productId} for the items of GET /products until one returns a non-empty specs array, and take its first spec's id."
+      - Send GET /products/{productId}/specs/{specId} with a well-formed ULID that no product has and that spec's id.
+      - Verify the response status is 404.
+      - Verify the body's message is "Requested item not found".
+  - id: API-0552
+    name: Get a spec with lower-case ids returns the same spec
+    status: manual
+    role: guest
+    steps:
+      - "Find a product with at least one spec: send GET /products/{productId} for the items of GET /products until one returns a non-empty specs array, and take its id and its first spec's id and spec_name."
+      - Send GET /products/{productId}/specs/{specId} with the product's id and the spec's id, both in lower case, without an Authorization header.
+      - Verify the response status is 200.
+      - Verify the body's spec_name equals the taken spec_name.

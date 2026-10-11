@@ -1,0 +1,25 @@
+# yaml-language-server: $schema=./bug.schema.json
+id: BUG-045
+title: Postcode lookup keeps leading whitespace in the postcode
+status: open
+severity: minor
+layer: api
+area: postcode
+affects:
+  - GET /postcode-lookup
+found: 2026-10-11
+ref:
+  - docs/api/contracts/Postcode_API.md#1-look-up-an-address-by-postcode
+description: >-
+  The postcode format check trims the value before matching it, but the lookup and the response use it untrimmed.
+  A postcode with a leading space passes the check and comes back with the space, and the address is made from the
+  untrimmed string, so it differs from the address of the same postcode without the space. The same applies to a
+  country with leading or trailing whitespace (read from the source, not tried live). Low impact.
+steps:
+  - Send GET /postcode-lookup without an Authorization header, with country "NL", postcode " 1011AB" (a leading space, URL-encoded as %201011AB) and house_number "5".
+  - Send GET /postcode-lookup again with postcode "1011AB" and compare the two bodies.
+expected: "The postcode is trimmed everywhere: the response has postcode 1011AB and the same street, city and state as for 1011AB (or the request is rejected with 422)."
+actual: "200 with postcode \" 1011AB\" (the space kept) and a different city than for 1011AB."
+evidence: |-
+  Postcode_API.md, Notes ("Leading whitespace is accepted and echoed"): a live call with %201011AB gave 200 with
+  "postcode": " 1011AB" and yet another city than 1011AB.

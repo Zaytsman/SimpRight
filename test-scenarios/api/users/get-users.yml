@@ -1,0 +1,36 @@
+# yaml-language-server: $schema=../../scenarios.schema.json
+suite: Users API
+tags: ["@users-api"]
+scenarios:
+  - id: API-0402
+    name: List users as an admin returns 200 with a page of customers
+    status: manual
+    role: admin
+    steps:
+      - Send GET /users with the admin's token.
+      - Verify the response status is 200.
+      - Verify the body has the keys current_page, data, from, last_page, per_page, to and total, and its per_page is 15.
+      - Verify data has at most 15 items and every item's role is "user".
+  - id: API-0403
+    name: List users with page 2 returns the second page
+    status: manual
+    role: admin
+    steps:
+      - Send GET /users with page 1 and the admin's token.
+      - Send GET /users with page 2 and the admin's token.
+      - Verify the first response's current_page is 1 and the second response's current_page is 2.
+      - Verify no id appears in both pages' data.
+  - id: API-0404
+    name: List users without a token returns 401
+    status: manual
+    steps:
+      - Send GET /users without an Authorization header.
+      - Verify the response status is 401.
+      - Verify the body's message is "Unauthorized".
+  - id: API-0405
+    name: List users as a customer returns 403
+    status: manual
+    steps:
+      - Send GET /users with the default user's token.
+      - Verify the response status is 403.
+      - Verify the body's message is "Forbidden".

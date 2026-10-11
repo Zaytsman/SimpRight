@@ -1,0 +1,25 @@
+# yaml-language-server: $schema=./bug.schema.json
+id: BUG-032
+title: Any logged-in customer can search all customers' names, emails and cities
+status: open
+severity: major
+layer: api
+area: users
+affects:
+  - GET /users/search
+  - QUERY /users/search
+found: 2026-10-11
+ref:
+  - docs/api/contracts/Users_API.md#9-search-users
+  - docs/api/contracts/Users_API.md#notes
+description: >-
+  GET /users and DELETE /users/{userId} are admin only, but GET and QUERY /users/search have no role check, so any
+  customer can list other customers' first names, last names, emails and cities (15 per page).
+steps:
+  - Send GET /users/search with q set to a letter and the default user's token.
+  - 'Send QUERY /users/search with Content-Type application/json and the body { "q": "a" } and the default user''s token.'
+expected: "403, as for GET /users (the contract names no code; the user list is admin only)."
+actual: "200 with other customers' data (from the source code; not reproduced live)."
+evidence: |-
+  Users_API.md, Notes, "Search is open to every logged-in user" (read from UserController in sprint5/API):
+  the search routes have no role check.

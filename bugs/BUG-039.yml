@@ -1,0 +1,26 @@
+# yaml-language-server: $schema=./bug.schema.json
+id: BUG-039
+title: Invoice update (PUT) writes unvalidated fields such as total and user_id
+status: open
+severity: major
+layer: api
+area: invoices
+affects:
+  - PUT /invoices/{invoiceId}
+found: 2026-10-11
+ref:
+  - docs/api/contracts/Invoices_API.md#10-update-invoice
+  - docs/api/contracts/Invoices_API.md#notes
+description: >-
+  After the StoreInvoice validation, the update writes every fillable key of the body: user_id, invoice_number,
+  subtotal, total and the discount fields are not validated. A caller can change the total of their invoice or move
+  it to another user. PATCH writes only the validated keys.
+steps:
+  - Create an invoice as a customer.
+  - Send PUT /invoices/{invoiceId} with a valid body (payment_method, payment_details, billing address, cart_id) and a total different from the invoice's total.
+  - Send GET /invoices/{invoiceId} and compare the total.
+expected: "The total is not changed: only the validated billing fields are written."
+actual: "The total is changed to the value sent (from the source code; not reproduced live)."
+evidence: |-
+  Invoices_API.md, endpoint 10 and Notes, "PUT mass assignment" (read from InvoiceController and the Invoice model's
+  fillable list in sprint5/API). No token was available when the contract was written, so the call was not made live.

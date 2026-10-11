@@ -1,0 +1,51 @@
+# yaml-language-server: $schema=../../scenarios.schema.json
+suite: Products API
+tags: ["@products-api"]
+scenarios:
+  - id: API-0529
+    name: List a product's specs returns 200 and its specs
+    status: manual
+    role: guest
+    steps:
+      - "Find a product with at least one spec: send GET /products/{productId} for the items of GET /products until one returns a non-empty specs array, and take its id and its specs."
+      - Send GET /products/{productId}/specs with that id, without an Authorization header.
+      - Verify the response status is 200.
+      - Verify the body is a non-empty array.
+      - Verify every item has id, product_id, spec_name, spec_value and spec_unit, with product_id equal to that id and spec_unit a string or null.
+      - Verify the items' ids are the same set as the ids in that product's specs array.
+  - id: API-0530
+    name: List specs of a product that doesn't exist returns an empty array
+    status: manual
+    role: guest
+    steps:
+      - Send GET /products/{productId}/specs with a well-formed ULID that no product has, without an Authorization header.
+      - Verify the response status is 200.
+      - Verify the body is an empty array.
+  - id: API-0531
+    name: List specs of a product without specs returns an empty array
+    status: manual
+    steps:
+      - Send GET /products and take the first item's brand id, category id and product image id.
+      - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false and is_rental false, and take the new product's id.
+      - Send GET /products/{productId}/specs with the new product's id.
+      - Verify the response status is 200.
+      - Verify the body is an empty array.
+  - id: API-0532
+    name: List specs ignores query parameters
+    status: manual
+    role: guest
+    steps:
+      - "Find a product with at least one spec: send GET /products/{productId} for the items of GET /products until one returns a non-empty specs array, and take its id and its specs."
+      - Send GET /products/{productId}/specs with that id and take the spec ids of the body.
+      - Send GET /products/{productId}/specs with that id and the query parameter spec_name set to a value that matches none of the product's spec names.
+      - Verify the response status is 200.
+      - Verify the body's ids are the same set as without the query parameter.
+  - id: API-0533
+    name: List specs with a lower-case product id returns the same specs
+    status: manual
+    role: guest
+    steps:
+      - "Find a product with at least one spec: send GET /products/{productId} for the items of GET /products until one returns a non-empty specs array, and take its id and its specs."
+      - Send GET /products/{productId}/specs with that id in lower case.
+      - Verify the response status is 200.
+      - Verify the body's ids are the same set as the ids in that product's specs array.

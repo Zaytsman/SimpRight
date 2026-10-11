@@ -1,0 +1,29 @@
+# yaml-language-server: $schema=../../scenarios.schema.json
+suite: Invoices API
+tags: ["@invoices-api"]
+scenarios:
+  - id: API-0471
+    name: Get PDF status returns 200 with COMPLETED once the PDF is generated
+    status: manual
+    steps:
+      - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.
+      - Send POST /users/login with that email and password, and take its access_token.
+      - Send POST /carts with an empty body and take the returned id as the cart's id.
+      - Send POST /invoices with that access_token, payment_method "cash-on-delivery", payment_details {}, billing_street "Stephansplatz 1", billing_city "Wien", billing_country "AT" and the cart's id as cart_id, and take the new invoice's id, invoice_number and total.
+      - Send GET /invoices/{invoice_number}/download-pdf-status with the invoice's number and that access_token, and repeat every few seconds until the response status is 200 and the body's status is COMPLETED (the PDF jobs run every minute, so allow a few minutes).
+      - Verify the last response's status is 200.
+      - Verify the body's status is "COMPLETED".
+  - id: API-0472
+    name: Get PDF status without a token returns 401
+    status: manual
+    steps:
+      - Send GET /invoices/{invoice_number}/download-pdf-status with a well-formed invoice number, without an Authorization header.
+      - Verify the response status is 401.
+      - Verify the body's message is "Unauthorized".
+  - id: API-0473
+    name: Get PDF status with an unknown invoice number returns 400 with NOT_INITIATED
+    status: manual
+    steps:
+      - Send GET /invoices/{invoice_number}/download-pdf-status with a well-formed invoice number that no invoice has and the default user's token.
+      - Verify the response status is 400.
+      - Verify the body's status is "NOT_INITIATED".

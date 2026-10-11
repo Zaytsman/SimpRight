@@ -1,0 +1,253 @@
+# yaml-language-server: $schema=../../scenarios.schema.json
+suite: Payment API
+tags: ["@payment-api"]
+scenarios:
+  - id: API-0614
+    name: Check bank transfer details returns 200
+    status: manual
+    role: guest
+    steps:
+      - 'Send POST /payment/check without an Authorization header, with payment_method "bank-transfer" and payment_details { bank_name: "Test Bank", account_name: "Jane Doe", account_number: "123456789" }.'
+      - Verify the response status is 200.
+      - Verify the body's message is "Payment was successful".
+  - id: API-0615
+    name: Check credit card details returns 200
+    status: manual
+    role: guest
+    steps:
+      - 'Send POST /payment/check without an Authorization header, with payment_method "credit-card" and payment_details { credit_card_number: "1234-5678-9101-1121", expiration_date: the same month next year in m/Y form, cvv: "123", card_holder_name: "Jane Doe" }.'
+      - Verify the response status is 200.
+      - Verify the body's message is "Payment was successful".
+  - id: API-0616
+    name: Check buy now pay later details returns 200
+    status: manual
+    role: guest
+    steps:
+      - 'Send POST /payment/check without an Authorization header, with payment_method "buy-now-pay-later" and payment_details { monthly_installments: 6 }.'
+      - Verify the response status is 200.
+      - Verify the body's message is "Payment was successful".
+  - id: API-0617
+    name: Check gift card details returns 200
+    status: manual
+    role: guest
+    steps:
+      - 'Send POST /payment/check without an Authorization header, with payment_method "gift-card" and payment_details { gift_card_number: "ABCD1234efgh5678", validation_code: "1a2B" }.'
+      - Verify the response status is 200.
+      - Verify the body's message is "Payment was successful".
+  - id: API-0618
+    name: Check cash on delivery with empty payment details returns 200
+    status: manual
+    role: guest
+    steps:
+      - Send POST /payment/check without an Authorization header, with payment_method "cash-on-delivery" and payment_details as an empty object.
+      - Verify the response status is 200.
+      - Verify the body's message is "Payment was successful".
+  - id: API-0619
+    name: Check payment with Accept text/xml returns the answer as XML
+    status: manual
+    role: guest
+    steps:
+      - 'Send POST /payment/check without an Authorization header, with Accept: text/xml, payment_method "gift-card" and payment_details { gift_card_number: "ABCD1234efgh5678", validation_code: "1a2B" }.'
+      - Verify the response status is 200.
+      - Verify the Content-Type header starts with "text/xml".
+      - 'Verify the body is <response><message>Payment was successful</message></response>.'
+  - id: API-0620
+    name: Check payment with an invalid token returns 200
+    status: manual
+    role: guest
+    steps:
+      - Send POST /payment/check with an Authorization header holding an invalid token (a made-up string, not issued by the API), payment_method "cash-on-delivery" and payment_details as an empty object.
+      - Verify the response status is 200.
+      - Verify the body's message is "Payment was successful".
+  - id: API-0621
+    name: Check bank transfer without payment details returns 422 for every field
+    status: manual
+    role: guest
+    steps:
+      - Send POST /payment/check without an Authorization header, with payment_method "bank-transfer" and no payment_details.
+      - Verify the response status is 422.
+      - Verify the body's errors has the keys payment_details.bank_name, payment_details.account_name and payment_details.account_number, each with at least one message.
+      - Verify the body's message is "The payment details.bank name field is required. (and 2 more errors)".
+  - id: API-0622
+    name: Check credit card without payment details returns 422 for every field
+    status: manual
+    role: guest
+    steps:
+      - Send POST /payment/check without an Authorization header, with payment_method "credit-card" and no payment_details.
+      - Verify the response status is 422.
+      - Verify the body's errors has the keys payment_details.credit_card_number, payment_details.expiration_date, payment_details.cvv and payment_details.card_holder_name, each with at least one message.
+  - id: API-0623
+    name: Check buy now pay later without payment details returns 422
+    status: manual
+    role: guest
+    steps:
+      - Send POST /payment/check without an Authorization header, with payment_method "buy-now-pay-later" and no payment_details.
+      - Verify the response status is 422.
+      - Verify the body's errors has the key payment_details.monthly_installments with at least one message.
+  - id: API-0624
+    name: Check gift card without payment details returns 422 for every field
+    status: manual
+    role: guest
+    steps:
+      - Send POST /payment/check without an Authorization header, with payment_method "gift-card" and no payment_details.
+      - Verify the response status is 422.
+      - Verify the body's errors has the keys payment_details.gift_card_number and payment_details.validation_code, each with at least one message.
+  - id: API-0625
+    name: Check bank transfer with payment_details that is not an object returns 422
+    status: manual
+    role: guest
+    steps:
+      - Send POST /payment/check without an Authorization header, with payment_method "bank-transfer" and payment_details "abc" (a string, not an object).
+      - Verify the response status is 422.
+      - Verify the body's errors has the keys payment_details.bank_name, payment_details.account_name and payment_details.account_number, each with at least one message.
+  - id: API-0626
+    name: Check bank transfer with digits in the bank name returns 422
+    status: manual
+    role: guest
+    steps:
+      - 'Send POST /payment/check without an Authorization header, with payment_method "bank-transfer" and payment_details { bank_name: "Bank123", account_name: "Jane Doe", account_number: "123456789" }.'
+      - Verify the response status is 422.
+      - Verify the body's errors has the key payment_details.bank_name with at least one message.
+      - Verify the body's errors has no other keys.
+  - id: API-0627
+    name: Check bank transfer with disallowed characters in the account name returns 422
+    status: manual
+    role: guest
+    steps:
+      - 'Send POST /payment/check without an Authorization header, with payment_method "bank-transfer" and payment_details { bank_name: "Test Bank", account_name: "Jane@Doe!", account_number: "123456789" }.'
+      - Verify the response status is 422.
+      - Verify the body's errors has the key payment_details.account_name with at least one message.
+      - Verify the body's errors has no other keys.
+  - id: API-0628
+    name: Check bank transfer with letters in the account number returns 422
+    status: manual
+    role: guest
+    steps:
+      - 'Send POST /payment/check without an Authorization header, with payment_method "bank-transfer" and payment_details { bank_name: "Test Bank", account_name: "Jane Doe", account_number: "12AB34" }.'
+      - Verify the response status is 422.
+      - Verify the body's errors has the key payment_details.account_number with at least one message.
+      - Verify the body's errors has no other keys.
+  - id: API-0629
+    name: Check bank transfer with a bank name over 255 characters returns 422
+    status: manual
+    role: guest
+    steps:
+      - 'Send POST /payment/check without an Authorization header, with payment_method "bank-transfer" and payment_details { bank_name: a string of 256 letters, account_name: "Jane Doe", account_number: "123456789" }.'
+      - Verify the response status is 422.
+      - Verify the body's errors has the key payment_details.bank_name with at least one message.
+      - Verify the body's errors has no other keys.
+  - id: API-0630
+    name: Check credit card number without dashes returns 422
+    status: manual
+    role: guest
+    steps:
+      - 'Send POST /payment/check without an Authorization header, with payment_method "credit-card" and payment_details { credit_card_number: "1234567891011121", expiration_date: the same month next year in m/Y form, cvv: "123", card_holder_name: "Jane Doe" }.'
+      - Verify the response status is 422.
+      - Verify the body's errors has the key payment_details.credit_card_number with at least one message.
+      - Verify the body's errors has no other keys.
+  - id: API-0631
+    name: Check credit card with an expiration date in the past returns 422
+    status: manual
+    role: guest
+    steps:
+      - 'Send POST /payment/check without an Authorization header, with payment_method "credit-card" and payment_details { credit_card_number: "1234-5678-9101-1121", expiration_date: the same month one year ago in m/Y form, cvv: "123", card_holder_name: "Jane Doe" }.'
+      - Verify the response status is 422.
+      - Verify the body's errors has the key payment_details.expiration_date with at least one message.
+      - Verify that message contains "must be a date after today".
+      - Verify the body's errors has no other keys.
+  - id: API-0632
+    name: Check credit card expiring in the current month returns 422
+    status: manual
+    role: guest
+    steps:
+      - 'Send POST /payment/check without an Authorization header, with payment_method "credit-card" and payment_details { credit_card_number: "1234-5678-9101-1121", expiration_date: the current month in m/Y form, cvv: "123", card_holder_name: "Jane Doe" }.'
+      - Verify the response status is 422.
+      - Verify the body's errors has the key payment_details.expiration_date with at least one message.
+      - Verify that message contains "must be a date after today".
+  - id: API-0633
+    name: Check credit card with an expiration date in the wrong format returns 422
+    status: manual
+    role: guest
+    steps:
+      - 'Send POST /payment/check without an Authorization header, with payment_method "credit-card" and payment_details { credit_card_number: "1234-5678-9101-1121", expiration_date: "2099-12", cvv: "123", card_holder_name: "Jane Doe" }.'
+      - Verify the response status is 422.
+      - Verify the body's errors has the key payment_details.expiration_date with at least one message.
+      - Verify that message contains "must match the format m/Y".
+      - Verify the body's errors has no other keys.
+  - id: API-0634
+    name: Check credit card with a 2-digit cvv returns 422
+    status: manual
+    role: guest
+    steps:
+      - 'Send POST /payment/check without an Authorization header, with payment_method "credit-card" and payment_details { credit_card_number: "1234-5678-9101-1121", expiration_date: the same month next year in m/Y form, cvv: "12", card_holder_name: "Jane Doe" }.'
+      - Verify the response status is 422.
+      - Verify the body's errors has the key payment_details.cvv with at least one message.
+      - Verify the body's errors has no other keys.
+  - id: API-0635
+    name: Check credit card with digits in the card holder name returns 422
+    status: manual
+    role: guest
+    steps:
+      - 'Send POST /payment/check without an Authorization header, with payment_method "credit-card" and payment_details { credit_card_number: "1234-5678-9101-1121", expiration_date: the same month next year in m/Y form, cvv: "123", card_holder_name: "John123" }.'
+      - Verify the response status is 422.
+      - Verify the body's errors has the key payment_details.card_holder_name with at least one message.
+      - Verify the body's errors has no other keys.
+  - id: API-0636
+    name: Check buy now pay later with a non-numeric installments value returns 422
+    status: manual
+    role: guest
+    steps:
+      - 'Send POST /payment/check without an Authorization header, with payment_method "buy-now-pay-later" and payment_details { monthly_installments: "abc" }.'
+      - Verify the response status is 422.
+      - Verify the body's errors has the key payment_details.monthly_installments with at least one message.
+      - Verify that message contains "must be a number".
+  - id: API-0637
+    name: Check gift card with a 15-character card number returns 422
+    status: manual
+    role: guest
+    steps:
+      - 'Send POST /payment/check without an Authorization header, with payment_method "gift-card" and payment_details { gift_card_number: a string of 15 letters and digits, validation_code: "1a2B" }.'
+      - Verify the response status is 422.
+      - Verify the body's errors has the key payment_details.gift_card_number with at least one message.
+      - Verify the body's errors has no other keys.
+  - id: API-0638
+    name: Check gift card with a 3-character validation code returns 422
+    status: manual
+    role: guest
+    steps:
+      - 'Send POST /payment/check without an Authorization header, with payment_method "gift-card" and payment_details { gift_card_number: "ABCD1234efgh5678", validation_code: "1a2" }.'
+      - Verify the response status is 422.
+      - Verify the body's errors has the key payment_details.validation_code with at least one message.
+      - Verify the body's errors has no other keys.
+  - id: API-0639
+    name: Check invalid payment details without Accept application/json returns a 302 redirect
+    status: manual
+    role: guest
+    steps:
+      - Send POST /payment/check without an Authorization header, without following redirects and with the Accept header left out, with payment_method "bank-transfer" and no payment_details.
+      - Verify the response status is 302.
+      - Verify the Location header is "https://api.practicesoftwaretesting.com".
+  - id: API-0640
+    name: Check invalid payment details with Accept text/xml returns a 302 redirect
+    status: manual
+    role: guest
+    steps:
+      - 'Send POST /payment/check without an Authorization header, without following redirects and with Accept: text/xml, with payment_method "bank-transfer" and no payment_details.'
+      - Verify the response status is 302.
+      - Verify the Location header is "https://api.practicesoftwaretesting.com".
+  - id: API-0641
+    name: Check payment with a payment method in a different case skips validation and returns 200
+    status: manual
+    role: guest
+    steps:
+      - Send POST /payment/check without an Authorization header, with payment_method "Bank Transfer" and no payment_details.
+      - Verify the response status is 200.
+      - Verify the body's message is "Payment was successful".
+  - id: API-0642
+    name: Check payment with an empty body returns 200
+    status: manual
+    role: guest
+    steps:
+      - Send POST /payment/check without an Authorization header, with an empty JSON object as the body.
+      - Verify the response status is 200.
+      - Verify the body's message is "Payment was successful".

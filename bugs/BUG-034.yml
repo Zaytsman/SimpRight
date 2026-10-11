@@ -1,0 +1,23 @@
+# yaml-language-server: $schema=./bug.schema.json
+id: BUG-034
+title: Updating an unknown user returns 403 instead of 404
+status: open
+severity: minor
+layer: api
+area: users
+affects:
+  - PUT /users/{userId}
+  - PATCH /users/{userId}
+found: 2026-10-11
+ref:
+  - docs/api/contracts/Users_API.md#12-update-user
+  - docs/api/contracts/Users_API.md#13-partially-update-user
+description: >-
+  PUT and PATCH /users/{userId} answer 403 { error: string } when no user has the id, even for an admin, so a client
+  can't tell a missing user from a missing permission.
+steps:
+  - Send PATCH /users/{userId} with a well-formed ULID that no user has, first_name set to a new value and the admin's token.
+expected: 404, as GET /users/{userId} returns for an unknown id.
+actual: '403 with { error: string } (from the source code; not reproduced live).'
+evidence: |-
+  Users_API.md, endpoints 12 and 13 (read from UserController in sprint5/API): an unknown id gives 403.

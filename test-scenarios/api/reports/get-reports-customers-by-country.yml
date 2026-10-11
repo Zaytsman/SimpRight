@@ -1,0 +1,35 @@
+# yaml-language-server: $schema=../../scenarios.schema.json
+suite: Reports API
+tags: ["@reports-api"]
+scenarios:
+  - id: API-0600
+    name: Customers by country returns 200 with a customer count per country
+    status: manual
+    role: admin
+    steps:
+      - Send GET /reports/customers-by-country with the admin's token.
+      - Verify the response status is 200.
+      - Verify the body is an array with at least one item.
+      - Verify every item has an amount (a number) and a country (a string).
+      - Verify no country appears twice.
+  - id: API-0601
+    name: Customers by country without a token returns 401
+    status: manual
+    steps:
+      - Send GET /reports/customers-by-country without an Authorization header.
+      - Verify the response status is 401.
+      - Verify the body's message is "Unauthorized".
+  - id: API-0602
+    name: Customers by country with a malformed token returns 401
+    status: manual
+    steps:
+      - Send GET /reports/customers-by-country with a malformed token.
+      - Verify the response status is 401.
+      - Verify the body's message is "Unauthorized".
+  - id: API-0603
+    name: Customers by country as a customer returns 403
+    status: manual
+    steps:
+      - Send GET /reports/customers-by-country with the default user's token.
+      - Verify the response status is 403.
+      - Verify the body's message is "Forbidden".

@@ -1,0 +1,35 @@
+# yaml-language-server: $schema=../../scenarios.schema.json
+suite: Reports API
+tags: ["@reports-api"]
+scenarios:
+  - id: API-0596
+    name: Top 10 best selling categories returns 200 with at most ten categories, highest total first
+    status: manual
+    role: admin
+    steps:
+      - Send GET /reports/top10-best-selling-categories with the admin's token.
+      - Verify the response status is 200.
+      - Verify the body is an array with at least one and at most 10 items.
+      - Verify every item has category_name (a string) and total_earned (a number or a numeric string).
+      - Verify each item's total_earned, compared as a number, is not greater than the previous item's.
+  - id: API-0597
+    name: Top 10 best selling categories without a token returns 401
+    status: manual
+    steps:
+      - Send GET /reports/top10-best-selling-categories without an Authorization header.
+      - Verify the response status is 401.
+      - Verify the body's message is "Unauthorized".
+  - id: API-0598
+    name: Top 10 best selling categories with a malformed token returns 401
+    status: manual
+    steps:
+      - Send GET /reports/top10-best-selling-categories with a malformed token.
+      - Verify the response status is 401.
+      - Verify the body's message is "Unauthorized".
+  - id: API-0599
+    name: Top 10 best selling categories as a customer returns 403
+    status: manual
+    steps:
+      - Send GET /reports/top10-best-selling-categories with the default user's token.
+      - Verify the response status is 403.
+      - Verify the body's message is "Forbidden".

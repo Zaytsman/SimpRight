@@ -1,0 +1,83 @@
+# yaml-language-server: $schema=../../scenarios.schema.json
+suite: Users API
+tags: ["@users-api"]
+scenarios:
+  - id: API-0406
+    name: Search users by first name returns 200 with the matching customer
+    status: manual
+    role: admin
+    steps:
+      - Send POST /users/register with a unique email, a unique first name of at most 40 characters, a last name and a random strong password, and take the new user's id.
+      - Send GET /users/search with q set to that first name and the admin's token.
+      - Verify the response status is 200.
+      - Verify the body has the keys current_page, data, from, last_page, per_page, to and total.
+      - Verify the body's total is 1 and data has exactly one item, whose id is the new user's id and whose first_name and email equal the registered values.
+  - id: API-0407
+    name: Search users by email returns 200 with the matching customer
+    status: manual
+    role: admin
+    steps:
+      - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.
+      - Send GET /users/search with q set to the registered email and the admin's token.
+      - Verify the response status is 200.
+      - Verify the body's total is 1 and data has exactly one item, whose id is the new user's id.
+  - id: API-0408
+    name: Search users by last name returns 200 with the matching customer
+    status: manual
+    role: admin
+    steps:
+      - Send POST /users/register with a unique email, a first name, a unique last name of at most 20 characters and a random strong password, and take the new user's id.
+      - Send GET /users/search with q set to that last name and the admin's token.
+      - Verify the response status is 200.
+      - Verify the body's total is 1 and data has exactly one item, whose id is the new user's id.
+  - id: API-0409
+    name: Search users by city returns 200 with the matching customer
+    status: manual
+    role: admin
+    steps:
+      - Send POST /users/register with a unique email, a first name, a last name, a random strong password and an address with only a unique city of at most 40 characters, and take the new user's id.
+      - Send GET /users/search with q set to that city and the admin's token.
+      - Verify the response status is 200.
+      - Verify the body's total is 1 and data has exactly one item, whose id is the new user's id.
+  - id: API-0410
+    name: Search users with a term nobody matches returns 200 with an empty list
+    status: manual
+    role: admin
+    steps:
+      - Send GET /users/search with q set to a unique string no customer has and the admin's token.
+      - Verify the response status is 200.
+      - Verify the body's total is 0.
+      - Verify the body's data is an empty array.
+  - id: API-0411
+    name: Search users without q returns 200 with customers
+    status: manual
+    role: admin
+    steps:
+      - Send GET /users/search without q and with the admin's token.
+      - Verify the response status is 200.
+      - Verify the body's per_page is 15 and data is not empty.
+      - Verify every item's role is "user".
+  - id: API-0412
+    name: Search users with page 2 returns the second page
+    status: manual
+    role: admin
+    steps:
+      - Send GET /users/search with page 1 and the admin's token.
+      - Send GET /users/search with page 2 and the admin's token.
+      - Verify the first response's current_page is 1 and the second response's current_page is 2.
+      - Verify no id appears in both pages' data.
+  - id: API-0413
+    name: Search users without a token returns 401
+    status: manual
+    steps:
+      - Send GET /users/search with q set to a letter, without an Authorization header.
+      - Verify the response status is 401.
+      - Verify the body's message is "Unauthorized".
+  - id: API-0414
+    name: Search users as a customer returns 403
+    status: manual
+    knownIssue: Returns 200 with other customers' names, emails and cities instead of rejecting a customer (403, like GET /users).
+    bug: BUG-032
+    steps:
+      - Send GET /users/search with q set to a letter and the default user's token.
+      - Verify the response status is 403.

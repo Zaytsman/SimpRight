@@ -1,0 +1,51 @@
+# yaml-language-server: $schema=../../scenarios.schema.json
+suite: Products API
+tags: ["@products-api"]
+scenarios:
+  - id: API-0569
+    name: Delete a spec returns 204 and the spec is gone
+    status: manual
+    steps:
+      - Send GET /products and take the first item's brand id, category id and product image id.
+      - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false and is_rental false, and take the new product's id.
+      - Send POST /products/{productId}/specs with the new product's id, a body with a unique spec_name, spec_value "1.5" and spec_unit "kg", and the default user's token, and take the new spec's id.
+      - Send DELETE /products/{productId}/specs/{specId} with the new product's id, the new spec's id and the default user's token.
+      - Verify the response status is 204.
+      - Verify GET /products/{productId}/specs/{specId} with the new product's id and the new spec's id returns 404.
+  - id: API-0570
+    name: Delete a spec without a token returns 401
+    status: manual
+    steps:
+      - Send GET /products and take the first item's brand id, category id and product image id.
+      - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false and is_rental false, and take the new product's id.
+      - Send POST /products/{productId}/specs with the new product's id, a body with a unique spec_name, spec_value "1.5" and spec_unit "kg", and the default user's token, and take the new spec's id.
+      - Send DELETE /products/{productId}/specs/{specId} with the new product's id and the new spec's id, without an Authorization header.
+      - Verify the response status is 401.
+      - Verify the body's message is "Unauthorized".
+  - id: API-0571
+    name: Delete a spec with an invalid token returns 401
+    status: manual
+    steps:
+      - Send GET /products and take the first item's brand id, category id and product image id.
+      - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false and is_rental false, and take the new product's id.
+      - Send POST /products/{productId}/specs with the new product's id, a body with a unique spec_name, spec_value "1.5" and spec_unit "kg", and the default user's token, and take the new spec's id.
+      - Send DELETE /products/{productId}/specs/{specId} with the new product's id and the new spec's id, with an invalid token.
+      - Verify the response status is 401.
+      - Verify the body's message is "Unauthorized".
+  - id: API-0572
+    name: Delete a spec under another product's id returns 204 and deletes nothing
+    status: manual
+    steps:
+      - Send GET /products and take the first item's brand id, category id and product image id, and the id of another item.
+      - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false and is_rental false, and take the new product's id.
+      - Send POST /products/{productId}/specs with the new product's id, a body with a unique spec_name, spec_value "1.5" and spec_unit "kg", and the default user's token, and take the new spec's id.
+      - Send DELETE /products/{productId}/specs/{specId} with the other item's id, the new spec's id and the default user's token.
+      - Verify the response status is 204.
+      - Verify GET /products/{productId}/specs/{specId} with the new product's id and the new spec's id returns 200.
+  - id: API-0573
+    name: Delete a spec with an unknown spec id returns 204
+    status: manual
+    steps:
+      - Send GET /products and take the first item's id.
+      - Send DELETE /products/{productId}/specs/{specId} with that id, a well-formed ULID that no spec has and the default user's token.
+      - Verify the response status is 204.

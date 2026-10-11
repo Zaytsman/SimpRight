@@ -1,0 +1,26 @@
+# yaml-language-server: $schema=./bug.schema.json
+id: BUG-042
+title: QUERY /invoices/search with a non-JSON Content-Type returns 500 instead of 415
+status: open
+severity: minor
+layer: api
+area: invoices
+affects:
+  - QUERY /invoices/search
+found: 2026-10-11
+ref:
+  - docs/api/contracts/Invoices_API.md#3-search-invoices-http-query
+  - docs/api/contracts/Invoices_API.md#notes
+description: >-
+  The source of HandleQueryMethod aborts with 415 when a QUERY request's Content-Type is not JSON, and the same 415
+  was verified for QUERY /products/search on 2026-10-01. On 2026-10-10 the live API answered 500 with an empty
+  text/html body for QUERY /invoices/search, with or without a body, with or without Accept. It may be a deployment
+  change and is not determined yet.
+steps:
+  - 'Send QUERY /invoices/search with Content-Type: text/plain, Accept: application/json and a plain-text body, without a token.'
+expected: "415 (the source aborts with \"QUERY requests must use Content-Type: application/json\")."
+actual: "500 with an empty text/html body (observed live on 2026-10-10 by the contract writer, without a token)."
+evidence: |-
+  Invoices_API.md, endpoint 3 and Notes, "QUERY with a non-JSON content type": four calls to QUERY /invoices/search
+  (text/plain with a body, with and without Accept, and no body, twice) and one to QUERY /products/search without a
+  body, all 500 with an empty text/html body, 2026-10-10. Re-check with /report-bug recheck.

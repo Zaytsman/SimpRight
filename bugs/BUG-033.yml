@@ -1,0 +1,27 @@
+# yaml-language-server: $schema=./bug.schema.json
+id: BUG-033
+title: A customer can change their own enabled, failed_login_attempts and totp fields with PATCH
+status: open
+severity: major
+layer: api
+area: users
+affects:
+  - PATCH /users/{userId}
+found: 2026-10-11
+ref:
+  - docs/api/contracts/Users_API.md#13-partially-update-user
+  - docs/api/contracts/Users_API.md#notes
+description: >-
+  PATCH /users/{userId} validates and saves enabled, failed_login_attempts and the totp_* fields for the user's own
+  record, although they are account-state fields that /users/me hides from customers. A customer can reset their
+  own login lockout counter or change their two-factor settings.
+steps:
+  - Register a throwaway customer and log in.
+  - Send GET /users/{userId} with the new customer's id and the admin's token, and note failed_login_attempts.
+  - Send PATCH /users/{userId} with that id, the customer's token and failed_login_attempts 2.
+  - Send GET /users/{userId} with the admin's token again.
+expected: The value is rejected or ignored, so failed_login_attempts is unchanged.
+actual: 'The value is saved (from the source code; not reproduced live).'
+evidence: |-
+  Users_API.md, Notes, "Self-service account flags" (read from the PATCH form request in sprint5/API):
+  enabled, failed_login_attempts and the totp_* fields have rules and are saved.

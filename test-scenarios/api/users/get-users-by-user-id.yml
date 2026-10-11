@@ -1,0 +1,49 @@
+# yaml-language-server: $schema=../../scenarios.schema.json
+suite: Users API
+tags: ["@users-api"]
+scenarios:
+  - id: API-0420
+    name: Get user with the customer's own id returns 200 without the admin-only fields
+    status: manual
+    steps:
+      - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.
+      - Send POST /users/login with that email and password, and take its access_token.
+      - Send GET /users/{userId} with that id and access_token.
+      - Verify the response status is 200.
+      - Verify the body's id equals the new user's id, and its email, first_name and last_name equal the registered values.
+      - Verify the body has no role, enabled or failed_login_attempts key.
+  - id: API-0421
+    name: Get user as an admin returns 200 with the admin-only fields
+    status: manual
+    role: admin
+    steps:
+      - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.
+      - Send GET /users/{userId} with that id and the admin's token.
+      - Verify the response status is 200.
+      - Verify the body's id equals the new user's id and its role is "user".
+      - Verify the body's enabled is a boolean and failed_login_attempts is a number.
+  - id: API-0422
+    name: Get user without a token returns 401
+    status: manual
+    steps:
+      - Send GET /users/{userId} with a well-formed ULID that no user has, without an Authorization header.
+      - Verify the response status is 401.
+      - Verify the body's message is "Unauthorized".
+  - id: API-0423
+    name: Get user with an unknown id returns 404
+    status: manual
+    role: admin
+    steps:
+      - Send GET /users/{userId} with a well-formed ULID that no user has and the admin's token.
+      - Verify the response status is 404.
+      - Verify the body's error is a non-empty string.
+  - id: API-0424
+    name: Get user with another customer's id returns 404
+    status: manual
+    steps:
+      - Send POST /users/register with a unique email, a first name, a last name and a random strong password (customer A).
+      - Send POST /users/register with a unique email, a first name, a last name and a random strong password (customer B), and take B's id.
+      - Send POST /users/login with customer A's email and password, and take its access_token.
+      - Send GET /users/{userId} with customer B's id and customer A's access_token.
+      - Verify the response status is 404.
+      - Verify the body's error is a non-empty string.
