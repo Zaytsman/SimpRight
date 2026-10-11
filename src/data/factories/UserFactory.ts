@@ -1,3 +1,4 @@
+import { randomInt } from 'node:crypto';
 import type { RegisterAddress, RegisterUserRequest, UpdateUserRequest } from '@api/dto/user';
 import { randomTotpSecret } from '../../utils/totp';
 import { uniqueName } from './testDataUtils';
@@ -72,7 +73,7 @@ export const UserFactory = {
 
   /** A password of 10 random lower-case letters only (no upper case, number or symbol), which the password rules reject. */
   weakPassword(): string {
-    return Array.from(crypto.getRandomValues(new Uint8Array(10)), (byte) => String.fromCharCode(97 + (byte % 26))).join('');
+    return Array.from({ length: 10 }, () => String.fromCharCode(97 + randomInt(26))).join('');
   },
 
   /** A text of exactly `length` letters, for the too-long name checks. */
@@ -92,13 +93,12 @@ export const UserFactory = {
       options.symbol ? '!#$%&*+-=?@^_~' : '',
     ].filter((chars) => chars.length > 0);
     if (classes.length === 0 || classes.length > options.length) throw new Error('passwordOf: no class asked for, or more classes than characters');
-    const random = (max: number): number => crypto.getRandomValues(new Uint32Array(1))[0]! % max;
-    const pick = (chars: string): string => chars[random(chars.length)]!;
+    const pick = (chars: string): string => chars[randomInt(chars.length)]!;
     const all = classes.join('');
     const chars = [...classes.map(pick), ...Array.from({ length: options.length - classes.length }, () => pick(all))];
     // Shuffle, so the required classes aren't always at the start.
     for (let i = chars.length - 1; i > 0; i--) {
-      const j = random(i + 1);
+      const j = randomInt(i + 1);
       [chars[i], chars[j]] = [chars[j]!, chars[i]!];
     }
     return chars.join('');
