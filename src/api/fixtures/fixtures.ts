@@ -2,6 +2,8 @@ import { test as base } from '../../fixtures/base';
 import { AuthClient } from '../clients/AuthClient';
 import { CartsClient } from '../clients/CartsClient';
 import { FavoritesClient } from '../clients/FavoritesClient';
+import { PaymentClient } from '../clients/PaymentClient';
+import { PostcodeClient } from '../clients/PostcodeClient';
 import { ProductsClient } from '../clients/ProductsClient';
 import { UsersClient } from '../clients/UsersClient';
 import { ProductsService } from '../services/ProductsService';
@@ -47,6 +49,14 @@ export type ApiFixtures = {
   cartsService: CartsService;
   /** Builds a favorites service for a token the test obtained itself (the favourites of that token's user). */
   favoritesServiceForToken: (token: string) => FavoritesService;
+  /** Public: POST /payment/check needs no token. */
+  paymentClient: PaymentClient;
+  /** Sends a fixed malformed bearer token (`INVALID_TOKEN`), for the checks that the payment check ignores it. */
+  paymentClientWithInvalidToken: PaymentClient;
+  /** Public: GET /postcode-lookup needs no token. */
+  postcodeClient: PostcodeClient;
+  /** Sends a fixed malformed bearer token (`INVALID_TOKEN`), for the checks that the postcode lookup ignores it. */
+  postcodeClientWithInvalidToken: PostcodeClient;
 };
 
 export const test = base.extend<ApiFixtures>({
@@ -108,6 +118,20 @@ export const test = base.extend<ApiFixtures>({
 
   favoritesServiceForToken: async ({ request, config }, use) => {
     await use((token: string) => new FavoritesService(new FavoritesClient(request, config, token)));
+  },
+
+  paymentClient: async ({ request, config }, use) => {
+    await use(new PaymentClient(request, config));
+  },
+  paymentClientWithInvalidToken: async ({ request, config }, use) => {
+    await use(new PaymentClient(request, config, INVALID_TOKEN));
+  },
+
+  postcodeClient: async ({ request, config }, use) => {
+    await use(new PostcodeClient(request, config));
+  },
+  postcodeClientWithInvalidToken: async ({ request, config }, use) => {
+    await use(new PostcodeClient(request, config, INVALID_TOKEN));
   },
 });
 

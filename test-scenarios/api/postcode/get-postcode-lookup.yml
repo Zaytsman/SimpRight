@@ -4,7 +4,8 @@ tags: ["@postcode-api"]
 scenarios:
   - id: API-0643
     name: Look up a Dutch postcode returns the address
-    status: manual
+    status: automated
+    automatedIn: tests/api/postcode/get-postcode-lookup.spec.ts
     role: guest
     steps:
       - Send GET /postcode-lookup without an Authorization header, with country "NL", postcode "1011AB" and house_number "5".
@@ -16,7 +17,8 @@ scenarios:
       - Verify the body's house_number is "5".
   - id: API-0644
     name: Look up without a house number returns a generated one
-    status: manual
+    status: automated
+    automatedIn: tests/api/postcode/get-postcode-lookup.spec.ts
     role: guest
     steps:
       - Send GET /postcode-lookup without an Authorization header, with country "NL" and postcode "1011AB" and no house_number.
@@ -24,7 +26,8 @@ scenarios:
       - Verify the body's house_number is a string holding a whole number from 1 to 250.
   - id: API-0645
     name: Look up with an empty house number returns the same address as without one
-    status: manual
+    status: automated
+    automatedIn: tests/api/postcode/get-postcode-lookup.spec.ts
     role: guest
     steps:
       - Send GET /postcode-lookup without an Authorization header, with country "NL" and postcode "1011AB" and no house_number.
@@ -33,7 +36,8 @@ scenarios:
       - Verify the second body equals the first body.
   - id: API-0646
     name: Look up with different house numbers returns the same locality
-    status: manual
+    status: automated
+    automatedIn: tests/api/postcode/get-postcode-lookup.spec.ts
     role: guest
     steps:
       - Send GET /postcode-lookup without an Authorization header, with country "NL", postcode "1011AB" and house_number "5".
@@ -43,7 +47,8 @@ scenarios:
       - Verify each body's house_number is the number that request sent.
   - id: API-0647
     name: Look up with lower-case country and postcode returns them in upper case with the same locality
-    status: manual
+    status: automated
+    automatedIn: tests/api/postcode/get-postcode-lookup.spec.ts
     role: guest
     steps:
       - Send GET /postcode-lookup without an Authorization header, with country "NL", postcode "1011AB" and house_number "5".
@@ -54,7 +59,8 @@ scenarios:
       - Verify the second body's street, city and state equal the first body's.
   - id: API-0648
     name: Look up a Dutch postcode with a space returns 200 and echoes the space
-    status: manual
+    status: automated
+    automatedIn: tests/api/postcode/get-postcode-lookup.spec.ts
     role: guest
     steps:
       - Send GET /postcode-lookup without an Authorization header, with country "NL", postcode "1011 AB" (a space between the digits and the letters) and house_number "5".
@@ -63,7 +69,8 @@ scenarios:
       - Verify the body's postcode is "1011 AB".
   - id: API-0649
     name: Look up a US postcode with the four-digit extension returns 200
-    status: manual
+    status: automated
+    automatedIn: tests/api/postcode/get-postcode-lookup.spec.ts
     role: guest
     steps:
       - Send GET /postcode-lookup without an Authorization header, with country "US", postcode "90210-1234" and house_number "5".
@@ -72,7 +79,8 @@ scenarios:
       - Verify the body's postcode is "90210-1234".
   - id: API-0650
     name: Look up a French postcode returns an empty state
-    status: manual
+    status: automated
+    automatedIn: tests/api/postcode/get-postcode-lookup.spec.ts
     role: guest
     steps:
       - Send GET /postcode-lookup without an Authorization header, with country "FR", postcode "75001" and house_number "5".
@@ -82,7 +90,8 @@ scenarios:
       - Verify the body's state is an empty string.
   - id: API-0651
     name: Look up with a country that has no known format skips the postcode format check
-    status: manual
+    status: automated
+    automatedIn: tests/api/postcode/get-postcode-lookup.spec.ts
     role: guest
     steps:
       - Send GET /postcode-lookup without an Authorization header, with country "ZZ" (not in the contract's country list), postcode "1011" and house_number "5".
@@ -92,7 +101,8 @@ scenarios:
       - Verify the body's house_number is "5".
   - id: API-0652
     name: Look up with country, postcode and house number at their length limits returns 200
-    status: manual
+    status: automated
+    automatedIn: tests/api/postcode/get-postcode-lookup.spec.ts
     role: guest
     steps:
       - Send GET /postcode-lookup without an Authorization header, with country a string of 40 letters, postcode "90210-1234" (10 characters) and house_number "ABCDEFGHIJ" (10 characters).
@@ -102,7 +112,8 @@ scenarios:
       - Verify the body's house_number is "ABCDEFGHIJ".
   - id: API-0653
     name: Look up with Accept text/xml still returns JSON
-    status: manual
+    status: automated
+    automatedIn: tests/api/postcode/get-postcode-lookup.spec.ts
     role: guest
     steps:
       - 'Send GET /postcode-lookup without an Authorization header, with Accept: text/xml, country "NL", postcode "1011AB" and house_number "5".'
@@ -112,7 +123,8 @@ scenarios:
       - Verify the body's country is "NL".
   - id: API-0654
     name: Look up with an invalid token returns 200
-    status: manual
+    status: automated
+    automatedIn: tests/api/postcode/get-postcode-lookup.spec.ts
     role: guest
     steps:
       - Send GET /postcode-lookup with an Authorization header holding an invalid token (a made-up string, not issued by the API), country "NL", postcode "1011AB" and house_number "5".
@@ -120,7 +132,8 @@ scenarios:
       - Verify the body's country is "NL".
   - id: API-0655
     name: Look up without country and postcode returns 422 for both
-    status: manual
+    status: automated
+    automatedIn: tests/api/postcode/get-postcode-lookup.spec.ts
     role: guest
     steps:
       - 'Send GET /postcode-lookup without an Authorization header, with Accept: application/json and no country, postcode or house_number.'
@@ -130,7 +143,8 @@ scenarios:
       - Verify the body's message is "The country field is required. (and 1 more error)".
   - id: API-0656
     name: Look up with empty country and postcode returns 422 for both
-    status: manual
+    status: automated
+    automatedIn: tests/api/postcode/get-postcode-lookup.spec.ts
     role: guest
     steps:
       - 'Send GET /postcode-lookup without an Authorization header, with Accept: application/json, an empty country (`country=`) and an empty postcode (`postcode=`).'
@@ -139,7 +153,8 @@ scenarios:
       - Verify the body's errors has no other keys.
   - id: API-0657
     name: Look up without a postcode returns 422 before the format check
-    status: manual
+    status: automated
+    automatedIn: tests/api/postcode/get-postcode-lookup.spec.ts
     role: guest
     steps:
       - 'Send GET /postcode-lookup without an Authorization header, with Accept: application/json, country "AT" and no postcode.'
@@ -148,7 +163,8 @@ scenarios:
       - Verify the body's errors has no other keys.
   - id: API-0658
     name: Look up with country sent as an array returns 422
-    status: manual
+    status: automated
+    automatedIn: tests/api/postcode/get-postcode-lookup.spec.ts
     role: guest
     steps:
       - 'Send GET /postcode-lookup without an Authorization header, with Accept: application/json, country sent as an array (`country[]=NL`) and postcode "1011AB".'
@@ -157,7 +173,8 @@ scenarios:
       - Verify the body's errors has no other keys.
   - id: API-0659
     name: Look up with a 41-character country returns 422
-    status: manual
+    status: automated
+    automatedIn: tests/api/postcode/get-postcode-lookup.spec.ts
     role: guest
     steps:
       - 'Send GET /postcode-lookup without an Authorization header, with Accept: application/json, country a string of 41 letters and postcode "1011AB".'
@@ -166,7 +183,8 @@ scenarios:
       - Verify the body's errors has no other keys.
   - id: API-0660
     name: Look up with an 11-character postcode returns 422
-    status: manual
+    status: automated
+    automatedIn: tests/api/postcode/get-postcode-lookup.spec.ts
     role: guest
     steps:
       - 'Send GET /postcode-lookup without an Authorization header, with Accept: application/json, country "ZZ" and postcode a string of 11 digits.'
@@ -175,7 +193,8 @@ scenarios:
       - Verify the body's errors has no other keys.
   - id: API-0661
     name: Look up with an 11-character house number returns 422
-    status: manual
+    status: automated
+    automatedIn: tests/api/postcode/get-postcode-lookup.spec.ts
     role: guest
     steps:
       - 'Send GET /postcode-lookup without an Authorization header, with Accept: application/json, country "NL", postcode "1011AB" and house_number a string of 11 digits.'
@@ -184,7 +203,8 @@ scenarios:
       - Verify the body's errors has no other keys.
   - id: API-0662
     name: Look up an Austrian postcode in the Dutch format returns 422
-    status: manual
+    status: automated
+    automatedIn: tests/api/postcode/get-postcode-lookup.spec.ts
     role: guest
     steps:
       - 'Send GET /postcode-lookup without an Authorization header, with Accept: application/json, country "AT" and postcode "1011AB".'
@@ -193,7 +213,8 @@ scenarios:
       - Verify the body has no errors key.
   - id: API-0663
     name: Look up a Dutch postcode with digits only returns 422
-    status: manual
+    status: automated
+    automatedIn: tests/api/postcode/get-postcode-lookup.spec.ts
     role: guest
     steps:
       - 'Send GET /postcode-lookup without an Authorization header, with Accept: application/json, country "NL" and postcode "1011".'
@@ -202,7 +223,8 @@ scenarios:
       - Verify the body has no errors key.
   - id: API-0664
     name: Look up a postcode in the wrong format without Accept still returns a JSON 422
-    status: manual
+    status: automated
+    automatedIn: tests/api/postcode/get-postcode-lookup.spec.ts
     role: guest
     steps:
       - Send GET /postcode-lookup without an Authorization header, without following redirects and with the Accept header left out, with country "AT" and postcode "1011AB".
@@ -211,7 +233,8 @@ scenarios:
       - Verify the body's message is "The postal code format is not valid for the selected country.".
   - id: API-0665
     name: Look up without country and postcode and without Accept returns a 302 redirect
-    status: manual
+    status: automated
+    automatedIn: tests/api/postcode/get-postcode-lookup.spec.ts
     role: guest
     steps:
       - Send GET /postcode-lookup without an Authorization header, without a Referer header, without following redirects and with the Accept header left out, with no country, postcode or house_number.
@@ -219,7 +242,8 @@ scenarios:
       - Verify the Location header is "https://api.practicesoftwaretesting.com".
   - id: API-0666
     name: Look up without country and postcode with Accept */* returns a 302 redirect
-    status: manual
+    status: automated
+    automatedIn: tests/api/postcode/get-postcode-lookup.spec.ts
     role: guest
     steps:
       - 'Send GET /postcode-lookup without an Authorization header, without a Referer header, without following redirects and with Accept: */*, with no country, postcode or house_number.'
@@ -228,7 +252,8 @@ scenarios:
   - id: API-0667
     name: Look up a postcode with a leading space returns it trimmed
     ref: BUG-045
-    status: manual
+    status: automated
+    automatedIn: tests/api/postcode/get-postcode-lookup.spec.ts
     role: guest
     knownIssue: Echoes a postcode with leading whitespace untrimmed and builds the address from the untrimmed value, although the format check trims it.
     bug: BUG-045
