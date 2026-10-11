@@ -2,8 +2,8 @@
 window.BUG_CATALOG = {
  "title": "Bugs",
  "prefix": "BUG",
- "generatedAt": "2026-10-11T14:21:25.386Z",
- "commit": "42d7b32371863fbce1d5c4f0c02fd731fdd3d642",
+ "generatedAt": "2026-10-11T15:48:43.529Z",
+ "commit": "bdddb4bc1dfb72878914a72e3f60dd34efe446a9",
  "repoUrl": "https://github.com/Zaytsman/SimpRight",
  "branch": "main",
  "bugsDir": "bugs",
@@ -129,7 +129,9 @@ window.BUG_CATALOG = {
      "layer": "api",
      "area": "brands",
      "file": "test-scenarios/api/brands/patch-brands-by-brand-id.yml",
-     "status": "manual",
+     "status": "automated",
+     "automatedIn": "tests/api/brands/patch-brands-by-brand-id.spec.ts",
+     "specLine": 166,
      "knownIssue": "Accepts PATCH without a token instead of returning 401."
     },
     {
@@ -138,7 +140,9 @@ window.BUG_CATALOG = {
      "layer": "api",
      "area": "brands",
      "file": "test-scenarios/api/brands/post-brands.yml",
-     "status": "manual",
+     "status": "automated",
+     "automatedIn": "tests/api/brands/post-brands.spec.ts",
+     "specLine": 255,
      "knownIssue": "Accepts POST without a token instead of returning 401."
     },
     {
@@ -147,7 +151,9 @@ window.BUG_CATALOG = {
      "layer": "api",
      "area": "brands",
      "file": "test-scenarios/api/brands/put-brands-by-brand-id.yml",
-     "status": "manual",
+     "status": "automated",
+     "automatedIn": "tests/api/brands/put-brands-by-brand-id.spec.ts",
+     "specLine": 172,
      "knownIssue": "Accepts PUT without a token instead of returning 401."
     }
    ]
@@ -187,7 +193,9 @@ window.BUG_CATALOG = {
      "layer": "api",
      "area": "categories",
      "file": "test-scenarios/api/categories/patch-categories-by-category-id.yml",
-     "status": "manual",
+     "status": "automated",
+     "automatedIn": "tests/api/categories/patch-categories-by-category-id.spec.ts",
+     "specLine": 236,
      "knownIssue": "Accepts PATCH without a token instead of returning 401."
     },
     {
@@ -196,7 +204,9 @@ window.BUG_CATALOG = {
      "layer": "api",
      "area": "categories",
      "file": "test-scenarios/api/categories/post-categories.yml",
-     "status": "manual",
+     "status": "automated",
+     "automatedIn": "tests/api/categories/post-categories.spec.ts",
+     "specLine": 344,
      "knownIssue": "Accepts POST without a token instead of returning 401."
     },
     {
@@ -205,7 +215,9 @@ window.BUG_CATALOG = {
      "layer": "api",
      "area": "categories",
      "file": "test-scenarios/api/categories/put-categories-by-category-id.yml",
-     "status": "manual",
+     "status": "automated",
+     "automatedIn": "tests/api/categories/put-categories-by-category-id.spec.ts",
+     "specLine": 321,
      "knownIssue": "Accepts PUT without a token instead of returning 401."
     }
    ]
@@ -533,7 +545,9 @@ window.BUG_CATALOG = {
      "layer": "api",
      "area": "brands",
      "file": "test-scenarios/api/brands/get-brands-search.yml",
-     "status": "manual",
+     "status": "automated",
+     "automatedIn": "tests/api/brands/get-brands-search.spec.ts",
+     "specLine": 103,
      "knownIssue": "Returns 500 instead of 422 when q is sent as an array."
     },
     {
@@ -542,7 +556,9 @@ window.BUG_CATALOG = {
      "layer": "api",
      "area": "brands",
      "file": "test-scenarios/api/brands/query-brands-search.yml",
-     "status": "manual",
+     "status": "automated",
+     "automatedIn": "tests/api/brands/query-brands-search.spec.ts",
+     "specLine": 95,
      "knownIssue": "Returns 500 instead of 422 when q is sent as an array."
     }
    ]
@@ -583,7 +599,9 @@ window.BUG_CATALOG = {
      "layer": "api",
      "area": "categories",
      "file": "test-scenarios/api/categories/patch-categories-by-category-id.yml",
-     "status": "manual",
+     "status": "automated",
+     "automatedIn": "tests/api/categories/patch-categories-by-category-id.spec.ts",
+     "specLine": 212,
      "knownIssue": "Returns 500 instead of 422 when parent_id is not the id of an existing category."
     },
     {
@@ -592,7 +610,9 @@ window.BUG_CATALOG = {
      "layer": "api",
      "area": "categories",
      "file": "test-scenarios/api/categories/post-categories.yml",
-     "status": "manual",
+     "status": "automated",
+     "automatedIn": "tests/api/categories/post-categories.spec.ts",
+     "specLine": 329,
      "knownIssue": "Returns 500 instead of 422 when parent_id is not the id of an existing category."
     },
     {
@@ -601,7 +621,9 @@ window.BUG_CATALOG = {
      "layer": "api",
      "area": "categories",
      "file": "test-scenarios/api/categories/put-categories-by-category-id.yml",
-     "status": "manual",
+     "status": "automated",
+     "automatedIn": "tests/api/categories/put-categories-by-category-id.spec.ts",
+     "specLine": 297,
      "knownIssue": "Returns 500 instead of 422 when parent_id is not the id of an existing category."
     }
    ]
@@ -639,7 +661,9 @@ window.BUG_CATALOG = {
      "layer": "api",
      "area": "categories",
      "file": "test-scenarios/api/categories/get-categories-tree.yml",
-     "status": "manual",
+     "status": "automated",
+     "automatedIn": "tests/api/categories/get-categories-tree.spec.ts",
+     "specLine": 118,
      "knownIssue": "Returns 500 instead of 422 when by_category_slug is sent as an array."
     },
     {
@@ -648,7 +672,9 @@ window.BUG_CATALOG = {
      "layer": "api",
      "area": "categories",
      "file": "test-scenarios/api/categories/query-categories-tree.yml",
-     "status": "manual",
+     "status": "automated",
+     "automatedIn": "tests/api/categories/query-categories-tree.spec.ts",
+     "specLine": 114,
      "knownIssue": "Returns 500 instead of 422 when by_category_slug is sent as an array."
     }
    ]
@@ -686,7 +712,9 @@ window.BUG_CATALOG = {
      "layer": "api",
      "area": "categories",
      "file": "test-scenarios/api/categories/get-categories-search.yml",
-     "status": "manual",
+     "status": "automated",
+     "automatedIn": "tests/api/categories/get-categories-search.spec.ts",
+     "specLine": 112,
      "knownIssue": "Returns 500 instead of 422 when q is sent as an array."
     },
     {
@@ -695,7 +723,9 @@ window.BUG_CATALOG = {
      "layer": "api",
      "area": "categories",
      "file": "test-scenarios/api/categories/query-categories-search.yml",
-     "status": "manual",
+     "status": "automated",
+     "automatedIn": "tests/api/categories/query-categories-search.spec.ts",
+     "specLine": 100,
      "knownIssue": "Returns 500 instead of 422 when q is sent as an array."
     }
    ]
@@ -1185,7 +1215,9 @@ window.BUG_CATALOG = {
      "layer": "api",
      "area": "brands",
      "file": "test-scenarios/api/brands/patch-brands-by-brand-id.yml",
-     "status": "manual",
+     "status": "automated",
+     "automatedIn": "tests/api/brands/patch-brands-by-brand-id.spec.ts",
+     "specLine": 140,
      "knownIssue": "Returns 409 instead of 200 when the body repeats the brand's own slug."
     }
    ]
@@ -1225,7 +1257,9 @@ window.BUG_CATALOG = {
      "layer": "api",
      "area": "brands",
      "file": "test-scenarios/api/brands/get-brands-search.yml",
-     "status": "manual",
+     "status": "automated",
+     "automatedIn": "tests/api/brands/get-brands-search.spec.ts",
+     "specLine": 120,
      "knownIssue": "Returns the cached search result instead of the new brand for a term searched before the brand was created."
     }
    ]
@@ -1262,7 +1296,9 @@ window.BUG_CATALOG = {
      "layer": "api",
      "area": "categories",
      "file": "test-scenarios/api/categories/patch-categories-by-category-id.yml",
-     "status": "manual",
+     "status": "automated",
+     "automatedIn": "tests/api/categories/patch-categories-by-category-id.spec.ts",
+     "specLine": 178,
      "knownIssue": "Returns 409 instead of 200 when the body repeats the category's own slug."
     }
    ]
@@ -1305,7 +1341,9 @@ window.BUG_CATALOG = {
      "layer": "api",
      "area": "categories",
      "file": "test-scenarios/api/categories/get-categories-search.yml",
-     "status": "manual",
+     "status": "automated",
+     "automatedIn": "tests/api/categories/get-categories-search.spec.ts",
+     "specLine": 129,
      "knownIssue": "Returns the cached search result instead of the new category for a term searched before the category was created."
     },
     {
@@ -1314,7 +1352,9 @@ window.BUG_CATALOG = {
      "layer": "api",
      "area": "categories",
      "file": "test-scenarios/api/categories/get-categories-tree-by-category-id.yml",
-     "status": "manual",
+     "status": "automated",
+     "automatedIn": "tests/api/categories/get-categories-tree-by-category-id.spec.ts",
+     "specLine": 108,
      "knownIssue": "Returns the cached category without a sub-category created after the category was first read."
     }
    ]
@@ -1760,7 +1800,9 @@ window.BUG_CATALOG = {
      "layer": "api",
      "area": "products",
      "file": "test-scenarios/api/products/post-products-by-product-id-specs.yml",
-     "status": "manual",
+     "status": "automated",
+     "automatedIn": "tests/api/products/post-products-by-product-id-specs.spec.ts",
+     "specLine": 367,
      "knownIssue": "Returns 500 instead of 404 for an unknown product id."
     }
    ]
@@ -1871,7 +1913,9 @@ window.BUG_CATALOG = {
      "layer": "api",
      "area": "brands",
      "file": "test-scenarios/api/brands/put-brands-by-brand-id.yml",
-     "status": "manual",
+     "status": "automated",
+     "automatedIn": "tests/api/brands/put-brands-by-brand-id.spec.ts",
+     "specLine": 150,
      "knownIssue": "Returns { message: \"Duplicate Entry\" } instead of the slug's validation message for a duplicate slug."
     }
    ]
@@ -1908,7 +1952,9 @@ window.BUG_CATALOG = {
      "layer": "api",
      "area": "categories",
      "file": "test-scenarios/api/categories/put-categories-by-category-id.yml",
-     "status": "manual",
+     "status": "automated",
+     "automatedIn": "tests/api/categories/put-categories-by-category-id.spec.ts",
+     "specLine": 272,
      "knownIssue": "Returns { message: \"Duplicate Entry\" } instead of the slug's validation message for a duplicate slug."
     }
    ]

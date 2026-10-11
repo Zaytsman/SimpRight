@@ -3,17 +3,17 @@ window.SCENARIO_CATALOG = {
  "layer": "api",
  "title": "API Test Cases",
  "prefix": "API",
- "generatedAt": "2026-10-11T14:21:25.017Z",
- "commit": "42d7b32371863fbce1d5c4f0c02fd731fdd3d642",
+ "generatedAt": "2026-10-11T15:48:42.863Z",
+ "commit": "bdddb4bc1dfb72878914a72e3f60dd34efe446a9",
  "repoUrl": "https://github.com/Zaytsman/SimpRight",
  "branch": "main",
  "workflowUrl": "https://github.com/Zaytsman/SimpRight/actions/workflows/custom-api-tests.yml",
  "stats": {
   "total": 667,
-  "automated": 251,
-  "manual": 416,
+  "automated": 410,
+  "manual": 257,
   "knownIssues": 65,
-  "automatedPct": 38
+  "automatedPct": 61
  },
  "tree": [
   {
@@ -1700,8 +1700,9 @@ window.SCENARIO_CATALOG = {
  "scenarios": [
   {
    "id": "API-0119",
-   "name": "List brands returns every brand",
-   "status": "manual",
+   "name": "List brands returns the brands",
+   "status": "automated",
+   "automatedIn": "tests/api/brands/get-brands.spec.ts",
    "steps": [
     "Send GET /brands.",
     "Verify the response status is 200.",
@@ -1709,6 +1710,7 @@ window.SCENARIO_CATALOG = {
     "Verify every item has a non-empty string id, name and slug."
    ],
    "ref": [],
+   "specLine": 10,
    "area": "brands",
    "areaLabel": "Brands",
    "file": "test-scenarios/api/brands/get-brands.yml",
@@ -1717,12 +1719,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@brands-api"
    ],
-   "yaml": "- id: API-0119\n  name: List brands returns every brand\n  status: manual\n  steps:\n    - Send GET /brands.\n    - Verify the response status is 200.\n    - Verify the body is a non-empty array.\n    - Verify every item has a non-empty string id, name and slug."
+   "yaml": "- id: API-0119\n  name: List brands returns the brands\n  status: automated\n  automatedIn: tests/api/brands/get-brands.spec.ts\n  steps:\n    - Send GET /brands.\n    - Verify the response status is 200.\n    - Verify the body is a non-empty array.\n    - Verify every item has a non-empty string id, name and slug."
   },
   {
    "id": "API-0120",
    "name": "Create brand returns 201 with the new brand",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/brands/post-brands.spec.ts",
    "role": "admin",
    "steps": [
     "Send POST /brands with a unique brand name and a unique slug, with the admin's token, and take the new brand's id.",
@@ -1732,6 +1735,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /brands/{brandId} with the new id returns 200 with the same name and slug."
    ],
    "ref": [],
+   "specLine": 50,
    "area": "brands",
    "areaLabel": "Brands",
    "file": "test-scenarios/api/brands/post-brands.yml",
@@ -1740,12 +1744,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@brands-api"
    ],
-   "yaml": "- id: API-0120\n  name: Create brand returns 201 with the new brand\n  status: manual\n  role: admin\n  steps:\n    - Send POST /brands with a unique brand name and a unique slug, with the admin's token, and take the new brand's id.\n    - Verify the response status is 201.\n    - Verify the body's name and slug equal the values sent.\n    - Verify the body has a non-empty id.\n    - Verify GET /brands/{brandId} with the new id returns 200 with the same name and slug."
+   "yaml": "- id: API-0120\n  name: Create brand returns 201 with the new brand\n  status: automated\n  automatedIn: tests/api/brands/post-brands.spec.ts\n  role: admin\n  steps:\n    - Send POST /brands with a unique brand name and a unique slug, with the admin's token, and take the new brand's id.\n    - Verify the response status is 201.\n    - Verify the body's name and slug equal the values sent.\n    - Verify the body has a non-empty id.\n    - Verify GET /brands/{brandId} with the new id returns 200 with the same name and slug."
   },
   {
    "id": "API-0121",
    "name": "Create brand without the required fields returns 422 for each of them",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/brands/post-brands.spec.ts",
    "steps": [
     "Send POST /brands with an empty JSON object as the body.",
     "Verify the response status is 422.",
@@ -1753,6 +1758,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's name messages include \"The name field is required.\" and its slug messages include \"The slug field is required.\"."
    ],
    "ref": [],
+   "specLine": 119,
    "area": "brands",
    "areaLabel": "Brands",
    "file": "test-scenarios/api/brands/post-brands.yml",
@@ -1761,18 +1767,20 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@brands-api"
    ],
-   "yaml": "- id: API-0121\n  name: Create brand without the required fields returns 422 for each of them\n  status: manual\n  steps:\n    - Send POST /brands with an empty JSON object as the body.\n    - Verify the response status is 422.\n    - Verify the body has the keys name and slug, each with at least one message.\n    - Verify the body's name messages include \"The name field is required.\" and its slug messages include \"The slug field is required.\"."
+   "yaml": "- id: API-0121\n  name: Create brand without the required fields returns 422 for each of them\n  status: automated\n  automatedIn: tests/api/brands/post-brands.spec.ts\n  steps:\n    - Send POST /brands with an empty JSON object as the body.\n    - Verify the response status is 422.\n    - Verify the body has the keys name and slug, each with at least one message.\n    - Verify the body's name messages include \"The name field is required.\" and its slug messages include \"The slug field is required.\"."
   },
   {
    "id": "API-0122",
    "name": "Create brand with a slug outside letters, digits, dashes and underscores returns 422",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/brands/post-brands.spec.ts",
    "steps": [
     "Send POST /brands with a unique brand name and a slug made of a unique slug followed by \" x!\" (a space and an exclamation mark).",
     "Verify the response status is 422.",
     "Verify the body has a slug key with at least one message."
    ],
    "ref": [],
+   "specLine": 142,
    "area": "brands",
    "areaLabel": "Brands",
    "file": "test-scenarios/api/brands/post-brands.yml",
@@ -1781,18 +1789,20 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@brands-api"
    ],
-   "yaml": "- id: API-0122\n  name: Create brand with a slug outside letters, digits, dashes and underscores returns 422\n  status: manual\n  steps:\n    - Send POST /brands with a unique brand name and a slug made of a unique slug followed by \" x!\" (a space and an exclamation mark).\n    - Verify the response status is 422.\n    - Verify the body has a slug key with at least one message."
+   "yaml": "- id: API-0122\n  name: Create brand with a slug outside letters, digits, dashes and underscores returns 422\n  status: automated\n  automatedIn: tests/api/brands/post-brands.spec.ts\n  steps:\n    - Send POST /brands with a unique brand name and a slug made of a unique slug followed by \" x!\" (a space and an exclamation mark).\n    - Verify the response status is 422.\n    - Verify the body has a slug key with at least one message."
   },
   {
    "id": "API-0123",
    "name": "Create brand with a name longer than 120 characters returns 422",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/brands/post-brands.spec.ts",
    "steps": [
     "Send POST /brands with a 121-character name that starts with a unique brand name, and a unique slug.",
     "Verify the response status is 422.",
     "Verify the body has a name key with at least one message."
    ],
    "ref": [],
+   "specLine": 160,
    "area": "brands",
    "areaLabel": "Brands",
    "file": "test-scenarios/api/brands/post-brands.yml",
@@ -1801,18 +1811,20 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@brands-api"
    ],
-   "yaml": "- id: API-0123\n  name: Create brand with a name longer than 120 characters returns 422\n  status: manual\n  steps:\n    - Send POST /brands with a 121-character name that starts with a unique brand name, and a unique slug.\n    - Verify the response status is 422.\n    - Verify the body has a name key with at least one message."
+   "yaml": "- id: API-0123\n  name: Create brand with a name longer than 120 characters returns 422\n  status: automated\n  automatedIn: tests/api/brands/post-brands.spec.ts\n  steps:\n    - Send POST /brands with a 121-character name that starts with a unique brand name, and a unique slug.\n    - Verify the response status is 422.\n    - Verify the body has a name key with at least one message."
   },
   {
    "id": "API-0124",
    "name": "Create brand with a slug longer than 120 characters returns 422",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/brands/post-brands.spec.ts",
    "steps": [
     "Send POST /brands with a unique brand name and a 121-character slug that starts with a unique slug and contains only letters, digits and dashes.",
     "Verify the response status is 422.",
     "Verify the body has a slug key with at least one message."
    ],
    "ref": [],
+   "specLine": 178,
    "area": "brands",
    "areaLabel": "Brands",
    "file": "test-scenarios/api/brands/post-brands.yml",
@@ -1821,18 +1833,20 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@brands-api"
    ],
-   "yaml": "- id: API-0124\n  name: Create brand with a slug longer than 120 characters returns 422\n  status: manual\n  steps:\n    - Send POST /brands with a unique brand name and a 121-character slug that starts with a unique slug and contains only letters, digits and dashes.\n    - Verify the response status is 422.\n    - Verify the body has a slug key with at least one message."
+   "yaml": "- id: API-0124\n  name: Create brand with a slug longer than 120 characters returns 422\n  status: automated\n  automatedIn: tests/api/brands/post-brands.spec.ts\n  steps:\n    - Send POST /brands with a unique brand name and a 121-character slug that starts with a unique slug and contains only letters, digits and dashes.\n    - Verify the response status is 422.\n    - Verify the body has a slug key with at least one message."
   },
   {
    "id": "API-0125",
    "name": "Create brand with a subscript character in the name returns 422",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/brands/post-brands.spec.ts",
    "steps": [
     "Send POST /brands with a unique brand name followed by a Unicode subscript character, and a unique slug.",
     "Verify the response status is 422.",
     "Verify the body has a name key with at least one message."
    ],
    "ref": [],
+   "specLine": 199,
    "area": "brands",
    "areaLabel": "Brands",
    "file": "test-scenarios/api/brands/post-brands.yml",
@@ -1841,12 +1855,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@brands-api"
    ],
-   "yaml": "- id: API-0125\n  name: Create brand with a subscript character in the name returns 422\n  status: manual\n  steps:\n    - Send POST /brands with a unique brand name followed by a Unicode subscript character, and a unique slug.\n    - Verify the response status is 422.\n    - Verify the body has a name key with at least one message."
+   "yaml": "- id: API-0125\n  name: Create brand with a subscript character in the name returns 422\n  status: automated\n  automatedIn: tests/api/brands/post-brands.spec.ts\n  steps:\n    - Send POST /brands with a unique brand name followed by a Unicode subscript character, and a unique slug.\n    - Verify the response status is 422.\n    - Verify the body has a name key with at least one message."
   },
   {
    "id": "API-0126",
    "name": "Create brand with an existing slug returns 409",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/brands/post-brands.spec.ts",
    "steps": [
     "Send GET /brands and take the first brand's slug.",
     "Send POST /brands with a unique brand name and that slug.",
@@ -1854,6 +1869,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's slug messages include \"A brand already exists with this slug.\"."
    ],
    "ref": [],
+   "specLine": 217,
    "area": "brands",
    "areaLabel": "Brands",
    "file": "test-scenarios/api/brands/post-brands.yml",
@@ -1862,12 +1878,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@brands-api"
    ],
-   "yaml": "- id: API-0126\n  name: Create brand with an existing slug returns 409\n  status: manual\n  steps:\n    - Send GET /brands and take the first brand's slug.\n    - Send POST /brands with a unique brand name and that slug.\n    - Verify the response status is 409.\n    - Verify the body's slug messages include \"A brand already exists with this slug.\"."
+   "yaml": "- id: API-0126\n  name: Create brand with an existing slug returns 409\n  status: automated\n  automatedIn: tests/api/brands/post-brands.spec.ts\n  steps:\n    - Send GET /brands and take the first brand's slug.\n    - Send POST /brands with a unique brand name and that slug.\n    - Verify the response status is 409.\n    - Verify the body's slug messages include \"A brand already exists with this slug.\"."
   },
   {
    "id": "API-0127",
    "name": "Create brand with an existing slug and a too-long name returns 422",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/brands/post-brands.spec.ts",
    "steps": [
     "Send GET /brands and take the first brand's slug.",
     "Send POST /brands with a 121-character name that starts with a unique brand name, and that slug.",
@@ -1875,6 +1892,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body has a name key with at least one message."
    ],
    "ref": [],
+   "specLine": 236,
    "area": "brands",
    "areaLabel": "Brands",
    "file": "test-scenarios/api/brands/post-brands.yml",
@@ -1883,12 +1901,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@brands-api"
    ],
-   "yaml": "- id: API-0127\n  name: Create brand with an existing slug and a too-long name returns 422\n  status: manual\n  steps:\n    - Send GET /brands and take the first brand's slug.\n    - Send POST /brands with a 121-character name that starts with a unique brand name, and that slug.\n    - Verify the response status is 422.\n    - Verify the body has a name key with at least one message."
+   "yaml": "- id: API-0127\n  name: Create brand with an existing slug and a too-long name returns 422\n  status: automated\n  automatedIn: tests/api/brands/post-brands.spec.ts\n  steps:\n    - Send GET /brands and take the first brand's slug.\n    - Send POST /brands with a 121-character name that starts with a unique brand name, and that slug.\n    - Verify the response status is 422.\n    - Verify the body has a name key with at least one message."
   },
   {
    "id": "API-0128",
    "name": "Create brand ignores fields other than name and slug",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/brands/post-brands.spec.ts",
    "role": "admin",
    "steps": [
     "Send POST /brands with a unique brand name, a unique slug and a description field set to \"ignored\", with the admin's token, and take the new brand's id.",
@@ -1897,6 +1916,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /brands/{brandId} with the new id has no description key."
    ],
    "ref": [],
+   "specLine": 85,
    "area": "brands",
    "areaLabel": "Brands",
    "file": "test-scenarios/api/brands/post-brands.yml",
@@ -1905,12 +1925,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@brands-api"
    ],
-   "yaml": "- id: API-0128\n  name: Create brand ignores fields other than name and slug\n  status: manual\n  role: admin\n  steps:\n    - Send POST /brands with a unique brand name, a unique slug and a description field set to \"ignored\", with the admin's token, and take the new brand's id.\n    - Verify the response status is 201.\n    - Verify the body has the keys id, name and slug only.\n    - Verify GET /brands/{brandId} with the new id has no description key."
+   "yaml": "- id: API-0128\n  name: Create brand ignores fields other than name and slug\n  status: automated\n  automatedIn: tests/api/brands/post-brands.spec.ts\n  role: admin\n  steps:\n    - Send POST /brands with a unique brand name, a unique slug and a description field set to \"ignored\", with the admin's token, and take the new brand's id.\n    - Verify the response status is 201.\n    - Verify the body has the keys id, name and slug only.\n    - Verify GET /brands/{brandId} with the new id has no description key."
   },
   {
    "id": "API-0129",
    "name": "Create brand without a token returns 401",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/brands/post-brands.spec.ts",
    "knownIssue": "Accepts POST without a token instead of returning 401.",
    "bug": "BUG-009",
    "steps": [
@@ -1918,6 +1939,7 @@ window.SCENARIO_CATALOG = {
     "Verify the response status is 401."
    ],
    "ref": [],
+   "specLine": 255,
    "area": "brands",
    "areaLabel": "Brands",
    "file": "test-scenarios/api/brands/post-brands.yml",
@@ -1926,12 +1948,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@brands-api"
    ],
-   "yaml": "- id: API-0129\n  name: Create brand without a token returns 401\n  status: manual\n  knownIssue: Accepts POST without a token instead of returning 401.\n  bug: BUG-009\n  steps:\n    - Send POST /brands with a unique brand name and a unique slug, without an Authorization header.\n    - Verify the response status is 401."
+   "yaml": "- id: API-0129\n  name: Create brand without a token returns 401\n  status: automated\n  automatedIn: tests/api/brands/post-brands.spec.ts\n  knownIssue: Accepts POST without a token instead of returning 401.\n  bug: BUG-009\n  steps:\n    - Send POST /brands with a unique brand name and a unique slug, without an Authorization header.\n    - Verify the response status is 401."
   },
   {
    "id": "API-0154",
    "name": "Search brands returns only matching brands",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/brands/get-brands-search.spec.ts",
    "steps": [
     "Send GET /brands/search with q=forge.",
     "Verify the response status is 200.",
@@ -1939,6 +1962,7 @@ window.SCENARIO_CATALOG = {
     "Verify every item has a non-empty string id, name and slug."
    ],
    "ref": [],
+   "specLine": 24,
    "area": "brands",
    "areaLabel": "Brands",
    "file": "test-scenarios/api/brands/get-brands-search.yml",
@@ -1947,18 +1971,20 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@brands-api"
    ],
-   "yaml": "- id: API-0154\n  name: Search brands returns only matching brands\n  status: manual\n  steps:\n    - Send GET /brands/search with q=forge.\n    - Verify the response status is 200.\n    - Verify the body is a non-empty array and every item's name contains \"forge\" (case-insensitive).\n    - Verify every item has a non-empty string id, name and slug."
+   "yaml": "- id: API-0154\n  name: Search brands returns only matching brands\n  status: automated\n  automatedIn: tests/api/brands/get-brands-search.spec.ts\n  steps:\n    - Send GET /brands/search with q=forge.\n    - Verify the response status is 200.\n    - Verify the body is a non-empty array and every item's name contains \"forge\" (case-insensitive).\n    - Verify every item has a non-empty string id, name and slug."
   },
   {
    "id": "API-0155",
    "name": "Search brands with a term shorter than 4 characters matches inside names",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/brands/get-brands-search.spec.ts",
    "steps": [
     "Send GET /brands/search with q=fle.",
     "Verify the response status is 200.",
     "Verify the body is a non-empty array and every item's name contains \"fle\" (case-insensitive)."
    ],
    "ref": [],
+   "specLine": 48,
    "area": "brands",
    "areaLabel": "Brands",
    "file": "test-scenarios/api/brands/get-brands-search.yml",
@@ -1967,18 +1993,20 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@brands-api"
    ],
-   "yaml": "- id: API-0155\n  name: Search brands with a term shorter than 4 characters matches inside names\n  status: manual\n  steps:\n    - Send GET /brands/search with q=fle.\n    - Verify the response status is 200.\n    - Verify the body is a non-empty array and every item's name contains \"fle\" (case-insensitive)."
+   "yaml": "- id: API-0155\n  name: Search brands with a term shorter than 4 characters matches inside names\n  status: automated\n  automatedIn: tests/api/brands/get-brands-search.spec.ts\n  steps:\n    - Send GET /brands/search with q=fle.\n    - Verify the response status is 200.\n    - Verify the body is a non-empty array and every item's name contains \"fle\" (case-insensitive)."
   },
   {
    "id": "API-0156",
    "name": "Search brands with a term no brand matches returns an empty array",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/brands/get-brands-search.spec.ts",
    "steps": [
     "Send GET /brands/search with q set to a unique term of letters and digits only that no brand has.",
     "Verify the response status is 200.",
     "Verify the body is an empty array."
    ],
    "ref": [],
+   "specLine": 66,
    "area": "brands",
    "areaLabel": "Brands",
    "file": "test-scenarios/api/brands/get-brands-search.yml",
@@ -1987,19 +2015,21 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@brands-api"
    ],
-   "yaml": "- id: API-0156\n  name: Search brands with a term no brand matches returns an empty array\n  status: manual\n  steps:\n    - Send GET /brands/search with q set to a unique term of letters and digits only that no brand has.\n    - Verify the response status is 200.\n    - Verify the body is an empty array."
+   "yaml": "- id: API-0156\n  name: Search brands with a term no brand matches returns an empty array\n  status: automated\n  automatedIn: tests/api/brands/get-brands-search.spec.ts\n  steps:\n    - Send GET /brands/search with q set to a unique term of letters and digits only that no brand has.\n    - Verify the response status is 200.\n    - Verify the body is an empty array."
   },
   {
    "id": "API-0157",
-   "name": "Search brands without a term returns every brand",
-   "status": "manual",
+   "name": "Search brands without a term returns the seeded brands",
+   "status": "automated",
+   "automatedIn": "tests/api/brands/get-brands-search.spec.ts",
    "steps": [
-    "Send GET /brands and keep the brand ids.",
+    "Send GET /brands and keep the ids of the seeded brands ForgeFlex Tools and MightyCraft Hardware.",
     "Send GET /brands/search without a q parameter.",
     "Verify the response status is 200.",
-    "Verify the body's brand ids equal the GET /brands ids, in any order."
+    "Verify the body includes both seeded brand ids."
    ],
    "ref": [],
+   "specLine": 84,
    "area": "brands",
    "areaLabel": "Brands",
    "file": "test-scenarios/api/brands/get-brands-search.yml",
@@ -2008,12 +2038,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@brands-api"
    ],
-   "yaml": "- id: API-0157\n  name: Search brands without a term returns every brand\n  status: manual\n  steps:\n    - Send GET /brands and keep the brand ids.\n    - Send GET /brands/search without a q parameter.\n    - Verify the response status is 200.\n    - Verify the body's brand ids equal the GET /brands ids, in any order."
+   "yaml": "- id: API-0157\n  name: Search brands without a term returns the seeded brands\n  status: automated\n  automatedIn: tests/api/brands/get-brands-search.spec.ts\n  steps:\n    - Send GET /brands and keep the ids of the seeded brands ForgeFlex Tools and MightyCraft Hardware.\n    - Send GET /brands/search without a q parameter.\n    - Verify the response status is 200.\n    - Verify the body includes both seeded brand ids."
   },
   {
    "id": "API-0158",
    "name": "Search brands with q as an array returns 422",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/brands/get-brands-search.spec.ts",
    "knownIssue": "Returns 500 instead of 422 when q is sent as an array.",
    "bug": "BUG-011",
    "steps": [
@@ -2021,6 +2052,7 @@ window.SCENARIO_CATALOG = {
     "Verify the response status is 422."
    ],
    "ref": [],
+   "specLine": 103,
    "area": "brands",
    "areaLabel": "Brands",
    "file": "test-scenarios/api/brands/get-brands-search.yml",
@@ -2029,12 +2061,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@brands-api"
    ],
-   "yaml": "- id: API-0158\n  name: Search brands with q as an array returns 422\n  status: manual\n  knownIssue: Returns 500 instead of 422 when q is sent as an array.\n  bug: BUG-011\n  steps:\n    - Send GET /brands/search with q as an array (q[]=x).\n    - Verify the response status is 422."
+   "yaml": "- id: API-0158\n  name: Search brands with q as an array returns 422\n  status: automated\n  automatedIn: tests/api/brands/get-brands-search.spec.ts\n  knownIssue: Returns 500 instead of 422 when q is sent as an array.\n  bug: BUG-011\n  steps:\n    - Send GET /brands/search with q as an array (q[]=x).\n    - Verify the response status is 422."
   },
   {
    "id": "API-0159",
    "name": "Search brands finds a brand created after the same term was searched",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/brands/get-brands-search.spec.ts",
    "role": "admin",
    "knownIssue": "Returns the cached search result instead of the new brand for a term searched before the brand was created.",
    "bug": "BUG-013",
@@ -2045,6 +2078,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body includes a brand with the new id."
    ],
    "ref": [],
+   "specLine": 120,
    "area": "brands",
    "areaLabel": "Brands",
    "file": "test-scenarios/api/brands/get-brands-search.yml",
@@ -2053,12 +2087,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@brands-api"
    ],
-   "yaml": "- id: API-0159\n  name: Search brands finds a brand created after the same term was searched\n  status: manual\n  role: admin\n  knownIssue: Returns the cached search result instead of the new brand for a term searched before the brand was created.\n  bug: BUG-013\n  steps:\n    - Send GET /brands/search with q set to a unique term of letters and digits only, at least 4 characters long, that no brand has.\n    - Send POST /brands with that term as the name and a unique slug, with the admin's token, and take the new brand's id.\n    - Send GET /brands/search with the same term.\n    - Verify the body includes a brand with the new id."
+   "yaml": "- id: API-0159\n  name: Search brands finds a brand created after the same term was searched\n  status: automated\n  automatedIn: tests/api/brands/get-brands-search.spec.ts\n  role: admin\n  knownIssue: Returns the cached search result instead of the new brand for a term searched before the brand was created.\n  bug: BUG-013\n  steps:\n    - Send GET /brands/search with q set to a unique term of letters and digits only, at least 4 characters long, that no brand has.\n    - Send POST /brands with that term as the name and a unique slug, with the admin's token, and take the new brand's id.\n    - Send GET /brands/search with the same term.\n    - Verify the body includes a brand with the new id."
   },
   {
    "id": "API-0160",
    "name": "QUERY search returns only matching brands",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/brands/query-brands-search.spec.ts",
    "steps": [
     "Send QUERY /brands/search with Content-Type: application/json, Accept: application/json and the body { \"q\": \"forge\" }.",
     "Verify the response status is 200.",
@@ -2066,6 +2101,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body is a non-empty array and every item's name contains \"forge\" (case-insensitive)."
    ],
    "ref": [],
+   "specLine": 34,
    "area": "brands",
    "areaLabel": "Brands",
    "file": "test-scenarios/api/brands/query-brands-search.yml",
@@ -2074,19 +2110,21 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@brands-api"
    ],
-   "yaml": "- id: API-0160\n  name: QUERY search returns only matching brands\n  status: manual\n  steps:\n    - 'Send QUERY /brands/search with Content-Type: application/json, Accept: application/json and the body { \"q\": \"forge\" }.'\n    - Verify the response status is 200.\n    - Verify the Accept-Query response header is application/json.\n    - Verify the body is a non-empty array and every item's name contains \"forge\" (case-insensitive)."
+   "yaml": "- id: API-0160\n  name: QUERY search returns only matching brands\n  status: automated\n  automatedIn: tests/api/brands/query-brands-search.spec.ts\n  steps:\n    - 'Send QUERY /brands/search with Content-Type: application/json, Accept: application/json and the body { \"q\": \"forge\" }.'\n    - Verify the response status is 200.\n    - Verify the Accept-Query response header is application/json.\n    - Verify the body is a non-empty array and every item's name contains \"forge\" (case-insensitive)."
   },
   {
    "id": "API-0161",
-   "name": "QUERY search with an empty body returns every brand",
-   "status": "manual",
+   "name": "QUERY search with an empty body returns the seeded brands",
+   "status": "automated",
+   "automatedIn": "tests/api/brands/query-brands-search.spec.ts",
    "steps": [
-    "Send GET /brands and keep the brand ids.",
+    "Send GET /brands and keep the ids of the seeded brands ForgeFlex Tools and MightyCraft Hardware.",
     "Send QUERY /brands/search with Content-Type: application/json, Accept: application/json and an empty JSON object as the body.",
     "Verify the response status is 200.",
-    "Verify the body's brand ids equal the GET /brands ids, in any order."
+    "Verify the body includes both seeded brand ids."
    ],
    "ref": [],
+   "specLine": 56,
    "area": "brands",
    "areaLabel": "Brands",
    "file": "test-scenarios/api/brands/query-brands-search.yml",
@@ -2095,18 +2133,20 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@brands-api"
    ],
-   "yaml": "- id: API-0161\n  name: QUERY search with an empty body returns every brand\n  status: manual\n  steps:\n    - Send GET /brands and keep the brand ids.\n    - \"Send QUERY /brands/search with Content-Type: application/json, Accept: application/json and an empty JSON object as the body.\"\n    - Verify the response status is 200.\n    - Verify the body's brand ids equal the GET /brands ids, in any order."
+   "yaml": "- id: API-0161\n  name: QUERY search with an empty body returns the seeded brands\n  status: automated\n  automatedIn: tests/api/brands/query-brands-search.spec.ts\n  steps:\n    - Send GET /brands and keep the ids of the seeded brands ForgeFlex Tools and MightyCraft Hardware.\n    - \"Send QUERY /brands/search with Content-Type: application/json, Accept: application/json and an empty JSON object as the body.\"\n    - Verify the response status is 200.\n    - Verify the body includes both seeded brand ids."
   },
   {
    "id": "API-0162",
    "name": "QUERY search without a JSON Content-Type returns 415",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/brands/query-brands-search.spec.ts",
    "steps": [
     "Send QUERY /brands/search with Content-Type: text/plain, Accept: application/json and a plain-text body.",
     "Verify the response status is 415.",
     "Verify the body's message is \"QUERY requests must use Content-Type: application/json\"."
    ],
    "ref": [],
+   "specLine": 78,
    "area": "brands",
    "areaLabel": "Brands",
    "file": "test-scenarios/api/brands/query-brands-search.yml",
@@ -2115,12 +2155,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@brands-api"
    ],
-   "yaml": "- id: API-0162\n  name: QUERY search without a JSON Content-Type returns 415\n  status: manual\n  steps:\n    - \"Send QUERY /brands/search with Content-Type: text/plain, Accept: application/json and a plain-text body.\"\n    - Verify the response status is 415.\n    - 'Verify the body''s message is \"QUERY requests must use Content-Type: application/json\".'"
+   "yaml": "- id: API-0162\n  name: QUERY search without a JSON Content-Type returns 415\n  status: automated\n  automatedIn: tests/api/brands/query-brands-search.spec.ts\n  steps:\n    - \"Send QUERY /brands/search with Content-Type: text/plain, Accept: application/json and a plain-text body.\"\n    - Verify the response status is 415.\n    - 'Verify the body''s message is \"QUERY requests must use Content-Type: application/json\".'"
   },
   {
    "id": "API-0163",
    "name": "QUERY search with q as an array returns 422",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/brands/query-brands-search.spec.ts",
    "knownIssue": "Returns 500 instead of 422 when q is sent as an array.",
    "bug": "BUG-011",
    "steps": [
@@ -2128,6 +2169,7 @@ window.SCENARIO_CATALOG = {
     "Verify the response status is 422."
    ],
    "ref": [],
+   "specLine": 95,
    "area": "brands",
    "areaLabel": "Brands",
    "file": "test-scenarios/api/brands/query-brands-search.yml",
@@ -2136,12 +2178,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@brands-api"
    ],
-   "yaml": "- id: API-0163\n  name: QUERY search with q as an array returns 422\n  status: manual\n  knownIssue: Returns 500 instead of 422 when q is sent as an array.\n  bug: BUG-011\n  steps:\n    - 'Send QUERY /brands/search with Content-Type: application/json, Accept: application/json and the body { \"q\": [\"x\"] }.'\n    - Verify the response status is 422."
+   "yaml": "- id: API-0163\n  name: QUERY search with q as an array returns 422\n  status: automated\n  automatedIn: tests/api/brands/query-brands-search.spec.ts\n  knownIssue: Returns 500 instead of 422 when q is sent as an array.\n  bug: BUG-011\n  steps:\n    - 'Send QUERY /brands/search with Content-Type: application/json, Accept: application/json and the body { \"q\": [\"x\"] }.'\n    - Verify the response status is 422."
   },
   {
    "id": "API-0130",
    "name": "Get brand returns 200 with the brand",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/brands/get-brands-by-brand-id.spec.ts",
    "steps": [
     "Send GET /brands and take the first brand's id, name and slug.",
     "Send GET /brands/{brandId} with that id.",
@@ -2149,6 +2192,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's id, name and slug equal the list item's."
    ],
    "ref": [],
+   "specLine": 13,
    "area": "brands",
    "areaLabel": "Brands",
    "file": "test-scenarios/api/brands/get-brands-by-brand-id.yml",
@@ -2157,18 +2201,20 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@brands-api"
    ],
-   "yaml": "- id: API-0130\n  name: Get brand returns 200 with the brand\n  status: manual\n  steps:\n    - Send GET /brands and take the first brand's id, name and slug.\n    - Send GET /brands/{brandId} with that id.\n    - Verify the response status is 200.\n    - Verify the body's id, name and slug equal the list item's."
+   "yaml": "- id: API-0130\n  name: Get brand returns 200 with the brand\n  status: automated\n  automatedIn: tests/api/brands/get-brands-by-brand-id.spec.ts\n  steps:\n    - Send GET /brands and take the first brand's id, name and slug.\n    - Send GET /brands/{brandId} with that id.\n    - Verify the response status is 200.\n    - Verify the body's id, name and slug equal the list item's."
   },
   {
    "id": "API-0131",
    "name": "Get brand with an unknown id returns 404",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/brands/get-brands-by-brand-id.spec.ts",
    "steps": [
     "Send GET /brands/{brandId} with a well-formed ULID that no brand has.",
     "Verify the response status is 404.",
     "Verify the body's message is \"Requested item not found\"."
    ],
    "ref": [],
+   "specLine": 45,
    "area": "brands",
    "areaLabel": "Brands",
    "file": "test-scenarios/api/brands/get-brands-by-brand-id.yml",
@@ -2177,12 +2223,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@brands-api"
    ],
-   "yaml": "- id: API-0131\n  name: Get brand with an unknown id returns 404\n  status: manual\n  steps:\n    - Send GET /brands/{brandId} with a well-formed ULID that no brand has.\n    - Verify the response status is 404.\n    - Verify the body's message is \"Requested item not found\"."
+   "yaml": "- id: API-0131\n  name: Get brand with an unknown id returns 404\n  status: automated\n  automatedIn: tests/api/brands/get-brands-by-brand-id.spec.ts\n  steps:\n    - Send GET /brands/{brandId} with a well-formed ULID that no brand has.\n    - Verify the response status is 404.\n    - Verify the body's message is \"Requested item not found\"."
   },
   {
    "id": "API-0132",
    "name": "Update brand returns success and saves the new name and slug",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/brands/put-brands-by-brand-id.spec.ts",
    "role": "admin",
    "steps": [
     "Send POST /brands with a unique brand name and a unique slug, with the admin's token, and take the new brand's id.",
@@ -2192,6 +2239,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /brands/{brandId} with that id returns the new name and the new slug."
    ],
    "ref": [],
+   "specLine": 31,
    "area": "brands",
    "areaLabel": "Brands",
    "file": "test-scenarios/api/brands/put-brands-by-brand-id.yml",
@@ -2200,12 +2248,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@brands-api"
    ],
-   "yaml": "- id: API-0132\n  name: Update brand returns success and saves the new name and slug\n  status: manual\n  role: admin\n  steps:\n    - Send POST /brands with a unique brand name and a unique slug, with the admin's token, and take the new brand's id.\n    - Send PUT /brands/{brandId} with that id and a body with a new unique brand name and a new unique slug, with the admin's token.\n    - Verify the response status is 200.\n    - Verify the body's success is true.\n    - Verify GET /brands/{brandId} with that id returns the new name and the new slug."
+   "yaml": "- id: API-0132\n  name: Update brand returns success and saves the new name and slug\n  status: automated\n  automatedIn: tests/api/brands/put-brands-by-brand-id.spec.ts\n  role: admin\n  steps:\n    - Send POST /brands with a unique brand name and a unique slug, with the admin's token, and take the new brand's id.\n    - Send PUT /brands/{brandId} with that id and a body with a new unique brand name and a new unique slug, with the admin's token.\n    - Verify the response status is 200.\n    - Verify the body's success is true.\n    - Verify GET /brands/{brandId} with that id returns the new name and the new slug."
   },
   {
    "id": "API-0133",
    "name": "Update brand with a name longer than 120 characters returns 422",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/brands/put-brands-by-brand-id.spec.ts",
    "role": "admin",
    "steps": [
     "Send POST /brands with a unique brand name and a unique slug, with the admin's token, and take the new brand's id.",
@@ -2214,6 +2263,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body has a name key with at least one message."
    ],
    "ref": [],
+   "specLine": 60,
    "area": "brands",
    "areaLabel": "Brands",
    "file": "test-scenarios/api/brands/put-brands-by-brand-id.yml",
@@ -2222,12 +2272,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@brands-api"
    ],
-   "yaml": "- id: API-0133\n  name: Update brand with a name longer than 120 characters returns 422\n  status: manual\n  role: admin\n  steps:\n    - Send POST /brands with a unique brand name and a unique slug, with the admin's token, and take the new brand's id.\n    - Send PUT /brands/{brandId} with that id and a body with only a 121-character name that starts with a unique brand name, with the admin's token.\n    - Verify the response status is 422.\n    - Verify the body has a name key with at least one message."
+   "yaml": "- id: API-0133\n  name: Update brand with a name longer than 120 characters returns 422\n  status: automated\n  automatedIn: tests/api/brands/put-brands-by-brand-id.spec.ts\n  role: admin\n  steps:\n    - Send POST /brands with a unique brand name and a unique slug, with the admin's token, and take the new brand's id.\n    - Send PUT /brands/{brandId} with that id and a body with only a 121-character name that starts with a unique brand name, with the admin's token.\n    - Verify the response status is 422.\n    - Verify the body has a name key with at least one message."
   },
   {
    "id": "API-0134",
    "name": "Update brand with a slug outside letters, digits, dashes and underscores returns 422",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/brands/put-brands-by-brand-id.spec.ts",
    "role": "admin",
    "steps": [
     "Send POST /brands with a unique brand name and a unique slug, with the admin's token, and take the new brand's id.",
@@ -2236,6 +2287,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body has a slug key with at least one message."
    ],
    "ref": [],
+   "specLine": 82,
    "area": "brands",
    "areaLabel": "Brands",
    "file": "test-scenarios/api/brands/put-brands-by-brand-id.yml",
@@ -2244,12 +2296,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@brands-api"
    ],
-   "yaml": "- id: API-0134\n  name: Update brand with a slug outside letters, digits, dashes and underscores returns 422\n  status: manual\n  role: admin\n  steps:\n    - Send POST /brands with a unique brand name and a unique slug, with the admin's token, and take the new brand's id.\n    - Send PUT /brands/{brandId} with that id and a body with only a slug made of a unique slug followed by \" x!\" (a space and an exclamation mark), with the admin's token.\n    - Verify the response status is 422.\n    - Verify the body has a slug key with at least one message."
+   "yaml": "- id: API-0134\n  name: Update brand with a slug outside letters, digits, dashes and underscores returns 422\n  status: automated\n  automatedIn: tests/api/brands/put-brands-by-brand-id.spec.ts\n  role: admin\n  steps:\n    - Send POST /brands with a unique brand name and a unique slug, with the admin's token, and take the new brand's id.\n    - Send PUT /brands/{brandId} with that id and a body with only a slug made of a unique slug followed by \" x!\" (a space and an exclamation mark), with the admin's token.\n    - Verify the response status is 422.\n    - Verify the body has a slug key with at least one message."
   },
   {
    "id": "API-0135",
    "name": "Update brand with a name that isn't a string returns 422",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/brands/put-brands-by-brand-id.spec.ts",
    "role": "admin",
    "steps": [
     "Send POST /brands with a unique brand name and a unique slug, with the admin's token, and take the new brand's id.",
@@ -2258,6 +2311,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body has a name key with at least one message."
    ],
    "ref": [],
+   "specLine": 108,
    "area": "brands",
    "areaLabel": "Brands",
    "file": "test-scenarios/api/brands/put-brands-by-brand-id.yml",
@@ -2266,18 +2320,20 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@brands-api"
    ],
-   "yaml": "- id: API-0135\n  name: Update brand with a name that isn't a string returns 422\n  status: manual\n  role: admin\n  steps:\n    - Send POST /brands with a unique brand name and a unique slug, with the admin's token, and take the new brand's id.\n    - Send PUT /brands/{brandId} with that id and a body with only name set to the number 123, with the admin's token.\n    - Verify the response status is 422.\n    - Verify the body has a name key with at least one message."
+   "yaml": "- id: API-0135\n  name: Update brand with a name that isn't a string returns 422\n  status: automated\n  automatedIn: tests/api/brands/put-brands-by-brand-id.spec.ts\n  role: admin\n  steps:\n    - Send POST /brands with a unique brand name and a unique slug, with the admin's token, and take the new brand's id.\n    - Send PUT /brands/{brandId} with that id and a body with only name set to the number 123, with the admin's token.\n    - Verify the response status is 422.\n    - Verify the body has a name key with at least one message."
   },
   {
    "id": "API-0136",
    "name": "Update brand with an unknown id returns 404",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/brands/put-brands-by-brand-id.spec.ts",
    "steps": [
     "Send PUT /brands/{brandId} with a well-formed ULID that no brand has and a body with only a unique brand name.",
     "Verify the response status is 404.",
     "Verify the body's message is \"Requested item not found\"."
    ],
    "ref": [],
+   "specLine": 189,
    "area": "brands",
    "areaLabel": "Brands",
    "file": "test-scenarios/api/brands/put-brands-by-brand-id.yml",
@@ -2286,18 +2342,20 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@brands-api"
    ],
-   "yaml": "- id: API-0136\n  name: Update brand with an unknown id returns 404\n  status: manual\n  steps:\n    - Send PUT /brands/{brandId} with a well-formed ULID that no brand has and a body with only a unique brand name.\n    - Verify the response status is 404.\n    - Verify the body's message is \"Requested item not found\"."
+   "yaml": "- id: API-0136\n  name: Update brand with an unknown id returns 404\n  status: automated\n  automatedIn: tests/api/brands/put-brands-by-brand-id.spec.ts\n  steps:\n    - Send PUT /brands/{brandId} with a well-formed ULID that no brand has and a body with only a unique brand name.\n    - Verify the response status is 404.\n    - Verify the body's message is \"Requested item not found\"."
   },
   {
    "id": "API-0137",
    "name": "Update brand with an unknown id and an invalid body returns 422",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/brands/put-brands-by-brand-id.spec.ts",
    "steps": [
     "Send PUT /brands/{brandId} with a well-formed ULID that no brand has and a body with only a 121-character name that starts with a unique brand name.",
     "Verify the response status is 422.",
     "Verify the body has a name key with at least one message."
    ],
    "ref": [],
+   "specLine": 206,
    "area": "brands",
    "areaLabel": "Brands",
    "file": "test-scenarios/api/brands/put-brands-by-brand-id.yml",
@@ -2306,12 +2364,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@brands-api"
    ],
-   "yaml": "- id: API-0137\n  name: Update brand with an unknown id and an invalid body returns 422\n  status: manual\n  steps:\n    - Send PUT /brands/{brandId} with a well-formed ULID that no brand has and a body with only a 121-character name that starts with a unique brand name.\n    - Verify the response status is 422.\n    - Verify the body has a name key with at least one message."
+   "yaml": "- id: API-0137\n  name: Update brand with an unknown id and an invalid body returns 422\n  status: automated\n  automatedIn: tests/api/brands/put-brands-by-brand-id.spec.ts\n  steps:\n    - Send PUT /brands/{brandId} with a well-formed ULID that no brand has and a body with only a 121-character name that starts with a unique brand name.\n    - Verify the response status is 422.\n    - Verify the body has a name key with at least one message."
   },
   {
    "id": "API-0138",
    "name": "Update brand with another brand's slug returns 409",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/brands/put-brands-by-brand-id.spec.ts",
    "role": "admin",
    "steps": [
     "Send POST /brands with a unique brand name and a unique slug, with the admin's token, and take the new brand's id and slug.",
@@ -2321,6 +2380,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /brands/{brandId} with the new brand's id still returns its own slug."
    ],
    "ref": [],
+   "specLine": 127,
    "area": "brands",
    "areaLabel": "Brands",
    "file": "test-scenarios/api/brands/put-brands-by-brand-id.yml",
@@ -2329,12 +2389,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@brands-api"
    ],
-   "yaml": "- id: API-0138\n  name: Update brand with another brand's slug returns 409\n  status: manual\n  role: admin\n  steps:\n    - Send POST /brands with a unique brand name and a unique slug, with the admin's token, and take the new brand's id and slug.\n    - Send GET /brands and take the slug of a brand other than the new one.\n    - Send PUT /brands/{brandId} with the new brand's id and a body with only that other slug, with the admin's token.\n    - Verify the response status is 409.\n    - Verify GET /brands/{brandId} with the new brand's id still returns its own slug."
+   "yaml": "- id: API-0138\n  name: Update brand with another brand's slug returns 409\n  status: automated\n  automatedIn: tests/api/brands/put-brands-by-brand-id.spec.ts\n  role: admin\n  steps:\n    - Send POST /brands with a unique brand name and a unique slug, with the admin's token, and take the new brand's id and slug.\n    - Send GET /brands and take the slug of a brand other than the new one.\n    - Send PUT /brands/{brandId} with the new brand's id and a body with only that other slug, with the admin's token.\n    - Verify the response status is 409.\n    - Verify GET /brands/{brandId} with the new brand's id still returns its own slug."
   },
   {
    "id": "API-0139",
    "name": "Update brand with another brand's slug names the slug in the error",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/brands/put-brands-by-brand-id.spec.ts",
    "role": "admin",
    "knownIssue": "Returns { message: \"Duplicate Entry\" } instead of the slug's validation message for a duplicate slug.",
    "bug": "BUG-012",
@@ -2345,6 +2406,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's slug messages include \"A brand already exists with this slug.\"."
    ],
    "ref": [],
+   "specLine": 150,
    "area": "brands",
    "areaLabel": "Brands",
    "file": "test-scenarios/api/brands/put-brands-by-brand-id.yml",
@@ -2353,12 +2415,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@brands-api"
    ],
-   "yaml": "- id: API-0139\n  name: Update brand with another brand's slug names the slug in the error\n  status: manual\n  role: admin\n  knownIssue: 'Returns { message: \"Duplicate Entry\" } instead of the slug''s validation message for a duplicate slug.'\n  bug: BUG-012\n  steps:\n    - Send POST /brands with a unique brand name and a unique slug, with the admin's token, and take the new brand's id.\n    - Send GET /brands and take the slug of a brand other than the new one.\n    - Send PUT /brands/{brandId} with the new brand's id and a body with only that other slug, with the admin's token.\n    - Verify the body's slug messages include \"A brand already exists with this slug.\"."
+   "yaml": "- id: API-0139\n  name: Update brand with another brand's slug names the slug in the error\n  status: automated\n  automatedIn: tests/api/brands/put-brands-by-brand-id.spec.ts\n  role: admin\n  knownIssue: 'Returns { message: \"Duplicate Entry\" } instead of the slug''s validation message for a duplicate slug.'\n  bug: BUG-012\n  steps:\n    - Send POST /brands with a unique brand name and a unique slug, with the admin's token, and take the new brand's id.\n    - Send GET /brands and take the slug of a brand other than the new one.\n    - Send PUT /brands/{brandId} with the new brand's id and a body with only that other slug, with the admin's token.\n    - Verify the body's slug messages include \"A brand already exists with this slug.\"."
   },
   {
    "id": "API-0140",
    "name": "Update brand without a token returns 401",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/brands/put-brands-by-brand-id.spec.ts",
    "role": "admin",
    "knownIssue": "Accepts PUT without a token instead of returning 401.",
    "bug": "BUG-009",
@@ -2368,6 +2431,7 @@ window.SCENARIO_CATALOG = {
     "Verify the response status is 401."
    ],
    "ref": [],
+   "specLine": 172,
    "area": "brands",
    "areaLabel": "Brands",
    "file": "test-scenarios/api/brands/put-brands-by-brand-id.yml",
@@ -2376,12 +2440,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@brands-api"
    ],
-   "yaml": "- id: API-0140\n  name: Update brand without a token returns 401\n  status: manual\n  role: admin\n  knownIssue: Accepts PUT without a token instead of returning 401.\n  bug: BUG-009\n  steps:\n    - Send POST /brands with a unique brand name and a unique slug, with the admin's token, and take the new brand's id.\n    - Send PUT /brands/{brandId} with that id and a body with only a new unique brand name, without an Authorization header.\n    - Verify the response status is 401."
+   "yaml": "- id: API-0140\n  name: Update brand without a token returns 401\n  status: automated\n  automatedIn: tests/api/brands/put-brands-by-brand-id.spec.ts\n  role: admin\n  knownIssue: Accepts PUT without a token instead of returning 401.\n  bug: BUG-009\n  steps:\n    - Send POST /brands with a unique brand name and a unique slug, with the admin's token, and take the new brand's id.\n    - Send PUT /brands/{brandId} with that id and a body with only a new unique brand name, without an Authorization header.\n    - Verify the response status is 401."
   },
   {
    "id": "API-0141",
    "name": "Partially update brand name returns success and keeps the slug",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/brands/patch-brands-by-brand-id.spec.ts",
    "role": "admin",
    "steps": [
     "Send POST /brands with a unique brand name and a unique slug, with the admin's token, and take the new brand's id and slug.",
@@ -2391,6 +2456,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /brands/{brandId} with that id returns the new name and the original slug."
    ],
    "ref": [],
+   "specLine": 31,
    "area": "brands",
    "areaLabel": "Brands",
    "file": "test-scenarios/api/brands/patch-brands-by-brand-id.yml",
@@ -2399,12 +2465,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@brands-api"
    ],
-   "yaml": "- id: API-0141\n  name: Partially update brand name returns success and keeps the slug\n  status: manual\n  role: admin\n  steps:\n    - Send POST /brands with a unique brand name and a unique slug, with the admin's token, and take the new brand's id and slug.\n    - Send PATCH /brands/{brandId} with that id and a body with only a new unique brand name, with the admin's token.\n    - Verify the response status is 200.\n    - Verify the body's success is true.\n    - Verify GET /brands/{brandId} with that id returns the new name and the original slug."
+   "yaml": "- id: API-0141\n  name: Partially update brand name returns success and keeps the slug\n  status: automated\n  automatedIn: tests/api/brands/patch-brands-by-brand-id.spec.ts\n  role: admin\n  steps:\n    - Send POST /brands with a unique brand name and a unique slug, with the admin's token, and take the new brand's id and slug.\n    - Send PATCH /brands/{brandId} with that id and a body with only a new unique brand name, with the admin's token.\n    - Verify the response status is 200.\n    - Verify the body's success is true.\n    - Verify GET /brands/{brandId} with that id returns the new name and the original slug."
   },
   {
    "id": "API-0142",
    "name": "Partially update brand with a slug outside letters, digits, dashes and underscores returns 422",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/brands/patch-brands-by-brand-id.spec.ts",
    "role": "admin",
    "steps": [
     "Send POST /brands with a unique brand name and a unique slug, with the admin's token, and take the new brand's id.",
@@ -2413,6 +2480,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body has a slug key with at least one message."
    ],
    "ref": [],
+   "specLine": 60,
    "area": "brands",
    "areaLabel": "Brands",
    "file": "test-scenarios/api/brands/patch-brands-by-brand-id.yml",
@@ -2421,12 +2489,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@brands-api"
    ],
-   "yaml": "- id: API-0142\n  name: Partially update brand with a slug outside letters, digits, dashes and underscores returns 422\n  status: manual\n  role: admin\n  steps:\n    - Send POST /brands with a unique brand name and a unique slug, with the admin's token, and take the new brand's id.\n    - Send PATCH /brands/{brandId} with that id and a body with only a slug made of a unique slug followed by \" x!\" (a space and an exclamation mark), with the admin's token.\n    - Verify the response status is 422.\n    - Verify the body has a slug key with at least one message."
+   "yaml": "- id: API-0142\n  name: Partially update brand with a slug outside letters, digits, dashes and underscores returns 422\n  status: automated\n  automatedIn: tests/api/brands/patch-brands-by-brand-id.spec.ts\n  role: admin\n  steps:\n    - Send POST /brands with a unique brand name and a unique slug, with the admin's token, and take the new brand's id.\n    - Send PATCH /brands/{brandId} with that id and a body with only a slug made of a unique slug followed by \" x!\" (a space and an exclamation mark), with the admin's token.\n    - Verify the response status is 422.\n    - Verify the body has a slug key with at least one message."
   },
   {
    "id": "API-0143",
    "name": "Partially update brand with a name longer than 120 characters returns 422",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/brands/patch-brands-by-brand-id.spec.ts",
    "role": "admin",
    "steps": [
     "Send POST /brands with a unique brand name and a unique slug, with the admin's token, and take the new brand's id.",
@@ -2435,6 +2504,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body has a name key with at least one message."
    ],
    "ref": [],
+   "specLine": 86,
    "area": "brands",
    "areaLabel": "Brands",
    "file": "test-scenarios/api/brands/patch-brands-by-brand-id.yml",
@@ -2443,18 +2513,20 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@brands-api"
    ],
-   "yaml": "- id: API-0143\n  name: Partially update brand with a name longer than 120 characters returns 422\n  status: manual\n  role: admin\n  steps:\n    - Send POST /brands with a unique brand name and a unique slug, with the admin's token, and take the new brand's id.\n    - Send PATCH /brands/{brandId} with that id and a body with only a 121-character name that starts with a unique brand name, with the admin's token.\n    - Verify the response status is 422.\n    - Verify the body has a name key with at least one message."
+   "yaml": "- id: API-0143\n  name: Partially update brand with a name longer than 120 characters returns 422\n  status: automated\n  automatedIn: tests/api/brands/patch-brands-by-brand-id.spec.ts\n  role: admin\n  steps:\n    - Send POST /brands with a unique brand name and a unique slug, with the admin's token, and take the new brand's id.\n    - Send PATCH /brands/{brandId} with that id and a body with only a 121-character name that starts with a unique brand name, with the admin's token.\n    - Verify the response status is 422.\n    - Verify the body has a name key with at least one message."
   },
   {
    "id": "API-0144",
    "name": "Partially update brand with an unknown id returns 404",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/brands/patch-brands-by-brand-id.spec.ts",
    "steps": [
     "Send PATCH /brands/{brandId} with a well-formed ULID that no brand has and a body with only a unique brand name.",
     "Verify the response status is 404.",
     "Verify the body's message is \"Requested item not found\"."
    ],
    "ref": [],
+   "specLine": 183,
    "area": "brands",
    "areaLabel": "Brands",
    "file": "test-scenarios/api/brands/patch-brands-by-brand-id.yml",
@@ -2463,15 +2535,16 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@brands-api"
    ],
-   "yaml": "- id: API-0144\n  name: Partially update brand with an unknown id returns 404\n  status: manual\n  steps:\n    - Send PATCH /brands/{brandId} with a well-formed ULID that no brand has and a body with only a unique brand name.\n    - Verify the response status is 404.\n    - Verify the body's message is \"Requested item not found\"."
+   "yaml": "- id: API-0144\n  name: Partially update brand with an unknown id returns 404\n  status: automated\n  automatedIn: tests/api/brands/patch-brands-by-brand-id.spec.ts\n  steps:\n    - Send PATCH /brands/{brandId} with a well-formed ULID that no brand has and a body with only a unique brand name.\n    - Verify the response status is 404.\n    - Verify the body's message is \"Requested item not found\"."
   },
   {
    "id": "API-0145",
    "name": "Partially update brand with another brand's slug returns 409",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/brands/patch-brands-by-brand-id.spec.ts",
    "role": "admin",
    "steps": [
-    "Send POST /brands with a unique brand name and a unique slug, with the admin's token, and take the new brand's id.",
+    "Send POST /brands with a unique brand name and a unique slug, with the admin's token, and take the new brand's id and slug.",
     "Send GET /brands and take the slug of a brand other than the new one.",
     "Send PATCH /brands/{brandId} with the new brand's id and a body with only that other slug, with the admin's token.",
     "Verify the response status is 409.",
@@ -2479,6 +2552,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /brands/{brandId} with the new brand's id still returns its own slug."
    ],
    "ref": [],
+   "specLine": 108,
    "area": "brands",
    "areaLabel": "Brands",
    "file": "test-scenarios/api/brands/patch-brands-by-brand-id.yml",
@@ -2487,12 +2561,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@brands-api"
    ],
-   "yaml": "- id: API-0145\n  name: Partially update brand with another brand's slug returns 409\n  status: manual\n  role: admin\n  steps:\n    - Send POST /brands with a unique brand name and a unique slug, with the admin's token, and take the new brand's id.\n    - Send GET /brands and take the slug of a brand other than the new one.\n    - Send PATCH /brands/{brandId} with the new brand's id and a body with only that other slug, with the admin's token.\n    - Verify the response status is 409.\n    - Verify the body has a slug key with at least one message.\n    - Verify GET /brands/{brandId} with the new brand's id still returns its own slug."
+   "yaml": "- id: API-0145\n  name: Partially update brand with another brand's slug returns 409\n  status: automated\n  automatedIn: tests/api/brands/patch-brands-by-brand-id.spec.ts\n  role: admin\n  steps:\n    - Send POST /brands with a unique brand name and a unique slug, with the admin's token, and take the new brand's id and slug.\n    - Send GET /brands and take the slug of a brand other than the new one.\n    - Send PATCH /brands/{brandId} with the new brand's id and a body with only that other slug, with the admin's token.\n    - Verify the response status is 409.\n    - Verify the body has a slug key with at least one message.\n    - Verify GET /brands/{brandId} with the new brand's id still returns its own slug."
   },
   {
    "id": "API-0146",
    "name": "Partially update brand with its own slug returns success",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/brands/patch-brands-by-brand-id.spec.ts",
    "role": "admin",
    "knownIssue": "Returns 409 instead of 200 when the body repeats the brand's own slug.",
    "bug": "BUG-010",
@@ -2503,6 +2578,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /brands/{brandId} with that id returns the new name."
    ],
    "ref": [],
+   "specLine": 140,
    "area": "brands",
    "areaLabel": "Brands",
    "file": "test-scenarios/api/brands/patch-brands-by-brand-id.yml",
@@ -2511,12 +2587,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@brands-api"
    ],
-   "yaml": "- id: API-0146\n  name: Partially update brand with its own slug returns success\n  status: manual\n  role: admin\n  knownIssue: Returns 409 instead of 200 when the body repeats the brand's own slug.\n  bug: BUG-010\n  steps:\n    - Send POST /brands with a unique brand name and a unique slug, with the admin's token, and take the new brand's id and slug.\n    - Send PATCH /brands/{brandId} with that id and a body with a new unique brand name and the brand's own slug, with the admin's token.\n    - Verify the response status is 200.\n    - Verify GET /brands/{brandId} with that id returns the new name."
+   "yaml": "- id: API-0146\n  name: Partially update brand with its own slug returns success\n  status: automated\n  automatedIn: tests/api/brands/patch-brands-by-brand-id.spec.ts\n  role: admin\n  knownIssue: Returns 409 instead of 200 when the body repeats the brand's own slug.\n  bug: BUG-010\n  steps:\n    - Send POST /brands with a unique brand name and a unique slug, with the admin's token, and take the new brand's id and slug.\n    - Send PATCH /brands/{brandId} with that id and a body with a new unique brand name and the brand's own slug, with the admin's token.\n    - Verify the response status is 200.\n    - Verify GET /brands/{brandId} with that id returns the new name."
   },
   {
    "id": "API-0147",
    "name": "Partially update brand without a token returns 401",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/brands/patch-brands-by-brand-id.spec.ts",
    "role": "admin",
    "knownIssue": "Accepts PATCH without a token instead of returning 401.",
    "bug": "BUG-009",
@@ -2526,6 +2603,7 @@ window.SCENARIO_CATALOG = {
     "Verify the response status is 401."
    ],
    "ref": [],
+   "specLine": 166,
    "area": "brands",
    "areaLabel": "Brands",
    "file": "test-scenarios/api/brands/patch-brands-by-brand-id.yml",
@@ -2534,12 +2612,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@brands-api"
    ],
-   "yaml": "- id: API-0147\n  name: Partially update brand without a token returns 401\n  status: manual\n  role: admin\n  knownIssue: Accepts PATCH without a token instead of returning 401.\n  bug: BUG-009\n  steps:\n    - Send POST /brands with a unique brand name and a unique slug, with the admin's token, and take the new brand's id.\n    - Send PATCH /brands/{brandId} with that id and a body with only a new unique brand name, without an Authorization header.\n    - Verify the response status is 401."
+   "yaml": "- id: API-0147\n  name: Partially update brand without a token returns 401\n  status: automated\n  automatedIn: tests/api/brands/patch-brands-by-brand-id.spec.ts\n  role: admin\n  knownIssue: Accepts PATCH without a token instead of returning 401.\n  bug: BUG-009\n  steps:\n    - Send POST /brands with a unique brand name and a unique slug, with the admin's token, and take the new brand's id.\n    - Send PATCH /brands/{brandId} with that id and a body with only a new unique brand name, without an Authorization header.\n    - Verify the response status is 401."
   },
   {
    "id": "API-0148",
    "name": "Admin deletes a brand",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/brands/delete-brands-by-brand-id.spec.ts",
    "role": "admin",
    "steps": [
     "Send POST /brands with a unique brand name and a unique slug, with the admin's token, and take the new brand's id.",
@@ -2548,6 +2627,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /brands/{brandId} with that id returns 404."
    ],
    "ref": [],
+   "specLine": 34,
    "area": "brands",
    "areaLabel": "Brands",
    "file": "test-scenarios/api/brands/delete-brands-by-brand-id.yml",
@@ -2556,12 +2636,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@brands-api"
    ],
-   "yaml": "- id: API-0148\n  name: Admin deletes a brand\n  status: manual\n  role: admin\n  steps:\n    - Send POST /brands with a unique brand name and a unique slug, with the admin's token, and take the new brand's id.\n    - Send DELETE /brands/{brandId} with that id, with the admin's token.\n    - Verify the response status is 204.\n    - Verify GET /brands/{brandId} with that id returns 404."
+   "yaml": "- id: API-0148\n  name: Admin deletes a brand\n  status: automated\n  automatedIn: tests/api/brands/delete-brands-by-brand-id.spec.ts\n  role: admin\n  steps:\n    - Send POST /brands with a unique brand name and a unique slug, with the admin's token, and take the new brand's id.\n    - Send DELETE /brands/{brandId} with that id, with the admin's token.\n    - Verify the response status is 204.\n    - Verify GET /brands/{brandId} with that id returns 404."
   },
   {
    "id": "API-0149",
    "name": "Delete brand without a token returns 401",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/brands/delete-brands-by-brand-id.spec.ts",
    "role": "admin",
    "steps": [
     "Send POST /brands with a unique brand name and a unique slug, with the admin's token, and take the new brand's id.",
@@ -2570,6 +2651,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's message is \"Unauthorized\"."
    ],
    "ref": [],
+   "specLine": 55,
    "area": "brands",
    "areaLabel": "Brands",
    "file": "test-scenarios/api/brands/delete-brands-by-brand-id.yml",
@@ -2578,12 +2660,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@brands-api"
    ],
-   "yaml": "- id: API-0149\n  name: Delete brand without a token returns 401\n  status: manual\n  role: admin\n  steps:\n    - Send POST /brands with a unique brand name and a unique slug, with the admin's token, and take the new brand's id.\n    - Send DELETE /brands/{brandId} with that id, without an Authorization header.\n    - Verify the response status is 401.\n    - Verify the body's message is \"Unauthorized\"."
+   "yaml": "- id: API-0149\n  name: Delete brand without a token returns 401\n  status: automated\n  automatedIn: tests/api/brands/delete-brands-by-brand-id.spec.ts\n  role: admin\n  steps:\n    - Send POST /brands with a unique brand name and a unique slug, with the admin's token, and take the new brand's id.\n    - Send DELETE /brands/{brandId} with that id, without an Authorization header.\n    - Verify the response status is 401.\n    - Verify the body's message is \"Unauthorized\"."
   },
   {
    "id": "API-0150",
    "name": "Delete brand with an invalid token returns 401",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/brands/delete-brands-by-brand-id.spec.ts",
    "role": "admin",
    "steps": [
     "Send POST /brands with a unique brand name and a unique slug, with the admin's token, and take the new brand's id.",
@@ -2592,6 +2675,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's message is \"Unauthorized\"."
    ],
    "ref": [],
+   "specLine": 74,
    "area": "brands",
    "areaLabel": "Brands",
    "file": "test-scenarios/api/brands/delete-brands-by-brand-id.yml",
@@ -2600,12 +2684,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@brands-api"
    ],
-   "yaml": "- id: API-0150\n  name: Delete brand with an invalid token returns 401\n  status: manual\n  role: admin\n  steps:\n    - Send POST /brands with a unique brand name and a unique slug, with the admin's token, and take the new brand's id.\n    - Send DELETE /brands/{brandId} with that id, with an invalid token.\n    - Verify the response status is 401.\n    - Verify the body's message is \"Unauthorized\"."
+   "yaml": "- id: API-0150\n  name: Delete brand with an invalid token returns 401\n  status: automated\n  automatedIn: tests/api/brands/delete-brands-by-brand-id.spec.ts\n  role: admin\n  steps:\n    - Send POST /brands with a unique brand name and a unique slug, with the admin's token, and take the new brand's id.\n    - Send DELETE /brands/{brandId} with that id, with an invalid token.\n    - Verify the response status is 401.\n    - Verify the body's message is \"Unauthorized\"."
   },
   {
    "id": "API-0151",
    "name": "Delete brand as a non-admin user returns 403",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/brands/delete-brands-by-brand-id.spec.ts",
    "steps": [
     "Send POST /brands with a unique brand name and a unique slug, with the admin's token, and take the new brand's id.",
     "Send DELETE /brands/{brandId} with that id, with the default user's token.",
@@ -2613,6 +2698,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's message is \"Forbidden\"."
    ],
    "ref": [],
+   "specLine": 159,
    "area": "brands",
    "areaLabel": "Brands",
    "file": "test-scenarios/api/brands/delete-brands-by-brand-id.yml",
@@ -2621,12 +2707,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@brands-api"
    ],
-   "yaml": "- id: API-0151\n  name: Delete brand as a non-admin user returns 403\n  status: manual\n  steps:\n    - Send POST /brands with a unique brand name and a unique slug, with the admin's token, and take the new brand's id.\n    - Send DELETE /brands/{brandId} with that id, with the default user's token.\n    - Verify the response status is 403.\n    - Verify the body's message is \"Forbidden\"."
+   "yaml": "- id: API-0151\n  name: Delete brand as a non-admin user returns 403\n  status: automated\n  automatedIn: tests/api/brands/delete-brands-by-brand-id.spec.ts\n  steps:\n    - Send POST /brands with a unique brand name and a unique slug, with the admin's token, and take the new brand's id.\n    - Send DELETE /brands/{brandId} with that id, with the default user's token.\n    - Verify the response status is 403.\n    - Verify the body's message is \"Forbidden\"."
   },
   {
    "id": "API-0152",
    "name": "Delete brand with an unknown id returns 404",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/brands/delete-brands-by-brand-id.spec.ts",
    "role": "admin",
    "steps": [
     "Send DELETE /brands/{brandId} with a well-formed ULID that no brand has, with the admin's token.",
@@ -2634,6 +2721,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's message is \"Requested item not found\"."
    ],
    "ref": [],
+   "specLine": 93,
    "area": "brands",
    "areaLabel": "Brands",
    "file": "test-scenarios/api/brands/delete-brands-by-brand-id.yml",
@@ -2642,12 +2730,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@brands-api"
    ],
-   "yaml": "- id: API-0152\n  name: Delete brand with an unknown id returns 404\n  status: manual\n  role: admin\n  steps:\n    - Send DELETE /brands/{brandId} with a well-formed ULID that no brand has, with the admin's token.\n    - Verify the response status is 404.\n    - Verify the body's message is \"Requested item not found\"."
+   "yaml": "- id: API-0152\n  name: Delete brand with an unknown id returns 404\n  status: automated\n  automatedIn: tests/api/brands/delete-brands-by-brand-id.spec.ts\n  role: admin\n  steps:\n    - Send DELETE /brands/{brandId} with a well-formed ULID that no brand has, with the admin's token.\n    - Verify the response status is 404.\n    - Verify the body's message is \"Requested item not found\"."
   },
   {
    "id": "API-0153",
    "name": "Delete brand that a product uses returns 409",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/brands/delete-brands-by-brand-id.spec.ts",
    "role": "admin",
    "steps": [
     "Send POST /brands with a unique brand name and a unique slug, with the admin's token, and take the new brand's id.",
@@ -2659,6 +2748,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /brands/{brandId} with the new brand's id returns 200."
    ],
    "ref": [],
+   "specLine": 110,
    "area": "brands",
    "areaLabel": "Brands",
    "file": "test-scenarios/api/brands/delete-brands-by-brand-id.yml",
@@ -2667,7 +2757,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@brands-api"
    ],
-   "yaml": "- id: API-0153\n  name: Delete brand that a product uses returns 409\n  status: manual\n  role: admin\n  steps:\n    - Send POST /brands with a unique brand name and a unique slug, with the admin's token, and take the new brand's id.\n    - Send GET /products and take the first item's category id and product image id.\n    - Send POST /products with a unique product name, a positive price, that category id, the new brand's id as brand_id, that product image id, is_location_offer false and is_rental false, with the admin's token, and take the new product's id.\n    - Send DELETE /brands/{brandId} with the new brand's id, with the admin's token.\n    - Verify the response status is 409.\n    - Verify the body's success is false and its message is \"Seems like this brand is used elsewhere.\".\n    - Verify GET /brands/{brandId} with the new brand's id returns 200."
+   "yaml": "- id: API-0153\n  name: Delete brand that a product uses returns 409\n  status: automated\n  automatedIn: tests/api/brands/delete-brands-by-brand-id.spec.ts\n  role: admin\n  steps:\n    - Send POST /brands with a unique brand name and a unique slug, with the admin's token, and take the new brand's id.\n    - Send GET /products and take the first item's category id and product image id.\n    - Send POST /products with a unique product name, a positive price, that category id, the new brand's id as brand_id, that product image id, is_location_offer false and is_rental false, with the admin's token, and take the new product's id.\n    - Send DELETE /brands/{brandId} with the new brand's id, with the admin's token.\n    - Verify the response status is 409.\n    - Verify the body's success is false and its message is \"Seems like this brand is used elsewhere.\".\n    - Verify GET /brands/{brandId} with the new brand's id returns 200."
   },
   {
    "id": "API-0230",
@@ -3911,7 +4001,8 @@ window.SCENARIO_CATALOG = {
   {
    "id": "API-0164",
    "name": "List categories returns every category as a flat list",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/categories/get-categories.spec.ts",
    "steps": [
     "Send GET /categories.",
     "Verify the response status is 200.",
@@ -3921,6 +4012,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body includes at least one item whose parent_id is null and at least one whose parent_id is a string."
    ],
    "ref": [],
+   "specLine": 10,
    "area": "categories",
    "areaLabel": "Categories",
    "file": "test-scenarios/api/categories/get-categories.yml",
@@ -3929,12 +4021,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@categories-api"
    ],
-   "yaml": "- id: API-0164\n  name: List categories returns every category as a flat list\n  status: manual\n  steps:\n    - Send GET /categories.\n    - Verify the response status is 200.\n    - Verify the body is a non-empty array.\n    - Verify every item has a non-empty string id, name and slug, and a parent_id that is null or a string.\n    - Verify no item has a sub_categories key.\n    - Verify the body includes at least one item whose parent_id is null and at least one whose parent_id is a string."
+   "yaml": "- id: API-0164\n  name: List categories returns every category as a flat list\n  status: automated\n  automatedIn: tests/api/categories/get-categories.spec.ts\n  steps:\n    - Send GET /categories.\n    - Verify the response status is 200.\n    - Verify the body is a non-empty array.\n    - Verify every item has a non-empty string id, name and slug, and a parent_id that is null or a string.\n    - Verify no item has a sub_categories key.\n    - Verify the body includes at least one item whose parent_id is null and at least one whose parent_id is a string."
   },
   {
    "id": "API-0165",
    "name": "Create category returns 201 with the new category",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/categories/post-categories.spec.ts",
    "role": "admin",
    "steps": [
     "Send POST /categories with a unique category name and a unique slug, with the admin's token, and take the new category's id.",
@@ -3944,6 +4037,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /categories/tree/{categoryId} with the new id returns 200 with the same name and slug, a null parent_id and an empty sub_categories."
    ],
    "ref": [],
+   "specLine": 39,
    "area": "categories",
    "areaLabel": "Categories",
    "file": "test-scenarios/api/categories/post-categories.yml",
@@ -3952,12 +4046,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@categories-api"
    ],
-   "yaml": "- id: API-0165\n  name: Create category returns 201 with the new category\n  status: manual\n  role: admin\n  steps:\n    - Send POST /categories with a unique category name and a unique slug, with the admin's token, and take the new category's id.\n    - Verify the response status is 201.\n    - Verify the body's name and slug equal the values sent.\n    - Verify the body has a non-empty id.\n    - Verify GET /categories/tree/{categoryId} with the new id returns 200 with the same name and slug, a null parent_id and an empty sub_categories."
+   "yaml": "- id: API-0165\n  name: Create category returns 201 with the new category\n  status: automated\n  automatedIn: tests/api/categories/post-categories.spec.ts\n  role: admin\n  steps:\n    - Send POST /categories with a unique category name and a unique slug, with the admin's token, and take the new category's id.\n    - Verify the response status is 201.\n    - Verify the body's name and slug equal the values sent.\n    - Verify the body has a non-empty id.\n    - Verify GET /categories/tree/{categoryId} with the new id returns 200 with the same name and slug, a null parent_id and an empty sub_categories."
   },
   {
    "id": "API-0166",
    "name": "Create category with a parent_id creates a sub-category",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/categories/post-categories.spec.ts",
    "role": "admin",
    "steps": [
     "Send POST /categories with a unique category name and a unique slug, with the admin's token, and take the new category's id as the parent's id.",
@@ -3968,6 +4063,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /categories/tree/{categoryId} with the parent's id returns sub_categories with exactly one item, whose id is the new category's id."
    ],
    "ref": [],
+   "specLine": 81,
    "area": "categories",
    "areaLabel": "Categories",
    "file": "test-scenarios/api/categories/post-categories.yml",
@@ -3976,12 +4072,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@categories-api"
    ],
-   "yaml": "- id: API-0166\n  name: Create category with a parent_id creates a sub-category\n  status: manual\n  role: admin\n  steps:\n    - Send POST /categories with a unique category name and a unique slug, with the admin's token, and take the new category's id as the parent's id.\n    - Send POST /categories with a unique category name, a unique slug and the parent's id as parent_id, with the admin's token, and take the new category's id.\n    - Verify the response status is 201.\n    - Verify the body's parent_id equals the parent's id.\n    - Verify GET /categories/tree/{categoryId} with the new id returns the parent's id as parent_id.\n    - Verify GET /categories/tree/{categoryId} with the parent's id returns sub_categories with exactly one item, whose id is the new category's id."
+   "yaml": "- id: API-0166\n  name: Create category with a parent_id creates a sub-category\n  status: automated\n  automatedIn: tests/api/categories/post-categories.spec.ts\n  role: admin\n  steps:\n    - Send POST /categories with a unique category name and a unique slug, with the admin's token, and take the new category's id as the parent's id.\n    - Send POST /categories with a unique category name, a unique slug and the parent's id as parent_id, with the admin's token, and take the new category's id.\n    - Verify the response status is 201.\n    - Verify the body's parent_id equals the parent's id.\n    - Verify GET /categories/tree/{categoryId} with the new id returns the parent's id as parent_id.\n    - Verify GET /categories/tree/{categoryId} with the parent's id returns sub_categories with exactly one item, whose id is the new category's id."
   },
   {
    "id": "API-0167",
    "name": "Create category without the required fields returns 422 for each of them",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/categories/post-categories.spec.ts",
    "steps": [
     "Send POST /categories with an empty JSON object as the body.",
     "Verify the response status is 422.",
@@ -3989,6 +4086,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's name messages include \"The name field is required.\" and its slug messages include \"The slug field is required.\"."
    ],
    "ref": [],
+   "specLine": 171,
    "area": "categories",
    "areaLabel": "Categories",
    "file": "test-scenarios/api/categories/post-categories.yml",
@@ -3997,18 +4095,20 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@categories-api"
    ],
-   "yaml": "- id: API-0167\n  name: Create category without the required fields returns 422 for each of them\n  status: manual\n  steps:\n    - Send POST /categories with an empty JSON object as the body.\n    - Verify the response status is 422.\n    - Verify the body has the keys name and slug, each with at least one message.\n    - Verify the body's name messages include \"The name field is required.\" and its slug messages include \"The slug field is required.\"."
+   "yaml": "- id: API-0167\n  name: Create category without the required fields returns 422 for each of them\n  status: automated\n  automatedIn: tests/api/categories/post-categories.spec.ts\n  steps:\n    - Send POST /categories with an empty JSON object as the body.\n    - Verify the response status is 422.\n    - Verify the body has the keys name and slug, each with at least one message.\n    - Verify the body's name messages include \"The name field is required.\" and its slug messages include \"The slug field is required.\"."
   },
   {
    "id": "API-0168",
    "name": "Create category with a slug outside letters, digits, dashes and underscores returns 422",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/categories/post-categories.spec.ts",
    "steps": [
     "Send POST /categories with a unique category name and a slug made of a unique slug followed by \" x!\" (a space and an exclamation mark).",
     "Verify the response status is 422.",
     "Verify the body has a slug key with at least one message."
    ],
    "ref": [],
+   "specLine": 194,
    "area": "categories",
    "areaLabel": "Categories",
    "file": "test-scenarios/api/categories/post-categories.yml",
@@ -4017,18 +4117,20 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@categories-api"
    ],
-   "yaml": "- id: API-0168\n  name: Create category with a slug outside letters, digits, dashes and underscores returns 422\n  status: manual\n  steps:\n    - Send POST /categories with a unique category name and a slug made of a unique slug followed by \" x!\" (a space and an exclamation mark).\n    - Verify the response status is 422.\n    - Verify the body has a slug key with at least one message."
+   "yaml": "- id: API-0168\n  name: Create category with a slug outside letters, digits, dashes and underscores returns 422\n  status: automated\n  automatedIn: tests/api/categories/post-categories.spec.ts\n  steps:\n    - Send POST /categories with a unique category name and a slug made of a unique slug followed by \" x!\" (a space and an exclamation mark).\n    - Verify the response status is 422.\n    - Verify the body has a slug key with at least one message."
   },
   {
    "id": "API-0169",
    "name": "Create category with a name longer than 120 characters returns 422",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/categories/post-categories.spec.ts",
    "steps": [
     "Send POST /categories with a 121-character name that starts with a unique category name, and a unique slug.",
     "Verify the response status is 422.",
     "Verify the body has a name key with at least one message."
    ],
    "ref": [],
+   "specLine": 219,
    "area": "categories",
    "areaLabel": "Categories",
    "file": "test-scenarios/api/categories/post-categories.yml",
@@ -4037,18 +4139,20 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@categories-api"
    ],
-   "yaml": "- id: API-0169\n  name: Create category with a name longer than 120 characters returns 422\n  status: manual\n  steps:\n    - Send POST /categories with a 121-character name that starts with a unique category name, and a unique slug.\n    - Verify the response status is 422.\n    - Verify the body has a name key with at least one message."
+   "yaml": "- id: API-0169\n  name: Create category with a name longer than 120 characters returns 422\n  status: automated\n  automatedIn: tests/api/categories/post-categories.spec.ts\n  steps:\n    - Send POST /categories with a 121-character name that starts with a unique category name, and a unique slug.\n    - Verify the response status is 422.\n    - Verify the body has a name key with at least one message."
   },
   {
    "id": "API-0170",
    "name": "Create category with a slug longer than 120 characters returns 422",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/categories/post-categories.spec.ts",
    "steps": [
     "Send POST /categories with a unique category name and a 121-character slug that starts with a unique slug and contains only letters, digits and dashes.",
     "Verify the response status is 422.",
     "Verify the body has a slug key with at least one message."
    ],
    "ref": [],
+   "specLine": 237,
    "area": "categories",
    "areaLabel": "Categories",
    "file": "test-scenarios/api/categories/post-categories.yml",
@@ -4057,18 +4161,20 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@categories-api"
    ],
-   "yaml": "- id: API-0170\n  name: Create category with a slug longer than 120 characters returns 422\n  status: manual\n  steps:\n    - Send POST /categories with a unique category name and a 121-character slug that starts with a unique slug and contains only letters, digits and dashes.\n    - Verify the response status is 422.\n    - Verify the body has a slug key with at least one message."
+   "yaml": "- id: API-0170\n  name: Create category with a slug longer than 120 characters returns 422\n  status: automated\n  automatedIn: tests/api/categories/post-categories.spec.ts\n  steps:\n    - Send POST /categories with a unique category name and a 121-character slug that starts with a unique slug and contains only letters, digits and dashes.\n    - Verify the response status is 422.\n    - Verify the body has a slug key with at least one message."
   },
   {
    "id": "API-0171",
    "name": "Create category with a parent_id that isn't a string returns 422",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/categories/post-categories.spec.ts",
    "steps": [
     "Send POST /categories with a unique category name, a unique slug and parent_id set to the number 123.",
     "Verify the response status is 422.",
     "Verify the body has a parent_id key with at least one message."
    ],
    "ref": [],
+   "specLine": 258,
    "area": "categories",
    "areaLabel": "Categories",
    "file": "test-scenarios/api/categories/post-categories.yml",
@@ -4077,18 +4183,20 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@categories-api"
    ],
-   "yaml": "- id: API-0171\n  name: Create category with a parent_id that isn't a string returns 422\n  status: manual\n  steps:\n    - Send POST /categories with a unique category name, a unique slug and parent_id set to the number 123.\n    - Verify the response status is 422.\n    - Verify the body has a parent_id key with at least one message."
+   "yaml": "- id: API-0171\n  name: Create category with a parent_id that isn't a string returns 422\n  status: automated\n  automatedIn: tests/api/categories/post-categories.spec.ts\n  steps:\n    - Send POST /categories with a unique category name, a unique slug and parent_id set to the number 123.\n    - Verify the response status is 422.\n    - Verify the body has a parent_id key with at least one message."
   },
   {
    "id": "API-0172",
    "name": "Create category with a subscript character in the name returns 422",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/categories/post-categories.spec.ts",
    "steps": [
     "Send POST /categories with a unique category name followed by a Unicode subscript character, and a unique slug.",
     "Verify the response status is 422.",
     "Verify the body has a name key with at least one message."
    ],
    "ref": [],
+   "specLine": 275,
    "area": "categories",
    "areaLabel": "Categories",
    "file": "test-scenarios/api/categories/post-categories.yml",
@@ -4097,18 +4205,20 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@categories-api"
    ],
-   "yaml": "- id: API-0172\n  name: Create category with a subscript character in the name returns 422\n  status: manual\n  steps:\n    - Send POST /categories with a unique category name followed by a Unicode subscript character, and a unique slug.\n    - Verify the response status is 422.\n    - Verify the body has a name key with at least one message."
+   "yaml": "- id: API-0172\n  name: Create category with a subscript character in the name returns 422\n  status: automated\n  automatedIn: tests/api/categories/post-categories.spec.ts\n  steps:\n    - Send POST /categories with a unique category name followed by a Unicode subscript character, and a unique slug.\n    - Verify the response status is 422.\n    - Verify the body has a name key with at least one message."
   },
   {
    "id": "API-0173",
    "name": "Create category with an existing slug returns 409",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/categories/post-categories.spec.ts",
    "steps": [
     "Send POST /categories with a unique category name and the slug hand-tools.",
     "Verify the response status is 409.",
     "Verify the body's slug messages include \"A category already exists with this slug.\"."
    ],
    "ref": [],
+   "specLine": 293,
    "area": "categories",
    "areaLabel": "Categories",
    "file": "test-scenarios/api/categories/post-categories.yml",
@@ -4117,18 +4227,20 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@categories-api"
    ],
-   "yaml": "- id: API-0173\n  name: Create category with an existing slug returns 409\n  status: manual\n  steps:\n    - Send POST /categories with a unique category name and the slug hand-tools.\n    - Verify the response status is 409.\n    - Verify the body's slug messages include \"A category already exists with this slug.\"."
+   "yaml": "- id: API-0173\n  name: Create category with an existing slug returns 409\n  status: automated\n  automatedIn: tests/api/categories/post-categories.spec.ts\n  steps:\n    - Send POST /categories with a unique category name and the slug hand-tools.\n    - Verify the response status is 409.\n    - Verify the body's slug messages include \"A category already exists with this slug.\"."
   },
   {
    "id": "API-0174",
    "name": "Create category with an existing slug and a too-long name returns 422",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/categories/post-categories.spec.ts",
    "steps": [
     "Send POST /categories with a 121-character name that starts with a unique category name, and the slug hand-tools.",
     "Verify the response status is 422.",
     "Verify the body has a name key with at least one message."
    ],
    "ref": [],
+   "specLine": 311,
    "area": "categories",
    "areaLabel": "Categories",
    "file": "test-scenarios/api/categories/post-categories.yml",
@@ -4137,12 +4249,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@categories-api"
    ],
-   "yaml": "- id: API-0174\n  name: Create category with an existing slug and a too-long name returns 422\n  status: manual\n  steps:\n    - Send POST /categories with a 121-character name that starts with a unique category name, and the slug hand-tools.\n    - Verify the response status is 422.\n    - Verify the body has a name key with at least one message."
+   "yaml": "- id: API-0174\n  name: Create category with an existing slug and a too-long name returns 422\n  status: automated\n  automatedIn: tests/api/categories/post-categories.spec.ts\n  steps:\n    - Send POST /categories with a 121-character name that starts with a unique category name, and the slug hand-tools.\n    - Verify the response status is 422.\n    - Verify the body has a name key with at least one message."
   },
   {
    "id": "API-0175",
    "name": "Create category ignores fields other than name, slug and parent_id",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/categories/post-categories.spec.ts",
    "role": "admin",
    "steps": [
     "Send POST /categories with a unique category name, a unique slug and a description field set to \"ignored\", with the admin's token, and take the new category's id.",
@@ -4151,6 +4264,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /categories/tree/{categoryId} with the new id has no description key."
    ],
    "ref": [],
+   "specLine": 132,
    "area": "categories",
    "areaLabel": "Categories",
    "file": "test-scenarios/api/categories/post-categories.yml",
@@ -4159,12 +4273,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@categories-api"
    ],
-   "yaml": "- id: API-0175\n  name: Create category ignores fields other than name, slug and parent_id\n  status: manual\n  role: admin\n  steps:\n    - Send POST /categories with a unique category name, a unique slug and a description field set to \"ignored\", with the admin's token, and take the new category's id.\n    - Verify the response status is 201.\n    - Verify the body has the keys id, name and slug only.\n    - Verify GET /categories/tree/{categoryId} with the new id has no description key."
+   "yaml": "- id: API-0175\n  name: Create category ignores fields other than name, slug and parent_id\n  status: automated\n  automatedIn: tests/api/categories/post-categories.spec.ts\n  role: admin\n  steps:\n    - Send POST /categories with a unique category name, a unique slug and a description field set to \"ignored\", with the admin's token, and take the new category's id.\n    - Verify the response status is 201.\n    - Verify the body has the keys id, name and slug only.\n    - Verify GET /categories/tree/{categoryId} with the new id has no description key."
   },
   {
    "id": "API-0176",
    "name": "Create category with an unknown parent_id returns 422",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/categories/post-categories.spec.ts",
    "knownIssue": "Returns 500 instead of 422 when parent_id is not the id of an existing category.",
    "bug": "BUG-015",
    "steps": [
@@ -4172,6 +4287,7 @@ window.SCENARIO_CATALOG = {
     "Verify the response status is 422."
    ],
    "ref": [],
+   "specLine": 329,
    "area": "categories",
    "areaLabel": "Categories",
    "file": "test-scenarios/api/categories/post-categories.yml",
@@ -4180,12 +4296,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@categories-api"
    ],
-   "yaml": "- id: API-0176\n  name: Create category with an unknown parent_id returns 422\n  status: manual\n  knownIssue: Returns 500 instead of 422 when parent_id is not the id of an existing category.\n  bug: BUG-015\n  steps:\n    - Send POST /categories with a unique category name, a unique slug and a well-formed ULID that no category has as parent_id.\n    - Verify the response status is 422."
+   "yaml": "- id: API-0176\n  name: Create category with an unknown parent_id returns 422\n  status: automated\n  automatedIn: tests/api/categories/post-categories.spec.ts\n  knownIssue: Returns 500 instead of 422 when parent_id is not the id of an existing category.\n  bug: BUG-015\n  steps:\n    - Send POST /categories with a unique category name, a unique slug and a well-formed ULID that no category has as parent_id.\n    - Verify the response status is 422."
   },
   {
    "id": "API-0177",
    "name": "Create category without a token returns 401",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/categories/post-categories.spec.ts",
    "knownIssue": "Accepts POST without a token instead of returning 401.",
    "bug": "BUG-014",
    "steps": [
@@ -4193,6 +4310,7 @@ window.SCENARIO_CATALOG = {
     "Verify the response status is 401."
    ],
    "ref": [],
+   "specLine": 344,
    "area": "categories",
    "areaLabel": "Categories",
    "file": "test-scenarios/api/categories/post-categories.yml",
@@ -4201,12 +4319,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@categories-api"
    ],
-   "yaml": "- id: API-0177\n  name: Create category without a token returns 401\n  status: manual\n  knownIssue: Accepts POST without a token instead of returning 401.\n  bug: BUG-014\n  steps:\n    - Send POST /categories with a unique category name and a unique slug, without an Authorization header.\n    - Verify the response status is 401."
+   "yaml": "- id: API-0177\n  name: Create category without a token returns 401\n  status: automated\n  automatedIn: tests/api/categories/post-categories.spec.ts\n  knownIssue: Accepts POST without a token instead of returning 401.\n  bug: BUG-014\n  steps:\n    - Send POST /categories with a unique category name and a unique slug, without an Authorization header.\n    - Verify the response status is 401."
   },
   {
    "id": "API-0191",
    "name": "Search categories returns only matching categories",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/categories/get-categories-search.spec.ts",
    "steps": [
     "Send GET /categories/search with q=hand.",
     "Verify the response status is 200.",
@@ -4215,6 +4334,7 @@ window.SCENARIO_CATALOG = {
     "Verify the item whose slug is hand-tools has a non-empty sub_categories."
    ],
    "ref": [],
+   "specLine": 24,
    "area": "categories",
    "areaLabel": "Categories",
    "file": "test-scenarios/api/categories/get-categories-search.yml",
@@ -4223,12 +4343,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@categories-api"
    ],
-   "yaml": "- id: API-0191\n  name: Search categories returns only matching categories\n  status: manual\n  steps:\n    - Send GET /categories/search with q=hand.\n    - Verify the response status is 200.\n    - Verify the body is a non-empty array and every item's name contains \"hand\" (case-insensitive).\n    - Verify the body's slugs include hand-tools and hand-saw.\n    - Verify the item whose slug is hand-tools has a non-empty sub_categories."
+   "yaml": "- id: API-0191\n  name: Search categories returns only matching categories\n  status: automated\n  automatedIn: tests/api/categories/get-categories-search.spec.ts\n  steps:\n    - Send GET /categories/search with q=hand.\n    - Verify the response status is 200.\n    - Verify the body is a non-empty array and every item's name contains \"hand\" (case-insensitive).\n    - Verify the body's slugs include hand-tools and hand-saw.\n    - Verify the item whose slug is hand-tools has a non-empty sub_categories."
   },
   {
    "id": "API-0192",
    "name": "Search categories with a term shorter than 4 characters matches inside names",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/categories/get-categories-search.spec.ts",
    "steps": [
     "Send GET /categories/search with q=saw.",
     "Verify the response status is 200.",
@@ -4236,6 +4357,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's slugs include hand-saw and saw."
    ],
    "ref": [],
+   "specLine": 56,
    "area": "categories",
    "areaLabel": "Categories",
    "file": "test-scenarios/api/categories/get-categories-search.yml",
@@ -4244,18 +4366,20 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@categories-api"
    ],
-   "yaml": "- id: API-0192\n  name: Search categories with a term shorter than 4 characters matches inside names\n  status: manual\n  steps:\n    - Send GET /categories/search with q=saw.\n    - Verify the response status is 200.\n    - Verify the body is a non-empty array and every item's name contains \"saw\" (case-insensitive).\n    - Verify the body's slugs include hand-saw and saw."
+   "yaml": "- id: API-0192\n  name: Search categories with a term shorter than 4 characters matches inside names\n  status: automated\n  automatedIn: tests/api/categories/get-categories-search.spec.ts\n  steps:\n    - Send GET /categories/search with q=saw.\n    - Verify the response status is 200.\n    - Verify the body is a non-empty array and every item's name contains \"saw\" (case-insensitive).\n    - Verify the body's slugs include hand-saw and saw."
   },
   {
    "id": "API-0193",
    "name": "Search categories with a term no category matches returns an empty array",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/categories/get-categories-search.spec.ts",
    "steps": [
     "Send GET /categories/search with q set to a unique term of letters and digits only that no category has.",
     "Verify the response status is 200.",
     "Verify the body is an empty array."
    ],
    "ref": [],
+   "specLine": 78,
    "area": "categories",
    "areaLabel": "Categories",
    "file": "test-scenarios/api/categories/get-categories-search.yml",
@@ -4264,19 +4388,20 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@categories-api"
    ],
-   "yaml": "- id: API-0193\n  name: Search categories with a term no category matches returns an empty array\n  status: manual\n  steps:\n    - Send GET /categories/search with q set to a unique term of letters and digits only that no category has.\n    - Verify the response status is 200.\n    - Verify the body is an empty array."
+   "yaml": "- id: API-0193\n  name: Search categories with a term no category matches returns an empty array\n  status: automated\n  automatedIn: tests/api/categories/get-categories-search.spec.ts\n  steps:\n    - Send GET /categories/search with q set to a unique term of letters and digits only that no category has.\n    - Verify the response status is 200.\n    - Verify the body is an empty array."
   },
   {
    "id": "API-0194",
-   "name": "Search categories without a term returns every category",
-   "status": "manual",
+   "name": "Search categories without a term returns the seeded categories",
+   "status": "automated",
+   "automatedIn": "tests/api/categories/get-categories-search.spec.ts",
    "steps": [
-    "Send GET /categories and keep the category ids.",
     "Send GET /categories/search without a q parameter.",
     "Verify the response status is 200.",
-    "Verify the body's category ids equal the GET /categories ids, in any order."
+    "Verify the body's slugs include hand-tools, hammer and saw."
    ],
    "ref": [],
+   "specLine": 95,
    "area": "categories",
    "areaLabel": "Categories",
    "file": "test-scenarios/api/categories/get-categories-search.yml",
@@ -4285,12 +4410,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@categories-api"
    ],
-   "yaml": "- id: API-0194\n  name: Search categories without a term returns every category\n  status: manual\n  steps:\n    - Send GET /categories and keep the category ids.\n    - Send GET /categories/search without a q parameter.\n    - Verify the response status is 200.\n    - Verify the body's category ids equal the GET /categories ids, in any order."
+   "yaml": "- id: API-0194\n  name: Search categories without a term returns the seeded categories\n  status: automated\n  automatedIn: tests/api/categories/get-categories-search.spec.ts\n  steps:\n    - Send GET /categories/search without a q parameter.\n    - Verify the response status is 200.\n    - Verify the body's slugs include hand-tools, hammer and saw."
   },
   {
    "id": "API-0195",
    "name": "Search categories with q as an array returns 422",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/categories/get-categories-search.spec.ts",
    "knownIssue": "Returns 500 instead of 422 when q is sent as an array.",
    "bug": "BUG-017",
    "steps": [
@@ -4298,6 +4424,7 @@ window.SCENARIO_CATALOG = {
     "Verify the response status is 422."
    ],
    "ref": [],
+   "specLine": 112,
    "area": "categories",
    "areaLabel": "Categories",
    "file": "test-scenarios/api/categories/get-categories-search.yml",
@@ -4306,12 +4433,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@categories-api"
    ],
-   "yaml": "- id: API-0195\n  name: Search categories with q as an array returns 422\n  status: manual\n  knownIssue: Returns 500 instead of 422 when q is sent as an array.\n  bug: BUG-017\n  steps:\n    - Send GET /categories/search with q as an array (q[]=x).\n    - Verify the response status is 422."
+   "yaml": "- id: API-0195\n  name: Search categories with q as an array returns 422\n  status: automated\n  automatedIn: tests/api/categories/get-categories-search.spec.ts\n  knownIssue: Returns 500 instead of 422 when q is sent as an array.\n  bug: BUG-017\n  steps:\n    - Send GET /categories/search with q as an array (q[]=x).\n    - Verify the response status is 422."
   },
   {
    "id": "API-0196",
    "name": "Search categories finds a category created after the same term was searched",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/categories/get-categories-search.spec.ts",
    "role": "admin",
    "knownIssue": "Returns the cached search result instead of the new category for a term searched before the category was created.",
    "bug": "BUG-020",
@@ -4322,6 +4450,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body includes a category with the new id."
    ],
    "ref": [],
+   "specLine": 129,
    "area": "categories",
    "areaLabel": "Categories",
    "file": "test-scenarios/api/categories/get-categories-search.yml",
@@ -4330,12 +4459,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@categories-api"
    ],
-   "yaml": "- id: API-0196\n  name: Search categories finds a category created after the same term was searched\n  status: manual\n  role: admin\n  knownIssue: Returns the cached search result instead of the new category for a term searched before the category was created.\n  bug: BUG-020\n  steps:\n    - Send GET /categories/search with q set to a unique term of letters and digits only, at least 4 characters long, that no category has.\n    - Send POST /categories with that term as the name and a unique slug, with the admin's token, and take the new category's id.\n    - Send GET /categories/search with the same term.\n    - Verify the body includes a category with the new id."
+   "yaml": "- id: API-0196\n  name: Search categories finds a category created after the same term was searched\n  status: automated\n  automatedIn: tests/api/categories/get-categories-search.spec.ts\n  role: admin\n  knownIssue: Returns the cached search result instead of the new category for a term searched before the category was created.\n  bug: BUG-020\n  steps:\n    - Send GET /categories/search with q set to a unique term of letters and digits only, at least 4 characters long, that no category has.\n    - Send POST /categories with that term as the name and a unique slug, with the admin's token, and take the new category's id.\n    - Send GET /categories/search with the same term.\n    - Verify the body includes a category with the new id."
   },
   {
    "id": "API-0197",
    "name": "QUERY search returns only matching categories",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/categories/query-categories-search.spec.ts",
    "steps": [
     "Send QUERY /categories/search with Content-Type: application/json, Accept: application/json and the body { \"q\": \"saw\" }.",
     "Verify the response status is 200.",
@@ -4344,6 +4474,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's slugs include hand-saw and saw."
    ],
    "ref": [],
+   "specLine": 34,
    "area": "categories",
    "areaLabel": "Categories",
    "file": "test-scenarios/api/categories/query-categories-search.yml",
@@ -4352,19 +4483,20 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@categories-api"
    ],
-   "yaml": "- id: API-0197\n  name: QUERY search returns only matching categories\n  status: manual\n  steps:\n    - 'Send QUERY /categories/search with Content-Type: application/json, Accept: application/json and the body { \"q\": \"saw\" }.'\n    - Verify the response status is 200.\n    - Verify the Accept-Query response header is application/json.\n    - Verify the body is a non-empty array and every item's name contains \"saw\" (case-insensitive).\n    - Verify the body's slugs include hand-saw and saw."
+   "yaml": "- id: API-0197\n  name: QUERY search returns only matching categories\n  status: automated\n  automatedIn: tests/api/categories/query-categories-search.spec.ts\n  steps:\n    - 'Send QUERY /categories/search with Content-Type: application/json, Accept: application/json and the body { \"q\": \"saw\" }.'\n    - Verify the response status is 200.\n    - Verify the Accept-Query response header is application/json.\n    - Verify the body is a non-empty array and every item's name contains \"saw\" (case-insensitive).\n    - Verify the body's slugs include hand-saw and saw."
   },
   {
    "id": "API-0198",
-   "name": "QUERY search with an empty body returns every category",
-   "status": "manual",
+   "name": "QUERY search with an empty body returns the seeded categories",
+   "status": "automated",
+   "automatedIn": "tests/api/categories/query-categories-search.spec.ts",
    "steps": [
-    "Send GET /categories and keep the category ids.",
     "Send QUERY /categories/search with Content-Type: application/json, Accept: application/json and an empty JSON object as the body.",
     "Verify the response status is 200.",
-    "Verify the body's category ids equal the GET /categories ids, in any order."
+    "Verify the body's slugs include hand-tools, hammer and saw."
    ],
    "ref": [],
+   "specLine": 60,
    "area": "categories",
    "areaLabel": "Categories",
    "file": "test-scenarios/api/categories/query-categories-search.yml",
@@ -4373,18 +4505,20 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@categories-api"
    ],
-   "yaml": "- id: API-0198\n  name: QUERY search with an empty body returns every category\n  status: manual\n  steps:\n    - Send GET /categories and keep the category ids.\n    - \"Send QUERY /categories/search with Content-Type: application/json, Accept: application/json and an empty JSON object as the body.\"\n    - Verify the response status is 200.\n    - Verify the body's category ids equal the GET /categories ids, in any order."
+   "yaml": "- id: API-0198\n  name: QUERY search with an empty body returns the seeded categories\n  status: automated\n  automatedIn: tests/api/categories/query-categories-search.spec.ts\n  steps:\n    - \"Send QUERY /categories/search with Content-Type: application/json, Accept: application/json and an empty JSON object as the body.\"\n    - Verify the response status is 200.\n    - Verify the body's slugs include hand-tools, hammer and saw."
   },
   {
    "id": "API-0199",
    "name": "QUERY search without a JSON Content-Type returns 415",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/categories/query-categories-search.spec.ts",
    "steps": [
     "Send QUERY /categories/search with Content-Type: text/plain, Accept: application/json and a plain-text body.",
     "Verify the response status is 415.",
     "Verify the body's message is \"QUERY requests must use Content-Type: application/json\"."
    ],
    "ref": [],
+   "specLine": 80,
    "area": "categories",
    "areaLabel": "Categories",
    "file": "test-scenarios/api/categories/query-categories-search.yml",
@@ -4393,12 +4527,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@categories-api"
    ],
-   "yaml": "- id: API-0199\n  name: QUERY search without a JSON Content-Type returns 415\n  status: manual\n  steps:\n    - \"Send QUERY /categories/search with Content-Type: text/plain, Accept: application/json and a plain-text body.\"\n    - Verify the response status is 415.\n    - 'Verify the body''s message is \"QUERY requests must use Content-Type: application/json\".'"
+   "yaml": "- id: API-0199\n  name: QUERY search without a JSON Content-Type returns 415\n  status: automated\n  automatedIn: tests/api/categories/query-categories-search.spec.ts\n  steps:\n    - \"Send QUERY /categories/search with Content-Type: text/plain, Accept: application/json and a plain-text body.\"\n    - Verify the response status is 415.\n    - 'Verify the body''s message is \"QUERY requests must use Content-Type: application/json\".'"
   },
   {
    "id": "API-0200",
    "name": "QUERY search with q as an array returns 422",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/categories/query-categories-search.spec.ts",
    "knownIssue": "Returns 500 instead of 422 when q is sent as an array.",
    "bug": "BUG-017",
    "steps": [
@@ -4406,6 +4541,7 @@ window.SCENARIO_CATALOG = {
     "Verify the response status is 422."
    ],
    "ref": [],
+   "specLine": 100,
    "area": "categories",
    "areaLabel": "Categories",
    "file": "test-scenarios/api/categories/query-categories-search.yml",
@@ -4414,12 +4550,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@categories-api"
    ],
-   "yaml": "- id: API-0200\n  name: QUERY search with q as an array returns 422\n  status: manual\n  knownIssue: Returns 500 instead of 422 when q is sent as an array.\n  bug: BUG-017\n  steps:\n    - 'Send QUERY /categories/search with Content-Type: application/json, Accept: application/json and the body { \"q\": [\"x\"] }.'\n    - Verify the response status is 422."
+   "yaml": "- id: API-0200\n  name: QUERY search with q as an array returns 422\n  status: automated\n  automatedIn: tests/api/categories/query-categories-search.spec.ts\n  knownIssue: Returns 500 instead of 422 when q is sent as an array.\n  bug: BUG-017\n  steps:\n    - 'Send QUERY /categories/search with Content-Type: application/json, Accept: application/json and the body { \"q\": [\"x\"] }.'\n    - Verify the response status is 422."
   },
   {
    "id": "API-0178",
    "name": "Category tree returns the top-level categories with their sub-categories",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/categories/get-categories-tree.spec.ts",
    "steps": [
     "Send GET /categories/tree.",
     "Verify the response status is 200.",
@@ -4428,6 +4565,7 @@ window.SCENARIO_CATALOG = {
     "Verify every item has a sub_categories array, and every sub-category's parent_id equals its item's id."
    ],
    "ref": [],
+   "specLine": 24,
    "area": "categories",
    "areaLabel": "Categories",
    "file": "test-scenarios/api/categories/get-categories-tree.yml",
@@ -4436,12 +4574,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@categories-api"
    ],
-   "yaml": "- id: API-0178\n  name: Category tree returns the top-level categories with their sub-categories\n  status: manual\n  steps:\n    - Send GET /categories/tree.\n    - Verify the response status is 200.\n    - Verify the body is a non-empty array and every item's parent_id is null.\n    - Verify the body's slugs include hand-tools, power-tools and other.\n    - Verify every item has a sub_categories array, and every sub-category's parent_id equals its item's id."
+   "yaml": "- id: API-0178\n  name: Category tree returns the top-level categories with their sub-categories\n  status: automated\n  automatedIn: tests/api/categories/get-categories-tree.spec.ts\n  steps:\n    - Send GET /categories/tree.\n    - Verify the response status is 200.\n    - Verify the body is a non-empty array and every item's parent_id is null.\n    - Verify the body's slugs include hand-tools, power-tools and other.\n    - Verify every item has a sub_categories array, and every sub-category's parent_id equals its item's id."
   },
   {
    "id": "API-0179",
    "name": "Category tree filtered by a top-level slug returns only that category",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/categories/get-categories-tree.spec.ts",
    "steps": [
     "Send GET /categories/tree with by_category_slug=hand-tools.",
     "Verify the response status is 200.",
@@ -4449,6 +4588,7 @@ window.SCENARIO_CATALOG = {
     "Verify the item's sub_categories is non-empty, includes the slug hammer, and every sub-category's parent_id equals the item's id."
    ],
    "ref": [],
+   "specLine": 53,
    "area": "categories",
    "areaLabel": "Categories",
    "file": "test-scenarios/api/categories/get-categories-tree.yml",
@@ -4457,18 +4597,20 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@categories-api"
    ],
-   "yaml": "- id: API-0179\n  name: Category tree filtered by a top-level slug returns only that category\n  status: manual\n  steps:\n    - Send GET /categories/tree with by_category_slug=hand-tools.\n    - Verify the response status is 200.\n    - Verify the body has exactly one item, whose slug is hand-tools and whose parent_id is null.\n    - Verify the item's sub_categories is non-empty, includes the slug hammer, and every sub-category's parent_id equals the item's id."
+   "yaml": "- id: API-0179\n  name: Category tree filtered by a top-level slug returns only that category\n  status: automated\n  automatedIn: tests/api/categories/get-categories-tree.spec.ts\n  steps:\n    - Send GET /categories/tree with by_category_slug=hand-tools.\n    - Verify the response status is 200.\n    - Verify the body has exactly one item, whose slug is hand-tools and whose parent_id is null.\n    - Verify the item's sub_categories is non-empty, includes the slug hammer, and every sub-category's parent_id equals the item's id."
   },
   {
    "id": "API-0180",
    "name": "Category tree filtered by a sub-category's slug returns an empty array",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/categories/get-categories-tree.spec.ts",
    "steps": [
     "Send GET /categories/tree with by_category_slug=hammer.",
     "Verify the response status is 200.",
     "Verify the body is an empty array."
    ],
    "ref": [],
+   "specLine": 84,
    "area": "categories",
    "areaLabel": "Categories",
    "file": "test-scenarios/api/categories/get-categories-tree.yml",
@@ -4477,18 +4619,20 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@categories-api"
    ],
-   "yaml": "- id: API-0180\n  name: Category tree filtered by a sub-category's slug returns an empty array\n  status: manual\n  steps:\n    - Send GET /categories/tree with by_category_slug=hammer.\n    - Verify the response status is 200.\n    - Verify the body is an empty array."
+   "yaml": "- id: API-0180\n  name: Category tree filtered by a sub-category's slug returns an empty array\n  status: automated\n  automatedIn: tests/api/categories/get-categories-tree.spec.ts\n  steps:\n    - Send GET /categories/tree with by_category_slug=hammer.\n    - Verify the response status is 200.\n    - Verify the body is an empty array."
   },
   {
    "id": "API-0181",
    "name": "Category tree filtered by an unknown slug returns an empty array",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/categories/get-categories-tree.spec.ts",
    "steps": [
     "Send GET /categories/tree with by_category_slug set to a unique slug that no category has.",
     "Verify the response status is 200.",
     "Verify the body is an empty array."
    ],
    "ref": [],
+   "specLine": 101,
    "area": "categories",
    "areaLabel": "Categories",
    "file": "test-scenarios/api/categories/get-categories-tree.yml",
@@ -4497,12 +4641,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@categories-api"
    ],
-   "yaml": "- id: API-0181\n  name: Category tree filtered by an unknown slug returns an empty array\n  status: manual\n  steps:\n    - Send GET /categories/tree with by_category_slug set to a unique slug that no category has.\n    - Verify the response status is 200.\n    - Verify the body is an empty array."
+   "yaml": "- id: API-0181\n  name: Category tree filtered by an unknown slug returns an empty array\n  status: automated\n  automatedIn: tests/api/categories/get-categories-tree.spec.ts\n  steps:\n    - Send GET /categories/tree with by_category_slug set to a unique slug that no category has.\n    - Verify the response status is 200.\n    - Verify the body is an empty array."
   },
   {
    "id": "API-0182",
    "name": "Category tree with by_category_slug as an array returns 422",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/categories/get-categories-tree.spec.ts",
    "knownIssue": "Returns 500 instead of 422 when by_category_slug is sent as an array.",
    "bug": "BUG-016",
    "steps": [
@@ -4510,6 +4655,7 @@ window.SCENARIO_CATALOG = {
     "Verify the response status is 422."
    ],
    "ref": [],
+   "specLine": 118,
    "area": "categories",
    "areaLabel": "Categories",
    "file": "test-scenarios/api/categories/get-categories-tree.yml",
@@ -4518,12 +4664,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@categories-api"
    ],
-   "yaml": "- id: API-0182\n  name: Category tree with by_category_slug as an array returns 422\n  status: manual\n  knownIssue: Returns 500 instead of 422 when by_category_slug is sent as an array.\n  bug: BUG-016\n  steps:\n    - Send GET /categories/tree with by_category_slug as an array (by_category_slug[]=x).\n    - Verify the response status is 422."
+   "yaml": "- id: API-0182\n  name: Category tree with by_category_slug as an array returns 422\n  status: automated\n  automatedIn: tests/api/categories/get-categories-tree.spec.ts\n  knownIssue: Returns 500 instead of 422 when by_category_slug is sent as an array.\n  bug: BUG-016\n  steps:\n    - Send GET /categories/tree with by_category_slug as an array (by_category_slug[]=x).\n    - Verify the response status is 422."
   },
   {
    "id": "API-0183",
    "name": "QUERY category tree filtered by a top-level slug returns only that category",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/categories/query-categories-tree.spec.ts",
    "steps": [
     "Send QUERY /categories/tree with Content-Type: application/json, Accept: application/json and the body { \"by_category_slug\": \"power-tools\" }.",
     "Verify the response status is 200.",
@@ -4532,6 +4679,7 @@ window.SCENARIO_CATALOG = {
     "Verify the item's sub_categories is non-empty and every sub-category's parent_id equals the item's id."
    ],
    "ref": [],
+   "specLine": 34,
    "area": "categories",
    "areaLabel": "Categories",
    "file": "test-scenarios/api/categories/query-categories-tree.yml",
@@ -4540,19 +4688,21 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@categories-api"
    ],
-   "yaml": "- id: API-0183\n  name: QUERY category tree filtered by a top-level slug returns only that category\n  status: manual\n  steps:\n    - 'Send QUERY /categories/tree with Content-Type: application/json, Accept: application/json and the body { \"by_category_slug\": \"power-tools\" }.'\n    - Verify the response status is 200.\n    - Verify the Accept-Query response header is application/json.\n    - Verify the body has exactly one item, whose slug is power-tools and whose parent_id is null.\n    - Verify the item's sub_categories is non-empty and every sub-category's parent_id equals the item's id."
+   "yaml": "- id: API-0183\n  name: QUERY category tree filtered by a top-level slug returns only that category\n  status: automated\n  automatedIn: tests/api/categories/query-categories-tree.spec.ts\n  steps:\n    - 'Send QUERY /categories/tree with Content-Type: application/json, Accept: application/json and the body { \"by_category_slug\": \"power-tools\" }.'\n    - Verify the response status is 200.\n    - Verify the Accept-Query response header is application/json.\n    - Verify the body has exactly one item, whose slug is power-tools and whose parent_id is null.\n    - Verify the item's sub_categories is non-empty and every sub-category's parent_id equals the item's id."
   },
   {
    "id": "API-0184",
-   "name": "QUERY category tree with an empty body returns the whole tree",
-   "status": "manual",
+   "name": "QUERY category tree with an empty body returns the seeded top-level categories",
+   "status": "automated",
+   "automatedIn": "tests/api/categories/query-categories-tree.spec.ts",
    "steps": [
-    "Send GET /categories/tree and keep the item ids.",
+    "Send GET /categories/tree and keep the ids of the items whose slugs are hand-tools, power-tools and other.",
     "Send QUERY /categories/tree with Content-Type: application/json, Accept: application/json and an empty JSON object as the body.",
     "Verify the response status is 200.",
-    "Verify the body's item ids equal the GET /categories/tree ids, in any order."
+    "Verify the body's item ids include those ids."
    ],
    "ref": [],
+   "specLine": 68,
    "area": "categories",
    "areaLabel": "Categories",
    "file": "test-scenarios/api/categories/query-categories-tree.yml",
@@ -4561,18 +4711,20 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@categories-api"
    ],
-   "yaml": "- id: API-0184\n  name: QUERY category tree with an empty body returns the whole tree\n  status: manual\n  steps:\n    - Send GET /categories/tree and keep the item ids.\n    - \"Send QUERY /categories/tree with Content-Type: application/json, Accept: application/json and an empty JSON object as the body.\"\n    - Verify the response status is 200.\n    - Verify the body's item ids equal the GET /categories/tree ids, in any order."
+   "yaml": "- id: API-0184\n  name: QUERY category tree with an empty body returns the seeded top-level categories\n  status: automated\n  automatedIn: tests/api/categories/query-categories-tree.spec.ts\n  steps:\n    - Send GET /categories/tree and keep the ids of the items whose slugs are hand-tools, power-tools and other.\n    - \"Send QUERY /categories/tree with Content-Type: application/json, Accept: application/json and an empty JSON object as the body.\"\n    - Verify the response status is 200.\n    - Verify the body's item ids include those ids."
   },
   {
    "id": "API-0185",
    "name": "QUERY category tree without a JSON Content-Type returns 415",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/categories/query-categories-tree.spec.ts",
    "steps": [
     "Send QUERY /categories/tree with Content-Type: text/plain, Accept: application/json and a plain-text body.",
     "Verify the response status is 415.",
     "Verify the body's message is \"QUERY requests must use Content-Type: application/json\"."
    ],
    "ref": [],
+   "specLine": 94,
    "area": "categories",
    "areaLabel": "Categories",
    "file": "test-scenarios/api/categories/query-categories-tree.yml",
@@ -4581,12 +4733,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@categories-api"
    ],
-   "yaml": "- id: API-0185\n  name: QUERY category tree without a JSON Content-Type returns 415\n  status: manual\n  steps:\n    - \"Send QUERY /categories/tree with Content-Type: text/plain, Accept: application/json and a plain-text body.\"\n    - Verify the response status is 415.\n    - 'Verify the body''s message is \"QUERY requests must use Content-Type: application/json\".'"
+   "yaml": "- id: API-0185\n  name: QUERY category tree without a JSON Content-Type returns 415\n  status: automated\n  automatedIn: tests/api/categories/query-categories-tree.spec.ts\n  steps:\n    - \"Send QUERY /categories/tree with Content-Type: text/plain, Accept: application/json and a plain-text body.\"\n    - Verify the response status is 415.\n    - 'Verify the body''s message is \"QUERY requests must use Content-Type: application/json\".'"
   },
   {
    "id": "API-0186",
    "name": "QUERY category tree with by_category_slug as an array returns 422",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/categories/query-categories-tree.spec.ts",
    "knownIssue": "Returns 500 instead of 422 when by_category_slug is sent as an array.",
    "bug": "BUG-016",
    "steps": [
@@ -4594,6 +4747,7 @@ window.SCENARIO_CATALOG = {
     "Verify the response status is 422."
    ],
    "ref": [],
+   "specLine": 114,
    "area": "categories",
    "areaLabel": "Categories",
    "file": "test-scenarios/api/categories/query-categories-tree.yml",
@@ -4602,12 +4756,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@categories-api"
    ],
-   "yaml": "- id: API-0186\n  name: QUERY category tree with by_category_slug as an array returns 422\n  status: manual\n  knownIssue: Returns 500 instead of 422 when by_category_slug is sent as an array.\n  bug: BUG-016\n  steps:\n    - 'Send QUERY /categories/tree with Content-Type: application/json, Accept: application/json and the body { \"by_category_slug\": [\"x\"] }.'\n    - Verify the response status is 422."
+   "yaml": "- id: API-0186\n  name: QUERY category tree with by_category_slug as an array returns 422\n  status: automated\n  automatedIn: tests/api/categories/query-categories-tree.spec.ts\n  knownIssue: Returns 500 instead of 422 when by_category_slug is sent as an array.\n  bug: BUG-016\n  steps:\n    - 'Send QUERY /categories/tree with Content-Type: application/json, Accept: application/json and the body { \"by_category_slug\": [\"x\"] }.'\n    - Verify the response status is 422."
   },
   {
    "id": "API-0187",
    "name": "Get top-level category returns 200 with its sub-categories",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/categories/get-categories-tree-by-category-id.spec.ts",
    "steps": [
     "Send GET /categories and take the id, name and slug of the category whose slug is hand-tools.",
     "Send GET /categories/tree/{categoryId} with that id.",
@@ -4616,6 +4771,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's sub_categories is non-empty and every sub-category's parent_id equals the body's id."
    ],
    "ref": [],
+   "specLine": 23,
    "area": "categories",
    "areaLabel": "Categories",
    "file": "test-scenarios/api/categories/get-categories-tree-by-category-id.yml",
@@ -4624,12 +4780,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@categories-api"
    ],
-   "yaml": "- id: API-0187\n  name: Get top-level category returns 200 with its sub-categories\n  status: manual\n  steps:\n    - Send GET /categories and take the id, name and slug of the category whose slug is hand-tools.\n    - Send GET /categories/tree/{categoryId} with that id.\n    - Verify the response status is 200.\n    - Verify the body's id, name and slug equal the list item's and its parent_id is null.\n    - Verify the body's sub_categories is non-empty and every sub-category's parent_id equals the body's id."
+   "yaml": "- id: API-0187\n  name: Get top-level category returns 200 with its sub-categories\n  status: automated\n  automatedIn: tests/api/categories/get-categories-tree-by-category-id.spec.ts\n  steps:\n    - Send GET /categories and take the id, name and slug of the category whose slug is hand-tools.\n    - Send GET /categories/tree/{categoryId} with that id.\n    - Verify the response status is 200.\n    - Verify the body's id, name and slug equal the list item's and its parent_id is null.\n    - Verify the body's sub_categories is non-empty and every sub-category's parent_id equals the body's id."
   },
   {
    "id": "API-0188",
    "name": "Get sub-category returns 200 with its parent_id and no sub-categories",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/categories/get-categories-tree-by-category-id.spec.ts",
    "steps": [
     "Send GET /categories and take the id, name, slug and parent_id of the category whose slug is hammer.",
     "Send GET /categories/tree/{categoryId} with that id.",
@@ -4638,6 +4795,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's sub_categories is an empty array."
    ],
    "ref": [],
+   "specLine": 56,
    "area": "categories",
    "areaLabel": "Categories",
    "file": "test-scenarios/api/categories/get-categories-tree-by-category-id.yml",
@@ -4646,18 +4804,20 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@categories-api"
    ],
-   "yaml": "- id: API-0188\n  name: Get sub-category returns 200 with its parent_id and no sub-categories\n  status: manual\n  steps:\n    - Send GET /categories and take the id, name, slug and parent_id of the category whose slug is hammer.\n    - Send GET /categories/tree/{categoryId} with that id.\n    - Verify the response status is 200.\n    - Verify the body's id, name, slug and parent_id equal the list item's.\n    - Verify the body's sub_categories is an empty array."
+   "yaml": "- id: API-0188\n  name: Get sub-category returns 200 with its parent_id and no sub-categories\n  status: automated\n  automatedIn: tests/api/categories/get-categories-tree-by-category-id.spec.ts\n  steps:\n    - Send GET /categories and take the id, name, slug and parent_id of the category whose slug is hammer.\n    - Send GET /categories/tree/{categoryId} with that id.\n    - Verify the response status is 200.\n    - Verify the body's id, name, slug and parent_id equal the list item's.\n    - Verify the body's sub_categories is an empty array."
   },
   {
    "id": "API-0189",
    "name": "Get category with an unknown id returns 404",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/categories/get-categories-tree-by-category-id.spec.ts",
    "steps": [
     "Send GET /categories/tree/{categoryId} with a well-formed ULID that no category has.",
     "Verify the response status is 404.",
     "Verify the body's message is \"Requested item not found\"."
    ],
    "ref": [],
+   "specLine": 88,
    "area": "categories",
    "areaLabel": "Categories",
    "file": "test-scenarios/api/categories/get-categories-tree-by-category-id.yml",
@@ -4666,12 +4826,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@categories-api"
    ],
-   "yaml": "- id: API-0189\n  name: Get category with an unknown id returns 404\n  status: manual\n  steps:\n    - Send GET /categories/tree/{categoryId} with a well-formed ULID that no category has.\n    - Verify the response status is 404.\n    - Verify the body's message is \"Requested item not found\"."
+   "yaml": "- id: API-0189\n  name: Get category with an unknown id returns 404\n  status: automated\n  automatedIn: tests/api/categories/get-categories-tree-by-category-id.spec.ts\n  steps:\n    - Send GET /categories/tree/{categoryId} with a well-formed ULID that no category has.\n    - Verify the response status is 404.\n    - Verify the body's message is \"Requested item not found\"."
   },
   {
    "id": "API-0190",
    "name": "Get category lists a sub-category created after the category was read",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/categories/get-categories-tree-by-category-id.spec.ts",
    "role": "admin",
    "knownIssue": "Returns the cached category without a sub-category created after the category was first read.",
    "bug": "BUG-020",
@@ -4683,6 +4844,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's sub_categories include the new category's id."
    ],
    "ref": [],
+   "specLine": 108,
    "area": "categories",
    "areaLabel": "Categories",
    "file": "test-scenarios/api/categories/get-categories-tree-by-category-id.yml",
@@ -4691,12 +4853,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@categories-api"
    ],
-   "yaml": "- id: API-0190\n  name: Get category lists a sub-category created after the category was read\n  status: manual\n  role: admin\n  knownIssue: Returns the cached category without a sub-category created after the category was first read.\n  bug: BUG-020\n  steps:\n    - Send POST /categories with a unique category name and a unique slug, with the admin's token, and take the new category's id as the parent's id.\n    - Send GET /categories/tree/{categoryId} with the parent's id.\n    - Send POST /categories with a unique category name, a unique slug and the parent's id as parent_id, with the admin's token, and take the new category's id.\n    - Send GET /categories/tree/{categoryId} with the parent's id.\n    - Verify the body's sub_categories include the new category's id."
+   "yaml": "- id: API-0190\n  name: Get category lists a sub-category created after the category was read\n  status: automated\n  automatedIn: tests/api/categories/get-categories-tree-by-category-id.spec.ts\n  role: admin\n  knownIssue: Returns the cached category without a sub-category created after the category was first read.\n  bug: BUG-020\n  steps:\n    - Send POST /categories with a unique category name and a unique slug, with the admin's token, and take the new category's id as the parent's id.\n    - Send GET /categories/tree/{categoryId} with the parent's id.\n    - Send POST /categories with a unique category name, a unique slug and the parent's id as parent_id, with the admin's token, and take the new category's id.\n    - Send GET /categories/tree/{categoryId} with the parent's id.\n    - Verify the body's sub_categories include the new category's id."
   },
   {
    "id": "API-0201",
    "name": "Update category returns success and saves the new name and slug",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/categories/put-categories-by-category-id.spec.ts",
    "role": "admin",
    "steps": [
     "Send POST /categories with a unique category name and a unique slug, with the admin's token, and take the new category's id.",
@@ -4706,6 +4869,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /categories/tree/{categoryId} with that id returns the new name and the new slug."
    ],
    "ref": [],
+   "specLine": 39,
    "area": "categories",
    "areaLabel": "Categories",
    "file": "test-scenarios/api/categories/put-categories-by-category-id.yml",
@@ -4714,12 +4878,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@categories-api"
    ],
-   "yaml": "- id: API-0201\n  name: Update category returns success and saves the new name and slug\n  status: manual\n  role: admin\n  steps:\n    - Send POST /categories with a unique category name and a unique slug, with the admin's token, and take the new category's id.\n    - Send PUT /categories/{categoryId} with that id and a body with a new unique category name and a new unique slug, with the admin's token.\n    - Verify the response status is 200.\n    - Verify the body's success is true.\n    - Verify GET /categories/tree/{categoryId} with that id returns the new name and the new slug."
+   "yaml": "- id: API-0201\n  name: Update category returns success and saves the new name and slug\n  status: automated\n  automatedIn: tests/api/categories/put-categories-by-category-id.spec.ts\n  role: admin\n  steps:\n    - Send POST /categories with a unique category name and a unique slug, with the admin's token, and take the new category's id.\n    - Send PUT /categories/{categoryId} with that id and a body with a new unique category name and a new unique slug, with the admin's token.\n    - Verify the response status is 200.\n    - Verify the body's success is true.\n    - Verify GET /categories/tree/{categoryId} with that id returns the new name and the new slug."
   },
   {
    "id": "API-0202",
    "name": "Update category with a parent_id makes it a sub-category of that parent",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/categories/put-categories-by-category-id.spec.ts",
    "role": "admin",
    "steps": [
     "Send POST /categories with a unique category name and a unique slug, with the admin's token, and take the new category's id as the parent's id.",
@@ -4730,6 +4895,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /categories/tree doesn't include the new category's id among its items."
    ],
    "ref": [],
+   "specLine": 73,
    "area": "categories",
    "areaLabel": "Categories",
    "file": "test-scenarios/api/categories/put-categories-by-category-id.yml",
@@ -4738,12 +4904,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@categories-api"
    ],
-   "yaml": "- id: API-0202\n  name: Update category with a parent_id makes it a sub-category of that parent\n  status: manual\n  role: admin\n  steps:\n    - Send POST /categories with a unique category name and a unique slug, with the admin's token, and take the new category's id as the parent's id.\n    - Send POST /categories with a unique category name and a unique slug, with the admin's token, and take the new category's id.\n    - Send PUT /categories/{categoryId} with the new category's id and a body with only the parent's id as parent_id, with the admin's token.\n    - Verify the response status is 200.\n    - Verify GET /categories/tree/{categoryId} with the new category's id returns the parent's id as parent_id.\n    - Verify GET /categories/tree doesn't include the new category's id among its items."
+   "yaml": "- id: API-0202\n  name: Update category with a parent_id makes it a sub-category of that parent\n  status: automated\n  automatedIn: tests/api/categories/put-categories-by-category-id.spec.ts\n  role: admin\n  steps:\n    - Send POST /categories with a unique category name and a unique slug, with the admin's token, and take the new category's id as the parent's id.\n    - Send POST /categories with a unique category name and a unique slug, with the admin's token, and take the new category's id.\n    - Send PUT /categories/{categoryId} with the new category's id and a body with only the parent's id as parent_id, with the admin's token.\n    - Verify the response status is 200.\n    - Verify GET /categories/tree/{categoryId} with the new category's id returns the parent's id as parent_id.\n    - Verify GET /categories/tree doesn't include the new category's id among its items."
   },
   {
    "id": "API-0203",
    "name": "Update category with a null parent_id makes it a top-level category",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/categories/put-categories-by-category-id.spec.ts",
    "role": "admin",
    "steps": [
     "Send POST /categories with a unique category name and a unique slug, with the admin's token, and take the new category's id as the parent's id.",
@@ -4754,6 +4921,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /categories/tree includes the new category's id among its items."
    ],
    "ref": [],
+   "specLine": 114,
    "area": "categories",
    "areaLabel": "Categories",
    "file": "test-scenarios/api/categories/put-categories-by-category-id.yml",
@@ -4762,12 +4930,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@categories-api"
    ],
-   "yaml": "- id: API-0203\n  name: Update category with a null parent_id makes it a top-level category\n  status: manual\n  role: admin\n  steps:\n    - Send POST /categories with a unique category name and a unique slug, with the admin's token, and take the new category's id as the parent's id.\n    - Send POST /categories with a unique category name, a unique slug and the parent's id as parent_id, with the admin's token, and take the new category's id.\n    - Send PUT /categories/{categoryId} with the new category's id and a body with only parent_id set to null, with the admin's token.\n    - Verify the response status is 200.\n    - Verify GET /categories/tree/{categoryId} with the new category's id returns a null parent_id.\n    - Verify GET /categories/tree includes the new category's id among its items."
+   "yaml": "- id: API-0203\n  name: Update category with a null parent_id makes it a top-level category\n  status: automated\n  automatedIn: tests/api/categories/put-categories-by-category-id.spec.ts\n  role: admin\n  steps:\n    - Send POST /categories with a unique category name and a unique slug, with the admin's token, and take the new category's id as the parent's id.\n    - Send POST /categories with a unique category name, a unique slug and the parent's id as parent_id, with the admin's token, and take the new category's id.\n    - Send PUT /categories/{categoryId} with the new category's id and a body with only parent_id set to null, with the admin's token.\n    - Verify the response status is 200.\n    - Verify GET /categories/tree/{categoryId} with the new category's id returns a null parent_id.\n    - Verify GET /categories/tree includes the new category's id among its items."
   },
   {
    "id": "API-0204",
    "name": "Update category with a name longer than 120 characters returns 422",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/categories/put-categories-by-category-id.spec.ts",
    "role": "admin",
    "steps": [
     "Send POST /categories with a unique category name and a unique slug, with the admin's token, and take the new category's id.",
@@ -4776,6 +4945,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body has a name key with at least one message."
    ],
    "ref": [],
+   "specLine": 152,
    "area": "categories",
    "areaLabel": "Categories",
    "file": "test-scenarios/api/categories/put-categories-by-category-id.yml",
@@ -4784,12 +4954,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@categories-api"
    ],
-   "yaml": "- id: API-0204\n  name: Update category with a name longer than 120 characters returns 422\n  status: manual\n  role: admin\n  steps:\n    - Send POST /categories with a unique category name and a unique slug, with the admin's token, and take the new category's id.\n    - Send PUT /categories/{categoryId} with that id and a body with only a 121-character name that starts with a unique category name, with the admin's token.\n    - Verify the response status is 422.\n    - Verify the body has a name key with at least one message."
+   "yaml": "- id: API-0204\n  name: Update category with a name longer than 120 characters returns 422\n  status: automated\n  automatedIn: tests/api/categories/put-categories-by-category-id.spec.ts\n  role: admin\n  steps:\n    - Send POST /categories with a unique category name and a unique slug, with the admin's token, and take the new category's id.\n    - Send PUT /categories/{categoryId} with that id and a body with only a 121-character name that starts with a unique category name, with the admin's token.\n    - Verify the response status is 422.\n    - Verify the body has a name key with at least one message."
   },
   {
    "id": "API-0205",
    "name": "Update category with a slug outside letters, digits, dashes and underscores returns 422",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/categories/put-categories-by-category-id.spec.ts",
    "role": "admin",
    "steps": [
     "Send POST /categories with a unique category name and a unique slug, with the admin's token, and take the new category's id.",
@@ -4798,6 +4969,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body has a slug key with at least one message."
    ],
    "ref": [],
+   "specLine": 174,
    "area": "categories",
    "areaLabel": "Categories",
    "file": "test-scenarios/api/categories/put-categories-by-category-id.yml",
@@ -4806,12 +4978,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@categories-api"
    ],
-   "yaml": "- id: API-0205\n  name: Update category with a slug outside letters, digits, dashes and underscores returns 422\n  status: manual\n  role: admin\n  steps:\n    - Send POST /categories with a unique category name and a unique slug, with the admin's token, and take the new category's id.\n    - Send PUT /categories/{categoryId} with that id and a body with only a slug made of a unique slug followed by \" x!\" (a space and an exclamation mark), with the admin's token.\n    - Verify the response status is 422.\n    - Verify the body has a slug key with at least one message."
+   "yaml": "- id: API-0205\n  name: Update category with a slug outside letters, digits, dashes and underscores returns 422\n  status: automated\n  automatedIn: tests/api/categories/put-categories-by-category-id.spec.ts\n  role: admin\n  steps:\n    - Send POST /categories with a unique category name and a unique slug, with the admin's token, and take the new category's id.\n    - Send PUT /categories/{categoryId} with that id and a body with only a slug made of a unique slug followed by \" x!\" (a space and an exclamation mark), with the admin's token.\n    - Verify the response status is 422.\n    - Verify the body has a slug key with at least one message."
   },
   {
    "id": "API-0206",
    "name": "Update category with a name that isn't a string returns 422",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/categories/put-categories-by-category-id.spec.ts",
    "role": "admin",
    "steps": [
     "Send POST /categories with a unique category name and a unique slug, with the admin's token, and take the new category's id.",
@@ -4820,6 +4993,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body has a name key with at least one message."
    ],
    "ref": [],
+   "specLine": 200,
    "area": "categories",
    "areaLabel": "Categories",
    "file": "test-scenarios/api/categories/put-categories-by-category-id.yml",
@@ -4828,12 +5002,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@categories-api"
    ],
-   "yaml": "- id: API-0206\n  name: Update category with a name that isn't a string returns 422\n  status: manual\n  role: admin\n  steps:\n    - Send POST /categories with a unique category name and a unique slug, with the admin's token, and take the new category's id.\n    - Send PUT /categories/{categoryId} with that id and a body with only name set to the number 123, with the admin's token.\n    - Verify the response status is 422.\n    - Verify the body has a name key with at least one message."
+   "yaml": "- id: API-0206\n  name: Update category with a name that isn't a string returns 422\n  status: automated\n  automatedIn: tests/api/categories/put-categories-by-category-id.spec.ts\n  role: admin\n  steps:\n    - Send POST /categories with a unique category name and a unique slug, with the admin's token, and take the new category's id.\n    - Send PUT /categories/{categoryId} with that id and a body with only name set to the number 123, with the admin's token.\n    - Verify the response status is 422.\n    - Verify the body has a name key with at least one message."
   },
   {
    "id": "API-0207",
    "name": "Update category with a parent_id that isn't a string returns 422",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/categories/put-categories-by-category-id.spec.ts",
    "role": "admin",
    "steps": [
     "Send POST /categories with a unique category name and a unique slug, with the admin's token, and take the new category's id.",
@@ -4842,6 +5017,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body has a parent_id key with at least one message."
    ],
    "ref": [],
+   "specLine": 219,
    "area": "categories",
    "areaLabel": "Categories",
    "file": "test-scenarios/api/categories/put-categories-by-category-id.yml",
@@ -4850,18 +5026,20 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@categories-api"
    ],
-   "yaml": "- id: API-0207\n  name: Update category with a parent_id that isn't a string returns 422\n  status: manual\n  role: admin\n  steps:\n    - Send POST /categories with a unique category name and a unique slug, with the admin's token, and take the new category's id.\n    - Send PUT /categories/{categoryId} with that id and a body with only parent_id set to the number 123, with the admin's token.\n    - Verify the response status is 422.\n    - Verify the body has a parent_id key with at least one message."
+   "yaml": "- id: API-0207\n  name: Update category with a parent_id that isn't a string returns 422\n  status: automated\n  automatedIn: tests/api/categories/put-categories-by-category-id.spec.ts\n  role: admin\n  steps:\n    - Send POST /categories with a unique category name and a unique slug, with the admin's token, and take the new category's id.\n    - Send PUT /categories/{categoryId} with that id and a body with only parent_id set to the number 123, with the admin's token.\n    - Verify the response status is 422.\n    - Verify the body has a parent_id key with at least one message."
   },
   {
    "id": "API-0208",
    "name": "Update category with an unknown id returns 404",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/categories/put-categories-by-category-id.spec.ts",
    "steps": [
     "Send PUT /categories/{categoryId} with a well-formed ULID that no category has and a body with only a unique category name.",
     "Verify the response status is 404.",
     "Verify the body's message is \"Requested item not found\"."
    ],
    "ref": [],
+   "specLine": 338,
    "area": "categories",
    "areaLabel": "Categories",
    "file": "test-scenarios/api/categories/put-categories-by-category-id.yml",
@@ -4870,18 +5048,20 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@categories-api"
    ],
-   "yaml": "- id: API-0208\n  name: Update category with an unknown id returns 404\n  status: manual\n  steps:\n    - Send PUT /categories/{categoryId} with a well-formed ULID that no category has and a body with only a unique category name.\n    - Verify the response status is 404.\n    - Verify the body's message is \"Requested item not found\"."
+   "yaml": "- id: API-0208\n  name: Update category with an unknown id returns 404\n  status: automated\n  automatedIn: tests/api/categories/put-categories-by-category-id.spec.ts\n  steps:\n    - Send PUT /categories/{categoryId} with a well-formed ULID that no category has and a body with only a unique category name.\n    - Verify the response status is 404.\n    - Verify the body's message is \"Requested item not found\"."
   },
   {
    "id": "API-0209",
    "name": "Update category with an unknown id and an invalid body returns 422",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/categories/put-categories-by-category-id.spec.ts",
    "steps": [
     "Send PUT /categories/{categoryId} with a well-formed ULID that no category has and a body with only a 121-character name that starts with a unique category name.",
     "Verify the response status is 422.",
     "Verify the body has a name key with at least one message."
    ],
    "ref": [],
+   "specLine": 355,
    "area": "categories",
    "areaLabel": "Categories",
    "file": "test-scenarios/api/categories/put-categories-by-category-id.yml",
@@ -4890,12 +5070,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@categories-api"
    ],
-   "yaml": "- id: API-0209\n  name: Update category with an unknown id and an invalid body returns 422\n  status: manual\n  steps:\n    - Send PUT /categories/{categoryId} with a well-formed ULID that no category has and a body with only a 121-character name that starts with a unique category name.\n    - Verify the response status is 422.\n    - Verify the body has a name key with at least one message."
+   "yaml": "- id: API-0209\n  name: Update category with an unknown id and an invalid body returns 422\n  status: automated\n  automatedIn: tests/api/categories/put-categories-by-category-id.spec.ts\n  steps:\n    - Send PUT /categories/{categoryId} with a well-formed ULID that no category has and a body with only a 121-character name that starts with a unique category name.\n    - Verify the response status is 422.\n    - Verify the body has a name key with at least one message."
   },
   {
    "id": "API-0210",
    "name": "Update category with another category's slug returns 409",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/categories/put-categories-by-category-id.spec.ts",
    "role": "admin",
    "steps": [
     "Send POST /categories with a unique category name and a unique slug, with the admin's token, and take the new category's id and slug.",
@@ -4904,6 +5085,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /categories/tree/{categoryId} with that id still returns its own slug."
    ],
    "ref": [],
+   "specLine": 238,
    "area": "categories",
    "areaLabel": "Categories",
    "file": "test-scenarios/api/categories/put-categories-by-category-id.yml",
@@ -4912,12 +5094,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@categories-api"
    ],
-   "yaml": "- id: API-0210\n  name: Update category with another category's slug returns 409\n  status: manual\n  role: admin\n  steps:\n    - Send POST /categories with a unique category name and a unique slug, with the admin's token, and take the new category's id and slug.\n    - Send PUT /categories/{categoryId} with that id and a body with only the slug hand-tools, with the admin's token.\n    - Verify the response status is 409.\n    - Verify GET /categories/tree/{categoryId} with that id still returns its own slug."
+   "yaml": "- id: API-0210\n  name: Update category with another category's slug returns 409\n  status: automated\n  automatedIn: tests/api/categories/put-categories-by-category-id.spec.ts\n  role: admin\n  steps:\n    - Send POST /categories with a unique category name and a unique slug, with the admin's token, and take the new category's id and slug.\n    - Send PUT /categories/{categoryId} with that id and a body with only the slug hand-tools, with the admin's token.\n    - Verify the response status is 409.\n    - Verify GET /categories/tree/{categoryId} with that id still returns its own slug."
   },
   {
    "id": "API-0211",
    "name": "Update category with another category's slug names the slug in the error",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/categories/put-categories-by-category-id.spec.ts",
    "role": "admin",
    "knownIssue": "Returns { message: \"Duplicate Entry\" } instead of the slug's validation message for a duplicate slug.",
    "bug": "BUG-019",
@@ -4927,6 +5110,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's slug messages include \"A category already exists with this slug.\"."
    ],
    "ref": [],
+   "specLine": 272,
    "area": "categories",
    "areaLabel": "Categories",
    "file": "test-scenarios/api/categories/put-categories-by-category-id.yml",
@@ -4935,12 +5119,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@categories-api"
    ],
-   "yaml": "- id: API-0211\n  name: Update category with another category's slug names the slug in the error\n  status: manual\n  role: admin\n  knownIssue: 'Returns { message: \"Duplicate Entry\" } instead of the slug''s validation message for a duplicate slug.'\n  bug: BUG-019\n  steps:\n    - Send POST /categories with a unique category name and a unique slug, with the admin's token, and take the new category's id.\n    - Send PUT /categories/{categoryId} with that id and a body with only the slug hand-tools, with the admin's token.\n    - Verify the body's slug messages include \"A category already exists with this slug.\"."
+   "yaml": "- id: API-0211\n  name: Update category with another category's slug names the slug in the error\n  status: automated\n  automatedIn: tests/api/categories/put-categories-by-category-id.spec.ts\n  role: admin\n  knownIssue: 'Returns { message: \"Duplicate Entry\" } instead of the slug''s validation message for a duplicate slug.'\n  bug: BUG-019\n  steps:\n    - Send POST /categories with a unique category name and a unique slug, with the admin's token, and take the new category's id.\n    - Send PUT /categories/{categoryId} with that id and a body with only the slug hand-tools, with the admin's token.\n    - Verify the body's slug messages include \"A category already exists with this slug.\"."
   },
   {
    "id": "API-0212",
    "name": "Update category with an unknown parent_id returns 422",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/categories/put-categories-by-category-id.spec.ts",
    "role": "admin",
    "knownIssue": "Returns 500 instead of 422 when parent_id is not the id of an existing category.",
    "bug": "BUG-015",
@@ -4950,6 +5135,7 @@ window.SCENARIO_CATALOG = {
     "Verify the response status is 422."
    ],
    "ref": [],
+   "specLine": 297,
    "area": "categories",
    "areaLabel": "Categories",
    "file": "test-scenarios/api/categories/put-categories-by-category-id.yml",
@@ -4958,12 +5144,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@categories-api"
    ],
-   "yaml": "- id: API-0212\n  name: Update category with an unknown parent_id returns 422\n  status: manual\n  role: admin\n  knownIssue: Returns 500 instead of 422 when parent_id is not the id of an existing category.\n  bug: BUG-015\n  steps:\n    - Send POST /categories with a unique category name and a unique slug, with the admin's token, and take the new category's id.\n    - Send PUT /categories/{categoryId} with that id and a body with only a well-formed ULID that no category has as parent_id, with the admin's token.\n    - Verify the response status is 422."
+   "yaml": "- id: API-0212\n  name: Update category with an unknown parent_id returns 422\n  status: automated\n  automatedIn: tests/api/categories/put-categories-by-category-id.spec.ts\n  role: admin\n  knownIssue: Returns 500 instead of 422 when parent_id is not the id of an existing category.\n  bug: BUG-015\n  steps:\n    - Send POST /categories with a unique category name and a unique slug, with the admin's token, and take the new category's id.\n    - Send PUT /categories/{categoryId} with that id and a body with only a well-formed ULID that no category has as parent_id, with the admin's token.\n    - Verify the response status is 422."
   },
   {
    "id": "API-0213",
    "name": "Update category without a token returns 401",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/categories/put-categories-by-category-id.spec.ts",
    "role": "admin",
    "knownIssue": "Accepts PUT without a token instead of returning 401.",
    "bug": "BUG-014",
@@ -4973,6 +5160,7 @@ window.SCENARIO_CATALOG = {
     "Verify the response status is 401."
    ],
    "ref": [],
+   "specLine": 321,
    "area": "categories",
    "areaLabel": "Categories",
    "file": "test-scenarios/api/categories/put-categories-by-category-id.yml",
@@ -4981,12 +5169,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@categories-api"
    ],
-   "yaml": "- id: API-0213\n  name: Update category without a token returns 401\n  status: manual\n  role: admin\n  knownIssue: Accepts PUT without a token instead of returning 401.\n  bug: BUG-014\n  steps:\n    - Send POST /categories with a unique category name and a unique slug, with the admin's token, and take the new category's id.\n    - Send PUT /categories/{categoryId} with that id and a body with only a new unique category name, without an Authorization header.\n    - Verify the response status is 401."
+   "yaml": "- id: API-0213\n  name: Update category without a token returns 401\n  status: automated\n  automatedIn: tests/api/categories/put-categories-by-category-id.spec.ts\n  role: admin\n  knownIssue: Accepts PUT without a token instead of returning 401.\n  bug: BUG-014\n  steps:\n    - Send POST /categories with a unique category name and a unique slug, with the admin's token, and take the new category's id.\n    - Send PUT /categories/{categoryId} with that id and a body with only a new unique category name, without an Authorization header.\n    - Verify the response status is 401."
   },
   {
    "id": "API-0214",
    "name": "Partially update category name returns success and keeps the slug",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/categories/patch-categories-by-category-id.spec.ts",
    "role": "admin",
    "steps": [
     "Send POST /categories with a unique category name and a unique slug, with the admin's token, and take the new category's id and slug.",
@@ -4996,6 +5185,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /categories/tree/{categoryId} with that id returns the new name and the original slug."
    ],
    "ref": [],
+   "specLine": 31,
    "area": "categories",
    "areaLabel": "Categories",
    "file": "test-scenarios/api/categories/patch-categories-by-category-id.yml",
@@ -5004,12 +5194,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@categories-api"
    ],
-   "yaml": "- id: API-0214\n  name: Partially update category name returns success and keeps the slug\n  status: manual\n  role: admin\n  steps:\n    - Send POST /categories with a unique category name and a unique slug, with the admin's token, and take the new category's id and slug.\n    - Send PATCH /categories/{categoryId} with that id and a body with only a new unique category name, with the admin's token.\n    - Verify the response status is 200.\n    - Verify the body's success is true.\n    - Verify GET /categories/tree/{categoryId} with that id returns the new name and the original slug."
+   "yaml": "- id: API-0214\n  name: Partially update category name returns success and keeps the slug\n  status: automated\n  automatedIn: tests/api/categories/patch-categories-by-category-id.spec.ts\n  role: admin\n  steps:\n    - Send POST /categories with a unique category name and a unique slug, with the admin's token, and take the new category's id and slug.\n    - Send PATCH /categories/{categoryId} with that id and a body with only a new unique category name, with the admin's token.\n    - Verify the response status is 200.\n    - Verify the body's success is true.\n    - Verify GET /categories/tree/{categoryId} with that id returns the new name and the original slug."
   },
   {
    "id": "API-0215",
    "name": "Partially update category with an empty slug returns 422",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/categories/patch-categories-by-category-id.spec.ts",
    "role": "admin",
    "steps": [
     "Send POST /categories with a unique category name and a unique slug, with the admin's token, and take the new category's id.",
@@ -5018,6 +5209,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body has a slug key with at least one message."
    ],
    "ref": [],
+   "specLine": 69,
    "area": "categories",
    "areaLabel": "Categories",
    "file": "test-scenarios/api/categories/patch-categories-by-category-id.yml",
@@ -5026,12 +5218,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@categories-api"
    ],
-   "yaml": "- id: API-0215\n  name: Partially update category with an empty slug returns 422\n  status: manual\n  role: admin\n  steps:\n    - Send POST /categories with a unique category name and a unique slug, with the admin's token, and take the new category's id.\n    - Send PATCH /categories/{categoryId} with that id and a body with only slug set to an empty string, with the admin's token.\n    - Verify the response status is 422.\n    - Verify the body has a slug key with at least one message."
+   "yaml": "- id: API-0215\n  name: Partially update category with an empty slug returns 422\n  status: automated\n  automatedIn: tests/api/categories/patch-categories-by-category-id.spec.ts\n  role: admin\n  steps:\n    - Send POST /categories with a unique category name and a unique slug, with the admin's token, and take the new category's id.\n    - Send PATCH /categories/{categoryId} with that id and a body with only slug set to an empty string, with the admin's token.\n    - Verify the response status is 422.\n    - Verify the body has a slug key with at least one message."
   },
   {
    "id": "API-0216",
    "name": "Partially update category with a slug outside letters, digits, dashes and underscores returns 422",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/categories/patch-categories-by-category-id.spec.ts",
    "role": "admin",
    "steps": [
     "Send POST /categories with a unique category name and a unique slug, with the admin's token, and take the new category's id.",
@@ -5040,6 +5233,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body has a slug key with at least one message."
    ],
    "ref": [],
+   "specLine": 88,
    "area": "categories",
    "areaLabel": "Categories",
    "file": "test-scenarios/api/categories/patch-categories-by-category-id.yml",
@@ -5048,12 +5242,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@categories-api"
    ],
-   "yaml": "- id: API-0216\n  name: Partially update category with a slug outside letters, digits, dashes and underscores returns 422\n  status: manual\n  role: admin\n  steps:\n    - Send POST /categories with a unique category name and a unique slug, with the admin's token, and take the new category's id.\n    - Send PATCH /categories/{categoryId} with that id and a body with only a slug made of a unique slug followed by \" x!\" (a space and an exclamation mark), with the admin's token.\n    - Verify the response status is 422.\n    - Verify the body has a slug key with at least one message."
+   "yaml": "- id: API-0216\n  name: Partially update category with a slug outside letters, digits, dashes and underscores returns 422\n  status: automated\n  automatedIn: tests/api/categories/patch-categories-by-category-id.spec.ts\n  role: admin\n  steps:\n    - Send POST /categories with a unique category name and a unique slug, with the admin's token, and take the new category's id.\n    - Send PATCH /categories/{categoryId} with that id and a body with only a slug made of a unique slug followed by \" x!\" (a space and an exclamation mark), with the admin's token.\n    - Verify the response status is 422.\n    - Verify the body has a slug key with at least one message."
   },
   {
    "id": "API-0217",
    "name": "Partially update category with a name longer than 120 characters returns 422",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/categories/patch-categories-by-category-id.spec.ts",
    "role": "admin",
    "steps": [
     "Send POST /categories with a unique category name and a unique slug, with the admin's token, and take the new category's id.",
@@ -5062,6 +5257,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body has a name key with at least one message."
    ],
    "ref": [],
+   "specLine": 114,
    "area": "categories",
    "areaLabel": "Categories",
    "file": "test-scenarios/api/categories/patch-categories-by-category-id.yml",
@@ -5070,18 +5266,20 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@categories-api"
    ],
-   "yaml": "- id: API-0217\n  name: Partially update category with a name longer than 120 characters returns 422\n  status: manual\n  role: admin\n  steps:\n    - Send POST /categories with a unique category name and a unique slug, with the admin's token, and take the new category's id.\n    - Send PATCH /categories/{categoryId} with that id and a body with only a 121-character name that starts with a unique category name, with the admin's token.\n    - Verify the response status is 422.\n    - Verify the body has a name key with at least one message."
+   "yaml": "- id: API-0217\n  name: Partially update category with a name longer than 120 characters returns 422\n  status: automated\n  automatedIn: tests/api/categories/patch-categories-by-category-id.spec.ts\n  role: admin\n  steps:\n    - Send POST /categories with a unique category name and a unique slug, with the admin's token, and take the new category's id.\n    - Send PATCH /categories/{categoryId} with that id and a body with only a 121-character name that starts with a unique category name, with the admin's token.\n    - Verify the response status is 422.\n    - Verify the body has a name key with at least one message."
   },
   {
    "id": "API-0218",
    "name": "Partially update category with an unknown id returns 404",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/categories/patch-categories-by-category-id.spec.ts",
    "steps": [
     "Send PATCH /categories/{categoryId} with a well-formed ULID that no category has and a body with only a unique category name.",
     "Verify the response status is 404.",
     "Verify the body's message is \"Requested item not found\"."
    ],
    "ref": [],
+   "specLine": 253,
    "area": "categories",
    "areaLabel": "Categories",
    "file": "test-scenarios/api/categories/patch-categories-by-category-id.yml",
@@ -5090,12 +5288,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@categories-api"
    ],
-   "yaml": "- id: API-0218\n  name: Partially update category with an unknown id returns 404\n  status: manual\n  steps:\n    - Send PATCH /categories/{categoryId} with a well-formed ULID that no category has and a body with only a unique category name.\n    - Verify the response status is 404.\n    - Verify the body's message is \"Requested item not found\"."
+   "yaml": "- id: API-0218\n  name: Partially update category with an unknown id returns 404\n  status: automated\n  automatedIn: tests/api/categories/patch-categories-by-category-id.spec.ts\n  steps:\n    - Send PATCH /categories/{categoryId} with a well-formed ULID that no category has and a body with only a unique category name.\n    - Verify the response status is 404.\n    - Verify the body's message is \"Requested item not found\"."
   },
   {
    "id": "API-0219",
    "name": "Partially update category with another category's slug returns 409",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/categories/patch-categories-by-category-id.spec.ts",
    "role": "admin",
    "steps": [
     "Send POST /categories with a unique category name and a unique slug, with the admin's token, and take the new category's id and slug.",
@@ -5105,6 +5304,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /categories/tree/{categoryId} with that id still returns its own slug."
    ],
    "ref": [],
+   "specLine": 140,
    "area": "categories",
    "areaLabel": "Categories",
    "file": "test-scenarios/api/categories/patch-categories-by-category-id.yml",
@@ -5113,12 +5313,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@categories-api"
    ],
-   "yaml": "- id: API-0219\n  name: Partially update category with another category's slug returns 409\n  status: manual\n  role: admin\n  steps:\n    - Send POST /categories with a unique category name and a unique slug, with the admin's token, and take the new category's id and slug.\n    - Send PATCH /categories/{categoryId} with that id and a body with only the slug hand-tools, with the admin's token.\n    - Verify the response status is 409.\n    - Verify the body has a slug key with at least one message.\n    - Verify GET /categories/tree/{categoryId} with that id still returns its own slug."
+   "yaml": "- id: API-0219\n  name: Partially update category with another category's slug returns 409\n  status: automated\n  automatedIn: tests/api/categories/patch-categories-by-category-id.spec.ts\n  role: admin\n  steps:\n    - Send POST /categories with a unique category name and a unique slug, with the admin's token, and take the new category's id and slug.\n    - Send PATCH /categories/{categoryId} with that id and a body with only the slug hand-tools, with the admin's token.\n    - Verify the response status is 409.\n    - Verify the body has a slug key with at least one message.\n    - Verify GET /categories/tree/{categoryId} with that id still returns its own slug."
   },
   {
    "id": "API-0220",
    "name": "Partially update category with its own slug returns success",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/categories/patch-categories-by-category-id.spec.ts",
    "role": "admin",
    "knownIssue": "Returns 409 instead of 200 when the body repeats the category's own slug.",
    "bug": "BUG-018",
@@ -5129,6 +5330,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /categories/tree/{categoryId} with that id returns the new name."
    ],
    "ref": [],
+   "specLine": 178,
    "area": "categories",
    "areaLabel": "Categories",
    "file": "test-scenarios/api/categories/patch-categories-by-category-id.yml",
@@ -5137,12 +5339,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@categories-api"
    ],
-   "yaml": "- id: API-0220\n  name: Partially update category with its own slug returns success\n  status: manual\n  role: admin\n  knownIssue: Returns 409 instead of 200 when the body repeats the category's own slug.\n  bug: BUG-018\n  steps:\n    - Send POST /categories with a unique category name and a unique slug, with the admin's token, and take the new category's id and slug.\n    - Send PATCH /categories/{categoryId} with that id and a body with a new unique category name and the category's own slug, with the admin's token.\n    - Verify the response status is 200.\n    - Verify GET /categories/tree/{categoryId} with that id returns the new name."
+   "yaml": "- id: API-0220\n  name: Partially update category with its own slug returns success\n  status: automated\n  automatedIn: tests/api/categories/patch-categories-by-category-id.spec.ts\n  role: admin\n  knownIssue: Returns 409 instead of 200 when the body repeats the category's own slug.\n  bug: BUG-018\n  steps:\n    - Send POST /categories with a unique category name and a unique slug, with the admin's token, and take the new category's id and slug.\n    - Send PATCH /categories/{categoryId} with that id and a body with a new unique category name and the category's own slug, with the admin's token.\n    - Verify the response status is 200.\n    - Verify GET /categories/tree/{categoryId} with that id returns the new name."
   },
   {
    "id": "API-0221",
    "name": "Partially update category with an unknown parent_id returns 422",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/categories/patch-categories-by-category-id.spec.ts",
    "role": "admin",
    "knownIssue": "Returns 500 instead of 422 when parent_id is not the id of an existing category.",
    "bug": "BUG-015",
@@ -5152,6 +5355,7 @@ window.SCENARIO_CATALOG = {
     "Verify the response status is 422."
    ],
    "ref": [],
+   "specLine": 212,
    "area": "categories",
    "areaLabel": "Categories",
    "file": "test-scenarios/api/categories/patch-categories-by-category-id.yml",
@@ -5160,12 +5364,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@categories-api"
    ],
-   "yaml": "- id: API-0221\n  name: Partially update category with an unknown parent_id returns 422\n  status: manual\n  role: admin\n  knownIssue: Returns 500 instead of 422 when parent_id is not the id of an existing category.\n  bug: BUG-015\n  steps:\n    - Send POST /categories with a unique category name and a unique slug, with the admin's token, and take the new category's id.\n    - Send PATCH /categories/{categoryId} with that id and a body with only a well-formed ULID that no category has as parent_id, with the admin's token.\n    - Verify the response status is 422."
+   "yaml": "- id: API-0221\n  name: Partially update category with an unknown parent_id returns 422\n  status: automated\n  automatedIn: tests/api/categories/patch-categories-by-category-id.spec.ts\n  role: admin\n  knownIssue: Returns 500 instead of 422 when parent_id is not the id of an existing category.\n  bug: BUG-015\n  steps:\n    - Send POST /categories with a unique category name and a unique slug, with the admin's token, and take the new category's id.\n    - Send PATCH /categories/{categoryId} with that id and a body with only a well-formed ULID that no category has as parent_id, with the admin's token.\n    - Verify the response status is 422."
   },
   {
    "id": "API-0222",
    "name": "Partially update category without a token returns 401",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/categories/patch-categories-by-category-id.spec.ts",
    "role": "admin",
    "knownIssue": "Accepts PATCH without a token instead of returning 401.",
    "bug": "BUG-014",
@@ -5175,6 +5380,7 @@ window.SCENARIO_CATALOG = {
     "Verify the response status is 401."
    ],
    "ref": [],
+   "specLine": 236,
    "area": "categories",
    "areaLabel": "Categories",
    "file": "test-scenarios/api/categories/patch-categories-by-category-id.yml",
@@ -5183,12 +5389,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@categories-api"
    ],
-   "yaml": "- id: API-0222\n  name: Partially update category without a token returns 401\n  status: manual\n  role: admin\n  knownIssue: Accepts PATCH without a token instead of returning 401.\n  bug: BUG-014\n  steps:\n    - Send POST /categories with a unique category name and a unique slug, with the admin's token, and take the new category's id.\n    - Send PATCH /categories/{categoryId} with that id and a body with only a new unique category name, without an Authorization header.\n    - Verify the response status is 401."
+   "yaml": "- id: API-0222\n  name: Partially update category without a token returns 401\n  status: automated\n  automatedIn: tests/api/categories/patch-categories-by-category-id.spec.ts\n  role: admin\n  knownIssue: Accepts PATCH without a token instead of returning 401.\n  bug: BUG-014\n  steps:\n    - Send POST /categories with a unique category name and a unique slug, with the admin's token, and take the new category's id.\n    - Send PATCH /categories/{categoryId} with that id and a body with only a new unique category name, without an Authorization header.\n    - Verify the response status is 401."
   },
   {
    "id": "API-0223",
    "name": "Admin deletes a category",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/categories/delete-categories-by-category-id.spec.ts",
    "role": "admin",
    "steps": [
     "Send POST /categories with a unique category name and a unique slug, with the admin's token, and take the new category's id.",
@@ -5197,6 +5404,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /categories/tree/{categoryId} with that id returns 404."
    ],
    "ref": [],
+   "specLine": 38,
    "area": "categories",
    "areaLabel": "Categories",
    "file": "test-scenarios/api/categories/delete-categories-by-category-id.yml",
@@ -5205,12 +5413,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@categories-api"
    ],
-   "yaml": "- id: API-0223\n  name: Admin deletes a category\n  status: manual\n  role: admin\n  steps:\n    - Send POST /categories with a unique category name and a unique slug, with the admin's token, and take the new category's id.\n    - Send DELETE /categories/{categoryId} with that id, with the admin's token.\n    - Verify the response status is 204.\n    - Verify GET /categories/tree/{categoryId} with that id returns 404."
+   "yaml": "- id: API-0223\n  name: Admin deletes a category\n  status: automated\n  automatedIn: tests/api/categories/delete-categories-by-category-id.spec.ts\n  role: admin\n  steps:\n    - Send POST /categories with a unique category name and a unique slug, with the admin's token, and take the new category's id.\n    - Send DELETE /categories/{categoryId} with that id, with the admin's token.\n    - Verify the response status is 204.\n    - Verify GET /categories/tree/{categoryId} with that id returns 404."
   },
   {
    "id": "API-0224",
    "name": "Delete category without a token returns 401",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/categories/delete-categories-by-category-id.spec.ts",
    "role": "admin",
    "steps": [
     "Send POST /categories with a unique category name and a unique slug, with the admin's token, and take the new category's id.",
@@ -5219,6 +5428,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's message is \"Unauthorized\"."
    ],
    "ref": [],
+   "specLine": 59,
    "area": "categories",
    "areaLabel": "Categories",
    "file": "test-scenarios/api/categories/delete-categories-by-category-id.yml",
@@ -5227,12 +5437,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@categories-api"
    ],
-   "yaml": "- id: API-0224\n  name: Delete category without a token returns 401\n  status: manual\n  role: admin\n  steps:\n    - Send POST /categories with a unique category name and a unique slug, with the admin's token, and take the new category's id.\n    - Send DELETE /categories/{categoryId} with that id, without an Authorization header.\n    - Verify the response status is 401.\n    - Verify the body's message is \"Unauthorized\"."
+   "yaml": "- id: API-0224\n  name: Delete category without a token returns 401\n  status: automated\n  automatedIn: tests/api/categories/delete-categories-by-category-id.spec.ts\n  role: admin\n  steps:\n    - Send POST /categories with a unique category name and a unique slug, with the admin's token, and take the new category's id.\n    - Send DELETE /categories/{categoryId} with that id, without an Authorization header.\n    - Verify the response status is 401.\n    - Verify the body's message is \"Unauthorized\"."
   },
   {
    "id": "API-0225",
    "name": "Delete category with an invalid token returns 401",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/categories/delete-categories-by-category-id.spec.ts",
    "role": "admin",
    "steps": [
     "Send POST /categories with a unique category name and a unique slug, with the admin's token, and take the new category's id.",
@@ -5241,6 +5452,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's message is \"Unauthorized\"."
    ],
    "ref": [],
+   "specLine": 78,
    "area": "categories",
    "areaLabel": "Categories",
    "file": "test-scenarios/api/categories/delete-categories-by-category-id.yml",
@@ -5249,12 +5461,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@categories-api"
    ],
-   "yaml": "- id: API-0225\n  name: Delete category with an invalid token returns 401\n  status: manual\n  role: admin\n  steps:\n    - Send POST /categories with a unique category name and a unique slug, with the admin's token, and take the new category's id.\n    - Send DELETE /categories/{categoryId} with that id, with an invalid token.\n    - Verify the response status is 401.\n    - Verify the body's message is \"Unauthorized\"."
+   "yaml": "- id: API-0225\n  name: Delete category with an invalid token returns 401\n  status: automated\n  automatedIn: tests/api/categories/delete-categories-by-category-id.spec.ts\n  role: admin\n  steps:\n    - Send POST /categories with a unique category name and a unique slug, with the admin's token, and take the new category's id.\n    - Send DELETE /categories/{categoryId} with that id, with an invalid token.\n    - Verify the response status is 401.\n    - Verify the body's message is \"Unauthorized\"."
   },
   {
    "id": "API-0226",
    "name": "Delete category as a non-admin user returns 403",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/categories/delete-categories-by-category-id.spec.ts",
    "steps": [
     "Send POST /categories with a unique category name and a unique slug, with the admin's token, and take the new category's id.",
     "Send DELETE /categories/{categoryId} with that id, with the default user's token.",
@@ -5262,6 +5475,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's message is \"Forbidden\"."
    ],
    "ref": [],
+   "specLine": 189,
    "area": "categories",
    "areaLabel": "Categories",
    "file": "test-scenarios/api/categories/delete-categories-by-category-id.yml",
@@ -5270,12 +5484,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@categories-api"
    ],
-   "yaml": "- id: API-0226\n  name: Delete category as a non-admin user returns 403\n  status: manual\n  steps:\n    - Send POST /categories with a unique category name and a unique slug, with the admin's token, and take the new category's id.\n    - Send DELETE /categories/{categoryId} with that id, with the default user's token.\n    - Verify the response status is 403.\n    - Verify the body's message is \"Forbidden\"."
+   "yaml": "- id: API-0226\n  name: Delete category as a non-admin user returns 403\n  status: automated\n  automatedIn: tests/api/categories/delete-categories-by-category-id.spec.ts\n  steps:\n    - Send POST /categories with a unique category name and a unique slug, with the admin's token, and take the new category's id.\n    - Send DELETE /categories/{categoryId} with that id, with the default user's token.\n    - Verify the response status is 403.\n    - Verify the body's message is \"Forbidden\"."
   },
   {
    "id": "API-0227",
    "name": "Delete category with an unknown id returns 404",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/categories/delete-categories-by-category-id.spec.ts",
    "role": "admin",
    "steps": [
     "Send DELETE /categories/{categoryId} with a well-formed ULID that no category has, with the admin's token.",
@@ -5283,6 +5498,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's message is \"Requested item not found\"."
    ],
    "ref": [],
+   "specLine": 97,
    "area": "categories",
    "areaLabel": "Categories",
    "file": "test-scenarios/api/categories/delete-categories-by-category-id.yml",
@@ -5291,12 +5507,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@categories-api"
    ],
-   "yaml": "- id: API-0227\n  name: Delete category with an unknown id returns 404\n  status: manual\n  role: admin\n  steps:\n    - Send DELETE /categories/{categoryId} with a well-formed ULID that no category has, with the admin's token.\n    - Verify the response status is 404.\n    - Verify the body's message is \"Requested item not found\"."
+   "yaml": "- id: API-0227\n  name: Delete category with an unknown id returns 404\n  status: automated\n  automatedIn: tests/api/categories/delete-categories-by-category-id.spec.ts\n  role: admin\n  steps:\n    - Send DELETE /categories/{categoryId} with a well-formed ULID that no category has, with the admin's token.\n    - Verify the response status is 404.\n    - Verify the body's message is \"Requested item not found\"."
   },
   {
    "id": "API-0228",
    "name": "Delete category that has sub-categories returns 409",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/categories/delete-categories-by-category-id.spec.ts",
    "role": "admin",
    "steps": [
     "Send POST /categories with a unique category name and a unique slug, with the admin's token, and take the new category's id as the parent's id.",
@@ -5307,6 +5524,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /categories/tree/{categoryId} with the parent's id returns 200."
    ],
    "ref": [],
+   "specLine": 114,
    "area": "categories",
    "areaLabel": "Categories",
    "file": "test-scenarios/api/categories/delete-categories-by-category-id.yml",
@@ -5315,12 +5533,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@categories-api"
    ],
-   "yaml": "- id: API-0228\n  name: Delete category that has sub-categories returns 409\n  status: manual\n  role: admin\n  steps:\n    - Send POST /categories with a unique category name and a unique slug, with the admin's token, and take the new category's id as the parent's id.\n    - Send POST /categories with a unique category name, a unique slug and the parent's id as parent_id, with the admin's token, and take the new category's id.\n    - Send DELETE /categories/{categoryId} with the parent's id, with the admin's token.\n    - Verify the response status is 409.\n    - Verify the body's success is false and its message is \"Seems like this category is used elsewhere.\".\n    - Verify GET /categories/tree/{categoryId} with the parent's id returns 200."
+   "yaml": "- id: API-0228\n  name: Delete category that has sub-categories returns 409\n  status: automated\n  automatedIn: tests/api/categories/delete-categories-by-category-id.spec.ts\n  role: admin\n  steps:\n    - Send POST /categories with a unique category name and a unique slug, with the admin's token, and take the new category's id as the parent's id.\n    - Send POST /categories with a unique category name, a unique slug and the parent's id as parent_id, with the admin's token, and take the new category's id.\n    - Send DELETE /categories/{categoryId} with the parent's id, with the admin's token.\n    - Verify the response status is 409.\n    - Verify the body's success is false and its message is \"Seems like this category is used elsewhere.\".\n    - Verify GET /categories/tree/{categoryId} with the parent's id returns 200."
   },
   {
    "id": "API-0229",
    "name": "Delete category that a product uses returns 409",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/categories/delete-categories-by-category-id.spec.ts",
    "role": "admin",
    "steps": [
     "Send POST /categories with a unique category name and a unique slug, with the admin's token, and take the new category's id.",
@@ -5332,6 +5551,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /categories/tree/{categoryId} with the new category's id returns 200."
    ],
    "ref": [],
+   "specLine": 140,
    "area": "categories",
    "areaLabel": "Categories",
    "file": "test-scenarios/api/categories/delete-categories-by-category-id.yml",
@@ -5340,7 +5560,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@categories-api"
    ],
-   "yaml": "- id: API-0229\n  name: Delete category that a product uses returns 409\n  status: manual\n  role: admin\n  steps:\n    - Send POST /categories with a unique category name and a unique slug, with the admin's token, and take the new category's id.\n    - Send GET /products and take the first item's brand id and product image id.\n    - Send POST /products with a unique product name, a positive price, the new category's id as category_id, that brand id, that product image id, is_location_offer false and is_rental false, with the admin's token, and take the new product's id.\n    - Send DELETE /categories/{categoryId} with the new category's id, with the admin's token.\n    - Verify the response status is 409.\n    - Verify the body's success is false and its message is \"Seems like this category is used elsewhere.\".\n    - Verify GET /categories/tree/{categoryId} with the new category's id returns 200."
+   "yaml": "- id: API-0229\n  name: Delete category that a product uses returns 409\n  status: automated\n  automatedIn: tests/api/categories/delete-categories-by-category-id.spec.ts\n  role: admin\n  steps:\n    - Send POST /categories with a unique category name and a unique slug, with the admin's token, and take the new category's id.\n    - Send GET /products and take the first item's brand id and product image id.\n    - Send POST /products with a unique product name, a positive price, the new category's id as category_id, that brand id, that product image id, is_location_offer false and is_rental false, with the admin's token, and take the new product's id.\n    - Send DELETE /categories/{categoryId} with the new category's id, with the admin's token.\n    - Verify the response status is 409.\n    - Verify the body's success is false and its message is \"Seems like this category is used elsewhere.\".\n    - Verify GET /categories/tree/{categoryId} with the new category's id returns 200."
   },
   {
    "id": "API-0267",
@@ -10723,7 +10943,8 @@ window.SCENARIO_CATALOG = {
   {
    "id": "API-0574",
    "name": "List spec names returns 200 with names, values and units",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/product-specs/get-product-specs-names.spec.ts",
    "role": "guest",
    "steps": [
     "Send GET /product-specs/names, without an Authorization header.",
@@ -10734,6 +10955,7 @@ window.SCENARIO_CATALOG = {
     "Verify no item's values has a repeated value."
    ],
    "ref": [],
+   "specLine": 27,
    "area": "product-specs",
    "areaLabel": "Product specs",
    "file": "test-scenarios/api/product-specs/get-product-specs-names.yml",
@@ -10742,12 +10964,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@product-specs-api"
    ],
-   "yaml": "- id: API-0574\n  name: List spec names returns 200 with names, values and units\n  status: manual\n  role: guest\n  steps:\n    - Send GET /product-specs/names, without an Authorization header.\n    - Verify the response status is 200.\n    - Verify the body is a non-empty array.\n    - Verify every item has a name string, a values array of strings and a unit that is a string or null.\n    - Verify no name appears twice.\n    - Verify no item's values has a repeated value."
+   "yaml": "- id: API-0574\n  name: List spec names returns 200 with names, values and units\n  status: automated\n  automatedIn: tests/api/product-specs/get-product-specs-names.spec.ts\n  role: guest\n  steps:\n    - Send GET /product-specs/names, without an Authorization header.\n    - Verify the response status is 200.\n    - Verify the body is a non-empty array.\n    - Verify every item has a name string, a values array of strings and a unit that is a string or null.\n    - Verify no name appears twice.\n    - Verify no item's values has a repeated value."
   },
   {
    "id": "API-0575",
    "name": "A spec added to a product appears in the spec names",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/product-specs/get-product-specs-names.spec.ts",
    "steps": [
     "Send GET /products and take the first item's brand id, category id and product image id.",
     "Send POST /products with a unique product name, a positive price, those ids, is_location_offer false and is_rental false, and take the new product's id.",
@@ -10758,6 +10981,7 @@ window.SCENARIO_CATALOG = {
     "Verify that item's values are [\"1.5\"] and its unit is \"kg\"."
    ],
    "ref": [],
+   "specLine": 69,
    "area": "product-specs",
    "areaLabel": "Product specs",
    "file": "test-scenarios/api/product-specs/get-product-specs-names.yml",
@@ -10766,22 +10990,26 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@product-specs-api"
    ],
-   "yaml": "- id: API-0575\n  name: A spec added to a product appears in the spec names\n  status: manual\n  steps:\n    - Send GET /products and take the first item's brand id, category id and product image id.\n    - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false and is_rental false, and take the new product's id.\n    - Send POST /products/{productId}/specs with the new product's id and a body with a unique spec_name, spec_value \"1.5\" and spec_unit \"kg\", with the default user's token.\n    - Send GET /product-specs/names.\n    - Verify the response status is 200.\n    - Verify the body has exactly one item whose name is that spec_name.\n    - Verify that item's values are [\"1.5\"] and its unit is \"kg\"."
+   "yaml": "- id: API-0575\n  name: A spec added to a product appears in the spec names\n  status: automated\n  automatedIn: tests/api/product-specs/get-product-specs-names.spec.ts\n  steps:\n    - Send GET /products and take the first item's brand id, category id and product image id.\n    - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false and is_rental false, and take the new product's id.\n    - Send POST /products/{productId}/specs with the new product's id and a body with a unique spec_name, spec_value \"1.5\" and spec_unit \"kg\", with the default user's token.\n    - Send GET /product-specs/names.\n    - Verify the response status is 200.\n    - Verify the body has exactly one item whose name is that spec_name.\n    - Verify that item's values are [\"1.5\"] and its unit is \"kg\"."
   },
   {
    "id": "API-0576",
    "name": "A deleted spec disappears from the spec names",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/product-specs/get-product-specs-names.spec.ts",
    "steps": [
     "Send GET /products and take the first item's brand id, category id and product image id.",
     "Send POST /products with a unique product name, a positive price, those ids, is_location_offer false and is_rental false, and take the new product's id.",
     "Send POST /products/{productId}/specs with the new product's id, a body with a unique spec_name, spec_value \"1.5\" and spec_unit \"kg\", and the default user's token, and take the new spec's id.",
+    "Send GET /product-specs/names.",
+    "Verify an item's name is that spec_name.",
     "Send DELETE /products/{productId}/specs/{specId} with the new product's id, the new spec's id and the default user's token.",
     "Send GET /product-specs/names.",
     "Verify the response status is 200.",
     "Verify no item's name is that spec_name."
    ],
    "ref": [],
+   "specLine": 110,
    "area": "product-specs",
    "areaLabel": "Product specs",
    "file": "test-scenarios/api/product-specs/get-product-specs-names.yml",
@@ -10790,7 +11018,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@product-specs-api"
    ],
-   "yaml": "- id: API-0576\n  name: A deleted spec disappears from the spec names\n  status: manual\n  steps:\n    - Send GET /products and take the first item's brand id, category id and product image id.\n    - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false and is_rental false, and take the new product's id.\n    - Send POST /products/{productId}/specs with the new product's id, a body with a unique spec_name, spec_value \"1.5\" and spec_unit \"kg\", and the default user's token, and take the new spec's id.\n    - Send DELETE /products/{productId}/specs/{specId} with the new product's id, the new spec's id and the default user's token.\n    - Send GET /product-specs/names.\n    - Verify the response status is 200.\n    - Verify no item's name is that spec_name."
+   "yaml": "- id: API-0576\n  name: A deleted spec disappears from the spec names\n  status: automated\n  automatedIn: tests/api/product-specs/get-product-specs-names.spec.ts\n  steps:\n    - Send GET /products and take the first item's brand id, category id and product image id.\n    - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false and is_rental false, and take the new product's id.\n    - Send POST /products/{productId}/specs with the new product's id, a body with a unique spec_name, spec_value \"1.5\" and spec_unit \"kg\", and the default user's token, and take the new spec's id.\n    - Send GET /product-specs/names.\n    - Verify an item's name is that spec_name.\n    - Send DELETE /products/{productId}/specs/{specId} with the new product's id, the new spec's id and the default user's token.\n    - Send GET /product-specs/names.\n    - Verify the response status is 200.\n    - Verify no item's name is that spec_name."
   },
   {
    "id": "API-0002",
@@ -11299,7 +11527,7 @@ window.SCENARIO_CATALOG = {
     "Verify per_page is 9 and data has at most 9 items."
    ],
    "ref": [],
-   "specLine": 100,
+   "specLine": 101,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/api/products/query-products.yml",
@@ -11983,7 +12211,7 @@ window.SCENARIO_CATALOG = {
     "Verify data is not empty and every item's name contains \"pliers\" (case-insensitive)."
    ],
    "ref": [],
-   "specLine": 46,
+   "specLine": 47,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/api/products/query-products-search.yml",
@@ -12799,7 +13027,8 @@ window.SCENARIO_CATALOG = {
   {
    "id": "API-0529",
    "name": "List a product's specs returns 200 and its specs",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/products/get-products-by-product-id-specs.spec.ts",
    "role": "guest",
    "steps": [
     "Find a product with at least one spec: send GET /products/{productId} for the items of GET /products until one returns a non-empty specs array, and take its id and its specs.",
@@ -12810,6 +13039,7 @@ window.SCENARIO_CATALOG = {
     "Verify the items' ids are the same set as the ids in that product's specs array."
    ],
    "ref": [],
+   "specLine": 39,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/api/products/get-products-by-product-id-specs.yml",
@@ -12818,12 +13048,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@products-api"
    ],
-   "yaml": "- id: API-0529\n  name: List a product's specs returns 200 and its specs\n  status: manual\n  role: guest\n  steps:\n    - \"Find a product with at least one spec: send GET /products/{productId} for the items of GET /products until one returns a non-empty specs array, and take its id and its specs.\"\n    - Send GET /products/{productId}/specs with that id, without an Authorization header.\n    - Verify the response status is 200.\n    - Verify the body is a non-empty array.\n    - Verify every item has id, product_id, spec_name, spec_value and spec_unit, with product_id equal to that id and spec_unit a string or null.\n    - Verify the items' ids are the same set as the ids in that product's specs array."
+   "yaml": "- id: API-0529\n  name: List a product's specs returns 200 and its specs\n  status: automated\n  automatedIn: tests/api/products/get-products-by-product-id-specs.spec.ts\n  role: guest\n  steps:\n    - \"Find a product with at least one spec: send GET /products/{productId} for the items of GET /products until one returns a non-empty specs array, and take its id and its specs.\"\n    - Send GET /products/{productId}/specs with that id, without an Authorization header.\n    - Verify the response status is 200.\n    - Verify the body is a non-empty array.\n    - Verify every item has id, product_id, spec_name, spec_value and spec_unit, with product_id equal to that id and spec_unit a string or null.\n    - Verify the items' ids are the same set as the ids in that product's specs array."
   },
   {
    "id": "API-0530",
    "name": "List specs of a product that doesn't exist returns an empty array",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/products/get-products-by-product-id-specs.spec.ts",
    "role": "guest",
    "steps": [
     "Send GET /products/{productId}/specs with a well-formed ULID that no product has, without an Authorization header.",
@@ -12831,6 +13062,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body is an empty array."
    ],
    "ref": [],
+   "specLine": 90,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/api/products/get-products-by-product-id-specs.yml",
@@ -12839,12 +13071,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@products-api"
    ],
-   "yaml": "- id: API-0530\n  name: List specs of a product that doesn't exist returns an empty array\n  status: manual\n  role: guest\n  steps:\n    - Send GET /products/{productId}/specs with a well-formed ULID that no product has, without an Authorization header.\n    - Verify the response status is 200.\n    - Verify the body is an empty array."
+   "yaml": "- id: API-0530\n  name: List specs of a product that doesn't exist returns an empty array\n  status: automated\n  automatedIn: tests/api/products/get-products-by-product-id-specs.spec.ts\n  role: guest\n  steps:\n    - Send GET /products/{productId}/specs with a well-formed ULID that no product has, without an Authorization header.\n    - Verify the response status is 200.\n    - Verify the body is an empty array."
   },
   {
    "id": "API-0531",
    "name": "List specs of a product without specs returns an empty array",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/products/get-products-by-product-id-specs.spec.ts",
    "steps": [
     "Send GET /products and take the first item's brand id, category id and product image id.",
     "Send POST /products with a unique product name, a positive price, those ids, is_location_offer false and is_rental false, and take the new product's id.",
@@ -12853,6 +13086,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body is an empty array."
    ],
    "ref": [],
+   "specLine": 107,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/api/products/get-products-by-product-id-specs.yml",
@@ -12861,12 +13095,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@products-api"
    ],
-   "yaml": "- id: API-0531\n  name: List specs of a product without specs returns an empty array\n  status: manual\n  steps:\n    - Send GET /products and take the first item's brand id, category id and product image id.\n    - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false and is_rental false, and take the new product's id.\n    - Send GET /products/{productId}/specs with the new product's id.\n    - Verify the response status is 200.\n    - Verify the body is an empty array."
+   "yaml": "- id: API-0531\n  name: List specs of a product without specs returns an empty array\n  status: automated\n  automatedIn: tests/api/products/get-products-by-product-id-specs.spec.ts\n  steps:\n    - Send GET /products and take the first item's brand id, category id and product image id.\n    - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false and is_rental false, and take the new product's id.\n    - Send GET /products/{productId}/specs with the new product's id.\n    - Verify the response status is 200.\n    - Verify the body is an empty array."
   },
   {
    "id": "API-0532",
    "name": "List specs ignores query parameters",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/products/get-products-by-product-id-specs.spec.ts",
    "role": "guest",
    "steps": [
     "Find a product with at least one spec: send GET /products/{productId} for the items of GET /products until one returns a non-empty specs array, and take its id and its specs.",
@@ -12876,6 +13111,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's ids are the same set as without the query parameter."
    ],
    "ref": [],
+   "specLine": 126,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/api/products/get-products-by-product-id-specs.yml",
@@ -12884,12 +13120,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@products-api"
    ],
-   "yaml": "- id: API-0532\n  name: List specs ignores query parameters\n  status: manual\n  role: guest\n  steps:\n    - \"Find a product with at least one spec: send GET /products/{productId} for the items of GET /products until one returns a non-empty specs array, and take its id and its specs.\"\n    - Send GET /products/{productId}/specs with that id and take the spec ids of the body.\n    - Send GET /products/{productId}/specs with that id and the query parameter spec_name set to a value that matches none of the product's spec names.\n    - Verify the response status is 200.\n    - Verify the body's ids are the same set as without the query parameter."
+   "yaml": "- id: API-0532\n  name: List specs ignores query parameters\n  status: automated\n  automatedIn: tests/api/products/get-products-by-product-id-specs.spec.ts\n  role: guest\n  steps:\n    - \"Find a product with at least one spec: send GET /products/{productId} for the items of GET /products until one returns a non-empty specs array, and take its id and its specs.\"\n    - Send GET /products/{productId}/specs with that id and take the spec ids of the body.\n    - Send GET /products/{productId}/specs with that id and the query parameter spec_name set to a value that matches none of the product's spec names.\n    - Verify the response status is 200.\n    - Verify the body's ids are the same set as without the query parameter."
   },
   {
    "id": "API-0533",
    "name": "List specs with a lower-case product id returns the same specs",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/products/get-products-by-product-id-specs.spec.ts",
    "role": "guest",
    "steps": [
     "Find a product with at least one spec: send GET /products/{productId} for the items of GET /products until one returns a non-empty specs array, and take its id and its specs.",
@@ -12898,6 +13135,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's ids are the same set as the ids in that product's specs array."
    ],
    "ref": [],
+   "specLine": 157,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/api/products/get-products-by-product-id-specs.yml",
@@ -12906,12 +13144,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@products-api"
    ],
-   "yaml": "- id: API-0533\n  name: List specs with a lower-case product id returns the same specs\n  status: manual\n  role: guest\n  steps:\n    - \"Find a product with at least one spec: send GET /products/{productId} for the items of GET /products until one returns a non-empty specs array, and take its id and its specs.\"\n    - Send GET /products/{productId}/specs with that id in lower case.\n    - Verify the response status is 200.\n    - Verify the body's ids are the same set as the ids in that product's specs array."
+   "yaml": "- id: API-0533\n  name: List specs with a lower-case product id returns the same specs\n  status: automated\n  automatedIn: tests/api/products/get-products-by-product-id-specs.spec.ts\n  role: guest\n  steps:\n    - \"Find a product with at least one spec: send GET /products/{productId} for the items of GET /products until one returns a non-empty specs array, and take its id and its specs.\"\n    - Send GET /products/{productId}/specs with that id in lower case.\n    - Verify the response status is 200.\n    - Verify the body's ids are the same set as the ids in that product's specs array."
   },
   {
    "id": "API-0534",
    "name": "Add a spec to a product returns 201 and the spec",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/products/post-products-by-product-id-specs.spec.ts",
    "steps": [
     "Send GET /products and take the first item's brand id, category id and product image id.",
     "Send POST /products with a unique product name, a positive price, those ids, is_location_offer false and is_rental false, and take the new product's id.",
@@ -12923,6 +13162,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /products/{productId}/specs with the new product's id returns a spec with that id and those spec_name, spec_value and spec_unit."
    ],
    "ref": [],
+   "specLine": 80,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/api/products/post-products-by-product-id-specs.yml",
@@ -12931,12 +13171,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@products-api"
    ],
-   "yaml": "- id: API-0534\n  name: Add a spec to a product returns 201 and the spec\n  status: manual\n  steps:\n    - Send GET /products and take the first item's brand id, category id and product image id.\n    - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false and is_rental false, and take the new product's id.\n    - Send POST /products/{productId}/specs with the new product's id, a body with a unique spec_name, spec_value \"1.5\" and spec_unit \"kg\", and the default user's token, and take the new spec's id.\n    - Verify the response status is 201.\n    - Verify the body's product_id equals the new product's id.\n    - Verify the body's spec_name, spec_value and spec_unit equal the sent values.\n    - Verify the body's id is a non-empty string.\n    - Verify GET /products/{productId}/specs with the new product's id returns a spec with that id and those spec_name, spec_value and spec_unit."
+   "yaml": "- id: API-0534\n  name: Add a spec to a product returns 201 and the spec\n  status: automated\n  automatedIn: tests/api/products/post-products-by-product-id-specs.spec.ts\n  steps:\n    - Send GET /products and take the first item's brand id, category id and product image id.\n    - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false and is_rental false, and take the new product's id.\n    - Send POST /products/{productId}/specs with the new product's id, a body with a unique spec_name, spec_value \"1.5\" and spec_unit \"kg\", and the default user's token, and take the new spec's id.\n    - Verify the response status is 201.\n    - Verify the body's product_id equals the new product's id.\n    - Verify the body's spec_name, spec_value and spec_unit equal the sent values.\n    - Verify the body's id is a non-empty string.\n    - Verify GET /products/{productId}/specs with the new product's id returns a spec with that id and those spec_name, spec_value and spec_unit."
   },
   {
    "id": "API-0535",
    "name": "Add a spec without spec_unit returns spec_unit null",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/products/post-products-by-product-id-specs.spec.ts",
    "steps": [
     "Send GET /products and take the first item's brand id, category id and product image id.",
     "Send POST /products with a unique product name, a positive price, those ids, is_location_offer false and is_rental false, and take the new product's id.",
@@ -12946,6 +13187,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /products/{productId}/specs/{specId} with the new product's id and the new spec's id returns spec_unit null."
    ],
    "ref": [],
+   "specLine": 140,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/api/products/post-products-by-product-id-specs.yml",
@@ -12954,12 +13196,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@products-api"
    ],
-   "yaml": "- id: API-0535\n  name: Add a spec without spec_unit returns spec_unit null\n  status: manual\n  steps:\n    - Send GET /products and take the first item's brand id, category id and product image id.\n    - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false and is_rental false, and take the new product's id.\n    - Send POST /products/{productId}/specs with the new product's id, a body with a unique spec_name and spec_value \"1.5\" and no spec_unit, and the default user's token, and take the new spec's id.\n    - Verify the response status is 201.\n    - Verify the body's spec_unit is null.\n    - Verify GET /products/{productId}/specs/{specId} with the new product's id and the new spec's id returns spec_unit null."
+   "yaml": "- id: API-0535\n  name: Add a spec without spec_unit returns spec_unit null\n  status: automated\n  automatedIn: tests/api/products/post-products-by-product-id-specs.spec.ts\n  steps:\n    - Send GET /products and take the first item's brand id, category id and product image id.\n    - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false and is_rental false, and take the new product's id.\n    - Send POST /products/{productId}/specs with the new product's id, a body with a unique spec_name and spec_value \"1.5\" and no spec_unit, and the default user's token, and take the new spec's id.\n    - Verify the response status is 201.\n    - Verify the body's spec_unit is null.\n    - Verify GET /products/{productId}/specs/{specId} with the new product's id and the new spec's id returns spec_unit null."
   },
   {
    "id": "API-0536",
    "name": "Add a spec without a token returns 401",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/products/post-products-by-product-id-specs.spec.ts",
    "steps": [
     "Send GET /products and take the first item's brand id, category id and product image id.",
     "Send POST /products with a unique product name, a positive price, those ids, is_location_offer false and is_rental false, and take the new product's id.",
@@ -12968,6 +13211,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's message is \"Unauthorized\"."
    ],
    "ref": [],
+   "specLine": 185,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/api/products/post-products-by-product-id-specs.yml",
@@ -12976,12 +13220,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@products-api"
    ],
-   "yaml": "- id: API-0536\n  name: Add a spec without a token returns 401\n  status: manual\n  steps:\n    - Send GET /products and take the first item's brand id, category id and product image id.\n    - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false and is_rental false, and take the new product's id.\n    - Send POST /products/{productId}/specs with the new product's id and a body with a unique spec_name and spec_value \"1.5\", without an Authorization header.\n    - Verify the response status is 401.\n    - Verify the body's message is \"Unauthorized\"."
+   "yaml": "- id: API-0536\n  name: Add a spec without a token returns 401\n  status: automated\n  automatedIn: tests/api/products/post-products-by-product-id-specs.spec.ts\n  steps:\n    - Send GET /products and take the first item's brand id, category id and product image id.\n    - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false and is_rental false, and take the new product's id.\n    - Send POST /products/{productId}/specs with the new product's id and a body with a unique spec_name and spec_value \"1.5\", without an Authorization header.\n    - Verify the response status is 401.\n    - Verify the body's message is \"Unauthorized\"."
   },
   {
    "id": "API-0537",
    "name": "Add a spec with an invalid token returns 401",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/products/post-products-by-product-id-specs.spec.ts",
    "steps": [
     "Send GET /products and take the first item's brand id, category id and product image id.",
     "Send POST /products with a unique product name, a positive price, those ids, is_location_offer false and is_rental false, and take the new product's id.",
@@ -12990,6 +13235,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's message is \"Unauthorized\"."
    ],
    "ref": [],
+   "specLine": 210,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/api/products/post-products-by-product-id-specs.yml",
@@ -12998,12 +13244,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@products-api"
    ],
-   "yaml": "- id: API-0537\n  name: Add a spec with an invalid token returns 401\n  status: manual\n  steps:\n    - Send GET /products and take the first item's brand id, category id and product image id.\n    - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false and is_rental false, and take the new product's id.\n    - Send POST /products/{productId}/specs with the new product's id and a body with a unique spec_name and spec_value \"1.5\", with an invalid token.\n    - Verify the response status is 401.\n    - Verify the body's message is \"Unauthorized\"."
+   "yaml": "- id: API-0537\n  name: Add a spec with an invalid token returns 401\n  status: automated\n  automatedIn: tests/api/products/post-products-by-product-id-specs.spec.ts\n  steps:\n    - Send GET /products and take the first item's brand id, category id and product image id.\n    - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false and is_rental false, and take the new product's id.\n    - Send POST /products/{productId}/specs with the new product's id and a body with a unique spec_name and spec_value \"1.5\", with an invalid token.\n    - Verify the response status is 401.\n    - Verify the body's message is \"Unauthorized\"."
   },
   {
    "id": "API-0538",
    "name": "Add a spec without the required fields returns 422",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/products/post-products-by-product-id-specs.spec.ts",
    "steps": [
     "Send GET /products and take the first item's id.",
     "Send POST /products/{productId}/specs with that id and an empty body {}, with the default user's token.",
@@ -13012,6 +13259,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's errors has the keys spec_name and spec_value, each with at least one message."
    ],
    "ref": [],
+   "specLine": 241,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/api/products/post-products-by-product-id-specs.yml",
@@ -13020,12 +13268,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@products-api"
    ],
-   "yaml": "- id: API-0538\n  name: Add a spec without the required fields returns 422\n  status: manual\n  steps:\n    - Send GET /products and take the first item's id.\n    - Send POST /products/{productId}/specs with that id and an empty body {}, with the default user's token.\n    - Verify the response status is 422.\n    - Verify the body has a message.\n    - Verify the body's errors has the keys spec_name and spec_value, each with at least one message."
+   "yaml": "- id: API-0538\n  name: Add a spec without the required fields returns 422\n  status: automated\n  automatedIn: tests/api/products/post-products-by-product-id-specs.spec.ts\n  steps:\n    - Send GET /products and take the first item's id.\n    - Send POST /products/{productId}/specs with that id and an empty body {}, with the default user's token.\n    - Verify the response status is 422.\n    - Verify the body has a message.\n    - Verify the body's errors has the keys spec_name and spec_value, each with at least one message."
   },
   {
    "id": "API-0539",
    "name": "Add a spec with a spec_name longer than 100 characters returns 422",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/products/post-products-by-product-id-specs.spec.ts",
    "steps": [
     "Send GET /products and take the first item's id.",
     "Send POST /products/{productId}/specs with that id and a body with a 101-character spec_name and spec_value \"1.5\", with the default user's token.",
@@ -13033,6 +13282,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's errors has a spec_name key with at least one message."
    ],
    "ref": [],
+   "specLine": 265,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/api/products/post-products-by-product-id-specs.yml",
@@ -13041,12 +13291,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@products-api"
    ],
-   "yaml": "- id: API-0539\n  name: Add a spec with a spec_name longer than 100 characters returns 422\n  status: manual\n  steps:\n    - Send GET /products and take the first item's id.\n    - Send POST /products/{productId}/specs with that id and a body with a 101-character spec_name and spec_value \"1.5\", with the default user's token.\n    - Verify the response status is 422.\n    - Verify the body's errors has a spec_name key with at least one message."
+   "yaml": "- id: API-0539\n  name: Add a spec with a spec_name longer than 100 characters returns 422\n  status: automated\n  automatedIn: tests/api/products/post-products-by-product-id-specs.spec.ts\n  steps:\n    - Send GET /products and take the first item's id.\n    - Send POST /products/{productId}/specs with that id and a body with a 101-character spec_name and spec_value \"1.5\", with the default user's token.\n    - Verify the response status is 422.\n    - Verify the body's errors has a spec_name key with at least one message."
   },
   {
    "id": "API-0540",
    "name": "Add a spec with a spec_value longer than 255 characters returns 422",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/products/post-products-by-product-id-specs.spec.ts",
    "steps": [
     "Send GET /products and take the first item's id.",
     "Send POST /products/{productId}/specs with that id and a body with a unique spec_name and a 256-character spec_value, with the default user's token.",
@@ -13054,6 +13305,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's errors has a spec_value key with at least one message."
    ],
    "ref": [],
+   "specLine": 274,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/api/products/post-products-by-product-id-specs.yml",
@@ -13062,12 +13314,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@products-api"
    ],
-   "yaml": "- id: API-0540\n  name: Add a spec with a spec_value longer than 255 characters returns 422\n  status: manual\n  steps:\n    - Send GET /products and take the first item's id.\n    - Send POST /products/{productId}/specs with that id and a body with a unique spec_name and a 256-character spec_value, with the default user's token.\n    - Verify the response status is 422.\n    - Verify the body's errors has a spec_value key with at least one message."
+   "yaml": "- id: API-0540\n  name: Add a spec with a spec_value longer than 255 characters returns 422\n  status: automated\n  automatedIn: tests/api/products/post-products-by-product-id-specs.spec.ts\n  steps:\n    - Send GET /products and take the first item's id.\n    - Send POST /products/{productId}/specs with that id and a body with a unique spec_name and a 256-character spec_value, with the default user's token.\n    - Verify the response status is 422.\n    - Verify the body's errors has a spec_value key with at least one message."
   },
   {
    "id": "API-0541",
    "name": "Add a spec with a spec_unit longer than 30 characters returns 422",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/products/post-products-by-product-id-specs.spec.ts",
    "steps": [
     "Send GET /products and take the first item's id.",
     "Send POST /products/{productId}/specs with that id and a body with a unique spec_name, spec_value \"1.5\" and a 31-character spec_unit, with the default user's token.",
@@ -13075,6 +13328,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's errors has a spec_unit key with at least one message."
    ],
    "ref": [],
+   "specLine": 283,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/api/products/post-products-by-product-id-specs.yml",
@@ -13083,12 +13337,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@products-api"
    ],
-   "yaml": "- id: API-0541\n  name: Add a spec with a spec_unit longer than 30 characters returns 422\n  status: manual\n  steps:\n    - Send GET /products and take the first item's id.\n    - Send POST /products/{productId}/specs with that id and a body with a unique spec_name, spec_value \"1.5\" and a 31-character spec_unit, with the default user's token.\n    - Verify the response status is 422.\n    - Verify the body's errors has a spec_unit key with at least one message."
+   "yaml": "- id: API-0541\n  name: Add a spec with a spec_unit longer than 30 characters returns 422\n  status: automated\n  automatedIn: tests/api/products/post-products-by-product-id-specs.spec.ts\n  steps:\n    - Send GET /products and take the first item's id.\n    - Send POST /products/{productId}/specs with that id and a body with a unique spec_name, spec_value \"1.5\" and a 31-character spec_unit, with the default user's token.\n    - Verify the response status is 422.\n    - Verify the body's errors has a spec_unit key with at least one message."
   },
   {
    "id": "API-0542",
    "name": "Add a spec with a spec_value that isn't a string returns 422",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/products/post-products-by-product-id-specs.spec.ts",
    "steps": [
     "Send GET /products and take the first item's id.",
     "Send POST /products/{productId}/specs with that id and a body with a unique spec_name and spec_value set to the number 1.5, with the default user's token.",
@@ -13096,6 +13351,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's errors has a spec_value key with at least one message."
    ],
    "ref": [],
+   "specLine": 292,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/api/products/post-products-by-product-id-specs.yml",
@@ -13104,12 +13360,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@products-api"
    ],
-   "yaml": "- id: API-0542\n  name: Add a spec with a spec_value that isn't a string returns 422\n  status: manual\n  steps:\n    - Send GET /products and take the first item's id.\n    - Send POST /products/{productId}/specs with that id and a body with a unique spec_name and spec_value set to the number 1.5, with the default user's token.\n    - Verify the response status is 422.\n    - Verify the body's errors has a spec_value key with at least one message."
+   "yaml": "- id: API-0542\n  name: Add a spec with a spec_value that isn't a string returns 422\n  status: automated\n  automatedIn: tests/api/products/post-products-by-product-id-specs.spec.ts\n  steps:\n    - Send GET /products and take the first item's id.\n    - Send POST /products/{productId}/specs with that id and a body with a unique spec_name and spec_value set to the number 1.5, with the default user's token.\n    - Verify the response status is 422.\n    - Verify the body's errors has a spec_value key with at least one message."
   },
   {
    "id": "API-0543",
    "name": "Add a spec with a spec_unit that isn't a string returns 422",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/products/post-products-by-product-id-specs.spec.ts",
    "steps": [
     "Send GET /products and take the first item's id.",
     "Send POST /products/{productId}/specs with that id and a body with a unique spec_name, spec_value \"1.5\" and spec_unit set to the number 5, with the default user's token.",
@@ -13117,6 +13374,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's errors has a spec_unit key with at least one message."
    ],
    "ref": [],
+   "specLine": 301,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/api/products/post-products-by-product-id-specs.yml",
@@ -13125,12 +13383,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@products-api"
    ],
-   "yaml": "- id: API-0543\n  name: Add a spec with a spec_unit that isn't a string returns 422\n  status: manual\n  steps:\n    - Send GET /products and take the first item's id.\n    - Send POST /products/{productId}/specs with that id and a body with a unique spec_name, spec_value \"1.5\" and spec_unit set to the number 5, with the default user's token.\n    - Verify the response status is 422.\n    - Verify the body's errors has a spec_unit key with at least one message."
+   "yaml": "- id: API-0543\n  name: Add a spec with a spec_unit that isn't a string returns 422\n  status: automated\n  automatedIn: tests/api/products/post-products-by-product-id-specs.spec.ts\n  steps:\n    - Send GET /products and take the first item's id.\n    - Send POST /products/{productId}/specs with that id and a body with a unique spec_name, spec_value \"1.5\" and spec_unit set to the number 5, with the default user's token.\n    - Verify the response status is 422.\n    - Verify the body's errors has a spec_unit key with at least one message."
   },
   {
    "id": "API-0544",
    "name": "Add a spec with an empty spec_name returns 422",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/products/post-products-by-product-id-specs.spec.ts",
    "steps": [
     "Send GET /products and take the first item's id.",
     "Send POST /products/{productId}/specs with that id and a body with spec_name set to an empty string and spec_value \"1.5\", with the default user's token.",
@@ -13138,6 +13397,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's errors has a spec_name key with at least one message."
    ],
    "ref": [],
+   "specLine": 310,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/api/products/post-products-by-product-id-specs.yml",
@@ -13146,18 +13406,20 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@products-api"
    ],
-   "yaml": "- id: API-0544\n  name: Add a spec with an empty spec_name returns 422\n  status: manual\n  steps:\n    - Send GET /products and take the first item's id.\n    - Send POST /products/{productId}/specs with that id and a body with spec_name set to an empty string and spec_value \"1.5\", with the default user's token.\n    - Verify the response status is 422.\n    - Verify the body's errors has a spec_name key with at least one message."
+   "yaml": "- id: API-0544\n  name: Add a spec with an empty spec_name returns 422\n  status: automated\n  automatedIn: tests/api/products/post-products-by-product-id-specs.spec.ts\n  steps:\n    - Send GET /products and take the first item's id.\n    - Send POST /products/{productId}/specs with that id and a body with spec_name set to an empty string and spec_value \"1.5\", with the default user's token.\n    - Verify the response status is 422.\n    - Verify the body's errors has a spec_name key with at least one message."
   },
   {
    "id": "API-0545",
    "name": "Add an invalid spec to an unknown product returns 422, not 500",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/products/post-products-by-product-id-specs.spec.ts",
    "steps": [
     "Send POST /products/{productId}/specs with a well-formed ULID that no product has and an empty body {}, with the default user's token.",
     "Verify the response status is 422.",
     "Verify the body's errors has the keys spec_name and spec_value."
    ],
    "ref": [],
+   "specLine": 319,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/api/products/post-products-by-product-id-specs.yml",
@@ -13166,18 +13428,20 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@products-api"
    ],
-   "yaml": "- id: API-0545\n  name: Add an invalid spec to an unknown product returns 422, not 500\n  status: manual\n  steps:\n    - Send POST /products/{productId}/specs with a well-formed ULID that no product has and an empty body {}, with the default user's token.\n    - Verify the response status is 422.\n    - Verify the body's errors has the keys spec_name and spec_value."
+   "yaml": "- id: API-0545\n  name: Add an invalid spec to an unknown product returns 422, not 500\n  status: automated\n  automatedIn: tests/api/products/post-products-by-product-id-specs.spec.ts\n  steps:\n    - Send POST /products/{productId}/specs with a well-formed ULID that no product has and an empty body {}, with the default user's token.\n    - Verify the response status is 422.\n    - Verify the body's errors has the keys spec_name and spec_value."
   },
   {
    "id": "API-0546",
    "name": "Add an invalid spec without an Accept header returns 302",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/products/post-products-by-product-id-specs.spec.ts",
    "steps": [
     "Send GET /products and take the first item's id.",
-    "Send POST /products/{productId}/specs with that id and an empty body {}, with the default user's token, without an Accept header and without following redirects.",
+    "Send POST /products/{productId}/specs with that id and an empty body {}, with the default user's token, with the Accept header left out and without following redirects.",
     "Verify the response status is 302."
    ],
    "ref": [],
+   "specLine": 342,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/api/products/post-products-by-product-id-specs.yml",
@@ -13186,12 +13450,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@products-api"
    ],
-   "yaml": "- id: API-0546\n  name: Add an invalid spec without an Accept header returns 302\n  status: manual\n  steps:\n    - Send GET /products and take the first item's id.\n    - Send POST /products/{productId}/specs with that id and an empty body {}, with the default user's token, without an Accept header and without following redirects.\n    - Verify the response status is 302."
+   "yaml": "- id: API-0546\n  name: Add an invalid spec without an Accept header returns 302\n  status: automated\n  automatedIn: tests/api/products/post-products-by-product-id-specs.spec.ts\n  steps:\n    - Send GET /products and take the first item's id.\n    - Send POST /products/{productId}/specs with that id and an empty body {}, with the default user's token, with the Accept header left out and without following redirects.\n    - Verify the response status is 302."
   },
   {
    "id": "API-0547",
    "name": "Add a spec to an unknown product returns 404",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/products/post-products-by-product-id-specs.spec.ts",
    "knownIssue": "Returns 500 instead of 404 for an unknown product id.",
    "bug": "BUG-043",
    "steps": [
@@ -13199,6 +13464,7 @@ window.SCENARIO_CATALOG = {
     "Verify the response status is 404."
    ],
    "ref": [],
+   "specLine": 367,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/api/products/post-products-by-product-id-specs.yml",
@@ -13207,12 +13473,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@products-api"
    ],
-   "yaml": "- id: API-0547\n  name: Add a spec to an unknown product returns 404\n  status: manual\n  knownIssue: Returns 500 instead of 404 for an unknown product id.\n  bug: BUG-043\n  steps:\n    - Send POST /products/{productId}/specs with a well-formed ULID that no product has and a body with a unique spec_name and spec_value \"1.5\", with the default user's token.\n    - Verify the response status is 404."
+   "yaml": "- id: API-0547\n  name: Add a spec to an unknown product returns 404\n  status: automated\n  automatedIn: tests/api/products/post-products-by-product-id-specs.spec.ts\n  knownIssue: Returns 500 instead of 404 for an unknown product id.\n  bug: BUG-043\n  steps:\n    - Send POST /products/{productId}/specs with a well-formed ULID that no product has and a body with a unique spec_name and spec_value \"1.5\", with the default user's token.\n    - Verify the response status is 404."
   },
   {
    "id": "API-0548",
    "name": "Get a spec returns 200 and the spec",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/products/get-products-by-product-id-specs-by-spec-id.spec.ts",
    "role": "guest",
    "steps": [
     "Find a product with at least one spec: send GET /products/{productId} for the items of GET /products until one returns a non-empty specs array, and take its id and its first spec's id, spec_name, spec_value and spec_unit.",
@@ -13222,6 +13489,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's spec_name, spec_value and spec_unit equal the values taken from the product."
    ],
    "ref": [],
+   "specLine": 16,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/api/products/get-products-by-product-id-specs-by-spec-id.yml",
@@ -13230,12 +13498,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@products-api"
    ],
-   "yaml": "- id: API-0548\n  name: Get a spec returns 200 and the spec\n  status: manual\n  role: guest\n  steps:\n    - \"Find a product with at least one spec: send GET /products/{productId} for the items of GET /products until one returns a non-empty specs array, and take its id and its first spec's id, spec_name, spec_value and spec_unit.\"\n    - Send GET /products/{productId}/specs/{specId} with that product's id and that spec's id, without an Authorization header.\n    - Verify the response status is 200.\n    - Verify the body's id equals the spec's id and its product_id equals the product's id.\n    - Verify the body's spec_name, spec_value and spec_unit equal the values taken from the product."
+   "yaml": "- id: API-0548\n  name: Get a spec returns 200 and the spec\n  status: automated\n  automatedIn: tests/api/products/get-products-by-product-id-specs-by-spec-id.spec.ts\n  role: guest\n  steps:\n    - \"Find a product with at least one spec: send GET /products/{productId} for the items of GET /products until one returns a non-empty specs array, and take its id and its first spec's id, spec_name, spec_value and spec_unit.\"\n    - Send GET /products/{productId}/specs/{specId} with that product's id and that spec's id, without an Authorization header.\n    - Verify the response status is 200.\n    - Verify the body's id equals the spec's id and its product_id equals the product's id.\n    - Verify the body's spec_name, spec_value and spec_unit equal the values taken from the product."
   },
   {
    "id": "API-0549",
    "name": "Get a spec with an unknown spec id returns 404",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/products/get-products-by-product-id-specs-by-spec-id.spec.ts",
    "steps": [
     "Send GET /products and take the first item's id.",
     "Send GET /products/{productId}/specs/{specId} with that id and a well-formed ULID that no spec has.",
@@ -13243,6 +13512,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's message is \"Requested item not found\"."
    ],
    "ref": [],
+   "specLine": 52,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/api/products/get-products-by-product-id-specs-by-spec-id.yml",
@@ -13251,12 +13521,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@products-api"
    ],
-   "yaml": "- id: API-0549\n  name: Get a spec with an unknown spec id returns 404\n  status: manual\n  steps:\n    - Send GET /products and take the first item's id.\n    - Send GET /products/{productId}/specs/{specId} with that id and a well-formed ULID that no spec has.\n    - Verify the response status is 404.\n    - Verify the body's message is \"Requested item not found\"."
+   "yaml": "- id: API-0549\n  name: Get a spec with an unknown spec id returns 404\n  status: automated\n  automatedIn: tests/api/products/get-products-by-product-id-specs-by-spec-id.spec.ts\n  steps:\n    - Send GET /products and take the first item's id.\n    - Send GET /products/{productId}/specs/{specId} with that id and a well-formed ULID that no spec has.\n    - Verify the response status is 404.\n    - Verify the body's message is \"Requested item not found\"."
   },
   {
    "id": "API-0550",
    "name": "Get a spec under another product's id returns 404",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/products/get-products-by-product-id-specs-by-spec-id.spec.ts",
    "steps": [
     "Find a product with at least one spec: send GET /products/{productId} for the items of GET /products until one returns a non-empty specs array, and take its id and its first spec's id.",
     "Take the id of another item of GET /products that differs from that product's id.",
@@ -13265,6 +13536,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's message is \"Requested item not found\"."
    ],
    "ref": [],
+   "specLine": 71,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/api/products/get-products-by-product-id-specs-by-spec-id.yml",
@@ -13273,12 +13545,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@products-api"
    ],
-   "yaml": "- id: API-0550\n  name: Get a spec under another product's id returns 404\n  status: manual\n  steps:\n    - \"Find a product with at least one spec: send GET /products/{productId} for the items of GET /products until one returns a non-empty specs array, and take its id and its first spec's id.\"\n    - Take the id of another item of GET /products that differs from that product's id.\n    - Send GET /products/{productId}/specs/{specId} with the other product's id and that spec's id.\n    - Verify the response status is 404.\n    - Verify the body's message is \"Requested item not found\"."
+   "yaml": "- id: API-0550\n  name: Get a spec under another product's id returns 404\n  status: automated\n  automatedIn: tests/api/products/get-products-by-product-id-specs-by-spec-id.spec.ts\n  steps:\n    - \"Find a product with at least one spec: send GET /products/{productId} for the items of GET /products until one returns a non-empty specs array, and take its id and its first spec's id.\"\n    - Take the id of another item of GET /products that differs from that product's id.\n    - Send GET /products/{productId}/specs/{specId} with the other product's id and that spec's id.\n    - Verify the response status is 404.\n    - Verify the body's message is \"Requested item not found\"."
   },
   {
    "id": "API-0551",
    "name": "Get a spec of an unknown product returns 404",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/products/get-products-by-product-id-specs-by-spec-id.spec.ts",
    "steps": [
     "Find a product with at least one spec: send GET /products/{productId} for the items of GET /products until one returns a non-empty specs array, and take its first spec's id.",
     "Send GET /products/{productId}/specs/{specId} with a well-formed ULID that no product has and that spec's id.",
@@ -13286,6 +13559,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's message is \"Requested item not found\"."
    ],
    "ref": [],
+   "specLine": 105,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/api/products/get-products-by-product-id-specs-by-spec-id.yml",
@@ -13294,12 +13568,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@products-api"
    ],
-   "yaml": "- id: API-0551\n  name: Get a spec of an unknown product returns 404\n  status: manual\n  steps:\n    - \"Find a product with at least one spec: send GET /products/{productId} for the items of GET /products until one returns a non-empty specs array, and take its first spec's id.\"\n    - Send GET /products/{productId}/specs/{specId} with a well-formed ULID that no product has and that spec's id.\n    - Verify the response status is 404.\n    - Verify the body's message is \"Requested item not found\"."
+   "yaml": "- id: API-0551\n  name: Get a spec of an unknown product returns 404\n  status: automated\n  automatedIn: tests/api/products/get-products-by-product-id-specs-by-spec-id.spec.ts\n  steps:\n    - \"Find a product with at least one spec: send GET /products/{productId} for the items of GET /products until one returns a non-empty specs array, and take its first spec's id.\"\n    - Send GET /products/{productId}/specs/{specId} with a well-formed ULID that no product has and that spec's id.\n    - Verify the response status is 404.\n    - Verify the body's message is \"Requested item not found\"."
   },
   {
    "id": "API-0552",
    "name": "Get a spec with lower-case ids returns the same spec",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/products/get-products-by-product-id-specs-by-spec-id.spec.ts",
    "role": "guest",
    "steps": [
     "Find a product with at least one spec: send GET /products/{productId} for the items of GET /products until one returns a non-empty specs array, and take its id and its first spec's id and spec_name.",
@@ -13308,6 +13583,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's spec_name equals the taken spec_name."
    ],
    "ref": [],
+   "specLine": 128,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/api/products/get-products-by-product-id-specs-by-spec-id.yml",
@@ -13316,12 +13592,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@products-api"
    ],
-   "yaml": "- id: API-0552\n  name: Get a spec with lower-case ids returns the same spec\n  status: manual\n  role: guest\n  steps:\n    - \"Find a product with at least one spec: send GET /products/{productId} for the items of GET /products until one returns a non-empty specs array, and take its id and its first spec's id and spec_name.\"\n    - Send GET /products/{productId}/specs/{specId} with the product's id and the spec's id, both in lower case, without an Authorization header.\n    - Verify the response status is 200.\n    - Verify the body's spec_name equals the taken spec_name."
+   "yaml": "- id: API-0552\n  name: Get a spec with lower-case ids returns the same spec\n  status: automated\n  automatedIn: tests/api/products/get-products-by-product-id-specs-by-spec-id.spec.ts\n  role: guest\n  steps:\n    - \"Find a product with at least one spec: send GET /products/{productId} for the items of GET /products until one returns a non-empty specs array, and take its id and its first spec's id and spec_name.\"\n    - Send GET /products/{productId}/specs/{specId} with the product's id and the spec's id, both in lower case, without an Authorization header.\n    - Verify the response status is 200.\n    - Verify the body's spec_name equals the taken spec_name."
   },
   {
    "id": "API-0553",
    "name": "Update a spec's value returns success and keeps the other fields",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/products/put-products-by-product-id-specs-by-spec-id.spec.ts",
    "steps": [
     "Send GET /products and take the first item's brand id, category id and product image id.",
     "Send POST /products with a unique product name, a positive price, those ids, is_location_offer false and is_rental false, and take the new product's id.",
@@ -13334,6 +13611,7 @@ window.SCENARIO_CATALOG = {
     "Verify its spec_name and spec_unit equal the values the spec was created with."
    ],
    "ref": [],
+   "specLine": 71,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/api/products/put-products-by-product-id-specs-by-spec-id.yml",
@@ -13342,12 +13620,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@products-api"
    ],
-   "yaml": "- id: API-0553\n  name: Update a spec's value returns success and keeps the other fields\n  status: manual\n  steps:\n    - Send GET /products and take the first item's brand id, category id and product image id.\n    - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false and is_rental false, and take the new product's id.\n    - Send POST /products/{productId}/specs with the new product's id, a body with a unique spec_name, spec_value \"1.5\" and spec_unit \"kg\", and the default user's token, and take the new spec's id.\n    - Send PUT /products/{productId}/specs/{specId} with the new product's id, the new spec's id and a body with spec_value \"2.5\", with the default user's token.\n    - Verify the response status is 200.\n    - Verify the body's success is true.\n    - Send GET /products/{productId}/specs/{specId} with the new product's id and the new spec's id.\n    - Verify its spec_value is \"2.5\".\n    - Verify its spec_name and spec_unit equal the values the spec was created with."
+   "yaml": "- id: API-0553\n  name: Update a spec's value returns success and keeps the other fields\n  status: automated\n  automatedIn: tests/api/products/put-products-by-product-id-specs-by-spec-id.spec.ts\n  steps:\n    - Send GET /products and take the first item's brand id, category id and product image id.\n    - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false and is_rental false, and take the new product's id.\n    - Send POST /products/{productId}/specs with the new product's id, a body with a unique spec_name, spec_value \"1.5\" and spec_unit \"kg\", and the default user's token, and take the new spec's id.\n    - Send PUT /products/{productId}/specs/{specId} with the new product's id, the new spec's id and a body with spec_value \"2.5\", with the default user's token.\n    - Verify the response status is 200.\n    - Verify the body's success is true.\n    - Send GET /products/{productId}/specs/{specId} with the new product's id and the new spec's id.\n    - Verify its spec_value is \"2.5\".\n    - Verify its spec_name and spec_unit equal the values the spec was created with."
   },
   {
    "id": "API-0554",
    "name": "Update a spec's name, value and unit saves all three",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/products/put-products-by-product-id-specs-by-spec-id.spec.ts",
    "steps": [
     "Send GET /products and take the first item's brand id, category id and product image id.",
     "Send POST /products with a unique product name, a positive price, those ids, is_location_offer false and is_rental false, and take the new product's id.",
@@ -13359,6 +13638,7 @@ window.SCENARIO_CATALOG = {
     "Verify its spec_name, spec_value and spec_unit equal the new values."
    ],
    "ref": [],
+   "specLine": 118,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/api/products/put-products-by-product-id-specs-by-spec-id.yml",
@@ -13367,12 +13647,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@products-api"
    ],
-   "yaml": "- id: API-0554\n  name: Update a spec's name, value and unit saves all three\n  status: manual\n  steps:\n    - Send GET /products and take the first item's brand id, category id and product image id.\n    - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false and is_rental false, and take the new product's id.\n    - Send POST /products/{productId}/specs with the new product's id, a body with a unique spec_name, spec_value \"1.5\" and spec_unit \"kg\", and the default user's token, and take the new spec's id.\n    - Send PUT /products/{productId}/specs/{specId} with the new product's id, the new spec's id and a body with a new unique spec_name, spec_value \"9\" and spec_unit \"g\", with the default user's token.\n    - Verify the response status is 200.\n    - Verify the body's success is true.\n    - Send GET /products/{productId}/specs/{specId} with the new product's id and the new spec's id.\n    - Verify its spec_name, spec_value and spec_unit equal the new values."
+   "yaml": "- id: API-0554\n  name: Update a spec's name, value and unit saves all three\n  status: automated\n  automatedIn: tests/api/products/put-products-by-product-id-specs-by-spec-id.spec.ts\n  steps:\n    - Send GET /products and take the first item's brand id, category id and product image id.\n    - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false and is_rental false, and take the new product's id.\n    - Send POST /products/{productId}/specs with the new product's id, a body with a unique spec_name, spec_value \"1.5\" and spec_unit \"kg\", and the default user's token, and take the new spec's id.\n    - Send PUT /products/{productId}/specs/{specId} with the new product's id, the new spec's id and a body with a new unique spec_name, spec_value \"9\" and spec_unit \"g\", with the default user's token.\n    - Verify the response status is 200.\n    - Verify the body's success is true.\n    - Send GET /products/{productId}/specs/{specId} with the new product's id and the new spec's id.\n    - Verify its spec_name, spec_value and spec_unit equal the new values."
   },
   {
    "id": "API-0555",
    "name": "Update a spec with spec_unit null clears the unit",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/products/put-products-by-product-id-specs-by-spec-id.spec.ts",
    "steps": [
     "Send GET /products and take the first item's brand id, category id and product image id.",
     "Send POST /products with a unique product name, a positive price, those ids, is_location_offer false and is_rental false, and take the new product's id.",
@@ -13385,6 +13666,7 @@ window.SCENARIO_CATALOG = {
     "Verify its spec_name and spec_value equal the values the spec was created with."
    ],
    "ref": [],
+   "specLine": 160,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/api/products/put-products-by-product-id-specs-by-spec-id.yml",
@@ -13393,12 +13675,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@products-api"
    ],
-   "yaml": "- id: API-0555\n  name: Update a spec with spec_unit null clears the unit\n  status: manual\n  steps:\n    - Send GET /products and take the first item's brand id, category id and product image id.\n    - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false and is_rental false, and take the new product's id.\n    - Send POST /products/{productId}/specs with the new product's id, a body with a unique spec_name, spec_value \"1.5\" and spec_unit \"kg\", and the default user's token, and take the new spec's id.\n    - Send PUT /products/{productId}/specs/{specId} with the new product's id, the new spec's id and a body with spec_unit set to null, with the default user's token.\n    - Verify the response status is 200.\n    - Verify the body's success is true.\n    - Send GET /products/{productId}/specs/{specId} with the new product's id and the new spec's id.\n    - Verify its spec_unit is null.\n    - Verify its spec_name and spec_value equal the values the spec was created with."
+   "yaml": "- id: API-0555\n  name: Update a spec with spec_unit null clears the unit\n  status: automated\n  automatedIn: tests/api/products/put-products-by-product-id-specs-by-spec-id.spec.ts\n  steps:\n    - Send GET /products and take the first item's brand id, category id and product image id.\n    - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false and is_rental false, and take the new product's id.\n    - Send POST /products/{productId}/specs with the new product's id, a body with a unique spec_name, spec_value \"1.5\" and spec_unit \"kg\", and the default user's token, and take the new spec's id.\n    - Send PUT /products/{productId}/specs/{specId} with the new product's id, the new spec's id and a body with spec_unit set to null, with the default user's token.\n    - Verify the response status is 200.\n    - Verify the body's success is true.\n    - Send GET /products/{productId}/specs/{specId} with the new product's id and the new spec's id.\n    - Verify its spec_unit is null.\n    - Verify its spec_name and spec_value equal the values the spec was created with."
   },
   {
    "id": "API-0556",
    "name": "Update a spec with an empty body changes nothing",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/products/put-products-by-product-id-specs-by-spec-id.spec.ts",
    "steps": [
     "Send GET /products and take the first item's brand id, category id and product image id.",
     "Send POST /products with a unique product name, a positive price, those ids, is_location_offer false and is_rental false, and take the new product's id.",
@@ -13410,6 +13693,7 @@ window.SCENARIO_CATALOG = {
     "Verify its spec_name, spec_value and spec_unit equal the values the spec was created with."
    ],
    "ref": [],
+   "specLine": 205,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/api/products/put-products-by-product-id-specs-by-spec-id.yml",
@@ -13418,12 +13702,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@products-api"
    ],
-   "yaml": "- id: API-0556\n  name: Update a spec with an empty body changes nothing\n  status: manual\n  steps:\n    - Send GET /products and take the first item's brand id, category id and product image id.\n    - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false and is_rental false, and take the new product's id.\n    - Send POST /products/{productId}/specs with the new product's id, a body with a unique spec_name, spec_value \"1.5\" and spec_unit \"kg\", and the default user's token, and take the new spec's id.\n    - Send PUT /products/{productId}/specs/{specId} with the new product's id, the new spec's id and an empty body {}, with the default user's token.\n    - Verify the response status is 200.\n    - Verify the body's success is true.\n    - Send GET /products/{productId}/specs/{specId} with the new product's id and the new spec's id.\n    - Verify its spec_name, spec_value and spec_unit equal the values the spec was created with."
+   "yaml": "- id: API-0556\n  name: Update a spec with an empty body changes nothing\n  status: automated\n  automatedIn: tests/api/products/put-products-by-product-id-specs-by-spec-id.spec.ts\n  steps:\n    - Send GET /products and take the first item's brand id, category id and product image id.\n    - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false and is_rental false, and take the new product's id.\n    - Send POST /products/{productId}/specs with the new product's id, a body with a unique spec_name, spec_value \"1.5\" and spec_unit \"kg\", and the default user's token, and take the new spec's id.\n    - Send PUT /products/{productId}/specs/{specId} with the new product's id, the new spec's id and an empty body {}, with the default user's token.\n    - Verify the response status is 200.\n    - Verify the body's success is true.\n    - Send GET /products/{productId}/specs/{specId} with the new product's id and the new spec's id.\n    - Verify its spec_name, spec_value and spec_unit equal the values the spec was created with."
   },
   {
    "id": "API-0557",
    "name": "Update a spec ignores a product_id in the body",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/products/put-products-by-product-id-specs-by-spec-id.spec.ts",
    "steps": [
     "Send GET /products and take the first item's brand id, category id and product image id, and the id of another item.",
     "Send POST /products with a unique product name, a positive price, those ids, is_location_offer false and is_rental false, and take the new product's id.",
@@ -13435,6 +13720,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /products/{productId}/specs/{specId} with the other item's id and the new spec's id returns 404."
    ],
    "ref": [],
+   "specLine": 243,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/api/products/put-products-by-product-id-specs-by-spec-id.yml",
@@ -13443,12 +13729,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@products-api"
    ],
-   "yaml": "- id: API-0557\n  name: Update a spec ignores a product_id in the body\n  status: manual\n  steps:\n    - Send GET /products and take the first item's brand id, category id and product image id, and the id of another item.\n    - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false and is_rental false, and take the new product's id.\n    - Send POST /products/{productId}/specs with the new product's id, a body with a unique spec_name, spec_value \"1.5\" and spec_unit \"kg\", and the default user's token, and take the new spec's id.\n    - Send PUT /products/{productId}/specs/{specId} with the new product's id, the new spec's id and a body with spec_value \"2.5\" and product_id set to the other item's id, with the default user's token.\n    - Verify the response status is 200.\n    - Send GET /products/{productId}/specs/{specId} with the new product's id and the new spec's id.\n    - Verify its product_id equals the new product's id and its spec_value is \"2.5\".\n    - Verify GET /products/{productId}/specs/{specId} with the other item's id and the new spec's id returns 404."
+   "yaml": "- id: API-0557\n  name: Update a spec ignores a product_id in the body\n  status: automated\n  automatedIn: tests/api/products/put-products-by-product-id-specs-by-spec-id.spec.ts\n  steps:\n    - Send GET /products and take the first item's brand id, category id and product image id, and the id of another item.\n    - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false and is_rental false, and take the new product's id.\n    - Send POST /products/{productId}/specs with the new product's id, a body with a unique spec_name, spec_value \"1.5\" and spec_unit \"kg\", and the default user's token, and take the new spec's id.\n    - Send PUT /products/{productId}/specs/{specId} with the new product's id, the new spec's id and a body with spec_value \"2.5\" and product_id set to the other item's id, with the default user's token.\n    - Verify the response status is 200.\n    - Send GET /products/{productId}/specs/{specId} with the new product's id and the new spec's id.\n    - Verify its product_id equals the new product's id and its spec_value is \"2.5\".\n    - Verify GET /products/{productId}/specs/{specId} with the other item's id and the new spec's id returns 404."
   },
   {
    "id": "API-0558",
    "name": "Update a spec without a token returns 401",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/products/put-products-by-product-id-specs-by-spec-id.spec.ts",
    "steps": [
     "Send GET /products and take the first item's brand id, category id and product image id.",
     "Send POST /products with a unique product name, a positive price, those ids, is_location_offer false and is_rental false, and take the new product's id.",
@@ -13458,6 +13745,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's message is \"Unauthorized\"."
    ],
    "ref": [],
+   "specLine": 290,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/api/products/put-products-by-product-id-specs-by-spec-id.yml",
@@ -13466,12 +13754,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@products-api"
    ],
-   "yaml": "- id: API-0558\n  name: Update a spec without a token returns 401\n  status: manual\n  steps:\n    - Send GET /products and take the first item's brand id, category id and product image id.\n    - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false and is_rental false, and take the new product's id.\n    - Send POST /products/{productId}/specs with the new product's id, a body with a unique spec_name, spec_value \"1.5\" and spec_unit \"kg\", and the default user's token, and take the new spec's id.\n    - Send PUT /products/{productId}/specs/{specId} with the new product's id, the new spec's id and a body with spec_value \"2.5\", without an Authorization header.\n    - Verify the response status is 401.\n    - Verify the body's message is \"Unauthorized\"."
+   "yaml": "- id: API-0558\n  name: Update a spec without a token returns 401\n  status: automated\n  automatedIn: tests/api/products/put-products-by-product-id-specs-by-spec-id.spec.ts\n  steps:\n    - Send GET /products and take the first item's brand id, category id and product image id.\n    - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false and is_rental false, and take the new product's id.\n    - Send POST /products/{productId}/specs with the new product's id, a body with a unique spec_name, spec_value \"1.5\" and spec_unit \"kg\", and the default user's token, and take the new spec's id.\n    - Send PUT /products/{productId}/specs/{specId} with the new product's id, the new spec's id and a body with spec_value \"2.5\", without an Authorization header.\n    - Verify the response status is 401.\n    - Verify the body's message is \"Unauthorized\"."
   },
   {
    "id": "API-0559",
    "name": "Update a spec with an invalid token returns 401",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/products/put-products-by-product-id-specs-by-spec-id.spec.ts",
    "steps": [
     "Send GET /products and take the first item's brand id, category id and product image id.",
     "Send POST /products with a unique product name, a positive price, those ids, is_location_offer false and is_rental false, and take the new product's id.",
@@ -13481,6 +13770,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's message is \"Unauthorized\"."
    ],
    "ref": [],
+   "specLine": 312,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/api/products/put-products-by-product-id-specs-by-spec-id.yml",
@@ -13489,12 +13779,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@products-api"
    ],
-   "yaml": "- id: API-0559\n  name: Update a spec with an invalid token returns 401\n  status: manual\n  steps:\n    - Send GET /products and take the first item's brand id, category id and product image id.\n    - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false and is_rental false, and take the new product's id.\n    - Send POST /products/{productId}/specs with the new product's id, a body with a unique spec_name, spec_value \"1.5\" and spec_unit \"kg\", and the default user's token, and take the new spec's id.\n    - Send PUT /products/{productId}/specs/{specId} with the new product's id, the new spec's id and a body with spec_value \"2.5\", with an invalid token.\n    - Verify the response status is 401.\n    - Verify the body's message is \"Unauthorized\"."
+   "yaml": "- id: API-0559\n  name: Update a spec with an invalid token returns 401\n  status: automated\n  automatedIn: tests/api/products/put-products-by-product-id-specs-by-spec-id.spec.ts\n  steps:\n    - Send GET /products and take the first item's brand id, category id and product image id.\n    - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false and is_rental false, and take the new product's id.\n    - Send POST /products/{productId}/specs with the new product's id, a body with a unique spec_name, spec_value \"1.5\" and spec_unit \"kg\", and the default user's token, and take the new spec's id.\n    - Send PUT /products/{productId}/specs/{specId} with the new product's id, the new spec's id and a body with spec_value \"2.5\", with an invalid token.\n    - Verify the response status is 401.\n    - Verify the body's message is \"Unauthorized\"."
   },
   {
    "id": "API-0560",
    "name": "Update a spec with an unknown spec id returns 404",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/products/put-products-by-product-id-specs-by-spec-id.spec.ts",
    "steps": [
     "Send GET /products and take the first item's id.",
     "Send PUT /products/{productId}/specs/{specId} with that id, a well-formed ULID that no spec has and a body with spec_value \"2.5\", with the default user's token.",
@@ -13502,6 +13793,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's message is \"Requested item not found\"."
    ],
    "ref": [],
+   "specLine": 340,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/api/products/put-products-by-product-id-specs-by-spec-id.yml",
@@ -13510,12 +13802,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@products-api"
    ],
-   "yaml": "- id: API-0560\n  name: Update a spec with an unknown spec id returns 404\n  status: manual\n  steps:\n    - Send GET /products and take the first item's id.\n    - Send PUT /products/{productId}/specs/{specId} with that id, a well-formed ULID that no spec has and a body with spec_value \"2.5\", with the default user's token.\n    - Verify the response status is 404.\n    - Verify the body's message is \"Requested item not found\"."
+   "yaml": "- id: API-0560\n  name: Update a spec with an unknown spec id returns 404\n  status: automated\n  automatedIn: tests/api/products/put-products-by-product-id-specs-by-spec-id.spec.ts\n  steps:\n    - Send GET /products and take the first item's id.\n    - Send PUT /products/{productId}/specs/{specId} with that id, a well-formed ULID that no spec has and a body with spec_value \"2.5\", with the default user's token.\n    - Verify the response status is 404.\n    - Verify the body's message is \"Requested item not found\"."
   },
   {
    "id": "API-0561",
    "name": "Update a spec under another product's id returns 404 and changes nothing",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/products/put-products-by-product-id-specs-by-spec-id.spec.ts",
    "steps": [
     "Send GET /products and take the first item's brand id, category id and product image id, and the id of another item.",
     "Send POST /products with a unique product name, a positive price, those ids, is_location_offer false and is_rental false, and take the new product's id.",
@@ -13526,6 +13819,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /products/{productId}/specs/{specId} with the new product's id and the new spec's id returns the spec_value the spec was created with."
    ],
    "ref": [],
+   "specLine": 362,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/api/products/put-products-by-product-id-specs-by-spec-id.yml",
@@ -13534,12 +13828,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@products-api"
    ],
-   "yaml": "- id: API-0561\n  name: Update a spec under another product's id returns 404 and changes nothing\n  status: manual\n  steps:\n    - Send GET /products and take the first item's brand id, category id and product image id, and the id of another item.\n    - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false and is_rental false, and take the new product's id.\n    - Send POST /products/{productId}/specs with the new product's id, a body with a unique spec_name, spec_value \"1.5\" and spec_unit \"kg\", and the default user's token, and take the new spec's id.\n    - Send PUT /products/{productId}/specs/{specId} with the other item's id, the new spec's id and a body with spec_value \"2.5\", with the default user's token.\n    - Verify the response status is 404.\n    - Verify the body's message is \"Requested item not found\".\n    - Verify GET /products/{productId}/specs/{specId} with the new product's id and the new spec's id returns the spec_value the spec was created with."
+   "yaml": "- id: API-0561\n  name: Update a spec under another product's id returns 404 and changes nothing\n  status: automated\n  automatedIn: tests/api/products/put-products-by-product-id-specs-by-spec-id.spec.ts\n  steps:\n    - Send GET /products and take the first item's brand id, category id and product image id, and the id of another item.\n    - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false and is_rental false, and take the new product's id.\n    - Send POST /products/{productId}/specs with the new product's id, a body with a unique spec_name, spec_value \"1.5\" and spec_unit \"kg\", and the default user's token, and take the new spec's id.\n    - Send PUT /products/{productId}/specs/{specId} with the other item's id, the new spec's id and a body with spec_value \"2.5\", with the default user's token.\n    - Verify the response status is 404.\n    - Verify the body's message is \"Requested item not found\".\n    - Verify GET /products/{productId}/specs/{specId} with the new product's id and the new spec's id returns the spec_value the spec was created with."
   },
   {
    "id": "API-0562",
    "name": "Update a spec with a spec_name longer than 100 characters returns 422",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/products/put-products-by-product-id-specs-by-spec-id.spec.ts",
    "steps": [
     "Send GET /products and take the first item's brand id, category id and product image id.",
     "Send POST /products with a unique product name, a positive price, those ids, is_location_offer false and is_rental false, and take the new product's id.",
@@ -13549,6 +13844,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's errors has a spec_name key with at least one message."
    ],
    "ref": [],
+   "specLine": 403,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/api/products/put-products-by-product-id-specs-by-spec-id.yml",
@@ -13557,12 +13853,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@products-api"
    ],
-   "yaml": "- id: API-0562\n  name: Update a spec with a spec_name longer than 100 characters returns 422\n  status: manual\n  steps:\n    - Send GET /products and take the first item's brand id, category id and product image id.\n    - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false and is_rental false, and take the new product's id.\n    - Send POST /products/{productId}/specs with the new product's id, a body with a unique spec_name, spec_value \"1.5\" and spec_unit \"kg\", and the default user's token, and take the new spec's id.\n    - Send PUT /products/{productId}/specs/{specId} with the new product's id, the new spec's id and a body with a 101-character spec_name, with the default user's token.\n    - Verify the response status is 422.\n    - Verify the body's errors has a spec_name key with at least one message."
+   "yaml": "- id: API-0562\n  name: Update a spec with a spec_name longer than 100 characters returns 422\n  status: automated\n  automatedIn: tests/api/products/put-products-by-product-id-specs-by-spec-id.spec.ts\n  steps:\n    - Send GET /products and take the first item's brand id, category id and product image id.\n    - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false and is_rental false, and take the new product's id.\n    - Send POST /products/{productId}/specs with the new product's id, a body with a unique spec_name, spec_value \"1.5\" and spec_unit \"kg\", and the default user's token, and take the new spec's id.\n    - Send PUT /products/{productId}/specs/{specId} with the new product's id, the new spec's id and a body with a 101-character spec_name, with the default user's token.\n    - Verify the response status is 422.\n    - Verify the body's errors has a spec_name key with at least one message."
   },
   {
    "id": "API-0563",
    "name": "Update a spec with a spec_value longer than 255 characters returns 422",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/products/put-products-by-product-id-specs-by-spec-id.spec.ts",
    "steps": [
     "Send GET /products and take the first item's brand id, category id and product image id.",
     "Send POST /products with a unique product name, a positive price, those ids, is_location_offer false and is_rental false, and take the new product's id.",
@@ -13572,6 +13869,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's errors has a spec_value key with at least one message."
    ],
    "ref": [],
+   "specLine": 418,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/api/products/put-products-by-product-id-specs-by-spec-id.yml",
@@ -13580,12 +13878,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@products-api"
    ],
-   "yaml": "- id: API-0563\n  name: Update a spec with a spec_value longer than 255 characters returns 422\n  status: manual\n  steps:\n    - Send GET /products and take the first item's brand id, category id and product image id.\n    - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false and is_rental false, and take the new product's id.\n    - Send POST /products/{productId}/specs with the new product's id, a body with a unique spec_name, spec_value \"1.5\" and spec_unit \"kg\", and the default user's token, and take the new spec's id.\n    - Send PUT /products/{productId}/specs/{specId} with the new product's id, the new spec's id and a body with a 256-character spec_value, with the default user's token.\n    - Verify the response status is 422.\n    - Verify the body's errors has a spec_value key with at least one message."
+   "yaml": "- id: API-0563\n  name: Update a spec with a spec_value longer than 255 characters returns 422\n  status: automated\n  automatedIn: tests/api/products/put-products-by-product-id-specs-by-spec-id.spec.ts\n  steps:\n    - Send GET /products and take the first item's brand id, category id and product image id.\n    - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false and is_rental false, and take the new product's id.\n    - Send POST /products/{productId}/specs with the new product's id, a body with a unique spec_name, spec_value \"1.5\" and spec_unit \"kg\", and the default user's token, and take the new spec's id.\n    - Send PUT /products/{productId}/specs/{specId} with the new product's id, the new spec's id and a body with a 256-character spec_value, with the default user's token.\n    - Verify the response status is 422.\n    - Verify the body's errors has a spec_value key with at least one message."
   },
   {
    "id": "API-0564",
    "name": "Update a spec with a spec_unit longer than 30 characters returns 422",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/products/put-products-by-product-id-specs-by-spec-id.spec.ts",
    "steps": [
     "Send GET /products and take the first item's brand id, category id and product image id.",
     "Send POST /products with a unique product name, a positive price, those ids, is_location_offer false and is_rental false, and take the new product's id.",
@@ -13595,6 +13894,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's errors has a spec_unit key with at least one message."
    ],
    "ref": [],
+   "specLine": 433,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/api/products/put-products-by-product-id-specs-by-spec-id.yml",
@@ -13603,12 +13903,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@products-api"
    ],
-   "yaml": "- id: API-0564\n  name: Update a spec with a spec_unit longer than 30 characters returns 422\n  status: manual\n  steps:\n    - Send GET /products and take the first item's brand id, category id and product image id.\n    - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false and is_rental false, and take the new product's id.\n    - Send POST /products/{productId}/specs with the new product's id, a body with a unique spec_name, spec_value \"1.5\" and spec_unit \"kg\", and the default user's token, and take the new spec's id.\n    - Send PUT /products/{productId}/specs/{specId} with the new product's id, the new spec's id and a body with a 31-character spec_unit, with the default user's token.\n    - Verify the response status is 422.\n    - Verify the body's errors has a spec_unit key with at least one message."
+   "yaml": "- id: API-0564\n  name: Update a spec with a spec_unit longer than 30 characters returns 422\n  status: automated\n  automatedIn: tests/api/products/put-products-by-product-id-specs-by-spec-id.spec.ts\n  steps:\n    - Send GET /products and take the first item's brand id, category id and product image id.\n    - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false and is_rental false, and take the new product's id.\n    - Send POST /products/{productId}/specs with the new product's id, a body with a unique spec_name, spec_value \"1.5\" and spec_unit \"kg\", and the default user's token, and take the new spec's id.\n    - Send PUT /products/{productId}/specs/{specId} with the new product's id, the new spec's id and a body with a 31-character spec_unit, with the default user's token.\n    - Verify the response status is 422.\n    - Verify the body's errors has a spec_unit key with at least one message."
   },
   {
    "id": "API-0565",
    "name": "Update a spec with spec_name null returns 422",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/products/put-products-by-product-id-specs-by-spec-id.spec.ts",
    "steps": [
     "Send GET /products and take the first item's brand id, category id and product image id.",
     "Send POST /products with a unique product name, a positive price, those ids, is_location_offer false and is_rental false, and take the new product's id.",
@@ -13618,6 +13919,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's errors has a spec_name key with at least one message."
    ],
    "ref": [],
+   "specLine": 448,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/api/products/put-products-by-product-id-specs-by-spec-id.yml",
@@ -13626,12 +13928,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@products-api"
    ],
-   "yaml": "- id: API-0565\n  name: Update a spec with spec_name null returns 422\n  status: manual\n  steps:\n    - Send GET /products and take the first item's brand id, category id and product image id.\n    - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false and is_rental false, and take the new product's id.\n    - Send POST /products/{productId}/specs with the new product's id, a body with a unique spec_name, spec_value \"1.5\" and spec_unit \"kg\", and the default user's token, and take the new spec's id.\n    - Send PUT /products/{productId}/specs/{specId} with the new product's id, the new spec's id and a body with spec_name set to null, with the default user's token.\n    - Verify the response status is 422.\n    - Verify the body's errors has a spec_name key with at least one message."
+   "yaml": "- id: API-0565\n  name: Update a spec with spec_name null returns 422\n  status: automated\n  automatedIn: tests/api/products/put-products-by-product-id-specs-by-spec-id.spec.ts\n  steps:\n    - Send GET /products and take the first item's brand id, category id and product image id.\n    - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false and is_rental false, and take the new product's id.\n    - Send POST /products/{productId}/specs with the new product's id, a body with a unique spec_name, spec_value \"1.5\" and spec_unit \"kg\", and the default user's token, and take the new spec's id.\n    - Send PUT /products/{productId}/specs/{specId} with the new product's id, the new spec's id and a body with spec_name set to null, with the default user's token.\n    - Verify the response status is 422.\n    - Verify the body's errors has a spec_name key with at least one message."
   },
   {
    "id": "API-0566",
    "name": "Update a spec with an empty spec_value returns 422",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/products/put-products-by-product-id-specs-by-spec-id.spec.ts",
    "steps": [
     "Send GET /products and take the first item's brand id, category id and product image id.",
     "Send POST /products with a unique product name, a positive price, those ids, is_location_offer false and is_rental false, and take the new product's id.",
@@ -13641,6 +13944,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's errors has a spec_value key with at least one message."
    ],
    "ref": [],
+   "specLine": 457,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/api/products/put-products-by-product-id-specs-by-spec-id.yml",
@@ -13649,12 +13953,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@products-api"
    ],
-   "yaml": "- id: API-0566\n  name: Update a spec with an empty spec_value returns 422\n  status: manual\n  steps:\n    - Send GET /products and take the first item's brand id, category id and product image id.\n    - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false and is_rental false, and take the new product's id.\n    - Send POST /products/{productId}/specs with the new product's id, a body with a unique spec_name, spec_value \"1.5\" and spec_unit \"kg\", and the default user's token, and take the new spec's id.\n    - Send PUT /products/{productId}/specs/{specId} with the new product's id, the new spec's id and a body with spec_value set to an empty string, with the default user's token.\n    - Verify the response status is 422.\n    - Verify the body's errors has a spec_value key with at least one message."
+   "yaml": "- id: API-0566\n  name: Update a spec with an empty spec_value returns 422\n  status: automated\n  automatedIn: tests/api/products/put-products-by-product-id-specs-by-spec-id.spec.ts\n  steps:\n    - Send GET /products and take the first item's brand id, category id and product image id.\n    - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false and is_rental false, and take the new product's id.\n    - Send POST /products/{productId}/specs with the new product's id, a body with a unique spec_name, spec_value \"1.5\" and spec_unit \"kg\", and the default user's token, and take the new spec's id.\n    - Send PUT /products/{productId}/specs/{specId} with the new product's id, the new spec's id and a body with spec_value set to an empty string, with the default user's token.\n    - Verify the response status is 422.\n    - Verify the body's errors has a spec_value key with at least one message."
   },
   {
    "id": "API-0567",
    "name": "Update an unknown spec with an invalid body returns 422, not 404",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/products/put-products-by-product-id-specs-by-spec-id.spec.ts",
    "steps": [
     "Send GET /products and take the first item's id.",
     "Send PUT /products/{productId}/specs/{specId} with that id, a well-formed ULID that no spec has and a body with a 256-character spec_value, with the default user's token.",
@@ -13662,6 +13967,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's errors has a spec_value key with at least one message."
    ],
    "ref": [],
+   "specLine": 466,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/api/products/put-products-by-product-id-specs-by-spec-id.yml",
@@ -13670,20 +13976,22 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@products-api"
    ],
-   "yaml": "- id: API-0567\n  name: Update an unknown spec with an invalid body returns 422, not 404\n  status: manual\n  steps:\n    - Send GET /products and take the first item's id.\n    - Send PUT /products/{productId}/specs/{specId} with that id, a well-formed ULID that no spec has and a body with a 256-character spec_value, with the default user's token.\n    - Verify the response status is 422.\n    - Verify the body's errors has a spec_value key with at least one message."
+   "yaml": "- id: API-0567\n  name: Update an unknown spec with an invalid body returns 422, not 404\n  status: automated\n  automatedIn: tests/api/products/put-products-by-product-id-specs-by-spec-id.spec.ts\n  steps:\n    - Send GET /products and take the first item's id.\n    - Send PUT /products/{productId}/specs/{specId} with that id, a well-formed ULID that no spec has and a body with a 256-character spec_value, with the default user's token.\n    - Verify the response status is 422.\n    - Verify the body's errors has a spec_value key with at least one message."
   },
   {
    "id": "API-0568",
    "name": "Update a spec with an invalid body and no Accept header returns 302",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/products/put-products-by-product-id-specs-by-spec-id.spec.ts",
    "steps": [
     "Send GET /products and take the first item's brand id, category id and product image id.",
     "Send POST /products with a unique product name, a positive price, those ids, is_location_offer false and is_rental false, and take the new product's id.",
     "Send POST /products/{productId}/specs with the new product's id, a body with a unique spec_name, spec_value \"1.5\" and spec_unit \"kg\", and the default user's token, and take the new spec's id.",
-    "Send PUT /products/{productId}/specs/{specId} with the new product's id, the new spec's id and a body with a 101-character spec_name, with the default user's token, without an Accept header and without following redirects.",
+    "Send PUT /products/{productId}/specs/{specId} with the new product's id, the new spec's id and a body with a 101-character spec_name, with the default user's token, with the Accept header left out and without following redirects.",
     "Verify the response status is 302."
    ],
    "ref": [],
+   "specLine": 494,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/api/products/put-products-by-product-id-specs-by-spec-id.yml",
@@ -13692,12 +14000,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@products-api"
    ],
-   "yaml": "- id: API-0568\n  name: Update a spec with an invalid body and no Accept header returns 302\n  status: manual\n  steps:\n    - Send GET /products and take the first item's brand id, category id and product image id.\n    - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false and is_rental false, and take the new product's id.\n    - Send POST /products/{productId}/specs with the new product's id, a body with a unique spec_name, spec_value \"1.5\" and spec_unit \"kg\", and the default user's token, and take the new spec's id.\n    - Send PUT /products/{productId}/specs/{specId} with the new product's id, the new spec's id and a body with a 101-character spec_name, with the default user's token, without an Accept header and without following redirects.\n    - Verify the response status is 302."
+   "yaml": "- id: API-0568\n  name: Update a spec with an invalid body and no Accept header returns 302\n  status: automated\n  automatedIn: tests/api/products/put-products-by-product-id-specs-by-spec-id.spec.ts\n  steps:\n    - Send GET /products and take the first item's brand id, category id and product image id.\n    - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false and is_rental false, and take the new product's id.\n    - Send POST /products/{productId}/specs with the new product's id, a body with a unique spec_name, spec_value \"1.5\" and spec_unit \"kg\", and the default user's token, and take the new spec's id.\n    - Send PUT /products/{productId}/specs/{specId} with the new product's id, the new spec's id and a body with a 101-character spec_name, with the default user's token, with the Accept header left out and without following redirects.\n    - Verify the response status is 302."
   },
   {
    "id": "API-0569",
    "name": "Delete a spec returns 204 and the spec is gone",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/products/delete-products-by-product-id-specs-by-spec-id.spec.ts",
    "steps": [
     "Send GET /products and take the first item's brand id, category id and product image id.",
     "Send POST /products with a unique product name, a positive price, those ids, is_location_offer false and is_rental false, and take the new product's id.",
@@ -13707,6 +14016,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /products/{productId}/specs/{specId} with the new product's id and the new spec's id returns 404."
    ],
    "ref": [],
+   "specLine": 27,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/api/products/delete-products-by-product-id-specs-by-spec-id.yml",
@@ -13715,12 +14025,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@products-api"
    ],
-   "yaml": "- id: API-0569\n  name: Delete a spec returns 204 and the spec is gone\n  status: manual\n  steps:\n    - Send GET /products and take the first item's brand id, category id and product image id.\n    - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false and is_rental false, and take the new product's id.\n    - Send POST /products/{productId}/specs with the new product's id, a body with a unique spec_name, spec_value \"1.5\" and spec_unit \"kg\", and the default user's token, and take the new spec's id.\n    - Send DELETE /products/{productId}/specs/{specId} with the new product's id, the new spec's id and the default user's token.\n    - Verify the response status is 204.\n    - Verify GET /products/{productId}/specs/{specId} with the new product's id and the new spec's id returns 404."
+   "yaml": "- id: API-0569\n  name: Delete a spec returns 204 and the spec is gone\n  status: automated\n  automatedIn: tests/api/products/delete-products-by-product-id-specs-by-spec-id.spec.ts\n  steps:\n    - Send GET /products and take the first item's brand id, category id and product image id.\n    - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false and is_rental false, and take the new product's id.\n    - Send POST /products/{productId}/specs with the new product's id, a body with a unique spec_name, spec_value \"1.5\" and spec_unit \"kg\", and the default user's token, and take the new spec's id.\n    - Send DELETE /products/{productId}/specs/{specId} with the new product's id, the new spec's id and the default user's token.\n    - Verify the response status is 204.\n    - Verify GET /products/{productId}/specs/{specId} with the new product's id and the new spec's id returns 404."
   },
   {
    "id": "API-0570",
    "name": "Delete a spec without a token returns 401",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/products/delete-products-by-product-id-specs-by-spec-id.spec.ts",
    "steps": [
     "Send GET /products and take the first item's brand id, category id and product image id.",
     "Send POST /products with a unique product name, a positive price, those ids, is_location_offer false and is_rental false, and take the new product's id.",
@@ -13730,6 +14041,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's message is \"Unauthorized\"."
    ],
    "ref": [],
+   "specLine": 54,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/api/products/delete-products-by-product-id-specs-by-spec-id.yml",
@@ -13738,12 +14050,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@products-api"
    ],
-   "yaml": "- id: API-0570\n  name: Delete a spec without a token returns 401\n  status: manual\n  steps:\n    - Send GET /products and take the first item's brand id, category id and product image id.\n    - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false and is_rental false, and take the new product's id.\n    - Send POST /products/{productId}/specs with the new product's id, a body with a unique spec_name, spec_value \"1.5\" and spec_unit \"kg\", and the default user's token, and take the new spec's id.\n    - Send DELETE /products/{productId}/specs/{specId} with the new product's id and the new spec's id, without an Authorization header.\n    - Verify the response status is 401.\n    - Verify the body's message is \"Unauthorized\"."
+   "yaml": "- id: API-0570\n  name: Delete a spec without a token returns 401\n  status: automated\n  automatedIn: tests/api/products/delete-products-by-product-id-specs-by-spec-id.spec.ts\n  steps:\n    - Send GET /products and take the first item's brand id, category id and product image id.\n    - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false and is_rental false, and take the new product's id.\n    - Send POST /products/{productId}/specs with the new product's id, a body with a unique spec_name, spec_value \"1.5\" and spec_unit \"kg\", and the default user's token, and take the new spec's id.\n    - Send DELETE /products/{productId}/specs/{specId} with the new product's id and the new spec's id, without an Authorization header.\n    - Verify the response status is 401.\n    - Verify the body's message is \"Unauthorized\"."
   },
   {
    "id": "API-0571",
    "name": "Delete a spec with an invalid token returns 401",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/products/delete-products-by-product-id-specs-by-spec-id.spec.ts",
    "steps": [
     "Send GET /products and take the first item's brand id, category id and product image id.",
     "Send POST /products with a unique product name, a positive price, those ids, is_location_offer false and is_rental false, and take the new product's id.",
@@ -13753,6 +14066,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's message is \"Unauthorized\"."
    ],
    "ref": [],
+   "specLine": 73,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/api/products/delete-products-by-product-id-specs-by-spec-id.yml",
@@ -13761,12 +14075,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@products-api"
    ],
-   "yaml": "- id: API-0571\n  name: Delete a spec with an invalid token returns 401\n  status: manual\n  steps:\n    - Send GET /products and take the first item's brand id, category id and product image id.\n    - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false and is_rental false, and take the new product's id.\n    - Send POST /products/{productId}/specs with the new product's id, a body with a unique spec_name, spec_value \"1.5\" and spec_unit \"kg\", and the default user's token, and take the new spec's id.\n    - Send DELETE /products/{productId}/specs/{specId} with the new product's id and the new spec's id, with an invalid token.\n    - Verify the response status is 401.\n    - Verify the body's message is \"Unauthorized\"."
+   "yaml": "- id: API-0571\n  name: Delete a spec with an invalid token returns 401\n  status: automated\n  automatedIn: tests/api/products/delete-products-by-product-id-specs-by-spec-id.spec.ts\n  steps:\n    - Send GET /products and take the first item's brand id, category id and product image id.\n    - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false and is_rental false, and take the new product's id.\n    - Send POST /products/{productId}/specs with the new product's id, a body with a unique spec_name, spec_value \"1.5\" and spec_unit \"kg\", and the default user's token, and take the new spec's id.\n    - Send DELETE /products/{productId}/specs/{specId} with the new product's id and the new spec's id, with an invalid token.\n    - Verify the response status is 401.\n    - Verify the body's message is \"Unauthorized\"."
   },
   {
    "id": "API-0572",
    "name": "Delete a spec under another product's id returns 204 and deletes nothing",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/products/delete-products-by-product-id-specs-by-spec-id.spec.ts",
    "steps": [
     "Send GET /products and take the first item's brand id, category id and product image id, and the id of another item.",
     "Send POST /products with a unique product name, a positive price, those ids, is_location_offer false and is_rental false, and take the new product's id.",
@@ -13776,6 +14091,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /products/{productId}/specs/{specId} with the new product's id and the new spec's id returns 200."
    ],
    "ref": [],
+   "specLine": 98,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/api/products/delete-products-by-product-id-specs-by-spec-id.yml",
@@ -13784,18 +14100,20 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@products-api"
    ],
-   "yaml": "- id: API-0572\n  name: Delete a spec under another product's id returns 204 and deletes nothing\n  status: manual\n  steps:\n    - Send GET /products and take the first item's brand id, category id and product image id, and the id of another item.\n    - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false and is_rental false, and take the new product's id.\n    - Send POST /products/{productId}/specs with the new product's id, a body with a unique spec_name, spec_value \"1.5\" and spec_unit \"kg\", and the default user's token, and take the new spec's id.\n    - Send DELETE /products/{productId}/specs/{specId} with the other item's id, the new spec's id and the default user's token.\n    - Verify the response status is 204.\n    - Verify GET /products/{productId}/specs/{specId} with the new product's id and the new spec's id returns 200."
+   "yaml": "- id: API-0572\n  name: Delete a spec under another product's id returns 204 and deletes nothing\n  status: automated\n  automatedIn: tests/api/products/delete-products-by-product-id-specs-by-spec-id.spec.ts\n  steps:\n    - Send GET /products and take the first item's brand id, category id and product image id, and the id of another item.\n    - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false and is_rental false, and take the new product's id.\n    - Send POST /products/{productId}/specs with the new product's id, a body with a unique spec_name, spec_value \"1.5\" and spec_unit \"kg\", and the default user's token, and take the new spec's id.\n    - Send DELETE /products/{productId}/specs/{specId} with the other item's id, the new spec's id and the default user's token.\n    - Verify the response status is 204.\n    - Verify GET /products/{productId}/specs/{specId} with the new product's id and the new spec's id returns 200."
   },
   {
    "id": "API-0573",
    "name": "Delete a spec with an unknown spec id returns 204",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/products/delete-products-by-product-id-specs-by-spec-id.spec.ts",
    "steps": [
     "Send GET /products and take the first item's id.",
     "Send DELETE /products/{productId}/specs/{specId} with that id, a well-formed ULID that no spec has and the default user's token.",
     "Verify the response status is 204."
    ],
    "ref": [],
+   "specLine": 126,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/api/products/delete-products-by-product-id-specs-by-spec-id.yml",
@@ -13804,7 +14122,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@products-api"
    ],
-   "yaml": "- id: API-0573\n  name: Delete a spec with an unknown spec id returns 204\n  status: manual\n  steps:\n    - Send GET /products and take the first item's id.\n    - Send DELETE /products/{productId}/specs/{specId} with that id, a well-formed ULID that no spec has and the default user's token.\n    - Verify the response status is 204."
+   "yaml": "- id: API-0573\n  name: Delete a spec with an unknown spec id returns 204\n  status: automated\n  automatedIn: tests/api/products/delete-products-by-product-id-specs-by-spec-id.spec.ts\n  steps:\n    - Send GET /products and take the first item's id.\n    - Send DELETE /products/{productId}/specs/{specId} with that id, a well-formed ULID that no spec has and the default user's token.\n    - Verify the response status is 204."
   },
   {
    "id": "API-0604",
