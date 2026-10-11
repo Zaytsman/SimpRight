@@ -2,8 +2,8 @@
 window.BUG_CATALOG = {
  "title": "Bugs",
  "prefix": "BUG",
- "generatedAt": "2026-10-11T08:57:47.104Z",
- "commit": "31008aa9d4f0dd8ae74d2d298b9d54bd1404066b",
+ "generatedAt": "2026-10-11T09:26:25.629Z",
+ "commit": "0f8ab138060082432a2cfda27247fe5dada029d4",
  "repoUrl": "https://github.com/Zaytsman/SimpRight",
  "branch": "main",
  "bugsDir": "bugs",
@@ -1826,7 +1826,9 @@ window.BUG_CATALOG = {
      "layer": "api",
      "area": "postcode",
      "file": "test-scenarios/api/postcode/get-postcode-lookup.yml",
-     "status": "manual",
+     "status": "automated",
+     "automatedIn": "tests/api/postcode/get-postcode-lookup.spec.ts",
+     "specLine": 640,
      "knownIssue": "Echoes a postcode with leading whitespace untrimmed and builds the address from the untrimmed value, although the format check trims it."
     }
    ]

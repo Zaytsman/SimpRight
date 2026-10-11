@@ -3,17 +3,17 @@ window.SCENARIO_CATALOG = {
  "layer": "api",
  "title": "API Test Cases",
  "prefix": "API",
- "generatedAt": "2026-10-11T08:57:46.713Z",
- "commit": "31008aa9d4f0dd8ae74d2d298b9d54bd1404066b",
+ "generatedAt": "2026-10-11T09:26:24.834Z",
+ "commit": "0f8ab138060082432a2cfda27247fe5dada029d4",
  "repoUrl": "https://github.com/Zaytsman/SimpRight",
  "branch": "main",
  "workflowUrl": "https://github.com/Zaytsman/SimpRight/actions/workflows/custom-api-tests.yml",
  "stats": {
   "total": 667,
-  "automated": 118,
-  "manual": 549,
+  "automated": 172,
+  "manual": 495,
   "knownIssues": 65,
-  "automatedPct": 18
+  "automatedPct": 26
  },
  "tree": [
   {
@@ -9345,7 +9345,8 @@ window.SCENARIO_CATALOG = {
   {
    "id": "API-0614",
    "name": "Check bank transfer details returns 200",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/payment/post-payment-check.spec.ts",
    "role": "guest",
    "steps": [
     "Send POST /payment/check without an Authorization header, with payment_method \"bank-transfer\" and payment_details { bank_name: \"Test Bank\", account_name: \"Jane Doe\", account_number: \"123456789\" }.",
@@ -9353,6 +9354,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's message is \"Payment was successful\"."
    ],
    "ref": [],
+   "specLine": 179,
    "area": "payment",
    "areaLabel": "Payment",
    "file": "test-scenarios/api/payment/post-payment-check.yml",
@@ -9361,12 +9363,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@payment-api"
    ],
-   "yaml": "- id: API-0614\n  name: Check bank transfer details returns 200\n  status: manual\n  role: guest\n  steps:\n    - 'Send POST /payment/check without an Authorization header, with payment_method \"bank-transfer\" and payment_details { bank_name: \"Test Bank\", account_name: \"Jane Doe\", account_number: \"123456789\" }.'\n    - Verify the response status is 200.\n    - Verify the body's message is \"Payment was successful\"."
+   "yaml": "- id: API-0614\n  name: Check bank transfer details returns 200\n  status: automated\n  automatedIn: tests/api/payment/post-payment-check.spec.ts\n  role: guest\n  steps:\n    - 'Send POST /payment/check without an Authorization header, with payment_method \"bank-transfer\" and payment_details { bank_name: \"Test Bank\", account_name: \"Jane Doe\", account_number: \"123456789\" }.'\n    - Verify the response status is 200.\n    - Verify the body's message is \"Payment was successful\"."
   },
   {
    "id": "API-0615",
    "name": "Check credit card details returns 200",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/payment/post-payment-check.spec.ts",
    "role": "guest",
    "steps": [
     "Send POST /payment/check without an Authorization header, with payment_method \"credit-card\" and payment_details { credit_card_number: \"1234-5678-9101-1121\", expiration_date: the same month next year in m/Y form, cvv: \"123\", card_holder_name: \"Jane Doe\" }.",
@@ -9374,6 +9377,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's message is \"Payment was successful\"."
    ],
    "ref": [],
+   "specLine": 187,
    "area": "payment",
    "areaLabel": "Payment",
    "file": "test-scenarios/api/payment/post-payment-check.yml",
@@ -9382,12 +9386,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@payment-api"
    ],
-   "yaml": "- id: API-0615\n  name: Check credit card details returns 200\n  status: manual\n  role: guest\n  steps:\n    - 'Send POST /payment/check without an Authorization header, with payment_method \"credit-card\" and payment_details { credit_card_number: \"1234-5678-9101-1121\", expiration_date: the same month next year in m/Y form, cvv: \"123\", card_holder_name: \"Jane Doe\" }.'\n    - Verify the response status is 200.\n    - Verify the body's message is \"Payment was successful\"."
+   "yaml": "- id: API-0615\n  name: Check credit card details returns 200\n  status: automated\n  automatedIn: tests/api/payment/post-payment-check.spec.ts\n  role: guest\n  steps:\n    - 'Send POST /payment/check without an Authorization header, with payment_method \"credit-card\" and payment_details { credit_card_number: \"1234-5678-9101-1121\", expiration_date: the same month next year in m/Y form, cvv: \"123\", card_holder_name: \"Jane Doe\" }.'\n    - Verify the response status is 200.\n    - Verify the body's message is \"Payment was successful\"."
   },
   {
    "id": "API-0616",
    "name": "Check buy now pay later details returns 200",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/payment/post-payment-check.spec.ts",
    "role": "guest",
    "steps": [
     "Send POST /payment/check without an Authorization header, with payment_method \"buy-now-pay-later\" and payment_details { monthly_installments: 6 }.",
@@ -9395,6 +9400,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's message is \"Payment was successful\"."
    ],
    "ref": [],
+   "specLine": 195,
    "area": "payment",
    "areaLabel": "Payment",
    "file": "test-scenarios/api/payment/post-payment-check.yml",
@@ -9403,12 +9409,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@payment-api"
    ],
-   "yaml": "- id: API-0616\n  name: Check buy now pay later details returns 200\n  status: manual\n  role: guest\n  steps:\n    - 'Send POST /payment/check without an Authorization header, with payment_method \"buy-now-pay-later\" and payment_details { monthly_installments: 6 }.'\n    - Verify the response status is 200.\n    - Verify the body's message is \"Payment was successful\"."
+   "yaml": "- id: API-0616\n  name: Check buy now pay later details returns 200\n  status: automated\n  automatedIn: tests/api/payment/post-payment-check.spec.ts\n  role: guest\n  steps:\n    - 'Send POST /payment/check without an Authorization header, with payment_method \"buy-now-pay-later\" and payment_details { monthly_installments: 6 }.'\n    - Verify the response status is 200.\n    - Verify the body's message is \"Payment was successful\"."
   },
   {
    "id": "API-0617",
    "name": "Check gift card details returns 200",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/payment/post-payment-check.spec.ts",
    "role": "guest",
    "steps": [
     "Send POST /payment/check without an Authorization header, with payment_method \"gift-card\" and payment_details { gift_card_number: \"ABCD1234efgh5678\", validation_code: \"1a2B\" }.",
@@ -9416,6 +9423,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's message is \"Payment was successful\"."
    ],
    "ref": [],
+   "specLine": 203,
    "area": "payment",
    "areaLabel": "Payment",
    "file": "test-scenarios/api/payment/post-payment-check.yml",
@@ -9424,12 +9432,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@payment-api"
    ],
-   "yaml": "- id: API-0617\n  name: Check gift card details returns 200\n  status: manual\n  role: guest\n  steps:\n    - 'Send POST /payment/check without an Authorization header, with payment_method \"gift-card\" and payment_details { gift_card_number: \"ABCD1234efgh5678\", validation_code: \"1a2B\" }.'\n    - Verify the response status is 200.\n    - Verify the body's message is \"Payment was successful\"."
+   "yaml": "- id: API-0617\n  name: Check gift card details returns 200\n  status: automated\n  automatedIn: tests/api/payment/post-payment-check.spec.ts\n  role: guest\n  steps:\n    - 'Send POST /payment/check without an Authorization header, with payment_method \"gift-card\" and payment_details { gift_card_number: \"ABCD1234efgh5678\", validation_code: \"1a2B\" }.'\n    - Verify the response status is 200.\n    - Verify the body's message is \"Payment was successful\"."
   },
   {
    "id": "API-0618",
    "name": "Check cash on delivery with empty payment details returns 200",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/payment/post-payment-check.spec.ts",
    "role": "guest",
    "steps": [
     "Send POST /payment/check without an Authorization header, with payment_method \"cash-on-delivery\" and payment_details as an empty object.",
@@ -9437,6 +9446,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's message is \"Payment was successful\"."
    ],
    "ref": [],
+   "specLine": 211,
    "area": "payment",
    "areaLabel": "Payment",
    "file": "test-scenarios/api/payment/post-payment-check.yml",
@@ -9445,12 +9455,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@payment-api"
    ],
-   "yaml": "- id: API-0618\n  name: Check cash on delivery with empty payment details returns 200\n  status: manual\n  role: guest\n  steps:\n    - Send POST /payment/check without an Authorization header, with payment_method \"cash-on-delivery\" and payment_details as an empty object.\n    - Verify the response status is 200.\n    - Verify the body's message is \"Payment was successful\"."
+   "yaml": "- id: API-0618\n  name: Check cash on delivery with empty payment details returns 200\n  status: automated\n  automatedIn: tests/api/payment/post-payment-check.spec.ts\n  role: guest\n  steps:\n    - Send POST /payment/check without an Authorization header, with payment_method \"cash-on-delivery\" and payment_details as an empty object.\n    - Verify the response status is 200.\n    - Verify the body's message is \"Payment was successful\"."
   },
   {
    "id": "API-0619",
    "name": "Check payment with Accept text/xml returns the answer as XML",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/payment/post-payment-check.spec.ts",
    "role": "guest",
    "steps": [
     "Send POST /payment/check without an Authorization header, with Accept: text/xml, payment_method \"gift-card\" and payment_details { gift_card_number: \"ABCD1234efgh5678\", validation_code: \"1a2B\" }.",
@@ -9459,6 +9470,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body is <response><message>Payment was successful</message></response>."
    ],
    "ref": [],
+   "specLine": 219,
    "area": "payment",
    "areaLabel": "Payment",
    "file": "test-scenarios/api/payment/post-payment-check.yml",
@@ -9467,12 +9479,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@payment-api"
    ],
-   "yaml": "- id: API-0619\n  name: Check payment with Accept text/xml returns the answer as XML\n  status: manual\n  role: guest\n  steps:\n    - 'Send POST /payment/check without an Authorization header, with Accept: text/xml, payment_method \"gift-card\" and payment_details { gift_card_number: \"ABCD1234efgh5678\", validation_code: \"1a2B\" }.'\n    - Verify the response status is 200.\n    - Verify the Content-Type header starts with \"text/xml\".\n    - 'Verify the body is <response><message>Payment was successful</message></response>.'"
+   "yaml": "- id: API-0619\n  name: Check payment with Accept text/xml returns the answer as XML\n  status: automated\n  automatedIn: tests/api/payment/post-payment-check.spec.ts\n  role: guest\n  steps:\n    - 'Send POST /payment/check without an Authorization header, with Accept: text/xml, payment_method \"gift-card\" and payment_details { gift_card_number: \"ABCD1234efgh5678\", validation_code: \"1a2B\" }.'\n    - Verify the response status is 200.\n    - Verify the Content-Type header starts with \"text/xml\".\n    - 'Verify the body is <response><message>Payment was successful</message></response>.'"
   },
   {
    "id": "API-0620",
    "name": "Check payment with an invalid token returns 200",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/payment/post-payment-check.spec.ts",
    "role": "guest",
    "steps": [
     "Send POST /payment/check with an Authorization header holding an invalid token (a made-up string, not issued by the API), payment_method \"cash-on-delivery\" and payment_details as an empty object.",
@@ -9480,6 +9493,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's message is \"Payment was successful\"."
    ],
    "ref": [],
+   "specLine": 254,
    "area": "payment",
    "areaLabel": "Payment",
    "file": "test-scenarios/api/payment/post-payment-check.yml",
@@ -9488,12 +9502,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@payment-api"
    ],
-   "yaml": "- id: API-0620\n  name: Check payment with an invalid token returns 200\n  status: manual\n  role: guest\n  steps:\n    - Send POST /payment/check with an Authorization header holding an invalid token (a made-up string, not issued by the API), payment_method \"cash-on-delivery\" and payment_details as an empty object.\n    - Verify the response status is 200.\n    - Verify the body's message is \"Payment was successful\"."
+   "yaml": "- id: API-0620\n  name: Check payment with an invalid token returns 200\n  status: automated\n  automatedIn: tests/api/payment/post-payment-check.spec.ts\n  role: guest\n  steps:\n    - Send POST /payment/check with an Authorization header holding an invalid token (a made-up string, not issued by the API), payment_method \"cash-on-delivery\" and payment_details as an empty object.\n    - Verify the response status is 200.\n    - Verify the body's message is \"Payment was successful\"."
   },
   {
    "id": "API-0621",
    "name": "Check bank transfer without payment details returns 422 for every field",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/payment/post-payment-check.spec.ts",
    "role": "guest",
    "steps": [
     "Send POST /payment/check without an Authorization header, with payment_method \"bank-transfer\" and no payment_details.",
@@ -9502,6 +9517,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's message is \"The payment details.bank name field is required. (and 2 more errors)\"."
    ],
    "ref": [],
+   "specLine": 263,
    "area": "payment",
    "areaLabel": "Payment",
    "file": "test-scenarios/api/payment/post-payment-check.yml",
@@ -9510,12 +9526,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@payment-api"
    ],
-   "yaml": "- id: API-0621\n  name: Check bank transfer without payment details returns 422 for every field\n  status: manual\n  role: guest\n  steps:\n    - Send POST /payment/check without an Authorization header, with payment_method \"bank-transfer\" and no payment_details.\n    - Verify the response status is 422.\n    - Verify the body's errors has the keys payment_details.bank_name, payment_details.account_name and payment_details.account_number, each with at least one message.\n    - Verify the body's message is \"The payment details.bank name field is required. (and 2 more errors)\"."
+   "yaml": "- id: API-0621\n  name: Check bank transfer without payment details returns 422 for every field\n  status: automated\n  automatedIn: tests/api/payment/post-payment-check.spec.ts\n  role: guest\n  steps:\n    - Send POST /payment/check without an Authorization header, with payment_method \"bank-transfer\" and no payment_details.\n    - Verify the response status is 422.\n    - Verify the body's errors has the keys payment_details.bank_name, payment_details.account_name and payment_details.account_number, each with at least one message.\n    - Verify the body's message is \"The payment details.bank name field is required. (and 2 more errors)\"."
   },
   {
    "id": "API-0622",
    "name": "Check credit card without payment details returns 422 for every field",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/payment/post-payment-check.spec.ts",
    "role": "guest",
    "steps": [
     "Send POST /payment/check without an Authorization header, with payment_method \"credit-card\" and no payment_details.",
@@ -9523,6 +9540,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's errors has the keys payment_details.credit_card_number, payment_details.expiration_date, payment_details.cvv and payment_details.card_holder_name, each with at least one message."
    ],
    "ref": [],
+   "specLine": 289,
    "area": "payment",
    "areaLabel": "Payment",
    "file": "test-scenarios/api/payment/post-payment-check.yml",
@@ -9531,12 +9549,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@payment-api"
    ],
-   "yaml": "- id: API-0622\n  name: Check credit card without payment details returns 422 for every field\n  status: manual\n  role: guest\n  steps:\n    - Send POST /payment/check without an Authorization header, with payment_method \"credit-card\" and no payment_details.\n    - Verify the response status is 422.\n    - Verify the body's errors has the keys payment_details.credit_card_number, payment_details.expiration_date, payment_details.cvv and payment_details.card_holder_name, each with at least one message."
+   "yaml": "- id: API-0622\n  name: Check credit card without payment details returns 422 for every field\n  status: automated\n  automatedIn: tests/api/payment/post-payment-check.spec.ts\n  role: guest\n  steps:\n    - Send POST /payment/check without an Authorization header, with payment_method \"credit-card\" and no payment_details.\n    - Verify the response status is 422.\n    - Verify the body's errors has the keys payment_details.credit_card_number, payment_details.expiration_date, payment_details.cvv and payment_details.card_holder_name, each with at least one message."
   },
   {
    "id": "API-0623",
    "name": "Check buy now pay later without payment details returns 422",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/payment/post-payment-check.spec.ts",
    "role": "guest",
    "steps": [
     "Send POST /payment/check without an Authorization header, with payment_method \"buy-now-pay-later\" and no payment_details.",
@@ -9544,6 +9563,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's errors has the key payment_details.monthly_installments with at least one message."
    ],
    "ref": [],
+   "specLine": 299,
    "area": "payment",
    "areaLabel": "Payment",
    "file": "test-scenarios/api/payment/post-payment-check.yml",
@@ -9552,12 +9572,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@payment-api"
    ],
-   "yaml": "- id: API-0623\n  name: Check buy now pay later without payment details returns 422\n  status: manual\n  role: guest\n  steps:\n    - Send POST /payment/check without an Authorization header, with payment_method \"buy-now-pay-later\" and no payment_details.\n    - Verify the response status is 422.\n    - Verify the body's errors has the key payment_details.monthly_installments with at least one message."
+   "yaml": "- id: API-0623\n  name: Check buy now pay later without payment details returns 422\n  status: automated\n  automatedIn: tests/api/payment/post-payment-check.spec.ts\n  role: guest\n  steps:\n    - Send POST /payment/check without an Authorization header, with payment_method \"buy-now-pay-later\" and no payment_details.\n    - Verify the response status is 422.\n    - Verify the body's errors has the key payment_details.monthly_installments with at least one message."
   },
   {
    "id": "API-0624",
    "name": "Check gift card without payment details returns 422 for every field",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/payment/post-payment-check.spec.ts",
    "role": "guest",
    "steps": [
     "Send POST /payment/check without an Authorization header, with payment_method \"gift-card\" and no payment_details.",
@@ -9565,6 +9586,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's errors has the keys payment_details.gift_card_number and payment_details.validation_code, each with at least one message."
    ],
    "ref": [],
+   "specLine": 309,
    "area": "payment",
    "areaLabel": "Payment",
    "file": "test-scenarios/api/payment/post-payment-check.yml",
@@ -9573,12 +9595,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@payment-api"
    ],
-   "yaml": "- id: API-0624\n  name: Check gift card without payment details returns 422 for every field\n  status: manual\n  role: guest\n  steps:\n    - Send POST /payment/check without an Authorization header, with payment_method \"gift-card\" and no payment_details.\n    - Verify the response status is 422.\n    - Verify the body's errors has the keys payment_details.gift_card_number and payment_details.validation_code, each with at least one message."
+   "yaml": "- id: API-0624\n  name: Check gift card without payment details returns 422 for every field\n  status: automated\n  automatedIn: tests/api/payment/post-payment-check.spec.ts\n  role: guest\n  steps:\n    - Send POST /payment/check without an Authorization header, with payment_method \"gift-card\" and no payment_details.\n    - Verify the response status is 422.\n    - Verify the body's errors has the keys payment_details.gift_card_number and payment_details.validation_code, each with at least one message."
   },
   {
    "id": "API-0625",
    "name": "Check bank transfer with payment_details that is not an object returns 422",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/payment/post-payment-check.spec.ts",
    "role": "guest",
    "steps": [
     "Send POST /payment/check without an Authorization header, with payment_method \"bank-transfer\" and payment_details \"abc\" (a string, not an object).",
@@ -9586,6 +9609,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's errors has the keys payment_details.bank_name, payment_details.account_name and payment_details.account_number, each with at least one message."
    ],
    "ref": [],
+   "specLine": 319,
    "area": "payment",
    "areaLabel": "Payment",
    "file": "test-scenarios/api/payment/post-payment-check.yml",
@@ -9594,12 +9618,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@payment-api"
    ],
-   "yaml": "- id: API-0625\n  name: Check bank transfer with payment_details that is not an object returns 422\n  status: manual\n  role: guest\n  steps:\n    - Send POST /payment/check without an Authorization header, with payment_method \"bank-transfer\" and payment_details \"abc\" (a string, not an object).\n    - Verify the response status is 422.\n    - Verify the body's errors has the keys payment_details.bank_name, payment_details.account_name and payment_details.account_number, each with at least one message."
+   "yaml": "- id: API-0625\n  name: Check bank transfer with payment_details that is not an object returns 422\n  status: automated\n  automatedIn: tests/api/payment/post-payment-check.spec.ts\n  role: guest\n  steps:\n    - Send POST /payment/check without an Authorization header, with payment_method \"bank-transfer\" and payment_details \"abc\" (a string, not an object).\n    - Verify the response status is 422.\n    - Verify the body's errors has the keys payment_details.bank_name, payment_details.account_name and payment_details.account_number, each with at least one message."
   },
   {
    "id": "API-0626",
    "name": "Check bank transfer with digits in the bank name returns 422",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/payment/post-payment-check.spec.ts",
    "role": "guest",
    "steps": [
     "Send POST /payment/check without an Authorization header, with payment_method \"bank-transfer\" and payment_details { bank_name: \"Bank123\", account_name: \"Jane Doe\", account_number: \"123456789\" }.",
@@ -9608,6 +9633,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's errors has no other keys."
    ],
    "ref": [],
+   "specLine": 329,
    "area": "payment",
    "areaLabel": "Payment",
    "file": "test-scenarios/api/payment/post-payment-check.yml",
@@ -9616,12 +9642,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@payment-api"
    ],
-   "yaml": "- id: API-0626\n  name: Check bank transfer with digits in the bank name returns 422\n  status: manual\n  role: guest\n  steps:\n    - 'Send POST /payment/check without an Authorization header, with payment_method \"bank-transfer\" and payment_details { bank_name: \"Bank123\", account_name: \"Jane Doe\", account_number: \"123456789\" }.'\n    - Verify the response status is 422.\n    - Verify the body's errors has the key payment_details.bank_name with at least one message.\n    - Verify the body's errors has no other keys."
+   "yaml": "- id: API-0626\n  name: Check bank transfer with digits in the bank name returns 422\n  status: automated\n  automatedIn: tests/api/payment/post-payment-check.spec.ts\n  role: guest\n  steps:\n    - 'Send POST /payment/check without an Authorization header, with payment_method \"bank-transfer\" and payment_details { bank_name: \"Bank123\", account_name: \"Jane Doe\", account_number: \"123456789\" }.'\n    - Verify the response status is 422.\n    - Verify the body's errors has the key payment_details.bank_name with at least one message.\n    - Verify the body's errors has no other keys."
   },
   {
    "id": "API-0627",
    "name": "Check bank transfer with disallowed characters in the account name returns 422",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/payment/post-payment-check.spec.ts",
    "role": "guest",
    "steps": [
     "Send POST /payment/check without an Authorization header, with payment_method \"bank-transfer\" and payment_details { bank_name: \"Test Bank\", account_name: \"Jane@Doe!\", account_number: \"123456789\" }.",
@@ -9630,6 +9657,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's errors has no other keys."
    ],
    "ref": [],
+   "specLine": 339,
    "area": "payment",
    "areaLabel": "Payment",
    "file": "test-scenarios/api/payment/post-payment-check.yml",
@@ -9638,12 +9666,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@payment-api"
    ],
-   "yaml": "- id: API-0627\n  name: Check bank transfer with disallowed characters in the account name returns 422\n  status: manual\n  role: guest\n  steps:\n    - 'Send POST /payment/check without an Authorization header, with payment_method \"bank-transfer\" and payment_details { bank_name: \"Test Bank\", account_name: \"Jane@Doe!\", account_number: \"123456789\" }.'\n    - Verify the response status is 422.\n    - Verify the body's errors has the key payment_details.account_name with at least one message.\n    - Verify the body's errors has no other keys."
+   "yaml": "- id: API-0627\n  name: Check bank transfer with disallowed characters in the account name returns 422\n  status: automated\n  automatedIn: tests/api/payment/post-payment-check.spec.ts\n  role: guest\n  steps:\n    - 'Send POST /payment/check without an Authorization header, with payment_method \"bank-transfer\" and payment_details { bank_name: \"Test Bank\", account_name: \"Jane@Doe!\", account_number: \"123456789\" }.'\n    - Verify the response status is 422.\n    - Verify the body's errors has the key payment_details.account_name with at least one message.\n    - Verify the body's errors has no other keys."
   },
   {
    "id": "API-0628",
    "name": "Check bank transfer with letters in the account number returns 422",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/payment/post-payment-check.spec.ts",
    "role": "guest",
    "steps": [
     "Send POST /payment/check without an Authorization header, with payment_method \"bank-transfer\" and payment_details { bank_name: \"Test Bank\", account_name: \"Jane Doe\", account_number: \"12AB34\" }.",
@@ -9652,6 +9681,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's errors has no other keys."
    ],
    "ref": [],
+   "specLine": 349,
    "area": "payment",
    "areaLabel": "Payment",
    "file": "test-scenarios/api/payment/post-payment-check.yml",
@@ -9660,12 +9690,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@payment-api"
    ],
-   "yaml": "- id: API-0628\n  name: Check bank transfer with letters in the account number returns 422\n  status: manual\n  role: guest\n  steps:\n    - 'Send POST /payment/check without an Authorization header, with payment_method \"bank-transfer\" and payment_details { bank_name: \"Test Bank\", account_name: \"Jane Doe\", account_number: \"12AB34\" }.'\n    - Verify the response status is 422.\n    - Verify the body's errors has the key payment_details.account_number with at least one message.\n    - Verify the body's errors has no other keys."
+   "yaml": "- id: API-0628\n  name: Check bank transfer with letters in the account number returns 422\n  status: automated\n  automatedIn: tests/api/payment/post-payment-check.spec.ts\n  role: guest\n  steps:\n    - 'Send POST /payment/check without an Authorization header, with payment_method \"bank-transfer\" and payment_details { bank_name: \"Test Bank\", account_name: \"Jane Doe\", account_number: \"12AB34\" }.'\n    - Verify the response status is 422.\n    - Verify the body's errors has the key payment_details.account_number with at least one message.\n    - Verify the body's errors has no other keys."
   },
   {
    "id": "API-0629",
    "name": "Check bank transfer with a bank name over 255 characters returns 422",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/payment/post-payment-check.spec.ts",
    "role": "guest",
    "steps": [
     "Send POST /payment/check without an Authorization header, with payment_method \"bank-transfer\" and payment_details { bank_name: a string of 256 letters, account_name: \"Jane Doe\", account_number: \"123456789\" }.",
@@ -9674,6 +9705,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's errors has no other keys."
    ],
    "ref": [],
+   "specLine": 359,
    "area": "payment",
    "areaLabel": "Payment",
    "file": "test-scenarios/api/payment/post-payment-check.yml",
@@ -9682,12 +9714,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@payment-api"
    ],
-   "yaml": "- id: API-0629\n  name: Check bank transfer with a bank name over 255 characters returns 422\n  status: manual\n  role: guest\n  steps:\n    - 'Send POST /payment/check without an Authorization header, with payment_method \"bank-transfer\" and payment_details { bank_name: a string of 256 letters, account_name: \"Jane Doe\", account_number: \"123456789\" }.'\n    - Verify the response status is 422.\n    - Verify the body's errors has the key payment_details.bank_name with at least one message.\n    - Verify the body's errors has no other keys."
+   "yaml": "- id: API-0629\n  name: Check bank transfer with a bank name over 255 characters returns 422\n  status: automated\n  automatedIn: tests/api/payment/post-payment-check.spec.ts\n  role: guest\n  steps:\n    - 'Send POST /payment/check without an Authorization header, with payment_method \"bank-transfer\" and payment_details { bank_name: a string of 256 letters, account_name: \"Jane Doe\", account_number: \"123456789\" }.'\n    - Verify the response status is 422.\n    - Verify the body's errors has the key payment_details.bank_name with at least one message.\n    - Verify the body's errors has no other keys."
   },
   {
    "id": "API-0630",
    "name": "Check credit card number without dashes returns 422",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/payment/post-payment-check.spec.ts",
    "role": "guest",
    "steps": [
     "Send POST /payment/check without an Authorization header, with payment_method \"credit-card\" and payment_details { credit_card_number: \"1234567891011121\", expiration_date: the same month next year in m/Y form, cvv: \"123\", card_holder_name: \"Jane Doe\" }.",
@@ -9696,6 +9729,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's errors has no other keys."
    ],
    "ref": [],
+   "specLine": 369,
    "area": "payment",
    "areaLabel": "Payment",
    "file": "test-scenarios/api/payment/post-payment-check.yml",
@@ -9704,12 +9738,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@payment-api"
    ],
-   "yaml": "- id: API-0630\n  name: Check credit card number without dashes returns 422\n  status: manual\n  role: guest\n  steps:\n    - 'Send POST /payment/check without an Authorization header, with payment_method \"credit-card\" and payment_details { credit_card_number: \"1234567891011121\", expiration_date: the same month next year in m/Y form, cvv: \"123\", card_holder_name: \"Jane Doe\" }.'\n    - Verify the response status is 422.\n    - Verify the body's errors has the key payment_details.credit_card_number with at least one message.\n    - Verify the body's errors has no other keys."
+   "yaml": "- id: API-0630\n  name: Check credit card number without dashes returns 422\n  status: automated\n  automatedIn: tests/api/payment/post-payment-check.spec.ts\n  role: guest\n  steps:\n    - 'Send POST /payment/check without an Authorization header, with payment_method \"credit-card\" and payment_details { credit_card_number: \"1234567891011121\", expiration_date: the same month next year in m/Y form, cvv: \"123\", card_holder_name: \"Jane Doe\" }.'\n    - Verify the response status is 422.\n    - Verify the body's errors has the key payment_details.credit_card_number with at least one message.\n    - Verify the body's errors has no other keys."
   },
   {
    "id": "API-0631",
    "name": "Check credit card with an expiration date in the past returns 422",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/payment/post-payment-check.spec.ts",
    "role": "guest",
    "steps": [
     "Send POST /payment/check without an Authorization header, with payment_method \"credit-card\" and payment_details { credit_card_number: \"1234-5678-9101-1121\", expiration_date: the same month one year ago in m/Y form, cvv: \"123\", card_holder_name: \"Jane Doe\" }.",
@@ -9719,6 +9754,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's errors has no other keys."
    ],
    "ref": [],
+   "specLine": 379,
    "area": "payment",
    "areaLabel": "Payment",
    "file": "test-scenarios/api/payment/post-payment-check.yml",
@@ -9727,12 +9763,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@payment-api"
    ],
-   "yaml": "- id: API-0631\n  name: Check credit card with an expiration date in the past returns 422\n  status: manual\n  role: guest\n  steps:\n    - 'Send POST /payment/check without an Authorization header, with payment_method \"credit-card\" and payment_details { credit_card_number: \"1234-5678-9101-1121\", expiration_date: the same month one year ago in m/Y form, cvv: \"123\", card_holder_name: \"Jane Doe\" }.'\n    - Verify the response status is 422.\n    - Verify the body's errors has the key payment_details.expiration_date with at least one message.\n    - Verify that message contains \"must be a date after today\".\n    - Verify the body's errors has no other keys."
+   "yaml": "- id: API-0631\n  name: Check credit card with an expiration date in the past returns 422\n  status: automated\n  automatedIn: tests/api/payment/post-payment-check.spec.ts\n  role: guest\n  steps:\n    - 'Send POST /payment/check without an Authorization header, with payment_method \"credit-card\" and payment_details { credit_card_number: \"1234-5678-9101-1121\", expiration_date: the same month one year ago in m/Y form, cvv: \"123\", card_holder_name: \"Jane Doe\" }.'\n    - Verify the response status is 422.\n    - Verify the body's errors has the key payment_details.expiration_date with at least one message.\n    - Verify that message contains \"must be a date after today\".\n    - Verify the body's errors has no other keys."
   },
   {
    "id": "API-0632",
    "name": "Check credit card expiring in the current month returns 422",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/payment/post-payment-check.spec.ts",
    "role": "guest",
    "steps": [
     "Send POST /payment/check without an Authorization header, with payment_method \"credit-card\" and payment_details { credit_card_number: \"1234-5678-9101-1121\", expiration_date: the current month in m/Y form, cvv: \"123\", card_holder_name: \"Jane Doe\" }.",
@@ -9741,6 +9778,7 @@ window.SCENARIO_CATALOG = {
     "Verify that message contains \"must be a date after today\"."
    ],
    "ref": [],
+   "specLine": 389,
    "area": "payment",
    "areaLabel": "Payment",
    "file": "test-scenarios/api/payment/post-payment-check.yml",
@@ -9749,12 +9787,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@payment-api"
    ],
-   "yaml": "- id: API-0632\n  name: Check credit card expiring in the current month returns 422\n  status: manual\n  role: guest\n  steps:\n    - 'Send POST /payment/check without an Authorization header, with payment_method \"credit-card\" and payment_details { credit_card_number: \"1234-5678-9101-1121\", expiration_date: the current month in m/Y form, cvv: \"123\", card_holder_name: \"Jane Doe\" }.'\n    - Verify the response status is 422.\n    - Verify the body's errors has the key payment_details.expiration_date with at least one message.\n    - Verify that message contains \"must be a date after today\"."
+   "yaml": "- id: API-0632\n  name: Check credit card expiring in the current month returns 422\n  status: automated\n  automatedIn: tests/api/payment/post-payment-check.spec.ts\n  role: guest\n  steps:\n    - 'Send POST /payment/check without an Authorization header, with payment_method \"credit-card\" and payment_details { credit_card_number: \"1234-5678-9101-1121\", expiration_date: the current month in m/Y form, cvv: \"123\", card_holder_name: \"Jane Doe\" }.'\n    - Verify the response status is 422.\n    - Verify the body's errors has the key payment_details.expiration_date with at least one message.\n    - Verify that message contains \"must be a date after today\"."
   },
   {
    "id": "API-0633",
    "name": "Check credit card with an expiration date in the wrong format returns 422",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/payment/post-payment-check.spec.ts",
    "role": "guest",
    "steps": [
     "Send POST /payment/check without an Authorization header, with payment_method \"credit-card\" and payment_details { credit_card_number: \"1234-5678-9101-1121\", expiration_date: \"2099-12\", cvv: \"123\", card_holder_name: \"Jane Doe\" }.",
@@ -9764,6 +9803,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's errors has no other keys."
    ],
    "ref": [],
+   "specLine": 399,
    "area": "payment",
    "areaLabel": "Payment",
    "file": "test-scenarios/api/payment/post-payment-check.yml",
@@ -9772,12 +9812,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@payment-api"
    ],
-   "yaml": "- id: API-0633\n  name: Check credit card with an expiration date in the wrong format returns 422\n  status: manual\n  role: guest\n  steps:\n    - 'Send POST /payment/check without an Authorization header, with payment_method \"credit-card\" and payment_details { credit_card_number: \"1234-5678-9101-1121\", expiration_date: \"2099-12\", cvv: \"123\", card_holder_name: \"Jane Doe\" }.'\n    - Verify the response status is 422.\n    - Verify the body's errors has the key payment_details.expiration_date with at least one message.\n    - Verify that message contains \"must match the format m/Y\".\n    - Verify the body's errors has no other keys."
+   "yaml": "- id: API-0633\n  name: Check credit card with an expiration date in the wrong format returns 422\n  status: automated\n  automatedIn: tests/api/payment/post-payment-check.spec.ts\n  role: guest\n  steps:\n    - 'Send POST /payment/check without an Authorization header, with payment_method \"credit-card\" and payment_details { credit_card_number: \"1234-5678-9101-1121\", expiration_date: \"2099-12\", cvv: \"123\", card_holder_name: \"Jane Doe\" }.'\n    - Verify the response status is 422.\n    - Verify the body's errors has the key payment_details.expiration_date with at least one message.\n    - Verify that message contains \"must match the format m/Y\".\n    - Verify the body's errors has no other keys."
   },
   {
    "id": "API-0634",
    "name": "Check credit card with a 2-digit cvv returns 422",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/payment/post-payment-check.spec.ts",
    "role": "guest",
    "steps": [
     "Send POST /payment/check without an Authorization header, with payment_method \"credit-card\" and payment_details { credit_card_number: \"1234-5678-9101-1121\", expiration_date: the same month next year in m/Y form, cvv: \"12\", card_holder_name: \"Jane Doe\" }.",
@@ -9786,6 +9827,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's errors has no other keys."
    ],
    "ref": [],
+   "specLine": 409,
    "area": "payment",
    "areaLabel": "Payment",
    "file": "test-scenarios/api/payment/post-payment-check.yml",
@@ -9794,12 +9836,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@payment-api"
    ],
-   "yaml": "- id: API-0634\n  name: Check credit card with a 2-digit cvv returns 422\n  status: manual\n  role: guest\n  steps:\n    - 'Send POST /payment/check without an Authorization header, with payment_method \"credit-card\" and payment_details { credit_card_number: \"1234-5678-9101-1121\", expiration_date: the same month next year in m/Y form, cvv: \"12\", card_holder_name: \"Jane Doe\" }.'\n    - Verify the response status is 422.\n    - Verify the body's errors has the key payment_details.cvv with at least one message.\n    - Verify the body's errors has no other keys."
+   "yaml": "- id: API-0634\n  name: Check credit card with a 2-digit cvv returns 422\n  status: automated\n  automatedIn: tests/api/payment/post-payment-check.spec.ts\n  role: guest\n  steps:\n    - 'Send POST /payment/check without an Authorization header, with payment_method \"credit-card\" and payment_details { credit_card_number: \"1234-5678-9101-1121\", expiration_date: the same month next year in m/Y form, cvv: \"12\", card_holder_name: \"Jane Doe\" }.'\n    - Verify the response status is 422.\n    - Verify the body's errors has the key payment_details.cvv with at least one message.\n    - Verify the body's errors has no other keys."
   },
   {
    "id": "API-0635",
    "name": "Check credit card with digits in the card holder name returns 422",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/payment/post-payment-check.spec.ts",
    "role": "guest",
    "steps": [
     "Send POST /payment/check without an Authorization header, with payment_method \"credit-card\" and payment_details { credit_card_number: \"1234-5678-9101-1121\", expiration_date: the same month next year in m/Y form, cvv: \"123\", card_holder_name: \"John123\" }.",
@@ -9808,6 +9851,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's errors has no other keys."
    ],
    "ref": [],
+   "specLine": 419,
    "area": "payment",
    "areaLabel": "Payment",
    "file": "test-scenarios/api/payment/post-payment-check.yml",
@@ -9816,12 +9860,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@payment-api"
    ],
-   "yaml": "- id: API-0635\n  name: Check credit card with digits in the card holder name returns 422\n  status: manual\n  role: guest\n  steps:\n    - 'Send POST /payment/check without an Authorization header, with payment_method \"credit-card\" and payment_details { credit_card_number: \"1234-5678-9101-1121\", expiration_date: the same month next year in m/Y form, cvv: \"123\", card_holder_name: \"John123\" }.'\n    - Verify the response status is 422.\n    - Verify the body's errors has the key payment_details.card_holder_name with at least one message.\n    - Verify the body's errors has no other keys."
+   "yaml": "- id: API-0635\n  name: Check credit card with digits in the card holder name returns 422\n  status: automated\n  automatedIn: tests/api/payment/post-payment-check.spec.ts\n  role: guest\n  steps:\n    - 'Send POST /payment/check without an Authorization header, with payment_method \"credit-card\" and payment_details { credit_card_number: \"1234-5678-9101-1121\", expiration_date: the same month next year in m/Y form, cvv: \"123\", card_holder_name: \"John123\" }.'\n    - Verify the response status is 422.\n    - Verify the body's errors has the key payment_details.card_holder_name with at least one message.\n    - Verify the body's errors has no other keys."
   },
   {
    "id": "API-0636",
    "name": "Check buy now pay later with a non-numeric installments value returns 422",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/payment/post-payment-check.spec.ts",
    "role": "guest",
    "steps": [
     "Send POST /payment/check without an Authorization header, with payment_method \"buy-now-pay-later\" and payment_details { monthly_installments: \"abc\" }.",
@@ -9830,6 +9875,7 @@ window.SCENARIO_CATALOG = {
     "Verify that message contains \"must be a number\"."
    ],
    "ref": [],
+   "specLine": 429,
    "area": "payment",
    "areaLabel": "Payment",
    "file": "test-scenarios/api/payment/post-payment-check.yml",
@@ -9838,12 +9884,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@payment-api"
    ],
-   "yaml": "- id: API-0636\n  name: Check buy now pay later with a non-numeric installments value returns 422\n  status: manual\n  role: guest\n  steps:\n    - 'Send POST /payment/check without an Authorization header, with payment_method \"buy-now-pay-later\" and payment_details { monthly_installments: \"abc\" }.'\n    - Verify the response status is 422.\n    - Verify the body's errors has the key payment_details.monthly_installments with at least one message.\n    - Verify that message contains \"must be a number\"."
+   "yaml": "- id: API-0636\n  name: Check buy now pay later with a non-numeric installments value returns 422\n  status: automated\n  automatedIn: tests/api/payment/post-payment-check.spec.ts\n  role: guest\n  steps:\n    - 'Send POST /payment/check without an Authorization header, with payment_method \"buy-now-pay-later\" and payment_details { monthly_installments: \"abc\" }.'\n    - Verify the response status is 422.\n    - Verify the body's errors has the key payment_details.monthly_installments with at least one message.\n    - Verify that message contains \"must be a number\"."
   },
   {
    "id": "API-0637",
    "name": "Check gift card with a 15-character card number returns 422",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/payment/post-payment-check.spec.ts",
    "role": "guest",
    "steps": [
     "Send POST /payment/check without an Authorization header, with payment_method \"gift-card\" and payment_details { gift_card_number: a string of 15 letters and digits, validation_code: \"1a2B\" }.",
@@ -9852,6 +9899,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's errors has no other keys."
    ],
    "ref": [],
+   "specLine": 439,
    "area": "payment",
    "areaLabel": "Payment",
    "file": "test-scenarios/api/payment/post-payment-check.yml",
@@ -9860,12 +9908,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@payment-api"
    ],
-   "yaml": "- id: API-0637\n  name: Check gift card with a 15-character card number returns 422\n  status: manual\n  role: guest\n  steps:\n    - 'Send POST /payment/check without an Authorization header, with payment_method \"gift-card\" and payment_details { gift_card_number: a string of 15 letters and digits, validation_code: \"1a2B\" }.'\n    - Verify the response status is 422.\n    - Verify the body's errors has the key payment_details.gift_card_number with at least one message.\n    - Verify the body's errors has no other keys."
+   "yaml": "- id: API-0637\n  name: Check gift card with a 15-character card number returns 422\n  status: automated\n  automatedIn: tests/api/payment/post-payment-check.spec.ts\n  role: guest\n  steps:\n    - 'Send POST /payment/check without an Authorization header, with payment_method \"gift-card\" and payment_details { gift_card_number: a string of 15 letters and digits, validation_code: \"1a2B\" }.'\n    - Verify the response status is 422.\n    - Verify the body's errors has the key payment_details.gift_card_number with at least one message.\n    - Verify the body's errors has no other keys."
   },
   {
    "id": "API-0638",
    "name": "Check gift card with a 3-character validation code returns 422",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/payment/post-payment-check.spec.ts",
    "role": "guest",
    "steps": [
     "Send POST /payment/check without an Authorization header, with payment_method \"gift-card\" and payment_details { gift_card_number: \"ABCD1234efgh5678\", validation_code: \"1a2\" }.",
@@ -9874,6 +9923,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's errors has no other keys."
    ],
    "ref": [],
+   "specLine": 449,
    "area": "payment",
    "areaLabel": "Payment",
    "file": "test-scenarios/api/payment/post-payment-check.yml",
@@ -9882,12 +9932,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@payment-api"
    ],
-   "yaml": "- id: API-0638\n  name: Check gift card with a 3-character validation code returns 422\n  status: manual\n  role: guest\n  steps:\n    - 'Send POST /payment/check without an Authorization header, with payment_method \"gift-card\" and payment_details { gift_card_number: \"ABCD1234efgh5678\", validation_code: \"1a2\" }.'\n    - Verify the response status is 422.\n    - Verify the body's errors has the key payment_details.validation_code with at least one message.\n    - Verify the body's errors has no other keys."
+   "yaml": "- id: API-0638\n  name: Check gift card with a 3-character validation code returns 422\n  status: automated\n  automatedIn: tests/api/payment/post-payment-check.spec.ts\n  role: guest\n  steps:\n    - 'Send POST /payment/check without an Authorization header, with payment_method \"gift-card\" and payment_details { gift_card_number: \"ABCD1234efgh5678\", validation_code: \"1a2\" }.'\n    - Verify the response status is 422.\n    - Verify the body's errors has the key payment_details.validation_code with at least one message.\n    - Verify the body's errors has no other keys."
   },
   {
    "id": "API-0639",
    "name": "Check invalid payment details without Accept application/json returns a 302 redirect",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/payment/post-payment-check.spec.ts",
    "role": "guest",
    "steps": [
     "Send POST /payment/check without an Authorization header, without following redirects and with the Accept header left out, with payment_method \"bank-transfer\" and no payment_details.",
@@ -9895,6 +9946,7 @@ window.SCENARIO_CATALOG = {
     "Verify the Location header is \"https://api.practicesoftwaretesting.com\"."
    ],
    "ref": [],
+   "specLine": 459,
    "area": "payment",
    "areaLabel": "Payment",
    "file": "test-scenarios/api/payment/post-payment-check.yml",
@@ -9903,12 +9955,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@payment-api"
    ],
-   "yaml": "- id: API-0639\n  name: Check invalid payment details without Accept application/json returns a 302 redirect\n  status: manual\n  role: guest\n  steps:\n    - Send POST /payment/check without an Authorization header, without following redirects and with the Accept header left out, with payment_method \"bank-transfer\" and no payment_details.\n    - Verify the response status is 302.\n    - Verify the Location header is \"https://api.practicesoftwaretesting.com\"."
+   "yaml": "- id: API-0639\n  name: Check invalid payment details without Accept application/json returns a 302 redirect\n  status: automated\n  automatedIn: tests/api/payment/post-payment-check.spec.ts\n  role: guest\n  steps:\n    - Send POST /payment/check without an Authorization header, without following redirects and with the Accept header left out, with payment_method \"bank-transfer\" and no payment_details.\n    - Verify the response status is 302.\n    - Verify the Location header is \"https://api.practicesoftwaretesting.com\"."
   },
   {
    "id": "API-0640",
    "name": "Check invalid payment details with Accept text/xml returns a 302 redirect",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/payment/post-payment-check.spec.ts",
    "role": "guest",
    "steps": [
     "Send POST /payment/check without an Authorization header, without following redirects and with Accept: text/xml, with payment_method \"bank-transfer\" and no payment_details.",
@@ -9916,6 +9969,7 @@ window.SCENARIO_CATALOG = {
     "Verify the Location header is \"https://api.practicesoftwaretesting.com\"."
    ],
    "ref": [],
+   "specLine": 467,
    "area": "payment",
    "areaLabel": "Payment",
    "file": "test-scenarios/api/payment/post-payment-check.yml",
@@ -9924,12 +9978,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@payment-api"
    ],
-   "yaml": "- id: API-0640\n  name: Check invalid payment details with Accept text/xml returns a 302 redirect\n  status: manual\n  role: guest\n  steps:\n    - 'Send POST /payment/check without an Authorization header, without following redirects and with Accept: text/xml, with payment_method \"bank-transfer\" and no payment_details.'\n    - Verify the response status is 302.\n    - Verify the Location header is \"https://api.practicesoftwaretesting.com\"."
+   "yaml": "- id: API-0640\n  name: Check invalid payment details with Accept text/xml returns a 302 redirect\n  status: automated\n  automatedIn: tests/api/payment/post-payment-check.spec.ts\n  role: guest\n  steps:\n    - 'Send POST /payment/check without an Authorization header, without following redirects and with Accept: text/xml, with payment_method \"bank-transfer\" and no payment_details.'\n    - Verify the response status is 302.\n    - Verify the Location header is \"https://api.practicesoftwaretesting.com\"."
   },
   {
    "id": "API-0641",
    "name": "Check payment with a payment method in a different case skips validation and returns 200",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/payment/post-payment-check.spec.ts",
    "role": "guest",
    "steps": [
     "Send POST /payment/check without an Authorization header, with payment_method \"Bank Transfer\" and no payment_details.",
@@ -9937,6 +9992,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's message is \"Payment was successful\"."
    ],
    "ref": [],
+   "specLine": 475,
    "area": "payment",
    "areaLabel": "Payment",
    "file": "test-scenarios/api/payment/post-payment-check.yml",
@@ -9945,12 +10001,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@payment-api"
    ],
-   "yaml": "- id: API-0641\n  name: Check payment with a payment method in a different case skips validation and returns 200\n  status: manual\n  role: guest\n  steps:\n    - Send POST /payment/check without an Authorization header, with payment_method \"Bank Transfer\" and no payment_details.\n    - Verify the response status is 200.\n    - Verify the body's message is \"Payment was successful\"."
+   "yaml": "- id: API-0641\n  name: Check payment with a payment method in a different case skips validation and returns 200\n  status: automated\n  automatedIn: tests/api/payment/post-payment-check.spec.ts\n  role: guest\n  steps:\n    - Send POST /payment/check without an Authorization header, with payment_method \"Bank Transfer\" and no payment_details.\n    - Verify the response status is 200.\n    - Verify the body's message is \"Payment was successful\"."
   },
   {
    "id": "API-0642",
    "name": "Check payment with an empty body returns 200",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/payment/post-payment-check.spec.ts",
    "role": "guest",
    "steps": [
     "Send POST /payment/check without an Authorization header, with an empty JSON object as the body.",
@@ -9958,6 +10015,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's message is \"Payment was successful\"."
    ],
    "ref": [],
+   "specLine": 483,
    "area": "payment",
    "areaLabel": "Payment",
    "file": "test-scenarios/api/payment/post-payment-check.yml",
@@ -9966,12 +10024,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@payment-api"
    ],
-   "yaml": "- id: API-0642\n  name: Check payment with an empty body returns 200\n  status: manual\n  role: guest\n  steps:\n    - Send POST /payment/check without an Authorization header, with an empty JSON object as the body.\n    - Verify the response status is 200.\n    - Verify the body's message is \"Payment was successful\"."
+   "yaml": "- id: API-0642\n  name: Check payment with an empty body returns 200\n  status: automated\n  automatedIn: tests/api/payment/post-payment-check.spec.ts\n  role: guest\n  steps:\n    - Send POST /payment/check without an Authorization header, with an empty JSON object as the body.\n    - Verify the response status is 200.\n    - Verify the body's message is \"Payment was successful\"."
   },
   {
    "id": "API-0643",
    "name": "Look up a Dutch postcode returns the address",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/postcode/get-postcode-lookup.spec.ts",
    "role": "guest",
    "steps": [
     "Send GET /postcode-lookup without an Authorization header, with country \"NL\", postcode \"1011AB\" and house_number \"5\".",
@@ -9983,6 +10042,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's house_number is \"5\"."
    ],
    "ref": [],
+   "specLine": 156,
    "area": "postcode",
    "areaLabel": "Postcode",
    "file": "test-scenarios/api/postcode/get-postcode-lookup.yml",
@@ -9991,12 +10051,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@postcode-api"
    ],
-   "yaml": "- id: API-0643\n  name: Look up a Dutch postcode returns the address\n  status: manual\n  role: guest\n  steps:\n    - Send GET /postcode-lookup without an Authorization header, with country \"NL\", postcode \"1011AB\" and house_number \"5\".\n    - Verify the response status is 200.\n    - Verify the Content-Type header starts with \"application/json\".\n    - Verify the body has the keys street, house_number, city, state, country and postcode, and each value is a string.\n    - Verify the body's country is \"NL\".\n    - Verify the body's postcode is \"1011AB\".\n    - Verify the body's house_number is \"5\"."
+   "yaml": "- id: API-0643\n  name: Look up a Dutch postcode returns the address\n  status: automated\n  automatedIn: tests/api/postcode/get-postcode-lookup.spec.ts\n  role: guest\n  steps:\n    - Send GET /postcode-lookup without an Authorization header, with country \"NL\", postcode \"1011AB\" and house_number \"5\".\n    - Verify the response status is 200.\n    - Verify the Content-Type header starts with \"application/json\".\n    - Verify the body has the keys street, house_number, city, state, country and postcode, and each value is a string.\n    - Verify the body's country is \"NL\".\n    - Verify the body's postcode is \"1011AB\".\n    - Verify the body's house_number is \"5\"."
   },
   {
    "id": "API-0644",
    "name": "Look up without a house number returns a generated one",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/postcode/get-postcode-lookup.spec.ts",
    "role": "guest",
    "steps": [
     "Send GET /postcode-lookup without an Authorization header, with country \"NL\" and postcode \"1011AB\" and no house_number.",
@@ -10004,6 +10065,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's house_number is a string holding a whole number from 1 to 250."
    ],
    "ref": [],
+   "specLine": 193,
    "area": "postcode",
    "areaLabel": "Postcode",
    "file": "test-scenarios/api/postcode/get-postcode-lookup.yml",
@@ -10012,12 +10074,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@postcode-api"
    ],
-   "yaml": "- id: API-0644\n  name: Look up without a house number returns a generated one\n  status: manual\n  role: guest\n  steps:\n    - Send GET /postcode-lookup without an Authorization header, with country \"NL\" and postcode \"1011AB\" and no house_number.\n    - Verify the response status is 200.\n    - Verify the body's house_number is a string holding a whole number from 1 to 250."
+   "yaml": "- id: API-0644\n  name: Look up without a house number returns a generated one\n  status: automated\n  automatedIn: tests/api/postcode/get-postcode-lookup.spec.ts\n  role: guest\n  steps:\n    - Send GET /postcode-lookup without an Authorization header, with country \"NL\" and postcode \"1011AB\" and no house_number.\n    - Verify the response status is 200.\n    - Verify the body's house_number is a string holding a whole number from 1 to 250."
   },
   {
    "id": "API-0645",
    "name": "Look up with an empty house number returns the same address as without one",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/postcode/get-postcode-lookup.spec.ts",
    "role": "guest",
    "steps": [
     "Send GET /postcode-lookup without an Authorization header, with country \"NL\" and postcode \"1011AB\" and no house_number.",
@@ -10026,6 +10089,7 @@ window.SCENARIO_CATALOG = {
     "Verify the second body equals the first body."
    ],
    "ref": [],
+   "specLine": 214,
    "area": "postcode",
    "areaLabel": "Postcode",
    "file": "test-scenarios/api/postcode/get-postcode-lookup.yml",
@@ -10034,12 +10098,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@postcode-api"
    ],
-   "yaml": "- id: API-0645\n  name: Look up with an empty house number returns the same address as without one\n  status: manual\n  role: guest\n  steps:\n    - Send GET /postcode-lookup without an Authorization header, with country \"NL\" and postcode \"1011AB\" and no house_number.\n    - Send GET /postcode-lookup again with the same country and postcode and an empty house_number (`house_number=`).\n    - Verify both responses have status 200.\n    - Verify the second body equals the first body."
+   "yaml": "- id: API-0645\n  name: Look up with an empty house number returns the same address as without one\n  status: automated\n  automatedIn: tests/api/postcode/get-postcode-lookup.spec.ts\n  role: guest\n  steps:\n    - Send GET /postcode-lookup without an Authorization header, with country \"NL\" and postcode \"1011AB\" and no house_number.\n    - Send GET /postcode-lookup again with the same country and postcode and an empty house_number (`house_number=`).\n    - Verify both responses have status 200.\n    - Verify the second body equals the first body."
   },
   {
    "id": "API-0646",
    "name": "Look up with different house numbers returns the same locality",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/postcode/get-postcode-lookup.spec.ts",
    "role": "guest",
    "steps": [
     "Send GET /postcode-lookup without an Authorization header, with country \"NL\", postcode \"1011AB\" and house_number \"5\".",
@@ -10049,6 +10114,7 @@ window.SCENARIO_CATALOG = {
     "Verify each body's house_number is the number that request sent."
    ],
    "ref": [],
+   "specLine": 239,
    "area": "postcode",
    "areaLabel": "Postcode",
    "file": "test-scenarios/api/postcode/get-postcode-lookup.yml",
@@ -10057,12 +10123,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@postcode-api"
    ],
-   "yaml": "- id: API-0646\n  name: Look up with different house numbers returns the same locality\n  status: manual\n  role: guest\n  steps:\n    - Send GET /postcode-lookup without an Authorization header, with country \"NL\", postcode \"1011AB\" and house_number \"5\".\n    - Send GET /postcode-lookup again with the same country and postcode and house_number \"99\".\n    - Verify both responses have status 200.\n    - Verify the two bodies have the same street, city and state.\n    - Verify each body's house_number is the number that request sent."
+   "yaml": "- id: API-0646\n  name: Look up with different house numbers returns the same locality\n  status: automated\n  automatedIn: tests/api/postcode/get-postcode-lookup.spec.ts\n  role: guest\n  steps:\n    - Send GET /postcode-lookup without an Authorization header, with country \"NL\", postcode \"1011AB\" and house_number \"5\".\n    - Send GET /postcode-lookup again with the same country and postcode and house_number \"99\".\n    - Verify both responses have status 200.\n    - Verify the two bodies have the same street, city and state.\n    - Verify each body's house_number is the number that request sent."
   },
   {
    "id": "API-0647",
    "name": "Look up with lower-case country and postcode returns them in upper case with the same locality",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/postcode/get-postcode-lookup.spec.ts",
    "role": "guest",
    "steps": [
     "Send GET /postcode-lookup without an Authorization header, with country \"NL\", postcode \"1011AB\" and house_number \"5\".",
@@ -10073,6 +10140,7 @@ window.SCENARIO_CATALOG = {
     "Verify the second body's street, city and state equal the first body's."
    ],
    "ref": [],
+   "specLine": 265,
    "area": "postcode",
    "areaLabel": "Postcode",
    "file": "test-scenarios/api/postcode/get-postcode-lookup.yml",
@@ -10081,12 +10149,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@postcode-api"
    ],
-   "yaml": "- id: API-0647\n  name: Look up with lower-case country and postcode returns them in upper case with the same locality\n  status: manual\n  role: guest\n  steps:\n    - Send GET /postcode-lookup without an Authorization header, with country \"NL\", postcode \"1011AB\" and house_number \"5\".\n    - Send GET /postcode-lookup again with country \"nl\", postcode \"1011ab\" and house_number \"5\".\n    - Verify both responses have status 200.\n    - Verify the second body's country is \"NL\".\n    - Verify the second body's postcode is \"1011AB\".\n    - Verify the second body's street, city and state equal the first body's."
+   "yaml": "- id: API-0647\n  name: Look up with lower-case country and postcode returns them in upper case with the same locality\n  status: automated\n  automatedIn: tests/api/postcode/get-postcode-lookup.spec.ts\n  role: guest\n  steps:\n    - Send GET /postcode-lookup without an Authorization header, with country \"NL\", postcode \"1011AB\" and house_number \"5\".\n    - Send GET /postcode-lookup again with country \"nl\", postcode \"1011ab\" and house_number \"5\".\n    - Verify both responses have status 200.\n    - Verify the second body's country is \"NL\".\n    - Verify the second body's postcode is \"1011AB\".\n    - Verify the second body's street, city and state equal the first body's."
   },
   {
    "id": "API-0648",
    "name": "Look up a Dutch postcode with a space returns 200 and echoes the space",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/postcode/get-postcode-lookup.spec.ts",
    "role": "guest",
    "steps": [
     "Send GET /postcode-lookup without an Authorization header, with country \"NL\", postcode \"1011 AB\" (a space between the digits and the letters) and house_number \"5\".",
@@ -10095,6 +10164,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's postcode is \"1011 AB\"."
    ],
    "ref": [],
+   "specLine": 296,
    "area": "postcode",
    "areaLabel": "Postcode",
    "file": "test-scenarios/api/postcode/get-postcode-lookup.yml",
@@ -10103,12 +10173,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@postcode-api"
    ],
-   "yaml": "- id: API-0648\n  name: Look up a Dutch postcode with a space returns 200 and echoes the space\n  status: manual\n  role: guest\n  steps:\n    - Send GET /postcode-lookup without an Authorization header, with country \"NL\", postcode \"1011 AB\" (a space between the digits and the letters) and house_number \"5\".\n    - Verify the response status is 200.\n    - Verify the body's country is \"NL\".\n    - Verify the body's postcode is \"1011 AB\"."
+   "yaml": "- id: API-0648\n  name: Look up a Dutch postcode with a space returns 200 and echoes the space\n  status: automated\n  automatedIn: tests/api/postcode/get-postcode-lookup.spec.ts\n  role: guest\n  steps:\n    - Send GET /postcode-lookup without an Authorization header, with country \"NL\", postcode \"1011 AB\" (a space between the digits and the letters) and house_number \"5\".\n    - Verify the response status is 200.\n    - Verify the body's country is \"NL\".\n    - Verify the body's postcode is \"1011 AB\"."
   },
   {
    "id": "API-0649",
    "name": "Look up a US postcode with the four-digit extension returns 200",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/postcode/get-postcode-lookup.spec.ts",
    "role": "guest",
    "steps": [
     "Send GET /postcode-lookup without an Authorization header, with country \"US\", postcode \"90210-1234\" and house_number \"5\".",
@@ -10117,6 +10188,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's postcode is \"90210-1234\"."
    ],
    "ref": [],
+   "specLine": 322,
    "area": "postcode",
    "areaLabel": "Postcode",
    "file": "test-scenarios/api/postcode/get-postcode-lookup.yml",
@@ -10125,12 +10197,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@postcode-api"
    ],
-   "yaml": "- id: API-0649\n  name: Look up a US postcode with the four-digit extension returns 200\n  status: manual\n  role: guest\n  steps:\n    - Send GET /postcode-lookup without an Authorization header, with country \"US\", postcode \"90210-1234\" and house_number \"5\".\n    - Verify the response status is 200.\n    - Verify the body's country is \"US\".\n    - Verify the body's postcode is \"90210-1234\"."
+   "yaml": "- id: API-0649\n  name: Look up a US postcode with the four-digit extension returns 200\n  status: automated\n  automatedIn: tests/api/postcode/get-postcode-lookup.spec.ts\n  role: guest\n  steps:\n    - Send GET /postcode-lookup without an Authorization header, with country \"US\", postcode \"90210-1234\" and house_number \"5\".\n    - Verify the response status is 200.\n    - Verify the body's country is \"US\".\n    - Verify the body's postcode is \"90210-1234\"."
   },
   {
    "id": "API-0650",
    "name": "Look up a French postcode returns an empty state",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/postcode/get-postcode-lookup.spec.ts",
    "role": "guest",
    "steps": [
     "Send GET /postcode-lookup without an Authorization header, with country \"FR\", postcode \"75001\" and house_number \"5\".",
@@ -10140,6 +10213,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's state is an empty string."
    ],
    "ref": [],
+   "specLine": 345,
    "area": "postcode",
    "areaLabel": "Postcode",
    "file": "test-scenarios/api/postcode/get-postcode-lookup.yml",
@@ -10148,12 +10222,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@postcode-api"
    ],
-   "yaml": "- id: API-0650\n  name: Look up a French postcode returns an empty state\n  status: manual\n  role: guest\n  steps:\n    - Send GET /postcode-lookup without an Authorization header, with country \"FR\", postcode \"75001\" and house_number \"5\".\n    - Verify the response status is 200.\n    - Verify the body's country is \"FR\".\n    - Verify the body's postcode is \"75001\".\n    - Verify the body's state is an empty string."
+   "yaml": "- id: API-0650\n  name: Look up a French postcode returns an empty state\n  status: automated\n  automatedIn: tests/api/postcode/get-postcode-lookup.spec.ts\n  role: guest\n  steps:\n    - Send GET /postcode-lookup without an Authorization header, with country \"FR\", postcode \"75001\" and house_number \"5\".\n    - Verify the response status is 200.\n    - Verify the body's country is \"FR\".\n    - Verify the body's postcode is \"75001\".\n    - Verify the body's state is an empty string."
   },
   {
    "id": "API-0651",
    "name": "Look up with a country that has no known format skips the postcode format check",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/postcode/get-postcode-lookup.spec.ts",
    "role": "guest",
    "steps": [
     "Send GET /postcode-lookup without an Authorization header, with country \"ZZ\" (not in the contract's country list), postcode \"1011\" and house_number \"5\".",
@@ -10163,6 +10238,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's house_number is \"5\"."
    ],
    "ref": [],
+   "specLine": 372,
    "area": "postcode",
    "areaLabel": "Postcode",
    "file": "test-scenarios/api/postcode/get-postcode-lookup.yml",
@@ -10171,12 +10247,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@postcode-api"
    ],
-   "yaml": "- id: API-0651\n  name: Look up with a country that has no known format skips the postcode format check\n  status: manual\n  role: guest\n  steps:\n    - Send GET /postcode-lookup without an Authorization header, with country \"ZZ\" (not in the contract's country list), postcode \"1011\" and house_number \"5\".\n    - Verify the response status is 200.\n    - Verify the body's country is \"ZZ\".\n    - Verify the body's postcode is \"1011\".\n    - Verify the body's house_number is \"5\"."
+   "yaml": "- id: API-0651\n  name: Look up with a country that has no known format skips the postcode format check\n  status: automated\n  automatedIn: tests/api/postcode/get-postcode-lookup.spec.ts\n  role: guest\n  steps:\n    - Send GET /postcode-lookup without an Authorization header, with country \"ZZ\" (not in the contract's country list), postcode \"1011\" and house_number \"5\".\n    - Verify the response status is 200.\n    - Verify the body's country is \"ZZ\".\n    - Verify the body's postcode is \"1011\".\n    - Verify the body's house_number is \"5\"."
   },
   {
    "id": "API-0652",
    "name": "Look up with country, postcode and house number at their length limits returns 200",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/postcode/get-postcode-lookup.spec.ts",
    "role": "guest",
    "steps": [
     "Send GET /postcode-lookup without an Authorization header, with country a string of 40 letters, postcode \"90210-1234\" (10 characters) and house_number \"ABCDEFGHIJ\" (10 characters).",
@@ -10186,6 +10263,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's house_number is \"ABCDEFGHIJ\"."
    ],
    "ref": [],
+   "specLine": 402,
    "area": "postcode",
    "areaLabel": "Postcode",
    "file": "test-scenarios/api/postcode/get-postcode-lookup.yml",
@@ -10194,12 +10272,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@postcode-api"
    ],
-   "yaml": "- id: API-0652\n  name: Look up with country, postcode and house number at their length limits returns 200\n  status: manual\n  role: guest\n  steps:\n    - Send GET /postcode-lookup without an Authorization header, with country a string of 40 letters, postcode \"90210-1234\" (10 characters) and house_number \"ABCDEFGHIJ\" (10 characters).\n    - Verify the response status is 200.\n    - Verify the body's country is the sent country in upper case.\n    - Verify the body's postcode is \"90210-1234\".\n    - Verify the body's house_number is \"ABCDEFGHIJ\"."
+   "yaml": "- id: API-0652\n  name: Look up with country, postcode and house number at their length limits returns 200\n  status: automated\n  automatedIn: tests/api/postcode/get-postcode-lookup.spec.ts\n  role: guest\n  steps:\n    - Send GET /postcode-lookup without an Authorization header, with country a string of 40 letters, postcode \"90210-1234\" (10 characters) and house_number \"ABCDEFGHIJ\" (10 characters).\n    - Verify the response status is 200.\n    - Verify the body's country is the sent country in upper case.\n    - Verify the body's postcode is \"90210-1234\".\n    - Verify the body's house_number is \"ABCDEFGHIJ\"."
   },
   {
    "id": "API-0653",
    "name": "Look up with Accept text/xml still returns JSON",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/postcode/get-postcode-lookup.spec.ts",
    "role": "guest",
    "steps": [
     "Send GET /postcode-lookup without an Authorization header, with Accept: text/xml, country \"NL\", postcode \"1011AB\" and house_number \"5\".",
@@ -10209,6 +10288,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's country is \"NL\"."
    ],
    "ref": [],
+   "specLine": 434,
    "area": "postcode",
    "areaLabel": "Postcode",
    "file": "test-scenarios/api/postcode/get-postcode-lookup.yml",
@@ -10217,12 +10297,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@postcode-api"
    ],
-   "yaml": "- id: API-0653\n  name: Look up with Accept text/xml still returns JSON\n  status: manual\n  role: guest\n  steps:\n    - 'Send GET /postcode-lookup without an Authorization header, with Accept: text/xml, country \"NL\", postcode \"1011AB\" and house_number \"5\".'\n    - Verify the response status is 200.\n    - Verify the Content-Type header starts with \"application/json\".\n    - Verify the body is JSON with the keys street, house_number, city, state, country and postcode.\n    - Verify the body's country is \"NL\"."
+   "yaml": "- id: API-0653\n  name: Look up with Accept text/xml still returns JSON\n  status: automated\n  automatedIn: tests/api/postcode/get-postcode-lookup.spec.ts\n  role: guest\n  steps:\n    - 'Send GET /postcode-lookup without an Authorization header, with Accept: text/xml, country \"NL\", postcode \"1011AB\" and house_number \"5\".'\n    - Verify the response status is 200.\n    - Verify the Content-Type header starts with \"application/json\".\n    - Verify the body is JSON with the keys street, house_number, city, state, country and postcode.\n    - Verify the body's country is \"NL\"."
   },
   {
    "id": "API-0654",
    "name": "Look up with an invalid token returns 200",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/postcode/get-postcode-lookup.spec.ts",
    "role": "guest",
    "steps": [
     "Send GET /postcode-lookup with an Authorization header holding an invalid token (a made-up string, not issued by the API), country \"NL\", postcode \"1011AB\" and house_number \"5\".",
@@ -10230,6 +10311,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's country is \"NL\"."
    ],
    "ref": [],
+   "specLine": 476,
    "area": "postcode",
    "areaLabel": "Postcode",
    "file": "test-scenarios/api/postcode/get-postcode-lookup.yml",
@@ -10238,12 +10320,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@postcode-api"
    ],
-   "yaml": "- id: API-0654\n  name: Look up with an invalid token returns 200\n  status: manual\n  role: guest\n  steps:\n    - Send GET /postcode-lookup with an Authorization header holding an invalid token (a made-up string, not issued by the API), country \"NL\", postcode \"1011AB\" and house_number \"5\".\n    - Verify the response status is 200.\n    - Verify the body's country is \"NL\"."
+   "yaml": "- id: API-0654\n  name: Look up with an invalid token returns 200\n  status: automated\n  automatedIn: tests/api/postcode/get-postcode-lookup.spec.ts\n  role: guest\n  steps:\n    - Send GET /postcode-lookup with an Authorization header holding an invalid token (a made-up string, not issued by the API), country \"NL\", postcode \"1011AB\" and house_number \"5\".\n    - Verify the response status is 200.\n    - Verify the body's country is \"NL\"."
   },
   {
    "id": "API-0655",
    "name": "Look up without country and postcode returns 422 for both",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/postcode/get-postcode-lookup.spec.ts",
    "role": "guest",
    "steps": [
     "Send GET /postcode-lookup without an Authorization header, with Accept: application/json and no country, postcode or house_number.",
@@ -10253,6 +10336,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's message is \"The country field is required. (and 1 more error)\"."
    ],
    "ref": [],
+   "specLine": 496,
    "area": "postcode",
    "areaLabel": "Postcode",
    "file": "test-scenarios/api/postcode/get-postcode-lookup.yml",
@@ -10261,12 +10345,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@postcode-api"
    ],
-   "yaml": "- id: API-0655\n  name: Look up without country and postcode returns 422 for both\n  status: manual\n  role: guest\n  steps:\n    - 'Send GET /postcode-lookup without an Authorization header, with Accept: application/json and no country, postcode or house_number.'\n    - Verify the response status is 422.\n    - Verify the body's errors has the keys country and postcode, each with at least one message.\n    - Verify the body's errors has no other keys.\n    - Verify the body's message is \"The country field is required. (and 1 more error)\"."
+   "yaml": "- id: API-0655\n  name: Look up without country and postcode returns 422 for both\n  status: automated\n  automatedIn: tests/api/postcode/get-postcode-lookup.spec.ts\n  role: guest\n  steps:\n    - 'Send GET /postcode-lookup without an Authorization header, with Accept: application/json and no country, postcode or house_number.'\n    - Verify the response status is 422.\n    - Verify the body's errors has the keys country and postcode, each with at least one message.\n    - Verify the body's errors has no other keys.\n    - Verify the body's message is \"The country field is required. (and 1 more error)\"."
   },
   {
    "id": "API-0656",
    "name": "Look up with empty country and postcode returns 422 for both",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/postcode/get-postcode-lookup.spec.ts",
    "role": "guest",
    "steps": [
     "Send GET /postcode-lookup without an Authorization header, with Accept: application/json, an empty country (`country=`) and an empty postcode (`postcode=`).",
@@ -10275,6 +10360,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's errors has no other keys."
    ],
    "ref": [],
+   "specLine": 523,
    "area": "postcode",
    "areaLabel": "Postcode",
    "file": "test-scenarios/api/postcode/get-postcode-lookup.yml",
@@ -10283,12 +10369,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@postcode-api"
    ],
-   "yaml": "- id: API-0656\n  name: Look up with empty country and postcode returns 422 for both\n  status: manual\n  role: guest\n  steps:\n    - 'Send GET /postcode-lookup without an Authorization header, with Accept: application/json, an empty country (`country=`) and an empty postcode (`postcode=`).'\n    - Verify the response status is 422.\n    - Verify the body's errors has the keys country and postcode, each with at least one message.\n    - Verify the body's errors has no other keys."
+   "yaml": "- id: API-0656\n  name: Look up with empty country and postcode returns 422 for both\n  status: automated\n  automatedIn: tests/api/postcode/get-postcode-lookup.spec.ts\n  role: guest\n  steps:\n    - 'Send GET /postcode-lookup without an Authorization header, with Accept: application/json, an empty country (`country=`) and an empty postcode (`postcode=`).'\n    - Verify the response status is 422.\n    - Verify the body's errors has the keys country and postcode, each with at least one message.\n    - Verify the body's errors has no other keys."
   },
   {
    "id": "API-0657",
    "name": "Look up without a postcode returns 422 before the format check",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/postcode/get-postcode-lookup.spec.ts",
    "role": "guest",
    "steps": [
     "Send GET /postcode-lookup without an Authorization header, with Accept: application/json, country \"AT\" and no postcode.",
@@ -10297,6 +10384,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's errors has no other keys."
    ],
    "ref": [],
+   "specLine": 533,
    "area": "postcode",
    "areaLabel": "Postcode",
    "file": "test-scenarios/api/postcode/get-postcode-lookup.yml",
@@ -10305,12 +10393,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@postcode-api"
    ],
-   "yaml": "- id: API-0657\n  name: Look up without a postcode returns 422 before the format check\n  status: manual\n  role: guest\n  steps:\n    - 'Send GET /postcode-lookup without an Authorization header, with Accept: application/json, country \"AT\" and no postcode.'\n    - Verify the response status is 422.\n    - Verify the body's errors has the key postcode with at least one message.\n    - Verify the body's errors has no other keys."
+   "yaml": "- id: API-0657\n  name: Look up without a postcode returns 422 before the format check\n  status: automated\n  automatedIn: tests/api/postcode/get-postcode-lookup.spec.ts\n  role: guest\n  steps:\n    - 'Send GET /postcode-lookup without an Authorization header, with Accept: application/json, country \"AT\" and no postcode.'\n    - Verify the response status is 422.\n    - Verify the body's errors has the key postcode with at least one message.\n    - Verify the body's errors has no other keys."
   },
   {
    "id": "API-0658",
    "name": "Look up with country sent as an array returns 422",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/postcode/get-postcode-lookup.spec.ts",
    "role": "guest",
    "steps": [
     "Send GET /postcode-lookup without an Authorization header, with Accept: application/json, country sent as an array (`country[]=NL`) and postcode \"1011AB\".",
@@ -10319,6 +10408,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's errors has no other keys."
    ],
    "ref": [],
+   "specLine": 543,
    "area": "postcode",
    "areaLabel": "Postcode",
    "file": "test-scenarios/api/postcode/get-postcode-lookup.yml",
@@ -10327,12 +10417,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@postcode-api"
    ],
-   "yaml": "- id: API-0658\n  name: Look up with country sent as an array returns 422\n  status: manual\n  role: guest\n  steps:\n    - 'Send GET /postcode-lookup without an Authorization header, with Accept: application/json, country sent as an array (`country[]=NL`) and postcode \"1011AB\".'\n    - Verify the response status is 422.\n    - Verify the body's errors has the key country with at least one message.\n    - Verify the body's errors has no other keys."
+   "yaml": "- id: API-0658\n  name: Look up with country sent as an array returns 422\n  status: automated\n  automatedIn: tests/api/postcode/get-postcode-lookup.spec.ts\n  role: guest\n  steps:\n    - 'Send GET /postcode-lookup without an Authorization header, with Accept: application/json, country sent as an array (`country[]=NL`) and postcode \"1011AB\".'\n    - Verify the response status is 422.\n    - Verify the body's errors has the key country with at least one message.\n    - Verify the body's errors has no other keys."
   },
   {
    "id": "API-0659",
    "name": "Look up with a 41-character country returns 422",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/postcode/get-postcode-lookup.spec.ts",
    "role": "guest",
    "steps": [
     "Send GET /postcode-lookup without an Authorization header, with Accept: application/json, country a string of 41 letters and postcode \"1011AB\".",
@@ -10341,6 +10432,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's errors has no other keys."
    ],
    "ref": [],
+   "specLine": 553,
    "area": "postcode",
    "areaLabel": "Postcode",
    "file": "test-scenarios/api/postcode/get-postcode-lookup.yml",
@@ -10349,12 +10441,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@postcode-api"
    ],
-   "yaml": "- id: API-0659\n  name: Look up with a 41-character country returns 422\n  status: manual\n  role: guest\n  steps:\n    - 'Send GET /postcode-lookup without an Authorization header, with Accept: application/json, country a string of 41 letters and postcode \"1011AB\".'\n    - Verify the response status is 422.\n    - Verify the body's errors has the key country with at least one message.\n    - Verify the body's errors has no other keys."
+   "yaml": "- id: API-0659\n  name: Look up with a 41-character country returns 422\n  status: automated\n  automatedIn: tests/api/postcode/get-postcode-lookup.spec.ts\n  role: guest\n  steps:\n    - 'Send GET /postcode-lookup without an Authorization header, with Accept: application/json, country a string of 41 letters and postcode \"1011AB\".'\n    - Verify the response status is 422.\n    - Verify the body's errors has the key country with at least one message.\n    - Verify the body's errors has no other keys."
   },
   {
    "id": "API-0660",
    "name": "Look up with an 11-character postcode returns 422",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/postcode/get-postcode-lookup.spec.ts",
    "role": "guest",
    "steps": [
     "Send GET /postcode-lookup without an Authorization header, with Accept: application/json, country \"ZZ\" and postcode a string of 11 digits.",
@@ -10363,6 +10456,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's errors has no other keys."
    ],
    "ref": [],
+   "specLine": 563,
    "area": "postcode",
    "areaLabel": "Postcode",
    "file": "test-scenarios/api/postcode/get-postcode-lookup.yml",
@@ -10371,12 +10465,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@postcode-api"
    ],
-   "yaml": "- id: API-0660\n  name: Look up with an 11-character postcode returns 422\n  status: manual\n  role: guest\n  steps:\n    - 'Send GET /postcode-lookup without an Authorization header, with Accept: application/json, country \"ZZ\" and postcode a string of 11 digits.'\n    - Verify the response status is 422.\n    - Verify the body's errors has the key postcode with at least one message.\n    - Verify the body's errors has no other keys."
+   "yaml": "- id: API-0660\n  name: Look up with an 11-character postcode returns 422\n  status: automated\n  automatedIn: tests/api/postcode/get-postcode-lookup.spec.ts\n  role: guest\n  steps:\n    - 'Send GET /postcode-lookup without an Authorization header, with Accept: application/json, country \"ZZ\" and postcode a string of 11 digits.'\n    - Verify the response status is 422.\n    - Verify the body's errors has the key postcode with at least one message.\n    - Verify the body's errors has no other keys."
   },
   {
    "id": "API-0661",
    "name": "Look up with an 11-character house number returns 422",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/postcode/get-postcode-lookup.spec.ts",
    "role": "guest",
    "steps": [
     "Send GET /postcode-lookup without an Authorization header, with Accept: application/json, country \"NL\", postcode \"1011AB\" and house_number a string of 11 digits.",
@@ -10385,6 +10480,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's errors has no other keys."
    ],
    "ref": [],
+   "specLine": 573,
    "area": "postcode",
    "areaLabel": "Postcode",
    "file": "test-scenarios/api/postcode/get-postcode-lookup.yml",
@@ -10393,12 +10489,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@postcode-api"
    ],
-   "yaml": "- id: API-0661\n  name: Look up with an 11-character house number returns 422\n  status: manual\n  role: guest\n  steps:\n    - 'Send GET /postcode-lookup without an Authorization header, with Accept: application/json, country \"NL\", postcode \"1011AB\" and house_number a string of 11 digits.'\n    - Verify the response status is 422.\n    - Verify the body's errors has the key house_number with at least one message.\n    - Verify the body's errors has no other keys."
+   "yaml": "- id: API-0661\n  name: Look up with an 11-character house number returns 422\n  status: automated\n  automatedIn: tests/api/postcode/get-postcode-lookup.spec.ts\n  role: guest\n  steps:\n    - 'Send GET /postcode-lookup without an Authorization header, with Accept: application/json, country \"NL\", postcode \"1011AB\" and house_number a string of 11 digits.'\n    - Verify the response status is 422.\n    - Verify the body's errors has the key house_number with at least one message.\n    - Verify the body's errors has no other keys."
   },
   {
    "id": "API-0662",
    "name": "Look up an Austrian postcode in the Dutch format returns 422",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/postcode/get-postcode-lookup.spec.ts",
    "role": "guest",
    "steps": [
     "Send GET /postcode-lookup without an Authorization header, with Accept: application/json, country \"AT\" and postcode \"1011AB\".",
@@ -10407,6 +10504,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body has no errors key."
    ],
    "ref": [],
+   "specLine": 583,
    "area": "postcode",
    "areaLabel": "Postcode",
    "file": "test-scenarios/api/postcode/get-postcode-lookup.yml",
@@ -10415,12 +10513,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@postcode-api"
    ],
-   "yaml": "- id: API-0662\n  name: Look up an Austrian postcode in the Dutch format returns 422\n  status: manual\n  role: guest\n  steps:\n    - 'Send GET /postcode-lookup without an Authorization header, with Accept: application/json, country \"AT\" and postcode \"1011AB\".'\n    - Verify the response status is 422.\n    - Verify the body's message is \"The postal code format is not valid for the selected country.\".\n    - Verify the body has no errors key."
+   "yaml": "- id: API-0662\n  name: Look up an Austrian postcode in the Dutch format returns 422\n  status: automated\n  automatedIn: tests/api/postcode/get-postcode-lookup.spec.ts\n  role: guest\n  steps:\n    - 'Send GET /postcode-lookup without an Authorization header, with Accept: application/json, country \"AT\" and postcode \"1011AB\".'\n    - Verify the response status is 422.\n    - Verify the body's message is \"The postal code format is not valid for the selected country.\".\n    - Verify the body has no errors key."
   },
   {
    "id": "API-0663",
    "name": "Look up a Dutch postcode with digits only returns 422",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/postcode/get-postcode-lookup.spec.ts",
    "role": "guest",
    "steps": [
     "Send GET /postcode-lookup without an Authorization header, with Accept: application/json, country \"NL\" and postcode \"1011\".",
@@ -10429,6 +10528,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body has no errors key."
    ],
    "ref": [],
+   "specLine": 591,
    "area": "postcode",
    "areaLabel": "Postcode",
    "file": "test-scenarios/api/postcode/get-postcode-lookup.yml",
@@ -10437,12 +10537,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@postcode-api"
    ],
-   "yaml": "- id: API-0663\n  name: Look up a Dutch postcode with digits only returns 422\n  status: manual\n  role: guest\n  steps:\n    - 'Send GET /postcode-lookup without an Authorization header, with Accept: application/json, country \"NL\" and postcode \"1011\".'\n    - Verify the response status is 422.\n    - Verify the body's message is \"The postal code format is not valid for the selected country.\".\n    - Verify the body has no errors key."
+   "yaml": "- id: API-0663\n  name: Look up a Dutch postcode with digits only returns 422\n  status: automated\n  automatedIn: tests/api/postcode/get-postcode-lookup.spec.ts\n  role: guest\n  steps:\n    - 'Send GET /postcode-lookup without an Authorization header, with Accept: application/json, country \"NL\" and postcode \"1011\".'\n    - Verify the response status is 422.\n    - Verify the body's message is \"The postal code format is not valid for the selected country.\".\n    - Verify the body has no errors key."
   },
   {
    "id": "API-0664",
    "name": "Look up a postcode in the wrong format without Accept still returns a JSON 422",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/postcode/get-postcode-lookup.spec.ts",
    "role": "guest",
    "steps": [
     "Send GET /postcode-lookup without an Authorization header, without following redirects and with the Accept header left out, with country \"AT\" and postcode \"1011AB\".",
@@ -10451,6 +10552,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's message is \"The postal code format is not valid for the selected country.\"."
    ],
    "ref": [],
+   "specLine": 599,
    "area": "postcode",
    "areaLabel": "Postcode",
    "file": "test-scenarios/api/postcode/get-postcode-lookup.yml",
@@ -10459,12 +10561,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@postcode-api"
    ],
-   "yaml": "- id: API-0664\n  name: Look up a postcode in the wrong format without Accept still returns a JSON 422\n  status: manual\n  role: guest\n  steps:\n    - Send GET /postcode-lookup without an Authorization header, without following redirects and with the Accept header left out, with country \"AT\" and postcode \"1011AB\".\n    - Verify the response status is 422.\n    - Verify the Content-Type header starts with \"application/json\".\n    - Verify the body's message is \"The postal code format is not valid for the selected country.\"."
+   "yaml": "- id: API-0664\n  name: Look up a postcode in the wrong format without Accept still returns a JSON 422\n  status: automated\n  automatedIn: tests/api/postcode/get-postcode-lookup.spec.ts\n  role: guest\n  steps:\n    - Send GET /postcode-lookup without an Authorization header, without following redirects and with the Accept header left out, with country \"AT\" and postcode \"1011AB\".\n    - Verify the response status is 422.\n    - Verify the Content-Type header starts with \"application/json\".\n    - Verify the body's message is \"The postal code format is not valid for the selected country.\"."
   },
   {
    "id": "API-0665",
    "name": "Look up without country and postcode and without Accept returns a 302 redirect",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/postcode/get-postcode-lookup.spec.ts",
    "role": "guest",
    "steps": [
     "Send GET /postcode-lookup without an Authorization header, without a Referer header, without following redirects and with the Accept header left out, with no country, postcode or house_number.",
@@ -10472,6 +10575,7 @@ window.SCENARIO_CATALOG = {
     "Verify the Location header is \"https://api.practicesoftwaretesting.com\"."
    ],
    "ref": [],
+   "specLine": 624,
    "area": "postcode",
    "areaLabel": "Postcode",
    "file": "test-scenarios/api/postcode/get-postcode-lookup.yml",
@@ -10480,12 +10584,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@postcode-api"
    ],
-   "yaml": "- id: API-0665\n  name: Look up without country and postcode and without Accept returns a 302 redirect\n  status: manual\n  role: guest\n  steps:\n    - Send GET /postcode-lookup without an Authorization header, without a Referer header, without following redirects and with the Accept header left out, with no country, postcode or house_number.\n    - Verify the response status is 302.\n    - Verify the Location header is \"https://api.practicesoftwaretesting.com\"."
+   "yaml": "- id: API-0665\n  name: Look up without country and postcode and without Accept returns a 302 redirect\n  status: automated\n  automatedIn: tests/api/postcode/get-postcode-lookup.spec.ts\n  role: guest\n  steps:\n    - Send GET /postcode-lookup without an Authorization header, without a Referer header, without following redirects and with the Accept header left out, with no country, postcode or house_number.\n    - Verify the response status is 302.\n    - Verify the Location header is \"https://api.practicesoftwaretesting.com\"."
   },
   {
    "id": "API-0666",
    "name": "Look up without country and postcode with Accept */* returns a 302 redirect",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/postcode/get-postcode-lookup.spec.ts",
    "role": "guest",
    "steps": [
     "Send GET /postcode-lookup without an Authorization header, without a Referer header, without following redirects and with Accept: */*, with no country, postcode or house_number.",
@@ -10493,6 +10598,7 @@ window.SCENARIO_CATALOG = {
     "Verify the Location header is \"https://api.practicesoftwaretesting.com\"."
    ],
    "ref": [],
+   "specLine": 632,
    "area": "postcode",
    "areaLabel": "Postcode",
    "file": "test-scenarios/api/postcode/get-postcode-lookup.yml",
@@ -10501,7 +10607,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@postcode-api"
    ],
-   "yaml": "- id: API-0666\n  name: Look up without country and postcode with Accept */* returns a 302 redirect\n  status: manual\n  role: guest\n  steps:\n    - 'Send GET /postcode-lookup without an Authorization header, without a Referer header, without following redirects and with Accept: */*, with no country, postcode or house_number.'\n    - Verify the response status is 302.\n    - Verify the Location header is \"https://api.practicesoftwaretesting.com\"."
+   "yaml": "- id: API-0666\n  name: Look up without country and postcode with Accept */* returns a 302 redirect\n  status: automated\n  automatedIn: tests/api/postcode/get-postcode-lookup.spec.ts\n  role: guest\n  steps:\n    - 'Send GET /postcode-lookup without an Authorization header, without a Referer header, without following redirects and with Accept: */*, with no country, postcode or house_number.'\n    - Verify the response status is 302.\n    - Verify the Location header is \"https://api.practicesoftwaretesting.com\"."
   },
   {
    "id": "API-0667",
@@ -10509,7 +10615,8 @@ window.SCENARIO_CATALOG = {
    "ref": [
     "BUG-045"
    ],
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/postcode/get-postcode-lookup.spec.ts",
    "role": "guest",
    "knownIssue": "Echoes a postcode with leading whitespace untrimmed and builds the address from the untrimmed value, although the format check trims it.",
    "bug": "BUG-045",
@@ -10518,6 +10625,7 @@ window.SCENARIO_CATALOG = {
     "Verify the response status is 200.",
     "Verify the body's postcode is \"1011AB\" (without the space)."
    ],
+   "specLine": 640,
    "area": "postcode",
    "areaLabel": "Postcode",
    "file": "test-scenarios/api/postcode/get-postcode-lookup.yml",
@@ -10526,7 +10634,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@postcode-api"
    ],
-   "yaml": "- id: API-0667\n  name: Look up a postcode with a leading space returns it trimmed\n  ref: BUG-045\n  status: manual\n  role: guest\n  knownIssue: Echoes a postcode with leading whitespace untrimmed and builds the address from the untrimmed value, although the format check trims it.\n  bug: BUG-045\n  steps:\n    - Send GET /postcode-lookup without an Authorization header, with country \"NL\", postcode \" 1011AB\" (a leading space, sent URL-encoded as `%201011AB`) and house_number \"5\".\n    - Verify the response status is 200.\n    - Verify the body's postcode is \"1011AB\" (without the space)."
+   "yaml": "- id: API-0667\n  name: Look up a postcode with a leading space returns it trimmed\n  ref: BUG-045\n  status: automated\n  automatedIn: tests/api/postcode/get-postcode-lookup.spec.ts\n  role: guest\n  knownIssue: Echoes a postcode with leading whitespace untrimmed and builds the address from the untrimmed value, although the format check trims it.\n  bug: BUG-045\n  steps:\n    - Send GET /postcode-lookup without an Authorization header, with country \"NL\", postcode \" 1011AB\" (a leading space, sent URL-encoded as `%201011AB`) and house_number \"5\".\n    - Verify the response status is 200.\n    - Verify the body's postcode is \"1011AB\" (without the space)."
   },
   {
    "id": "API-0574",
