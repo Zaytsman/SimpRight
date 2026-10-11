@@ -105,8 +105,13 @@ export abstract class BaseClient {
       rawData?: string;
       query?: string;
       contentType?: string;
-      /** The Accept header: `application/json` when undefined; `null` leaves it out. */
+      /**
+       * The Accept header: `application/json` when undefined; `null` leaves it out (Playwright then sends
+       * its own default, which accepts any type: an APIRequestContext request can't go without an Accept header).
+       */
       accept?: string | null;
+      /** Redirects to follow (Playwright's default, 20, when undefined); `0` returns a 3xx response as it is. */
+      maxRedirects?: number;
     }
   ): Promise<ApiResponse> {
     const fullUrl = this.buildUrl(resourcePath, options?.query);
@@ -138,6 +143,7 @@ export abstract class BaseClient {
         method,
         headers,
         data: hasRawBody ? options!.rawData : hasBody ? JSON.stringify(options!.data) : undefined,
+        ...(options?.maxRedirects !== undefined ? { maxRedirects: options.maxRedirects } : {}),
       });
       const bodyText = await response.text();
       notify(response.status(), response.statusText());
