@@ -1,0 +1,117 @@
+# yaml-language-server: $schema=../../scenarios.schema.json
+suite: Invoices API
+tags: ["@invoices-api"]
+scenarios:
+  - id: API-0518
+    name: Partially update invoice returns 200 and the billing street is changed
+    status: manual
+    steps:
+      - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.
+      - Send POST /users/login with that email and password, and take its access_token.
+      - Send POST /carts with an empty body and take the returned id as the cart's id.
+      - Send POST /invoices with that access_token, payment_method "cash-on-delivery", payment_details {}, billing_street "Stephansplatz 1", billing_city "Wien", billing_country "AT" and the cart's id as cart_id, and take the new invoice's id, invoice_number and total.
+      - Send PATCH /invoices/{invoiceId} with the invoice's id, that access_token and a body with a unique billing_street of at most 70 characters.
+      - Verify the response status is 200.
+      - Verify the body's success is true.
+      - Verify GET /invoices/{invoiceId} with that id and token returns 200 with the new billing_street.
+  - id: API-0519
+    name: Partially update invoice with an empty body returns 200 and changes nothing
+    status: manual
+    steps:
+      - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.
+      - Send POST /users/login with that email and password, and take its access_token.
+      - Send POST /carts with an empty body and take the returned id as the cart's id.
+      - Send POST /invoices with that access_token, payment_method "cash-on-delivery", payment_details {}, billing_street "Stephansplatz 1", billing_city "Wien", billing_country "AT" and the cart's id as cart_id, and take the new invoice's id, invoice_number and total.
+      - Send PATCH /invoices/{invoiceId} with the invoice's id, that access_token and an empty JSON object as the body.
+      - Verify the response status is 200.
+      - Verify the body's success is true.
+      - Verify GET /invoices/{invoiceId} with that id and token returns 200 with billing_street "Stephansplatz 1", billing_city "Wien" and billing_country "AT".
+  - id: API-0520
+    name: Partially update invoice with an invoice_date returns 200
+    status: manual
+    steps:
+      - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.
+      - Send POST /users/login with that email and password, and take its access_token.
+      - Send POST /carts with an empty body and take the returned id as the cart's id.
+      - Send POST /invoices with that access_token, payment_method "cash-on-delivery", payment_details {}, billing_street "Stephansplatz 1", billing_city "Wien", billing_country "AT" and the cart's id as cart_id, and take the new invoice's id, invoice_number and total.
+      - Send PATCH /invoices/{invoiceId} with the invoice's id, that access_token and a body with invoice_date "2026-01-15".
+      - Verify the response status is 200.
+      - Verify the body's success is true.
+      - Verify GET /invoices/{invoiceId} with that id and token returns 200 with an invoice_date that contains "2026-01-15".
+  - id: API-0521
+    name: Partially update invoice without a token returns 401
+    status: manual
+    steps:
+      - Send PATCH /invoices/{invoiceId} with a well-formed ULID that no invoice has and a body with billing_street "Stephansplatz 1", without an Authorization header.
+      - Verify the response status is 401.
+      - Verify the body's message is "Unauthorized".
+  - id: API-0522
+    name: Partially update invoice with a billing street longer than 70 characters returns 422
+    status: manual
+    steps:
+      - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.
+      - Send POST /users/login with that email and password, and take its access_token.
+      - Send POST /carts with an empty body and take the returned id as the cart's id.
+      - Send POST /invoices with that access_token, payment_method "cash-on-delivery", payment_details {}, billing_street "Stephansplatz 1", billing_city "Wien", billing_country "AT" and the cart's id as cart_id, and take the new invoice's id, invoice_number and total.
+      - Send PATCH /invoices/{invoiceId} with the invoice's id, that access_token and a body with a 71-character billing_street.
+      - Verify the response status is 422.
+      - Verify the body has a billing_street key with at least one message.
+  - id: API-0523
+    name: Partially update invoice with a billing street that is not a string returns 422
+    status: manual
+    steps:
+      - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.
+      - Send POST /users/login with that email and password, and take its access_token.
+      - Send POST /carts with an empty body and take the returned id as the cart's id.
+      - Send POST /invoices with that access_token, payment_method "cash-on-delivery", payment_details {}, billing_street "Stephansplatz 1", billing_city "Wien", billing_country "AT" and the cart's id as cart_id, and take the new invoice's id, invoice_number and total.
+      - Send PATCH /invoices/{invoiceId} with the invoice's id, that access_token and a body with billing_street 12345 (a number).
+      - Verify the response status is 422.
+      - Verify the body has a billing_street key with at least one message.
+  - id: API-0524
+    name: Partially update invoice with an invoice_date that is not Y-m-d returns 422
+    status: manual
+    steps:
+      - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.
+      - Send POST /users/login with that email and password, and take its access_token.
+      - Send POST /carts with an empty body and take the returned id as the cart's id.
+      - Send POST /invoices with that access_token, payment_method "cash-on-delivery", payment_details {}, billing_street "Stephansplatz 1", billing_city "Wien", billing_country "AT" and the cart's id as cart_id, and take the new invoice's id, invoice_number and total.
+      - Send PATCH /invoices/{invoiceId} with the invoice's id, that access_token and a body with invoice_date "15/01/2026".
+      - Verify the response status is 422.
+      - Verify the body has an invoice_date key with at least one message.
+  - id: API-0525
+    name: Partially update invoice with a superscript character in the billing street returns 422
+    status: manual
+    steps:
+      - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.
+      - Send POST /users/login with that email and password, and take its access_token.
+      - Send POST /carts with an empty body and take the returned id as the cart's id.
+      - Send POST /invoices with that access_token, payment_method "cash-on-delivery", payment_details {}, billing_street "Stephansplatz 1", billing_city "Wien", billing_country "AT" and the cart's id as cart_id, and take the new invoice's id, invoice_number and total.
+      - Send PATCH /invoices/{invoiceId} with the invoice's id, that access_token and a body with a billing_street containing the superscript digit four (U+2074).
+      - Verify the response status is 422.
+      - Verify the body has a billing_street key with at least one message.
+  - id: API-0526
+    name: Partially update invoice with an unknown id and an invalid body returns 422
+    status: manual
+    steps:
+      - Send PATCH /invoices/{invoiceId} with a well-formed ULID that no invoice has, the default user's token and a body with a 71-character billing_street.
+      - Verify the response status is 422.
+  - id: API-0527
+    name: Partially update invoice with an unknown id returns 404
+    status: manual
+    steps:
+      - Send PATCH /invoices/{invoiceId} with a well-formed ULID that no invoice has, the default user's token and a body with billing_street "Stephansplatz 1".
+      - Verify the response status is 404.
+      - Verify the body's message is "Requested item not found".
+  - id: API-0528
+    name: Partially update another customer's invoice returns 404
+    status: manual
+    steps:
+      - Send POST /users/register with a unique email, a first name, a last name and a random strong password (customer A), and take the new user's id.
+      - Send POST /users/login with customer A's email and password, and take its access_token.
+      - Send POST /users/register with a unique email, a first name, a last name and a random strong password (customer B), and take the new user's id.
+      - Send POST /users/login with customer B's email and password, and take its access_token.
+      - Send POST /carts with an empty body and take the returned id as the cart's id.
+      - Send POST /invoices with customer A's access_token, payment_method "cash-on-delivery", payment_details {}, billing_street "Stephansplatz 1", billing_city "Wien", billing_country "AT" and the cart's id as cart_id, and take the new invoice's id.
+      - Send PATCH /invoices/{invoiceId} with that id, customer B's access_token and a body with billing_street "Stephansplatz 1".
+      - Verify the response status is 404.
+      - Verify the body's message is "Requested item not found".

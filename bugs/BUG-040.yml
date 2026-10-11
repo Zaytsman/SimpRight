@@ -1,0 +1,27 @@
+# yaml-language-server: $schema=./bug.schema.json
+id: BUG-040
+title: A failed checkout leaves an orphan invoice without lines or payment
+status: open
+severity: minor
+layer: api
+area: invoices
+affects:
+  - POST /invoices
+  - POST /invoices/guest
+found: 2026-10-11
+ref:
+  - docs/api/contracts/Invoices_API.md#8-create-invoice
+  - docs/api/contracts/Invoices_API.md#notes
+description: >-
+  The invoice row is created before the cart is read and before the payment is saved, with no transaction. An unknown
+  cart_id (404), or a payment that fails (404 or 500), leaves an invoice with no lines and no payment, which then shows
+  up in the customer's invoice list.
+steps:
+  - Register a customer and log in.
+  - Send POST /invoices with the customer's token and a well-formed ULID that no cart has as cart_id (the call answers 404).
+  - Send GET /invoices with the same token.
+expected: "The list is empty: a failed checkout creates no invoice."
+actual: "The list holds one invoice without lines or payment (from the source code; not reproduced live)."
+evidence: |-
+  Invoices_API.md, Notes, "Orphan invoices" (read from InvoiceService in sprint5/API). No token was available when the
+  contract was written, so the calls were not made live.

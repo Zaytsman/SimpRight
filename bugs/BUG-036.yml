@@ -1,0 +1,20 @@
+# yaml-language-server: $schema=./bug.schema.json
+id: BUG-036
+title: Deleting an unknown user returns 500 instead of 404
+status: open
+severity: major
+layer: api
+area: users
+affects:
+  - DELETE /users/{userId}
+found: 2026-10-11
+ref:
+  - docs/api/contracts/Users_API.md#14-delete-user
+description: >-
+  DELETE /users/{userId} ends in a server error { error: string } when no user has the id. The OpenAPI spec documents a 404.
+steps:
+  - Send DELETE /users/{userId} with a well-formed ULID that no user has and the admin's token.
+expected: '404.'
+actual: '500 with { error: string } (from the source code; not reproduced live).'
+evidence: |-
+  Users_API.md, endpoint 14 and "Spec vs source" (read from UserController in sprint5/API): an unknown id gives 500.

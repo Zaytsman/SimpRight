@@ -1,0 +1,27 @@
+# yaml-language-server: $schema=./bug.schema.json
+id: BUG-038
+title: Invoice status update writes any column sent in the body, and an unknown key gives 500
+status: open
+severity: major
+layer: api
+area: invoices
+affects:
+  - PUT /invoices/{invoiceId}/status
+found: 2026-10-11
+ref:
+  - docs/api/contracts/Invoices_API.md#7-update-invoice-status
+  - docs/api/contracts/Invoices_API.md#notes
+description: >-
+  Only status and status_message are validated, but the whole request body goes into a query-builder update, which
+  bypasses fillable. A key such as total or user_id is written as sent, and a key that is not a column of invoices
+  makes the query fail with a server error.
+steps:
+  - Create an invoice as a customer.
+  - Send PUT /invoices/{invoiceId}/status with the invoice's id, the customer's token and a body with status "ON_HOLD" and a total different from the invoice's total.
+  - Send GET /invoices/{invoiceId} and compare the total.
+  - Send PUT /invoices/{invoiceId}/status with a body with status "ON_HOLD" and a key no_such_column.
+expected: "Only status and status_message are written; an unknown key gives 422 or is ignored."
+actual: "The total is changed to the value sent; the unknown key gives 500 (from the source code; not reproduced live)."
+evidence: |-
+  Invoices_API.md, endpoint 7 and Notes (read from InvoiceController in sprint5/API): the update takes $request->all().
+  No token was available when the contract was written, so the calls were not made live.

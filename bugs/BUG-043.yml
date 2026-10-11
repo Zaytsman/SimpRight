@@ -1,0 +1,29 @@
+# yaml-language-server: $schema=./bug.schema.json
+id: BUG-043
+title: Adding a spec to a product that doesn't exist returns 500 instead of 404
+status: open
+severity: minor
+layer: api
+area: products
+affects:
+  - POST /products/{productId}/specs
+found: 2026-10-11
+ref:
+  - docs/api/contracts/Product_Specs_API.md#2-add-a-spec-to-a-product
+  - docs/api/contracts/Product_Specs_API.md#notes
+description: >-
+  POST /products/{productId}/specs doesn't look the product up first. The insert into product_specs
+  breaks the foreign key on product_id, which the global handler maps to 500
+  { message: "Something went wrong" }. GET and PUT on a spec answer 404 for an unknown product, so a
+  client gets a server error for a request it can fix.
+steps:
+  - Send POST /products/{productId}/specs with a well-formed ULID that no product has, a body with a unique spec_name and spec_value "1.5", and any valid token.
+expected: 404 (a missing product is a client error; GET and PUT on a spec of an unknown product answer 404).
+actual: >-
+  500 with { message: "Something went wrong" } (from the source code; not reproduced live, the write
+  endpoints were not called).
+evidence: |-
+  Not reproduced live, from the source code. Product_Specs_API.md, section 2 "Add a spec to a product"
+  and "Notes" (read from ProductSpecController and the product_specs migration in sprint5/API,
+  2026-10-10): nothing looks the product up; the foreign key violation falls into the handler's
+  generic database error branch. Validation runs first, so only a valid body reaches the 500.

@@ -1,0 +1,96 @@
+# yaml-language-server: $schema=../../scenarios.schema.json
+suite: Invoices API
+tags: ["@invoices-api"]
+scenarios:
+  - id: API-0441
+    name: List invoices returns 200 with the customer's invoice, its lines and payment
+    status: manual
+    steps:
+      - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.
+      - Send POST /users/login with that email and password, and take its access_token.
+      - Send GET /products and take the first item's id as the product's id.
+      - Send POST /carts with an empty body and take the returned id as the cart's id.
+      - Send POST /carts/{cartId} with the cart's id, the product's id as product_id and quantity 2.
+      - Send POST /invoices with that access_token, payment_method "cash-on-delivery", payment_details {}, billing_street "Stephansplatz 1", billing_city "Wien", billing_country "AT" and the cart's id as cart_id, and take the new invoice's id, invoice_number and total.
+      - Send GET /invoices with that access_token.
+      - Verify the response status is 200.
+      - Verify the body has the keys current_page, data, from, last_page, per_page, to and total, and its per_page is 15.
+      - Verify the body's total is 1 and data has exactly one item, whose id is the new invoice's id, user_id is the new user's id and invoice_number is the invoice's number.
+      - Verify the item has the keys invoice_date, status, subtotal, total, billing_street, billing_city, billing_state, billing_country, billing_postal_code, additional_discount_percentage, additional_discount_amount, invoicelines and payment.
+      - Verify the item's status is one of AWAITING_FULFILLMENT, ON_HOLD, AWAITING_SHIPMENT, SHIPPED and COMPLETED.
+      - Verify the item's payment.payment_method is "cash-on-delivery".
+      - Verify the item's invoicelines has exactly one line with the product's id as product_id and quantity 2, whose product has the keys id, name, price, co2_rating, in_stock, is_eco_friendly and product_image.
+  - id: API-0442
+    name: List invoices does not include another customer's invoices
+    status: manual
+    steps:
+      - Send POST /users/register with a unique email, a first name, a last name and a random strong password (customer A), and take the new user's id.
+      - Send POST /users/login with customer A's email and password, and take its access_token.
+      - Send POST /users/register with a unique email, a first name, a last name and a random strong password (customer B), and take the new user's id.
+      - Send POST /users/login with customer B's email and password, and take its access_token.
+      - Send POST /carts with an empty body and take the returned id as the cart's id.
+      - Send POST /invoices with customer A's access_token, payment_method "cash-on-delivery", payment_details {}, billing_street "Stephansplatz 1", billing_city "Wien", billing_country "AT" and the cart's id as cart_id.
+      - Send GET /invoices with customer B's access_token.
+      - Verify the response status is 200.
+      - Verify the body's total is 0 and data is an empty array.
+  - id: API-0443
+    name: List invoices as an admin includes another customer's invoice
+    status: manual
+    role: admin
+    steps:
+      - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.
+      - Send POST /users/login with that email and password, and take its access_token.
+      - Send POST /carts with an empty body and take the returned id as the cart's id.
+      - Send POST /invoices with that access_token, payment_method "cash-on-delivery", payment_details {}, billing_street "Stephansplatz 1", billing_city "Wien", billing_country "AT" and the cart's id as cart_id, and take the new invoice's id, invoice_number and total.
+      - Send GET /invoices with the admin's token.
+      - Verify the response status is 200.
+      - Verify data has an item whose id is the new invoice's id and whose user_id is the new user's id (the newest invoice is on page 1).
+  - id: API-0444
+    name: List invoices returns invoices ordered by invoice_date, newest first
+    status: manual
+    steps:
+      - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.
+      - Send POST /users/login with that email and password, and take its access_token.
+      - Send POST /carts with an empty body and take the returned id as the cart's id.
+      - Send POST /invoices with that access_token, payment_method "cash-on-delivery", payment_details {}, billing_street "Stephansplatz 1", billing_city "Wien", billing_country "AT" and the cart's id as cart_id, and take the new invoice's id, invoice_number and total.
+      - Send POST /invoices again with that access_token and the same body and cart's id, and take the second invoice's id.
+      - Send GET /invoices with that access_token.
+      - Verify the response status is 200.
+      - Verify the body's total is 2 and data has two items, whose ids are the two invoices' ids.
+      - Verify the items' invoice_date values are in descending order (the first item is not older than the second).
+  - id: API-0445
+    name: List invoices with a page past the last returns 200 with an empty list
+    status: manual
+    steps:
+      - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.
+      - Send POST /users/login with that email and password, and take its access_token.
+      - Send POST /carts with an empty body and take the returned id as the cart's id.
+      - Send POST /invoices with that access_token, payment_method "cash-on-delivery", payment_details {}, billing_street "Stephansplatz 1", billing_city "Wien", billing_country "AT" and the cart's id as cart_id, and take the new invoice's id, invoice_number and total.
+      - Send GET /invoices with page 2 and that access_token.
+      - Verify the response status is 200.
+      - Verify the body's data is an empty array.
+  - id: API-0446
+    name: List invoices without a token returns 401
+    status: manual
+    steps:
+      - Send GET /invoices without an Authorization header.
+      - Verify the response status is 401.
+      - Verify the body's message is "Unauthorized".
+  - id: API-0447
+    name: List invoices with a malformed token returns 401
+    status: manual
+    steps:
+      - Send GET /invoices with a malformed token.
+      - Verify the response status is 401.
+      - Verify the body's message is "Unauthorized".
+  - id: API-0448
+    name: List invoices with a disabled account's token returns 403
+    status: manual
+    role: admin
+    steps:
+      - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.
+      - Send POST /users/login with that email and password, and take its access_token.
+      - Send PATCH /users/{userId} with the new user's id and enabled false, with the admin's token.
+      - Send GET /invoices with the throwaway customer's access_token.
+      - Verify the response status is 403.
+      - Verify the body's message is "Account disabled.".

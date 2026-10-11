@@ -1,0 +1,42 @@
+# yaml-language-server: $schema=../../scenarios.schema.json
+suite: Invoices API
+tags: ["@invoices-api"]
+scenarios:
+  - id: API-0459
+    name: QUERY search by invoice number returns 200 with the matching invoice
+    status: manual
+    steps:
+      - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.
+      - Send POST /users/login with that email and password, and take its access_token.
+      - Send POST /carts with an empty body and take the returned id as the cart's id.
+      - Send POST /invoices with that access_token, payment_method "cash-on-delivery", payment_details {}, billing_street "Stephansplatz 1", billing_city "Wien", billing_country "AT" and the cart's id as cart_id, and take the new invoice's id, invoice_number and total.
+      - 'Send QUERY /invoices/search with that access_token, Content-Type: application/json, Accept: application/json and the body { "q": <the invoice''s number> }.'
+      - Verify the response status is 200.
+      - Verify the Accept-Query response header is application/json.
+      - Verify the body's total is 1 and data has exactly one item, whose id is the new invoice's id.
+  - id: API-0460
+    name: QUERY search with an empty body object returns 200 with the caller's invoices
+    status: manual
+    steps:
+      - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.
+      - Send POST /users/login with that email and password, and take its access_token.
+      - Send POST /carts with an empty body and take the returned id as the cart's id.
+      - Send POST /invoices with that access_token, payment_method "cash-on-delivery", payment_details {}, billing_street "Stephansplatz 1", billing_city "Wien", billing_country "AT" and the cart's id as cart_id, and take the new invoice's id, invoice_number and total.
+      - "Send QUERY /invoices/search with that access_token, Content-Type: application/json, Accept: application/json and an empty JSON object as the body."
+      - Verify the response status is 200.
+      - Verify the body's total is 1 and data has exactly one item, whose id is the new invoice's id.
+  - id: API-0461
+    name: QUERY search without a token returns 401
+    status: manual
+    steps:
+      - "Send QUERY /invoices/search without an Authorization header, with Content-Type: application/json, Accept: application/json and an empty JSON object as the body."
+      - Verify the response status is 401.
+      - Verify the body's message is "Unauthorized".
+  - id: API-0462
+    name: QUERY search without a JSON Content-Type returns 415
+    status: manual
+    knownIssue: Returns 500 with an empty text/html body instead of 415 for a QUERY with a non-JSON Content-Type.
+    bug: BUG-042
+    steps:
+      - "Send QUERY /invoices/search with the default user's token, Content-Type: text/plain, Accept: application/json and a plain-text body."
+      - Verify the response status is 415.

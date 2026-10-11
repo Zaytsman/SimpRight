@@ -1,0 +1,95 @@
+# yaml-language-server: $schema=../../scenarios.schema.json
+suite: Invoices API
+tags: ["@invoices-api"]
+scenarios:
+  - id: API-0509
+    name: Update invoice returns 200 and the billing address is changed
+    status: manual
+    steps:
+      - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.
+      - Send POST /users/login with that email and password, and take its access_token.
+      - Send POST /carts with an empty body and take the returned id as the cart's id.
+      - Send POST /invoices with that access_token, payment_method "cash-on-delivery", payment_details {}, billing_street "Stephansplatz 1", billing_city "Wien", billing_country "AT" and the cart's id as cart_id, and take the new invoice's id, invoice_number and total.
+      - Send PUT /invoices/{invoiceId} with the invoice's id, that access_token, payment_method "cash-on-delivery", payment_details {}, a unique billing_street of at most 70 characters, billing_city "Graz", billing_country "AT" and the cart's id as cart_id.
+      - Verify the response status is 200.
+      - Verify the body's success is true.
+      - Verify GET /invoices/{invoiceId} with that id and token returns 200 with the new billing_street and billing_city "Graz".
+  - id: API-0510
+    name: Update invoice without a token returns 401
+    status: manual
+    steps:
+      - Send PUT /invoices/{invoiceId} with a well-formed ULID that no invoice has, payment_method "cash-on-delivery", payment_details {}, billing_street "Stephansplatz 1", billing_city "Wien", billing_country "AT" and a non-empty string as cart_id, without an Authorization header.
+      - Verify the response status is 401.
+      - Verify the body's message is "Unauthorized".
+  - id: API-0511
+    name: Update invoice without the required fields returns 422 for each of them
+    status: manual
+    steps:
+      - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.
+      - Send POST /users/login with that email and password, and take its access_token.
+      - Send POST /carts with an empty body and take the returned id as the cart's id.
+      - Send POST /invoices with that access_token, payment_method "cash-on-delivery", payment_details {}, billing_street "Stephansplatz 1", billing_city "Wien", billing_country "AT" and the cart's id as cart_id, and take the new invoice's id, invoice_number and total.
+      - Send PUT /invoices/{invoiceId} with the invoice's id, that access_token and an empty JSON object as the body.
+      - Verify the response status is 422.
+      - Verify the body has the keys payment_method, payment_details, billing_street, billing_city, billing_country and cart_id, each with at least one message.
+  - id: API-0512
+    name: Update invoice with a gift card number that is not 16 characters returns 422
+    status: manual
+    steps:
+      - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.
+      - Send POST /users/login with that email and password, and take its access_token.
+      - Send POST /carts with an empty body and take the returned id as the cart's id.
+      - Send POST /invoices with that access_token, payment_method "cash-on-delivery", payment_details {}, billing_street "Stephansplatz 1", billing_city "Wien", billing_country "AT" and the cart's id as cart_id, and take the new invoice's id, invoice_number and total.
+      - Send PUT /invoices/{invoiceId} with the invoice's id, that access_token, payment_method "gift-card", payment_details with a 15-character gift_card_number and a 4-character validation_code, billing_street "Stephansplatz 1", billing_city "Wien", billing_country "AT" and the cart's id as cart_id.
+      - Verify the response status is 422.
+      - Verify the body has a "payment_details.gift_card_number" key with at least one message.
+  - id: API-0513
+    name: Update invoice with an unknown id and an invalid body returns 422
+    status: manual
+    steps:
+      - Send PUT /invoices/{invoiceId} with a well-formed ULID that no invoice has, the default user's token and an empty JSON object as the body.
+      - Verify the response status is 422.
+  - id: API-0514
+    name: Update invoice with an unknown id returns 404
+    status: manual
+    steps:
+      - Send PUT /invoices/{invoiceId} with a well-formed ULID that no invoice has, the default user's token, payment_method "cash-on-delivery", payment_details {}, billing_street "Stephansplatz 1", billing_city "Wien", billing_country "AT" and a non-empty string as cart_id.
+      - Verify the response status is 404.
+      - Verify the body's message is "Requested item not found".
+  - id: API-0515
+    name: Update another customer's invoice returns 404
+    status: manual
+    steps:
+      - Send POST /users/register with a unique email, a first name, a last name and a random strong password (customer A), and take the new user's id.
+      - Send POST /users/login with customer A's email and password, and take its access_token.
+      - Send POST /users/register with a unique email, a first name, a last name and a random strong password (customer B), and take the new user's id.
+      - Send POST /users/login with customer B's email and password, and take its access_token.
+      - Send POST /carts with an empty body and take the returned id as the cart's id.
+      - Send POST /invoices with customer A's access_token, payment_method "cash-on-delivery", payment_details {}, billing_street "Stephansplatz 1", billing_city "Wien", billing_country "AT" and the cart's id as cart_id, and take the new invoice's id.
+      - Send PUT /invoices/{invoiceId} with that id, customer B's access_token, payment_method "cash-on-delivery", payment_details {}, billing_street "Stephansplatz 1", billing_city "Wien", billing_country "AT" and the cart's id as cart_id.
+      - Verify the response status is 404.
+      - Verify the body's message is "Requested item not found".
+  - id: API-0516
+    name: Update another customer's invoice as an admin returns 404
+    status: manual
+    role: admin
+    steps:
+      - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.
+      - Send POST /users/login with that email and password, and take its access_token.
+      - Send POST /carts with an empty body and take the returned id as the cart's id.
+      - Send POST /invoices with that access_token, payment_method "cash-on-delivery", payment_details {}, billing_street "Stephansplatz 1", billing_city "Wien", billing_country "AT" and the cart's id as cart_id, and take the new invoice's id, invoice_number and total.
+      - Send PUT /invoices/{invoiceId} with the invoice's id, the admin's token, payment_method "cash-on-delivery", payment_details {}, billing_street "Stephansplatz 1", billing_city "Wien", billing_country "AT" and the cart's id as cart_id.
+      - Verify the response status is 404.
+      - Verify the body's message is "Requested item not found".
+  - id: API-0517
+    name: Update invoice with a total in the body leaves the total unchanged
+    status: manual
+    knownIssue: Writes the unvalidated total from the body (and other fillable keys such as user_id) instead of ignoring them.
+    bug: BUG-039
+    steps:
+      - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.
+      - Send POST /users/login with that email and password, and take its access_token.
+      - Send POST /carts with an empty body and take the returned id as the cart's id.
+      - Send POST /invoices with that access_token, payment_method "cash-on-delivery", payment_details {}, billing_street "Stephansplatz 1", billing_city "Wien", billing_country "AT" and the cart's id as cart_id, and take the new invoice's id, invoice_number and total.
+      - Send PUT /invoices/{invoiceId} with the invoice's id, that access_token, payment_method "cash-on-delivery", payment_details {}, billing_street "Stephansplatz 1", billing_city "Wien", billing_country "AT", the cart's id as cart_id and a total different from the invoice's total.
+      - Verify GET /invoices/{invoiceId} with that id and token returns a total equal to the total from the create response.

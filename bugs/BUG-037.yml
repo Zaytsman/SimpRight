@@ -1,0 +1,26 @@
+# yaml-language-server: $schema=./bug.schema.json
+id: BUG-037
+title: Any logged-in user can change the status of another customer's invoice
+status: open
+severity: major
+layer: api
+area: invoices
+affects:
+  - PUT /invoices/{invoiceId}/status
+found: 2026-10-11
+ref:
+  - docs/api/contracts/Invoices_API.md#7-update-invoice-status
+  - docs/api/contracts/Invoices_API.md#notes
+description: >-
+  PUT /invoices/{invoiceId}/status runs Invoice::where('id', $id)->update(...) with no user_id condition, so the
+  invoice's owner isn't checked. GET, PUT and PATCH /invoices/{invoiceId} limit a non-admin to their own invoices.
+steps:
+  - Register customers A and B and log both in.
+  - Create an invoice as customer A.
+  - Send PUT /invoices/{invoiceId}/status with that id, customer B's token and a body with status "COMPLETED".
+  - Send GET /invoices/{invoiceId} with that id and customer A's token.
+expected: "The status of customer A's invoice is not changed (the contract names no code; the other invoice endpoints answer 404 for another user's invoice)."
+actual: "200 with { success: true }, and the invoice has the new status (from the source code; not reproduced live)."
+evidence: |-
+  Invoices_API.md, Notes, "Status update has no ownership check and writes any column" (read from
+  InvoiceController in sprint5/API). No token was available when the contract was written, so the call was not made live.

@@ -1,0 +1,172 @@
+# yaml-language-server: $schema=../../scenarios.schema.json
+suite: Products API
+tags: ["@products-api"]
+scenarios:
+  - id: API-0553
+    name: Update a spec's value returns success and keeps the other fields
+    status: manual
+    steps:
+      - Send GET /products and take the first item's brand id, category id and product image id.
+      - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false and is_rental false, and take the new product's id.
+      - Send POST /products/{productId}/specs with the new product's id, a body with a unique spec_name, spec_value "1.5" and spec_unit "kg", and the default user's token, and take the new spec's id.
+      - Send PUT /products/{productId}/specs/{specId} with the new product's id, the new spec's id and a body with spec_value "2.5", with the default user's token.
+      - Verify the response status is 200.
+      - Verify the body's success is true.
+      - Send GET /products/{productId}/specs/{specId} with the new product's id and the new spec's id.
+      - Verify its spec_value is "2.5".
+      - Verify its spec_name and spec_unit equal the values the spec was created with.
+  - id: API-0554
+    name: Update a spec's name, value and unit saves all three
+    status: manual
+    steps:
+      - Send GET /products and take the first item's brand id, category id and product image id.
+      - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false and is_rental false, and take the new product's id.
+      - Send POST /products/{productId}/specs with the new product's id, a body with a unique spec_name, spec_value "1.5" and spec_unit "kg", and the default user's token, and take the new spec's id.
+      - Send PUT /products/{productId}/specs/{specId} with the new product's id, the new spec's id and a body with a new unique spec_name, spec_value "9" and spec_unit "g", with the default user's token.
+      - Verify the response status is 200.
+      - Verify the body's success is true.
+      - Send GET /products/{productId}/specs/{specId} with the new product's id and the new spec's id.
+      - Verify its spec_name, spec_value and spec_unit equal the new values.
+  - id: API-0555
+    name: Update a spec with spec_unit null clears the unit
+    status: manual
+    steps:
+      - Send GET /products and take the first item's brand id, category id and product image id.
+      - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false and is_rental false, and take the new product's id.
+      - Send POST /products/{productId}/specs with the new product's id, a body with a unique spec_name, spec_value "1.5" and spec_unit "kg", and the default user's token, and take the new spec's id.
+      - Send PUT /products/{productId}/specs/{specId} with the new product's id, the new spec's id and a body with spec_unit set to null, with the default user's token.
+      - Verify the response status is 200.
+      - Verify the body's success is true.
+      - Send GET /products/{productId}/specs/{specId} with the new product's id and the new spec's id.
+      - Verify its spec_unit is null.
+      - Verify its spec_name and spec_value equal the values the spec was created with.
+  - id: API-0556
+    name: Update a spec with an empty body changes nothing
+    status: manual
+    steps:
+      - Send GET /products and take the first item's brand id, category id and product image id.
+      - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false and is_rental false, and take the new product's id.
+      - Send POST /products/{productId}/specs with the new product's id, a body with a unique spec_name, spec_value "1.5" and spec_unit "kg", and the default user's token, and take the new spec's id.
+      - Send PUT /products/{productId}/specs/{specId} with the new product's id, the new spec's id and an empty body {}, with the default user's token.
+      - Verify the response status is 200.
+      - Verify the body's success is true.
+      - Send GET /products/{productId}/specs/{specId} with the new product's id and the new spec's id.
+      - Verify its spec_name, spec_value and spec_unit equal the values the spec was created with.
+  - id: API-0557
+    name: Update a spec ignores a product_id in the body
+    status: manual
+    steps:
+      - Send GET /products and take the first item's brand id, category id and product image id, and the id of another item.
+      - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false and is_rental false, and take the new product's id.
+      - Send POST /products/{productId}/specs with the new product's id, a body with a unique spec_name, spec_value "1.5" and spec_unit "kg", and the default user's token, and take the new spec's id.
+      - Send PUT /products/{productId}/specs/{specId} with the new product's id, the new spec's id and a body with spec_value "2.5" and product_id set to the other item's id, with the default user's token.
+      - Verify the response status is 200.
+      - Send GET /products/{productId}/specs/{specId} with the new product's id and the new spec's id.
+      - Verify its product_id equals the new product's id and its spec_value is "2.5".
+      - Verify GET /products/{productId}/specs/{specId} with the other item's id and the new spec's id returns 404.
+  - id: API-0558
+    name: Update a spec without a token returns 401
+    status: manual
+    steps:
+      - Send GET /products and take the first item's brand id, category id and product image id.
+      - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false and is_rental false, and take the new product's id.
+      - Send POST /products/{productId}/specs with the new product's id, a body with a unique spec_name, spec_value "1.5" and spec_unit "kg", and the default user's token, and take the new spec's id.
+      - Send PUT /products/{productId}/specs/{specId} with the new product's id, the new spec's id and a body with spec_value "2.5", without an Authorization header.
+      - Verify the response status is 401.
+      - Verify the body's message is "Unauthorized".
+  - id: API-0559
+    name: Update a spec with an invalid token returns 401
+    status: manual
+    steps:
+      - Send GET /products and take the first item's brand id, category id and product image id.
+      - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false and is_rental false, and take the new product's id.
+      - Send POST /products/{productId}/specs with the new product's id, a body with a unique spec_name, spec_value "1.5" and spec_unit "kg", and the default user's token, and take the new spec's id.
+      - Send PUT /products/{productId}/specs/{specId} with the new product's id, the new spec's id and a body with spec_value "2.5", with an invalid token.
+      - Verify the response status is 401.
+      - Verify the body's message is "Unauthorized".
+  - id: API-0560
+    name: Update a spec with an unknown spec id returns 404
+    status: manual
+    steps:
+      - Send GET /products and take the first item's id.
+      - Send PUT /products/{productId}/specs/{specId} with that id, a well-formed ULID that no spec has and a body with spec_value "2.5", with the default user's token.
+      - Verify the response status is 404.
+      - Verify the body's message is "Requested item not found".
+  - id: API-0561
+    name: Update a spec under another product's id returns 404 and changes nothing
+    status: manual
+    steps:
+      - Send GET /products and take the first item's brand id, category id and product image id, and the id of another item.
+      - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false and is_rental false, and take the new product's id.
+      - Send POST /products/{productId}/specs with the new product's id, a body with a unique spec_name, spec_value "1.5" and spec_unit "kg", and the default user's token, and take the new spec's id.
+      - Send PUT /products/{productId}/specs/{specId} with the other item's id, the new spec's id and a body with spec_value "2.5", with the default user's token.
+      - Verify the response status is 404.
+      - Verify the body's message is "Requested item not found".
+      - Verify GET /products/{productId}/specs/{specId} with the new product's id and the new spec's id returns the spec_value the spec was created with.
+  - id: API-0562
+    name: Update a spec with a spec_name longer than 100 characters returns 422
+    status: manual
+    steps:
+      - Send GET /products and take the first item's brand id, category id and product image id.
+      - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false and is_rental false, and take the new product's id.
+      - Send POST /products/{productId}/specs with the new product's id, a body with a unique spec_name, spec_value "1.5" and spec_unit "kg", and the default user's token, and take the new spec's id.
+      - Send PUT /products/{productId}/specs/{specId} with the new product's id, the new spec's id and a body with a 101-character spec_name, with the default user's token.
+      - Verify the response status is 422.
+      - Verify the body's errors has a spec_name key with at least one message.
+  - id: API-0563
+    name: Update a spec with a spec_value longer than 255 characters returns 422
+    status: manual
+    steps:
+      - Send GET /products and take the first item's brand id, category id and product image id.
+      - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false and is_rental false, and take the new product's id.
+      - Send POST /products/{productId}/specs with the new product's id, a body with a unique spec_name, spec_value "1.5" and spec_unit "kg", and the default user's token, and take the new spec's id.
+      - Send PUT /products/{productId}/specs/{specId} with the new product's id, the new spec's id and a body with a 256-character spec_value, with the default user's token.
+      - Verify the response status is 422.
+      - Verify the body's errors has a spec_value key with at least one message.
+  - id: API-0564
+    name: Update a spec with a spec_unit longer than 30 characters returns 422
+    status: manual
+    steps:
+      - Send GET /products and take the first item's brand id, category id and product image id.
+      - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false and is_rental false, and take the new product's id.
+      - Send POST /products/{productId}/specs with the new product's id, a body with a unique spec_name, spec_value "1.5" and spec_unit "kg", and the default user's token, and take the new spec's id.
+      - Send PUT /products/{productId}/specs/{specId} with the new product's id, the new spec's id and a body with a 31-character spec_unit, with the default user's token.
+      - Verify the response status is 422.
+      - Verify the body's errors has a spec_unit key with at least one message.
+  - id: API-0565
+    name: Update a spec with spec_name null returns 422
+    status: manual
+    steps:
+      - Send GET /products and take the first item's brand id, category id and product image id.
+      - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false and is_rental false, and take the new product's id.
+      - Send POST /products/{productId}/specs with the new product's id, a body with a unique spec_name, spec_value "1.5" and spec_unit "kg", and the default user's token, and take the new spec's id.
+      - Send PUT /products/{productId}/specs/{specId} with the new product's id, the new spec's id and a body with spec_name set to null, with the default user's token.
+      - Verify the response status is 422.
+      - Verify the body's errors has a spec_name key with at least one message.
+  - id: API-0566
+    name: Update a spec with an empty spec_value returns 422
+    status: manual
+    steps:
+      - Send GET /products and take the first item's brand id, category id and product image id.
+      - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false and is_rental false, and take the new product's id.
+      - Send POST /products/{productId}/specs with the new product's id, a body with a unique spec_name, spec_value "1.5" and spec_unit "kg", and the default user's token, and take the new spec's id.
+      - Send PUT /products/{productId}/specs/{specId} with the new product's id, the new spec's id and a body with spec_value set to an empty string, with the default user's token.
+      - Verify the response status is 422.
+      - Verify the body's errors has a spec_value key with at least one message.
+  - id: API-0567
+    name: Update an unknown spec with an invalid body returns 422, not 404
+    status: manual
+    steps:
+      - Send GET /products and take the first item's id.
+      - Send PUT /products/{productId}/specs/{specId} with that id, a well-formed ULID that no spec has and a body with a 256-character spec_value, with the default user's token.
+      - Verify the response status is 422.
+      - Verify the body's errors has a spec_value key with at least one message.
+  - id: API-0568
+    name: Update a spec with an invalid body and no Accept header returns 302
+    status: manual
+    steps:
+      - Send GET /products and take the first item's brand id, category id and product image id.
+      - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false and is_rental false, and take the new product's id.
+      - Send POST /products/{productId}/specs with the new product's id, a body with a unique spec_name, spec_value "1.5" and spec_unit "kg", and the default user's token, and take the new spec's id.
+      - Send PUT /products/{productId}/specs/{specId} with the new product's id, the new spec's id and a body with a 101-character spec_name, with the default user's token, without an Accept header and without following redirects.
+      - Verify the response status is 302.

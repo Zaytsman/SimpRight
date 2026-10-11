@@ -1,0 +1,114 @@
+# yaml-language-server: $schema=../../scenarios.schema.json
+suite: Users API
+tags: ["@users-api"]
+scenarios:
+  - id: API-0425
+    name: Patch user with the customer's own id and a new first_name returns 200 and changes only that field
+    status: manual
+    steps:
+      - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.
+      - Send POST /users/login with that email and password, and take its access_token.
+      - Send PATCH /users/{userId} with that id and access_token and only first_name set to a new value.
+      - Verify the response status is 200.
+      - Verify the body's success is true.
+      - Verify GET /users/me with that access_token returns the new first_name and the registered last_name and email.
+  - id: API-0426
+    name: Patch user as an admin changes another user's last_name
+    status: manual
+    role: admin
+    steps:
+      - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.
+      - Send PATCH /users/{userId} with the new user's id, the admin's token and only last_name set to a new value of at most 20 characters.
+      - Verify the response status is 200.
+      - Verify the body's success is true.
+      - Verify GET /users/{userId} with the new user's id and the admin's token returns the new last_name and the registered first_name.
+  - id: API-0427
+    name: Patch user as an admin with enabled false disables the account
+    status: manual
+    role: admin
+    steps:
+      - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.
+      - Send PATCH /users/{userId} with the new user's id, the admin's token and enabled false.
+      - Verify the response status is 200.
+      - Verify the body's success is true.
+      - Verify GET /users/{userId} with the new user's id and the admin's token returns enabled false.
+  - id: API-0428
+    name: Patch user as an admin with a role key drops the role silently
+    status: manual
+    role: admin
+    steps:
+      - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.
+      - Send PATCH /users/{userId} with the new user's id, the admin's token and role "admin".
+      - Verify the response status is 200.
+      - Verify GET /users/{userId} with the new user's id and the admin's token returns role "user".
+  - id: API-0429
+    name: Patch user without a token returns 401
+    status: manual
+    steps:
+      - Send PATCH /users/{userId} with a well-formed ULID that no user has and first_name set to a new value, without an Authorization header.
+      - Verify the response status is 401.
+      - Verify the body's message is "Unauthorized".
+  - id: API-0430
+    name: Patch user with another customer's id returns 403 and leaves that customer unchanged
+    status: manual
+    steps:
+      - Send POST /users/register with a unique email, a first name, a last name and a random strong password (customer A).
+      - Send POST /users/register with a unique email, a first name, a last name and a random strong password (customer B), and take B's id.
+      - Send POST /users/login with customer A's email and password, and take its access_token.
+      - Send PATCH /users/{userId} with customer B's id, customer A's access_token and first_name set to a new value.
+      - Verify the response status is 403.
+      - Verify the body's error is a non-empty string.
+      - Send POST /users/login with customer B's email and password, and take its access_token.
+      - Verify GET /users/me with B's access_token returns B's registered first_name.
+  - id: API-0431
+    name: Patch user with a phone containing letters returns 422 and leaves the profile unchanged
+    status: manual
+    steps:
+      - Send POST /users/register with a unique email, a first name, a last name, a random strong password and a phone of digits, and take the new user's id.
+      - Send POST /users/login with that email and password, and take its access_token.
+      - Send PATCH /users/{userId} with that id, access_token and a phone containing letters.
+      - Verify the response status is 422.
+      - Verify the body has a phone key with at least one message.
+      - Verify GET /users/me with that access_token returns the registered phone.
+  - id: API-0432
+    name: Patch user with a dob under 18 years ago returns 422 and leaves the profile unchanged
+    status: manual
+    steps:
+      - Send POST /users/register with a unique email, a first name, a last name, a random strong password and an adult dob, and take the new user's id.
+      - Send POST /users/login with that email and password, and take its access_token.
+      - Send PATCH /users/{userId} with that id, access_token and a dob 10 years ago in YYYY-MM-DD.
+      - Verify the response status is 422.
+      - Verify the body has a dob key with at least one message.
+      - Verify GET /users/me with that access_token returns the registered dob.
+  - id: API-0433
+    name: Patch user with the customer's own failed_login_attempts leaves the value unchanged
+    status: manual
+    role: admin
+    knownIssue: A customer can change their own failed_login_attempts (and enabled and the totp_* fields) with PATCH; the value is saved instead of being rejected or ignored.
+    bug: BUG-033
+    steps:
+      - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.
+      - Send POST /users/login with that email and password, and take its access_token.
+      - Send GET /users/{userId} with the new user's id and the admin's token, and take failed_login_attempts.
+      - Send PATCH /users/{userId} with that id, the customer's access_token and failed_login_attempts 2.
+      - Verify GET /users/{userId} with the new user's id and the admin's token returns the same failed_login_attempts as before the patch.
+  - id: API-0434
+    name: Patch user with an unknown id as an admin returns 404
+    status: manual
+    role: admin
+    knownIssue: Returns 403 instead of 404 for an unknown user id.
+    bug: BUG-034
+    steps:
+      - Send PATCH /users/{userId} with a well-formed ULID that no user has, first_name set to a new value and the admin's token.
+      - Verify the response status is 404.
+  - id: API-0435
+    name: Patch user with an email another account uses returns 409 or 422
+    status: manual
+    knownIssue: Returns 403, with the SQL error in the body, instead of 409 or 422 when the email already belongs to another account.
+    bug: BUG-035
+    steps:
+      - Send POST /users/register with a unique email, a first name, a last name and a random strong password (customer A).
+      - Send POST /users/register with a unique email, a first name, a last name and a random strong password (customer B).
+      - Send POST /users/login with customer A's email and password, and take its access_token.
+      - Send PATCH /users/{userId} with customer A's id, A's access_token and email set to customer B's email.
+      - Verify the response status is 409 or 422.

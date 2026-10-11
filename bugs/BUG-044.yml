@@ -1,0 +1,24 @@
+# yaml-language-server: $schema=./bug.schema.json
+id: BUG-044
+title: Total sales of years returns 500 for a non-numeric years
+status: open
+severity: minor
+layer: api
+area: reports
+affects:
+  - GET /reports/total-sales-of-years
+found: 2026-10-11
+ref:
+  - docs/api/contracts/Reports_API.md#1-total-sales-of-years
+description: >-
+  The years query parameter is used as it is: the controller computes the current year minus years without any
+  validation, and PHP 8 throws a TypeError for a non-numeric value such as "abc" (or an array years[]=1), which the
+  global handler turns into a server error instead of a validation error.
+steps:
+  - Log in as the admin.
+  - Send GET /reports/total-sales-of-years with years "abc" and the admin's token.
+expected: "422 with the validation error, or the value is ignored and the default is used (200)."
+actual: "500 (from the source code; not reproduced live)."
+evidence: |-
+  Reports_API.md, endpoint 1 (read from ReportController in sprint5/API). No admin token was available when the
+  contract was written, so the call was not made live.

@@ -1,0 +1,24 @@
+# yaml-language-server: $schema=./bug.schema.json
+id: BUG-035
+title: Updating a user with an email another account uses returns 403 and leaks the SQL error instead of 409 or 422
+status: open
+severity: major
+layer: api
+area: users
+affects:
+  - PUT /users/{userId}
+  - PATCH /users/{userId}
+found: 2026-10-11
+ref:
+  - docs/api/contracts/Users_API.md#12-update-user
+  - docs/api/contracts/Users_API.md#13-partially-update-user
+description: >-
+  PUT and PATCH /users/{userId} have no uniqueness rule for the email. The database rejects a duplicate, and the
+  handler turns the exception into 403 { error: string } with the SQL error text in the body.
+steps:
+  - Register two throwaway customers, A and B, and log in as A.
+  - Send PATCH /users/{userId} with A's id, A's token and email set to B's email.
+expected: 409 or 422 with a validation message, and no database error text.
+actual: '403 with { error: string } holding the SQL error (from the source code; not reproduced live).'
+evidence: |-
+  Users_API.md, endpoints 12 and 13 (read from UserController in sprint5/API): a duplicate email gives 403.

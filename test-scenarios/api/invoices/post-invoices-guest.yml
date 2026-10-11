@@ -1,0 +1,61 @@
+# yaml-language-server: $schema=../../scenarios.schema.json
+suite: Invoices API
+tags: ["@invoices-api"]
+scenarios:
+  - id: API-0502
+    name: Create guest invoice returns 201 and the invoice has no user
+    status: manual
+    role: admin
+    steps:
+      - Send GET /products and take the first item's id as the product's id.
+      - Send POST /carts with an empty body and take the returned id as the cart's id.
+      - Send POST /carts/{cartId} with the cart's id, the product's id as product_id and quantity 2.
+      - Send POST /invoices/guest without an Authorization header, with payment_method "cash-on-delivery", payment_details {}, billing_street "Stephansplatz 1", billing_city "Wien", billing_country "AT", the cart's id as cart_id, a unique guest_email, a guest_first_name and a guest_last_name, and take the new invoice's id.
+      - Verify the response status is 201.
+      - Verify the body has the keys id, user_id, invoice_number, invoice_date, billing_street, billing_city, billing_country, subtotal, total and created_at.
+      - Verify the body's user_id is null.
+      - Verify GET /invoices/{invoiceId} with the new id and the admin's token returns 200 with user_id null, the billing_street, billing_city and billing_country sent, and exactly one line with the product's id as product_id.
+  - id: API-0503
+    name: Create guest invoice without the required fields returns 422 for each of them
+    status: manual
+    steps:
+      - "Send POST /invoices/guest without an Authorization header, with Accept: application/json and an empty JSON object as the body."
+      - Verify the response status is 422.
+      - Verify the body's errors has the keys payment_method, payment_details, billing_street, billing_city, billing_country, cart_id, guest_email, guest_first_name and guest_last_name, each with at least one message.
+  - id: API-0504
+    name: Create guest invoice with an invalid guest email returns 422
+    status: manual
+    steps:
+      - 'Send POST /invoices/guest without an Authorization header, with Accept: application/json, payment_method "cash-on-delivery", payment_details {}, billing_street "Stephansplatz 1", billing_city "Wien", billing_country "AT", a non-empty string as cart_id, guest_email "not-an-email", a guest_first_name and a guest_last_name.'
+      - Verify the response status is 422.
+      - Verify the body's errors has a guest_email key with at least one message.
+  - id: API-0505
+    name: Create guest invoice with a payment method that is not allowed returns 422
+    status: manual
+    steps:
+      - 'Send POST /invoices/guest without an Authorization header, with Accept: application/json, payment_method "bitcoin", payment_details {}, billing_street "Stephansplatz 1", billing_city "Wien", billing_country "AT", a non-empty string as cart_id, a unique guest_email, a guest_first_name and a guest_last_name.'
+      - Verify the response status is 422.
+      - Verify the body's errors has a payment_method key with at least one message.
+  - id: API-0506
+    name: Create guest invoice with a postal code that doesn't match the country returns 422
+    status: manual
+    steps:
+      - 'Send POST /invoices/guest without an Authorization header, with Accept: application/json, payment_method "cash-on-delivery", payment_details {}, billing_street "Stephansplatz 1", billing_city "Amsterdam", billing_country "NL", a billing_postal_code that doesn''t match the Dutch format (for example "ABCDE"), a non-empty string as cart_id, a unique guest_email, a guest_first_name and a guest_last_name.'
+      - Verify the response status is 422.
+      - Verify the body's errors has a billing_country key with at least one message.
+  - id: API-0507
+    name: Create guest invoice with an unknown cart returns 404
+    status: manual
+    steps:
+      - Send POST /invoices/guest without an Authorization header, with payment_method "cash-on-delivery", payment_details {}, billing_street "Stephansplatz 1", billing_city "Wien", billing_country "AT", a well-formed ULID that no cart has as cart_id, a unique guest_email, a guest_first_name and a guest_last_name.
+      - Verify the response status is 404.
+      - Verify the body's message is "Requested item not found".
+  - id: API-0508
+    name: Create guest invoice with payment_details null returns 422
+    status: manual
+    knownIssue: Returns 500 instead of 422 when payment_details is null for a method other than gift-card.
+    bug: BUG-041
+    steps:
+      - Send POST /carts with an empty body and take the returned id as the cart's id.
+      - Send POST /invoices/guest without an Authorization header, with payment_method "bank-transfer", payment_details null, billing_street "Stephansplatz 1", billing_city "Wien", billing_country "AT", the cart's id as cart_id, a unique guest_email, a guest_first_name and a guest_last_name.
+      - Verify the response status is 422.
