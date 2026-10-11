@@ -23,6 +23,12 @@ export function expectStatus(request: unknown, response: ApiResponse, status: nu
   );
 }
 
+/** The checks of a "Verify the body's success is <true | false>." step. */
+export function expectSuccess(request: unknown, response: ApiResponse, success: boolean): void {
+  const body = JSON.parse(response.body) as { success?: unknown };
+  expect(body.success, assertMessage({ request, expected: `success is ${success}`, actual: body })).toBe(success);
+}
+
 /** The checks of a "Verify the body's errors has the key(s) ..., each with at least one message." step; returns the parsed body. */
 export function expectErrorKeys(request: unknown, response: ApiResponse, keys: string[]): FieldValidationError {
   const body = JSON.parse(response.body) as FieldValidationError;

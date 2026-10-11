@@ -15,13 +15,18 @@ export {
   takeProductRefs,
   findProductSpec,
   expectFieldMessages,
+  sendCreateProduct,
+  type CreateProductRequestInfo,
 } from '../api/fixtures/productSteps';
 export {
   USER_REGISTER_STEP,
   USER_LOGIN_STEP,
   USER_LOGOUT_STEP,
+  THROWAWAY_LOGIN_STEP,
   registerThrowawayCustomer,
   loginForNewToken,
   logoutToken,
+  loginThrowawayCustomer,
+  expectLoginSucceeds,
   type ThrowawayCustomer,
 } from '../api/fixtures/userSteps';

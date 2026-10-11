@@ -78,10 +78,10 @@ Send either `email` and `password`, or `access_token` and `totp`. Neither pair i
   expires_in: number;   // 300
 }
 ```
-For an account with TOTP enabled, the first step returns `200` with `{ message: "TOTP required"; requires_totp: true; access_token: string }` instead. _(source)_
+For an account with TOTP enabled, the first step returns `200` with `{ message: "TOTP required"; requires_totp: true; access_token: string }` instead. _(verified)_
 
 **Error Responses:**
-- `401 Unauthorized`: wrong email or password (or an email no account has), `{ error: "Unauthorized" }` _(verified)_; neither credential pair in the body, `{ error: "Invalid login request" }` _(verified)_; a non-restricted (full) token in the TOTP step, `{ error: "Unauthorized token usage" }` _(verified)_; a wrong TOTP code _(source)_
+- `401 Unauthorized`: wrong email or password (or an email no account has), `{ error: "Unauthorized" }` _(verified)_; neither credential pair in the body, `{ error: "Invalid login request" }` _(verified)_; a non-restricted (full) token in the TOTP step, `{ error: "Unauthorized token usage" }` _(verified)_; a wrong TOTP code, `{ error: "Invalid TOTP" }` _(verified)_
 - `400 Bad Request`: TOTP step with an invalid `access_token`, `{ error: "Invalid or expired token" }` _(verified)_; the same for an expired one _(source)_
 - `403 Forbidden`: right credentials, but the account is disabled; `{ error: "Account disabled" }` _(verified)_
 - `423 Locked`: non-admin account with 3 or more failed logins; `{ error: "Account locked, too many failed attempts. Please contact the administrator." }` _(source)_
@@ -153,14 +153,14 @@ Sets the account's password to `welcome02`. No email confirmation or token is in
 }
 ```
 
-**Response:** `200 OK` _(source)_
+**Response:** `200 OK` _(verified)_
 ```ts
 { success: true }
 ```
 
 **Error Responses:**
-- `404 Not Found`: no `email` in the body (the `exists` rule is skipped and the lookup fails); `{ message: "Requested item not found" }` _(source)_
-- `422 Unprocessable Entity`: no account with this email; framework default body `{ message: string; errors: { email: string[] } }` _(source)_
+- `404 Not Found`: no `email` in the body (the `exists` rule is skipped and the lookup fails); `{ message: "Requested item not found" }` _(verified)_
+- `422 Unprocessable Entity`: no account with this email; body with `errors: { email: string[] }` _(verified)_; plus the framework default `message: string` _(source)_
 
 ---
 
@@ -181,15 +181,16 @@ Changes the current user's password. _(source)_
 }
 ```
 
-**Response:** `200 OK` _(source)_
+**Response:** `200 OK` _(verified)_
 ```ts
 { success: true }
 ```
 
 **Error Responses:**
 - `401 Unauthorized`: no token, or an invalid or expired one _(source)_
-- `400 Bad Request`: `current_password` is wrong or missing, or `new_password` equals it; `{ success: false, message: string }` _(source)_
-- `422 Unprocessable Entity`: `new_password` fails the password rules or doesn't match the confirmation; framework default body `{ message: string; errors: { new_password: string[] } }` _(source)_
+- `400 Bad Request`: `current_password` is wrong or missing, `{ success: false, message: "Your current password does not matches with the password." }`; `new_password` equals it, `{ success: false, message: "New Password cannot be same as your current password." }` _(verified)_
+- `422 Unprocessable Entity`: `new_password` or its confirmation is missing, or they don't match; body with `errors: { new_password: string[] }` _(verified)_
+- `422 Unprocessable Entity`: `new_password` fails the password rules; framework default body `{ message: string; errors: { new_password: string[] } }` _(source)_
 
 ---
 
@@ -208,6 +209,7 @@ User
 
 **Error Responses:**
 - `401 Unauthorized`: no token, or a malformed one; `{ message: "Unauthorized" }` _(verified)_
+- `401 Unauthorized`: the restricted token of the first TOTP login step (claim `restricted`), `{ message: "Unauthorized token usage" }` (the auth middleware's check) _(verified)_
 
 ---
 
@@ -403,7 +405,7 @@ Updates a user's profile. A non-admin can only update their own record; only an 
 }
 ```
 
-**Response:** `200 OK` _(source)_
+**Response:** `200 OK` _(verified)_
 ```ts
 { success: boolean }
 ```
@@ -411,7 +413,7 @@ Updates a user's profile. A non-admin can only update their own record; only an 
 **Error Responses:**
 - `401 Unauthorized`: no token, or an invalid or expired one _(source)_
 - `403 Forbidden`: a non-admin updates another user (`"You can only update your own data."`) or sends `role` (`"Only admins can update the role."`); also, as suspected bugs, an unknown id (should be 404) and an email already used by another account (should be 409/422, and the body leaks the SQL error); body `{ error: string }` _(source)_
-- `422 Unprocessable Entity`: a required field is missing or a field fails its rule; body `{ <field>: string[] }` _(source)_
+- `422 Unprocessable Entity`: a required field is missing or a field fails its rule; body `{ <field>: string[] }` _(verified)_
 
 ---
 

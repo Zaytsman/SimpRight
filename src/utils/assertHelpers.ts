@@ -2,7 +2,17 @@ import { test } from '@playwright/test';
 import { env, findRunUser } from '../config/env';
 
 /** Keys whose values never reach a report (matched case-insensitively, at any depth). */
-const SECRET_KEYS = new Set(['password', 'access_token', 'token', 'authorization']);
+const SECRET_KEYS = new Set([
+  'password',
+  'access_token',
+  'token',
+  'authorization',
+  'current_password',
+  'new_password',
+  'new_password_confirmation',
+  'totp_secret',
+  'totp',
+]);
 const MASK = '***';
 
 /**

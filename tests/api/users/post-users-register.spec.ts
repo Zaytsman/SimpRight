@@ -77,6 +77,33 @@ async function loginAndReadProfile(
   return JSON.parse(meResponse.body) as User;
 }
 
+/**
+ * The steps of the password-rule scenarios (API-0331..0335): register with `password`, under the scenario's own
+ * step title, then check for a 422 with a password message. A customer is removed if the API wrongly creates one.
+ */
+async function registerWithRejectedPassword(
+  usersClient: UsersClient,
+  adminUsersService: UsersService,
+  cleanup: Cleanup,
+  title: string,
+  password: string
+): Promise<void> {
+  let request: RegisterRequestInfo;
+  let response: ApiResponse;
+
+  await test.step(title, async () => {
+    ({ request, response } = await sendRegister(usersClient, adminUsersService, cleanup, UserFactory.registerCustomer({ password })));
+  });
+
+  await test.step('Verify the response status is 422.', async () => {
+    expectStatus(request, response, 422);
+  });
+
+  await test.step('Verify the body has a password key with at least one message.', async () => {
+    expectFieldMessages(response, 'password', request);
+  });
+}
+
 test.describe('@users-api - Users API', () => {
   test('API-0085: Register returns 201 with the new customer', async ({
     usersClientWithoutToken,
@@ -431,5 +458,204 @@ test.describe('@users-api - Users API', () => {
     await test.step('Verify the response status is 422.', async () => {
       expectStatus(request, response, 422);
     });
+  });
+
+  test("API-0305: Register stores the country and a postal code in that country's format", async ({
+    usersClientWithoutToken,
+    adminUsersService,
+    authClient,
+    usersClientForToken,
+    cleanup,
+  }) => {
+    const sent = UserFactory.registerCustomer({ address: UserFactory.nlAddress() });
+    const addressFields = ['street', 'city', 'state', 'country', 'postal_code'] as const;
+    let request: RegisterRequestInfo;
+    let response: ApiResponse;
+    let body: RegisteredUser;
+
+    await test.step(
+      'Send POST /users/register with a unique email, a first name, a last name, a random strong password, and an address with a street, a city, a state, country "NL" and postal_code "1011AB".',
+      async () => {
+        ({ request, response } = await sendRegister(usersClientWithoutToken, adminUsersService, cleanup, sent));
+      }
+    );
+
+    await test.step('Verify the response status is 201.', async () => {
+      expectStatus(request, response, 201);
+      body = JSON.parse(response.body) as RegisteredUser;
+    });
+
+    await test.step("Verify the body's address street, city, state, country and postal_code equal the values sent.", async () => {
+      for (const field of addressFields) {
+        expect(body.address?.[field], assertMessage({ request, expected: `address.${field} is "${sent.address?.[field]}"`, actual: body.address })).toBe(
+          sent.address?.[field]
+        );
+      }
+    });
+
+    await test.step(
+      'Verify POST /users/login with that email and password returns 200, and GET /users/me with its access_token returns the same address street, city, state, country and postal_code.',
+      async () => {
+        const profile = await loginAndReadProfile(authClient, usersClientForToken, sent.email, sent.password);
+        const meRequest = { method: 'GET', path: '/users/me' };
+        for (const field of addressFields) {
+          expect(
+            profile.address?.[field],
+            assertMessage({ request: meRequest, expected: `address.${field} is "${sent.address?.[field]}"`, actual: profile.address })
+          ).toBe(sent.address?.[field]);
+        }
+      }
+    );
+  });
+
+  test('API-0328: Register with an email of exactly 256 characters returns 201 and stores it', async ({
+    usersClientWithoutToken,
+    adminUsersService,
+    authClient,
+    usersClientForToken,
+    cleanup,
+  }) => {
+    const sent = UserFactory.registerCustomer({ email: UserFactory.emailOfLength(256) });
+    let request: RegisterRequestInfo;
+    let response: ApiResponse;
+    let body: RegisteredUser;
+
+    await test.step(
+      'Send POST /users/register with a well-formed 256-character email that starts with a unique value, a first name, a last name and a random strong password.',
+      async () => {
+        expect(sent.email.length, assertMessage({ expected: 'The email has 256 characters', actual: sent.email.length })).toBe(256);
+        ({ request, response } = await sendRegister(usersClientWithoutToken, adminUsersService, cleanup, sent));
+      }
+    );
+
+    await test.step('Verify the response status is 201.', async () => {
+      expectStatus(request, response, 201);
+      body = JSON.parse(response.body) as RegisteredUser;
+    });
+
+    await test.step("Verify the body's email equals the email sent.", async () => {
+      expect(body.email, assertMessage({ request, expected: 'email equals the 256-character email sent', actual: body.email })).toBe(sent.email);
+    });
+
+    await test.step(
+      'Verify POST /users/login with that email and password returns 200, and GET /users/me with its access_token returns the new id and the same email.',
+      async () => {
+        const profile = await loginAndReadProfile(authClient, usersClientForToken, sent.email, sent.password);
+        const meRequest = { method: 'GET', path: '/users/me' };
+        const actual = { id: profile.id, email: profile.email };
+        expect(profile.id, assertMessage({ request: meRequest, expected: `id is "${body.id}"`, actual })).toBe(body.id);
+        expect(profile.email, assertMessage({ request: meRequest, expected: 'email equals the 256-character email sent', actual })).toBe(sent.email);
+      }
+    );
+  });
+
+  test('API-0329: Register with an 8-character password that meets all rules returns 201', async ({
+    usersClientWithoutToken,
+    adminUsersService,
+    authClient,
+    usersClientForToken,
+    cleanup,
+  }) => {
+    const sent = UserFactory.registerCustomer({ password: UserFactory.passwordOf({ length: 8, upper: true, lower: true, digit: true, symbol: true }) });
+    let request: RegisterRequestInfo;
+    let response: ApiResponse;
+    let body: RegisteredUser;
+
+    await test.step(
+      'Send POST /users/register with a unique email, a first name, a last name and a random password of exactly 8 characters with an upper-case letter, a lower-case letter, a number and a special character.',
+      async () => {
+        ({ request, response } = await sendRegister(usersClientWithoutToken, adminUsersService, cleanup, sent));
+      }
+    );
+
+    await test.step('Verify the response status is 201.', async () => {
+      expectStatus(request, response, 201);
+      body = JSON.parse(response.body) as RegisteredUser;
+    });
+
+    await test.step('Verify the body has a non-empty id and the email sent.', async () => {
+      const actual = { id: body.id, email: body.email };
+      expect(body.id, assertMessage({ request, expected: 'id is not empty', actual })).toBeTruthy();
+      expect(body.email, assertMessage({ request, expected: `email is "${sent.email}"`, actual })).toBe(sent.email);
+    });
+
+    await test.step('Verify POST /users/login with that email and password returns 200, and GET /users/me with its access_token returns the new id and email.', async () => {
+      const profile = await loginAndReadProfile(authClient, usersClientForToken, sent.email, sent.password);
+      const meRequest = { method: 'GET', path: '/users/me' };
+      const actual = { id: profile.id, email: profile.email };
+      expect(profile.id, assertMessage({ request: meRequest, expected: `id is "${body.id}"`, actual })).toBe(body.id);
+      expect(profile.email, assertMessage({ request: meRequest, expected: `email is "${sent.email}"`, actual })).toBe(sent.email);
+    });
+  });
+
+  test('API-0330: Register with a letters-only postal code for country DE returns 422', async ({ usersClientWithoutToken, adminUsersService, cleanup }) => {
+    let request: RegisterRequestInfo;
+    let response: ApiResponse;
+
+    await test.step(
+      'Send POST /users/register with a unique email, a first name, a last name, a random strong password, and an address with a street, a city, a state, country "DE" and postal_code "ABCDE".',
+      async () => {
+        const body = UserFactory.registerCustomer({ address: { ...UserFactory.nlAddress(), country: 'DE', postal_code: 'ABCDE' } });
+        ({ request, response } = await sendRegister(usersClientWithoutToken, adminUsersService, cleanup, body));
+      }
+    );
+
+    await test.step('Verify the response status is 422.', async () => {
+      expectStatus(request, response, 422);
+    });
+
+    await test.step('Verify the body has an address.postal_code key with at least one message.', async () => {
+      expectFieldMessages(response, 'address.postal_code', request);
+    });
+  });
+
+  test('API-0331: Register with a 7-character password returns 422', async ({ usersClientWithoutToken, adminUsersService, cleanup }) => {
+    await registerWithRejectedPassword(
+      usersClientWithoutToken,
+      adminUsersService,
+      cleanup,
+      'Send POST /users/register with a unique email, a first name, a last name and a random 7-character password with an upper-case letter, a lower-case letter, a number and a special character.',
+      UserFactory.passwordOf({ length: 7, upper: true, lower: true, digit: true, symbol: true })
+    );
+  });
+
+  test('API-0332: Register with a password without an upper-case letter returns 422', async ({ usersClientWithoutToken, adminUsersService, cleanup }) => {
+    await registerWithRejectedPassword(
+      usersClientWithoutToken,
+      adminUsersService,
+      cleanup,
+      'Send POST /users/register with a unique email, a first name, a last name and a random password of at least 8 characters with lower-case letters, a number and a special character, and no upper-case letter.',
+      UserFactory.passwordOf({ length: 12, upper: false, lower: true, digit: true, symbol: true })
+    );
+  });
+
+  test('API-0333: Register with a password without a lower-case letter returns 422', async ({ usersClientWithoutToken, adminUsersService, cleanup }) => {
+    await registerWithRejectedPassword(
+      usersClientWithoutToken,
+      adminUsersService,
+      cleanup,
+      'Send POST /users/register with a unique email, a first name, a last name and a random password of at least 8 characters with upper-case letters, a number and a special character, and no lower-case letter.',
+      UserFactory.passwordOf({ length: 12, upper: true, lower: false, digit: true, symbol: true })
+    );
+  });
+
+  test('API-0334: Register with a password without a number returns 422', async ({ usersClientWithoutToken, adminUsersService, cleanup }) => {
+    await registerWithRejectedPassword(
+      usersClientWithoutToken,
+      adminUsersService,
+      cleanup,
+      'Send POST /users/register with a unique email, a first name, a last name and a random password of at least 8 characters with upper-case and lower-case letters and a special character, and no number.',
+      UserFactory.passwordOf({ length: 12, upper: true, lower: true, digit: false, symbol: true })
+    );
+  });
+
+  test('API-0335: Register with a password without a special character returns 422', async ({ usersClientWithoutToken, adminUsersService, cleanup }) => {
+    await registerWithRejectedPassword(
+      usersClientWithoutToken,
+      adminUsersService,
+      cleanup,
+      'Send POST /users/register with a unique email, a first name, a last name and a random password of at least 8 characters with upper-case and lower-case letters and a number, and no special character.',
+      UserFactory.passwordOf({ length: 12, upper: true, lower: true, digit: true, symbol: false })
+    );
   });
 });

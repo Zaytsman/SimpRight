@@ -71,6 +71,9 @@ export interface PatchUserRequest {
   enabled?: boolean;
   failed_login_attempts?: number;
   totp_enabled?: boolean;
+  /** The base32 secret the TOTP codes are made from. */
+  totp_secret?: string | null;
+  totp_verified_at?: string | null;
 }
 
 /** Response of `PATCH /users/{userId}` (200). */
@@ -86,4 +89,49 @@ export interface LogoutResponse {
 /** Error body of the auth middleware (401 "Unauthorized", 403 "Account disabled."). */
 export interface MessageErrorBody {
   message: string;
+}
+
+/** The address of `PUT /users/{userId}`: street, city and country are required (see the Users contract, section 12). */
+export interface UpdateUserAddress {
+  street: string;
+  city: string;
+  country: string;
+  house_number?: string | null;
+  state?: string | null;
+  postal_code?: string | null;
+}
+
+/** Body of `PUT /users/{userId}` (see the Users contract, section 12). `password` is ignored; `role` is admin only. */
+export interface UpdateUserRequest {
+  first_name: string;
+  last_name: string;
+  email: string;
+  address: UpdateUserAddress;
+  phone?: string | null;
+  dob?: string;
+  role?: string;
+}
+
+/** Response of `PUT /users/{userId}` (200). */
+export interface UpdateUserResponse {
+  success: boolean;
+}
+
+/** Body of `POST /users/change-password` (see the Users contract, section 4). */
+export interface ChangePasswordRequest {
+  current_password: string;
+  new_password: string;
+  /** Must equal `new_password`. */
+  new_password_confirmation: string;
+}
+
+/** Body of `POST /users/forgot-password` (see the Users contract, section 3). */
+export interface ForgotPasswordRequest {
+  email: string;
+}
+
+/** Response of change-password and forgot-password: `{ success: true }`, or `{ success: false, message }` for change-password's 400. */
+export interface SuccessMessageBody {
+  success: boolean;
+  message?: string;
 }

@@ -5,7 +5,8 @@ scenarios:
   - id: API-0313
     name: Update user with valid changed values returns 200 and the profile shows them
     ref: docs/ui/user-stories/Customer_Profile.md#AC4
-    status: manual
+    status: automated
+    automatedIn: tests/api/users/put-users-by-user-id.spec.ts
     steps:
       - Send POST /users/register with a unique email, a first name, a last name of at most 20 characters, a random strong password, a phone of digits, and an address with a street, a city, a state, country "NL" and postal_code "1011AB", and take the new user's id.
       - Send POST /users/login with that email and password, and take its access_token.
@@ -16,7 +17,8 @@ scenarios:
   - id: API-0314
     name: Update user without first_name returns 422 and leaves the profile unchanged
     ref: docs/ui/user-stories/Customer_Profile.md#AC2
-    status: manual
+    status: automated
+    automatedIn: tests/api/users/put-users-by-user-id.spec.ts
     steps:
       - Send POST /users/register with a unique email, a first name, a last name of at most 20 characters, a random strong password, a phone of digits, and an address with a street, a city, a state, country "NL" and postal_code "1011AB", and take the new user's id.
       - Send POST /users/login with that email and password, and take its access_token.
@@ -27,7 +29,8 @@ scenarios:
   - id: API-0315
     name: Update user without last_name returns 422 and leaves the profile unchanged
     ref: docs/ui/user-stories/Customer_Profile.md#AC2
-    status: manual
+    status: automated
+    automatedIn: tests/api/users/put-users-by-user-id.spec.ts
     steps:
       - Send POST /users/register with a unique email, a first name, a last name of at most 20 characters, a random strong password, a phone of digits, and an address with a street, a city, a state, country "NL" and postal_code "1011AB", and take the new user's id.
       - Send POST /users/login with that email and password, and take its access_token.
@@ -38,7 +41,8 @@ scenarios:
   - id: API-0316
     name: Update user without address.street returns 422 and leaves the profile unchanged
     ref: docs/ui/user-stories/Customer_Profile.md#AC2
-    status: manual
+    status: automated
+    automatedIn: tests/api/users/put-users-by-user-id.spec.ts
     steps:
       - Send POST /users/register with a unique email, a first name, a last name of at most 20 characters, a random strong password, a phone of digits, and an address with a street, a city, a state, country "NL" and postal_code "1011AB", and take the new user's id.
       - Send POST /users/login with that email and password, and take its access_token.
@@ -49,7 +53,8 @@ scenarios:
   - id: API-0317
     name: Update user without address.city returns 422 and leaves the profile unchanged
     ref: docs/ui/user-stories/Customer_Profile.md#AC2
-    status: manual
+    status: automated
+    automatedIn: tests/api/users/put-users-by-user-id.spec.ts
     steps:
       - Send POST /users/register with a unique email, a first name, a last name of at most 20 characters, a random strong password, a phone of digits, and an address with a street, a city, a state, country "NL" and postal_code "1011AB", and take the new user's id.
       - Send POST /users/login with that email and password, and take its access_token.
@@ -60,7 +65,8 @@ scenarios:
   - id: API-0318
     name: Update user without address.country returns 422 and leaves the profile unchanged
     ref: docs/ui/user-stories/Customer_Profile.md#AC2
-    status: manual
+    status: automated
+    automatedIn: tests/api/users/put-users-by-user-id.spec.ts
     steps:
       - Send POST /users/register with a unique email, a first name, a last name of at most 20 characters, a random strong password, a phone of digits, and an address with a street, a city, a state, country "NL" and postal_code "1011AB", and take the new user's id.
       - Send POST /users/login with that email and password, and take its access_token.

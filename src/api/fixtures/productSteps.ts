@@ -2,7 +2,8 @@ import { test, expect } from '@playwright/test';
 import type { Cleanup } from '../../fixtures/base';
 import type { ApiResponse } from '../clients/BaseClient';
 import type { ValidationErrors } from '../dto/common';
-import type { Product } from '../dto/product';
+import type { ProductsClient } from '../clients/ProductsClient';
+import type { CreateProductRequest, Product } from '../dto/product';
 import type { ProductsService } from '../services/ProductsService';
 import { ProductFactory, type ProductRefs } from '../../data/factories/ProductFactory';
 import { assertMessage, attachJson } from '../../utils/assertHelpers';
@@ -236,4 +237,43 @@ export function expectFieldMessages(response: ApiResponse, field: string, reques
     Array.isArray(messages) && messages.length > 0,
     assertMessage({ request, expected: `Body has a "${field}" key with at least one message`, actual: body })
   ).toBe(true);
+}
+
+/** The request record that `sendCreateProduct` attaches and that assertion messages show. */
+export type CreateProductRequestInfo = { method: string; path: string; auth: string; body: unknown };
+
+/**
+ * POST /products is the call under test, so a product exists only when the response says so: register its
+ * removal (as admin, DELETE is admin-only) only for a 2xx response with an id. Covers the known issue (POST
+ * without a token creates the product) and any validation case that unexpectedly creates one.
+ */
+export function removeIfCreated(response: ApiResponse, adminProductsService: ProductsService, cleanup: Cleanup): void {
+  if (!response.isSuccess) return;
+  let id: string | undefined;
+  try {
+    id = (JSON.parse(response.body) as Partial<Product>).id;
+  } catch {
+    return;
+  }
+  if (id) cleanup.add(() => adminProductsService.delete(id));
+}
+
+/**
+ * Sends POST /products with the given client (the public one, without a token, unless a test passes another),
+ * registers the product's removal when one was created, and attaches what was sent and what came back. `auth`
+ * describes the client's token in the attached request. Used where the create is the call whose status a step checks.
+ */
+export async function sendCreateProduct(
+  productsClient: ProductsClient,
+  body: CreateProductRequest | Record<string, unknown>,
+  adminProductsService: ProductsService,
+  cleanup: Cleanup,
+  auth = 'none'
+): Promise<{ request: CreateProductRequestInfo; response: ApiResponse }> {
+  const request: CreateProductRequestInfo = { method: 'POST', path: '/products', auth, body };
+  const response = await productsClient.create(body);
+  removeIfCreated(response, adminProductsService, cleanup);
+  await attachJson('Create Product Request', request);
+  await attachJson('Create Product Response', { status: response.status, body: response.body });
+  return { request, response };
 }
