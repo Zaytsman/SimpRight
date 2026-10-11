@@ -1,4 +1,6 @@
-import type { RegisterAddress, RegisterUserRequest } from '@api/dto/user';
+import { randomInt } from 'node:crypto';
+import type { RegisterAddress, RegisterUserRequest, UpdateUserRequest } from '@api/dto/user';
+import { randomTotpSecret } from '../../utils/totp';
 import { uniqueName } from './testDataUtils';
 
 const EMAIL_PREFIX = 'smpr';
@@ -71,11 +73,82 @@ export const UserFactory = {
 
   /** A password of 10 random lower-case letters only (no upper case, number or symbol), which the password rules reject. */
   weakPassword(): string {
-    return Array.from(crypto.getRandomValues(new Uint8Array(10)), (byte) => String.fromCharCode(97 + (byte % 26))).join('');
+    return Array.from({ length: 10 }, () => String.fromCharCode(97 + randomInt(26))).join('');
   },
 
   /** A text of exactly `length` letters, for the too-long name checks. */
   textOfLength(length: number): string {
     return 'N'.repeat(length);
+  },
+
+  /**
+   * A random password of exactly `length` characters made only of the character classes asked for, each of them
+   * at least once: upper-case letters, lower-case letters, numbers and symbols. For the password rule checks.
+   */
+  passwordOf(options: { length: number; upper: boolean; lower: boolean; digit: boolean; symbol: boolean }): string {
+    const classes = [
+      options.upper ? 'ABCDEFGHJKLMNPQRSTUVWXYZ' : '',
+      options.lower ? 'abcdefghijkmnopqrstuvwxyz' : '',
+      options.digit ? '23456789' : '',
+      options.symbol ? '!#$%&*+-=?@^_~' : '',
+    ].filter((chars) => chars.length > 0);
+    if (classes.length === 0 || classes.length > options.length) throw new Error('passwordOf: no class asked for, or more classes than characters');
+    const pick = (chars: string): string => chars[randomInt(chars.length)]!;
+    const all = classes.join('');
+    const chars = [...classes.map(pick), ...Array.from({ length: options.length - classes.length }, () => pick(all))];
+    // Shuffle, so the required classes aren't always at the start.
+    for (let i = chars.length - 1; i > 0; i--) {
+      const j = randomInt(i + 1);
+      [chars[i], chars[j]] = [chars[j]!, chars[i]!];
+    }
+    return chars.join('');
+  },
+
+  /** An address with a street, a city, a state, country "NL" and postal_code "1011AB" (a Dutch-format postal code). */
+  nlAddress(): RegisterAddress {
+    return { street: 'Damrak', city: 'Amsterdam', state: 'Noord-Holland', country: 'NL', postal_code: '1011AB' };
+  },
+
+  /** A valid register body with a phone of digits and the NL address (last name "Runner", at most 20 characters). */
+  registerCustomerWithPhoneAndAddress(overrides: Partial<RegisterUserRequest> = {}): RegisterUserRequest {
+    return UserFactory.registerCustomer({ phone: '0612345678', address: UserFactory.nlAddress(), ...overrides });
+  },
+
+  /** A random base32 secret for the TOTP checks (google2fa needs at least 16 characters, a multiple of 8). */
+  totpSecret(): string {
+    return randomTotpSecret(32);
+  },
+
+  /**
+   * A PUT /users/{userId} body with the customer's own `email` and a new first_name, last_name (at most 20
+   * characters), phone of digits, street, city, state, country and postal_code, each different from `registered`.
+   */
+  updateProfile(email: string, registered: RegisterUserRequest): UpdateUserRequest {
+    const body: UpdateUserRequest = {
+      first_name: 'Updated',
+      last_name: 'Changed',
+      email,
+      phone: '0687654321',
+      address: { street: 'Unter den Linden', city: 'Berlin', state: 'Berlin', country: 'DE', postal_code: '10117' },
+    };
+    const sent = registered.address ?? {};
+    const same =
+      body.first_name === registered.first_name ||
+      body.last_name === registered.last_name ||
+      body.phone === registered.phone ||
+      (['street', 'city', 'state', 'country', 'postal_code'] as const).some((key) => body.address[key] === sent[key]);
+    if (same) throw new Error('updateProfile: a new value equals the registered one');
+    return body;
+  },
+
+  /** A copy of `body` without one field; `address.<field>` removes that field from the address. */
+  withoutField(body: UpdateUserRequest, field: string): Record<string, unknown> {
+    const copy: Record<string, unknown> = { ...body, address: { ...body.address } };
+    if (field.startsWith('address.')) {
+      delete (copy.address as Record<string, unknown>)[field.slice('address.'.length)];
+    } else {
+      delete copy[field];
+    }
+    return copy;
   },
 };

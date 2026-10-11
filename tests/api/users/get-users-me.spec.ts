@@ -1,7 +1,8 @@
-import { test, expect, registerThrowawayCustomer } from '@fixtures';
+import { test, expect, registerThrowawayCustomer, loginThrowawayCustomer } from '@fixtures';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { UsersClient } from '@api/clients/UsersClient';
 import type { MessageErrorBody, User } from '@api/dto/user';
+import { UserFactory } from '@data/factories/UserFactory';
 import { assertMessage, attachJson } from '@utils/assertHelpers';
 
 // Scenarios: test-scenarios/api/users/get-users-me.yml
@@ -191,6 +192,41 @@ test.describe('@users-api - Users API', () => {
       await test.step('Verify the body\'s message is "Account disabled.".', async () => {
         expectMessage(request, response, 'Account disabled.');
       });
+    });
+  });
+
+  test('API-0312: Current user returns the first and last name the customer registered with', async ({
+    authService,
+    usersService,
+    adminUsersService,
+    usersClientForToken,
+    cleanup,
+  }) => {
+    // registerCustomer() sends first name "SimpRight" and the different last name "Runner" (6 characters).
+    const sent = UserFactory.registerCustomer();
+    let request: MeRequest;
+    let response: ApiResponse;
+
+    const customer = await registerThrowawayCustomer(usersService, adminUsersService, cleanup, {
+      title:
+        "Send POST /users/register with a unique email, a first name, a different last name of at most 20 characters, and a random strong password, and take the new user's id.",
+      body: sent,
+    });
+    const token = await loginThrowawayCustomer(authService, customer);
+
+    await test.step('Send GET /users/me with that access_token.', async () => {
+      ({ request, response } = await sendMe(usersClientForToken(token), 'that access_token'));
+    });
+
+    await test.step('Verify the response status is 200.', async () => {
+      expectStatus(request, response, 200);
+    });
+
+    await test.step("Verify the body's first_name and last_name equal the values sent in the registration.", async () => {
+      const profile = JSON.parse(response.body) as User;
+      const actual = { first_name: profile.first_name, last_name: profile.last_name };
+      expect(profile.first_name, assertMessage({ request, expected: `first_name is "${sent.first_name}"`, actual })).toBe(sent.first_name);
+      expect(profile.last_name, assertMessage({ request, expected: `last_name is "${sent.last_name}"`, actual })).toBe(sent.last_name);
     });
   });
 });

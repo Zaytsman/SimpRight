@@ -11,7 +11,7 @@ Anonymous shopping carts in the Toolshop API: create a cart, add products, chang
 ## Authentication
 
 - None: every carts endpoint is public; whoever knows a cart id can read and change it. `CartController` has no auth middleware. _(source)_ `GET /carts/{cartId}` answers without a token. _(verified)_
-- A token, when sent, is ignored by the carts handlers; it only changes how products inside the cart are serialized (`in_stock` is the stock count for an admin token, see `Products_API.md`). _(source)_
+- A token, when sent, is ignored by the carts handlers _(source)_; it only changes how products inside the cart are serialized: `in_stock` is the stock count for an admin token (see `Products_API.md`) _(verified)_
 
 ## Endpoints Overview
 
@@ -42,7 +42,7 @@ Creates an empty cart and returns its id. The optional coordinates are stored on
 
 **Endpoint:** `POST /carts`
 
-**Auth:** None _(source)_
+**Auth:** None _(verified)_
 
 **Request Body:**
 ```ts
@@ -54,7 +54,7 @@ Creates an empty cart and returns its id. The optional coordinates are stored on
 
 An empty body (or none) is fine (`CartTest`: "create cart without coordinates"). Any other field is ignored (`$request->only(['lat', 'lng'])`). _(source)_
 
-**Response:** `201 Created` _(source)_
+**Response:** `201 Created` _(verified)_
 ```ts
 {
   id: string;   // ULID of the new cart
@@ -67,11 +67,11 @@ The handler has no error branch of its own. The source doesn't show what happens
 
 ### 2. Add item to cart
 
-Adds a product to the cart. When the product is already in the cart, its quantity is **increased** by `quantity` (`firstOrCreate` + `increment`); no second line is created. _(source)_ The service's own test adds 2 to an item with quantity 1 and expects 3. _(source)_
+Adds a product to the cart. When the product is already in the cart, its quantity is **increased** by `quantity` (`firstOrCreate` + `increment`); no second line is created (1 + 2 = 3, 99 + 99 = 198). _(verified)_ The service's own test adds 2 to an item with quantity 1 and expects 3. _(source)_
 
 **Endpoint:** `POST /carts/{cartId}`
 
-**Auth:** None _(source)_
+**Auth:** None _(verified)_
 
 **Path Parameters:**
 
@@ -105,9 +105,9 @@ Rules worth testing _(source)_:
 The response has no ids: read the cart (`GET /carts/{cartId}`) to see the item's `id` and quantity. _(source)_
 
 **Error Responses:**
-- `400 Bad Request`: a Thor Hammer rule is broken (quantity above 1, or already in the cart), with `{ message: "You can only have one Thor Hammer in the cart." }`; any other unexpected exception in the service also becomes a `400` with its message _(source)_
-- `404 Not Found`: no cart with this id, with `{ message: "Cart not found" }` _(source)_
-- `422 Unprocessable Entity`: `product_id` missing, not a string or not an existing product; `quantity` missing or not an integer. Framework default body `{ message, errors }` (see Error Handling) _(source)_; `quantity` below 1 or above 99 _(source)_; `quantity` 0 and 1,000,000,000 give it with a `quantity` key in `errors` _(verified)_
+- `400 Bad Request`: a Thor Hammer rule is broken (quantity above 1, or already in the cart), with `{ message: "You can only have one Thor Hammer in the cart." }` _(verified)_; any other unexpected exception in the service also becomes a `400` with its message _(source)_
+- `404 Not Found`: no cart with this id, with `{ message: "Cart not found" }` _(verified)_
+- `422 Unprocessable Entity`: `product_id` missing or not an existing product; `quantity` missing or not an integer (1.5); `errors` names the failing fields _(verified)_. `product_id` not a string; framework default body `{ message, errors }` (see Error Handling) _(source)_; `quantity` below 1 or above 99 _(source)_; `quantity` 0 and 1,000,000,000 give it with a `quantity` key in `errors` _(verified)_
 
 **Example:**
 ```http
@@ -152,7 +152,7 @@ Sets (replaces) the quantity of a product that is in the cart. _(source)_
 
 **Endpoint:** `PUT /carts/{cartId}/product/quantity`
 
-**Auth:** None _(source)_
+**Auth:** None _(verified)_
 
 **Path Parameters:**
 
@@ -174,7 +174,7 @@ Rules worth testing _(source)_:
 - **Thor Hammer:** a `quantity` above 1 fails with `400` and `"You can only have one Thor Hammer in the cart."`.
 - Validation runs before the cart is looked up. Discounts aren't recalculated.
 
-**Response:** `200 OK` _(source)_
+**Response:** `200 OK` _(verified)_
 ```ts
 {
   result: "item added or updated";
@@ -182,9 +182,9 @@ Rules worth testing _(source)_:
 ```
 
 **Error Responses:**
-- `400 Bad Request`: Thor Hammer with a quantity above 1, with `{ message: "You can only have one Thor Hammer in the cart." }`; any other unexpected exception in the service also becomes a `400` with its message _(source)_
-- `404 Not Found`: no cart with this id, with `{ message: "Cart doesn't exist" }` _(source)_
-- `422 Unprocessable Entity`: `product_id` missing, not a string or not an existing product; `quantity` missing, not an integer, below 1 or above 99. The service's tests assert e.g. `{ errors: { quantity: ["The quantity field is required."] }, message: "The quantity field is required." }` and `"The quantity field must be an integer."` _(source)_
+- `400 Bad Request`: Thor Hammer with a quantity above 1, with `{ message: "You can only have one Thor Hammer in the cart." }` _(verified)_; any other unexpected exception in the service also becomes a `400` with its message _(source)_
+- `404 Not Found`: no cart with this id, with `{ message: "Cart doesn't exist" }` _(verified)_
+- `422 Unprocessable Entity`: `product_id` missing or not an existing product; `quantity` missing, not an integer or 0; the messages include `"The quantity field is required."` and `"The quantity field must be an integer."` _(verified)_. `product_id` not a string; `quantity` above 99 _(source)_
 
 ---
 
@@ -194,7 +194,7 @@ Deletes the cart's line for this product and recalculates the cart's combined (r
 
 **Endpoint:** `DELETE /carts/{cartId}/product/{productId}`
 
-**Auth:** None _(source)_
+**Auth:** None _(verified)_
 
 **Path Parameters:**
 
@@ -203,12 +203,12 @@ Deletes the cart's line for this product and recalculates the cart's combined (r
 | `cartId` | string (ULID) | Yes | The cart's id |
 | `productId` | string (ULID) | Yes | The product's id (not the cart item's id) |
 
-**Response:** `204 No Content` _(source)_
+**Response:** `204 No Content` _(verified)_
 
-The product id isn't checked: an unknown product, or one that isn't in the cart, also gives `204` (`CartTest`: "product not found in cart"). _(source)_
+The product id isn't checked: an unknown product also gives `204` _(verified)_, as does one that isn't in the cart (`CartTest`: "product not found in cart") _(source)_
 
 **Error Responses:**
-- `404 Not Found`: no cart with this id, with `{ message: "Cart doesnt exists" }` _(source)_
+- `404 Not Found`: no cart with this id, with `{ message: "Cart doesnt exists" }` _(verified)_
 
 ---
 
@@ -224,10 +224,10 @@ Deletes the cart's items, then the cart. A product can't be deleted while a cart
 |---|---|---|---|
 | `cartId` | string (ULID) | Yes | The cart's id |
 
-**Response:** `204 No Content` _(source)_
+**Response:** `204 No Content` _(verified)_
 
 **Error Responses:**
-- `404 Not Found`: no cart with this id, with `{ message: "Cart doesnt exists" }` _(source)_
+- `404 Not Found`: no cart with this id, with `{ message: "Cart doesnt exists" }` _(verified)_
 
 ## Data Models
 
@@ -301,9 +301,9 @@ interface CartProduct {
 
 - **No auth:** anyone who knows a cart id can read, change or delete the cart. Cart ids are ULIDs, so hard to guess, but the UI stores them in `sessionStorage`. _(source)_
 - **OPTIONS:** every carts path answers `OPTIONS` with `204` and an `Allow` header: `POST` for `/carts`, `DELETE, GET, POST` for `/carts/{cartId}`, `DELETE` for `/carts/{cartId}/product/{productId}`, and `DELETE, PUT` for `/carts/{cartId}/product/quantity`. _(verified)_
-- **`/product/quantity` overlaps `/product/{productId}`:** `DELETE /carts/{cartId}/product/quantity` matches the remove-product route with `productId = "quantity"`, so it returns `204` (or `404` for an unknown cart) and removes nothing. _(source)_ The `Allow` header above reflects the overlap. _(verified)_
+- **`/product/quantity` overlaps `/product/{productId}`:** `DELETE /carts/{cartId}/product/quantity` matches the remove-product route with `productId = "quantity"`, so it returns `204` and removes nothing _(verified)_, or `404` for an unknown cart _(source)_. The `Allow` header above reflects the overlap. _(verified)_
 - **Location discount for every product:** the service applies the location discount when `isset($existingItem->product->is_location_offer)`, which is true for `false` as well as `true`, so every product added to a cart with matching coordinates gets the discount, not only location offers. Suspected bug. _(source)_
-- **Running total unchecked:** the 1-99 limit applies per request; repeated adds can push a line above 99, while `PUT .../quantity` can't set it there. Possibly unintended. _(source)_
+- **Running total unchecked:** the 1-99 limit applies per request; repeated adds can push a line above 99 (99 + 99 = 198) _(verified)_, while `PUT .../quantity` can't set it there _(source)_. Possibly unintended.
 - **Thor Hammer by name:** the one-per-cart rule matches `name === 'Thor Hammer'`; product writes need no token (`Products_API.md`), so the seeded product can be renamed by anyone and the rule then no longer applies to it. _(source)_
 - **Generic `400`:** both add and update catch every other exception and return `400` with the exception's message, so unexpected server errors (including database errors) show up as `400`, possibly with an internal message. _(source)_
 - **XML:** with `Accept: text/xml`, responses are rendered as XML (`Controller::preferredFormat`). _(source)_

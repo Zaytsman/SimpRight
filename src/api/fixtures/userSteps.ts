@@ -1,6 +1,9 @@
 import { test, expect } from '@playwright/test';
 import type { Cleanup } from '../../fixtures/base';
 import type { TestUser } from '../../config/env';
+import type { AuthClient } from '../clients/AuthClient';
+import type { LoginResponse } from '../dto/auth';
+import type { RegisterUserRequest } from '../dto/user';
 import type { AuthService } from '../services/AuthService';
 import type { UsersService } from '../services/UsersService';
 import { UserFactory } from '../../data/factories/UserFactory';
@@ -23,16 +26,19 @@ export interface ThrowawayCustomer {
 /**
  * The register step, with its title verbatim: registers a throwaway customer (no token) and right away
  * registers its removal as admin (DELETE /users/{userId} is admin-only). Returns its id and credentials.
+ * `options.title` and `options.body` serve scenarios whose register step asks for other values (default:
+ * USER_REGISTER_STEP and `UserFactory.registerCustomer()`).
  */
 export async function registerThrowawayCustomer(
   usersService: UsersService,
   adminUsersService: UsersService,
-  cleanup: Cleanup
+  cleanup: Cleanup,
+  options: { title?: string; body?: RegisterUserRequest } = {}
 ): Promise<ThrowawayCustomer> {
   let customer: ThrowawayCustomer = { id: '', email: '', password: '' };
 
-  await test.step(USER_REGISTER_STEP, async () => {
-    const body = UserFactory.registerCustomer();
+  await test.step(options.title ?? USER_REGISTER_STEP, async () => {
+    const body = options.body ?? UserFactory.registerCustomer();
     await attachJson('Register Request', { method: 'POST', path: '/users/register', body });
     const created = await usersService.register(body);
     cleanup.add(() => adminUsersService.delete(created.id));
@@ -42,6 +48,46 @@ export async function registerThrowawayCustomer(
   });
 
   return customer;
+}
+
+/** The login step of the scenarios that log in their throwaway customer (wording of most Users files). */
+export const THROWAWAY_LOGIN_STEP = 'Send POST /users/login with that email and password, and take its access_token.';
+
+/**
+ * The login step (title `title`, default THROWAWAY_LOGIN_STEP) for a customer the test registered: logs in with its
+ * email and password and returns the access_token. A setup step, so a failed login fails the step.
+ */
+export async function loginThrowawayCustomer(authService: AuthService, customer: ThrowawayCustomer, title: string = THROWAWAY_LOGIN_STEP): Promise<string> {
+  let token = '';
+
+  await test.step(title, async () => {
+    const credentials = { email: customer.email, password: customer.password };
+    const request = { method: 'POST', path: '/users/login', body: credentials };
+    await attachJson('Login Request', request);
+    const login = await authService.login(credentials);
+    await attachJson('Login Response', login);
+    expect(Boolean(login.access_token), assertMessage({ request, expected: 'The login returns an access_token' })).toBe(true);
+    token = login.access_token;
+  });
+
+  return token;
+}
+
+/**
+ * The checks of a "Verify POST /users/login with that email and <password> returns 200 with a non-empty access_token."
+ * step. `passwordLabel` names the password in the attached request; the token is checked as a condition.
+ */
+export async function expectLoginSucceeds(authClient: AuthClient, email: string, password: string, passwordLabel: string): Promise<void> {
+  const request = { method: 'POST', path: '/users/login', body: { email, password }, password: passwordLabel };
+  const response = await authClient.login({ email, password });
+  await attachJson('Login Request', request);
+  await attachJson('Login Response', { status: response.status, body: response.body });
+  expect(response.status, assertMessage({ request, expected: 'Status 200', actual: { status: response.status, body: response.body } })).toBe(200);
+  const body = JSON.parse(response.body) as Partial<LoginResponse>;
+  expect(
+    typeof body.access_token === 'string' && body.access_token.length > 0,
+    assertMessage({ request, expected: 'access_token is a non-empty string', actual: typeof body.access_token })
+  ).toBe(true);
 }
 
 /** The login setup step of the logout and refresh scenarios (same wording in both files). */

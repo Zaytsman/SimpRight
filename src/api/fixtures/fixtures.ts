@@ -47,6 +47,8 @@ export type ApiFixtures = {
   cartsClient: CartsClient;
   /** Public: carts need no token (setup creates carts; cleanup removes the carts tests filled). */
   cartsService: CartsService;
+  /** Carts endpoints authenticated as the test's `role` (the token only changes how products are serialized: an admin sees the stock count). */
+  cartsClientWithToken: CartsClient;
   /** Builds a favorites service for a token the test obtained itself (the favourites of that token's user). */
   favoritesServiceForToken: (token: string) => FavoritesService;
   /** Public: POST /payment/check needs no token. */
@@ -114,6 +116,9 @@ export const test = base.extend<ApiFixtures>({
   },
   cartsService: async ({ cartsClient }, use) => {
     await use(new CartsService(cartsClient));
+  },
+  cartsClientWithToken: async ({ request, config, accessToken }, use) => {
+    await use(new CartsClient(request, config, accessToken));
   },
 
   favoritesServiceForToken: async ({ request, config }, use) => {

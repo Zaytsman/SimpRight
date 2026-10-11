@@ -5,7 +5,8 @@ scenarios:
   - id: API-0260
     name: Remove a product from a cart returns 204 and the cart no longer holds it
     ref: docs/ui/user-stories/Checkout_Cart_Review.md#AC3
-    status: manual
+    status: automated
+    automatedIn: tests/api/carts/delete-carts-by-cart-id-product-by-product-id.spec.ts
     steps:
       - Send GET /products and take the first item's brand id, category id and product image id.
       - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental false and stock 10, and take the new product's id.
@@ -17,7 +18,8 @@ scenarios:
   - id: API-0261
     name: Remove the rental product from a rental and non-rental cart clears the additional discount
     ref: docs/ui/user-stories/Checkout_Cart_Review.md#AC8
-    status: manual
+    status: automated
+    automatedIn: tests/api/carts/delete-carts-by-cart-id-product-by-product-id.spec.ts
     steps:
       - Send GET /products and take the first item's brand id, category id and product image id.
       - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental false and stock 10, and take the new product's id as the non-rental product's id.
@@ -31,7 +33,8 @@ scenarios:
       - Verify its cart_items has exactly one item, with the non-rental product's id as product_id.
   - id: API-0262
     name: Remove an unknown product from a cart returns 204 and keeps the cart's items
-    status: manual
+    status: automated
+    automatedIn: tests/api/carts/delete-carts-by-cart-id-product-by-product-id.spec.ts
     steps:
       - Send GET /products and take the first item's brand id, category id and product image id.
       - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental false and stock 10, and take the new product's id.
@@ -42,14 +45,16 @@ scenarios:
       - Verify GET /carts/{cartId} with the cart's id returns 200 and its cart_items has exactly one item, with the new product's id as product_id and quantity 1.
   - id: API-0263
     name: Remove a product from an unknown cart returns 404
-    status: manual
+    status: automated
+    automatedIn: tests/api/carts/delete-carts-by-cart-id-product-by-product-id.spec.ts
     steps:
       - Send DELETE /carts/{cartId}/product/{productId} with a well-formed cart id that doesn't exist and an existing product's id (taken from GET /products).
       - Verify the response status is 404.
       - Verify the body's message is "Cart doesnt exists".
   - id: API-0264
     name: DELETE /carts/{cartId}/product/quantity returns 204 and removes nothing
-    status: manual
+    status: automated
+    automatedIn: tests/api/carts/delete-carts-by-cart-id-product-by-product-id.spec.ts
     steps:
       - Send GET /products and take the first item's brand id, category id and product image id.
       - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental false and stock 10, and take the new product's id.
@@ -61,7 +66,8 @@ scenarios:
   - id: API-0306
     name: Remove the non-rental product from a rental and non-rental cart clears the additional discount and keeps the rental line
     ref: docs/ui/user-stories/Checkout_Cart_Review.md#AC8
-    status: manual
+    status: automated
+    automatedIn: tests/api/carts/delete-carts-by-cart-id-product-by-product-id.spec.ts
     steps:
       - Send GET /products and take the first item's brand id, category id and product image id.
       - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental false and stock 10, and take the new product's id as the non-rental product's id.
@@ -76,7 +82,8 @@ scenarios:
   - id: API-0307
     name: Remove one of two rental products from a cart with a non-rental product keeps the additional discount
     ref: docs/ui/user-stories/Checkout_Cart_Review.md#AC8
-    status: manual
+    status: automated
+    automatedIn: tests/api/carts/delete-carts-by-cart-id-product-by-product-id.spec.ts
     steps:
       - Send GET /products and take the first item's brand id, category id and product image id.
       - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental false and stock 10, and take the new product's id as the non-rental product's id.

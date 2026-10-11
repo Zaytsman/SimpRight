@@ -67,7 +67,8 @@ scenarios:
   - id: API-0308
     name: Login of a TOTP account returns "TOTP required" with a restricted token
     ref: docs/ui/user-stories/Checkout_Sign_In.md#AC3
-    status: manual
+    status: automated
+    automatedIn: tests/api/users/post-users-login.spec.ts
     steps:
       - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.
       - Send POST /users/login with that email and password, and take its access_token.
@@ -80,7 +81,8 @@ scenarios:
   - id: API-0309
     name: TOTP login step with the right code returns a full token
     ref: docs/ui/user-stories/Checkout_Sign_In.md#AC3
-    status: manual
+    status: automated
+    automatedIn: tests/api/users/post-users-login.spec.ts
     steps:
       - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.
       - Send POST /users/login with that email and password, and take its access_token.
@@ -94,7 +96,8 @@ scenarios:
   - id: API-0310
     name: Restricted token of the TOTP first step is rejected as a session
     ref: docs/ui/user-stories/Checkout_Sign_In.md#AC3
-    status: manual
+    status: automated
+    automatedIn: tests/api/users/post-users-login.spec.ts
     steps:
       - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.
       - Send POST /users/login with that email and password, and take its access_token.
@@ -106,7 +109,8 @@ scenarios:
   - id: API-0311
     name: TOTP login step with a wrong code returns 401
     ref: docs/ui/user-stories/Checkout_Sign_In.md#AC3
-    status: manual
+    status: automated
+    automatedIn: tests/api/users/post-users-login.spec.ts
     steps:
       - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.
       - Send POST /users/login with that email and password, and take its access_token.

@@ -21,4 +21,10 @@ export const TestConstants = {
      */
     unknownId: '01ZZZZZZZZZZZZZZZZZZZZZZZZ',
   },
+  carts: {
+    /** A well-formed ULID that no cart has (the same value as products.unknownId: no seeded or created record can have it). */
+    unknownId: '01ZZZZZZZZZZZZZZZZZZZZZZZZ',
+    /** The seeded product limited to one per cart: a quantity above 1, or adding it twice, returns 400 (the rule matches the name). */
+    thorHammer: 'Thor Hammer',
+  },
 } as const;

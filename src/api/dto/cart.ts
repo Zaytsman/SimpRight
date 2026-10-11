@@ -16,7 +16,14 @@ export interface AddCartItemRequest {
   quantity: number;
 }
 
-/** `POST /carts/{cartId}` (200): no ids, read the cart to see the item. */
+/** Body of `PUT /carts/{cartId}/product/quantity`: sets the quantity of a product that is in the cart. */
+export interface UpdateCartItemQuantityRequest {
+  product_id: string;
+  /** An integer from 1 to 99. */
+  quantity: number;
+}
+
+/** `POST /carts/{cartId}` and `PUT /carts/{cartId}/product/quantity` (200): no ids, read the cart to see the item. */
 export interface CartItemResult {
   result: string;
 }

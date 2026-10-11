@@ -1,51 +1,13 @@
-import { test, expect, takeProductRefs, expectFieldMessages, PRODUCT_LIST_STEP } from '@fixtures';
-import type { Cleanup } from '@fixtures/base';
+import { test, expect, takeProductRefs, expectFieldMessages, sendCreateProduct, PRODUCT_LIST_STEP, type CreateProductRequestInfo } from '@fixtures';
 import type { ApiResponse } from '@api/clients/BaseClient';
-import type { ProductsClient } from '@api/clients/ProductsClient';
 import type { CreateProductRequest, Product, ProductDetails } from '@api/dto/product';
-import type { ProductsService } from '@api/services/ProductsService';
 import { TestConstants } from '@data/TestConstants';
 import { ProductFactory, type ProductRefs } from '@data/factories/ProductFactory';
 import { assertMessage, attachJson } from '@utils/assertHelpers';
 
 // Scenarios: test-scenarios/api/products/post-products.yml
 
-type Request = { method: string; path: string; auth: string; body: unknown };
-
-/**
- * POST /products is the call under test, so a product exists only when the response says so: register its
- * removal (as admin, DELETE is admin-only) only for a 2xx response with an id. Covers the known issue (POST
- * without a token creates the product) and any validation case that unexpectedly creates one.
- */
-function removeIfCreated(response: ApiResponse, adminProductsService: ProductsService, cleanup: Cleanup): void {
-  if (!response.isSuccess) return;
-  let id: string | undefined;
-  try {
-    id = (JSON.parse(response.body) as Partial<Product>).id;
-  } catch {
-    return;
-  }
-  if (id) cleanup.add(() => adminProductsService.delete(id));
-}
-
-/**
- * Sends the POST with the given client (the public one, without a token, unless a test passes another) and attaches
- * what was sent and what came back. `auth` describes the client's token in the attached request.
- */
-async function sendCreate(
-  productsClient: ProductsClient,
-  body: CreateProductRequest | Record<string, unknown>,
-  adminProductsService: ProductsService,
-  cleanup: Cleanup,
-  auth = 'none'
-): Promise<{ request: Request; response: ApiResponse }> {
-  const request: Request = { method: 'POST', path: '/products', auth, body };
-  const response = await productsClient.create(body);
-  removeIfCreated(response, adminProductsService, cleanup);
-  await attachJson('Create Product Request', request);
-  await attachJson('Create Product Response', { status: response.status, body: response.body });
-  return { request, response };
-}
+type Request = CreateProductRequestInfo;
 
 test.describe('@products-api - Products API', () => {
   test('API-0033: Create product returns 201 with the new product', async ({
@@ -65,7 +27,7 @@ test.describe('@products-api - Products API', () => {
       'Send POST /products with a unique product name, a positive price, that category id, brand id and product image id, is_location_offer false and is_rental false.',
       async () => {
         sent = ProductFactory.createProduct(refs);
-        ({ request, response } = await sendCreate(productsClient, sent, adminProductsService, cleanup));
+        ({ request, response } = await sendCreateProduct(productsClient, sent, adminProductsService, cleanup));
       }
     );
 
@@ -116,7 +78,7 @@ test.describe('@products-api - Products API', () => {
     let response: ApiResponse;
 
     await test.step('Send POST /products with an empty JSON object as the body.', async () => {
-      ({ request, response } = await sendCreate(productsClient, {}, adminProductsService, cleanup));
+      ({ request, response } = await sendCreateProduct(productsClient, {}, adminProductsService, cleanup));
     });
 
     await test.step('Verify the response status is 422.', async () => {
@@ -156,7 +118,7 @@ test.describe('@products-api - Products API', () => {
       'Send POST /products with a 121-character name that starts with a unique product name, a positive price, those ids, is_location_offer false and is_rental false.',
       async () => {
         const body = ProductFactory.createProduct(refs, ProductFactory.nameTooLong());
-        ({ request, response } = await sendCreate(productsClient, body, adminProductsService, cleanup));
+        ({ request, response } = await sendCreateProduct(productsClient, body, adminProductsService, cleanup));
       }
     );
 
@@ -184,7 +146,7 @@ test.describe('@products-api - Products API', () => {
       'Send POST /products with a unique product name, a 1251-character description, a positive price, those ids, is_location_offer false and is_rental false.',
       async () => {
         const body = ProductFactory.createProduct(refs, ProductFactory.descriptionTooLong());
-        ({ request, response } = await sendCreate(productsClient, body, adminProductsService, cleanup));
+        ({ request, response } = await sendCreateProduct(productsClient, body, adminProductsService, cleanup));
       }
     );
 
@@ -212,7 +174,7 @@ test.describe('@products-api - Products API', () => {
       'Send POST /products with a unique product name followed by a Unicode subscript character, a positive price, those ids, is_location_offer false and is_rental false.',
       async () => {
         const body = ProductFactory.createProduct(refs, ProductFactory.nameWithSubscript());
-        ({ request, response } = await sendCreate(productsClient, body, adminProductsService, cleanup));
+        ({ request, response } = await sendCreateProduct(productsClient, body, adminProductsService, cleanup));
       }
     );
 
@@ -240,7 +202,7 @@ test.describe('@products-api - Products API', () => {
       'Send POST /products with a unique product name, a description that contains a Unicode superscript character, a positive price, those ids, is_location_offer false and is_rental false.',
       async () => {
         const body = ProductFactory.createProduct(refs, ProductFactory.descriptionWithSuperscript());
-        ({ request, response } = await sendCreate(productsClient, body, adminProductsService, cleanup));
+        ({ request, response } = await sendCreateProduct(productsClient, body, adminProductsService, cleanup));
       }
     );
 
@@ -276,7 +238,7 @@ test.describe('@products-api - Products API', () => {
           productImageId: refs.productImageId!,
           categoryId: TestConstants.products.unknownId,
         });
-        ({ request, response } = await sendCreate(productsClient, body, adminProductsService, cleanup));
+        ({ request, response } = await sendCreateProduct(productsClient, body, adminProductsService, cleanup));
       }
     );
 
@@ -308,7 +270,7 @@ test.describe('@products-api - Products API', () => {
           productImageId: refs.productImageId!,
           categoryId: refs.categoryId!,
         });
-        ({ request, response } = await sendCreate(productsClient, body, adminProductsService, cleanup));
+        ({ request, response } = await sendCreateProduct(productsClient, body, adminProductsService, cleanup));
       }
     );
 
@@ -340,7 +302,7 @@ test.describe('@products-api - Products API', () => {
           productImageId: TestConstants.products.unknownId,
           categoryId: refs.categoryId!,
         });
-        ({ request, response } = await sendCreate(productsClient, body, adminProductsService, cleanup));
+        ({ request, response } = await sendCreateProduct(productsClient, body, adminProductsService, cleanup));
       }
     );
 
@@ -360,7 +322,7 @@ test.describe('@products-api - Products API', () => {
       'Send POST /products with a unique product name, a positive price, those ids, is_location_offer false and is_rental false, without an Authorization header.',
       async () => {
         const body = ProductFactory.createProduct(refs);
-        ({ request, response } = await sendCreate(productsClient, body, adminProductsService, cleanup));
+        ({ request, response } = await sendCreateProduct(productsClient, body, adminProductsService, cleanup));
       }
     );
 
@@ -389,7 +351,7 @@ test.describe('@products-api - Products API', () => {
         'Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental false, co2_rating "A" and stock 10, and take the new product\'s id.',
         async () => {
           const body = ProductFactory.createProduct(refs, { co2_rating: 'A', stock: 10 });
-          ({ request, response } = await sendCreate(productsClientWithToken, body, adminProductsService, cleanup, "admin's token"));
+          ({ request, response } = await sendCreateProduct(productsClientWithToken, body, adminProductsService, cleanup, "admin's token"));
           if (response.isSuccess) productId = (JSON.parse(response.body) as Product).id;
         }
       );

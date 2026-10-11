@@ -23,3 +23,10 @@ export interface LoginErrorBody {
 
 /** Response of `GET /users/refresh` (200): a new token, same shape as the login response. */
 export type RefreshResponse = LoginResponse;
+
+/** Response of the first `POST /users/login` step for an account with TOTP enabled (200): a restricted token for the TOTP step. */
+export interface TotpRequiredResponse {
+  message: string;
+  requires_totp: boolean;
+  access_token: string;
+}

@@ -4,8 +4,8 @@ import type { FieldValidationError } from '@api/dto/common';
 import { assertMessage } from './assertHelpers';
 
 /**
- * Checks that API specs share for steps checked through a client: the status, Laravel's 422 `errors`
- * keys and a redirect's Location. `request` is the request record the spec attached, used in the
+ * Checks that API specs share for steps checked through a client: the status, the body's message,
+ * Laravel's 422 `errors` keys and a redirect's Location. `request` is the request record the spec attached, used in the
  * failure message. A check specific to one endpoint stays in its spec.
  */
 
@@ -23,6 +23,12 @@ export function expectStatus(request: unknown, response: ApiResponse, status: nu
   );
 }
 
+/** The checks of a "Verify the body's success is <true | false>." step. */
+export function expectSuccess(request: unknown, response: ApiResponse, success: boolean): void {
+  const body = JSON.parse(response.body) as { success?: unknown };
+  expect(body.success, assertMessage({ request, expected: `success is ${success}`, actual: body })).toBe(success);
+}
+
 /** The checks of a "Verify the body's errors has the key(s) ..., each with at least one message." step; returns the parsed body. */
 export function expectErrorKeys(request: unknown, response: ApiResponse, keys: string[]): FieldValidationError {
   const body = JSON.parse(response.body) as FieldValidationError;
@@ -34,6 +40,24 @@ export function expectErrorKeys(request: unknown, response: ApiResponse, keys: s
     ).toBe(true);
   }
   return body;
+}
+
+/** The checks of a "Verify the body's errors has the keys ..." step that asks only for the keys, not for their messages. */
+export function expectErrorKeysPresent(request: unknown, response: ApiResponse, keys: string[]): FieldValidationError {
+  const body = JSON.parse(response.body) as FieldValidationError;
+  for (const key of keys) {
+    expect(
+      body.errors !== null && typeof body.errors === 'object' && key in body.errors,
+      assertMessage({ request, expected: `errors has the key "${key}"`, actual: body })
+    ).toBe(true);
+  }
+  return body;
+}
+
+/** The checks of a "Verify the body's message is "<message>"." step. */
+export function expectMessage(request: unknown, response: ApiResponse, message: string): void {
+  const body = JSON.parse(response.body) as { message?: unknown };
+  expect(body.message, assertMessage({ request, expected: `message is "${message}"`, actual: body })).toBe(message);
 }
 
 /** The checks of a "Verify the body's errors has no other keys." step. */
