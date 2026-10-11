@@ -2,8 +2,8 @@
 window.BUG_CATALOG = {
  "title": "Bugs",
  "prefix": "BUG",
- "generatedAt": "2026-10-10T14:40:02.227Z",
- "commit": "6002d39cb1f21405444f5ae8c76f3b37532b7a3b",
+ "generatedAt": "2026-10-11T08:57:47.104Z",
+ "commit": "31008aa9d4f0dd8ae74d2d298b9d54bd1404066b",
  "repoUrl": "https://github.com/Zaytsman/SimpRight",
  "branch": "main",
  "bugsDir": "bugs",
@@ -26,8 +26,8 @@ window.BUG_CATALOG = {
   }
  ],
  "stats": {
-  "total": 29,
-  "open": 29,
+  "total": 43,
+  "open": 43,
   "fixed": 0,
   "wontFix": 0
  },
@@ -829,6 +829,290 @@ window.BUG_CATALOG = {
    ]
   },
   {
+   "id": "BUG-032",
+   "title": "Any logged-in customer can search all customers' names, emails and cities",
+   "status": "open",
+   "severity": "major",
+   "layer": "api",
+   "area": "users",
+   "affects": [
+    "GET /users/search",
+    "QUERY /users/search"
+   ],
+   "found": "2026-10-11",
+   "ref": [
+    "docs/api/contracts/Users_API.md#9-search-users",
+    "docs/api/contracts/Users_API.md#notes"
+   ],
+   "description": "GET /users and DELETE /users/{userId} are admin only, but GET and QUERY /users/search have no role check, so any customer can list other customers' first names, last names, emails and cities (15 per page).",
+   "steps": [
+    "Send GET /users/search with q set to a letter and the default user's token.",
+    "Send QUERY /users/search with Content-Type application/json and the body { \"q\": \"a\" } and the default user's token."
+   ],
+   "expected": "403, as for GET /users (the contract names no code; the user list is admin only).",
+   "actual": "200 with other customers' data (from the source code; not reproduced live).",
+   "evidence": "Users_API.md, Notes, \"Search is open to every logged-in user\" (read from UserController in sprint5/API):\nthe search routes have no role check.",
+   "file": "bugs/BUG-032.yml",
+   "yaml": "id: BUG-032\ntitle: Any logged-in customer can search all customers' names, emails and cities\nstatus: open\nseverity: major\nlayer: api\narea: users\naffects:\n  - GET /users/search\n  - QUERY /users/search\nfound: 2026-10-11\nref:\n  - docs/api/contracts/Users_API.md#9-search-users\n  - docs/api/contracts/Users_API.md#notes\ndescription: >-\n  GET /users and DELETE /users/{userId} are admin only, but GET and QUERY /users/search have no role check, so any\n  customer can list other customers' first names, last names, emails and cities (15 per page).\nsteps:\n  - Send GET /users/search with q set to a letter and the default user's token.\n  - 'Send QUERY /users/search with Content-Type application/json and the body { \"q\": \"a\" } and the default user''s token.'\nexpected: \"403, as for GET /users (the contract names no code; the user list is admin only).\"\nactual: \"200 with other customers' data (from the source code; not reproduced live).\"\nevidence: |-\n  Users_API.md, Notes, \"Search is open to every logged-in user\" (read from UserController in sprint5/API):\n  the search routes have no role check.",
+   "scenarios": [
+    {
+     "id": "API-0414",
+     "name": "Search users as a customer returns 403",
+     "layer": "api",
+     "area": "users",
+     "file": "test-scenarios/api/users/get-users-search.yml",
+     "status": "manual",
+     "knownIssue": "Returns 200 with other customers' names, emails and cities instead of rejecting a customer (403, like GET /users)."
+    },
+    {
+     "id": "API-0419",
+     "name": "QUERY search as a customer returns 403",
+     "layer": "api",
+     "area": "users",
+     "file": "test-scenarios/api/users/query-users-search.yml",
+     "status": "manual",
+     "knownIssue": "Returns 200 with other customers' names, emails and cities instead of rejecting a customer (403, like GET /users)."
+    }
+   ]
+  },
+  {
+   "id": "BUG-033",
+   "title": "A customer can change their own enabled, failed_login_attempts and totp fields with PATCH",
+   "status": "open",
+   "severity": "major",
+   "layer": "api",
+   "area": "users",
+   "affects": [
+    "PATCH /users/{userId}"
+   ],
+   "found": "2026-10-11",
+   "ref": [
+    "docs/api/contracts/Users_API.md#13-partially-update-user",
+    "docs/api/contracts/Users_API.md#notes"
+   ],
+   "description": "PATCH /users/{userId} validates and saves enabled, failed_login_attempts and the totp_* fields for the user's own record, although they are account-state fields that /users/me hides from customers. A customer can reset their own login lockout counter or change their two-factor settings.",
+   "steps": [
+    "Register a throwaway customer and log in.",
+    "Send GET /users/{userId} with the new customer's id and the admin's token, and note failed_login_attempts.",
+    "Send PATCH /users/{userId} with that id, the customer's token and failed_login_attempts 2.",
+    "Send GET /users/{userId} with the admin's token again."
+   ],
+   "expected": "The value is rejected or ignored, so failed_login_attempts is unchanged.",
+   "actual": "The value is saved (from the source code; not reproduced live).",
+   "evidence": "Users_API.md, Notes, \"Self-service account flags\" (read from the PATCH form request in sprint5/API):\nenabled, failed_login_attempts and the totp_* fields have rules and are saved.",
+   "file": "bugs/BUG-033.yml",
+   "yaml": "id: BUG-033\ntitle: A customer can change their own enabled, failed_login_attempts and totp fields with PATCH\nstatus: open\nseverity: major\nlayer: api\narea: users\naffects:\n  - PATCH /users/{userId}\nfound: 2026-10-11\nref:\n  - docs/api/contracts/Users_API.md#13-partially-update-user\n  - docs/api/contracts/Users_API.md#notes\ndescription: >-\n  PATCH /users/{userId} validates and saves enabled, failed_login_attempts and the totp_* fields for the user's own\n  record, although they are account-state fields that /users/me hides from customers. A customer can reset their\n  own login lockout counter or change their two-factor settings.\nsteps:\n  - Register a throwaway customer and log in.\n  - Send GET /users/{userId} with the new customer's id and the admin's token, and note failed_login_attempts.\n  - Send PATCH /users/{userId} with that id, the customer's token and failed_login_attempts 2.\n  - Send GET /users/{userId} with the admin's token again.\nexpected: The value is rejected or ignored, so failed_login_attempts is unchanged.\nactual: 'The value is saved (from the source code; not reproduced live).'\nevidence: |-\n  Users_API.md, Notes, \"Self-service account flags\" (read from the PATCH form request in sprint5/API):\n  enabled, failed_login_attempts and the totp_* fields have rules and are saved.",
+   "scenarios": [
+    {
+     "id": "API-0433",
+     "name": "Patch user with the customer's own failed_login_attempts leaves the value unchanged",
+     "layer": "api",
+     "area": "users",
+     "file": "test-scenarios/api/users/patch-users-by-user-id.yml",
+     "status": "manual",
+     "knownIssue": "A customer can change their own failed_login_attempts (and enabled and the totp_* fields) with PATCH; the value is saved instead of being rejected or ignored."
+    }
+   ]
+  },
+  {
+   "id": "BUG-035",
+   "title": "Updating a user with an email another account uses returns 403 and leaks the SQL error instead of 409 or 422",
+   "status": "open",
+   "severity": "major",
+   "layer": "api",
+   "area": "users",
+   "affects": [
+    "PUT /users/{userId}",
+    "PATCH /users/{userId}"
+   ],
+   "found": "2026-10-11",
+   "ref": [
+    "docs/api/contracts/Users_API.md#12-update-user",
+    "docs/api/contracts/Users_API.md#13-partially-update-user"
+   ],
+   "description": "PUT and PATCH /users/{userId} have no uniqueness rule for the email. The database rejects a duplicate, and the handler turns the exception into 403 { error: string } with the SQL error text in the body.",
+   "steps": [
+    "Register two throwaway customers, A and B, and log in as A.",
+    "Send PATCH /users/{userId} with A's id, A's token and email set to B's email."
+   ],
+   "expected": "409 or 422 with a validation message, and no database error text.",
+   "actual": "403 with { error: string } holding the SQL error (from the source code; not reproduced live).",
+   "evidence": "Users_API.md, endpoints 12 and 13 (read from UserController in sprint5/API): a duplicate email gives 403.",
+   "file": "bugs/BUG-035.yml",
+   "yaml": "id: BUG-035\ntitle: Updating a user with an email another account uses returns 403 and leaks the SQL error instead of 409 or 422\nstatus: open\nseverity: major\nlayer: api\narea: users\naffects:\n  - PUT /users/{userId}\n  - PATCH /users/{userId}\nfound: 2026-10-11\nref:\n  - docs/api/contracts/Users_API.md#12-update-user\n  - docs/api/contracts/Users_API.md#13-partially-update-user\ndescription: >-\n  PUT and PATCH /users/{userId} have no uniqueness rule for the email. The database rejects a duplicate, and the\n  handler turns the exception into 403 { error: string } with the SQL error text in the body.\nsteps:\n  - Register two throwaway customers, A and B, and log in as A.\n  - Send PATCH /users/{userId} with A's id, A's token and email set to B's email.\nexpected: 409 or 422 with a validation message, and no database error text.\nactual: '403 with { error: string } holding the SQL error (from the source code; not reproduced live).'\nevidence: |-\n  Users_API.md, endpoints 12 and 13 (read from UserController in sprint5/API): a duplicate email gives 403.",
+   "scenarios": [
+    {
+     "id": "API-0435",
+     "name": "Patch user with an email another account uses returns 409 or 422",
+     "layer": "api",
+     "area": "users",
+     "file": "test-scenarios/api/users/patch-users-by-user-id.yml",
+     "status": "manual",
+     "knownIssue": "Returns 403, with the SQL error in the body, instead of 409 or 422 when the email already belongs to another account."
+    }
+   ]
+  },
+  {
+   "id": "BUG-036",
+   "title": "Deleting an unknown user returns 500 instead of 404",
+   "status": "open",
+   "severity": "major",
+   "layer": "api",
+   "area": "users",
+   "affects": [
+    "DELETE /users/{userId}"
+   ],
+   "found": "2026-10-11",
+   "ref": [
+    "docs/api/contracts/Users_API.md#14-delete-user"
+   ],
+   "description": "DELETE /users/{userId} ends in a server error { error: string } when no user has the id. The OpenAPI spec documents a 404.",
+   "steps": [
+    "Send DELETE /users/{userId} with a well-formed ULID that no user has and the admin's token."
+   ],
+   "expected": "404.",
+   "actual": "500 with { error: string } (from the source code; not reproduced live).",
+   "evidence": "Users_API.md, endpoint 14 and \"Spec vs source\" (read from UserController in sprint5/API): an unknown id gives 500.",
+   "file": "bugs/BUG-036.yml",
+   "yaml": "id: BUG-036\ntitle: Deleting an unknown user returns 500 instead of 404\nstatus: open\nseverity: major\nlayer: api\narea: users\naffects:\n  - DELETE /users/{userId}\nfound: 2026-10-11\nref:\n  - docs/api/contracts/Users_API.md#14-delete-user\ndescription: >-\n  DELETE /users/{userId} ends in a server error { error: string } when no user has the id. The OpenAPI spec documents a 404.\nsteps:\n  - Send DELETE /users/{userId} with a well-formed ULID that no user has and the admin's token.\nexpected: '404.'\nactual: '500 with { error: string } (from the source code; not reproduced live).'\nevidence: |-\n  Users_API.md, endpoint 14 and \"Spec vs source\" (read from UserController in sprint5/API): an unknown id gives 500.",
+   "scenarios": [
+    {
+     "id": "API-0440",
+     "name": "Delete user with an unknown id as an admin returns 404",
+     "layer": "api",
+     "area": "users",
+     "file": "test-scenarios/api/users/delete-users-by-user-id.yml",
+     "status": "manual",
+     "knownIssue": "Returns 500 instead of 404 for an unknown user id."
+    }
+   ]
+  },
+  {
+   "id": "BUG-037",
+   "title": "Any logged-in user can change the status of another customer's invoice",
+   "status": "open",
+   "severity": "major",
+   "layer": "api",
+   "area": "invoices",
+   "affects": [
+    "PUT /invoices/{invoiceId}/status"
+   ],
+   "found": "2026-10-11",
+   "ref": [
+    "docs/api/contracts/Invoices_API.md#7-update-invoice-status",
+    "docs/api/contracts/Invoices_API.md#notes"
+   ],
+   "description": "PUT /invoices/{invoiceId}/status runs Invoice::where('id', $id)->update(...) with no user_id condition, so the invoice's owner isn't checked. GET, PUT and PATCH /invoices/{invoiceId} limit a non-admin to their own invoices.",
+   "steps": [
+    "Register customers A and B and log both in.",
+    "Create an invoice as customer A.",
+    "Send PUT /invoices/{invoiceId}/status with that id, customer B's token and a body with status \"COMPLETED\".",
+    "Send GET /invoices/{invoiceId} with that id and customer A's token."
+   ],
+   "expected": "The status of customer A's invoice is not changed (the contract names no code; the other invoice endpoints answer 404 for another user's invoice).",
+   "actual": "200 with { success: true }, and the invoice has the new status (from the source code; not reproduced live).",
+   "evidence": "Invoices_API.md, Notes, \"Status update has no ownership check and writes any column\" (read from\nInvoiceController in sprint5/API). No token was available when the contract was written, so the call was not made live.",
+   "file": "bugs/BUG-037.yml",
+   "yaml": "id: BUG-037\ntitle: Any logged-in user can change the status of another customer's invoice\nstatus: open\nseverity: major\nlayer: api\narea: invoices\naffects:\n  - PUT /invoices/{invoiceId}/status\nfound: 2026-10-11\nref:\n  - docs/api/contracts/Invoices_API.md#7-update-invoice-status\n  - docs/api/contracts/Invoices_API.md#notes\ndescription: >-\n  PUT /invoices/{invoiceId}/status runs Invoice::where('id', $id)->update(...) with no user_id condition, so the\n  invoice's owner isn't checked. GET, PUT and PATCH /invoices/{invoiceId} limit a non-admin to their own invoices.\nsteps:\n  - Register customers A and B and log both in.\n  - Create an invoice as customer A.\n  - Send PUT /invoices/{invoiceId}/status with that id, customer B's token and a body with status \"COMPLETED\".\n  - Send GET /invoices/{invoiceId} with that id and customer A's token.\nexpected: \"The status of customer A's invoice is not changed (the contract names no code; the other invoice endpoints answer 404 for another user's invoice).\"\nactual: \"200 with { success: true }, and the invoice has the new status (from the source code; not reproduced live).\"\nevidence: |-\n  Invoices_API.md, Notes, \"Status update has no ownership check and writes any column\" (read from\n  InvoiceController in sprint5/API). No token was available when the contract was written, so the call was not made live.",
+   "scenarios": [
+    {
+     "id": "API-0482",
+     "name": "Update invoice status of another customer's invoice leaves it unchanged",
+     "layer": "api",
+     "area": "invoices",
+     "file": "test-scenarios/api/invoices/put-invoices-by-invoice-id-status.yml",
+     "status": "manual",
+     "knownIssue": "Any logged-in customer can change the status of another customer's invoice (the call succeeds) instead of being refused."
+    }
+   ]
+  },
+  {
+   "id": "BUG-038",
+   "title": "Invoice status update writes any column sent in the body, and an unknown key gives 500",
+   "status": "open",
+   "severity": "major",
+   "layer": "api",
+   "area": "invoices",
+   "affects": [
+    "PUT /invoices/{invoiceId}/status"
+   ],
+   "found": "2026-10-11",
+   "ref": [
+    "docs/api/contracts/Invoices_API.md#7-update-invoice-status",
+    "docs/api/contracts/Invoices_API.md#notes"
+   ],
+   "description": "Only status and status_message are validated, but the whole request body goes into a query-builder update, which bypasses fillable. A key such as total or user_id is written as sent, and a key that is not a column of invoices makes the query fail with a server error.",
+   "steps": [
+    "Create an invoice as a customer.",
+    "Send PUT /invoices/{invoiceId}/status with the invoice's id, the customer's token and a body with status \"ON_HOLD\" and a total different from the invoice's total.",
+    "Send GET /invoices/{invoiceId} and compare the total.",
+    "Send PUT /invoices/{invoiceId}/status with a body with status \"ON_HOLD\" and a key no_such_column."
+   ],
+   "expected": "Only status and status_message are written; an unknown key gives 422 or is ignored.",
+   "actual": "The total is changed to the value sent; the unknown key gives 500 (from the source code; not reproduced live).",
+   "evidence": "Invoices_API.md, endpoint 7 and Notes (read from InvoiceController in sprint5/API): the update takes $request->all().\nNo token was available when the contract was written, so the calls were not made live.",
+   "file": "bugs/BUG-038.yml",
+   "yaml": "id: BUG-038\ntitle: Invoice status update writes any column sent in the body, and an unknown key gives 500\nstatus: open\nseverity: major\nlayer: api\narea: invoices\naffects:\n  - PUT /invoices/{invoiceId}/status\nfound: 2026-10-11\nref:\n  - docs/api/contracts/Invoices_API.md#7-update-invoice-status\n  - docs/api/contracts/Invoices_API.md#notes\ndescription: >-\n  Only status and status_message are validated, but the whole request body goes into a query-builder update, which\n  bypasses fillable. A key such as total or user_id is written as sent, and a key that is not a column of invoices\n  makes the query fail with a server error.\nsteps:\n  - Create an invoice as a customer.\n  - Send PUT /invoices/{invoiceId}/status with the invoice's id, the customer's token and a body with status \"ON_HOLD\" and a total different from the invoice's total.\n  - Send GET /invoices/{invoiceId} and compare the total.\n  - Send PUT /invoices/{invoiceId}/status with a body with status \"ON_HOLD\" and a key no_such_column.\nexpected: \"Only status and status_message are written; an unknown key gives 422 or is ignored.\"\nactual: \"The total is changed to the value sent; the unknown key gives 500 (from the source code; not reproduced live).\"\nevidence: |-\n  Invoices_API.md, endpoint 7 and Notes (read from InvoiceController in sprint5/API): the update takes $request->all().\n  No token was available when the contract was written, so the calls were not made live.",
+   "scenarios": [
+    {
+     "id": "API-0483",
+     "name": "Update invoice status with a total in the body leaves the total unchanged",
+     "layer": "api",
+     "area": "invoices",
+     "file": "test-scenarios/api/invoices/put-invoices-by-invoice-id-status.yml",
+     "status": "manual",
+     "knownIssue": "Writes any column sent in the body (the total is changed) instead of only status and status_message."
+    },
+    {
+     "id": "API-0484",
+     "name": "Update invoice status with an unknown key in the body does not return 500",
+     "layer": "api",
+     "area": "invoices",
+     "file": "test-scenarios/api/invoices/put-invoices-by-invoice-id-status.yml",
+     "status": "manual",
+     "knownIssue": "Returns 500 for a body key that is not a column of invoices instead of 422 or ignoring the key."
+    }
+   ]
+  },
+  {
+   "id": "BUG-039",
+   "title": "Invoice update (PUT) writes unvalidated fields such as total and user_id",
+   "status": "open",
+   "severity": "major",
+   "layer": "api",
+   "area": "invoices",
+   "affects": [
+    "PUT /invoices/{invoiceId}"
+   ],
+   "found": "2026-10-11",
+   "ref": [
+    "docs/api/contracts/Invoices_API.md#10-update-invoice",
+    "docs/api/contracts/Invoices_API.md#notes"
+   ],
+   "description": "After the StoreInvoice validation, the update writes every fillable key of the body: user_id, invoice_number, subtotal, total and the discount fields are not validated. A caller can change the total of their invoice or move it to another user. PATCH writes only the validated keys.",
+   "steps": [
+    "Create an invoice as a customer.",
+    "Send PUT /invoices/{invoiceId} with a valid body (payment_method, payment_details, billing address, cart_id) and a total different from the invoice's total.",
+    "Send GET /invoices/{invoiceId} and compare the total."
+   ],
+   "expected": "The total is not changed: only the validated billing fields are written.",
+   "actual": "The total is changed to the value sent (from the source code; not reproduced live).",
+   "evidence": "Invoices_API.md, endpoint 10 and Notes, \"PUT mass assignment\" (read from InvoiceController and the Invoice model's\nfillable list in sprint5/API). No token was available when the contract was written, so the call was not made live.",
+   "file": "bugs/BUG-039.yml",
+   "yaml": "id: BUG-039\ntitle: Invoice update (PUT) writes unvalidated fields such as total and user_id\nstatus: open\nseverity: major\nlayer: api\narea: invoices\naffects:\n  - PUT /invoices/{invoiceId}\nfound: 2026-10-11\nref:\n  - docs/api/contracts/Invoices_API.md#10-update-invoice\n  - docs/api/contracts/Invoices_API.md#notes\ndescription: >-\n  After the StoreInvoice validation, the update writes every fillable key of the body: user_id, invoice_number,\n  subtotal, total and the discount fields are not validated. A caller can change the total of their invoice or move\n  it to another user. PATCH writes only the validated keys.\nsteps:\n  - Create an invoice as a customer.\n  - Send PUT /invoices/{invoiceId} with a valid body (payment_method, payment_details, billing address, cart_id) and a total different from the invoice's total.\n  - Send GET /invoices/{invoiceId} and compare the total.\nexpected: \"The total is not changed: only the validated billing fields are written.\"\nactual: \"The total is changed to the value sent (from the source code; not reproduced live).\"\nevidence: |-\n  Invoices_API.md, endpoint 10 and Notes, \"PUT mass assignment\" (read from InvoiceController and the Invoice model's\n  fillable list in sprint5/API). No token was available when the contract was written, so the call was not made live.",
+   "scenarios": [
+    {
+     "id": "API-0517",
+     "name": "Update invoice with a total in the body leaves the total unchanged",
+     "layer": "api",
+     "area": "invoices",
+     "file": "test-scenarios/api/invoices/put-invoices-by-invoice-id.yml",
+     "status": "manual",
+     "knownIssue": "Writes the unvalidated total from the body (and other fillable keys such as user_id) instead of ignoring them."
+    }
+   ]
+  },
+  {
    "id": "BUG-005",
    "title": "Related products omit co2_rating, so is_eco_friendly is always false",
    "status": "open",
@@ -1266,6 +1550,284 @@ window.BUG_CATALOG = {
      "file": "test-scenarios/api/messages/post-messages-by-message-id-attach-file.yml",
      "status": "manual",
      "knownIssue": "Returns 200 for a message id that doesn't exist instead of 404 (the message is never looked up)."
+    }
+   ]
+  },
+  {
+   "id": "BUG-034",
+   "title": "Updating an unknown user returns 403 instead of 404",
+   "status": "open",
+   "severity": "minor",
+   "layer": "api",
+   "area": "users",
+   "affects": [
+    "PUT /users/{userId}",
+    "PATCH /users/{userId}"
+   ],
+   "found": "2026-10-11",
+   "ref": [
+    "docs/api/contracts/Users_API.md#12-update-user",
+    "docs/api/contracts/Users_API.md#13-partially-update-user"
+   ],
+   "description": "PUT and PATCH /users/{userId} answer 403 { error: string } when no user has the id, even for an admin, so a client can't tell a missing user from a missing permission.",
+   "steps": [
+    "Send PATCH /users/{userId} with a well-formed ULID that no user has, first_name set to a new value and the admin's token."
+   ],
+   "expected": "404, as GET /users/{userId} returns for an unknown id.",
+   "actual": "403 with { error: string } (from the source code; not reproduced live).",
+   "evidence": "Users_API.md, endpoints 12 and 13 (read from UserController in sprint5/API): an unknown id gives 403.",
+   "file": "bugs/BUG-034.yml",
+   "yaml": "id: BUG-034\ntitle: Updating an unknown user returns 403 instead of 404\nstatus: open\nseverity: minor\nlayer: api\narea: users\naffects:\n  - PUT /users/{userId}\n  - PATCH /users/{userId}\nfound: 2026-10-11\nref:\n  - docs/api/contracts/Users_API.md#12-update-user\n  - docs/api/contracts/Users_API.md#13-partially-update-user\ndescription: >-\n  PUT and PATCH /users/{userId} answer 403 { error: string } when no user has the id, even for an admin, so a client\n  can't tell a missing user from a missing permission.\nsteps:\n  - Send PATCH /users/{userId} with a well-formed ULID that no user has, first_name set to a new value and the admin's token.\nexpected: 404, as GET /users/{userId} returns for an unknown id.\nactual: '403 with { error: string } (from the source code; not reproduced live).'\nevidence: |-\n  Users_API.md, endpoints 12 and 13 (read from UserController in sprint5/API): an unknown id gives 403.",
+   "scenarios": [
+    {
+     "id": "API-0434",
+     "name": "Patch user with an unknown id as an admin returns 404",
+     "layer": "api",
+     "area": "users",
+     "file": "test-scenarios/api/users/patch-users-by-user-id.yml",
+     "status": "manual",
+     "knownIssue": "Returns 403 instead of 404 for an unknown user id."
+    }
+   ]
+  },
+  {
+   "id": "BUG-040",
+   "title": "A failed checkout leaves an orphan invoice without lines or payment",
+   "status": "open",
+   "severity": "minor",
+   "layer": "api",
+   "area": "invoices",
+   "affects": [
+    "POST /invoices",
+    "POST /invoices/guest"
+   ],
+   "found": "2026-10-11",
+   "ref": [
+    "docs/api/contracts/Invoices_API.md#8-create-invoice",
+    "docs/api/contracts/Invoices_API.md#notes"
+   ],
+   "description": "The invoice row is created before the cart is read and before the payment is saved, with no transaction. An unknown cart_id (404), or a payment that fails (404 or 500), leaves an invoice with no lines and no payment, which then shows up in the customer's invoice list.",
+   "steps": [
+    "Register a customer and log in.",
+    "Send POST /invoices with the customer's token and a well-formed ULID that no cart has as cart_id (the call answers 404).",
+    "Send GET /invoices with the same token."
+   ],
+   "expected": "The list is empty: a failed checkout creates no invoice.",
+   "actual": "The list holds one invoice without lines or payment (from the source code; not reproduced live).",
+   "evidence": "Invoices_API.md, Notes, \"Orphan invoices\" (read from InvoiceService in sprint5/API). No token was available when the\ncontract was written, so the calls were not made live.",
+   "file": "bugs/BUG-040.yml",
+   "yaml": "id: BUG-040\ntitle: A failed checkout leaves an orphan invoice without lines or payment\nstatus: open\nseverity: minor\nlayer: api\narea: invoices\naffects:\n  - POST /invoices\n  - POST /invoices/guest\nfound: 2026-10-11\nref:\n  - docs/api/contracts/Invoices_API.md#8-create-invoice\n  - docs/api/contracts/Invoices_API.md#notes\ndescription: >-\n  The invoice row is created before the cart is read and before the payment is saved, with no transaction. An unknown\n  cart_id (404), or a payment that fails (404 or 500), leaves an invoice with no lines and no payment, which then shows\n  up in the customer's invoice list.\nsteps:\n  - Register a customer and log in.\n  - Send POST /invoices with the customer's token and a well-formed ULID that no cart has as cart_id (the call answers 404).\n  - Send GET /invoices with the same token.\nexpected: \"The list is empty: a failed checkout creates no invoice.\"\nactual: \"The list holds one invoice without lines or payment (from the source code; not reproduced live).\"\nevidence: |-\n  Invoices_API.md, Notes, \"Orphan invoices\" (read from InvoiceService in sprint5/API). No token was available when the\n  contract was written, so the calls were not made live.",
+   "scenarios": [
+    {
+     "id": "API-0499",
+     "name": "Create invoice with an unknown cart leaves no invoice behind",
+     "layer": "api",
+     "area": "invoices",
+     "file": "test-scenarios/api/invoices/post-invoices.yml",
+     "status": "manual",
+     "knownIssue": "A failed checkout (unknown cart) leaves an invoice without lines or payment in the customer's invoice list."
+    }
+   ]
+  },
+  {
+   "id": "BUG-041",
+   "title": "Create invoice with malformed payment_details returns 500 or 404 instead of 422",
+   "status": "open",
+   "severity": "minor",
+   "layer": "api",
+   "area": "invoices",
+   "affects": [
+    "POST /invoices",
+    "POST /invoices/guest"
+   ],
+   "found": "2026-10-11",
+   "ref": [
+    "docs/api/contracts/Invoices_API.md#8-create-invoice",
+    "docs/api/contracts/Invoices_API.md#9-create-guest-invoice"
+   ],
+   "description": "Only the gift-card details have validation rules. For the other methods the details go straight into the payment table: null, an unknown key or a too long value ends in a database error, mapped to 500, and a missing required column (for example bank_name) is mapped by the global handler to 404 \"Something went wrong\".",
+   "steps": [
+    "Create a cart.",
+    "Send POST /invoices with payment_method \"bank-transfer\", payment_details null and the cart's id (a customer's token).",
+    "Send POST /invoices with payment_method \"bank-transfer\", payment_details {} and the cart's id (a customer's token).",
+    "Send POST /invoices/guest with payment_method \"bank-transfer\", payment_details null, the cart's id and the guest fields."
+   ],
+   "expected": "422 naming payment_details for each request.",
+   "actual": "500 for null, and 404 { message: \"Something went wrong\" } for {} (from the source code; not reproduced live).",
+   "evidence": "Invoices_API.md, endpoints 8 and 9 and Error Handling (read from InvoiceService, StoreInvoice and\napp/Exceptions/Handler.php in sprint5/API). No token was available when the contract was written, so the calls were not made live.",
+   "file": "bugs/BUG-041.yml",
+   "yaml": "id: BUG-041\ntitle: Create invoice with malformed payment_details returns 500 or 404 instead of 422\nstatus: open\nseverity: minor\nlayer: api\narea: invoices\naffects:\n  - POST /invoices\n  - POST /invoices/guest\nfound: 2026-10-11\nref:\n  - docs/api/contracts/Invoices_API.md#8-create-invoice\n  - docs/api/contracts/Invoices_API.md#9-create-guest-invoice\ndescription: >-\n  Only the gift-card details have validation rules. For the other methods the details go straight into the payment\n  table: null, an unknown key or a too long value ends in a database error, mapped to 500, and a missing required\n  column (for example bank_name) is mapped by the global handler to 404 \"Something went wrong\".\nsteps:\n  - Create a cart.\n  - Send POST /invoices with payment_method \"bank-transfer\", payment_details null and the cart's id (a customer's token).\n  - Send POST /invoices with payment_method \"bank-transfer\", payment_details {} and the cart's id (a customer's token).\n  - Send POST /invoices/guest with payment_method \"bank-transfer\", payment_details null, the cart's id and the guest fields.\nexpected: \"422 naming payment_details for each request.\"\nactual: \"500 for null, and 404 { message: \\\"Something went wrong\\\" } for {} (from the source code; not reproduced live).\"\nevidence: |-\n  Invoices_API.md, endpoints 8 and 9 and Error Handling (read from InvoiceService, StoreInvoice and\n  app/Exceptions/Handler.php in sprint5/API). No token was available when the contract was written, so the calls were not made live.",
+   "scenarios": [
+    {
+     "id": "API-0508",
+     "name": "Create guest invoice with payment_details null returns 422",
+     "layer": "api",
+     "area": "invoices",
+     "file": "test-scenarios/api/invoices/post-invoices-guest.yml",
+     "status": "manual",
+     "knownIssue": "Returns 500 instead of 422 when payment_details is null for a method other than gift-card."
+    },
+    {
+     "id": "API-0500",
+     "name": "Create invoice with payment_details null returns 422",
+     "layer": "api",
+     "area": "invoices",
+     "file": "test-scenarios/api/invoices/post-invoices.yml",
+     "status": "manual",
+     "knownIssue": "Returns 500 instead of 422 when payment_details is null for a method other than gift-card."
+    },
+    {
+     "id": "API-0501",
+     "name": "Create invoice with bank-transfer details missing the required fields returns 422",
+     "layer": "api",
+     "area": "invoices",
+     "file": "test-scenarios/api/invoices/post-invoices.yml",
+     "status": "manual",
+     "knownIssue": "Returns 404 \"Something went wrong\" instead of 422 when payment_details lacks the fields the payment method requires."
+    }
+   ]
+  },
+  {
+   "id": "BUG-042",
+   "title": "QUERY /invoices/search with a non-JSON Content-Type returns 500 instead of 415",
+   "status": "open",
+   "severity": "minor",
+   "layer": "api",
+   "area": "invoices",
+   "affects": [
+    "QUERY /invoices/search"
+   ],
+   "found": "2026-10-11",
+   "ref": [
+    "docs/api/contracts/Invoices_API.md#3-search-invoices-http-query",
+    "docs/api/contracts/Invoices_API.md#notes"
+   ],
+   "description": "The source of HandleQueryMethod aborts with 415 when a QUERY request's Content-Type is not JSON, and the same 415 was verified for QUERY /products/search on 2026-10-01. On 2026-10-10 the live API answered 500 with an empty text/html body for QUERY /invoices/search, with or without a body, with or without Accept. It may be a deployment change and is not determined yet.",
+   "steps": [
+    "Send QUERY /invoices/search with Content-Type: text/plain, Accept: application/json and a plain-text body, without a token."
+   ],
+   "expected": "415 (the source aborts with \"QUERY requests must use Content-Type: application/json\").",
+   "actual": "500 with an empty text/html body (observed live on 2026-10-10 by the contract writer, without a token).",
+   "evidence": "Invoices_API.md, endpoint 3 and Notes, \"QUERY with a non-JSON content type\": four calls to QUERY /invoices/search\n(text/plain with a body, with and without Accept, and no body, twice) and one to QUERY /products/search without a\nbody, all 500 with an empty text/html body, 2026-10-10. Re-check with /report-bug recheck.",
+   "file": "bugs/BUG-042.yml",
+   "yaml": "id: BUG-042\ntitle: QUERY /invoices/search with a non-JSON Content-Type returns 500 instead of 415\nstatus: open\nseverity: minor\nlayer: api\narea: invoices\naffects:\n  - QUERY /invoices/search\nfound: 2026-10-11\nref:\n  - docs/api/contracts/Invoices_API.md#3-search-invoices-http-query\n  - docs/api/contracts/Invoices_API.md#notes\ndescription: >-\n  The source of HandleQueryMethod aborts with 415 when a QUERY request's Content-Type is not JSON, and the same 415\n  was verified for QUERY /products/search on 2026-10-01. On 2026-10-10 the live API answered 500 with an empty\n  text/html body for QUERY /invoices/search, with or without a body, with or without Accept. It may be a deployment\n  change and is not determined yet.\nsteps:\n  - 'Send QUERY /invoices/search with Content-Type: text/plain, Accept: application/json and a plain-text body, without a token.'\nexpected: \"415 (the source aborts with \\\"QUERY requests must use Content-Type: application/json\\\").\"\nactual: \"500 with an empty text/html body (observed live on 2026-10-10 by the contract writer, without a token).\"\nevidence: |-\n  Invoices_API.md, endpoint 3 and Notes, \"QUERY with a non-JSON content type\": four calls to QUERY /invoices/search\n  (text/plain with a body, with and without Accept, and no body, twice) and one to QUERY /products/search without a\n  body, all 500 with an empty text/html body, 2026-10-10. Re-check with /report-bug recheck.",
+   "scenarios": [
+    {
+     "id": "API-0462",
+     "name": "QUERY search without a JSON Content-Type returns 415",
+     "layer": "api",
+     "area": "invoices",
+     "file": "test-scenarios/api/invoices/query-invoices-search.yml",
+     "status": "manual",
+     "knownIssue": "Returns 500 with an empty text/html body instead of 415 for a QUERY with a non-JSON Content-Type."
+    }
+   ]
+  },
+  {
+   "id": "BUG-043",
+   "title": "Adding a spec to a product that doesn't exist returns 500 instead of 404",
+   "status": "open",
+   "severity": "minor",
+   "layer": "api",
+   "area": "products",
+   "affects": [
+    "POST /products/{productId}/specs"
+   ],
+   "found": "2026-10-11",
+   "ref": [
+    "docs/api/contracts/Product_Specs_API.md#2-add-a-spec-to-a-product",
+    "docs/api/contracts/Product_Specs_API.md#notes"
+   ],
+   "description": "POST /products/{productId}/specs doesn't look the product up first. The insert into product_specs breaks the foreign key on product_id, which the global handler maps to 500 { message: \"Something went wrong\" }. GET and PUT on a spec answer 404 for an unknown product, so a client gets a server error for a request it can fix.",
+   "steps": [
+    "Send POST /products/{productId}/specs with a well-formed ULID that no product has, a body with a unique spec_name and spec_value \"1.5\", and any valid token."
+   ],
+   "expected": "404 (a missing product is a client error; GET and PUT on a spec of an unknown product answer 404).",
+   "actual": "500 with { message: \"Something went wrong\" } (from the source code; not reproduced live, the write endpoints were not called).",
+   "evidence": "Not reproduced live, from the source code. Product_Specs_API.md, section 2 \"Add a spec to a product\"\nand \"Notes\" (read from ProductSpecController and the product_specs migration in sprint5/API,\n2026-10-10): nothing looks the product up; the foreign key violation falls into the handler's\ngeneric database error branch. Validation runs first, so only a valid body reaches the 500.",
+   "file": "bugs/BUG-043.yml",
+   "yaml": "id: BUG-043\ntitle: Adding a spec to a product that doesn't exist returns 500 instead of 404\nstatus: open\nseverity: minor\nlayer: api\narea: products\naffects:\n  - POST /products/{productId}/specs\nfound: 2026-10-11\nref:\n  - docs/api/contracts/Product_Specs_API.md#2-add-a-spec-to-a-product\n  - docs/api/contracts/Product_Specs_API.md#notes\ndescription: >-\n  POST /products/{productId}/specs doesn't look the product up first. The insert into product_specs\n  breaks the foreign key on product_id, which the global handler maps to 500\n  { message: \"Something went wrong\" }. GET and PUT on a spec answer 404 for an unknown product, so a\n  client gets a server error for a request it can fix.\nsteps:\n  - Send POST /products/{productId}/specs with a well-formed ULID that no product has, a body with a unique spec_name and spec_value \"1.5\", and any valid token.\nexpected: 404 (a missing product is a client error; GET and PUT on a spec of an unknown product answer 404).\nactual: >-\n  500 with { message: \"Something went wrong\" } (from the source code; not reproduced live, the write\n  endpoints were not called).\nevidence: |-\n  Not reproduced live, from the source code. Product_Specs_API.md, section 2 \"Add a spec to a product\"\n  and \"Notes\" (read from ProductSpecController and the product_specs migration in sprint5/API,\n  2026-10-10): nothing looks the product up; the foreign key violation falls into the handler's\n  generic database error branch. Validation runs first, so only a valid body reaches the 500.",
+   "scenarios": [
+    {
+     "id": "API-0547",
+     "name": "Add a spec to an unknown product returns 404",
+     "layer": "api",
+     "area": "products",
+     "file": "test-scenarios/api/products/post-products-by-product-id-specs.yml",
+     "status": "manual",
+     "knownIssue": "Returns 500 instead of 404 for an unknown product id."
+    }
+   ]
+  },
+  {
+   "id": "BUG-044",
+   "title": "Total sales of years returns 500 for a non-numeric years",
+   "status": "open",
+   "severity": "minor",
+   "layer": "api",
+   "area": "reports",
+   "affects": [
+    "GET /reports/total-sales-of-years"
+   ],
+   "found": "2026-10-11",
+   "ref": [
+    "docs/api/contracts/Reports_API.md#1-total-sales-of-years"
+   ],
+   "description": "The years query parameter is used as it is: the controller computes the current year minus years without any validation, and PHP 8 throws a TypeError for a non-numeric value such as \"abc\" (or an array years[]=1), which the global handler turns into a server error instead of a validation error.",
+   "steps": [
+    "Log in as the admin.",
+    "Send GET /reports/total-sales-of-years with years \"abc\" and the admin's token."
+   ],
+   "expected": "422 with the validation error, or the value is ignored and the default is used (200).",
+   "actual": "500 (from the source code; not reproduced live).",
+   "evidence": "Reports_API.md, endpoint 1 (read from ReportController in sprint5/API). No admin token was available when the\ncontract was written, so the call was not made live.",
+   "file": "bugs/BUG-044.yml",
+   "yaml": "id: BUG-044\ntitle: Total sales of years returns 500 for a non-numeric years\nstatus: open\nseverity: minor\nlayer: api\narea: reports\naffects:\n  - GET /reports/total-sales-of-years\nfound: 2026-10-11\nref:\n  - docs/api/contracts/Reports_API.md#1-total-sales-of-years\ndescription: >-\n  The years query parameter is used as it is: the controller computes the current year minus years without any\n  validation, and PHP 8 throws a TypeError for a non-numeric value such as \"abc\" (or an array years[]=1), which the\n  global handler turns into a server error instead of a validation error.\nsteps:\n  - Log in as the admin.\n  - Send GET /reports/total-sales-of-years with years \"abc\" and the admin's token.\nexpected: \"422 with the validation error, or the value is ignored and the default is used (200).\"\nactual: \"500 (from the source code; not reproduced live).\"\nevidence: |-\n  Reports_API.md, endpoint 1 (read from ReportController in sprint5/API). No admin token was available when the\n  contract was written, so the call was not made live.",
+   "scenarios": [
+    {
+     "id": "API-0584",
+     "name": "Total sales of years with a non-numeric years does not return 500",
+     "layer": "api",
+     "area": "reports",
+     "file": "test-scenarios/api/reports/get-reports-total-sales-of-years.yml",
+     "status": "manual",
+     "knownIssue": "Returns 500 for a non-numeric years instead of 422 or ignoring the value."
+    }
+   ]
+  },
+  {
+   "id": "BUG-045",
+   "title": "Postcode lookup keeps leading whitespace in the postcode",
+   "status": "open",
+   "severity": "minor",
+   "layer": "api",
+   "area": "postcode",
+   "affects": [
+    "GET /postcode-lookup"
+   ],
+   "found": "2026-10-11",
+   "ref": [
+    "docs/api/contracts/Postcode_API.md#1-look-up-an-address-by-postcode"
+   ],
+   "description": "The postcode format check trims the value before matching it, but the lookup and the response use it untrimmed. A postcode with a leading space passes the check and comes back with the space, and the address is made from the untrimmed string, so it differs from the address of the same postcode without the space. The same applies to a country with leading or trailing whitespace (read from the source, not tried live). Low impact.",
+   "steps": [
+    "Send GET /postcode-lookup without an Authorization header, with country \"NL\", postcode \" 1011AB\" (a leading space, URL-encoded as %201011AB) and house_number \"5\".",
+    "Send GET /postcode-lookup again with postcode \"1011AB\" and compare the two bodies."
+   ],
+   "expected": "The postcode is trimmed everywhere: the response has postcode 1011AB and the same street, city and state as for 1011AB (or the request is rejected with 422).",
+   "actual": "200 with postcode \" 1011AB\" (the space kept) and a different city than for 1011AB.",
+   "evidence": "Postcode_API.md, Notes (\"Leading whitespace is accepted and echoed\"): a live call with %201011AB gave 200 with\n\"postcode\": \" 1011AB\" and yet another city than 1011AB.",
+   "file": "bugs/BUG-045.yml",
+   "yaml": "id: BUG-045\ntitle: Postcode lookup keeps leading whitespace in the postcode\nstatus: open\nseverity: minor\nlayer: api\narea: postcode\naffects:\n  - GET /postcode-lookup\nfound: 2026-10-11\nref:\n  - docs/api/contracts/Postcode_API.md#1-look-up-an-address-by-postcode\ndescription: >-\n  The postcode format check trims the value before matching it, but the lookup and the response use it untrimmed.\n  A postcode with a leading space passes the check and comes back with the space, and the address is made from the\n  untrimmed string, so it differs from the address of the same postcode without the space. The same applies to a\n  country with leading or trailing whitespace (read from the source, not tried live). Low impact.\nsteps:\n  - Send GET /postcode-lookup without an Authorization header, with country \"NL\", postcode \" 1011AB\" (a leading space, URL-encoded as %201011AB) and house_number \"5\".\n  - Send GET /postcode-lookup again with postcode \"1011AB\" and compare the two bodies.\nexpected: \"The postcode is trimmed everywhere: the response has postcode 1011AB and the same street, city and state as for 1011AB (or the request is rejected with 422).\"\nactual: \"200 with postcode \\\" 1011AB\\\" (the space kept) and a different city than for 1011AB.\"\nevidence: |-\n  Postcode_API.md, Notes (\"Leading whitespace is accepted and echoed\"): a live call with %201011AB gave 200 with\n  \"postcode\": \" 1011AB\" and yet another city than 1011AB.",
+   "scenarios": [
+    {
+     "id": "API-0667",
+     "name": "Look up a postcode with a leading space returns it trimmed",
+     "layer": "api",
+     "area": "postcode",
+     "file": "test-scenarios/api/postcode/get-postcode-lookup.yml",
+     "status": "manual",
+     "knownIssue": "Echoes a postcode with leading whitespace untrimmed and builds the address from the untrimmed value, although the format check trims it."
     }
    ]
   },

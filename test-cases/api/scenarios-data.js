@@ -3,17 +3,17 @@ window.SCENARIO_CATALOG = {
  "layer": "api",
  "title": "API Test Cases",
  "prefix": "API",
- "generatedAt": "2026-10-10T14:40:01.740Z",
- "commit": "6002d39cb1f21405444f5ae8c76f3b37532b7a3b",
+ "generatedAt": "2026-10-11T08:57:46.713Z",
+ "commit": "31008aa9d4f0dd8ae74d2d298b9d54bd1404066b",
  "repoUrl": "https://github.com/Zaytsman/SimpRight",
  "branch": "main",
  "workflowUrl": "https://github.com/Zaytsman/SimpRight/actions/workflows/custom-api-tests.yml",
  "stats": {
-  "total": 398,
+  "total": 667,
   "automated": 118,
-  "manual": 280,
-  "knownIssues": 47,
-  "automatedPct": 30
+  "manual": 549,
+  "knownIssues": 65,
+  "automatedPct": 18
  },
  "tree": [
   {
@@ -557,6 +557,25 @@ window.SCENARIO_CATALOG = {
    "label": "Invoices",
    "files": [
     {
+     "file": "test-scenarios/api/invoices/get-invoices.yml",
+     "name": "get-invoices",
+     "label": "GET /invoices",
+     "suite": "Invoices API",
+     "tags": [
+      "@invoices-api"
+     ],
+     "ids": [
+      "API-0441",
+      "API-0442",
+      "API-0443",
+      "API-0444",
+      "API-0445",
+      "API-0446",
+      "API-0447",
+      "API-0448"
+     ]
+    },
+    {
      "file": "test-scenarios/api/invoices/post-invoices.yml",
      "name": "post-invoices",
      "label": "POST /invoices",
@@ -572,7 +591,186 @@ window.SCENARIO_CATALOG = {
       "API-0301",
       "API-0302",
       "API-0303",
-      "API-0304"
+      "API-0304",
+      "API-0485",
+      "API-0486",
+      "API-0487",
+      "API-0488",
+      "API-0489",
+      "API-0490",
+      "API-0491",
+      "API-0492",
+      "API-0493",
+      "API-0494",
+      "API-0495",
+      "API-0496",
+      "API-0497",
+      "API-0498",
+      "API-0499",
+      "API-0500",
+      "API-0501"
+     ]
+    },
+    {
+     "file": "test-scenarios/api/invoices/post-invoices-guest.yml",
+     "name": "post-invoices-guest",
+     "label": "POST /invoices/guest",
+     "suite": "Invoices API",
+     "tags": [
+      "@invoices-api"
+     ],
+     "ids": [
+      "API-0502",
+      "API-0503",
+      "API-0504",
+      "API-0505",
+      "API-0506",
+      "API-0507",
+      "API-0508"
+     ]
+    },
+    {
+     "file": "test-scenarios/api/invoices/get-invoices-search.yml",
+     "name": "get-invoices-search",
+     "label": "GET /invoices/search",
+     "suite": "Invoices API",
+     "tags": [
+      "@invoices-api"
+     ],
+     "ids": [
+      "API-0449",
+      "API-0450",
+      "API-0451",
+      "API-0452",
+      "API-0453",
+      "API-0454",
+      "API-0455",
+      "API-0456",
+      "API-0457",
+      "API-0458"
+     ]
+    },
+    {
+     "file": "test-scenarios/api/invoices/query-invoices-search.yml",
+     "name": "query-invoices-search",
+     "label": "QUERY /invoices/search",
+     "suite": "Invoices API",
+     "tags": [
+      "@invoices-api"
+     ],
+     "ids": [
+      "API-0459",
+      "API-0460",
+      "API-0461",
+      "API-0462"
+     ]
+    },
+    {
+     "file": "test-scenarios/api/invoices/get-invoices-by-invoice-id.yml",
+     "name": "get-invoices-by-invoice-id",
+     "label": "GET /invoices/{invoiceId}",
+     "suite": "Invoices API",
+     "tags": [
+      "@invoices-api"
+     ],
+     "ids": [
+      "API-0463",
+      "API-0464",
+      "API-0465",
+      "API-0466",
+      "API-0467"
+     ]
+    },
+    {
+     "file": "test-scenarios/api/invoices/put-invoices-by-invoice-id.yml",
+     "name": "put-invoices-by-invoice-id",
+     "label": "PUT /invoices/{invoiceId}",
+     "suite": "Invoices API",
+     "tags": [
+      "@invoices-api"
+     ],
+     "ids": [
+      "API-0509",
+      "API-0510",
+      "API-0511",
+      "API-0512",
+      "API-0513",
+      "API-0514",
+      "API-0515",
+      "API-0516",
+      "API-0517"
+     ]
+    },
+    {
+     "file": "test-scenarios/api/invoices/patch-invoices-by-invoice-id.yml",
+     "name": "patch-invoices-by-invoice-id",
+     "label": "PATCH /invoices/{invoiceId}",
+     "suite": "Invoices API",
+     "tags": [
+      "@invoices-api"
+     ],
+     "ids": [
+      "API-0518",
+      "API-0519",
+      "API-0520",
+      "API-0521",
+      "API-0522",
+      "API-0523",
+      "API-0524",
+      "API-0525",
+      "API-0526",
+      "API-0527",
+      "API-0528"
+     ]
+    },
+    {
+     "file": "test-scenarios/api/invoices/put-invoices-by-invoice-id-status.yml",
+     "name": "put-invoices-by-invoice-id-status",
+     "label": "PUT /invoices/{invoiceId}/status",
+     "suite": "Invoices API",
+     "tags": [
+      "@invoices-api"
+     ],
+     "ids": [
+      "API-0474",
+      "API-0475",
+      "API-0476",
+      "API-0477",
+      "API-0478",
+      "API-0479",
+      "API-0480",
+      "API-0481",
+      "API-0482",
+      "API-0483",
+      "API-0484"
+     ]
+    },
+    {
+     "file": "test-scenarios/api/invoices/get-invoices-by-invoice-number-download-pdf.yml",
+     "name": "get-invoices-by-invoice-number-download-pdf",
+     "label": "get-invoices-by-invoice-number-download-pdf",
+     "suite": "Invoices API",
+     "tags": [
+      "@invoices-api"
+     ],
+     "ids": [
+      "API-0468",
+      "API-0469",
+      "API-0470"
+     ]
+    },
+    {
+     "file": "test-scenarios/api/invoices/get-invoices-by-invoice-number-download-pdf-status.yml",
+     "name": "get-invoices-by-invoice-number-download-pdf-status",
+     "label": "get-invoices-by-invoice-number-download-pdf-status",
+     "suite": "Invoices API",
+     "tags": [
+      "@invoices-api"
+     ],
+     "ids": [
+      "API-0471",
+      "API-0472",
+      "API-0473"
      ]
     }
    ]
@@ -701,6 +899,114 @@ window.SCENARIO_CATALOG = {
       "API-0396",
       "API-0397",
       "API-0398"
+     ]
+    }
+   ]
+  },
+  {
+   "area": "payment",
+   "label": "Payment",
+   "files": [
+    {
+     "file": "test-scenarios/api/payment/post-payment-check.yml",
+     "name": "post-payment-check",
+     "label": "POST /payment/check",
+     "suite": "Payment API",
+     "tags": [
+      "@payment-api"
+     ],
+     "ids": [
+      "API-0614",
+      "API-0615",
+      "API-0616",
+      "API-0617",
+      "API-0618",
+      "API-0619",
+      "API-0620",
+      "API-0621",
+      "API-0622",
+      "API-0623",
+      "API-0624",
+      "API-0625",
+      "API-0626",
+      "API-0627",
+      "API-0628",
+      "API-0629",
+      "API-0630",
+      "API-0631",
+      "API-0632",
+      "API-0633",
+      "API-0634",
+      "API-0635",
+      "API-0636",
+      "API-0637",
+      "API-0638",
+      "API-0639",
+      "API-0640",
+      "API-0641",
+      "API-0642"
+     ]
+    }
+   ]
+  },
+  {
+   "area": "postcode",
+   "label": "Postcode",
+   "files": [
+    {
+     "file": "test-scenarios/api/postcode/get-postcode-lookup.yml",
+     "name": "get-postcode-lookup",
+     "label": "GET /postcode-lookup",
+     "suite": "Postcode API",
+     "tags": [
+      "@postcode-api"
+     ],
+     "ids": [
+      "API-0643",
+      "API-0644",
+      "API-0645",
+      "API-0646",
+      "API-0647",
+      "API-0648",
+      "API-0649",
+      "API-0650",
+      "API-0651",
+      "API-0652",
+      "API-0653",
+      "API-0654",
+      "API-0655",
+      "API-0656",
+      "API-0657",
+      "API-0658",
+      "API-0659",
+      "API-0660",
+      "API-0661",
+      "API-0662",
+      "API-0663",
+      "API-0664",
+      "API-0665",
+      "API-0666",
+      "API-0667"
+     ]
+    }
+   ]
+  },
+  {
+   "area": "product-specs",
+   "label": "Product specs",
+   "files": [
+    {
+     "file": "test-scenarios/api/product-specs/get-product-specs-names.yml",
+     "name": "get-product-specs-names",
+     "label": "GET /product-specs/names",
+     "suite": "Product Specs API",
+     "tags": [
+      "@product-specs-api"
+     ],
+     "ids": [
+      "API-0574",
+      "API-0575",
+      "API-0576"
      ]
     }
    ]
@@ -901,6 +1207,226 @@ window.SCENARIO_CATALOG = {
       "API-0024",
       "API-0025"
      ]
+    },
+    {
+     "file": "test-scenarios/api/products/get-products-by-product-id-specs.yml",
+     "name": "get-products-by-product-id-specs",
+     "label": "GET /products/{productId}/specs",
+     "suite": "Products API",
+     "tags": [
+      "@products-api"
+     ],
+     "ids": [
+      "API-0529",
+      "API-0530",
+      "API-0531",
+      "API-0532",
+      "API-0533"
+     ]
+    },
+    {
+     "file": "test-scenarios/api/products/post-products-by-product-id-specs.yml",
+     "name": "post-products-by-product-id-specs",
+     "label": "POST /products/{productId}/specs",
+     "suite": "Products API",
+     "tags": [
+      "@products-api"
+     ],
+     "ids": [
+      "API-0534",
+      "API-0535",
+      "API-0536",
+      "API-0537",
+      "API-0538",
+      "API-0539",
+      "API-0540",
+      "API-0541",
+      "API-0542",
+      "API-0543",
+      "API-0544",
+      "API-0545",
+      "API-0546",
+      "API-0547"
+     ]
+    },
+    {
+     "file": "test-scenarios/api/products/get-products-by-product-id-specs-by-spec-id.yml",
+     "name": "get-products-by-product-id-specs-by-spec-id",
+     "label": "GET /products/{productId}/specs/{specId}",
+     "suite": "Products API",
+     "tags": [
+      "@products-api"
+     ],
+     "ids": [
+      "API-0548",
+      "API-0549",
+      "API-0550",
+      "API-0551",
+      "API-0552"
+     ]
+    },
+    {
+     "file": "test-scenarios/api/products/put-products-by-product-id-specs-by-spec-id.yml",
+     "name": "put-products-by-product-id-specs-by-spec-id",
+     "label": "PUT /products/{productId}/specs/{specId}",
+     "suite": "Products API",
+     "tags": [
+      "@products-api"
+     ],
+     "ids": [
+      "API-0553",
+      "API-0554",
+      "API-0555",
+      "API-0556",
+      "API-0557",
+      "API-0558",
+      "API-0559",
+      "API-0560",
+      "API-0561",
+      "API-0562",
+      "API-0563",
+      "API-0564",
+      "API-0565",
+      "API-0566",
+      "API-0567",
+      "API-0568"
+     ]
+    },
+    {
+     "file": "test-scenarios/api/products/delete-products-by-product-id-specs-by-spec-id.yml",
+     "name": "delete-products-by-product-id-specs-by-spec-id",
+     "label": "DELETE /products/{productId}/specs/{specId}",
+     "suite": "Products API",
+     "tags": [
+      "@products-api"
+     ],
+     "ids": [
+      "API-0569",
+      "API-0570",
+      "API-0571",
+      "API-0572",
+      "API-0573"
+     ]
+    }
+   ]
+  },
+  {
+   "area": "reports",
+   "label": "Reports",
+   "files": [
+    {
+     "file": "test-scenarios/api/reports/get-reports-average-sales-per-month.yml",
+     "name": "get-reports-average-sales-per-month",
+     "label": "GET /reports/average-sales-per-month",
+     "suite": "Reports API",
+     "tags": [
+      "@reports-api"
+     ],
+     "ids": [
+      "API-0604",
+      "API-0605",
+      "API-0606",
+      "API-0607",
+      "API-0608"
+     ]
+    },
+    {
+     "file": "test-scenarios/api/reports/get-reports-average-sales-per-week.yml",
+     "name": "get-reports-average-sales-per-week",
+     "label": "GET /reports/average-sales-per-week",
+     "suite": "Reports API",
+     "tags": [
+      "@reports-api"
+     ],
+     "ids": [
+      "API-0609",
+      "API-0610",
+      "API-0611",
+      "API-0612",
+      "API-0613"
+     ]
+    },
+    {
+     "file": "test-scenarios/api/reports/get-reports-customers-by-country.yml",
+     "name": "get-reports-customers-by-country",
+     "label": "GET /reports/customers-by-country",
+     "suite": "Reports API",
+     "tags": [
+      "@reports-api"
+     ],
+     "ids": [
+      "API-0600",
+      "API-0601",
+      "API-0602",
+      "API-0603"
+     ]
+    },
+    {
+     "file": "test-scenarios/api/reports/get-reports-top10-best-selling-categories.yml",
+     "name": "get-reports-top10-best-selling-categories",
+     "label": "GET /reports/top10-best-selling-categories",
+     "suite": "Reports API",
+     "tags": [
+      "@reports-api"
+     ],
+     "ids": [
+      "API-0596",
+      "API-0597",
+      "API-0598",
+      "API-0599"
+     ]
+    },
+    {
+     "file": "test-scenarios/api/reports/get-reports-top10-purchased-products.yml",
+     "name": "get-reports-top10-purchased-products",
+     "label": "GET /reports/top10-purchased-products",
+     "suite": "Reports API",
+     "tags": [
+      "@reports-api"
+     ],
+     "ids": [
+      "API-0592",
+      "API-0593",
+      "API-0594",
+      "API-0595"
+     ]
+    },
+    {
+     "file": "test-scenarios/api/reports/get-reports-total-sales-of-years.yml",
+     "name": "get-reports-total-sales-of-years",
+     "label": "GET /reports/total-sales-of-years",
+     "suite": "Reports API",
+     "tags": [
+      "@reports-api"
+     ],
+     "ids": [
+      "API-0577",
+      "API-0578",
+      "API-0579",
+      "API-0580",
+      "API-0581",
+      "API-0582",
+      "API-0583",
+      "API-0584",
+      "API-0585",
+      "API-0586",
+      "API-0587"
+     ]
+    },
+    {
+     "file": "test-scenarios/api/reports/get-reports-total-sales-per-country.yml",
+     "name": "get-reports-total-sales-per-country",
+     "label": "GET /reports/total-sales-per-country",
+     "suite": "Reports API",
+     "tags": [
+      "@reports-api"
+     ],
+     "ids": [
+      "API-0588",
+      "API-0589",
+      "API-0590",
+      "API-0591"
+     ]
     }
    ]
   },
@@ -908,6 +1434,21 @@ window.SCENARIO_CATALOG = {
    "area": "users",
    "label": "Users",
    "files": [
+    {
+     "file": "test-scenarios/api/users/get-users.yml",
+     "name": "get-users",
+     "label": "GET /users",
+     "suite": "Users API",
+     "tags": [
+      "@users-api"
+     ],
+     "ids": [
+      "API-0402",
+      "API-0403",
+      "API-0404",
+      "API-0405"
+     ]
+    },
     {
      "file": "test-scenarios/api/users/post-users-change-password.yml",
      "name": "post-users-change-password",
@@ -924,6 +1465,20 @@ window.SCENARIO_CATALOG = {
       "API-0294",
       "API-0295",
       "API-0296"
+     ]
+    },
+    {
+     "file": "test-scenarios/api/users/post-users-forgot-password.yml",
+     "name": "post-users-forgot-password",
+     "label": "POST /users/forgot-password",
+     "suite": "Users API",
+     "tags": [
+      "@users-api"
+     ],
+     "ids": [
+      "API-0399",
+      "API-0400",
+      "API-0401"
      ]
     },
     {
@@ -1033,6 +1588,58 @@ window.SCENARIO_CATALOG = {
      ]
     },
     {
+     "file": "test-scenarios/api/users/get-users-search.yml",
+     "name": "get-users-search",
+     "label": "GET /users/search",
+     "suite": "Users API",
+     "tags": [
+      "@users-api"
+     ],
+     "ids": [
+      "API-0406",
+      "API-0407",
+      "API-0408",
+      "API-0409",
+      "API-0410",
+      "API-0411",
+      "API-0412",
+      "API-0413",
+      "API-0414"
+     ]
+    },
+    {
+     "file": "test-scenarios/api/users/query-users-search.yml",
+     "name": "query-users-search",
+     "label": "QUERY /users/search",
+     "suite": "Users API",
+     "tags": [
+      "@users-api"
+     ],
+     "ids": [
+      "API-0415",
+      "API-0416",
+      "API-0417",
+      "API-0418",
+      "API-0419"
+     ]
+    },
+    {
+     "file": "test-scenarios/api/users/get-users-by-user-id.yml",
+     "name": "get-users-by-user-id",
+     "label": "GET /users/{userId}",
+     "suite": "Users API",
+     "tags": [
+      "@users-api"
+     ],
+     "ids": [
+      "API-0420",
+      "API-0421",
+      "API-0422",
+      "API-0423",
+      "API-0424"
+     ]
+    },
+    {
      "file": "test-scenarios/api/users/put-users-by-user-id.yml",
      "name": "put-users-by-user-id",
      "label": "PUT /users/{userId}",
@@ -1047,6 +1654,44 @@ window.SCENARIO_CATALOG = {
       "API-0316",
       "API-0317",
       "API-0318"
+     ]
+    },
+    {
+     "file": "test-scenarios/api/users/patch-users-by-user-id.yml",
+     "name": "patch-users-by-user-id",
+     "label": "PATCH /users/{userId}",
+     "suite": "Users API",
+     "tags": [
+      "@users-api"
+     ],
+     "ids": [
+      "API-0425",
+      "API-0426",
+      "API-0427",
+      "API-0428",
+      "API-0429",
+      "API-0430",
+      "API-0431",
+      "API-0432",
+      "API-0433",
+      "API-0434",
+      "API-0435"
+     ]
+    },
+    {
+     "file": "test-scenarios/api/users/delete-users-by-user-id.yml",
+     "name": "delete-users-by-user-id",
+     "label": "DELETE /users/{userId}",
+     "suite": "Users API",
+     "tags": [
+      "@users-api"
+     ],
+     "ids": [
+      "API-0436",
+      "API-0437",
+      "API-0438",
+      "API-0439",
+      "API-0440"
      ]
     }
    ]
@@ -5251,6 +5896,202 @@ window.SCENARIO_CATALOG = {
    "yaml": "- id: API-0342\n  name: List images with a matching If-None-Match returns 304\n  status: manual\n  steps:\n    - Send GET /images and take the ETag response header.\n    - Send GET /images with the If-None-Match header set to that ETag.\n    - Verify the response status is 304.\n    - Verify the body is empty.\n    - Verify the ETag response header equals the first response's ETag.\n    - Verify the Cache-Control response header is \"max-age=120, public\"."
   },
   {
+   "id": "API-0441",
+   "name": "List invoices returns 200 with the customer's invoice, its lines and payment",
+   "status": "manual",
+   "steps": [
+    "Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.",
+    "Send POST /users/login with that email and password, and take its access_token.",
+    "Send GET /products and take the first item's id as the product's id.",
+    "Send POST /carts with an empty body and take the returned id as the cart's id.",
+    "Send POST /carts/{cartId} with the cart's id, the product's id as product_id and quantity 2.",
+    "Send POST /invoices with that access_token, payment_method \"cash-on-delivery\", payment_details {}, billing_street \"Stephansplatz 1\", billing_city \"Wien\", billing_country \"AT\" and the cart's id as cart_id, and take the new invoice's id, invoice_number and total.",
+    "Send GET /invoices with that access_token.",
+    "Verify the response status is 200.",
+    "Verify the body has the keys current_page, data, from, last_page, per_page, to and total, and its per_page is 15.",
+    "Verify the body's total is 1 and data has exactly one item, whose id is the new invoice's id, user_id is the new user's id and invoice_number is the invoice's number.",
+    "Verify the item has the keys invoice_date, status, subtotal, total, billing_street, billing_city, billing_state, billing_country, billing_postal_code, additional_discount_percentage, additional_discount_amount, invoicelines and payment.",
+    "Verify the item's status is one of AWAITING_FULFILLMENT, ON_HOLD, AWAITING_SHIPMENT, SHIPPED and COMPLETED.",
+    "Verify the item's payment.payment_method is \"cash-on-delivery\".",
+    "Verify the item's invoicelines has exactly one line with the product's id as product_id and quantity 2, whose product has the keys id, name, price, co2_rating, in_stock, is_eco_friendly and product_image."
+   ],
+   "ref": [],
+   "area": "invoices",
+   "areaLabel": "Invoices",
+   "file": "test-scenarios/api/invoices/get-invoices.yml",
+   "fileLabel": "GET /invoices",
+   "suite": "Invoices API",
+   "tags": [
+    "@invoices-api"
+   ],
+   "yaml": "- id: API-0441\n  name: List invoices returns 200 with the customer's invoice, its lines and payment\n  status: manual\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.\n    - Send POST /users/login with that email and password, and take its access_token.\n    - Send GET /products and take the first item's id as the product's id.\n    - Send POST /carts with an empty body and take the returned id as the cart's id.\n    - Send POST /carts/{cartId} with the cart's id, the product's id as product_id and quantity 2.\n    - Send POST /invoices with that access_token, payment_method \"cash-on-delivery\", payment_details {}, billing_street \"Stephansplatz 1\", billing_city \"Wien\", billing_country \"AT\" and the cart's id as cart_id, and take the new invoice's id, invoice_number and total.\n    - Send GET /invoices with that access_token.\n    - Verify the response status is 200.\n    - Verify the body has the keys current_page, data, from, last_page, per_page, to and total, and its per_page is 15.\n    - Verify the body's total is 1 and data has exactly one item, whose id is the new invoice's id, user_id is the new user's id and invoice_number is the invoice's number.\n    - Verify the item has the keys invoice_date, status, subtotal, total, billing_street, billing_city, billing_state, billing_country, billing_postal_code, additional_discount_percentage, additional_discount_amount, invoicelines and payment.\n    - Verify the item's status is one of AWAITING_FULFILLMENT, ON_HOLD, AWAITING_SHIPMENT, SHIPPED and COMPLETED.\n    - Verify the item's payment.payment_method is \"cash-on-delivery\".\n    - Verify the item's invoicelines has exactly one line with the product's id as product_id and quantity 2, whose product has the keys id, name, price, co2_rating, in_stock, is_eco_friendly and product_image."
+  },
+  {
+   "id": "API-0442",
+   "name": "List invoices does not include another customer's invoices",
+   "status": "manual",
+   "steps": [
+    "Send POST /users/register with a unique email, a first name, a last name and a random strong password (customer A), and take the new user's id.",
+    "Send POST /users/login with customer A's email and password, and take its access_token.",
+    "Send POST /users/register with a unique email, a first name, a last name and a random strong password (customer B), and take the new user's id.",
+    "Send POST /users/login with customer B's email and password, and take its access_token.",
+    "Send POST /carts with an empty body and take the returned id as the cart's id.",
+    "Send POST /invoices with customer A's access_token, payment_method \"cash-on-delivery\", payment_details {}, billing_street \"Stephansplatz 1\", billing_city \"Wien\", billing_country \"AT\" and the cart's id as cart_id.",
+    "Send GET /invoices with customer B's access_token.",
+    "Verify the response status is 200.",
+    "Verify the body's total is 0 and data is an empty array."
+   ],
+   "ref": [],
+   "area": "invoices",
+   "areaLabel": "Invoices",
+   "file": "test-scenarios/api/invoices/get-invoices.yml",
+   "fileLabel": "GET /invoices",
+   "suite": "Invoices API",
+   "tags": [
+    "@invoices-api"
+   ],
+   "yaml": "- id: API-0442\n  name: List invoices does not include another customer's invoices\n  status: manual\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password (customer A), and take the new user's id.\n    - Send POST /users/login with customer A's email and password, and take its access_token.\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password (customer B), and take the new user's id.\n    - Send POST /users/login with customer B's email and password, and take its access_token.\n    - Send POST /carts with an empty body and take the returned id as the cart's id.\n    - Send POST /invoices with customer A's access_token, payment_method \"cash-on-delivery\", payment_details {}, billing_street \"Stephansplatz 1\", billing_city \"Wien\", billing_country \"AT\" and the cart's id as cart_id.\n    - Send GET /invoices with customer B's access_token.\n    - Verify the response status is 200.\n    - Verify the body's total is 0 and data is an empty array."
+  },
+  {
+   "id": "API-0443",
+   "name": "List invoices as an admin includes another customer's invoice",
+   "status": "manual",
+   "role": "admin",
+   "steps": [
+    "Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.",
+    "Send POST /users/login with that email and password, and take its access_token.",
+    "Send POST /carts with an empty body and take the returned id as the cart's id.",
+    "Send POST /invoices with that access_token, payment_method \"cash-on-delivery\", payment_details {}, billing_street \"Stephansplatz 1\", billing_city \"Wien\", billing_country \"AT\" and the cart's id as cart_id, and take the new invoice's id, invoice_number and total.",
+    "Send GET /invoices with the admin's token.",
+    "Verify the response status is 200.",
+    "Verify data has an item whose id is the new invoice's id and whose user_id is the new user's id (the newest invoice is on page 1)."
+   ],
+   "ref": [],
+   "area": "invoices",
+   "areaLabel": "Invoices",
+   "file": "test-scenarios/api/invoices/get-invoices.yml",
+   "fileLabel": "GET /invoices",
+   "suite": "Invoices API",
+   "tags": [
+    "@invoices-api"
+   ],
+   "yaml": "- id: API-0443\n  name: List invoices as an admin includes another customer's invoice\n  status: manual\n  role: admin\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.\n    - Send POST /users/login with that email and password, and take its access_token.\n    - Send POST /carts with an empty body and take the returned id as the cart's id.\n    - Send POST /invoices with that access_token, payment_method \"cash-on-delivery\", payment_details {}, billing_street \"Stephansplatz 1\", billing_city \"Wien\", billing_country \"AT\" and the cart's id as cart_id, and take the new invoice's id, invoice_number and total.\n    - Send GET /invoices with the admin's token.\n    - Verify the response status is 200.\n    - Verify data has an item whose id is the new invoice's id and whose user_id is the new user's id (the newest invoice is on page 1)."
+  },
+  {
+   "id": "API-0444",
+   "name": "List invoices returns invoices ordered by invoice_date, newest first",
+   "status": "manual",
+   "steps": [
+    "Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.",
+    "Send POST /users/login with that email and password, and take its access_token.",
+    "Send POST /carts with an empty body and take the returned id as the cart's id.",
+    "Send POST /invoices with that access_token, payment_method \"cash-on-delivery\", payment_details {}, billing_street \"Stephansplatz 1\", billing_city \"Wien\", billing_country \"AT\" and the cart's id as cart_id, and take the new invoice's id, invoice_number and total.",
+    "Send POST /invoices again with that access_token and the same body and cart's id, and take the second invoice's id.",
+    "Send GET /invoices with that access_token.",
+    "Verify the response status is 200.",
+    "Verify the body's total is 2 and data has two items, whose ids are the two invoices' ids.",
+    "Verify the items' invoice_date values are in descending order (the first item is not older than the second)."
+   ],
+   "ref": [],
+   "area": "invoices",
+   "areaLabel": "Invoices",
+   "file": "test-scenarios/api/invoices/get-invoices.yml",
+   "fileLabel": "GET /invoices",
+   "suite": "Invoices API",
+   "tags": [
+    "@invoices-api"
+   ],
+   "yaml": "- id: API-0444\n  name: List invoices returns invoices ordered by invoice_date, newest first\n  status: manual\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.\n    - Send POST /users/login with that email and password, and take its access_token.\n    - Send POST /carts with an empty body and take the returned id as the cart's id.\n    - Send POST /invoices with that access_token, payment_method \"cash-on-delivery\", payment_details {}, billing_street \"Stephansplatz 1\", billing_city \"Wien\", billing_country \"AT\" and the cart's id as cart_id, and take the new invoice's id, invoice_number and total.\n    - Send POST /invoices again with that access_token and the same body and cart's id, and take the second invoice's id.\n    - Send GET /invoices with that access_token.\n    - Verify the response status is 200.\n    - Verify the body's total is 2 and data has two items, whose ids are the two invoices' ids.\n    - Verify the items' invoice_date values are in descending order (the first item is not older than the second)."
+  },
+  {
+   "id": "API-0445",
+   "name": "List invoices with a page past the last returns 200 with an empty list",
+   "status": "manual",
+   "steps": [
+    "Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.",
+    "Send POST /users/login with that email and password, and take its access_token.",
+    "Send POST /carts with an empty body and take the returned id as the cart's id.",
+    "Send POST /invoices with that access_token, payment_method \"cash-on-delivery\", payment_details {}, billing_street \"Stephansplatz 1\", billing_city \"Wien\", billing_country \"AT\" and the cart's id as cart_id, and take the new invoice's id, invoice_number and total.",
+    "Send GET /invoices with page 2 and that access_token.",
+    "Verify the response status is 200.",
+    "Verify the body's data is an empty array."
+   ],
+   "ref": [],
+   "area": "invoices",
+   "areaLabel": "Invoices",
+   "file": "test-scenarios/api/invoices/get-invoices.yml",
+   "fileLabel": "GET /invoices",
+   "suite": "Invoices API",
+   "tags": [
+    "@invoices-api"
+   ],
+   "yaml": "- id: API-0445\n  name: List invoices with a page past the last returns 200 with an empty list\n  status: manual\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.\n    - Send POST /users/login with that email and password, and take its access_token.\n    - Send POST /carts with an empty body and take the returned id as the cart's id.\n    - Send POST /invoices with that access_token, payment_method \"cash-on-delivery\", payment_details {}, billing_street \"Stephansplatz 1\", billing_city \"Wien\", billing_country \"AT\" and the cart's id as cart_id, and take the new invoice's id, invoice_number and total.\n    - Send GET /invoices with page 2 and that access_token.\n    - Verify the response status is 200.\n    - Verify the body's data is an empty array."
+  },
+  {
+   "id": "API-0446",
+   "name": "List invoices without a token returns 401",
+   "status": "manual",
+   "steps": [
+    "Send GET /invoices without an Authorization header.",
+    "Verify the response status is 401.",
+    "Verify the body's message is \"Unauthorized\"."
+   ],
+   "ref": [],
+   "area": "invoices",
+   "areaLabel": "Invoices",
+   "file": "test-scenarios/api/invoices/get-invoices.yml",
+   "fileLabel": "GET /invoices",
+   "suite": "Invoices API",
+   "tags": [
+    "@invoices-api"
+   ],
+   "yaml": "- id: API-0446\n  name: List invoices without a token returns 401\n  status: manual\n  steps:\n    - Send GET /invoices without an Authorization header.\n    - Verify the response status is 401.\n    - Verify the body's message is \"Unauthorized\"."
+  },
+  {
+   "id": "API-0447",
+   "name": "List invoices with a malformed token returns 401",
+   "status": "manual",
+   "steps": [
+    "Send GET /invoices with a malformed token.",
+    "Verify the response status is 401.",
+    "Verify the body's message is \"Unauthorized\"."
+   ],
+   "ref": [],
+   "area": "invoices",
+   "areaLabel": "Invoices",
+   "file": "test-scenarios/api/invoices/get-invoices.yml",
+   "fileLabel": "GET /invoices",
+   "suite": "Invoices API",
+   "tags": [
+    "@invoices-api"
+   ],
+   "yaml": "- id: API-0447\n  name: List invoices with a malformed token returns 401\n  status: manual\n  steps:\n    - Send GET /invoices with a malformed token.\n    - Verify the response status is 401.\n    - Verify the body's message is \"Unauthorized\"."
+  },
+  {
+   "id": "API-0448",
+   "name": "List invoices with a disabled account's token returns 403",
+   "status": "manual",
+   "role": "admin",
+   "steps": [
+    "Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.",
+    "Send POST /users/login with that email and password, and take its access_token.",
+    "Send PATCH /users/{userId} with the new user's id and enabled false, with the admin's token.",
+    "Send GET /invoices with the throwaway customer's access_token.",
+    "Verify the response status is 403.",
+    "Verify the body's message is \"Account disabled.\"."
+   ],
+   "ref": [],
+   "area": "invoices",
+   "areaLabel": "Invoices",
+   "file": "test-scenarios/api/invoices/get-invoices.yml",
+   "fileLabel": "GET /invoices",
+   "suite": "Invoices API",
+   "tags": [
+    "@invoices-api"
+   ],
+   "yaml": "- id: API-0448\n  name: List invoices with a disabled account's token returns 403\n  status: manual\n  role: admin\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.\n    - Send POST /users/login with that email and password, and take its access_token.\n    - Send PATCH /users/{userId} with the new user's id and enabled false, with the admin's token.\n    - Send GET /invoices with the throwaway customer's access_token.\n    - Verify the response status is 403.\n    - Verify the body's message is \"Account disabled.\"."
+  },
+  {
    "id": "API-0297",
    "name": "Create invoice with billing address fields at their maximum length returns 201",
    "ref": [
@@ -5434,6 +6275,1834 @@ window.SCENARIO_CATALOG = {
     "@invoices-api"
    ],
    "yaml": "- id: API-0304\n  name: Create invoice with a billing postal code longer than 10 characters returns 422\n  ref: docs/ui/user-stories/Checkout_Billing_Address.md#AC1\n  status: manual\n  steps:\n    - Send POST /invoices with the default user's token, payment_method \"cash-on-delivery\", payment_details {}, billing_street \"Stephansplatz 1\", billing_city \"Wien\", billing_country \"AT\", an 11-character billing_postal_code and a non-empty string as cart_id.\n    - Verify the response status is 422.\n    - Verify the body has a billing_postal_code key with at least one message."
+  },
+  {
+   "id": "API-0485",
+   "name": "Create invoice returns 201 with the invoice, its totals and lines",
+   "status": "manual",
+   "steps": [
+    "Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.",
+    "Send POST /users/login with that email and password, and take its access_token.",
+    "Send GET /products and take the first item's id as the product's id.",
+    "Send POST /carts with an empty body and take the returned id as the cart's id.",
+    "Send POST /carts/{cartId} with the cart's id, the product's id as product_id and quantity 2.",
+    "Send POST /invoices with that access_token, payment_method \"cash-on-delivery\", payment_details {}, billing_street \"Stephansplatz 1\", billing_city \"Wien\", billing_country \"AT\" and the cart's id as cart_id, and take the new invoice's id, invoice_number and total.",
+    "Verify the response status is 201.",
+    "Verify the body has the keys id, user_id, invoice_number, invoice_date, billing_street, billing_city, billing_country, subtotal, total, additional_discount_percentage, additional_discount_amount, eco_discount_percentage, eco_discount_amount and created_at.",
+    "Verify the body's user_id equals the new user's id.",
+    "Verify the body's invoice_number is INV- followed by a 4-digit year and 6 digits.",
+    "Verify GET /invoices/{invoiceId} with the new id and that token returns 200 with exactly one line with the product's id as product_id and quantity 2, and payment.payment_method \"cash-on-delivery\"."
+   ],
+   "ref": [],
+   "area": "invoices",
+   "areaLabel": "Invoices",
+   "file": "test-scenarios/api/invoices/post-invoices.yml",
+   "fileLabel": "POST /invoices",
+   "suite": "Invoices API",
+   "tags": [
+    "@invoices-api"
+   ],
+   "yaml": "- id: API-0485\n  name: Create invoice returns 201 with the invoice, its totals and lines\n  status: manual\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.\n    - Send POST /users/login with that email and password, and take its access_token.\n    - Send GET /products and take the first item's id as the product's id.\n    - Send POST /carts with an empty body and take the returned id as the cart's id.\n    - Send POST /carts/{cartId} with the cart's id, the product's id as product_id and quantity 2.\n    - Send POST /invoices with that access_token, payment_method \"cash-on-delivery\", payment_details {}, billing_street \"Stephansplatz 1\", billing_city \"Wien\", billing_country \"AT\" and the cart's id as cart_id, and take the new invoice's id, invoice_number and total.\n    - Verify the response status is 201.\n    - Verify the body has the keys id, user_id, invoice_number, invoice_date, billing_street, billing_city, billing_country, subtotal, total, additional_discount_percentage, additional_discount_amount, eco_discount_percentage, eco_discount_amount and created_at.\n    - Verify the body's user_id equals the new user's id.\n    - Verify the body's invoice_number is INV- followed by a 4-digit year and 6 digits.\n    - Verify GET /invoices/{invoiceId} with the new id and that token returns 200 with exactly one line with the product's id as product_id and quantity 2, and payment.payment_method \"cash-on-delivery\"."
+  },
+  {
+   "id": "API-0486",
+   "name": "Create invoice for a cart without items returns 201 with a total of 0",
+   "status": "manual",
+   "steps": [
+    "Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.",
+    "Send POST /users/login with that email and password, and take its access_token.",
+    "Send POST /carts with an empty body and take the returned id as the cart's id.",
+    "Send POST /invoices with that access_token, payment_method \"cash-on-delivery\", payment_details {}, billing_street \"Stephansplatz 1\", billing_city \"Wien\", billing_country \"AT\" and the cart's id as cart_id, and take the new invoice's id, invoice_number and total.",
+    "Verify the response status is 201.",
+    "Verify the body's total is 0.",
+    "Verify GET /invoices/{invoiceId} with the new id and that token returns 200 with invoicelines as an empty array."
+   ],
+   "ref": [],
+   "area": "invoices",
+   "areaLabel": "Invoices",
+   "file": "test-scenarios/api/invoices/post-invoices.yml",
+   "fileLabel": "POST /invoices",
+   "suite": "Invoices API",
+   "tags": [
+    "@invoices-api"
+   ],
+   "yaml": "- id: API-0486\n  name: Create invoice for a cart without items returns 201 with a total of 0\n  status: manual\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.\n    - Send POST /users/login with that email and password, and take its access_token.\n    - Send POST /carts with an empty body and take the returned id as the cart's id.\n    - Send POST /invoices with that access_token, payment_method \"cash-on-delivery\", payment_details {}, billing_street \"Stephansplatz 1\", billing_city \"Wien\", billing_country \"AT\" and the cart's id as cart_id, and take the new invoice's id, invoice_number and total.\n    - Verify the response status is 201.\n    - Verify the body's total is 0.\n    - Verify GET /invoices/{invoiceId} with the new id and that token returns 200 with invoicelines as an empty array."
+  },
+  {
+   "id": "API-0487",
+   "name": "Create invoice with a bank-transfer payment returns 201",
+   "status": "manual",
+   "steps": [
+    "Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.",
+    "Send POST /users/login with that email and password, and take its access_token.",
+    "Send POST /carts with an empty body and take the returned id as the cart's id.",
+    "Send POST /invoices with that access_token, payment_method \"bank-transfer\", payment_details with a bank_name of at most 70 characters, an account_name of at most 70 and an account_number of at most 40, billing_street \"Stephansplatz 1\", billing_city \"Wien\", billing_country \"AT\" and the cart's id as cart_id, and take the new invoice's id.",
+    "Verify the response status is 201.",
+    "Verify GET /invoices/{invoiceId} with the new id and that token returns 200 with payment.payment_method \"bank-transfer\" and payment.payment_details holding the bank_name, account_name and account_number sent."
+   ],
+   "ref": [],
+   "area": "invoices",
+   "areaLabel": "Invoices",
+   "file": "test-scenarios/api/invoices/post-invoices.yml",
+   "fileLabel": "POST /invoices",
+   "suite": "Invoices API",
+   "tags": [
+    "@invoices-api"
+   ],
+   "yaml": "- id: API-0487\n  name: Create invoice with a bank-transfer payment returns 201\n  status: manual\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.\n    - Send POST /users/login with that email and password, and take its access_token.\n    - Send POST /carts with an empty body and take the returned id as the cart's id.\n    - Send POST /invoices with that access_token, payment_method \"bank-transfer\", payment_details with a bank_name of at most 70 characters, an account_name of at most 70 and an account_number of at most 40, billing_street \"Stephansplatz 1\", billing_city \"Wien\", billing_country \"AT\" and the cart's id as cart_id, and take the new invoice's id.\n    - Verify the response status is 201.\n    - Verify GET /invoices/{invoiceId} with the new id and that token returns 200 with payment.payment_method \"bank-transfer\" and payment.payment_details holding the bank_name, account_name and account_number sent."
+  },
+  {
+   "id": "API-0488",
+   "name": "Create invoice with a credit-card payment returns 201",
+   "status": "manual",
+   "steps": [
+    "Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.",
+    "Send POST /users/login with that email and password, and take its access_token.",
+    "Send POST /carts with an empty body and take the returned id as the cart's id.",
+    "Send POST /invoices with that access_token, payment_method \"credit-card\", payment_details with a credit_card_number of at most 40 characters, an expiration_date of at most 10, a cvv of at most 10 and a card_holder_name of at most 70, billing_street \"Stephansplatz 1\", billing_city \"Wien\", billing_country \"AT\" and the cart's id as cart_id, and take the new invoice's id.",
+    "Verify the response status is 201.",
+    "Verify GET /invoices/{invoiceId} with the new id and that token returns 200 with payment.payment_method \"credit-card\" and payment.payment_details holding the credit_card_number, expiration_date, cvv and card_holder_name sent."
+   ],
+   "ref": [],
+   "area": "invoices",
+   "areaLabel": "Invoices",
+   "file": "test-scenarios/api/invoices/post-invoices.yml",
+   "fileLabel": "POST /invoices",
+   "suite": "Invoices API",
+   "tags": [
+    "@invoices-api"
+   ],
+   "yaml": "- id: API-0488\n  name: Create invoice with a credit-card payment returns 201\n  status: manual\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.\n    - Send POST /users/login with that email and password, and take its access_token.\n    - Send POST /carts with an empty body and take the returned id as the cart's id.\n    - Send POST /invoices with that access_token, payment_method \"credit-card\", payment_details with a credit_card_number of at most 40 characters, an expiration_date of at most 10, a cvv of at most 10 and a card_holder_name of at most 70, billing_street \"Stephansplatz 1\", billing_city \"Wien\", billing_country \"AT\" and the cart's id as cart_id, and take the new invoice's id.\n    - Verify the response status is 201.\n    - Verify GET /invoices/{invoiceId} with the new id and that token returns 200 with payment.payment_method \"credit-card\" and payment.payment_details holding the credit_card_number, expiration_date, cvv and card_holder_name sent."
+  },
+  {
+   "id": "API-0489",
+   "name": "Create invoice with a buy-now-pay-later payment returns 201",
+   "status": "manual",
+   "steps": [
+    "Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.",
+    "Send POST /users/login with that email and password, and take its access_token.",
+    "Send POST /carts with an empty body and take the returned id as the cart's id.",
+    "Send POST /invoices with that access_token, payment_method \"buy-now-pay-later\", payment_details with a monthly_installments of at most 40 characters, billing_street \"Stephansplatz 1\", billing_city \"Wien\", billing_country \"AT\" and the cart's id as cart_id, and take the new invoice's id.",
+    "Verify the response status is 201.",
+    "Verify GET /invoices/{invoiceId} with the new id and that token returns 200 with payment.payment_method \"buy-now-pay-later\" and payment.payment_details holding the monthly_installments sent."
+   ],
+   "ref": [],
+   "area": "invoices",
+   "areaLabel": "Invoices",
+   "file": "test-scenarios/api/invoices/post-invoices.yml",
+   "fileLabel": "POST /invoices",
+   "suite": "Invoices API",
+   "tags": [
+    "@invoices-api"
+   ],
+   "yaml": "- id: API-0489\n  name: Create invoice with a buy-now-pay-later payment returns 201\n  status: manual\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.\n    - Send POST /users/login with that email and password, and take its access_token.\n    - Send POST /carts with an empty body and take the returned id as the cart's id.\n    - Send POST /invoices with that access_token, payment_method \"buy-now-pay-later\", payment_details with a monthly_installments of at most 40 characters, billing_street \"Stephansplatz 1\", billing_city \"Wien\", billing_country \"AT\" and the cart's id as cart_id, and take the new invoice's id.\n    - Verify the response status is 201.\n    - Verify GET /invoices/{invoiceId} with the new id and that token returns 200 with payment.payment_method \"buy-now-pay-later\" and payment.payment_details holding the monthly_installments sent."
+  },
+  {
+   "id": "API-0490",
+   "name": "Create invoice with a gift-card payment returns 201",
+   "status": "manual",
+   "steps": [
+    "Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.",
+    "Send POST /users/login with that email and password, and take its access_token.",
+    "Send POST /carts with an empty body and take the returned id as the cart's id.",
+    "Send POST /invoices with that access_token, payment_method \"gift-card\", payment_details with a 16-character alphanumeric gift_card_number and a 4-character alphanumeric validation_code, billing_street \"Stephansplatz 1\", billing_city \"Wien\", billing_country \"AT\" and the cart's id as cart_id, and take the new invoice's id.",
+    "Verify the response status is 201.",
+    "Verify GET /invoices/{invoiceId} with the new id and that token returns 200 with payment.payment_method \"gift-card\" and payment.payment_details holding the gift_card_number and validation_code sent."
+   ],
+   "ref": [],
+   "area": "invoices",
+   "areaLabel": "Invoices",
+   "file": "test-scenarios/api/invoices/post-invoices.yml",
+   "fileLabel": "POST /invoices",
+   "suite": "Invoices API",
+   "tags": [
+    "@invoices-api"
+   ],
+   "yaml": "- id: API-0490\n  name: Create invoice with a gift-card payment returns 201\n  status: manual\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.\n    - Send POST /users/login with that email and password, and take its access_token.\n    - Send POST /carts with an empty body and take the returned id as the cart's id.\n    - Send POST /invoices with that access_token, payment_method \"gift-card\", payment_details with a 16-character alphanumeric gift_card_number and a 4-character alphanumeric validation_code, billing_street \"Stephansplatz 1\", billing_city \"Wien\", billing_country \"AT\" and the cart's id as cart_id, and take the new invoice's id.\n    - Verify the response status is 201.\n    - Verify GET /invoices/{invoiceId} with the new id and that token returns 200 with payment.payment_method \"gift-card\" and payment.payment_details holding the gift_card_number and validation_code sent."
+  },
+  {
+   "id": "API-0491",
+   "name": "Create invoice without a token returns 401",
+   "status": "manual",
+   "steps": [
+    "Send POST /invoices without an Authorization header, with payment_method \"cash-on-delivery\", payment_details {}, billing_street \"Stephansplatz 1\", billing_city \"Wien\", billing_country \"AT\" and a non-empty string as cart_id.",
+    "Verify the response status is 401.",
+    "Verify the body's message is \"Unauthorized\"."
+   ],
+   "ref": [],
+   "area": "invoices",
+   "areaLabel": "Invoices",
+   "file": "test-scenarios/api/invoices/post-invoices.yml",
+   "fileLabel": "POST /invoices",
+   "suite": "Invoices API",
+   "tags": [
+    "@invoices-api"
+   ],
+   "yaml": "- id: API-0491\n  name: Create invoice without a token returns 401\n  status: manual\n  steps:\n    - Send POST /invoices without an Authorization header, with payment_method \"cash-on-delivery\", payment_details {}, billing_street \"Stephansplatz 1\", billing_city \"Wien\", billing_country \"AT\" and a non-empty string as cart_id.\n    - Verify the response status is 401.\n    - Verify the body's message is \"Unauthorized\"."
+  },
+  {
+   "id": "API-0492",
+   "name": "Create invoice without payment_method, payment_details and cart_id returns 422 for each of them",
+   "status": "manual",
+   "steps": [
+    "Send POST /invoices with the default user's token, billing_street \"Stephansplatz 1\", billing_city \"Wien\" and billing_country \"AT\", without payment_method, payment_details and cart_id.",
+    "Verify the response status is 422.",
+    "Verify the body has the keys payment_method, payment_details and cart_id, each with at least one message."
+   ],
+   "ref": [],
+   "area": "invoices",
+   "areaLabel": "Invoices",
+   "file": "test-scenarios/api/invoices/post-invoices.yml",
+   "fileLabel": "POST /invoices",
+   "suite": "Invoices API",
+   "tags": [
+    "@invoices-api"
+   ],
+   "yaml": "- id: API-0492\n  name: Create invoice without payment_method, payment_details and cart_id returns 422 for each of them\n  status: manual\n  steps:\n    - Send POST /invoices with the default user's token, billing_street \"Stephansplatz 1\", billing_city \"Wien\" and billing_country \"AT\", without payment_method, payment_details and cart_id.\n    - Verify the response status is 422.\n    - Verify the body has the keys payment_method, payment_details and cart_id, each with at least one message."
+  },
+  {
+   "id": "API-0493",
+   "name": "Create invoice with a payment method that is not allowed returns 422",
+   "status": "manual",
+   "steps": [
+    "Send POST /invoices with the default user's token, payment_method \"bitcoin\", payment_details {}, billing_street \"Stephansplatz 1\", billing_city \"Wien\", billing_country \"AT\" and a non-empty string as cart_id.",
+    "Verify the response status is 422.",
+    "Verify the body has a payment_method key with at least one message."
+   ],
+   "ref": [],
+   "area": "invoices",
+   "areaLabel": "Invoices",
+   "file": "test-scenarios/api/invoices/post-invoices.yml",
+   "fileLabel": "POST /invoices",
+   "suite": "Invoices API",
+   "tags": [
+    "@invoices-api"
+   ],
+   "yaml": "- id: API-0493\n  name: Create invoice with a payment method that is not allowed returns 422\n  status: manual\n  steps:\n    - Send POST /invoices with the default user's token, payment_method \"bitcoin\", payment_details {}, billing_street \"Stephansplatz 1\", billing_city \"Wien\", billing_country \"AT\" and a non-empty string as cart_id.\n    - Verify the response status is 422.\n    - Verify the body has a payment_method key with at least one message."
+  },
+  {
+   "id": "API-0494",
+   "name": "Create invoice with a gift card number that is not 16 characters returns 422",
+   "status": "manual",
+   "steps": [
+    "Send POST /invoices with the default user's token, payment_method \"gift-card\", payment_details with a 15-character gift_card_number and a 4-character validation_code, billing_street \"Stephansplatz 1\", billing_city \"Wien\", billing_country \"AT\" and a non-empty string as cart_id.",
+    "Verify the response status is 422.",
+    "Verify the body has a \"payment_details.gift_card_number\" key with at least one message."
+   ],
+   "ref": [],
+   "area": "invoices",
+   "areaLabel": "Invoices",
+   "file": "test-scenarios/api/invoices/post-invoices.yml",
+   "fileLabel": "POST /invoices",
+   "suite": "Invoices API",
+   "tags": [
+    "@invoices-api"
+   ],
+   "yaml": "- id: API-0494\n  name: Create invoice with a gift card number that is not 16 characters returns 422\n  status: manual\n  steps:\n    - Send POST /invoices with the default user's token, payment_method \"gift-card\", payment_details with a 15-character gift_card_number and a 4-character validation_code, billing_street \"Stephansplatz 1\", billing_city \"Wien\", billing_country \"AT\" and a non-empty string as cart_id.\n    - Verify the response status is 422.\n    - Verify the body has a \"payment_details.gift_card_number\" key with at least one message."
+  },
+  {
+   "id": "API-0495",
+   "name": "Create invoice with a gift card validation code that is not 4 characters returns 422",
+   "status": "manual",
+   "steps": [
+    "Send POST /invoices with the default user's token, payment_method \"gift-card\", payment_details with a 16-character gift_card_number and a 3-character validation_code, billing_street \"Stephansplatz 1\", billing_city \"Wien\", billing_country \"AT\" and a non-empty string as cart_id.",
+    "Verify the response status is 422.",
+    "Verify the body has a \"payment_details.validation_code\" key with at least one message."
+   ],
+   "ref": [],
+   "area": "invoices",
+   "areaLabel": "Invoices",
+   "file": "test-scenarios/api/invoices/post-invoices.yml",
+   "fileLabel": "POST /invoices",
+   "suite": "Invoices API",
+   "tags": [
+    "@invoices-api"
+   ],
+   "yaml": "- id: API-0495\n  name: Create invoice with a gift card validation code that is not 4 characters returns 422\n  status: manual\n  steps:\n    - Send POST /invoices with the default user's token, payment_method \"gift-card\", payment_details with a 16-character gift_card_number and a 3-character validation_code, billing_street \"Stephansplatz 1\", billing_city \"Wien\", billing_country \"AT\" and a non-empty string as cart_id.\n    - Verify the response status is 422.\n    - Verify the body has a \"payment_details.validation_code\" key with at least one message."
+  },
+  {
+   "id": "API-0496",
+   "name": "Create invoice with a superscript character in the billing street returns 422",
+   "status": "manual",
+   "steps": [
+    "Send POST /invoices with the default user's token, payment_method \"cash-on-delivery\", payment_details {}, a billing_street containing the superscript digit four (U+2074), billing_city \"Wien\", billing_country \"AT\" and a non-empty string as cart_id.",
+    "Verify the response status is 422.",
+    "Verify the body has a billing_street key with at least one message."
+   ],
+   "ref": [],
+   "area": "invoices",
+   "areaLabel": "Invoices",
+   "file": "test-scenarios/api/invoices/post-invoices.yml",
+   "fileLabel": "POST /invoices",
+   "suite": "Invoices API",
+   "tags": [
+    "@invoices-api"
+   ],
+   "yaml": "- id: API-0496\n  name: Create invoice with a superscript character in the billing street returns 422\n  status: manual\n  steps:\n    - Send POST /invoices with the default user's token, payment_method \"cash-on-delivery\", payment_details {}, a billing_street containing the superscript digit four (U+2074), billing_city \"Wien\", billing_country \"AT\" and a non-empty string as cart_id.\n    - Verify the response status is 422.\n    - Verify the body has a billing_street key with at least one message."
+  },
+  {
+   "id": "API-0497",
+   "name": "Create invoice with a postal code that doesn't match the country returns 422",
+   "status": "manual",
+   "steps": [
+    "Send POST /invoices with the default user's token, payment_method \"cash-on-delivery\", payment_details {}, billing_street \"Stephansplatz 1\", billing_city \"Amsterdam\", billing_country \"NL\", a billing_postal_code that doesn't match the Dutch format (for example \"ABCDE\") and a non-empty string as cart_id.",
+    "Verify the response status is 422.",
+    "Verify the body has a billing_country key with at least one message."
+   ],
+   "ref": [],
+   "area": "invoices",
+   "areaLabel": "Invoices",
+   "file": "test-scenarios/api/invoices/post-invoices.yml",
+   "fileLabel": "POST /invoices",
+   "suite": "Invoices API",
+   "tags": [
+    "@invoices-api"
+   ],
+   "yaml": "- id: API-0497\n  name: Create invoice with a postal code that doesn't match the country returns 422\n  status: manual\n  steps:\n    - Send POST /invoices with the default user's token, payment_method \"cash-on-delivery\", payment_details {}, billing_street \"Stephansplatz 1\", billing_city \"Amsterdam\", billing_country \"NL\", a billing_postal_code that doesn't match the Dutch format (for example \"ABCDE\") and a non-empty string as cart_id.\n    - Verify the response status is 422.\n    - Verify the body has a billing_country key with at least one message."
+  },
+  {
+   "id": "API-0498",
+   "name": "Create invoice with an unknown cart returns 404",
+   "status": "manual",
+   "steps": [
+    "Send POST /invoices with the default user's token, payment_method \"cash-on-delivery\", payment_details {}, billing_street \"Stephansplatz 1\", billing_city \"Wien\", billing_country \"AT\" and a well-formed ULID that no cart has as cart_id.",
+    "Verify the response status is 404.",
+    "Verify the body's message is \"Requested item not found\"."
+   ],
+   "ref": [],
+   "area": "invoices",
+   "areaLabel": "Invoices",
+   "file": "test-scenarios/api/invoices/post-invoices.yml",
+   "fileLabel": "POST /invoices",
+   "suite": "Invoices API",
+   "tags": [
+    "@invoices-api"
+   ],
+   "yaml": "- id: API-0498\n  name: Create invoice with an unknown cart returns 404\n  status: manual\n  steps:\n    - Send POST /invoices with the default user's token, payment_method \"cash-on-delivery\", payment_details {}, billing_street \"Stephansplatz 1\", billing_city \"Wien\", billing_country \"AT\" and a well-formed ULID that no cart has as cart_id.\n    - Verify the response status is 404.\n    - Verify the body's message is \"Requested item not found\"."
+  },
+  {
+   "id": "API-0499",
+   "name": "Create invoice with an unknown cart leaves no invoice behind",
+   "status": "manual",
+   "knownIssue": "A failed checkout (unknown cart) leaves an invoice without lines or payment in the customer's invoice list.",
+   "bug": "BUG-040",
+   "steps": [
+    "Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.",
+    "Send POST /users/login with that email and password, and take its access_token.",
+    "Send POST /invoices with that access_token, payment_method \"cash-on-delivery\", payment_details {}, billing_street \"Stephansplatz 1\", billing_city \"Wien\", billing_country \"AT\" and a well-formed ULID that no cart has as cart_id.",
+    "Send GET /invoices with that access_token.",
+    "Verify the body's total is 0."
+   ],
+   "ref": [],
+   "area": "invoices",
+   "areaLabel": "Invoices",
+   "file": "test-scenarios/api/invoices/post-invoices.yml",
+   "fileLabel": "POST /invoices",
+   "suite": "Invoices API",
+   "tags": [
+    "@invoices-api"
+   ],
+   "yaml": "- id: API-0499\n  name: Create invoice with an unknown cart leaves no invoice behind\n  status: manual\n  knownIssue: A failed checkout (unknown cart) leaves an invoice without lines or payment in the customer's invoice list.\n  bug: BUG-040\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.\n    - Send POST /users/login with that email and password, and take its access_token.\n    - Send POST /invoices with that access_token, payment_method \"cash-on-delivery\", payment_details {}, billing_street \"Stephansplatz 1\", billing_city \"Wien\", billing_country \"AT\" and a well-formed ULID that no cart has as cart_id.\n    - Send GET /invoices with that access_token.\n    - Verify the body's total is 0."
+  },
+  {
+   "id": "API-0500",
+   "name": "Create invoice with payment_details null returns 422",
+   "status": "manual",
+   "knownIssue": "Returns 500 instead of 422 when payment_details is null for a method other than gift-card.",
+   "bug": "BUG-041",
+   "steps": [
+    "Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.",
+    "Send POST /users/login with that email and password, and take its access_token.",
+    "Send POST /carts with an empty body and take the returned id as the cart's id.",
+    "Send POST /invoices with that access_token, payment_method \"bank-transfer\", payment_details null, billing_street \"Stephansplatz 1\", billing_city \"Wien\", billing_country \"AT\" and the cart's id as cart_id.",
+    "Verify the response status is 422."
+   ],
+   "ref": [],
+   "area": "invoices",
+   "areaLabel": "Invoices",
+   "file": "test-scenarios/api/invoices/post-invoices.yml",
+   "fileLabel": "POST /invoices",
+   "suite": "Invoices API",
+   "tags": [
+    "@invoices-api"
+   ],
+   "yaml": "- id: API-0500\n  name: Create invoice with payment_details null returns 422\n  status: manual\n  knownIssue: Returns 500 instead of 422 when payment_details is null for a method other than gift-card.\n  bug: BUG-041\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.\n    - Send POST /users/login with that email and password, and take its access_token.\n    - Send POST /carts with an empty body and take the returned id as the cart's id.\n    - Send POST /invoices with that access_token, payment_method \"bank-transfer\", payment_details null, billing_street \"Stephansplatz 1\", billing_city \"Wien\", billing_country \"AT\" and the cart's id as cart_id.\n    - Verify the response status is 422."
+  },
+  {
+   "id": "API-0501",
+   "name": "Create invoice with bank-transfer details missing the required fields returns 422",
+   "status": "manual",
+   "knownIssue": "Returns 404 \"Something went wrong\" instead of 422 when payment_details lacks the fields the payment method requires.",
+   "bug": "BUG-041",
+   "steps": [
+    "Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.",
+    "Send POST /users/login with that email and password, and take its access_token.",
+    "Send POST /carts with an empty body and take the returned id as the cart's id.",
+    "Send POST /invoices with that access_token, payment_method \"bank-transfer\", payment_details {}, billing_street \"Stephansplatz 1\", billing_city \"Wien\", billing_country \"AT\" and the cart's id as cart_id.",
+    "Verify the response status is 422."
+   ],
+   "ref": [],
+   "area": "invoices",
+   "areaLabel": "Invoices",
+   "file": "test-scenarios/api/invoices/post-invoices.yml",
+   "fileLabel": "POST /invoices",
+   "suite": "Invoices API",
+   "tags": [
+    "@invoices-api"
+   ],
+   "yaml": "- id: API-0501\n  name: Create invoice with bank-transfer details missing the required fields returns 422\n  status: manual\n  knownIssue: Returns 404 \"Something went wrong\" instead of 422 when payment_details lacks the fields the payment method requires.\n  bug: BUG-041\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.\n    - Send POST /users/login with that email and password, and take its access_token.\n    - Send POST /carts with an empty body and take the returned id as the cart's id.\n    - Send POST /invoices with that access_token, payment_method \"bank-transfer\", payment_details {}, billing_street \"Stephansplatz 1\", billing_city \"Wien\", billing_country \"AT\" and the cart's id as cart_id.\n    - Verify the response status is 422."
+  },
+  {
+   "id": "API-0502",
+   "name": "Create guest invoice returns 201 and the invoice has no user",
+   "status": "manual",
+   "role": "admin",
+   "steps": [
+    "Send GET /products and take the first item's id as the product's id.",
+    "Send POST /carts with an empty body and take the returned id as the cart's id.",
+    "Send POST /carts/{cartId} with the cart's id, the product's id as product_id and quantity 2.",
+    "Send POST /invoices/guest without an Authorization header, with payment_method \"cash-on-delivery\", payment_details {}, billing_street \"Stephansplatz 1\", billing_city \"Wien\", billing_country \"AT\", the cart's id as cart_id, a unique guest_email, a guest_first_name and a guest_last_name, and take the new invoice's id.",
+    "Verify the response status is 201.",
+    "Verify the body has the keys id, user_id, invoice_number, invoice_date, billing_street, billing_city, billing_country, subtotal, total and created_at.",
+    "Verify the body's user_id is null.",
+    "Verify GET /invoices/{invoiceId} with the new id and the admin's token returns 200 with user_id null, the billing_street, billing_city and billing_country sent, and exactly one line with the product's id as product_id."
+   ],
+   "ref": [],
+   "area": "invoices",
+   "areaLabel": "Invoices",
+   "file": "test-scenarios/api/invoices/post-invoices-guest.yml",
+   "fileLabel": "POST /invoices/guest",
+   "suite": "Invoices API",
+   "tags": [
+    "@invoices-api"
+   ],
+   "yaml": "- id: API-0502\n  name: Create guest invoice returns 201 and the invoice has no user\n  status: manual\n  role: admin\n  steps:\n    - Send GET /products and take the first item's id as the product's id.\n    - Send POST /carts with an empty body and take the returned id as the cart's id.\n    - Send POST /carts/{cartId} with the cart's id, the product's id as product_id and quantity 2.\n    - Send POST /invoices/guest without an Authorization header, with payment_method \"cash-on-delivery\", payment_details {}, billing_street \"Stephansplatz 1\", billing_city \"Wien\", billing_country \"AT\", the cart's id as cart_id, a unique guest_email, a guest_first_name and a guest_last_name, and take the new invoice's id.\n    - Verify the response status is 201.\n    - Verify the body has the keys id, user_id, invoice_number, invoice_date, billing_street, billing_city, billing_country, subtotal, total and created_at.\n    - Verify the body's user_id is null.\n    - Verify GET /invoices/{invoiceId} with the new id and the admin's token returns 200 with user_id null, the billing_street, billing_city and billing_country sent, and exactly one line with the product's id as product_id."
+  },
+  {
+   "id": "API-0503",
+   "name": "Create guest invoice without the required fields returns 422 for each of them",
+   "status": "manual",
+   "steps": [
+    "Send POST /invoices/guest without an Authorization header, with Accept: application/json and an empty JSON object as the body.",
+    "Verify the response status is 422.",
+    "Verify the body's errors has the keys payment_method, payment_details, billing_street, billing_city, billing_country, cart_id, guest_email, guest_first_name and guest_last_name, each with at least one message."
+   ],
+   "ref": [],
+   "area": "invoices",
+   "areaLabel": "Invoices",
+   "file": "test-scenarios/api/invoices/post-invoices-guest.yml",
+   "fileLabel": "POST /invoices/guest",
+   "suite": "Invoices API",
+   "tags": [
+    "@invoices-api"
+   ],
+   "yaml": "- id: API-0503\n  name: Create guest invoice without the required fields returns 422 for each of them\n  status: manual\n  steps:\n    - \"Send POST /invoices/guest without an Authorization header, with Accept: application/json and an empty JSON object as the body.\"\n    - Verify the response status is 422.\n    - Verify the body's errors has the keys payment_method, payment_details, billing_street, billing_city, billing_country, cart_id, guest_email, guest_first_name and guest_last_name, each with at least one message."
+  },
+  {
+   "id": "API-0504",
+   "name": "Create guest invoice with an invalid guest email returns 422",
+   "status": "manual",
+   "steps": [
+    "Send POST /invoices/guest without an Authorization header, with Accept: application/json, payment_method \"cash-on-delivery\", payment_details {}, billing_street \"Stephansplatz 1\", billing_city \"Wien\", billing_country \"AT\", a non-empty string as cart_id, guest_email \"not-an-email\", a guest_first_name and a guest_last_name.",
+    "Verify the response status is 422.",
+    "Verify the body's errors has a guest_email key with at least one message."
+   ],
+   "ref": [],
+   "area": "invoices",
+   "areaLabel": "Invoices",
+   "file": "test-scenarios/api/invoices/post-invoices-guest.yml",
+   "fileLabel": "POST /invoices/guest",
+   "suite": "Invoices API",
+   "tags": [
+    "@invoices-api"
+   ],
+   "yaml": "- id: API-0504\n  name: Create guest invoice with an invalid guest email returns 422\n  status: manual\n  steps:\n    - 'Send POST /invoices/guest without an Authorization header, with Accept: application/json, payment_method \"cash-on-delivery\", payment_details {}, billing_street \"Stephansplatz 1\", billing_city \"Wien\", billing_country \"AT\", a non-empty string as cart_id, guest_email \"not-an-email\", a guest_first_name and a guest_last_name.'\n    - Verify the response status is 422.\n    - Verify the body's errors has a guest_email key with at least one message."
+  },
+  {
+   "id": "API-0505",
+   "name": "Create guest invoice with a payment method that is not allowed returns 422",
+   "status": "manual",
+   "steps": [
+    "Send POST /invoices/guest without an Authorization header, with Accept: application/json, payment_method \"bitcoin\", payment_details {}, billing_street \"Stephansplatz 1\", billing_city \"Wien\", billing_country \"AT\", a non-empty string as cart_id, a unique guest_email, a guest_first_name and a guest_last_name.",
+    "Verify the response status is 422.",
+    "Verify the body's errors has a payment_method key with at least one message."
+   ],
+   "ref": [],
+   "area": "invoices",
+   "areaLabel": "Invoices",
+   "file": "test-scenarios/api/invoices/post-invoices-guest.yml",
+   "fileLabel": "POST /invoices/guest",
+   "suite": "Invoices API",
+   "tags": [
+    "@invoices-api"
+   ],
+   "yaml": "- id: API-0505\n  name: Create guest invoice with a payment method that is not allowed returns 422\n  status: manual\n  steps:\n    - 'Send POST /invoices/guest without an Authorization header, with Accept: application/json, payment_method \"bitcoin\", payment_details {}, billing_street \"Stephansplatz 1\", billing_city \"Wien\", billing_country \"AT\", a non-empty string as cart_id, a unique guest_email, a guest_first_name and a guest_last_name.'\n    - Verify the response status is 422.\n    - Verify the body's errors has a payment_method key with at least one message."
+  },
+  {
+   "id": "API-0506",
+   "name": "Create guest invoice with a postal code that doesn't match the country returns 422",
+   "status": "manual",
+   "steps": [
+    "Send POST /invoices/guest without an Authorization header, with Accept: application/json, payment_method \"cash-on-delivery\", payment_details {}, billing_street \"Stephansplatz 1\", billing_city \"Amsterdam\", billing_country \"NL\", a billing_postal_code that doesn't match the Dutch format (for example \"ABCDE\"), a non-empty string as cart_id, a unique guest_email, a guest_first_name and a guest_last_name.",
+    "Verify the response status is 422.",
+    "Verify the body's errors has a billing_country key with at least one message."
+   ],
+   "ref": [],
+   "area": "invoices",
+   "areaLabel": "Invoices",
+   "file": "test-scenarios/api/invoices/post-invoices-guest.yml",
+   "fileLabel": "POST /invoices/guest",
+   "suite": "Invoices API",
+   "tags": [
+    "@invoices-api"
+   ],
+   "yaml": "- id: API-0506\n  name: Create guest invoice with a postal code that doesn't match the country returns 422\n  status: manual\n  steps:\n    - 'Send POST /invoices/guest without an Authorization header, with Accept: application/json, payment_method \"cash-on-delivery\", payment_details {}, billing_street \"Stephansplatz 1\", billing_city \"Amsterdam\", billing_country \"NL\", a billing_postal_code that doesn''t match the Dutch format (for example \"ABCDE\"), a non-empty string as cart_id, a unique guest_email, a guest_first_name and a guest_last_name.'\n    - Verify the response status is 422.\n    - Verify the body's errors has a billing_country key with at least one message."
+  },
+  {
+   "id": "API-0507",
+   "name": "Create guest invoice with an unknown cart returns 404",
+   "status": "manual",
+   "steps": [
+    "Send POST /invoices/guest without an Authorization header, with payment_method \"cash-on-delivery\", payment_details {}, billing_street \"Stephansplatz 1\", billing_city \"Wien\", billing_country \"AT\", a well-formed ULID that no cart has as cart_id, a unique guest_email, a guest_first_name and a guest_last_name.",
+    "Verify the response status is 404.",
+    "Verify the body's message is \"Requested item not found\"."
+   ],
+   "ref": [],
+   "area": "invoices",
+   "areaLabel": "Invoices",
+   "file": "test-scenarios/api/invoices/post-invoices-guest.yml",
+   "fileLabel": "POST /invoices/guest",
+   "suite": "Invoices API",
+   "tags": [
+    "@invoices-api"
+   ],
+   "yaml": "- id: API-0507\n  name: Create guest invoice with an unknown cart returns 404\n  status: manual\n  steps:\n    - Send POST /invoices/guest without an Authorization header, with payment_method \"cash-on-delivery\", payment_details {}, billing_street \"Stephansplatz 1\", billing_city \"Wien\", billing_country \"AT\", a well-formed ULID that no cart has as cart_id, a unique guest_email, a guest_first_name and a guest_last_name.\n    - Verify the response status is 404.\n    - Verify the body's message is \"Requested item not found\"."
+  },
+  {
+   "id": "API-0508",
+   "name": "Create guest invoice with payment_details null returns 422",
+   "status": "manual",
+   "knownIssue": "Returns 500 instead of 422 when payment_details is null for a method other than gift-card.",
+   "bug": "BUG-041",
+   "steps": [
+    "Send POST /carts with an empty body and take the returned id as the cart's id.",
+    "Send POST /invoices/guest without an Authorization header, with payment_method \"bank-transfer\", payment_details null, billing_street \"Stephansplatz 1\", billing_city \"Wien\", billing_country \"AT\", the cart's id as cart_id, a unique guest_email, a guest_first_name and a guest_last_name.",
+    "Verify the response status is 422."
+   ],
+   "ref": [],
+   "area": "invoices",
+   "areaLabel": "Invoices",
+   "file": "test-scenarios/api/invoices/post-invoices-guest.yml",
+   "fileLabel": "POST /invoices/guest",
+   "suite": "Invoices API",
+   "tags": [
+    "@invoices-api"
+   ],
+   "yaml": "- id: API-0508\n  name: Create guest invoice with payment_details null returns 422\n  status: manual\n  knownIssue: Returns 500 instead of 422 when payment_details is null for a method other than gift-card.\n  bug: BUG-041\n  steps:\n    - Send POST /carts with an empty body and take the returned id as the cart's id.\n    - Send POST /invoices/guest without an Authorization header, with payment_method \"bank-transfer\", payment_details null, billing_street \"Stephansplatz 1\", billing_city \"Wien\", billing_country \"AT\", the cart's id as cart_id, a unique guest_email, a guest_first_name and a guest_last_name.\n    - Verify the response status is 422."
+  },
+  {
+   "id": "API-0449",
+   "name": "Search invoices by invoice number returns 200 with the matching invoice",
+   "status": "manual",
+   "steps": [
+    "Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.",
+    "Send POST /users/login with that email and password, and take its access_token.",
+    "Send POST /carts with an empty body and take the returned id as the cart's id.",
+    "Send POST /invoices with that access_token, payment_method \"cash-on-delivery\", payment_details {}, billing_street \"Stephansplatz 1\", billing_city \"Wien\", billing_country \"AT\" and the cart's id as cart_id, and take the new invoice's id, invoice_number and total.",
+    "Send GET /invoices/search with q set to the invoice's number and that access_token.",
+    "Verify the response status is 200.",
+    "Verify the body has the keys current_page, data, from, last_page, per_page, to and total.",
+    "Verify the body's total is 1 and data has exactly one item, whose id is the new invoice's id and invoice_number is the invoice's number."
+   ],
+   "ref": [],
+   "area": "invoices",
+   "areaLabel": "Invoices",
+   "file": "test-scenarios/api/invoices/get-invoices-search.yml",
+   "fileLabel": "GET /invoices/search",
+   "suite": "Invoices API",
+   "tags": [
+    "@invoices-api"
+   ],
+   "yaml": "- id: API-0449\n  name: Search invoices by invoice number returns 200 with the matching invoice\n  status: manual\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.\n    - Send POST /users/login with that email and password, and take its access_token.\n    - Send POST /carts with an empty body and take the returned id as the cart's id.\n    - Send POST /invoices with that access_token, payment_method \"cash-on-delivery\", payment_details {}, billing_street \"Stephansplatz 1\", billing_city \"Wien\", billing_country \"AT\" and the cart's id as cart_id, and take the new invoice's id, invoice_number and total.\n    - Send GET /invoices/search with q set to the invoice's number and that access_token.\n    - Verify the response status is 200.\n    - Verify the body has the keys current_page, data, from, last_page, per_page, to and total.\n    - Verify the body's total is 1 and data has exactly one item, whose id is the new invoice's id and invoice_number is the invoice's number."
+  },
+  {
+   "id": "API-0450",
+   "name": "Search invoices by billing street returns 200 with the matching invoice",
+   "status": "manual",
+   "steps": [
+    "Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.",
+    "Send POST /users/login with that email and password, and take its access_token.",
+    "Send POST /carts with an empty body and take the returned id as the cart's id.",
+    "Send POST /invoices with that access_token, payment_method \"cash-on-delivery\", payment_details {}, a unique billing_street of at most 70 characters, billing_city \"Wien\", billing_country \"AT\" and the cart's id as cart_id, and take the new invoice's id.",
+    "Send GET /invoices/search with q set to that billing_street and that access_token.",
+    "Verify the response status is 200.",
+    "Verify the body's total is 1 and data has exactly one item, whose id is the new invoice's id and billing_street equals the value sent."
+   ],
+   "ref": [],
+   "area": "invoices",
+   "areaLabel": "Invoices",
+   "file": "test-scenarios/api/invoices/get-invoices-search.yml",
+   "fileLabel": "GET /invoices/search",
+   "suite": "Invoices API",
+   "tags": [
+    "@invoices-api"
+   ],
+   "yaml": "- id: API-0450\n  name: Search invoices by billing street returns 200 with the matching invoice\n  status: manual\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.\n    - Send POST /users/login with that email and password, and take its access_token.\n    - Send POST /carts with an empty body and take the returned id as the cart's id.\n    - Send POST /invoices with that access_token, payment_method \"cash-on-delivery\", payment_details {}, a unique billing_street of at most 70 characters, billing_city \"Wien\", billing_country \"AT\" and the cart's id as cart_id, and take the new invoice's id.\n    - Send GET /invoices/search with q set to that billing_street and that access_token.\n    - Verify the response status is 200.\n    - Verify the body's total is 1 and data has exactly one item, whose id is the new invoice's id and billing_street equals the value sent."
+  },
+  {
+   "id": "API-0451",
+   "name": "Search invoices by status returns 200 with the matching invoice",
+   "status": "manual",
+   "steps": [
+    "Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.",
+    "Send POST /users/login with that email and password, and take its access_token.",
+    "Send POST /carts with an empty body and take the returned id as the cart's id.",
+    "Send POST /invoices with that access_token, payment_method \"cash-on-delivery\", payment_details {}, billing_street \"Stephansplatz 1\", billing_city \"Wien\", billing_country \"AT\" and the cart's id as cart_id, and take the new invoice's id, invoice_number and total.",
+    "Send PUT /invoices/{invoiceId}/status with the invoice's id, that access_token and a body with status \"ON_HOLD\".",
+    "Send GET /invoices/search with q \"ON_HOLD\" and that access_token.",
+    "Verify the response status is 200.",
+    "Verify the body's total is 1 and data has exactly one item, whose id is the invoice's id and status is \"ON_HOLD\"."
+   ],
+   "ref": [],
+   "area": "invoices",
+   "areaLabel": "Invoices",
+   "file": "test-scenarios/api/invoices/get-invoices-search.yml",
+   "fileLabel": "GET /invoices/search",
+   "suite": "Invoices API",
+   "tags": [
+    "@invoices-api"
+   ],
+   "yaml": "- id: API-0451\n  name: Search invoices by status returns 200 with the matching invoice\n  status: manual\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.\n    - Send POST /users/login with that email and password, and take its access_token.\n    - Send POST /carts with an empty body and take the returned id as the cart's id.\n    - Send POST /invoices with that access_token, payment_method \"cash-on-delivery\", payment_details {}, billing_street \"Stephansplatz 1\", billing_city \"Wien\", billing_country \"AT\" and the cart's id as cart_id, and take the new invoice's id, invoice_number and total.\n    - Send PUT /invoices/{invoiceId}/status with the invoice's id, that access_token and a body with status \"ON_HOLD\".\n    - Send GET /invoices/search with q \"ON_HOLD\" and that access_token.\n    - Verify the response status is 200.\n    - Verify the body's total is 1 and data has exactly one item, whose id is the invoice's id and status is \"ON_HOLD\"."
+  },
+  {
+   "id": "API-0452",
+   "name": "Search invoices without q returns 200 with all of the caller's invoices",
+   "status": "manual",
+   "steps": [
+    "Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.",
+    "Send POST /users/login with that email and password, and take its access_token.",
+    "Send POST /carts with an empty body and take the returned id as the cart's id.",
+    "Send POST /invoices with that access_token, payment_method \"cash-on-delivery\", payment_details {}, billing_street \"Stephansplatz 1\", billing_city \"Wien\", billing_country \"AT\" and the cart's id as cart_id, and take the new invoice's id, invoice_number and total.",
+    "Send GET /invoices/search without q and with that access_token.",
+    "Verify the response status is 200.",
+    "Verify the body's total is 1 and data has exactly one item, whose id is the new invoice's id."
+   ],
+   "ref": [],
+   "area": "invoices",
+   "areaLabel": "Invoices",
+   "file": "test-scenarios/api/invoices/get-invoices-search.yml",
+   "fileLabel": "GET /invoices/search",
+   "suite": "Invoices API",
+   "tags": [
+    "@invoices-api"
+   ],
+   "yaml": "- id: API-0452\n  name: Search invoices without q returns 200 with all of the caller's invoices\n  status: manual\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.\n    - Send POST /users/login with that email and password, and take its access_token.\n    - Send POST /carts with an empty body and take the returned id as the cart's id.\n    - Send POST /invoices with that access_token, payment_method \"cash-on-delivery\", payment_details {}, billing_street \"Stephansplatz 1\", billing_city \"Wien\", billing_country \"AT\" and the cart's id as cart_id, and take the new invoice's id, invoice_number and total.\n    - Send GET /invoices/search without q and with that access_token.\n    - Verify the response status is 200.\n    - Verify the body's total is 1 and data has exactly one item, whose id is the new invoice's id."
+  },
+  {
+   "id": "API-0453",
+   "name": "Search invoices with a term nobody matches returns 200 with an empty list",
+   "status": "manual",
+   "steps": [
+    "Send GET /invoices/search with q set to a unique string no invoice has and the default user's token.",
+    "Verify the response status is 200.",
+    "Verify the body's total is 0.",
+    "Verify the body's data is an empty array."
+   ],
+   "ref": [],
+   "area": "invoices",
+   "areaLabel": "Invoices",
+   "file": "test-scenarios/api/invoices/get-invoices-search.yml",
+   "fileLabel": "GET /invoices/search",
+   "suite": "Invoices API",
+   "tags": [
+    "@invoices-api"
+   ],
+   "yaml": "- id: API-0453\n  name: Search invoices with a term nobody matches returns 200 with an empty list\n  status: manual\n  steps:\n    - Send GET /invoices/search with q set to a unique string no invoice has and the default user's token.\n    - Verify the response status is 200.\n    - Verify the body's total is 0.\n    - Verify the body's data is an empty array."
+  },
+  {
+   "id": "API-0454",
+   "name": "Search invoices does not return another customer's invoices",
+   "status": "manual",
+   "steps": [
+    "Send POST /users/register with a unique email, a first name, a last name and a random strong password (customer A), and take the new user's id.",
+    "Send POST /users/login with customer A's email and password, and take its access_token.",
+    "Send POST /users/register with a unique email, a first name, a last name and a random strong password (customer B), and take the new user's id.",
+    "Send POST /users/login with customer B's email and password, and take its access_token.",
+    "Send POST /carts with an empty body and take the returned id as the cart's id.",
+    "Send POST /invoices with customer A's access_token, payment_method \"cash-on-delivery\", payment_details {}, billing_street \"Stephansplatz 1\", billing_city \"Wien\", billing_country \"AT\" and the cart's id as cart_id, and take the new invoice's invoice_number.",
+    "Send GET /invoices/search with q set to that invoice number and customer B's access_token.",
+    "Verify the response status is 200.",
+    "Verify the body's total is 0 and data is an empty array."
+   ],
+   "ref": [],
+   "area": "invoices",
+   "areaLabel": "Invoices",
+   "file": "test-scenarios/api/invoices/get-invoices-search.yml",
+   "fileLabel": "GET /invoices/search",
+   "suite": "Invoices API",
+   "tags": [
+    "@invoices-api"
+   ],
+   "yaml": "- id: API-0454\n  name: Search invoices does not return another customer's invoices\n  status: manual\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password (customer A), and take the new user's id.\n    - Send POST /users/login with customer A's email and password, and take its access_token.\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password (customer B), and take the new user's id.\n    - Send POST /users/login with customer B's email and password, and take its access_token.\n    - Send POST /carts with an empty body and take the returned id as the cart's id.\n    - Send POST /invoices with customer A's access_token, payment_method \"cash-on-delivery\", payment_details {}, billing_street \"Stephansplatz 1\", billing_city \"Wien\", billing_country \"AT\" and the cart's id as cart_id, and take the new invoice's invoice_number.\n    - Send GET /invoices/search with q set to that invoice number and customer B's access_token.\n    - Verify the response status is 200.\n    - Verify the body's total is 0 and data is an empty array."
+  },
+  {
+   "id": "API-0455",
+   "name": "Search invoices as an admin finds a guest invoice",
+   "status": "manual",
+   "role": "admin",
+   "steps": [
+    "Send POST /carts with an empty body and take the returned id as the cart's id.",
+    "Send POST /invoices/guest without an Authorization header, with payment_method \"cash-on-delivery\", payment_details {}, billing_street \"Stephansplatz 1\", billing_city \"Wien\", billing_country \"AT\", the cart's id as cart_id, a unique guest_email, a guest_first_name and a guest_last_name, and take the new invoice's id and invoice_number.",
+    "Send GET /invoices/search with q set to that invoice number and the admin's token.",
+    "Verify the response status is 200.",
+    "Verify the body's total is 1 and data has exactly one item, whose id is the new invoice's id and whose user_id is null."
+   ],
+   "ref": [],
+   "area": "invoices",
+   "areaLabel": "Invoices",
+   "file": "test-scenarios/api/invoices/get-invoices-search.yml",
+   "fileLabel": "GET /invoices/search",
+   "suite": "Invoices API",
+   "tags": [
+    "@invoices-api"
+   ],
+   "yaml": "- id: API-0455\n  name: Search invoices as an admin finds a guest invoice\n  status: manual\n  role: admin\n  steps:\n    - Send POST /carts with an empty body and take the returned id as the cart's id.\n    - Send POST /invoices/guest without an Authorization header, with payment_method \"cash-on-delivery\", payment_details {}, billing_street \"Stephansplatz 1\", billing_city \"Wien\", billing_country \"AT\", the cart's id as cart_id, a unique guest_email, a guest_first_name and a guest_last_name, and take the new invoice's id and invoice_number.\n    - Send GET /invoices/search with q set to that invoice number and the admin's token.\n    - Verify the response status is 200.\n    - Verify the body's total is 1 and data has exactly one item, whose id is the new invoice's id and whose user_id is null."
+  },
+  {
+   "id": "API-0456",
+   "name": "Search invoices with a page past the last returns 200 with an empty list",
+   "status": "manual",
+   "steps": [
+    "Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.",
+    "Send POST /users/login with that email and password, and take its access_token.",
+    "Send POST /carts with an empty body and take the returned id as the cart's id.",
+    "Send POST /invoices with that access_token, payment_method \"cash-on-delivery\", payment_details {}, billing_street \"Stephansplatz 1\", billing_city \"Wien\", billing_country \"AT\" and the cart's id as cart_id, and take the new invoice's id, invoice_number and total.",
+    "Send GET /invoices/search with q set to the invoice's number, page 2 and that access_token.",
+    "Verify the response status is 200.",
+    "Verify the body's data is an empty array."
+   ],
+   "ref": [],
+   "area": "invoices",
+   "areaLabel": "Invoices",
+   "file": "test-scenarios/api/invoices/get-invoices-search.yml",
+   "fileLabel": "GET /invoices/search",
+   "suite": "Invoices API",
+   "tags": [
+    "@invoices-api"
+   ],
+   "yaml": "- id: API-0456\n  name: Search invoices with a page past the last returns 200 with an empty list\n  status: manual\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.\n    - Send POST /users/login with that email and password, and take its access_token.\n    - Send POST /carts with an empty body and take the returned id as the cart's id.\n    - Send POST /invoices with that access_token, payment_method \"cash-on-delivery\", payment_details {}, billing_street \"Stephansplatz 1\", billing_city \"Wien\", billing_country \"AT\" and the cart's id as cart_id, and take the new invoice's id, invoice_number and total.\n    - Send GET /invoices/search with q set to the invoice's number, page 2 and that access_token.\n    - Verify the response status is 200.\n    - Verify the body's data is an empty array."
+  },
+  {
+   "id": "API-0457",
+   "name": "Search invoices without a token returns 401",
+   "status": "manual",
+   "steps": [
+    "Send GET /invoices/search with q \"INV\", without an Authorization header.",
+    "Verify the response status is 401.",
+    "Verify the body's message is \"Unauthorized\"."
+   ],
+   "ref": [],
+   "area": "invoices",
+   "areaLabel": "Invoices",
+   "file": "test-scenarios/api/invoices/get-invoices-search.yml",
+   "fileLabel": "GET /invoices/search",
+   "suite": "Invoices API",
+   "tags": [
+    "@invoices-api"
+   ],
+   "yaml": "- id: API-0457\n  name: Search invoices without a token returns 401\n  status: manual\n  steps:\n    - Send GET /invoices/search with q \"INV\", without an Authorization header.\n    - Verify the response status is 401.\n    - Verify the body's message is \"Unauthorized\"."
+  },
+  {
+   "id": "API-0458",
+   "name": "Search invoices with a malformed token returns 401",
+   "status": "manual",
+   "steps": [
+    "Send GET /invoices/search with q \"INV\" and a malformed token.",
+    "Verify the response status is 401.",
+    "Verify the body's message is \"Unauthorized\"."
+   ],
+   "ref": [],
+   "area": "invoices",
+   "areaLabel": "Invoices",
+   "file": "test-scenarios/api/invoices/get-invoices-search.yml",
+   "fileLabel": "GET /invoices/search",
+   "suite": "Invoices API",
+   "tags": [
+    "@invoices-api"
+   ],
+   "yaml": "- id: API-0458\n  name: Search invoices with a malformed token returns 401\n  status: manual\n  steps:\n    - Send GET /invoices/search with q \"INV\" and a malformed token.\n    - Verify the response status is 401.\n    - Verify the body's message is \"Unauthorized\"."
+  },
+  {
+   "id": "API-0459",
+   "name": "QUERY search by invoice number returns 200 with the matching invoice",
+   "status": "manual",
+   "steps": [
+    "Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.",
+    "Send POST /users/login with that email and password, and take its access_token.",
+    "Send POST /carts with an empty body and take the returned id as the cart's id.",
+    "Send POST /invoices with that access_token, payment_method \"cash-on-delivery\", payment_details {}, billing_street \"Stephansplatz 1\", billing_city \"Wien\", billing_country \"AT\" and the cart's id as cart_id, and take the new invoice's id, invoice_number and total.",
+    "Send QUERY /invoices/search with that access_token, Content-Type: application/json, Accept: application/json and the body { \"q\": <the invoice's number> }.",
+    "Verify the response status is 200.",
+    "Verify the Accept-Query response header is application/json.",
+    "Verify the body's total is 1 and data has exactly one item, whose id is the new invoice's id."
+   ],
+   "ref": [],
+   "area": "invoices",
+   "areaLabel": "Invoices",
+   "file": "test-scenarios/api/invoices/query-invoices-search.yml",
+   "fileLabel": "QUERY /invoices/search",
+   "suite": "Invoices API",
+   "tags": [
+    "@invoices-api"
+   ],
+   "yaml": "- id: API-0459\n  name: QUERY search by invoice number returns 200 with the matching invoice\n  status: manual\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.\n    - Send POST /users/login with that email and password, and take its access_token.\n    - Send POST /carts with an empty body and take the returned id as the cart's id.\n    - Send POST /invoices with that access_token, payment_method \"cash-on-delivery\", payment_details {}, billing_street \"Stephansplatz 1\", billing_city \"Wien\", billing_country \"AT\" and the cart's id as cart_id, and take the new invoice's id, invoice_number and total.\n    - 'Send QUERY /invoices/search with that access_token, Content-Type: application/json, Accept: application/json and the body { \"q\": <the invoice''s number> }.'\n    - Verify the response status is 200.\n    - Verify the Accept-Query response header is application/json.\n    - Verify the body's total is 1 and data has exactly one item, whose id is the new invoice's id."
+  },
+  {
+   "id": "API-0460",
+   "name": "QUERY search with an empty body object returns 200 with the caller's invoices",
+   "status": "manual",
+   "steps": [
+    "Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.",
+    "Send POST /users/login with that email and password, and take its access_token.",
+    "Send POST /carts with an empty body and take the returned id as the cart's id.",
+    "Send POST /invoices with that access_token, payment_method \"cash-on-delivery\", payment_details {}, billing_street \"Stephansplatz 1\", billing_city \"Wien\", billing_country \"AT\" and the cart's id as cart_id, and take the new invoice's id, invoice_number and total.",
+    "Send QUERY /invoices/search with that access_token, Content-Type: application/json, Accept: application/json and an empty JSON object as the body.",
+    "Verify the response status is 200.",
+    "Verify the body's total is 1 and data has exactly one item, whose id is the new invoice's id."
+   ],
+   "ref": [],
+   "area": "invoices",
+   "areaLabel": "Invoices",
+   "file": "test-scenarios/api/invoices/query-invoices-search.yml",
+   "fileLabel": "QUERY /invoices/search",
+   "suite": "Invoices API",
+   "tags": [
+    "@invoices-api"
+   ],
+   "yaml": "- id: API-0460\n  name: QUERY search with an empty body object returns 200 with the caller's invoices\n  status: manual\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.\n    - Send POST /users/login with that email and password, and take its access_token.\n    - Send POST /carts with an empty body and take the returned id as the cart's id.\n    - Send POST /invoices with that access_token, payment_method \"cash-on-delivery\", payment_details {}, billing_street \"Stephansplatz 1\", billing_city \"Wien\", billing_country \"AT\" and the cart's id as cart_id, and take the new invoice's id, invoice_number and total.\n    - \"Send QUERY /invoices/search with that access_token, Content-Type: application/json, Accept: application/json and an empty JSON object as the body.\"\n    - Verify the response status is 200.\n    - Verify the body's total is 1 and data has exactly one item, whose id is the new invoice's id."
+  },
+  {
+   "id": "API-0461",
+   "name": "QUERY search without a token returns 401",
+   "status": "manual",
+   "steps": [
+    "Send QUERY /invoices/search without an Authorization header, with Content-Type: application/json, Accept: application/json and an empty JSON object as the body.",
+    "Verify the response status is 401.",
+    "Verify the body's message is \"Unauthorized\"."
+   ],
+   "ref": [],
+   "area": "invoices",
+   "areaLabel": "Invoices",
+   "file": "test-scenarios/api/invoices/query-invoices-search.yml",
+   "fileLabel": "QUERY /invoices/search",
+   "suite": "Invoices API",
+   "tags": [
+    "@invoices-api"
+   ],
+   "yaml": "- id: API-0461\n  name: QUERY search without a token returns 401\n  status: manual\n  steps:\n    - \"Send QUERY /invoices/search without an Authorization header, with Content-Type: application/json, Accept: application/json and an empty JSON object as the body.\"\n    - Verify the response status is 401.\n    - Verify the body's message is \"Unauthorized\"."
+  },
+  {
+   "id": "API-0462",
+   "name": "QUERY search without a JSON Content-Type returns 415",
+   "status": "manual",
+   "knownIssue": "Returns 500 with an empty text/html body instead of 415 for a QUERY with a non-JSON Content-Type.",
+   "bug": "BUG-042",
+   "steps": [
+    "Send QUERY /invoices/search with the default user's token, Content-Type: text/plain, Accept: application/json and a plain-text body.",
+    "Verify the response status is 415."
+   ],
+   "ref": [],
+   "area": "invoices",
+   "areaLabel": "Invoices",
+   "file": "test-scenarios/api/invoices/query-invoices-search.yml",
+   "fileLabel": "QUERY /invoices/search",
+   "suite": "Invoices API",
+   "tags": [
+    "@invoices-api"
+   ],
+   "yaml": "- id: API-0462\n  name: QUERY search without a JSON Content-Type returns 415\n  status: manual\n  knownIssue: Returns 500 with an empty text/html body instead of 415 for a QUERY with a non-JSON Content-Type.\n  bug: BUG-042\n  steps:\n    - \"Send QUERY /invoices/search with the default user's token, Content-Type: text/plain, Accept: application/json and a plain-text body.\"\n    - Verify the response status is 415."
+  },
+  {
+   "id": "API-0463",
+   "name": "Get invoice returns 200 with its lines, payment and totals",
+   "status": "manual",
+   "steps": [
+    "Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.",
+    "Send POST /users/login with that email and password, and take its access_token.",
+    "Send GET /products and take the first item's id as the product's id.",
+    "Send POST /carts with an empty body and take the returned id as the cart's id.",
+    "Send POST /carts/{cartId} with the cart's id, the product's id as product_id and quantity 2.",
+    "Send POST /invoices with that access_token, payment_method \"cash-on-delivery\", payment_details {}, billing_street \"Stephansplatz 1\", billing_city \"Wien\", billing_country \"AT\" and the cart's id as cart_id, and take the new invoice's id, invoice_number and total.",
+    "Send GET /invoices/{invoiceId} with the invoice's id and that access_token.",
+    "Verify the response status is 200.",
+    "Verify the body's id and invoice_number equal the invoice's, and its user_id equals the new user's id.",
+    "Verify the body's billing_street is \"Stephansplatz 1\", billing_city is \"Wien\" and billing_country is \"AT\".",
+    "Verify the body has the keys invoice_date, status, status_message, created_at, subtotal, total, additional_discount_percentage, additional_discount_amount, eco_discount_percentage, eco_discount_amount, invoicelines and payment.",
+    "Verify the body has no updated_at and no document key.",
+    "Verify invoicelines has exactly one line with the product's id as product_id and quantity 2, whose product has the keys id, name, description, price, co2_rating, is_rental, in_stock, is_eco_friendly, product_image, category and brand.",
+    "Verify the body's payment.payment_method is \"cash-on-delivery\".",
+    "Verify the body's subtotal equals the line's quantity times its discounted_price (or its unit_price when there is no discounted_price), within a cent.",
+    "Verify the body's total equals subtotal minus additional_discount_amount minus eco_discount_amount, within a cent."
+   ],
+   "ref": [],
+   "area": "invoices",
+   "areaLabel": "Invoices",
+   "file": "test-scenarios/api/invoices/get-invoices-by-invoice-id.yml",
+   "fileLabel": "GET /invoices/{invoiceId}",
+   "suite": "Invoices API",
+   "tags": [
+    "@invoices-api"
+   ],
+   "yaml": "- id: API-0463\n  name: Get invoice returns 200 with its lines, payment and totals\n  status: manual\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.\n    - Send POST /users/login with that email and password, and take its access_token.\n    - Send GET /products and take the first item's id as the product's id.\n    - Send POST /carts with an empty body and take the returned id as the cart's id.\n    - Send POST /carts/{cartId} with the cart's id, the product's id as product_id and quantity 2.\n    - Send POST /invoices with that access_token, payment_method \"cash-on-delivery\", payment_details {}, billing_street \"Stephansplatz 1\", billing_city \"Wien\", billing_country \"AT\" and the cart's id as cart_id, and take the new invoice's id, invoice_number and total.\n    - Send GET /invoices/{invoiceId} with the invoice's id and that access_token.\n    - Verify the response status is 200.\n    - Verify the body's id and invoice_number equal the invoice's, and its user_id equals the new user's id.\n    - Verify the body's billing_street is \"Stephansplatz 1\", billing_city is \"Wien\" and billing_country is \"AT\".\n    - Verify the body has the keys invoice_date, status, status_message, created_at, subtotal, total, additional_discount_percentage, additional_discount_amount, eco_discount_percentage, eco_discount_amount, invoicelines and payment.\n    - Verify the body has no updated_at and no document key.\n    - Verify invoicelines has exactly one line with the product's id as product_id and quantity 2, whose product has the keys id, name, description, price, co2_rating, is_rental, in_stock, is_eco_friendly, product_image, category and brand.\n    - Verify the body's payment.payment_method is \"cash-on-delivery\".\n    - Verify the body's subtotal equals the line's quantity times its discounted_price (or its unit_price when there is no discounted_price), within a cent.\n    - Verify the body's total equals subtotal minus additional_discount_amount minus eco_discount_amount, within a cent."
+  },
+  {
+   "id": "API-0464",
+   "name": "Get invoice as an admin returns 200 for another customer's invoice",
+   "status": "manual",
+   "role": "admin",
+   "steps": [
+    "Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.",
+    "Send POST /users/login with that email and password, and take its access_token.",
+    "Send POST /carts with an empty body and take the returned id as the cart's id.",
+    "Send POST /invoices with that access_token, payment_method \"cash-on-delivery\", payment_details {}, billing_street \"Stephansplatz 1\", billing_city \"Wien\", billing_country \"AT\" and the cart's id as cart_id, and take the new invoice's id, invoice_number and total.",
+    "Send GET /invoices/{invoiceId} with the invoice's id and the admin's token.",
+    "Verify the response status is 200.",
+    "Verify the body's id equals the invoice's id and its user_id equals the new user's id."
+   ],
+   "ref": [],
+   "area": "invoices",
+   "areaLabel": "Invoices",
+   "file": "test-scenarios/api/invoices/get-invoices-by-invoice-id.yml",
+   "fileLabel": "GET /invoices/{invoiceId}",
+   "suite": "Invoices API",
+   "tags": [
+    "@invoices-api"
+   ],
+   "yaml": "- id: API-0464\n  name: Get invoice as an admin returns 200 for another customer's invoice\n  status: manual\n  role: admin\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.\n    - Send POST /users/login with that email and password, and take its access_token.\n    - Send POST /carts with an empty body and take the returned id as the cart's id.\n    - Send POST /invoices with that access_token, payment_method \"cash-on-delivery\", payment_details {}, billing_street \"Stephansplatz 1\", billing_city \"Wien\", billing_country \"AT\" and the cart's id as cart_id, and take the new invoice's id, invoice_number and total.\n    - Send GET /invoices/{invoiceId} with the invoice's id and the admin's token.\n    - Verify the response status is 200.\n    - Verify the body's id equals the invoice's id and its user_id equals the new user's id."
+  },
+  {
+   "id": "API-0465",
+   "name": "Get invoice without a token returns 401",
+   "status": "manual",
+   "steps": [
+    "Send GET /invoices/{invoiceId} with a well-formed ULID that no invoice has, without an Authorization header.",
+    "Verify the response status is 401.",
+    "Verify the body's message is \"Unauthorized\"."
+   ],
+   "ref": [],
+   "area": "invoices",
+   "areaLabel": "Invoices",
+   "file": "test-scenarios/api/invoices/get-invoices-by-invoice-id.yml",
+   "fileLabel": "GET /invoices/{invoiceId}",
+   "suite": "Invoices API",
+   "tags": [
+    "@invoices-api"
+   ],
+   "yaml": "- id: API-0465\n  name: Get invoice without a token returns 401\n  status: manual\n  steps:\n    - Send GET /invoices/{invoiceId} with a well-formed ULID that no invoice has, without an Authorization header.\n    - Verify the response status is 401.\n    - Verify the body's message is \"Unauthorized\"."
+  },
+  {
+   "id": "API-0466",
+   "name": "Get invoice with an unknown id returns 404",
+   "status": "manual",
+   "steps": [
+    "Send GET /invoices/{invoiceId} with a well-formed ULID that no invoice has and the default user's token.",
+    "Verify the response status is 404.",
+    "Verify the body's message is \"Requested item not found\"."
+   ],
+   "ref": [],
+   "area": "invoices",
+   "areaLabel": "Invoices",
+   "file": "test-scenarios/api/invoices/get-invoices-by-invoice-id.yml",
+   "fileLabel": "GET /invoices/{invoiceId}",
+   "suite": "Invoices API",
+   "tags": [
+    "@invoices-api"
+   ],
+   "yaml": "- id: API-0466\n  name: Get invoice with an unknown id returns 404\n  status: manual\n  steps:\n    - Send GET /invoices/{invoiceId} with a well-formed ULID that no invoice has and the default user's token.\n    - Verify the response status is 404.\n    - Verify the body's message is \"Requested item not found\"."
+  },
+  {
+   "id": "API-0467",
+   "name": "Get invoice with another customer's id returns 404",
+   "status": "manual",
+   "steps": [
+    "Send POST /users/register with a unique email, a first name, a last name and a random strong password (customer A), and take the new user's id.",
+    "Send POST /users/login with customer A's email and password, and take its access_token.",
+    "Send POST /users/register with a unique email, a first name, a last name and a random strong password (customer B), and take the new user's id.",
+    "Send POST /users/login with customer B's email and password, and take its access_token.",
+    "Send POST /carts with an empty body and take the returned id as the cart's id.",
+    "Send POST /invoices with customer A's access_token, payment_method \"cash-on-delivery\", payment_details {}, billing_street \"Stephansplatz 1\", billing_city \"Wien\", billing_country \"AT\" and the cart's id as cart_id, and take the new invoice's id.",
+    "Send GET /invoices/{invoiceId} with that id and customer B's access_token.",
+    "Verify the response status is 404.",
+    "Verify the body's message is \"Requested item not found\"."
+   ],
+   "ref": [],
+   "area": "invoices",
+   "areaLabel": "Invoices",
+   "file": "test-scenarios/api/invoices/get-invoices-by-invoice-id.yml",
+   "fileLabel": "GET /invoices/{invoiceId}",
+   "suite": "Invoices API",
+   "tags": [
+    "@invoices-api"
+   ],
+   "yaml": "- id: API-0467\n  name: Get invoice with another customer's id returns 404\n  status: manual\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password (customer A), and take the new user's id.\n    - Send POST /users/login with customer A's email and password, and take its access_token.\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password (customer B), and take the new user's id.\n    - Send POST /users/login with customer B's email and password, and take its access_token.\n    - Send POST /carts with an empty body and take the returned id as the cart's id.\n    - Send POST /invoices with customer A's access_token, payment_method \"cash-on-delivery\", payment_details {}, billing_street \"Stephansplatz 1\", billing_city \"Wien\", billing_country \"AT\" and the cart's id as cart_id, and take the new invoice's id.\n    - Send GET /invoices/{invoiceId} with that id and customer B's access_token.\n    - Verify the response status is 404.\n    - Verify the body's message is \"Requested item not found\"."
+  },
+  {
+   "id": "API-0509",
+   "name": "Update invoice returns 200 and the billing address is changed",
+   "status": "manual",
+   "steps": [
+    "Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.",
+    "Send POST /users/login with that email and password, and take its access_token.",
+    "Send POST /carts with an empty body and take the returned id as the cart's id.",
+    "Send POST /invoices with that access_token, payment_method \"cash-on-delivery\", payment_details {}, billing_street \"Stephansplatz 1\", billing_city \"Wien\", billing_country \"AT\" and the cart's id as cart_id, and take the new invoice's id, invoice_number and total.",
+    "Send PUT /invoices/{invoiceId} with the invoice's id, that access_token, payment_method \"cash-on-delivery\", payment_details {}, a unique billing_street of at most 70 characters, billing_city \"Graz\", billing_country \"AT\" and the cart's id as cart_id.",
+    "Verify the response status is 200.",
+    "Verify the body's success is true.",
+    "Verify GET /invoices/{invoiceId} with that id and token returns 200 with the new billing_street and billing_city \"Graz\"."
+   ],
+   "ref": [],
+   "area": "invoices",
+   "areaLabel": "Invoices",
+   "file": "test-scenarios/api/invoices/put-invoices-by-invoice-id.yml",
+   "fileLabel": "PUT /invoices/{invoiceId}",
+   "suite": "Invoices API",
+   "tags": [
+    "@invoices-api"
+   ],
+   "yaml": "- id: API-0509\n  name: Update invoice returns 200 and the billing address is changed\n  status: manual\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.\n    - Send POST /users/login with that email and password, and take its access_token.\n    - Send POST /carts with an empty body and take the returned id as the cart's id.\n    - Send POST /invoices with that access_token, payment_method \"cash-on-delivery\", payment_details {}, billing_street \"Stephansplatz 1\", billing_city \"Wien\", billing_country \"AT\" and the cart's id as cart_id, and take the new invoice's id, invoice_number and total.\n    - Send PUT /invoices/{invoiceId} with the invoice's id, that access_token, payment_method \"cash-on-delivery\", payment_details {}, a unique billing_street of at most 70 characters, billing_city \"Graz\", billing_country \"AT\" and the cart's id as cart_id.\n    - Verify the response status is 200.\n    - Verify the body's success is true.\n    - Verify GET /invoices/{invoiceId} with that id and token returns 200 with the new billing_street and billing_city \"Graz\"."
+  },
+  {
+   "id": "API-0510",
+   "name": "Update invoice without a token returns 401",
+   "status": "manual",
+   "steps": [
+    "Send PUT /invoices/{invoiceId} with a well-formed ULID that no invoice has, payment_method \"cash-on-delivery\", payment_details {}, billing_street \"Stephansplatz 1\", billing_city \"Wien\", billing_country \"AT\" and a non-empty string as cart_id, without an Authorization header.",
+    "Verify the response status is 401.",
+    "Verify the body's message is \"Unauthorized\"."
+   ],
+   "ref": [],
+   "area": "invoices",
+   "areaLabel": "Invoices",
+   "file": "test-scenarios/api/invoices/put-invoices-by-invoice-id.yml",
+   "fileLabel": "PUT /invoices/{invoiceId}",
+   "suite": "Invoices API",
+   "tags": [
+    "@invoices-api"
+   ],
+   "yaml": "- id: API-0510\n  name: Update invoice without a token returns 401\n  status: manual\n  steps:\n    - Send PUT /invoices/{invoiceId} with a well-formed ULID that no invoice has, payment_method \"cash-on-delivery\", payment_details {}, billing_street \"Stephansplatz 1\", billing_city \"Wien\", billing_country \"AT\" and a non-empty string as cart_id, without an Authorization header.\n    - Verify the response status is 401.\n    - Verify the body's message is \"Unauthorized\"."
+  },
+  {
+   "id": "API-0511",
+   "name": "Update invoice without the required fields returns 422 for each of them",
+   "status": "manual",
+   "steps": [
+    "Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.",
+    "Send POST /users/login with that email and password, and take its access_token.",
+    "Send POST /carts with an empty body and take the returned id as the cart's id.",
+    "Send POST /invoices with that access_token, payment_method \"cash-on-delivery\", payment_details {}, billing_street \"Stephansplatz 1\", billing_city \"Wien\", billing_country \"AT\" and the cart's id as cart_id, and take the new invoice's id, invoice_number and total.",
+    "Send PUT /invoices/{invoiceId} with the invoice's id, that access_token and an empty JSON object as the body.",
+    "Verify the response status is 422.",
+    "Verify the body has the keys payment_method, payment_details, billing_street, billing_city, billing_country and cart_id, each with at least one message."
+   ],
+   "ref": [],
+   "area": "invoices",
+   "areaLabel": "Invoices",
+   "file": "test-scenarios/api/invoices/put-invoices-by-invoice-id.yml",
+   "fileLabel": "PUT /invoices/{invoiceId}",
+   "suite": "Invoices API",
+   "tags": [
+    "@invoices-api"
+   ],
+   "yaml": "- id: API-0511\n  name: Update invoice without the required fields returns 422 for each of them\n  status: manual\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.\n    - Send POST /users/login with that email and password, and take its access_token.\n    - Send POST /carts with an empty body and take the returned id as the cart's id.\n    - Send POST /invoices with that access_token, payment_method \"cash-on-delivery\", payment_details {}, billing_street \"Stephansplatz 1\", billing_city \"Wien\", billing_country \"AT\" and the cart's id as cart_id, and take the new invoice's id, invoice_number and total.\n    - Send PUT /invoices/{invoiceId} with the invoice's id, that access_token and an empty JSON object as the body.\n    - Verify the response status is 422.\n    - Verify the body has the keys payment_method, payment_details, billing_street, billing_city, billing_country and cart_id, each with at least one message."
+  },
+  {
+   "id": "API-0512",
+   "name": "Update invoice with a gift card number that is not 16 characters returns 422",
+   "status": "manual",
+   "steps": [
+    "Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.",
+    "Send POST /users/login with that email and password, and take its access_token.",
+    "Send POST /carts with an empty body and take the returned id as the cart's id.",
+    "Send POST /invoices with that access_token, payment_method \"cash-on-delivery\", payment_details {}, billing_street \"Stephansplatz 1\", billing_city \"Wien\", billing_country \"AT\" and the cart's id as cart_id, and take the new invoice's id, invoice_number and total.",
+    "Send PUT /invoices/{invoiceId} with the invoice's id, that access_token, payment_method \"gift-card\", payment_details with a 15-character gift_card_number and a 4-character validation_code, billing_street \"Stephansplatz 1\", billing_city \"Wien\", billing_country \"AT\" and the cart's id as cart_id.",
+    "Verify the response status is 422.",
+    "Verify the body has a \"payment_details.gift_card_number\" key with at least one message."
+   ],
+   "ref": [],
+   "area": "invoices",
+   "areaLabel": "Invoices",
+   "file": "test-scenarios/api/invoices/put-invoices-by-invoice-id.yml",
+   "fileLabel": "PUT /invoices/{invoiceId}",
+   "suite": "Invoices API",
+   "tags": [
+    "@invoices-api"
+   ],
+   "yaml": "- id: API-0512\n  name: Update invoice with a gift card number that is not 16 characters returns 422\n  status: manual\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.\n    - Send POST /users/login with that email and password, and take its access_token.\n    - Send POST /carts with an empty body and take the returned id as the cart's id.\n    - Send POST /invoices with that access_token, payment_method \"cash-on-delivery\", payment_details {}, billing_street \"Stephansplatz 1\", billing_city \"Wien\", billing_country \"AT\" and the cart's id as cart_id, and take the new invoice's id, invoice_number and total.\n    - Send PUT /invoices/{invoiceId} with the invoice's id, that access_token, payment_method \"gift-card\", payment_details with a 15-character gift_card_number and a 4-character validation_code, billing_street \"Stephansplatz 1\", billing_city \"Wien\", billing_country \"AT\" and the cart's id as cart_id.\n    - Verify the response status is 422.\n    - Verify the body has a \"payment_details.gift_card_number\" key with at least one message."
+  },
+  {
+   "id": "API-0513",
+   "name": "Update invoice with an unknown id and an invalid body returns 422",
+   "status": "manual",
+   "steps": [
+    "Send PUT /invoices/{invoiceId} with a well-formed ULID that no invoice has, the default user's token and an empty JSON object as the body.",
+    "Verify the response status is 422."
+   ],
+   "ref": [],
+   "area": "invoices",
+   "areaLabel": "Invoices",
+   "file": "test-scenarios/api/invoices/put-invoices-by-invoice-id.yml",
+   "fileLabel": "PUT /invoices/{invoiceId}",
+   "suite": "Invoices API",
+   "tags": [
+    "@invoices-api"
+   ],
+   "yaml": "- id: API-0513\n  name: Update invoice with an unknown id and an invalid body returns 422\n  status: manual\n  steps:\n    - Send PUT /invoices/{invoiceId} with a well-formed ULID that no invoice has, the default user's token and an empty JSON object as the body.\n    - Verify the response status is 422."
+  },
+  {
+   "id": "API-0514",
+   "name": "Update invoice with an unknown id returns 404",
+   "status": "manual",
+   "steps": [
+    "Send PUT /invoices/{invoiceId} with a well-formed ULID that no invoice has, the default user's token, payment_method \"cash-on-delivery\", payment_details {}, billing_street \"Stephansplatz 1\", billing_city \"Wien\", billing_country \"AT\" and a non-empty string as cart_id.",
+    "Verify the response status is 404.",
+    "Verify the body's message is \"Requested item not found\"."
+   ],
+   "ref": [],
+   "area": "invoices",
+   "areaLabel": "Invoices",
+   "file": "test-scenarios/api/invoices/put-invoices-by-invoice-id.yml",
+   "fileLabel": "PUT /invoices/{invoiceId}",
+   "suite": "Invoices API",
+   "tags": [
+    "@invoices-api"
+   ],
+   "yaml": "- id: API-0514\n  name: Update invoice with an unknown id returns 404\n  status: manual\n  steps:\n    - Send PUT /invoices/{invoiceId} with a well-formed ULID that no invoice has, the default user's token, payment_method \"cash-on-delivery\", payment_details {}, billing_street \"Stephansplatz 1\", billing_city \"Wien\", billing_country \"AT\" and a non-empty string as cart_id.\n    - Verify the response status is 404.\n    - Verify the body's message is \"Requested item not found\"."
+  },
+  {
+   "id": "API-0515",
+   "name": "Update another customer's invoice returns 404",
+   "status": "manual",
+   "steps": [
+    "Send POST /users/register with a unique email, a first name, a last name and a random strong password (customer A), and take the new user's id.",
+    "Send POST /users/login with customer A's email and password, and take its access_token.",
+    "Send POST /users/register with a unique email, a first name, a last name and a random strong password (customer B), and take the new user's id.",
+    "Send POST /users/login with customer B's email and password, and take its access_token.",
+    "Send POST /carts with an empty body and take the returned id as the cart's id.",
+    "Send POST /invoices with customer A's access_token, payment_method \"cash-on-delivery\", payment_details {}, billing_street \"Stephansplatz 1\", billing_city \"Wien\", billing_country \"AT\" and the cart's id as cart_id, and take the new invoice's id.",
+    "Send PUT /invoices/{invoiceId} with that id, customer B's access_token, payment_method \"cash-on-delivery\", payment_details {}, billing_street \"Stephansplatz 1\", billing_city \"Wien\", billing_country \"AT\" and the cart's id as cart_id.",
+    "Verify the response status is 404.",
+    "Verify the body's message is \"Requested item not found\"."
+   ],
+   "ref": [],
+   "area": "invoices",
+   "areaLabel": "Invoices",
+   "file": "test-scenarios/api/invoices/put-invoices-by-invoice-id.yml",
+   "fileLabel": "PUT /invoices/{invoiceId}",
+   "suite": "Invoices API",
+   "tags": [
+    "@invoices-api"
+   ],
+   "yaml": "- id: API-0515\n  name: Update another customer's invoice returns 404\n  status: manual\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password (customer A), and take the new user's id.\n    - Send POST /users/login with customer A's email and password, and take its access_token.\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password (customer B), and take the new user's id.\n    - Send POST /users/login with customer B's email and password, and take its access_token.\n    - Send POST /carts with an empty body and take the returned id as the cart's id.\n    - Send POST /invoices with customer A's access_token, payment_method \"cash-on-delivery\", payment_details {}, billing_street \"Stephansplatz 1\", billing_city \"Wien\", billing_country \"AT\" and the cart's id as cart_id, and take the new invoice's id.\n    - Send PUT /invoices/{invoiceId} with that id, customer B's access_token, payment_method \"cash-on-delivery\", payment_details {}, billing_street \"Stephansplatz 1\", billing_city \"Wien\", billing_country \"AT\" and the cart's id as cart_id.\n    - Verify the response status is 404.\n    - Verify the body's message is \"Requested item not found\"."
+  },
+  {
+   "id": "API-0516",
+   "name": "Update another customer's invoice as an admin returns 404",
+   "status": "manual",
+   "role": "admin",
+   "steps": [
+    "Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.",
+    "Send POST /users/login with that email and password, and take its access_token.",
+    "Send POST /carts with an empty body and take the returned id as the cart's id.",
+    "Send POST /invoices with that access_token, payment_method \"cash-on-delivery\", payment_details {}, billing_street \"Stephansplatz 1\", billing_city \"Wien\", billing_country \"AT\" and the cart's id as cart_id, and take the new invoice's id, invoice_number and total.",
+    "Send PUT /invoices/{invoiceId} with the invoice's id, the admin's token, payment_method \"cash-on-delivery\", payment_details {}, billing_street \"Stephansplatz 1\", billing_city \"Wien\", billing_country \"AT\" and the cart's id as cart_id.",
+    "Verify the response status is 404.",
+    "Verify the body's message is \"Requested item not found\"."
+   ],
+   "ref": [],
+   "area": "invoices",
+   "areaLabel": "Invoices",
+   "file": "test-scenarios/api/invoices/put-invoices-by-invoice-id.yml",
+   "fileLabel": "PUT /invoices/{invoiceId}",
+   "suite": "Invoices API",
+   "tags": [
+    "@invoices-api"
+   ],
+   "yaml": "- id: API-0516\n  name: Update another customer's invoice as an admin returns 404\n  status: manual\n  role: admin\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.\n    - Send POST /users/login with that email and password, and take its access_token.\n    - Send POST /carts with an empty body and take the returned id as the cart's id.\n    - Send POST /invoices with that access_token, payment_method \"cash-on-delivery\", payment_details {}, billing_street \"Stephansplatz 1\", billing_city \"Wien\", billing_country \"AT\" and the cart's id as cart_id, and take the new invoice's id, invoice_number and total.\n    - Send PUT /invoices/{invoiceId} with the invoice's id, the admin's token, payment_method \"cash-on-delivery\", payment_details {}, billing_street \"Stephansplatz 1\", billing_city \"Wien\", billing_country \"AT\" and the cart's id as cart_id.\n    - Verify the response status is 404.\n    - Verify the body's message is \"Requested item not found\"."
+  },
+  {
+   "id": "API-0517",
+   "name": "Update invoice with a total in the body leaves the total unchanged",
+   "status": "manual",
+   "knownIssue": "Writes the unvalidated total from the body (and other fillable keys such as user_id) instead of ignoring them.",
+   "bug": "BUG-039",
+   "steps": [
+    "Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.",
+    "Send POST /users/login with that email and password, and take its access_token.",
+    "Send POST /carts with an empty body and take the returned id as the cart's id.",
+    "Send POST /invoices with that access_token, payment_method \"cash-on-delivery\", payment_details {}, billing_street \"Stephansplatz 1\", billing_city \"Wien\", billing_country \"AT\" and the cart's id as cart_id, and take the new invoice's id, invoice_number and total.",
+    "Send PUT /invoices/{invoiceId} with the invoice's id, that access_token, payment_method \"cash-on-delivery\", payment_details {}, billing_street \"Stephansplatz 1\", billing_city \"Wien\", billing_country \"AT\", the cart's id as cart_id and a total different from the invoice's total.",
+    "Verify GET /invoices/{invoiceId} with that id and token returns a total equal to the total from the create response."
+   ],
+   "ref": [],
+   "area": "invoices",
+   "areaLabel": "Invoices",
+   "file": "test-scenarios/api/invoices/put-invoices-by-invoice-id.yml",
+   "fileLabel": "PUT /invoices/{invoiceId}",
+   "suite": "Invoices API",
+   "tags": [
+    "@invoices-api"
+   ],
+   "yaml": "- id: API-0517\n  name: Update invoice with a total in the body leaves the total unchanged\n  status: manual\n  knownIssue: Writes the unvalidated total from the body (and other fillable keys such as user_id) instead of ignoring them.\n  bug: BUG-039\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.\n    - Send POST /users/login with that email and password, and take its access_token.\n    - Send POST /carts with an empty body and take the returned id as the cart's id.\n    - Send POST /invoices with that access_token, payment_method \"cash-on-delivery\", payment_details {}, billing_street \"Stephansplatz 1\", billing_city \"Wien\", billing_country \"AT\" and the cart's id as cart_id, and take the new invoice's id, invoice_number and total.\n    - Send PUT /invoices/{invoiceId} with the invoice's id, that access_token, payment_method \"cash-on-delivery\", payment_details {}, billing_street \"Stephansplatz 1\", billing_city \"Wien\", billing_country \"AT\", the cart's id as cart_id and a total different from the invoice's total.\n    - Verify GET /invoices/{invoiceId} with that id and token returns a total equal to the total from the create response."
+  },
+  {
+   "id": "API-0518",
+   "name": "Partially update invoice returns 200 and the billing street is changed",
+   "status": "manual",
+   "steps": [
+    "Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.",
+    "Send POST /users/login with that email and password, and take its access_token.",
+    "Send POST /carts with an empty body and take the returned id as the cart's id.",
+    "Send POST /invoices with that access_token, payment_method \"cash-on-delivery\", payment_details {}, billing_street \"Stephansplatz 1\", billing_city \"Wien\", billing_country \"AT\" and the cart's id as cart_id, and take the new invoice's id, invoice_number and total.",
+    "Send PATCH /invoices/{invoiceId} with the invoice's id, that access_token and a body with a unique billing_street of at most 70 characters.",
+    "Verify the response status is 200.",
+    "Verify the body's success is true.",
+    "Verify GET /invoices/{invoiceId} with that id and token returns 200 with the new billing_street."
+   ],
+   "ref": [],
+   "area": "invoices",
+   "areaLabel": "Invoices",
+   "file": "test-scenarios/api/invoices/patch-invoices-by-invoice-id.yml",
+   "fileLabel": "PATCH /invoices/{invoiceId}",
+   "suite": "Invoices API",
+   "tags": [
+    "@invoices-api"
+   ],
+   "yaml": "- id: API-0518\n  name: Partially update invoice returns 200 and the billing street is changed\n  status: manual\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.\n    - Send POST /users/login with that email and password, and take its access_token.\n    - Send POST /carts with an empty body and take the returned id as the cart's id.\n    - Send POST /invoices with that access_token, payment_method \"cash-on-delivery\", payment_details {}, billing_street \"Stephansplatz 1\", billing_city \"Wien\", billing_country \"AT\" and the cart's id as cart_id, and take the new invoice's id, invoice_number and total.\n    - Send PATCH /invoices/{invoiceId} with the invoice's id, that access_token and a body with a unique billing_street of at most 70 characters.\n    - Verify the response status is 200.\n    - Verify the body's success is true.\n    - Verify GET /invoices/{invoiceId} with that id and token returns 200 with the new billing_street."
+  },
+  {
+   "id": "API-0519",
+   "name": "Partially update invoice with an empty body returns 200 and changes nothing",
+   "status": "manual",
+   "steps": [
+    "Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.",
+    "Send POST /users/login with that email and password, and take its access_token.",
+    "Send POST /carts with an empty body and take the returned id as the cart's id.",
+    "Send POST /invoices with that access_token, payment_method \"cash-on-delivery\", payment_details {}, billing_street \"Stephansplatz 1\", billing_city \"Wien\", billing_country \"AT\" and the cart's id as cart_id, and take the new invoice's id, invoice_number and total.",
+    "Send PATCH /invoices/{invoiceId} with the invoice's id, that access_token and an empty JSON object as the body.",
+    "Verify the response status is 200.",
+    "Verify the body's success is true.",
+    "Verify GET /invoices/{invoiceId} with that id and token returns 200 with billing_street \"Stephansplatz 1\", billing_city \"Wien\" and billing_country \"AT\"."
+   ],
+   "ref": [],
+   "area": "invoices",
+   "areaLabel": "Invoices",
+   "file": "test-scenarios/api/invoices/patch-invoices-by-invoice-id.yml",
+   "fileLabel": "PATCH /invoices/{invoiceId}",
+   "suite": "Invoices API",
+   "tags": [
+    "@invoices-api"
+   ],
+   "yaml": "- id: API-0519\n  name: Partially update invoice with an empty body returns 200 and changes nothing\n  status: manual\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.\n    - Send POST /users/login with that email and password, and take its access_token.\n    - Send POST /carts with an empty body and take the returned id as the cart's id.\n    - Send POST /invoices with that access_token, payment_method \"cash-on-delivery\", payment_details {}, billing_street \"Stephansplatz 1\", billing_city \"Wien\", billing_country \"AT\" and the cart's id as cart_id, and take the new invoice's id, invoice_number and total.\n    - Send PATCH /invoices/{invoiceId} with the invoice's id, that access_token and an empty JSON object as the body.\n    - Verify the response status is 200.\n    - Verify the body's success is true.\n    - Verify GET /invoices/{invoiceId} with that id and token returns 200 with billing_street \"Stephansplatz 1\", billing_city \"Wien\" and billing_country \"AT\"."
+  },
+  {
+   "id": "API-0520",
+   "name": "Partially update invoice with an invoice_date returns 200",
+   "status": "manual",
+   "steps": [
+    "Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.",
+    "Send POST /users/login with that email and password, and take its access_token.",
+    "Send POST /carts with an empty body and take the returned id as the cart's id.",
+    "Send POST /invoices with that access_token, payment_method \"cash-on-delivery\", payment_details {}, billing_street \"Stephansplatz 1\", billing_city \"Wien\", billing_country \"AT\" and the cart's id as cart_id, and take the new invoice's id, invoice_number and total.",
+    "Send PATCH /invoices/{invoiceId} with the invoice's id, that access_token and a body with invoice_date \"2026-01-15\".",
+    "Verify the response status is 200.",
+    "Verify the body's success is true.",
+    "Verify GET /invoices/{invoiceId} with that id and token returns 200 with an invoice_date that contains \"2026-01-15\"."
+   ],
+   "ref": [],
+   "area": "invoices",
+   "areaLabel": "Invoices",
+   "file": "test-scenarios/api/invoices/patch-invoices-by-invoice-id.yml",
+   "fileLabel": "PATCH /invoices/{invoiceId}",
+   "suite": "Invoices API",
+   "tags": [
+    "@invoices-api"
+   ],
+   "yaml": "- id: API-0520\n  name: Partially update invoice with an invoice_date returns 200\n  status: manual\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.\n    - Send POST /users/login with that email and password, and take its access_token.\n    - Send POST /carts with an empty body and take the returned id as the cart's id.\n    - Send POST /invoices with that access_token, payment_method \"cash-on-delivery\", payment_details {}, billing_street \"Stephansplatz 1\", billing_city \"Wien\", billing_country \"AT\" and the cart's id as cart_id, and take the new invoice's id, invoice_number and total.\n    - Send PATCH /invoices/{invoiceId} with the invoice's id, that access_token and a body with invoice_date \"2026-01-15\".\n    - Verify the response status is 200.\n    - Verify the body's success is true.\n    - Verify GET /invoices/{invoiceId} with that id and token returns 200 with an invoice_date that contains \"2026-01-15\"."
+  },
+  {
+   "id": "API-0521",
+   "name": "Partially update invoice without a token returns 401",
+   "status": "manual",
+   "steps": [
+    "Send PATCH /invoices/{invoiceId} with a well-formed ULID that no invoice has and a body with billing_street \"Stephansplatz 1\", without an Authorization header.",
+    "Verify the response status is 401.",
+    "Verify the body's message is \"Unauthorized\"."
+   ],
+   "ref": [],
+   "area": "invoices",
+   "areaLabel": "Invoices",
+   "file": "test-scenarios/api/invoices/patch-invoices-by-invoice-id.yml",
+   "fileLabel": "PATCH /invoices/{invoiceId}",
+   "suite": "Invoices API",
+   "tags": [
+    "@invoices-api"
+   ],
+   "yaml": "- id: API-0521\n  name: Partially update invoice without a token returns 401\n  status: manual\n  steps:\n    - Send PATCH /invoices/{invoiceId} with a well-formed ULID that no invoice has and a body with billing_street \"Stephansplatz 1\", without an Authorization header.\n    - Verify the response status is 401.\n    - Verify the body's message is \"Unauthorized\"."
+  },
+  {
+   "id": "API-0522",
+   "name": "Partially update invoice with a billing street longer than 70 characters returns 422",
+   "status": "manual",
+   "steps": [
+    "Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.",
+    "Send POST /users/login with that email and password, and take its access_token.",
+    "Send POST /carts with an empty body and take the returned id as the cart's id.",
+    "Send POST /invoices with that access_token, payment_method \"cash-on-delivery\", payment_details {}, billing_street \"Stephansplatz 1\", billing_city \"Wien\", billing_country \"AT\" and the cart's id as cart_id, and take the new invoice's id, invoice_number and total.",
+    "Send PATCH /invoices/{invoiceId} with the invoice's id, that access_token and a body with a 71-character billing_street.",
+    "Verify the response status is 422.",
+    "Verify the body has a billing_street key with at least one message."
+   ],
+   "ref": [],
+   "area": "invoices",
+   "areaLabel": "Invoices",
+   "file": "test-scenarios/api/invoices/patch-invoices-by-invoice-id.yml",
+   "fileLabel": "PATCH /invoices/{invoiceId}",
+   "suite": "Invoices API",
+   "tags": [
+    "@invoices-api"
+   ],
+   "yaml": "- id: API-0522\n  name: Partially update invoice with a billing street longer than 70 characters returns 422\n  status: manual\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.\n    - Send POST /users/login with that email and password, and take its access_token.\n    - Send POST /carts with an empty body and take the returned id as the cart's id.\n    - Send POST /invoices with that access_token, payment_method \"cash-on-delivery\", payment_details {}, billing_street \"Stephansplatz 1\", billing_city \"Wien\", billing_country \"AT\" and the cart's id as cart_id, and take the new invoice's id, invoice_number and total.\n    - Send PATCH /invoices/{invoiceId} with the invoice's id, that access_token and a body with a 71-character billing_street.\n    - Verify the response status is 422.\n    - Verify the body has a billing_street key with at least one message."
+  },
+  {
+   "id": "API-0523",
+   "name": "Partially update invoice with a billing street that is not a string returns 422",
+   "status": "manual",
+   "steps": [
+    "Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.",
+    "Send POST /users/login with that email and password, and take its access_token.",
+    "Send POST /carts with an empty body and take the returned id as the cart's id.",
+    "Send POST /invoices with that access_token, payment_method \"cash-on-delivery\", payment_details {}, billing_street \"Stephansplatz 1\", billing_city \"Wien\", billing_country \"AT\" and the cart's id as cart_id, and take the new invoice's id, invoice_number and total.",
+    "Send PATCH /invoices/{invoiceId} with the invoice's id, that access_token and a body with billing_street 12345 (a number).",
+    "Verify the response status is 422.",
+    "Verify the body has a billing_street key with at least one message."
+   ],
+   "ref": [],
+   "area": "invoices",
+   "areaLabel": "Invoices",
+   "file": "test-scenarios/api/invoices/patch-invoices-by-invoice-id.yml",
+   "fileLabel": "PATCH /invoices/{invoiceId}",
+   "suite": "Invoices API",
+   "tags": [
+    "@invoices-api"
+   ],
+   "yaml": "- id: API-0523\n  name: Partially update invoice with a billing street that is not a string returns 422\n  status: manual\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.\n    - Send POST /users/login with that email and password, and take its access_token.\n    - Send POST /carts with an empty body and take the returned id as the cart's id.\n    - Send POST /invoices with that access_token, payment_method \"cash-on-delivery\", payment_details {}, billing_street \"Stephansplatz 1\", billing_city \"Wien\", billing_country \"AT\" and the cart's id as cart_id, and take the new invoice's id, invoice_number and total.\n    - Send PATCH /invoices/{invoiceId} with the invoice's id, that access_token and a body with billing_street 12345 (a number).\n    - Verify the response status is 422.\n    - Verify the body has a billing_street key with at least one message."
+  },
+  {
+   "id": "API-0524",
+   "name": "Partially update invoice with an invoice_date that is not Y-m-d returns 422",
+   "status": "manual",
+   "steps": [
+    "Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.",
+    "Send POST /users/login with that email and password, and take its access_token.",
+    "Send POST /carts with an empty body and take the returned id as the cart's id.",
+    "Send POST /invoices with that access_token, payment_method \"cash-on-delivery\", payment_details {}, billing_street \"Stephansplatz 1\", billing_city \"Wien\", billing_country \"AT\" and the cart's id as cart_id, and take the new invoice's id, invoice_number and total.",
+    "Send PATCH /invoices/{invoiceId} with the invoice's id, that access_token and a body with invoice_date \"15/01/2026\".",
+    "Verify the response status is 422.",
+    "Verify the body has an invoice_date key with at least one message."
+   ],
+   "ref": [],
+   "area": "invoices",
+   "areaLabel": "Invoices",
+   "file": "test-scenarios/api/invoices/patch-invoices-by-invoice-id.yml",
+   "fileLabel": "PATCH /invoices/{invoiceId}",
+   "suite": "Invoices API",
+   "tags": [
+    "@invoices-api"
+   ],
+   "yaml": "- id: API-0524\n  name: Partially update invoice with an invoice_date that is not Y-m-d returns 422\n  status: manual\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.\n    - Send POST /users/login with that email and password, and take its access_token.\n    - Send POST /carts with an empty body and take the returned id as the cart's id.\n    - Send POST /invoices with that access_token, payment_method \"cash-on-delivery\", payment_details {}, billing_street \"Stephansplatz 1\", billing_city \"Wien\", billing_country \"AT\" and the cart's id as cart_id, and take the new invoice's id, invoice_number and total.\n    - Send PATCH /invoices/{invoiceId} with the invoice's id, that access_token and a body with invoice_date \"15/01/2026\".\n    - Verify the response status is 422.\n    - Verify the body has an invoice_date key with at least one message."
+  },
+  {
+   "id": "API-0525",
+   "name": "Partially update invoice with a superscript character in the billing street returns 422",
+   "status": "manual",
+   "steps": [
+    "Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.",
+    "Send POST /users/login with that email and password, and take its access_token.",
+    "Send POST /carts with an empty body and take the returned id as the cart's id.",
+    "Send POST /invoices with that access_token, payment_method \"cash-on-delivery\", payment_details {}, billing_street \"Stephansplatz 1\", billing_city \"Wien\", billing_country \"AT\" and the cart's id as cart_id, and take the new invoice's id, invoice_number and total.",
+    "Send PATCH /invoices/{invoiceId} with the invoice's id, that access_token and a body with a billing_street containing the superscript digit four (U+2074).",
+    "Verify the response status is 422.",
+    "Verify the body has a billing_street key with at least one message."
+   ],
+   "ref": [],
+   "area": "invoices",
+   "areaLabel": "Invoices",
+   "file": "test-scenarios/api/invoices/patch-invoices-by-invoice-id.yml",
+   "fileLabel": "PATCH /invoices/{invoiceId}",
+   "suite": "Invoices API",
+   "tags": [
+    "@invoices-api"
+   ],
+   "yaml": "- id: API-0525\n  name: Partially update invoice with a superscript character in the billing street returns 422\n  status: manual\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.\n    - Send POST /users/login with that email and password, and take its access_token.\n    - Send POST /carts with an empty body and take the returned id as the cart's id.\n    - Send POST /invoices with that access_token, payment_method \"cash-on-delivery\", payment_details {}, billing_street \"Stephansplatz 1\", billing_city \"Wien\", billing_country \"AT\" and the cart's id as cart_id, and take the new invoice's id, invoice_number and total.\n    - Send PATCH /invoices/{invoiceId} with the invoice's id, that access_token and a body with a billing_street containing the superscript digit four (U+2074).\n    - Verify the response status is 422.\n    - Verify the body has a billing_street key with at least one message."
+  },
+  {
+   "id": "API-0526",
+   "name": "Partially update invoice with an unknown id and an invalid body returns 422",
+   "status": "manual",
+   "steps": [
+    "Send PATCH /invoices/{invoiceId} with a well-formed ULID that no invoice has, the default user's token and a body with a 71-character billing_street.",
+    "Verify the response status is 422."
+   ],
+   "ref": [],
+   "area": "invoices",
+   "areaLabel": "Invoices",
+   "file": "test-scenarios/api/invoices/patch-invoices-by-invoice-id.yml",
+   "fileLabel": "PATCH /invoices/{invoiceId}",
+   "suite": "Invoices API",
+   "tags": [
+    "@invoices-api"
+   ],
+   "yaml": "- id: API-0526\n  name: Partially update invoice with an unknown id and an invalid body returns 422\n  status: manual\n  steps:\n    - Send PATCH /invoices/{invoiceId} with a well-formed ULID that no invoice has, the default user's token and a body with a 71-character billing_street.\n    - Verify the response status is 422."
+  },
+  {
+   "id": "API-0527",
+   "name": "Partially update invoice with an unknown id returns 404",
+   "status": "manual",
+   "steps": [
+    "Send PATCH /invoices/{invoiceId} with a well-formed ULID that no invoice has, the default user's token and a body with billing_street \"Stephansplatz 1\".",
+    "Verify the response status is 404.",
+    "Verify the body's message is \"Requested item not found\"."
+   ],
+   "ref": [],
+   "area": "invoices",
+   "areaLabel": "Invoices",
+   "file": "test-scenarios/api/invoices/patch-invoices-by-invoice-id.yml",
+   "fileLabel": "PATCH /invoices/{invoiceId}",
+   "suite": "Invoices API",
+   "tags": [
+    "@invoices-api"
+   ],
+   "yaml": "- id: API-0527\n  name: Partially update invoice with an unknown id returns 404\n  status: manual\n  steps:\n    - Send PATCH /invoices/{invoiceId} with a well-formed ULID that no invoice has, the default user's token and a body with billing_street \"Stephansplatz 1\".\n    - Verify the response status is 404.\n    - Verify the body's message is \"Requested item not found\"."
+  },
+  {
+   "id": "API-0528",
+   "name": "Partially update another customer's invoice returns 404",
+   "status": "manual",
+   "steps": [
+    "Send POST /users/register with a unique email, a first name, a last name and a random strong password (customer A), and take the new user's id.",
+    "Send POST /users/login with customer A's email and password, and take its access_token.",
+    "Send POST /users/register with a unique email, a first name, a last name and a random strong password (customer B), and take the new user's id.",
+    "Send POST /users/login with customer B's email and password, and take its access_token.",
+    "Send POST /carts with an empty body and take the returned id as the cart's id.",
+    "Send POST /invoices with customer A's access_token, payment_method \"cash-on-delivery\", payment_details {}, billing_street \"Stephansplatz 1\", billing_city \"Wien\", billing_country \"AT\" and the cart's id as cart_id, and take the new invoice's id.",
+    "Send PATCH /invoices/{invoiceId} with that id, customer B's access_token and a body with billing_street \"Stephansplatz 1\".",
+    "Verify the response status is 404.",
+    "Verify the body's message is \"Requested item not found\"."
+   ],
+   "ref": [],
+   "area": "invoices",
+   "areaLabel": "Invoices",
+   "file": "test-scenarios/api/invoices/patch-invoices-by-invoice-id.yml",
+   "fileLabel": "PATCH /invoices/{invoiceId}",
+   "suite": "Invoices API",
+   "tags": [
+    "@invoices-api"
+   ],
+   "yaml": "- id: API-0528\n  name: Partially update another customer's invoice returns 404\n  status: manual\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password (customer A), and take the new user's id.\n    - Send POST /users/login with customer A's email and password, and take its access_token.\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password (customer B), and take the new user's id.\n    - Send POST /users/login with customer B's email and password, and take its access_token.\n    - Send POST /carts with an empty body and take the returned id as the cart's id.\n    - Send POST /invoices with customer A's access_token, payment_method \"cash-on-delivery\", payment_details {}, billing_street \"Stephansplatz 1\", billing_city \"Wien\", billing_country \"AT\" and the cart's id as cart_id, and take the new invoice's id.\n    - Send PATCH /invoices/{invoiceId} with that id, customer B's access_token and a body with billing_street \"Stephansplatz 1\".\n    - Verify the response status is 404.\n    - Verify the body's message is \"Requested item not found\"."
+  },
+  {
+   "id": "API-0474",
+   "name": "Update invoice status returns 200 and the invoice has the new status and message",
+   "status": "manual",
+   "steps": [
+    "Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.",
+    "Send POST /users/login with that email and password, and take its access_token.",
+    "Send POST /carts with an empty body and take the returned id as the cart's id.",
+    "Send POST /invoices with that access_token, payment_method \"cash-on-delivery\", payment_details {}, billing_street \"Stephansplatz 1\", billing_city \"Wien\", billing_country \"AT\" and the cart's id as cart_id, and take the new invoice's id, invoice_number and total.",
+    "Send PUT /invoices/{invoiceId}/status with the invoice's id, that access_token and a body with status \"ON_HOLD\" and status_message \"Waiting for the bank\".",
+    "Verify the response status is 200.",
+    "Verify the body's success is true.",
+    "Verify GET /invoices/{invoiceId} with that id and token returns 200 with status \"ON_HOLD\" and status_message \"Waiting for the bank\"."
+   ],
+   "ref": [],
+   "area": "invoices",
+   "areaLabel": "Invoices",
+   "file": "test-scenarios/api/invoices/put-invoices-by-invoice-id-status.yml",
+   "fileLabel": "PUT /invoices/{invoiceId}/status",
+   "suite": "Invoices API",
+   "tags": [
+    "@invoices-api"
+   ],
+   "yaml": "- id: API-0474\n  name: Update invoice status returns 200 and the invoice has the new status and message\n  status: manual\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.\n    - Send POST /users/login with that email and password, and take its access_token.\n    - Send POST /carts with an empty body and take the returned id as the cart's id.\n    - Send POST /invoices with that access_token, payment_method \"cash-on-delivery\", payment_details {}, billing_street \"Stephansplatz 1\", billing_city \"Wien\", billing_country \"AT\" and the cart's id as cart_id, and take the new invoice's id, invoice_number and total.\n    - Send PUT /invoices/{invoiceId}/status with the invoice's id, that access_token and a body with status \"ON_HOLD\" and status_message \"Waiting for the bank\".\n    - Verify the response status is 200.\n    - Verify the body's success is true.\n    - Verify GET /invoices/{invoiceId} with that id and token returns 200 with status \"ON_HOLD\" and status_message \"Waiting for the bank\"."
+  },
+  {
+   "id": "API-0475",
+   "name": "Update invoice status with a null message returns 200 and clears the message",
+   "status": "manual",
+   "steps": [
+    "Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.",
+    "Send POST /users/login with that email and password, and take its access_token.",
+    "Send POST /carts with an empty body and take the returned id as the cart's id.",
+    "Send POST /invoices with that access_token, payment_method \"cash-on-delivery\", payment_details {}, billing_street \"Stephansplatz 1\", billing_city \"Wien\", billing_country \"AT\" and the cart's id as cart_id, and take the new invoice's id, invoice_number and total.",
+    "Send PUT /invoices/{invoiceId}/status with the invoice's id, that access_token and a body with status_message \"Waiting for the bank\".",
+    "Send PUT /invoices/{invoiceId}/status with the invoice's id, that access_token and a body with status_message null.",
+    "Verify the response status is 200.",
+    "Verify the body's success is true.",
+    "Verify GET /invoices/{invoiceId} with that id and token returns 200 with status_message null."
+   ],
+   "ref": [],
+   "area": "invoices",
+   "areaLabel": "Invoices",
+   "file": "test-scenarios/api/invoices/put-invoices-by-invoice-id-status.yml",
+   "fileLabel": "PUT /invoices/{invoiceId}/status",
+   "suite": "Invoices API",
+   "tags": [
+    "@invoices-api"
+   ],
+   "yaml": "- id: API-0475\n  name: Update invoice status with a null message returns 200 and clears the message\n  status: manual\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.\n    - Send POST /users/login with that email and password, and take its access_token.\n    - Send POST /carts with an empty body and take the returned id as the cart's id.\n    - Send POST /invoices with that access_token, payment_method \"cash-on-delivery\", payment_details {}, billing_street \"Stephansplatz 1\", billing_city \"Wien\", billing_country \"AT\" and the cart's id as cart_id, and take the new invoice's id, invoice_number and total.\n    - Send PUT /invoices/{invoiceId}/status with the invoice's id, that access_token and a body with status_message \"Waiting for the bank\".\n    - Send PUT /invoices/{invoiceId}/status with the invoice's id, that access_token and a body with status_message null.\n    - Verify the response status is 200.\n    - Verify the body's success is true.\n    - Verify GET /invoices/{invoiceId} with that id and token returns 200 with status_message null."
+  },
+  {
+   "id": "API-0476",
+   "name": "Update invoice status without a token returns 401",
+   "status": "manual",
+   "steps": [
+    "Send PUT /invoices/{invoiceId}/status with a well-formed ULID that no invoice has and a body with status \"ON_HOLD\", without an Authorization header.",
+    "Verify the response status is 401.",
+    "Verify the body's message is \"Unauthorized\"."
+   ],
+   "ref": [],
+   "area": "invoices",
+   "areaLabel": "Invoices",
+   "file": "test-scenarios/api/invoices/put-invoices-by-invoice-id-status.yml",
+   "fileLabel": "PUT /invoices/{invoiceId}/status",
+   "suite": "Invoices API",
+   "tags": [
+    "@invoices-api"
+   ],
+   "yaml": "- id: API-0476\n  name: Update invoice status without a token returns 401\n  status: manual\n  steps:\n    - Send PUT /invoices/{invoiceId}/status with a well-formed ULID that no invoice has and a body with status \"ON_HOLD\", without an Authorization header.\n    - Verify the response status is 401.\n    - Verify the body's message is \"Unauthorized\"."
+  },
+  {
+   "id": "API-0477",
+   "name": "Update invoice status with an invalid status returns 422",
+   "status": "manual",
+   "steps": [
+    "Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.",
+    "Send POST /users/login with that email and password, and take its access_token.",
+    "Send POST /carts with an empty body and take the returned id as the cart's id.",
+    "Send POST /invoices with that access_token, payment_method \"cash-on-delivery\", payment_details {}, billing_street \"Stephansplatz 1\", billing_city \"Wien\", billing_country \"AT\" and the cart's id as cart_id, and take the new invoice's id, invoice_number and total.",
+    "Send PUT /invoices/{invoiceId}/status with the invoice's id, that access_token, Accept: application/json and a body with status \"NOT_A_STATUS\".",
+    "Verify the response status is 422.",
+    "Verify the body's errors has a status key with at least one message."
+   ],
+   "ref": [],
+   "area": "invoices",
+   "areaLabel": "Invoices",
+   "file": "test-scenarios/api/invoices/put-invoices-by-invoice-id-status.yml",
+   "fileLabel": "PUT /invoices/{invoiceId}/status",
+   "suite": "Invoices API",
+   "tags": [
+    "@invoices-api"
+   ],
+   "yaml": "- id: API-0477\n  name: Update invoice status with an invalid status returns 422\n  status: manual\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.\n    - Send POST /users/login with that email and password, and take its access_token.\n    - Send POST /carts with an empty body and take the returned id as the cart's id.\n    - Send POST /invoices with that access_token, payment_method \"cash-on-delivery\", payment_details {}, billing_street \"Stephansplatz 1\", billing_city \"Wien\", billing_country \"AT\" and the cart's id as cart_id, and take the new invoice's id, invoice_number and total.\n    - 'Send PUT /invoices/{invoiceId}/status with the invoice''s id, that access_token, Accept: application/json and a body with status \"NOT_A_STATUS\".'\n    - Verify the response status is 422.\n    - Verify the body's errors has a status key with at least one message."
+  },
+  {
+   "id": "API-0478",
+   "name": "Update invoice status with a message shorter than 5 characters returns 422",
+   "status": "manual",
+   "steps": [
+    "Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.",
+    "Send POST /users/login with that email and password, and take its access_token.",
+    "Send POST /carts with an empty body and take the returned id as the cart's id.",
+    "Send POST /invoices with that access_token, payment_method \"cash-on-delivery\", payment_details {}, billing_street \"Stephansplatz 1\", billing_city \"Wien\", billing_country \"AT\" and the cart's id as cart_id, and take the new invoice's id, invoice_number and total.",
+    "Send PUT /invoices/{invoiceId}/status with the invoice's id, that access_token, Accept: application/json and a body with status_message of 4 characters.",
+    "Verify the response status is 422.",
+    "Verify the body's errors has a status_message key with at least one message."
+   ],
+   "ref": [],
+   "area": "invoices",
+   "areaLabel": "Invoices",
+   "file": "test-scenarios/api/invoices/put-invoices-by-invoice-id-status.yml",
+   "fileLabel": "PUT /invoices/{invoiceId}/status",
+   "suite": "Invoices API",
+   "tags": [
+    "@invoices-api"
+   ],
+   "yaml": "- id: API-0478\n  name: Update invoice status with a message shorter than 5 characters returns 422\n  status: manual\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.\n    - Send POST /users/login with that email and password, and take its access_token.\n    - Send POST /carts with an empty body and take the returned id as the cart's id.\n    - Send POST /invoices with that access_token, payment_method \"cash-on-delivery\", payment_details {}, billing_street \"Stephansplatz 1\", billing_city \"Wien\", billing_country \"AT\" and the cart's id as cart_id, and take the new invoice's id, invoice_number and total.\n    - 'Send PUT /invoices/{invoiceId}/status with the invoice''s id, that access_token, Accept: application/json and a body with status_message of 4 characters.'\n    - Verify the response status is 422.\n    - Verify the body's errors has a status_message key with at least one message."
+  },
+  {
+   "id": "API-0479",
+   "name": "Update invoice status with a message longer than 50 characters returns 422",
+   "status": "manual",
+   "steps": [
+    "Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.",
+    "Send POST /users/login with that email and password, and take its access_token.",
+    "Send POST /carts with an empty body and take the returned id as the cart's id.",
+    "Send POST /invoices with that access_token, payment_method \"cash-on-delivery\", payment_details {}, billing_street \"Stephansplatz 1\", billing_city \"Wien\", billing_country \"AT\" and the cart's id as cart_id, and take the new invoice's id, invoice_number and total.",
+    "Send PUT /invoices/{invoiceId}/status with the invoice's id, that access_token, Accept: application/json and a body with status_message of 51 characters.",
+    "Verify the response status is 422.",
+    "Verify the body's errors has a status_message key with at least one message."
+   ],
+   "ref": [],
+   "area": "invoices",
+   "areaLabel": "Invoices",
+   "file": "test-scenarios/api/invoices/put-invoices-by-invoice-id-status.yml",
+   "fileLabel": "PUT /invoices/{invoiceId}/status",
+   "suite": "Invoices API",
+   "tags": [
+    "@invoices-api"
+   ],
+   "yaml": "- id: API-0479\n  name: Update invoice status with a message longer than 50 characters returns 422\n  status: manual\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.\n    - Send POST /users/login with that email and password, and take its access_token.\n    - Send POST /carts with an empty body and take the returned id as the cart's id.\n    - Send POST /invoices with that access_token, payment_method \"cash-on-delivery\", payment_details {}, billing_street \"Stephansplatz 1\", billing_city \"Wien\", billing_country \"AT\" and the cart's id as cart_id, and take the new invoice's id, invoice_number and total.\n    - 'Send PUT /invoices/{invoiceId}/status with the invoice''s id, that access_token, Accept: application/json and a body with status_message of 51 characters.'\n    - Verify the response status is 422.\n    - Verify the body's errors has a status_message key with at least one message."
+  },
+  {
+   "id": "API-0480",
+   "name": "Update invoice status with a message that is not a string returns 422",
+   "status": "manual",
+   "steps": [
+    "Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.",
+    "Send POST /users/login with that email and password, and take its access_token.",
+    "Send POST /carts with an empty body and take the returned id as the cart's id.",
+    "Send POST /invoices with that access_token, payment_method \"cash-on-delivery\", payment_details {}, billing_street \"Stephansplatz 1\", billing_city \"Wien\", billing_country \"AT\" and the cart's id as cart_id, and take the new invoice's id, invoice_number and total.",
+    "Send PUT /invoices/{invoiceId}/status with the invoice's id, that access_token, Accept: application/json and a body with status_message 12345 (a number).",
+    "Verify the response status is 422.",
+    "Verify the body's errors has a status_message key with at least one message."
+   ],
+   "ref": [],
+   "area": "invoices",
+   "areaLabel": "Invoices",
+   "file": "test-scenarios/api/invoices/put-invoices-by-invoice-id-status.yml",
+   "fileLabel": "PUT /invoices/{invoiceId}/status",
+   "suite": "Invoices API",
+   "tags": [
+    "@invoices-api"
+   ],
+   "yaml": "- id: API-0480\n  name: Update invoice status with a message that is not a string returns 422\n  status: manual\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.\n    - Send POST /users/login with that email and password, and take its access_token.\n    - Send POST /carts with an empty body and take the returned id as the cart's id.\n    - Send POST /invoices with that access_token, payment_method \"cash-on-delivery\", payment_details {}, billing_street \"Stephansplatz 1\", billing_city \"Wien\", billing_country \"AT\" and the cart's id as cart_id, and take the new invoice's id, invoice_number and total.\n    - 'Send PUT /invoices/{invoiceId}/status with the invoice''s id, that access_token, Accept: application/json and a body with status_message 12345 (a number).'\n    - Verify the response status is 422.\n    - Verify the body's errors has a status_message key with at least one message."
+  },
+  {
+   "id": "API-0481",
+   "name": "Update invoice status with an unknown id returns 404",
+   "status": "manual",
+   "steps": [
+    "Send PUT /invoices/{invoiceId}/status with a well-formed ULID that no invoice has, the default user's token and a body with status \"ON_HOLD\".",
+    "Verify the response status is 404.",
+    "Verify the body's message is \"Invoice not found\"."
+   ],
+   "ref": [],
+   "area": "invoices",
+   "areaLabel": "Invoices",
+   "file": "test-scenarios/api/invoices/put-invoices-by-invoice-id-status.yml",
+   "fileLabel": "PUT /invoices/{invoiceId}/status",
+   "suite": "Invoices API",
+   "tags": [
+    "@invoices-api"
+   ],
+   "yaml": "- id: API-0481\n  name: Update invoice status with an unknown id returns 404\n  status: manual\n  steps:\n    - Send PUT /invoices/{invoiceId}/status with a well-formed ULID that no invoice has, the default user's token and a body with status \"ON_HOLD\".\n    - Verify the response status is 404.\n    - Verify the body's message is \"Invoice not found\"."
+  },
+  {
+   "id": "API-0482",
+   "name": "Update invoice status of another customer's invoice leaves it unchanged",
+   "status": "manual",
+   "knownIssue": "Any logged-in customer can change the status of another customer's invoice (the call succeeds) instead of being refused.",
+   "bug": "BUG-037",
+   "steps": [
+    "Send POST /users/register with a unique email, a first name, a last name and a random strong password (customer A), and take the new user's id.",
+    "Send POST /users/login with customer A's email and password, and take its access_token.",
+    "Send POST /users/register with a unique email, a first name, a last name and a random strong password (customer B), and take the new user's id.",
+    "Send POST /users/login with customer B's email and password, and take its access_token.",
+    "Send POST /carts with an empty body and take the returned id as the cart's id.",
+    "Send POST /invoices with customer A's access_token, payment_method \"cash-on-delivery\", payment_details {}, billing_street \"Stephansplatz 1\", billing_city \"Wien\", billing_country \"AT\" and the cart's id as cart_id, and take the new invoice's id.",
+    "Send PUT /invoices/{invoiceId}/status with that id, customer B's access_token and a body with status \"COMPLETED\".",
+    "Verify GET /invoices/{invoiceId} with that id and customer A's access_token returns a status other than \"COMPLETED\"."
+   ],
+   "ref": [],
+   "area": "invoices",
+   "areaLabel": "Invoices",
+   "file": "test-scenarios/api/invoices/put-invoices-by-invoice-id-status.yml",
+   "fileLabel": "PUT /invoices/{invoiceId}/status",
+   "suite": "Invoices API",
+   "tags": [
+    "@invoices-api"
+   ],
+   "yaml": "- id: API-0482\n  name: Update invoice status of another customer's invoice leaves it unchanged\n  status: manual\n  knownIssue: Any logged-in customer can change the status of another customer's invoice (the call succeeds) instead of being refused.\n  bug: BUG-037\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password (customer A), and take the new user's id.\n    - Send POST /users/login with customer A's email and password, and take its access_token.\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password (customer B), and take the new user's id.\n    - Send POST /users/login with customer B's email and password, and take its access_token.\n    - Send POST /carts with an empty body and take the returned id as the cart's id.\n    - Send POST /invoices with customer A's access_token, payment_method \"cash-on-delivery\", payment_details {}, billing_street \"Stephansplatz 1\", billing_city \"Wien\", billing_country \"AT\" and the cart's id as cart_id, and take the new invoice's id.\n    - Send PUT /invoices/{invoiceId}/status with that id, customer B's access_token and a body with status \"COMPLETED\".\n    - Verify GET /invoices/{invoiceId} with that id and customer A's access_token returns a status other than \"COMPLETED\"."
+  },
+  {
+   "id": "API-0483",
+   "name": "Update invoice status with a total in the body leaves the total unchanged",
+   "status": "manual",
+   "knownIssue": "Writes any column sent in the body (the total is changed) instead of only status and status_message.",
+   "bug": "BUG-038",
+   "steps": [
+    "Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.",
+    "Send POST /users/login with that email and password, and take its access_token.",
+    "Send POST /carts with an empty body and take the returned id as the cart's id.",
+    "Send POST /invoices with that access_token, payment_method \"cash-on-delivery\", payment_details {}, billing_street \"Stephansplatz 1\", billing_city \"Wien\", billing_country \"AT\" and the cart's id as cart_id, and take the new invoice's id, invoice_number and total.",
+    "Send PUT /invoices/{invoiceId}/status with the invoice's id, that access_token and a body with status \"ON_HOLD\" and a total different from the invoice's total.",
+    "Verify GET /invoices/{invoiceId} with that id and token returns a total equal to the total from the create response."
+   ],
+   "ref": [],
+   "area": "invoices",
+   "areaLabel": "Invoices",
+   "file": "test-scenarios/api/invoices/put-invoices-by-invoice-id-status.yml",
+   "fileLabel": "PUT /invoices/{invoiceId}/status",
+   "suite": "Invoices API",
+   "tags": [
+    "@invoices-api"
+   ],
+   "yaml": "- id: API-0483\n  name: Update invoice status with a total in the body leaves the total unchanged\n  status: manual\n  knownIssue: Writes any column sent in the body (the total is changed) instead of only status and status_message.\n  bug: BUG-038\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.\n    - Send POST /users/login with that email and password, and take its access_token.\n    - Send POST /carts with an empty body and take the returned id as the cart's id.\n    - Send POST /invoices with that access_token, payment_method \"cash-on-delivery\", payment_details {}, billing_street \"Stephansplatz 1\", billing_city \"Wien\", billing_country \"AT\" and the cart's id as cart_id, and take the new invoice's id, invoice_number and total.\n    - Send PUT /invoices/{invoiceId}/status with the invoice's id, that access_token and a body with status \"ON_HOLD\" and a total different from the invoice's total.\n    - Verify GET /invoices/{invoiceId} with that id and token returns a total equal to the total from the create response."
+  },
+  {
+   "id": "API-0484",
+   "name": "Update invoice status with an unknown key in the body does not return 500",
+   "status": "manual",
+   "knownIssue": "Returns 500 for a body key that is not a column of invoices instead of 422 or ignoring the key.",
+   "bug": "BUG-038",
+   "steps": [
+    "Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.",
+    "Send POST /users/login with that email and password, and take its access_token.",
+    "Send POST /carts with an empty body and take the returned id as the cart's id.",
+    "Send POST /invoices with that access_token, payment_method \"cash-on-delivery\", payment_details {}, billing_street \"Stephansplatz 1\", billing_city \"Wien\", billing_country \"AT\" and the cart's id as cart_id, and take the new invoice's id, invoice_number and total.",
+    "Send PUT /invoices/{invoiceId}/status with the invoice's id, that access_token, Accept: application/json and a body with status \"ON_HOLD\" and a key no_such_column with the value \"x\".",
+    "Verify the response status is 200 or 422."
+   ],
+   "ref": [],
+   "area": "invoices",
+   "areaLabel": "Invoices",
+   "file": "test-scenarios/api/invoices/put-invoices-by-invoice-id-status.yml",
+   "fileLabel": "PUT /invoices/{invoiceId}/status",
+   "suite": "Invoices API",
+   "tags": [
+    "@invoices-api"
+   ],
+   "yaml": "- id: API-0484\n  name: Update invoice status with an unknown key in the body does not return 500\n  status: manual\n  knownIssue: Returns 500 for a body key that is not a column of invoices instead of 422 or ignoring the key.\n  bug: BUG-038\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.\n    - Send POST /users/login with that email and password, and take its access_token.\n    - Send POST /carts with an empty body and take the returned id as the cart's id.\n    - Send POST /invoices with that access_token, payment_method \"cash-on-delivery\", payment_details {}, billing_street \"Stephansplatz 1\", billing_city \"Wien\", billing_country \"AT\" and the cart's id as cart_id, and take the new invoice's id, invoice_number and total.\n    - 'Send PUT /invoices/{invoiceId}/status with the invoice''s id, that access_token, Accept: application/json and a body with status \"ON_HOLD\" and a key no_such_column with the value \"x\".'\n    - Verify the response status is 200 or 422."
+  },
+  {
+   "id": "API-0468",
+   "name": "Download invoice PDF returns 200 with the file once it is generated",
+   "status": "manual",
+   "steps": [
+    "Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.",
+    "Send POST /users/login with that email and password, and take its access_token.",
+    "Send POST /carts with an empty body and take the returned id as the cart's id.",
+    "Send POST /invoices with that access_token, payment_method \"cash-on-delivery\", payment_details {}, billing_street \"Stephansplatz 1\", billing_city \"Wien\", billing_country \"AT\" and the cart's id as cart_id, and take the new invoice's id, invoice_number and total.",
+    "Send GET /invoices/{invoice_number}/download-pdf-status with the invoice's number and that access_token, and repeat every few seconds until the response status is 200 and the body's status is COMPLETED (the PDF jobs run every minute, so allow a few minutes).",
+    "Send GET /invoices/{invoice_number}/download-pdf with the invoice's number and that access_token.",
+    "Verify the response status is 200.",
+    "Verify the Content-Disposition response header is \"attachment; filename=<invoice_number>.pdf\" with the invoice's number.",
+    "Verify the response body is not empty."
+   ],
+   "ref": [],
+   "area": "invoices",
+   "areaLabel": "Invoices",
+   "file": "test-scenarios/api/invoices/get-invoices-by-invoice-number-download-pdf.yml",
+   "fileLabel": "get-invoices-by-invoice-number-download-pdf",
+   "suite": "Invoices API",
+   "tags": [
+    "@invoices-api"
+   ],
+   "yaml": "- id: API-0468\n  name: Download invoice PDF returns 200 with the file once it is generated\n  status: manual\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.\n    - Send POST /users/login with that email and password, and take its access_token.\n    - Send POST /carts with an empty body and take the returned id as the cart's id.\n    - Send POST /invoices with that access_token, payment_method \"cash-on-delivery\", payment_details {}, billing_street \"Stephansplatz 1\", billing_city \"Wien\", billing_country \"AT\" and the cart's id as cart_id, and take the new invoice's id, invoice_number and total.\n    - Send GET /invoices/{invoice_number}/download-pdf-status with the invoice's number and that access_token, and repeat every few seconds until the response status is 200 and the body's status is COMPLETED (the PDF jobs run every minute, so allow a few minutes).\n    - Send GET /invoices/{invoice_number}/download-pdf with the invoice's number and that access_token.\n    - Verify the response status is 200.\n    - Verify the Content-Disposition response header is \"attachment; filename=<invoice_number>.pdf\" with the invoice's number.\n    - Verify the response body is not empty."
+  },
+  {
+   "id": "API-0469",
+   "name": "Download invoice PDF without a token returns 401",
+   "status": "manual",
+   "steps": [
+    "Send GET /invoices/{invoice_number}/download-pdf with a well-formed invoice number, without an Authorization header.",
+    "Verify the response status is 401.",
+    "Verify the body's message is \"Unauthorized\"."
+   ],
+   "ref": [],
+   "area": "invoices",
+   "areaLabel": "Invoices",
+   "file": "test-scenarios/api/invoices/get-invoices-by-invoice-number-download-pdf.yml",
+   "fileLabel": "get-invoices-by-invoice-number-download-pdf",
+   "suite": "Invoices API",
+   "tags": [
+    "@invoices-api"
+   ],
+   "yaml": "- id: API-0469\n  name: Download invoice PDF without a token returns 401\n  status: manual\n  steps:\n    - Send GET /invoices/{invoice_number}/download-pdf with a well-formed invoice number, without an Authorization header.\n    - Verify the response status is 401.\n    - Verify the body's message is \"Unauthorized\"."
+  },
+  {
+   "id": "API-0470",
+   "name": "Download invoice PDF with an unknown invoice number returns 404",
+   "status": "manual",
+   "steps": [
+    "Send GET /invoices/{invoice_number}/download-pdf with a well-formed invoice number that no invoice has and the default user's token.",
+    "Verify the response status is 404.",
+    "Verify the body's message is \"Document not created. Try again later.\"."
+   ],
+   "ref": [],
+   "area": "invoices",
+   "areaLabel": "Invoices",
+   "file": "test-scenarios/api/invoices/get-invoices-by-invoice-number-download-pdf.yml",
+   "fileLabel": "get-invoices-by-invoice-number-download-pdf",
+   "suite": "Invoices API",
+   "tags": [
+    "@invoices-api"
+   ],
+   "yaml": "- id: API-0470\n  name: Download invoice PDF with an unknown invoice number returns 404\n  status: manual\n  steps:\n    - Send GET /invoices/{invoice_number}/download-pdf with a well-formed invoice number that no invoice has and the default user's token.\n    - Verify the response status is 404.\n    - Verify the body's message is \"Document not created. Try again later.\"."
+  },
+  {
+   "id": "API-0471",
+   "name": "Get PDF status returns 200 with COMPLETED once the PDF is generated",
+   "status": "manual",
+   "steps": [
+    "Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.",
+    "Send POST /users/login with that email and password, and take its access_token.",
+    "Send POST /carts with an empty body and take the returned id as the cart's id.",
+    "Send POST /invoices with that access_token, payment_method \"cash-on-delivery\", payment_details {}, billing_street \"Stephansplatz 1\", billing_city \"Wien\", billing_country \"AT\" and the cart's id as cart_id, and take the new invoice's id, invoice_number and total.",
+    "Send GET /invoices/{invoice_number}/download-pdf-status with the invoice's number and that access_token, and repeat every few seconds until the response status is 200 and the body's status is COMPLETED (the PDF jobs run every minute, so allow a few minutes).",
+    "Verify the last response's status is 200.",
+    "Verify the body's status is \"COMPLETED\"."
+   ],
+   "ref": [],
+   "area": "invoices",
+   "areaLabel": "Invoices",
+   "file": "test-scenarios/api/invoices/get-invoices-by-invoice-number-download-pdf-status.yml",
+   "fileLabel": "get-invoices-by-invoice-number-download-pdf-status",
+   "suite": "Invoices API",
+   "tags": [
+    "@invoices-api"
+   ],
+   "yaml": "- id: API-0471\n  name: Get PDF status returns 200 with COMPLETED once the PDF is generated\n  status: manual\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.\n    - Send POST /users/login with that email and password, and take its access_token.\n    - Send POST /carts with an empty body and take the returned id as the cart's id.\n    - Send POST /invoices with that access_token, payment_method \"cash-on-delivery\", payment_details {}, billing_street \"Stephansplatz 1\", billing_city \"Wien\", billing_country \"AT\" and the cart's id as cart_id, and take the new invoice's id, invoice_number and total.\n    - Send GET /invoices/{invoice_number}/download-pdf-status with the invoice's number and that access_token, and repeat every few seconds until the response status is 200 and the body's status is COMPLETED (the PDF jobs run every minute, so allow a few minutes).\n    - Verify the last response's status is 200.\n    - Verify the body's status is \"COMPLETED\"."
+  },
+  {
+   "id": "API-0472",
+   "name": "Get PDF status without a token returns 401",
+   "status": "manual",
+   "steps": [
+    "Send GET /invoices/{invoice_number}/download-pdf-status with a well-formed invoice number, without an Authorization header.",
+    "Verify the response status is 401.",
+    "Verify the body's message is \"Unauthorized\"."
+   ],
+   "ref": [],
+   "area": "invoices",
+   "areaLabel": "Invoices",
+   "file": "test-scenarios/api/invoices/get-invoices-by-invoice-number-download-pdf-status.yml",
+   "fileLabel": "get-invoices-by-invoice-number-download-pdf-status",
+   "suite": "Invoices API",
+   "tags": [
+    "@invoices-api"
+   ],
+   "yaml": "- id: API-0472\n  name: Get PDF status without a token returns 401\n  status: manual\n  steps:\n    - Send GET /invoices/{invoice_number}/download-pdf-status with a well-formed invoice number, without an Authorization header.\n    - Verify the response status is 401.\n    - Verify the body's message is \"Unauthorized\"."
+  },
+  {
+   "id": "API-0473",
+   "name": "Get PDF status with an unknown invoice number returns 400 with NOT_INITIATED",
+   "status": "manual",
+   "steps": [
+    "Send GET /invoices/{invoice_number}/download-pdf-status with a well-formed invoice number that no invoice has and the default user's token.",
+    "Verify the response status is 400.",
+    "Verify the body's status is \"NOT_INITIATED\"."
+   ],
+   "ref": [],
+   "area": "invoices",
+   "areaLabel": "Invoices",
+   "file": "test-scenarios/api/invoices/get-invoices-by-invoice-number-download-pdf-status.yml",
+   "fileLabel": "get-invoices-by-invoice-number-download-pdf-status",
+   "suite": "Invoices API",
+   "tags": [
+    "@invoices-api"
+   ],
+   "yaml": "- id: API-0473\n  name: Get PDF status with an unknown invoice number returns 400 with NOT_INITIATED\n  status: manual\n  steps:\n    - Send GET /invoices/{invoice_number}/download-pdf-status with a well-formed invoice number that no invoice has and the default user's token.\n    - Verify the response status is 400.\n    - Verify the body's status is \"NOT_INITIATED\"."
   },
   {
    "id": "API-0343",
@@ -6672,6 +9341,1264 @@ window.SCENARIO_CATALOG = {
     "@messages-api"
    ],
    "yaml": "- id: API-0398\n  name: Set the status of an unknown message id with an invalid body returns 422, not 404\n  status: manual\n  role: admin\n  steps:\n    - Send PUT /messages/{messageId}/status with a well-formed message id that doesn't exist, the admin's token, an Accept header of application/json and an empty JSON object as the body.\n    - Verify the response status is 422.\n    - Verify the body's errors has a status key with at least one message."
+  },
+  {
+   "id": "API-0614",
+   "name": "Check bank transfer details returns 200",
+   "status": "manual",
+   "role": "guest",
+   "steps": [
+    "Send POST /payment/check without an Authorization header, with payment_method \"bank-transfer\" and payment_details { bank_name: \"Test Bank\", account_name: \"Jane Doe\", account_number: \"123456789\" }.",
+    "Verify the response status is 200.",
+    "Verify the body's message is \"Payment was successful\"."
+   ],
+   "ref": [],
+   "area": "payment",
+   "areaLabel": "Payment",
+   "file": "test-scenarios/api/payment/post-payment-check.yml",
+   "fileLabel": "POST /payment/check",
+   "suite": "Payment API",
+   "tags": [
+    "@payment-api"
+   ],
+   "yaml": "- id: API-0614\n  name: Check bank transfer details returns 200\n  status: manual\n  role: guest\n  steps:\n    - 'Send POST /payment/check without an Authorization header, with payment_method \"bank-transfer\" and payment_details { bank_name: \"Test Bank\", account_name: \"Jane Doe\", account_number: \"123456789\" }.'\n    - Verify the response status is 200.\n    - Verify the body's message is \"Payment was successful\"."
+  },
+  {
+   "id": "API-0615",
+   "name": "Check credit card details returns 200",
+   "status": "manual",
+   "role": "guest",
+   "steps": [
+    "Send POST /payment/check without an Authorization header, with payment_method \"credit-card\" and payment_details { credit_card_number: \"1234-5678-9101-1121\", expiration_date: the same month next year in m/Y form, cvv: \"123\", card_holder_name: \"Jane Doe\" }.",
+    "Verify the response status is 200.",
+    "Verify the body's message is \"Payment was successful\"."
+   ],
+   "ref": [],
+   "area": "payment",
+   "areaLabel": "Payment",
+   "file": "test-scenarios/api/payment/post-payment-check.yml",
+   "fileLabel": "POST /payment/check",
+   "suite": "Payment API",
+   "tags": [
+    "@payment-api"
+   ],
+   "yaml": "- id: API-0615\n  name: Check credit card details returns 200\n  status: manual\n  role: guest\n  steps:\n    - 'Send POST /payment/check without an Authorization header, with payment_method \"credit-card\" and payment_details { credit_card_number: \"1234-5678-9101-1121\", expiration_date: the same month next year in m/Y form, cvv: \"123\", card_holder_name: \"Jane Doe\" }.'\n    - Verify the response status is 200.\n    - Verify the body's message is \"Payment was successful\"."
+  },
+  {
+   "id": "API-0616",
+   "name": "Check buy now pay later details returns 200",
+   "status": "manual",
+   "role": "guest",
+   "steps": [
+    "Send POST /payment/check without an Authorization header, with payment_method \"buy-now-pay-later\" and payment_details { monthly_installments: 6 }.",
+    "Verify the response status is 200.",
+    "Verify the body's message is \"Payment was successful\"."
+   ],
+   "ref": [],
+   "area": "payment",
+   "areaLabel": "Payment",
+   "file": "test-scenarios/api/payment/post-payment-check.yml",
+   "fileLabel": "POST /payment/check",
+   "suite": "Payment API",
+   "tags": [
+    "@payment-api"
+   ],
+   "yaml": "- id: API-0616\n  name: Check buy now pay later details returns 200\n  status: manual\n  role: guest\n  steps:\n    - 'Send POST /payment/check without an Authorization header, with payment_method \"buy-now-pay-later\" and payment_details { monthly_installments: 6 }.'\n    - Verify the response status is 200.\n    - Verify the body's message is \"Payment was successful\"."
+  },
+  {
+   "id": "API-0617",
+   "name": "Check gift card details returns 200",
+   "status": "manual",
+   "role": "guest",
+   "steps": [
+    "Send POST /payment/check without an Authorization header, with payment_method \"gift-card\" and payment_details { gift_card_number: \"ABCD1234efgh5678\", validation_code: \"1a2B\" }.",
+    "Verify the response status is 200.",
+    "Verify the body's message is \"Payment was successful\"."
+   ],
+   "ref": [],
+   "area": "payment",
+   "areaLabel": "Payment",
+   "file": "test-scenarios/api/payment/post-payment-check.yml",
+   "fileLabel": "POST /payment/check",
+   "suite": "Payment API",
+   "tags": [
+    "@payment-api"
+   ],
+   "yaml": "- id: API-0617\n  name: Check gift card details returns 200\n  status: manual\n  role: guest\n  steps:\n    - 'Send POST /payment/check without an Authorization header, with payment_method \"gift-card\" and payment_details { gift_card_number: \"ABCD1234efgh5678\", validation_code: \"1a2B\" }.'\n    - Verify the response status is 200.\n    - Verify the body's message is \"Payment was successful\"."
+  },
+  {
+   "id": "API-0618",
+   "name": "Check cash on delivery with empty payment details returns 200",
+   "status": "manual",
+   "role": "guest",
+   "steps": [
+    "Send POST /payment/check without an Authorization header, with payment_method \"cash-on-delivery\" and payment_details as an empty object.",
+    "Verify the response status is 200.",
+    "Verify the body's message is \"Payment was successful\"."
+   ],
+   "ref": [],
+   "area": "payment",
+   "areaLabel": "Payment",
+   "file": "test-scenarios/api/payment/post-payment-check.yml",
+   "fileLabel": "POST /payment/check",
+   "suite": "Payment API",
+   "tags": [
+    "@payment-api"
+   ],
+   "yaml": "- id: API-0618\n  name: Check cash on delivery with empty payment details returns 200\n  status: manual\n  role: guest\n  steps:\n    - Send POST /payment/check without an Authorization header, with payment_method \"cash-on-delivery\" and payment_details as an empty object.\n    - Verify the response status is 200.\n    - Verify the body's message is \"Payment was successful\"."
+  },
+  {
+   "id": "API-0619",
+   "name": "Check payment with Accept text/xml returns the answer as XML",
+   "status": "manual",
+   "role": "guest",
+   "steps": [
+    "Send POST /payment/check without an Authorization header, with Accept: text/xml, payment_method \"gift-card\" and payment_details { gift_card_number: \"ABCD1234efgh5678\", validation_code: \"1a2B\" }.",
+    "Verify the response status is 200.",
+    "Verify the Content-Type header starts with \"text/xml\".",
+    "Verify the body is <response><message>Payment was successful</message></response>."
+   ],
+   "ref": [],
+   "area": "payment",
+   "areaLabel": "Payment",
+   "file": "test-scenarios/api/payment/post-payment-check.yml",
+   "fileLabel": "POST /payment/check",
+   "suite": "Payment API",
+   "tags": [
+    "@payment-api"
+   ],
+   "yaml": "- id: API-0619\n  name: Check payment with Accept text/xml returns the answer as XML\n  status: manual\n  role: guest\n  steps:\n    - 'Send POST /payment/check without an Authorization header, with Accept: text/xml, payment_method \"gift-card\" and payment_details { gift_card_number: \"ABCD1234efgh5678\", validation_code: \"1a2B\" }.'\n    - Verify the response status is 200.\n    - Verify the Content-Type header starts with \"text/xml\".\n    - 'Verify the body is <response><message>Payment was successful</message></response>.'"
+  },
+  {
+   "id": "API-0620",
+   "name": "Check payment with an invalid token returns 200",
+   "status": "manual",
+   "role": "guest",
+   "steps": [
+    "Send POST /payment/check with an Authorization header holding an invalid token (a made-up string, not issued by the API), payment_method \"cash-on-delivery\" and payment_details as an empty object.",
+    "Verify the response status is 200.",
+    "Verify the body's message is \"Payment was successful\"."
+   ],
+   "ref": [],
+   "area": "payment",
+   "areaLabel": "Payment",
+   "file": "test-scenarios/api/payment/post-payment-check.yml",
+   "fileLabel": "POST /payment/check",
+   "suite": "Payment API",
+   "tags": [
+    "@payment-api"
+   ],
+   "yaml": "- id: API-0620\n  name: Check payment with an invalid token returns 200\n  status: manual\n  role: guest\n  steps:\n    - Send POST /payment/check with an Authorization header holding an invalid token (a made-up string, not issued by the API), payment_method \"cash-on-delivery\" and payment_details as an empty object.\n    - Verify the response status is 200.\n    - Verify the body's message is \"Payment was successful\"."
+  },
+  {
+   "id": "API-0621",
+   "name": "Check bank transfer without payment details returns 422 for every field",
+   "status": "manual",
+   "role": "guest",
+   "steps": [
+    "Send POST /payment/check without an Authorization header, with payment_method \"bank-transfer\" and no payment_details.",
+    "Verify the response status is 422.",
+    "Verify the body's errors has the keys payment_details.bank_name, payment_details.account_name and payment_details.account_number, each with at least one message.",
+    "Verify the body's message is \"The payment details.bank name field is required. (and 2 more errors)\"."
+   ],
+   "ref": [],
+   "area": "payment",
+   "areaLabel": "Payment",
+   "file": "test-scenarios/api/payment/post-payment-check.yml",
+   "fileLabel": "POST /payment/check",
+   "suite": "Payment API",
+   "tags": [
+    "@payment-api"
+   ],
+   "yaml": "- id: API-0621\n  name: Check bank transfer without payment details returns 422 for every field\n  status: manual\n  role: guest\n  steps:\n    - Send POST /payment/check without an Authorization header, with payment_method \"bank-transfer\" and no payment_details.\n    - Verify the response status is 422.\n    - Verify the body's errors has the keys payment_details.bank_name, payment_details.account_name and payment_details.account_number, each with at least one message.\n    - Verify the body's message is \"The payment details.bank name field is required. (and 2 more errors)\"."
+  },
+  {
+   "id": "API-0622",
+   "name": "Check credit card without payment details returns 422 for every field",
+   "status": "manual",
+   "role": "guest",
+   "steps": [
+    "Send POST /payment/check without an Authorization header, with payment_method \"credit-card\" and no payment_details.",
+    "Verify the response status is 422.",
+    "Verify the body's errors has the keys payment_details.credit_card_number, payment_details.expiration_date, payment_details.cvv and payment_details.card_holder_name, each with at least one message."
+   ],
+   "ref": [],
+   "area": "payment",
+   "areaLabel": "Payment",
+   "file": "test-scenarios/api/payment/post-payment-check.yml",
+   "fileLabel": "POST /payment/check",
+   "suite": "Payment API",
+   "tags": [
+    "@payment-api"
+   ],
+   "yaml": "- id: API-0622\n  name: Check credit card without payment details returns 422 for every field\n  status: manual\n  role: guest\n  steps:\n    - Send POST /payment/check without an Authorization header, with payment_method \"credit-card\" and no payment_details.\n    - Verify the response status is 422.\n    - Verify the body's errors has the keys payment_details.credit_card_number, payment_details.expiration_date, payment_details.cvv and payment_details.card_holder_name, each with at least one message."
+  },
+  {
+   "id": "API-0623",
+   "name": "Check buy now pay later without payment details returns 422",
+   "status": "manual",
+   "role": "guest",
+   "steps": [
+    "Send POST /payment/check without an Authorization header, with payment_method \"buy-now-pay-later\" and no payment_details.",
+    "Verify the response status is 422.",
+    "Verify the body's errors has the key payment_details.monthly_installments with at least one message."
+   ],
+   "ref": [],
+   "area": "payment",
+   "areaLabel": "Payment",
+   "file": "test-scenarios/api/payment/post-payment-check.yml",
+   "fileLabel": "POST /payment/check",
+   "suite": "Payment API",
+   "tags": [
+    "@payment-api"
+   ],
+   "yaml": "- id: API-0623\n  name: Check buy now pay later without payment details returns 422\n  status: manual\n  role: guest\n  steps:\n    - Send POST /payment/check without an Authorization header, with payment_method \"buy-now-pay-later\" and no payment_details.\n    - Verify the response status is 422.\n    - Verify the body's errors has the key payment_details.monthly_installments with at least one message."
+  },
+  {
+   "id": "API-0624",
+   "name": "Check gift card without payment details returns 422 for every field",
+   "status": "manual",
+   "role": "guest",
+   "steps": [
+    "Send POST /payment/check without an Authorization header, with payment_method \"gift-card\" and no payment_details.",
+    "Verify the response status is 422.",
+    "Verify the body's errors has the keys payment_details.gift_card_number and payment_details.validation_code, each with at least one message."
+   ],
+   "ref": [],
+   "area": "payment",
+   "areaLabel": "Payment",
+   "file": "test-scenarios/api/payment/post-payment-check.yml",
+   "fileLabel": "POST /payment/check",
+   "suite": "Payment API",
+   "tags": [
+    "@payment-api"
+   ],
+   "yaml": "- id: API-0624\n  name: Check gift card without payment details returns 422 for every field\n  status: manual\n  role: guest\n  steps:\n    - Send POST /payment/check without an Authorization header, with payment_method \"gift-card\" and no payment_details.\n    - Verify the response status is 422.\n    - Verify the body's errors has the keys payment_details.gift_card_number and payment_details.validation_code, each with at least one message."
+  },
+  {
+   "id": "API-0625",
+   "name": "Check bank transfer with payment_details that is not an object returns 422",
+   "status": "manual",
+   "role": "guest",
+   "steps": [
+    "Send POST /payment/check without an Authorization header, with payment_method \"bank-transfer\" and payment_details \"abc\" (a string, not an object).",
+    "Verify the response status is 422.",
+    "Verify the body's errors has the keys payment_details.bank_name, payment_details.account_name and payment_details.account_number, each with at least one message."
+   ],
+   "ref": [],
+   "area": "payment",
+   "areaLabel": "Payment",
+   "file": "test-scenarios/api/payment/post-payment-check.yml",
+   "fileLabel": "POST /payment/check",
+   "suite": "Payment API",
+   "tags": [
+    "@payment-api"
+   ],
+   "yaml": "- id: API-0625\n  name: Check bank transfer with payment_details that is not an object returns 422\n  status: manual\n  role: guest\n  steps:\n    - Send POST /payment/check without an Authorization header, with payment_method \"bank-transfer\" and payment_details \"abc\" (a string, not an object).\n    - Verify the response status is 422.\n    - Verify the body's errors has the keys payment_details.bank_name, payment_details.account_name and payment_details.account_number, each with at least one message."
+  },
+  {
+   "id": "API-0626",
+   "name": "Check bank transfer with digits in the bank name returns 422",
+   "status": "manual",
+   "role": "guest",
+   "steps": [
+    "Send POST /payment/check without an Authorization header, with payment_method \"bank-transfer\" and payment_details { bank_name: \"Bank123\", account_name: \"Jane Doe\", account_number: \"123456789\" }.",
+    "Verify the response status is 422.",
+    "Verify the body's errors has the key payment_details.bank_name with at least one message.",
+    "Verify the body's errors has no other keys."
+   ],
+   "ref": [],
+   "area": "payment",
+   "areaLabel": "Payment",
+   "file": "test-scenarios/api/payment/post-payment-check.yml",
+   "fileLabel": "POST /payment/check",
+   "suite": "Payment API",
+   "tags": [
+    "@payment-api"
+   ],
+   "yaml": "- id: API-0626\n  name: Check bank transfer with digits in the bank name returns 422\n  status: manual\n  role: guest\n  steps:\n    - 'Send POST /payment/check without an Authorization header, with payment_method \"bank-transfer\" and payment_details { bank_name: \"Bank123\", account_name: \"Jane Doe\", account_number: \"123456789\" }.'\n    - Verify the response status is 422.\n    - Verify the body's errors has the key payment_details.bank_name with at least one message.\n    - Verify the body's errors has no other keys."
+  },
+  {
+   "id": "API-0627",
+   "name": "Check bank transfer with disallowed characters in the account name returns 422",
+   "status": "manual",
+   "role": "guest",
+   "steps": [
+    "Send POST /payment/check without an Authorization header, with payment_method \"bank-transfer\" and payment_details { bank_name: \"Test Bank\", account_name: \"Jane@Doe!\", account_number: \"123456789\" }.",
+    "Verify the response status is 422.",
+    "Verify the body's errors has the key payment_details.account_name with at least one message.",
+    "Verify the body's errors has no other keys."
+   ],
+   "ref": [],
+   "area": "payment",
+   "areaLabel": "Payment",
+   "file": "test-scenarios/api/payment/post-payment-check.yml",
+   "fileLabel": "POST /payment/check",
+   "suite": "Payment API",
+   "tags": [
+    "@payment-api"
+   ],
+   "yaml": "- id: API-0627\n  name: Check bank transfer with disallowed characters in the account name returns 422\n  status: manual\n  role: guest\n  steps:\n    - 'Send POST /payment/check without an Authorization header, with payment_method \"bank-transfer\" and payment_details { bank_name: \"Test Bank\", account_name: \"Jane@Doe!\", account_number: \"123456789\" }.'\n    - Verify the response status is 422.\n    - Verify the body's errors has the key payment_details.account_name with at least one message.\n    - Verify the body's errors has no other keys."
+  },
+  {
+   "id": "API-0628",
+   "name": "Check bank transfer with letters in the account number returns 422",
+   "status": "manual",
+   "role": "guest",
+   "steps": [
+    "Send POST /payment/check without an Authorization header, with payment_method \"bank-transfer\" and payment_details { bank_name: \"Test Bank\", account_name: \"Jane Doe\", account_number: \"12AB34\" }.",
+    "Verify the response status is 422.",
+    "Verify the body's errors has the key payment_details.account_number with at least one message.",
+    "Verify the body's errors has no other keys."
+   ],
+   "ref": [],
+   "area": "payment",
+   "areaLabel": "Payment",
+   "file": "test-scenarios/api/payment/post-payment-check.yml",
+   "fileLabel": "POST /payment/check",
+   "suite": "Payment API",
+   "tags": [
+    "@payment-api"
+   ],
+   "yaml": "- id: API-0628\n  name: Check bank transfer with letters in the account number returns 422\n  status: manual\n  role: guest\n  steps:\n    - 'Send POST /payment/check without an Authorization header, with payment_method \"bank-transfer\" and payment_details { bank_name: \"Test Bank\", account_name: \"Jane Doe\", account_number: \"12AB34\" }.'\n    - Verify the response status is 422.\n    - Verify the body's errors has the key payment_details.account_number with at least one message.\n    - Verify the body's errors has no other keys."
+  },
+  {
+   "id": "API-0629",
+   "name": "Check bank transfer with a bank name over 255 characters returns 422",
+   "status": "manual",
+   "role": "guest",
+   "steps": [
+    "Send POST /payment/check without an Authorization header, with payment_method \"bank-transfer\" and payment_details { bank_name: a string of 256 letters, account_name: \"Jane Doe\", account_number: \"123456789\" }.",
+    "Verify the response status is 422.",
+    "Verify the body's errors has the key payment_details.bank_name with at least one message.",
+    "Verify the body's errors has no other keys."
+   ],
+   "ref": [],
+   "area": "payment",
+   "areaLabel": "Payment",
+   "file": "test-scenarios/api/payment/post-payment-check.yml",
+   "fileLabel": "POST /payment/check",
+   "suite": "Payment API",
+   "tags": [
+    "@payment-api"
+   ],
+   "yaml": "- id: API-0629\n  name: Check bank transfer with a bank name over 255 characters returns 422\n  status: manual\n  role: guest\n  steps:\n    - 'Send POST /payment/check without an Authorization header, with payment_method \"bank-transfer\" and payment_details { bank_name: a string of 256 letters, account_name: \"Jane Doe\", account_number: \"123456789\" }.'\n    - Verify the response status is 422.\n    - Verify the body's errors has the key payment_details.bank_name with at least one message.\n    - Verify the body's errors has no other keys."
+  },
+  {
+   "id": "API-0630",
+   "name": "Check credit card number without dashes returns 422",
+   "status": "manual",
+   "role": "guest",
+   "steps": [
+    "Send POST /payment/check without an Authorization header, with payment_method \"credit-card\" and payment_details { credit_card_number: \"1234567891011121\", expiration_date: the same month next year in m/Y form, cvv: \"123\", card_holder_name: \"Jane Doe\" }.",
+    "Verify the response status is 422.",
+    "Verify the body's errors has the key payment_details.credit_card_number with at least one message.",
+    "Verify the body's errors has no other keys."
+   ],
+   "ref": [],
+   "area": "payment",
+   "areaLabel": "Payment",
+   "file": "test-scenarios/api/payment/post-payment-check.yml",
+   "fileLabel": "POST /payment/check",
+   "suite": "Payment API",
+   "tags": [
+    "@payment-api"
+   ],
+   "yaml": "- id: API-0630\n  name: Check credit card number without dashes returns 422\n  status: manual\n  role: guest\n  steps:\n    - 'Send POST /payment/check without an Authorization header, with payment_method \"credit-card\" and payment_details { credit_card_number: \"1234567891011121\", expiration_date: the same month next year in m/Y form, cvv: \"123\", card_holder_name: \"Jane Doe\" }.'\n    - Verify the response status is 422.\n    - Verify the body's errors has the key payment_details.credit_card_number with at least one message.\n    - Verify the body's errors has no other keys."
+  },
+  {
+   "id": "API-0631",
+   "name": "Check credit card with an expiration date in the past returns 422",
+   "status": "manual",
+   "role": "guest",
+   "steps": [
+    "Send POST /payment/check without an Authorization header, with payment_method \"credit-card\" and payment_details { credit_card_number: \"1234-5678-9101-1121\", expiration_date: the same month one year ago in m/Y form, cvv: \"123\", card_holder_name: \"Jane Doe\" }.",
+    "Verify the response status is 422.",
+    "Verify the body's errors has the key payment_details.expiration_date with at least one message.",
+    "Verify that message contains \"must be a date after today\".",
+    "Verify the body's errors has no other keys."
+   ],
+   "ref": [],
+   "area": "payment",
+   "areaLabel": "Payment",
+   "file": "test-scenarios/api/payment/post-payment-check.yml",
+   "fileLabel": "POST /payment/check",
+   "suite": "Payment API",
+   "tags": [
+    "@payment-api"
+   ],
+   "yaml": "- id: API-0631\n  name: Check credit card with an expiration date in the past returns 422\n  status: manual\n  role: guest\n  steps:\n    - 'Send POST /payment/check without an Authorization header, with payment_method \"credit-card\" and payment_details { credit_card_number: \"1234-5678-9101-1121\", expiration_date: the same month one year ago in m/Y form, cvv: \"123\", card_holder_name: \"Jane Doe\" }.'\n    - Verify the response status is 422.\n    - Verify the body's errors has the key payment_details.expiration_date with at least one message.\n    - Verify that message contains \"must be a date after today\".\n    - Verify the body's errors has no other keys."
+  },
+  {
+   "id": "API-0632",
+   "name": "Check credit card expiring in the current month returns 422",
+   "status": "manual",
+   "role": "guest",
+   "steps": [
+    "Send POST /payment/check without an Authorization header, with payment_method \"credit-card\" and payment_details { credit_card_number: \"1234-5678-9101-1121\", expiration_date: the current month in m/Y form, cvv: \"123\", card_holder_name: \"Jane Doe\" }.",
+    "Verify the response status is 422.",
+    "Verify the body's errors has the key payment_details.expiration_date with at least one message.",
+    "Verify that message contains \"must be a date after today\"."
+   ],
+   "ref": [],
+   "area": "payment",
+   "areaLabel": "Payment",
+   "file": "test-scenarios/api/payment/post-payment-check.yml",
+   "fileLabel": "POST /payment/check",
+   "suite": "Payment API",
+   "tags": [
+    "@payment-api"
+   ],
+   "yaml": "- id: API-0632\n  name: Check credit card expiring in the current month returns 422\n  status: manual\n  role: guest\n  steps:\n    - 'Send POST /payment/check without an Authorization header, with payment_method \"credit-card\" and payment_details { credit_card_number: \"1234-5678-9101-1121\", expiration_date: the current month in m/Y form, cvv: \"123\", card_holder_name: \"Jane Doe\" }.'\n    - Verify the response status is 422.\n    - Verify the body's errors has the key payment_details.expiration_date with at least one message.\n    - Verify that message contains \"must be a date after today\"."
+  },
+  {
+   "id": "API-0633",
+   "name": "Check credit card with an expiration date in the wrong format returns 422",
+   "status": "manual",
+   "role": "guest",
+   "steps": [
+    "Send POST /payment/check without an Authorization header, with payment_method \"credit-card\" and payment_details { credit_card_number: \"1234-5678-9101-1121\", expiration_date: \"2099-12\", cvv: \"123\", card_holder_name: \"Jane Doe\" }.",
+    "Verify the response status is 422.",
+    "Verify the body's errors has the key payment_details.expiration_date with at least one message.",
+    "Verify that message contains \"must match the format m/Y\".",
+    "Verify the body's errors has no other keys."
+   ],
+   "ref": [],
+   "area": "payment",
+   "areaLabel": "Payment",
+   "file": "test-scenarios/api/payment/post-payment-check.yml",
+   "fileLabel": "POST /payment/check",
+   "suite": "Payment API",
+   "tags": [
+    "@payment-api"
+   ],
+   "yaml": "- id: API-0633\n  name: Check credit card with an expiration date in the wrong format returns 422\n  status: manual\n  role: guest\n  steps:\n    - 'Send POST /payment/check without an Authorization header, with payment_method \"credit-card\" and payment_details { credit_card_number: \"1234-5678-9101-1121\", expiration_date: \"2099-12\", cvv: \"123\", card_holder_name: \"Jane Doe\" }.'\n    - Verify the response status is 422.\n    - Verify the body's errors has the key payment_details.expiration_date with at least one message.\n    - Verify that message contains \"must match the format m/Y\".\n    - Verify the body's errors has no other keys."
+  },
+  {
+   "id": "API-0634",
+   "name": "Check credit card with a 2-digit cvv returns 422",
+   "status": "manual",
+   "role": "guest",
+   "steps": [
+    "Send POST /payment/check without an Authorization header, with payment_method \"credit-card\" and payment_details { credit_card_number: \"1234-5678-9101-1121\", expiration_date: the same month next year in m/Y form, cvv: \"12\", card_holder_name: \"Jane Doe\" }.",
+    "Verify the response status is 422.",
+    "Verify the body's errors has the key payment_details.cvv with at least one message.",
+    "Verify the body's errors has no other keys."
+   ],
+   "ref": [],
+   "area": "payment",
+   "areaLabel": "Payment",
+   "file": "test-scenarios/api/payment/post-payment-check.yml",
+   "fileLabel": "POST /payment/check",
+   "suite": "Payment API",
+   "tags": [
+    "@payment-api"
+   ],
+   "yaml": "- id: API-0634\n  name: Check credit card with a 2-digit cvv returns 422\n  status: manual\n  role: guest\n  steps:\n    - 'Send POST /payment/check without an Authorization header, with payment_method \"credit-card\" and payment_details { credit_card_number: \"1234-5678-9101-1121\", expiration_date: the same month next year in m/Y form, cvv: \"12\", card_holder_name: \"Jane Doe\" }.'\n    - Verify the response status is 422.\n    - Verify the body's errors has the key payment_details.cvv with at least one message.\n    - Verify the body's errors has no other keys."
+  },
+  {
+   "id": "API-0635",
+   "name": "Check credit card with digits in the card holder name returns 422",
+   "status": "manual",
+   "role": "guest",
+   "steps": [
+    "Send POST /payment/check without an Authorization header, with payment_method \"credit-card\" and payment_details { credit_card_number: \"1234-5678-9101-1121\", expiration_date: the same month next year in m/Y form, cvv: \"123\", card_holder_name: \"John123\" }.",
+    "Verify the response status is 422.",
+    "Verify the body's errors has the key payment_details.card_holder_name with at least one message.",
+    "Verify the body's errors has no other keys."
+   ],
+   "ref": [],
+   "area": "payment",
+   "areaLabel": "Payment",
+   "file": "test-scenarios/api/payment/post-payment-check.yml",
+   "fileLabel": "POST /payment/check",
+   "suite": "Payment API",
+   "tags": [
+    "@payment-api"
+   ],
+   "yaml": "- id: API-0635\n  name: Check credit card with digits in the card holder name returns 422\n  status: manual\n  role: guest\n  steps:\n    - 'Send POST /payment/check without an Authorization header, with payment_method \"credit-card\" and payment_details { credit_card_number: \"1234-5678-9101-1121\", expiration_date: the same month next year in m/Y form, cvv: \"123\", card_holder_name: \"John123\" }.'\n    - Verify the response status is 422.\n    - Verify the body's errors has the key payment_details.card_holder_name with at least one message.\n    - Verify the body's errors has no other keys."
+  },
+  {
+   "id": "API-0636",
+   "name": "Check buy now pay later with a non-numeric installments value returns 422",
+   "status": "manual",
+   "role": "guest",
+   "steps": [
+    "Send POST /payment/check without an Authorization header, with payment_method \"buy-now-pay-later\" and payment_details { monthly_installments: \"abc\" }.",
+    "Verify the response status is 422.",
+    "Verify the body's errors has the key payment_details.monthly_installments with at least one message.",
+    "Verify that message contains \"must be a number\"."
+   ],
+   "ref": [],
+   "area": "payment",
+   "areaLabel": "Payment",
+   "file": "test-scenarios/api/payment/post-payment-check.yml",
+   "fileLabel": "POST /payment/check",
+   "suite": "Payment API",
+   "tags": [
+    "@payment-api"
+   ],
+   "yaml": "- id: API-0636\n  name: Check buy now pay later with a non-numeric installments value returns 422\n  status: manual\n  role: guest\n  steps:\n    - 'Send POST /payment/check without an Authorization header, with payment_method \"buy-now-pay-later\" and payment_details { monthly_installments: \"abc\" }.'\n    - Verify the response status is 422.\n    - Verify the body's errors has the key payment_details.monthly_installments with at least one message.\n    - Verify that message contains \"must be a number\"."
+  },
+  {
+   "id": "API-0637",
+   "name": "Check gift card with a 15-character card number returns 422",
+   "status": "manual",
+   "role": "guest",
+   "steps": [
+    "Send POST /payment/check without an Authorization header, with payment_method \"gift-card\" and payment_details { gift_card_number: a string of 15 letters and digits, validation_code: \"1a2B\" }.",
+    "Verify the response status is 422.",
+    "Verify the body's errors has the key payment_details.gift_card_number with at least one message.",
+    "Verify the body's errors has no other keys."
+   ],
+   "ref": [],
+   "area": "payment",
+   "areaLabel": "Payment",
+   "file": "test-scenarios/api/payment/post-payment-check.yml",
+   "fileLabel": "POST /payment/check",
+   "suite": "Payment API",
+   "tags": [
+    "@payment-api"
+   ],
+   "yaml": "- id: API-0637\n  name: Check gift card with a 15-character card number returns 422\n  status: manual\n  role: guest\n  steps:\n    - 'Send POST /payment/check without an Authorization header, with payment_method \"gift-card\" and payment_details { gift_card_number: a string of 15 letters and digits, validation_code: \"1a2B\" }.'\n    - Verify the response status is 422.\n    - Verify the body's errors has the key payment_details.gift_card_number with at least one message.\n    - Verify the body's errors has no other keys."
+  },
+  {
+   "id": "API-0638",
+   "name": "Check gift card with a 3-character validation code returns 422",
+   "status": "manual",
+   "role": "guest",
+   "steps": [
+    "Send POST /payment/check without an Authorization header, with payment_method \"gift-card\" and payment_details { gift_card_number: \"ABCD1234efgh5678\", validation_code: \"1a2\" }.",
+    "Verify the response status is 422.",
+    "Verify the body's errors has the key payment_details.validation_code with at least one message.",
+    "Verify the body's errors has no other keys."
+   ],
+   "ref": [],
+   "area": "payment",
+   "areaLabel": "Payment",
+   "file": "test-scenarios/api/payment/post-payment-check.yml",
+   "fileLabel": "POST /payment/check",
+   "suite": "Payment API",
+   "tags": [
+    "@payment-api"
+   ],
+   "yaml": "- id: API-0638\n  name: Check gift card with a 3-character validation code returns 422\n  status: manual\n  role: guest\n  steps:\n    - 'Send POST /payment/check without an Authorization header, with payment_method \"gift-card\" and payment_details { gift_card_number: \"ABCD1234efgh5678\", validation_code: \"1a2\" }.'\n    - Verify the response status is 422.\n    - Verify the body's errors has the key payment_details.validation_code with at least one message.\n    - Verify the body's errors has no other keys."
+  },
+  {
+   "id": "API-0639",
+   "name": "Check invalid payment details without Accept application/json returns a 302 redirect",
+   "status": "manual",
+   "role": "guest",
+   "steps": [
+    "Send POST /payment/check without an Authorization header, without following redirects and with the Accept header left out, with payment_method \"bank-transfer\" and no payment_details.",
+    "Verify the response status is 302.",
+    "Verify the Location header is \"https://api.practicesoftwaretesting.com\"."
+   ],
+   "ref": [],
+   "area": "payment",
+   "areaLabel": "Payment",
+   "file": "test-scenarios/api/payment/post-payment-check.yml",
+   "fileLabel": "POST /payment/check",
+   "suite": "Payment API",
+   "tags": [
+    "@payment-api"
+   ],
+   "yaml": "- id: API-0639\n  name: Check invalid payment details without Accept application/json returns a 302 redirect\n  status: manual\n  role: guest\n  steps:\n    - Send POST /payment/check without an Authorization header, without following redirects and with the Accept header left out, with payment_method \"bank-transfer\" and no payment_details.\n    - Verify the response status is 302.\n    - Verify the Location header is \"https://api.practicesoftwaretesting.com\"."
+  },
+  {
+   "id": "API-0640",
+   "name": "Check invalid payment details with Accept text/xml returns a 302 redirect",
+   "status": "manual",
+   "role": "guest",
+   "steps": [
+    "Send POST /payment/check without an Authorization header, without following redirects and with Accept: text/xml, with payment_method \"bank-transfer\" and no payment_details.",
+    "Verify the response status is 302.",
+    "Verify the Location header is \"https://api.practicesoftwaretesting.com\"."
+   ],
+   "ref": [],
+   "area": "payment",
+   "areaLabel": "Payment",
+   "file": "test-scenarios/api/payment/post-payment-check.yml",
+   "fileLabel": "POST /payment/check",
+   "suite": "Payment API",
+   "tags": [
+    "@payment-api"
+   ],
+   "yaml": "- id: API-0640\n  name: Check invalid payment details with Accept text/xml returns a 302 redirect\n  status: manual\n  role: guest\n  steps:\n    - 'Send POST /payment/check without an Authorization header, without following redirects and with Accept: text/xml, with payment_method \"bank-transfer\" and no payment_details.'\n    - Verify the response status is 302.\n    - Verify the Location header is \"https://api.practicesoftwaretesting.com\"."
+  },
+  {
+   "id": "API-0641",
+   "name": "Check payment with a payment method in a different case skips validation and returns 200",
+   "status": "manual",
+   "role": "guest",
+   "steps": [
+    "Send POST /payment/check without an Authorization header, with payment_method \"Bank Transfer\" and no payment_details.",
+    "Verify the response status is 200.",
+    "Verify the body's message is \"Payment was successful\"."
+   ],
+   "ref": [],
+   "area": "payment",
+   "areaLabel": "Payment",
+   "file": "test-scenarios/api/payment/post-payment-check.yml",
+   "fileLabel": "POST /payment/check",
+   "suite": "Payment API",
+   "tags": [
+    "@payment-api"
+   ],
+   "yaml": "- id: API-0641\n  name: Check payment with a payment method in a different case skips validation and returns 200\n  status: manual\n  role: guest\n  steps:\n    - Send POST /payment/check without an Authorization header, with payment_method \"Bank Transfer\" and no payment_details.\n    - Verify the response status is 200.\n    - Verify the body's message is \"Payment was successful\"."
+  },
+  {
+   "id": "API-0642",
+   "name": "Check payment with an empty body returns 200",
+   "status": "manual",
+   "role": "guest",
+   "steps": [
+    "Send POST /payment/check without an Authorization header, with an empty JSON object as the body.",
+    "Verify the response status is 200.",
+    "Verify the body's message is \"Payment was successful\"."
+   ],
+   "ref": [],
+   "area": "payment",
+   "areaLabel": "Payment",
+   "file": "test-scenarios/api/payment/post-payment-check.yml",
+   "fileLabel": "POST /payment/check",
+   "suite": "Payment API",
+   "tags": [
+    "@payment-api"
+   ],
+   "yaml": "- id: API-0642\n  name: Check payment with an empty body returns 200\n  status: manual\n  role: guest\n  steps:\n    - Send POST /payment/check without an Authorization header, with an empty JSON object as the body.\n    - Verify the response status is 200.\n    - Verify the body's message is \"Payment was successful\"."
+  },
+  {
+   "id": "API-0643",
+   "name": "Look up a Dutch postcode returns the address",
+   "status": "manual",
+   "role": "guest",
+   "steps": [
+    "Send GET /postcode-lookup without an Authorization header, with country \"NL\", postcode \"1011AB\" and house_number \"5\".",
+    "Verify the response status is 200.",
+    "Verify the Content-Type header starts with \"application/json\".",
+    "Verify the body has the keys street, house_number, city, state, country and postcode, and each value is a string.",
+    "Verify the body's country is \"NL\".",
+    "Verify the body's postcode is \"1011AB\".",
+    "Verify the body's house_number is \"5\"."
+   ],
+   "ref": [],
+   "area": "postcode",
+   "areaLabel": "Postcode",
+   "file": "test-scenarios/api/postcode/get-postcode-lookup.yml",
+   "fileLabel": "GET /postcode-lookup",
+   "suite": "Postcode API",
+   "tags": [
+    "@postcode-api"
+   ],
+   "yaml": "- id: API-0643\n  name: Look up a Dutch postcode returns the address\n  status: manual\n  role: guest\n  steps:\n    - Send GET /postcode-lookup without an Authorization header, with country \"NL\", postcode \"1011AB\" and house_number \"5\".\n    - Verify the response status is 200.\n    - Verify the Content-Type header starts with \"application/json\".\n    - Verify the body has the keys street, house_number, city, state, country and postcode, and each value is a string.\n    - Verify the body's country is \"NL\".\n    - Verify the body's postcode is \"1011AB\".\n    - Verify the body's house_number is \"5\"."
+  },
+  {
+   "id": "API-0644",
+   "name": "Look up without a house number returns a generated one",
+   "status": "manual",
+   "role": "guest",
+   "steps": [
+    "Send GET /postcode-lookup without an Authorization header, with country \"NL\" and postcode \"1011AB\" and no house_number.",
+    "Verify the response status is 200.",
+    "Verify the body's house_number is a string holding a whole number from 1 to 250."
+   ],
+   "ref": [],
+   "area": "postcode",
+   "areaLabel": "Postcode",
+   "file": "test-scenarios/api/postcode/get-postcode-lookup.yml",
+   "fileLabel": "GET /postcode-lookup",
+   "suite": "Postcode API",
+   "tags": [
+    "@postcode-api"
+   ],
+   "yaml": "- id: API-0644\n  name: Look up without a house number returns a generated one\n  status: manual\n  role: guest\n  steps:\n    - Send GET /postcode-lookup without an Authorization header, with country \"NL\" and postcode \"1011AB\" and no house_number.\n    - Verify the response status is 200.\n    - Verify the body's house_number is a string holding a whole number from 1 to 250."
+  },
+  {
+   "id": "API-0645",
+   "name": "Look up with an empty house number returns the same address as without one",
+   "status": "manual",
+   "role": "guest",
+   "steps": [
+    "Send GET /postcode-lookup without an Authorization header, with country \"NL\" and postcode \"1011AB\" and no house_number.",
+    "Send GET /postcode-lookup again with the same country and postcode and an empty house_number (`house_number=`).",
+    "Verify both responses have status 200.",
+    "Verify the second body equals the first body."
+   ],
+   "ref": [],
+   "area": "postcode",
+   "areaLabel": "Postcode",
+   "file": "test-scenarios/api/postcode/get-postcode-lookup.yml",
+   "fileLabel": "GET /postcode-lookup",
+   "suite": "Postcode API",
+   "tags": [
+    "@postcode-api"
+   ],
+   "yaml": "- id: API-0645\n  name: Look up with an empty house number returns the same address as without one\n  status: manual\n  role: guest\n  steps:\n    - Send GET /postcode-lookup without an Authorization header, with country \"NL\" and postcode \"1011AB\" and no house_number.\n    - Send GET /postcode-lookup again with the same country and postcode and an empty house_number (`house_number=`).\n    - Verify both responses have status 200.\n    - Verify the second body equals the first body."
+  },
+  {
+   "id": "API-0646",
+   "name": "Look up with different house numbers returns the same locality",
+   "status": "manual",
+   "role": "guest",
+   "steps": [
+    "Send GET /postcode-lookup without an Authorization header, with country \"NL\", postcode \"1011AB\" and house_number \"5\".",
+    "Send GET /postcode-lookup again with the same country and postcode and house_number \"99\".",
+    "Verify both responses have status 200.",
+    "Verify the two bodies have the same street, city and state.",
+    "Verify each body's house_number is the number that request sent."
+   ],
+   "ref": [],
+   "area": "postcode",
+   "areaLabel": "Postcode",
+   "file": "test-scenarios/api/postcode/get-postcode-lookup.yml",
+   "fileLabel": "GET /postcode-lookup",
+   "suite": "Postcode API",
+   "tags": [
+    "@postcode-api"
+   ],
+   "yaml": "- id: API-0646\n  name: Look up with different house numbers returns the same locality\n  status: manual\n  role: guest\n  steps:\n    - Send GET /postcode-lookup without an Authorization header, with country \"NL\", postcode \"1011AB\" and house_number \"5\".\n    - Send GET /postcode-lookup again with the same country and postcode and house_number \"99\".\n    - Verify both responses have status 200.\n    - Verify the two bodies have the same street, city and state.\n    - Verify each body's house_number is the number that request sent."
+  },
+  {
+   "id": "API-0647",
+   "name": "Look up with lower-case country and postcode returns them in upper case with the same locality",
+   "status": "manual",
+   "role": "guest",
+   "steps": [
+    "Send GET /postcode-lookup without an Authorization header, with country \"NL\", postcode \"1011AB\" and house_number \"5\".",
+    "Send GET /postcode-lookup again with country \"nl\", postcode \"1011ab\" and house_number \"5\".",
+    "Verify both responses have status 200.",
+    "Verify the second body's country is \"NL\".",
+    "Verify the second body's postcode is \"1011AB\".",
+    "Verify the second body's street, city and state equal the first body's."
+   ],
+   "ref": [],
+   "area": "postcode",
+   "areaLabel": "Postcode",
+   "file": "test-scenarios/api/postcode/get-postcode-lookup.yml",
+   "fileLabel": "GET /postcode-lookup",
+   "suite": "Postcode API",
+   "tags": [
+    "@postcode-api"
+   ],
+   "yaml": "- id: API-0647\n  name: Look up with lower-case country and postcode returns them in upper case with the same locality\n  status: manual\n  role: guest\n  steps:\n    - Send GET /postcode-lookup without an Authorization header, with country \"NL\", postcode \"1011AB\" and house_number \"5\".\n    - Send GET /postcode-lookup again with country \"nl\", postcode \"1011ab\" and house_number \"5\".\n    - Verify both responses have status 200.\n    - Verify the second body's country is \"NL\".\n    - Verify the second body's postcode is \"1011AB\".\n    - Verify the second body's street, city and state equal the first body's."
+  },
+  {
+   "id": "API-0648",
+   "name": "Look up a Dutch postcode with a space returns 200 and echoes the space",
+   "status": "manual",
+   "role": "guest",
+   "steps": [
+    "Send GET /postcode-lookup without an Authorization header, with country \"NL\", postcode \"1011 AB\" (a space between the digits and the letters) and house_number \"5\".",
+    "Verify the response status is 200.",
+    "Verify the body's country is \"NL\".",
+    "Verify the body's postcode is \"1011 AB\"."
+   ],
+   "ref": [],
+   "area": "postcode",
+   "areaLabel": "Postcode",
+   "file": "test-scenarios/api/postcode/get-postcode-lookup.yml",
+   "fileLabel": "GET /postcode-lookup",
+   "suite": "Postcode API",
+   "tags": [
+    "@postcode-api"
+   ],
+   "yaml": "- id: API-0648\n  name: Look up a Dutch postcode with a space returns 200 and echoes the space\n  status: manual\n  role: guest\n  steps:\n    - Send GET /postcode-lookup without an Authorization header, with country \"NL\", postcode \"1011 AB\" (a space between the digits and the letters) and house_number \"5\".\n    - Verify the response status is 200.\n    - Verify the body's country is \"NL\".\n    - Verify the body's postcode is \"1011 AB\"."
+  },
+  {
+   "id": "API-0649",
+   "name": "Look up a US postcode with the four-digit extension returns 200",
+   "status": "manual",
+   "role": "guest",
+   "steps": [
+    "Send GET /postcode-lookup without an Authorization header, with country \"US\", postcode \"90210-1234\" and house_number \"5\".",
+    "Verify the response status is 200.",
+    "Verify the body's country is \"US\".",
+    "Verify the body's postcode is \"90210-1234\"."
+   ],
+   "ref": [],
+   "area": "postcode",
+   "areaLabel": "Postcode",
+   "file": "test-scenarios/api/postcode/get-postcode-lookup.yml",
+   "fileLabel": "GET /postcode-lookup",
+   "suite": "Postcode API",
+   "tags": [
+    "@postcode-api"
+   ],
+   "yaml": "- id: API-0649\n  name: Look up a US postcode with the four-digit extension returns 200\n  status: manual\n  role: guest\n  steps:\n    - Send GET /postcode-lookup without an Authorization header, with country \"US\", postcode \"90210-1234\" and house_number \"5\".\n    - Verify the response status is 200.\n    - Verify the body's country is \"US\".\n    - Verify the body's postcode is \"90210-1234\"."
+  },
+  {
+   "id": "API-0650",
+   "name": "Look up a French postcode returns an empty state",
+   "status": "manual",
+   "role": "guest",
+   "steps": [
+    "Send GET /postcode-lookup without an Authorization header, with country \"FR\", postcode \"75001\" and house_number \"5\".",
+    "Verify the response status is 200.",
+    "Verify the body's country is \"FR\".",
+    "Verify the body's postcode is \"75001\".",
+    "Verify the body's state is an empty string."
+   ],
+   "ref": [],
+   "area": "postcode",
+   "areaLabel": "Postcode",
+   "file": "test-scenarios/api/postcode/get-postcode-lookup.yml",
+   "fileLabel": "GET /postcode-lookup",
+   "suite": "Postcode API",
+   "tags": [
+    "@postcode-api"
+   ],
+   "yaml": "- id: API-0650\n  name: Look up a French postcode returns an empty state\n  status: manual\n  role: guest\n  steps:\n    - Send GET /postcode-lookup without an Authorization header, with country \"FR\", postcode \"75001\" and house_number \"5\".\n    - Verify the response status is 200.\n    - Verify the body's country is \"FR\".\n    - Verify the body's postcode is \"75001\".\n    - Verify the body's state is an empty string."
+  },
+  {
+   "id": "API-0651",
+   "name": "Look up with a country that has no known format skips the postcode format check",
+   "status": "manual",
+   "role": "guest",
+   "steps": [
+    "Send GET /postcode-lookup without an Authorization header, with country \"ZZ\" (not in the contract's country list), postcode \"1011\" and house_number \"5\".",
+    "Verify the response status is 200.",
+    "Verify the body's country is \"ZZ\".",
+    "Verify the body's postcode is \"1011\".",
+    "Verify the body's house_number is \"5\"."
+   ],
+   "ref": [],
+   "area": "postcode",
+   "areaLabel": "Postcode",
+   "file": "test-scenarios/api/postcode/get-postcode-lookup.yml",
+   "fileLabel": "GET /postcode-lookup",
+   "suite": "Postcode API",
+   "tags": [
+    "@postcode-api"
+   ],
+   "yaml": "- id: API-0651\n  name: Look up with a country that has no known format skips the postcode format check\n  status: manual\n  role: guest\n  steps:\n    - Send GET /postcode-lookup without an Authorization header, with country \"ZZ\" (not in the contract's country list), postcode \"1011\" and house_number \"5\".\n    - Verify the response status is 200.\n    - Verify the body's country is \"ZZ\".\n    - Verify the body's postcode is \"1011\".\n    - Verify the body's house_number is \"5\"."
+  },
+  {
+   "id": "API-0652",
+   "name": "Look up with country, postcode and house number at their length limits returns 200",
+   "status": "manual",
+   "role": "guest",
+   "steps": [
+    "Send GET /postcode-lookup without an Authorization header, with country a string of 40 letters, postcode \"90210-1234\" (10 characters) and house_number \"ABCDEFGHIJ\" (10 characters).",
+    "Verify the response status is 200.",
+    "Verify the body's country is the sent country in upper case.",
+    "Verify the body's postcode is \"90210-1234\".",
+    "Verify the body's house_number is \"ABCDEFGHIJ\"."
+   ],
+   "ref": [],
+   "area": "postcode",
+   "areaLabel": "Postcode",
+   "file": "test-scenarios/api/postcode/get-postcode-lookup.yml",
+   "fileLabel": "GET /postcode-lookup",
+   "suite": "Postcode API",
+   "tags": [
+    "@postcode-api"
+   ],
+   "yaml": "- id: API-0652\n  name: Look up with country, postcode and house number at their length limits returns 200\n  status: manual\n  role: guest\n  steps:\n    - Send GET /postcode-lookup without an Authorization header, with country a string of 40 letters, postcode \"90210-1234\" (10 characters) and house_number \"ABCDEFGHIJ\" (10 characters).\n    - Verify the response status is 200.\n    - Verify the body's country is the sent country in upper case.\n    - Verify the body's postcode is \"90210-1234\".\n    - Verify the body's house_number is \"ABCDEFGHIJ\"."
+  },
+  {
+   "id": "API-0653",
+   "name": "Look up with Accept text/xml still returns JSON",
+   "status": "manual",
+   "role": "guest",
+   "steps": [
+    "Send GET /postcode-lookup without an Authorization header, with Accept: text/xml, country \"NL\", postcode \"1011AB\" and house_number \"5\".",
+    "Verify the response status is 200.",
+    "Verify the Content-Type header starts with \"application/json\".",
+    "Verify the body is JSON with the keys street, house_number, city, state, country and postcode.",
+    "Verify the body's country is \"NL\"."
+   ],
+   "ref": [],
+   "area": "postcode",
+   "areaLabel": "Postcode",
+   "file": "test-scenarios/api/postcode/get-postcode-lookup.yml",
+   "fileLabel": "GET /postcode-lookup",
+   "suite": "Postcode API",
+   "tags": [
+    "@postcode-api"
+   ],
+   "yaml": "- id: API-0653\n  name: Look up with Accept text/xml still returns JSON\n  status: manual\n  role: guest\n  steps:\n    - 'Send GET /postcode-lookup without an Authorization header, with Accept: text/xml, country \"NL\", postcode \"1011AB\" and house_number \"5\".'\n    - Verify the response status is 200.\n    - Verify the Content-Type header starts with \"application/json\".\n    - Verify the body is JSON with the keys street, house_number, city, state, country and postcode.\n    - Verify the body's country is \"NL\"."
+  },
+  {
+   "id": "API-0654",
+   "name": "Look up with an invalid token returns 200",
+   "status": "manual",
+   "role": "guest",
+   "steps": [
+    "Send GET /postcode-lookup with an Authorization header holding an invalid token (a made-up string, not issued by the API), country \"NL\", postcode \"1011AB\" and house_number \"5\".",
+    "Verify the response status is 200.",
+    "Verify the body's country is \"NL\"."
+   ],
+   "ref": [],
+   "area": "postcode",
+   "areaLabel": "Postcode",
+   "file": "test-scenarios/api/postcode/get-postcode-lookup.yml",
+   "fileLabel": "GET /postcode-lookup",
+   "suite": "Postcode API",
+   "tags": [
+    "@postcode-api"
+   ],
+   "yaml": "- id: API-0654\n  name: Look up with an invalid token returns 200\n  status: manual\n  role: guest\n  steps:\n    - Send GET /postcode-lookup with an Authorization header holding an invalid token (a made-up string, not issued by the API), country \"NL\", postcode \"1011AB\" and house_number \"5\".\n    - Verify the response status is 200.\n    - Verify the body's country is \"NL\"."
+  },
+  {
+   "id": "API-0655",
+   "name": "Look up without country and postcode returns 422 for both",
+   "status": "manual",
+   "role": "guest",
+   "steps": [
+    "Send GET /postcode-lookup without an Authorization header, with Accept: application/json and no country, postcode or house_number.",
+    "Verify the response status is 422.",
+    "Verify the body's errors has the keys country and postcode, each with at least one message.",
+    "Verify the body's errors has no other keys.",
+    "Verify the body's message is \"The country field is required. (and 1 more error)\"."
+   ],
+   "ref": [],
+   "area": "postcode",
+   "areaLabel": "Postcode",
+   "file": "test-scenarios/api/postcode/get-postcode-lookup.yml",
+   "fileLabel": "GET /postcode-lookup",
+   "suite": "Postcode API",
+   "tags": [
+    "@postcode-api"
+   ],
+   "yaml": "- id: API-0655\n  name: Look up without country and postcode returns 422 for both\n  status: manual\n  role: guest\n  steps:\n    - 'Send GET /postcode-lookup without an Authorization header, with Accept: application/json and no country, postcode or house_number.'\n    - Verify the response status is 422.\n    - Verify the body's errors has the keys country and postcode, each with at least one message.\n    - Verify the body's errors has no other keys.\n    - Verify the body's message is \"The country field is required. (and 1 more error)\"."
+  },
+  {
+   "id": "API-0656",
+   "name": "Look up with empty country and postcode returns 422 for both",
+   "status": "manual",
+   "role": "guest",
+   "steps": [
+    "Send GET /postcode-lookup without an Authorization header, with Accept: application/json, an empty country (`country=`) and an empty postcode (`postcode=`).",
+    "Verify the response status is 422.",
+    "Verify the body's errors has the keys country and postcode, each with at least one message.",
+    "Verify the body's errors has no other keys."
+   ],
+   "ref": [],
+   "area": "postcode",
+   "areaLabel": "Postcode",
+   "file": "test-scenarios/api/postcode/get-postcode-lookup.yml",
+   "fileLabel": "GET /postcode-lookup",
+   "suite": "Postcode API",
+   "tags": [
+    "@postcode-api"
+   ],
+   "yaml": "- id: API-0656\n  name: Look up with empty country and postcode returns 422 for both\n  status: manual\n  role: guest\n  steps:\n    - 'Send GET /postcode-lookup without an Authorization header, with Accept: application/json, an empty country (`country=`) and an empty postcode (`postcode=`).'\n    - Verify the response status is 422.\n    - Verify the body's errors has the keys country and postcode, each with at least one message.\n    - Verify the body's errors has no other keys."
+  },
+  {
+   "id": "API-0657",
+   "name": "Look up without a postcode returns 422 before the format check",
+   "status": "manual",
+   "role": "guest",
+   "steps": [
+    "Send GET /postcode-lookup without an Authorization header, with Accept: application/json, country \"AT\" and no postcode.",
+    "Verify the response status is 422.",
+    "Verify the body's errors has the key postcode with at least one message.",
+    "Verify the body's errors has no other keys."
+   ],
+   "ref": [],
+   "area": "postcode",
+   "areaLabel": "Postcode",
+   "file": "test-scenarios/api/postcode/get-postcode-lookup.yml",
+   "fileLabel": "GET /postcode-lookup",
+   "suite": "Postcode API",
+   "tags": [
+    "@postcode-api"
+   ],
+   "yaml": "- id: API-0657\n  name: Look up without a postcode returns 422 before the format check\n  status: manual\n  role: guest\n  steps:\n    - 'Send GET /postcode-lookup without an Authorization header, with Accept: application/json, country \"AT\" and no postcode.'\n    - Verify the response status is 422.\n    - Verify the body's errors has the key postcode with at least one message.\n    - Verify the body's errors has no other keys."
+  },
+  {
+   "id": "API-0658",
+   "name": "Look up with country sent as an array returns 422",
+   "status": "manual",
+   "role": "guest",
+   "steps": [
+    "Send GET /postcode-lookup without an Authorization header, with Accept: application/json, country sent as an array (`country[]=NL`) and postcode \"1011AB\".",
+    "Verify the response status is 422.",
+    "Verify the body's errors has the key country with at least one message.",
+    "Verify the body's errors has no other keys."
+   ],
+   "ref": [],
+   "area": "postcode",
+   "areaLabel": "Postcode",
+   "file": "test-scenarios/api/postcode/get-postcode-lookup.yml",
+   "fileLabel": "GET /postcode-lookup",
+   "suite": "Postcode API",
+   "tags": [
+    "@postcode-api"
+   ],
+   "yaml": "- id: API-0658\n  name: Look up with country sent as an array returns 422\n  status: manual\n  role: guest\n  steps:\n    - 'Send GET /postcode-lookup without an Authorization header, with Accept: application/json, country sent as an array (`country[]=NL`) and postcode \"1011AB\".'\n    - Verify the response status is 422.\n    - Verify the body's errors has the key country with at least one message.\n    - Verify the body's errors has no other keys."
+  },
+  {
+   "id": "API-0659",
+   "name": "Look up with a 41-character country returns 422",
+   "status": "manual",
+   "role": "guest",
+   "steps": [
+    "Send GET /postcode-lookup without an Authorization header, with Accept: application/json, country a string of 41 letters and postcode \"1011AB\".",
+    "Verify the response status is 422.",
+    "Verify the body's errors has the key country with at least one message.",
+    "Verify the body's errors has no other keys."
+   ],
+   "ref": [],
+   "area": "postcode",
+   "areaLabel": "Postcode",
+   "file": "test-scenarios/api/postcode/get-postcode-lookup.yml",
+   "fileLabel": "GET /postcode-lookup",
+   "suite": "Postcode API",
+   "tags": [
+    "@postcode-api"
+   ],
+   "yaml": "- id: API-0659\n  name: Look up with a 41-character country returns 422\n  status: manual\n  role: guest\n  steps:\n    - 'Send GET /postcode-lookup without an Authorization header, with Accept: application/json, country a string of 41 letters and postcode \"1011AB\".'\n    - Verify the response status is 422.\n    - Verify the body's errors has the key country with at least one message.\n    - Verify the body's errors has no other keys."
+  },
+  {
+   "id": "API-0660",
+   "name": "Look up with an 11-character postcode returns 422",
+   "status": "manual",
+   "role": "guest",
+   "steps": [
+    "Send GET /postcode-lookup without an Authorization header, with Accept: application/json, country \"ZZ\" and postcode a string of 11 digits.",
+    "Verify the response status is 422.",
+    "Verify the body's errors has the key postcode with at least one message.",
+    "Verify the body's errors has no other keys."
+   ],
+   "ref": [],
+   "area": "postcode",
+   "areaLabel": "Postcode",
+   "file": "test-scenarios/api/postcode/get-postcode-lookup.yml",
+   "fileLabel": "GET /postcode-lookup",
+   "suite": "Postcode API",
+   "tags": [
+    "@postcode-api"
+   ],
+   "yaml": "- id: API-0660\n  name: Look up with an 11-character postcode returns 422\n  status: manual\n  role: guest\n  steps:\n    - 'Send GET /postcode-lookup without an Authorization header, with Accept: application/json, country \"ZZ\" and postcode a string of 11 digits.'\n    - Verify the response status is 422.\n    - Verify the body's errors has the key postcode with at least one message.\n    - Verify the body's errors has no other keys."
+  },
+  {
+   "id": "API-0661",
+   "name": "Look up with an 11-character house number returns 422",
+   "status": "manual",
+   "role": "guest",
+   "steps": [
+    "Send GET /postcode-lookup without an Authorization header, with Accept: application/json, country \"NL\", postcode \"1011AB\" and house_number a string of 11 digits.",
+    "Verify the response status is 422.",
+    "Verify the body's errors has the key house_number with at least one message.",
+    "Verify the body's errors has no other keys."
+   ],
+   "ref": [],
+   "area": "postcode",
+   "areaLabel": "Postcode",
+   "file": "test-scenarios/api/postcode/get-postcode-lookup.yml",
+   "fileLabel": "GET /postcode-lookup",
+   "suite": "Postcode API",
+   "tags": [
+    "@postcode-api"
+   ],
+   "yaml": "- id: API-0661\n  name: Look up with an 11-character house number returns 422\n  status: manual\n  role: guest\n  steps:\n    - 'Send GET /postcode-lookup without an Authorization header, with Accept: application/json, country \"NL\", postcode \"1011AB\" and house_number a string of 11 digits.'\n    - Verify the response status is 422.\n    - Verify the body's errors has the key house_number with at least one message.\n    - Verify the body's errors has no other keys."
+  },
+  {
+   "id": "API-0662",
+   "name": "Look up an Austrian postcode in the Dutch format returns 422",
+   "status": "manual",
+   "role": "guest",
+   "steps": [
+    "Send GET /postcode-lookup without an Authorization header, with Accept: application/json, country \"AT\" and postcode \"1011AB\".",
+    "Verify the response status is 422.",
+    "Verify the body's message is \"The postal code format is not valid for the selected country.\".",
+    "Verify the body has no errors key."
+   ],
+   "ref": [],
+   "area": "postcode",
+   "areaLabel": "Postcode",
+   "file": "test-scenarios/api/postcode/get-postcode-lookup.yml",
+   "fileLabel": "GET /postcode-lookup",
+   "suite": "Postcode API",
+   "tags": [
+    "@postcode-api"
+   ],
+   "yaml": "- id: API-0662\n  name: Look up an Austrian postcode in the Dutch format returns 422\n  status: manual\n  role: guest\n  steps:\n    - 'Send GET /postcode-lookup without an Authorization header, with Accept: application/json, country \"AT\" and postcode \"1011AB\".'\n    - Verify the response status is 422.\n    - Verify the body's message is \"The postal code format is not valid for the selected country.\".\n    - Verify the body has no errors key."
+  },
+  {
+   "id": "API-0663",
+   "name": "Look up a Dutch postcode with digits only returns 422",
+   "status": "manual",
+   "role": "guest",
+   "steps": [
+    "Send GET /postcode-lookup without an Authorization header, with Accept: application/json, country \"NL\" and postcode \"1011\".",
+    "Verify the response status is 422.",
+    "Verify the body's message is \"The postal code format is not valid for the selected country.\".",
+    "Verify the body has no errors key."
+   ],
+   "ref": [],
+   "area": "postcode",
+   "areaLabel": "Postcode",
+   "file": "test-scenarios/api/postcode/get-postcode-lookup.yml",
+   "fileLabel": "GET /postcode-lookup",
+   "suite": "Postcode API",
+   "tags": [
+    "@postcode-api"
+   ],
+   "yaml": "- id: API-0663\n  name: Look up a Dutch postcode with digits only returns 422\n  status: manual\n  role: guest\n  steps:\n    - 'Send GET /postcode-lookup without an Authorization header, with Accept: application/json, country \"NL\" and postcode \"1011\".'\n    - Verify the response status is 422.\n    - Verify the body's message is \"The postal code format is not valid for the selected country.\".\n    - Verify the body has no errors key."
+  },
+  {
+   "id": "API-0664",
+   "name": "Look up a postcode in the wrong format without Accept still returns a JSON 422",
+   "status": "manual",
+   "role": "guest",
+   "steps": [
+    "Send GET /postcode-lookup without an Authorization header, without following redirects and with the Accept header left out, with country \"AT\" and postcode \"1011AB\".",
+    "Verify the response status is 422.",
+    "Verify the Content-Type header starts with \"application/json\".",
+    "Verify the body's message is \"The postal code format is not valid for the selected country.\"."
+   ],
+   "ref": [],
+   "area": "postcode",
+   "areaLabel": "Postcode",
+   "file": "test-scenarios/api/postcode/get-postcode-lookup.yml",
+   "fileLabel": "GET /postcode-lookup",
+   "suite": "Postcode API",
+   "tags": [
+    "@postcode-api"
+   ],
+   "yaml": "- id: API-0664\n  name: Look up a postcode in the wrong format without Accept still returns a JSON 422\n  status: manual\n  role: guest\n  steps:\n    - Send GET /postcode-lookup without an Authorization header, without following redirects and with the Accept header left out, with country \"AT\" and postcode \"1011AB\".\n    - Verify the response status is 422.\n    - Verify the Content-Type header starts with \"application/json\".\n    - Verify the body's message is \"The postal code format is not valid for the selected country.\"."
+  },
+  {
+   "id": "API-0665",
+   "name": "Look up without country and postcode and without Accept returns a 302 redirect",
+   "status": "manual",
+   "role": "guest",
+   "steps": [
+    "Send GET /postcode-lookup without an Authorization header, without a Referer header, without following redirects and with the Accept header left out, with no country, postcode or house_number.",
+    "Verify the response status is 302.",
+    "Verify the Location header is \"https://api.practicesoftwaretesting.com\"."
+   ],
+   "ref": [],
+   "area": "postcode",
+   "areaLabel": "Postcode",
+   "file": "test-scenarios/api/postcode/get-postcode-lookup.yml",
+   "fileLabel": "GET /postcode-lookup",
+   "suite": "Postcode API",
+   "tags": [
+    "@postcode-api"
+   ],
+   "yaml": "- id: API-0665\n  name: Look up without country and postcode and without Accept returns a 302 redirect\n  status: manual\n  role: guest\n  steps:\n    - Send GET /postcode-lookup without an Authorization header, without a Referer header, without following redirects and with the Accept header left out, with no country, postcode or house_number.\n    - Verify the response status is 302.\n    - Verify the Location header is \"https://api.practicesoftwaretesting.com\"."
+  },
+  {
+   "id": "API-0666",
+   "name": "Look up without country and postcode with Accept */* returns a 302 redirect",
+   "status": "manual",
+   "role": "guest",
+   "steps": [
+    "Send GET /postcode-lookup without an Authorization header, without a Referer header, without following redirects and with Accept: */*, with no country, postcode or house_number.",
+    "Verify the response status is 302.",
+    "Verify the Location header is \"https://api.practicesoftwaretesting.com\"."
+   ],
+   "ref": [],
+   "area": "postcode",
+   "areaLabel": "Postcode",
+   "file": "test-scenarios/api/postcode/get-postcode-lookup.yml",
+   "fileLabel": "GET /postcode-lookup",
+   "suite": "Postcode API",
+   "tags": [
+    "@postcode-api"
+   ],
+   "yaml": "- id: API-0666\n  name: Look up without country and postcode with Accept */* returns a 302 redirect\n  status: manual\n  role: guest\n  steps:\n    - 'Send GET /postcode-lookup without an Authorization header, without a Referer header, without following redirects and with Accept: */*, with no country, postcode or house_number.'\n    - Verify the response status is 302.\n    - Verify the Location header is \"https://api.practicesoftwaretesting.com\"."
+  },
+  {
+   "id": "API-0667",
+   "name": "Look up a postcode with a leading space returns it trimmed",
+   "ref": [
+    "BUG-045"
+   ],
+   "status": "manual",
+   "role": "guest",
+   "knownIssue": "Echoes a postcode with leading whitespace untrimmed and builds the address from the untrimmed value, although the format check trims it.",
+   "bug": "BUG-045",
+   "steps": [
+    "Send GET /postcode-lookup without an Authorization header, with country \"NL\", postcode \" 1011AB\" (a leading space, sent URL-encoded as `%201011AB`) and house_number \"5\".",
+    "Verify the response status is 200.",
+    "Verify the body's postcode is \"1011AB\" (without the space)."
+   ],
+   "area": "postcode",
+   "areaLabel": "Postcode",
+   "file": "test-scenarios/api/postcode/get-postcode-lookup.yml",
+   "fileLabel": "GET /postcode-lookup",
+   "suite": "Postcode API",
+   "tags": [
+    "@postcode-api"
+   ],
+   "yaml": "- id: API-0667\n  name: Look up a postcode with a leading space returns it trimmed\n  ref: BUG-045\n  status: manual\n  role: guest\n  knownIssue: Echoes a postcode with leading whitespace untrimmed and builds the address from the untrimmed value, although the format check trims it.\n  bug: BUG-045\n  steps:\n    - Send GET /postcode-lookup without an Authorization header, with country \"NL\", postcode \" 1011AB\" (a leading space, sent URL-encoded as `%201011AB`) and house_number \"5\".\n    - Verify the response status is 200.\n    - Verify the body's postcode is \"1011AB\" (without the space)."
+  },
+  {
+   "id": "API-0574",
+   "name": "List spec names returns 200 with names, values and units",
+   "status": "manual",
+   "role": "guest",
+   "steps": [
+    "Send GET /product-specs/names, without an Authorization header.",
+    "Verify the response status is 200.",
+    "Verify the body is a non-empty array.",
+    "Verify every item has a name string, a values array of strings and a unit that is a string or null.",
+    "Verify no name appears twice.",
+    "Verify no item's values has a repeated value."
+   ],
+   "ref": [],
+   "area": "product-specs",
+   "areaLabel": "Product specs",
+   "file": "test-scenarios/api/product-specs/get-product-specs-names.yml",
+   "fileLabel": "GET /product-specs/names",
+   "suite": "Product Specs API",
+   "tags": [
+    "@product-specs-api"
+   ],
+   "yaml": "- id: API-0574\n  name: List spec names returns 200 with names, values and units\n  status: manual\n  role: guest\n  steps:\n    - Send GET /product-specs/names, without an Authorization header.\n    - Verify the response status is 200.\n    - Verify the body is a non-empty array.\n    - Verify every item has a name string, a values array of strings and a unit that is a string or null.\n    - Verify no name appears twice.\n    - Verify no item's values has a repeated value."
+  },
+  {
+   "id": "API-0575",
+   "name": "A spec added to a product appears in the spec names",
+   "status": "manual",
+   "steps": [
+    "Send GET /products and take the first item's brand id, category id and product image id.",
+    "Send POST /products with a unique product name, a positive price, those ids, is_location_offer false and is_rental false, and take the new product's id.",
+    "Send POST /products/{productId}/specs with the new product's id and a body with a unique spec_name, spec_value \"1.5\" and spec_unit \"kg\", with the default user's token.",
+    "Send GET /product-specs/names.",
+    "Verify the response status is 200.",
+    "Verify the body has exactly one item whose name is that spec_name.",
+    "Verify that item's values are [\"1.5\"] and its unit is \"kg\"."
+   ],
+   "ref": [],
+   "area": "product-specs",
+   "areaLabel": "Product specs",
+   "file": "test-scenarios/api/product-specs/get-product-specs-names.yml",
+   "fileLabel": "GET /product-specs/names",
+   "suite": "Product Specs API",
+   "tags": [
+    "@product-specs-api"
+   ],
+   "yaml": "- id: API-0575\n  name: A spec added to a product appears in the spec names\n  status: manual\n  steps:\n    - Send GET /products and take the first item's brand id, category id and product image id.\n    - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false and is_rental false, and take the new product's id.\n    - Send POST /products/{productId}/specs with the new product's id and a body with a unique spec_name, spec_value \"1.5\" and spec_unit \"kg\", with the default user's token.\n    - Send GET /product-specs/names.\n    - Verify the response status is 200.\n    - Verify the body has exactly one item whose name is that spec_name.\n    - Verify that item's values are [\"1.5\"] and its unit is \"kg\"."
+  },
+  {
+   "id": "API-0576",
+   "name": "A deleted spec disappears from the spec names",
+   "status": "manual",
+   "steps": [
+    "Send GET /products and take the first item's brand id, category id and product image id.",
+    "Send POST /products with a unique product name, a positive price, those ids, is_location_offer false and is_rental false, and take the new product's id.",
+    "Send POST /products/{productId}/specs with the new product's id, a body with a unique spec_name, spec_value \"1.5\" and spec_unit \"kg\", and the default user's token, and take the new spec's id.",
+    "Send DELETE /products/{productId}/specs/{specId} with the new product's id, the new spec's id and the default user's token.",
+    "Send GET /product-specs/names.",
+    "Verify the response status is 200.",
+    "Verify no item's name is that spec_name."
+   ],
+   "ref": [],
+   "area": "product-specs",
+   "areaLabel": "Product specs",
+   "file": "test-scenarios/api/product-specs/get-product-specs-names.yml",
+   "fileLabel": "GET /product-specs/names",
+   "suite": "Product Specs API",
+   "tags": [
+    "@product-specs-api"
+   ],
+   "yaml": "- id: API-0576\n  name: A deleted spec disappears from the spec names\n  status: manual\n  steps:\n    - Send GET /products and take the first item's brand id, category id and product image id.\n    - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false and is_rental false, and take the new product's id.\n    - Send POST /products/{productId}/specs with the new product's id, a body with a unique spec_name, spec_value \"1.5\" and spec_unit \"kg\", and the default user's token, and take the new spec's id.\n    - Send DELETE /products/{productId}/specs/{specId} with the new product's id, the new spec's id and the default user's token.\n    - Send GET /product-specs/names.\n    - Verify the response status is 200.\n    - Verify no item's name is that spec_name."
   },
   {
    "id": "API-0002",
@@ -8666,6 +12593,1884 @@ window.SCENARIO_CATALOG = {
    "yaml": "- id: API-0025\n  name: Related products include their CO2 rating\n  status: automated\n  automatedIn: tests/api/products/get-products-by-product-id-related.spec.ts\n  knownIssue: Omits co2_rating from related products, so is_eco_friendly is always false.\n  bug: BUG-005\n  steps:\n    - Send GET /products and take the first item's id.\n    - Send GET /products/{productId}/related with that id.\n    - Verify every item has a co2_rating field."
   },
   {
+   "id": "API-0529",
+   "name": "List a product's specs returns 200 and its specs",
+   "status": "manual",
+   "role": "guest",
+   "steps": [
+    "Find a product with at least one spec: send GET /products/{productId} for the items of GET /products until one returns a non-empty specs array, and take its id and its specs.",
+    "Send GET /products/{productId}/specs with that id, without an Authorization header.",
+    "Verify the response status is 200.",
+    "Verify the body is a non-empty array.",
+    "Verify every item has id, product_id, spec_name, spec_value and spec_unit, with product_id equal to that id and spec_unit a string or null.",
+    "Verify the items' ids are the same set as the ids in that product's specs array."
+   ],
+   "ref": [],
+   "area": "products",
+   "areaLabel": "Products",
+   "file": "test-scenarios/api/products/get-products-by-product-id-specs.yml",
+   "fileLabel": "GET /products/{productId}/specs",
+   "suite": "Products API",
+   "tags": [
+    "@products-api"
+   ],
+   "yaml": "- id: API-0529\n  name: List a product's specs returns 200 and its specs\n  status: manual\n  role: guest\n  steps:\n    - \"Find a product with at least one spec: send GET /products/{productId} for the items of GET /products until one returns a non-empty specs array, and take its id and its specs.\"\n    - Send GET /products/{productId}/specs with that id, without an Authorization header.\n    - Verify the response status is 200.\n    - Verify the body is a non-empty array.\n    - Verify every item has id, product_id, spec_name, spec_value and spec_unit, with product_id equal to that id and spec_unit a string or null.\n    - Verify the items' ids are the same set as the ids in that product's specs array."
+  },
+  {
+   "id": "API-0530",
+   "name": "List specs of a product that doesn't exist returns an empty array",
+   "status": "manual",
+   "role": "guest",
+   "steps": [
+    "Send GET /products/{productId}/specs with a well-formed ULID that no product has, without an Authorization header.",
+    "Verify the response status is 200.",
+    "Verify the body is an empty array."
+   ],
+   "ref": [],
+   "area": "products",
+   "areaLabel": "Products",
+   "file": "test-scenarios/api/products/get-products-by-product-id-specs.yml",
+   "fileLabel": "GET /products/{productId}/specs",
+   "suite": "Products API",
+   "tags": [
+    "@products-api"
+   ],
+   "yaml": "- id: API-0530\n  name: List specs of a product that doesn't exist returns an empty array\n  status: manual\n  role: guest\n  steps:\n    - Send GET /products/{productId}/specs with a well-formed ULID that no product has, without an Authorization header.\n    - Verify the response status is 200.\n    - Verify the body is an empty array."
+  },
+  {
+   "id": "API-0531",
+   "name": "List specs of a product without specs returns an empty array",
+   "status": "manual",
+   "steps": [
+    "Send GET /products and take the first item's brand id, category id and product image id.",
+    "Send POST /products with a unique product name, a positive price, those ids, is_location_offer false and is_rental false, and take the new product's id.",
+    "Send GET /products/{productId}/specs with the new product's id.",
+    "Verify the response status is 200.",
+    "Verify the body is an empty array."
+   ],
+   "ref": [],
+   "area": "products",
+   "areaLabel": "Products",
+   "file": "test-scenarios/api/products/get-products-by-product-id-specs.yml",
+   "fileLabel": "GET /products/{productId}/specs",
+   "suite": "Products API",
+   "tags": [
+    "@products-api"
+   ],
+   "yaml": "- id: API-0531\n  name: List specs of a product without specs returns an empty array\n  status: manual\n  steps:\n    - Send GET /products and take the first item's brand id, category id and product image id.\n    - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false and is_rental false, and take the new product's id.\n    - Send GET /products/{productId}/specs with the new product's id.\n    - Verify the response status is 200.\n    - Verify the body is an empty array."
+  },
+  {
+   "id": "API-0532",
+   "name": "List specs ignores query parameters",
+   "status": "manual",
+   "role": "guest",
+   "steps": [
+    "Find a product with at least one spec: send GET /products/{productId} for the items of GET /products until one returns a non-empty specs array, and take its id and its specs.",
+    "Send GET /products/{productId}/specs with that id and take the spec ids of the body.",
+    "Send GET /products/{productId}/specs with that id and the query parameter spec_name set to a value that matches none of the product's spec names.",
+    "Verify the response status is 200.",
+    "Verify the body's ids are the same set as without the query parameter."
+   ],
+   "ref": [],
+   "area": "products",
+   "areaLabel": "Products",
+   "file": "test-scenarios/api/products/get-products-by-product-id-specs.yml",
+   "fileLabel": "GET /products/{productId}/specs",
+   "suite": "Products API",
+   "tags": [
+    "@products-api"
+   ],
+   "yaml": "- id: API-0532\n  name: List specs ignores query parameters\n  status: manual\n  role: guest\n  steps:\n    - \"Find a product with at least one spec: send GET /products/{productId} for the items of GET /products until one returns a non-empty specs array, and take its id and its specs.\"\n    - Send GET /products/{productId}/specs with that id and take the spec ids of the body.\n    - Send GET /products/{productId}/specs with that id and the query parameter spec_name set to a value that matches none of the product's spec names.\n    - Verify the response status is 200.\n    - Verify the body's ids are the same set as without the query parameter."
+  },
+  {
+   "id": "API-0533",
+   "name": "List specs with a lower-case product id returns the same specs",
+   "status": "manual",
+   "role": "guest",
+   "steps": [
+    "Find a product with at least one spec: send GET /products/{productId} for the items of GET /products until one returns a non-empty specs array, and take its id and its specs.",
+    "Send GET /products/{productId}/specs with that id in lower case.",
+    "Verify the response status is 200.",
+    "Verify the body's ids are the same set as the ids in that product's specs array."
+   ],
+   "ref": [],
+   "area": "products",
+   "areaLabel": "Products",
+   "file": "test-scenarios/api/products/get-products-by-product-id-specs.yml",
+   "fileLabel": "GET /products/{productId}/specs",
+   "suite": "Products API",
+   "tags": [
+    "@products-api"
+   ],
+   "yaml": "- id: API-0533\n  name: List specs with a lower-case product id returns the same specs\n  status: manual\n  role: guest\n  steps:\n    - \"Find a product with at least one spec: send GET /products/{productId} for the items of GET /products until one returns a non-empty specs array, and take its id and its specs.\"\n    - Send GET /products/{productId}/specs with that id in lower case.\n    - Verify the response status is 200.\n    - Verify the body's ids are the same set as the ids in that product's specs array."
+  },
+  {
+   "id": "API-0534",
+   "name": "Add a spec to a product returns 201 and the spec",
+   "status": "manual",
+   "steps": [
+    "Send GET /products and take the first item's brand id, category id and product image id.",
+    "Send POST /products with a unique product name, a positive price, those ids, is_location_offer false and is_rental false, and take the new product's id.",
+    "Send POST /products/{productId}/specs with the new product's id, a body with a unique spec_name, spec_value \"1.5\" and spec_unit \"kg\", and the default user's token, and take the new spec's id.",
+    "Verify the response status is 201.",
+    "Verify the body's product_id equals the new product's id.",
+    "Verify the body's spec_name, spec_value and spec_unit equal the sent values.",
+    "Verify the body's id is a non-empty string.",
+    "Verify GET /products/{productId}/specs with the new product's id returns a spec with that id and those spec_name, spec_value and spec_unit."
+   ],
+   "ref": [],
+   "area": "products",
+   "areaLabel": "Products",
+   "file": "test-scenarios/api/products/post-products-by-product-id-specs.yml",
+   "fileLabel": "POST /products/{productId}/specs",
+   "suite": "Products API",
+   "tags": [
+    "@products-api"
+   ],
+   "yaml": "- id: API-0534\n  name: Add a spec to a product returns 201 and the spec\n  status: manual\n  steps:\n    - Send GET /products and take the first item's brand id, category id and product image id.\n    - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false and is_rental false, and take the new product's id.\n    - Send POST /products/{productId}/specs with the new product's id, a body with a unique spec_name, spec_value \"1.5\" and spec_unit \"kg\", and the default user's token, and take the new spec's id.\n    - Verify the response status is 201.\n    - Verify the body's product_id equals the new product's id.\n    - Verify the body's spec_name, spec_value and spec_unit equal the sent values.\n    - Verify the body's id is a non-empty string.\n    - Verify GET /products/{productId}/specs with the new product's id returns a spec with that id and those spec_name, spec_value and spec_unit."
+  },
+  {
+   "id": "API-0535",
+   "name": "Add a spec without spec_unit returns spec_unit null",
+   "status": "manual",
+   "steps": [
+    "Send GET /products and take the first item's brand id, category id and product image id.",
+    "Send POST /products with a unique product name, a positive price, those ids, is_location_offer false and is_rental false, and take the new product's id.",
+    "Send POST /products/{productId}/specs with the new product's id, a body with a unique spec_name and spec_value \"1.5\" and no spec_unit, and the default user's token, and take the new spec's id.",
+    "Verify the response status is 201.",
+    "Verify the body's spec_unit is null.",
+    "Verify GET /products/{productId}/specs/{specId} with the new product's id and the new spec's id returns spec_unit null."
+   ],
+   "ref": [],
+   "area": "products",
+   "areaLabel": "Products",
+   "file": "test-scenarios/api/products/post-products-by-product-id-specs.yml",
+   "fileLabel": "POST /products/{productId}/specs",
+   "suite": "Products API",
+   "tags": [
+    "@products-api"
+   ],
+   "yaml": "- id: API-0535\n  name: Add a spec without spec_unit returns spec_unit null\n  status: manual\n  steps:\n    - Send GET /products and take the first item's brand id, category id and product image id.\n    - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false and is_rental false, and take the new product's id.\n    - Send POST /products/{productId}/specs with the new product's id, a body with a unique spec_name and spec_value \"1.5\" and no spec_unit, and the default user's token, and take the new spec's id.\n    - Verify the response status is 201.\n    - Verify the body's spec_unit is null.\n    - Verify GET /products/{productId}/specs/{specId} with the new product's id and the new spec's id returns spec_unit null."
+  },
+  {
+   "id": "API-0536",
+   "name": "Add a spec without a token returns 401",
+   "status": "manual",
+   "steps": [
+    "Send GET /products and take the first item's brand id, category id and product image id.",
+    "Send POST /products with a unique product name, a positive price, those ids, is_location_offer false and is_rental false, and take the new product's id.",
+    "Send POST /products/{productId}/specs with the new product's id and a body with a unique spec_name and spec_value \"1.5\", without an Authorization header.",
+    "Verify the response status is 401.",
+    "Verify the body's message is \"Unauthorized\"."
+   ],
+   "ref": [],
+   "area": "products",
+   "areaLabel": "Products",
+   "file": "test-scenarios/api/products/post-products-by-product-id-specs.yml",
+   "fileLabel": "POST /products/{productId}/specs",
+   "suite": "Products API",
+   "tags": [
+    "@products-api"
+   ],
+   "yaml": "- id: API-0536\n  name: Add a spec without a token returns 401\n  status: manual\n  steps:\n    - Send GET /products and take the first item's brand id, category id and product image id.\n    - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false and is_rental false, and take the new product's id.\n    - Send POST /products/{productId}/specs with the new product's id and a body with a unique spec_name and spec_value \"1.5\", without an Authorization header.\n    - Verify the response status is 401.\n    - Verify the body's message is \"Unauthorized\"."
+  },
+  {
+   "id": "API-0537",
+   "name": "Add a spec with an invalid token returns 401",
+   "status": "manual",
+   "steps": [
+    "Send GET /products and take the first item's brand id, category id and product image id.",
+    "Send POST /products with a unique product name, a positive price, those ids, is_location_offer false and is_rental false, and take the new product's id.",
+    "Send POST /products/{productId}/specs with the new product's id and a body with a unique spec_name and spec_value \"1.5\", with an invalid token.",
+    "Verify the response status is 401.",
+    "Verify the body's message is \"Unauthorized\"."
+   ],
+   "ref": [],
+   "area": "products",
+   "areaLabel": "Products",
+   "file": "test-scenarios/api/products/post-products-by-product-id-specs.yml",
+   "fileLabel": "POST /products/{productId}/specs",
+   "suite": "Products API",
+   "tags": [
+    "@products-api"
+   ],
+   "yaml": "- id: API-0537\n  name: Add a spec with an invalid token returns 401\n  status: manual\n  steps:\n    - Send GET /products and take the first item's brand id, category id and product image id.\n    - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false and is_rental false, and take the new product's id.\n    - Send POST /products/{productId}/specs with the new product's id and a body with a unique spec_name and spec_value \"1.5\", with an invalid token.\n    - Verify the response status is 401.\n    - Verify the body's message is \"Unauthorized\"."
+  },
+  {
+   "id": "API-0538",
+   "name": "Add a spec without the required fields returns 422",
+   "status": "manual",
+   "steps": [
+    "Send GET /products and take the first item's id.",
+    "Send POST /products/{productId}/specs with that id and an empty body {}, with the default user's token.",
+    "Verify the response status is 422.",
+    "Verify the body has a message.",
+    "Verify the body's errors has the keys spec_name and spec_value, each with at least one message."
+   ],
+   "ref": [],
+   "area": "products",
+   "areaLabel": "Products",
+   "file": "test-scenarios/api/products/post-products-by-product-id-specs.yml",
+   "fileLabel": "POST /products/{productId}/specs",
+   "suite": "Products API",
+   "tags": [
+    "@products-api"
+   ],
+   "yaml": "- id: API-0538\n  name: Add a spec without the required fields returns 422\n  status: manual\n  steps:\n    - Send GET /products and take the first item's id.\n    - Send POST /products/{productId}/specs with that id and an empty body {}, with the default user's token.\n    - Verify the response status is 422.\n    - Verify the body has a message.\n    - Verify the body's errors has the keys spec_name and spec_value, each with at least one message."
+  },
+  {
+   "id": "API-0539",
+   "name": "Add a spec with a spec_name longer than 100 characters returns 422",
+   "status": "manual",
+   "steps": [
+    "Send GET /products and take the first item's id.",
+    "Send POST /products/{productId}/specs with that id and a body with a 101-character spec_name and spec_value \"1.5\", with the default user's token.",
+    "Verify the response status is 422.",
+    "Verify the body's errors has a spec_name key with at least one message."
+   ],
+   "ref": [],
+   "area": "products",
+   "areaLabel": "Products",
+   "file": "test-scenarios/api/products/post-products-by-product-id-specs.yml",
+   "fileLabel": "POST /products/{productId}/specs",
+   "suite": "Products API",
+   "tags": [
+    "@products-api"
+   ],
+   "yaml": "- id: API-0539\n  name: Add a spec with a spec_name longer than 100 characters returns 422\n  status: manual\n  steps:\n    - Send GET /products and take the first item's id.\n    - Send POST /products/{productId}/specs with that id and a body with a 101-character spec_name and spec_value \"1.5\", with the default user's token.\n    - Verify the response status is 422.\n    - Verify the body's errors has a spec_name key with at least one message."
+  },
+  {
+   "id": "API-0540",
+   "name": "Add a spec with a spec_value longer than 255 characters returns 422",
+   "status": "manual",
+   "steps": [
+    "Send GET /products and take the first item's id.",
+    "Send POST /products/{productId}/specs with that id and a body with a unique spec_name and a 256-character spec_value, with the default user's token.",
+    "Verify the response status is 422.",
+    "Verify the body's errors has a spec_value key with at least one message."
+   ],
+   "ref": [],
+   "area": "products",
+   "areaLabel": "Products",
+   "file": "test-scenarios/api/products/post-products-by-product-id-specs.yml",
+   "fileLabel": "POST /products/{productId}/specs",
+   "suite": "Products API",
+   "tags": [
+    "@products-api"
+   ],
+   "yaml": "- id: API-0540\n  name: Add a spec with a spec_value longer than 255 characters returns 422\n  status: manual\n  steps:\n    - Send GET /products and take the first item's id.\n    - Send POST /products/{productId}/specs with that id and a body with a unique spec_name and a 256-character spec_value, with the default user's token.\n    - Verify the response status is 422.\n    - Verify the body's errors has a spec_value key with at least one message."
+  },
+  {
+   "id": "API-0541",
+   "name": "Add a spec with a spec_unit longer than 30 characters returns 422",
+   "status": "manual",
+   "steps": [
+    "Send GET /products and take the first item's id.",
+    "Send POST /products/{productId}/specs with that id and a body with a unique spec_name, spec_value \"1.5\" and a 31-character spec_unit, with the default user's token.",
+    "Verify the response status is 422.",
+    "Verify the body's errors has a spec_unit key with at least one message."
+   ],
+   "ref": [],
+   "area": "products",
+   "areaLabel": "Products",
+   "file": "test-scenarios/api/products/post-products-by-product-id-specs.yml",
+   "fileLabel": "POST /products/{productId}/specs",
+   "suite": "Products API",
+   "tags": [
+    "@products-api"
+   ],
+   "yaml": "- id: API-0541\n  name: Add a spec with a spec_unit longer than 30 characters returns 422\n  status: manual\n  steps:\n    - Send GET /products and take the first item's id.\n    - Send POST /products/{productId}/specs with that id and a body with a unique spec_name, spec_value \"1.5\" and a 31-character spec_unit, with the default user's token.\n    - Verify the response status is 422.\n    - Verify the body's errors has a spec_unit key with at least one message."
+  },
+  {
+   "id": "API-0542",
+   "name": "Add a spec with a spec_value that isn't a string returns 422",
+   "status": "manual",
+   "steps": [
+    "Send GET /products and take the first item's id.",
+    "Send POST /products/{productId}/specs with that id and a body with a unique spec_name and spec_value set to the number 1.5, with the default user's token.",
+    "Verify the response status is 422.",
+    "Verify the body's errors has a spec_value key with at least one message."
+   ],
+   "ref": [],
+   "area": "products",
+   "areaLabel": "Products",
+   "file": "test-scenarios/api/products/post-products-by-product-id-specs.yml",
+   "fileLabel": "POST /products/{productId}/specs",
+   "suite": "Products API",
+   "tags": [
+    "@products-api"
+   ],
+   "yaml": "- id: API-0542\n  name: Add a spec with a spec_value that isn't a string returns 422\n  status: manual\n  steps:\n    - Send GET /products and take the first item's id.\n    - Send POST /products/{productId}/specs with that id and a body with a unique spec_name and spec_value set to the number 1.5, with the default user's token.\n    - Verify the response status is 422.\n    - Verify the body's errors has a spec_value key with at least one message."
+  },
+  {
+   "id": "API-0543",
+   "name": "Add a spec with a spec_unit that isn't a string returns 422",
+   "status": "manual",
+   "steps": [
+    "Send GET /products and take the first item's id.",
+    "Send POST /products/{productId}/specs with that id and a body with a unique spec_name, spec_value \"1.5\" and spec_unit set to the number 5, with the default user's token.",
+    "Verify the response status is 422.",
+    "Verify the body's errors has a spec_unit key with at least one message."
+   ],
+   "ref": [],
+   "area": "products",
+   "areaLabel": "Products",
+   "file": "test-scenarios/api/products/post-products-by-product-id-specs.yml",
+   "fileLabel": "POST /products/{productId}/specs",
+   "suite": "Products API",
+   "tags": [
+    "@products-api"
+   ],
+   "yaml": "- id: API-0543\n  name: Add a spec with a spec_unit that isn't a string returns 422\n  status: manual\n  steps:\n    - Send GET /products and take the first item's id.\n    - Send POST /products/{productId}/specs with that id and a body with a unique spec_name, spec_value \"1.5\" and spec_unit set to the number 5, with the default user's token.\n    - Verify the response status is 422.\n    - Verify the body's errors has a spec_unit key with at least one message."
+  },
+  {
+   "id": "API-0544",
+   "name": "Add a spec with an empty spec_name returns 422",
+   "status": "manual",
+   "steps": [
+    "Send GET /products and take the first item's id.",
+    "Send POST /products/{productId}/specs with that id and a body with spec_name set to an empty string and spec_value \"1.5\", with the default user's token.",
+    "Verify the response status is 422.",
+    "Verify the body's errors has a spec_name key with at least one message."
+   ],
+   "ref": [],
+   "area": "products",
+   "areaLabel": "Products",
+   "file": "test-scenarios/api/products/post-products-by-product-id-specs.yml",
+   "fileLabel": "POST /products/{productId}/specs",
+   "suite": "Products API",
+   "tags": [
+    "@products-api"
+   ],
+   "yaml": "- id: API-0544\n  name: Add a spec with an empty spec_name returns 422\n  status: manual\n  steps:\n    - Send GET /products and take the first item's id.\n    - Send POST /products/{productId}/specs with that id and a body with spec_name set to an empty string and spec_value \"1.5\", with the default user's token.\n    - Verify the response status is 422.\n    - Verify the body's errors has a spec_name key with at least one message."
+  },
+  {
+   "id": "API-0545",
+   "name": "Add an invalid spec to an unknown product returns 422, not 500",
+   "status": "manual",
+   "steps": [
+    "Send POST /products/{productId}/specs with a well-formed ULID that no product has and an empty body {}, with the default user's token.",
+    "Verify the response status is 422.",
+    "Verify the body's errors has the keys spec_name and spec_value."
+   ],
+   "ref": [],
+   "area": "products",
+   "areaLabel": "Products",
+   "file": "test-scenarios/api/products/post-products-by-product-id-specs.yml",
+   "fileLabel": "POST /products/{productId}/specs",
+   "suite": "Products API",
+   "tags": [
+    "@products-api"
+   ],
+   "yaml": "- id: API-0545\n  name: Add an invalid spec to an unknown product returns 422, not 500\n  status: manual\n  steps:\n    - Send POST /products/{productId}/specs with a well-formed ULID that no product has and an empty body {}, with the default user's token.\n    - Verify the response status is 422.\n    - Verify the body's errors has the keys spec_name and spec_value."
+  },
+  {
+   "id": "API-0546",
+   "name": "Add an invalid spec without an Accept header returns 302",
+   "status": "manual",
+   "steps": [
+    "Send GET /products and take the first item's id.",
+    "Send POST /products/{productId}/specs with that id and an empty body {}, with the default user's token, without an Accept header and without following redirects.",
+    "Verify the response status is 302."
+   ],
+   "ref": [],
+   "area": "products",
+   "areaLabel": "Products",
+   "file": "test-scenarios/api/products/post-products-by-product-id-specs.yml",
+   "fileLabel": "POST /products/{productId}/specs",
+   "suite": "Products API",
+   "tags": [
+    "@products-api"
+   ],
+   "yaml": "- id: API-0546\n  name: Add an invalid spec without an Accept header returns 302\n  status: manual\n  steps:\n    - Send GET /products and take the first item's id.\n    - Send POST /products/{productId}/specs with that id and an empty body {}, with the default user's token, without an Accept header and without following redirects.\n    - Verify the response status is 302."
+  },
+  {
+   "id": "API-0547",
+   "name": "Add a spec to an unknown product returns 404",
+   "status": "manual",
+   "knownIssue": "Returns 500 instead of 404 for an unknown product id.",
+   "bug": "BUG-043",
+   "steps": [
+    "Send POST /products/{productId}/specs with a well-formed ULID that no product has and a body with a unique spec_name and spec_value \"1.5\", with the default user's token.",
+    "Verify the response status is 404."
+   ],
+   "ref": [],
+   "area": "products",
+   "areaLabel": "Products",
+   "file": "test-scenarios/api/products/post-products-by-product-id-specs.yml",
+   "fileLabel": "POST /products/{productId}/specs",
+   "suite": "Products API",
+   "tags": [
+    "@products-api"
+   ],
+   "yaml": "- id: API-0547\n  name: Add a spec to an unknown product returns 404\n  status: manual\n  knownIssue: Returns 500 instead of 404 for an unknown product id.\n  bug: BUG-043\n  steps:\n    - Send POST /products/{productId}/specs with a well-formed ULID that no product has and a body with a unique spec_name and spec_value \"1.5\", with the default user's token.\n    - Verify the response status is 404."
+  },
+  {
+   "id": "API-0548",
+   "name": "Get a spec returns 200 and the spec",
+   "status": "manual",
+   "role": "guest",
+   "steps": [
+    "Find a product with at least one spec: send GET /products/{productId} for the items of GET /products until one returns a non-empty specs array, and take its id and its first spec's id, spec_name, spec_value and spec_unit.",
+    "Send GET /products/{productId}/specs/{specId} with that product's id and that spec's id, without an Authorization header.",
+    "Verify the response status is 200.",
+    "Verify the body's id equals the spec's id and its product_id equals the product's id.",
+    "Verify the body's spec_name, spec_value and spec_unit equal the values taken from the product."
+   ],
+   "ref": [],
+   "area": "products",
+   "areaLabel": "Products",
+   "file": "test-scenarios/api/products/get-products-by-product-id-specs-by-spec-id.yml",
+   "fileLabel": "GET /products/{productId}/specs/{specId}",
+   "suite": "Products API",
+   "tags": [
+    "@products-api"
+   ],
+   "yaml": "- id: API-0548\n  name: Get a spec returns 200 and the spec\n  status: manual\n  role: guest\n  steps:\n    - \"Find a product with at least one spec: send GET /products/{productId} for the items of GET /products until one returns a non-empty specs array, and take its id and its first spec's id, spec_name, spec_value and spec_unit.\"\n    - Send GET /products/{productId}/specs/{specId} with that product's id and that spec's id, without an Authorization header.\n    - Verify the response status is 200.\n    - Verify the body's id equals the spec's id and its product_id equals the product's id.\n    - Verify the body's spec_name, spec_value and spec_unit equal the values taken from the product."
+  },
+  {
+   "id": "API-0549",
+   "name": "Get a spec with an unknown spec id returns 404",
+   "status": "manual",
+   "steps": [
+    "Send GET /products and take the first item's id.",
+    "Send GET /products/{productId}/specs/{specId} with that id and a well-formed ULID that no spec has.",
+    "Verify the response status is 404.",
+    "Verify the body's message is \"Requested item not found\"."
+   ],
+   "ref": [],
+   "area": "products",
+   "areaLabel": "Products",
+   "file": "test-scenarios/api/products/get-products-by-product-id-specs-by-spec-id.yml",
+   "fileLabel": "GET /products/{productId}/specs/{specId}",
+   "suite": "Products API",
+   "tags": [
+    "@products-api"
+   ],
+   "yaml": "- id: API-0549\n  name: Get a spec with an unknown spec id returns 404\n  status: manual\n  steps:\n    - Send GET /products and take the first item's id.\n    - Send GET /products/{productId}/specs/{specId} with that id and a well-formed ULID that no spec has.\n    - Verify the response status is 404.\n    - Verify the body's message is \"Requested item not found\"."
+  },
+  {
+   "id": "API-0550",
+   "name": "Get a spec under another product's id returns 404",
+   "status": "manual",
+   "steps": [
+    "Find a product with at least one spec: send GET /products/{productId} for the items of GET /products until one returns a non-empty specs array, and take its id and its first spec's id.",
+    "Take the id of another item of GET /products that differs from that product's id.",
+    "Send GET /products/{productId}/specs/{specId} with the other product's id and that spec's id.",
+    "Verify the response status is 404.",
+    "Verify the body's message is \"Requested item not found\"."
+   ],
+   "ref": [],
+   "area": "products",
+   "areaLabel": "Products",
+   "file": "test-scenarios/api/products/get-products-by-product-id-specs-by-spec-id.yml",
+   "fileLabel": "GET /products/{productId}/specs/{specId}",
+   "suite": "Products API",
+   "tags": [
+    "@products-api"
+   ],
+   "yaml": "- id: API-0550\n  name: Get a spec under another product's id returns 404\n  status: manual\n  steps:\n    - \"Find a product with at least one spec: send GET /products/{productId} for the items of GET /products until one returns a non-empty specs array, and take its id and its first spec's id.\"\n    - Take the id of another item of GET /products that differs from that product's id.\n    - Send GET /products/{productId}/specs/{specId} with the other product's id and that spec's id.\n    - Verify the response status is 404.\n    - Verify the body's message is \"Requested item not found\"."
+  },
+  {
+   "id": "API-0551",
+   "name": "Get a spec of an unknown product returns 404",
+   "status": "manual",
+   "steps": [
+    "Find a product with at least one spec: send GET /products/{productId} for the items of GET /products until one returns a non-empty specs array, and take its first spec's id.",
+    "Send GET /products/{productId}/specs/{specId} with a well-formed ULID that no product has and that spec's id.",
+    "Verify the response status is 404.",
+    "Verify the body's message is \"Requested item not found\"."
+   ],
+   "ref": [],
+   "area": "products",
+   "areaLabel": "Products",
+   "file": "test-scenarios/api/products/get-products-by-product-id-specs-by-spec-id.yml",
+   "fileLabel": "GET /products/{productId}/specs/{specId}",
+   "suite": "Products API",
+   "tags": [
+    "@products-api"
+   ],
+   "yaml": "- id: API-0551\n  name: Get a spec of an unknown product returns 404\n  status: manual\n  steps:\n    - \"Find a product with at least one spec: send GET /products/{productId} for the items of GET /products until one returns a non-empty specs array, and take its first spec's id.\"\n    - Send GET /products/{productId}/specs/{specId} with a well-formed ULID that no product has and that spec's id.\n    - Verify the response status is 404.\n    - Verify the body's message is \"Requested item not found\"."
+  },
+  {
+   "id": "API-0552",
+   "name": "Get a spec with lower-case ids returns the same spec",
+   "status": "manual",
+   "role": "guest",
+   "steps": [
+    "Find a product with at least one spec: send GET /products/{productId} for the items of GET /products until one returns a non-empty specs array, and take its id and its first spec's id and spec_name.",
+    "Send GET /products/{productId}/specs/{specId} with the product's id and the spec's id, both in lower case, without an Authorization header.",
+    "Verify the response status is 200.",
+    "Verify the body's spec_name equals the taken spec_name."
+   ],
+   "ref": [],
+   "area": "products",
+   "areaLabel": "Products",
+   "file": "test-scenarios/api/products/get-products-by-product-id-specs-by-spec-id.yml",
+   "fileLabel": "GET /products/{productId}/specs/{specId}",
+   "suite": "Products API",
+   "tags": [
+    "@products-api"
+   ],
+   "yaml": "- id: API-0552\n  name: Get a spec with lower-case ids returns the same spec\n  status: manual\n  role: guest\n  steps:\n    - \"Find a product with at least one spec: send GET /products/{productId} for the items of GET /products until one returns a non-empty specs array, and take its id and its first spec's id and spec_name.\"\n    - Send GET /products/{productId}/specs/{specId} with the product's id and the spec's id, both in lower case, without an Authorization header.\n    - Verify the response status is 200.\n    - Verify the body's spec_name equals the taken spec_name."
+  },
+  {
+   "id": "API-0553",
+   "name": "Update a spec's value returns success and keeps the other fields",
+   "status": "manual",
+   "steps": [
+    "Send GET /products and take the first item's brand id, category id and product image id.",
+    "Send POST /products with a unique product name, a positive price, those ids, is_location_offer false and is_rental false, and take the new product's id.",
+    "Send POST /products/{productId}/specs with the new product's id, a body with a unique spec_name, spec_value \"1.5\" and spec_unit \"kg\", and the default user's token, and take the new spec's id.",
+    "Send PUT /products/{productId}/specs/{specId} with the new product's id, the new spec's id and a body with spec_value \"2.5\", with the default user's token.",
+    "Verify the response status is 200.",
+    "Verify the body's success is true.",
+    "Send GET /products/{productId}/specs/{specId} with the new product's id and the new spec's id.",
+    "Verify its spec_value is \"2.5\".",
+    "Verify its spec_name and spec_unit equal the values the spec was created with."
+   ],
+   "ref": [],
+   "area": "products",
+   "areaLabel": "Products",
+   "file": "test-scenarios/api/products/put-products-by-product-id-specs-by-spec-id.yml",
+   "fileLabel": "PUT /products/{productId}/specs/{specId}",
+   "suite": "Products API",
+   "tags": [
+    "@products-api"
+   ],
+   "yaml": "- id: API-0553\n  name: Update a spec's value returns success and keeps the other fields\n  status: manual\n  steps:\n    - Send GET /products and take the first item's brand id, category id and product image id.\n    - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false and is_rental false, and take the new product's id.\n    - Send POST /products/{productId}/specs with the new product's id, a body with a unique spec_name, spec_value \"1.5\" and spec_unit \"kg\", and the default user's token, and take the new spec's id.\n    - Send PUT /products/{productId}/specs/{specId} with the new product's id, the new spec's id and a body with spec_value \"2.5\", with the default user's token.\n    - Verify the response status is 200.\n    - Verify the body's success is true.\n    - Send GET /products/{productId}/specs/{specId} with the new product's id and the new spec's id.\n    - Verify its spec_value is \"2.5\".\n    - Verify its spec_name and spec_unit equal the values the spec was created with."
+  },
+  {
+   "id": "API-0554",
+   "name": "Update a spec's name, value and unit saves all three",
+   "status": "manual",
+   "steps": [
+    "Send GET /products and take the first item's brand id, category id and product image id.",
+    "Send POST /products with a unique product name, a positive price, those ids, is_location_offer false and is_rental false, and take the new product's id.",
+    "Send POST /products/{productId}/specs with the new product's id, a body with a unique spec_name, spec_value \"1.5\" and spec_unit \"kg\", and the default user's token, and take the new spec's id.",
+    "Send PUT /products/{productId}/specs/{specId} with the new product's id, the new spec's id and a body with a new unique spec_name, spec_value \"9\" and spec_unit \"g\", with the default user's token.",
+    "Verify the response status is 200.",
+    "Verify the body's success is true.",
+    "Send GET /products/{productId}/specs/{specId} with the new product's id and the new spec's id.",
+    "Verify its spec_name, spec_value and spec_unit equal the new values."
+   ],
+   "ref": [],
+   "area": "products",
+   "areaLabel": "Products",
+   "file": "test-scenarios/api/products/put-products-by-product-id-specs-by-spec-id.yml",
+   "fileLabel": "PUT /products/{productId}/specs/{specId}",
+   "suite": "Products API",
+   "tags": [
+    "@products-api"
+   ],
+   "yaml": "- id: API-0554\n  name: Update a spec's name, value and unit saves all three\n  status: manual\n  steps:\n    - Send GET /products and take the first item's brand id, category id and product image id.\n    - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false and is_rental false, and take the new product's id.\n    - Send POST /products/{productId}/specs with the new product's id, a body with a unique spec_name, spec_value \"1.5\" and spec_unit \"kg\", and the default user's token, and take the new spec's id.\n    - Send PUT /products/{productId}/specs/{specId} with the new product's id, the new spec's id and a body with a new unique spec_name, spec_value \"9\" and spec_unit \"g\", with the default user's token.\n    - Verify the response status is 200.\n    - Verify the body's success is true.\n    - Send GET /products/{productId}/specs/{specId} with the new product's id and the new spec's id.\n    - Verify its spec_name, spec_value and spec_unit equal the new values."
+  },
+  {
+   "id": "API-0555",
+   "name": "Update a spec with spec_unit null clears the unit",
+   "status": "manual",
+   "steps": [
+    "Send GET /products and take the first item's brand id, category id and product image id.",
+    "Send POST /products with a unique product name, a positive price, those ids, is_location_offer false and is_rental false, and take the new product's id.",
+    "Send POST /products/{productId}/specs with the new product's id, a body with a unique spec_name, spec_value \"1.5\" and spec_unit \"kg\", and the default user's token, and take the new spec's id.",
+    "Send PUT /products/{productId}/specs/{specId} with the new product's id, the new spec's id and a body with spec_unit set to null, with the default user's token.",
+    "Verify the response status is 200.",
+    "Verify the body's success is true.",
+    "Send GET /products/{productId}/specs/{specId} with the new product's id and the new spec's id.",
+    "Verify its spec_unit is null.",
+    "Verify its spec_name and spec_value equal the values the spec was created with."
+   ],
+   "ref": [],
+   "area": "products",
+   "areaLabel": "Products",
+   "file": "test-scenarios/api/products/put-products-by-product-id-specs-by-spec-id.yml",
+   "fileLabel": "PUT /products/{productId}/specs/{specId}",
+   "suite": "Products API",
+   "tags": [
+    "@products-api"
+   ],
+   "yaml": "- id: API-0555\n  name: Update a spec with spec_unit null clears the unit\n  status: manual\n  steps:\n    - Send GET /products and take the first item's brand id, category id and product image id.\n    - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false and is_rental false, and take the new product's id.\n    - Send POST /products/{productId}/specs with the new product's id, a body with a unique spec_name, spec_value \"1.5\" and spec_unit \"kg\", and the default user's token, and take the new spec's id.\n    - Send PUT /products/{productId}/specs/{specId} with the new product's id, the new spec's id and a body with spec_unit set to null, with the default user's token.\n    - Verify the response status is 200.\n    - Verify the body's success is true.\n    - Send GET /products/{productId}/specs/{specId} with the new product's id and the new spec's id.\n    - Verify its spec_unit is null.\n    - Verify its spec_name and spec_value equal the values the spec was created with."
+  },
+  {
+   "id": "API-0556",
+   "name": "Update a spec with an empty body changes nothing",
+   "status": "manual",
+   "steps": [
+    "Send GET /products and take the first item's brand id, category id and product image id.",
+    "Send POST /products with a unique product name, a positive price, those ids, is_location_offer false and is_rental false, and take the new product's id.",
+    "Send POST /products/{productId}/specs with the new product's id, a body with a unique spec_name, spec_value \"1.5\" and spec_unit \"kg\", and the default user's token, and take the new spec's id.",
+    "Send PUT /products/{productId}/specs/{specId} with the new product's id, the new spec's id and an empty body {}, with the default user's token.",
+    "Verify the response status is 200.",
+    "Verify the body's success is true.",
+    "Send GET /products/{productId}/specs/{specId} with the new product's id and the new spec's id.",
+    "Verify its spec_name, spec_value and spec_unit equal the values the spec was created with."
+   ],
+   "ref": [],
+   "area": "products",
+   "areaLabel": "Products",
+   "file": "test-scenarios/api/products/put-products-by-product-id-specs-by-spec-id.yml",
+   "fileLabel": "PUT /products/{productId}/specs/{specId}",
+   "suite": "Products API",
+   "tags": [
+    "@products-api"
+   ],
+   "yaml": "- id: API-0556\n  name: Update a spec with an empty body changes nothing\n  status: manual\n  steps:\n    - Send GET /products and take the first item's brand id, category id and product image id.\n    - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false and is_rental false, and take the new product's id.\n    - Send POST /products/{productId}/specs with the new product's id, a body with a unique spec_name, spec_value \"1.5\" and spec_unit \"kg\", and the default user's token, and take the new spec's id.\n    - Send PUT /products/{productId}/specs/{specId} with the new product's id, the new spec's id and an empty body {}, with the default user's token.\n    - Verify the response status is 200.\n    - Verify the body's success is true.\n    - Send GET /products/{productId}/specs/{specId} with the new product's id and the new spec's id.\n    - Verify its spec_name, spec_value and spec_unit equal the values the spec was created with."
+  },
+  {
+   "id": "API-0557",
+   "name": "Update a spec ignores a product_id in the body",
+   "status": "manual",
+   "steps": [
+    "Send GET /products and take the first item's brand id, category id and product image id, and the id of another item.",
+    "Send POST /products with a unique product name, a positive price, those ids, is_location_offer false and is_rental false, and take the new product's id.",
+    "Send POST /products/{productId}/specs with the new product's id, a body with a unique spec_name, spec_value \"1.5\" and spec_unit \"kg\", and the default user's token, and take the new spec's id.",
+    "Send PUT /products/{productId}/specs/{specId} with the new product's id, the new spec's id and a body with spec_value \"2.5\" and product_id set to the other item's id, with the default user's token.",
+    "Verify the response status is 200.",
+    "Send GET /products/{productId}/specs/{specId} with the new product's id and the new spec's id.",
+    "Verify its product_id equals the new product's id and its spec_value is \"2.5\".",
+    "Verify GET /products/{productId}/specs/{specId} with the other item's id and the new spec's id returns 404."
+   ],
+   "ref": [],
+   "area": "products",
+   "areaLabel": "Products",
+   "file": "test-scenarios/api/products/put-products-by-product-id-specs-by-spec-id.yml",
+   "fileLabel": "PUT /products/{productId}/specs/{specId}",
+   "suite": "Products API",
+   "tags": [
+    "@products-api"
+   ],
+   "yaml": "- id: API-0557\n  name: Update a spec ignores a product_id in the body\n  status: manual\n  steps:\n    - Send GET /products and take the first item's brand id, category id and product image id, and the id of another item.\n    - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false and is_rental false, and take the new product's id.\n    - Send POST /products/{productId}/specs with the new product's id, a body with a unique spec_name, spec_value \"1.5\" and spec_unit \"kg\", and the default user's token, and take the new spec's id.\n    - Send PUT /products/{productId}/specs/{specId} with the new product's id, the new spec's id and a body with spec_value \"2.5\" and product_id set to the other item's id, with the default user's token.\n    - Verify the response status is 200.\n    - Send GET /products/{productId}/specs/{specId} with the new product's id and the new spec's id.\n    - Verify its product_id equals the new product's id and its spec_value is \"2.5\".\n    - Verify GET /products/{productId}/specs/{specId} with the other item's id and the new spec's id returns 404."
+  },
+  {
+   "id": "API-0558",
+   "name": "Update a spec without a token returns 401",
+   "status": "manual",
+   "steps": [
+    "Send GET /products and take the first item's brand id, category id and product image id.",
+    "Send POST /products with a unique product name, a positive price, those ids, is_location_offer false and is_rental false, and take the new product's id.",
+    "Send POST /products/{productId}/specs with the new product's id, a body with a unique spec_name, spec_value \"1.5\" and spec_unit \"kg\", and the default user's token, and take the new spec's id.",
+    "Send PUT /products/{productId}/specs/{specId} with the new product's id, the new spec's id and a body with spec_value \"2.5\", without an Authorization header.",
+    "Verify the response status is 401.",
+    "Verify the body's message is \"Unauthorized\"."
+   ],
+   "ref": [],
+   "area": "products",
+   "areaLabel": "Products",
+   "file": "test-scenarios/api/products/put-products-by-product-id-specs-by-spec-id.yml",
+   "fileLabel": "PUT /products/{productId}/specs/{specId}",
+   "suite": "Products API",
+   "tags": [
+    "@products-api"
+   ],
+   "yaml": "- id: API-0558\n  name: Update a spec without a token returns 401\n  status: manual\n  steps:\n    - Send GET /products and take the first item's brand id, category id and product image id.\n    - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false and is_rental false, and take the new product's id.\n    - Send POST /products/{productId}/specs with the new product's id, a body with a unique spec_name, spec_value \"1.5\" and spec_unit \"kg\", and the default user's token, and take the new spec's id.\n    - Send PUT /products/{productId}/specs/{specId} with the new product's id, the new spec's id and a body with spec_value \"2.5\", without an Authorization header.\n    - Verify the response status is 401.\n    - Verify the body's message is \"Unauthorized\"."
+  },
+  {
+   "id": "API-0559",
+   "name": "Update a spec with an invalid token returns 401",
+   "status": "manual",
+   "steps": [
+    "Send GET /products and take the first item's brand id, category id and product image id.",
+    "Send POST /products with a unique product name, a positive price, those ids, is_location_offer false and is_rental false, and take the new product's id.",
+    "Send POST /products/{productId}/specs with the new product's id, a body with a unique spec_name, spec_value \"1.5\" and spec_unit \"kg\", and the default user's token, and take the new spec's id.",
+    "Send PUT /products/{productId}/specs/{specId} with the new product's id, the new spec's id and a body with spec_value \"2.5\", with an invalid token.",
+    "Verify the response status is 401.",
+    "Verify the body's message is \"Unauthorized\"."
+   ],
+   "ref": [],
+   "area": "products",
+   "areaLabel": "Products",
+   "file": "test-scenarios/api/products/put-products-by-product-id-specs-by-spec-id.yml",
+   "fileLabel": "PUT /products/{productId}/specs/{specId}",
+   "suite": "Products API",
+   "tags": [
+    "@products-api"
+   ],
+   "yaml": "- id: API-0559\n  name: Update a spec with an invalid token returns 401\n  status: manual\n  steps:\n    - Send GET /products and take the first item's brand id, category id and product image id.\n    - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false and is_rental false, and take the new product's id.\n    - Send POST /products/{productId}/specs with the new product's id, a body with a unique spec_name, spec_value \"1.5\" and spec_unit \"kg\", and the default user's token, and take the new spec's id.\n    - Send PUT /products/{productId}/specs/{specId} with the new product's id, the new spec's id and a body with spec_value \"2.5\", with an invalid token.\n    - Verify the response status is 401.\n    - Verify the body's message is \"Unauthorized\"."
+  },
+  {
+   "id": "API-0560",
+   "name": "Update a spec with an unknown spec id returns 404",
+   "status": "manual",
+   "steps": [
+    "Send GET /products and take the first item's id.",
+    "Send PUT /products/{productId}/specs/{specId} with that id, a well-formed ULID that no spec has and a body with spec_value \"2.5\", with the default user's token.",
+    "Verify the response status is 404.",
+    "Verify the body's message is \"Requested item not found\"."
+   ],
+   "ref": [],
+   "area": "products",
+   "areaLabel": "Products",
+   "file": "test-scenarios/api/products/put-products-by-product-id-specs-by-spec-id.yml",
+   "fileLabel": "PUT /products/{productId}/specs/{specId}",
+   "suite": "Products API",
+   "tags": [
+    "@products-api"
+   ],
+   "yaml": "- id: API-0560\n  name: Update a spec with an unknown spec id returns 404\n  status: manual\n  steps:\n    - Send GET /products and take the first item's id.\n    - Send PUT /products/{productId}/specs/{specId} with that id, a well-formed ULID that no spec has and a body with spec_value \"2.5\", with the default user's token.\n    - Verify the response status is 404.\n    - Verify the body's message is \"Requested item not found\"."
+  },
+  {
+   "id": "API-0561",
+   "name": "Update a spec under another product's id returns 404 and changes nothing",
+   "status": "manual",
+   "steps": [
+    "Send GET /products and take the first item's brand id, category id and product image id, and the id of another item.",
+    "Send POST /products with a unique product name, a positive price, those ids, is_location_offer false and is_rental false, and take the new product's id.",
+    "Send POST /products/{productId}/specs with the new product's id, a body with a unique spec_name, spec_value \"1.5\" and spec_unit \"kg\", and the default user's token, and take the new spec's id.",
+    "Send PUT /products/{productId}/specs/{specId} with the other item's id, the new spec's id and a body with spec_value \"2.5\", with the default user's token.",
+    "Verify the response status is 404.",
+    "Verify the body's message is \"Requested item not found\".",
+    "Verify GET /products/{productId}/specs/{specId} with the new product's id and the new spec's id returns the spec_value the spec was created with."
+   ],
+   "ref": [],
+   "area": "products",
+   "areaLabel": "Products",
+   "file": "test-scenarios/api/products/put-products-by-product-id-specs-by-spec-id.yml",
+   "fileLabel": "PUT /products/{productId}/specs/{specId}",
+   "suite": "Products API",
+   "tags": [
+    "@products-api"
+   ],
+   "yaml": "- id: API-0561\n  name: Update a spec under another product's id returns 404 and changes nothing\n  status: manual\n  steps:\n    - Send GET /products and take the first item's brand id, category id and product image id, and the id of another item.\n    - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false and is_rental false, and take the new product's id.\n    - Send POST /products/{productId}/specs with the new product's id, a body with a unique spec_name, spec_value \"1.5\" and spec_unit \"kg\", and the default user's token, and take the new spec's id.\n    - Send PUT /products/{productId}/specs/{specId} with the other item's id, the new spec's id and a body with spec_value \"2.5\", with the default user's token.\n    - Verify the response status is 404.\n    - Verify the body's message is \"Requested item not found\".\n    - Verify GET /products/{productId}/specs/{specId} with the new product's id and the new spec's id returns the spec_value the spec was created with."
+  },
+  {
+   "id": "API-0562",
+   "name": "Update a spec with a spec_name longer than 100 characters returns 422",
+   "status": "manual",
+   "steps": [
+    "Send GET /products and take the first item's brand id, category id and product image id.",
+    "Send POST /products with a unique product name, a positive price, those ids, is_location_offer false and is_rental false, and take the new product's id.",
+    "Send POST /products/{productId}/specs with the new product's id, a body with a unique spec_name, spec_value \"1.5\" and spec_unit \"kg\", and the default user's token, and take the new spec's id.",
+    "Send PUT /products/{productId}/specs/{specId} with the new product's id, the new spec's id and a body with a 101-character spec_name, with the default user's token.",
+    "Verify the response status is 422.",
+    "Verify the body's errors has a spec_name key with at least one message."
+   ],
+   "ref": [],
+   "area": "products",
+   "areaLabel": "Products",
+   "file": "test-scenarios/api/products/put-products-by-product-id-specs-by-spec-id.yml",
+   "fileLabel": "PUT /products/{productId}/specs/{specId}",
+   "suite": "Products API",
+   "tags": [
+    "@products-api"
+   ],
+   "yaml": "- id: API-0562\n  name: Update a spec with a spec_name longer than 100 characters returns 422\n  status: manual\n  steps:\n    - Send GET /products and take the first item's brand id, category id and product image id.\n    - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false and is_rental false, and take the new product's id.\n    - Send POST /products/{productId}/specs with the new product's id, a body with a unique spec_name, spec_value \"1.5\" and spec_unit \"kg\", and the default user's token, and take the new spec's id.\n    - Send PUT /products/{productId}/specs/{specId} with the new product's id, the new spec's id and a body with a 101-character spec_name, with the default user's token.\n    - Verify the response status is 422.\n    - Verify the body's errors has a spec_name key with at least one message."
+  },
+  {
+   "id": "API-0563",
+   "name": "Update a spec with a spec_value longer than 255 characters returns 422",
+   "status": "manual",
+   "steps": [
+    "Send GET /products and take the first item's brand id, category id and product image id.",
+    "Send POST /products with a unique product name, a positive price, those ids, is_location_offer false and is_rental false, and take the new product's id.",
+    "Send POST /products/{productId}/specs with the new product's id, a body with a unique spec_name, spec_value \"1.5\" and spec_unit \"kg\", and the default user's token, and take the new spec's id.",
+    "Send PUT /products/{productId}/specs/{specId} with the new product's id, the new spec's id and a body with a 256-character spec_value, with the default user's token.",
+    "Verify the response status is 422.",
+    "Verify the body's errors has a spec_value key with at least one message."
+   ],
+   "ref": [],
+   "area": "products",
+   "areaLabel": "Products",
+   "file": "test-scenarios/api/products/put-products-by-product-id-specs-by-spec-id.yml",
+   "fileLabel": "PUT /products/{productId}/specs/{specId}",
+   "suite": "Products API",
+   "tags": [
+    "@products-api"
+   ],
+   "yaml": "- id: API-0563\n  name: Update a spec with a spec_value longer than 255 characters returns 422\n  status: manual\n  steps:\n    - Send GET /products and take the first item's brand id, category id and product image id.\n    - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false and is_rental false, and take the new product's id.\n    - Send POST /products/{productId}/specs with the new product's id, a body with a unique spec_name, spec_value \"1.5\" and spec_unit \"kg\", and the default user's token, and take the new spec's id.\n    - Send PUT /products/{productId}/specs/{specId} with the new product's id, the new spec's id and a body with a 256-character spec_value, with the default user's token.\n    - Verify the response status is 422.\n    - Verify the body's errors has a spec_value key with at least one message."
+  },
+  {
+   "id": "API-0564",
+   "name": "Update a spec with a spec_unit longer than 30 characters returns 422",
+   "status": "manual",
+   "steps": [
+    "Send GET /products and take the first item's brand id, category id and product image id.",
+    "Send POST /products with a unique product name, a positive price, those ids, is_location_offer false and is_rental false, and take the new product's id.",
+    "Send POST /products/{productId}/specs with the new product's id, a body with a unique spec_name, spec_value \"1.5\" and spec_unit \"kg\", and the default user's token, and take the new spec's id.",
+    "Send PUT /products/{productId}/specs/{specId} with the new product's id, the new spec's id and a body with a 31-character spec_unit, with the default user's token.",
+    "Verify the response status is 422.",
+    "Verify the body's errors has a spec_unit key with at least one message."
+   ],
+   "ref": [],
+   "area": "products",
+   "areaLabel": "Products",
+   "file": "test-scenarios/api/products/put-products-by-product-id-specs-by-spec-id.yml",
+   "fileLabel": "PUT /products/{productId}/specs/{specId}",
+   "suite": "Products API",
+   "tags": [
+    "@products-api"
+   ],
+   "yaml": "- id: API-0564\n  name: Update a spec with a spec_unit longer than 30 characters returns 422\n  status: manual\n  steps:\n    - Send GET /products and take the first item's brand id, category id and product image id.\n    - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false and is_rental false, and take the new product's id.\n    - Send POST /products/{productId}/specs with the new product's id, a body with a unique spec_name, spec_value \"1.5\" and spec_unit \"kg\", and the default user's token, and take the new spec's id.\n    - Send PUT /products/{productId}/specs/{specId} with the new product's id, the new spec's id and a body with a 31-character spec_unit, with the default user's token.\n    - Verify the response status is 422.\n    - Verify the body's errors has a spec_unit key with at least one message."
+  },
+  {
+   "id": "API-0565",
+   "name": "Update a spec with spec_name null returns 422",
+   "status": "manual",
+   "steps": [
+    "Send GET /products and take the first item's brand id, category id and product image id.",
+    "Send POST /products with a unique product name, a positive price, those ids, is_location_offer false and is_rental false, and take the new product's id.",
+    "Send POST /products/{productId}/specs with the new product's id, a body with a unique spec_name, spec_value \"1.5\" and spec_unit \"kg\", and the default user's token, and take the new spec's id.",
+    "Send PUT /products/{productId}/specs/{specId} with the new product's id, the new spec's id and a body with spec_name set to null, with the default user's token.",
+    "Verify the response status is 422.",
+    "Verify the body's errors has a spec_name key with at least one message."
+   ],
+   "ref": [],
+   "area": "products",
+   "areaLabel": "Products",
+   "file": "test-scenarios/api/products/put-products-by-product-id-specs-by-spec-id.yml",
+   "fileLabel": "PUT /products/{productId}/specs/{specId}",
+   "suite": "Products API",
+   "tags": [
+    "@products-api"
+   ],
+   "yaml": "- id: API-0565\n  name: Update a spec with spec_name null returns 422\n  status: manual\n  steps:\n    - Send GET /products and take the first item's brand id, category id and product image id.\n    - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false and is_rental false, and take the new product's id.\n    - Send POST /products/{productId}/specs with the new product's id, a body with a unique spec_name, spec_value \"1.5\" and spec_unit \"kg\", and the default user's token, and take the new spec's id.\n    - Send PUT /products/{productId}/specs/{specId} with the new product's id, the new spec's id and a body with spec_name set to null, with the default user's token.\n    - Verify the response status is 422.\n    - Verify the body's errors has a spec_name key with at least one message."
+  },
+  {
+   "id": "API-0566",
+   "name": "Update a spec with an empty spec_value returns 422",
+   "status": "manual",
+   "steps": [
+    "Send GET /products and take the first item's brand id, category id and product image id.",
+    "Send POST /products with a unique product name, a positive price, those ids, is_location_offer false and is_rental false, and take the new product's id.",
+    "Send POST /products/{productId}/specs with the new product's id, a body with a unique spec_name, spec_value \"1.5\" and spec_unit \"kg\", and the default user's token, and take the new spec's id.",
+    "Send PUT /products/{productId}/specs/{specId} with the new product's id, the new spec's id and a body with spec_value set to an empty string, with the default user's token.",
+    "Verify the response status is 422.",
+    "Verify the body's errors has a spec_value key with at least one message."
+   ],
+   "ref": [],
+   "area": "products",
+   "areaLabel": "Products",
+   "file": "test-scenarios/api/products/put-products-by-product-id-specs-by-spec-id.yml",
+   "fileLabel": "PUT /products/{productId}/specs/{specId}",
+   "suite": "Products API",
+   "tags": [
+    "@products-api"
+   ],
+   "yaml": "- id: API-0566\n  name: Update a spec with an empty spec_value returns 422\n  status: manual\n  steps:\n    - Send GET /products and take the first item's brand id, category id and product image id.\n    - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false and is_rental false, and take the new product's id.\n    - Send POST /products/{productId}/specs with the new product's id, a body with a unique spec_name, spec_value \"1.5\" and spec_unit \"kg\", and the default user's token, and take the new spec's id.\n    - Send PUT /products/{productId}/specs/{specId} with the new product's id, the new spec's id and a body with spec_value set to an empty string, with the default user's token.\n    - Verify the response status is 422.\n    - Verify the body's errors has a spec_value key with at least one message."
+  },
+  {
+   "id": "API-0567",
+   "name": "Update an unknown spec with an invalid body returns 422, not 404",
+   "status": "manual",
+   "steps": [
+    "Send GET /products and take the first item's id.",
+    "Send PUT /products/{productId}/specs/{specId} with that id, a well-formed ULID that no spec has and a body with a 256-character spec_value, with the default user's token.",
+    "Verify the response status is 422.",
+    "Verify the body's errors has a spec_value key with at least one message."
+   ],
+   "ref": [],
+   "area": "products",
+   "areaLabel": "Products",
+   "file": "test-scenarios/api/products/put-products-by-product-id-specs-by-spec-id.yml",
+   "fileLabel": "PUT /products/{productId}/specs/{specId}",
+   "suite": "Products API",
+   "tags": [
+    "@products-api"
+   ],
+   "yaml": "- id: API-0567\n  name: Update an unknown spec with an invalid body returns 422, not 404\n  status: manual\n  steps:\n    - Send GET /products and take the first item's id.\n    - Send PUT /products/{productId}/specs/{specId} with that id, a well-formed ULID that no spec has and a body with a 256-character spec_value, with the default user's token.\n    - Verify the response status is 422.\n    - Verify the body's errors has a spec_value key with at least one message."
+  },
+  {
+   "id": "API-0568",
+   "name": "Update a spec with an invalid body and no Accept header returns 302",
+   "status": "manual",
+   "steps": [
+    "Send GET /products and take the first item's brand id, category id and product image id.",
+    "Send POST /products with a unique product name, a positive price, those ids, is_location_offer false and is_rental false, and take the new product's id.",
+    "Send POST /products/{productId}/specs with the new product's id, a body with a unique spec_name, spec_value \"1.5\" and spec_unit \"kg\", and the default user's token, and take the new spec's id.",
+    "Send PUT /products/{productId}/specs/{specId} with the new product's id, the new spec's id and a body with a 101-character spec_name, with the default user's token, without an Accept header and without following redirects.",
+    "Verify the response status is 302."
+   ],
+   "ref": [],
+   "area": "products",
+   "areaLabel": "Products",
+   "file": "test-scenarios/api/products/put-products-by-product-id-specs-by-spec-id.yml",
+   "fileLabel": "PUT /products/{productId}/specs/{specId}",
+   "suite": "Products API",
+   "tags": [
+    "@products-api"
+   ],
+   "yaml": "- id: API-0568\n  name: Update a spec with an invalid body and no Accept header returns 302\n  status: manual\n  steps:\n    - Send GET /products and take the first item's brand id, category id and product image id.\n    - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false and is_rental false, and take the new product's id.\n    - Send POST /products/{productId}/specs with the new product's id, a body with a unique spec_name, spec_value \"1.5\" and spec_unit \"kg\", and the default user's token, and take the new spec's id.\n    - Send PUT /products/{productId}/specs/{specId} with the new product's id, the new spec's id and a body with a 101-character spec_name, with the default user's token, without an Accept header and without following redirects.\n    - Verify the response status is 302."
+  },
+  {
+   "id": "API-0569",
+   "name": "Delete a spec returns 204 and the spec is gone",
+   "status": "manual",
+   "steps": [
+    "Send GET /products and take the first item's brand id, category id and product image id.",
+    "Send POST /products with a unique product name, a positive price, those ids, is_location_offer false and is_rental false, and take the new product's id.",
+    "Send POST /products/{productId}/specs with the new product's id, a body with a unique spec_name, spec_value \"1.5\" and spec_unit \"kg\", and the default user's token, and take the new spec's id.",
+    "Send DELETE /products/{productId}/specs/{specId} with the new product's id, the new spec's id and the default user's token.",
+    "Verify the response status is 204.",
+    "Verify GET /products/{productId}/specs/{specId} with the new product's id and the new spec's id returns 404."
+   ],
+   "ref": [],
+   "area": "products",
+   "areaLabel": "Products",
+   "file": "test-scenarios/api/products/delete-products-by-product-id-specs-by-spec-id.yml",
+   "fileLabel": "DELETE /products/{productId}/specs/{specId}",
+   "suite": "Products API",
+   "tags": [
+    "@products-api"
+   ],
+   "yaml": "- id: API-0569\n  name: Delete a spec returns 204 and the spec is gone\n  status: manual\n  steps:\n    - Send GET /products and take the first item's brand id, category id and product image id.\n    - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false and is_rental false, and take the new product's id.\n    - Send POST /products/{productId}/specs with the new product's id, a body with a unique spec_name, spec_value \"1.5\" and spec_unit \"kg\", and the default user's token, and take the new spec's id.\n    - Send DELETE /products/{productId}/specs/{specId} with the new product's id, the new spec's id and the default user's token.\n    - Verify the response status is 204.\n    - Verify GET /products/{productId}/specs/{specId} with the new product's id and the new spec's id returns 404."
+  },
+  {
+   "id": "API-0570",
+   "name": "Delete a spec without a token returns 401",
+   "status": "manual",
+   "steps": [
+    "Send GET /products and take the first item's brand id, category id and product image id.",
+    "Send POST /products with a unique product name, a positive price, those ids, is_location_offer false and is_rental false, and take the new product's id.",
+    "Send POST /products/{productId}/specs with the new product's id, a body with a unique spec_name, spec_value \"1.5\" and spec_unit \"kg\", and the default user's token, and take the new spec's id.",
+    "Send DELETE /products/{productId}/specs/{specId} with the new product's id and the new spec's id, without an Authorization header.",
+    "Verify the response status is 401.",
+    "Verify the body's message is \"Unauthorized\"."
+   ],
+   "ref": [],
+   "area": "products",
+   "areaLabel": "Products",
+   "file": "test-scenarios/api/products/delete-products-by-product-id-specs-by-spec-id.yml",
+   "fileLabel": "DELETE /products/{productId}/specs/{specId}",
+   "suite": "Products API",
+   "tags": [
+    "@products-api"
+   ],
+   "yaml": "- id: API-0570\n  name: Delete a spec without a token returns 401\n  status: manual\n  steps:\n    - Send GET /products and take the first item's brand id, category id and product image id.\n    - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false and is_rental false, and take the new product's id.\n    - Send POST /products/{productId}/specs with the new product's id, a body with a unique spec_name, spec_value \"1.5\" and spec_unit \"kg\", and the default user's token, and take the new spec's id.\n    - Send DELETE /products/{productId}/specs/{specId} with the new product's id and the new spec's id, without an Authorization header.\n    - Verify the response status is 401.\n    - Verify the body's message is \"Unauthorized\"."
+  },
+  {
+   "id": "API-0571",
+   "name": "Delete a spec with an invalid token returns 401",
+   "status": "manual",
+   "steps": [
+    "Send GET /products and take the first item's brand id, category id and product image id.",
+    "Send POST /products with a unique product name, a positive price, those ids, is_location_offer false and is_rental false, and take the new product's id.",
+    "Send POST /products/{productId}/specs with the new product's id, a body with a unique spec_name, spec_value \"1.5\" and spec_unit \"kg\", and the default user's token, and take the new spec's id.",
+    "Send DELETE /products/{productId}/specs/{specId} with the new product's id and the new spec's id, with an invalid token.",
+    "Verify the response status is 401.",
+    "Verify the body's message is \"Unauthorized\"."
+   ],
+   "ref": [],
+   "area": "products",
+   "areaLabel": "Products",
+   "file": "test-scenarios/api/products/delete-products-by-product-id-specs-by-spec-id.yml",
+   "fileLabel": "DELETE /products/{productId}/specs/{specId}",
+   "suite": "Products API",
+   "tags": [
+    "@products-api"
+   ],
+   "yaml": "- id: API-0571\n  name: Delete a spec with an invalid token returns 401\n  status: manual\n  steps:\n    - Send GET /products and take the first item's brand id, category id and product image id.\n    - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false and is_rental false, and take the new product's id.\n    - Send POST /products/{productId}/specs with the new product's id, a body with a unique spec_name, spec_value \"1.5\" and spec_unit \"kg\", and the default user's token, and take the new spec's id.\n    - Send DELETE /products/{productId}/specs/{specId} with the new product's id and the new spec's id, with an invalid token.\n    - Verify the response status is 401.\n    - Verify the body's message is \"Unauthorized\"."
+  },
+  {
+   "id": "API-0572",
+   "name": "Delete a spec under another product's id returns 204 and deletes nothing",
+   "status": "manual",
+   "steps": [
+    "Send GET /products and take the first item's brand id, category id and product image id, and the id of another item.",
+    "Send POST /products with a unique product name, a positive price, those ids, is_location_offer false and is_rental false, and take the new product's id.",
+    "Send POST /products/{productId}/specs with the new product's id, a body with a unique spec_name, spec_value \"1.5\" and spec_unit \"kg\", and the default user's token, and take the new spec's id.",
+    "Send DELETE /products/{productId}/specs/{specId} with the other item's id, the new spec's id and the default user's token.",
+    "Verify the response status is 204.",
+    "Verify GET /products/{productId}/specs/{specId} with the new product's id and the new spec's id returns 200."
+   ],
+   "ref": [],
+   "area": "products",
+   "areaLabel": "Products",
+   "file": "test-scenarios/api/products/delete-products-by-product-id-specs-by-spec-id.yml",
+   "fileLabel": "DELETE /products/{productId}/specs/{specId}",
+   "suite": "Products API",
+   "tags": [
+    "@products-api"
+   ],
+   "yaml": "- id: API-0572\n  name: Delete a spec under another product's id returns 204 and deletes nothing\n  status: manual\n  steps:\n    - Send GET /products and take the first item's brand id, category id and product image id, and the id of another item.\n    - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false and is_rental false, and take the new product's id.\n    - Send POST /products/{productId}/specs with the new product's id, a body with a unique spec_name, spec_value \"1.5\" and spec_unit \"kg\", and the default user's token, and take the new spec's id.\n    - Send DELETE /products/{productId}/specs/{specId} with the other item's id, the new spec's id and the default user's token.\n    - Verify the response status is 204.\n    - Verify GET /products/{productId}/specs/{specId} with the new product's id and the new spec's id returns 200."
+  },
+  {
+   "id": "API-0573",
+   "name": "Delete a spec with an unknown spec id returns 204",
+   "status": "manual",
+   "steps": [
+    "Send GET /products and take the first item's id.",
+    "Send DELETE /products/{productId}/specs/{specId} with that id, a well-formed ULID that no spec has and the default user's token.",
+    "Verify the response status is 204."
+   ],
+   "ref": [],
+   "area": "products",
+   "areaLabel": "Products",
+   "file": "test-scenarios/api/products/delete-products-by-product-id-specs-by-spec-id.yml",
+   "fileLabel": "DELETE /products/{productId}/specs/{specId}",
+   "suite": "Products API",
+   "tags": [
+    "@products-api"
+   ],
+   "yaml": "- id: API-0573\n  name: Delete a spec with an unknown spec id returns 204\n  status: manual\n  steps:\n    - Send GET /products and take the first item's id.\n    - Send DELETE /products/{productId}/specs/{specId} with that id, a well-formed ULID that no spec has and the default user's token.\n    - Verify the response status is 204."
+  },
+  {
+   "id": "API-0604",
+   "name": "Average sales per month returns 200 with twelve months",
+   "status": "manual",
+   "role": "admin",
+   "steps": [
+    "Send GET /reports/average-sales-per-month with the admin's token.",
+    "Verify the response status is 200.",
+    "Verify the body has exactly 12 items whose month values are 1 to 12, in that order.",
+    "Verify every item's average and amount are numbers."
+   ],
+   "ref": [],
+   "area": "reports",
+   "areaLabel": "Reports",
+   "file": "test-scenarios/api/reports/get-reports-average-sales-per-month.yml",
+   "fileLabel": "GET /reports/average-sales-per-month",
+   "suite": "Reports API",
+   "tags": [
+    "@reports-api"
+   ],
+   "yaml": "- id: API-0604\n  name: Average sales per month returns 200 with twelve months\n  status: manual\n  role: admin\n  steps:\n    - Send GET /reports/average-sales-per-month with the admin's token.\n    - Verify the response status is 200.\n    - Verify the body has exactly 12 items whose month values are 1 to 12, in that order.\n    - Verify every item's average and amount are numbers."
+  },
+  {
+   "id": "API-0605",
+   "name": "Average sales per month for a year without invoices returns twelve zero rows",
+   "status": "manual",
+   "role": "admin",
+   "steps": [
+    "Send GET /reports/average-sales-per-month with year 1990 and the admin's token.",
+    "Verify the response status is 200.",
+    "Verify the body has exactly 12 items whose month values are 1 to 12, in that order.",
+    "Verify every item's average is 0 and amount is 0."
+   ],
+   "ref": [],
+   "area": "reports",
+   "areaLabel": "Reports",
+   "file": "test-scenarios/api/reports/get-reports-average-sales-per-month.yml",
+   "fileLabel": "GET /reports/average-sales-per-month",
+   "suite": "Reports API",
+   "tags": [
+    "@reports-api"
+   ],
+   "yaml": "- id: API-0605\n  name: Average sales per month for a year without invoices returns twelve zero rows\n  status: manual\n  role: admin\n  steps:\n    - Send GET /reports/average-sales-per-month with year 1990 and the admin's token.\n    - Verify the response status is 200.\n    - Verify the body has exactly 12 items whose month values are 1 to 12, in that order.\n    - Verify every item's average is 0 and amount is 0."
+  },
+  {
+   "id": "API-0606",
+   "name": "Average sales per month without a token returns 401",
+   "status": "manual",
+   "steps": [
+    "Send GET /reports/average-sales-per-month without an Authorization header.",
+    "Verify the response status is 401.",
+    "Verify the body's message is \"Unauthorized\"."
+   ],
+   "ref": [],
+   "area": "reports",
+   "areaLabel": "Reports",
+   "file": "test-scenarios/api/reports/get-reports-average-sales-per-month.yml",
+   "fileLabel": "GET /reports/average-sales-per-month",
+   "suite": "Reports API",
+   "tags": [
+    "@reports-api"
+   ],
+   "yaml": "- id: API-0606\n  name: Average sales per month without a token returns 401\n  status: manual\n  steps:\n    - Send GET /reports/average-sales-per-month without an Authorization header.\n    - Verify the response status is 401.\n    - Verify the body's message is \"Unauthorized\"."
+  },
+  {
+   "id": "API-0607",
+   "name": "Average sales per month with a malformed token returns 401",
+   "status": "manual",
+   "steps": [
+    "Send GET /reports/average-sales-per-month with a malformed token.",
+    "Verify the response status is 401.",
+    "Verify the body's message is \"Unauthorized\"."
+   ],
+   "ref": [],
+   "area": "reports",
+   "areaLabel": "Reports",
+   "file": "test-scenarios/api/reports/get-reports-average-sales-per-month.yml",
+   "fileLabel": "GET /reports/average-sales-per-month",
+   "suite": "Reports API",
+   "tags": [
+    "@reports-api"
+   ],
+   "yaml": "- id: API-0607\n  name: Average sales per month with a malformed token returns 401\n  status: manual\n  steps:\n    - Send GET /reports/average-sales-per-month with a malformed token.\n    - Verify the response status is 401.\n    - Verify the body's message is \"Unauthorized\"."
+  },
+  {
+   "id": "API-0608",
+   "name": "Average sales per month as a customer returns 403",
+   "status": "manual",
+   "steps": [
+    "Send GET /reports/average-sales-per-month with the default user's token.",
+    "Verify the response status is 403.",
+    "Verify the body's message is \"Forbidden\"."
+   ],
+   "ref": [],
+   "area": "reports",
+   "areaLabel": "Reports",
+   "file": "test-scenarios/api/reports/get-reports-average-sales-per-month.yml",
+   "fileLabel": "GET /reports/average-sales-per-month",
+   "suite": "Reports API",
+   "tags": [
+    "@reports-api"
+   ],
+   "yaml": "- id: API-0608\n  name: Average sales per month as a customer returns 403\n  status: manual\n  steps:\n    - Send GET /reports/average-sales-per-month with the default user's token.\n    - Verify the response status is 403.\n    - Verify the body's message is \"Forbidden\"."
+  },
+  {
+   "id": "API-0609",
+   "name": "Average sales per week returns 200 with 52 weeks",
+   "status": "manual",
+   "role": "admin",
+   "steps": [
+    "Send GET /reports/average-sales-per-week with the admin's token.",
+    "Verify the response status is 200.",
+    "Verify the body has exactly 52 items whose week values are 1 to 52, in that order.",
+    "Verify every item's average and amount are numbers."
+   ],
+   "ref": [],
+   "area": "reports",
+   "areaLabel": "Reports",
+   "file": "test-scenarios/api/reports/get-reports-average-sales-per-week.yml",
+   "fileLabel": "GET /reports/average-sales-per-week",
+   "suite": "Reports API",
+   "tags": [
+    "@reports-api"
+   ],
+   "yaml": "- id: API-0609\n  name: Average sales per week returns 200 with 52 weeks\n  status: manual\n  role: admin\n  steps:\n    - Send GET /reports/average-sales-per-week with the admin's token.\n    - Verify the response status is 200.\n    - Verify the body has exactly 52 items whose week values are 1 to 52, in that order.\n    - Verify every item's average and amount are numbers."
+  },
+  {
+   "id": "API-0610",
+   "name": "Average sales per week for a year without invoices returns 52 zero rows",
+   "status": "manual",
+   "role": "admin",
+   "steps": [
+    "Send GET /reports/average-sales-per-week with year 1990 and the admin's token.",
+    "Verify the response status is 200.",
+    "Verify the body has exactly 52 items whose week values are 1 to 52, in that order.",
+    "Verify every item's average is 0 and amount is 0."
+   ],
+   "ref": [],
+   "area": "reports",
+   "areaLabel": "Reports",
+   "file": "test-scenarios/api/reports/get-reports-average-sales-per-week.yml",
+   "fileLabel": "GET /reports/average-sales-per-week",
+   "suite": "Reports API",
+   "tags": [
+    "@reports-api"
+   ],
+   "yaml": "- id: API-0610\n  name: Average sales per week for a year without invoices returns 52 zero rows\n  status: manual\n  role: admin\n  steps:\n    - Send GET /reports/average-sales-per-week with year 1990 and the admin's token.\n    - Verify the response status is 200.\n    - Verify the body has exactly 52 items whose week values are 1 to 52, in that order.\n    - Verify every item's average is 0 and amount is 0."
+  },
+  {
+   "id": "API-0611",
+   "name": "Average sales per week without a token returns 401",
+   "status": "manual",
+   "steps": [
+    "Send GET /reports/average-sales-per-week without an Authorization header.",
+    "Verify the response status is 401.",
+    "Verify the body's message is \"Unauthorized\"."
+   ],
+   "ref": [],
+   "area": "reports",
+   "areaLabel": "Reports",
+   "file": "test-scenarios/api/reports/get-reports-average-sales-per-week.yml",
+   "fileLabel": "GET /reports/average-sales-per-week",
+   "suite": "Reports API",
+   "tags": [
+    "@reports-api"
+   ],
+   "yaml": "- id: API-0611\n  name: Average sales per week without a token returns 401\n  status: manual\n  steps:\n    - Send GET /reports/average-sales-per-week without an Authorization header.\n    - Verify the response status is 401.\n    - Verify the body's message is \"Unauthorized\"."
+  },
+  {
+   "id": "API-0612",
+   "name": "Average sales per week with a malformed token returns 401",
+   "status": "manual",
+   "steps": [
+    "Send GET /reports/average-sales-per-week with a malformed token.",
+    "Verify the response status is 401.",
+    "Verify the body's message is \"Unauthorized\"."
+   ],
+   "ref": [],
+   "area": "reports",
+   "areaLabel": "Reports",
+   "file": "test-scenarios/api/reports/get-reports-average-sales-per-week.yml",
+   "fileLabel": "GET /reports/average-sales-per-week",
+   "suite": "Reports API",
+   "tags": [
+    "@reports-api"
+   ],
+   "yaml": "- id: API-0612\n  name: Average sales per week with a malformed token returns 401\n  status: manual\n  steps:\n    - Send GET /reports/average-sales-per-week with a malformed token.\n    - Verify the response status is 401.\n    - Verify the body's message is \"Unauthorized\"."
+  },
+  {
+   "id": "API-0613",
+   "name": "Average sales per week as a customer returns 403",
+   "status": "manual",
+   "steps": [
+    "Send GET /reports/average-sales-per-week with the default user's token.",
+    "Verify the response status is 403.",
+    "Verify the body's message is \"Forbidden\"."
+   ],
+   "ref": [],
+   "area": "reports",
+   "areaLabel": "Reports",
+   "file": "test-scenarios/api/reports/get-reports-average-sales-per-week.yml",
+   "fileLabel": "GET /reports/average-sales-per-week",
+   "suite": "Reports API",
+   "tags": [
+    "@reports-api"
+   ],
+   "yaml": "- id: API-0613\n  name: Average sales per week as a customer returns 403\n  status: manual\n  steps:\n    - Send GET /reports/average-sales-per-week with the default user's token.\n    - Verify the response status is 403.\n    - Verify the body's message is \"Forbidden\"."
+  },
+  {
+   "id": "API-0600",
+   "name": "Customers by country returns 200 with a customer count per country",
+   "status": "manual",
+   "role": "admin",
+   "steps": [
+    "Send GET /reports/customers-by-country with the admin's token.",
+    "Verify the response status is 200.",
+    "Verify the body is an array with at least one item.",
+    "Verify every item has an amount (a number) and a country (a string).",
+    "Verify no country appears twice."
+   ],
+   "ref": [],
+   "area": "reports",
+   "areaLabel": "Reports",
+   "file": "test-scenarios/api/reports/get-reports-customers-by-country.yml",
+   "fileLabel": "GET /reports/customers-by-country",
+   "suite": "Reports API",
+   "tags": [
+    "@reports-api"
+   ],
+   "yaml": "- id: API-0600\n  name: Customers by country returns 200 with a customer count per country\n  status: manual\n  role: admin\n  steps:\n    - Send GET /reports/customers-by-country with the admin's token.\n    - Verify the response status is 200.\n    - Verify the body is an array with at least one item.\n    - Verify every item has an amount (a number) and a country (a string).\n    - Verify no country appears twice."
+  },
+  {
+   "id": "API-0601",
+   "name": "Customers by country without a token returns 401",
+   "status": "manual",
+   "steps": [
+    "Send GET /reports/customers-by-country without an Authorization header.",
+    "Verify the response status is 401.",
+    "Verify the body's message is \"Unauthorized\"."
+   ],
+   "ref": [],
+   "area": "reports",
+   "areaLabel": "Reports",
+   "file": "test-scenarios/api/reports/get-reports-customers-by-country.yml",
+   "fileLabel": "GET /reports/customers-by-country",
+   "suite": "Reports API",
+   "tags": [
+    "@reports-api"
+   ],
+   "yaml": "- id: API-0601\n  name: Customers by country without a token returns 401\n  status: manual\n  steps:\n    - Send GET /reports/customers-by-country without an Authorization header.\n    - Verify the response status is 401.\n    - Verify the body's message is \"Unauthorized\"."
+  },
+  {
+   "id": "API-0602",
+   "name": "Customers by country with a malformed token returns 401",
+   "status": "manual",
+   "steps": [
+    "Send GET /reports/customers-by-country with a malformed token.",
+    "Verify the response status is 401.",
+    "Verify the body's message is \"Unauthorized\"."
+   ],
+   "ref": [],
+   "area": "reports",
+   "areaLabel": "Reports",
+   "file": "test-scenarios/api/reports/get-reports-customers-by-country.yml",
+   "fileLabel": "GET /reports/customers-by-country",
+   "suite": "Reports API",
+   "tags": [
+    "@reports-api"
+   ],
+   "yaml": "- id: API-0602\n  name: Customers by country with a malformed token returns 401\n  status: manual\n  steps:\n    - Send GET /reports/customers-by-country with a malformed token.\n    - Verify the response status is 401.\n    - Verify the body's message is \"Unauthorized\"."
+  },
+  {
+   "id": "API-0603",
+   "name": "Customers by country as a customer returns 403",
+   "status": "manual",
+   "steps": [
+    "Send GET /reports/customers-by-country with the default user's token.",
+    "Verify the response status is 403.",
+    "Verify the body's message is \"Forbidden\"."
+   ],
+   "ref": [],
+   "area": "reports",
+   "areaLabel": "Reports",
+   "file": "test-scenarios/api/reports/get-reports-customers-by-country.yml",
+   "fileLabel": "GET /reports/customers-by-country",
+   "suite": "Reports API",
+   "tags": [
+    "@reports-api"
+   ],
+   "yaml": "- id: API-0603\n  name: Customers by country as a customer returns 403\n  status: manual\n  steps:\n    - Send GET /reports/customers-by-country with the default user's token.\n    - Verify the response status is 403.\n    - Verify the body's message is \"Forbidden\"."
+  },
+  {
+   "id": "API-0596",
+   "name": "Top 10 best selling categories returns 200 with at most ten categories, highest total first",
+   "status": "manual",
+   "role": "admin",
+   "steps": [
+    "Send GET /reports/top10-best-selling-categories with the admin's token.",
+    "Verify the response status is 200.",
+    "Verify the body is an array with at least one and at most 10 items.",
+    "Verify every item has category_name (a string) and total_earned (a number or a numeric string).",
+    "Verify each item's total_earned, compared as a number, is not greater than the previous item's."
+   ],
+   "ref": [],
+   "area": "reports",
+   "areaLabel": "Reports",
+   "file": "test-scenarios/api/reports/get-reports-top10-best-selling-categories.yml",
+   "fileLabel": "GET /reports/top10-best-selling-categories",
+   "suite": "Reports API",
+   "tags": [
+    "@reports-api"
+   ],
+   "yaml": "- id: API-0596\n  name: Top 10 best selling categories returns 200 with at most ten categories, highest total first\n  status: manual\n  role: admin\n  steps:\n    - Send GET /reports/top10-best-selling-categories with the admin's token.\n    - Verify the response status is 200.\n    - Verify the body is an array with at least one and at most 10 items.\n    - Verify every item has category_name (a string) and total_earned (a number or a numeric string).\n    - Verify each item's total_earned, compared as a number, is not greater than the previous item's."
+  },
+  {
+   "id": "API-0597",
+   "name": "Top 10 best selling categories without a token returns 401",
+   "status": "manual",
+   "steps": [
+    "Send GET /reports/top10-best-selling-categories without an Authorization header.",
+    "Verify the response status is 401.",
+    "Verify the body's message is \"Unauthorized\"."
+   ],
+   "ref": [],
+   "area": "reports",
+   "areaLabel": "Reports",
+   "file": "test-scenarios/api/reports/get-reports-top10-best-selling-categories.yml",
+   "fileLabel": "GET /reports/top10-best-selling-categories",
+   "suite": "Reports API",
+   "tags": [
+    "@reports-api"
+   ],
+   "yaml": "- id: API-0597\n  name: Top 10 best selling categories without a token returns 401\n  status: manual\n  steps:\n    - Send GET /reports/top10-best-selling-categories without an Authorization header.\n    - Verify the response status is 401.\n    - Verify the body's message is \"Unauthorized\"."
+  },
+  {
+   "id": "API-0598",
+   "name": "Top 10 best selling categories with a malformed token returns 401",
+   "status": "manual",
+   "steps": [
+    "Send GET /reports/top10-best-selling-categories with a malformed token.",
+    "Verify the response status is 401.",
+    "Verify the body's message is \"Unauthorized\"."
+   ],
+   "ref": [],
+   "area": "reports",
+   "areaLabel": "Reports",
+   "file": "test-scenarios/api/reports/get-reports-top10-best-selling-categories.yml",
+   "fileLabel": "GET /reports/top10-best-selling-categories",
+   "suite": "Reports API",
+   "tags": [
+    "@reports-api"
+   ],
+   "yaml": "- id: API-0598\n  name: Top 10 best selling categories with a malformed token returns 401\n  status: manual\n  steps:\n    - Send GET /reports/top10-best-selling-categories with a malformed token.\n    - Verify the response status is 401.\n    - Verify the body's message is \"Unauthorized\"."
+  },
+  {
+   "id": "API-0599",
+   "name": "Top 10 best selling categories as a customer returns 403",
+   "status": "manual",
+   "steps": [
+    "Send GET /reports/top10-best-selling-categories with the default user's token.",
+    "Verify the response status is 403.",
+    "Verify the body's message is \"Forbidden\"."
+   ],
+   "ref": [],
+   "area": "reports",
+   "areaLabel": "Reports",
+   "file": "test-scenarios/api/reports/get-reports-top10-best-selling-categories.yml",
+   "fileLabel": "GET /reports/top10-best-selling-categories",
+   "suite": "Reports API",
+   "tags": [
+    "@reports-api"
+   ],
+   "yaml": "- id: API-0599\n  name: Top 10 best selling categories as a customer returns 403\n  status: manual\n  steps:\n    - Send GET /reports/top10-best-selling-categories with the default user's token.\n    - Verify the response status is 403.\n    - Verify the body's message is \"Forbidden\"."
+  },
+  {
+   "id": "API-0592",
+   "name": "Top 10 purchased products returns 200 with at most ten products, highest count first",
+   "status": "manual",
+   "role": "admin",
+   "steps": [
+    "Send GET /reports/top10-purchased-products with the admin's token.",
+    "Verify the response status is 200.",
+    "Verify the body is an array with at least one and at most 10 items.",
+    "Verify every item has a name (a string) and a count (a number).",
+    "Verify no name appears twice.",
+    "Verify each item's count is not greater than the previous item's count."
+   ],
+   "ref": [],
+   "area": "reports",
+   "areaLabel": "Reports",
+   "file": "test-scenarios/api/reports/get-reports-top10-purchased-products.yml",
+   "fileLabel": "GET /reports/top10-purchased-products",
+   "suite": "Reports API",
+   "tags": [
+    "@reports-api"
+   ],
+   "yaml": "- id: API-0592\n  name: Top 10 purchased products returns 200 with at most ten products, highest count first\n  status: manual\n  role: admin\n  steps:\n    - Send GET /reports/top10-purchased-products with the admin's token.\n    - Verify the response status is 200.\n    - Verify the body is an array with at least one and at most 10 items.\n    - Verify every item has a name (a string) and a count (a number).\n    - Verify no name appears twice.\n    - Verify each item's count is not greater than the previous item's count."
+  },
+  {
+   "id": "API-0593",
+   "name": "Top 10 purchased products without a token returns 401",
+   "status": "manual",
+   "steps": [
+    "Send GET /reports/top10-purchased-products without an Authorization header.",
+    "Verify the response status is 401.",
+    "Verify the body's message is \"Unauthorized\"."
+   ],
+   "ref": [],
+   "area": "reports",
+   "areaLabel": "Reports",
+   "file": "test-scenarios/api/reports/get-reports-top10-purchased-products.yml",
+   "fileLabel": "GET /reports/top10-purchased-products",
+   "suite": "Reports API",
+   "tags": [
+    "@reports-api"
+   ],
+   "yaml": "- id: API-0593\n  name: Top 10 purchased products without a token returns 401\n  status: manual\n  steps:\n    - Send GET /reports/top10-purchased-products without an Authorization header.\n    - Verify the response status is 401.\n    - Verify the body's message is \"Unauthorized\"."
+  },
+  {
+   "id": "API-0594",
+   "name": "Top 10 purchased products with a malformed token returns 401",
+   "status": "manual",
+   "steps": [
+    "Send GET /reports/top10-purchased-products with a malformed token.",
+    "Verify the response status is 401.",
+    "Verify the body's message is \"Unauthorized\"."
+   ],
+   "ref": [],
+   "area": "reports",
+   "areaLabel": "Reports",
+   "file": "test-scenarios/api/reports/get-reports-top10-purchased-products.yml",
+   "fileLabel": "GET /reports/top10-purchased-products",
+   "suite": "Reports API",
+   "tags": [
+    "@reports-api"
+   ],
+   "yaml": "- id: API-0594\n  name: Top 10 purchased products with a malformed token returns 401\n  status: manual\n  steps:\n    - Send GET /reports/top10-purchased-products with a malformed token.\n    - Verify the response status is 401.\n    - Verify the body's message is \"Unauthorized\"."
+  },
+  {
+   "id": "API-0595",
+   "name": "Top 10 purchased products as a customer returns 403",
+   "status": "manual",
+   "steps": [
+    "Send GET /reports/top10-purchased-products with the default user's token.",
+    "Verify the response status is 403.",
+    "Verify the body's message is \"Forbidden\"."
+   ],
+   "ref": [],
+   "area": "reports",
+   "areaLabel": "Reports",
+   "file": "test-scenarios/api/reports/get-reports-top10-purchased-products.yml",
+   "fileLabel": "GET /reports/top10-purchased-products",
+   "suite": "Reports API",
+   "tags": [
+    "@reports-api"
+   ],
+   "yaml": "- id: API-0595\n  name: Top 10 purchased products as a customer returns 403\n  status: manual\n  steps:\n    - Send GET /reports/top10-purchased-products with the default user's token.\n    - Verify the response status is 403.\n    - Verify the body's message is \"Forbidden\"."
+  },
+  {
+   "id": "API-0577",
+   "name": "Total sales of years returns 200 with the current and the previous year",
+   "status": "manual",
+   "role": "admin",
+   "steps": [
+    "Send GET /reports/total-sales-of-years with the admin's token.",
+    "Verify the response status is 200.",
+    "Verify the body has 2 items.",
+    "Verify the items' year values are the current year minus 1 and the current year, in that order.",
+    "Verify every item has a year and a total, both numbers."
+   ],
+   "ref": [],
+   "area": "reports",
+   "areaLabel": "Reports",
+   "file": "test-scenarios/api/reports/get-reports-total-sales-of-years.yml",
+   "fileLabel": "GET /reports/total-sales-of-years",
+   "suite": "Reports API",
+   "tags": [
+    "@reports-api"
+   ],
+   "yaml": "- id: API-0577\n  name: Total sales of years returns 200 with the current and the previous year\n  status: manual\n  role: admin\n  steps:\n    - Send GET /reports/total-sales-of-years with the admin's token.\n    - Verify the response status is 200.\n    - Verify the body has 2 items.\n    - Verify the items' year values are the current year minus 1 and the current year, in that order.\n    - Verify every item has a year and a total, both numbers."
+  },
+  {
+   "id": "API-0578",
+   "name": "Total sales of years with years 3 returns four years in ascending order",
+   "status": "manual",
+   "role": "admin",
+   "steps": [
+    "Send GET /reports/total-sales-of-years with years 3 and the admin's token.",
+    "Verify the response status is 200.",
+    "Verify the body has 4 items.",
+    "Verify the items' year values go up by one from the current year minus 3 to the current year.",
+    "Verify every item has a year and a total, both numbers."
+   ],
+   "ref": [],
+   "area": "reports",
+   "areaLabel": "Reports",
+   "file": "test-scenarios/api/reports/get-reports-total-sales-of-years.yml",
+   "fileLabel": "GET /reports/total-sales-of-years",
+   "suite": "Reports API",
+   "tags": [
+    "@reports-api"
+   ],
+   "yaml": "- id: API-0578\n  name: Total sales of years with years 3 returns four years in ascending order\n  status: manual\n  role: admin\n  steps:\n    - Send GET /reports/total-sales-of-years with years 3 and the admin's token.\n    - Verify the response status is 200.\n    - Verify the body has 4 items.\n    - Verify the items' year values go up by one from the current year minus 3 to the current year.\n    - Verify every item has a year and a total, both numbers."
+  },
+  {
+   "id": "API-0579",
+   "name": "Total sales of years with years 0 returns only the current year",
+   "status": "manual",
+   "role": "admin",
+   "steps": [
+    "Send GET /reports/total-sales-of-years with years 0 and the admin's token.",
+    "Verify the response status is 200.",
+    "Verify the body has exactly one item, whose year is the current year."
+   ],
+   "ref": [],
+   "area": "reports",
+   "areaLabel": "Reports",
+   "file": "test-scenarios/api/reports/get-reports-total-sales-of-years.yml",
+   "fileLabel": "GET /reports/total-sales-of-years",
+   "suite": "Reports API",
+   "tags": [
+    "@reports-api"
+   ],
+   "yaml": "- id: API-0579\n  name: Total sales of years with years 0 returns only the current year\n  status: manual\n  role: admin\n  steps:\n    - Send GET /reports/total-sales-of-years with years 0 and the admin's token.\n    - Verify the response status is 200.\n    - Verify the body has exactly one item, whose year is the current year."
+  },
+  {
+   "id": "API-0580",
+   "name": "Total sales of years with a negative years returns an empty list",
+   "status": "manual",
+   "role": "admin",
+   "steps": [
+    "Send GET /reports/total-sales-of-years with years -1 and the admin's token.",
+    "Verify the response status is 200.",
+    "Verify the body is an empty array."
+   ],
+   "ref": [],
+   "area": "reports",
+   "areaLabel": "Reports",
+   "file": "test-scenarios/api/reports/get-reports-total-sales-of-years.yml",
+   "fileLabel": "GET /reports/total-sales-of-years",
+   "suite": "Reports API",
+   "tags": [
+    "@reports-api"
+   ],
+   "yaml": "- id: API-0580\n  name: Total sales of years with a negative years returns an empty list\n  status: manual\n  role: admin\n  steps:\n    - Send GET /reports/total-sales-of-years with years -1 and the admin's token.\n    - Verify the response status is 200.\n    - Verify the body is an empty array."
+  },
+  {
+   "id": "API-0581",
+   "name": "Total sales of years without a token returns 401",
+   "status": "manual",
+   "steps": [
+    "Send GET /reports/total-sales-of-years without an Authorization header.",
+    "Verify the response status is 401.",
+    "Verify the body's message is \"Unauthorized\"."
+   ],
+   "ref": [],
+   "area": "reports",
+   "areaLabel": "Reports",
+   "file": "test-scenarios/api/reports/get-reports-total-sales-of-years.yml",
+   "fileLabel": "GET /reports/total-sales-of-years",
+   "suite": "Reports API",
+   "tags": [
+    "@reports-api"
+   ],
+   "yaml": "- id: API-0581\n  name: Total sales of years without a token returns 401\n  status: manual\n  steps:\n    - Send GET /reports/total-sales-of-years without an Authorization header.\n    - Verify the response status is 401.\n    - Verify the body's message is \"Unauthorized\"."
+  },
+  {
+   "id": "API-0582",
+   "name": "Total sales of years with a malformed token returns 401",
+   "status": "manual",
+   "steps": [
+    "Send GET /reports/total-sales-of-years with a malformed token.",
+    "Verify the response status is 401.",
+    "Verify the body's message is \"Unauthorized\"."
+   ],
+   "ref": [],
+   "area": "reports",
+   "areaLabel": "Reports",
+   "file": "test-scenarios/api/reports/get-reports-total-sales-of-years.yml",
+   "fileLabel": "GET /reports/total-sales-of-years",
+   "suite": "Reports API",
+   "tags": [
+    "@reports-api"
+   ],
+   "yaml": "- id: API-0582\n  name: Total sales of years with a malformed token returns 401\n  status: manual\n  steps:\n    - Send GET /reports/total-sales-of-years with a malformed token.\n    - Verify the response status is 401.\n    - Verify the body's message is \"Unauthorized\"."
+  },
+  {
+   "id": "API-0583",
+   "name": "Total sales of years as a customer returns 403",
+   "status": "manual",
+   "steps": [
+    "Send GET /reports/total-sales-of-years with the default user's token.",
+    "Verify the response status is 403.",
+    "Verify the body's message is \"Forbidden\"."
+   ],
+   "ref": [],
+   "area": "reports",
+   "areaLabel": "Reports",
+   "file": "test-scenarios/api/reports/get-reports-total-sales-of-years.yml",
+   "fileLabel": "GET /reports/total-sales-of-years",
+   "suite": "Reports API",
+   "tags": [
+    "@reports-api"
+   ],
+   "yaml": "- id: API-0583\n  name: Total sales of years as a customer returns 403\n  status: manual\n  steps:\n    - Send GET /reports/total-sales-of-years with the default user's token.\n    - Verify the response status is 403.\n    - Verify the body's message is \"Forbidden\"."
+  },
+  {
+   "id": "API-0584",
+   "name": "Total sales of years with a non-numeric years does not return 500",
+   "status": "manual",
+   "role": "admin",
+   "knownIssue": "Returns 500 for a non-numeric years instead of 422 or ignoring the value.",
+   "bug": "BUG-044",
+   "steps": [
+    "Send GET /reports/total-sales-of-years with years \"abc\" and the admin's token.",
+    "Verify the response status is 200 or 422."
+   ],
+   "ref": [],
+   "area": "reports",
+   "areaLabel": "Reports",
+   "file": "test-scenarios/api/reports/get-reports-total-sales-of-years.yml",
+   "fileLabel": "GET /reports/total-sales-of-years",
+   "suite": "Reports API",
+   "tags": [
+    "@reports-api"
+   ],
+   "yaml": "- id: API-0584\n  name: Total sales of years with a non-numeric years does not return 500\n  status: manual\n  role: admin\n  knownIssue: Returns 500 for a non-numeric years instead of 422 or ignoring the value.\n  bug: BUG-044\n  steps:\n    - Send GET /reports/total-sales-of-years with years \"abc\" and the admin's token.\n    - Verify the response status is 200 or 422."
+  },
+  {
+   "id": "API-0585",
+   "name": "Total sales of years counts a completed invoice",
+   "status": "manual",
+   "role": "admin",
+   "steps": [
+    "Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.",
+    "Send POST /users/login with that email and password, and take its access_token.",
+    "Send GET /products and take the first item's id as the product's id.",
+    "Send POST /carts with an empty body and take the returned id as the cart's id.",
+    "Send POST /carts/{cartId} with the cart's id, the product's id as product_id and quantity 2.",
+    "Send POST /invoices with that access_token, payment_method \"cash-on-delivery\", payment_details {}, billing_street \"Stephansplatz 1\", billing_city \"Wien\", billing_country \"AT\" and the cart's id as cart_id, and take the new invoice's id and total.",
+    "Send PUT /invoices/{invoiceId}/status with the invoice's id, that access_token and a body with status \"COMPLETED\".",
+    "Send GET /reports/total-sales-of-years with a years value picked at random between 20 and 99 (so the report is computed fresh, not read from the cache) and the admin's token.",
+    "Verify the response status is 200.",
+    "Verify the body has years + 1 items and its last item's year is the current year.",
+    "Verify the last item's total is not less than the invoice's total."
+   ],
+   "ref": [],
+   "area": "reports",
+   "areaLabel": "Reports",
+   "file": "test-scenarios/api/reports/get-reports-total-sales-of-years.yml",
+   "fileLabel": "GET /reports/total-sales-of-years",
+   "suite": "Reports API",
+   "tags": [
+    "@reports-api"
+   ],
+   "yaml": "- id: API-0585\n  name: Total sales of years counts a completed invoice\n  status: manual\n  role: admin\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.\n    - Send POST /users/login with that email and password, and take its access_token.\n    - Send GET /products and take the first item's id as the product's id.\n    - Send POST /carts with an empty body and take the returned id as the cart's id.\n    - Send POST /carts/{cartId} with the cart's id, the product's id as product_id and quantity 2.\n    - Send POST /invoices with that access_token, payment_method \"cash-on-delivery\", payment_details {}, billing_street \"Stephansplatz 1\", billing_city \"Wien\", billing_country \"AT\" and the cart's id as cart_id, and take the new invoice's id and total.\n    - Send PUT /invoices/{invoiceId}/status with the invoice's id, that access_token and a body with status \"COMPLETED\".\n    - Send GET /reports/total-sales-of-years with a years value picked at random between 20 and 99 (so the report is computed fresh, not read from the cache) and the admin's token.\n    - Verify the response status is 200.\n    - Verify the body has years + 1 items and its last item's year is the current year.\n    - Verify the last item's total is not less than the invoice's total."
+  },
+  {
+   "id": "API-0586",
+   "name": "Report requests share one rate limit counter",
+   "status": "manual",
+   "steps": [
+    "Send GET /reports/total-sales-of-years without an Authorization header, and note the X-RateLimit-Remaining header.",
+    "Send GET /reports/top10-purchased-products without an Authorization header, and note its X-RateLimit-Remaining header.",
+    "Verify both responses have status 401.",
+    "Verify both responses have X-RateLimit-Limit 60.",
+    "Verify the second response's X-RateLimit-Remaining is lower than the first's."
+   ],
+   "ref": [],
+   "area": "reports",
+   "areaLabel": "Reports",
+   "file": "test-scenarios/api/reports/get-reports-total-sales-of-years.yml",
+   "fileLabel": "GET /reports/total-sales-of-years",
+   "suite": "Reports API",
+   "tags": [
+    "@reports-api"
+   ],
+   "yaml": "- id: API-0586\n  name: Report requests share one rate limit counter\n  status: manual\n  steps:\n    - Send GET /reports/total-sales-of-years without an Authorization header, and note the X-RateLimit-Remaining header.\n    - Send GET /reports/top10-purchased-products without an Authorization header, and note its X-RateLimit-Remaining header.\n    - Verify both responses have status 401.\n    - Verify both responses have X-RateLimit-Limit 60.\n    - Verify the second response's X-RateLimit-Remaining is lower than the first's."
+  },
+  {
+   "id": "API-0587",
+   "name": "Report requests over 60 per minute for one user return 429",
+   "status": "manual",
+   "steps": [
+    "Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.",
+    "Send POST /users/login with that email and password, and take its access_token.",
+    "Send GET /reports/total-sales-of-years 61 times in a row, within one minute, with that access_token.",
+    "Verify the 61st response status is 429.",
+    "Verify the 61st response body's message is \"Too many requests\"."
+   ],
+   "ref": [],
+   "area": "reports",
+   "areaLabel": "Reports",
+   "file": "test-scenarios/api/reports/get-reports-total-sales-of-years.yml",
+   "fileLabel": "GET /reports/total-sales-of-years",
+   "suite": "Reports API",
+   "tags": [
+    "@reports-api"
+   ],
+   "yaml": "- id: API-0587\n  name: Report requests over 60 per minute for one user return 429\n  status: manual\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.\n    - Send POST /users/login with that email and password, and take its access_token.\n    - Send GET /reports/total-sales-of-years 61 times in a row, within one minute, with that access_token.\n    - Verify the 61st response status is 429.\n    - Verify the 61st response body's message is \"Too many requests\"."
+  },
+  {
+   "id": "API-0588",
+   "name": "Total sales per country returns 200 with a list of countries and totals",
+   "status": "manual",
+   "role": "admin",
+   "steps": [
+    "Send GET /reports/total-sales-per-country with the admin's token.",
+    "Verify the response status is 200.",
+    "Verify the body is an array (it is empty until the first invoice is COMPLETED after a re-seed).",
+    "Verify every item has billing_country (a string) and total_sales (a number or a numeric string).",
+    "Verify no billing_country appears twice."
+   ],
+   "ref": [],
+   "area": "reports",
+   "areaLabel": "Reports",
+   "file": "test-scenarios/api/reports/get-reports-total-sales-per-country.yml",
+   "fileLabel": "GET /reports/total-sales-per-country",
+   "suite": "Reports API",
+   "tags": [
+    "@reports-api"
+   ],
+   "yaml": "- id: API-0588\n  name: Total sales per country returns 200 with a list of countries and totals\n  status: manual\n  role: admin\n  steps:\n    - Send GET /reports/total-sales-per-country with the admin's token.\n    - Verify the response status is 200.\n    - Verify the body is an array (it is empty until the first invoice is COMPLETED after a re-seed).\n    - Verify every item has billing_country (a string) and total_sales (a number or a numeric string).\n    - Verify no billing_country appears twice."
+  },
+  {
+   "id": "API-0589",
+   "name": "Total sales per country without a token returns 401",
+   "status": "manual",
+   "steps": [
+    "Send GET /reports/total-sales-per-country without an Authorization header.",
+    "Verify the response status is 401.",
+    "Verify the body's message is \"Unauthorized\"."
+   ],
+   "ref": [],
+   "area": "reports",
+   "areaLabel": "Reports",
+   "file": "test-scenarios/api/reports/get-reports-total-sales-per-country.yml",
+   "fileLabel": "GET /reports/total-sales-per-country",
+   "suite": "Reports API",
+   "tags": [
+    "@reports-api"
+   ],
+   "yaml": "- id: API-0589\n  name: Total sales per country without a token returns 401\n  status: manual\n  steps:\n    - Send GET /reports/total-sales-per-country without an Authorization header.\n    - Verify the response status is 401.\n    - Verify the body's message is \"Unauthorized\"."
+  },
+  {
+   "id": "API-0590",
+   "name": "Total sales per country with a malformed token returns 401",
+   "status": "manual",
+   "steps": [
+    "Send GET /reports/total-sales-per-country with a malformed token.",
+    "Verify the response status is 401.",
+    "Verify the body's message is \"Unauthorized\"."
+   ],
+   "ref": [],
+   "area": "reports",
+   "areaLabel": "Reports",
+   "file": "test-scenarios/api/reports/get-reports-total-sales-per-country.yml",
+   "fileLabel": "GET /reports/total-sales-per-country",
+   "suite": "Reports API",
+   "tags": [
+    "@reports-api"
+   ],
+   "yaml": "- id: API-0590\n  name: Total sales per country with a malformed token returns 401\n  status: manual\n  steps:\n    - Send GET /reports/total-sales-per-country with a malformed token.\n    - Verify the response status is 401.\n    - Verify the body's message is \"Unauthorized\"."
+  },
+  {
+   "id": "API-0591",
+   "name": "Total sales per country as a customer returns 403",
+   "status": "manual",
+   "steps": [
+    "Send GET /reports/total-sales-per-country with the default user's token.",
+    "Verify the response status is 403.",
+    "Verify the body's message is \"Forbidden\"."
+   ],
+   "ref": [],
+   "area": "reports",
+   "areaLabel": "Reports",
+   "file": "test-scenarios/api/reports/get-reports-total-sales-per-country.yml",
+   "fileLabel": "GET /reports/total-sales-per-country",
+   "suite": "Reports API",
+   "tags": [
+    "@reports-api"
+   ],
+   "yaml": "- id: API-0591\n  name: Total sales per country as a customer returns 403\n  status: manual\n  steps:\n    - Send GET /reports/total-sales-per-country with the default user's token.\n    - Verify the response status is 403.\n    - Verify the body's message is \"Forbidden\"."
+  },
+  {
+   "id": "API-0402",
+   "name": "List users as an admin returns 200 with a page of customers",
+   "status": "manual",
+   "role": "admin",
+   "steps": [
+    "Send GET /users with the admin's token.",
+    "Verify the response status is 200.",
+    "Verify the body has the keys current_page, data, from, last_page, per_page, to and total, and its per_page is 15.",
+    "Verify data has at most 15 items and every item's role is \"user\"."
+   ],
+   "ref": [],
+   "area": "users",
+   "areaLabel": "Users",
+   "file": "test-scenarios/api/users/get-users.yml",
+   "fileLabel": "GET /users",
+   "suite": "Users API",
+   "tags": [
+    "@users-api"
+   ],
+   "yaml": "- id: API-0402\n  name: List users as an admin returns 200 with a page of customers\n  status: manual\n  role: admin\n  steps:\n    - Send GET /users with the admin's token.\n    - Verify the response status is 200.\n    - Verify the body has the keys current_page, data, from, last_page, per_page, to and total, and its per_page is 15.\n    - Verify data has at most 15 items and every item's role is \"user\"."
+  },
+  {
+   "id": "API-0403",
+   "name": "List users with page 2 returns the second page",
+   "status": "manual",
+   "role": "admin",
+   "steps": [
+    "Send GET /users with page 1 and the admin's token.",
+    "Send GET /users with page 2 and the admin's token.",
+    "Verify the first response's current_page is 1 and the second response's current_page is 2.",
+    "Verify no id appears in both pages' data."
+   ],
+   "ref": [],
+   "area": "users",
+   "areaLabel": "Users",
+   "file": "test-scenarios/api/users/get-users.yml",
+   "fileLabel": "GET /users",
+   "suite": "Users API",
+   "tags": [
+    "@users-api"
+   ],
+   "yaml": "- id: API-0403\n  name: List users with page 2 returns the second page\n  status: manual\n  role: admin\n  steps:\n    - Send GET /users with page 1 and the admin's token.\n    - Send GET /users with page 2 and the admin's token.\n    - Verify the first response's current_page is 1 and the second response's current_page is 2.\n    - Verify no id appears in both pages' data."
+  },
+  {
+   "id": "API-0404",
+   "name": "List users without a token returns 401",
+   "status": "manual",
+   "steps": [
+    "Send GET /users without an Authorization header.",
+    "Verify the response status is 401.",
+    "Verify the body's message is \"Unauthorized\"."
+   ],
+   "ref": [],
+   "area": "users",
+   "areaLabel": "Users",
+   "file": "test-scenarios/api/users/get-users.yml",
+   "fileLabel": "GET /users",
+   "suite": "Users API",
+   "tags": [
+    "@users-api"
+   ],
+   "yaml": "- id: API-0404\n  name: List users without a token returns 401\n  status: manual\n  steps:\n    - Send GET /users without an Authorization header.\n    - Verify the response status is 401.\n    - Verify the body's message is \"Unauthorized\"."
+  },
+  {
+   "id": "API-0405",
+   "name": "List users as a customer returns 403",
+   "status": "manual",
+   "steps": [
+    "Send GET /users with the default user's token.",
+    "Verify the response status is 403.",
+    "Verify the body's message is \"Forbidden\"."
+   ],
+   "ref": [],
+   "area": "users",
+   "areaLabel": "Users",
+   "file": "test-scenarios/api/users/get-users.yml",
+   "fileLabel": "GET /users",
+   "suite": "Users API",
+   "tags": [
+    "@users-api"
+   ],
+   "yaml": "- id: API-0405\n  name: List users as a customer returns 403\n  status: manual\n  steps:\n    - Send GET /users with the default user's token.\n    - Verify the response status is 403.\n    - Verify the body's message is \"Forbidden\"."
+  },
+  {
    "id": "API-0290",
    "name": "Change password with a valid new password returns 200 and the new password logs in",
    "ref": [
@@ -8830,6 +14635,68 @@ window.SCENARIO_CATALOG = {
     "@users-api"
    ],
    "yaml": "- id: API-0296\n  name: Change password with the current password as the new one returns 400\n  ref: docs/ui/user-stories/Change_Password.md#AC5\n  status: manual\n  steps:\n    - Send POST /users/change-password with the default user's token, and current_password, new_password and new_password_confirmation all set to the default user's password.\n    - Verify the response status is 400.\n    - Verify the body's success is false.\n    - Verify the body's message is \"New Password cannot be same as your current password.\"."
+  },
+  {
+   "id": "API-0399",
+   "name": "Forgot password for an existing email returns 200 and resets the password to welcome02",
+   "status": "manual",
+   "steps": [
+    "Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.",
+    "Send POST /users/forgot-password with that email.",
+    "Verify the response status is 200.",
+    "Verify the body's success is true.",
+    "Verify POST /users/login with that email and the password \"welcome02\" returns 200 with a non-empty access_token."
+   ],
+   "ref": [],
+   "area": "users",
+   "areaLabel": "Users",
+   "file": "test-scenarios/api/users/post-users-forgot-password.yml",
+   "fileLabel": "POST /users/forgot-password",
+   "suite": "Users API",
+   "tags": [
+    "@users-api"
+   ],
+   "yaml": "- id: API-0399\n  name: Forgot password for an existing email returns 200 and resets the password to welcome02\n  status: manual\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.\n    - Send POST /users/forgot-password with that email.\n    - Verify the response status is 200.\n    - Verify the body's success is true.\n    - Verify POST /users/login with that email and the password \"welcome02\" returns 200 with a non-empty access_token."
+  },
+  {
+   "id": "API-0400",
+   "name": "Forgot password without email returns 404",
+   "status": "manual",
+   "steps": [
+    "Send POST /users/forgot-password with an empty JSON object as the body.",
+    "Verify the response status is 404.",
+    "Verify the body's message is \"Requested item not found\"."
+   ],
+   "ref": [],
+   "area": "users",
+   "areaLabel": "Users",
+   "file": "test-scenarios/api/users/post-users-forgot-password.yml",
+   "fileLabel": "POST /users/forgot-password",
+   "suite": "Users API",
+   "tags": [
+    "@users-api"
+   ],
+   "yaml": "- id: API-0400\n  name: Forgot password without email returns 404\n  status: manual\n  steps:\n    - Send POST /users/forgot-password with an empty JSON object as the body.\n    - Verify the response status is 404.\n    - Verify the body's message is \"Requested item not found\"."
+  },
+  {
+   "id": "API-0401",
+   "name": "Forgot password for an unknown email returns 422",
+   "status": "manual",
+   "steps": [
+    "Send POST /users/forgot-password with a unique email that no account has.",
+    "Verify the response status is 422.",
+    "Verify the body's errors.email is a non-empty list."
+   ],
+   "ref": [],
+   "area": "users",
+   "areaLabel": "Users",
+   "file": "test-scenarios/api/users/post-users-forgot-password.yml",
+   "fileLabel": "POST /users/forgot-password",
+   "suite": "Users API",
+   "tags": [
+    "@users-api"
+   ],
+   "yaml": "- id: API-0401\n  name: Forgot password for an unknown email returns 422\n  status: manual\n  steps:\n    - Send POST /users/forgot-password with a unique email that no account has.\n    - Verify the response status is 422.\n    - Verify the body's errors.email is a non-empty list."
   },
   {
    "id": "API-0078",
@@ -10014,6 +15881,416 @@ window.SCENARIO_CATALOG = {
    "yaml": "- id: API-0335\n  name: Register with a password without a special character returns 422\n  ref: docs/ui/user-stories/User_Registration.md#AC2\n  status: manual\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random password of at least 8 characters with upper-case and lower-case letters and a number, and no special character.\n    - Verify the response status is 422.\n    - Verify the body has a password key with at least one message."
   },
   {
+   "id": "API-0406",
+   "name": "Search users by first name returns 200 with the matching customer",
+   "status": "manual",
+   "role": "admin",
+   "steps": [
+    "Send POST /users/register with a unique email, a unique first name of at most 40 characters, a last name and a random strong password, and take the new user's id.",
+    "Send GET /users/search with q set to that first name and the admin's token.",
+    "Verify the response status is 200.",
+    "Verify the body has the keys current_page, data, from, last_page, per_page, to and total.",
+    "Verify the body's total is 1 and data has exactly one item, whose id is the new user's id and whose first_name and email equal the registered values."
+   ],
+   "ref": [],
+   "area": "users",
+   "areaLabel": "Users",
+   "file": "test-scenarios/api/users/get-users-search.yml",
+   "fileLabel": "GET /users/search",
+   "suite": "Users API",
+   "tags": [
+    "@users-api"
+   ],
+   "yaml": "- id: API-0406\n  name: Search users by first name returns 200 with the matching customer\n  status: manual\n  role: admin\n  steps:\n    - Send POST /users/register with a unique email, a unique first name of at most 40 characters, a last name and a random strong password, and take the new user's id.\n    - Send GET /users/search with q set to that first name and the admin's token.\n    - Verify the response status is 200.\n    - Verify the body has the keys current_page, data, from, last_page, per_page, to and total.\n    - Verify the body's total is 1 and data has exactly one item, whose id is the new user's id and whose first_name and email equal the registered values."
+  },
+  {
+   "id": "API-0407",
+   "name": "Search users by email returns 200 with the matching customer",
+   "status": "manual",
+   "role": "admin",
+   "steps": [
+    "Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.",
+    "Send GET /users/search with q set to the registered email and the admin's token.",
+    "Verify the response status is 200.",
+    "Verify the body's total is 1 and data has exactly one item, whose id is the new user's id."
+   ],
+   "ref": [],
+   "area": "users",
+   "areaLabel": "Users",
+   "file": "test-scenarios/api/users/get-users-search.yml",
+   "fileLabel": "GET /users/search",
+   "suite": "Users API",
+   "tags": [
+    "@users-api"
+   ],
+   "yaml": "- id: API-0407\n  name: Search users by email returns 200 with the matching customer\n  status: manual\n  role: admin\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.\n    - Send GET /users/search with q set to the registered email and the admin's token.\n    - Verify the response status is 200.\n    - Verify the body's total is 1 and data has exactly one item, whose id is the new user's id."
+  },
+  {
+   "id": "API-0408",
+   "name": "Search users by last name returns 200 with the matching customer",
+   "status": "manual",
+   "role": "admin",
+   "steps": [
+    "Send POST /users/register with a unique email, a first name, a unique last name of at most 20 characters and a random strong password, and take the new user's id.",
+    "Send GET /users/search with q set to that last name and the admin's token.",
+    "Verify the response status is 200.",
+    "Verify the body's total is 1 and data has exactly one item, whose id is the new user's id."
+   ],
+   "ref": [],
+   "area": "users",
+   "areaLabel": "Users",
+   "file": "test-scenarios/api/users/get-users-search.yml",
+   "fileLabel": "GET /users/search",
+   "suite": "Users API",
+   "tags": [
+    "@users-api"
+   ],
+   "yaml": "- id: API-0408\n  name: Search users by last name returns 200 with the matching customer\n  status: manual\n  role: admin\n  steps:\n    - Send POST /users/register with a unique email, a first name, a unique last name of at most 20 characters and a random strong password, and take the new user's id.\n    - Send GET /users/search with q set to that last name and the admin's token.\n    - Verify the response status is 200.\n    - Verify the body's total is 1 and data has exactly one item, whose id is the new user's id."
+  },
+  {
+   "id": "API-0409",
+   "name": "Search users by city returns 200 with the matching customer",
+   "status": "manual",
+   "role": "admin",
+   "steps": [
+    "Send POST /users/register with a unique email, a first name, a last name, a random strong password and an address with only a unique city of at most 40 characters, and take the new user's id.",
+    "Send GET /users/search with q set to that city and the admin's token.",
+    "Verify the response status is 200.",
+    "Verify the body's total is 1 and data has exactly one item, whose id is the new user's id."
+   ],
+   "ref": [],
+   "area": "users",
+   "areaLabel": "Users",
+   "file": "test-scenarios/api/users/get-users-search.yml",
+   "fileLabel": "GET /users/search",
+   "suite": "Users API",
+   "tags": [
+    "@users-api"
+   ],
+   "yaml": "- id: API-0409\n  name: Search users by city returns 200 with the matching customer\n  status: manual\n  role: admin\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name, a random strong password and an address with only a unique city of at most 40 characters, and take the new user's id.\n    - Send GET /users/search with q set to that city and the admin's token.\n    - Verify the response status is 200.\n    - Verify the body's total is 1 and data has exactly one item, whose id is the new user's id."
+  },
+  {
+   "id": "API-0410",
+   "name": "Search users with a term nobody matches returns 200 with an empty list",
+   "status": "manual",
+   "role": "admin",
+   "steps": [
+    "Send GET /users/search with q set to a unique string no customer has and the admin's token.",
+    "Verify the response status is 200.",
+    "Verify the body's total is 0.",
+    "Verify the body's data is an empty array."
+   ],
+   "ref": [],
+   "area": "users",
+   "areaLabel": "Users",
+   "file": "test-scenarios/api/users/get-users-search.yml",
+   "fileLabel": "GET /users/search",
+   "suite": "Users API",
+   "tags": [
+    "@users-api"
+   ],
+   "yaml": "- id: API-0410\n  name: Search users with a term nobody matches returns 200 with an empty list\n  status: manual\n  role: admin\n  steps:\n    - Send GET /users/search with q set to a unique string no customer has and the admin's token.\n    - Verify the response status is 200.\n    - Verify the body's total is 0.\n    - Verify the body's data is an empty array."
+  },
+  {
+   "id": "API-0411",
+   "name": "Search users without q returns 200 with customers",
+   "status": "manual",
+   "role": "admin",
+   "steps": [
+    "Send GET /users/search without q and with the admin's token.",
+    "Verify the response status is 200.",
+    "Verify the body's per_page is 15 and data is not empty.",
+    "Verify every item's role is \"user\"."
+   ],
+   "ref": [],
+   "area": "users",
+   "areaLabel": "Users",
+   "file": "test-scenarios/api/users/get-users-search.yml",
+   "fileLabel": "GET /users/search",
+   "suite": "Users API",
+   "tags": [
+    "@users-api"
+   ],
+   "yaml": "- id: API-0411\n  name: Search users without q returns 200 with customers\n  status: manual\n  role: admin\n  steps:\n    - Send GET /users/search without q and with the admin's token.\n    - Verify the response status is 200.\n    - Verify the body's per_page is 15 and data is not empty.\n    - Verify every item's role is \"user\"."
+  },
+  {
+   "id": "API-0412",
+   "name": "Search users with page 2 returns the second page",
+   "status": "manual",
+   "role": "admin",
+   "steps": [
+    "Send GET /users/search with page 1 and the admin's token.",
+    "Send GET /users/search with page 2 and the admin's token.",
+    "Verify the first response's current_page is 1 and the second response's current_page is 2.",
+    "Verify no id appears in both pages' data."
+   ],
+   "ref": [],
+   "area": "users",
+   "areaLabel": "Users",
+   "file": "test-scenarios/api/users/get-users-search.yml",
+   "fileLabel": "GET /users/search",
+   "suite": "Users API",
+   "tags": [
+    "@users-api"
+   ],
+   "yaml": "- id: API-0412\n  name: Search users with page 2 returns the second page\n  status: manual\n  role: admin\n  steps:\n    - Send GET /users/search with page 1 and the admin's token.\n    - Send GET /users/search with page 2 and the admin's token.\n    - Verify the first response's current_page is 1 and the second response's current_page is 2.\n    - Verify no id appears in both pages' data."
+  },
+  {
+   "id": "API-0413",
+   "name": "Search users without a token returns 401",
+   "status": "manual",
+   "steps": [
+    "Send GET /users/search with q set to a letter, without an Authorization header.",
+    "Verify the response status is 401.",
+    "Verify the body's message is \"Unauthorized\"."
+   ],
+   "ref": [],
+   "area": "users",
+   "areaLabel": "Users",
+   "file": "test-scenarios/api/users/get-users-search.yml",
+   "fileLabel": "GET /users/search",
+   "suite": "Users API",
+   "tags": [
+    "@users-api"
+   ],
+   "yaml": "- id: API-0413\n  name: Search users without a token returns 401\n  status: manual\n  steps:\n    - Send GET /users/search with q set to a letter, without an Authorization header.\n    - Verify the response status is 401.\n    - Verify the body's message is \"Unauthorized\"."
+  },
+  {
+   "id": "API-0414",
+   "name": "Search users as a customer returns 403",
+   "status": "manual",
+   "knownIssue": "Returns 200 with other customers' names, emails and cities instead of rejecting a customer (403, like GET /users).",
+   "bug": "BUG-032",
+   "steps": [
+    "Send GET /users/search with q set to a letter and the default user's token.",
+    "Verify the response status is 403."
+   ],
+   "ref": [],
+   "area": "users",
+   "areaLabel": "Users",
+   "file": "test-scenarios/api/users/get-users-search.yml",
+   "fileLabel": "GET /users/search",
+   "suite": "Users API",
+   "tags": [
+    "@users-api"
+   ],
+   "yaml": "- id: API-0414\n  name: Search users as a customer returns 403\n  status: manual\n  knownIssue: Returns 200 with other customers' names, emails and cities instead of rejecting a customer (403, like GET /users).\n  bug: BUG-032\n  steps:\n    - Send GET /users/search with q set to a letter and the default user's token.\n    - Verify the response status is 403."
+  },
+  {
+   "id": "API-0415",
+   "name": "QUERY search by first name returns 200 with the matching customer",
+   "status": "manual",
+   "role": "admin",
+   "steps": [
+    "Send POST /users/register with a unique email, a unique first name of at most 40 characters, a last name and a random strong password, and take the new user's id.",
+    "Send QUERY /users/search with the admin's token, Content-Type: application/json, Accept: application/json and the body { \"q\": <that first name> }.",
+    "Verify the response status is 200.",
+    "Verify the Accept-Query response header is application/json.",
+    "Verify the body's total is 1 and data has exactly one item, whose id is the new user's id."
+   ],
+   "ref": [],
+   "area": "users",
+   "areaLabel": "Users",
+   "file": "test-scenarios/api/users/query-users-search.yml",
+   "fileLabel": "QUERY /users/search",
+   "suite": "Users API",
+   "tags": [
+    "@users-api"
+   ],
+   "yaml": "- id: API-0415\n  name: QUERY search by first name returns 200 with the matching customer\n  status: manual\n  role: admin\n  steps:\n    - Send POST /users/register with a unique email, a unique first name of at most 40 characters, a last name and a random strong password, and take the new user's id.\n    - 'Send QUERY /users/search with the admin''s token, Content-Type: application/json, Accept: application/json and the body { \"q\": <that first name> }.'\n    - Verify the response status is 200.\n    - Verify the Accept-Query response header is application/json.\n    - Verify the body's total is 1 and data has exactly one item, whose id is the new user's id."
+  },
+  {
+   "id": "API-0416",
+   "name": "QUERY search with an empty body object returns 200 with customers",
+   "status": "manual",
+   "role": "admin",
+   "steps": [
+    "Send QUERY /users/search with the admin's token, Content-Type: application/json, Accept: application/json and an empty JSON object as the body.",
+    "Verify the response status is 200.",
+    "Verify the body's per_page is 15 and data is not empty."
+   ],
+   "ref": [],
+   "area": "users",
+   "areaLabel": "Users",
+   "file": "test-scenarios/api/users/query-users-search.yml",
+   "fileLabel": "QUERY /users/search",
+   "suite": "Users API",
+   "tags": [
+    "@users-api"
+   ],
+   "yaml": "- id: API-0416\n  name: QUERY search with an empty body object returns 200 with customers\n  status: manual\n  role: admin\n  steps:\n    - \"Send QUERY /users/search with the admin's token, Content-Type: application/json, Accept: application/json and an empty JSON object as the body.\"\n    - Verify the response status is 200.\n    - Verify the body's per_page is 15 and data is not empty."
+  },
+  {
+   "id": "API-0417",
+   "name": "QUERY search without a token returns 401",
+   "status": "manual",
+   "steps": [
+    "Send QUERY /users/search without an Authorization header, with Content-Type: application/json, Accept: application/json and an empty JSON object as the body.",
+    "Verify the response status is 401.",
+    "Verify the body's message is \"Unauthorized\"."
+   ],
+   "ref": [],
+   "area": "users",
+   "areaLabel": "Users",
+   "file": "test-scenarios/api/users/query-users-search.yml",
+   "fileLabel": "QUERY /users/search",
+   "suite": "Users API",
+   "tags": [
+    "@users-api"
+   ],
+   "yaml": "- id: API-0417\n  name: QUERY search without a token returns 401\n  status: manual\n  steps:\n    - \"Send QUERY /users/search without an Authorization header, with Content-Type: application/json, Accept: application/json and an empty JSON object as the body.\"\n    - Verify the response status is 401.\n    - Verify the body's message is \"Unauthorized\"."
+  },
+  {
+   "id": "API-0418",
+   "name": "QUERY search without a JSON Content-Type returns 415",
+   "status": "manual",
+   "steps": [
+    "Send QUERY /users/search with the default user's token, Content-Type: text/plain, Accept: application/json and a plain-text body.",
+    "Verify the response status is 415."
+   ],
+   "ref": [],
+   "area": "users",
+   "areaLabel": "Users",
+   "file": "test-scenarios/api/users/query-users-search.yml",
+   "fileLabel": "QUERY /users/search",
+   "suite": "Users API",
+   "tags": [
+    "@users-api"
+   ],
+   "yaml": "- id: API-0418\n  name: QUERY search without a JSON Content-Type returns 415\n  status: manual\n  steps:\n    - \"Send QUERY /users/search with the default user's token, Content-Type: text/plain, Accept: application/json and a plain-text body.\"\n    - Verify the response status is 415."
+  },
+  {
+   "id": "API-0419",
+   "name": "QUERY search as a customer returns 403",
+   "status": "manual",
+   "knownIssue": "Returns 200 with other customers' names, emails and cities instead of rejecting a customer (403, like GET /users).",
+   "bug": "BUG-032",
+   "steps": [
+    "Send QUERY /users/search with the default user's token, Content-Type: application/json, Accept: application/json and the body { \"q\": \"a\" }.",
+    "Verify the response status is 403."
+   ],
+   "ref": [],
+   "area": "users",
+   "areaLabel": "Users",
+   "file": "test-scenarios/api/users/query-users-search.yml",
+   "fileLabel": "QUERY /users/search",
+   "suite": "Users API",
+   "tags": [
+    "@users-api"
+   ],
+   "yaml": "- id: API-0419\n  name: QUERY search as a customer returns 403\n  status: manual\n  knownIssue: Returns 200 with other customers' names, emails and cities instead of rejecting a customer (403, like GET /users).\n  bug: BUG-032\n  steps:\n    - 'Send QUERY /users/search with the default user''s token, Content-Type: application/json, Accept: application/json and the body { \"q\": \"a\" }.'\n    - Verify the response status is 403."
+  },
+  {
+   "id": "API-0420",
+   "name": "Get user with the customer's own id returns 200 without the admin-only fields",
+   "status": "manual",
+   "steps": [
+    "Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.",
+    "Send POST /users/login with that email and password, and take its access_token.",
+    "Send GET /users/{userId} with that id and access_token.",
+    "Verify the response status is 200.",
+    "Verify the body's id equals the new user's id, and its email, first_name and last_name equal the registered values.",
+    "Verify the body has no role, enabled or failed_login_attempts key."
+   ],
+   "ref": [],
+   "area": "users",
+   "areaLabel": "Users",
+   "file": "test-scenarios/api/users/get-users-by-user-id.yml",
+   "fileLabel": "GET /users/{userId}",
+   "suite": "Users API",
+   "tags": [
+    "@users-api"
+   ],
+   "yaml": "- id: API-0420\n  name: Get user with the customer's own id returns 200 without the admin-only fields\n  status: manual\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.\n    - Send POST /users/login with that email and password, and take its access_token.\n    - Send GET /users/{userId} with that id and access_token.\n    - Verify the response status is 200.\n    - Verify the body's id equals the new user's id, and its email, first_name and last_name equal the registered values.\n    - Verify the body has no role, enabled or failed_login_attempts key."
+  },
+  {
+   "id": "API-0421",
+   "name": "Get user as an admin returns 200 with the admin-only fields",
+   "status": "manual",
+   "role": "admin",
+   "steps": [
+    "Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.",
+    "Send GET /users/{userId} with that id and the admin's token.",
+    "Verify the response status is 200.",
+    "Verify the body's id equals the new user's id and its role is \"user\".",
+    "Verify the body's enabled is a boolean and failed_login_attempts is a number."
+   ],
+   "ref": [],
+   "area": "users",
+   "areaLabel": "Users",
+   "file": "test-scenarios/api/users/get-users-by-user-id.yml",
+   "fileLabel": "GET /users/{userId}",
+   "suite": "Users API",
+   "tags": [
+    "@users-api"
+   ],
+   "yaml": "- id: API-0421\n  name: Get user as an admin returns 200 with the admin-only fields\n  status: manual\n  role: admin\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.\n    - Send GET /users/{userId} with that id and the admin's token.\n    - Verify the response status is 200.\n    - Verify the body's id equals the new user's id and its role is \"user\".\n    - Verify the body's enabled is a boolean and failed_login_attempts is a number."
+  },
+  {
+   "id": "API-0422",
+   "name": "Get user without a token returns 401",
+   "status": "manual",
+   "steps": [
+    "Send GET /users/{userId} with a well-formed ULID that no user has, without an Authorization header.",
+    "Verify the response status is 401.",
+    "Verify the body's message is \"Unauthorized\"."
+   ],
+   "ref": [],
+   "area": "users",
+   "areaLabel": "Users",
+   "file": "test-scenarios/api/users/get-users-by-user-id.yml",
+   "fileLabel": "GET /users/{userId}",
+   "suite": "Users API",
+   "tags": [
+    "@users-api"
+   ],
+   "yaml": "- id: API-0422\n  name: Get user without a token returns 401\n  status: manual\n  steps:\n    - Send GET /users/{userId} with a well-formed ULID that no user has, without an Authorization header.\n    - Verify the response status is 401.\n    - Verify the body's message is \"Unauthorized\"."
+  },
+  {
+   "id": "API-0423",
+   "name": "Get user with an unknown id returns 404",
+   "status": "manual",
+   "role": "admin",
+   "steps": [
+    "Send GET /users/{userId} with a well-formed ULID that no user has and the admin's token.",
+    "Verify the response status is 404.",
+    "Verify the body's error is a non-empty string."
+   ],
+   "ref": [],
+   "area": "users",
+   "areaLabel": "Users",
+   "file": "test-scenarios/api/users/get-users-by-user-id.yml",
+   "fileLabel": "GET /users/{userId}",
+   "suite": "Users API",
+   "tags": [
+    "@users-api"
+   ],
+   "yaml": "- id: API-0423\n  name: Get user with an unknown id returns 404\n  status: manual\n  role: admin\n  steps:\n    - Send GET /users/{userId} with a well-formed ULID that no user has and the admin's token.\n    - Verify the response status is 404.\n    - Verify the body's error is a non-empty string."
+  },
+  {
+   "id": "API-0424",
+   "name": "Get user with another customer's id returns 404",
+   "status": "manual",
+   "steps": [
+    "Send POST /users/register with a unique email, a first name, a last name and a random strong password (customer A).",
+    "Send POST /users/register with a unique email, a first name, a last name and a random strong password (customer B), and take B's id.",
+    "Send POST /users/login with customer A's email and password, and take its access_token.",
+    "Send GET /users/{userId} with customer B's id and customer A's access_token.",
+    "Verify the response status is 404.",
+    "Verify the body's error is a non-empty string."
+   ],
+   "ref": [],
+   "area": "users",
+   "areaLabel": "Users",
+   "file": "test-scenarios/api/users/get-users-by-user-id.yml",
+   "fileLabel": "GET /users/{userId}",
+   "suite": "Users API",
+   "tags": [
+    "@users-api"
+   ],
+   "yaml": "- id: API-0424\n  name: Get user with another customer's id returns 404\n  status: manual\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password (customer A).\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password (customer B), and take B's id.\n    - Send POST /users/login with customer A's email and password, and take its access_token.\n    - Send GET /users/{userId} with customer B's id and customer A's access_token.\n    - Verify the response status is 404.\n    - Verify the body's error is a non-empty string."
+  },
+  {
    "id": "API-0313",
    "name": "Update user with valid changed values returns 200 and the profile shows them",
    "ref": [
@@ -10162,6 +16439,374 @@ window.SCENARIO_CATALOG = {
     "@users-api"
    ],
    "yaml": "- id: API-0318\n  name: Update user without address.country returns 422 and leaves the profile unchanged\n  ref: docs/ui/user-stories/Customer_Profile.md#AC2\n  status: manual\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name of at most 20 characters, a random strong password, a phone of digits, and an address with a street, a city, a state, country \"NL\" and postal_code \"1011AB\", and take the new user's id.\n    - Send POST /users/login with that email and password, and take its access_token.\n    - Send PUT /users/{userId} with that id and access_token, the customer's own email, and a new first_name, last_name (at most 20 characters), phone of digits, street, city, state and postal_code, each different from the registered value, without address.country.\n    - Verify the response status is 422.\n    - Verify the body has an address.country key with at least one message.\n    - Verify GET /users/me with that access_token returns the registered first_name, last_name, phone, and address street, city, state, country and postal_code."
+  },
+  {
+   "id": "API-0425",
+   "name": "Patch user with the customer's own id and a new first_name returns 200 and changes only that field",
+   "status": "manual",
+   "steps": [
+    "Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.",
+    "Send POST /users/login with that email and password, and take its access_token.",
+    "Send PATCH /users/{userId} with that id and access_token and only first_name set to a new value.",
+    "Verify the response status is 200.",
+    "Verify the body's success is true.",
+    "Verify GET /users/me with that access_token returns the new first_name and the registered last_name and email."
+   ],
+   "ref": [],
+   "area": "users",
+   "areaLabel": "Users",
+   "file": "test-scenarios/api/users/patch-users-by-user-id.yml",
+   "fileLabel": "PATCH /users/{userId}",
+   "suite": "Users API",
+   "tags": [
+    "@users-api"
+   ],
+   "yaml": "- id: API-0425\n  name: Patch user with the customer's own id and a new first_name returns 200 and changes only that field\n  status: manual\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.\n    - Send POST /users/login with that email and password, and take its access_token.\n    - Send PATCH /users/{userId} with that id and access_token and only first_name set to a new value.\n    - Verify the response status is 200.\n    - Verify the body's success is true.\n    - Verify GET /users/me with that access_token returns the new first_name and the registered last_name and email."
+  },
+  {
+   "id": "API-0426",
+   "name": "Patch user as an admin changes another user's last_name",
+   "status": "manual",
+   "role": "admin",
+   "steps": [
+    "Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.",
+    "Send PATCH /users/{userId} with the new user's id, the admin's token and only last_name set to a new value of at most 20 characters.",
+    "Verify the response status is 200.",
+    "Verify the body's success is true.",
+    "Verify GET /users/{userId} with the new user's id and the admin's token returns the new last_name and the registered first_name."
+   ],
+   "ref": [],
+   "area": "users",
+   "areaLabel": "Users",
+   "file": "test-scenarios/api/users/patch-users-by-user-id.yml",
+   "fileLabel": "PATCH /users/{userId}",
+   "suite": "Users API",
+   "tags": [
+    "@users-api"
+   ],
+   "yaml": "- id: API-0426\n  name: Patch user as an admin changes another user's last_name\n  status: manual\n  role: admin\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.\n    - Send PATCH /users/{userId} with the new user's id, the admin's token and only last_name set to a new value of at most 20 characters.\n    - Verify the response status is 200.\n    - Verify the body's success is true.\n    - Verify GET /users/{userId} with the new user's id and the admin's token returns the new last_name and the registered first_name."
+  },
+  {
+   "id": "API-0427",
+   "name": "Patch user as an admin with enabled false disables the account",
+   "status": "manual",
+   "role": "admin",
+   "steps": [
+    "Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.",
+    "Send PATCH /users/{userId} with the new user's id, the admin's token and enabled false.",
+    "Verify the response status is 200.",
+    "Verify the body's success is true.",
+    "Verify GET /users/{userId} with the new user's id and the admin's token returns enabled false."
+   ],
+   "ref": [],
+   "area": "users",
+   "areaLabel": "Users",
+   "file": "test-scenarios/api/users/patch-users-by-user-id.yml",
+   "fileLabel": "PATCH /users/{userId}",
+   "suite": "Users API",
+   "tags": [
+    "@users-api"
+   ],
+   "yaml": "- id: API-0427\n  name: Patch user as an admin with enabled false disables the account\n  status: manual\n  role: admin\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.\n    - Send PATCH /users/{userId} with the new user's id, the admin's token and enabled false.\n    - Verify the response status is 200.\n    - Verify the body's success is true.\n    - Verify GET /users/{userId} with the new user's id and the admin's token returns enabled false."
+  },
+  {
+   "id": "API-0428",
+   "name": "Patch user as an admin with a role key drops the role silently",
+   "status": "manual",
+   "role": "admin",
+   "steps": [
+    "Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.",
+    "Send PATCH /users/{userId} with the new user's id, the admin's token and role \"admin\".",
+    "Verify the response status is 200.",
+    "Verify GET /users/{userId} with the new user's id and the admin's token returns role \"user\"."
+   ],
+   "ref": [],
+   "area": "users",
+   "areaLabel": "Users",
+   "file": "test-scenarios/api/users/patch-users-by-user-id.yml",
+   "fileLabel": "PATCH /users/{userId}",
+   "suite": "Users API",
+   "tags": [
+    "@users-api"
+   ],
+   "yaml": "- id: API-0428\n  name: Patch user as an admin with a role key drops the role silently\n  status: manual\n  role: admin\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.\n    - Send PATCH /users/{userId} with the new user's id, the admin's token and role \"admin\".\n    - Verify the response status is 200.\n    - Verify GET /users/{userId} with the new user's id and the admin's token returns role \"user\"."
+  },
+  {
+   "id": "API-0429",
+   "name": "Patch user without a token returns 401",
+   "status": "manual",
+   "steps": [
+    "Send PATCH /users/{userId} with a well-formed ULID that no user has and first_name set to a new value, without an Authorization header.",
+    "Verify the response status is 401.",
+    "Verify the body's message is \"Unauthorized\"."
+   ],
+   "ref": [],
+   "area": "users",
+   "areaLabel": "Users",
+   "file": "test-scenarios/api/users/patch-users-by-user-id.yml",
+   "fileLabel": "PATCH /users/{userId}",
+   "suite": "Users API",
+   "tags": [
+    "@users-api"
+   ],
+   "yaml": "- id: API-0429\n  name: Patch user without a token returns 401\n  status: manual\n  steps:\n    - Send PATCH /users/{userId} with a well-formed ULID that no user has and first_name set to a new value, without an Authorization header.\n    - Verify the response status is 401.\n    - Verify the body's message is \"Unauthorized\"."
+  },
+  {
+   "id": "API-0430",
+   "name": "Patch user with another customer's id returns 403 and leaves that customer unchanged",
+   "status": "manual",
+   "steps": [
+    "Send POST /users/register with a unique email, a first name, a last name and a random strong password (customer A).",
+    "Send POST /users/register with a unique email, a first name, a last name and a random strong password (customer B), and take B's id.",
+    "Send POST /users/login with customer A's email and password, and take its access_token.",
+    "Send PATCH /users/{userId} with customer B's id, customer A's access_token and first_name set to a new value.",
+    "Verify the response status is 403.",
+    "Verify the body's error is a non-empty string.",
+    "Send POST /users/login with customer B's email and password, and take its access_token.",
+    "Verify GET /users/me with B's access_token returns B's registered first_name."
+   ],
+   "ref": [],
+   "area": "users",
+   "areaLabel": "Users",
+   "file": "test-scenarios/api/users/patch-users-by-user-id.yml",
+   "fileLabel": "PATCH /users/{userId}",
+   "suite": "Users API",
+   "tags": [
+    "@users-api"
+   ],
+   "yaml": "- id: API-0430\n  name: Patch user with another customer's id returns 403 and leaves that customer unchanged\n  status: manual\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password (customer A).\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password (customer B), and take B's id.\n    - Send POST /users/login with customer A's email and password, and take its access_token.\n    - Send PATCH /users/{userId} with customer B's id, customer A's access_token and first_name set to a new value.\n    - Verify the response status is 403.\n    - Verify the body's error is a non-empty string.\n    - Send POST /users/login with customer B's email and password, and take its access_token.\n    - Verify GET /users/me with B's access_token returns B's registered first_name."
+  },
+  {
+   "id": "API-0431",
+   "name": "Patch user with a phone containing letters returns 422 and leaves the profile unchanged",
+   "status": "manual",
+   "steps": [
+    "Send POST /users/register with a unique email, a first name, a last name, a random strong password and a phone of digits, and take the new user's id.",
+    "Send POST /users/login with that email and password, and take its access_token.",
+    "Send PATCH /users/{userId} with that id, access_token and a phone containing letters.",
+    "Verify the response status is 422.",
+    "Verify the body has a phone key with at least one message.",
+    "Verify GET /users/me with that access_token returns the registered phone."
+   ],
+   "ref": [],
+   "area": "users",
+   "areaLabel": "Users",
+   "file": "test-scenarios/api/users/patch-users-by-user-id.yml",
+   "fileLabel": "PATCH /users/{userId}",
+   "suite": "Users API",
+   "tags": [
+    "@users-api"
+   ],
+   "yaml": "- id: API-0431\n  name: Patch user with a phone containing letters returns 422 and leaves the profile unchanged\n  status: manual\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name, a random strong password and a phone of digits, and take the new user's id.\n    - Send POST /users/login with that email and password, and take its access_token.\n    - Send PATCH /users/{userId} with that id, access_token and a phone containing letters.\n    - Verify the response status is 422.\n    - Verify the body has a phone key with at least one message.\n    - Verify GET /users/me with that access_token returns the registered phone."
+  },
+  {
+   "id": "API-0432",
+   "name": "Patch user with a dob under 18 years ago returns 422 and leaves the profile unchanged",
+   "status": "manual",
+   "steps": [
+    "Send POST /users/register with a unique email, a first name, a last name, a random strong password and an adult dob, and take the new user's id.",
+    "Send POST /users/login with that email and password, and take its access_token.",
+    "Send PATCH /users/{userId} with that id, access_token and a dob 10 years ago in YYYY-MM-DD.",
+    "Verify the response status is 422.",
+    "Verify the body has a dob key with at least one message.",
+    "Verify GET /users/me with that access_token returns the registered dob."
+   ],
+   "ref": [],
+   "area": "users",
+   "areaLabel": "Users",
+   "file": "test-scenarios/api/users/patch-users-by-user-id.yml",
+   "fileLabel": "PATCH /users/{userId}",
+   "suite": "Users API",
+   "tags": [
+    "@users-api"
+   ],
+   "yaml": "- id: API-0432\n  name: Patch user with a dob under 18 years ago returns 422 and leaves the profile unchanged\n  status: manual\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name, a random strong password and an adult dob, and take the new user's id.\n    - Send POST /users/login with that email and password, and take its access_token.\n    - Send PATCH /users/{userId} with that id, access_token and a dob 10 years ago in YYYY-MM-DD.\n    - Verify the response status is 422.\n    - Verify the body has a dob key with at least one message.\n    - Verify GET /users/me with that access_token returns the registered dob."
+  },
+  {
+   "id": "API-0433",
+   "name": "Patch user with the customer's own failed_login_attempts leaves the value unchanged",
+   "status": "manual",
+   "role": "admin",
+   "knownIssue": "A customer can change their own failed_login_attempts (and enabled and the totp_* fields) with PATCH; the value is saved instead of being rejected or ignored.",
+   "bug": "BUG-033",
+   "steps": [
+    "Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.",
+    "Send POST /users/login with that email and password, and take its access_token.",
+    "Send GET /users/{userId} with the new user's id and the admin's token, and take failed_login_attempts.",
+    "Send PATCH /users/{userId} with that id, the customer's access_token and failed_login_attempts 2.",
+    "Verify GET /users/{userId} with the new user's id and the admin's token returns the same failed_login_attempts as before the patch."
+   ],
+   "ref": [],
+   "area": "users",
+   "areaLabel": "Users",
+   "file": "test-scenarios/api/users/patch-users-by-user-id.yml",
+   "fileLabel": "PATCH /users/{userId}",
+   "suite": "Users API",
+   "tags": [
+    "@users-api"
+   ],
+   "yaml": "- id: API-0433\n  name: Patch user with the customer's own failed_login_attempts leaves the value unchanged\n  status: manual\n  role: admin\n  knownIssue: A customer can change their own failed_login_attempts (and enabled and the totp_* fields) with PATCH; the value is saved instead of being rejected or ignored.\n  bug: BUG-033\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.\n    - Send POST /users/login with that email and password, and take its access_token.\n    - Send GET /users/{userId} with the new user's id and the admin's token, and take failed_login_attempts.\n    - Send PATCH /users/{userId} with that id, the customer's access_token and failed_login_attempts 2.\n    - Verify GET /users/{userId} with the new user's id and the admin's token returns the same failed_login_attempts as before the patch."
+  },
+  {
+   "id": "API-0434",
+   "name": "Patch user with an unknown id as an admin returns 404",
+   "status": "manual",
+   "role": "admin",
+   "knownIssue": "Returns 403 instead of 404 for an unknown user id.",
+   "bug": "BUG-034",
+   "steps": [
+    "Send PATCH /users/{userId} with a well-formed ULID that no user has, first_name set to a new value and the admin's token.",
+    "Verify the response status is 404."
+   ],
+   "ref": [],
+   "area": "users",
+   "areaLabel": "Users",
+   "file": "test-scenarios/api/users/patch-users-by-user-id.yml",
+   "fileLabel": "PATCH /users/{userId}",
+   "suite": "Users API",
+   "tags": [
+    "@users-api"
+   ],
+   "yaml": "- id: API-0434\n  name: Patch user with an unknown id as an admin returns 404\n  status: manual\n  role: admin\n  knownIssue: Returns 403 instead of 404 for an unknown user id.\n  bug: BUG-034\n  steps:\n    - Send PATCH /users/{userId} with a well-formed ULID that no user has, first_name set to a new value and the admin's token.\n    - Verify the response status is 404."
+  },
+  {
+   "id": "API-0435",
+   "name": "Patch user with an email another account uses returns 409 or 422",
+   "status": "manual",
+   "knownIssue": "Returns 403, with the SQL error in the body, instead of 409 or 422 when the email already belongs to another account.",
+   "bug": "BUG-035",
+   "steps": [
+    "Send POST /users/register with a unique email, a first name, a last name and a random strong password (customer A).",
+    "Send POST /users/register with a unique email, a first name, a last name and a random strong password (customer B).",
+    "Send POST /users/login with customer A's email and password, and take its access_token.",
+    "Send PATCH /users/{userId} with customer A's id, A's access_token and email set to customer B's email.",
+    "Verify the response status is 409 or 422."
+   ],
+   "ref": [],
+   "area": "users",
+   "areaLabel": "Users",
+   "file": "test-scenarios/api/users/patch-users-by-user-id.yml",
+   "fileLabel": "PATCH /users/{userId}",
+   "suite": "Users API",
+   "tags": [
+    "@users-api"
+   ],
+   "yaml": "- id: API-0435\n  name: Patch user with an email another account uses returns 409 or 422\n  status: manual\n  knownIssue: Returns 403, with the SQL error in the body, instead of 409 or 422 when the email already belongs to another account.\n  bug: BUG-035\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password (customer A).\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password (customer B).\n    - Send POST /users/login with customer A's email and password, and take its access_token.\n    - Send PATCH /users/{userId} with customer A's id, A's access_token and email set to customer B's email.\n    - Verify the response status is 409 or 422."
+  },
+  {
+   "id": "API-0436",
+   "name": "Delete user as an admin returns 204 and the user is gone",
+   "status": "manual",
+   "role": "admin",
+   "steps": [
+    "Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.",
+    "Send DELETE /users/{userId} with the new user's id and the admin's token.",
+    "Verify the response status is 204.",
+    "Verify GET /users/{userId} with that id and the admin's token returns 404."
+   ],
+   "ref": [],
+   "area": "users",
+   "areaLabel": "Users",
+   "file": "test-scenarios/api/users/delete-users-by-user-id.yml",
+   "fileLabel": "DELETE /users/{userId}",
+   "suite": "Users API",
+   "tags": [
+    "@users-api"
+   ],
+   "yaml": "- id: API-0436\n  name: Delete user as an admin returns 204 and the user is gone\n  status: manual\n  role: admin\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.\n    - Send DELETE /users/{userId} with the new user's id and the admin's token.\n    - Verify the response status is 204.\n    - Verify GET /users/{userId} with that id and the admin's token returns 404."
+  },
+  {
+   "id": "API-0437",
+   "name": "Delete user without a token returns 401",
+   "status": "manual",
+   "steps": [
+    "Send DELETE /users/{userId} with a well-formed ULID that no user has, without an Authorization header.",
+    "Verify the response status is 401.",
+    "Verify the body's message is \"Unauthorized\"."
+   ],
+   "ref": [],
+   "area": "users",
+   "areaLabel": "Users",
+   "file": "test-scenarios/api/users/delete-users-by-user-id.yml",
+   "fileLabel": "DELETE /users/{userId}",
+   "suite": "Users API",
+   "tags": [
+    "@users-api"
+   ],
+   "yaml": "- id: API-0437\n  name: Delete user without a token returns 401\n  status: manual\n  steps:\n    - Send DELETE /users/{userId} with a well-formed ULID that no user has, without an Authorization header.\n    - Verify the response status is 401.\n    - Verify the body's message is \"Unauthorized\"."
+  },
+  {
+   "id": "API-0438",
+   "name": "Delete user as a customer returns 403 and the user stays",
+   "status": "manual",
+   "role": "admin",
+   "steps": [
+    "Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.",
+    "Send POST /users/login with that email and password, and take its access_token.",
+    "Send DELETE /users/{userId} with the new user's id and the customer's access_token.",
+    "Verify the response status is 403.",
+    "Verify the body's message is \"Forbidden\".",
+    "Verify GET /users/{userId} with that id and the admin's token returns 200."
+   ],
+   "ref": [],
+   "area": "users",
+   "areaLabel": "Users",
+   "file": "test-scenarios/api/users/delete-users-by-user-id.yml",
+   "fileLabel": "DELETE /users/{userId}",
+   "suite": "Users API",
+   "tags": [
+    "@users-api"
+   ],
+   "yaml": "- id: API-0438\n  name: Delete user as a customer returns 403 and the user stays\n  status: manual\n  role: admin\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.\n    - Send POST /users/login with that email and password, and take its access_token.\n    - Send DELETE /users/{userId} with the new user's id and the customer's access_token.\n    - Verify the response status is 403.\n    - Verify the body's message is \"Forbidden\".\n    - Verify GET /users/{userId} with that id and the admin's token returns 200."
+  },
+  {
+   "id": "API-0439",
+   "name": "Delete a user that has a favorite returns 409 and the user stays",
+   "status": "manual",
+   "role": "admin",
+   "steps": [
+    "Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.",
+    "Send POST /users/login with that email and password, and take its access_token.",
+    "Send GET /products and take the id of a product.",
+    "Send POST /favorites with that product id and the customer's access_token.",
+    "Send DELETE /users/{userId} with the new user's id and the admin's token.",
+    "Verify the response status is 409.",
+    "Verify the body's success is false.",
+    "Verify the body's message is \"Seems like this customer is used elsewhere.\".",
+    "Verify GET /users/{userId} with that id and the admin's token returns 200."
+   ],
+   "ref": [],
+   "area": "users",
+   "areaLabel": "Users",
+   "file": "test-scenarios/api/users/delete-users-by-user-id.yml",
+   "fileLabel": "DELETE /users/{userId}",
+   "suite": "Users API",
+   "tags": [
+    "@users-api"
+   ],
+   "yaml": "- id: API-0439\n  name: Delete a user that has a favorite returns 409 and the user stays\n  status: manual\n  role: admin\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.\n    - Send POST /users/login with that email and password, and take its access_token.\n    - Send GET /products and take the id of a product.\n    - Send POST /favorites with that product id and the customer's access_token.\n    - Send DELETE /users/{userId} with the new user's id and the admin's token.\n    - Verify the response status is 409.\n    - Verify the body's success is false.\n    - Verify the body's message is \"Seems like this customer is used elsewhere.\".\n    - Verify GET /users/{userId} with that id and the admin's token returns 200."
+  },
+  {
+   "id": "API-0440",
+   "name": "Delete user with an unknown id as an admin returns 404",
+   "status": "manual",
+   "role": "admin",
+   "knownIssue": "Returns 500 instead of 404 for an unknown user id.",
+   "bug": "BUG-036",
+   "steps": [
+    "Send DELETE /users/{userId} with a well-formed ULID that no user has and the admin's token.",
+    "Verify the response status is 404."
+   ],
+   "ref": [],
+   "area": "users",
+   "areaLabel": "Users",
+   "file": "test-scenarios/api/users/delete-users-by-user-id.yml",
+   "fileLabel": "DELETE /users/{userId}",
+   "suite": "Users API",
+   "tags": [
+    "@users-api"
+   ],
+   "yaml": "- id: API-0440\n  name: Delete user with an unknown id as an admin returns 404\n  status: manual\n  role: admin\n  knownIssue: Returns 500 instead of 404 for an unknown user id.\n  bug: BUG-036\n  steps:\n    - Send DELETE /users/{userId} with a well-formed ULID that no user has and the admin's token.\n    - Verify the response status is 404."
   }
  ]
 };
