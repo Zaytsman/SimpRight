@@ -60,6 +60,10 @@ export const TestConstants = {
     /** A search term shorter than 4 characters (a LIKE match inside names) and the slugs of the seeded categories it matches. */
     shortSearch: { term: 'saw', slugs: [CATEGORY_SLUGS.handSaw, CATEGORY_SLUGS.saw] },
   },
+  productSpecs: {
+    /** A well-formed ULID that no spec has (the same value as products.unknownId: no seeded or created record can have it). */
+    unknownId: '01ZZZZZZZZZZZZZZZZZZZZZZZZ',
+  },
   carts: {
     /** A well-formed ULID that no cart has (the same value as products.unknownId: no seeded or created record can have it). */
     unknownId: '01ZZZZZZZZZZZZZZZZZZZZZZZZ',

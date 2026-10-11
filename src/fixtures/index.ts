@@ -14,6 +14,8 @@ export {
   createProductInStock,
   takeProductRefs,
   findProductSpec,
+  findProductWithSpecs,
+  firstListedProductId,
   expectFieldMessages,
   sendCreateProduct,
   type CreateProductRequestInfo,
@@ -32,7 +34,6 @@ export {
   createProductAndCart,
   addItemSetup,
   findThorHammerId,
-  firstListedProductId,
   getCartOk,
   expectSingleItem,
   expectNoItems,
@@ -73,3 +74,14 @@ export {
   expectIncludesIds,
   expectSubCategoriesOf,
 } from '../api/fixtures/categorySteps';
+export {
+  DEFAULT_TOKEN,
+  takeFirstProductId,
+  createSpec,
+  createProductWithSpec,
+  createProductAndTakeOtherId,
+  readSpec,
+  sendGetSpec,
+  type GetSpecRequest,
+  type SpecSetupFixtures,
+} from '../api/fixtures/productSpecSteps';

@@ -7,8 +7,10 @@ import { FavoritesClient } from '../clients/FavoritesClient';
 import { PaymentClient } from '../clients/PaymentClient';
 import { PostcodeClient } from '../clients/PostcodeClient';
 import { ProductsClient } from '../clients/ProductsClient';
+import { ProductSpecsClient } from '../clients/ProductSpecsClient';
 import { UsersClient } from '../clients/UsersClient';
 import { ProductsService } from '../services/ProductsService';
+import { ProductSpecsService } from '../services/ProductSpecsService';
 import { AuthService } from '../services/AuthService';
 import { BrandsService } from '../services/BrandsService';
 import { CartsService } from '../services/CartsService';
@@ -33,6 +35,16 @@ export type ApiFixtures = {
   productsClientWithInvalidToken: ProductsClient;
   /** Always authenticated as admin, whatever the test's `role`: setup creates and cleanup deletes (DELETE is admin-only). */
   adminProductsService: ProductsService;
+  /** Product specs endpoints with no token (the reads, and the writes the scenarios send without a token). */
+  productSpecsClient: ProductSpecsClient;
+  /** Public spec operations (list, get, names); no token. */
+  productSpecsService: ProductSpecsService;
+  /** Product specs endpoints authenticated as the test's `role` ("with the default user's token"). */
+  productSpecsClientWithToken: ProductSpecsClient;
+  /** Sends a fixed malformed bearer token (`INVALID_TOKEN`), for the "invalid token" 401 checks. */
+  productSpecsClientWithInvalidToken: ProductSpecsClient;
+  /** Authenticated as the test's `role` (writes need a token, any role): setup creates and deletes specs, cleanup deletes them. */
+  productSpecsServiceWithToken: ProductSpecsService;
   /** Authenticated as the test's `role`. */
   usersClient: UsersClient;
   /** Users endpoints with no token (public ones such as register, and the "no token" 401 checks). */
@@ -111,6 +123,22 @@ export const test = base.extend<ApiFixtures>({
   },
   adminProductsService: async ({ request, config, tokenService }, use) => {
     await use(new ProductsService(new ProductsClient(request, config, await tokenService.getAccessToken('admin'))));
+  },
+
+  productSpecsClient: async ({ request, config }, use) => {
+    await use(new ProductSpecsClient(request, config));
+  },
+  productSpecsService: async ({ productSpecsClient }, use) => {
+    await use(new ProductSpecsService(productSpecsClient));
+  },
+  productSpecsClientWithToken: async ({ request, config, accessToken }, use) => {
+    await use(new ProductSpecsClient(request, config, accessToken));
+  },
+  productSpecsClientWithInvalidToken: async ({ request, config }, use) => {
+    await use(new ProductSpecsClient(request, config, INVALID_TOKEN));
+  },
+  productSpecsServiceWithToken: async ({ productSpecsClientWithToken }, use) => {
+    await use(new ProductSpecsService(productSpecsClientWithToken));
   },
 
   usersClient: async ({ request, config, accessToken }, use) => {

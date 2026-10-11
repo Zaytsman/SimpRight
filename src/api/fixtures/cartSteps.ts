@@ -132,15 +132,6 @@ export async function findThorHammerId(productsService: ProductsService, title: 
   return id;
 }
 
-/** Not a step: the id of the first item of GET /products, for steps that need "an existing product's id (taken from GET /products)". */
-export async function firstListedProductId(productsService: ProductsService): Promise<string> {
-  const list = await productsService.list();
-  await attachJson('List Products Response', list);
-  const id = list.data[0]?.id;
-  expect(Boolean(id), assertMessage({ request: { method: 'GET', path: '/products' }, expected: 'At least one product', actual: list.total })).toBe(true);
-  return id!;
-}
-
 /** Sends GET /carts/{cartId}, attaches the response and checks it returns 200; returns the parsed cart. */
 export async function getCartOk(cartsClient: CartsClient, cartId: string): Promise<Cart> {
   const request = { method: 'GET', path: `/carts/${cartId}` };

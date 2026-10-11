@@ -2,7 +2,7 @@
 
 The technical specifications of products in the Toolshop API (weight, material, warranty and so on): listing a product's specs, reading one, adding, updating and deleting them, and listing every spec name with its values. A product's specs are also returned in `specs` by `GET /products/{productId}` (see `Products_API.md`), and `GET /products` can filter on them with `by_spec`.
 
-> Built from the OpenAPI spec (Toolshop API 5.0.0, tag "Product Spec"), the Laravel source (`sprint5/API`: `routes/api.php`, `ProductSpecController`, the `ProductSpec` model, its migration and seeder, the `Authenticate` middleware, `Handler`) and read-only calls (`GET` and `OPTIONS`) to the live API on 2026-10-10. The write endpoints were not called, so their facts are tagged `_(source)_`. Facts are tagged by origin.
+> Built from the OpenAPI spec (Toolshop API 5.0.0, tag "Product Spec"), the Laravel source (`sprint5/API`: `routes/api.php`, `ProductSpecController`, the `ProductSpec` model, its migration and seeder, the `Authenticate` middleware, `Handler`) and read-only calls (`GET` and `OPTIONS`) to the live API on 2026-10-10. The write endpoints were not called then, so their facts were tagged `_(source)_`. Facts tagged _(verified)_ after that were confirmed by the automated tests in `tests/api/products/` (the `*-specs*` specs) and `tests/api/product-specs/` on 2026-10-11, which add, change and delete specs of throwaway products with the default (customer) user's token. Facts are tagged by origin.
 
 ## Base URL
 
@@ -12,8 +12,8 @@ The technical specifications of products in the Toolshop API (weight, material, 
 
 - Scheme: `Authorization: Bearer <JWT>`. Get a token with `POST /users/login` (see `Users_API.md`). _(source)_
 - The three reads are public: `GET /products/{productId}/specs`, `GET /products/{productId}/specs/{specId}` and `GET /product-specs/names` answered without a token. _(verified)_
-- The three writes (`POST`, `PUT`, `DELETE`) need a valid token: the controller applies the `auth:users` middleware to every action except `index`, `show` and `specNames`. The middleware checks only that the token is valid and the account enabled, not the role, so **any logged-in user, a customer included, can change any product's specs**. This differs from `DELETE /products/{productId}` (admin only) and from `POST`/`PUT`/`PATCH /products` (no token at all). _(source)_
-- Without a token, or with an invalid, expired or logged-out one, a write returns `401` with `{ message: "Unauthorized" }`; a restricted token (the temporary token of a TOTP login) returns `401` with `{ message: "Unauthorized token usage" }`. _(source)_
+- The three writes (`POST`, `PUT`, `DELETE`) need a valid token, and **any logged-in user, a customer included, can change any product's specs**: a customer's token added, updated and deleted specs. _(verified)_ The controller applies the `auth:users` middleware to every action except `index`, `show` and `specNames`; the middleware checks only that the token is valid and the account enabled, not the role. This differs from `DELETE /products/{productId}` (admin only) and from `POST`/`PUT`/`PATCH /products` (no token at all). _(source)_
+- Without a token, or with an invalid one, a write returns `401` with `{ message: "Unauthorized" }`. _(verified)_ An expired or logged-out token gets the same; a restricted token (the temporary token of a TOTP login) returns `401` with `{ message: "Unauthorized token usage" }`. _(source)_
 - **Account state:** a disabled account (`enabled: false`) gets `403` with `{ message: "Account disabled." }` on the three writes. The middleware caches the user for 60 seconds, so a change can take up to a minute to apply (see `Users_API.md`). _(source)_
 
 ## Endpoints Overview
@@ -42,7 +42,7 @@ The technical specifications of products in the Toolshop API (weight, material, 
 
 ### 1. List a product's specs
 
-Returns the specs of one product as a plain array (no pagination). An id that matches no product returns an empty array, not `404`. _(verified)_ A product without specs does the same, because the query only filters on `product_id`. _(source)_
+Returns the specs of one product as a plain array (no pagination). An id that matches no product returns an empty array, not `404`. _(verified)_ A product without specs does the same _(verified)_, because the query only filters on `product_id` _(source)_.
 
 **Endpoint:** `GET /products/{productId}/specs`
 
@@ -73,7 +73,7 @@ Creates a spec for the product in the path. The product isn't looked up first. _
 
 **Endpoint:** `POST /products/{productId}/specs`
 
-**Auth:** Bearer token, any role _(source)_
+**Auth:** Bearer token, any role (a customer's token works) _(verified)_
 
 **Path Parameters:**
 
@@ -92,7 +92,7 @@ Creates a spec for the product in the path. The product isn't looked up first. _
 
 Other fields are ignored: `product_id` comes from the path, so a `product_id` in the body has no effect (the spec's `ProductSpecRequest` schema lists it as required, but no operation uses that schema). An empty string counts as missing (`ConvertEmptyStringsToNull`). _(source)_
 
-**Response:** `201 Created` _(source)_
+**Response:** `201 Created` _(verified)_
 ```ts
 ProductSpec   // { product_id, spec_name, spec_value, spec_unit, id }; spec_unit is null when not sent
 ```
@@ -100,12 +100,12 @@ ProductSpec   // { product_id, spec_name, spec_value, spec_unit, id }; spec_unit
 The `id` is a lower-case ULID (`HasUlids`; seeded specs have upper-case ids), and `created_at`/`updated_at` are hidden (`BaseModel`). _(source)_
 
 **Error Responses:**
-- `401 Unauthorized`: no token, or an invalid, expired or logged-out one; `{ message: "Unauthorized" }` _(source)_
-- `422 Unprocessable Entity`: `spec_name` or `spec_value` missing, empty or not a string, a value longer than its limit, `spec_unit` not a string; with `Accept: application/json` the body is Laravel's default `{ message: string; errors: { <field>: string[] } }`, thrown by `$request->validate()` in the controller (not a form request, so not the flat field map of the `BaseFormRequest` areas); framework default _(source)_
-- `302 Found`: the same invalid body sent without `Accept: application/json` (no `Accept` header, or `Accept: text/xml`); the framework treats the request as a browser form and redirects instead of answering `422`; framework default, observed on `POST /payment/check` (`Payment_API.md`) _(source)_
+- `401 Unauthorized`: no token, or an invalid one; `{ message: "Unauthorized" }` _(verified)_; an expired or logged-out one _(source)_
+- `422 Unprocessable Entity`: `spec_name` or `spec_value` missing, an empty `spec_name`, a `spec_value` that isn't a string, a value longer than its limit (`spec_name` 101, `spec_value` 256, `spec_unit` 31 characters), `spec_unit` not a string; with `Accept: application/json` the body is Laravel's default `{ message: string; errors: { <field>: string[] } }` _(verified)_; an empty `spec_value` or a `spec_name` that isn't a string; thrown by `$request->validate()` in the controller (not a form request, so not the flat field map of the `BaseFormRequest` areas); framework default _(source)_
+- `302 Found`: the same invalid body sent without `Accept: application/json` (with the Accept header left out, which Playwright sends as `Accept: */*`); the framework treats the request as a browser form and redirects instead of answering `422` _(verified)_; with `Accept: text/xml`; framework default, observed on `POST /payment/check` (`Payment_API.md`) _(source)_
 - `500 Internal Server Error`: `productId` matches no product: the insert violates the foreign key, and the global handler answers `{ message: "Something went wrong" }`; suspected bug, should be 404 _(source)_
 
-Validation runs before the insert, so an invalid body for an unknown product gives `422`, not `500`. _(source)_
+Validation runs before the insert, so an invalid body for an unknown product gives `422`, not `500`. _(verified)_
 
 **Example:**
 ```http
@@ -149,11 +149,11 @@ ProductSpec
 
 ### 4. Update a spec
 
-Updates the fields that are sent. Despite being `PUT`, no field is required: an empty body `{}` passes validation and changes nothing. The spec is looked up by id within the product in the path. _(source)_
+Updates the fields that are sent. Despite being `PUT`, no field is required: an empty body `{}` passes validation and changes nothing. The spec is looked up by id within the product in the path. _(verified)_
 
 **Endpoint:** `PUT /products/{productId}/specs/{specId}`
 
-**Auth:** Bearer token, any role _(source)_
+**Auth:** Bearer token, any role (a customer's token works) _(verified)_
 
 **Path Parameters:**
 
@@ -171,9 +171,9 @@ Updates the fields that are sent. Despite being `PUT`, no field is required: an 
 }
 ```
 
-Only these three keys are applied (`$request->only(...)`); other fields, `product_id` included, are ignored, so a spec can't be moved to another product. _(source)_
+Only these three keys are applied; other fields, `product_id` included, are ignored, so a spec can't be moved to another product. _(verified)_ The controller uses `$request->only(...)`. _(source)_
 
-**Response:** `200 OK` _(source)_
+**Response:** `200 OK` _(verified)_
 ```ts
 { success: true }
 ```
@@ -181,22 +181,22 @@ Only these three keys are applied (`$request->only(...)`); other fields, `produc
 The response doesn't return the updated spec; read it back with `GET`. _(source)_
 
 **Error Responses:**
-- `401 Unauthorized`: no token, or an invalid, expired or logged-out one; `{ message: "Unauthorized" }` _(source)_
-- `404 Not Found`: no spec with this id for this product (including a spec of another product, or an unknown product); `{ message: "Requested item not found" }` (`firstOrFail`) _(source)_
-- `422 Unprocessable Entity`: a sent field fails its rule (too long, not a string, `spec_name` or `spec_value` null or empty); same Laravel default `{ message, errors }` body as `POST`, with `Accept: application/json`; framework default _(source)_
-- `302 Found`: the same invalid body sent without `Accept: application/json`; framework default, as on `POST` _(source)_
+- `401 Unauthorized`: no token, or an invalid one; `{ message: "Unauthorized" }` _(verified)_; an expired or logged-out one _(source)_
+- `404 Not Found`: no spec with this id for this product (including a spec of another product); `{ message: "Requested item not found" }` _(verified)_; an unknown product (`firstOrFail`) _(source)_
+- `422 Unprocessable Entity`: a sent field fails its rule (too long, `spec_name` null, `spec_value` empty), with the failing field's key in `errors` _(verified)_; not a string, `spec_name` empty or `spec_value` null; same Laravel default `{ message, errors }` body as `POST`, with `Accept: application/json`; framework default _(source)_
+- `302 Found`: the same invalid body sent without `Accept: application/json` (with the Accept header left out, which Playwright sends as `Accept: */*`) _(verified)_; framework default, as on `POST` _(source)_
 
-Validation runs before the lookup, so an invalid body on an unknown id gives `422`, not `404`. _(source)_ The spec lists only `200` and `401` for this operation. _(spec)_
+Validation runs before the lookup, so an invalid body on an unknown id gives `422`, not `404`. _(verified)_ The spec lists only `200` and `401` for this operation. _(spec)_
 
 ---
 
 ### 5. Delete a spec
 
-Deletes a spec of the product in the path. It answers `204` also when nothing was deleted. _(source)_
+Deletes a spec of the product in the path. It answers `204` also when nothing was deleted. _(verified)_
 
 **Endpoint:** `DELETE /products/{productId}/specs/{specId}`
 
-**Auth:** Bearer token, any role _(source)_
+**Auth:** Bearer token, any role (a customer's token works) _(verified)_
 
 **Path Parameters:**
 
@@ -205,12 +205,12 @@ Deletes a spec of the product in the path. It answers `204` also when nothing wa
 | `productId` | string | Yes | Product ULID of the product that owns the spec |
 | `specId` | string | Yes | Spec ULID |
 
-**Response:** `204 No Content` _(source)_
+**Response:** `204 No Content` _(verified)_
 
 **Error Responses:**
-- `401 Unauthorized`: no token, or an invalid, expired or logged-out one; `{ message: "Unauthorized" }` _(source)_
+- `401 Unauthorized`: no token, or an invalid one; `{ message: "Unauthorized" }` _(verified)_; an expired or logged-out one _(source)_
 
-An unknown `productId` or `specId`, or a spec that belongs to another product, doesn't give `404`: the `DELETE ... WHERE product_id = ? AND id = ?` simply matches no row and the handler returns `204`. The other product's spec is not deleted. Suspected inconsistency: `GET` and `PUT` return `404` for the same ids. _(source)_
+An unknown `specId`, or a spec that belongs to another product, doesn't give `404` but `204`, and the other product's spec is not deleted. Suspected inconsistency: `GET` and `PUT` return `404` for the same ids. _(verified)_ An unknown `productId` behaves the same: the `DELETE ... WHERE product_id = ? AND id = ?` simply matches no row and the handler returns `204`. _(source)_
 
 ---
 
@@ -235,7 +235,7 @@ Array<{
 
 - The array is ordered by `name`, and `values` is sorted as text (`"120"`, `"1200"`, `"1500"`, `"180"`), not as numbers. _(verified)_
 - `unit` comes from the first row of each name only. A name used with several units shows one of them: `Length` returned `"mm"`, although the seeded values `"5"` and `"7.5"` (tape measures) are in `m`. Suspected bug. _(verified)_ The seed data's units are read from `ProductSpecSeeder`. _(source)_
-- The result is cached on the server for 300 seconds, and every `POST`, `PUT` and `DELETE` on a spec clears that entry, so a change normally shows up at once. _(source)_
+- An added spec shows up in the next answer, and a deleted one disappears from it, also right after the names were read. _(verified)_ The result is cached on the server for 300 seconds, and every `POST`, `PUT` and `DELETE` on a spec clears that entry, so a change normally shows up at once. _(source)_
 
 **Example:** `GET /product-specs/names` returned 41 entries on 2026-10-10, e.g. `{ "name": "Battery", "values": ["2.0", "3.0", "4.0", "5.0"], "unit": "Ah" }`. _(verified)_
 
@@ -282,11 +282,11 @@ None. The names and values are free text. The seed (`ProductSpecSeeder`) uses na
 
 ## Notes
 
-- **Writes need a token, but any role is enough:** `POST`, `PUT` and `DELETE` use `auth:users` and no role check, so a customer can add, change or delete the specs of any product, while deleting the product itself needs an admin. Suspected authorization gap. _(source)_
+- **Writes need a token, but any role is enough:** a customer can add, change or delete the specs of a product, while deleting the product itself needs an admin. Suspected authorization gap. _(verified)_ `POST`, `PUT` and `DELETE` use `auth:users` and no role check. _(source)_
 - **Unknown product on `POST`:** a `POST` for a product id that doesn't exist gives `500` (foreign-key violation), where `404` or `422` would be expected. Suspected bug. _(source)_
-- **`DELETE` is silent:** `204` even when no spec matched (unknown ids, or a spec of another product). `GET` and `PUT` return `404` for the same ids. Suspected inconsistency. _(source)_
+- **`DELETE` is silent:** `204` even when no spec matched (an unknown spec id, or a spec of another product). `GET` and `PUT` return `404` for the same ids. Suspected inconsistency. _(verified)_
 - **Product delete cascades:** `product_specs.product_id` is a foreign key with `ON DELETE CASCADE`, so deleting a product (`DELETE /products/{productId}`, admin) removes its specs and is not blocked by them. _(source)_
-- **Specs are scoped by product:** `GET`, `PUT` and `DELETE` on a spec always include `product_id` in the lookup, so a spec id under a different `productId` is never reachable: `404` on `GET` _(verified)_, `404` on `PUT` and a no-op on `DELETE` _(source)_.
+- **Specs are scoped by product:** `GET`, `PUT` and `DELETE` on a spec always include `product_id` in the lookup, so a spec id under a different `productId` is never reachable: `404` on `GET`, `404` on `PUT` and a no-op on `DELETE` _(verified)_.
 - **Ids are case-insensitive:** `GET` with lower-case ids returned the same body (and `ETag`) as with the stored upper-case ids. _(verified)_ The lookup is a database comparison, so the write routes most likely behave the same; they weren't called. _(source)_
 - **Caching:** the `GET` routes send `Cache-Control: max-age=120, public` and an `ETag` on `200`; a matching `If-None-Match` got `304` (list). `404` answers send `Cache-Control: no-cache, private`. _(verified)_ After a write, the product detail cache entry (`products.{productId}`, which embeds the specs) and the names cache are cleared, so `GET /products/{productId}` and `GET /product-specs/names` reflect the change on the server; a client or proxy that honours `max-age=120` may still show the old body for up to 2 minutes. _(source)_
 - **OPTIONS:** every spec path answers `OPTIONS` with `204` and an `Allow` header: `GET, POST` for `/products/{productId}/specs`, `DELETE, GET, PUT` for `/products/{productId}/specs/{specId}` and `GET` for `/product-specs/names`. Unknown ids get the same answer, because only the route is matched. Not in the spec. _(verified)_
