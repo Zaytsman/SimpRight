@@ -50,3 +50,14 @@ export {
   expectLoginSucceeds,
   type ThrowawayCustomer,
 } from '../api/fixtures/userSteps';
+export {
+  BRAND_CREATE_ID_SLUG_STEP,
+  takeSeededBrandIds,
+  expectIncludesBrandIds,
+  createBrand,
+  readBrand,
+  takeOtherBrandSlug,
+  removeBrandIfCreated,
+  expectBrandItems,
+  expectNamesContain,
+} from '../api/fixtures/brandSteps';

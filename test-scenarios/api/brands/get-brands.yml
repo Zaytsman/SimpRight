@@ -3,8 +3,9 @@ suite: Brands API
 tags: ["@brands-api"]
 scenarios:
   - id: API-0119
-    name: List brands returns every brand
-    status: manual
+    name: List brands returns the brands
+    status: automated
+    automatedIn: tests/api/brands/get-brands.spec.ts
     steps:
       - Send GET /brands.
       - Verify the response status is 200.

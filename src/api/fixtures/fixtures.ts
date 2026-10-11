@@ -1,5 +1,6 @@
 import { test as base } from '../../fixtures/base';
 import { AuthClient } from '../clients/AuthClient';
+import { BrandsClient } from '../clients/BrandsClient';
 import { CartsClient } from '../clients/CartsClient';
 import { FavoritesClient } from '../clients/FavoritesClient';
 import { PaymentClient } from '../clients/PaymentClient';
@@ -8,6 +9,7 @@ import { ProductsClient } from '../clients/ProductsClient';
 import { UsersClient } from '../clients/UsersClient';
 import { ProductsService } from '../services/ProductsService';
 import { AuthService } from '../services/AuthService';
+import { BrandsService } from '../services/BrandsService';
 import { CartsService } from '../services/CartsService';
 import { FavoritesService } from '../services/FavoritesService';
 import { UsersService } from '../services/UsersService';
@@ -43,6 +45,16 @@ export type ApiFixtures = {
   usersServiceForToken: (token: string) => UsersService;
   /** Always authenticated as admin, whatever the test's `role`: patches throwaway customers and deletes them in cleanup. */
   adminUsersService: UsersService;
+  /** Brands endpoints with no token (reads, and the writes the brands scenarios send without a token). */
+  brandsClient: BrandsClient;
+  /** Public brand operations (list, get, search); no token. */
+  brandsService: BrandsService;
+  /** Brands endpoints authenticated as the test's `role` ("with the admin's token", or the default user's for the 403 check). */
+  brandsClientWithToken: BrandsClient;
+  /** Sends a fixed malformed bearer token (`INVALID_TOKEN`), for the "invalid token" 401 checks. */
+  brandsClientWithInvalidToken: BrandsClient;
+  /** Always authenticated as admin, whatever the test's `role`: setup creates and cleanup deletes (DELETE is admin-only). */
+  adminBrandsService: BrandsService;
   /** Public: carts need no token (the carts specs check statuses with it). */
   cartsClient: CartsClient;
   /** Public: carts need no token (setup creates carts; cleanup removes the carts tests filled). */
@@ -109,6 +121,22 @@ export const test = base.extend<ApiFixtures>({
   },
   adminUsersService: async ({ request, config, tokenService }, use) => {
     await use(new UsersService(new UsersClient(request, config, await tokenService.getAccessToken('admin'))));
+  },
+
+  brandsClient: async ({ request, config }, use) => {
+    await use(new BrandsClient(request, config));
+  },
+  brandsService: async ({ brandsClient }, use) => {
+    await use(new BrandsService(brandsClient));
+  },
+  brandsClientWithToken: async ({ request, config, accessToken }, use) => {
+    await use(new BrandsClient(request, config, accessToken));
+  },
+  brandsClientWithInvalidToken: async ({ request, config }, use) => {
+    await use(new BrandsClient(request, config, INVALID_TOKEN));
+  },
+  adminBrandsService: async ({ request, config, tokenService }, use) => {
+    await use(new BrandsService(new BrandsClient(request, config, await tokenService.getAccessToken('admin'))));
   },
 
   cartsClient: async ({ request, config }, use) => {

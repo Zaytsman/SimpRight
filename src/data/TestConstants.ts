@@ -21,6 +21,17 @@ export const TestConstants = {
      */
     unknownId: '01ZZZZZZZZZZZZZZZZZZZZZZZZ',
   },
+  brands: {
+    /** A well-formed ULID that no brand has (the same value as products.unknownId: no seeded or created record can have it). */
+    unknownId: '01ZZZZZZZZZZZZZZZZZZZZZZZZ',
+    /** Matches the seeded brand ForgeFlex Tools by name (case-insensitive); GET and QUERY /brands/search use it. */
+    searchTerm: 'forge',
+    /** The two seeded brands (BrandSeeder); their ids change at every hourly re-seed, so tests read them from GET /brands. */
+    seeded: [
+      { name: 'ForgeFlex Tools', slug: 'forgeflex-tools' },
+      { name: 'MightyCraft Hardware', slug: 'mightycraft-hardware' },
+    ],
+  },
   carts: {
     /** A well-formed ULID that no cart has (the same value as products.unknownId: no seeded or created record can have it). */
     unknownId: '01ZZZZZZZZZZZZZZZZZZZZZZZZ',

@@ -1,6 +1,6 @@
 import { expect } from '@playwright/test';
 import type { ApiResponse } from '@api/clients/BaseClient';
-import type { FieldValidationError } from '@api/dto/common';
+import type { FieldValidationError, ValidationErrors } from '@api/dto/common';
 import { assertMessage } from './assertHelpers';
 
 /**
@@ -69,4 +69,27 @@ export function expectNoOtherKeys(request: unknown, body: FieldValidationError, 
 /** The checks of a "Verify the Location header is "<location>"." step. */
 export function expectLocation(request: unknown, response: ApiResponse, location: string): void {
   expect(response.headers['location'], assertMessage({ request, expected: `Location is "${location}"`, actual: response.headers })).toBe(location);
+}
+
+/**
+ * The checks of a "Verify the body has a <field> key with at least one message." step, for endpoints whose 422 body is
+ * the field map without a wrapper (form requests). Keeps its original argument order (response first): specs call it as before.
+ */
+export function expectFieldMessages(response: ApiResponse, field: string, request: unknown): void {
+  const body = JSON.parse(response.body) as ValidationErrors;
+  const messages = body[field];
+  expect(
+    Array.isArray(messages) && messages.length > 0,
+    assertMessage({ request, expected: `Body has a "${field}" key with at least one message`, actual: body })
+  ).toBe(true);
+}
+
+/** The checks of a "Verify the body's <field> messages include "<message>"." step (a field map without a wrapper). */
+export function expectFieldMessageIncludes(request: unknown, response: ApiResponse, field: string, message: string): void {
+  const body = JSON.parse(response.body) as ValidationErrors;
+  const messages = body[field];
+  expect(
+    Array.isArray(messages) && messages.includes(message),
+    assertMessage({ request, expected: `The "${field}" messages include "${message}"`, actual: body })
+  ).toBe(true);
 }

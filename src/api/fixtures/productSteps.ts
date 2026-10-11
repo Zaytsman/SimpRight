@@ -1,7 +1,6 @@
 import { test, expect } from '@playwright/test';
 import type { Cleanup } from '../../fixtures/base';
 import type { ApiResponse } from '../clients/BaseClient';
-import type { ValidationErrors } from '../dto/common';
 import type { ProductsClient } from '../clients/ProductsClient';
 import type { CreateProductRequest, Product } from '../dto/product';
 import type { ProductsService } from '../services/ProductsService';
@@ -229,15 +228,8 @@ export async function createProductInStock(
   return product!;
 }
 
-/** The checks of a "Verify the body has a <field> key with at least one message." step. */
-export function expectFieldMessages(response: ApiResponse, field: string, request: unknown): void {
-  const body = JSON.parse(response.body) as ValidationErrors;
-  const messages = body[field];
-  expect(
-    Array.isArray(messages) && messages.length > 0,
-    assertMessage({ request, expected: `Body has a "${field}" key with at least one message`, actual: body })
-  ).toBe(true);
-}
+/** Moved to the shared checks; re-exported so existing imports from `@fixtures` keep working. */
+export { expectFieldMessages } from '../../utils/apiChecks';
 
 /** The request record that `sendCreateProduct` attaches and that assertion messages show. */
 export type CreateProductRequestInfo = { method: string; path: string; auth: string; body: unknown };

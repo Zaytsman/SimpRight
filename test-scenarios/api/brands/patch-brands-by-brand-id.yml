@@ -4,7 +4,8 @@ tags: ["@brands-api"]
 scenarios:
   - id: API-0141
     name: Partially update brand name returns success and keeps the slug
-    status: manual
+    status: automated
+    automatedIn: tests/api/brands/patch-brands-by-brand-id.spec.ts
     role: admin
     steps:
       - Send POST /brands with a unique brand name and a unique slug, with the admin's token, and take the new brand's id and slug.
@@ -14,7 +15,8 @@ scenarios:
       - Verify GET /brands/{brandId} with that id returns the new name and the original slug.
   - id: API-0142
     name: Partially update brand with a slug outside letters, digits, dashes and underscores returns 422
-    status: manual
+    status: automated
+    automatedIn: tests/api/brands/patch-brands-by-brand-id.spec.ts
     role: admin
     steps:
       - Send POST /brands with a unique brand name and a unique slug, with the admin's token, and take the new brand's id.
@@ -23,7 +25,8 @@ scenarios:
       - Verify the body has a slug key with at least one message.
   - id: API-0143
     name: Partially update brand with a name longer than 120 characters returns 422
-    status: manual
+    status: automated
+    automatedIn: tests/api/brands/patch-brands-by-brand-id.spec.ts
     role: admin
     steps:
       - Send POST /brands with a unique brand name and a unique slug, with the admin's token, and take the new brand's id.
@@ -32,17 +35,19 @@ scenarios:
       - Verify the body has a name key with at least one message.
   - id: API-0144
     name: Partially update brand with an unknown id returns 404
-    status: manual
+    status: automated
+    automatedIn: tests/api/brands/patch-brands-by-brand-id.spec.ts
     steps:
       - Send PATCH /brands/{brandId} with a well-formed ULID that no brand has and a body with only a unique brand name.
       - Verify the response status is 404.
       - Verify the body's message is "Requested item not found".
   - id: API-0145
     name: Partially update brand with another brand's slug returns 409
-    status: manual
+    status: automated
+    automatedIn: tests/api/brands/patch-brands-by-brand-id.spec.ts
     role: admin
     steps:
-      - Send POST /brands with a unique brand name and a unique slug, with the admin's token, and take the new brand's id.
+      - Send POST /brands with a unique brand name and a unique slug, with the admin's token, and take the new brand's id and slug.
       - Send GET /brands and take the slug of a brand other than the new one.
       - Send PATCH /brands/{brandId} with the new brand's id and a body with only that other slug, with the admin's token.
       - Verify the response status is 409.
@@ -50,7 +55,8 @@ scenarios:
       - Verify GET /brands/{brandId} with the new brand's id still returns its own slug.
   - id: API-0146
     name: Partially update brand with its own slug returns success
-    status: manual
+    status: automated
+    automatedIn: tests/api/brands/patch-brands-by-brand-id.spec.ts
     role: admin
     knownIssue: Returns 409 instead of 200 when the body repeats the brand's own slug.
     bug: BUG-010
@@ -61,7 +67,8 @@ scenarios:
       - Verify GET /brands/{brandId} with that id returns the new name.
   - id: API-0147
     name: Partially update brand without a token returns 401
-    status: manual
+    status: automated
+    automatedIn: tests/api/brands/patch-brands-by-brand-id.spec.ts
     role: admin
     knownIssue: Accepts PATCH without a token instead of returning 401.
     bug: BUG-009
