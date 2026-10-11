@@ -4,6 +4,7 @@ import type { ProductsClient } from '@api/clients/ProductsClient';
 import type { Paginated } from '@api/dto/common';
 import type { Product, ProductSearchQueryBody } from '@api/dto/product';
 import { TestConstants } from '@data/TestConstants';
+import { expectAcceptQuery } from '@utils/apiChecks';
 import { assertMessage, attachJson } from '@utils/assertHelpers';
 
 // Scenarios: test-scenarios/api/products/query-products-search.yml
@@ -58,8 +59,7 @@ test.describe('@products-api - Products API', () => {
     });
 
     await test.step('Verify the Accept-Query response header is application/json.', async () => {
-      const acceptQuery = response.headers['accept-query'];
-      expect(acceptQuery, assertMessage({ request, expected: 'Accept-Query: application/json', actual: response.headers })).toBe('application/json');
+      expectAcceptQuery(request, response);
     });
 
     await test.step('Verify the body has current_page, data, from, last_page, per_page, to and total.', async () => {

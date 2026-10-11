@@ -1,10 +1,10 @@
-import { test, expect, expectNamesContain, takeSeededBrandIds, expectIncludesBrandIds } from '@fixtures';
+import { test, takeSeededBrandIds, expectIncludesBrandIds } from '@fixtures';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { BrandsClient } from '@api/clients/BrandsClient';
 import type { BrandSearchQueryBody } from '@api/dto/brand';
 import { TestConstants } from '@data/TestConstants';
-import { expectMessage, expectStatus } from '@utils/apiChecks';
-import { assertMessage, attachJson } from '@utils/assertHelpers';
+import { expectAcceptQuery, expectItemNamesContain, expectMessage, expectStatus } from '@utils/apiChecks';
+import { attachJson } from '@utils/assertHelpers';
 
 // Scenarios: test-scenarios/api/brands/query-brands-search.yml
 
@@ -45,13 +45,11 @@ test.describe('@brands-api - Brands API', () => {
     });
 
     await test.step('Verify the Accept-Query response header is application/json.', async () => {
-      expect(response.headers['accept-query'], assertMessage({ request, expected: 'Accept-Query: application/json', actual: response.headers })).toBe(
-        'application/json'
-      );
+      expectAcceptQuery(request, response);
     });
 
     await test.step('Verify the body is a non-empty array and every item\'s name contains "forge" (case-insensitive).', async () => {
-      expectNamesContain(request, JSON.parse(response.body), term);
+      expectItemNamesContain(request, JSON.parse(response.body), term);
     });
   });
 

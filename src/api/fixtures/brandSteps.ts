@@ -96,20 +96,6 @@ export function expectBrandItems(request: unknown, items: Brand[]): void {
   }
 }
 
-/** The checks of a "Verify the body is a non-empty array and every item's name contains "<term>" (case-insensitive)." step. */
-export function expectNamesContain(request: unknown, body: unknown, term: string): void {
-  expect(
-    Array.isArray(body) && body.length > 0,
-    assertMessage({ request, expected: 'The body is a non-empty array', actual: body })
-  ).toBe(true);
-  for (const item of body as Brand[]) {
-    expect(
-      item.name.toLowerCase(),
-      assertMessage({ request, expected: `The brand name contains "${term}" (case-insensitive)`, actual: item })
-    ).toContain(term.toLowerCase());
-  }
-}
-
 /** The SEEDED_BRAND_IDS_STEP step: the ids of the seeded brands (TestConstants.brands.seeded), found by name in GET /brands. */
 export async function takeSeededBrandIds(brandsService: BrandsService, title: string = SEEDED_BRAND_IDS_STEP): Promise<string[]> {
   let ids: string[] = [];

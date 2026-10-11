@@ -2,7 +2,7 @@
 
 The product categories of the Toolshop API: a two-level hierarchy of top-level categories and their sub-categories (`parent_id`). Listing, reading and searching categories, reading them as a tree, plus creating, updating and deleting them. Products reference a category through `category_id` (see `Products_API.md`).
 
-> Built from the OpenAPI spec (Toolshop API 5.0.0), the Laravel source (`sprint5/API`: `routes/api.php`, `CategoryController`, `CategoryService`, the `Category` form requests, model, migration and seeder, `tests/Feature/CategoryTest.php`) and read-only calls to the live API on 2026-10-10 between 07:49 and 07:51 UTC (no writes, no token). Facts are tagged by origin.
+> Built from the OpenAPI spec (Toolshop API 5.0.0), the Laravel source (`sprint5/API`: `routes/api.php`, `CategoryController`, `CategoryService`, the `Category` form requests, model, migration and seeder, `tests/Feature/CategoryTest.php`) and read-only calls to the live API on 2026-10-10 between 07:49 and 07:51 UTC (no writes, no token). Facts tagged _(verified)_ after that were confirmed by the automated tests in `tests/api/categories/` on 2026-10-11, which create, change and delete throwaway categories (with and without a token). Facts are tagged by origin.
 
 ## Base URL
 
@@ -11,8 +11,8 @@ The product categories of the Toolshop API: a two-level hierarchy of top-level c
 ## Authentication
 
 - Scheme: `Authorization: Bearer <JWT>`. Get a token with `POST /users/login` (see `Users_API.md`). _(source)_
-- Only `DELETE /categories/{categoryId}` checks a token: it requires the `admin` role (`role:admin` middleware in `CategoryController`). Every other category endpoint, including create and update, has no auth middleware and accepts requests without a token. _(source)_ The writes were not called live, so this is not observed. _(source)_
-- Without a token, or with an invalid one, `DELETE` returns `401` with `{ message: "Unauthorized" }` _(verified)_; a token whose user isn't an admin gets `403` with `{ message: "Forbidden" }` _(source)_.
+- Only `DELETE /categories/{categoryId}` checks a token: it requires the `admin` role (`role:admin` middleware in `CategoryController`). Every other category endpoint, including create and update, has no auth middleware and accepts requests without a token: without an `Authorization` header, `POST` returns `201` and `PUT`/`PATCH` return `200` (BUG-014, API-0177/0213/0222). _(verified)_
+- Without a token, or with an invalid one, `DELETE` returns `401` with `{ message: "Unauthorized" }` _(verified)_; a token whose user isn't an admin gets `403` with `{ message: "Forbidden" }` _(verified)_.
 - `DELETE` uses only the `role` middleware, not the `auth:users` middleware of the Users API, so the source doesn't show the "Account disabled." check (`Users_API.md`) applying here. _(source)_
 
 ## Endpoints Overview
@@ -69,7 +69,7 @@ Creates a category; with `parent_id` it becomes a sub-category of that category.
 
 **Endpoint:** `POST /categories`
 
-**Auth:** None _(source)_
+**Auth:** None (BUG-014) _(verified)_
 
 **Request Body:**
 ```ts
@@ -82,14 +82,14 @@ Creates a category; with `parent_id` it becomes a sub-category of that category.
 
 Other fields are ignored (the model's `$fillable` is `name`, `slug` and `parent_id`). An empty string counts as missing (`ConvertEmptyStringsToNull`). _(source)_
 
-**Response:** `201 Created` _(source)_
+**Response:** `201 Created` _(verified)_
 ```ts
 Category   // the created model: the fields sent plus id; parent_id appears only when it was sent
 ```
 
 **Error Responses:**
-- `409 Conflict`: the only failing rule is the slug's uniqueness (another category has this slug); `{ slug: ["A category already exists with this slug."] }` _(source)_
-- `422 Unprocessable Entity`: `name` or `slug` missing, `slug` outside `alpha_dash`, `name` or `slug` longer than 120 characters, `parent_id` not a string, subscript/superscript characters; body `{ <field>: string[] }`, e.g. `{ name: ["The name field is required."], slug: ["The slug field is required."] }` for an empty body (the service's own test). A duplicate slug together with another failing rule also gives `422` _(source)_
+- `409 Conflict`: the only failing rule is the slug's uniqueness (another category has this slug); `{ slug: ["A category already exists with this slug."] }` _(verified)_
+- `422 Unprocessable Entity`: `name` or `slug` missing, `slug` outside `alpha_dash`, `name` or `slug` longer than 120 characters, `parent_id` not a string, a subscript character in `name`; body `{ <field>: string[] }`, e.g. `{ name: ["The name field is required."], slug: ["The slug field is required."] }` for an empty body (the service's own test). A duplicate slug together with another failing rule also gives `422` _(verified)_; superscript characters _(source)_
 - `500 Internal Server Error`: `parent_id` is not the id of an existing category; the foreign key `categories.parent_id` rejects it and the global handler answers `{ message: "Something went wrong" }`; suspected bug, should be 422 _(source)_
 
 **Example:**
@@ -236,7 +236,7 @@ Updates a category with the fields sent. No token is needed (see Notes). Despite
 
 **Endpoint:** `PUT /categories/{categoryId}`
 
-**Auth:** None _(source)_
+**Auth:** None (BUG-014) _(verified)_
 
 **Path Parameters:**
 
@@ -253,17 +253,17 @@ Updates a category with the fields sent. No token is needed (see Notes). Despite
 }
 ```
 
-Validation runs before the category is looked up, so an invalid body on an unknown id gives `422`, not `404`. _(source)_
+Validation runs before the category is looked up, so an invalid body on an unknown id gives `422`, not `404`. _(verified)_
 
-**Response:** `200 OK` _(source)_
+**Response:** `200 OK` _(verified)_
 ```ts
 { success: true }
 ```
 
 **Error Responses:**
-- `404 Not Found`: no category with this id; `{ message: "Requested item not found" }` _(source)_
-- `409 Conflict`: `slug` is already used by another category; the database's unique index rejects it and the global handler answers `{ message: "Duplicate Entry" }` (not a field map) _(source)_
-- `422 Unprocessable Entity`: `name` or `slug` longer than 120 characters or not a string, `slug` outside `alpha_dash`, `parent_id` not a string, subscript/superscript characters _(source)_
+- `404 Not Found`: no category with this id; `{ message: "Requested item not found" }` _(verified)_
+- `409 Conflict`: `slug` is already used by another category _(verified)_; the database's unique index rejects it and the global handler answers `{ message: "Duplicate Entry" }` (not a field map) _(source)_
+- `422 Unprocessable Entity`: `name` longer than 120 characters, `name` not a string, `slug` outside `alpha_dash`, `parent_id` not a string _(verified)_; `slug` longer than 120 characters or not a string, subscript/superscript characters _(source)_
 - `500 Internal Server Error`: `parent_id` is not the id of an existing category (foreign-key error, `{ message: "Something went wrong" }`); suspected bug, should be 422 _(source)_
 
 ---
@@ -274,7 +274,7 @@ Updates only the validated fields that are sent (`$request->validated()`). _(sou
 
 **Endpoint:** `PATCH /categories/{categoryId}`
 
-**Auth:** None _(source)_
+**Auth:** None (BUG-014) _(verified)_
 
 **Path Parameters:**
 
@@ -291,15 +291,15 @@ Updates only the validated fields that are sent (`$request->validated()`). _(sou
 }
 ```
 
-**Response:** `200 OK` _(source)_
+**Response:** `200 OK` _(verified)_
 ```ts
 { success: true }
 ```
 
 **Error Responses:**
-- `404 Not Found`: no category with this id (and the body is valid); `{ message: "Requested item not found" }` _(source)_
-- `409 Conflict`: `slug` is already used by a category, including the category being patched: sending its own current slug is refused; `{ slug: [...] }`. Suspected bug for the own-slug case: the `unique` rule doesn't ignore the current category _(source)_
-- `422 Unprocessable Entity`: `slug` empty or outside `alpha_dash`, `name` or `slug` too long or not a string, `parent_id` not a string, subscript/superscript characters _(source)_
+- `404 Not Found`: no category with this id (and the body is valid); `{ message: "Requested item not found" }` _(verified)_
+- `409 Conflict`: `slug` is already used by another category; `{ slug: [...] }` _(verified)_. The category being patched counts too: sending its own current slug is refused. Suspected bug for the own-slug case: the `unique` rule doesn't ignore the current category _(source)_
+- `422 Unprocessable Entity`: `slug` empty or outside `alpha_dash`, `name` too long _(verified)_; `slug` too long, `name` or `slug` not a string, `parent_id` not a string, subscript/superscript characters _(source)_
 - `500 Internal Server Error`: `parent_id` is not the id of an existing category (foreign-key error, `{ message: "Something went wrong" }`); suspected bug, should be 422 _(source)_
 
 ---
@@ -318,13 +318,13 @@ Deletes a category. Admin only. _(source)_
 |---|---|---|---|
 | `categoryId` | string | Yes | Category ULID |
 
-**Response:** `204 No Content` _(source)_
+**Response:** `204 No Content` _(verified)_
 
 **Error Responses:**
 - `401 Unauthorized`: no token, or an invalid one; `{ message: "Unauthorized" }` _(verified)_
-- `403 Forbidden`: the token's user isn't an admin; `{ message: "Forbidden" }` _(source)_
-- `404 Not Found`: no category with this id; `{ message: "Requested item not found" }` (asserted by the service's own test) _(source)_
-- `409 Conflict`: a product uses the category (foreign key `products.category_id`) or the category has sub-categories (foreign key `categories.parent_id`, no cascade); `{ success: false, message: "Seems like this category is used elsewhere." }` _(source)_
+- `403 Forbidden`: the token's user isn't an admin; `{ message: "Forbidden" }` _(verified)_
+- `404 Not Found`: no category with this id; `{ message: "Requested item not found" }` (asserted by the service's own test) _(verified)_
+- `409 Conflict`: a product uses the category (foreign key `products.category_id`) or the category has sub-categories (foreign key `categories.parent_id`, no cascade); `{ success: false, message: "Seems like this category is used elsewhere." }` _(verified)_
 
 ---
 
@@ -372,7 +372,7 @@ None. The seeded categories (`CategorySeeder`) _(verified)_:
 
 ## Notes
 
-- **No auth on writes:** `POST /categories`, `PUT` and `PATCH /categories/{categoryId}` have no auth middleware (only `destroy` gets `role:admin`) and no security in the spec. Anyone could create categories or rename and re-parent seeded ones. Suspected security bug, the same as Brands; not called live (writes weren't allowed). _(source)_
+- **No auth on writes:** `POST /categories`, `PUT` and `PATCH /categories/{categoryId}` have no auth middleware (only `destroy` gets `role:admin`) and no security in the spec. Anyone could create categories or rename and re-parent seeded ones. Security bug BUG-014, the same as Brands; without a token, `POST` returns `201` and `PUT`/`PATCH` return `200` (API-0177/0213/0222). _(verified)_
 - **Unknown `parent_id`:** no rule checks that `parent_id` exists, so the foreign key rejects it (MySQL 1452) and the handler's default branch answers `500 { message: "Something went wrong" }` on `POST`, `PUT` and `PATCH`. Suspected bug, like `category_id` on `POST /products`. _(source)_
 - **Hierarchy not guarded:** nothing stops `parent_id` from being the category's own id or one of its descendants. A top-level category given a `parent_id` leaves the top level of `GET /categories/tree`. The source doesn't show what the recursive `sub_categories` loading does with a cycle (the API wasn't written to). _(source)_
 - **`PATCH` with the category's own slug:** the `unique:categories,slug` rule in `PatchCategory` doesn't exclude the category being patched, so re-sending the current slug returns `409`. Suspected bug (verified for the identical Brands rule). _(source)_

@@ -1,10 +1,10 @@
-import { test, expect, createBrand, expectBrandItems, expectNamesContain, takeSeededBrandIds, expectIncludesBrandIds } from '@fixtures';
+import { test, expect, createBrand, expectBrandItems, takeSeededBrandIds, expectIncludesBrandIds } from '@fixtures';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { BrandsClient } from '@api/clients/BrandsClient';
 import type { Brand } from '@api/dto/brand';
 import { TestConstants } from '@data/TestConstants';
 import { BrandFactory } from '@data/factories/BrandFactory';
-import { expectStatus } from '@utils/apiChecks';
+import { expectEmptyArray, expectItemNamesContain, expectStatus } from '@utils/apiChecks';
 import { assertMessage, attachJson } from '@utils/assertHelpers';
 
 // Scenarios: test-scenarios/api/brands/get-brands-search.yml
@@ -37,7 +37,7 @@ test.describe('@brands-api - Brands API', () => {
     });
 
     await test.step('Verify the body is a non-empty array and every item\'s name contains "forge" (case-insensitive).', async () => {
-      expectNamesContain(request, body, term);
+      expectItemNamesContain(request, body, term);
     });
 
     await test.step('Verify every item has a non-empty string id, name and slug.', async () => {
@@ -59,7 +59,7 @@ test.describe('@brands-api - Brands API', () => {
     });
 
     await test.step('Verify the body is a non-empty array and every item\'s name contains "fle" (case-insensitive).', async () => {
-      expectNamesContain(request, JSON.parse(response.body), term);
+      expectItemNamesContain(request, JSON.parse(response.body), term);
     });
   });
 
@@ -77,8 +77,7 @@ test.describe('@brands-api - Brands API', () => {
     });
 
     await test.step('Verify the body is an empty array.', async () => {
-      const body = JSON.parse(response.body) as unknown;
-      expect(Array.isArray(body) && body.length === 0, assertMessage({ request, expected: 'The body is an empty array', actual: body })).toBe(true);
+      expectEmptyArray(request, response);
     });
   });
 

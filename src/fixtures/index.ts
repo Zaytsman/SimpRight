@@ -59,5 +59,17 @@ export {
   takeOtherBrandSlug,
   removeBrandIfCreated,
   expectBrandItems,
-  expectNamesContain,
 } from '../api/fixtures/brandSteps';
+export {
+  CATEGORY_CREATE_ID_SLUG_STEP,
+  PARENT_CREATE_STEP,
+  CHILD_CREATE_STEP,
+  createCategory,
+  readCategory,
+  removeCategoryIfCreated,
+  takeCategoryBySlug,
+  takeTreeItemIdsBySlugs,
+  expectSlugsInclude,
+  expectIncludesIds,
+  expectSubCategoriesOf,
+} from '../api/fixtures/categorySteps';

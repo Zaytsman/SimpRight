@@ -4,7 +4,8 @@ tags: ["@categories-api"]
 scenarios:
   - id: API-0178
     name: Category tree returns the top-level categories with their sub-categories
-    status: manual
+    status: automated
+    automatedIn: tests/api/categories/get-categories-tree.spec.ts
     steps:
       - Send GET /categories/tree.
       - Verify the response status is 200.
@@ -13,7 +14,8 @@ scenarios:
       - Verify every item has a sub_categories array, and every sub-category's parent_id equals its item's id.
   - id: API-0179
     name: Category tree filtered by a top-level slug returns only that category
-    status: manual
+    status: automated
+    automatedIn: tests/api/categories/get-categories-tree.spec.ts
     steps:
       - Send GET /categories/tree with by_category_slug=hand-tools.
       - Verify the response status is 200.
@@ -21,21 +23,24 @@ scenarios:
       - Verify the item's sub_categories is non-empty, includes the slug hammer, and every sub-category's parent_id equals the item's id.
   - id: API-0180
     name: Category tree filtered by a sub-category's slug returns an empty array
-    status: manual
+    status: automated
+    automatedIn: tests/api/categories/get-categories-tree.spec.ts
     steps:
       - Send GET /categories/tree with by_category_slug=hammer.
       - Verify the response status is 200.
       - Verify the body is an empty array.
   - id: API-0181
     name: Category tree filtered by an unknown slug returns an empty array
-    status: manual
+    status: automated
+    automatedIn: tests/api/categories/get-categories-tree.spec.ts
     steps:
       - Send GET /categories/tree with by_category_slug set to a unique slug that no category has.
       - Verify the response status is 200.
       - Verify the body is an empty array.
   - id: API-0182
     name: Category tree with by_category_slug as an array returns 422
-    status: manual
+    status: automated
+    automatedIn: tests/api/categories/get-categories-tree.spec.ts
     knownIssue: Returns 500 instead of 422 when by_category_slug is sent as an array.
     bug: BUG-016
     steps:

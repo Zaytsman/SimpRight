@@ -3,6 +3,16 @@
  * A value only one test uses stays a variable in that test. Data a test creates comes from a
  * factory in `factories/`, never from here. Roles are not repeated here: they're `UserRole` in config.
  */
+/** Seeded category slugs (CategorySeeder) that several TestConstants.categories values are built from. */
+const CATEGORY_SLUGS = {
+  handTools: 'hand-tools',
+  hammer: 'hammer',
+  handSaw: 'hand-saw',
+  powerTools: 'power-tools',
+  other: 'other',
+  saw: 'saw',
+} as const;
+
 export const TestConstants = {
   products: {
     /** Matches several seeded products by name (case-insensitive). */
@@ -31,6 +41,24 @@ export const TestConstants = {
       { name: 'ForgeFlex Tools', slug: 'forgeflex-tools' },
       { name: 'MightyCraft Hardware', slug: 'mightycraft-hardware' },
     ],
+  },
+  categories: {
+    /** A well-formed ULID that no category has (the same value as products.unknownId: no seeded or created record can have it). */
+    unknownId: '01ZZZZZZZZZZZZZZZZZZZZZZZZ',
+    /** The seeded top-level category Hand Tools (7 sub-categories, Hammer among them); its id changes at every re-seed, so tests find it by slug. */
+    handTools: CATEGORY_SLUGS.handTools,
+    /** The seeded sub-category Hammer, under Hand Tools. */
+    hammer: CATEGORY_SLUGS.hammer,
+    /** The seeded sub-category Hand Saw, under Hand Tools. */
+    handSaw: CATEGORY_SLUGS.handSaw,
+    /** The seeded top-level category Power Tools (4 sub-categories). */
+    powerTools: CATEGORY_SLUGS.powerTools,
+    /** The seeded top-level categories; never renamed, re-parented or deleted by a test. */
+    topLevelSlugs: [CATEGORY_SLUGS.handTools, CATEGORY_SLUGS.powerTools, CATEGORY_SLUGS.other],
+    /** Seeded categories of both levels that a search without a term returns: Hand Tools, Hammer and Saw. */
+    searchSeededSlugs: [CATEGORY_SLUGS.handTools, CATEGORY_SLUGS.hammer, CATEGORY_SLUGS.saw],
+    /** A search term shorter than 4 characters (a LIKE match inside names) and the slugs of the seeded categories it matches. */
+    shortSearch: { term: 'saw', slugs: [CATEGORY_SLUGS.handSaw, CATEGORY_SLUGS.saw] },
   },
   carts: {
     /** A well-formed ULID that no cart has (the same value as products.unknownId: no seeded or created record can have it). */

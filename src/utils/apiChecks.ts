@@ -93,3 +93,24 @@ export function expectFieldMessageIncludes(request: unknown, response: ApiRespon
     assertMessage({ request, expected: `The "${field}" messages include "${message}"`, actual: body })
   ).toBe(true);
 }
+
+/** The checks of a "Verify the body is a non-empty array and every item's name contains "<term>" (case-insensitive)." step. */
+export function expectItemNamesContain(request: unknown, body: unknown, term: string): void {
+  expect(Array.isArray(body) && body.length > 0, assertMessage({ request, expected: 'The body is a non-empty array', actual: body })).toBe(true);
+  for (const item of body as { name: string }[]) {
+    expect(item.name.toLowerCase(), assertMessage({ request, expected: `The item's name contains "${term}" (case-insensitive)`, actual: item })).toContain(
+      term.toLowerCase()
+    );
+  }
+}
+
+/** The checks of a "Verify the Accept-Query response header is application/json." step. */
+export function expectAcceptQuery(request: unknown, response: ApiResponse): void {
+  expect(response.headers['accept-query'], assertMessage({ request, expected: 'Accept-Query: application/json', actual: response.headers })).toBe('application/json');
+}
+
+/** The checks of a "Verify the body is an empty array." step. */
+export function expectEmptyArray(request: unknown, response: ApiResponse): void {
+  const body = JSON.parse(response.body) as unknown;
+  expect(Array.isArray(body) && body.length === 0, assertMessage({ request, expected: 'The body is an empty array', actual: body })).toBe(true);
+}

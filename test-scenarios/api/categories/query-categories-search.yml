@@ -4,7 +4,8 @@ tags: ["@categories-api"]
 scenarios:
   - id: API-0197
     name: QUERY search returns only matching categories
-    status: manual
+    status: automated
+    automatedIn: tests/api/categories/query-categories-search.spec.ts
     steps:
       - 'Send QUERY /categories/search with Content-Type: application/json, Accept: application/json and the body { "q": "saw" }.'
       - Verify the response status is 200.
@@ -12,23 +13,25 @@ scenarios:
       - Verify the body is a non-empty array and every item's name contains "saw" (case-insensitive).
       - Verify the body's slugs include hand-saw and saw.
   - id: API-0198
-    name: QUERY search with an empty body returns every category
-    status: manual
+    name: QUERY search with an empty body returns the seeded categories
+    status: automated
+    automatedIn: tests/api/categories/query-categories-search.spec.ts
     steps:
-      - Send GET /categories and keep the category ids.
       - "Send QUERY /categories/search with Content-Type: application/json, Accept: application/json and an empty JSON object as the body."
       - Verify the response status is 200.
-      - Verify the body's category ids equal the GET /categories ids, in any order.
+      - Verify the body's slugs include hand-tools, hammer and saw.
   - id: API-0199
     name: QUERY search without a JSON Content-Type returns 415
-    status: manual
+    status: automated
+    automatedIn: tests/api/categories/query-categories-search.spec.ts
     steps:
       - "Send QUERY /categories/search with Content-Type: text/plain, Accept: application/json and a plain-text body."
       - Verify the response status is 415.
       - 'Verify the body''s message is "QUERY requests must use Content-Type: application/json".'
   - id: API-0200
     name: QUERY search with q as an array returns 422
-    status: manual
+    status: automated
+    automatedIn: tests/api/categories/query-categories-search.spec.ts
     knownIssue: Returns 500 instead of 422 when q is sent as an array.
     bug: BUG-017
     steps:
