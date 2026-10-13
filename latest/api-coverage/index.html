@@ -325,7 +325,7 @@
     <header>
       <div>
         <h1>API Coverage Report</h1>
-        <div class="generated-at">Generated: 2026-10-12T08:29:55.167Z</div>
+        <div class="generated-at">Generated: 2026-10-13T08:55:21.856Z</div>
       </div>
       <div>
         <span class="service-tag">playwright-api-coverage</span>
@@ -4068,7 +4068,7 @@ The check runs only for the five exact values in Enums. For any other `payment_m
             <span class="service-tag">Users</span>
           </div>
           <div class="endpoint-right">
-            <span class="hits-badge hits-covered">49 calls</span>
+            <span class="hits-badge hits-covered">50 calls</span>
             <div style="width: 100px;">
               <div class="progress-bar-container">
                 <div class="progress-bar-fill fill-green" style="width: 91%;"></div>
@@ -6780,7 +6780,7 @@ interface AverageSalesPerWeekRow {
 <h2 id="contract-users-api-md--data-required-for-successful-requests">Data required for successful requests</h2>
 <div class="table-wrap"><table><thead><tr><th>Data</th><th>Needed by</th><th>Requirements</th></tr></thead><tbody><tr><td>Customer credentials</td><td><code>POST /users/login</code></td><td>An existing, enabled account that isn&#039;t locked (fewer than 3 failed logins in a row). Test users come from <code>testUsers</code> in <code>src/envs/&lt;ENV&gt;.json</code> and <code>.env</code>.</td></tr><tr><td>User token</td><td>Every endpoint marked &quot;Any user&quot;</td><td>From <code>POST /users/login</code>; valid for 300 seconds.</td></tr><tr><td>Admin token</td><td><code>GET /users</code>, <code>DELETE /users/{userId}</code>; any user&#039;s id on <code>GET</code>/<code>PUT</code>/<code>PATCH /users/{userId}</code></td><td>Token of a user whose <code>role</code> is <code>admin</code>.</td></tr><tr><td>User id (ULID)</td><td><code>/users/{userId}</code> endpoints</td><td>Your own id from <code>GET /users/me</code>, or any id with an admin token.</td></tr><tr><td>Unique email</td><td><code>POST /users/register</code>; <code>email</code> in <code>PUT</code>/<code>PATCH /users/{userId}</code></td><td>Not used by any other account.</td></tr><tr><td>Strong password</td><td><code>POST /users/register</code>, <code>POST /users/change-password</code></td><td>At least 8 characters, upper and lower case, a number and a symbol, and not found in public data breaches (Laravel <code>Password::uncompromised()</code>).</td></tr><tr><td>Adult date of birth</td><td><code>dob</code> in register, <code>PUT</code>, <code>PATCH</code></td><td>Format <code>YYYY-MM-DD</code>, at least 18 years ago.</td></tr><tr><td>A user nobody references</td><td><code>DELETE /users/{userId}</code></td><td>A user with invoices, favorites or other references can&#039;t be deleted (<code>409</code>).</td></tr></tbody></table></div>
 <h2 id="contract-users-api-md--endpoints">Endpoints</h2>
-<h3 id="contract-users-api-md--post-users-login">1. Login<a class="cov-chip chip-covered" href="#coverage/endpoint-post-users-login" title="Show on the coverage tab">49 calls · 91%</a></h3>
+<h3 id="contract-users-api-md--post-users-login">1. Login<a class="cov-chip chip-covered" href="#coverage/endpoint-post-users-login" title="Show on the coverage tab">50 calls · 91%</a></h3>
 <p>Returns a JWT for the <code>Authorization: Bearer &lt;token&gt;</code> header. Accounts with two-factor auth (TOTP) get a restricted temporary token instead, which is exchanged for a full token by sending it back with the TOTP code. <em>(source)</em></p>
 <p><strong>Endpoint:</strong> <code>POST /users/login</code></p>
 <p><strong>Auth:</strong> None <em>(source)</em></p>
