@@ -3,17 +3,17 @@ window.SCENARIO_CATALOG = {
  "layer": "api",
  "title": "API Test Cases",
  "prefix": "API",
- "generatedAt": "2026-10-11T15:48:42.863Z",
- "commit": "bdddb4bc1dfb72878914a72e3f60dd34efe446a9",
+ "generatedAt": "2026-10-13T17:54:48.394Z",
+ "commit": "f64636e11bd908f6027bcf7a3e7284f06e76def9",
  "repoUrl": "https://github.com/Zaytsman/SimpRight",
  "branch": "main",
  "workflowUrl": "https://github.com/Zaytsman/SimpRight/actions/workflows/custom-api-tests.yml",
  "stats": {
   "total": 667,
-  "automated": 410,
-  "manual": 257,
-  "knownIssues": 65,
-  "automatedPct": 61
+  "automated": 478,
+  "manual": 189,
+  "knownIssues": 66,
+  "automatedPct": 72
  },
  "tree": [
   {
@@ -5565,11 +5565,14 @@ window.SCENARIO_CATALOG = {
   {
    "id": "API-0267",
    "name": "List favorites returns 200 with the user's favorites and their products",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/favorites/get-favorites.spec.ts",
    "steps": [
-    "Send GET /products and take the id of a product that isn't among the default user's favorites (compare with GET /favorites).",
-    "Send POST /favorites with that product id, and take the new favorite's id and its user_id.",
-    "Send GET /favorites.",
+    "Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.",
+    "Send POST /users/login with that email and password, and take its access_token.",
+    "Send GET /products and take the first item's id.",
+    "Send POST /favorites with that product id and the throwaway customer's access_token, and take the new favorite's id and its user_id.",
+    "Send GET /favorites with the throwaway customer's access_token.",
     "Verify the response status is 200.",
     "Verify the body is an array that includes an item with the new favorite's id.",
     "Verify that item's product_id equals the product id sent and its user_id equals the user_id returned by POST /favorites.",
@@ -5577,6 +5580,7 @@ window.SCENARIO_CATALOG = {
     "Verify that item's product has no category key and no brand key."
    ],
    "ref": [],
+   "specLine": 22,
    "area": "favorites",
    "areaLabel": "Favorites",
    "file": "test-scenarios/api/favorites/get-favorites.yml",
@@ -5585,22 +5589,26 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@favorites-api"
    ],
-   "yaml": "- id: API-0267\n  name: List favorites returns 200 with the user's favorites and their products\n  status: manual\n  steps:\n    - Send GET /products and take the id of a product that isn't among the default user's favorites (compare with GET /favorites).\n    - Send POST /favorites with that product id, and take the new favorite's id and its user_id.\n    - Send GET /favorites.\n    - Verify the response status is 200.\n    - Verify the body is an array that includes an item with the new favorite's id.\n    - Verify that item's product_id equals the product id sent and its user_id equals the user_id returned by POST /favorites.\n    - Verify that item's product has an id equal to its product_id, a name, a price and a product_image.\n    - Verify that item's product has no category key and no brand key."
+   "yaml": "- id: API-0267\n  name: List favorites returns 200 with the user's favorites and their products\n  status: automated\n  automatedIn: tests/api/favorites/get-favorites.spec.ts\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.\n    - Send POST /users/login with that email and password, and take its access_token.\n    - Send GET /products and take the first item's id.\n    - Send POST /favorites with that product id and the throwaway customer's access_token, and take the new favorite's id and its user_id.\n    - Send GET /favorites with the throwaway customer's access_token.\n    - Verify the response status is 200.\n    - Verify the body is an array that includes an item with the new favorite's id.\n    - Verify that item's product_id equals the product id sent and its user_id equals the user_id returned by POST /favorites.\n    - Verify that item's product has an id equal to its product_id, a name, a price and a product_image.\n    - Verify that item's product has no category key and no brand key."
   },
   {
    "id": "API-0268",
    "name": "List favorites of a new customer returns an empty list",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/favorites/get-favorites.spec.ts",
    "steps": [
-    "Send GET /products and take the id of a product that isn't among the default user's favorites (compare with GET /favorites).",
-    "Send POST /favorites with that product id.",
     "Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.",
     "Send POST /users/login with that email and password, and take its access_token.",
-    "Send GET /favorites with the throwaway customer's access_token.",
+    "Send GET /products and take the first item's id.",
+    "Send POST /favorites with that product id and the throwaway customer's access_token.",
+    "Send POST /users/register with another unique email, a first name, a last name and a random strong password, and take the second user's id.",
+    "Send POST /users/login with the second user's email and password, and take its access_token.",
+    "Send GET /favorites with the second customer's access_token.",
     "Verify the response status is 200.",
     "Verify the body is an empty array."
    ],
    "ref": [],
+   "specLine": 83,
    "area": "favorites",
    "areaLabel": "Favorites",
    "file": "test-scenarios/api/favorites/get-favorites.yml",
@@ -5609,18 +5617,20 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@favorites-api"
    ],
-   "yaml": "- id: API-0268\n  name: List favorites of a new customer returns an empty list\n  status: manual\n  steps:\n    - Send GET /products and take the id of a product that isn't among the default user's favorites (compare with GET /favorites).\n    - Send POST /favorites with that product id.\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.\n    - Send POST /users/login with that email and password, and take its access_token.\n    - Send GET /favorites with the throwaway customer's access_token.\n    - Verify the response status is 200.\n    - Verify the body is an empty array."
+   "yaml": "- id: API-0268\n  name: List favorites of a new customer returns an empty list\n  status: automated\n  automatedIn: tests/api/favorites/get-favorites.spec.ts\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.\n    - Send POST /users/login with that email and password, and take its access_token.\n    - Send GET /products and take the first item's id.\n    - Send POST /favorites with that product id and the throwaway customer's access_token.\n    - Send POST /users/register with another unique email, a first name, a last name and a random strong password, and take the second user's id.\n    - Send POST /users/login with the second user's email and password, and take its access_token.\n    - Send GET /favorites with the second customer's access_token.\n    - Verify the response status is 200.\n    - Verify the body is an empty array."
   },
   {
    "id": "API-0269",
    "name": "List favorites without a token returns 401",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/favorites/get-favorites.spec.ts",
    "steps": [
     "Send GET /favorites without an Authorization header.",
     "Verify the response status is 401.",
     "Verify the body's message is \"Unauthorized\"."
    ],
    "ref": [],
+   "specLine": 114,
    "area": "favorites",
    "areaLabel": "Favorites",
    "file": "test-scenarios/api/favorites/get-favorites.yml",
@@ -5629,18 +5639,20 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@favorites-api"
    ],
-   "yaml": "- id: API-0269\n  name: List favorites without a token returns 401\n  status: manual\n  steps:\n    - Send GET /favorites without an Authorization header.\n    - Verify the response status is 401.\n    - Verify the body's message is \"Unauthorized\"."
+   "yaml": "- id: API-0269\n  name: List favorites without a token returns 401\n  status: automated\n  automatedIn: tests/api/favorites/get-favorites.spec.ts\n  steps:\n    - Send GET /favorites without an Authorization header.\n    - Verify the response status is 401.\n    - Verify the body's message is \"Unauthorized\"."
   },
   {
    "id": "API-0270",
    "name": "List favorites with a malformed token returns 401",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/favorites/get-favorites.spec.ts",
    "steps": [
     "Send GET /favorites with a malformed token.",
     "Verify the response status is 401.",
     "Verify the body's message is \"Unauthorized\"."
    ],
    "ref": [],
+   "specLine": 131,
    "area": "favorites",
    "areaLabel": "Favorites",
    "file": "test-scenarios/api/favorites/get-favorites.yml",
@@ -5649,12 +5661,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@favorites-api"
    ],
-   "yaml": "- id: API-0270\n  name: List favorites with a malformed token returns 401\n  status: manual\n  steps:\n    - Send GET /favorites with a malformed token.\n    - Verify the response status is 401.\n    - Verify the body's message is \"Unauthorized\"."
+   "yaml": "- id: API-0270\n  name: List favorites with a malformed token returns 401\n  status: automated\n  automatedIn: tests/api/favorites/get-favorites.spec.ts\n  steps:\n    - Send GET /favorites with a malformed token.\n    - Verify the response status is 401.\n    - Verify the body's message is \"Unauthorized\"."
   },
   {
    "id": "API-0271",
    "name": "List favorites with a disabled account's token returns 403",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/favorites/get-favorites.spec.ts",
    "role": "admin",
    "steps": [
     "Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.",
@@ -5665,6 +5678,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's message is \"Account disabled.\"."
    ],
    "ref": [],
+   "specLine": 151,
    "area": "favorites",
    "areaLabel": "Favorites",
    "file": "test-scenarios/api/favorites/get-favorites.yml",
@@ -5673,22 +5687,26 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@favorites-api"
    ],
-   "yaml": "- id: API-0271\n  name: List favorites with a disabled account's token returns 403\n  status: manual\n  role: admin\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.\n    - Send POST /users/login with that email and password, and take its access_token.\n    - Send PATCH /users/{userId} with that id and enabled false, with the admin's token.\n    - Send GET /favorites with the throwaway customer's access_token.\n    - Verify the response status is 403.\n    - Verify the body's message is \"Account disabled.\"."
+   "yaml": "- id: API-0271\n  name: List favorites with a disabled account's token returns 403\n  status: automated\n  automatedIn: tests/api/favorites/get-favorites.spec.ts\n  role: admin\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.\n    - Send POST /users/login with that email and password, and take its access_token.\n    - Send PATCH /users/{userId} with that id and enabled false, with the admin's token.\n    - Send GET /favorites with the throwaway customer's access_token.\n    - Verify the response status is 403.\n    - Verify the body's message is \"Account disabled.\"."
   },
   {
    "id": "API-0272",
    "name": "Add favorite returns 201 with the new favorite",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/favorites/post-favorites.spec.ts",
    "steps": [
-    "Send GET /products and take the id of a product that isn't among the default user's favorites (compare with GET /favorites).",
-    "Send POST /favorites with that product id, and take the new favorite's id.",
+    "Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.",
+    "Send POST /users/login with that email and password, and take its access_token.",
+    "Send GET /products and take the first item's id.",
+    "Send POST /favorites with that product id and the throwaway customer's access_token, and take the new favorite's id.",
     "Verify the response status is 201.",
     "Verify the body's product_id equals the product id sent.",
     "Verify the body has a non-empty id.",
-    "Verify the body's user_id equals the default user's id from GET /users/me.",
-    "Verify GET /favorites/{favoriteId} with the new id returns 200 with the same product_id and user_id."
+    "Verify the body's user_id equals the new user's id.",
+    "Verify GET /favorites/{favoriteId} with the new id and the throwaway customer's access_token returns 200 with the same product_id and user_id."
    ],
    "ref": [],
+   "specLine": 49,
    "area": "favorites",
    "areaLabel": "Favorites",
    "file": "test-scenarios/api/favorites/post-favorites.yml",
@@ -5697,20 +5715,24 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@favorites-api"
    ],
-   "yaml": "- id: API-0272\n  name: Add favorite returns 201 with the new favorite\n  status: manual\n  steps:\n    - Send GET /products and take the id of a product that isn't among the default user's favorites (compare with GET /favorites).\n    - Send POST /favorites with that product id, and take the new favorite's id.\n    - Verify the response status is 201.\n    - Verify the body's product_id equals the product id sent.\n    - Verify the body has a non-empty id.\n    - Verify the body's user_id equals the default user's id from GET /users/me.\n    - Verify GET /favorites/{favoriteId} with the new id returns 200 with the same product_id and user_id."
+   "yaml": "- id: API-0272\n  name: Add favorite returns 201 with the new favorite\n  status: automated\n  automatedIn: tests/api/favorites/post-favorites.spec.ts\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.\n    - Send POST /users/login with that email and password, and take its access_token.\n    - Send GET /products and take the first item's id.\n    - Send POST /favorites with that product id and the throwaway customer's access_token, and take the new favorite's id.\n    - Verify the response status is 201.\n    - Verify the body's product_id equals the product id sent.\n    - Verify the body has a non-empty id.\n    - Verify the body's user_id equals the new user's id.\n    - Verify GET /favorites/{favoriteId} with the new id and the throwaway customer's access_token returns 200 with the same product_id and user_id."
   },
   {
    "id": "API-0273",
    "name": "Add favorite takes the user from the token, not from the body",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/favorites/post-favorites.spec.ts",
    "steps": [
     "Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.",
-    "Send GET /products and take the id of a product that isn't among the default user's favorites (compare with GET /favorites).",
-    "Send POST /favorites with that product id and user_id set to the throwaway customer's id, with the default user's token, and take the new favorite's id.",
+    "Send POST /users/login with that email and password, and take its access_token.",
+    "Send POST /users/register with another unique email, a first name, a last name and a random strong password, and take the second user's id.",
+    "Send GET /products and take the first item's id.",
+    "Send POST /favorites with that product id and user_id set to the second user's id, with the throwaway customer's access_token, and take the new favorite's id.",
     "Verify the response status is 201.",
-    "Verify the body's user_id equals the default user's id from GET /users/me."
+    "Verify the body's user_id equals the new user's id."
    ],
    "ref": [],
+   "specLine": 101,
    "area": "favorites",
    "areaLabel": "Favorites",
    "file": "test-scenarios/api/favorites/post-favorites.yml",
@@ -5719,12 +5741,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@favorites-api"
    ],
-   "yaml": "- id: API-0273\n  name: Add favorite takes the user from the token, not from the body\n  status: manual\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.\n    - Send GET /products and take the id of a product that isn't among the default user's favorites (compare with GET /favorites).\n    - Send POST /favorites with that product id and user_id set to the throwaway customer's id, with the default user's token, and take the new favorite's id.\n    - Verify the response status is 201.\n    - Verify the body's user_id equals the default user's id from GET /users/me."
+   "yaml": "- id: API-0273\n  name: Add favorite takes the user from the token, not from the body\n  status: automated\n  automatedIn: tests/api/favorites/post-favorites.spec.ts\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.\n    - Send POST /users/login with that email and password, and take its access_token.\n    - Send POST /users/register with another unique email, a first name, a last name and a random strong password, and take the second user's id.\n    - Send GET /products and take the first item's id.\n    - Send POST /favorites with that product id and user_id set to the second user's id, with the throwaway customer's access_token, and take the new favorite's id.\n    - Verify the response status is 201.\n    - Verify the body's user_id equals the new user's id."
   },
   {
    "id": "API-0274",
    "name": "Add favorite without a token returns 401",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/favorites/post-favorites.spec.ts",
    "steps": [
     "Send GET /products and take the first product's id.",
     "Send POST /favorites with that product id, without an Authorization header.",
@@ -5732,6 +5755,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's message is \"Unauthorized\"."
    ],
    "ref": [],
+   "specLine": 150,
    "area": "favorites",
    "areaLabel": "Favorites",
    "file": "test-scenarios/api/favorites/post-favorites.yml",
@@ -5740,12 +5764,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@favorites-api"
    ],
-   "yaml": "- id: API-0274\n  name: Add favorite without a token returns 401\n  status: manual\n  steps:\n    - Send GET /products and take the first product's id.\n    - Send POST /favorites with that product id, without an Authorization header.\n    - Verify the response status is 401.\n    - Verify the body's message is \"Unauthorized\"."
+   "yaml": "- id: API-0274\n  name: Add favorite without a token returns 401\n  status: automated\n  automatedIn: tests/api/favorites/post-favorites.spec.ts\n  steps:\n    - Send GET /products and take the first product's id.\n    - Send POST /favorites with that product id, without an Authorization header.\n    - Verify the response status is 401.\n    - Verify the body's message is \"Unauthorized\"."
   },
   {
    "id": "API-0275",
    "name": "Add favorite with a malformed token returns 401",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/favorites/post-favorites.spec.ts",
    "steps": [
     "Send GET /products and take the first product's id.",
     "Send POST /favorites with that product id, with a malformed token.",
@@ -5753,6 +5778,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's message is \"Unauthorized\"."
    ],
    "ref": [],
+   "specLine": 169,
    "area": "favorites",
    "areaLabel": "Favorites",
    "file": "test-scenarios/api/favorites/post-favorites.yml",
@@ -5761,12 +5787,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@favorites-api"
    ],
-   "yaml": "- id: API-0275\n  name: Add favorite with a malformed token returns 401\n  status: manual\n  steps:\n    - Send GET /products and take the first product's id.\n    - Send POST /favorites with that product id, with a malformed token.\n    - Verify the response status is 401.\n    - Verify the body's message is \"Unauthorized\"."
+   "yaml": "- id: API-0275\n  name: Add favorite with a malformed token returns 401\n  status: automated\n  automatedIn: tests/api/favorites/post-favorites.spec.ts\n  steps:\n    - Send GET /products and take the first product's id.\n    - Send POST /favorites with that product id, with a malformed token.\n    - Verify the response status is 401.\n    - Verify the body's message is \"Unauthorized\"."
   },
   {
    "id": "API-0276",
    "name": "Add favorite without product_id returns 422",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/favorites/post-favorites.spec.ts",
    "steps": [
     "Send POST /favorites with an empty JSON object as the body.",
     "Verify the response status is 422.",
@@ -5774,6 +5801,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's product_id messages include \"The product id field is required.\"."
    ],
    "ref": [],
+   "specLine": 188,
    "area": "favorites",
    "areaLabel": "Favorites",
    "file": "test-scenarios/api/favorites/post-favorites.yml",
@@ -5782,18 +5810,20 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@favorites-api"
    ],
-   "yaml": "- id: API-0276\n  name: Add favorite without product_id returns 422\n  status: manual\n  steps:\n    - Send POST /favorites with an empty JSON object as the body.\n    - Verify the response status is 422.\n    - Verify the body has a product_id key with at least one message.\n    - Verify the body's product_id messages include \"The product id field is required.\"."
+   "yaml": "- id: API-0276\n  name: Add favorite without product_id returns 422\n  status: automated\n  automatedIn: tests/api/favorites/post-favorites.spec.ts\n  steps:\n    - Send POST /favorites with an empty JSON object as the body.\n    - Verify the response status is 422.\n    - Verify the body has a product_id key with at least one message.\n    - Verify the body's product_id messages include \"The product id field is required.\"."
   },
   {
    "id": "API-0277",
    "name": "Add favorite with an unknown product id returns 422",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/favorites/post-favorites.spec.ts",
    "steps": [
     "Send POST /favorites with product_id set to a well-formed ULID that no product has.",
     "Verify the response status is 422.",
     "Verify the body's product_id messages include \"The selected product id is invalid.\"."
    ],
    "ref": [],
+   "specLine": 209,
    "area": "favorites",
    "areaLabel": "Favorites",
    "file": "test-scenarios/api/favorites/post-favorites.yml",
@@ -5802,21 +5832,25 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@favorites-api"
    ],
-   "yaml": "- id: API-0277\n  name: Add favorite with an unknown product id returns 422\n  status: manual\n  steps:\n    - Send POST /favorites with product_id set to a well-formed ULID that no product has.\n    - Verify the response status is 422.\n    - Verify the body's product_id messages include \"The selected product id is invalid.\"."
+   "yaml": "- id: API-0277\n  name: Add favorite with an unknown product id returns 422\n  status: automated\n  automatedIn: tests/api/favorites/post-favorites.spec.ts\n  steps:\n    - Send POST /favorites with product_id set to a well-formed ULID that no product has.\n    - Verify the response status is 422.\n    - Verify the body's product_id messages include \"The selected product id is invalid.\"."
   },
   {
    "id": "API-0278",
    "name": "Add favorite with a product already in the favorites returns 409",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/favorites/post-favorites.spec.ts",
    "steps": [
-    "Send GET /products and take the id of a product that isn't among the default user's favorites (compare with GET /favorites).",
-    "Send POST /favorites with that product id, and take the new favorite's id.",
-    "Send POST /favorites with the same product id again.",
+    "Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.",
+    "Send POST /users/login with that email and password, and take its access_token.",
+    "Send GET /products and take the first item's id.",
+    "Send POST /favorites with that product id and the throwaway customer's access_token, and take the new favorite's id.",
+    "Send POST /favorites with the same product id again, with the same token.",
     "Verify the response status is 409.",
     "Verify the body's message is \"Duplicate Entry\".",
-    "Verify GET /favorites includes exactly one favorite with that product id."
+    "Verify GET /favorites with the throwaway customer's access_token includes exactly one favorite with that product id."
    ],
    "ref": [],
+   "specLine": 226,
    "area": "favorites",
    "areaLabel": "Favorites",
    "file": "test-scenarios/api/favorites/post-favorites.yml",
@@ -5825,21 +5859,25 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@favorites-api"
    ],
-   "yaml": "- id: API-0278\n  name: Add favorite with a product already in the favorites returns 409\n  status: manual\n  steps:\n    - Send GET /products and take the id of a product that isn't among the default user's favorites (compare with GET /favorites).\n    - Send POST /favorites with that product id, and take the new favorite's id.\n    - Send POST /favorites with the same product id again.\n    - Verify the response status is 409.\n    - Verify the body's message is \"Duplicate Entry\".\n    - Verify GET /favorites includes exactly one favorite with that product id."
+   "yaml": "- id: API-0278\n  name: Add favorite with a product already in the favorites returns 409\n  status: automated\n  automatedIn: tests/api/favorites/post-favorites.spec.ts\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.\n    - Send POST /users/login with that email and password, and take its access_token.\n    - Send GET /products and take the first item's id.\n    - Send POST /favorites with that product id and the throwaway customer's access_token, and take the new favorite's id.\n    - Send POST /favorites with the same product id again, with the same token.\n    - Verify the response status is 409.\n    - Verify the body's message is \"Duplicate Entry\".\n    - Verify GET /favorites with the throwaway customer's access_token includes exactly one favorite with that product id."
   },
   {
    "id": "API-0279",
    "name": "Get favorite returns 200 with the favorite",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/favorites/get-favorites-by-favorite-id.spec.ts",
    "steps": [
-    "Send GET /products and take the id of a product that isn't among the default user's favorites (compare with GET /favorites).",
-    "Send POST /favorites with that product id, and take the new favorite's id, user_id and product_id.",
-    "Send GET /favorites/{favoriteId} with that id.",
+    "Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.",
+    "Send POST /users/login with that email and password, and take its access_token.",
+    "Send GET /products and take the first item's id.",
+    "Send POST /favorites with that product id and the throwaway customer's access_token, and take the new favorite's id, user_id and product_id.",
+    "Send GET /favorites/{favoriteId} with that id and the throwaway customer's access_token.",
     "Verify the response status is 200.",
     "Verify the body's id, user_id and product_id equal the values POST /favorites returned.",
     "Verify the body has no product key."
    ],
    "ref": [],
+   "specLine": 11,
    "area": "favorites",
    "areaLabel": "Favorites",
    "file": "test-scenarios/api/favorites/get-favorites-by-favorite-id.yml",
@@ -5848,18 +5886,20 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@favorites-api"
    ],
-   "yaml": "- id: API-0279\n  name: Get favorite returns 200 with the favorite\n  status: manual\n  steps:\n    - Send GET /products and take the id of a product that isn't among the default user's favorites (compare with GET /favorites).\n    - Send POST /favorites with that product id, and take the new favorite's id, user_id and product_id.\n    - Send GET /favorites/{favoriteId} with that id.\n    - Verify the response status is 200.\n    - Verify the body's id, user_id and product_id equal the values POST /favorites returned.\n    - Verify the body has no product key."
+   "yaml": "- id: API-0279\n  name: Get favorite returns 200 with the favorite\n  status: automated\n  automatedIn: tests/api/favorites/get-favorites-by-favorite-id.spec.ts\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.\n    - Send POST /users/login with that email and password, and take its access_token.\n    - Send GET /products and take the first item's id.\n    - Send POST /favorites with that product id and the throwaway customer's access_token, and take the new favorite's id, user_id and product_id.\n    - Send GET /favorites/{favoriteId} with that id and the throwaway customer's access_token.\n    - Verify the response status is 200.\n    - Verify the body's id, user_id and product_id equal the values POST /favorites returned.\n    - Verify the body has no product key."
   },
   {
    "id": "API-0280",
    "name": "Get favorite without a token returns 401",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/favorites/get-favorites-by-favorite-id.spec.ts",
    "steps": [
     "Send GET /favorites/{favoriteId} with a well-formed ULID that no favorite has, without an Authorization header.",
     "Verify the response status is 401.",
     "Verify the body's message is \"Unauthorized\"."
    ],
    "ref": [],
+   "specLine": 51,
    "area": "favorites",
    "areaLabel": "Favorites",
    "file": "test-scenarios/api/favorites/get-favorites-by-favorite-id.yml",
@@ -5868,18 +5908,20 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@favorites-api"
    ],
-   "yaml": "- id: API-0280\n  name: Get favorite without a token returns 401\n  status: manual\n  steps:\n    - Send GET /favorites/{favoriteId} with a well-formed ULID that no favorite has, without an Authorization header.\n    - Verify the response status is 401.\n    - Verify the body's message is \"Unauthorized\"."
+   "yaml": "- id: API-0280\n  name: Get favorite without a token returns 401\n  status: automated\n  automatedIn: tests/api/favorites/get-favorites-by-favorite-id.spec.ts\n  steps:\n    - Send GET /favorites/{favoriteId} with a well-formed ULID that no favorite has, without an Authorization header.\n    - Verify the response status is 401.\n    - Verify the body's message is \"Unauthorized\"."
   },
   {
    "id": "API-0281",
    "name": "Get favorite with a malformed token returns 401",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/favorites/get-favorites-by-favorite-id.spec.ts",
    "steps": [
     "Send GET /favorites/{favoriteId} with a well-formed ULID that no favorite has, with a malformed token.",
     "Verify the response status is 401.",
     "Verify the body's message is \"Unauthorized\"."
    ],
    "ref": [],
+   "specLine": 68,
    "area": "favorites",
    "areaLabel": "Favorites",
    "file": "test-scenarios/api/favorites/get-favorites-by-favorite-id.yml",
@@ -5888,18 +5930,20 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@favorites-api"
    ],
-   "yaml": "- id: API-0281\n  name: Get favorite with a malformed token returns 401\n  status: manual\n  steps:\n    - Send GET /favorites/{favoriteId} with a well-formed ULID that no favorite has, with a malformed token.\n    - Verify the response status is 401.\n    - Verify the body's message is \"Unauthorized\"."
+   "yaml": "- id: API-0281\n  name: Get favorite with a malformed token returns 401\n  status: automated\n  automatedIn: tests/api/favorites/get-favorites-by-favorite-id.spec.ts\n  steps:\n    - Send GET /favorites/{favoriteId} with a well-formed ULID that no favorite has, with a malformed token.\n    - Verify the response status is 401.\n    - Verify the body's message is \"Unauthorized\"."
   },
   {
    "id": "API-0282",
    "name": "Get favorite with an unknown id returns 404",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/favorites/get-favorites-by-favorite-id.spec.ts",
    "steps": [
     "Send GET /favorites/{favoriteId} with a well-formed ULID that no favorite has.",
     "Verify the response status is 404.",
     "Verify the body's message is \"Requested item not found\"."
    ],
    "ref": [],
+   "specLine": 85,
    "area": "favorites",
    "areaLabel": "Favorites",
    "file": "test-scenarios/api/favorites/get-favorites-by-favorite-id.yml",
@@ -5908,23 +5952,27 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@favorites-api"
    ],
-   "yaml": "- id: API-0282\n  name: Get favorite with an unknown id returns 404\n  status: manual\n  steps:\n    - Send GET /favorites/{favoriteId} with a well-formed ULID that no favorite has.\n    - Verify the response status is 404.\n    - Verify the body's message is \"Requested item not found\"."
+   "yaml": "- id: API-0282\n  name: Get favorite with an unknown id returns 404\n  status: automated\n  automatedIn: tests/api/favorites/get-favorites-by-favorite-id.spec.ts\n  steps:\n    - Send GET /favorites/{favoriteId} with a well-formed ULID that no favorite has.\n    - Verify the response status is 404.\n    - Verify the body's message is \"Requested item not found\"."
   },
   {
    "id": "API-0283",
    "name": "Get another user's favorite is refused",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/favorites/get-favorites-by-favorite-id.spec.ts",
    "knownIssue": "Returns 200 with another user's favorite instead of 404 or 403.",
    "bug": "BUG-021",
    "steps": [
-    "Send GET /products and take the id of a product that isn't among the default user's favorites (compare with GET /favorites).",
-    "Send POST /favorites with that product id, and take the new favorite's id.",
     "Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.",
     "Send POST /users/login with that email and password, and take its access_token.",
-    "Send GET /favorites/{favoriteId} with that favorite's id, with the throwaway customer's access_token.",
+    "Send GET /products and take the first item's id.",
+    "Send POST /favorites with that product id and the throwaway customer's access_token, and take the new favorite's id.",
+    "Send POST /users/register with another unique email, a first name, a last name and a random strong password, and take the second user's id.",
+    "Send POST /users/login with the second user's email and password, and take its access_token.",
+    "Send GET /favorites/{favoriteId} with that favorite's id, with the second customer's access_token.",
     "Verify the response status is 404 or 403."
    ],
    "ref": [],
+   "specLine": 102,
    "area": "favorites",
    "areaLabel": "Favorites",
    "file": "test-scenarios/api/favorites/get-favorites-by-favorite-id.yml",
@@ -5933,20 +5981,24 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@favorites-api"
    ],
-   "yaml": "- id: API-0283\n  name: Get another user's favorite is refused\n  status: manual\n  knownIssue: Returns 200 with another user's favorite instead of 404 or 403.\n  bug: BUG-021\n  steps:\n    - Send GET /products and take the id of a product that isn't among the default user's favorites (compare with GET /favorites).\n    - Send POST /favorites with that product id, and take the new favorite's id.\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.\n    - Send POST /users/login with that email and password, and take its access_token.\n    - Send GET /favorites/{favoriteId} with that favorite's id, with the throwaway customer's access_token.\n    - Verify the response status is 404 or 403."
+   "yaml": "- id: API-0283\n  name: Get another user's favorite is refused\n  status: automated\n  automatedIn: tests/api/favorites/get-favorites-by-favorite-id.spec.ts\n  knownIssue: Returns 200 with another user's favorite instead of 404 or 403.\n  bug: BUG-021\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.\n    - Send POST /users/login with that email and password, and take its access_token.\n    - Send GET /products and take the first item's id.\n    - Send POST /favorites with that product id and the throwaway customer's access_token, and take the new favorite's id.\n    - Send POST /users/register with another unique email, a first name, a last name and a random strong password, and take the second user's id.\n    - Send POST /users/login with the second user's email and password, and take its access_token.\n    - Send GET /favorites/{favoriteId} with that favorite's id, with the second customer's access_token.\n    - Verify the response status is 404 or 403."
   },
   {
    "id": "API-0284",
    "name": "Delete favorite returns 204 and removes it",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/favorites/delete-favorites-by-favorite-id.spec.ts",
    "steps": [
-    "Send GET /products and take the id of a product that isn't among the default user's favorites (compare with GET /favorites).",
-    "Send POST /favorites with that product id, and take the new favorite's id.",
-    "Send DELETE /favorites/{favoriteId} with that id.",
+    "Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.",
+    "Send POST /users/login with that email and password, and take its access_token.",
+    "Send GET /products and take the first item's id.",
+    "Send POST /favorites with that product id and the throwaway customer's access_token, and take the new favorite's id.",
+    "Send DELETE /favorites/{favoriteId} with that id and the throwaway customer's access_token.",
     "Verify the response status is 204.",
-    "Verify GET /favorites/{favoriteId} with that id returns 404."
+    "Verify GET /favorites/{favoriteId} with that id and the throwaway customer's access_token returns 404."
    ],
    "ref": [],
+   "specLine": 18,
    "area": "favorites",
    "areaLabel": "Favorites",
    "file": "test-scenarios/api/favorites/delete-favorites-by-favorite-id.yml",
@@ -5955,21 +6007,25 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@favorites-api"
    ],
-   "yaml": "- id: API-0284\n  name: Delete favorite returns 204 and removes it\n  status: manual\n  steps:\n    - Send GET /products and take the id of a product that isn't among the default user's favorites (compare with GET /favorites).\n    - Send POST /favorites with that product id, and take the new favorite's id.\n    - Send DELETE /favorites/{favoriteId} with that id.\n    - Verify the response status is 204.\n    - Verify GET /favorites/{favoriteId} with that id returns 404."
+   "yaml": "- id: API-0284\n  name: Delete favorite returns 204 and removes it\n  status: automated\n  automatedIn: tests/api/favorites/delete-favorites-by-favorite-id.spec.ts\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.\n    - Send POST /users/login with that email and password, and take its access_token.\n    - Send GET /products and take the first item's id.\n    - Send POST /favorites with that product id and the throwaway customer's access_token, and take the new favorite's id.\n    - Send DELETE /favorites/{favoriteId} with that id and the throwaway customer's access_token.\n    - Verify the response status is 204.\n    - Verify GET /favorites/{favoriteId} with that id and the throwaway customer's access_token returns 404."
   },
   {
    "id": "API-0285",
    "name": "Delete favorite without a token returns 401",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/favorites/delete-favorites-by-favorite-id.spec.ts",
    "steps": [
-    "Send GET /products and take the id of a product that isn't among the default user's favorites (compare with GET /favorites).",
-    "Send POST /favorites with that product id, and take the new favorite's id.",
+    "Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.",
+    "Send POST /users/login with that email and password, and take its access_token.",
+    "Send GET /products and take the first item's id.",
+    "Send POST /favorites with that product id and the throwaway customer's access_token, and take the new favorite's id.",
     "Send DELETE /favorites/{favoriteId} with that id, without an Authorization header.",
     "Verify the response status is 401.",
     "Verify the body's message is \"Unauthorized\".",
-    "Verify GET /favorites/{favoriteId} with that id returns 200."
+    "Verify GET /favorites/{favoriteId} with that id and the throwaway customer's access_token returns 200."
    ],
    "ref": [],
+   "specLine": 46,
    "area": "favorites",
    "areaLabel": "Favorites",
    "file": "test-scenarios/api/favorites/delete-favorites-by-favorite-id.yml",
@@ -5978,21 +6034,25 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@favorites-api"
    ],
-   "yaml": "- id: API-0285\n  name: Delete favorite without a token returns 401\n  status: manual\n  steps:\n    - Send GET /products and take the id of a product that isn't among the default user's favorites (compare with GET /favorites).\n    - Send POST /favorites with that product id, and take the new favorite's id.\n    - Send DELETE /favorites/{favoriteId} with that id, without an Authorization header.\n    - Verify the response status is 401.\n    - Verify the body's message is \"Unauthorized\".\n    - Verify GET /favorites/{favoriteId} with that id returns 200."
+   "yaml": "- id: API-0285\n  name: Delete favorite without a token returns 401\n  status: automated\n  automatedIn: tests/api/favorites/delete-favorites-by-favorite-id.spec.ts\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.\n    - Send POST /users/login with that email and password, and take its access_token.\n    - Send GET /products and take the first item's id.\n    - Send POST /favorites with that product id and the throwaway customer's access_token, and take the new favorite's id.\n    - Send DELETE /favorites/{favoriteId} with that id, without an Authorization header.\n    - Verify the response status is 401.\n    - Verify the body's message is \"Unauthorized\".\n    - Verify GET /favorites/{favoriteId} with that id and the throwaway customer's access_token returns 200."
   },
   {
    "id": "API-0286",
    "name": "Delete favorite with a malformed token returns 401",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/favorites/delete-favorites-by-favorite-id.spec.ts",
    "steps": [
-    "Send GET /products and take the id of a product that isn't among the default user's favorites (compare with GET /favorites).",
-    "Send POST /favorites with that product id, and take the new favorite's id.",
+    "Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.",
+    "Send POST /users/login with that email and password, and take its access_token.",
+    "Send GET /products and take the first item's id.",
+    "Send POST /favorites with that product id and the throwaway customer's access_token, and take the new favorite's id.",
     "Send DELETE /favorites/{favoriteId} with that id, with a malformed token.",
     "Verify the response status is 401.",
     "Verify the body's message is \"Unauthorized\".",
-    "Verify GET /favorites/{favoriteId} with that id returns 200."
+    "Verify GET /favorites/{favoriteId} with that id and the throwaway customer's access_token returns 200."
    ],
    "ref": [],
+   "specLine": 78,
    "area": "favorites",
    "areaLabel": "Favorites",
    "file": "test-scenarios/api/favorites/delete-favorites-by-favorite-id.yml",
@@ -6001,17 +6061,19 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@favorites-api"
    ],
-   "yaml": "- id: API-0286\n  name: Delete favorite with a malformed token returns 401\n  status: manual\n  steps:\n    - Send GET /products and take the id of a product that isn't among the default user's favorites (compare with GET /favorites).\n    - Send POST /favorites with that product id, and take the new favorite's id.\n    - Send DELETE /favorites/{favoriteId} with that id, with a malformed token.\n    - Verify the response status is 401.\n    - Verify the body's message is \"Unauthorized\".\n    - Verify GET /favorites/{favoriteId} with that id returns 200."
+   "yaml": "- id: API-0286\n  name: Delete favorite with a malformed token returns 401\n  status: automated\n  automatedIn: tests/api/favorites/delete-favorites-by-favorite-id.spec.ts\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.\n    - Send POST /users/login with that email and password, and take its access_token.\n    - Send GET /products and take the first item's id.\n    - Send POST /favorites with that product id and the throwaway customer's access_token, and take the new favorite's id.\n    - Send DELETE /favorites/{favoriteId} with that id, with a malformed token.\n    - Verify the response status is 401.\n    - Verify the body's message is \"Unauthorized\".\n    - Verify GET /favorites/{favoriteId} with that id and the throwaway customer's access_token returns 200."
   },
   {
    "id": "API-0287",
    "name": "Delete favorite with an unknown id returns 204",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/favorites/delete-favorites-by-favorite-id.spec.ts",
    "steps": [
     "Send DELETE /favorites/{favoriteId} with a well-formed ULID that no favorite has.",
     "Verify the response status is 204."
    ],
    "ref": [],
+   "specLine": 110,
    "area": "favorites",
    "areaLabel": "Favorites",
    "file": "test-scenarios/api/favorites/delete-favorites-by-favorite-id.yml",
@@ -6020,22 +6082,26 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@favorites-api"
    ],
-   "yaml": "- id: API-0287\n  name: Delete favorite with an unknown id returns 204\n  status: manual\n  steps:\n    - Send DELETE /favorites/{favoriteId} with a well-formed ULID that no favorite has.\n    - Verify the response status is 204."
+   "yaml": "- id: API-0287\n  name: Delete favorite with an unknown id returns 204\n  status: automated\n  automatedIn: tests/api/favorites/delete-favorites-by-favorite-id.spec.ts\n  steps:\n    - Send DELETE /favorites/{favoriteId} with a well-formed ULID that no favorite has.\n    - Verify the response status is 204."
   },
   {
    "id": "API-0288",
    "name": "Delete another user's favorite returns 204 and keeps it",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/favorites/delete-favorites-by-favorite-id.spec.ts",
    "steps": [
-    "Send GET /products and take the id of a product that isn't among the default user's favorites (compare with GET /favorites).",
-    "Send POST /favorites with that product id, and take the new favorite's id.",
     "Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.",
     "Send POST /users/login with that email and password, and take its access_token.",
-    "Send DELETE /favorites/{favoriteId} with that favorite's id, with the throwaway customer's access_token.",
+    "Send GET /products and take the first item's id.",
+    "Send POST /favorites with that product id and the throwaway customer's access_token, and take the new favorite's id.",
+    "Send POST /users/register with another unique email, a first name, a last name and a random strong password, and take the second user's id.",
+    "Send POST /users/login with the second user's email and password, and take its access_token.",
+    "Send DELETE /favorites/{favoriteId} with that favorite's id, with the second customer's access_token.",
     "Verify the response status is 204.",
-    "Verify GET /favorites/{favoriteId} with that id, with the default user's token, returns 200."
+    "Verify GET /favorites/{favoriteId} with that id, with the throwaway customer's access_token, returns 200."
    ],
    "ref": [],
+   "specLine": 123,
    "area": "favorites",
    "areaLabel": "Favorites",
    "file": "test-scenarios/api/favorites/delete-favorites-by-favorite-id.yml",
@@ -6044,12 +6110,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@favorites-api"
    ],
-   "yaml": "- id: API-0288\n  name: Delete another user's favorite returns 204 and keeps it\n  status: manual\n  steps:\n    - Send GET /products and take the id of a product that isn't among the default user's favorites (compare with GET /favorites).\n    - Send POST /favorites with that product id, and take the new favorite's id.\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.\n    - Send POST /users/login with that email and password, and take its access_token.\n    - Send DELETE /favorites/{favoriteId} with that favorite's id, with the throwaway customer's access_token.\n    - Verify the response status is 204.\n    - Verify GET /favorites/{favoriteId} with that id, with the default user's token, returns 200."
+   "yaml": "- id: API-0288\n  name: Delete another user's favorite returns 204 and keeps it\n  status: automated\n  automatedIn: tests/api/favorites/delete-favorites-by-favorite-id.spec.ts\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.\n    - Send POST /users/login with that email and password, and take its access_token.\n    - Send GET /products and take the first item's id.\n    - Send POST /favorites with that product id and the throwaway customer's access_token, and take the new favorite's id.\n    - Send POST /users/register with another unique email, a first name, a last name and a random strong password, and take the second user's id.\n    - Send POST /users/login with the second user's email and password, and take its access_token.\n    - Send DELETE /favorites/{favoriteId} with that favorite's id, with the second customer's access_token.\n    - Verify the response status is 204.\n    - Verify GET /favorites/{favoriteId} with that id, with the throwaway customer's access_token, returns 200."
   },
   {
    "id": "API-0336",
    "name": "List images returns every image record",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/images/get-images.spec.ts",
    "steps": [
     "Send GET /images without an Authorization header.",
     "Verify the response status is 200.",
@@ -6061,6 +6128,7 @@ window.SCENARIO_CATALOG = {
     "Verify the response has an ETag header."
    ],
    "ref": [],
+   "specLine": 60,
    "area": "images",
    "areaLabel": "Images",
    "file": "test-scenarios/api/images/get-images.yml",
@@ -6069,12 +6137,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@images-api"
    ],
-   "yaml": "- id: API-0336\n  name: List images returns every image record\n  status: manual\n  steps:\n    - Send GET /images without an Authorization header.\n    - Verify the response status is 200.\n    - Verify the body is a non-empty array.\n    - Verify every item has the keys id, by_name, by_url, source_name, source_url, file_name and title, each a string.\n    - Verify the items' ids are unique.\n    - Verify the Content-Type response header is application/json.\n    - Verify the Cache-Control response header is \"max-age=120, public\".\n    - Verify the response has an ETag header."
+   "yaml": "- id: API-0336\n  name: List images returns every image record\n  status: automated\n  automatedIn: tests/api/images/get-images.spec.ts\n  steps:\n    - Send GET /images without an Authorization header.\n    - Verify the response status is 200.\n    - Verify the body is a non-empty array.\n    - Verify every item has the keys id, by_name, by_url, source_name, source_url, file_name and title, each a string.\n    - Verify the items' ids are unique.\n    - Verify the Content-Type response header is application/json.\n    - Verify the Cache-Control response header is \"max-age=120, public\".\n    - Verify the response has an ETag header."
   },
   {
    "id": "API-0337",
    "name": "List images ignores pagination, filter and sort parameters",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/images/get-images.spec.ts",
    "steps": [
     "Send GET /images and take the body as the plain list.",
     "Send GET /images with page=2, per_page=5, q=zzzz and sort=title.",
@@ -6082,6 +6151,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body equals the plain list (same items, same order)."
    ],
    "ref": [],
+   "specLine": 105,
    "area": "images",
    "areaLabel": "Images",
    "file": "test-scenarios/api/images/get-images.yml",
@@ -6090,12 +6160,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@images-api"
    ],
-   "yaml": "- id: API-0337\n  name: List images ignores pagination, filter and sort parameters\n  status: manual\n  steps:\n    - Send GET /images and take the body as the plain list.\n    - Send GET /images with page=2, per_page=5, q=zzzz and sort=title.\n    - Verify the response status is 200.\n    - Verify the body equals the plain list (same items, same order)."
+   "yaml": "- id: API-0337\n  name: List images ignores pagination, filter and sort parameters\n  status: automated\n  automatedIn: tests/api/images/get-images.spec.ts\n  steps:\n    - Send GET /images and take the body as the plain list.\n    - Send GET /images with page=2, per_page=5, q=zzzz and sort=title.\n    - Verify the response status is 200.\n    - Verify the body equals the plain list (same items, same order)."
   },
   {
    "id": "API-0338",
    "name": "List images with Accept text/xml returns XML",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/images/get-images.spec.ts",
    "steps": [
     "Send GET /images with the header Accept: text/xml.",
     "Verify the response status is 200.",
@@ -6104,6 +6175,7 @@ window.SCENARIO_CATALOG = {
     "Verify the first item element has the child elements id, by_name, by_url, source_name, source_url, file_name and title."
    ],
    "ref": [],
+   "specLine": 132,
    "area": "images",
    "areaLabel": "Images",
    "file": "test-scenarios/api/images/get-images.yml",
@@ -6112,12 +6184,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@images-api"
    ],
-   "yaml": "- id: API-0338\n  name: List images with Accept text/xml returns XML\n  status: manual\n  steps:\n    - \"Send GET /images with the header Accept: text/xml.\"\n    - Verify the response status is 200.\n    - 'Verify the Content-Type response header is \"text/xml; charset=utf-8\".'\n    - Verify the body is an XML document whose root element is response and which contains at least one item element.\n    - Verify the first item element has the child elements id, by_name, by_url, source_name, source_url, file_name and title."
+   "yaml": "- id: API-0338\n  name: List images with Accept text/xml returns XML\n  status: automated\n  automatedIn: tests/api/images/get-images.spec.ts\n  steps:\n    - \"Send GET /images with the header Accept: text/xml.\"\n    - Verify the response status is 200.\n    - 'Verify the Content-Type response header is \"text/xml; charset=utf-8\".'\n    - Verify the body is an XML document whose root element is response and which contains at least one item element.\n    - Verify the first item element has the child elements id, by_name, by_url, source_name, source_url, file_name and title."
   },
   {
    "id": "API-0339",
    "name": "List images with Accept application/xml returns JSON",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/images/get-images.spec.ts",
    "steps": [
     "Send GET /images with the header Accept: application/xml.",
     "Verify the response status is 200.",
@@ -6125,6 +6198,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body is a non-empty JSON array."
    ],
    "ref": [],
+   "specLine": 170,
    "area": "images",
    "areaLabel": "Images",
    "file": "test-scenarios/api/images/get-images.yml",
@@ -6133,12 +6207,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@images-api"
    ],
-   "yaml": "- id: API-0339\n  name: List images with Accept application/xml returns JSON\n  status: manual\n  steps:\n    - \"Send GET /images with the header Accept: application/xml.\"\n    - Verify the response status is 200.\n    - Verify the Content-Type response header is application/json.\n    - Verify the body is a non-empty JSON array."
+   "yaml": "- id: API-0339\n  name: List images with Accept application/xml returns JSON\n  status: automated\n  automatedIn: tests/api/images/get-images.spec.ts\n  steps:\n    - \"Send GET /images with the header Accept: application/xml.\"\n    - Verify the response status is 200.\n    - Verify the Content-Type response header is application/json.\n    - Verify the body is a non-empty JSON array."
   },
   {
    "id": "API-0340",
    "name": "List images without an Accept header returns JSON",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/images/get-images.spec.ts",
    "steps": [
     "Send GET /images without an Accept header.",
     "Verify the response status is 200.",
@@ -6146,6 +6221,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body is a non-empty JSON array."
    ],
    "ref": [],
+   "specLine": 191,
    "area": "images",
    "areaLabel": "Images",
    "file": "test-scenarios/api/images/get-images.yml",
@@ -6154,18 +6230,20 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@images-api"
    ],
-   "yaml": "- id: API-0340\n  name: List images without an Accept header returns JSON\n  status: manual\n  steps:\n    - Send GET /images without an Accept header.\n    - Verify the response status is 200.\n    - Verify the Content-Type response header is application/json.\n    - Verify the body is a non-empty JSON array."
+   "yaml": "- id: API-0340\n  name: List images without an Accept header returns JSON\n  status: automated\n  automatedIn: tests/api/images/get-images.spec.ts\n  steps:\n    - Send GET /images without an Accept header.\n    - Verify the response status is 200.\n    - Verify the Content-Type response header is application/json.\n    - Verify the body is a non-empty JSON array."
   },
   {
    "id": "API-0341",
    "name": "A path under /images other than /images returns 404",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/images/get-images.spec.ts",
    "steps": [
     "Send GET /images/00000000000000000000000000.",
     "Verify the response status is 404.",
     "Verify the body's message is \"Resource not found\"."
    ],
    "ref": [],
+   "specLine": 214,
    "area": "images",
    "areaLabel": "Images",
    "file": "test-scenarios/api/images/get-images.yml",
@@ -6174,12 +6252,15 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@images-api"
    ],
-   "yaml": "- id: API-0341\n  name: A path under /images other than /images returns 404\n  status: manual\n  steps:\n    - Send GET /images/00000000000000000000000000.\n    - Verify the response status is 404.\n    - Verify the body's message is \"Resource not found\"."
+   "yaml": "- id: API-0341\n  name: A path under /images other than /images returns 404\n  status: automated\n  automatedIn: tests/api/images/get-images.spec.ts\n  steps:\n    - Send GET /images/00000000000000000000000000.\n    - Verify the response status is 404.\n    - Verify the body's message is \"Resource not found\"."
   },
   {
    "id": "API-0342",
    "name": "List images with a matching If-None-Match returns 304",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/images/get-images.spec.ts",
+   "knownIssue": "Returns 200 instead of 304 when If-None-Match carries the ETag of a compressed response.",
+   "bug": "BUG-046",
    "steps": [
     "Send GET /images and take the ETag response header.",
     "Send GET /images with the If-None-Match header set to that ETag.",
@@ -6189,6 +6270,7 @@ window.SCENARIO_CATALOG = {
     "Verify the Cache-Control response header is \"max-age=120, public\"."
    ],
    "ref": [],
+   "specLine": 234,
    "area": "images",
    "areaLabel": "Images",
    "file": "test-scenarios/api/images/get-images.yml",
@@ -6197,7 +6279,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@images-api"
    ],
-   "yaml": "- id: API-0342\n  name: List images with a matching If-None-Match returns 304\n  status: manual\n  steps:\n    - Send GET /images and take the ETag response header.\n    - Send GET /images with the If-None-Match header set to that ETag.\n    - Verify the response status is 304.\n    - Verify the body is empty.\n    - Verify the ETag response header equals the first response's ETag.\n    - Verify the Cache-Control response header is \"max-age=120, public\"."
+   "yaml": "- id: API-0342\n  name: List images with a matching If-None-Match returns 304\n  status: automated\n  automatedIn: tests/api/images/get-images.spec.ts\n  knownIssue: Returns 200 instead of 304 when If-None-Match carries the ETag of a compressed response.\n  bug: BUG-046\n  steps:\n    - Send GET /images and take the ETag response header.\n    - Send GET /images with the If-None-Match header set to that ETag.\n    - Verify the response status is 304.\n    - Verify the body is empty.\n    - Verify the ETag response header equals the first response's ETag.\n    - Verify the Cache-Control response header is \"max-age=120, public\"."
   },
   {
    "id": "API-0441",
@@ -9797,7 +9879,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's message is \"Payment was successful\"."
    ],
    "ref": [],
-   "specLine": 254,
+   "specLine": 250,
    "area": "payment",
    "areaLabel": "Payment",
    "file": "test-scenarios/api/payment/post-payment-check.yml",
@@ -9821,7 +9903,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's message is \"The payment details.bank name field is required. (and 2 more errors)\"."
    ],
    "ref": [],
-   "specLine": 263,
+   "specLine": 259,
    "area": "payment",
    "areaLabel": "Payment",
    "file": "test-scenarios/api/payment/post-payment-check.yml",
@@ -9844,7 +9926,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's errors has the keys payment_details.credit_card_number, payment_details.expiration_date, payment_details.cvv and payment_details.card_holder_name, each with at least one message."
    ],
    "ref": [],
-   "specLine": 289,
+   "specLine": 285,
    "area": "payment",
    "areaLabel": "Payment",
    "file": "test-scenarios/api/payment/post-payment-check.yml",
@@ -9867,7 +9949,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's errors has the key payment_details.monthly_installments with at least one message."
    ],
    "ref": [],
-   "specLine": 299,
+   "specLine": 295,
    "area": "payment",
    "areaLabel": "Payment",
    "file": "test-scenarios/api/payment/post-payment-check.yml",
@@ -9890,7 +9972,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's errors has the keys payment_details.gift_card_number and payment_details.validation_code, each with at least one message."
    ],
    "ref": [],
-   "specLine": 309,
+   "specLine": 305,
    "area": "payment",
    "areaLabel": "Payment",
    "file": "test-scenarios/api/payment/post-payment-check.yml",
@@ -9913,7 +9995,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's errors has the keys payment_details.bank_name, payment_details.account_name and payment_details.account_number, each with at least one message."
    ],
    "ref": [],
-   "specLine": 319,
+   "specLine": 315,
    "area": "payment",
    "areaLabel": "Payment",
    "file": "test-scenarios/api/payment/post-payment-check.yml",
@@ -9937,7 +10019,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's errors has no other keys."
    ],
    "ref": [],
-   "specLine": 329,
+   "specLine": 325,
    "area": "payment",
    "areaLabel": "Payment",
    "file": "test-scenarios/api/payment/post-payment-check.yml",
@@ -9961,7 +10043,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's errors has no other keys."
    ],
    "ref": [],
-   "specLine": 339,
+   "specLine": 335,
    "area": "payment",
    "areaLabel": "Payment",
    "file": "test-scenarios/api/payment/post-payment-check.yml",
@@ -9985,7 +10067,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's errors has no other keys."
    ],
    "ref": [],
-   "specLine": 349,
+   "specLine": 345,
    "area": "payment",
    "areaLabel": "Payment",
    "file": "test-scenarios/api/payment/post-payment-check.yml",
@@ -10009,7 +10091,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's errors has no other keys."
    ],
    "ref": [],
-   "specLine": 359,
+   "specLine": 355,
    "area": "payment",
    "areaLabel": "Payment",
    "file": "test-scenarios/api/payment/post-payment-check.yml",
@@ -10033,7 +10115,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's errors has no other keys."
    ],
    "ref": [],
-   "specLine": 369,
+   "specLine": 365,
    "area": "payment",
    "areaLabel": "Payment",
    "file": "test-scenarios/api/payment/post-payment-check.yml",
@@ -10058,7 +10140,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's errors has no other keys."
    ],
    "ref": [],
-   "specLine": 379,
+   "specLine": 375,
    "area": "payment",
    "areaLabel": "Payment",
    "file": "test-scenarios/api/payment/post-payment-check.yml",
@@ -10082,7 +10164,7 @@ window.SCENARIO_CATALOG = {
     "Verify that message contains \"must be a date after today\"."
    ],
    "ref": [],
-   "specLine": 389,
+   "specLine": 385,
    "area": "payment",
    "areaLabel": "Payment",
    "file": "test-scenarios/api/payment/post-payment-check.yml",
@@ -10107,7 +10189,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's errors has no other keys."
    ],
    "ref": [],
-   "specLine": 399,
+   "specLine": 395,
    "area": "payment",
    "areaLabel": "Payment",
    "file": "test-scenarios/api/payment/post-payment-check.yml",
@@ -10131,7 +10213,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's errors has no other keys."
    ],
    "ref": [],
-   "specLine": 409,
+   "specLine": 405,
    "area": "payment",
    "areaLabel": "Payment",
    "file": "test-scenarios/api/payment/post-payment-check.yml",
@@ -10155,7 +10237,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's errors has no other keys."
    ],
    "ref": [],
-   "specLine": 419,
+   "specLine": 415,
    "area": "payment",
    "areaLabel": "Payment",
    "file": "test-scenarios/api/payment/post-payment-check.yml",
@@ -10179,7 +10261,7 @@ window.SCENARIO_CATALOG = {
     "Verify that message contains \"must be a number\"."
    ],
    "ref": [],
-   "specLine": 429,
+   "specLine": 425,
    "area": "payment",
    "areaLabel": "Payment",
    "file": "test-scenarios/api/payment/post-payment-check.yml",
@@ -10203,7 +10285,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's errors has no other keys."
    ],
    "ref": [],
-   "specLine": 439,
+   "specLine": 435,
    "area": "payment",
    "areaLabel": "Payment",
    "file": "test-scenarios/api/payment/post-payment-check.yml",
@@ -10227,7 +10309,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's errors has no other keys."
    ],
    "ref": [],
-   "specLine": 449,
+   "specLine": 445,
    "area": "payment",
    "areaLabel": "Payment",
    "file": "test-scenarios/api/payment/post-payment-check.yml",
@@ -10250,7 +10332,7 @@ window.SCENARIO_CATALOG = {
     "Verify the Location header is \"https://api.practicesoftwaretesting.com\"."
    ],
    "ref": [],
-   "specLine": 459,
+   "specLine": 455,
    "area": "payment",
    "areaLabel": "Payment",
    "file": "test-scenarios/api/payment/post-payment-check.yml",
@@ -10273,7 +10355,7 @@ window.SCENARIO_CATALOG = {
     "Verify the Location header is \"https://api.practicesoftwaretesting.com\"."
    ],
    "ref": [],
-   "specLine": 467,
+   "specLine": 463,
    "area": "payment",
    "areaLabel": "Payment",
    "file": "test-scenarios/api/payment/post-payment-check.yml",
@@ -10296,7 +10378,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's message is \"Payment was successful\"."
    ],
    "ref": [],
-   "specLine": 475,
+   "specLine": 471,
    "area": "payment",
    "areaLabel": "Payment",
    "file": "test-scenarios/api/payment/post-payment-check.yml",
@@ -10319,7 +10401,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's message is \"Payment was successful\"."
    ],
    "ref": [],
-   "specLine": 483,
+   "specLine": 479,
    "area": "payment",
    "areaLabel": "Payment",
    "file": "test-scenarios/api/payment/post-payment-check.yml",
@@ -10346,7 +10428,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's house_number is \"5\"."
    ],
    "ref": [],
-   "specLine": 156,
+   "specLine": 148,
    "area": "postcode",
    "areaLabel": "Postcode",
    "file": "test-scenarios/api/postcode/get-postcode-lookup.yml",
@@ -10369,7 +10451,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's house_number is a string holding a whole number from 1 to 250."
    ],
    "ref": [],
-   "specLine": 193,
+   "specLine": 185,
    "area": "postcode",
    "areaLabel": "Postcode",
    "file": "test-scenarios/api/postcode/get-postcode-lookup.yml",
@@ -10393,7 +10475,7 @@ window.SCENARIO_CATALOG = {
     "Verify the second body equals the first body."
    ],
    "ref": [],
-   "specLine": 214,
+   "specLine": 206,
    "area": "postcode",
    "areaLabel": "Postcode",
    "file": "test-scenarios/api/postcode/get-postcode-lookup.yml",
@@ -10418,7 +10500,7 @@ window.SCENARIO_CATALOG = {
     "Verify each body's house_number is the number that request sent."
    ],
    "ref": [],
-   "specLine": 239,
+   "specLine": 231,
    "area": "postcode",
    "areaLabel": "Postcode",
    "file": "test-scenarios/api/postcode/get-postcode-lookup.yml",
@@ -10444,7 +10526,7 @@ window.SCENARIO_CATALOG = {
     "Verify the second body's street, city and state equal the first body's."
    ],
    "ref": [],
-   "specLine": 265,
+   "specLine": 257,
    "area": "postcode",
    "areaLabel": "Postcode",
    "file": "test-scenarios/api/postcode/get-postcode-lookup.yml",
@@ -10468,7 +10550,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's postcode is \"1011 AB\"."
    ],
    "ref": [],
-   "specLine": 296,
+   "specLine": 288,
    "area": "postcode",
    "areaLabel": "Postcode",
    "file": "test-scenarios/api/postcode/get-postcode-lookup.yml",
@@ -10492,7 +10574,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's postcode is \"90210-1234\"."
    ],
    "ref": [],
-   "specLine": 322,
+   "specLine": 314,
    "area": "postcode",
    "areaLabel": "Postcode",
    "file": "test-scenarios/api/postcode/get-postcode-lookup.yml",
@@ -10517,7 +10599,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's state is an empty string."
    ],
    "ref": [],
-   "specLine": 345,
+   "specLine": 337,
    "area": "postcode",
    "areaLabel": "Postcode",
    "file": "test-scenarios/api/postcode/get-postcode-lookup.yml",
@@ -10542,7 +10624,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's house_number is \"5\"."
    ],
    "ref": [],
-   "specLine": 372,
+   "specLine": 364,
    "area": "postcode",
    "areaLabel": "Postcode",
    "file": "test-scenarios/api/postcode/get-postcode-lookup.yml",
@@ -10567,7 +10649,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's house_number is \"ABCDEFGHIJ\"."
    ],
    "ref": [],
-   "specLine": 402,
+   "specLine": 394,
    "area": "postcode",
    "areaLabel": "Postcode",
    "file": "test-scenarios/api/postcode/get-postcode-lookup.yml",
@@ -10592,7 +10674,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's country is \"NL\"."
    ],
    "ref": [],
-   "specLine": 434,
+   "specLine": 426,
    "area": "postcode",
    "areaLabel": "Postcode",
    "file": "test-scenarios/api/postcode/get-postcode-lookup.yml",
@@ -10615,7 +10697,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's country is \"NL\"."
    ],
    "ref": [],
-   "specLine": 476,
+   "specLine": 468,
    "area": "postcode",
    "areaLabel": "Postcode",
    "file": "test-scenarios/api/postcode/get-postcode-lookup.yml",
@@ -10640,7 +10722,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's message is \"The country field is required. (and 1 more error)\"."
    ],
    "ref": [],
-   "specLine": 496,
+   "specLine": 488,
    "area": "postcode",
    "areaLabel": "Postcode",
    "file": "test-scenarios/api/postcode/get-postcode-lookup.yml",
@@ -10664,7 +10746,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's errors has no other keys."
    ],
    "ref": [],
-   "specLine": 523,
+   "specLine": 515,
    "area": "postcode",
    "areaLabel": "Postcode",
    "file": "test-scenarios/api/postcode/get-postcode-lookup.yml",
@@ -10688,7 +10770,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's errors has no other keys."
    ],
    "ref": [],
-   "specLine": 533,
+   "specLine": 525,
    "area": "postcode",
    "areaLabel": "Postcode",
    "file": "test-scenarios/api/postcode/get-postcode-lookup.yml",
@@ -10712,7 +10794,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's errors has no other keys."
    ],
    "ref": [],
-   "specLine": 543,
+   "specLine": 535,
    "area": "postcode",
    "areaLabel": "Postcode",
    "file": "test-scenarios/api/postcode/get-postcode-lookup.yml",
@@ -10736,7 +10818,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's errors has no other keys."
    ],
    "ref": [],
-   "specLine": 553,
+   "specLine": 545,
    "area": "postcode",
    "areaLabel": "Postcode",
    "file": "test-scenarios/api/postcode/get-postcode-lookup.yml",
@@ -10760,7 +10842,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's errors has no other keys."
    ],
    "ref": [],
-   "specLine": 563,
+   "specLine": 555,
    "area": "postcode",
    "areaLabel": "Postcode",
    "file": "test-scenarios/api/postcode/get-postcode-lookup.yml",
@@ -10784,7 +10866,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's errors has no other keys."
    ],
    "ref": [],
-   "specLine": 573,
+   "specLine": 565,
    "area": "postcode",
    "areaLabel": "Postcode",
    "file": "test-scenarios/api/postcode/get-postcode-lookup.yml",
@@ -10808,7 +10890,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body has no errors key."
    ],
    "ref": [],
-   "specLine": 583,
+   "specLine": 575,
    "area": "postcode",
    "areaLabel": "Postcode",
    "file": "test-scenarios/api/postcode/get-postcode-lookup.yml",
@@ -10832,7 +10914,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body has no errors key."
    ],
    "ref": [],
-   "specLine": 591,
+   "specLine": 583,
    "area": "postcode",
    "areaLabel": "Postcode",
    "file": "test-scenarios/api/postcode/get-postcode-lookup.yml",
@@ -10856,7 +10938,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's message is \"The postal code format is not valid for the selected country.\"."
    ],
    "ref": [],
-   "specLine": 599,
+   "specLine": 591,
    "area": "postcode",
    "areaLabel": "Postcode",
    "file": "test-scenarios/api/postcode/get-postcode-lookup.yml",
@@ -10879,7 +10961,7 @@ window.SCENARIO_CATALOG = {
     "Verify the Location header is \"https://api.practicesoftwaretesting.com\"."
    ],
    "ref": [],
-   "specLine": 624,
+   "specLine": 616,
    "area": "postcode",
    "areaLabel": "Postcode",
    "file": "test-scenarios/api/postcode/get-postcode-lookup.yml",
@@ -10902,7 +10984,7 @@ window.SCENARIO_CATALOG = {
     "Verify the Location header is \"https://api.practicesoftwaretesting.com\"."
    ],
    "ref": [],
-   "specLine": 632,
+   "specLine": 624,
    "area": "postcode",
    "areaLabel": "Postcode",
    "file": "test-scenarios/api/postcode/get-postcode-lookup.yml",
@@ -10929,7 +11011,7 @@ window.SCENARIO_CATALOG = {
     "Verify the response status is 200.",
     "Verify the body's postcode is \"1011AB\" (without the space)."
    ],
-   "specLine": 640,
+   "specLine": 632,
    "area": "postcode",
    "areaLabel": "Postcode",
    "file": "test-scenarios/api/postcode/get-postcode-lookup.yml",
@@ -14911,15 +14993,17 @@ window.SCENARIO_CATALOG = {
   {
    "id": "API-0402",
    "name": "List users as an admin returns 200 with a page of customers",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/users/get-users.spec.ts",
    "role": "admin",
    "steps": [
     "Send GET /users with the admin's token.",
     "Verify the response status is 200.",
     "Verify the body has the keys current_page, data, from, last_page, per_page, to and total, and its per_page is 15.",
-    "Verify data has at most 15 items and every item's role is \"user\"."
+    "Verify data has 1 to 15 items and every item's role is \"user\"."
    ],
    "ref": [],
+   "specLine": 55,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/get-users.yml",
@@ -14928,12 +15012,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@users-api"
    ],
-   "yaml": "- id: API-0402\n  name: List users as an admin returns 200 with a page of customers\n  status: manual\n  role: admin\n  steps:\n    - Send GET /users with the admin's token.\n    - Verify the response status is 200.\n    - Verify the body has the keys current_page, data, from, last_page, per_page, to and total, and its per_page is 15.\n    - Verify data has at most 15 items and every item's role is \"user\"."
+   "yaml": "- id: API-0402\n  name: List users as an admin returns 200 with a page of customers\n  status: automated\n  automatedIn: tests/api/users/get-users.spec.ts\n  role: admin\n  steps:\n    - Send GET /users with the admin's token.\n    - Verify the response status is 200.\n    - Verify the body has the keys current_page, data, from, last_page, per_page, to and total, and its per_page is 15.\n    - Verify data has 1 to 15 items and every item's role is \"user\"."
   },
   {
    "id": "API-0403",
    "name": "List users with page 2 returns the second page",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/users/get-users.spec.ts",
    "role": "admin",
    "steps": [
     "Send GET /users with page 1 and the admin's token.",
@@ -14942,6 +15027,7 @@ window.SCENARIO_CATALOG = {
     "Verify no id appears in both pages' data."
    ],
    "ref": [],
+   "specLine": 83,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/get-users.yml",
@@ -14950,18 +15036,20 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@users-api"
    ],
-   "yaml": "- id: API-0403\n  name: List users with page 2 returns the second page\n  status: manual\n  role: admin\n  steps:\n    - Send GET /users with page 1 and the admin's token.\n    - Send GET /users with page 2 and the admin's token.\n    - Verify the first response's current_page is 1 and the second response's current_page is 2.\n    - Verify no id appears in both pages' data."
+   "yaml": "- id: API-0403\n  name: List users with page 2 returns the second page\n  status: automated\n  automatedIn: tests/api/users/get-users.spec.ts\n  role: admin\n  steps:\n    - Send GET /users with page 1 and the admin's token.\n    - Send GET /users with page 2 and the admin's token.\n    - Verify the first response's current_page is 1 and the second response's current_page is 2.\n    - Verify no id appears in both pages' data."
   },
   {
    "id": "API-0404",
    "name": "List users without a token returns 401",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/users/get-users.spec.ts",
    "steps": [
     "Send GET /users without an Authorization header.",
     "Verify the response status is 401.",
     "Verify the body's message is \"Unauthorized\"."
    ],
    "ref": [],
+   "specLine": 107,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/get-users.yml",
@@ -14970,18 +15058,20 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@users-api"
    ],
-   "yaml": "- id: API-0404\n  name: List users without a token returns 401\n  status: manual\n  steps:\n    - Send GET /users without an Authorization header.\n    - Verify the response status is 401.\n    - Verify the body's message is \"Unauthorized\"."
+   "yaml": "- id: API-0404\n  name: List users without a token returns 401\n  status: automated\n  automatedIn: tests/api/users/get-users.spec.ts\n  steps:\n    - Send GET /users without an Authorization header.\n    - Verify the response status is 401.\n    - Verify the body's message is \"Unauthorized\"."
   },
   {
    "id": "API-0405",
    "name": "List users as a customer returns 403",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/users/get-users.spec.ts",
    "steps": [
     "Send GET /users with the default user's token.",
     "Verify the response status is 403.",
     "Verify the body's message is \"Forbidden\"."
    ],
    "ref": [],
+   "specLine": 125,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/get-users.yml",
@@ -14990,7 +15080,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@users-api"
    ],
-   "yaml": "- id: API-0405\n  name: List users as a customer returns 403\n  status: manual\n  steps:\n    - Send GET /users with the default user's token.\n    - Verify the response status is 403.\n    - Verify the body's message is \"Forbidden\"."
+   "yaml": "- id: API-0405\n  name: List users as a customer returns 403\n  status: automated\n  automatedIn: tests/api/users/get-users.spec.ts\n  steps:\n    - Send GET /users with the default user's token.\n    - Verify the response status is 403.\n    - Verify the body's message is \"Forbidden\"."
   },
   {
    "id": "API-0290",
@@ -16457,7 +16547,8 @@ window.SCENARIO_CATALOG = {
   {
    "id": "API-0406",
    "name": "Search users by first name returns 200 with the matching customer",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/users/get-users-search.spec.ts",
    "role": "admin",
    "steps": [
     "Send POST /users/register with a unique email, a unique first name of at most 40 characters, a last name and a random strong password, and take the new user's id.",
@@ -16467,6 +16558,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's total is 1 and data has exactly one item, whose id is the new user's id and whose first_name and email equal the registered values."
    ],
    "ref": [],
+   "specLine": 62,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/get-users-search.yml",
@@ -16475,12 +16567,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@users-api"
    ],
-   "yaml": "- id: API-0406\n  name: Search users by first name returns 200 with the matching customer\n  status: manual\n  role: admin\n  steps:\n    - Send POST /users/register with a unique email, a unique first name of at most 40 characters, a last name and a random strong password, and take the new user's id.\n    - Send GET /users/search with q set to that first name and the admin's token.\n    - Verify the response status is 200.\n    - Verify the body has the keys current_page, data, from, last_page, per_page, to and total.\n    - Verify the body's total is 1 and data has exactly one item, whose id is the new user's id and whose first_name and email equal the registered values."
+   "yaml": "- id: API-0406\n  name: Search users by first name returns 200 with the matching customer\n  status: automated\n  automatedIn: tests/api/users/get-users-search.spec.ts\n  role: admin\n  steps:\n    - Send POST /users/register with a unique email, a unique first name of at most 40 characters, a last name and a random strong password, and take the new user's id.\n    - Send GET /users/search with q set to that first name and the admin's token.\n    - Verify the response status is 200.\n    - Verify the body has the keys current_page, data, from, last_page, per_page, to and total.\n    - Verify the body's total is 1 and data has exactly one item, whose id is the new user's id and whose first_name and email equal the registered values."
   },
   {
    "id": "API-0407",
    "name": "Search users by email returns 200 with the matching customer",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/users/get-users-search.spec.ts",
    "role": "admin",
    "steps": [
     "Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.",
@@ -16489,6 +16582,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's total is 1 and data has exactly one item, whose id is the new user's id."
    ],
    "ref": [],
+   "specLine": 99,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/get-users-search.yml",
@@ -16497,12 +16591,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@users-api"
    ],
-   "yaml": "- id: API-0407\n  name: Search users by email returns 200 with the matching customer\n  status: manual\n  role: admin\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.\n    - Send GET /users/search with q set to the registered email and the admin's token.\n    - Verify the response status is 200.\n    - Verify the body's total is 1 and data has exactly one item, whose id is the new user's id."
+   "yaml": "- id: API-0407\n  name: Search users by email returns 200 with the matching customer\n  status: automated\n  automatedIn: tests/api/users/get-users-search.spec.ts\n  role: admin\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.\n    - Send GET /users/search with q set to the registered email and the admin's token.\n    - Verify the response status is 200.\n    - Verify the body's total is 1 and data has exactly one item, whose id is the new user's id."
   },
   {
    "id": "API-0408",
    "name": "Search users by last name returns 200 with the matching customer",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/users/get-users-search.spec.ts",
    "role": "admin",
    "steps": [
     "Send POST /users/register with a unique email, a first name, a unique last name of at most 20 characters and a random strong password, and take the new user's id.",
@@ -16511,6 +16606,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's total is 1 and data has exactly one item, whose id is the new user's id."
    ],
    "ref": [],
+   "specLine": 118,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/get-users-search.yml",
@@ -16519,12 +16615,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@users-api"
    ],
-   "yaml": "- id: API-0408\n  name: Search users by last name returns 200 with the matching customer\n  status: manual\n  role: admin\n  steps:\n    - Send POST /users/register with a unique email, a first name, a unique last name of at most 20 characters and a random strong password, and take the new user's id.\n    - Send GET /users/search with q set to that last name and the admin's token.\n    - Verify the response status is 200.\n    - Verify the body's total is 1 and data has exactly one item, whose id is the new user's id."
+   "yaml": "- id: API-0408\n  name: Search users by last name returns 200 with the matching customer\n  status: automated\n  automatedIn: tests/api/users/get-users-search.spec.ts\n  role: admin\n  steps:\n    - Send POST /users/register with a unique email, a first name, a unique last name of at most 20 characters and a random strong password, and take the new user's id.\n    - Send GET /users/search with q set to that last name and the admin's token.\n    - Verify the response status is 200.\n    - Verify the body's total is 1 and data has exactly one item, whose id is the new user's id."
   },
   {
    "id": "API-0409",
    "name": "Search users by city returns 200 with the matching customer",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/users/get-users-search.spec.ts",
    "role": "admin",
    "steps": [
     "Send POST /users/register with a unique email, a first name, a last name, a random strong password and an address with only a unique city of at most 40 characters, and take the new user's id.",
@@ -16533,6 +16630,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's total is 1 and data has exactly one item, whose id is the new user's id."
    ],
    "ref": [],
+   "specLine": 142,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/get-users-search.yml",
@@ -16541,12 +16639,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@users-api"
    ],
-   "yaml": "- id: API-0409\n  name: Search users by city returns 200 with the matching customer\n  status: manual\n  role: admin\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name, a random strong password and an address with only a unique city of at most 40 characters, and take the new user's id.\n    - Send GET /users/search with q set to that city and the admin's token.\n    - Verify the response status is 200.\n    - Verify the body's total is 1 and data has exactly one item, whose id is the new user's id."
+   "yaml": "- id: API-0409\n  name: Search users by city returns 200 with the matching customer\n  status: automated\n  automatedIn: tests/api/users/get-users-search.spec.ts\n  role: admin\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name, a random strong password and an address with only a unique city of at most 40 characters, and take the new user's id.\n    - Send GET /users/search with q set to that city and the admin's token.\n    - Verify the response status is 200.\n    - Verify the body's total is 1 and data has exactly one item, whose id is the new user's id."
   },
   {
    "id": "API-0410",
    "name": "Search users with a term nobody matches returns 200 with an empty list",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/users/get-users-search.spec.ts",
    "role": "admin",
    "steps": [
     "Send GET /users/search with q set to a unique string no customer has and the admin's token.",
@@ -16555,6 +16654,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's data is an empty array."
    ],
    "ref": [],
+   "specLine": 166,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/get-users-search.yml",
@@ -16563,12 +16663,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@users-api"
    ],
-   "yaml": "- id: API-0410\n  name: Search users with a term nobody matches returns 200 with an empty list\n  status: manual\n  role: admin\n  steps:\n    - Send GET /users/search with q set to a unique string no customer has and the admin's token.\n    - Verify the response status is 200.\n    - Verify the body's total is 0.\n    - Verify the body's data is an empty array."
+   "yaml": "- id: API-0410\n  name: Search users with a term nobody matches returns 200 with an empty list\n  status: automated\n  automatedIn: tests/api/users/get-users-search.spec.ts\n  role: admin\n  steps:\n    - Send GET /users/search with q set to a unique string no customer has and the admin's token.\n    - Verify the response status is 200.\n    - Verify the body's total is 0.\n    - Verify the body's data is an empty array."
   },
   {
    "id": "API-0411",
    "name": "Search users without q returns 200 with customers",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/users/get-users-search.spec.ts",
    "role": "admin",
    "steps": [
     "Send GET /users/search without q and with the admin's token.",
@@ -16577,6 +16678,7 @@ window.SCENARIO_CATALOG = {
     "Verify every item's role is \"user\"."
    ],
    "ref": [],
+   "specLine": 192,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/get-users-search.yml",
@@ -16585,12 +16687,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@users-api"
    ],
-   "yaml": "- id: API-0411\n  name: Search users without q returns 200 with customers\n  status: manual\n  role: admin\n  steps:\n    - Send GET /users/search without q and with the admin's token.\n    - Verify the response status is 200.\n    - Verify the body's per_page is 15 and data is not empty.\n    - Verify every item's role is \"user\"."
+   "yaml": "- id: API-0411\n  name: Search users without q returns 200 with customers\n  status: automated\n  automatedIn: tests/api/users/get-users-search.spec.ts\n  role: admin\n  steps:\n    - Send GET /users/search without q and with the admin's token.\n    - Verify the response status is 200.\n    - Verify the body's per_page is 15 and data is not empty.\n    - Verify every item's role is \"user\"."
   },
   {
    "id": "API-0412",
    "name": "Search users with page 2 returns the second page",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/users/get-users-search.spec.ts",
    "role": "admin",
    "steps": [
     "Send GET /users/search with page 1 and the admin's token.",
@@ -16599,6 +16702,7 @@ window.SCENARIO_CATALOG = {
     "Verify no id appears in both pages' data."
    ],
    "ref": [],
+   "specLine": 216,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/get-users-search.yml",
@@ -16607,18 +16711,20 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@users-api"
    ],
-   "yaml": "- id: API-0412\n  name: Search users with page 2 returns the second page\n  status: manual\n  role: admin\n  steps:\n    - Send GET /users/search with page 1 and the admin's token.\n    - Send GET /users/search with page 2 and the admin's token.\n    - Verify the first response's current_page is 1 and the second response's current_page is 2.\n    - Verify no id appears in both pages' data."
+   "yaml": "- id: API-0412\n  name: Search users with page 2 returns the second page\n  status: automated\n  automatedIn: tests/api/users/get-users-search.spec.ts\n  role: admin\n  steps:\n    - Send GET /users/search with page 1 and the admin's token.\n    - Send GET /users/search with page 2 and the admin's token.\n    - Verify the first response's current_page is 1 and the second response's current_page is 2.\n    - Verify no id appears in both pages' data."
   },
   {
    "id": "API-0413",
    "name": "Search users without a token returns 401",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/users/get-users-search.spec.ts",
    "steps": [
     "Send GET /users/search with q set to a letter, without an Authorization header.",
     "Verify the response status is 401.",
     "Verify the body's message is \"Unauthorized\"."
    ],
    "ref": [],
+   "specLine": 240,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/get-users-search.yml",
@@ -16627,12 +16733,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@users-api"
    ],
-   "yaml": "- id: API-0413\n  name: Search users without a token returns 401\n  status: manual\n  steps:\n    - Send GET /users/search with q set to a letter, without an Authorization header.\n    - Verify the response status is 401.\n    - Verify the body's message is \"Unauthorized\"."
+   "yaml": "- id: API-0413\n  name: Search users without a token returns 401\n  status: automated\n  automatedIn: tests/api/users/get-users-search.spec.ts\n  steps:\n    - Send GET /users/search with q set to a letter, without an Authorization header.\n    - Verify the response status is 401.\n    - Verify the body's message is \"Unauthorized\"."
   },
   {
    "id": "API-0414",
    "name": "Search users as a customer returns 403",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/users/get-users-search.spec.ts",
    "knownIssue": "Returns 200 with other customers' names, emails and cities instead of rejecting a customer (403, like GET /users).",
    "bug": "BUG-032",
    "steps": [
@@ -16640,6 +16747,7 @@ window.SCENARIO_CATALOG = {
     "Verify the response status is 403."
    ],
    "ref": [],
+   "specLine": 258,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/get-users-search.yml",
@@ -16648,12 +16756,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@users-api"
    ],
-   "yaml": "- id: API-0414\n  name: Search users as a customer returns 403\n  status: manual\n  knownIssue: Returns 200 with other customers' names, emails and cities instead of rejecting a customer (403, like GET /users).\n  bug: BUG-032\n  steps:\n    - Send GET /users/search with q set to a letter and the default user's token.\n    - Verify the response status is 403."
+   "yaml": "- id: API-0414\n  name: Search users as a customer returns 403\n  status: automated\n  automatedIn: tests/api/users/get-users-search.spec.ts\n  knownIssue: Returns 200 with other customers' names, emails and cities instead of rejecting a customer (403, like GET /users).\n  bug: BUG-032\n  steps:\n    - Send GET /users/search with q set to a letter and the default user's token.\n    - Verify the response status is 403."
   },
   {
    "id": "API-0415",
    "name": "QUERY search by first name returns 200 with the matching customer",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/users/query-users-search.spec.ts",
    "role": "admin",
    "steps": [
     "Send POST /users/register with a unique email, a unique first name of at most 40 characters, a last name and a random strong password, and take the new user's id.",
@@ -16663,6 +16772,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's total is 1 and data has exactly one item, whose id is the new user's id."
    ],
    "ref": [],
+   "specLine": 46,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/query-users-search.yml",
@@ -16671,12 +16781,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@users-api"
    ],
-   "yaml": "- id: API-0415\n  name: QUERY search by first name returns 200 with the matching customer\n  status: manual\n  role: admin\n  steps:\n    - Send POST /users/register with a unique email, a unique first name of at most 40 characters, a last name and a random strong password, and take the new user's id.\n    - 'Send QUERY /users/search with the admin''s token, Content-Type: application/json, Accept: application/json and the body { \"q\": <that first name> }.'\n    - Verify the response status is 200.\n    - Verify the Accept-Query response header is application/json.\n    - Verify the body's total is 1 and data has exactly one item, whose id is the new user's id."
+   "yaml": "- id: API-0415\n  name: QUERY search by first name returns 200 with the matching customer\n  status: automated\n  automatedIn: tests/api/users/query-users-search.spec.ts\n  role: admin\n  steps:\n    - Send POST /users/register with a unique email, a unique first name of at most 40 characters, a last name and a random strong password, and take the new user's id.\n    - 'Send QUERY /users/search with the admin''s token, Content-Type: application/json, Accept: application/json and the body { \"q\": <that first name> }.'\n    - Verify the response status is 200.\n    - Verify the Accept-Query response header is application/json.\n    - Verify the body's total is 1 and data has exactly one item, whose id is the new user's id."
   },
   {
    "id": "API-0416",
    "name": "QUERY search with an empty body object returns 200 with customers",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/users/query-users-search.spec.ts",
    "role": "admin",
    "steps": [
     "Send QUERY /users/search with the admin's token, Content-Type: application/json, Accept: application/json and an empty JSON object as the body.",
@@ -16684,6 +16795,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's per_page is 15 and data is not empty."
    ],
    "ref": [],
+   "specLine": 77,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/query-users-search.yml",
@@ -16692,18 +16804,20 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@users-api"
    ],
-   "yaml": "- id: API-0416\n  name: QUERY search with an empty body object returns 200 with customers\n  status: manual\n  role: admin\n  steps:\n    - \"Send QUERY /users/search with the admin's token, Content-Type: application/json, Accept: application/json and an empty JSON object as the body.\"\n    - Verify the response status is 200.\n    - Verify the body's per_page is 15 and data is not empty."
+   "yaml": "- id: API-0416\n  name: QUERY search with an empty body object returns 200 with customers\n  status: automated\n  automatedIn: tests/api/users/query-users-search.spec.ts\n  role: admin\n  steps:\n    - \"Send QUERY /users/search with the admin's token, Content-Type: application/json, Accept: application/json and an empty JSON object as the body.\"\n    - Verify the response status is 200.\n    - Verify the body's per_page is 15 and data is not empty."
   },
   {
    "id": "API-0417",
    "name": "QUERY search without a token returns 401",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/users/query-users-search.spec.ts",
    "steps": [
     "Send QUERY /users/search without an Authorization header, with Content-Type: application/json, Accept: application/json and an empty JSON object as the body.",
     "Verify the response status is 401.",
     "Verify the body's message is \"Unauthorized\"."
    ],
    "ref": [],
+   "specLine": 101,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/query-users-search.yml",
@@ -16712,17 +16826,19 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@users-api"
    ],
-   "yaml": "- id: API-0417\n  name: QUERY search without a token returns 401\n  status: manual\n  steps:\n    - \"Send QUERY /users/search without an Authorization header, with Content-Type: application/json, Accept: application/json and an empty JSON object as the body.\"\n    - Verify the response status is 401.\n    - Verify the body's message is \"Unauthorized\"."
+   "yaml": "- id: API-0417\n  name: QUERY search without a token returns 401\n  status: automated\n  automatedIn: tests/api/users/query-users-search.spec.ts\n  steps:\n    - \"Send QUERY /users/search without an Authorization header, with Content-Type: application/json, Accept: application/json and an empty JSON object as the body.\"\n    - Verify the response status is 401.\n    - Verify the body's message is \"Unauthorized\"."
   },
   {
    "id": "API-0418",
    "name": "QUERY search without a JSON Content-Type returns 415",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/users/query-users-search.spec.ts",
    "steps": [
     "Send QUERY /users/search with the default user's token, Content-Type: text/plain, Accept: application/json and a plain-text body.",
     "Verify the response status is 415."
    ],
    "ref": [],
+   "specLine": 122,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/query-users-search.yml",
@@ -16731,12 +16847,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@users-api"
    ],
-   "yaml": "- id: API-0418\n  name: QUERY search without a JSON Content-Type returns 415\n  status: manual\n  steps:\n    - \"Send QUERY /users/search with the default user's token, Content-Type: text/plain, Accept: application/json and a plain-text body.\"\n    - Verify the response status is 415."
+   "yaml": "- id: API-0418\n  name: QUERY search without a JSON Content-Type returns 415\n  status: automated\n  automatedIn: tests/api/users/query-users-search.spec.ts\n  steps:\n    - \"Send QUERY /users/search with the default user's token, Content-Type: text/plain, Accept: application/json and a plain-text body.\"\n    - Verify the response status is 415."
   },
   {
    "id": "API-0419",
    "name": "QUERY search as a customer returns 403",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/users/query-users-search.spec.ts",
    "knownIssue": "Returns 200 with other customers' names, emails and cities instead of rejecting a customer (403, like GET /users).",
    "bug": "BUG-032",
    "steps": [
@@ -16744,6 +16861,7 @@ window.SCENARIO_CATALOG = {
     "Verify the response status is 403."
    ],
    "ref": [],
+   "specLine": 135,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/query-users-search.yml",
@@ -16752,12 +16870,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@users-api"
    ],
-   "yaml": "- id: API-0419\n  name: QUERY search as a customer returns 403\n  status: manual\n  knownIssue: Returns 200 with other customers' names, emails and cities instead of rejecting a customer (403, like GET /users).\n  bug: BUG-032\n  steps:\n    - 'Send QUERY /users/search with the default user''s token, Content-Type: application/json, Accept: application/json and the body { \"q\": \"a\" }.'\n    - Verify the response status is 403."
+   "yaml": "- id: API-0419\n  name: QUERY search as a customer returns 403\n  status: automated\n  automatedIn: tests/api/users/query-users-search.spec.ts\n  knownIssue: Returns 200 with other customers' names, emails and cities instead of rejecting a customer (403, like GET /users).\n  bug: BUG-032\n  steps:\n    - 'Send QUERY /users/search with the default user''s token, Content-Type: application/json, Accept: application/json and the body { \"q\": \"a\" }.'\n    - Verify the response status is 403."
   },
   {
    "id": "API-0420",
    "name": "Get user with the customer's own id returns 200 without the admin-only fields",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/users/get-users-by-user-id.spec.ts",
    "steps": [
     "Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.",
     "Send POST /users/login with that email and password, and take its access_token.",
@@ -16767,6 +16886,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body has no role, enabled or failed_login_attempts key."
    ],
    "ref": [],
+   "specLine": 27,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/get-users-by-user-id.yml",
@@ -16775,12 +16895,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@users-api"
    ],
-   "yaml": "- id: API-0420\n  name: Get user with the customer's own id returns 200 without the admin-only fields\n  status: manual\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.\n    - Send POST /users/login with that email and password, and take its access_token.\n    - Send GET /users/{userId} with that id and access_token.\n    - Verify the response status is 200.\n    - Verify the body's id equals the new user's id, and its email, first_name and last_name equal the registered values.\n    - Verify the body has no role, enabled or failed_login_attempts key."
+   "yaml": "- id: API-0420\n  name: Get user with the customer's own id returns 200 without the admin-only fields\n  status: automated\n  automatedIn: tests/api/users/get-users-by-user-id.spec.ts\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.\n    - Send POST /users/login with that email and password, and take its access_token.\n    - Send GET /users/{userId} with that id and access_token.\n    - Verify the response status is 200.\n    - Verify the body's id equals the new user's id, and its email, first_name and last_name equal the registered values.\n    - Verify the body has no role, enabled or failed_login_attempts key."
   },
   {
    "id": "API-0421",
    "name": "Get user as an admin returns 200 with the admin-only fields",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/users/get-users-by-user-id.spec.ts",
    "role": "admin",
    "steps": [
     "Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.",
@@ -16790,6 +16911,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's enabled is a boolean and failed_login_attempts is a number."
    ],
    "ref": [],
+   "specLine": 68,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/get-users-by-user-id.yml",
@@ -16798,18 +16920,20 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@users-api"
    ],
-   "yaml": "- id: API-0421\n  name: Get user as an admin returns 200 with the admin-only fields\n  status: manual\n  role: admin\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.\n    - Send GET /users/{userId} with that id and the admin's token.\n    - Verify the response status is 200.\n    - Verify the body's id equals the new user's id and its role is \"user\".\n    - Verify the body's enabled is a boolean and failed_login_attempts is a number."
+   "yaml": "- id: API-0421\n  name: Get user as an admin returns 200 with the admin-only fields\n  status: automated\n  automatedIn: tests/api/users/get-users-by-user-id.spec.ts\n  role: admin\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.\n    - Send GET /users/{userId} with that id and the admin's token.\n    - Verify the response status is 200.\n    - Verify the body's id equals the new user's id and its role is \"user\".\n    - Verify the body's enabled is a boolean and failed_login_attempts is a number."
   },
   {
    "id": "API-0422",
    "name": "Get user without a token returns 401",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/users/get-users-by-user-id.spec.ts",
    "steps": [
     "Send GET /users/{userId} with a well-formed ULID that no user has, without an Authorization header.",
     "Verify the response status is 401.",
     "Verify the body's message is \"Unauthorized\"."
    ],
    "ref": [],
+   "specLine": 113,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/get-users-by-user-id.yml",
@@ -16818,12 +16942,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@users-api"
    ],
-   "yaml": "- id: API-0422\n  name: Get user without a token returns 401\n  status: manual\n  steps:\n    - Send GET /users/{userId} with a well-formed ULID that no user has, without an Authorization header.\n    - Verify the response status is 401.\n    - Verify the body's message is \"Unauthorized\"."
+   "yaml": "- id: API-0422\n  name: Get user without a token returns 401\n  status: automated\n  automatedIn: tests/api/users/get-users-by-user-id.spec.ts\n  steps:\n    - Send GET /users/{userId} with a well-formed ULID that no user has, without an Authorization header.\n    - Verify the response status is 401.\n    - Verify the body's message is \"Unauthorized\"."
   },
   {
    "id": "API-0423",
    "name": "Get user with an unknown id returns 404",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/users/get-users-by-user-id.spec.ts",
    "role": "admin",
    "steps": [
     "Send GET /users/{userId} with a well-formed ULID that no user has and the admin's token.",
@@ -16831,6 +16956,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's error is a non-empty string."
    ],
    "ref": [],
+   "specLine": 95,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/get-users-by-user-id.yml",
@@ -16839,12 +16965,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@users-api"
    ],
-   "yaml": "- id: API-0423\n  name: Get user with an unknown id returns 404\n  status: manual\n  role: admin\n  steps:\n    - Send GET /users/{userId} with a well-formed ULID that no user has and the admin's token.\n    - Verify the response status is 404.\n    - Verify the body's error is a non-empty string."
+   "yaml": "- id: API-0423\n  name: Get user with an unknown id returns 404\n  status: automated\n  automatedIn: tests/api/users/get-users-by-user-id.spec.ts\n  role: admin\n  steps:\n    - Send GET /users/{userId} with a well-formed ULID that no user has and the admin's token.\n    - Verify the response status is 404.\n    - Verify the body's error is a non-empty string."
   },
   {
    "id": "API-0424",
    "name": "Get user with another customer's id returns 404",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/users/get-users-by-user-id.spec.ts",
    "steps": [
     "Send POST /users/register with a unique email, a first name, a last name and a random strong password (customer A).",
     "Send POST /users/register with a unique email, a first name, a last name and a random strong password (customer B), and take B's id.",
@@ -16854,6 +16981,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's error is a non-empty string."
    ],
    "ref": [],
+   "specLine": 130,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/get-users-by-user-id.yml",
@@ -16862,7 +16990,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@users-api"
    ],
-   "yaml": "- id: API-0424\n  name: Get user with another customer's id returns 404\n  status: manual\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password (customer A).\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password (customer B), and take B's id.\n    - Send POST /users/login with customer A's email and password, and take its access_token.\n    - Send GET /users/{userId} with customer B's id and customer A's access_token.\n    - Verify the response status is 404.\n    - Verify the body's error is a non-empty string."
+   "yaml": "- id: API-0424\n  name: Get user with another customer's id returns 404\n  status: automated\n  automatedIn: tests/api/users/get-users-by-user-id.spec.ts\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password (customer A).\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password (customer B), and take B's id.\n    - Send POST /users/login with customer A's email and password, and take its access_token.\n    - Send GET /users/{userId} with customer B's id and customer A's access_token.\n    - Verify the response status is 404.\n    - Verify the body's error is a non-empty string."
   },
   {
    "id": "API-0313",
@@ -17029,7 +17157,8 @@ window.SCENARIO_CATALOG = {
   {
    "id": "API-0425",
    "name": "Patch user with the customer's own id and a new first_name returns 200 and changes only that field",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/users/patch-users-by-user-id.spec.ts",
    "steps": [
     "Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.",
     "Send POST /users/login with that email and password, and take its access_token.",
@@ -17039,6 +17168,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /users/me with that access_token returns the new first_name and the registered last_name and email."
    ],
    "ref": [],
+   "specLine": 55,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/patch-users-by-user-id.yml",
@@ -17047,12 +17177,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@users-api"
    ],
-   "yaml": "- id: API-0425\n  name: Patch user with the customer's own id and a new first_name returns 200 and changes only that field\n  status: manual\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.\n    - Send POST /users/login with that email and password, and take its access_token.\n    - Send PATCH /users/{userId} with that id and access_token and only first_name set to a new value.\n    - Verify the response status is 200.\n    - Verify the body's success is true.\n    - Verify GET /users/me with that access_token returns the new first_name and the registered last_name and email."
+   "yaml": "- id: API-0425\n  name: Patch user with the customer's own id and a new first_name returns 200 and changes only that field\n  status: automated\n  automatedIn: tests/api/users/patch-users-by-user-id.spec.ts\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.\n    - Send POST /users/login with that email and password, and take its access_token.\n    - Send PATCH /users/{userId} with that id and access_token and only first_name set to a new value.\n    - Verify the response status is 200.\n    - Verify the body's success is true.\n    - Verify GET /users/me with that access_token returns the new first_name and the registered last_name and email."
   },
   {
    "id": "API-0426",
    "name": "Patch user as an admin changes another user's last_name",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/users/patch-users-by-user-id.spec.ts",
    "role": "admin",
    "steps": [
     "Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.",
@@ -17062,6 +17193,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /users/{userId} with the new user's id and the admin's token returns the new last_name and the registered first_name."
    ],
    "ref": [],
+   "specLine": 94,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/patch-users-by-user-id.yml",
@@ -17070,12 +17202,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@users-api"
    ],
-   "yaml": "- id: API-0426\n  name: Patch user as an admin changes another user's last_name\n  status: manual\n  role: admin\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.\n    - Send PATCH /users/{userId} with the new user's id, the admin's token and only last_name set to a new value of at most 20 characters.\n    - Verify the response status is 200.\n    - Verify the body's success is true.\n    - Verify GET /users/{userId} with the new user's id and the admin's token returns the new last_name and the registered first_name."
+   "yaml": "- id: API-0426\n  name: Patch user as an admin changes another user's last_name\n  status: automated\n  automatedIn: tests/api/users/patch-users-by-user-id.spec.ts\n  role: admin\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.\n    - Send PATCH /users/{userId} with the new user's id, the admin's token and only last_name set to a new value of at most 20 characters.\n    - Verify the response status is 200.\n    - Verify the body's success is true.\n    - Verify GET /users/{userId} with the new user's id and the admin's token returns the new last_name and the registered first_name."
   },
   {
    "id": "API-0427",
    "name": "Patch user as an admin with enabled false disables the account",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/users/patch-users-by-user-id.spec.ts",
    "role": "admin",
    "steps": [
     "Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.",
@@ -17085,6 +17218,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /users/{userId} with the new user's id and the admin's token returns enabled false."
    ],
    "ref": [],
+   "specLine": 128,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/patch-users-by-user-id.yml",
@@ -17093,12 +17227,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@users-api"
    ],
-   "yaml": "- id: API-0427\n  name: Patch user as an admin with enabled false disables the account\n  status: manual\n  role: admin\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.\n    - Send PATCH /users/{userId} with the new user's id, the admin's token and enabled false.\n    - Verify the response status is 200.\n    - Verify the body's success is true.\n    - Verify GET /users/{userId} with the new user's id and the admin's token returns enabled false."
+   "yaml": "- id: API-0427\n  name: Patch user as an admin with enabled false disables the account\n  status: automated\n  automatedIn: tests/api/users/patch-users-by-user-id.spec.ts\n  role: admin\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.\n    - Send PATCH /users/{userId} with the new user's id, the admin's token and enabled false.\n    - Verify the response status is 200.\n    - Verify the body's success is true.\n    - Verify GET /users/{userId} with the new user's id and the admin's token returns enabled false."
   },
   {
    "id": "API-0428",
    "name": "Patch user as an admin with a role key drops the role silently",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/users/patch-users-by-user-id.spec.ts",
    "role": "admin",
    "steps": [
     "Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.",
@@ -17107,6 +17242,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /users/{userId} with the new user's id and the admin's token returns role \"user\"."
    ],
    "ref": [],
+   "specLine": 152,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/patch-users-by-user-id.yml",
@@ -17115,18 +17251,20 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@users-api"
    ],
-   "yaml": "- id: API-0428\n  name: Patch user as an admin with a role key drops the role silently\n  status: manual\n  role: admin\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.\n    - Send PATCH /users/{userId} with the new user's id, the admin's token and role \"admin\".\n    - Verify the response status is 200.\n    - Verify GET /users/{userId} with the new user's id and the admin's token returns role \"user\"."
+   "yaml": "- id: API-0428\n  name: Patch user as an admin with a role key drops the role silently\n  status: automated\n  automatedIn: tests/api/users/patch-users-by-user-id.spec.ts\n  role: admin\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.\n    - Send PATCH /users/{userId} with the new user's id, the admin's token and role \"admin\".\n    - Verify the response status is 200.\n    - Verify GET /users/{userId} with the new user's id and the admin's token returns role \"user\"."
   },
   {
    "id": "API-0429",
    "name": "Patch user without a token returns 401",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/users/patch-users-by-user-id.spec.ts",
    "steps": [
     "Send PATCH /users/{userId} with a well-formed ULID that no user has and first_name set to a new value, without an Authorization header.",
     "Verify the response status is 401.",
     "Verify the body's message is \"Unauthorized\"."
    ],
    "ref": [],
+   "specLine": 225,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/patch-users-by-user-id.yml",
@@ -17135,12 +17273,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@users-api"
    ],
-   "yaml": "- id: API-0429\n  name: Patch user without a token returns 401\n  status: manual\n  steps:\n    - Send PATCH /users/{userId} with a well-formed ULID that no user has and first_name set to a new value, without an Authorization header.\n    - Verify the response status is 401.\n    - Verify the body's message is \"Unauthorized\"."
+   "yaml": "- id: API-0429\n  name: Patch user without a token returns 401\n  status: automated\n  automatedIn: tests/api/users/patch-users-by-user-id.spec.ts\n  steps:\n    - Send PATCH /users/{userId} with a well-formed ULID that no user has and first_name set to a new value, without an Authorization header.\n    - Verify the response status is 401.\n    - Verify the body's message is \"Unauthorized\"."
   },
   {
    "id": "API-0430",
    "name": "Patch user with another customer's id returns 403 and leaves that customer unchanged",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/users/patch-users-by-user-id.spec.ts",
    "steps": [
     "Send POST /users/register with a unique email, a first name, a last name and a random strong password (customer A).",
     "Send POST /users/register with a unique email, a first name, a last name and a random strong password (customer B), and take B's id.",
@@ -17152,6 +17291,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /users/me with B's access_token returns B's registered first_name."
    ],
    "ref": [],
+   "specLine": 242,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/patch-users-by-user-id.yml",
@@ -17160,12 +17300,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@users-api"
    ],
-   "yaml": "- id: API-0430\n  name: Patch user with another customer's id returns 403 and leaves that customer unchanged\n  status: manual\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password (customer A).\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password (customer B), and take B's id.\n    - Send POST /users/login with customer A's email and password, and take its access_token.\n    - Send PATCH /users/{userId} with customer B's id, customer A's access_token and first_name set to a new value.\n    - Verify the response status is 403.\n    - Verify the body's error is a non-empty string.\n    - Send POST /users/login with customer B's email and password, and take its access_token.\n    - Verify GET /users/me with B's access_token returns B's registered first_name."
+   "yaml": "- id: API-0430\n  name: Patch user with another customer's id returns 403 and leaves that customer unchanged\n  status: automated\n  automatedIn: tests/api/users/patch-users-by-user-id.spec.ts\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password (customer A).\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password (customer B), and take B's id.\n    - Send POST /users/login with customer A's email and password, and take its access_token.\n    - Send PATCH /users/{userId} with customer B's id, customer A's access_token and first_name set to a new value.\n    - Verify the response status is 403.\n    - Verify the body's error is a non-empty string.\n    - Send POST /users/login with customer B's email and password, and take its access_token.\n    - Verify GET /users/me with B's access_token returns B's registered first_name."
   },
   {
    "id": "API-0431",
    "name": "Patch user with a phone containing letters returns 422 and leaves the profile unchanged",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/users/patch-users-by-user-id.spec.ts",
    "steps": [
     "Send POST /users/register with a unique email, a first name, a last name, a random strong password and a phone of digits, and take the new user's id.",
     "Send POST /users/login with that email and password, and take its access_token.",
@@ -17175,6 +17316,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /users/me with that access_token returns the registered phone."
    ],
    "ref": [],
+   "specLine": 282,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/patch-users-by-user-id.yml",
@@ -17183,12 +17325,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@users-api"
    ],
-   "yaml": "- id: API-0431\n  name: Patch user with a phone containing letters returns 422 and leaves the profile unchanged\n  status: manual\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name, a random strong password and a phone of digits, and take the new user's id.\n    - Send POST /users/login with that email and password, and take its access_token.\n    - Send PATCH /users/{userId} with that id, access_token and a phone containing letters.\n    - Verify the response status is 422.\n    - Verify the body has a phone key with at least one message.\n    - Verify GET /users/me with that access_token returns the registered phone."
+   "yaml": "- id: API-0431\n  name: Patch user with a phone containing letters returns 422 and leaves the profile unchanged\n  status: automated\n  automatedIn: tests/api/users/patch-users-by-user-id.spec.ts\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name, a random strong password and a phone of digits, and take the new user's id.\n    - Send POST /users/login with that email and password, and take its access_token.\n    - Send PATCH /users/{userId} with that id, access_token and a phone containing letters.\n    - Verify the response status is 422.\n    - Verify the body has a phone key with at least one message.\n    - Verify GET /users/me with that access_token returns the registered phone."
   },
   {
    "id": "API-0432",
    "name": "Patch user with a dob under 18 years ago returns 422 and leaves the profile unchanged",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/users/patch-users-by-user-id.spec.ts",
    "steps": [
     "Send POST /users/register with a unique email, a first name, a last name, a random strong password and an adult dob, and take the new user's id.",
     "Send POST /users/login with that email and password, and take its access_token.",
@@ -17198,6 +17341,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /users/me with that access_token returns the registered dob."
    ],
    "ref": [],
+   "specLine": 318,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/patch-users-by-user-id.yml",
@@ -17206,12 +17350,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@users-api"
    ],
-   "yaml": "- id: API-0432\n  name: Patch user with a dob under 18 years ago returns 422 and leaves the profile unchanged\n  status: manual\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name, a random strong password and an adult dob, and take the new user's id.\n    - Send POST /users/login with that email and password, and take its access_token.\n    - Send PATCH /users/{userId} with that id, access_token and a dob 10 years ago in YYYY-MM-DD.\n    - Verify the response status is 422.\n    - Verify the body has a dob key with at least one message.\n    - Verify GET /users/me with that access_token returns the registered dob."
+   "yaml": "- id: API-0432\n  name: Patch user with a dob under 18 years ago returns 422 and leaves the profile unchanged\n  status: automated\n  automatedIn: tests/api/users/patch-users-by-user-id.spec.ts\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name, a random strong password and an adult dob, and take the new user's id.\n    - Send POST /users/login with that email and password, and take its access_token.\n    - Send PATCH /users/{userId} with that id, access_token and a dob 10 years ago in YYYY-MM-DD.\n    - Verify the response status is 422.\n    - Verify the body has a dob key with at least one message.\n    - Verify GET /users/me with that access_token returns the registered dob."
   },
   {
    "id": "API-0433",
    "name": "Patch user with the customer's own failed_login_attempts leaves the value unchanged",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/users/patch-users-by-user-id.spec.ts",
    "role": "admin",
    "knownIssue": "A customer can change their own failed_login_attempts (and enabled and the totp_* fields) with PATCH; the value is saved instead of being rejected or ignored.",
    "bug": "BUG-033",
@@ -17223,6 +17368,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /users/{userId} with the new user's id and the admin's token returns the same failed_login_attempts as before the patch."
    ],
    "ref": [],
+   "specLine": 172,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/patch-users-by-user-id.yml",
@@ -17231,12 +17377,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@users-api"
    ],
-   "yaml": "- id: API-0433\n  name: Patch user with the customer's own failed_login_attempts leaves the value unchanged\n  status: manual\n  role: admin\n  knownIssue: A customer can change their own failed_login_attempts (and enabled and the totp_* fields) with PATCH; the value is saved instead of being rejected or ignored.\n  bug: BUG-033\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.\n    - Send POST /users/login with that email and password, and take its access_token.\n    - Send GET /users/{userId} with the new user's id and the admin's token, and take failed_login_attempts.\n    - Send PATCH /users/{userId} with that id, the customer's access_token and failed_login_attempts 2.\n    - Verify GET /users/{userId} with the new user's id and the admin's token returns the same failed_login_attempts as before the patch."
+   "yaml": "- id: API-0433\n  name: Patch user with the customer's own failed_login_attempts leaves the value unchanged\n  status: automated\n  automatedIn: tests/api/users/patch-users-by-user-id.spec.ts\n  role: admin\n  knownIssue: A customer can change their own failed_login_attempts (and enabled and the totp_* fields) with PATCH; the value is saved instead of being rejected or ignored.\n  bug: BUG-033\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.\n    - Send POST /users/login with that email and password, and take its access_token.\n    - Send GET /users/{userId} with the new user's id and the admin's token, and take failed_login_attempts.\n    - Send PATCH /users/{userId} with that id, the customer's access_token and failed_login_attempts 2.\n    - Verify GET /users/{userId} with the new user's id and the admin's token returns the same failed_login_attempts as before the patch."
   },
   {
    "id": "API-0434",
    "name": "Patch user with an unknown id as an admin returns 404",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/users/patch-users-by-user-id.spec.ts",
    "role": "admin",
    "knownIssue": "Returns 403 instead of 404 for an unknown user id.",
    "bug": "BUG-034",
@@ -17245,6 +17392,7 @@ window.SCENARIO_CATALOG = {
     "Verify the response status is 404."
    ],
    "ref": [],
+   "specLine": 210,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/patch-users-by-user-id.yml",
@@ -17253,12 +17401,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@users-api"
    ],
-   "yaml": "- id: API-0434\n  name: Patch user with an unknown id as an admin returns 404\n  status: manual\n  role: admin\n  knownIssue: Returns 403 instead of 404 for an unknown user id.\n  bug: BUG-034\n  steps:\n    - Send PATCH /users/{userId} with a well-formed ULID that no user has, first_name set to a new value and the admin's token.\n    - Verify the response status is 404."
+   "yaml": "- id: API-0434\n  name: Patch user with an unknown id as an admin returns 404\n  status: automated\n  automatedIn: tests/api/users/patch-users-by-user-id.spec.ts\n  role: admin\n  knownIssue: Returns 403 instead of 404 for an unknown user id.\n  bug: BUG-034\n  steps:\n    - Send PATCH /users/{userId} with a well-formed ULID that no user has, first_name set to a new value and the admin's token.\n    - Verify the response status is 404."
   },
   {
    "id": "API-0435",
    "name": "Patch user with an email another account uses returns 409 or 422",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/users/patch-users-by-user-id.spec.ts",
    "knownIssue": "Returns 403, with the SQL error in the body, instead of 409 or 422 when the email already belongs to another account.",
    "bug": "BUG-035",
    "steps": [
@@ -17269,6 +17418,7 @@ window.SCENARIO_CATALOG = {
     "Verify the response status is 409 or 422."
    ],
    "ref": [],
+   "specLine": 353,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/patch-users-by-user-id.yml",
@@ -17277,12 +17427,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@users-api"
    ],
-   "yaml": "- id: API-0435\n  name: Patch user with an email another account uses returns 409 or 422\n  status: manual\n  knownIssue: Returns 403, with the SQL error in the body, instead of 409 or 422 when the email already belongs to another account.\n  bug: BUG-035\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password (customer A).\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password (customer B).\n    - Send POST /users/login with customer A's email and password, and take its access_token.\n    - Send PATCH /users/{userId} with customer A's id, A's access_token and email set to customer B's email.\n    - Verify the response status is 409 or 422."
+   "yaml": "- id: API-0435\n  name: Patch user with an email another account uses returns 409 or 422\n  status: automated\n  automatedIn: tests/api/users/patch-users-by-user-id.spec.ts\n  knownIssue: Returns 403, with the SQL error in the body, instead of 409 or 422 when the email already belongs to another account.\n  bug: BUG-035\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password (customer A).\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password (customer B).\n    - Send POST /users/login with customer A's email and password, and take its access_token.\n    - Send PATCH /users/{userId} with customer A's id, A's access_token and email set to customer B's email.\n    - Verify the response status is 409 or 422."
   },
   {
    "id": "API-0436",
    "name": "Delete user as an admin returns 204 and the user is gone",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/users/delete-users-by-user-id.spec.ts",
    "role": "admin",
    "steps": [
     "Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.",
@@ -17291,6 +17442,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /users/{userId} with that id and the admin's token returns 404."
    ],
    "ref": [],
+   "specLine": 34,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/delete-users-by-user-id.yml",
@@ -17299,18 +17451,20 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@users-api"
    ],
-   "yaml": "- id: API-0436\n  name: Delete user as an admin returns 204 and the user is gone\n  status: manual\n  role: admin\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.\n    - Send DELETE /users/{userId} with the new user's id and the admin's token.\n    - Verify the response status is 204.\n    - Verify GET /users/{userId} with that id and the admin's token returns 404."
+   "yaml": "- id: API-0436\n  name: Delete user as an admin returns 204 and the user is gone\n  status: automated\n  automatedIn: tests/api/users/delete-users-by-user-id.spec.ts\n  role: admin\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.\n    - Send DELETE /users/{userId} with the new user's id and the admin's token.\n    - Verify the response status is 204.\n    - Verify GET /users/{userId} with that id and the admin's token returns 404."
   },
   {
    "id": "API-0437",
    "name": "Delete user without a token returns 401",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/users/delete-users-by-user-id.spec.ts",
    "steps": [
     "Send DELETE /users/{userId} with a well-formed ULID that no user has, without an Authorization header.",
     "Verify the response status is 401.",
     "Verify the body's message is \"Unauthorized\"."
    ],
    "ref": [],
+   "specLine": 147,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/delete-users-by-user-id.yml",
@@ -17319,12 +17473,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@users-api"
    ],
-   "yaml": "- id: API-0437\n  name: Delete user without a token returns 401\n  status: manual\n  steps:\n    - Send DELETE /users/{userId} with a well-formed ULID that no user has, without an Authorization header.\n    - Verify the response status is 401.\n    - Verify the body's message is \"Unauthorized\"."
+   "yaml": "- id: API-0437\n  name: Delete user without a token returns 401\n  status: automated\n  automatedIn: tests/api/users/delete-users-by-user-id.spec.ts\n  steps:\n    - Send DELETE /users/{userId} with a well-formed ULID that no user has, without an Authorization header.\n    - Verify the response status is 401.\n    - Verify the body's message is \"Unauthorized\"."
   },
   {
    "id": "API-0438",
    "name": "Delete user as a customer returns 403 and the user stays",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/users/delete-users-by-user-id.spec.ts",
    "role": "admin",
    "steps": [
     "Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.",
@@ -17335,6 +17490,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /users/{userId} with that id and the admin's token returns 200."
    ],
    "ref": [],
+   "specLine": 54,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/delete-users-by-user-id.yml",
@@ -17343,12 +17499,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@users-api"
    ],
-   "yaml": "- id: API-0438\n  name: Delete user as a customer returns 403 and the user stays\n  status: manual\n  role: admin\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.\n    - Send POST /users/login with that email and password, and take its access_token.\n    - Send DELETE /users/{userId} with the new user's id and the customer's access_token.\n    - Verify the response status is 403.\n    - Verify the body's message is \"Forbidden\".\n    - Verify GET /users/{userId} with that id and the admin's token returns 200."
+   "yaml": "- id: API-0438\n  name: Delete user as a customer returns 403 and the user stays\n  status: automated\n  automatedIn: tests/api/users/delete-users-by-user-id.spec.ts\n  role: admin\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.\n    - Send POST /users/login with that email and password, and take its access_token.\n    - Send DELETE /users/{userId} with the new user's id and the customer's access_token.\n    - Verify the response status is 403.\n    - Verify the body's message is \"Forbidden\".\n    - Verify GET /users/{userId} with that id and the admin's token returns 200."
   },
   {
    "id": "API-0439",
    "name": "Delete a user that has a favorite returns 409 and the user stays",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/users/delete-users-by-user-id.spec.ts",
    "role": "admin",
    "steps": [
     "Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.",
@@ -17362,6 +17519,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /users/{userId} with that id and the admin's token returns 200."
    ],
    "ref": [],
+   "specLine": 85,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/delete-users-by-user-id.yml",
@@ -17370,12 +17528,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@users-api"
    ],
-   "yaml": "- id: API-0439\n  name: Delete a user that has a favorite returns 409 and the user stays\n  status: manual\n  role: admin\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.\n    - Send POST /users/login with that email and password, and take its access_token.\n    - Send GET /products and take the id of a product.\n    - Send POST /favorites with that product id and the customer's access_token.\n    - Send DELETE /users/{userId} with the new user's id and the admin's token.\n    - Verify the response status is 409.\n    - Verify the body's success is false.\n    - Verify the body's message is \"Seems like this customer is used elsewhere.\".\n    - Verify GET /users/{userId} with that id and the admin's token returns 200."
+   "yaml": "- id: API-0439\n  name: Delete a user that has a favorite returns 409 and the user stays\n  status: automated\n  automatedIn: tests/api/users/delete-users-by-user-id.spec.ts\n  role: admin\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.\n    - Send POST /users/login with that email and password, and take its access_token.\n    - Send GET /products and take the id of a product.\n    - Send POST /favorites with that product id and the customer's access_token.\n    - Send DELETE /users/{userId} with the new user's id and the admin's token.\n    - Verify the response status is 409.\n    - Verify the body's success is false.\n    - Verify the body's message is \"Seems like this customer is used elsewhere.\".\n    - Verify GET /users/{userId} with that id and the admin's token returns 200."
   },
   {
    "id": "API-0440",
    "name": "Delete user with an unknown id as an admin returns 404",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/users/delete-users-by-user-id.spec.ts",
    "role": "admin",
    "knownIssue": "Returns 500 instead of 404 for an unknown user id.",
    "bug": "BUG-036",
@@ -17384,6 +17543,7 @@ window.SCENARIO_CATALOG = {
     "Verify the response status is 404."
    ],
    "ref": [],
+   "specLine": 132,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/delete-users-by-user-id.yml",
@@ -17392,7 +17552,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@users-api"
    ],
-   "yaml": "- id: API-0440\n  name: Delete user with an unknown id as an admin returns 404\n  status: manual\n  role: admin\n  knownIssue: Returns 500 instead of 404 for an unknown user id.\n  bug: BUG-036\n  steps:\n    - Send DELETE /users/{userId} with a well-formed ULID that no user has and the admin's token.\n    - Verify the response status is 404."
+   "yaml": "- id: API-0440\n  name: Delete user with an unknown id as an admin returns 404\n  status: automated\n  automatedIn: tests/api/users/delete-users-by-user-id.spec.ts\n  role: admin\n  knownIssue: Returns 500 instead of 404 for an unknown user id.\n  bug: BUG-036\n  steps:\n    - Send DELETE /users/{userId} with a well-formed ULID that no user has and the admin's token.\n    - Verify the response status is 404."
   }
  ]
 };

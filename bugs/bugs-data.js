@@ -2,8 +2,8 @@
 window.BUG_CATALOG = {
  "title": "Bugs",
  "prefix": "BUG",
- "generatedAt": "2026-10-11T15:48:43.529Z",
- "commit": "bdddb4bc1dfb72878914a72e3f60dd34efe446a9",
+ "generatedAt": "2026-10-13T17:54:48.810Z",
+ "commit": "f64636e11bd908f6027bcf7a3e7284f06e76def9",
  "repoUrl": "https://github.com/Zaytsman/SimpRight",
  "branch": "main",
  "bugsDir": "bugs",
@@ -26,8 +26,8 @@ window.BUG_CATALOG = {
   }
  ],
  "stats": {
-  "total": 43,
-  "open": 43,
+  "total": 44,
+  "open": 44,
   "fixed": 0,
   "wontFix": 0
  },
@@ -182,10 +182,10 @@ window.BUG_CATALOG = {
     "Send PATCH /categories/{categoryId} for the new category with a new name, without an Authorization header."
    ],
    "expected": "Each write without a token returns 401 and changes nothing, like DELETE /categories/{categoryId} without a token.",
-   "actual": "From the source (not called live): POST returns 201 and creates the category; PUT and PATCH return 200 and change it.",
-   "evidence": "Source (practice-software-testing, sprint5/API), 2026-10-10: CategoryController::__construct\n  applies role:admin only to destroy; no other auth middleware on store, update or patch\nThe identical Brands routes were reproduced live (BUG-009).",
+   "actual": "POST returns 201 and creates the category; PUT and PATCH return 200 and change it.",
+   "evidence": "CI run 38372041636 (API Regression Test Run, main, bdddb4b), 2026-10-13, no Authorization header,\nthrowaway categories removed as admin by the tests' cleanup\nAPI-0177 POST /categories { name, slug: unique } -> 201 { name, slug, id } (expected 401), 08:52 UTC\nAPI-0213 PUT /categories/{categoryId} { name: new } -> 200 {\"success\":true} (expected 401), 08:52 UTC\nAPI-0222 PATCH /categories/{categoryId} { name: new } -> 200 {\"success\":true} (expected 401), 08:52 UTC\nThrowaway category, no Authorization header, 2026-10-13 16:49 UTC\nPOST /categories { name, slug: unique } -> 201 { name, slug, id }\nPUT /categories/{categoryId} { name: put name } -> 200 {\"success\":true}\nGET /categories/tree/{categoryId} -> 200 { name: the put name, parent_id: null, sub_categories: [] }\nPATCH /categories/{categoryId} { name: patch name } -> 200 {\"success\":true}\nGET /categories/tree/{categoryId} -> 200 { name: the patch name }\nCleanup as admin: DELETE /categories/{categoryId} -> 204; GET /categories/tree/{categoryId} -> 404\nSource (practice-software-testing, sprint5/API), 2026-10-10: CategoryController::__construct\n  applies role:admin only to destroy; store, update and patch have no auth middleware and\n  update/patch call categoryService->updateCategory before returning {\"success\":true}",
    "file": "bugs/BUG-014.yml",
-   "yaml": "id: BUG-014\ntitle: Category writes (POST, PUT, PATCH /categories) succeed without a token instead of returning 401\nstatus: open\nseverity: critical\nlayer: api\narea: categories\naffects:\n  - POST /categories\n  - PUT /categories/{categoryId}\n  - PATCH /categories/{categoryId}\nfound: 2026-10-10\nref:\n  - docs/api/contracts/Categories_API.md#authentication\n  - docs/api/contracts/Categories_API.md#notes\ndescription: >-\n  Anyone can create categories or rename and re-parent seeded ones without logging in: CategoryController\n  has no auth middleware on these routes (only DELETE is admin-only), and the OpenAPI spec declares no\n  security on them either. The same pattern as BUG-009 (brands) and BUG-001 (products), in a separate controller.\nsteps:\n  - Send POST /categories with a unique name and a unique slug, without an Authorization header, and take the new category's id.\n  - Send PUT /categories/{categoryId} for the new category with a new name, without an Authorization header.\n  - Send PATCH /categories/{categoryId} for the new category with a new name, without an Authorization header.\nexpected: Each write without a token returns 401 and changes nothing, like DELETE /categories/{categoryId} without a token.\nactual: >-\n  From the source (not called live): POST returns 201 and creates the category; PUT and PATCH return 200 and change it.\nevidence: |-\n  Source (practice-software-testing, sprint5/API), 2026-10-10: CategoryController::__construct\n    applies role:admin only to destroy; no other auth middleware on store, update or patch\n  The identical Brands routes were reproduced live (BUG-009).",
+   "yaml": "id: BUG-014\ntitle: Category writes (POST, PUT, PATCH /categories) succeed without a token instead of returning 401\nstatus: open\nseverity: critical\nlayer: api\narea: categories\naffects:\n  - POST /categories\n  - PUT /categories/{categoryId}\n  - PATCH /categories/{categoryId}\nfound: 2026-10-10\nref:\n  - docs/api/contracts/Categories_API.md#authentication\n  - docs/api/contracts/Categories_API.md#notes\ndescription: >-\n  Anyone can create categories or rename and re-parent seeded ones without logging in: CategoryController\n  has no auth middleware on these routes (only DELETE is admin-only), and the OpenAPI spec declares no\n  security on them either. The same pattern as BUG-009 (brands) and BUG-001 (products), in a separate controller.\nsteps:\n  - Send POST /categories with a unique name and a unique slug, without an Authorization header, and take the new category's id.\n  - Send PUT /categories/{categoryId} for the new category with a new name, without an Authorization header.\n  - Send PATCH /categories/{categoryId} for the new category with a new name, without an Authorization header.\nexpected: Each write without a token returns 401 and changes nothing, like DELETE /categories/{categoryId} without a token.\nactual: POST returns 201 and creates the category; PUT and PATCH return 200 and change it.\nevidence: |-\n  CI run 38372041636 (API Regression Test Run, main, bdddb4b), 2026-10-13, no Authorization header,\n  throwaway categories removed as admin by the tests' cleanup\n  API-0177 POST /categories { name, slug: unique } -> 201 { name, slug, id } (expected 401), 08:52 UTC\n  API-0213 PUT /categories/{categoryId} { name: new } -> 200 {\"success\":true} (expected 401), 08:52 UTC\n  API-0222 PATCH /categories/{categoryId} { name: new } -> 200 {\"success\":true} (expected 401), 08:52 UTC\n  Throwaway category, no Authorization header, 2026-10-13 16:49 UTC\n  POST /categories { name, slug: unique } -> 201 { name, slug, id }\n  PUT /categories/{categoryId} { name: put name } -> 200 {\"success\":true}\n  GET /categories/tree/{categoryId} -> 200 { name: the put name, parent_id: null, sub_categories: [] }\n  PATCH /categories/{categoryId} { name: patch name } -> 200 {\"success\":true}\n  GET /categories/tree/{categoryId} -> 200 { name: the patch name }\n  Cleanup as admin: DELETE /categories/{categoryId} -> 204; GET /categories/tree/{categoryId} -> 404\n  Source (practice-software-testing, sprint5/API), 2026-10-10: CategoryController::__construct\n    applies role:admin only to destroy; store, update and patch have no auth middleware and\n    update/patch call categoryService->updateCategory before returning {\"success\":true}",
    "scenarios": [
     {
      "id": "API-0222",
@@ -761,7 +761,9 @@ window.BUG_CATALOG = {
      "layer": "api",
      "area": "favorites",
      "file": "test-scenarios/api/favorites/get-favorites-by-favorite-id.yml",
-     "status": "manual",
+     "status": "automated",
+     "automatedIn": "tests/api/favorites/get-favorites-by-favorite-id.spec.ts",
+     "specLine": 102,
      "knownIssue": "Returns 200 with another user's favorite instead of 404 or 403."
     }
    ]
@@ -893,7 +895,9 @@ window.BUG_CATALOG = {
      "layer": "api",
      "area": "users",
      "file": "test-scenarios/api/users/get-users-search.yml",
-     "status": "manual",
+     "status": "automated",
+     "automatedIn": "tests/api/users/get-users-search.spec.ts",
+     "specLine": 258,
      "knownIssue": "Returns 200 with other customers' names, emails and cities instead of rejecting a customer (403, like GET /users)."
     },
     {
@@ -902,7 +906,9 @@ window.BUG_CATALOG = {
      "layer": "api",
      "area": "users",
      "file": "test-scenarios/api/users/query-users-search.yml",
-     "status": "manual",
+     "status": "automated",
+     "automatedIn": "tests/api/users/query-users-search.spec.ts",
+     "specLine": 135,
      "knownIssue": "Returns 200 with other customers' names, emails and cities instead of rejecting a customer (403, like GET /users)."
     }
    ]
@@ -941,7 +947,9 @@ window.BUG_CATALOG = {
      "layer": "api",
      "area": "users",
      "file": "test-scenarios/api/users/patch-users-by-user-id.yml",
-     "status": "manual",
+     "status": "automated",
+     "automatedIn": "tests/api/users/patch-users-by-user-id.spec.ts",
+     "specLine": 172,
      "knownIssue": "A customer can change their own failed_login_attempts (and enabled and the totp_* fields) with PATCH; the value is saved instead of being rejected or ignored."
     }
    ]
@@ -979,7 +987,9 @@ window.BUG_CATALOG = {
      "layer": "api",
      "area": "users",
      "file": "test-scenarios/api/users/patch-users-by-user-id.yml",
-     "status": "manual",
+     "status": "automated",
+     "automatedIn": "tests/api/users/patch-users-by-user-id.spec.ts",
+     "specLine": 353,
      "knownIssue": "Returns 403, with the SQL error in the body, instead of 409 or 422 when the email already belongs to another account."
     }
    ]
@@ -1014,7 +1024,9 @@ window.BUG_CATALOG = {
      "layer": "api",
      "area": "users",
      "file": "test-scenarios/api/users/delete-users-by-user-id.yml",
-     "status": "manual",
+     "status": "automated",
+     "automatedIn": "tests/api/users/delete-users-by-user-id.spec.ts",
+     "specLine": 132,
      "knownIssue": "Returns 500 instead of 404 for an unknown user id."
     }
    ]
@@ -1631,7 +1643,9 @@ window.BUG_CATALOG = {
      "layer": "api",
      "area": "users",
      "file": "test-scenarios/api/users/patch-users-by-user-id.yml",
-     "status": "manual",
+     "status": "automated",
+     "automatedIn": "tests/api/users/patch-users-by-user-id.spec.ts",
+     "specLine": 210,
      "knownIssue": "Returns 403 instead of 404 for an unknown user id."
     }
    ]
@@ -1876,8 +1890,63 @@ window.BUG_CATALOG = {
      "file": "test-scenarios/api/postcode/get-postcode-lookup.yml",
      "status": "automated",
      "automatedIn": "tests/api/postcode/get-postcode-lookup.spec.ts",
-     "specLine": 640,
+     "specLine": 632,
      "knownIssue": "Echoes a postcode with leading whitespace untrimmed and builds the address from the untrimmed value, although the format check trims it."
+    }
+   ]
+  },
+  {
+   "id": "BUG-046",
+   "title": "Conditional GET never returns 304 for compressed responses (ETag gets a -gzip suffix)",
+   "status": "open",
+   "severity": "minor",
+   "layer": "api",
+   "area": "images",
+   "affects": [
+    "GET /images",
+    "GET /brands",
+    "GET /brands/search",
+    "GET /brands/{brandId}",
+    "GET /categories",
+    "GET /categories/tree",
+    "GET /categories/search",
+    "GET /categories/tree/{categoryId}",
+    "GET /products",
+    "GET /products/search",
+    "GET /products/{productId}",
+    "GET /products/{productId}/related",
+    "GET /products/{productId}/specs",
+    "GET /products/{productId}/specs/{specId}",
+    "GET /product-specs/names"
+   ],
+   "found": "2026-10-13",
+   "ref": [
+    "docs/api/contracts/Images_API.md#1-list-images",
+    "docs/api/contracts/Images_API.md#notes"
+   ],
+   "description": "The public GET routes use Laravel's cache.headers:public;max_age=120;etag middleware, which sets an ETag (the md5 of the body) and answers 304 when If-None-Match matches it. The API runs on Apache/2.4.52, and public/.htaccess turns on mod_deflate for application/json. When Apache gzips a response, mod_deflate adds \"-gzip\" to the ETag, so the client gets \"<md5>-gzip\". When the client sends that tag back, Laravel compares it with the plain \"<md5>\", finds no match and sends the whole body again with 200. Only the plain tag, which a client gets when it asks for no compression, gets 304. Every browser and most HTTP clients (Playwright's request API too) accept gzip, so in practice no client ever gets 304. Revalidation doesn't work and every check downloads the whole body again. Responses stay correct, so the impact is wasted bandwidth and time. Usual fixes: make Apache drop the suffix (DeflateAlterETag Remove, only in newer Apache releases than 2.4.52), or strip \"-gzip\" from If-None-Match before Laravel sees it, or compute the ETag after compression.",
+   "steps": [
+    "Send GET /images without an Authorization header, with the headers \"Accept: application/json\" and \"Accept-Encoding: gzip, deflate, br\", and take the ETag response header.",
+    "Send GET /images with the same headers and the If-None-Match header set to that ETag.",
+    "Send GET /images with \"Accept: application/json\" and no Accept-Encoding header, and take its ETag.",
+    "Send GET /images with the If-None-Match header set to the ETag from the uncompressed response."
+   ],
+   "expected": "A request whose If-None-Match carries the ETag the server just sent gets 304 Not Modified with an empty body, whether or not the response was compressed (RFC 9110 conditional requests; Images_API.md \"Conditional request\").",
+   "actual": "The compressed response's ETag ends in -gzip, and sending it back in If-None-Match returns 200 with the full body. Only the plain ETag of an uncompressed response gets 304.",
+   "evidence": "Live, 2026-10-13 17:36 UTC, GET without Authorization, Accept: application/json\nGET /images, Accept-Encoding: gzip, deflate, br -> 200, Server: Apache/2.4.52 (Ubuntu),\n  Content-Encoding: gzip, Vary: Accept-Encoding, Cache-Control: max-age=120, public,\n  ETag: \"a65720df8600a86f1ae7a6bec0ff597d-gzip\"\nGET /images, no Accept-Encoding -> 200, ETag: \"a65720df8600a86f1ae7a6bec0ff597d\"\nGET /images, Accept-Encoding: br -> 200, not compressed, ETag: \"a65720df8600a86f1ae7a6bec0ff597d\"\nIf-None-Match \"<md5>-gzip\" -> 200 (gzip accepted or not)\nIf-None-Match \"<md5>\" -> 304 (gzip accepted or not)\nThe same four results on all 15 routes in affects (seeded ids taken from the lists).\nLocal run of API-0342 (tests/api/images/get-images.spec.ts, 3 repeats), 2026-10-13: If-None-Match\n  \"a65720df8600a86f1ae7a6bec0ff597d-gzip\" -> 200 with the full list (expected 304).\nSource (practice-software-testing, sprint5/API): routes/api.php defines\n  CACHE_HEADERS = 'cache.headers:public;max_age=120;etag' and applies it to the GET routes of brands,\n  categories, images, products and product specs; public/.htaccess has\n  AddOutputFilterByType DEFLATE application/json (mod_brotli isn't active live).",
+   "file": "bugs/BUG-046.yml",
+   "yaml": "id: BUG-046\ntitle: Conditional GET never returns 304 for compressed responses (ETag gets a -gzip suffix)\nstatus: open\nseverity: minor\nlayer: api\narea: images\naffects:\n  - GET /images\n  - GET /brands\n  - GET /brands/search\n  - GET /brands/{brandId}\n  - GET /categories\n  - GET /categories/tree\n  - GET /categories/search\n  - GET /categories/tree/{categoryId}\n  - GET /products\n  - GET /products/search\n  - GET /products/{productId}\n  - GET /products/{productId}/related\n  - GET /products/{productId}/specs\n  - GET /products/{productId}/specs/{specId}\n  - GET /product-specs/names\nfound: 2026-10-13\nref:\n  - docs/api/contracts/Images_API.md#1-list-images\n  - docs/api/contracts/Images_API.md#notes\ndescription: >-\n  The public GET routes use Laravel's cache.headers:public;max_age=120;etag middleware, which sets an ETag\n  (the md5 of the body) and answers 304 when If-None-Match matches it. The API runs on Apache/2.4.52, and\n  public/.htaccess turns on mod_deflate for application/json. When Apache gzips a response, mod_deflate adds\n  \"-gzip\" to the ETag, so the client gets \"<md5>-gzip\". When the client sends that tag back, Laravel compares it\n  with the plain \"<md5>\", finds no match and sends the whole body again with 200. Only the plain tag, which a\n  client gets when it asks for no compression, gets 304. Every browser and most HTTP clients (Playwright's request\n  API too) accept gzip, so in practice no client ever gets 304. Revalidation doesn't work and every check\n  downloads the whole body again. Responses stay correct, so the impact is wasted bandwidth and time. Usual fixes:\n  make Apache drop the suffix (DeflateAlterETag Remove, only in newer Apache releases than 2.4.52), or strip\n  \"-gzip\" from If-None-Match before Laravel sees it, or compute the ETag after compression.\nsteps:\n  - 'Send GET /images without an Authorization header, with the headers \"Accept: application/json\" and \"Accept-Encoding: gzip, deflate, br\", and take the ETag response header.'\n  - Send GET /images with the same headers and the If-None-Match header set to that ETag.\n  - 'Send GET /images with \"Accept: application/json\" and no Accept-Encoding header, and take its ETag.'\n  - Send GET /images with the If-None-Match header set to the ETag from the uncompressed response.\nexpected: >-\n  A request whose If-None-Match carries the ETag the server just sent gets 304 Not Modified with an empty body,\n  whether or not the response was compressed (RFC 9110 conditional requests; Images_API.md \"Conditional request\").\nactual: >-\n  The compressed response's ETag ends in -gzip, and sending it back in If-None-Match returns 200 with the full\n  body. Only the plain ETag of an uncompressed response gets 304.\nevidence: |-\n  Live, 2026-10-13 17:36 UTC, GET without Authorization, Accept: application/json\n  GET /images, Accept-Encoding: gzip, deflate, br -> 200, Server: Apache/2.4.52 (Ubuntu),\n    Content-Encoding: gzip, Vary: Accept-Encoding, Cache-Control: max-age=120, public,\n    ETag: \"a65720df8600a86f1ae7a6bec0ff597d-gzip\"\n  GET /images, no Accept-Encoding -> 200, ETag: \"a65720df8600a86f1ae7a6bec0ff597d\"\n  GET /images, Accept-Encoding: br -> 200, not compressed, ETag: \"a65720df8600a86f1ae7a6bec0ff597d\"\n  If-None-Match \"<md5>-gzip\" -> 200 (gzip accepted or not)\n  If-None-Match \"<md5>\" -> 304 (gzip accepted or not)\n  The same four results on all 15 routes in affects (seeded ids taken from the lists).\n  Local run of API-0342 (tests/api/images/get-images.spec.ts, 3 repeats), 2026-10-13: If-None-Match\n    \"a65720df8600a86f1ae7a6bec0ff597d-gzip\" -> 200 with the full list (expected 304).\n  Source (practice-software-testing, sprint5/API): routes/api.php defines\n    CACHE_HEADERS = 'cache.headers:public;max_age=120;etag' and applies it to the GET routes of brands,\n    categories, images, products and product specs; public/.htaccess has\n    AddOutputFilterByType DEFLATE application/json (mod_brotli isn't active live).",
+   "scenarios": [
+    {
+     "id": "API-0342",
+     "name": "List images with a matching If-None-Match returns 304",
+     "layer": "api",
+     "area": "images",
+     "file": "test-scenarios/api/images/get-images.yml",
+     "status": "automated",
+     "automatedIn": "tests/api/images/get-images.spec.ts",
+     "specLine": 234,
+     "knownIssue": "Returns 200 instead of 304 when If-None-Match carries the ETag of a compressed response."
     }
    ]
   },
