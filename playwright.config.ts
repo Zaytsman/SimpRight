@@ -38,7 +38,8 @@ export default defineConfig<BaseOptions & UiOptions>({
   use: {
     baseURL: env.baseUrl,
     testIdAttribute: TEST_ID_ATTRIBUTE,
-    trace: 'retain-on-failure',
+    // Off: a trace stores every request and response unmasked (login bodies with passwords, tokens), and the reports are published.
+    trace: 'off',
     screenshot: 'only-on-failure',
     video: 'retain-on-failure',
     actionTimeout: env.defaultTimeoutMs,

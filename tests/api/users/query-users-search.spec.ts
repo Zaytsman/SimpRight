@@ -36,9 +36,6 @@ async function sendQuerySearch(
   return { request, response };
 }
 
-// A trace records full response bodies, and these pages hold other visitors' names, emails and cities.
-test.use({ trace: 'off' });
-
 test.describe('@users-api - Users API', () => {
   test.describe(() => {
     test.use({ role: 'admin' });

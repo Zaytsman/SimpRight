@@ -94,7 +94,7 @@ export function assertMessage({ request, expected, actual }: AssertMessageOption
 
 /**
  * Attaches `data` to the current test as pretty-printed JSON (secrets masked), so reviewers can
- * read full requests and responses in the HTML report and the trace viewer.
+ * read full requests and responses in the HTML report.
  */
 export async function attachJson(name: string, data: unknown): Promise<void> {
   await test.info().attach(name, {

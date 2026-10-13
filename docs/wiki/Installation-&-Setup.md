@@ -85,7 +85,7 @@ npm test
 npm run report
 ```
 
-`npm run report` opens the HTML report of the last run, with traces, screenshots and videos of the failed tests.
+`npm run report` opens the HTML report of the last run, with screenshots and videos of the failed UI tests.
 
 ### Useful commands
 

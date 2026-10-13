@@ -53,11 +53,9 @@ Bash: `TEST_ENV=QA npm test`. PowerShell: `$env:TEST_ENV="QA"; npm test` (the va
 | Where | What |
 |---|---|
 | The terminal | Progress and the failures, with the error and the failing step |
-| `playwright-report/` (`npm run report`) | The HTML report: every test with its steps and attachments; trace, screenshot and video of each failure. It opens by itself when a run has failures |
-| `test-results/` | Raw output: traces, screenshots, videos, `error-context.md` per failed test |
+| `playwright-report/` (`npm run report`) | The HTML report: every test with its steps and attachments; screenshot and video of each UI failure (traces are off: they would store passwords and tokens unmasked). It opens by itself when a run has failures |
+| `test-results/` | Raw output: screenshots, videos, `error-context.md` per failed test |
 | `test-results/api-coverage/index.html` | The API coverage report, when the coverage package is installed |
-
-To look at a single trace: `npx playwright show-trace test-results/<test folder>/trace.zip`.
 
 Both folders are **replaced by the next run**. Copy a report elsewhere if you want to keep it, or use the scheduled-run scripts below, which keep every run.
 

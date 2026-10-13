@@ -31,8 +31,7 @@ export interface ApiCallInfo {
 export type ApiCallListener = (call: ApiCallInfo) => void;
 
 /**
- * Base for all API clients. Requests go through Playwright's APIRequestContext, so they show up
- * in traces and the HTML report. Listeners registered with `BaseClient.onApiCall` see every call.
+ * Base for all API clients. Requests go through Playwright's APIRequestContext. Listeners registered with `BaseClient.onApiCall` see every call.
  */
 export abstract class BaseClient {
   private static readonly apiCallListeners = new Set<ApiCallListener>();
