@@ -22,9 +22,20 @@ steps:
   - Send PUT /categories/{categoryId} for the new category with a new name, without an Authorization header.
   - Send PATCH /categories/{categoryId} for the new category with a new name, without an Authorization header.
 expected: Each write without a token returns 401 and changes nothing, like DELETE /categories/{categoryId} without a token.
-actual: >-
-  From the source (not called live): POST returns 201 and creates the category; PUT and PATCH return 200 and change it.
+actual: POST returns 201 and creates the category; PUT and PATCH return 200 and change it.
 evidence: |-
+  CI run 38372041636 (API Regression Test Run, main, bdddb4b), 2026-10-13, no Authorization header,
+  throwaway categories removed as admin by the tests' cleanup
+  API-0177 POST /categories { name, slug: unique } -> 201 { name, slug, id } (expected 401), 08:52 UTC
+  API-0213 PUT /categories/{categoryId} { name: new } -> 200 {"success":true} (expected 401), 08:52 UTC
+  API-0222 PATCH /categories/{categoryId} { name: new } -> 200 {"success":true} (expected 401), 08:52 UTC
+  Throwaway category, no Authorization header, 2026-10-13 16:49 UTC
+  POST /categories { name, slug: unique } -> 201 { name, slug, id }
+  PUT /categories/{categoryId} { name: put name } -> 200 {"success":true}
+  GET /categories/tree/{categoryId} -> 200 { name: the put name, parent_id: null, sub_categories: [] }
+  PATCH /categories/{categoryId} { name: patch name } -> 200 {"success":true}
+  GET /categories/tree/{categoryId} -> 200 { name: the patch name }
+  Cleanup as admin: DELETE /categories/{categoryId} -> 204; GET /categories/tree/{categoryId} -> 404
   Source (practice-software-testing, sprint5/API), 2026-10-10: CategoryController::__construct
-    applies role:admin only to destroy; no other auth middleware on store, update or patch
-  The identical Brands routes were reproduced live (BUG-009).
+    applies role:admin only to destroy; store, update and patch have no auth middleware and
+    update/patch call categoryService->updateCategory before returning {"success":true}
