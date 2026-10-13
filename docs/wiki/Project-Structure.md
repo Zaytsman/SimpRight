@@ -168,7 +168,7 @@ None of these are committed:
 | `.env` | Your secrets |
 | `.auth/` | Saved logins in `storageState` mode |
 | `node_modules/` | Dependencies |
-| `test-results/` | Raw results, traces, the coverage report, inspector output, built Test Cases pages |
+| `test-results/` | Raw results, the coverage report, inspector output, built Test Cases pages |
 | `playwright-report/` | The HTML report (`npm run report`) |
 | `.gh-pages/` | The `gh-pages` checkout made by the publish scripts |
 

@@ -143,7 +143,7 @@ Both permissions are needed in the calling file: a called workflow can't have mo
 | Where | What |
 |---|---|
 | [Automation Portal](https://zaytsman.github.io/SimpRight/) | Latest status, counts, pass/fail and duration trends, known issues, run history |
-| `https://zaytsman.github.io/SimpRight/<family>/run-<N>/` | The full Playwright report of run number N: steps, attachments, traces of failures |
+| `https://zaytsman.github.io/SimpRight/<family>/run-<N>/` | The full Playwright report of run number N: steps, attachments, screenshots and videos of UI failures |
 | `https://zaytsman.github.io/SimpRight/latest/<family>/` | The newest run of a family |
 | `https://zaytsman.github.io/SimpRight/latest/api-coverage/` | API coverage of the latest full API regression |
 | The run's page on the Actions tab | The log, the error annotation with the report link, and the `playwright-report` and `test-results` artifact (kept 14 days) |

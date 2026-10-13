@@ -93,7 +93,7 @@ The **test engineers** turn `manual` scenarios into specs, again in two phases:
 1. **Plan:** for each scenario file, the spec it becomes, the framework code that exists and what is missing (a page object method, a client, a DTO, a fixture, a test data factory), the locators and the app signals each action will wait for, and the list of **tests that change live data** (creating a product, adding to the cart). The user approves the plan and each of those writes.
 2. **Implementation:** the agent adds only the missing pieces, in the style of the project's exemplar files, writes the specs, runs the typecheck and the scenario validator, runs each spec, then repeats it three times to catch flaky tests, and marks the scenarios `automated` with the spec path.
 
-The specs follow the scenario step for step, so the HTML report and the trace read like the scenario:
+The specs follow the scenario step for step, so the HTML report reads like the scenario:
 
 ```ts
 // Scenarios: test-scenarios/ui/products/product-search.yml

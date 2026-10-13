@@ -102,7 +102,7 @@ test.describe('@products - Product search', () => {
 });
 ```
 
-- One `test.step` per scenario step, titled with the step text, so the report and the trace read like the scenario.
+- One `test.step` per scenario step, titled with the step text, so the report reads like the scenario.
 - Pages, flows and API services come from fixtures; the spec has **no selectors** and never calls `page.goto`.
 - Every assertion has a message saying what is checked.
 - `homePage.search()` waits inside the page object for the app's `search_completed` marker, so the check can't race the results.
