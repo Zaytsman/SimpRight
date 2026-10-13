@@ -4,6 +4,7 @@ import { BrandsClient } from '../clients/BrandsClient';
 import { CartsClient } from '../clients/CartsClient';
 import { CategoriesClient } from '../clients/CategoriesClient';
 import { FavoritesClient } from '../clients/FavoritesClient';
+import { ImagesClient } from '../clients/ImagesClient';
 import { PaymentClient } from '../clients/PaymentClient';
 import { PostcodeClient } from '../clients/PostcodeClient';
 import { ProductsClient } from '../clients/ProductsClient';
@@ -16,6 +17,7 @@ import { BrandsService } from '../services/BrandsService';
 import { CartsService } from '../services/CartsService';
 import { CategoriesService } from '../services/CategoriesService';
 import { FavoritesService } from '../services/FavoritesService';
+import { ImagesService } from '../services/ImagesService';
 import { UsersService } from '../services/UsersService';
 
 /** Not a JWT at all, so the API can't parse it and treats the request as unauthenticated. */
@@ -87,6 +89,20 @@ export type ApiFixtures = {
   cartsClientWithToken: CartsClient;
   /** Builds a favorites service for a token the test obtained itself (the favourites of that token's user). */
   favoritesServiceForToken: (token: string) => FavoritesService;
+  /** Favorites endpoints with no token (the "no token" 401 checks). */
+  favoritesClient: FavoritesClient;
+  /** Favorites endpoints authenticated as the test's `role` (only rejected or no-op calls: tests never add favourites for a shared user). */
+  favoritesClientWithToken: FavoritesClient;
+  /** Sends a fixed malformed bearer token (`INVALID_TOKEN`), for the "invalid token" 401 checks. */
+  favoritesClientWithInvalidToken: FavoritesClient;
+  /** Builds a favorites client with a token the test obtained itself (a throwaway customer's), for the status checks. */
+  favoritesClientForToken: (token: string) => FavoritesClient;
+  /** Favourites of the test's `role`: only to remove a favourite that a call expected to be rejected created anyway. */
+  favoritesServiceWithToken: FavoritesService;
+  /** Public: GET /images needs no token. */
+  imagesClient: ImagesClient;
+  /** Public image operations (list); no token. */
+  imagesService: ImagesService;
   /** Public: POST /payment/check needs no token. */
   paymentClient: PaymentClient;
   /** Sends a fixed malformed bearer token (`INVALID_TOKEN`), for the checks that the payment check ignores it. */
@@ -207,6 +223,28 @@ export const test = base.extend<ApiFixtures>({
 
   favoritesServiceForToken: async ({ request, config }, use) => {
     await use((token: string) => new FavoritesService(new FavoritesClient(request, config, token)));
+  },
+  favoritesClient: async ({ request, config }, use) => {
+    await use(new FavoritesClient(request, config));
+  },
+  favoritesClientWithToken: async ({ request, config, accessToken }, use) => {
+    await use(new FavoritesClient(request, config, accessToken));
+  },
+  favoritesClientWithInvalidToken: async ({ request, config }, use) => {
+    await use(new FavoritesClient(request, config, INVALID_TOKEN));
+  },
+  favoritesClientForToken: async ({ request, config }, use) => {
+    await use((token: string) => new FavoritesClient(request, config, token));
+  },
+  favoritesServiceWithToken: async ({ favoritesClientWithToken }, use) => {
+    await use(new FavoritesService(favoritesClientWithToken));
+  },
+
+  imagesClient: async ({ request, config }, use) => {
+    await use(new ImagesClient(request, config));
+  },
+  imagesService: async ({ imagesClient }, use) => {
+    await use(new ImagesService(imagesClient));
   },
 
   paymentClient: async ({ request, config }, use) => {

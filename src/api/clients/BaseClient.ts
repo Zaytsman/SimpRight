@@ -112,6 +112,8 @@ export abstract class BaseClient {
       accept?: string | null;
       /** Redirects to follow (Playwright's default, 20, when undefined); `0` returns a 3xx response as it is. */
       maxRedirects?: number;
+      /** Extra request headers (e.g. `If-None-Match`), set after the defaults and the `accept` option. */
+      headers?: Record<string, string>;
     }
   ): Promise<ApiResponse> {
     const fullUrl = this.buildUrl(resourcePath, options?.query);
@@ -124,6 +126,9 @@ export abstract class BaseClient {
       delete headers['Accept'];
     } else if (options?.accept !== undefined) {
       headers['Accept'] = options.accept;
+    }
+    if (options?.headers) {
+      Object.assign(headers, options.headers);
     }
     const startTime = Date.now();
     const notify = (status: number, statusText: string) =>

@@ -1,5 +1,6 @@
 import type { FavoritesClient } from '../clients/FavoritesClient';
 import type { Favorite } from '../dto/favorite';
+import { FavoriteFactory } from '@data/factories/FavoriteFactory';
 import { assertOk, parseOk } from './serviceUtils';
 
 /**
@@ -14,7 +15,7 @@ export class FavoritesService {
   }
 
   async add(productId: string): Promise<Favorite> {
-    return parseOk(await this.client.create({ product_id: productId }), `add product ${productId} to favorites`);
+    return parseOk(await this.client.create(FavoriteFactory.addFavorite(productId)), `add product ${productId} to favorites`);
   }
 
   /** Returns nothing (204). */

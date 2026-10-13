@@ -68,6 +68,10 @@ export const TestConstants = {
     /** A well-formed ULID that no user has (the same value as products.unknownId: no seeded or registered user can have it). */
     unknownId: '01ZZZZZZZZZZZZZZZZZZZZZZZZ',
   },
+  favorites: {
+    /** A well-formed ULID that no favorite has (the same value as products.unknownId: no seeded or created record can have it). */
+    unknownId: '01ZZZZZZZZZZZZZZZZZZZZZZZZ',
+  },
   carts: {
     /** A well-formed ULID that no cart has (the same value as products.unknownId: no seeded or created record can have it). */
     unknownId: '01ZZZZZZZZZZZZZZZZZZZZZZZZ',

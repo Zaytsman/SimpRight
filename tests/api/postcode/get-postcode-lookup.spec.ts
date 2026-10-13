@@ -3,7 +3,7 @@ import type { ApiResponse } from '@api/clients/BaseClient';
 import type { PostcodeClient } from '@api/clients/PostcodeClient';
 import type { FieldValidationError } from '@api/dto/common';
 import type { PostcodeFormatError, PostcodeLookupQuery, PostcodeLookupResult } from '@api/dto/postcode';
-import { describeAccept, expectErrorKeys, expectLocation, expectNoOtherKeys, expectStatus } from '@utils/apiChecks';
+import { describeAccept, expectContentTypeStartsWith, expectErrorKeys, expectLocation, expectNoOtherKeys, expectStatus } from '@utils/apiChecks';
 import { assertMessage, attachJson } from '@utils/assertHelpers';
 
 // Scenarios: test-scenarios/api/postcode/get-postcode-lookup.yml
@@ -64,14 +64,6 @@ function parseResult(response: ApiResponse): PostcodeLookupResult {
 /** Checks one field of a 200 body against the expected value. */
 function expectField(request: LookupRequest, body: PostcodeLookupResult, field: keyof PostcodeLookupResult, expected: string): void {
   expect(body[field], assertMessage({ request, expected: `${field} is "${expected}"`, actual: body })).toBe(expected);
-}
-
-function expectContentTypeJson(request: LookupRequest, response: ApiResponse): void {
-  const contentType = response.headers['content-type'] ?? '';
-  expect(
-    contentType.startsWith('application/json'),
-    assertMessage({ request, expected: 'Content-Type starts with "application/json"', actual: contentType })
-  ).toBe(true);
 }
 
 /** The common shape of the parameter validation scenarios: send, 422, the keys, no other keys. */
@@ -168,7 +160,7 @@ test.describe('@postcode-api - Postcode API', () => {
     });
 
     await test.step('Verify the Content-Type header starts with "application/json".', async () => {
-      expectContentTypeJson(request, response);
+      expectContentTypeStartsWith(request, response, 'application/json');
     });
 
     await test.step('Verify the body has the keys street, house_number, city, state, country and postcode, and each value is a string.', async () => {
@@ -448,7 +440,7 @@ test.describe('@postcode-api - Postcode API', () => {
     });
 
     await test.step('Verify the Content-Type header starts with "application/json".', async () => {
-      expectContentTypeJson(request, response);
+      expectContentTypeStartsWith(request, response, 'application/json');
     });
 
     await test.step('Verify the body is JSON with the keys street, house_number, city, state, country and postcode.', async () => {
@@ -612,7 +604,7 @@ test.describe('@postcode-api - Postcode API', () => {
     });
 
     await test.step('Verify the Content-Type header starts with "application/json".', async () => {
-      expectContentTypeJson(request, response);
+      expectContentTypeStartsWith(request, response, 'application/json');
     });
 
     await test.step('Verify the body\'s message is "The postal code format is not valid for the selected country.".', async () => {
