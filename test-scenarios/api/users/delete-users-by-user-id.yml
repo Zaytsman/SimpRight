@@ -4,7 +4,8 @@ tags: ["@users-api"]
 scenarios:
   - id: API-0436
     name: Delete user as an admin returns 204 and the user is gone
-    status: manual
+    status: automated
+    automatedIn: tests/api/users/delete-users-by-user-id.spec.ts
     role: admin
     steps:
       - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.
@@ -13,14 +14,16 @@ scenarios:
       - Verify GET /users/{userId} with that id and the admin's token returns 404.
   - id: API-0437
     name: Delete user without a token returns 401
-    status: manual
+    status: automated
+    automatedIn: tests/api/users/delete-users-by-user-id.spec.ts
     steps:
       - Send DELETE /users/{userId} with a well-formed ULID that no user has, without an Authorization header.
       - Verify the response status is 401.
       - Verify the body's message is "Unauthorized".
   - id: API-0438
     name: Delete user as a customer returns 403 and the user stays
-    status: manual
+    status: automated
+    automatedIn: tests/api/users/delete-users-by-user-id.spec.ts
     role: admin
     steps:
       - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.
@@ -31,7 +34,8 @@ scenarios:
       - Verify GET /users/{userId} with that id and the admin's token returns 200.
   - id: API-0439
     name: Delete a user that has a favorite returns 409 and the user stays
-    status: manual
+    status: automated
+    automatedIn: tests/api/users/delete-users-by-user-id.spec.ts
     role: admin
     steps:
       - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.
@@ -45,7 +49,8 @@ scenarios:
       - Verify GET /users/{userId} with that id and the admin's token returns 200.
   - id: API-0440
     name: Delete user with an unknown id as an admin returns 404
-    status: manual
+    status: automated
+    automatedIn: tests/api/users/delete-users-by-user-id.spec.ts
     role: admin
     knownIssue: Returns 500 instead of 404 for an unknown user id.
     bug: BUG-036

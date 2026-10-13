@@ -34,7 +34,7 @@ export const UserFactory = {
    */
   registerCustomerWithDetails(overrides: Partial<RegisterUserRequest> = {}): RegisterUserRequest {
     const address: RegisterAddress = { street: 'Test Street', house_number: '12', city: 'Testville', state: 'Test State', postal_code: '1234AB' };
-    return UserFactory.registerCustomer({ phone: '0612345678', dob: UserFactory.dobYearsAgo(30), address, ...overrides });
+    return UserFactory.registerCustomer({ phone: UserFactory.phoneOfDigits(), dob: UserFactory.dobYearsAgo(30), address, ...overrides });
   },
 
   /**
@@ -111,7 +111,32 @@ export const UserFactory = {
 
   /** A valid register body with a phone of digits and the NL address (last name "Runner", at most 20 characters). */
   registerCustomerWithPhoneAndAddress(overrides: Partial<RegisterUserRequest> = {}): RegisterUserRequest {
-    return UserFactory.registerCustomer({ phone: '0612345678', address: UserFactory.nlAddress(), ...overrides });
+    return UserFactory.registerCustomer({ phone: UserFactory.phoneOfDigits(), address: UserFactory.nlAddress(), ...overrides });
+  },
+
+  /** A unique first name for the search checks (at most 40 characters, e.g. `Fn-20261013-3fa9c2`). */
+  uniqueFirstName(): string {
+    return uniqueName('Fn');
+  },
+
+  /** A unique last name for the search checks (at most 20 characters, e.g. `Ln-20261013-3fa9c2`, 18). */
+  uniqueLastName(): string {
+    return uniqueName('Ln');
+  },
+
+  /** A unique city for the search checks (at most 40 characters, e.g. `City-20261013-3fa9c2`). */
+  uniqueCity(): string {
+    return uniqueName('City');
+  },
+
+  /** A phone of digits, which the phone rule accepts. */
+  phoneOfDigits(): string {
+    return '0612345678';
+  },
+
+  /** A phone with letters in it, which the phone rule (digits, spaces and `( ) + - .` only) rejects. */
+  phoneWithLetters(): string {
+    return '06abc12345';
   },
 
   /** A random base32 secret for the TOTP checks (google2fa needs at least 16 characters, a multiple of 8). */
