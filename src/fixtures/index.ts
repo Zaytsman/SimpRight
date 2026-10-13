@@ -104,3 +104,16 @@ export {
   expectGetFavoriteStatus,
   type FavoriteRequest,
 } from '../api/fixtures/favoriteSteps';
+export {
+  REPORT_AUTH,
+  sendReport,
+  parseRows,
+  isNumeric,
+  expectPeriodRows,
+  expectNumberFields,
+  expectZeroRows,
+  expectRowCountBetween,
+  expectNoDuplicates,
+  expectNonIncreasing,
+  type ReportRequest,
+} from '../api/fixtures/reportSteps';

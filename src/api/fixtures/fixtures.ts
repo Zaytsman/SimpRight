@@ -5,10 +5,12 @@ import { CartsClient } from '../clients/CartsClient';
 import { CategoriesClient } from '../clients/CategoriesClient';
 import { FavoritesClient } from '../clients/FavoritesClient';
 import { ImagesClient } from '../clients/ImagesClient';
+import { InvoicesClient } from '../clients/InvoicesClient';
 import { PaymentClient } from '../clients/PaymentClient';
 import { PostcodeClient } from '../clients/PostcodeClient';
 import { ProductsClient } from '../clients/ProductsClient';
 import { ProductSpecsClient } from '../clients/ProductSpecsClient';
+import { ReportsClient } from '../clients/ReportsClient';
 import { UsersClient } from '../clients/UsersClient';
 import { ProductsService } from '../services/ProductsService';
 import { ProductSpecsService } from '../services/ProductSpecsService';
@@ -18,6 +20,7 @@ import { CartsService } from '../services/CartsService';
 import { CategoriesService } from '../services/CategoriesService';
 import { FavoritesService } from '../services/FavoritesService';
 import { ImagesService } from '../services/ImagesService';
+import { InvoicesService } from '../services/InvoicesService';
 import { UsersService } from '../services/UsersService';
 
 /** Not a JWT at all, so the API can't parse it and treats the request as unauthenticated. */
@@ -111,6 +114,16 @@ export type ApiFixtures = {
   postcodeClient: PostcodeClient;
   /** Sends a fixed malformed bearer token (`INVALID_TOKEN`), for the checks that the postcode lookup ignores it. */
   postcodeClientWithInvalidToken: PostcodeClient;
+  /** Builds an invoices service with a token the test obtained itself (a throwaway customer's): setup creates invoices and sets their status. */
+  invoicesServiceForToken: (token: string) => InvoicesService;
+  /** Reports endpoints with no token (the "no token" 401 checks). */
+  reportsClient: ReportsClient;
+  /** Reports endpoints authenticated as the test's `role` ("with the admin's token", or the default user's for the 403 checks). */
+  reportsClientWithToken: ReportsClient;
+  /** Sends a fixed malformed bearer token (`INVALID_TOKEN`), for the "malformed token" 401 checks. */
+  reportsClientWithInvalidToken: ReportsClient;
+  /** Builds a reports client with a token the test obtained itself (a throwaway customer's, for the rate limit check). */
+  reportsClientForToken: (token: string) => ReportsClient;
 };
 
 export const test = base.extend<ApiFixtures>({
@@ -259,6 +272,23 @@ export const test = base.extend<ApiFixtures>({
   },
   postcodeClientWithInvalidToken: async ({ request, config }, use) => {
     await use(new PostcodeClient(request, config, INVALID_TOKEN));
+  },
+
+  invoicesServiceForToken: async ({ request, config }, use) => {
+    await use((token: string) => new InvoicesService(new InvoicesClient(request, config, token)));
+  },
+
+  reportsClient: async ({ request, config }, use) => {
+    await use(new ReportsClient(request, config));
+  },
+  reportsClientWithToken: async ({ request, config, accessToken }, use) => {
+    await use(new ReportsClient(request, config, accessToken));
+  },
+  reportsClientWithInvalidToken: async ({ request, config }, use) => {
+    await use(new ReportsClient(request, config, INVALID_TOKEN));
+  },
+  reportsClientForToken: async ({ request, config }, use) => {
+    await use((token: string) => new ReportsClient(request, config, token));
   },
 });
 

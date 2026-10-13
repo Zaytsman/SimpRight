@@ -4,7 +4,8 @@ tags: ["@reports-api"]
 scenarios:
   - id: API-0592
     name: Top 10 purchased products returns 200 with at most ten products, highest count first
-    status: manual
+    status: automated
+    automatedIn: tests/api/reports/get-reports-top10-purchased-products.spec.ts
     role: admin
     steps:
       - Send GET /reports/top10-purchased-products with the admin's token.
@@ -15,21 +16,24 @@ scenarios:
       - Verify each item's count is not greater than the previous item's count.
   - id: API-0593
     name: Top 10 purchased products without a token returns 401
-    status: manual
+    status: automated
+    automatedIn: tests/api/reports/get-reports-top10-purchased-products.spec.ts
     steps:
       - Send GET /reports/top10-purchased-products without an Authorization header.
       - Verify the response status is 401.
       - Verify the body's message is "Unauthorized".
   - id: API-0594
     name: Top 10 purchased products with a malformed token returns 401
-    status: manual
+    status: automated
+    automatedIn: tests/api/reports/get-reports-top10-purchased-products.spec.ts
     steps:
       - Send GET /reports/top10-purchased-products with a malformed token.
       - Verify the response status is 401.
       - Verify the body's message is "Unauthorized".
   - id: API-0595
     name: Top 10 purchased products as a customer returns 403
-    status: manual
+    status: automated
+    automatedIn: tests/api/reports/get-reports-top10-purchased-products.spec.ts
     steps:
       - Send GET /reports/top10-purchased-products with the default user's token.
       - Verify the response status is 403.

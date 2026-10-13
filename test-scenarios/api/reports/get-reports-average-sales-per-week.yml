@@ -4,7 +4,8 @@ tags: ["@reports-api"]
 scenarios:
   - id: API-0609
     name: Average sales per week returns 200 with 52 weeks
-    status: manual
+    status: automated
+    automatedIn: tests/api/reports/get-reports-average-sales-per-week.spec.ts
     role: admin
     steps:
       - Send GET /reports/average-sales-per-week with the admin's token.
@@ -13,7 +14,8 @@ scenarios:
       - Verify every item's average and amount are numbers.
   - id: API-0610
     name: Average sales per week for a year without invoices returns 52 zero rows
-    status: manual
+    status: automated
+    automatedIn: tests/api/reports/get-reports-average-sales-per-week.spec.ts
     role: admin
     steps:
       - Send GET /reports/average-sales-per-week with year 1990 and the admin's token.
@@ -22,21 +24,24 @@ scenarios:
       - Verify every item's average is 0 and amount is 0.
   - id: API-0611
     name: Average sales per week without a token returns 401
-    status: manual
+    status: automated
+    automatedIn: tests/api/reports/get-reports-average-sales-per-week.spec.ts
     steps:
       - Send GET /reports/average-sales-per-week without an Authorization header.
       - Verify the response status is 401.
       - Verify the body's message is "Unauthorized".
   - id: API-0612
     name: Average sales per week with a malformed token returns 401
-    status: manual
+    status: automated
+    automatedIn: tests/api/reports/get-reports-average-sales-per-week.spec.ts
     steps:
       - Send GET /reports/average-sales-per-week with a malformed token.
       - Verify the response status is 401.
       - Verify the body's message is "Unauthorized".
   - id: API-0613
     name: Average sales per week as a customer returns 403
-    status: manual
+    status: automated
+    automatedIn: tests/api/reports/get-reports-average-sales-per-week.spec.ts
     steps:
       - Send GET /reports/average-sales-per-week with the default user's token.
       - Verify the response status is 403.

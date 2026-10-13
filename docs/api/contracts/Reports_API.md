@@ -2,7 +2,7 @@
 
 The sales and customer reports of the Toolshop API: yearly, monthly and weekly sales figures, sales per country, the ten most purchased products and best selling categories, and the number of customers per country. Every report is a `GET` that needs an admin token and shares one rate limit of 60 requests per minute.
 
-> Written on 2026-10-10 from the Laravel source (`sprint5/API`: `routes/api.php`, `ReportController`, `ReportService`, `RoleMiddleware`, `RouteServiceProvider`, `CachedAuthUserProvider`, `config/auth.php`, `app/Exceptions/Handler.php`, `Controller::preferredFormat`, the `InvoiceSeeder`, the console `Kernel` and `OrderUpdate` command, `tests/Feature/ReportTest.php`), the OpenAPI spec (`storage/api-docs/api-docs.json`, tag `Report`) and anonymous read-only calls to the live API (11 calls, no token). No token was available, so no `200` and no `403` was observed. Facts are tagged by origin.
+> Written on 2026-10-10 from the Laravel source (`sprint5/API`: `routes/api.php`, `ReportController`, `ReportService`, `RoleMiddleware`, `RouteServiceProvider`, `CachedAuthUserProvider`, `config/auth.php`, `app/Exceptions/Handler.php`, `Controller::preferredFormat`, the `InvoiceSeeder`, the console `Kernel` and `OrderUpdate` command, `tests/Feature/ReportTest.php`), the OpenAPI spec (`storage/api-docs/api-docs.json`, tag `Report`) and anonymous read-only calls to the live API (11 calls, no token). No token was available then, so no `200` and no `403` was observed; on 2026-10-13 the automated tests called every report with admin and customer tokens, and the facts they confirmed are tagged `_(verified)_`. Facts are tagged by origin.
 
 ## Base URL
 
@@ -56,7 +56,7 @@ Returns the summed `total` of the `COMPLETED` invoices per year, from `current y
 |---|---|---|---|
 | `years` | integer | No | How many years before the current one to include. Default `1` (the current and the previous year). `0` gives only the current year; a negative value gives `[]`. The code doesn't validate it. _(source)_ |
 
-**Response:** `200 OK` _(source)_
+**Response:** `200 OK` _(verified)_
 ```ts
 TotalSalesOfYearsRow[]   // see Data Models; years + 1 items, ascending by year
 ```
@@ -65,8 +65,8 @@ The service's test asserts `200` and that every item has `year` and `total`. _(s
 
 **Error Responses:**
 - `401 Unauthorized`: no token, with `{ message: "Unauthorized" }`; seen with and without the `years` parameter, so the token is checked before the parameters _(verified)_; a malformed or expired token gives the same _(source)_
-- `403 Forbidden`: the token's user isn't an admin; `{ message: "Forbidden" }` _(source)_
-- `500 Internal Server Error`: `years` is not numeric (`?years=abc`, or an array `?years[]=1`); the controller computes `now()->year - $years` without validation and PHP 8 throws a `TypeError` for a non-numeric string; suspected bug, should be `422` or the value ignored. Not observed (needs an admin token) _(source)_
+- `403 Forbidden`: the token's user isn't an admin; `{ message: "Forbidden" }` _(verified)_
+- `500 Internal Server Error`: `years` is not numeric (`?years=abc`, or an array `?years[]=1`); the controller computes `now()->year - $years` without validation and PHP 8 throws a `TypeError` for a non-numeric string; suspected bug (BUG-044), should be `422` or the value ignored _(source)_; seen live for `?years=abc` with an admin token: `500` with `{ message: "Server Error" }` _(verified)_
 
 **Example:** illustrative values, in the year 2026
 ```http
@@ -94,7 +94,7 @@ Returns the summed invoice `total` of the `COMPLETED` invoices, grouped by `bill
 
 **Query Parameters:** None
 
-**Response:** `200 OK` _(source)_
+**Response:** `200 OK` _(verified)_
 ```ts
 TotalSalesPerCountryRow[]   // see Data Models; no fixed length, no explicit order
 ```
@@ -103,7 +103,7 @@ The service's test creates invoices for `The Netherlands` (100 and 150) and `USA
 
 **Error Responses:**
 - `401 Unauthorized`: no token, with `{ message: "Unauthorized" }` _(verified)_; a malformed or expired token gives the same _(source)_
-- `403 Forbidden`: the token's user isn't an admin; `{ message: "Forbidden" }` _(source)_
+- `403 Forbidden`: the token's user isn't an admin; `{ message: "Forbidden" }` _(verified)_
 
 ---
 
@@ -117,14 +117,14 @@ Returns up to ten products by the number of invoice lines that reference a produ
 
 **Query Parameters:** None
 
-**Response:** `200 OK` _(source)_
+**Response:** `200 OK` _(verified)_
 ```ts
 TopPurchasedProductRow[]   // see Data Models; at most 10 items, descending by count
 ```
 
 **Error Responses:**
 - `401 Unauthorized`: no token, with `{ message: "Unauthorized" }` _(verified)_; a malformed or expired token gives the same _(source)_
-- `403 Forbidden`: the token's user isn't an admin; `{ message: "Forbidden" }` _(source)_
+- `403 Forbidden`: the token's user isn't an admin; `{ message: "Forbidden" }` _(verified)_
 
 ---
 
@@ -138,20 +138,20 @@ Returns up to ten categories with the highest sum of `unit_price` over the invoi
 
 **Query Parameters:** None
 
-**Response:** `200 OK` _(source)_
+**Response:** `200 OK` _(verified)_
 ```ts
 TopSellingCategoryRow[]   // see Data Models; at most 10 items, descending by total_earned
 ```
 
 **Error Responses:**
 - `401 Unauthorized`: no token, with `{ message: "Unauthorized" }` _(verified)_; a malformed or expired token gives the same _(source)_
-- `403 Forbidden`: the token's user isn't an admin; `{ message: "Forbidden" }` _(source)_
+- `403 Forbidden`: the token's user isn't an admin; `{ message: "Forbidden" }` _(verified)_
 
 ---
 
 ### 5. Customers by country
 
-Returns the number of users with the `user` role per `country`. Admins are not counted; disabled customers are. _(source)_
+Returns the number of users with the `user` role per `country`. Admins are not counted; disabled customers are. _(source)_ A row with `country: null` was seen in the live body _(verified)_; it groups the customers registered without a country, which registration allows _(source)_.
 
 **Endpoint:** `GET /reports/customers-by-country`
 
@@ -159,14 +159,14 @@ Returns the number of users with the `user` role per `country`. Admins are not c
 
 **Query Parameters:** None
 
-**Response:** `200 OK` _(source)_
+**Response:** `200 OK` _(verified)_
 ```ts
 CustomersByCountryRow[]   // see Data Models; no fixed length, no explicit order
 ```
 
 **Error Responses:**
 - `401 Unauthorized`: no token, with `{ message: "Unauthorized" }` _(verified)_; a malformed or expired token gives the same _(source)_
-- `403 Forbidden`: the token's user isn't an admin; `{ message: "Forbidden" }` _(source)_
+- `403 Forbidden`: the token's user isn't an admin; `{ message: "Forbidden" }` _(verified)_
 
 ---
 
@@ -184,14 +184,14 @@ Returns, for each month of one year, the average `total` and the number of `COMP
 |---|---|---|---|
 | `year` | integer | No | The year to report on. Default: the current year. The spec says the default is `2022`. The code doesn't validate it. _(source)_ |
 
-**Response:** `200 OK` _(source)_
+**Response:** `200 OK` _(verified)_
 ```ts
 AverageSalesPerMonthRow[]   // see Data Models; always 12 items, month 1 to 12
 ```
 
 **Error Responses:**
 - `401 Unauthorized`: no token, with `{ message: "Unauthorized" }` _(verified)_; a malformed or expired token gives the same _(source)_
-- `403 Forbidden`: the token's user isn't an admin; `{ message: "Forbidden" }` _(source)_
+- `403 Forbidden`: the token's user isn't an admin; `{ message: "Forbidden" }` _(verified)_
 
 ---
 
@@ -209,14 +209,14 @@ Returns, for each week of one year, the average `total` and the number of `COMPL
 |---|---|---|---|
 | `year` | integer | No | The year to report on. Default: the current year. The spec says the default is `2022`. The code doesn't validate it. _(source)_ |
 
-**Response:** `200 OK` _(source)_
+**Response:** `200 OK` _(verified)_
 ```ts
 AverageSalesPerWeekRow[]   // see Data Models; always 52 items, week 1 to 52
 ```
 
 **Error Responses:**
 - `401 Unauthorized`: no token, with `{ message: "Unauthorized" }` _(verified)_; a malformed or expired token gives the same _(source)_
-- `403 Forbidden`: the token's user isn't an admin; `{ message: "Forbidden" }` _(source)_
+- `403 Forbidden`: the token's user isn't an admin; `{ message: "Forbidden" }` _(verified)_
 
 ## Data Models
 
@@ -245,7 +245,7 @@ interface TopSellingCategoryRow {
 
 interface CustomersByCountryRow {
   amount: number;         // number of customers
-  country: string;
+  country: string | null; // null seen live _(verified)_: the customers registered without a country
 }
 
 interface AverageSalesPerMonthRow {
@@ -267,8 +267,8 @@ None.
 
 ## Error Handling
 
-- Errors have the body `{ message: string }`. The role middleware builds `{ message: "Unauthorized" }` _(verified)_ and `{ message: "Forbidden" }` _(source)_ itself, so they are JSON whatever the `Accept` header. _(source)_
-- `429 Too Many Requests`: more than 60 requests within a minute for the same user id (or IP address without a valid token), counted over all seven report endpoints together; `{ message: "Too many requests" }` from the global handler. The throttle runs before the role check, so an anonymous or non-admin caller can use up the limit and then gets `429` instead of `401` or `403`. The responses that pass the throttle carry `X-RateLimit-Limit: 60` and `X-RateLimit-Remaining` _(verified on `401`)_; the handler builds the `429` itself, so a `Retry-After` header is probably missing. Not observed on purpose (it needs more than 60 calls). _(source)_ Listed once here, not under every endpoint, because the seven endpoints share one counter and one test on any of them covers it.
+- Errors have the body `{ message: string }`. The role middleware builds `{ message: "Unauthorized" }` _(verified)_ and `{ message: "Forbidden" }` _(verified)_ itself, so they are JSON whatever the `Accept` header. _(source)_
+- `429 Too Many Requests`: more than 60 requests within a minute for the same user id (or IP address without a valid token), counted over all seven report endpoints together; `{ message: "Too many requests" }` from the global handler. The throttle runs before the role check, so an anonymous or non-admin caller can use up the limit and then gets `429` instead of `401` or `403`. The responses that pass the throttle carry `X-RateLimit-Limit: 60` and `X-RateLimit-Remaining` _(verified on `401`)_; the handler builds the `429` itself, so a `Retry-After` header is probably missing _(source)_. Seen live: the 61st call by one user within a minute gets `429` with `{ message: "Too many requests" }` _(verified)_. Listed once here, not under every endpoint, because the seven endpoints share one counter and one test on any of them covers it.
 - `405 Method Not Allowed`: any method other than `GET` and `OPTIONS` on a report path, e.g. `POST /reports/total-sales-of-years`; `{ message: "Method is not allowed for the requested route" }`, without an `Allow` header and without the rate-limit headers (no route matched, so the throttle doesn't run). Shared by every route, so it isn't listed per endpoint. _(verified)_
 - There is no validation (`422`) on any report: the query parameters are read with `$request->get()` and used as they are. `404` can't happen either (the reports are aggregate queries without a lookup); the spec lists it on all seven. _(source)_
 - Query-builder errors map through the global handler (`1062` to `409`, `1364` to `404`, any other to `500` with `{ message: "Something went wrong" }`). Nothing in the reports triggers one on purpose. _(source)_
@@ -291,7 +291,7 @@ None.
   - `404` is listed on all seven operations; none can return it (see Error Handling).
   - `403` is missing on all seven: the role middleware returns it for a non-admin token. The spec only says "`Admin` role is required" in the description. `429` (the throttle) is missing too.
   - `average-sales-per-month` and `average-sales-per-week`: the spec says `year` defaults to `2022`; the code defaults to the current year. The descriptions of `average` and `amount` are swapped in effect (see above), and the weekly description "(1-52)" hides that weeks 0 and 53 are dropped.
-  - `total-sales-per-country` and `top10-best-selling-categories`: the spec types `total_sales` and `total_earned` as strings with example `"1234"`; the code doesn't cast them, so the type depends on the database driver. The service's test compares `total_sales` with a number. Not observed.
+  - `total-sales-per-country` and `top10-best-selling-categories`: the spec types `total_sales` and `total_earned` as strings with example `"1234"`; the code doesn't cast them, so the type depends on the database driver. The service's test compares `total_sales` with a number. Live, both come back as numeric strings (`"56.60"`, `"1075.84"`) _(verified)_.
   - `total-sales-of-years`: `years` is an integer with default `1` in both; the spec doesn't say that `years + 1` items come back, or that a non-numeric value fails.
   - The `401` response (`{ message: "Unauthorized" }`) matches the spec. _(verified)_
   _(source)_

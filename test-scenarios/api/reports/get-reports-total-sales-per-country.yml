@@ -4,7 +4,8 @@ tags: ["@reports-api"]
 scenarios:
   - id: API-0588
     name: Total sales per country returns 200 with a list of countries and totals
-    status: manual
+    status: automated
+    automatedIn: tests/api/reports/get-reports-total-sales-per-country.spec.ts
     role: admin
     steps:
       - Send GET /reports/total-sales-per-country with the admin's token.
@@ -14,21 +15,24 @@ scenarios:
       - Verify no billing_country appears twice.
   - id: API-0589
     name: Total sales per country without a token returns 401
-    status: manual
+    status: automated
+    automatedIn: tests/api/reports/get-reports-total-sales-per-country.spec.ts
     steps:
       - Send GET /reports/total-sales-per-country without an Authorization header.
       - Verify the response status is 401.
       - Verify the body's message is "Unauthorized".
   - id: API-0590
     name: Total sales per country with a malformed token returns 401
-    status: manual
+    status: automated
+    automatedIn: tests/api/reports/get-reports-total-sales-per-country.spec.ts
     steps:
       - Send GET /reports/total-sales-per-country with a malformed token.
       - Verify the response status is 401.
       - Verify the body's message is "Unauthorized".
   - id: API-0591
     name: Total sales per country as a customer returns 403
-    status: manual
+    status: automated
+    automatedIn: tests/api/reports/get-reports-total-sales-per-country.spec.ts
     steps:
       - Send GET /reports/total-sales-per-country with the default user's token.
       - Verify the response status is 403.

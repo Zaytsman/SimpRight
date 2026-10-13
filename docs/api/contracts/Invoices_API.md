@@ -266,6 +266,8 @@ Nothing is required: a body without these keys passes the validation. The inline
 }
 ```
 
+Seen live: `COMPLETED` set by the invoice's own customer returns `{ success: true }` (the exact 2xx status wasn't checked) _(verified)_.
+
 The service's test asserts `200` and `{ success: true }` for a valid status and message. _(source)_
 
 **Error Responses:**
@@ -315,6 +317,8 @@ The text fields must not contain subscript or superscript characters (U+2070 to 
 ```ts
 InvoiceCreated   // see Data Models
 ```
+
+Seen live: a `cash-on-delivery` invoice for a cart with one item returns a success body with `id`, `invoice_number` (`INV-<year><6 digits>`), `user_id` and a numeric `total` (the exact 2xx status wasn't checked) _(verified)_.
 
 The service's tests assert `201` for each payment method; the spec says `200`. _(source)_
 
