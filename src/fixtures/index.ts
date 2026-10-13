@@ -49,6 +49,14 @@ export {
   logoutToken,
   loginThrowawayCustomer,
   expectLoginSucceeds,
+  userPageSummary,
+  expectUserPageKeys,
+  expectOnlyUser,
+  expectCurrentPages,
+  expectNoSharedIds,
+  expectAllCustomers,
+  expectStatusHidingBody,
+  attachUserPageResponse,
   type ThrowawayCustomer,
 } from '../api/fixtures/userSteps';
 export {
@@ -85,3 +93,14 @@ export {
   type GetSpecRequest,
   type SpecSetupFixtures,
 } from '../api/fixtures/productSpecSteps';
+export {
+  THROWAWAY_TOKEN,
+  SECOND_TOKEN,
+  createCustomerWithFavorite,
+  registerSecondCustomer,
+  createSecondCustomer,
+  sendGetFavorite,
+  sendDeleteFavorite,
+  expectGetFavoriteStatus,
+  type FavoriteRequest,
+} from '../api/fixtures/favoriteSteps';

@@ -76,6 +76,17 @@ export interface PatchUserRequest {
   totp_verified_at?: string | null;
 }
 
+/** Body of `QUERY /users/search`: the same criteria as the GET query parameters (see the Users contract, section 10). */
+export interface UserSearchQueryBody {
+  q?: string;
+  page?: string;
+}
+
+/** Error body that `UserController` builds itself (get, update, patch and delete of `/users/{userId}`): `{ error }`. */
+export interface UserErrorBody {
+  error: string;
+}
+
 /** Response of `PATCH /users/{userId}` (200). */
 export interface PatchUserResponse {
   success: boolean;

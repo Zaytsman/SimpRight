@@ -13,6 +13,11 @@ export class FavoritesClient extends BaseClient {
     return this.post('/favorites', body);
   }
 
+  /** `GET /favorites/{favoriteId}`: one favourite, without its product (the owner isn't checked: BUG-021). */
+  async getById(favoriteId: string): Promise<ApiResponse> {
+    return this.get(`/favorites/${favoriteId}`);
+  }
+
   /** `DELETE /favorites/{favoriteId}`: removes one of the user's favourites. */
   async deleteById(favoriteId: string): Promise<ApiResponse> {
     return this.delete(`/favorites/${favoriteId}`);

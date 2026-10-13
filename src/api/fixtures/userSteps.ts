@@ -2,8 +2,10 @@ import { test, expect } from '@playwright/test';
 import type { Cleanup } from '../../fixtures/base';
 import type { TestUser } from '../../config/env';
 import type { AuthClient } from '../clients/AuthClient';
+import type { ApiResponse } from '../clients/BaseClient';
 import type { LoginResponse } from '../dto/auth';
-import type { RegisterUserRequest } from '../dto/user';
+import type { Paginated } from '../dto/common';
+import type { RegisterUserRequest, User } from '../dto/user';
 import type { AuthService } from '../services/AuthService';
 import type { UsersService } from '../services/UsersService';
 import { UserFactory } from '../../data/factories/UserFactory';
@@ -27,13 +29,14 @@ export interface ThrowawayCustomer {
  * The register step, with its title verbatim: registers a throwaway customer (no token) and right away
  * registers its removal as admin (DELETE /users/{userId} is admin-only). Returns its id and credentials.
  * `options.title` and `options.body` serve scenarios whose register step asks for other values (default:
- * USER_REGISTER_STEP and `UserFactory.registerCustomer()`).
+ * USER_REGISTER_STEP and `UserFactory.registerCustomer()`). `options.ifExists` is for tests that delete the customer
+ * themselves: cleanup then deletes it only if it still exists (`UsersService.deleteIfExists`).
  */
 export async function registerThrowawayCustomer(
   usersService: UsersService,
   adminUsersService: UsersService,
   cleanup: Cleanup,
-  options: { title?: string; body?: RegisterUserRequest } = {}
+  options: { title?: string; body?: RegisterUserRequest; ifExists?: boolean } = {}
 ): Promise<ThrowawayCustomer> {
   let customer: ThrowawayCustomer = { id: '', email: '', password: '' };
 
@@ -41,7 +44,7 @@ export async function registerThrowawayCustomer(
     const body = options.body ?? UserFactory.registerCustomer();
     await attachJson('Register Request', { method: 'POST', path: '/users/register', body });
     const created = await usersService.register(body);
-    cleanup.add(() => adminUsersService.delete(created.id));
+    cleanup.add(() => (options.ifExists ? adminUsersService.deleteIfExists(created.id) : adminUsersService.delete(created.id)));
     await attachJson('Register Response', created);
     expect(created.id, assertMessage({ request: { method: 'POST', path: '/users/register', body }, expected: 'The new user has an id', actual: created })).toBeTruthy();
     customer = { id: created.id, email: body.email, password: body.password };
@@ -125,4 +128,87 @@ export async function logoutToken(usersServiceForToken: (token: string) => Users
     await attachJson('Logout Response', result);
     expect(typeof result.message, assertMessage({ request, expected: 'The logout returns a message', actual: result })).toBe('string');
   });
+}
+
+/**
+ * What the list and search specs attach (and show as `actual`) for a page of users: the pagination fields and only the
+ * id and role of each item. Other visitors' names, emails and cities are on these pages, and the reports are public.
+ */
+export function userPageSummary(page: Partial<Paginated<User>>): Record<string, unknown> {
+  return {
+    current_page: page.current_page,
+    from: page.from,
+    last_page: page.last_page,
+    per_page: page.per_page,
+    to: page.to,
+    total: page.total,
+    data: Array.isArray(page.data) ? page.data.map((user) => ({ id: user.id, role: user.role })) : page.data,
+  };
+}
+
+/** The pagination keys of GET /users and GET/QUERY /users/search. */
+const USER_PAGE_KEYS =['current_page', 'data', 'from', 'last_page', 'per_page', 'to', 'total'] as const;
+
+/** The checks of a "Verify the body has the keys current_page, data, from, last_page, per_page, to and total ..." step (the keys part). */
+export function expectUserPageKeys(request: unknown, page: Paginated<User>): void {
+  for (const key of USER_PAGE_KEYS) {
+    expect(key in page, assertMessage({ request, expected: `The body has the key "${key}"`, actual: Object.keys(page) })).toBe(true);
+  }
+}
+
+/**
+ * The checks of a "Verify the body's total is 1 and data has exactly one item, whose id is the new user's id" step.
+ * Returns that item, so a spec can check more of its fields.
+ */
+export function expectOnlyUser(request: unknown, page: Paginated<User>, userId: string): User {
+  const actual = userPageSummary(page);
+  expect(page.total, assertMessage({ request, expected: 'total is 1', actual })).toBe(1);
+  expect(Array.isArray(page.data) && page.data.length === 1, assertMessage({ request, expected: 'data has exactly one item', actual })).toBe(true);
+  const user = page.data[0]!;
+  expect(user.id, assertMessage({ request, expected: `The item's id is the new user's id ${userId}`, actual })).toBe(userId);
+  return user;
+}
+
+/** The checks of a "Verify the first response's current_page is 1 and the second response's current_page is 2." step. */
+export function expectCurrentPages(request: unknown, first: Paginated<User>, second: Paginated<User>): void {
+  expect(first.current_page, assertMessage({ request, expected: "The first response's current_page is 1", actual: userPageSummary(first) })).toBe(1);
+  expect(second.current_page, assertMessage({ request, expected: "The second response's current_page is 2", actual: userPageSummary(second) })).toBe(2);
+}
+
+/** The checks of a "Verify no id appears in both pages' data." step. */
+export function expectNoSharedIds(request: unknown, first: Paginated<User>, second: Paginated<User>): void {
+  const firstIds = new Set(first.data.map((user) => user.id));
+  const shared = second.data.map((user) => user.id).filter((id) => firstIds.has(id));
+  expect(shared, assertMessage({ request, expected: 'No id is in both pages', actual: { shared, first: userPageSummary(first), second: userPageSummary(second) } })).toEqual(
+    []
+  );
+}
+
+/** The checks of a "Verify data has at most <n> items and every item's role is "user"." style step: every item's role is "user". */
+export function expectAllCustomers(request: unknown, page: Paginated<User>): void {
+  for (const user of page.data) {
+    expect(user.role, assertMessage({ request, expected: `Item ${user.id} has role "user"`, actual: userPageSummary(page) })).toBe('user');
+  }
+}
+
+/**
+ * A "Verify the response status is <status>." step for responses that may list other customers (the BUG-032 checks,
+ * which fail on every run): shows only the status, never the body, in the failure message.
+ */
+export function expectStatusHidingBody(request: unknown, response: ApiResponse, status: number): void {
+  expect(response.status, assertMessage({ request, expected: `Status ${status}`, actual: { status: response.status } })).toBe(status);
+}
+
+/**
+ * Attaches a list or search response: a 2xx page as `userPageSummary` (no other visitors' details), any other
+ * response with its body as it came (error bodies hold no user data). Returns the parsed page for a 2xx, else undefined.
+ */
+export async function attachUserPageResponse(name: string, response: ApiResponse): Promise<Paginated<User> | undefined> {
+  if (!response.isSuccess) {
+    await attachJson(name, { status: response.status, body: response.body });
+    return undefined;
+  }
+  const page = JSON.parse(response.body) as Paginated<User>;
+  await attachJson(name, { status: response.status, headers: response.headers, body: userPageSummary(page) });
+  return page;
 }

@@ -4,7 +4,8 @@ tags: ["@users-api"]
 scenarios:
   - id: API-0420
     name: Get user with the customer's own id returns 200 without the admin-only fields
-    status: manual
+    status: automated
+    automatedIn: tests/api/users/get-users-by-user-id.spec.ts
     steps:
       - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.
       - Send POST /users/login with that email and password, and take its access_token.
@@ -14,7 +15,8 @@ scenarios:
       - Verify the body has no role, enabled or failed_login_attempts key.
   - id: API-0421
     name: Get user as an admin returns 200 with the admin-only fields
-    status: manual
+    status: automated
+    automatedIn: tests/api/users/get-users-by-user-id.spec.ts
     role: admin
     steps:
       - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.
@@ -24,14 +26,16 @@ scenarios:
       - Verify the body's enabled is a boolean and failed_login_attempts is a number.
   - id: API-0422
     name: Get user without a token returns 401
-    status: manual
+    status: automated
+    automatedIn: tests/api/users/get-users-by-user-id.spec.ts
     steps:
       - Send GET /users/{userId} with a well-formed ULID that no user has, without an Authorization header.
       - Verify the response status is 401.
       - Verify the body's message is "Unauthorized".
   - id: API-0423
     name: Get user with an unknown id returns 404
-    status: manual
+    status: automated
+    automatedIn: tests/api/users/get-users-by-user-id.spec.ts
     role: admin
     steps:
       - Send GET /users/{userId} with a well-formed ULID that no user has and the admin's token.
@@ -39,7 +43,8 @@ scenarios:
       - Verify the body's error is a non-empty string.
   - id: API-0424
     name: Get user with another customer's id returns 404
-    status: manual
+    status: automated
+    automatedIn: tests/api/users/get-users-by-user-id.spec.ts
     steps:
       - Send POST /users/register with a unique email, a first name, a last name and a random strong password (customer A).
       - Send POST /users/register with a unique email, a first name, a last name and a random strong password (customer B), and take B's id.

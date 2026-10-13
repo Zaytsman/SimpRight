@@ -1,6 +1,7 @@
 import { expect } from '@playwright/test';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { FieldValidationError, ValidationErrors } from '@api/dto/common';
+import type { UserErrorBody } from '@api/dto/user';
 import { assertMessage } from './assertHelpers';
 
 /**
@@ -113,4 +114,24 @@ export function expectAcceptQuery(request: unknown, response: ApiResponse): void
 export function expectEmptyArray(request: unknown, response: ApiResponse): void {
   const body = JSON.parse(response.body) as unknown;
   expect(Array.isArray(body) && body.length === 0, assertMessage({ request, expected: 'The body is an empty array', actual: body })).toBe(true);
+}
+
+/** The checks of a "Verify the Content-Type response header is <type>." step: the header equals the type exactly. */
+export function expectContentType(request: unknown, response: ApiResponse, contentType: string): void {
+  expect(response.headers['content-type'], assertMessage({ request, expected: `Content-Type is "${contentType}"`, actual: response.headers })).toBe(contentType);
+}
+
+/** The checks of a "Verify the Content-Type header starts with "<type>"." step. */
+export function expectContentTypeStartsWith(request: unknown, response: ApiResponse, prefix: string): void {
+  const contentType = response.headers['content-type'] ?? '';
+  expect(contentType.startsWith(prefix), assertMessage({ request, expected: `Content-Type starts with "${prefix}"`, actual: contentType })).toBe(true);
+}
+
+/** The checks of a "Verify the body's error is a non-empty string." step (errors that a controller builds as `{ error }`). */
+export function expectErrorText(request: unknown, response: ApiResponse): void {
+  const body = JSON.parse(response.body) as Partial<UserErrorBody>;
+  expect(
+    typeof body.error === 'string' && body.error.length > 0,
+    assertMessage({ request, expected: 'error is a non-empty string', actual: body })
+  ).toBe(true);
 }

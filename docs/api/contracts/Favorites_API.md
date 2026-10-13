@@ -46,7 +46,7 @@ Returns all favorites of the user of the token, each with its product and the pr
 
 **Query Parameters:** None
 
-**Response:** `200 OK` _(source)_
+**Response:** `200 OK` _(verified)_
 ```ts
 FavoriteWithProduct[]   // see Data Models
 ```
@@ -73,7 +73,7 @@ Adds a product to the favorites of the user of the token. `user_id` is always ta
 }
 ```
 
-**Response:** `201 Created` _(source)_
+**Response:** `201 Created` _(verified)_
 ```ts
 Favorite   // see Data Models; without the product
 ```
@@ -81,9 +81,9 @@ Favorite   // see Data Models; without the product
 The service's test asserts `201` and the keys `product_id`, `user_id` and `id`. The spec says `200`. _(source)_
 
 **Error Responses:**
-- `401 Unauthorized`: no token, or a malformed or expired token, with `{ message: "Unauthorized" }` _(source)_
-- `409 Conflict`: the product is already one of this user's favorites; the unique index `user_product_unique` (`user_id`, `product_id`) rejects the insert and the global handler turns the duplicate-key error (MySQL 1062) into `{ message: "Duplicate Entry" }` _(source)_
-- `422 Unprocessable Entity`: `product_id` missing or not an existing product id. The body is a map of field to messages without a wrapper (`BaseFormRequest`), e.g. `{ product_id: ["The product id field is required."] }` or `["The selected product id is invalid."]` (framework default messages) _(source)_
+- `401 Unauthorized`: no token, or a malformed or expired token, with `{ message: "Unauthorized" }` _(verified)_
+- `409 Conflict`: the product is already one of this user's favorites; the unique index `user_product_unique` (`user_id`, `product_id`) rejects the insert and the global handler turns the duplicate-key error (MySQL 1062) into `{ message: "Duplicate Entry" }` _(verified)_
+- `422 Unprocessable Entity`: `product_id` missing or not an existing product id. The body is a map of field to messages without a wrapper (`BaseFormRequest`), e.g. `{ product_id: ["The product id field is required."] }` or `["The selected product id is invalid."]` (framework default messages) _(verified)_
 
 **Example:**
 ```http
@@ -111,14 +111,14 @@ Returns one favorite by id, without its product. _(source)_
 |---|---|---|---|
 | `favoriteId` | string (ULID) | Yes | The favorite's id (named `{id}` in the route) |
 
-**Response:** `200 OK` _(source)_
+**Response:** `200 OK` _(verified)_
 ```ts
 Favorite   // see Data Models
 ```
 
 **Error Responses:**
 - `401 Unauthorized`: no token, or a malformed or expired token, with `{ message: "Unauthorized" }` _(verified)_
-- `404 Not Found`: no favorite with this id (`findOrFail`), with `{ message: "Requested item not found" }` from the global handler _(source)_
+- `404 Not Found`: no favorite with this id (`findOrFail`), with `{ message: "Requested item not found" }` from the global handler _(verified)_
 
 ---
 
@@ -136,12 +136,12 @@ Removes the favorite with this id if it belongs to the user of the token. _(sour
 |---|---|---|---|
 | `favoriteId` | string (ULID) | Yes | The favorite's id (named `{id}` in the route) |
 
-**Response:** `204 No Content` _(source)_
+**Response:** `204 No Content` _(verified)_
 
 The delete is a `where user_id = <token user> and id = <favoriteId>` query whose result is ignored, so an unknown id, or another user's favorite, also gives `204` and deletes nothing. `DestroyFavorite` has no rules (the `exists` rule is commented out). _(source)_
 
 **Error Responses:**
-- `401 Unauthorized`: no token, or a malformed or expired token, with `{ message: "Unauthorized" }` (the service's test "guests cannot delete favorites" asserts it) _(source)_
+- `401 Unauthorized`: no token, or a malformed or expired token, with `{ message: "Unauthorized" }` (the service's test "guests cannot delete favorites" asserts it) _(verified)_
 
 ## Data Models
 

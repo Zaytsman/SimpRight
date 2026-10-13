@@ -52,10 +52,10 @@ The live list had 53 items with unique ids. The count depends on the seeded data
 - `ETag: "<md5 of the body>"` (a different value for the JSON and the XML rendering)
 - `Content-Type: application/json`
 
-**Conditional request:** sending the `ETag` back in `If-None-Match` gives `304 Not Modified` with an empty body and the same `Cache-Control` and `ETag` headers. _(verified)_
+**Conditional request:** sending the `ETag` back in `If-None-Match` gives `304 Not Modified` with an empty body and the same `Cache-Control` and `ETag` headers, only for the plain `ETag` of an uncompressed response: a gzip-compressed response's `ETag` ends in `-gzip` and never gets `304` (suspected bug, BUG-046). _(verified)_
 
 **Error Responses:**
-- `304 Not Modified`: the request's `If-None-Match` matches the current `ETag` of the response (the `cache.headers:public;max_age=120;etag` middleware). A success-class answer rather than an error, listed because it is a distinct status that tests can check. _(verified)_
+- `304 Not Modified`: the request's `If-None-Match` matches the current `ETag` of the response (the `cache.headers:public;max_age=120;etag` middleware), only for the plain `ETag` of an uncompressed response: a gzip-compressed response's `ETag` ends in `-gzip` and never gets `304` (suspected bug, BUG-046). A success-class answer rather than an error, listed because it is a distinct status that tests can check. _(verified)_
 
 The endpoint has no error responses of its own: there is no auth, no input and no lookup that can fail. The OpenAPI spec lists `404` and `405` on it; neither can come from `GET /images` (see Notes). _(source)_
 
@@ -111,7 +111,7 @@ The six text columns are `varchar(220)` and nullable in the migration, so a reco
 ## Notes
 
 - **No pagination, filtering or sorting:** `GET /images` has no parameters. The response always contains every image, and unknown query parameters are ignored. _(verified)_ The `PaginateMiddleware` that every route passes through only strips pagination link fields from JSON bodies; a plain array has none. _(source)_
-- **Cache headers:** the route uses the `cache.headers:public;max_age=120;etag` middleware: `Cache-Control: max-age=120, public` plus an `ETag`, and `304` for a matching `If-None-Match`. _(verified)_ `HEAD /images` answers `200` with the same `Cache-Control`. _(verified)_ The controller itself reads the table directly, with no application cache. _(source)_
+- **Cache headers:** the route uses the `cache.headers:public;max_age=120;etag` middleware: `Cache-Control: max-age=120, public` plus an `ETag`, and `304` for a matching `If-None-Match` (plain `ETag` only, BUG-046). _(verified)_ `HEAD /images` answers `200` with the same `Cache-Control`. _(verified)_ The controller itself reads the table directly, with no application cache. _(source)_
 - **Accept-dependent body:** `Controller::preferredFormat` renders XML only when the `Accept` header contains the substring `text/xml`. _(source)_ With `Accept: text/xml` the response is `200` with `Content-Type: text/xml; charset=utf-8` and a body of the form `<response><item><id>…</id><by_name>…</by_name>…</item>…</response>`: one `<item>` per image with the same seven child elements. `Accept: application/json`, no `Accept` header (`*/*`) and `Accept: application/xml` all give the JSON array with `Content-Type: application/json`. _(verified)_
 - **OPTIONS:** `OPTIONS /images` answers `204` with an empty body and `Allow: GET`. The header is computed from the routes that match the path and leaves out `HEAD` and `OPTIONS`; the response has `Cache-Control: no-cache, private` instead of the cache middleware's headers. Not in the spec. _(verified)_
 - **CORS:** `GET` and `OPTIONS` responses carry `Access-Control-Allow-Origin: *` (global `HandleCors`, all paths and origins allowed). _(verified)_

@@ -128,3 +128,4 @@ liveApi:
     - The site sometimes slows down for minutes, and plain calls time out (login after 30 s, GET /products after 10 s) across many unrelated tests at once; a slowdown can end with a few seconds of login 500s.
     - Product writes need no token, so other visitors can change or delete seeded products at any time (stock, price, category). Tests on seeded records can fail without any change on our side.
     - A locked account (423) stays locked for a while; re-running login tests only extends it.
+    - GET /product-specs/names answers from a 300-second cache. A parallel call right after a spec write can cache the old list again, so a just-created or just-deleted spec name can be missing or still listed for up to 5 minutes (API-0575, API-0576).

@@ -4,7 +4,7 @@ import type { PaymentClient } from '@api/clients/PaymentClient';
 import type { FieldValidationError } from '@api/dto/common';
 import type { PaymentCheckResponse } from '@api/dto/payment';
 import { PaymentFactory } from '@data/factories/PaymentFactory';
-import { describeAccept, expectErrorKeys, expectLocation, expectNoOtherKeys, expectStatus } from '@utils/apiChecks';
+import { describeAccept, expectContentTypeStartsWith, expectErrorKeys, expectLocation, expectNoOtherKeys, expectStatus } from '@utils/apiChecks';
 import { assertMessage, attachJson } from '@utils/assertHelpers';
 
 // Scenarios: test-scenarios/api/payment/post-payment-check.yml
@@ -237,11 +237,7 @@ test.describe('@payment-api - Payment API', () => {
     });
 
     await test.step('Verify the Content-Type header starts with "text/xml".', async () => {
-      const contentType = response.headers['content-type'] ?? '';
-      expect(
-        contentType.startsWith('text/xml'),
-        assertMessage({ request, expected: 'Content-Type starts with "text/xml"', actual: contentType })
-      ).toBe(true);
+      expectContentTypeStartsWith(request, response, 'text/xml');
     });
 
     await test.step('Verify the body is <response><message>Payment was successful</message></response>.', async () => {

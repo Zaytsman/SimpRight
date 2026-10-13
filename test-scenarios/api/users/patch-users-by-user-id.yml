@@ -4,7 +4,8 @@ tags: ["@users-api"]
 scenarios:
   - id: API-0425
     name: Patch user with the customer's own id and a new first_name returns 200 and changes only that field
-    status: manual
+    status: automated
+    automatedIn: tests/api/users/patch-users-by-user-id.spec.ts
     steps:
       - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.
       - Send POST /users/login with that email and password, and take its access_token.
@@ -14,7 +15,8 @@ scenarios:
       - Verify GET /users/me with that access_token returns the new first_name and the registered last_name and email.
   - id: API-0426
     name: Patch user as an admin changes another user's last_name
-    status: manual
+    status: automated
+    automatedIn: tests/api/users/patch-users-by-user-id.spec.ts
     role: admin
     steps:
       - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.
@@ -24,7 +26,8 @@ scenarios:
       - Verify GET /users/{userId} with the new user's id and the admin's token returns the new last_name and the registered first_name.
   - id: API-0427
     name: Patch user as an admin with enabled false disables the account
-    status: manual
+    status: automated
+    automatedIn: tests/api/users/patch-users-by-user-id.spec.ts
     role: admin
     steps:
       - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.
@@ -34,7 +37,8 @@ scenarios:
       - Verify GET /users/{userId} with the new user's id and the admin's token returns enabled false.
   - id: API-0428
     name: Patch user as an admin with a role key drops the role silently
-    status: manual
+    status: automated
+    automatedIn: tests/api/users/patch-users-by-user-id.spec.ts
     role: admin
     steps:
       - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.
@@ -43,14 +47,16 @@ scenarios:
       - Verify GET /users/{userId} with the new user's id and the admin's token returns role "user".
   - id: API-0429
     name: Patch user without a token returns 401
-    status: manual
+    status: automated
+    automatedIn: tests/api/users/patch-users-by-user-id.spec.ts
     steps:
       - Send PATCH /users/{userId} with a well-formed ULID that no user has and first_name set to a new value, without an Authorization header.
       - Verify the response status is 401.
       - Verify the body's message is "Unauthorized".
   - id: API-0430
     name: Patch user with another customer's id returns 403 and leaves that customer unchanged
-    status: manual
+    status: automated
+    automatedIn: tests/api/users/patch-users-by-user-id.spec.ts
     steps:
       - Send POST /users/register with a unique email, a first name, a last name and a random strong password (customer A).
       - Send POST /users/register with a unique email, a first name, a last name and a random strong password (customer B), and take B's id.
@@ -62,7 +68,8 @@ scenarios:
       - Verify GET /users/me with B's access_token returns B's registered first_name.
   - id: API-0431
     name: Patch user with a phone containing letters returns 422 and leaves the profile unchanged
-    status: manual
+    status: automated
+    automatedIn: tests/api/users/patch-users-by-user-id.spec.ts
     steps:
       - Send POST /users/register with a unique email, a first name, a last name, a random strong password and a phone of digits, and take the new user's id.
       - Send POST /users/login with that email and password, and take its access_token.
@@ -72,7 +79,8 @@ scenarios:
       - Verify GET /users/me with that access_token returns the registered phone.
   - id: API-0432
     name: Patch user with a dob under 18 years ago returns 422 and leaves the profile unchanged
-    status: manual
+    status: automated
+    automatedIn: tests/api/users/patch-users-by-user-id.spec.ts
     steps:
       - Send POST /users/register with a unique email, a first name, a last name, a random strong password and an adult dob, and take the new user's id.
       - Send POST /users/login with that email and password, and take its access_token.
@@ -82,7 +90,8 @@ scenarios:
       - Verify GET /users/me with that access_token returns the registered dob.
   - id: API-0433
     name: Patch user with the customer's own failed_login_attempts leaves the value unchanged
-    status: manual
+    status: automated
+    automatedIn: tests/api/users/patch-users-by-user-id.spec.ts
     role: admin
     knownIssue: A customer can change their own failed_login_attempts (and enabled and the totp_* fields) with PATCH; the value is saved instead of being rejected or ignored.
     bug: BUG-033
@@ -94,7 +103,8 @@ scenarios:
       - Verify GET /users/{userId} with the new user's id and the admin's token returns the same failed_login_attempts as before the patch.
   - id: API-0434
     name: Patch user with an unknown id as an admin returns 404
-    status: manual
+    status: automated
+    automatedIn: tests/api/users/patch-users-by-user-id.spec.ts
     role: admin
     knownIssue: Returns 403 instead of 404 for an unknown user id.
     bug: BUG-034
@@ -103,7 +113,8 @@ scenarios:
       - Verify the response status is 404.
   - id: API-0435
     name: Patch user with an email another account uses returns 409 or 422
-    status: manual
+    status: automated
+    automatedIn: tests/api/users/patch-users-by-user-id.spec.ts
     knownIssue: Returns 403, with the SQL error in the body, instead of 409 or 422 when the email already belongs to another account.
     bug: BUG-035
     steps:

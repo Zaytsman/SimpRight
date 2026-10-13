@@ -268,7 +268,7 @@ Lists customer accounts (role `user` only), 15 per page. Admin only. _(source)_
 |---|---|---|---|
 | `page` | integer | No | Page number, starting at 1 |
 
-**Response:** `200 OK` _(source)_
+**Response:** `200 OK` _(verified)_
 ```ts
 {
   current_page: number;
@@ -283,7 +283,7 @@ Lists customer accounts (role `user` only), 15 per page. Admin only. _(source)_
 
 **Error Responses:**
 - `401 Unauthorized`: no token _(verified)_
-- `403 Forbidden`: the user isn't an admin; `{ message: "Forbidden" }` _(source)_
+- `403 Forbidden`: the user isn't an admin; `{ message: "Forbidden" }` _(verified)_
 
 ---
 
@@ -302,7 +302,7 @@ Searches customer accounts (role `user` only) by first name, last name, email an
 | `q` | string | No | Search term. The spec marks it required; without it every customer matches. |
 | `page` | integer | No | Page number, starting at 1 |
 
-**Response:** `200 OK` _(source)_
+**Response:** `200 OK` _(verified)_
 ```ts
 {
   current_page: number;
@@ -337,12 +337,12 @@ Same as `GET /users/search`, with the criteria in a JSON body. _(source)_
 }
 ```
 
-**Response:** `200 OK` _(source)_
-Same shape as `GET /users/search`, with the header `Accept-Query: application/json`. _(source)_
+**Response:** `200 OK` _(verified)_
+Same shape as `GET /users/search`, with the header `Accept-Query: application/json`. _(verified)_
 
 **Error Responses:**
 - `401 Unauthorized`: no token (sent with `Content-Type: application/json`) _(verified)_
-- `415 Unsupported Media Type`: `Content-Type` is not JSON; checked by route middleware before the token, so it applies without a token too _(source)_
+- `415 Unsupported Media Type`: `Content-Type` is not JSON; checked by route middleware before the token, so it applies without a token too _(verified)_
 
 ---
 
@@ -360,14 +360,14 @@ Returns a user. A non-admin can only get their own record. _(source)_
 |---|---|---|---|
 | `userId` | string | Yes | User ULID |
 
-**Response:** `200 OK` _(source)_
+**Response:** `200 OK` _(verified)_
 ```ts
 User
 ```
 
 **Error Responses:**
 - `401 Unauthorized`: no token _(verified)_
-- `404 Not Found`: no user with this id, or a non-admin asks for another user's id; `{ error: string }` _(source)_
+- `404 Not Found`: no user with this id, or a non-admin asks for another user's id; `{ error: string }` _(verified)_
 
 ---
 
@@ -456,15 +456,16 @@ Updates only the validated fields that are sent. A non-admin can only patch thei
 ```
 The same length and format rules as `PUT` apply. `role` has no rule, so it's dropped silently, even for admins. _(source)_
 
-**Response:** `200 OK` _(source)_
+**Response:** `200 OK` _(verified)_
 ```ts
 { success: true }
 ```
 
 **Error Responses:**
-- `401 Unauthorized`: no token, or an invalid or expired one _(source)_
-- `403 Forbidden`: a non-admin patches another user; also, as suspected bugs, an unknown id (should be 404) and an email already used by another account; body `{ error: string }` _(source)_
-- `422 Unprocessable Entity`: a sent field fails its rule (e.g. `phone` with letters, `dob` under 18) _(source)_
+- `401 Unauthorized`: no token, or an invalid or expired one _(verified)_
+- `403 Forbidden`: a non-admin patches another user; body `{ error: string }` _(verified)_
+- `403 Forbidden`, as suspected bugs: an unknown id (should be 404) and an email already used by another account (should be 409/422); body `{ error: string }` _(source)_
+- `422 Unprocessable Entity`: a sent field fails its rule (e.g. `phone` with letters, `dob` under 18) _(verified)_
 
 ---
 
@@ -485,9 +486,9 @@ Deletes a user. Admin only. _(source)_
 **Response:** `204 No Content` _(verified)_
 
 **Error Responses:**
-- `401 Unauthorized`: no token, or an invalid or expired one _(source)_
-- `403 Forbidden`: the user isn't an admin; `{ message: "Forbidden" }` _(source)_
-- `409 Conflict`: the user is referenced elsewhere (invoices, favorites); `{ success: false, message: "Seems like this customer is used elsewhere." }` _(source)_
+- `401 Unauthorized`: no token, or an invalid or expired one _(verified)_
+- `403 Forbidden`: the user isn't an admin; `{ message: "Forbidden" }` _(verified)_
+- `409 Conflict`: the user is referenced elsewhere (invoices, favorites); `{ success: false, message: "Seems like this customer is used elsewhere." }` _(verified)_
 - `500 Internal Server Error`: no user with this id; `{ error: string }`; suspected bug, should be 404 _(source)_
 
 ---

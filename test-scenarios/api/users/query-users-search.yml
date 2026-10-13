@@ -4,7 +4,8 @@ tags: ["@users-api"]
 scenarios:
   - id: API-0415
     name: QUERY search by first name returns 200 with the matching customer
-    status: manual
+    status: automated
+    automatedIn: tests/api/users/query-users-search.spec.ts
     role: admin
     steps:
       - Send POST /users/register with a unique email, a unique first name of at most 40 characters, a last name and a random strong password, and take the new user's id.
@@ -14,7 +15,8 @@ scenarios:
       - Verify the body's total is 1 and data has exactly one item, whose id is the new user's id.
   - id: API-0416
     name: QUERY search with an empty body object returns 200 with customers
-    status: manual
+    status: automated
+    automatedIn: tests/api/users/query-users-search.spec.ts
     role: admin
     steps:
       - "Send QUERY /users/search with the admin's token, Content-Type: application/json, Accept: application/json and an empty JSON object as the body."
@@ -22,20 +24,23 @@ scenarios:
       - Verify the body's per_page is 15 and data is not empty.
   - id: API-0417
     name: QUERY search without a token returns 401
-    status: manual
+    status: automated
+    automatedIn: tests/api/users/query-users-search.spec.ts
     steps:
       - "Send QUERY /users/search without an Authorization header, with Content-Type: application/json, Accept: application/json and an empty JSON object as the body."
       - Verify the response status is 401.
       - Verify the body's message is "Unauthorized".
   - id: API-0418
     name: QUERY search without a JSON Content-Type returns 415
-    status: manual
+    status: automated
+    automatedIn: tests/api/users/query-users-search.spec.ts
     steps:
       - "Send QUERY /users/search with the default user's token, Content-Type: text/plain, Accept: application/json and a plain-text body."
       - Verify the response status is 415.
   - id: API-0419
     name: QUERY search as a customer returns 403
-    status: manual
+    status: automated
+    automatedIn: tests/api/users/query-users-search.spec.ts
     knownIssue: Returns 200 with other customers' names, emails and cities instead of rejecting a customer (403, like GET /users).
     bug: BUG-032
     steps:
