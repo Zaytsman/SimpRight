@@ -2,8 +2,8 @@
 window.BUG_CATALOG = {
  "title": "Bugs",
  "prefix": "BUG",
- "generatedAt": "2026-10-13T17:54:48.810Z",
- "commit": "f64636e11bd908f6027bcf7a3e7284f06e76def9",
+ "generatedAt": "2026-10-13T19:18:01.601Z",
+ "commit": "baf44f4ef77cc4d8b6488f1bbfaad2c500cdccd2",
  "repoUrl": "https://github.com/Zaytsman/SimpRight",
  "branch": "main",
  "bugsDir": "bugs",
@@ -897,7 +897,7 @@ window.BUG_CATALOG = {
      "file": "test-scenarios/api/users/get-users-search.yml",
      "status": "automated",
      "automatedIn": "tests/api/users/get-users-search.spec.ts",
-     "specLine": 258,
+     "specLine": 255,
      "knownIssue": "Returns 200 with other customers' names, emails and cities instead of rejecting a customer (403, like GET /users)."
     },
     {
@@ -908,7 +908,7 @@ window.BUG_CATALOG = {
      "file": "test-scenarios/api/users/query-users-search.yml",
      "status": "automated",
      "automatedIn": "tests/api/users/query-users-search.spec.ts",
-     "specLine": 135,
+     "specLine": 132,
      "knownIssue": "Returns 200 with other customers' names, emails and cities instead of rejecting a customer (403, like GET /users)."
     }
    ]
@@ -1841,10 +1841,10 @@ window.BUG_CATALOG = {
     "Send GET /reports/total-sales-of-years with years \"abc\" and the admin's token."
    ],
    "expected": "422 with the validation error, or the value is ignored and the default is used (200).",
-   "actual": "500 (from the source code; not reproduced live).",
-   "evidence": "Reports_API.md, endpoint 1 (read from ReportController in sprint5/API). No admin token was available when the\ncontract was written, so the call was not made live.",
+   "actual": "500 with { \"message\": \"Server Error\" } for years \"abc\" (reproduced live 2026-10-13 by API-0584). An array years[]=1 gives a 500 too according to the source code; not reproduced live.",
+   "evidence": "2026-10-13, API-0584 (tests/api/reports/get-reports-total-sales-of-years.spec.ts), live, admin token:\n  GET /reports/total-sales-of-years?years=abc -> 500 { \"message\": \"Server Error\" }\nRe-run on 2026-10-13 at 19:04 UTC with the same result. Without a token both years=abc and years[]=1 give\n401 { \"message\": \"Unauthorized\" } (the token is checked before the parameters).\nSource: ReportController::totalSalesOfYears in sprint5/API computes now()->year - $request->get('years', 1)\nwithout validation; PHP 8 throws a TypeError for a non-numeric string or an array (Reports_API.md, endpoint 1,\nnow marked _(verified)_ for years=abc).",
    "file": "bugs/BUG-044.yml",
-   "yaml": "id: BUG-044\ntitle: Total sales of years returns 500 for a non-numeric years\nstatus: open\nseverity: minor\nlayer: api\narea: reports\naffects:\n  - GET /reports/total-sales-of-years\nfound: 2026-10-11\nref:\n  - docs/api/contracts/Reports_API.md#1-total-sales-of-years\ndescription: >-\n  The years query parameter is used as it is: the controller computes the current year minus years without any\n  validation, and PHP 8 throws a TypeError for a non-numeric value such as \"abc\" (or an array years[]=1), which the\n  global handler turns into a server error instead of a validation error.\nsteps:\n  - Log in as the admin.\n  - Send GET /reports/total-sales-of-years with years \"abc\" and the admin's token.\nexpected: \"422 with the validation error, or the value is ignored and the default is used (200).\"\nactual: \"500 (from the source code; not reproduced live).\"\nevidence: |-\n  Reports_API.md, endpoint 1 (read from ReportController in sprint5/API). No admin token was available when the\n  contract was written, so the call was not made live.",
+   "yaml": "id: BUG-044\ntitle: Total sales of years returns 500 for a non-numeric years\nstatus: open\nseverity: minor\nlayer: api\narea: reports\naffects:\n  - GET /reports/total-sales-of-years\nfound: 2026-10-11\nref:\n  - docs/api/contracts/Reports_API.md#1-total-sales-of-years\ndescription: >-\n  The years query parameter is used as it is: the controller computes the current year minus years without any\n  validation, and PHP 8 throws a TypeError for a non-numeric value such as \"abc\" (or an array years[]=1), which the\n  global handler turns into a server error instead of a validation error.\nsteps:\n  - Log in as the admin.\n  - Send GET /reports/total-sales-of-years with years \"abc\" and the admin's token.\nexpected: \"422 with the validation error, or the value is ignored and the default is used (200).\"\nactual: >-\n  500 with { \"message\": \"Server Error\" } for years \"abc\" (reproduced live 2026-10-13 by API-0584). An array\n  years[]=1 gives a 500 too according to the source code; not reproduced live.\nevidence: |-\n  2026-10-13, API-0584 (tests/api/reports/get-reports-total-sales-of-years.spec.ts), live, admin token:\n    GET /reports/total-sales-of-years?years=abc -> 500 { \"message\": \"Server Error\" }\n  Re-run on 2026-10-13 at 19:04 UTC with the same result. Without a token both years=abc and years[]=1 give\n  401 { \"message\": \"Unauthorized\" } (the token is checked before the parameters).\n  Source: ReportController::totalSalesOfYears in sprint5/API computes now()->year - $request->get('years', 1)\n  without validation; PHP 8 throws a TypeError for a non-numeric string or an array (Reports_API.md, endpoint 1,\n  now marked _(verified)_ for years=abc).",
    "scenarios": [
     {
      "id": "API-0584",
@@ -1852,7 +1852,9 @@ window.BUG_CATALOG = {
      "layer": "api",
      "area": "reports",
      "file": "test-scenarios/api/reports/get-reports-total-sales-of-years.yml",
-     "status": "manual",
+     "status": "automated",
+     "automatedIn": "tests/api/reports/get-reports-total-sales-of-years.spec.ts",
+     "specLine": 144,
      "knownIssue": "Returns 500 for a non-numeric years instead of 422 or ignoring the value."
     }
    ]

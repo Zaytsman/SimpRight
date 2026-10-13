@@ -3,17 +3,17 @@ window.SCENARIO_CATALOG = {
  "layer": "api",
  "title": "API Test Cases",
  "prefix": "API",
- "generatedAt": "2026-10-13T17:54:48.394Z",
- "commit": "f64636e11bd908f6027bcf7a3e7284f06e76def9",
+ "generatedAt": "2026-10-13T19:18:00.960Z",
+ "commit": "baf44f4ef77cc4d8b6488f1bbfaad2c500cdccd2",
  "repoUrl": "https://github.com/Zaytsman/SimpRight",
  "branch": "main",
  "workflowUrl": "https://github.com/Zaytsman/SimpRight/actions/workflows/custom-api-tests.yml",
  "stats": {
   "total": 667,
-  "automated": 478,
-  "manual": 189,
+  "automated": 515,
+  "manual": 152,
   "knownIssues": 66,
-  "automatedPct": 72
+  "automatedPct": 77
  },
  "tree": [
   {
@@ -14209,7 +14209,8 @@ window.SCENARIO_CATALOG = {
   {
    "id": "API-0604",
    "name": "Average sales per month returns 200 with twelve months",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/reports/get-reports-average-sales-per-month.spec.ts",
    "role": "admin",
    "steps": [
     "Send GET /reports/average-sales-per-month with the admin's token.",
@@ -14218,6 +14219,7 @@ window.SCENARIO_CATALOG = {
     "Verify every item's average and amount are numbers."
    ],
    "ref": [],
+   "specLine": 24,
    "area": "reports",
    "areaLabel": "Reports",
    "file": "test-scenarios/api/reports/get-reports-average-sales-per-month.yml",
@@ -14226,12 +14228,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@reports-api"
    ],
-   "yaml": "- id: API-0604\n  name: Average sales per month returns 200 with twelve months\n  status: manual\n  role: admin\n  steps:\n    - Send GET /reports/average-sales-per-month with the admin's token.\n    - Verify the response status is 200.\n    - Verify the body has exactly 12 items whose month values are 1 to 12, in that order.\n    - Verify every item's average and amount are numbers."
+   "yaml": "- id: API-0604\n  name: Average sales per month returns 200 with twelve months\n  status: automated\n  automatedIn: tests/api/reports/get-reports-average-sales-per-month.spec.ts\n  role: admin\n  steps:\n    - Send GET /reports/average-sales-per-month with the admin's token.\n    - Verify the response status is 200.\n    - Verify the body has exactly 12 items whose month values are 1 to 12, in that order.\n    - Verify every item's average and amount are numbers."
   },
   {
    "id": "API-0605",
    "name": "Average sales per month for a year without invoices returns twelve zero rows",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/reports/get-reports-average-sales-per-month.spec.ts",
    "role": "admin",
    "steps": [
     "Send GET /reports/average-sales-per-month with year 1990 and the admin's token.",
@@ -14240,6 +14243,7 @@ window.SCENARIO_CATALOG = {
     "Verify every item's average is 0 and amount is 0."
    ],
    "ref": [],
+   "specLine": 47,
    "area": "reports",
    "areaLabel": "Reports",
    "file": "test-scenarios/api/reports/get-reports-average-sales-per-month.yml",
@@ -14248,18 +14252,20 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@reports-api"
    ],
-   "yaml": "- id: API-0605\n  name: Average sales per month for a year without invoices returns twelve zero rows\n  status: manual\n  role: admin\n  steps:\n    - Send GET /reports/average-sales-per-month with year 1990 and the admin's token.\n    - Verify the response status is 200.\n    - Verify the body has exactly 12 items whose month values are 1 to 12, in that order.\n    - Verify every item's average is 0 and amount is 0."
+   "yaml": "- id: API-0605\n  name: Average sales per month for a year without invoices returns twelve zero rows\n  status: automated\n  automatedIn: tests/api/reports/get-reports-average-sales-per-month.spec.ts\n  role: admin\n  steps:\n    - Send GET /reports/average-sales-per-month with year 1990 and the admin's token.\n    - Verify the response status is 200.\n    - Verify the body has exactly 12 items whose month values are 1 to 12, in that order.\n    - Verify every item's average is 0 and amount is 0."
   },
   {
    "id": "API-0606",
    "name": "Average sales per month without a token returns 401",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/reports/get-reports-average-sales-per-month.spec.ts",
    "steps": [
     "Send GET /reports/average-sales-per-month without an Authorization header.",
     "Verify the response status is 401.",
     "Verify the body's message is \"Unauthorized\"."
    ],
    "ref": [],
+   "specLine": 72,
    "area": "reports",
    "areaLabel": "Reports",
    "file": "test-scenarios/api/reports/get-reports-average-sales-per-month.yml",
@@ -14268,18 +14274,20 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@reports-api"
    ],
-   "yaml": "- id: API-0606\n  name: Average sales per month without a token returns 401\n  status: manual\n  steps:\n    - Send GET /reports/average-sales-per-month without an Authorization header.\n    - Verify the response status is 401.\n    - Verify the body's message is \"Unauthorized\"."
+   "yaml": "- id: API-0606\n  name: Average sales per month without a token returns 401\n  status: automated\n  automatedIn: tests/api/reports/get-reports-average-sales-per-month.spec.ts\n  steps:\n    - Send GET /reports/average-sales-per-month without an Authorization header.\n    - Verify the response status is 401.\n    - Verify the body's message is \"Unauthorized\"."
   },
   {
    "id": "API-0607",
    "name": "Average sales per month with a malformed token returns 401",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/reports/get-reports-average-sales-per-month.spec.ts",
    "steps": [
     "Send GET /reports/average-sales-per-month with a malformed token.",
     "Verify the response status is 401.",
     "Verify the body's message is \"Unauthorized\"."
    ],
    "ref": [],
+   "specLine": 89,
    "area": "reports",
    "areaLabel": "Reports",
    "file": "test-scenarios/api/reports/get-reports-average-sales-per-month.yml",
@@ -14288,18 +14296,20 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@reports-api"
    ],
-   "yaml": "- id: API-0607\n  name: Average sales per month with a malformed token returns 401\n  status: manual\n  steps:\n    - Send GET /reports/average-sales-per-month with a malformed token.\n    - Verify the response status is 401.\n    - Verify the body's message is \"Unauthorized\"."
+   "yaml": "- id: API-0607\n  name: Average sales per month with a malformed token returns 401\n  status: automated\n  automatedIn: tests/api/reports/get-reports-average-sales-per-month.spec.ts\n  steps:\n    - Send GET /reports/average-sales-per-month with a malformed token.\n    - Verify the response status is 401.\n    - Verify the body's message is \"Unauthorized\"."
   },
   {
    "id": "API-0608",
    "name": "Average sales per month as a customer returns 403",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/reports/get-reports-average-sales-per-month.spec.ts",
    "steps": [
     "Send GET /reports/average-sales-per-month with the default user's token.",
     "Verify the response status is 403.",
     "Verify the body's message is \"Forbidden\"."
    ],
    "ref": [],
+   "specLine": 106,
    "area": "reports",
    "areaLabel": "Reports",
    "file": "test-scenarios/api/reports/get-reports-average-sales-per-month.yml",
@@ -14308,12 +14318,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@reports-api"
    ],
-   "yaml": "- id: API-0608\n  name: Average sales per month as a customer returns 403\n  status: manual\n  steps:\n    - Send GET /reports/average-sales-per-month with the default user's token.\n    - Verify the response status is 403.\n    - Verify the body's message is \"Forbidden\"."
+   "yaml": "- id: API-0608\n  name: Average sales per month as a customer returns 403\n  status: automated\n  automatedIn: tests/api/reports/get-reports-average-sales-per-month.spec.ts\n  steps:\n    - Send GET /reports/average-sales-per-month with the default user's token.\n    - Verify the response status is 403.\n    - Verify the body's message is \"Forbidden\"."
   },
   {
    "id": "API-0609",
    "name": "Average sales per week returns 200 with 52 weeks",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/reports/get-reports-average-sales-per-week.spec.ts",
    "role": "admin",
    "steps": [
     "Send GET /reports/average-sales-per-week with the admin's token.",
@@ -14322,6 +14333,7 @@ window.SCENARIO_CATALOG = {
     "Verify every item's average and amount are numbers."
    ],
    "ref": [],
+   "specLine": 24,
    "area": "reports",
    "areaLabel": "Reports",
    "file": "test-scenarios/api/reports/get-reports-average-sales-per-week.yml",
@@ -14330,12 +14342,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@reports-api"
    ],
-   "yaml": "- id: API-0609\n  name: Average sales per week returns 200 with 52 weeks\n  status: manual\n  role: admin\n  steps:\n    - Send GET /reports/average-sales-per-week with the admin's token.\n    - Verify the response status is 200.\n    - Verify the body has exactly 52 items whose week values are 1 to 52, in that order.\n    - Verify every item's average and amount are numbers."
+   "yaml": "- id: API-0609\n  name: Average sales per week returns 200 with 52 weeks\n  status: automated\n  automatedIn: tests/api/reports/get-reports-average-sales-per-week.spec.ts\n  role: admin\n  steps:\n    - Send GET /reports/average-sales-per-week with the admin's token.\n    - Verify the response status is 200.\n    - Verify the body has exactly 52 items whose week values are 1 to 52, in that order.\n    - Verify every item's average and amount are numbers."
   },
   {
    "id": "API-0610",
    "name": "Average sales per week for a year without invoices returns 52 zero rows",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/reports/get-reports-average-sales-per-week.spec.ts",
    "role": "admin",
    "steps": [
     "Send GET /reports/average-sales-per-week with year 1990 and the admin's token.",
@@ -14344,6 +14357,7 @@ window.SCENARIO_CATALOG = {
     "Verify every item's average is 0 and amount is 0."
    ],
    "ref": [],
+   "specLine": 47,
    "area": "reports",
    "areaLabel": "Reports",
    "file": "test-scenarios/api/reports/get-reports-average-sales-per-week.yml",
@@ -14352,18 +14366,20 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@reports-api"
    ],
-   "yaml": "- id: API-0610\n  name: Average sales per week for a year without invoices returns 52 zero rows\n  status: manual\n  role: admin\n  steps:\n    - Send GET /reports/average-sales-per-week with year 1990 and the admin's token.\n    - Verify the response status is 200.\n    - Verify the body has exactly 52 items whose week values are 1 to 52, in that order.\n    - Verify every item's average is 0 and amount is 0."
+   "yaml": "- id: API-0610\n  name: Average sales per week for a year without invoices returns 52 zero rows\n  status: automated\n  automatedIn: tests/api/reports/get-reports-average-sales-per-week.spec.ts\n  role: admin\n  steps:\n    - Send GET /reports/average-sales-per-week with year 1990 and the admin's token.\n    - Verify the response status is 200.\n    - Verify the body has exactly 52 items whose week values are 1 to 52, in that order.\n    - Verify every item's average is 0 and amount is 0."
   },
   {
    "id": "API-0611",
    "name": "Average sales per week without a token returns 401",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/reports/get-reports-average-sales-per-week.spec.ts",
    "steps": [
     "Send GET /reports/average-sales-per-week without an Authorization header.",
     "Verify the response status is 401.",
     "Verify the body's message is \"Unauthorized\"."
    ],
    "ref": [],
+   "specLine": 72,
    "area": "reports",
    "areaLabel": "Reports",
    "file": "test-scenarios/api/reports/get-reports-average-sales-per-week.yml",
@@ -14372,18 +14388,20 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@reports-api"
    ],
-   "yaml": "- id: API-0611\n  name: Average sales per week without a token returns 401\n  status: manual\n  steps:\n    - Send GET /reports/average-sales-per-week without an Authorization header.\n    - Verify the response status is 401.\n    - Verify the body's message is \"Unauthorized\"."
+   "yaml": "- id: API-0611\n  name: Average sales per week without a token returns 401\n  status: automated\n  automatedIn: tests/api/reports/get-reports-average-sales-per-week.spec.ts\n  steps:\n    - Send GET /reports/average-sales-per-week without an Authorization header.\n    - Verify the response status is 401.\n    - Verify the body's message is \"Unauthorized\"."
   },
   {
    "id": "API-0612",
    "name": "Average sales per week with a malformed token returns 401",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/reports/get-reports-average-sales-per-week.spec.ts",
    "steps": [
     "Send GET /reports/average-sales-per-week with a malformed token.",
     "Verify the response status is 401.",
     "Verify the body's message is \"Unauthorized\"."
    ],
    "ref": [],
+   "specLine": 89,
    "area": "reports",
    "areaLabel": "Reports",
    "file": "test-scenarios/api/reports/get-reports-average-sales-per-week.yml",
@@ -14392,18 +14410,20 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@reports-api"
    ],
-   "yaml": "- id: API-0612\n  name: Average sales per week with a malformed token returns 401\n  status: manual\n  steps:\n    - Send GET /reports/average-sales-per-week with a malformed token.\n    - Verify the response status is 401.\n    - Verify the body's message is \"Unauthorized\"."
+   "yaml": "- id: API-0612\n  name: Average sales per week with a malformed token returns 401\n  status: automated\n  automatedIn: tests/api/reports/get-reports-average-sales-per-week.spec.ts\n  steps:\n    - Send GET /reports/average-sales-per-week with a malformed token.\n    - Verify the response status is 401.\n    - Verify the body's message is \"Unauthorized\"."
   },
   {
    "id": "API-0613",
    "name": "Average sales per week as a customer returns 403",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/reports/get-reports-average-sales-per-week.spec.ts",
    "steps": [
     "Send GET /reports/average-sales-per-week with the default user's token.",
     "Verify the response status is 403.",
     "Verify the body's message is \"Forbidden\"."
    ],
    "ref": [],
+   "specLine": 106,
    "area": "reports",
    "areaLabel": "Reports",
    "file": "test-scenarios/api/reports/get-reports-average-sales-per-week.yml",
@@ -14412,21 +14432,23 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@reports-api"
    ],
-   "yaml": "- id: API-0613\n  name: Average sales per week as a customer returns 403\n  status: manual\n  steps:\n    - Send GET /reports/average-sales-per-week with the default user's token.\n    - Verify the response status is 403.\n    - Verify the body's message is \"Forbidden\"."
+   "yaml": "- id: API-0613\n  name: Average sales per week as a customer returns 403\n  status: automated\n  automatedIn: tests/api/reports/get-reports-average-sales-per-week.spec.ts\n  steps:\n    - Send GET /reports/average-sales-per-week with the default user's token.\n    - Verify the response status is 403.\n    - Verify the body's message is \"Forbidden\"."
   },
   {
    "id": "API-0600",
    "name": "Customers by country returns 200 with a customer count per country",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/reports/get-reports-customers-by-country.spec.ts",
    "role": "admin",
    "steps": [
     "Send GET /reports/customers-by-country with the admin's token.",
     "Verify the response status is 200.",
     "Verify the body is an array with at least one item.",
-    "Verify every item has an amount (a number) and a country (a string).",
+    "Verify every item has an amount (a number) and a country (a string, or null for customers registered without one).",
     "Verify no country appears twice."
    ],
    "ref": [],
+   "specLine": 23,
    "area": "reports",
    "areaLabel": "Reports",
    "file": "test-scenarios/api/reports/get-reports-customers-by-country.yml",
@@ -14435,18 +14457,20 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@reports-api"
    ],
-   "yaml": "- id: API-0600\n  name: Customers by country returns 200 with a customer count per country\n  status: manual\n  role: admin\n  steps:\n    - Send GET /reports/customers-by-country with the admin's token.\n    - Verify the response status is 200.\n    - Verify the body is an array with at least one item.\n    - Verify every item has an amount (a number) and a country (a string).\n    - Verify no country appears twice."
+   "yaml": "- id: API-0600\n  name: Customers by country returns 200 with a customer count per country\n  status: automated\n  automatedIn: tests/api/reports/get-reports-customers-by-country.spec.ts\n  role: admin\n  steps:\n    - Send GET /reports/customers-by-country with the admin's token.\n    - Verify the response status is 200.\n    - Verify the body is an array with at least one item.\n    - Verify every item has an amount (a number) and a country (a string, or null for customers registered without one).\n    - Verify no country appears twice."
   },
   {
    "id": "API-0601",
    "name": "Customers by country without a token returns 401",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/reports/get-reports-customers-by-country.spec.ts",
    "steps": [
     "Send GET /reports/customers-by-country without an Authorization header.",
     "Verify the response status is 401.",
     "Verify the body's message is \"Unauthorized\"."
    ],
    "ref": [],
+   "specLine": 56,
    "area": "reports",
    "areaLabel": "Reports",
    "file": "test-scenarios/api/reports/get-reports-customers-by-country.yml",
@@ -14455,18 +14479,20 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@reports-api"
    ],
-   "yaml": "- id: API-0601\n  name: Customers by country without a token returns 401\n  status: manual\n  steps:\n    - Send GET /reports/customers-by-country without an Authorization header.\n    - Verify the response status is 401.\n    - Verify the body's message is \"Unauthorized\"."
+   "yaml": "- id: API-0601\n  name: Customers by country without a token returns 401\n  status: automated\n  automatedIn: tests/api/reports/get-reports-customers-by-country.spec.ts\n  steps:\n    - Send GET /reports/customers-by-country without an Authorization header.\n    - Verify the response status is 401.\n    - Verify the body's message is \"Unauthorized\"."
   },
   {
    "id": "API-0602",
    "name": "Customers by country with a malformed token returns 401",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/reports/get-reports-customers-by-country.spec.ts",
    "steps": [
     "Send GET /reports/customers-by-country with a malformed token.",
     "Verify the response status is 401.",
     "Verify the body's message is \"Unauthorized\"."
    ],
    "ref": [],
+   "specLine": 73,
    "area": "reports",
    "areaLabel": "Reports",
    "file": "test-scenarios/api/reports/get-reports-customers-by-country.yml",
@@ -14475,18 +14501,20 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@reports-api"
    ],
-   "yaml": "- id: API-0602\n  name: Customers by country with a malformed token returns 401\n  status: manual\n  steps:\n    - Send GET /reports/customers-by-country with a malformed token.\n    - Verify the response status is 401.\n    - Verify the body's message is \"Unauthorized\"."
+   "yaml": "- id: API-0602\n  name: Customers by country with a malformed token returns 401\n  status: automated\n  automatedIn: tests/api/reports/get-reports-customers-by-country.spec.ts\n  steps:\n    - Send GET /reports/customers-by-country with a malformed token.\n    - Verify the response status is 401.\n    - Verify the body's message is \"Unauthorized\"."
   },
   {
    "id": "API-0603",
    "name": "Customers by country as a customer returns 403",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/reports/get-reports-customers-by-country.spec.ts",
    "steps": [
     "Send GET /reports/customers-by-country with the default user's token.",
     "Verify the response status is 403.",
     "Verify the body's message is \"Forbidden\"."
    ],
    "ref": [],
+   "specLine": 90,
    "area": "reports",
    "areaLabel": "Reports",
    "file": "test-scenarios/api/reports/get-reports-customers-by-country.yml",
@@ -14495,12 +14523,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@reports-api"
    ],
-   "yaml": "- id: API-0603\n  name: Customers by country as a customer returns 403\n  status: manual\n  steps:\n    - Send GET /reports/customers-by-country with the default user's token.\n    - Verify the response status is 403.\n    - Verify the body's message is \"Forbidden\"."
+   "yaml": "- id: API-0603\n  name: Customers by country as a customer returns 403\n  status: automated\n  automatedIn: tests/api/reports/get-reports-customers-by-country.spec.ts\n  steps:\n    - Send GET /reports/customers-by-country with the default user's token.\n    - Verify the response status is 403.\n    - Verify the body's message is \"Forbidden\"."
   },
   {
    "id": "API-0596",
    "name": "Top 10 best selling categories returns 200 with at most ten categories, highest total first",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/reports/get-reports-top10-best-selling-categories.spec.ts",
    "role": "admin",
    "steps": [
     "Send GET /reports/top10-best-selling-categories with the admin's token.",
@@ -14510,6 +14539,7 @@ window.SCENARIO_CATALOG = {
     "Verify each item's total_earned, compared as a number, is not greater than the previous item's."
    ],
    "ref": [],
+   "specLine": 25,
    "area": "reports",
    "areaLabel": "Reports",
    "file": "test-scenarios/api/reports/get-reports-top10-best-selling-categories.yml",
@@ -14518,18 +14548,20 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@reports-api"
    ],
-   "yaml": "- id: API-0596\n  name: Top 10 best selling categories returns 200 with at most ten categories, highest total first\n  status: manual\n  role: admin\n  steps:\n    - Send GET /reports/top10-best-selling-categories with the admin's token.\n    - Verify the response status is 200.\n    - Verify the body is an array with at least one and at most 10 items.\n    - Verify every item has category_name (a string) and total_earned (a number or a numeric string).\n    - Verify each item's total_earned, compared as a number, is not greater than the previous item's."
+   "yaml": "- id: API-0596\n  name: Top 10 best selling categories returns 200 with at most ten categories, highest total first\n  status: automated\n  automatedIn: tests/api/reports/get-reports-top10-best-selling-categories.spec.ts\n  role: admin\n  steps:\n    - Send GET /reports/top10-best-selling-categories with the admin's token.\n    - Verify the response status is 200.\n    - Verify the body is an array with at least one and at most 10 items.\n    - Verify every item has category_name (a string) and total_earned (a number or a numeric string).\n    - Verify each item's total_earned, compared as a number, is not greater than the previous item's."
   },
   {
    "id": "API-0597",
    "name": "Top 10 best selling categories without a token returns 401",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/reports/get-reports-top10-best-selling-categories.spec.ts",
    "steps": [
     "Send GET /reports/top10-best-selling-categories without an Authorization header.",
     "Verify the response status is 401.",
     "Verify the body's message is \"Unauthorized\"."
    ],
    "ref": [],
+   "specLine": 58,
    "area": "reports",
    "areaLabel": "Reports",
    "file": "test-scenarios/api/reports/get-reports-top10-best-selling-categories.yml",
@@ -14538,18 +14570,20 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@reports-api"
    ],
-   "yaml": "- id: API-0597\n  name: Top 10 best selling categories without a token returns 401\n  status: manual\n  steps:\n    - Send GET /reports/top10-best-selling-categories without an Authorization header.\n    - Verify the response status is 401.\n    - Verify the body's message is \"Unauthorized\"."
+   "yaml": "- id: API-0597\n  name: Top 10 best selling categories without a token returns 401\n  status: automated\n  automatedIn: tests/api/reports/get-reports-top10-best-selling-categories.spec.ts\n  steps:\n    - Send GET /reports/top10-best-selling-categories without an Authorization header.\n    - Verify the response status is 401.\n    - Verify the body's message is \"Unauthorized\"."
   },
   {
    "id": "API-0598",
    "name": "Top 10 best selling categories with a malformed token returns 401",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/reports/get-reports-top10-best-selling-categories.spec.ts",
    "steps": [
     "Send GET /reports/top10-best-selling-categories with a malformed token.",
     "Verify the response status is 401.",
     "Verify the body's message is \"Unauthorized\"."
    ],
    "ref": [],
+   "specLine": 75,
    "area": "reports",
    "areaLabel": "Reports",
    "file": "test-scenarios/api/reports/get-reports-top10-best-selling-categories.yml",
@@ -14558,18 +14592,20 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@reports-api"
    ],
-   "yaml": "- id: API-0598\n  name: Top 10 best selling categories with a malformed token returns 401\n  status: manual\n  steps:\n    - Send GET /reports/top10-best-selling-categories with a malformed token.\n    - Verify the response status is 401.\n    - Verify the body's message is \"Unauthorized\"."
+   "yaml": "- id: API-0598\n  name: Top 10 best selling categories with a malformed token returns 401\n  status: automated\n  automatedIn: tests/api/reports/get-reports-top10-best-selling-categories.spec.ts\n  steps:\n    - Send GET /reports/top10-best-selling-categories with a malformed token.\n    - Verify the response status is 401.\n    - Verify the body's message is \"Unauthorized\"."
   },
   {
    "id": "API-0599",
    "name": "Top 10 best selling categories as a customer returns 403",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/reports/get-reports-top10-best-selling-categories.spec.ts",
    "steps": [
     "Send GET /reports/top10-best-selling-categories with the default user's token.",
     "Verify the response status is 403.",
     "Verify the body's message is \"Forbidden\"."
    ],
    "ref": [],
+   "specLine": 92,
    "area": "reports",
    "areaLabel": "Reports",
    "file": "test-scenarios/api/reports/get-reports-top10-best-selling-categories.yml",
@@ -14578,12 +14614,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@reports-api"
    ],
-   "yaml": "- id: API-0599\n  name: Top 10 best selling categories as a customer returns 403\n  status: manual\n  steps:\n    - Send GET /reports/top10-best-selling-categories with the default user's token.\n    - Verify the response status is 403.\n    - Verify the body's message is \"Forbidden\"."
+   "yaml": "- id: API-0599\n  name: Top 10 best selling categories as a customer returns 403\n  status: automated\n  automatedIn: tests/api/reports/get-reports-top10-best-selling-categories.spec.ts\n  steps:\n    - Send GET /reports/top10-best-selling-categories with the default user's token.\n    - Verify the response status is 403.\n    - Verify the body's message is \"Forbidden\"."
   },
   {
    "id": "API-0592",
    "name": "Top 10 purchased products returns 200 with at most ten products, highest count first",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/reports/get-reports-top10-purchased-products.spec.ts",
    "role": "admin",
    "steps": [
     "Send GET /reports/top10-purchased-products with the admin's token.",
@@ -14594,6 +14631,7 @@ window.SCENARIO_CATALOG = {
     "Verify each item's count is not greater than the previous item's count."
    ],
    "ref": [],
+   "specLine": 25,
    "area": "reports",
    "areaLabel": "Reports",
    "file": "test-scenarios/api/reports/get-reports-top10-purchased-products.yml",
@@ -14602,18 +14640,20 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@reports-api"
    ],
-   "yaml": "- id: API-0592\n  name: Top 10 purchased products returns 200 with at most ten products, highest count first\n  status: manual\n  role: admin\n  steps:\n    - Send GET /reports/top10-purchased-products with the admin's token.\n    - Verify the response status is 200.\n    - Verify the body is an array with at least one and at most 10 items.\n    - Verify every item has a name (a string) and a count (a number).\n    - Verify no name appears twice.\n    - Verify each item's count is not greater than the previous item's count."
+   "yaml": "- id: API-0592\n  name: Top 10 purchased products returns 200 with at most ten products, highest count first\n  status: automated\n  automatedIn: tests/api/reports/get-reports-top10-purchased-products.spec.ts\n  role: admin\n  steps:\n    - Send GET /reports/top10-purchased-products with the admin's token.\n    - Verify the response status is 200.\n    - Verify the body is an array with at least one and at most 10 items.\n    - Verify every item has a name (a string) and a count (a number).\n    - Verify no name appears twice.\n    - Verify each item's count is not greater than the previous item's count."
   },
   {
    "id": "API-0593",
    "name": "Top 10 purchased products without a token returns 401",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/reports/get-reports-top10-purchased-products.spec.ts",
    "steps": [
     "Send GET /reports/top10-purchased-products without an Authorization header.",
     "Verify the response status is 401.",
     "Verify the body's message is \"Unauthorized\"."
    ],
    "ref": [],
+   "specLine": 62,
    "area": "reports",
    "areaLabel": "Reports",
    "file": "test-scenarios/api/reports/get-reports-top10-purchased-products.yml",
@@ -14622,18 +14662,20 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@reports-api"
    ],
-   "yaml": "- id: API-0593\n  name: Top 10 purchased products without a token returns 401\n  status: manual\n  steps:\n    - Send GET /reports/top10-purchased-products without an Authorization header.\n    - Verify the response status is 401.\n    - Verify the body's message is \"Unauthorized\"."
+   "yaml": "- id: API-0593\n  name: Top 10 purchased products without a token returns 401\n  status: automated\n  automatedIn: tests/api/reports/get-reports-top10-purchased-products.spec.ts\n  steps:\n    - Send GET /reports/top10-purchased-products without an Authorization header.\n    - Verify the response status is 401.\n    - Verify the body's message is \"Unauthorized\"."
   },
   {
    "id": "API-0594",
    "name": "Top 10 purchased products with a malformed token returns 401",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/reports/get-reports-top10-purchased-products.spec.ts",
    "steps": [
     "Send GET /reports/top10-purchased-products with a malformed token.",
     "Verify the response status is 401.",
     "Verify the body's message is \"Unauthorized\"."
    ],
    "ref": [],
+   "specLine": 79,
    "area": "reports",
    "areaLabel": "Reports",
    "file": "test-scenarios/api/reports/get-reports-top10-purchased-products.yml",
@@ -14642,18 +14684,20 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@reports-api"
    ],
-   "yaml": "- id: API-0594\n  name: Top 10 purchased products with a malformed token returns 401\n  status: manual\n  steps:\n    - Send GET /reports/top10-purchased-products with a malformed token.\n    - Verify the response status is 401.\n    - Verify the body's message is \"Unauthorized\"."
+   "yaml": "- id: API-0594\n  name: Top 10 purchased products with a malformed token returns 401\n  status: automated\n  automatedIn: tests/api/reports/get-reports-top10-purchased-products.spec.ts\n  steps:\n    - Send GET /reports/top10-purchased-products with a malformed token.\n    - Verify the response status is 401.\n    - Verify the body's message is \"Unauthorized\"."
   },
   {
    "id": "API-0595",
    "name": "Top 10 purchased products as a customer returns 403",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/reports/get-reports-top10-purchased-products.spec.ts",
    "steps": [
     "Send GET /reports/top10-purchased-products with the default user's token.",
     "Verify the response status is 403.",
     "Verify the body's message is \"Forbidden\"."
    ],
    "ref": [],
+   "specLine": 96,
    "area": "reports",
    "areaLabel": "Reports",
    "file": "test-scenarios/api/reports/get-reports-top10-purchased-products.yml",
@@ -14662,12 +14706,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@reports-api"
    ],
-   "yaml": "- id: API-0595\n  name: Top 10 purchased products as a customer returns 403\n  status: manual\n  steps:\n    - Send GET /reports/top10-purchased-products with the default user's token.\n    - Verify the response status is 403.\n    - Verify the body's message is \"Forbidden\"."
+   "yaml": "- id: API-0595\n  name: Top 10 purchased products as a customer returns 403\n  status: automated\n  automatedIn: tests/api/reports/get-reports-top10-purchased-products.spec.ts\n  steps:\n    - Send GET /reports/top10-purchased-products with the default user's token.\n    - Verify the response status is 403.\n    - Verify the body's message is \"Forbidden\"."
   },
   {
    "id": "API-0577",
    "name": "Total sales of years returns 200 with the current and the previous year",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/reports/get-reports-total-sales-of-years.spec.ts",
    "role": "admin",
    "steps": [
     "Send GET /reports/total-sales-of-years with the admin's token.",
@@ -14677,6 +14722,7 @@ window.SCENARIO_CATALOG = {
     "Verify every item has a year and a total, both numbers."
    ],
    "ref": [],
+   "specLine": 54,
    "area": "reports",
    "areaLabel": "Reports",
    "file": "test-scenarios/api/reports/get-reports-total-sales-of-years.yml",
@@ -14685,12 +14731,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@reports-api"
    ],
-   "yaml": "- id: API-0577\n  name: Total sales of years returns 200 with the current and the previous year\n  status: manual\n  role: admin\n  steps:\n    - Send GET /reports/total-sales-of-years with the admin's token.\n    - Verify the response status is 200.\n    - Verify the body has 2 items.\n    - Verify the items' year values are the current year minus 1 and the current year, in that order.\n    - Verify every item has a year and a total, both numbers."
+   "yaml": "- id: API-0577\n  name: Total sales of years returns 200 with the current and the previous year\n  status: automated\n  automatedIn: tests/api/reports/get-reports-total-sales-of-years.spec.ts\n  role: admin\n  steps:\n    - Send GET /reports/total-sales-of-years with the admin's token.\n    - Verify the response status is 200.\n    - Verify the body has 2 items.\n    - Verify the items' year values are the current year minus 1 and the current year, in that order.\n    - Verify every item has a year and a total, both numbers."
   },
   {
    "id": "API-0578",
    "name": "Total sales of years with years 3 returns four years in ascending order",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/reports/get-reports-total-sales-of-years.spec.ts",
    "role": "admin",
    "steps": [
     "Send GET /reports/total-sales-of-years with years 3 and the admin's token.",
@@ -14700,6 +14747,7 @@ window.SCENARIO_CATALOG = {
     "Verify every item has a year and a total, both numbers."
    ],
    "ref": [],
+   "specLine": 80,
    "area": "reports",
    "areaLabel": "Reports",
    "file": "test-scenarios/api/reports/get-reports-total-sales-of-years.yml",
@@ -14708,12 +14756,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@reports-api"
    ],
-   "yaml": "- id: API-0578\n  name: Total sales of years with years 3 returns four years in ascending order\n  status: manual\n  role: admin\n  steps:\n    - Send GET /reports/total-sales-of-years with years 3 and the admin's token.\n    - Verify the response status is 200.\n    - Verify the body has 4 items.\n    - Verify the items' year values go up by one from the current year minus 3 to the current year.\n    - Verify every item has a year and a total, both numbers."
+   "yaml": "- id: API-0578\n  name: Total sales of years with years 3 returns four years in ascending order\n  status: automated\n  automatedIn: tests/api/reports/get-reports-total-sales-of-years.spec.ts\n  role: admin\n  steps:\n    - Send GET /reports/total-sales-of-years with years 3 and the admin's token.\n    - Verify the response status is 200.\n    - Verify the body has 4 items.\n    - Verify the items' year values go up by one from the current year minus 3 to the current year.\n    - Verify every item has a year and a total, both numbers."
   },
   {
    "id": "API-0579",
    "name": "Total sales of years with years 0 returns only the current year",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/reports/get-reports-total-sales-of-years.spec.ts",
    "role": "admin",
    "steps": [
     "Send GET /reports/total-sales-of-years with years 0 and the admin's token.",
@@ -14721,6 +14770,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body has exactly one item, whose year is the current year."
    ],
    "ref": [],
+   "specLine": 107,
    "area": "reports",
    "areaLabel": "Reports",
    "file": "test-scenarios/api/reports/get-reports-total-sales-of-years.yml",
@@ -14729,12 +14779,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@reports-api"
    ],
-   "yaml": "- id: API-0579\n  name: Total sales of years with years 0 returns only the current year\n  status: manual\n  role: admin\n  steps:\n    - Send GET /reports/total-sales-of-years with years 0 and the admin's token.\n    - Verify the response status is 200.\n    - Verify the body has exactly one item, whose year is the current year."
+   "yaml": "- id: API-0579\n  name: Total sales of years with years 0 returns only the current year\n  status: automated\n  automatedIn: tests/api/reports/get-reports-total-sales-of-years.spec.ts\n  role: admin\n  steps:\n    - Send GET /reports/total-sales-of-years with years 0 and the admin's token.\n    - Verify the response status is 200.\n    - Verify the body has exactly one item, whose year is the current year."
   },
   {
    "id": "API-0580",
    "name": "Total sales of years with a negative years returns an empty list",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/reports/get-reports-total-sales-of-years.spec.ts",
    "role": "admin",
    "steps": [
     "Send GET /reports/total-sales-of-years with years -1 and the admin's token.",
@@ -14742,6 +14793,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body is an empty array."
    ],
    "ref": [],
+   "specLine": 126,
    "area": "reports",
    "areaLabel": "Reports",
    "file": "test-scenarios/api/reports/get-reports-total-sales-of-years.yml",
@@ -14750,18 +14802,20 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@reports-api"
    ],
-   "yaml": "- id: API-0580\n  name: Total sales of years with a negative years returns an empty list\n  status: manual\n  role: admin\n  steps:\n    - Send GET /reports/total-sales-of-years with years -1 and the admin's token.\n    - Verify the response status is 200.\n    - Verify the body is an empty array."
+   "yaml": "- id: API-0580\n  name: Total sales of years with a negative years returns an empty list\n  status: automated\n  automatedIn: tests/api/reports/get-reports-total-sales-of-years.spec.ts\n  role: admin\n  steps:\n    - Send GET /reports/total-sales-of-years with years -1 and the admin's token.\n    - Verify the response status is 200.\n    - Verify the body is an empty array."
   },
   {
    "id": "API-0581",
    "name": "Total sales of years without a token returns 401",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/reports/get-reports-total-sales-of-years.spec.ts",
    "steps": [
     "Send GET /reports/total-sales-of-years without an Authorization header.",
     "Verify the response status is 401.",
     "Verify the body's message is \"Unauthorized\"."
    ],
    "ref": [],
+   "specLine": 258,
    "area": "reports",
    "areaLabel": "Reports",
    "file": "test-scenarios/api/reports/get-reports-total-sales-of-years.yml",
@@ -14770,18 +14824,20 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@reports-api"
    ],
-   "yaml": "- id: API-0581\n  name: Total sales of years without a token returns 401\n  status: manual\n  steps:\n    - Send GET /reports/total-sales-of-years without an Authorization header.\n    - Verify the response status is 401.\n    - Verify the body's message is \"Unauthorized\"."
+   "yaml": "- id: API-0581\n  name: Total sales of years without a token returns 401\n  status: automated\n  automatedIn: tests/api/reports/get-reports-total-sales-of-years.spec.ts\n  steps:\n    - Send GET /reports/total-sales-of-years without an Authorization header.\n    - Verify the response status is 401.\n    - Verify the body's message is \"Unauthorized\"."
   },
   {
    "id": "API-0582",
    "name": "Total sales of years with a malformed token returns 401",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/reports/get-reports-total-sales-of-years.spec.ts",
    "steps": [
     "Send GET /reports/total-sales-of-years with a malformed token.",
     "Verify the response status is 401.",
     "Verify the body's message is \"Unauthorized\"."
    ],
    "ref": [],
+   "specLine": 275,
    "area": "reports",
    "areaLabel": "Reports",
    "file": "test-scenarios/api/reports/get-reports-total-sales-of-years.yml",
@@ -14790,18 +14846,20 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@reports-api"
    ],
-   "yaml": "- id: API-0582\n  name: Total sales of years with a malformed token returns 401\n  status: manual\n  steps:\n    - Send GET /reports/total-sales-of-years with a malformed token.\n    - Verify the response status is 401.\n    - Verify the body's message is \"Unauthorized\"."
+   "yaml": "- id: API-0582\n  name: Total sales of years with a malformed token returns 401\n  status: automated\n  automatedIn: tests/api/reports/get-reports-total-sales-of-years.spec.ts\n  steps:\n    - Send GET /reports/total-sales-of-years with a malformed token.\n    - Verify the response status is 401.\n    - Verify the body's message is \"Unauthorized\"."
   },
   {
    "id": "API-0583",
    "name": "Total sales of years as a customer returns 403",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/reports/get-reports-total-sales-of-years.spec.ts",
    "steps": [
     "Send GET /reports/total-sales-of-years with the default user's token.",
     "Verify the response status is 403.",
     "Verify the body's message is \"Forbidden\"."
    ],
    "ref": [],
+   "specLine": 292,
    "area": "reports",
    "areaLabel": "Reports",
    "file": "test-scenarios/api/reports/get-reports-total-sales-of-years.yml",
@@ -14810,12 +14868,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@reports-api"
    ],
-   "yaml": "- id: API-0583\n  name: Total sales of years as a customer returns 403\n  status: manual\n  steps:\n    - Send GET /reports/total-sales-of-years with the default user's token.\n    - Verify the response status is 403.\n    - Verify the body's message is \"Forbidden\"."
+   "yaml": "- id: API-0583\n  name: Total sales of years as a customer returns 403\n  status: automated\n  automatedIn: tests/api/reports/get-reports-total-sales-of-years.spec.ts\n  steps:\n    - Send GET /reports/total-sales-of-years with the default user's token.\n    - Verify the response status is 403.\n    - Verify the body's message is \"Forbidden\"."
   },
   {
    "id": "API-0584",
    "name": "Total sales of years with a non-numeric years does not return 500",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/reports/get-reports-total-sales-of-years.spec.ts",
    "role": "admin",
    "knownIssue": "Returns 500 for a non-numeric years instead of 422 or ignoring the value.",
    "bug": "BUG-044",
@@ -14824,6 +14883,7 @@ window.SCENARIO_CATALOG = {
     "Verify the response status is 200 or 422."
    ],
    "ref": [],
+   "specLine": 144,
    "area": "reports",
    "areaLabel": "Reports",
    "file": "test-scenarios/api/reports/get-reports-total-sales-of-years.yml",
@@ -14832,12 +14892,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@reports-api"
    ],
-   "yaml": "- id: API-0584\n  name: Total sales of years with a non-numeric years does not return 500\n  status: manual\n  role: admin\n  knownIssue: Returns 500 for a non-numeric years instead of 422 or ignoring the value.\n  bug: BUG-044\n  steps:\n    - Send GET /reports/total-sales-of-years with years \"abc\" and the admin's token.\n    - Verify the response status is 200 or 422."
+   "yaml": "- id: API-0584\n  name: Total sales of years with a non-numeric years does not return 500\n  status: automated\n  automatedIn: tests/api/reports/get-reports-total-sales-of-years.spec.ts\n  role: admin\n  knownIssue: Returns 500 for a non-numeric years instead of 422 or ignoring the value.\n  bug: BUG-044\n  steps:\n    - Send GET /reports/total-sales-of-years with years \"abc\" and the admin's token.\n    - Verify the response status is 200 or 422."
   },
   {
    "id": "API-0585",
    "name": "Total sales of years counts a completed invoice",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/reports/get-reports-total-sales-of-years.spec.ts",
    "role": "admin",
    "steps": [
     "Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.",
@@ -14845,14 +14906,16 @@ window.SCENARIO_CATALOG = {
     "Send GET /products and take the first item's id as the product's id.",
     "Send POST /carts with an empty body and take the returned id as the cart's id.",
     "Send POST /carts/{cartId} with the cart's id, the product's id as product_id and quantity 2.",
+    "Send GET /reports/total-sales-of-years with a years value picked at random between 20 and 99 and the admin's token, and take the last item's total as the starting total.",
     "Send POST /invoices with that access_token, payment_method \"cash-on-delivery\", payment_details {}, billing_street \"Stephansplatz 1\", billing_city \"Wien\", billing_country \"AT\" and the cart's id as cart_id, and take the new invoice's id and total.",
     "Send PUT /invoices/{invoiceId}/status with the invoice's id, that access_token and a body with status \"COMPLETED\".",
-    "Send GET /reports/total-sales-of-years with a years value picked at random between 20 and 99 (so the report is computed fresh, not read from the cache) and the admin's token.",
+    "Send GET /reports/total-sales-of-years with another years value between 20 and 99, different from the first (so the report is computed fresh, not read from the cache), and the admin's token.",
     "Verify the response status is 200.",
     "Verify the body has years + 1 items and its last item's year is the current year.",
-    "Verify the last item's total is not less than the invoice's total."
+    "Verify the last item's total is at least the starting total plus the invoice's total."
    ],
    "ref": [],
+   "specLine": 162,
    "area": "reports",
    "areaLabel": "Reports",
    "file": "test-scenarios/api/reports/get-reports-total-sales-of-years.yml",
@@ -14861,12 +14924,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@reports-api"
    ],
-   "yaml": "- id: API-0585\n  name: Total sales of years counts a completed invoice\n  status: manual\n  role: admin\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.\n    - Send POST /users/login with that email and password, and take its access_token.\n    - Send GET /products and take the first item's id as the product's id.\n    - Send POST /carts with an empty body and take the returned id as the cart's id.\n    - Send POST /carts/{cartId} with the cart's id, the product's id as product_id and quantity 2.\n    - Send POST /invoices with that access_token, payment_method \"cash-on-delivery\", payment_details {}, billing_street \"Stephansplatz 1\", billing_city \"Wien\", billing_country \"AT\" and the cart's id as cart_id, and take the new invoice's id and total.\n    - Send PUT /invoices/{invoiceId}/status with the invoice's id, that access_token and a body with status \"COMPLETED\".\n    - Send GET /reports/total-sales-of-years with a years value picked at random between 20 and 99 (so the report is computed fresh, not read from the cache) and the admin's token.\n    - Verify the response status is 200.\n    - Verify the body has years + 1 items and its last item's year is the current year.\n    - Verify the last item's total is not less than the invoice's total."
+   "yaml": "- id: API-0585\n  name: Total sales of years counts a completed invoice\n  status: automated\n  automatedIn: tests/api/reports/get-reports-total-sales-of-years.spec.ts\n  role: admin\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.\n    - Send POST /users/login with that email and password, and take its access_token.\n    - Send GET /products and take the first item's id as the product's id.\n    - Send POST /carts with an empty body and take the returned id as the cart's id.\n    - Send POST /carts/{cartId} with the cart's id, the product's id as product_id and quantity 2.\n    - Send GET /reports/total-sales-of-years with a years value picked at random between 20 and 99 and the admin's token, and take the last item's total as the starting total.\n    - Send POST /invoices with that access_token, payment_method \"cash-on-delivery\", payment_details {}, billing_street \"Stephansplatz 1\", billing_city \"Wien\", billing_country \"AT\" and the cart's id as cart_id, and take the new invoice's id and total.\n    - Send PUT /invoices/{invoiceId}/status with the invoice's id, that access_token and a body with status \"COMPLETED\".\n    - Send GET /reports/total-sales-of-years with another years value between 20 and 99, different from the first (so the report is computed fresh, not read from the cache), and the admin's token.\n    - Verify the response status is 200.\n    - Verify the body has years + 1 items and its last item's year is the current year.\n    - Verify the last item's total is at least the starting total plus the invoice's total."
   },
   {
    "id": "API-0586",
    "name": "Report requests share one rate limit counter",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/reports/get-reports-total-sales-of-years.spec.ts",
    "steps": [
     "Send GET /reports/total-sales-of-years without an Authorization header, and note the X-RateLimit-Remaining header.",
     "Send GET /reports/top10-purchased-products without an Authorization header, and note its X-RateLimit-Remaining header.",
@@ -14875,6 +14939,7 @@ window.SCENARIO_CATALOG = {
     "Verify the second response's X-RateLimit-Remaining is lower than the first's."
    ],
    "ref": [],
+   "specLine": 309,
    "area": "reports",
    "areaLabel": "Reports",
    "file": "test-scenarios/api/reports/get-reports-total-sales-of-years.yml",
@@ -14883,12 +14948,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@reports-api"
    ],
-   "yaml": "- id: API-0586\n  name: Report requests share one rate limit counter\n  status: manual\n  steps:\n    - Send GET /reports/total-sales-of-years without an Authorization header, and note the X-RateLimit-Remaining header.\n    - Send GET /reports/top10-purchased-products without an Authorization header, and note its X-RateLimit-Remaining header.\n    - Verify both responses have status 401.\n    - Verify both responses have X-RateLimit-Limit 60.\n    - Verify the second response's X-RateLimit-Remaining is lower than the first's."
+   "yaml": "- id: API-0586\n  name: Report requests share one rate limit counter\n  status: automated\n  automatedIn: tests/api/reports/get-reports-total-sales-of-years.spec.ts\n  steps:\n    - Send GET /reports/total-sales-of-years without an Authorization header, and note the X-RateLimit-Remaining header.\n    - Send GET /reports/top10-purchased-products without an Authorization header, and note its X-RateLimit-Remaining header.\n    - Verify both responses have status 401.\n    - Verify both responses have X-RateLimit-Limit 60.\n    - Verify the second response's X-RateLimit-Remaining is lower than the first's."
   },
   {
    "id": "API-0587",
    "name": "Report requests over 60 per minute for one user return 429",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/reports/get-reports-total-sales-of-years.spec.ts",
    "steps": [
     "Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.",
     "Send POST /users/login with that email and password, and take its access_token.",
@@ -14897,6 +14963,7 @@ window.SCENARIO_CATALOG = {
     "Verify the 61st response body's message is \"Too many requests\"."
    ],
    "ref": [],
+   "specLine": 341,
    "area": "reports",
    "areaLabel": "Reports",
    "file": "test-scenarios/api/reports/get-reports-total-sales-of-years.yml",
@@ -14905,12 +14972,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@reports-api"
    ],
-   "yaml": "- id: API-0587\n  name: Report requests over 60 per minute for one user return 429\n  status: manual\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.\n    - Send POST /users/login with that email and password, and take its access_token.\n    - Send GET /reports/total-sales-of-years 61 times in a row, within one minute, with that access_token.\n    - Verify the 61st response status is 429.\n    - Verify the 61st response body's message is \"Too many requests\"."
+   "yaml": "- id: API-0587\n  name: Report requests over 60 per minute for one user return 429\n  status: automated\n  automatedIn: tests/api/reports/get-reports-total-sales-of-years.spec.ts\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.\n    - Send POST /users/login with that email and password, and take its access_token.\n    - Send GET /reports/total-sales-of-years 61 times in a row, within one minute, with that access_token.\n    - Verify the 61st response status is 429.\n    - Verify the 61st response body's message is \"Too many requests\"."
   },
   {
    "id": "API-0588",
    "name": "Total sales per country returns 200 with a list of countries and totals",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/reports/get-reports-total-sales-per-country.spec.ts",
    "role": "admin",
    "steps": [
     "Send GET /reports/total-sales-per-country with the admin's token.",
@@ -14920,6 +14988,7 @@ window.SCENARIO_CATALOG = {
     "Verify no billing_country appears twice."
    ],
    "ref": [],
+   "specLine": 24,
    "area": "reports",
    "areaLabel": "Reports",
    "file": "test-scenarios/api/reports/get-reports-total-sales-per-country.yml",
@@ -14928,18 +14997,20 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@reports-api"
    ],
-   "yaml": "- id: API-0588\n  name: Total sales per country returns 200 with a list of countries and totals\n  status: manual\n  role: admin\n  steps:\n    - Send GET /reports/total-sales-per-country with the admin's token.\n    - Verify the response status is 200.\n    - Verify the body is an array (it is empty until the first invoice is COMPLETED after a re-seed).\n    - Verify every item has billing_country (a string) and total_sales (a number or a numeric string).\n    - Verify no billing_country appears twice."
+   "yaml": "- id: API-0588\n  name: Total sales per country returns 200 with a list of countries and totals\n  status: automated\n  automatedIn: tests/api/reports/get-reports-total-sales-per-country.spec.ts\n  role: admin\n  steps:\n    - Send GET /reports/total-sales-per-country with the admin's token.\n    - Verify the response status is 200.\n    - Verify the body is an array (it is empty until the first invoice is COMPLETED after a re-seed).\n    - Verify every item has billing_country (a string) and total_sales (a number or a numeric string).\n    - Verify no billing_country appears twice."
   },
   {
    "id": "API-0589",
    "name": "Total sales per country without a token returns 401",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/reports/get-reports-total-sales-per-country.spec.ts",
    "steps": [
     "Send GET /reports/total-sales-per-country without an Authorization header.",
     "Verify the response status is 401.",
     "Verify the body's message is \"Unauthorized\"."
    ],
    "ref": [],
+   "specLine": 56,
    "area": "reports",
    "areaLabel": "Reports",
    "file": "test-scenarios/api/reports/get-reports-total-sales-per-country.yml",
@@ -14948,18 +15019,20 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@reports-api"
    ],
-   "yaml": "- id: API-0589\n  name: Total sales per country without a token returns 401\n  status: manual\n  steps:\n    - Send GET /reports/total-sales-per-country without an Authorization header.\n    - Verify the response status is 401.\n    - Verify the body's message is \"Unauthorized\"."
+   "yaml": "- id: API-0589\n  name: Total sales per country without a token returns 401\n  status: automated\n  automatedIn: tests/api/reports/get-reports-total-sales-per-country.spec.ts\n  steps:\n    - Send GET /reports/total-sales-per-country without an Authorization header.\n    - Verify the response status is 401.\n    - Verify the body's message is \"Unauthorized\"."
   },
   {
    "id": "API-0590",
    "name": "Total sales per country with a malformed token returns 401",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/reports/get-reports-total-sales-per-country.spec.ts",
    "steps": [
     "Send GET /reports/total-sales-per-country with a malformed token.",
     "Verify the response status is 401.",
     "Verify the body's message is \"Unauthorized\"."
    ],
    "ref": [],
+   "specLine": 73,
    "area": "reports",
    "areaLabel": "Reports",
    "file": "test-scenarios/api/reports/get-reports-total-sales-per-country.yml",
@@ -14968,18 +15041,20 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@reports-api"
    ],
-   "yaml": "- id: API-0590\n  name: Total sales per country with a malformed token returns 401\n  status: manual\n  steps:\n    - Send GET /reports/total-sales-per-country with a malformed token.\n    - Verify the response status is 401.\n    - Verify the body's message is \"Unauthorized\"."
+   "yaml": "- id: API-0590\n  name: Total sales per country with a malformed token returns 401\n  status: automated\n  automatedIn: tests/api/reports/get-reports-total-sales-per-country.spec.ts\n  steps:\n    - Send GET /reports/total-sales-per-country with a malformed token.\n    - Verify the response status is 401.\n    - Verify the body's message is \"Unauthorized\"."
   },
   {
    "id": "API-0591",
    "name": "Total sales per country as a customer returns 403",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/reports/get-reports-total-sales-per-country.spec.ts",
    "steps": [
     "Send GET /reports/total-sales-per-country with the default user's token.",
     "Verify the response status is 403.",
     "Verify the body's message is \"Forbidden\"."
    ],
    "ref": [],
+   "specLine": 90,
    "area": "reports",
    "areaLabel": "Reports",
    "file": "test-scenarios/api/reports/get-reports-total-sales-per-country.yml",
@@ -14988,7 +15063,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@reports-api"
    ],
-   "yaml": "- id: API-0591\n  name: Total sales per country as a customer returns 403\n  status: manual\n  steps:\n    - Send GET /reports/total-sales-per-country with the default user's token.\n    - Verify the response status is 403.\n    - Verify the body's message is \"Forbidden\"."
+   "yaml": "- id: API-0591\n  name: Total sales per country as a customer returns 403\n  status: automated\n  automatedIn: tests/api/reports/get-reports-total-sales-per-country.spec.ts\n  steps:\n    - Send GET /reports/total-sales-per-country with the default user's token.\n    - Verify the response status is 403.\n    - Verify the body's message is \"Forbidden\"."
   },
   {
    "id": "API-0402",
@@ -15003,7 +15078,7 @@ window.SCENARIO_CATALOG = {
     "Verify data has 1 to 15 items and every item's role is \"user\"."
    ],
    "ref": [],
-   "specLine": 55,
+   "specLine": 52,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/get-users.yml",
@@ -15027,7 +15102,7 @@ window.SCENARIO_CATALOG = {
     "Verify no id appears in both pages' data."
    ],
    "ref": [],
-   "specLine": 83,
+   "specLine": 80,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/get-users.yml",
@@ -15049,7 +15124,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's message is \"Unauthorized\"."
    ],
    "ref": [],
-   "specLine": 107,
+   "specLine": 104,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/get-users.yml",
@@ -15071,7 +15146,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's message is \"Forbidden\"."
    ],
    "ref": [],
-   "specLine": 125,
+   "specLine": 122,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/get-users.yml",
@@ -16558,7 +16633,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's total is 1 and data has exactly one item, whose id is the new user's id and whose first_name and email equal the registered values."
    ],
    "ref": [],
-   "specLine": 62,
+   "specLine": 59,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/get-users-search.yml",
@@ -16582,7 +16657,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's total is 1 and data has exactly one item, whose id is the new user's id."
    ],
    "ref": [],
-   "specLine": 99,
+   "specLine": 96,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/get-users-search.yml",
@@ -16606,7 +16681,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's total is 1 and data has exactly one item, whose id is the new user's id."
    ],
    "ref": [],
-   "specLine": 118,
+   "specLine": 115,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/get-users-search.yml",
@@ -16630,7 +16705,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's total is 1 and data has exactly one item, whose id is the new user's id."
    ],
    "ref": [],
-   "specLine": 142,
+   "specLine": 139,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/get-users-search.yml",
@@ -16654,7 +16729,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's data is an empty array."
    ],
    "ref": [],
-   "specLine": 166,
+   "specLine": 163,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/get-users-search.yml",
@@ -16678,7 +16753,7 @@ window.SCENARIO_CATALOG = {
     "Verify every item's role is \"user\"."
    ],
    "ref": [],
-   "specLine": 192,
+   "specLine": 189,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/get-users-search.yml",
@@ -16702,7 +16777,7 @@ window.SCENARIO_CATALOG = {
     "Verify no id appears in both pages' data."
    ],
    "ref": [],
-   "specLine": 216,
+   "specLine": 213,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/get-users-search.yml",
@@ -16724,7 +16799,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's message is \"Unauthorized\"."
    ],
    "ref": [],
-   "specLine": 240,
+   "specLine": 237,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/get-users-search.yml",
@@ -16747,7 +16822,7 @@ window.SCENARIO_CATALOG = {
     "Verify the response status is 403."
    ],
    "ref": [],
-   "specLine": 258,
+   "specLine": 255,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/get-users-search.yml",
@@ -16772,7 +16847,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's total is 1 and data has exactly one item, whose id is the new user's id."
    ],
    "ref": [],
-   "specLine": 46,
+   "specLine": 43,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/query-users-search.yml",
@@ -16795,7 +16870,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's per_page is 15 and data is not empty."
    ],
    "ref": [],
-   "specLine": 77,
+   "specLine": 74,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/query-users-search.yml",
@@ -16817,7 +16892,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's message is \"Unauthorized\"."
    ],
    "ref": [],
-   "specLine": 101,
+   "specLine": 98,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/query-users-search.yml",
@@ -16838,7 +16913,7 @@ window.SCENARIO_CATALOG = {
     "Verify the response status is 415."
    ],
    "ref": [],
-   "specLine": 122,
+   "specLine": 119,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/query-users-search.yml",
@@ -16861,7 +16936,7 @@ window.SCENARIO_CATALOG = {
     "Verify the response status is 403."
    ],
    "ref": [],
-   "specLine": 135,
+   "specLine": 132,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/query-users-search.yml",
