@@ -18,7 +18,14 @@ steps:
   - Log in as the admin.
   - Send GET /reports/total-sales-of-years with years "abc" and the admin's token.
 expected: "422 with the validation error, or the value is ignored and the default is used (200)."
-actual: "500 (from the source code; not reproduced live)."
+actual: >-
+  500 with { "message": "Server Error" } for years "abc" (reproduced live 2026-10-13 by API-0584). An array
+  years[]=1 gives a 500 too according to the source code; not reproduced live.
 evidence: |-
-  Reports_API.md, endpoint 1 (read from ReportController in sprint5/API). No admin token was available when the
-  contract was written, so the call was not made live.
+  2026-10-13, API-0584 (tests/api/reports/get-reports-total-sales-of-years.spec.ts), live, admin token:
+    GET /reports/total-sales-of-years?years=abc -> 500 { "message": "Server Error" }
+  Re-run on 2026-10-13 at 19:04 UTC with the same result. Without a token both years=abc and years[]=1 give
+  401 { "message": "Unauthorized" } (the token is checked before the parameters).
+  Source: ReportController::totalSalesOfYears in sprint5/API computes now()->year - $request->get('years', 1)
+  without validation; PHP 8 throws a TypeError for a non-numeric string or an array (Reports_API.md, endpoint 1,
+  now marked _(verified)_ for years=abc).
