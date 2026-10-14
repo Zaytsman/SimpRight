@@ -1,0 +1,185 @@
+{
+  "config": {
+    "argv": [
+      "/opt/hostedtoolcache/node/24.21.0/x64/bin/node",
+      "/home/runner/work/SimpRight/SimpRight/node_modules/.bin/playwright",
+      "test",
+      "--project=api"
+    ],
+    "configFile": "/home/runner/work/SimpRight/SimpRight/playwright.config.ts",
+    "rootDir": "/home/runner/work/SimpRight/SimpRight/tests",
+    "failOnFlakyTests": false,
+    "forbidOnly": true,
+    "fullyParallel": true,
+    "globalSetup": "/home/runner/work/SimpRight/SimpRight/src/globalSetup.ts",
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "ci": {
+        "commitHref": "https://github.com/Zaytsman/SimpRight/commit/baf44f4ef77cc4d8b6488f1bbfaad2c500cdccd2",
+        "commitHash": "baf44f4ef77cc4d8b6488f1bbfaad2c500cdccd2",
+        "buildHref": "https://github.com/Zaytsman/SimpRight/actions/runs/38525539040"
+      },
+      "gitCommit": {
+        "shortHash": "baf44f4",
+        "hash": "baf44f4ef77cc4d8b6488f1bbfaad2c500cdccd2",
+        "subject": "Merge pull request #46 from Zaytsman/develop",
+        "body": "Merge pull request #46 from Zaytsman/develop\n\nAutomate the Reports API scenarios (wave 5)",
+        "author": {
+          "name": "Andrew",
+          "email": "15192104+Zaytsman@users.noreply.github.com",
+          "time": 1791919066000
+        },
+        "committer": {
+          "name": "GitHub",
+          "email": "noreply@github.com",
+          "time": 1791919066000
+        },
+        "branch": "main"
+      }
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "/home/runner/work/SimpRight/SimpRight/test-results",
+        "repeatEach": 1,
+        "retries": 2,
+        "metadata": {
+          "ci": {
+            "commitHref": "https://github.com/Zaytsman/SimpRight/commit/baf44f4ef77cc4d8b6488f1bbfaad2c500cdccd2",
+            "commitHash": "baf44f4ef77cc4d8b6488f1bbfaad2c500cdccd2",
+            "buildHref": "https://github.com/Zaytsman/SimpRight/actions/runs/38525539040"
+          },
+          "gitCommit": {
+            "shortHash": "baf44f4",
+            "hash": "baf44f4ef77cc4d8b6488f1bbfaad2c500cdccd2",
+            "subject": "Merge pull request #46 from Zaytsman/develop",
+            "body": "Merge pull request #46 from Zaytsman/develop\n\nAutomate the Reports API scenarios (wave 5)",
+            "author": {
+              "name": "Andrew",
+              "email": "15192104+Zaytsman@users.noreply.github.com",
+              "time": 1791919066000
+            },
+            "committer": {
+              "name": "GitHub",
+              "email": "noreply@github.com",
+              "time": 1791919066000
+            },
+            "branch": "main"
+          }
+        },
+        "id": "api",
+        "name": "api",
+        "testDir": "/home/runner/work/SimpRight/SimpRight/tests/api",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 60000
+      },
+      {
+        "outputDir": "/home/runner/work/SimpRight/SimpRight/test-results",
+        "repeatEach": 1,
+        "retries": 2,
+        "metadata": {
+          "ci": {
+            "commitHref": "https://github.com/Zaytsman/SimpRight/commit/baf44f4ef77cc4d8b6488f1bbfaad2c500cdccd2",
+            "commitHash": "baf44f4ef77cc4d8b6488f1bbfaad2c500cdccd2",
+            "buildHref": "https://github.com/Zaytsman/SimpRight/actions/runs/38525539040"
+          },
+          "gitCommit": {
+            "shortHash": "baf44f4",
+            "hash": "baf44f4ef77cc4d8b6488f1bbfaad2c500cdccd2",
+            "subject": "Merge pull request #46 from Zaytsman/develop",
+            "body": "Merge pull request #46 from Zaytsman/develop\n\nAutomate the Reports API scenarios (wave 5)",
+            "author": {
+              "name": "Andrew",
+              "email": "15192104+Zaytsman@users.noreply.github.com",
+              "time": 1791919066000
+            },
+            "committer": {
+              "name": "GitHub",
+              "email": "noreply@github.com",
+              "time": 1791919066000
+            },
+            "branch": "main"
+          }
+        },
+        "id": "ui",
+        "name": "ui",
+        "testDir": "/home/runner/work/SimpRight/SimpRight/tests/ui",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 60000
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "list",
+        null
+      ],
+      [
+        "html",
+        {
+          "open": "never"
+        }
+      ],
+      [
+        "junit",
+        {
+          "outputFile": "test-results/junit.xml"
+        }
+      ],
+      [
+        "json",
+        {
+          "outputFile": "test-results/results.json"
+        }
+      ],
+      [
+        "/home/runner/work/SimpRight/SimpRight/node_modules/@zaytsman/playwright-api-coverage/dist/index.js",
+        {
+          "docDir": "docs/api/contracts"
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.63.0",
+    "workers": 2,
+    "webServer": null
+  },
+  "suites": [],
+  "errors": [
+    {
+      "message": "Error: Failed to register a customer: 500 Internal Server Error. Body: {\"message\":\"Something went wrong\"}",
+      "stack": "Error: Failed to register a customer: 500 Internal Server Error. Body: {\"message\":\"Something went wrong\"}\n    at assertOk (/home/runner/work/SimpRight/SimpRight/src/api/services/serviceUtils.ts:6:11)\n    at parseOk (/home/runner/work/SimpRight/SimpRight/src/api/services/serviceUtils.ts:12:3)\n    at UsersService.register (/home/runner/work/SimpRight/SimpRight/src/api/services/UsersService.ts:15:19)\n    at createRunUser (/home/runner/work/SimpRight/SimpRight/src/api/auth/runUser.ts:17:21)\n    at globalSetup (/home/runner/work/SimpRight/SimpRight/src/globalSetup.ts:20:3)",
+      "location": {
+        "file": "/home/runner/work/SimpRight/SimpRight/src/api/services/serviceUtils.ts",
+        "column": 11,
+        "line": 6
+      },
+      "snippet": "   at ../src/api/services/serviceUtils.ts:6\n\n\u001b[0m \u001b[90m 4 |\u001b[39m \u001b[36mexport\u001b[39m \u001b[36mfunction\u001b[39m assertOk(response\u001b[33m:\u001b[39m \u001b[33mApiResponse\u001b[39m\u001b[33m,\u001b[39m action\u001b[33m:\u001b[39m string)\u001b[33m:\u001b[39m \u001b[36mvoid\u001b[39m {\n \u001b[90m 5 |\u001b[39m   \u001b[36mif\u001b[39m (\u001b[33m!\u001b[39mresponse\u001b[33m.\u001b[39misSuccess) {\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 6 |\u001b[39m     \u001b[36mthrow\u001b[39m \u001b[36mnew\u001b[39m \u001b[33mError\u001b[39m(\u001b[32m`Failed to ${action}: ${response.status} ${response.statusText}. Body: ${response.body.slice(0, 200)}`\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m   |\u001b[39m           \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 7 |\u001b[39m   }\n \u001b[90m 8 |\u001b[39m }\n \u001b[90m 9 |\u001b[39m\u001b[0m"
+    }
+  ],
+  "stats": {
+    "startTime": "2026-10-14T07:00:11.121Z",
+    "duration": 662.1539999999999,
+    "expected": 0,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  }
+}

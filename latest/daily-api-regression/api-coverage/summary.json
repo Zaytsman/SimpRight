@@ -1,34 +1,34 @@
 {
-  "generatedAt": "2026-10-13T08:55:21.856Z",
+  "generatedAt": "2026-10-14T07:00:11.806Z",
   "totalEndpoints": 85,
-  "coveredEndpoints": 52,
-  "endpointCoveragePct": 61,
+  "coveredEndpoints": 0,
+  "endpointCoveragePct": 0,
   "totalDocumentedStatusCodes": 257,
-  "coveredStatusCodes": 142,
-  "statusCodeCoveragePct": 55,
+  "coveredStatusCodes": 0,
+  "statusCodeCoveragePct": 0,
   "totalRequiredFields": 59,
-  "coveredRequiredFields": 32,
-  "requiredFieldCoveragePct": 54,
+  "coveredRequiredFields": 0,
+  "requiredFieldCoveragePct": 0,
   "totalOptionalFields": 115,
-  "coveredOptionalFields": 74,
-  "optionalFieldCoveragePct": 64,
-  "overallCoveragePct": 59,
+  "coveredOptionalFields": 0,
+  "optionalFieldCoveragePct": 0,
+  "overallCoveragePct": 0,
   "services": {
     "Brands": {
       "serviceName": "Brands",
       "totalEndpoints": 8,
-      "coveredEndpoints": 8,
-      "endpointCoveragePct": 100,
+      "coveredEndpoints": 0,
+      "endpointCoveragePct": 0,
       "documentedStatusCodes": 24,
-      "coveredStatusCodes": 24,
-      "statusCodeCoveragePct": 100,
+      "coveredStatusCodes": 0,
+      "statusCodeCoveragePct": 0,
       "totalRequiredFields": 2,
-      "coveredRequiredFields": 2,
-      "requiredFieldCoveragePct": 100,
+      "coveredRequiredFields": 0,
+      "requiredFieldCoveragePct": 0,
       "totalOptionalFields": 5,
-      "coveredOptionalFields": 5,
-      "optionalFieldCoveragePct": 100,
-      "overallCoveragePct": 100,
+      "coveredOptionalFields": 0,
+      "optionalFieldCoveragePct": 0,
+      "overallCoveragePct": 0,
       "endpoints": [
         {
           "endpoint": {
@@ -54,15 +54,13 @@
               }
             }
           },
-          "callCount": 9,
-          "isCovered": true,
-          "testedStatusCodes": [
-            200
-          ],
+          "callCount": 0,
+          "isCovered": false,
+          "testedStatusCodes": [],
           "documentedStatusCodes": [
             200
           ],
-          "statusCodeCoveragePct": 100,
+          "statusCodeCoveragePct": 0,
           "testedRequiredFields": [],
           "missingRequiredFields": [],
           "requiredFieldCoveragePct": 100,
@@ -72,7 +70,7 @@
           "testedQueryParams": [],
           "missingQueryParams": [],
           "queryParamCoveragePct": 100,
-          "overallCoveragePct": 100
+          "overallCoveragePct": 0
         },
         {
           "endpoint": {
@@ -112,32 +110,28 @@
               }
             }
           },
-          "callCount": 29,
-          "isCovered": true,
-          "testedStatusCodes": [
-            201,
-            422,
-            409
-          ],
+          "callCount": 0,
+          "isCovered": false,
+          "testedStatusCodes": [],
           "documentedStatusCodes": [
             201,
             409,
             422
           ],
-          "statusCodeCoveragePct": 100,
-          "testedRequiredFields": [
+          "statusCodeCoveragePct": 0,
+          "testedRequiredFields": [],
+          "missingRequiredFields": [
             "name",
             "slug"
           ],
-          "missingRequiredFields": [],
-          "requiredFieldCoveragePct": 100,
+          "requiredFieldCoveragePct": 0,
           "testedOptionalFields": [],
           "missingOptionalFields": [],
           "optionalFieldCoveragePct": 100,
           "testedQueryParams": [],
           "missingQueryParams": [],
           "queryParamCoveragePct": 100,
-          "overallCoveragePct": 100
+          "overallCoveragePct": 0
         },
         {
           "endpoint": {
@@ -176,17 +170,14 @@
               }
             }
           },
-          "callCount": 10,
-          "isCovered": true,
-          "testedStatusCodes": [
-            404,
-            200
-          ],
+          "callCount": 0,
+          "isCovered": false,
+          "testedStatusCodes": [],
           "documentedStatusCodes": [
             200,
             404
           ],
-          "statusCodeCoveragePct": 100,
+          "statusCodeCoveragePct": 0,
           "testedRequiredFields": [],
           "missingRequiredFields": [],
           "requiredFieldCoveragePct": 100,
@@ -196,7 +187,7 @@
           "testedQueryParams": [],
           "missingQueryParams": [],
           "queryParamCoveragePct": 100,
-          "overallCoveragePct": 100
+          "overallCoveragePct": 0
         },
         {
           "endpoint": {
@@ -249,34 +240,29 @@
               }
             }
           },
-          "callCount": 9,
-          "isCovered": true,
-          "testedStatusCodes": [
-            422,
-            409,
-            200,
-            404
-          ],
+          "callCount": 0,
+          "isCovered": false,
+          "testedStatusCodes": [],
           "documentedStatusCodes": [
             200,
             404,
             409,
             422
           ],
-          "statusCodeCoveragePct": 100,
+          "statusCodeCoveragePct": 0,
           "testedRequiredFields": [],
           "missingRequiredFields": [],
           "requiredFieldCoveragePct": 100,
-          "testedOptionalFields": [
+          "testedOptionalFields": [],
+          "missingOptionalFields": [
             "name",
             "slug"
           ],
-          "missingOptionalFields": [],
-          "optionalFieldCoveragePct": 100,
+          "optionalFieldCoveragePct": 0,
           "testedQueryParams": [],
           "missingQueryParams": [],
           "queryParamCoveragePct": 100,
-          "overallCoveragePct": 100
+          "overallCoveragePct": 0
         },
         {
           "endpoint": {
@@ -329,34 +315,29 @@
               }
             }
           },
-          "callCount": 7,
-          "isCovered": true,
-          "testedStatusCodes": [
-            200,
-            422,
-            409,
-            404
-          ],
+          "callCount": 0,
+          "isCovered": false,
+          "testedStatusCodes": [],
           "documentedStatusCodes": [
             200,
             404,
             409,
             422
           ],
-          "statusCodeCoveragePct": 100,
+          "statusCodeCoveragePct": 0,
           "testedRequiredFields": [],
           "missingRequiredFields": [],
           "requiredFieldCoveragePct": 100,
-          "testedOptionalFields": [
+          "testedOptionalFields": [],
+          "missingOptionalFields": [
             "name",
             "slug"
           ],
-          "missingOptionalFields": [],
-          "optionalFieldCoveragePct": 100,
+          "optionalFieldCoveragePct": 0,
           "testedQueryParams": [],
           "missingQueryParams": [],
           "queryParamCoveragePct": 100,
-          "overallCoveragePct": 100
+          "overallCoveragePct": 0
         },
         {
           "endpoint": {
@@ -409,15 +390,9 @@
               }
             }
           },
-          "callCount": 28,
-          "isCovered": true,
-          "testedStatusCodes": [
-            204,
-            404,
-            409,
-            401,
-            403
-          ],
+          "callCount": 0,
+          "isCovered": false,
+          "testedStatusCodes": [],
           "documentedStatusCodes": [
             204,
             401,
@@ -425,7 +400,7 @@
             404,
             409
           ],
-          "statusCodeCoveragePct": 100,
+          "statusCodeCoveragePct": 0,
           "testedRequiredFields": [],
           "missingRequiredFields": [],
           "requiredFieldCoveragePct": 100,
@@ -435,7 +410,7 @@
           "testedQueryParams": [],
           "missingQueryParams": [],
           "queryParamCoveragePct": 100,
-          "overallCoveragePct": 100
+          "overallCoveragePct": 0
         },
         {
           "endpoint": {
@@ -474,29 +449,26 @@
               }
             }
           },
-          "callCount": 7,
-          "isCovered": true,
-          "testedStatusCodes": [
-            200,
-            500
-          ],
+          "callCount": 0,
+          "isCovered": false,
+          "testedStatusCodes": [],
           "documentedStatusCodes": [
             200,
             500
           ],
-          "statusCodeCoveragePct": 100,
+          "statusCodeCoveragePct": 0,
           "testedRequiredFields": [],
           "missingRequiredFields": [],
           "requiredFieldCoveragePct": 100,
           "testedOptionalFields": [],
           "missingOptionalFields": [],
           "optionalFieldCoveragePct": 100,
-          "testedQueryParams": [
+          "testedQueryParams": [],
+          "missingQueryParams": [
             "q"
           ],
-          "missingQueryParams": [],
-          "queryParamCoveragePct": 100,
-          "overallCoveragePct": 100
+          "queryParamCoveragePct": 0,
+          "overallCoveragePct": 0
         },
         {
           "endpoint": {
@@ -534,49 +506,45 @@
               }
             }
           },
-          "callCount": 4,
-          "isCovered": true,
-          "testedStatusCodes": [
-            200,
-            415,
-            500
-          ],
+          "callCount": 0,
+          "isCovered": false,
+          "testedStatusCodes": [],
           "documentedStatusCodes": [
             200,
             415,
             500
           ],
-          "statusCodeCoveragePct": 100,
+          "statusCodeCoveragePct": 0,
           "testedRequiredFields": [],
           "missingRequiredFields": [],
           "requiredFieldCoveragePct": 100,
-          "testedOptionalFields": [
+          "testedOptionalFields": [],
+          "missingOptionalFields": [
             "q"
           ],
-          "missingOptionalFields": [],
-          "optionalFieldCoveragePct": 100,
+          "optionalFieldCoveragePct": 0,
           "testedQueryParams": [],
           "missingQueryParams": [],
           "queryParamCoveragePct": 100,
-          "overallCoveragePct": 100
+          "overallCoveragePct": 0
         }
       ]
     },
     "Carts": {
       "serviceName": "Carts",
       "totalEndpoints": 6,
-      "coveredEndpoints": 6,
-      "endpointCoveragePct": 100,
+      "coveredEndpoints": 0,
+      "endpointCoveragePct": 0,
       "documentedStatusCodes": 15,
-      "coveredStatusCodes": 15,
-      "statusCodeCoveragePct": 100,
+      "coveredStatusCodes": 0,
+      "statusCodeCoveragePct": 0,
       "totalRequiredFields": 4,
-      "coveredRequiredFields": 4,
-      "requiredFieldCoveragePct": 100,
+      "coveredRequiredFields": 0,
+      "requiredFieldCoveragePct": 0,
       "totalOptionalFields": 2,
-      "coveredOptionalFields": 2,
-      "optionalFieldCoveragePct": 100,
-      "overallCoveragePct": 100,
+      "coveredOptionalFields": 0,
+      "optionalFieldCoveragePct": 0,
+      "overallCoveragePct": 0,
       "endpoints": [
         {
           "endpoint": {
@@ -608,28 +576,26 @@
               }
             }
           },
-          "callCount": 39,
-          "isCovered": true,
-          "testedStatusCodes": [
-            201
-          ],
+          "callCount": 0,
+          "isCovered": false,
+          "testedStatusCodes": [],
           "documentedStatusCodes": [
             201
           ],
-          "statusCodeCoveragePct": 100,
+          "statusCodeCoveragePct": 0,
           "testedRequiredFields": [],
           "missingRequiredFields": [],
           "requiredFieldCoveragePct": 100,
-          "testedOptionalFields": [
+          "testedOptionalFields": [],
+          "missingOptionalFields": [
             "lat",
             "lng"
           ],
-          "missingOptionalFields": [],
-          "optionalFieldCoveragePct": 100,
+          "optionalFieldCoveragePct": 0,
           "testedQueryParams": [],
           "missingQueryParams": [],
           "queryParamCoveragePct": 100,
-          "overallCoveragePct": 100
+          "overallCoveragePct": 0
         },
         {
           "endpoint": {
@@ -684,34 +650,29 @@
               }
             }
           },
-          "callCount": 45,
-          "isCovered": true,
-          "testedStatusCodes": [
-            200,
-            422,
-            400,
-            404
-          ],
+          "callCount": 0,
+          "isCovered": false,
+          "testedStatusCodes": [],
           "documentedStatusCodes": [
             200,
             400,
             404,
             422
           ],
-          "statusCodeCoveragePct": 100,
-          "testedRequiredFields": [
+          "statusCodeCoveragePct": 0,
+          "testedRequiredFields": [],
+          "missingRequiredFields": [
             "product_id",
             "quantity"
           ],
-          "missingRequiredFields": [],
-          "requiredFieldCoveragePct": 100,
+          "requiredFieldCoveragePct": 0,
           "testedOptionalFields": [],
           "missingOptionalFields": [],
           "optionalFieldCoveragePct": 100,
           "testedQueryParams": [],
           "missingQueryParams": [],
           "queryParamCoveragePct": 100,
-          "overallCoveragePct": 100
+          "overallCoveragePct": 0
         },
         {
           "endpoint": {
@@ -750,17 +711,14 @@
               }
             }
           },
-          "callCount": 38,
-          "isCovered": true,
-          "testedStatusCodes": [
-            200,
-            404
-          ],
+          "callCount": 0,
+          "isCovered": false,
+          "testedStatusCodes": [],
           "documentedStatusCodes": [
             200,
             404
           ],
-          "statusCodeCoveragePct": 100,
+          "statusCodeCoveragePct": 0,
           "testedRequiredFields": [],
           "missingRequiredFields": [],
           "requiredFieldCoveragePct": 100,
@@ -770,7 +728,7 @@
           "testedQueryParams": [],
           "missingQueryParams": [],
           "queryParamCoveragePct": 100,
-          "overallCoveragePct": 100
+          "overallCoveragePct": 0
         },
         {
           "endpoint": {
@@ -825,34 +783,29 @@
               }
             }
           },
-          "callCount": 9,
-          "isCovered": true,
-          "testedStatusCodes": [
-            200,
-            422,
-            400,
-            404
-          ],
+          "callCount": 0,
+          "isCovered": false,
+          "testedStatusCodes": [],
           "documentedStatusCodes": [
             200,
             400,
             404,
             422
           ],
-          "statusCodeCoveragePct": 100,
-          "testedRequiredFields": [
+          "statusCodeCoveragePct": 0,
+          "testedRequiredFields": [],
+          "missingRequiredFields": [
             "product_id",
             "quantity"
           ],
-          "missingRequiredFields": [],
-          "requiredFieldCoveragePct": 100,
+          "requiredFieldCoveragePct": 0,
           "testedOptionalFields": [],
           "missingOptionalFields": [],
           "optionalFieldCoveragePct": 100,
           "testedQueryParams": [],
           "missingQueryParams": [],
           "queryParamCoveragePct": 100,
-          "overallCoveragePct": 100
+          "overallCoveragePct": 0
         },
         {
           "endpoint": {
@@ -897,17 +850,14 @@
               }
             }
           },
-          "callCount": 7,
-          "isCovered": true,
-          "testedStatusCodes": [
-            204,
-            404
-          ],
+          "callCount": 0,
+          "isCovered": false,
+          "testedStatusCodes": [],
           "documentedStatusCodes": [
             204,
             404
           ],
-          "statusCodeCoveragePct": 100,
+          "statusCodeCoveragePct": 0,
           "testedRequiredFields": [],
           "missingRequiredFields": [],
           "requiredFieldCoveragePct": 100,
@@ -917,7 +867,7 @@
           "testedQueryParams": [],
           "missingQueryParams": [],
           "queryParamCoveragePct": 100,
-          "overallCoveragePct": 100
+          "overallCoveragePct": 0
         },
         {
           "endpoint": {
@@ -955,17 +905,14 @@
               }
             }
           },
-          "callCount": 41,
-          "isCovered": true,
-          "testedStatusCodes": [
-            204,
-            404
-          ],
+          "callCount": 0,
+          "isCovered": false,
+          "testedStatusCodes": [],
           "documentedStatusCodes": [
             204,
             404
           ],
-          "statusCodeCoveragePct": 100,
+          "statusCodeCoveragePct": 0,
           "testedRequiredFields": [],
           "missingRequiredFields": [],
           "requiredFieldCoveragePct": 100,
@@ -975,25 +922,25 @@
           "testedQueryParams": [],
           "missingQueryParams": [],
           "queryParamCoveragePct": 100,
-          "overallCoveragePct": 100
+          "overallCoveragePct": 0
         }
       ]
     },
     "Categories": {
       "serviceName": "Categories",
       "totalEndpoints": 10,
-      "coveredEndpoints": 10,
-      "endpointCoveragePct": 100,
+      "coveredEndpoints": 0,
+      "endpointCoveragePct": 0,
       "documentedStatusCodes": 32,
-      "coveredStatusCodes": 32,
-      "statusCodeCoveragePct": 100,
+      "coveredStatusCodes": 0,
+      "statusCodeCoveragePct": 0,
       "totalRequiredFields": 2,
-      "coveredRequiredFields": 2,
-      "requiredFieldCoveragePct": 100,
+      "coveredRequiredFields": 0,
+      "requiredFieldCoveragePct": 0,
       "totalOptionalFields": 9,
-      "coveredOptionalFields": 9,
-      "optionalFieldCoveragePct": 100,
-      "overallCoveragePct": 100,
+      "coveredOptionalFields": 0,
+      "optionalFieldCoveragePct": 0,
+      "overallCoveragePct": 0,
       "endpoints": [
         {
           "endpoint": {
@@ -1019,15 +966,13 @@
               }
             }
           },
-          "callCount": 3,
-          "isCovered": true,
-          "testedStatusCodes": [
-            200
-          ],
+          "callCount": 0,
+          "isCovered": false,
+          "testedStatusCodes": [],
           "documentedStatusCodes": [
             200
           ],
-          "statusCodeCoveragePct": 100,
+          "statusCodeCoveragePct": 0,
           "testedRequiredFields": [],
           "missingRequiredFields": [],
           "requiredFieldCoveragePct": 100,
@@ -1037,7 +982,7 @@
           "testedQueryParams": [],
           "missingQueryParams": [],
           "queryParamCoveragePct": 100,
-          "overallCoveragePct": 100
+          "overallCoveragePct": 0
         },
         {
           "endpoint": {
@@ -1084,36 +1029,31 @@
               }
             }
           },
-          "callCount": 45,
-          "isCovered": true,
-          "testedStatusCodes": [
-            201,
-            422,
-            409,
-            500
-          ],
+          "callCount": 0,
+          "isCovered": false,
+          "testedStatusCodes": [],
           "documentedStatusCodes": [
             201,
             409,
             422,
             500
           ],
-          "statusCodeCoveragePct": 100,
-          "testedRequiredFields": [
+          "statusCodeCoveragePct": 0,
+          "testedRequiredFields": [],
+          "missingRequiredFields": [
             "name",
             "slug"
           ],
-          "missingRequiredFields": [],
-          "requiredFieldCoveragePct": 100,
-          "testedOptionalFields": [
+          "requiredFieldCoveragePct": 0,
+          "testedOptionalFields": [],
+          "missingOptionalFields": [
             "parent_id"
           ],
-          "missingOptionalFields": [],
-          "optionalFieldCoveragePct": 100,
+          "optionalFieldCoveragePct": 0,
           "testedQueryParams": [],
           "missingQueryParams": [],
           "queryParamCoveragePct": 100,
-          "overallCoveragePct": 100
+          "overallCoveragePct": 0
         },
         {
           "endpoint": {
@@ -1152,29 +1092,26 @@
               }
             }
           },
-          "callCount": 8,
-          "isCovered": true,
-          "testedStatusCodes": [
-            200,
-            500
-          ],
+          "callCount": 0,
+          "isCovered": false,
+          "testedStatusCodes": [],
           "documentedStatusCodes": [
             200,
             500
           ],
-          "statusCodeCoveragePct": 100,
+          "statusCodeCoveragePct": 0,
           "testedRequiredFields": [],
           "missingRequiredFields": [],
           "requiredFieldCoveragePct": 100,
           "testedOptionalFields": [],
           "missingOptionalFields": [],
           "optionalFieldCoveragePct": 100,
-          "testedQueryParams": [
+          "testedQueryParams": [],
+          "missingQueryParams": [
             "by_category_slug"
           ],
-          "missingQueryParams": [],
-          "queryParamCoveragePct": 100,
-          "overallCoveragePct": 100
+          "queryParamCoveragePct": 0,
+          "overallCoveragePct": 0
         },
         {
           "endpoint": {
@@ -1212,31 +1149,27 @@
               }
             }
           },
-          "callCount": 4,
-          "isCovered": true,
-          "testedStatusCodes": [
-            200,
-            415,
-            500
-          ],
+          "callCount": 0,
+          "isCovered": false,
+          "testedStatusCodes": [],
           "documentedStatusCodes": [
             200,
             415,
             500
           ],
-          "statusCodeCoveragePct": 100,
+          "statusCodeCoveragePct": 0,
           "testedRequiredFields": [],
           "missingRequiredFields": [],
           "requiredFieldCoveragePct": 100,
-          "testedOptionalFields": [
+          "testedOptionalFields": [],
+          "missingOptionalFields": [
             "by_category_slug"
           ],
-          "missingOptionalFields": [],
-          "optionalFieldCoveragePct": 100,
+          "optionalFieldCoveragePct": 0,
           "testedQueryParams": [],
           "missingQueryParams": [],
           "queryParamCoveragePct": 100,
-          "overallCoveragePct": 100
+          "overallCoveragePct": 0
         },
         {
           "endpoint": {
@@ -1275,17 +1208,14 @@
               }
             }
           },
-          "callCount": 18,
-          "isCovered": true,
-          "testedStatusCodes": [
-            200,
-            404
-          ],
+          "callCount": 0,
+          "isCovered": false,
+          "testedStatusCodes": [],
           "documentedStatusCodes": [
             200,
             404
           ],
-          "statusCodeCoveragePct": 100,
+          "statusCodeCoveragePct": 0,
           "testedRequiredFields": [],
           "missingRequiredFields": [],
           "requiredFieldCoveragePct": 100,
@@ -1295,7 +1225,7 @@
           "testedQueryParams": [],
           "missingQueryParams": [],
           "queryParamCoveragePct": 100,
-          "overallCoveragePct": 100
+          "overallCoveragePct": 0
         },
         {
           "endpoint": {
@@ -1334,29 +1264,26 @@
               }
             }
           },
-          "callCount": 7,
-          "isCovered": true,
-          "testedStatusCodes": [
-            200,
-            500
-          ],
+          "callCount": 0,
+          "isCovered": false,
+          "testedStatusCodes": [],
           "documentedStatusCodes": [
             200,
             500
           ],
-          "statusCodeCoveragePct": 100,
+          "statusCodeCoveragePct": 0,
           "testedRequiredFields": [],
           "missingRequiredFields": [],
           "requiredFieldCoveragePct": 100,
           "testedOptionalFields": [],
           "missingOptionalFields": [],
           "optionalFieldCoveragePct": 100,
-          "testedQueryParams": [
+          "testedQueryParams": [],
+          "missingQueryParams": [
             "q"
           ],
-          "missingQueryParams": [],
-          "queryParamCoveragePct": 100,
-          "overallCoveragePct": 100
+          "queryParamCoveragePct": 0,
+          "overallCoveragePct": 0
         },
         {
           "endpoint": {
@@ -1394,31 +1321,27 @@
               }
             }
           },
-          "callCount": 4,
-          "isCovered": true,
-          "testedStatusCodes": [
-            200,
-            500,
-            415
-          ],
+          "callCount": 0,
+          "isCovered": false,
+          "testedStatusCodes": [],
           "documentedStatusCodes": [
             200,
             415,
             500
           ],
-          "statusCodeCoveragePct": 100,
+          "statusCodeCoveragePct": 0,
           "testedRequiredFields": [],
           "missingRequiredFields": [],
           "requiredFieldCoveragePct": 100,
-          "testedOptionalFields": [
+          "testedOptionalFields": [],
+          "missingOptionalFields": [
             "q"
           ],
-          "missingOptionalFields": [],
-          "optionalFieldCoveragePct": 100,
+          "optionalFieldCoveragePct": 0,
           "testedQueryParams": [],
           "missingQueryParams": [],
           "queryParamCoveragePct": 100,
-          "overallCoveragePct": 100
+          "overallCoveragePct": 0
         },
         {
           "endpoint": {
@@ -1477,15 +1400,9 @@
               }
             }
           },
-          "callCount": 13,
-          "isCovered": true,
-          "testedStatusCodes": [
-            200,
-            422,
-            409,
-            500,
-            404
-          ],
+          "callCount": 0,
+          "isCovered": false,
+          "testedStatusCodes": [],
           "documentedStatusCodes": [
             200,
             404,
@@ -1493,21 +1410,21 @@
             422,
             500
           ],
-          "statusCodeCoveragePct": 100,
+          "statusCodeCoveragePct": 0,
           "testedRequiredFields": [],
           "missingRequiredFields": [],
           "requiredFieldCoveragePct": 100,
-          "testedOptionalFields": [
+          "testedOptionalFields": [],
+          "missingOptionalFields": [
             "name",
             "slug",
             "parent_id"
           ],
-          "missingOptionalFields": [],
-          "optionalFieldCoveragePct": 100,
+          "optionalFieldCoveragePct": 0,
           "testedQueryParams": [],
           "missingQueryParams": [],
           "queryParamCoveragePct": 100,
-          "overallCoveragePct": 100
+          "overallCoveragePct": 0
         },
         {
           "endpoint": {
@@ -1566,15 +1483,9 @@
               }
             }
           },
-          "callCount": 9,
-          "isCovered": true,
-          "testedStatusCodes": [
-            422,
-            409,
-            200,
-            500,
-            404
-          ],
+          "callCount": 0,
+          "isCovered": false,
+          "testedStatusCodes": [],
           "documentedStatusCodes": [
             200,
             404,
@@ -1582,21 +1493,21 @@
             422,
             500
           ],
-          "statusCodeCoveragePct": 100,
+          "statusCodeCoveragePct": 0,
           "testedRequiredFields": [],
           "missingRequiredFields": [],
           "requiredFieldCoveragePct": 100,
-          "testedOptionalFields": [
+          "testedOptionalFields": [],
+          "missingOptionalFields": [
             "name",
             "slug",
             "parent_id"
           ],
-          "missingOptionalFields": [],
-          "optionalFieldCoveragePct": 100,
+          "optionalFieldCoveragePct": 0,
           "testedQueryParams": [],
           "missingQueryParams": [],
           "queryParamCoveragePct": 100,
-          "overallCoveragePct": 100
+          "overallCoveragePct": 0
         },
         {
           "endpoint": {
@@ -1649,15 +1560,9 @@
               }
             }
           },
-          "callCount": 43,
-          "isCovered": true,
-          "testedStatusCodes": [
-            401,
-            204,
-            409,
-            404,
-            403
-          ],
+          "callCount": 0,
+          "isCovered": false,
+          "testedStatusCodes": [],
           "documentedStatusCodes": [
             204,
             401,
@@ -1665,7 +1570,7 @@
             404,
             409
           ],
-          "statusCodeCoveragePct": 100,
+          "statusCodeCoveragePct": 0,
           "testedRequiredFields": [],
           "missingRequiredFields": [],
           "requiredFieldCoveragePct": 100,
@@ -1675,7 +1580,7 @@
           "testedQueryParams": [],
           "missingQueryParams": [],
           "queryParamCoveragePct": 100,
-          "overallCoveragePct": 100
+          "overallCoveragePct": 0
         }
       ]
     },
@@ -1715,7 +1620,7 @@
                 "statusText": "OK",
                 "fields": [],
                 "schemaRaw": "FavoriteWithProduct[]   // see Data Models",
-                "origin": "source"
+                "origin": "verified"
               },
               "401": {
                 "statusCode": 401,
@@ -1766,22 +1671,22 @@
                 "statusText": "Created",
                 "fields": [],
                 "schemaRaw": "Favorite   // see Data Models; without the product",
-                "origin": "source"
+                "origin": "verified"
               },
               "401": {
                 "statusCode": 401,
                 "statusText": "Unauthorized",
-                "origin": "source"
+                "origin": "verified"
               },
               "409": {
                 "statusCode": 409,
                 "statusText": "Conflict",
-                "origin": "source"
+                "origin": "verified"
               },
               "422": {
                 "statusCode": 422,
                 "statusText": "Unprocessable Entity",
-                "origin": "source"
+                "origin": "verified"
               }
             }
           },
@@ -1836,7 +1741,7 @@
                 "statusText": "OK",
                 "fields": [],
                 "schemaRaw": "Favorite   // see Data Models",
-                "origin": "source"
+                "origin": "verified"
               },
               "401": {
                 "statusCode": 401,
@@ -1846,7 +1751,7 @@
               "404": {
                 "statusCode": 404,
                 "statusText": "Not Found",
-                "origin": "source"
+                "origin": "verified"
               }
             }
           },
@@ -1897,12 +1802,12 @@
                 "statusCode": 204,
                 "statusText": "No Content",
                 "fields": [],
-                "origin": "source"
+                "origin": "verified"
               },
               "401": {
                 "statusCode": 401,
                 "statusText": "Unauthorized",
-                "origin": "source"
+                "origin": "verified"
               }
             }
           },
@@ -3266,18 +3171,18 @@
     "Payment": {
       "serviceName": "Payment",
       "totalEndpoints": 1,
-      "coveredEndpoints": 1,
-      "endpointCoveragePct": 100,
+      "coveredEndpoints": 0,
+      "endpointCoveragePct": 0,
       "documentedStatusCodes": 3,
-      "coveredStatusCodes": 3,
-      "statusCodeCoveragePct": 100,
+      "coveredStatusCodes": 0,
+      "statusCodeCoveragePct": 0,
       "totalRequiredFields": 0,
       "coveredRequiredFields": 0,
       "requiredFieldCoveragePct": 100,
       "totalOptionalFields": 2,
-      "coveredOptionalFields": 2,
-      "optionalFieldCoveragePct": 100,
-      "overallCoveragePct": 100,
+      "coveredOptionalFields": 0,
+      "optionalFieldCoveragePct": 0,
+      "overallCoveragePct": 0,
       "endpoints": [
         {
           "endpoint": {
@@ -3319,50 +3224,46 @@
               }
             }
           },
-          "callCount": 29,
-          "isCovered": true,
-          "testedStatusCodes": [
-            200,
-            422,
-            302
-          ],
+          "callCount": 0,
+          "isCovered": false,
+          "testedStatusCodes": [],
           "documentedStatusCodes": [
             200,
             302,
             422
           ],
-          "statusCodeCoveragePct": 100,
+          "statusCodeCoveragePct": 0,
           "testedRequiredFields": [],
           "missingRequiredFields": [],
           "requiredFieldCoveragePct": 100,
-          "testedOptionalFields": [
+          "testedOptionalFields": [],
+          "missingOptionalFields": [
             "payment_method",
             "payment_details"
           ],
-          "missingOptionalFields": [],
-          "optionalFieldCoveragePct": 100,
+          "optionalFieldCoveragePct": 0,
           "testedQueryParams": [],
           "missingQueryParams": [],
           "queryParamCoveragePct": 100,
-          "overallCoveragePct": 100
+          "overallCoveragePct": 0
         }
       ]
     },
     "Postcode": {
       "serviceName": "Postcode",
       "totalEndpoints": 1,
-      "coveredEndpoints": 1,
-      "endpointCoveragePct": 100,
+      "coveredEndpoints": 0,
+      "endpointCoveragePct": 0,
       "documentedStatusCodes": 4,
-      "coveredStatusCodes": 3,
-      "statusCodeCoveragePct": 75,
+      "coveredStatusCodes": 0,
+      "statusCodeCoveragePct": 0,
       "totalRequiredFields": 0,
       "coveredRequiredFields": 0,
       "requiredFieldCoveragePct": 100,
       "totalOptionalFields": 0,
       "coveredOptionalFields": 0,
       "optionalFieldCoveragePct": 100,
-      "overallCoveragePct": 88,
+      "overallCoveragePct": 0,
       "endpoints": [
         {
           "endpoint": {
@@ -3432,52 +3333,48 @@
               }
             }
           },
-          "callCount": 28,
-          "isCovered": true,
-          "testedStatusCodes": [
-            200,
-            422,
-            302
-          ],
+          "callCount": 0,
+          "isCovered": false,
+          "testedStatusCodes": [],
           "documentedStatusCodes": [
             200,
             302,
             422,
             502
           ],
-          "statusCodeCoveragePct": 75,
+          "statusCodeCoveragePct": 0,
           "testedRequiredFields": [],
           "missingRequiredFields": [],
           "requiredFieldCoveragePct": 100,
           "testedOptionalFields": [],
           "missingOptionalFields": [],
           "optionalFieldCoveragePct": 100,
-          "testedQueryParams": [
+          "testedQueryParams": [],
+          "missingQueryParams": [
             "country",
             "postcode",
             "house_number"
           ],
-          "missingQueryParams": [],
-          "queryParamCoveragePct": 100,
-          "overallCoveragePct": 88
+          "queryParamCoveragePct": 0,
+          "overallCoveragePct": 0
         }
       ]
     },
     "Product Specs": {
       "serviceName": "Product Specs",
       "totalEndpoints": 6,
-      "coveredEndpoints": 6,
-      "endpointCoveragePct": 100,
+      "coveredEndpoints": 0,
+      "endpointCoveragePct": 0,
       "documentedStatusCodes": 16,
-      "coveredStatusCodes": 16,
-      "statusCodeCoveragePct": 100,
+      "coveredStatusCodes": 0,
+      "statusCodeCoveragePct": 0,
       "totalRequiredFields": 2,
-      "coveredRequiredFields": 2,
-      "requiredFieldCoveragePct": 100,
+      "coveredRequiredFields": 0,
+      "requiredFieldCoveragePct": 0,
       "totalOptionalFields": 4,
-      "coveredOptionalFields": 4,
-      "optionalFieldCoveragePct": 100,
-      "overallCoveragePct": 100,
+      "coveredOptionalFields": 0,
+      "optionalFieldCoveragePct": 0,
+      "overallCoveragePct": 0,
       "endpoints": [
         {
           "endpoint": {
@@ -3511,15 +3408,13 @@
               }
             }
           },
-          "callCount": 7,
-          "isCovered": true,
-          "testedStatusCodes": [
-            200
-          ],
+          "callCount": 0,
+          "isCovered": false,
+          "testedStatusCodes": [],
           "documentedStatusCodes": [
             200
           ],
-          "statusCodeCoveragePct": 100,
+          "statusCodeCoveragePct": 0,
           "testedRequiredFields": [],
           "missingRequiredFields": [],
           "requiredFieldCoveragePct": 100,
@@ -3529,7 +3424,7 @@
           "testedQueryParams": [],
           "missingQueryParams": [],
           "queryParamCoveragePct": 100,
-          "overallCoveragePct": 100
+          "overallCoveragePct": 0
         },
         {
           "endpoint": {
@@ -3589,15 +3484,9 @@
               }
             }
           },
-          "callCount": 34,
-          "isCovered": true,
-          "testedStatusCodes": [
-            201,
-            401,
-            422,
-            500,
-            302
-          ],
+          "callCount": 0,
+          "isCovered": false,
+          "testedStatusCodes": [],
           "documentedStatusCodes": [
             201,
             302,
@@ -3605,22 +3494,22 @@
             422,
             500
           ],
-          "statusCodeCoveragePct": 100,
-          "testedRequiredFields": [
+          "statusCodeCoveragePct": 0,
+          "testedRequiredFields": [],
+          "missingRequiredFields": [
             "spec_name",
             "spec_value"
           ],
-          "missingRequiredFields": [],
-          "requiredFieldCoveragePct": 100,
-          "testedOptionalFields": [
+          "requiredFieldCoveragePct": 0,
+          "testedOptionalFields": [],
+          "missingOptionalFields": [
             "spec_unit"
           ],
-          "missingOptionalFields": [],
-          "optionalFieldCoveragePct": 100,
+          "optionalFieldCoveragePct": 0,
           "testedQueryParams": [],
           "missingQueryParams": [],
           "queryParamCoveragePct": 100,
-          "overallCoveragePct": 100
+          "overallCoveragePct": 0
         },
         {
           "endpoint": {
@@ -3666,17 +3555,14 @@
               }
             }
           },
-          "callCount": 15,
-          "isCovered": true,
-          "testedStatusCodes": [
-            404,
-            200
-          ],
+          "callCount": 0,
+          "isCovered": false,
+          "testedStatusCodes": [],
           "documentedStatusCodes": [
             200,
             404
           ],
-          "statusCodeCoveragePct": 100,
+          "statusCodeCoveragePct": 0,
           "testedRequiredFields": [],
           "missingRequiredFields": [],
           "requiredFieldCoveragePct": 100,
@@ -3686,7 +3572,7 @@
           "testedQueryParams": [],
           "missingQueryParams": [],
           "queryParamCoveragePct": 100,
-          "overallCoveragePct": 100
+          "overallCoveragePct": 0
         },
         {
           "endpoint": {
@@ -3752,15 +3638,9 @@
               }
             }
           },
-          "callCount": 16,
-          "isCovered": true,
-          "testedStatusCodes": [
-            200,
-            401,
-            422,
-            302,
-            404
-          ],
+          "callCount": 0,
+          "isCovered": false,
+          "testedStatusCodes": [],
           "documentedStatusCodes": [
             200,
             302,
@@ -3768,21 +3648,21 @@
             404,
             422
           ],
-          "statusCodeCoveragePct": 100,
+          "statusCodeCoveragePct": 0,
           "testedRequiredFields": [],
           "missingRequiredFields": [],
           "requiredFieldCoveragePct": 100,
-          "testedOptionalFields": [
+          "testedOptionalFields": [],
+          "missingOptionalFields": [
             "spec_name",
             "spec_value",
             "spec_unit"
           ],
-          "missingOptionalFields": [],
-          "optionalFieldCoveragePct": 100,
+          "optionalFieldCoveragePct": 0,
           "testedQueryParams": [],
           "missingQueryParams": [],
           "queryParamCoveragePct": 100,
-          "overallCoveragePct": 100
+          "overallCoveragePct": 0
         },
         {
           "endpoint": {
@@ -3827,17 +3707,14 @@
               }
             }
           },
-          "callCount": 29,
-          "isCovered": true,
-          "testedStatusCodes": [
-            204,
-            401
-          ],
+          "callCount": 0,
+          "isCovered": false,
+          "testedStatusCodes": [],
           "documentedStatusCodes": [
             204,
             401
           ],
-          "statusCodeCoveragePct": 100,
+          "statusCodeCoveragePct": 0,
           "testedRequiredFields": [],
           "missingRequiredFields": [],
           "requiredFieldCoveragePct": 100,
@@ -3847,7 +3724,7 @@
           "testedQueryParams": [],
           "missingQueryParams": [],
           "queryParamCoveragePct": 100,
-          "overallCoveragePct": 100
+          "overallCoveragePct": 0
         },
         {
           "endpoint": {
@@ -3877,15 +3754,13 @@
               }
             }
           },
-          "callCount": 4,
-          "isCovered": true,
-          "testedStatusCodes": [
-            200
-          ],
+          "callCount": 0,
+          "isCovered": false,
+          "testedStatusCodes": [],
           "documentedStatusCodes": [
             200
           ],
-          "statusCodeCoveragePct": 100,
+          "statusCodeCoveragePct": 0,
           "testedRequiredFields": [],
           "missingRequiredFields": [],
           "requiredFieldCoveragePct": 100,
@@ -3895,25 +3770,25 @@
           "testedQueryParams": [],
           "missingQueryParams": [],
           "queryParamCoveragePct": 100,
-          "overallCoveragePct": 100
+          "overallCoveragePct": 0
         }
       ]
     },
     "Products": {
       "serviceName": "Products",
       "totalEndpoints": 10,
-      "coveredEndpoints": 10,
-      "endpointCoveragePct": 100,
+      "coveredEndpoints": 0,
+      "endpointCoveragePct": 0,
       "documentedStatusCodes": 26,
-      "coveredStatusCodes": 25,
-      "statusCodeCoveragePct": 96,
+      "coveredStatusCodes": 0,
+      "statusCodeCoveragePct": 0,
       "totalRequiredFields": 7,
-      "coveredRequiredFields": 7,
-      "requiredFieldCoveragePct": 100,
+      "coveredRequiredFields": 0,
+      "requiredFieldCoveragePct": 0,
       "totalOptionalFields": 33,
-      "coveredOptionalFields": 33,
-      "optionalFieldCoveragePct": 100,
-      "overallCoveragePct": 99,
+      "coveredOptionalFields": 0,
+      "optionalFieldCoveragePct": 0,
+      "overallCoveragePct": 0,
       "endpoints": [
         {
           "endpoint": {
@@ -4023,24 +3898,22 @@
               }
             }
           },
-          "callCount": 161,
-          "isCovered": true,
-          "testedStatusCodes": [
-            200,
-            500
-          ],
+          "callCount": 0,
+          "isCovered": false,
+          "testedStatusCodes": [],
           "documentedStatusCodes": [
             200,
             500
           ],
-          "statusCodeCoveragePct": 100,
+          "statusCodeCoveragePct": 0,
           "testedRequiredFields": [],
           "missingRequiredFields": [],
           "requiredFieldCoveragePct": 100,
           "testedOptionalFields": [],
           "missingOptionalFields": [],
           "optionalFieldCoveragePct": 100,
-          "testedQueryParams": [
+          "testedQueryParams": [],
+          "missingQueryParams": [
             "by_brand",
             "by_category",
             "by_category_slug",
@@ -4052,9 +3925,8 @@
             "by_spec",
             "page"
           ],
-          "missingQueryParams": [],
-          "queryParamCoveragePct": 100,
-          "overallCoveragePct": 100
+          "queryParamCoveragePct": 0,
+          "overallCoveragePct": 0
         },
         {
           "endpoint": {
@@ -4101,23 +3973,20 @@
               }
             }
           },
-          "callCount": 13,
-          "isCovered": true,
-          "testedStatusCodes": [
-            200,
-            500,
-            415
-          ],
+          "callCount": 0,
+          "isCovered": false,
+          "testedStatusCodes": [],
           "documentedStatusCodes": [
             200,
             415,
             500
           ],
-          "statusCodeCoveragePct": 100,
+          "statusCodeCoveragePct": 0,
           "testedRequiredFields": [],
           "missingRequiredFields": [],
           "requiredFieldCoveragePct": 100,
-          "testedOptionalFields": [
+          "testedOptionalFields": [],
+          "missingOptionalFields": [
             "by_brand",
             "by_category",
             "by_category_slug",
@@ -4129,12 +3998,11 @@
             "by_spec",
             "page"
           ],
-          "missingOptionalFields": [],
-          "optionalFieldCoveragePct": 100,
+          "optionalFieldCoveragePct": 0,
           "testedQueryParams": [],
           "missingQueryParams": [],
           "queryParamCoveragePct": 100,
-          "overallCoveragePct": 100
+          "overallCoveragePct": 0
         },
         {
           "endpoint": {
@@ -4183,20 +4051,17 @@
               }
             }
           },
-          "callCount": 98,
-          "isCovered": true,
-          "testedStatusCodes": [
-            201,
-            422,
-            500
-          ],
+          "callCount": 0,
+          "isCovered": false,
+          "testedStatusCodes": [],
           "documentedStatusCodes": [
             201,
             422,
             500
           ],
-          "statusCodeCoveragePct": 100,
-          "testedRequiredFields": [
+          "statusCodeCoveragePct": 0,
+          "testedRequiredFields": [],
+          "missingRequiredFields": [
             "name",
             "price",
             "category_id",
@@ -4205,19 +4070,18 @@
             "is_location_offer",
             "is_rental"
           ],
-          "missingRequiredFields": [],
-          "requiredFieldCoveragePct": 100,
-          "testedOptionalFields": [
+          "requiredFieldCoveragePct": 0,
+          "testedOptionalFields": [],
+          "missingOptionalFields": [
             "description",
             "co2_rating",
             "stock"
           ],
-          "missingOptionalFields": [],
-          "optionalFieldCoveragePct": 100,
+          "optionalFieldCoveragePct": 0,
           "testedQueryParams": [],
           "missingQueryParams": [],
           "queryParamCoveragePct": 100,
-          "overallCoveragePct": 100
+          "overallCoveragePct": 0
         },
         {
           "endpoint": {
@@ -4259,17 +4123,14 @@
               }
             }
           },
-          "callCount": 25,
-          "isCovered": true,
-          "testedStatusCodes": [
-            200,
-            404
-          ],
+          "callCount": 0,
+          "isCovered": false,
+          "testedStatusCodes": [],
           "documentedStatusCodes": [
             200,
             404
           ],
-          "statusCodeCoveragePct": 100,
+          "statusCodeCoveragePct": 0,
           "testedRequiredFields": [],
           "missingRequiredFields": [],
           "requiredFieldCoveragePct": 100,
@@ -4279,7 +4140,7 @@
           "testedQueryParams": [],
           "missingQueryParams": [],
           "queryParamCoveragePct": 100,
-          "overallCoveragePct": 100
+          "overallCoveragePct": 0
         },
         {
           "endpoint": {
@@ -4335,23 +4196,20 @@
               }
             }
           },
-          "callCount": 11,
-          "isCovered": true,
-          "testedStatusCodes": [
-            422,
-            200,
-            404
-          ],
+          "callCount": 0,
+          "isCovered": false,
+          "testedStatusCodes": [],
           "documentedStatusCodes": [
             200,
             404,
             422
           ],
-          "statusCodeCoveragePct": 100,
+          "statusCodeCoveragePct": 0,
           "testedRequiredFields": [],
           "missingRequiredFields": [],
           "requiredFieldCoveragePct": 100,
-          "testedOptionalFields": [
+          "testedOptionalFields": [],
+          "missingOptionalFields": [
             "name",
             "description",
             "price",
@@ -4363,12 +4221,11 @@
             "co2_rating",
             "stock"
           ],
-          "missingOptionalFields": [],
-          "optionalFieldCoveragePct": 100,
+          "optionalFieldCoveragePct": 0,
           "testedQueryParams": [],
           "missingQueryParams": [],
           "queryParamCoveragePct": 100,
-          "overallCoveragePct": 100
+          "overallCoveragePct": 0
         },
         {
           "endpoint": {
@@ -4422,23 +4279,20 @@
               }
             }
           },
-          "callCount": 8,
-          "isCovered": true,
-          "testedStatusCodes": [
-            422,
-            200,
-            404
-          ],
+          "callCount": 0,
+          "isCovered": false,
+          "testedStatusCodes": [],
           "documentedStatusCodes": [
             200,
             404,
             422
           ],
-          "statusCodeCoveragePct": 100,
+          "statusCodeCoveragePct": 0,
           "testedRequiredFields": [],
           "missingRequiredFields": [],
           "requiredFieldCoveragePct": 100,
-          "testedOptionalFields": [
+          "testedOptionalFields": [],
+          "missingOptionalFields": [
             "name",
             "description",
             "price",
@@ -4448,12 +4302,11 @@
             "is_location_offer",
             "is_rental"
           ],
-          "missingOptionalFields": [],
-          "optionalFieldCoveragePct": 100,
+          "optionalFieldCoveragePct": 0,
           "testedQueryParams": [],
           "missingQueryParams": [],
           "queryParamCoveragePct": 100,
-          "overallCoveragePct": 100
+          "overallCoveragePct": 0
         },
         {
           "endpoint": {
@@ -4506,14 +4359,9 @@
               }
             }
           },
-          "callCount": 95,
-          "isCovered": true,
-          "testedStatusCodes": [
-            204,
-            401,
-            404,
-            403
-          ],
+          "callCount": 0,
+          "isCovered": false,
+          "testedStatusCodes": [],
           "documentedStatusCodes": [
             204,
             401,
@@ -4521,7 +4369,7 @@
             404,
             409
           ],
-          "statusCodeCoveragePct": 80,
+          "statusCodeCoveragePct": 0,
           "testedRequiredFields": [],
           "missingRequiredFields": [],
           "requiredFieldCoveragePct": 100,
@@ -4531,7 +4379,7 @@
           "testedQueryParams": [],
           "missingQueryParams": [],
           "queryParamCoveragePct": 100,
-          "overallCoveragePct": 88
+          "overallCoveragePct": 0
         },
         {
           "endpoint": {
@@ -4570,17 +4418,14 @@
               }
             }
           },
-          "callCount": 3,
-          "isCovered": true,
-          "testedStatusCodes": [
-            500,
-            200
-          ],
+          "callCount": 0,
+          "isCovered": false,
+          "testedStatusCodes": [],
           "documentedStatusCodes": [
             200,
             500
           ],
-          "statusCodeCoveragePct": 100,
+          "statusCodeCoveragePct": 0,
           "testedRequiredFields": [],
           "missingRequiredFields": [],
           "requiredFieldCoveragePct": 100,
@@ -4590,7 +4435,7 @@
           "testedQueryParams": [],
           "missingQueryParams": [],
           "queryParamCoveragePct": 100,
-          "overallCoveragePct": 100
+          "overallCoveragePct": 0
         },
         {
           "endpoint": {
@@ -4639,28 +4484,26 @@
               }
             }
           },
-          "callCount": 9,
-          "isCovered": true,
-          "testedStatusCodes": [
-            200
-          ],
+          "callCount": 0,
+          "isCovered": false,
+          "testedStatusCodes": [],
           "documentedStatusCodes": [
             200
           ],
-          "statusCodeCoveragePct": 100,
+          "statusCodeCoveragePct": 0,
           "testedRequiredFields": [],
           "missingRequiredFields": [],
           "requiredFieldCoveragePct": 100,
           "testedOptionalFields": [],
           "missingOptionalFields": [],
           "optionalFieldCoveragePct": 100,
-          "testedQueryParams": [
+          "testedQueryParams": [],
+          "missingQueryParams": [
             "q",
             "page"
           ],
-          "missingQueryParams": [],
-          "queryParamCoveragePct": 100,
-          "overallCoveragePct": 100
+          "queryParamCoveragePct": 0,
+          "overallCoveragePct": 0
         },
         {
           "endpoint": {
@@ -4694,30 +4537,27 @@
               }
             }
           },
-          "callCount": 4,
-          "isCovered": true,
-          "testedStatusCodes": [
-            200,
-            415
-          ],
+          "callCount": 0,
+          "isCovered": false,
+          "testedStatusCodes": [],
           "documentedStatusCodes": [
             200,
             415
           ],
-          "statusCodeCoveragePct": 100,
+          "statusCodeCoveragePct": 0,
           "testedRequiredFields": [],
           "missingRequiredFields": [],
           "requiredFieldCoveragePct": 100,
-          "testedOptionalFields": [
+          "testedOptionalFields": [],
+          "missingOptionalFields": [
             "q",
             "page"
           ],
-          "missingOptionalFields": [],
-          "optionalFieldCoveragePct": 100,
+          "optionalFieldCoveragePct": 0,
           "testedQueryParams": [],
           "missingQueryParams": [],
           "queryParamCoveragePct": 100,
-          "overallCoveragePct": 100
+          "overallCoveragePct": 0
         }
       ]
     },
@@ -4765,7 +4605,7 @@
                 "statusText": "OK",
                 "fields": [],
                 "schemaRaw": "TotalSalesOfYearsRow[]   // see Data Models; years + 1 items, ascending by year",
-                "origin": "source"
+                "origin": "verified"
               },
               "401": {
                 "statusCode": 401,
@@ -4775,7 +4615,7 @@
               "403": {
                 "statusCode": 403,
                 "statusText": "Forbidden",
-                "origin": "source"
+                "origin": "verified"
               },
               "500": {
                 "statusCode": 500,
@@ -4827,7 +4667,7 @@
                 "statusText": "OK",
                 "fields": [],
                 "schemaRaw": "TotalSalesPerCountryRow[]   // see Data Models; no fixed length, no explicit order",
-                "origin": "source"
+                "origin": "verified"
               },
               "401": {
                 "statusCode": 401,
@@ -4837,7 +4677,7 @@
               "403": {
                 "statusCode": 403,
                 "statusText": "Forbidden",
-                "origin": "source"
+                "origin": "verified"
               }
             }
           },
@@ -4881,7 +4721,7 @@
                 "statusText": "OK",
                 "fields": [],
                 "schemaRaw": "TopPurchasedProductRow[]   // see Data Models; at most 10 items, descending by count",
-                "origin": "source"
+                "origin": "verified"
               },
               "401": {
                 "statusCode": 401,
@@ -4891,7 +4731,7 @@
               "403": {
                 "statusCode": 403,
                 "statusText": "Forbidden",
-                "origin": "source"
+                "origin": "verified"
               }
             }
           },
@@ -4935,7 +4775,7 @@
                 "statusText": "OK",
                 "fields": [],
                 "schemaRaw": "TopSellingCategoryRow[]   // see Data Models; at most 10 items, descending by total_earned",
-                "origin": "source"
+                "origin": "verified"
               },
               "401": {
                 "statusCode": 401,
@@ -4945,7 +4785,7 @@
               "403": {
                 "statusCode": 403,
                 "statusText": "Forbidden",
-                "origin": "source"
+                "origin": "verified"
               }
             }
           },
@@ -4977,7 +4817,7 @@
             "path": "/reports/customers-by-country",
             "normalizedPath": "/reports/customers-by-country",
             "title": "Customers by country",
-            "description": "Returns the number of users with the `user` role per `country`. Admins are not counted; disabled customers are. _(source)_",
+            "description": "Returns the number of users with the `user` role per `country`. Admins are not counted; disabled customers are. _(source)_ A row with `country: null` was seen in the live body _(verified)_; it groups the customers registered without a country, which registration allows _(source)_.",
             "parameters": [],
             "requestBody": {
               "requiredFields": [],
@@ -4989,7 +4829,7 @@
                 "statusText": "OK",
                 "fields": [],
                 "schemaRaw": "CustomersByCountryRow[]   // see Data Models; no fixed length, no explicit order",
-                "origin": "source"
+                "origin": "verified"
               },
               "401": {
                 "statusCode": 401,
@@ -4999,7 +4839,7 @@
               "403": {
                 "statusCode": 403,
                 "statusText": "Forbidden",
-                "origin": "source"
+                "origin": "verified"
               }
             }
           },
@@ -5051,7 +4891,7 @@
                 "statusText": "OK",
                 "fields": [],
                 "schemaRaw": "AverageSalesPerMonthRow[]   // see Data Models; always 12 items, month 1 to 12",
-                "origin": "source"
+                "origin": "verified"
               },
               "401": {
                 "statusCode": 401,
@@ -5061,7 +4901,7 @@
               "403": {
                 "statusCode": 403,
                 "statusText": "Forbidden",
-                "origin": "source"
+                "origin": "verified"
               }
             }
           },
@@ -5115,7 +4955,7 @@
                 "statusText": "OK",
                 "fields": [],
                 "schemaRaw": "AverageSalesPerWeekRow[]   // see Data Models; always 52 items, week 1 to 52",
-                "origin": "source"
+                "origin": "verified"
               },
               "401": {
                 "statusCode": 401,
@@ -5125,7 +4965,7 @@
               "403": {
                 "statusCode": 403,
                 "statusText": "Forbidden",
-                "origin": "source"
+                "origin": "verified"
               }
             }
           },
@@ -5156,18 +4996,18 @@
     "Users": {
       "serviceName": "Users",
       "totalEndpoints": 14,
-      "coveredEndpoints": 10,
-      "endpointCoveragePct": 71,
+      "coveredEndpoints": 0,
+      "endpointCoveragePct": 0,
       "documentedStatusCodes": 46,
-      "coveredStatusCodes": 24,
-      "statusCodeCoveragePct": 52,
+      "coveredStatusCodes": 0,
+      "statusCodeCoveragePct": 0,
       "totalRequiredFields": 15,
-      "coveredRequiredFields": 15,
-      "requiredFieldCoveragePct": 100,
+      "coveredRequiredFields": 0,
+      "requiredFieldCoveragePct": 0,
       "totalOptionalFields": 38,
-      "coveredOptionalFields": 19,
-      "optionalFieldCoveragePct": 50,
-      "overallCoveragePct": 61,
+      "coveredOptionalFields": 0,
+      "optionalFieldCoveragePct": 0,
+      "overallCoveragePct": 0,
       "endpoints": [
         {
           "endpoint": {
@@ -5223,14 +5063,9 @@
               }
             }
           },
-          "callCount": 50,
-          "isCovered": true,
-          "testedStatusCodes": [
-            200,
-            401,
-            403,
-            400
-          ],
+          "callCount": 0,
+          "isCovered": false,
+          "testedStatusCodes": [],
           "documentedStatusCodes": [
             200,
             400,
@@ -5238,22 +5073,22 @@
             403,
             423
           ],
-          "statusCodeCoveragePct": 80,
+          "statusCodeCoveragePct": 0,
           "testedRequiredFields": [],
           "missingRequiredFields": [],
           "requiredFieldCoveragePct": 100,
-          "testedOptionalFields": [
+          "testedOptionalFields": [],
+          "missingOptionalFields": [
             "email",
             "password",
             "access_token",
             "totp"
           ],
-          "missingOptionalFields": [],
-          "optionalFieldCoveragePct": 100,
+          "optionalFieldCoveragePct": 0,
           "testedQueryParams": [],
           "missingQueryParams": [],
           "queryParamCoveragePct": 100,
-          "overallCoveragePct": 91
+          "overallCoveragePct": 0
         },
         {
           "endpoint": {
@@ -5314,28 +5149,25 @@
               }
             }
           },
-          "callCount": 47,
-          "isCovered": true,
-          "testedStatusCodes": [
-            201,
-            422,
-            409
-          ],
+          "callCount": 0,
+          "isCovered": false,
+          "testedStatusCodes": [],
           "documentedStatusCodes": [
             201,
             409,
             422
           ],
-          "statusCodeCoveragePct": 100,
-          "testedRequiredFields": [
+          "statusCodeCoveragePct": 0,
+          "testedRequiredFields": [],
+          "missingRequiredFields": [
             "first_name",
             "last_name",
             "email",
             "password"
           ],
-          "missingRequiredFields": [],
-          "requiredFieldCoveragePct": 100,
-          "testedOptionalFields": [
+          "requiredFieldCoveragePct": 0,
+          "testedOptionalFields": [],
+          "missingOptionalFields": [
             "address",
             "street",
             "house_number",
@@ -5346,12 +5178,11 @@
             "phone",
             "dob"
           ],
-          "missingOptionalFields": [],
-          "optionalFieldCoveragePct": 100,
+          "optionalFieldCoveragePct": 0,
           "testedQueryParams": [],
           "missingQueryParams": [],
           "queryParamCoveragePct": 100,
-          "overallCoveragePct": 100
+          "overallCoveragePct": 0
         },
         {
           "endpoint": {
@@ -5390,31 +5221,27 @@
               }
             }
           },
-          "callCount": 3,
-          "isCovered": true,
-          "testedStatusCodes": [
-            404,
-            422,
-            200
-          ],
+          "callCount": 0,
+          "isCovered": false,
+          "testedStatusCodes": [],
           "documentedStatusCodes": [
             200,
             404,
             422
           ],
-          "statusCodeCoveragePct": 100,
-          "testedRequiredFields": [
+          "statusCodeCoveragePct": 0,
+          "testedRequiredFields": [],
+          "missingRequiredFields": [
             "email"
           ],
-          "missingRequiredFields": [],
-          "requiredFieldCoveragePct": 100,
+          "requiredFieldCoveragePct": 0,
           "testedOptionalFields": [],
           "missingOptionalFields": [],
           "optionalFieldCoveragePct": 100,
           "testedQueryParams": [],
           "missingQueryParams": [],
           "queryParamCoveragePct": 100,
-          "overallCoveragePct": 100
+          "overallCoveragePct": 0
         },
         {
           "endpoint": {
@@ -5460,34 +5287,30 @@
               }
             }
           },
-          "callCount": 7,
-          "isCovered": true,
-          "testedStatusCodes": [
-            200,
-            422,
-            400
-          ],
+          "callCount": 0,
+          "isCovered": false,
+          "testedStatusCodes": [],
           "documentedStatusCodes": [
             200,
             400,
             401,
             422
           ],
-          "statusCodeCoveragePct": 75,
-          "testedRequiredFields": [
+          "statusCodeCoveragePct": 0,
+          "testedRequiredFields": [],
+          "missingRequiredFields": [
             "current_password",
             "new_password",
             "new_password_confirmation"
           ],
-          "missingRequiredFields": [],
-          "requiredFieldCoveragePct": 100,
+          "requiredFieldCoveragePct": 0,
           "testedOptionalFields": [],
           "missingOptionalFields": [],
           "optionalFieldCoveragePct": 100,
           "testedQueryParams": [],
           "missingQueryParams": [],
           "queryParamCoveragePct": 100,
-          "overallCoveragePct": 90
+          "overallCoveragePct": 0
         },
         {
           "endpoint": {
@@ -5518,18 +5341,14 @@
               }
             }
           },
-          "callCount": 23,
-          "isCovered": true,
-          "testedStatusCodes": [
-            401,
-            403,
-            200
-          ],
+          "callCount": 0,
+          "isCovered": false,
+          "testedStatusCodes": [],
           "documentedStatusCodes": [
             200,
             401
           ],
-          "statusCodeCoveragePct": 100,
+          "statusCodeCoveragePct": 0,
           "testedRequiredFields": [],
           "missingRequiredFields": [],
           "requiredFieldCoveragePct": 100,
@@ -5539,7 +5358,7 @@
           "testedQueryParams": [],
           "missingQueryParams": [],
           "queryParamCoveragePct": 100,
-          "overallCoveragePct": 100
+          "overallCoveragePct": 0
         },
         {
           "endpoint": {
@@ -5570,17 +5389,14 @@
               }
             }
           },
-          "callCount": 6,
-          "isCovered": true,
-          "testedStatusCodes": [
-            200,
-            401
-          ],
+          "callCount": 0,
+          "isCovered": false,
+          "testedStatusCodes": [],
           "documentedStatusCodes": [
             200,
             401
           ],
-          "statusCodeCoveragePct": 100,
+          "statusCodeCoveragePct": 0,
           "testedRequiredFields": [],
           "missingRequiredFields": [],
           "requiredFieldCoveragePct": 100,
@@ -5590,7 +5406,7 @@
           "testedQueryParams": [],
           "missingQueryParams": [],
           "queryParamCoveragePct": 100,
-          "overallCoveragePct": 100
+          "overallCoveragePct": 0
         },
         {
           "endpoint": {
@@ -5630,19 +5446,15 @@
               }
             }
           },
-          "callCount": 6,
-          "isCovered": true,
-          "testedStatusCodes": [
-            401,
-            500,
-            200
-          ],
+          "callCount": 0,
+          "isCovered": false,
+          "testedStatusCodes": [],
           "documentedStatusCodes": [
             200,
             401,
             500
           ],
-          "statusCodeCoveragePct": 100,
+          "statusCodeCoveragePct": 0,
           "testedRequiredFields": [],
           "missingRequiredFields": [],
           "requiredFieldCoveragePct": 100,
@@ -5652,7 +5464,7 @@
           "testedQueryParams": [],
           "missingQueryParams": [],
           "queryParamCoveragePct": 100,
-          "overallCoveragePct": 100
+          "overallCoveragePct": 0
         },
         {
           "endpoint": {
@@ -5690,7 +5502,7 @@
                   "total"
                 ],
                 "schemaRaw": "{\n  current_page: number;\n  data: User[];\n  from: number | null;\n  last_page: number;\n  per_page: number;\n  to: number | null;\n  total: number;\n}",
-                "origin": "source"
+                "origin": "verified"
               },
               "401": {
                 "statusCode": 401,
@@ -5700,7 +5512,7 @@
               "403": {
                 "statusCode": 403,
                 "statusText": "Forbidden",
-                "origin": "source"
+                "origin": "verified"
               }
             }
           },
@@ -5769,7 +5581,7 @@
                   "total"
                 ],
                 "schemaRaw": "{\n  current_page: number;\n  data: User[];\n  from: number | null;\n  last_page: number;\n  per_page: number;\n  to: number | null;\n  total: number;\n}",
-                "origin": "source"
+                "origin": "verified"
               },
               "401": {
                 "statusCode": 401,
@@ -5823,7 +5635,7 @@
                 "statusCode": 200,
                 "statusText": "OK",
                 "fields": [],
-                "origin": "source"
+                "origin": "verified"
               },
               "401": {
                 "statusCode": 401,
@@ -5833,7 +5645,7 @@
               "415": {
                 "statusCode": 415,
                 "statusText": "Unsupported Media Type",
-                "origin": "source"
+                "origin": "verified"
               }
             }
           },
@@ -5888,7 +5700,7 @@
                 "statusText": "OK",
                 "fields": [],
                 "schemaRaw": "User",
-                "origin": "source"
+                "origin": "verified"
               },
               "401": {
                 "statusCode": 401,
@@ -5898,7 +5710,7 @@
               "404": {
                 "statusCode": 404,
                 "statusText": "Not Found",
-                "origin": "source"
+                "origin": "verified"
               }
             }
           },
@@ -5985,20 +5797,18 @@
               }
             }
           },
-          "callCount": 6,
-          "isCovered": true,
-          "testedStatusCodes": [
-            200,
-            422
-          ],
+          "callCount": 0,
+          "isCovered": false,
+          "testedStatusCodes": [],
           "documentedStatusCodes": [
             200,
             401,
             403,
             422
           ],
-          "statusCodeCoveragePct": 50,
-          "testedRequiredFields": [
+          "statusCodeCoveragePct": 0,
+          "testedRequiredFields": [],
+          "missingRequiredFields": [
             "first_name",
             "last_name",
             "email",
@@ -6007,23 +5817,21 @@
             "city",
             "country"
           ],
-          "missingRequiredFields": [],
-          "requiredFieldCoveragePct": 100,
-          "testedOptionalFields": [
-            "state",
-            "postal_code",
-            "phone"
-          ],
+          "requiredFieldCoveragePct": 0,
+          "testedOptionalFields": [],
           "missingOptionalFields": [
             "house_number",
+            "state",
+            "postal_code",
+            "phone",
             "dob",
             "role"
           ],
-          "optionalFieldCoveragePct": 50,
+          "optionalFieldCoveragePct": 0,
           "testedQueryParams": [],
           "missingQueryParams": [],
           "queryParamCoveragePct": 100,
-          "overallCoveragePct": 75
+          "overallCoveragePct": 0
         },
         {
           "endpoint": {
@@ -6072,45 +5880,39 @@
                 "statusText": "OK",
                 "fields": [],
                 "schemaRaw": "{ success: true }",
-                "origin": "source"
+                "origin": "verified"
               },
               "401": {
                 "statusCode": 401,
                 "statusText": "Unauthorized",
-                "origin": "source"
+                "origin": "verified"
               },
               "403": {
                 "statusCode": 403,
                 "statusText": "Forbidden",
-                "origin": "source"
+                "origin": "verified"
               },
               "422": {
                 "statusCode": 422,
                 "statusText": "Unprocessable Entity",
-                "origin": "source"
+                "origin": "verified"
               }
             }
           },
-          "callCount": 6,
-          "isCovered": true,
-          "testedStatusCodes": [
-            200
-          ],
+          "callCount": 0,
+          "isCovered": false,
+          "testedStatusCodes": [],
           "documentedStatusCodes": [
             200,
             401,
             403,
             422
           ],
-          "statusCodeCoveragePct": 25,
+          "statusCodeCoveragePct": 0,
           "testedRequiredFields": [],
           "missingRequiredFields": [],
           "requiredFieldCoveragePct": 100,
-          "testedOptionalFields": [
-            "enabled",
-            "totp_enabled",
-            "totp_secret"
-          ],
+          "testedOptionalFields": [],
           "missingOptionalFields": [
             "first_name",
             "last_name",
@@ -6124,14 +5926,17 @@
             "postal_code",
             "phone",
             "dob",
+            "enabled",
             "failed_login_attempts",
+            "totp_enabled",
+            "totp_secret",
             "totp_verified_at"
           ],
-          "optionalFieldCoveragePct": 18,
+          "optionalFieldCoveragePct": 0,
           "testedQueryParams": [],
           "missingQueryParams": [],
           "queryParamCoveragePct": 100,
-          "overallCoveragePct": 46
+          "overallCoveragePct": 0
         },
         {
           "endpoint": {
@@ -6165,17 +5970,17 @@
               "401": {
                 "statusCode": 401,
                 "statusText": "Unauthorized",
-                "origin": "source"
+                "origin": "verified"
               },
               "403": {
                 "statusCode": 403,
                 "statusText": "Forbidden",
-                "origin": "source"
+                "origin": "verified"
               },
               "409": {
                 "statusCode": 409,
                 "statusText": "Conflict",
-                "origin": "source"
+                "origin": "verified"
               },
               "500": {
                 "statusCode": 500,
@@ -6184,11 +5989,9 @@
               }
             }
           },
-          "callCount": 29,
-          "isCovered": true,
-          "testedStatusCodes": [
-            204
-          ],
+          "callCount": 0,
+          "isCovered": false,
+          "testedStatusCodes": [],
           "documentedStatusCodes": [
             204,
             401,
@@ -6196,7 +5999,7 @@
             409,
             500
           ],
-          "statusCodeCoveragePct": 20,
+          "statusCodeCoveragePct": 0,
           "testedRequiredFields": [],
           "missingRequiredFields": [],
           "requiredFieldCoveragePct": 100,
@@ -6206,7 +6009,7 @@
           "testedQueryParams": [],
           "missingQueryParams": [],
           "queryParamCoveragePct": 100,
-          "overallCoveragePct": 52
+          "overallCoveragePct": 0
         }
       ]
     }
@@ -6236,15 +6039,13 @@
           }
         }
       },
-      "callCount": 9,
-      "isCovered": true,
-      "testedStatusCodes": [
-        200
-      ],
+      "callCount": 0,
+      "isCovered": false,
+      "testedStatusCodes": [],
       "documentedStatusCodes": [
         200
       ],
-      "statusCodeCoveragePct": 100,
+      "statusCodeCoveragePct": 0,
       "testedRequiredFields": [],
       "missingRequiredFields": [],
       "requiredFieldCoveragePct": 100,
@@ -6254,7 +6055,7 @@
       "testedQueryParams": [],
       "missingQueryParams": [],
       "queryParamCoveragePct": 100,
-      "overallCoveragePct": 100
+      "overallCoveragePct": 0
     },
     {
       "endpoint": {
@@ -6294,32 +6095,28 @@
           }
         }
       },
-      "callCount": 29,
-      "isCovered": true,
-      "testedStatusCodes": [
-        201,
-        422,
-        409
-      ],
+      "callCount": 0,
+      "isCovered": false,
+      "testedStatusCodes": [],
       "documentedStatusCodes": [
         201,
         409,
         422
       ],
-      "statusCodeCoveragePct": 100,
-      "testedRequiredFields": [
+      "statusCodeCoveragePct": 0,
+      "testedRequiredFields": [],
+      "missingRequiredFields": [
         "name",
         "slug"
       ],
-      "missingRequiredFields": [],
-      "requiredFieldCoveragePct": 100,
+      "requiredFieldCoveragePct": 0,
       "testedOptionalFields": [],
       "missingOptionalFields": [],
       "optionalFieldCoveragePct": 100,
       "testedQueryParams": [],
       "missingQueryParams": [],
       "queryParamCoveragePct": 100,
-      "overallCoveragePct": 100
+      "overallCoveragePct": 0
     },
     {
       "endpoint": {
@@ -6358,17 +6155,14 @@
           }
         }
       },
-      "callCount": 10,
-      "isCovered": true,
-      "testedStatusCodes": [
-        404,
-        200
-      ],
+      "callCount": 0,
+      "isCovered": false,
+      "testedStatusCodes": [],
       "documentedStatusCodes": [
         200,
         404
       ],
-      "statusCodeCoveragePct": 100,
+      "statusCodeCoveragePct": 0,
       "testedRequiredFields": [],
       "missingRequiredFields": [],
       "requiredFieldCoveragePct": 100,
@@ -6378,7 +6172,7 @@
       "testedQueryParams": [],
       "missingQueryParams": [],
       "queryParamCoveragePct": 100,
-      "overallCoveragePct": 100
+      "overallCoveragePct": 0
     },
     {
       "endpoint": {
@@ -6431,34 +6225,29 @@
           }
         }
       },
-      "callCount": 9,
-      "isCovered": true,
-      "testedStatusCodes": [
-        422,
-        409,
-        200,
-        404
-      ],
+      "callCount": 0,
+      "isCovered": false,
+      "testedStatusCodes": [],
       "documentedStatusCodes": [
         200,
         404,
         409,
         422
       ],
-      "statusCodeCoveragePct": 100,
+      "statusCodeCoveragePct": 0,
       "testedRequiredFields": [],
       "missingRequiredFields": [],
       "requiredFieldCoveragePct": 100,
-      "testedOptionalFields": [
+      "testedOptionalFields": [],
+      "missingOptionalFields": [
         "name",
         "slug"
       ],
-      "missingOptionalFields": [],
-      "optionalFieldCoveragePct": 100,
+      "optionalFieldCoveragePct": 0,
       "testedQueryParams": [],
       "missingQueryParams": [],
       "queryParamCoveragePct": 100,
-      "overallCoveragePct": 100
+      "overallCoveragePct": 0
     },
     {
       "endpoint": {
@@ -6511,34 +6300,29 @@
           }
         }
       },
-      "callCount": 7,
-      "isCovered": true,
-      "testedStatusCodes": [
-        200,
-        422,
-        409,
-        404
-      ],
+      "callCount": 0,
+      "isCovered": false,
+      "testedStatusCodes": [],
       "documentedStatusCodes": [
         200,
         404,
         409,
         422
       ],
-      "statusCodeCoveragePct": 100,
+      "statusCodeCoveragePct": 0,
       "testedRequiredFields": [],
       "missingRequiredFields": [],
       "requiredFieldCoveragePct": 100,
-      "testedOptionalFields": [
+      "testedOptionalFields": [],
+      "missingOptionalFields": [
         "name",
         "slug"
       ],
-      "missingOptionalFields": [],
-      "optionalFieldCoveragePct": 100,
+      "optionalFieldCoveragePct": 0,
       "testedQueryParams": [],
       "missingQueryParams": [],
       "queryParamCoveragePct": 100,
-      "overallCoveragePct": 100
+      "overallCoveragePct": 0
     },
     {
       "endpoint": {
@@ -6591,15 +6375,9 @@
           }
         }
       },
-      "callCount": 28,
-      "isCovered": true,
-      "testedStatusCodes": [
-        204,
-        404,
-        409,
-        401,
-        403
-      ],
+      "callCount": 0,
+      "isCovered": false,
+      "testedStatusCodes": [],
       "documentedStatusCodes": [
         204,
         401,
@@ -6607,7 +6385,7 @@
         404,
         409
       ],
-      "statusCodeCoveragePct": 100,
+      "statusCodeCoveragePct": 0,
       "testedRequiredFields": [],
       "missingRequiredFields": [],
       "requiredFieldCoveragePct": 100,
@@ -6617,7 +6395,7 @@
       "testedQueryParams": [],
       "missingQueryParams": [],
       "queryParamCoveragePct": 100,
-      "overallCoveragePct": 100
+      "overallCoveragePct": 0
     },
     {
       "endpoint": {
@@ -6656,29 +6434,26 @@
           }
         }
       },
-      "callCount": 7,
-      "isCovered": true,
-      "testedStatusCodes": [
-        200,
-        500
-      ],
+      "callCount": 0,
+      "isCovered": false,
+      "testedStatusCodes": [],
       "documentedStatusCodes": [
         200,
         500
       ],
-      "statusCodeCoveragePct": 100,
+      "statusCodeCoveragePct": 0,
       "testedRequiredFields": [],
       "missingRequiredFields": [],
       "requiredFieldCoveragePct": 100,
       "testedOptionalFields": [],
       "missingOptionalFields": [],
       "optionalFieldCoveragePct": 100,
-      "testedQueryParams": [
+      "testedQueryParams": [],
+      "missingQueryParams": [
         "q"
       ],
-      "missingQueryParams": [],
-      "queryParamCoveragePct": 100,
-      "overallCoveragePct": 100
+      "queryParamCoveragePct": 0,
+      "overallCoveragePct": 0
     },
     {
       "endpoint": {
@@ -6716,31 +6491,27 @@
           }
         }
       },
-      "callCount": 4,
-      "isCovered": true,
-      "testedStatusCodes": [
-        200,
-        415,
-        500
-      ],
+      "callCount": 0,
+      "isCovered": false,
+      "testedStatusCodes": [],
       "documentedStatusCodes": [
         200,
         415,
         500
       ],
-      "statusCodeCoveragePct": 100,
+      "statusCodeCoveragePct": 0,
       "testedRequiredFields": [],
       "missingRequiredFields": [],
       "requiredFieldCoveragePct": 100,
-      "testedOptionalFields": [
+      "testedOptionalFields": [],
+      "missingOptionalFields": [
         "q"
       ],
-      "missingOptionalFields": [],
-      "optionalFieldCoveragePct": 100,
+      "optionalFieldCoveragePct": 0,
       "testedQueryParams": [],
       "missingQueryParams": [],
       "queryParamCoveragePct": 100,
-      "overallCoveragePct": 100
+      "overallCoveragePct": 0
     },
     {
       "endpoint": {
@@ -6772,28 +6543,26 @@
           }
         }
       },
-      "callCount": 39,
-      "isCovered": true,
-      "testedStatusCodes": [
-        201
-      ],
+      "callCount": 0,
+      "isCovered": false,
+      "testedStatusCodes": [],
       "documentedStatusCodes": [
         201
       ],
-      "statusCodeCoveragePct": 100,
+      "statusCodeCoveragePct": 0,
       "testedRequiredFields": [],
       "missingRequiredFields": [],
       "requiredFieldCoveragePct": 100,
-      "testedOptionalFields": [
+      "testedOptionalFields": [],
+      "missingOptionalFields": [
         "lat",
         "lng"
       ],
-      "missingOptionalFields": [],
-      "optionalFieldCoveragePct": 100,
+      "optionalFieldCoveragePct": 0,
       "testedQueryParams": [],
       "missingQueryParams": [],
       "queryParamCoveragePct": 100,
-      "overallCoveragePct": 100
+      "overallCoveragePct": 0
     },
     {
       "endpoint": {
@@ -6848,34 +6617,29 @@
           }
         }
       },
-      "callCount": 45,
-      "isCovered": true,
-      "testedStatusCodes": [
-        200,
-        422,
-        400,
-        404
-      ],
+      "callCount": 0,
+      "isCovered": false,
+      "testedStatusCodes": [],
       "documentedStatusCodes": [
         200,
         400,
         404,
         422
       ],
-      "statusCodeCoveragePct": 100,
-      "testedRequiredFields": [
+      "statusCodeCoveragePct": 0,
+      "testedRequiredFields": [],
+      "missingRequiredFields": [
         "product_id",
         "quantity"
       ],
-      "missingRequiredFields": [],
-      "requiredFieldCoveragePct": 100,
+      "requiredFieldCoveragePct": 0,
       "testedOptionalFields": [],
       "missingOptionalFields": [],
       "optionalFieldCoveragePct": 100,
       "testedQueryParams": [],
       "missingQueryParams": [],
       "queryParamCoveragePct": 100,
-      "overallCoveragePct": 100
+      "overallCoveragePct": 0
     },
     {
       "endpoint": {
@@ -6914,17 +6678,14 @@
           }
         }
       },
-      "callCount": 38,
-      "isCovered": true,
-      "testedStatusCodes": [
-        200,
-        404
-      ],
+      "callCount": 0,
+      "isCovered": false,
+      "testedStatusCodes": [],
       "documentedStatusCodes": [
         200,
         404
       ],
-      "statusCodeCoveragePct": 100,
+      "statusCodeCoveragePct": 0,
       "testedRequiredFields": [],
       "missingRequiredFields": [],
       "requiredFieldCoveragePct": 100,
@@ -6934,7 +6695,7 @@
       "testedQueryParams": [],
       "missingQueryParams": [],
       "queryParamCoveragePct": 100,
-      "overallCoveragePct": 100
+      "overallCoveragePct": 0
     },
     {
       "endpoint": {
@@ -6989,34 +6750,29 @@
           }
         }
       },
-      "callCount": 9,
-      "isCovered": true,
-      "testedStatusCodes": [
-        200,
-        422,
-        400,
-        404
-      ],
+      "callCount": 0,
+      "isCovered": false,
+      "testedStatusCodes": [],
       "documentedStatusCodes": [
         200,
         400,
         404,
         422
       ],
-      "statusCodeCoveragePct": 100,
-      "testedRequiredFields": [
+      "statusCodeCoveragePct": 0,
+      "testedRequiredFields": [],
+      "missingRequiredFields": [
         "product_id",
         "quantity"
       ],
-      "missingRequiredFields": [],
-      "requiredFieldCoveragePct": 100,
+      "requiredFieldCoveragePct": 0,
       "testedOptionalFields": [],
       "missingOptionalFields": [],
       "optionalFieldCoveragePct": 100,
       "testedQueryParams": [],
       "missingQueryParams": [],
       "queryParamCoveragePct": 100,
-      "overallCoveragePct": 100
+      "overallCoveragePct": 0
     },
     {
       "endpoint": {
@@ -7061,17 +6817,14 @@
           }
         }
       },
-      "callCount": 7,
-      "isCovered": true,
-      "testedStatusCodes": [
-        204,
-        404
-      ],
+      "callCount": 0,
+      "isCovered": false,
+      "testedStatusCodes": [],
       "documentedStatusCodes": [
         204,
         404
       ],
-      "statusCodeCoveragePct": 100,
+      "statusCodeCoveragePct": 0,
       "testedRequiredFields": [],
       "missingRequiredFields": [],
       "requiredFieldCoveragePct": 100,
@@ -7081,7 +6834,7 @@
       "testedQueryParams": [],
       "missingQueryParams": [],
       "queryParamCoveragePct": 100,
-      "overallCoveragePct": 100
+      "overallCoveragePct": 0
     },
     {
       "endpoint": {
@@ -7119,17 +6872,14 @@
           }
         }
       },
-      "callCount": 41,
-      "isCovered": true,
-      "testedStatusCodes": [
-        204,
-        404
-      ],
+      "callCount": 0,
+      "isCovered": false,
+      "testedStatusCodes": [],
       "documentedStatusCodes": [
         204,
         404
       ],
-      "statusCodeCoveragePct": 100,
+      "statusCodeCoveragePct": 0,
       "testedRequiredFields": [],
       "missingRequiredFields": [],
       "requiredFieldCoveragePct": 100,
@@ -7139,7 +6889,7 @@
       "testedQueryParams": [],
       "missingQueryParams": [],
       "queryParamCoveragePct": 100,
-      "overallCoveragePct": 100
+      "overallCoveragePct": 0
     },
     {
       "endpoint": {
@@ -7165,15 +6915,13 @@
           }
         }
       },
-      "callCount": 3,
-      "isCovered": true,
-      "testedStatusCodes": [
-        200
-      ],
+      "callCount": 0,
+      "isCovered": false,
+      "testedStatusCodes": [],
       "documentedStatusCodes": [
         200
       ],
-      "statusCodeCoveragePct": 100,
+      "statusCodeCoveragePct": 0,
       "testedRequiredFields": [],
       "missingRequiredFields": [],
       "requiredFieldCoveragePct": 100,
@@ -7183,7 +6931,7 @@
       "testedQueryParams": [],
       "missingQueryParams": [],
       "queryParamCoveragePct": 100,
-      "overallCoveragePct": 100
+      "overallCoveragePct": 0
     },
     {
       "endpoint": {
@@ -7230,36 +6978,31 @@
           }
         }
       },
-      "callCount": 45,
-      "isCovered": true,
-      "testedStatusCodes": [
-        201,
-        422,
-        409,
-        500
-      ],
+      "callCount": 0,
+      "isCovered": false,
+      "testedStatusCodes": [],
       "documentedStatusCodes": [
         201,
         409,
         422,
         500
       ],
-      "statusCodeCoveragePct": 100,
-      "testedRequiredFields": [
+      "statusCodeCoveragePct": 0,
+      "testedRequiredFields": [],
+      "missingRequiredFields": [
         "name",
         "slug"
       ],
-      "missingRequiredFields": [],
-      "requiredFieldCoveragePct": 100,
-      "testedOptionalFields": [
+      "requiredFieldCoveragePct": 0,
+      "testedOptionalFields": [],
+      "missingOptionalFields": [
         "parent_id"
       ],
-      "missingOptionalFields": [],
-      "optionalFieldCoveragePct": 100,
+      "optionalFieldCoveragePct": 0,
       "testedQueryParams": [],
       "missingQueryParams": [],
       "queryParamCoveragePct": 100,
-      "overallCoveragePct": 100
+      "overallCoveragePct": 0
     },
     {
       "endpoint": {
@@ -7298,29 +7041,26 @@
           }
         }
       },
-      "callCount": 8,
-      "isCovered": true,
-      "testedStatusCodes": [
-        200,
-        500
-      ],
+      "callCount": 0,
+      "isCovered": false,
+      "testedStatusCodes": [],
       "documentedStatusCodes": [
         200,
         500
       ],
-      "statusCodeCoveragePct": 100,
+      "statusCodeCoveragePct": 0,
       "testedRequiredFields": [],
       "missingRequiredFields": [],
       "requiredFieldCoveragePct": 100,
       "testedOptionalFields": [],
       "missingOptionalFields": [],
       "optionalFieldCoveragePct": 100,
-      "testedQueryParams": [
+      "testedQueryParams": [],
+      "missingQueryParams": [
         "by_category_slug"
       ],
-      "missingQueryParams": [],
-      "queryParamCoveragePct": 100,
-      "overallCoveragePct": 100
+      "queryParamCoveragePct": 0,
+      "overallCoveragePct": 0
     },
     {
       "endpoint": {
@@ -7358,31 +7098,27 @@
           }
         }
       },
-      "callCount": 4,
-      "isCovered": true,
-      "testedStatusCodes": [
-        200,
-        415,
-        500
-      ],
+      "callCount": 0,
+      "isCovered": false,
+      "testedStatusCodes": [],
       "documentedStatusCodes": [
         200,
         415,
         500
       ],
-      "statusCodeCoveragePct": 100,
+      "statusCodeCoveragePct": 0,
       "testedRequiredFields": [],
       "missingRequiredFields": [],
       "requiredFieldCoveragePct": 100,
-      "testedOptionalFields": [
+      "testedOptionalFields": [],
+      "missingOptionalFields": [
         "by_category_slug"
       ],
-      "missingOptionalFields": [],
-      "optionalFieldCoveragePct": 100,
+      "optionalFieldCoveragePct": 0,
       "testedQueryParams": [],
       "missingQueryParams": [],
       "queryParamCoveragePct": 100,
-      "overallCoveragePct": 100
+      "overallCoveragePct": 0
     },
     {
       "endpoint": {
@@ -7421,17 +7157,14 @@
           }
         }
       },
-      "callCount": 18,
-      "isCovered": true,
-      "testedStatusCodes": [
-        200,
-        404
-      ],
+      "callCount": 0,
+      "isCovered": false,
+      "testedStatusCodes": [],
       "documentedStatusCodes": [
         200,
         404
       ],
-      "statusCodeCoveragePct": 100,
+      "statusCodeCoveragePct": 0,
       "testedRequiredFields": [],
       "missingRequiredFields": [],
       "requiredFieldCoveragePct": 100,
@@ -7441,7 +7174,7 @@
       "testedQueryParams": [],
       "missingQueryParams": [],
       "queryParamCoveragePct": 100,
-      "overallCoveragePct": 100
+      "overallCoveragePct": 0
     },
     {
       "endpoint": {
@@ -7480,29 +7213,26 @@
           }
         }
       },
-      "callCount": 7,
-      "isCovered": true,
-      "testedStatusCodes": [
-        200,
-        500
-      ],
+      "callCount": 0,
+      "isCovered": false,
+      "testedStatusCodes": [],
       "documentedStatusCodes": [
         200,
         500
       ],
-      "statusCodeCoveragePct": 100,
+      "statusCodeCoveragePct": 0,
       "testedRequiredFields": [],
       "missingRequiredFields": [],
       "requiredFieldCoveragePct": 100,
       "testedOptionalFields": [],
       "missingOptionalFields": [],
       "optionalFieldCoveragePct": 100,
-      "testedQueryParams": [
+      "testedQueryParams": [],
+      "missingQueryParams": [
         "q"
       ],
-      "missingQueryParams": [],
-      "queryParamCoveragePct": 100,
-      "overallCoveragePct": 100
+      "queryParamCoveragePct": 0,
+      "overallCoveragePct": 0
     },
     {
       "endpoint": {
@@ -7540,31 +7270,27 @@
           }
         }
       },
-      "callCount": 4,
-      "isCovered": true,
-      "testedStatusCodes": [
-        200,
-        500,
-        415
-      ],
+      "callCount": 0,
+      "isCovered": false,
+      "testedStatusCodes": [],
       "documentedStatusCodes": [
         200,
         415,
         500
       ],
-      "statusCodeCoveragePct": 100,
+      "statusCodeCoveragePct": 0,
       "testedRequiredFields": [],
       "missingRequiredFields": [],
       "requiredFieldCoveragePct": 100,
-      "testedOptionalFields": [
+      "testedOptionalFields": [],
+      "missingOptionalFields": [
         "q"
       ],
-      "missingOptionalFields": [],
-      "optionalFieldCoveragePct": 100,
+      "optionalFieldCoveragePct": 0,
       "testedQueryParams": [],
       "missingQueryParams": [],
       "queryParamCoveragePct": 100,
-      "overallCoveragePct": 100
+      "overallCoveragePct": 0
     },
     {
       "endpoint": {
@@ -7623,15 +7349,9 @@
           }
         }
       },
-      "callCount": 13,
-      "isCovered": true,
-      "testedStatusCodes": [
-        200,
-        422,
-        409,
-        500,
-        404
-      ],
+      "callCount": 0,
+      "isCovered": false,
+      "testedStatusCodes": [],
       "documentedStatusCodes": [
         200,
         404,
@@ -7639,21 +7359,21 @@
         422,
         500
       ],
-      "statusCodeCoveragePct": 100,
+      "statusCodeCoveragePct": 0,
       "testedRequiredFields": [],
       "missingRequiredFields": [],
       "requiredFieldCoveragePct": 100,
-      "testedOptionalFields": [
+      "testedOptionalFields": [],
+      "missingOptionalFields": [
         "name",
         "slug",
         "parent_id"
       ],
-      "missingOptionalFields": [],
-      "optionalFieldCoveragePct": 100,
+      "optionalFieldCoveragePct": 0,
       "testedQueryParams": [],
       "missingQueryParams": [],
       "queryParamCoveragePct": 100,
-      "overallCoveragePct": 100
+      "overallCoveragePct": 0
     },
     {
       "endpoint": {
@@ -7712,15 +7432,9 @@
           }
         }
       },
-      "callCount": 9,
-      "isCovered": true,
-      "testedStatusCodes": [
-        422,
-        409,
-        200,
-        500,
-        404
-      ],
+      "callCount": 0,
+      "isCovered": false,
+      "testedStatusCodes": [],
       "documentedStatusCodes": [
         200,
         404,
@@ -7728,21 +7442,21 @@
         422,
         500
       ],
-      "statusCodeCoveragePct": 100,
+      "statusCodeCoveragePct": 0,
       "testedRequiredFields": [],
       "missingRequiredFields": [],
       "requiredFieldCoveragePct": 100,
-      "testedOptionalFields": [
+      "testedOptionalFields": [],
+      "missingOptionalFields": [
         "name",
         "slug",
         "parent_id"
       ],
-      "missingOptionalFields": [],
-      "optionalFieldCoveragePct": 100,
+      "optionalFieldCoveragePct": 0,
       "testedQueryParams": [],
       "missingQueryParams": [],
       "queryParamCoveragePct": 100,
-      "overallCoveragePct": 100
+      "overallCoveragePct": 0
     },
     {
       "endpoint": {
@@ -7795,15 +7509,9 @@
           }
         }
       },
-      "callCount": 43,
-      "isCovered": true,
-      "testedStatusCodes": [
-        401,
-        204,
-        409,
-        404,
-        403
-      ],
+      "callCount": 0,
+      "isCovered": false,
+      "testedStatusCodes": [],
       "documentedStatusCodes": [
         204,
         401,
@@ -7811,7 +7519,7 @@
         404,
         409
       ],
-      "statusCodeCoveragePct": 100,
+      "statusCodeCoveragePct": 0,
       "testedRequiredFields": [],
       "missingRequiredFields": [],
       "requiredFieldCoveragePct": 100,
@@ -7821,7 +7529,7 @@
       "testedQueryParams": [],
       "missingQueryParams": [],
       "queryParamCoveragePct": 100,
-      "overallCoveragePct": 100
+      "overallCoveragePct": 0
     },
     {
       "endpoint": {
@@ -7843,7 +7551,7 @@
             "statusText": "OK",
             "fields": [],
             "schemaRaw": "FavoriteWithProduct[]   // see Data Models",
-            "origin": "source"
+            "origin": "verified"
           },
           "401": {
             "statusCode": 401,
@@ -7894,22 +7602,22 @@
             "statusText": "Created",
             "fields": [],
             "schemaRaw": "Favorite   // see Data Models; without the product",
-            "origin": "source"
+            "origin": "verified"
           },
           "401": {
             "statusCode": 401,
             "statusText": "Unauthorized",
-            "origin": "source"
+            "origin": "verified"
           },
           "409": {
             "statusCode": 409,
             "statusText": "Conflict",
-            "origin": "source"
+            "origin": "verified"
           },
           "422": {
             "statusCode": 422,
             "statusText": "Unprocessable Entity",
-            "origin": "source"
+            "origin": "verified"
           }
         }
       },
@@ -7964,7 +7672,7 @@
             "statusText": "OK",
             "fields": [],
             "schemaRaw": "Favorite   // see Data Models",
-            "origin": "source"
+            "origin": "verified"
           },
           "401": {
             "statusCode": 401,
@@ -7974,7 +7682,7 @@
           "404": {
             "statusCode": 404,
             "statusText": "Not Found",
-            "origin": "source"
+            "origin": "verified"
           }
         }
       },
@@ -8025,12 +7733,12 @@
             "statusCode": 204,
             "statusText": "No Content",
             "fields": [],
-            "origin": "source"
+            "origin": "verified"
           },
           "401": {
             "statusCode": 401,
             "statusText": "Unauthorized",
-            "origin": "source"
+            "origin": "verified"
           }
         }
       },
@@ -9375,32 +9083,28 @@
           }
         }
       },
-      "callCount": 29,
-      "isCovered": true,
-      "testedStatusCodes": [
-        200,
-        422,
-        302
-      ],
+      "callCount": 0,
+      "isCovered": false,
+      "testedStatusCodes": [],
       "documentedStatusCodes": [
         200,
         302,
         422
       ],
-      "statusCodeCoveragePct": 100,
+      "statusCodeCoveragePct": 0,
       "testedRequiredFields": [],
       "missingRequiredFields": [],
       "requiredFieldCoveragePct": 100,
-      "testedOptionalFields": [
+      "testedOptionalFields": [],
+      "missingOptionalFields": [
         "payment_method",
         "payment_details"
       ],
-      "missingOptionalFields": [],
-      "optionalFieldCoveragePct": 100,
+      "optionalFieldCoveragePct": 0,
       "testedQueryParams": [],
       "missingQueryParams": [],
       "queryParamCoveragePct": 100,
-      "overallCoveragePct": 100
+      "overallCoveragePct": 0
     },
     {
       "endpoint": {
@@ -9470,34 +9174,30 @@
           }
         }
       },
-      "callCount": 28,
-      "isCovered": true,
-      "testedStatusCodes": [
-        200,
-        422,
-        302
-      ],
+      "callCount": 0,
+      "isCovered": false,
+      "testedStatusCodes": [],
       "documentedStatusCodes": [
         200,
         302,
         422,
         502
       ],
-      "statusCodeCoveragePct": 75,
+      "statusCodeCoveragePct": 0,
       "testedRequiredFields": [],
       "missingRequiredFields": [],
       "requiredFieldCoveragePct": 100,
       "testedOptionalFields": [],
       "missingOptionalFields": [],
       "optionalFieldCoveragePct": 100,
-      "testedQueryParams": [
+      "testedQueryParams": [],
+      "missingQueryParams": [
         "country",
         "postcode",
         "house_number"
       ],
-      "missingQueryParams": [],
-      "queryParamCoveragePct": 100,
-      "overallCoveragePct": 88
+      "queryParamCoveragePct": 0,
+      "overallCoveragePct": 0
     },
     {
       "endpoint": {
@@ -9531,15 +9231,13 @@
           }
         }
       },
-      "callCount": 7,
-      "isCovered": true,
-      "testedStatusCodes": [
-        200
-      ],
+      "callCount": 0,
+      "isCovered": false,
+      "testedStatusCodes": [],
       "documentedStatusCodes": [
         200
       ],
-      "statusCodeCoveragePct": 100,
+      "statusCodeCoveragePct": 0,
       "testedRequiredFields": [],
       "missingRequiredFields": [],
       "requiredFieldCoveragePct": 100,
@@ -9549,7 +9247,7 @@
       "testedQueryParams": [],
       "missingQueryParams": [],
       "queryParamCoveragePct": 100,
-      "overallCoveragePct": 100
+      "overallCoveragePct": 0
     },
     {
       "endpoint": {
@@ -9609,15 +9307,9 @@
           }
         }
       },
-      "callCount": 34,
-      "isCovered": true,
-      "testedStatusCodes": [
-        201,
-        401,
-        422,
-        500,
-        302
-      ],
+      "callCount": 0,
+      "isCovered": false,
+      "testedStatusCodes": [],
       "documentedStatusCodes": [
         201,
         302,
@@ -9625,22 +9317,22 @@
         422,
         500
       ],
-      "statusCodeCoveragePct": 100,
-      "testedRequiredFields": [
+      "statusCodeCoveragePct": 0,
+      "testedRequiredFields": [],
+      "missingRequiredFields": [
         "spec_name",
         "spec_value"
       ],
-      "missingRequiredFields": [],
-      "requiredFieldCoveragePct": 100,
-      "testedOptionalFields": [
+      "requiredFieldCoveragePct": 0,
+      "testedOptionalFields": [],
+      "missingOptionalFields": [
         "spec_unit"
       ],
-      "missingOptionalFields": [],
-      "optionalFieldCoveragePct": 100,
+      "optionalFieldCoveragePct": 0,
       "testedQueryParams": [],
       "missingQueryParams": [],
       "queryParamCoveragePct": 100,
-      "overallCoveragePct": 100
+      "overallCoveragePct": 0
     },
     {
       "endpoint": {
@@ -9686,17 +9378,14 @@
           }
         }
       },
-      "callCount": 15,
-      "isCovered": true,
-      "testedStatusCodes": [
-        404,
-        200
-      ],
+      "callCount": 0,
+      "isCovered": false,
+      "testedStatusCodes": [],
       "documentedStatusCodes": [
         200,
         404
       ],
-      "statusCodeCoveragePct": 100,
+      "statusCodeCoveragePct": 0,
       "testedRequiredFields": [],
       "missingRequiredFields": [],
       "requiredFieldCoveragePct": 100,
@@ -9706,7 +9395,7 @@
       "testedQueryParams": [],
       "missingQueryParams": [],
       "queryParamCoveragePct": 100,
-      "overallCoveragePct": 100
+      "overallCoveragePct": 0
     },
     {
       "endpoint": {
@@ -9772,15 +9461,9 @@
           }
         }
       },
-      "callCount": 16,
-      "isCovered": true,
-      "testedStatusCodes": [
-        200,
-        401,
-        422,
-        302,
-        404
-      ],
+      "callCount": 0,
+      "isCovered": false,
+      "testedStatusCodes": [],
       "documentedStatusCodes": [
         200,
         302,
@@ -9788,21 +9471,21 @@
         404,
         422
       ],
-      "statusCodeCoveragePct": 100,
+      "statusCodeCoveragePct": 0,
       "testedRequiredFields": [],
       "missingRequiredFields": [],
       "requiredFieldCoveragePct": 100,
-      "testedOptionalFields": [
+      "testedOptionalFields": [],
+      "missingOptionalFields": [
         "spec_name",
         "spec_value",
         "spec_unit"
       ],
-      "missingOptionalFields": [],
-      "optionalFieldCoveragePct": 100,
+      "optionalFieldCoveragePct": 0,
       "testedQueryParams": [],
       "missingQueryParams": [],
       "queryParamCoveragePct": 100,
-      "overallCoveragePct": 100
+      "overallCoveragePct": 0
     },
     {
       "endpoint": {
@@ -9847,17 +9530,14 @@
           }
         }
       },
-      "callCount": 29,
-      "isCovered": true,
-      "testedStatusCodes": [
-        204,
-        401
-      ],
+      "callCount": 0,
+      "isCovered": false,
+      "testedStatusCodes": [],
       "documentedStatusCodes": [
         204,
         401
       ],
-      "statusCodeCoveragePct": 100,
+      "statusCodeCoveragePct": 0,
       "testedRequiredFields": [],
       "missingRequiredFields": [],
       "requiredFieldCoveragePct": 100,
@@ -9867,7 +9547,7 @@
       "testedQueryParams": [],
       "missingQueryParams": [],
       "queryParamCoveragePct": 100,
-      "overallCoveragePct": 100
+      "overallCoveragePct": 0
     },
     {
       "endpoint": {
@@ -9897,15 +9577,13 @@
           }
         }
       },
-      "callCount": 4,
-      "isCovered": true,
-      "testedStatusCodes": [
-        200
-      ],
+      "callCount": 0,
+      "isCovered": false,
+      "testedStatusCodes": [],
       "documentedStatusCodes": [
         200
       ],
-      "statusCodeCoveragePct": 100,
+      "statusCodeCoveragePct": 0,
       "testedRequiredFields": [],
       "missingRequiredFields": [],
       "requiredFieldCoveragePct": 100,
@@ -9915,7 +9593,7 @@
       "testedQueryParams": [],
       "missingQueryParams": [],
       "queryParamCoveragePct": 100,
-      "overallCoveragePct": 100
+      "overallCoveragePct": 0
     },
     {
       "endpoint": {
@@ -10025,24 +9703,22 @@
           }
         }
       },
-      "callCount": 161,
-      "isCovered": true,
-      "testedStatusCodes": [
-        200,
-        500
-      ],
+      "callCount": 0,
+      "isCovered": false,
+      "testedStatusCodes": [],
       "documentedStatusCodes": [
         200,
         500
       ],
-      "statusCodeCoveragePct": 100,
+      "statusCodeCoveragePct": 0,
       "testedRequiredFields": [],
       "missingRequiredFields": [],
       "requiredFieldCoveragePct": 100,
       "testedOptionalFields": [],
       "missingOptionalFields": [],
       "optionalFieldCoveragePct": 100,
-      "testedQueryParams": [
+      "testedQueryParams": [],
+      "missingQueryParams": [
         "by_brand",
         "by_category",
         "by_category_slug",
@@ -10054,9 +9730,8 @@
         "by_spec",
         "page"
       ],
-      "missingQueryParams": [],
-      "queryParamCoveragePct": 100,
-      "overallCoveragePct": 100
+      "queryParamCoveragePct": 0,
+      "overallCoveragePct": 0
     },
     {
       "endpoint": {
@@ -10103,23 +9778,20 @@
           }
         }
       },
-      "callCount": 13,
-      "isCovered": true,
-      "testedStatusCodes": [
-        200,
-        500,
-        415
-      ],
+      "callCount": 0,
+      "isCovered": false,
+      "testedStatusCodes": [],
       "documentedStatusCodes": [
         200,
         415,
         500
       ],
-      "statusCodeCoveragePct": 100,
+      "statusCodeCoveragePct": 0,
       "testedRequiredFields": [],
       "missingRequiredFields": [],
       "requiredFieldCoveragePct": 100,
-      "testedOptionalFields": [
+      "testedOptionalFields": [],
+      "missingOptionalFields": [
         "by_brand",
         "by_category",
         "by_category_slug",
@@ -10131,12 +9803,11 @@
         "by_spec",
         "page"
       ],
-      "missingOptionalFields": [],
-      "optionalFieldCoveragePct": 100,
+      "optionalFieldCoveragePct": 0,
       "testedQueryParams": [],
       "missingQueryParams": [],
       "queryParamCoveragePct": 100,
-      "overallCoveragePct": 100
+      "overallCoveragePct": 0
     },
     {
       "endpoint": {
@@ -10185,20 +9856,17 @@
           }
         }
       },
-      "callCount": 98,
-      "isCovered": true,
-      "testedStatusCodes": [
-        201,
-        422,
-        500
-      ],
+      "callCount": 0,
+      "isCovered": false,
+      "testedStatusCodes": [],
       "documentedStatusCodes": [
         201,
         422,
         500
       ],
-      "statusCodeCoveragePct": 100,
-      "testedRequiredFields": [
+      "statusCodeCoveragePct": 0,
+      "testedRequiredFields": [],
+      "missingRequiredFields": [
         "name",
         "price",
         "category_id",
@@ -10207,19 +9875,18 @@
         "is_location_offer",
         "is_rental"
       ],
-      "missingRequiredFields": [],
-      "requiredFieldCoveragePct": 100,
-      "testedOptionalFields": [
+      "requiredFieldCoveragePct": 0,
+      "testedOptionalFields": [],
+      "missingOptionalFields": [
         "description",
         "co2_rating",
         "stock"
       ],
-      "missingOptionalFields": [],
-      "optionalFieldCoveragePct": 100,
+      "optionalFieldCoveragePct": 0,
       "testedQueryParams": [],
       "missingQueryParams": [],
       "queryParamCoveragePct": 100,
-      "overallCoveragePct": 100
+      "overallCoveragePct": 0
     },
     {
       "endpoint": {
@@ -10261,17 +9928,14 @@
           }
         }
       },
-      "callCount": 25,
-      "isCovered": true,
-      "testedStatusCodes": [
-        200,
-        404
-      ],
+      "callCount": 0,
+      "isCovered": false,
+      "testedStatusCodes": [],
       "documentedStatusCodes": [
         200,
         404
       ],
-      "statusCodeCoveragePct": 100,
+      "statusCodeCoveragePct": 0,
       "testedRequiredFields": [],
       "missingRequiredFields": [],
       "requiredFieldCoveragePct": 100,
@@ -10281,7 +9945,7 @@
       "testedQueryParams": [],
       "missingQueryParams": [],
       "queryParamCoveragePct": 100,
-      "overallCoveragePct": 100
+      "overallCoveragePct": 0
     },
     {
       "endpoint": {
@@ -10337,23 +10001,20 @@
           }
         }
       },
-      "callCount": 11,
-      "isCovered": true,
-      "testedStatusCodes": [
-        422,
-        200,
-        404
-      ],
+      "callCount": 0,
+      "isCovered": false,
+      "testedStatusCodes": [],
       "documentedStatusCodes": [
         200,
         404,
         422
       ],
-      "statusCodeCoveragePct": 100,
+      "statusCodeCoveragePct": 0,
       "testedRequiredFields": [],
       "missingRequiredFields": [],
       "requiredFieldCoveragePct": 100,
-      "testedOptionalFields": [
+      "testedOptionalFields": [],
+      "missingOptionalFields": [
         "name",
         "description",
         "price",
@@ -10365,12 +10026,11 @@
         "co2_rating",
         "stock"
       ],
-      "missingOptionalFields": [],
-      "optionalFieldCoveragePct": 100,
+      "optionalFieldCoveragePct": 0,
       "testedQueryParams": [],
       "missingQueryParams": [],
       "queryParamCoveragePct": 100,
-      "overallCoveragePct": 100
+      "overallCoveragePct": 0
     },
     {
       "endpoint": {
@@ -10424,23 +10084,20 @@
           }
         }
       },
-      "callCount": 8,
-      "isCovered": true,
-      "testedStatusCodes": [
-        422,
-        200,
-        404
-      ],
+      "callCount": 0,
+      "isCovered": false,
+      "testedStatusCodes": [],
       "documentedStatusCodes": [
         200,
         404,
         422
       ],
-      "statusCodeCoveragePct": 100,
+      "statusCodeCoveragePct": 0,
       "testedRequiredFields": [],
       "missingRequiredFields": [],
       "requiredFieldCoveragePct": 100,
-      "testedOptionalFields": [
+      "testedOptionalFields": [],
+      "missingOptionalFields": [
         "name",
         "description",
         "price",
@@ -10450,12 +10107,11 @@
         "is_location_offer",
         "is_rental"
       ],
-      "missingOptionalFields": [],
-      "optionalFieldCoveragePct": 100,
+      "optionalFieldCoveragePct": 0,
       "testedQueryParams": [],
       "missingQueryParams": [],
       "queryParamCoveragePct": 100,
-      "overallCoveragePct": 100
+      "overallCoveragePct": 0
     },
     {
       "endpoint": {
@@ -10508,14 +10164,9 @@
           }
         }
       },
-      "callCount": 95,
-      "isCovered": true,
-      "testedStatusCodes": [
-        204,
-        401,
-        404,
-        403
-      ],
+      "callCount": 0,
+      "isCovered": false,
+      "testedStatusCodes": [],
       "documentedStatusCodes": [
         204,
         401,
@@ -10523,7 +10174,7 @@
         404,
         409
       ],
-      "statusCodeCoveragePct": 80,
+      "statusCodeCoveragePct": 0,
       "testedRequiredFields": [],
       "missingRequiredFields": [],
       "requiredFieldCoveragePct": 100,
@@ -10533,7 +10184,7 @@
       "testedQueryParams": [],
       "missingQueryParams": [],
       "queryParamCoveragePct": 100,
-      "overallCoveragePct": 88
+      "overallCoveragePct": 0
     },
     {
       "endpoint": {
@@ -10572,17 +10223,14 @@
           }
         }
       },
-      "callCount": 3,
-      "isCovered": true,
-      "testedStatusCodes": [
-        500,
-        200
-      ],
+      "callCount": 0,
+      "isCovered": false,
+      "testedStatusCodes": [],
       "documentedStatusCodes": [
         200,
         500
       ],
-      "statusCodeCoveragePct": 100,
+      "statusCodeCoveragePct": 0,
       "testedRequiredFields": [],
       "missingRequiredFields": [],
       "requiredFieldCoveragePct": 100,
@@ -10592,7 +10240,7 @@
       "testedQueryParams": [],
       "missingQueryParams": [],
       "queryParamCoveragePct": 100,
-      "overallCoveragePct": 100
+      "overallCoveragePct": 0
     },
     {
       "endpoint": {
@@ -10641,28 +10289,26 @@
           }
         }
       },
-      "callCount": 9,
-      "isCovered": true,
-      "testedStatusCodes": [
-        200
-      ],
+      "callCount": 0,
+      "isCovered": false,
+      "testedStatusCodes": [],
       "documentedStatusCodes": [
         200
       ],
-      "statusCodeCoveragePct": 100,
+      "statusCodeCoveragePct": 0,
       "testedRequiredFields": [],
       "missingRequiredFields": [],
       "requiredFieldCoveragePct": 100,
       "testedOptionalFields": [],
       "missingOptionalFields": [],
       "optionalFieldCoveragePct": 100,
-      "testedQueryParams": [
+      "testedQueryParams": [],
+      "missingQueryParams": [
         "q",
         "page"
       ],
-      "missingQueryParams": [],
-      "queryParamCoveragePct": 100,
-      "overallCoveragePct": 100
+      "queryParamCoveragePct": 0,
+      "overallCoveragePct": 0
     },
     {
       "endpoint": {
@@ -10696,30 +10342,27 @@
           }
         }
       },
-      "callCount": 4,
-      "isCovered": true,
-      "testedStatusCodes": [
-        200,
-        415
-      ],
+      "callCount": 0,
+      "isCovered": false,
+      "testedStatusCodes": [],
       "documentedStatusCodes": [
         200,
         415
       ],
-      "statusCodeCoveragePct": 100,
+      "statusCodeCoveragePct": 0,
       "testedRequiredFields": [],
       "missingRequiredFields": [],
       "requiredFieldCoveragePct": 100,
-      "testedOptionalFields": [
+      "testedOptionalFields": [],
+      "missingOptionalFields": [
         "q",
         "page"
       ],
-      "missingOptionalFields": [],
-      "optionalFieldCoveragePct": 100,
+      "optionalFieldCoveragePct": 0,
       "testedQueryParams": [],
       "missingQueryParams": [],
       "queryParamCoveragePct": 100,
-      "overallCoveragePct": 100
+      "overallCoveragePct": 0
     },
     {
       "endpoint": {
@@ -10749,7 +10392,7 @@
             "statusText": "OK",
             "fields": [],
             "schemaRaw": "TotalSalesOfYearsRow[]   // see Data Models; years + 1 items, ascending by year",
-            "origin": "source"
+            "origin": "verified"
           },
           "401": {
             "statusCode": 401,
@@ -10759,7 +10402,7 @@
           "403": {
             "statusCode": 403,
             "statusText": "Forbidden",
-            "origin": "source"
+            "origin": "verified"
           },
           "500": {
             "statusCode": 500,
@@ -10811,7 +10454,7 @@
             "statusText": "OK",
             "fields": [],
             "schemaRaw": "TotalSalesPerCountryRow[]   // see Data Models; no fixed length, no explicit order",
-            "origin": "source"
+            "origin": "verified"
           },
           "401": {
             "statusCode": 401,
@@ -10821,7 +10464,7 @@
           "403": {
             "statusCode": 403,
             "statusText": "Forbidden",
-            "origin": "source"
+            "origin": "verified"
           }
         }
       },
@@ -10865,7 +10508,7 @@
             "statusText": "OK",
             "fields": [],
             "schemaRaw": "TopPurchasedProductRow[]   // see Data Models; at most 10 items, descending by count",
-            "origin": "source"
+            "origin": "verified"
           },
           "401": {
             "statusCode": 401,
@@ -10875,7 +10518,7 @@
           "403": {
             "statusCode": 403,
             "statusText": "Forbidden",
-            "origin": "source"
+            "origin": "verified"
           }
         }
       },
@@ -10919,7 +10562,7 @@
             "statusText": "OK",
             "fields": [],
             "schemaRaw": "TopSellingCategoryRow[]   // see Data Models; at most 10 items, descending by total_earned",
-            "origin": "source"
+            "origin": "verified"
           },
           "401": {
             "statusCode": 401,
@@ -10929,7 +10572,7 @@
           "403": {
             "statusCode": 403,
             "statusText": "Forbidden",
-            "origin": "source"
+            "origin": "verified"
           }
         }
       },
@@ -10961,7 +10604,7 @@
         "path": "/reports/customers-by-country",
         "normalizedPath": "/reports/customers-by-country",
         "title": "Customers by country",
-        "description": "Returns the number of users with the `user` role per `country`. Admins are not counted; disabled customers are. _(source)_",
+        "description": "Returns the number of users with the `user` role per `country`. Admins are not counted; disabled customers are. _(source)_ A row with `country: null` was seen in the live body _(verified)_; it groups the customers registered without a country, which registration allows _(source)_.",
         "parameters": [],
         "requestBody": {
           "requiredFields": [],
@@ -10973,7 +10616,7 @@
             "statusText": "OK",
             "fields": [],
             "schemaRaw": "CustomersByCountryRow[]   // see Data Models; no fixed length, no explicit order",
-            "origin": "source"
+            "origin": "verified"
           },
           "401": {
             "statusCode": 401,
@@ -10983,7 +10626,7 @@
           "403": {
             "statusCode": 403,
             "statusText": "Forbidden",
-            "origin": "source"
+            "origin": "verified"
           }
         }
       },
@@ -11035,7 +10678,7 @@
             "statusText": "OK",
             "fields": [],
             "schemaRaw": "AverageSalesPerMonthRow[]   // see Data Models; always 12 items, month 1 to 12",
-            "origin": "source"
+            "origin": "verified"
           },
           "401": {
             "statusCode": 401,
@@ -11045,7 +10688,7 @@
           "403": {
             "statusCode": 403,
             "statusText": "Forbidden",
-            "origin": "source"
+            "origin": "verified"
           }
         }
       },
@@ -11099,7 +10742,7 @@
             "statusText": "OK",
             "fields": [],
             "schemaRaw": "AverageSalesPerWeekRow[]   // see Data Models; always 52 items, week 1 to 52",
-            "origin": "source"
+            "origin": "verified"
           },
           "401": {
             "statusCode": 401,
@@ -11109,7 +10752,7 @@
           "403": {
             "statusCode": 403,
             "statusText": "Forbidden",
-            "origin": "source"
+            "origin": "verified"
           }
         }
       },
@@ -11189,14 +10832,9 @@
           }
         }
       },
-      "callCount": 50,
-      "isCovered": true,
-      "testedStatusCodes": [
-        200,
-        401,
-        403,
-        400
-      ],
+      "callCount": 0,
+      "isCovered": false,
+      "testedStatusCodes": [],
       "documentedStatusCodes": [
         200,
         400,
@@ -11204,22 +10842,22 @@
         403,
         423
       ],
-      "statusCodeCoveragePct": 80,
+      "statusCodeCoveragePct": 0,
       "testedRequiredFields": [],
       "missingRequiredFields": [],
       "requiredFieldCoveragePct": 100,
-      "testedOptionalFields": [
+      "testedOptionalFields": [],
+      "missingOptionalFields": [
         "email",
         "password",
         "access_token",
         "totp"
       ],
-      "missingOptionalFields": [],
-      "optionalFieldCoveragePct": 100,
+      "optionalFieldCoveragePct": 0,
       "testedQueryParams": [],
       "missingQueryParams": [],
       "queryParamCoveragePct": 100,
-      "overallCoveragePct": 91
+      "overallCoveragePct": 0
     },
     {
       "endpoint": {
@@ -11280,28 +10918,25 @@
           }
         }
       },
-      "callCount": 47,
-      "isCovered": true,
-      "testedStatusCodes": [
-        201,
-        422,
-        409
-      ],
+      "callCount": 0,
+      "isCovered": false,
+      "testedStatusCodes": [],
       "documentedStatusCodes": [
         201,
         409,
         422
       ],
-      "statusCodeCoveragePct": 100,
-      "testedRequiredFields": [
+      "statusCodeCoveragePct": 0,
+      "testedRequiredFields": [],
+      "missingRequiredFields": [
         "first_name",
         "last_name",
         "email",
         "password"
       ],
-      "missingRequiredFields": [],
-      "requiredFieldCoveragePct": 100,
-      "testedOptionalFields": [
+      "requiredFieldCoveragePct": 0,
+      "testedOptionalFields": [],
+      "missingOptionalFields": [
         "address",
         "street",
         "house_number",
@@ -11312,12 +10947,11 @@
         "phone",
         "dob"
       ],
-      "missingOptionalFields": [],
-      "optionalFieldCoveragePct": 100,
+      "optionalFieldCoveragePct": 0,
       "testedQueryParams": [],
       "missingQueryParams": [],
       "queryParamCoveragePct": 100,
-      "overallCoveragePct": 100
+      "overallCoveragePct": 0
     },
     {
       "endpoint": {
@@ -11356,31 +10990,27 @@
           }
         }
       },
-      "callCount": 3,
-      "isCovered": true,
-      "testedStatusCodes": [
-        404,
-        422,
-        200
-      ],
+      "callCount": 0,
+      "isCovered": false,
+      "testedStatusCodes": [],
       "documentedStatusCodes": [
         200,
         404,
         422
       ],
-      "statusCodeCoveragePct": 100,
-      "testedRequiredFields": [
+      "statusCodeCoveragePct": 0,
+      "testedRequiredFields": [],
+      "missingRequiredFields": [
         "email"
       ],
-      "missingRequiredFields": [],
-      "requiredFieldCoveragePct": 100,
+      "requiredFieldCoveragePct": 0,
       "testedOptionalFields": [],
       "missingOptionalFields": [],
       "optionalFieldCoveragePct": 100,
       "testedQueryParams": [],
       "missingQueryParams": [],
       "queryParamCoveragePct": 100,
-      "overallCoveragePct": 100
+      "overallCoveragePct": 0
     },
     {
       "endpoint": {
@@ -11426,34 +11056,30 @@
           }
         }
       },
-      "callCount": 7,
-      "isCovered": true,
-      "testedStatusCodes": [
-        200,
-        422,
-        400
-      ],
+      "callCount": 0,
+      "isCovered": false,
+      "testedStatusCodes": [],
       "documentedStatusCodes": [
         200,
         400,
         401,
         422
       ],
-      "statusCodeCoveragePct": 75,
-      "testedRequiredFields": [
+      "statusCodeCoveragePct": 0,
+      "testedRequiredFields": [],
+      "missingRequiredFields": [
         "current_password",
         "new_password",
         "new_password_confirmation"
       ],
-      "missingRequiredFields": [],
-      "requiredFieldCoveragePct": 100,
+      "requiredFieldCoveragePct": 0,
       "testedOptionalFields": [],
       "missingOptionalFields": [],
       "optionalFieldCoveragePct": 100,
       "testedQueryParams": [],
       "missingQueryParams": [],
       "queryParamCoveragePct": 100,
-      "overallCoveragePct": 90
+      "overallCoveragePct": 0
     },
     {
       "endpoint": {
@@ -11484,18 +11110,14 @@
           }
         }
       },
-      "callCount": 23,
-      "isCovered": true,
-      "testedStatusCodes": [
-        401,
-        403,
-        200
-      ],
+      "callCount": 0,
+      "isCovered": false,
+      "testedStatusCodes": [],
       "documentedStatusCodes": [
         200,
         401
       ],
-      "statusCodeCoveragePct": 100,
+      "statusCodeCoveragePct": 0,
       "testedRequiredFields": [],
       "missingRequiredFields": [],
       "requiredFieldCoveragePct": 100,
@@ -11505,7 +11127,7 @@
       "testedQueryParams": [],
       "missingQueryParams": [],
       "queryParamCoveragePct": 100,
-      "overallCoveragePct": 100
+      "overallCoveragePct": 0
     },
     {
       "endpoint": {
@@ -11536,17 +11158,14 @@
           }
         }
       },
-      "callCount": 6,
-      "isCovered": true,
-      "testedStatusCodes": [
-        200,
-        401
-      ],
+      "callCount": 0,
+      "isCovered": false,
+      "testedStatusCodes": [],
       "documentedStatusCodes": [
         200,
         401
       ],
-      "statusCodeCoveragePct": 100,
+      "statusCodeCoveragePct": 0,
       "testedRequiredFields": [],
       "missingRequiredFields": [],
       "requiredFieldCoveragePct": 100,
@@ -11556,7 +11175,7 @@
       "testedQueryParams": [],
       "missingQueryParams": [],
       "queryParamCoveragePct": 100,
-      "overallCoveragePct": 100
+      "overallCoveragePct": 0
     },
     {
       "endpoint": {
@@ -11596,19 +11215,15 @@
           }
         }
       },
-      "callCount": 6,
-      "isCovered": true,
-      "testedStatusCodes": [
-        401,
-        500,
-        200
-      ],
+      "callCount": 0,
+      "isCovered": false,
+      "testedStatusCodes": [],
       "documentedStatusCodes": [
         200,
         401,
         500
       ],
-      "statusCodeCoveragePct": 100,
+      "statusCodeCoveragePct": 0,
       "testedRequiredFields": [],
       "missingRequiredFields": [],
       "requiredFieldCoveragePct": 100,
@@ -11618,7 +11233,7 @@
       "testedQueryParams": [],
       "missingQueryParams": [],
       "queryParamCoveragePct": 100,
-      "overallCoveragePct": 100
+      "overallCoveragePct": 0
     },
     {
       "endpoint": {
@@ -11656,7 +11271,7 @@
               "total"
             ],
             "schemaRaw": "{\n  current_page: number;\n  data: User[];\n  from: number | null;\n  last_page: number;\n  per_page: number;\n  to: number | null;\n  total: number;\n}",
-            "origin": "source"
+            "origin": "verified"
           },
           "401": {
             "statusCode": 401,
@@ -11666,7 +11281,7 @@
           "403": {
             "statusCode": 403,
             "statusText": "Forbidden",
-            "origin": "source"
+            "origin": "verified"
           }
         }
       },
@@ -11735,7 +11350,7 @@
               "total"
             ],
             "schemaRaw": "{\n  current_page: number;\n  data: User[];\n  from: number | null;\n  last_page: number;\n  per_page: number;\n  to: number | null;\n  total: number;\n}",
-            "origin": "source"
+            "origin": "verified"
           },
           "401": {
             "statusCode": 401,
@@ -11789,7 +11404,7 @@
             "statusCode": 200,
             "statusText": "OK",
             "fields": [],
-            "origin": "source"
+            "origin": "verified"
           },
           "401": {
             "statusCode": 401,
@@ -11799,7 +11414,7 @@
           "415": {
             "statusCode": 415,
             "statusText": "Unsupported Media Type",
-            "origin": "source"
+            "origin": "verified"
           }
         }
       },
@@ -11854,7 +11469,7 @@
             "statusText": "OK",
             "fields": [],
             "schemaRaw": "User",
-            "origin": "source"
+            "origin": "verified"
           },
           "401": {
             "statusCode": 401,
@@ -11864,7 +11479,7 @@
           "404": {
             "statusCode": 404,
             "statusText": "Not Found",
-            "origin": "source"
+            "origin": "verified"
           }
         }
       },
@@ -11951,20 +11566,18 @@
           }
         }
       },
-      "callCount": 6,
-      "isCovered": true,
-      "testedStatusCodes": [
-        200,
-        422
-      ],
+      "callCount": 0,
+      "isCovered": false,
+      "testedStatusCodes": [],
       "documentedStatusCodes": [
         200,
         401,
         403,
         422
       ],
-      "statusCodeCoveragePct": 50,
-      "testedRequiredFields": [
+      "statusCodeCoveragePct": 0,
+      "testedRequiredFields": [],
+      "missingRequiredFields": [
         "first_name",
         "last_name",
         "email",
@@ -11973,23 +11586,21 @@
         "city",
         "country"
       ],
-      "missingRequiredFields": [],
-      "requiredFieldCoveragePct": 100,
-      "testedOptionalFields": [
-        "state",
-        "postal_code",
-        "phone"
-      ],
+      "requiredFieldCoveragePct": 0,
+      "testedOptionalFields": [],
       "missingOptionalFields": [
         "house_number",
+        "state",
+        "postal_code",
+        "phone",
         "dob",
         "role"
       ],
-      "optionalFieldCoveragePct": 50,
+      "optionalFieldCoveragePct": 0,
       "testedQueryParams": [],
       "missingQueryParams": [],
       "queryParamCoveragePct": 100,
-      "overallCoveragePct": 75
+      "overallCoveragePct": 0
     },
     {
       "endpoint": {
@@ -12038,45 +11649,39 @@
             "statusText": "OK",
             "fields": [],
             "schemaRaw": "{ success: true }",
-            "origin": "source"
+            "origin": "verified"
           },
           "401": {
             "statusCode": 401,
             "statusText": "Unauthorized",
-            "origin": "source"
+            "origin": "verified"
           },
           "403": {
             "statusCode": 403,
             "statusText": "Forbidden",
-            "origin": "source"
+            "origin": "verified"
           },
           "422": {
             "statusCode": 422,
             "statusText": "Unprocessable Entity",
-            "origin": "source"
+            "origin": "verified"
           }
         }
       },
-      "callCount": 6,
-      "isCovered": true,
-      "testedStatusCodes": [
-        200
-      ],
+      "callCount": 0,
+      "isCovered": false,
+      "testedStatusCodes": [],
       "documentedStatusCodes": [
         200,
         401,
         403,
         422
       ],
-      "statusCodeCoveragePct": 25,
+      "statusCodeCoveragePct": 0,
       "testedRequiredFields": [],
       "missingRequiredFields": [],
       "requiredFieldCoveragePct": 100,
-      "testedOptionalFields": [
-        "enabled",
-        "totp_enabled",
-        "totp_secret"
-      ],
+      "testedOptionalFields": [],
       "missingOptionalFields": [
         "first_name",
         "last_name",
@@ -12090,14 +11695,17 @@
         "postal_code",
         "phone",
         "dob",
+        "enabled",
         "failed_login_attempts",
+        "totp_enabled",
+        "totp_secret",
         "totp_verified_at"
       ],
-      "optionalFieldCoveragePct": 18,
+      "optionalFieldCoveragePct": 0,
       "testedQueryParams": [],
       "missingQueryParams": [],
       "queryParamCoveragePct": 100,
-      "overallCoveragePct": 46
+      "overallCoveragePct": 0
     },
     {
       "endpoint": {
@@ -12131,17 +11739,17 @@
           "401": {
             "statusCode": 401,
             "statusText": "Unauthorized",
-            "origin": "source"
+            "origin": "verified"
           },
           "403": {
             "statusCode": 403,
             "statusText": "Forbidden",
-            "origin": "source"
+            "origin": "verified"
           },
           "409": {
             "statusCode": 409,
             "statusText": "Conflict",
-            "origin": "source"
+            "origin": "verified"
           },
           "500": {
             "statusCode": 500,
@@ -12150,11 +11758,9 @@
           }
         }
       },
-      "callCount": 29,
-      "isCovered": true,
-      "testedStatusCodes": [
-        204
-      ],
+      "callCount": 0,
+      "isCovered": false,
+      "testedStatusCodes": [],
       "documentedStatusCodes": [
         204,
         401,
@@ -12162,7 +11768,7 @@
         409,
         500
       ],
-      "statusCodeCoveragePct": 20,
+      "statusCodeCoveragePct": 0,
       "testedRequiredFields": [],
       "missingRequiredFields": [],
       "requiredFieldCoveragePct": 100,
@@ -12172,7 +11778,7 @@
       "testedQueryParams": [],
       "missingQueryParams": [],
       "queryParamCoveragePct": 100,
-      "overallCoveragePct": 52
+      "overallCoveragePct": 0
     }
   ],
   "undocumentedCalls": []
