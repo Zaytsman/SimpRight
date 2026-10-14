@@ -4,7 +4,10 @@ tags: ["@invoices-api"]
 scenarios:
   - id: API-0468
     name: Download invoice PDF returns 200 with the file once it is generated
-    status: manual
+    status: automated
+    automatedIn: tests/api/invoices/get-invoices-by-invoice-number-download-pdf.spec.ts
+    knownIssue: 'The invoice''s PDF is never generated, so the download returns 404 "Document not created. Try again later.".'
+    bug: BUG-047
     steps:
       - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.
       - Send POST /users/login with that email and password, and take its access_token.
@@ -17,14 +20,16 @@ scenarios:
       - Verify the response body is not empty.
   - id: API-0469
     name: Download invoice PDF without a token returns 401
-    status: manual
+    status: automated
+    automatedIn: tests/api/invoices/get-invoices-by-invoice-number-download-pdf.spec.ts
     steps:
       - Send GET /invoices/{invoice_number}/download-pdf with a well-formed invoice number, without an Authorization header.
       - Verify the response status is 401.
       - Verify the body's message is "Unauthorized".
   - id: API-0470
     name: Download invoice PDF with an unknown invoice number returns 404
-    status: manual
+    status: automated
+    automatedIn: tests/api/invoices/get-invoices-by-invoice-number-download-pdf.spec.ts
     steps:
       - Send GET /invoices/{invoice_number}/download-pdf with a well-formed invoice number that no invoice has and the default user's token.
       - Verify the response status is 404.

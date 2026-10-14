@@ -65,4 +65,18 @@ export class UsersService {
     assertOk(response, `get user ${userId} before deleting it`);
     await this.delete(userId);
   }
+
+  /**
+   * Deletes a user for cleanup, expecting that it may still be in use: a 409 (a record still refers to the user, such as
+   * an invoice, which no endpoint deletes, but also a favorite or message the test left behind) counts as done and logs one line instead of a cleanup warning; the hourly re-seed removes the user.
+   * Admin only: build this service with an admin token. Throws on any other non-2xx status.
+   */
+  async deleteUnlessInUse(userId: string): Promise<void> {
+    const response = await this.client.deleteById(userId);
+    if (response.status === 409) {
+      console.log(`[cleanup] User ${userId} is still in use (409); the hourly re-seed removes it.`);
+      return;
+    }
+    assertOk(response, `delete user ${userId}`);
+  }
 }

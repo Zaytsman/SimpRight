@@ -82,6 +82,12 @@ export const TestConstants = {
     /** A well-formed ULID that no message has (the same value as products.unknownId: no created record can have it). */
     unknownId: '01ZZZZZZZZZZZZZZZZZZZZZZZZ',
   },
+  invoices: {
+    /** A well-formed ULID that no invoice has (the same value as products.unknownId: no seeded or created record can have it). */
+    unknownId: '01ZZZZZZZZZZZZZZZZZZZZZZZZ',
+    /** A well-formed invoice number (INV-<year><6 digits>) that no invoice has: 1990 has no invoices (see reports.yearWithoutInvoices). */
+    unknownNumber: 'INV-1990000001',
+  },
   reports: {
     /** A year with no invoices: seeded invoices fall in the 5 years before the seeding, and new ones get the current date. */
     yearWithoutInvoices: 1990,

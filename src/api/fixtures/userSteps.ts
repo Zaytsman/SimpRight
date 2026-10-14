@@ -30,13 +30,15 @@ export interface ThrowawayCustomer {
  * registers its removal as admin (DELETE /users/{userId} is admin-only). Returns its id and credentials.
  * `options.title` and `options.body` serve scenarios whose register step asks for other values (default:
  * USER_REGISTER_STEP and `UserFactory.registerCustomer()`). `options.ifExists` is for tests that delete the customer
- * themselves: cleanup then deletes it only if it still exists (`UsersService.deleteIfExists`).
+ * themselves: cleanup then deletes it only if it still exists (`UsersService.deleteIfExists`). `options.mayHoldInvoices`
+ * is for customers that may get an invoice (which blocks the delete with 409): cleanup then uses
+ * `UsersService.deleteUnlessInUse`.
  */
 export async function registerThrowawayCustomer(
   usersService: UsersService,
   adminUsersService: UsersService,
   cleanup: Cleanup,
-  options: { title?: string; body?: RegisterUserRequest; ifExists?: boolean } = {}
+  options: { title?: string; body?: RegisterUserRequest; ifExists?: boolean; mayHoldInvoices?: boolean } = {}
 ): Promise<ThrowawayCustomer> {
   let customer: ThrowawayCustomer = { id: '', email: '', password: '' };
 
@@ -44,7 +46,13 @@ export async function registerThrowawayCustomer(
     const body = options.body ?? UserFactory.registerCustomer();
     await attachJson('Register Request', { method: 'POST', path: '/users/register', body });
     const created = await usersService.register(body);
-    cleanup.add(() => (options.ifExists ? adminUsersService.deleteIfExists(created.id) : adminUsersService.delete(created.id)));
+    cleanup.add(() =>
+      options.mayHoldInvoices
+        ? adminUsersService.deleteUnlessInUse(created.id)
+        : options.ifExists
+          ? adminUsersService.deleteIfExists(created.id)
+          : adminUsersService.delete(created.id)
+    );
     await attachJson('Register Response', created);
     expect(created.id, assertMessage({ request: { method: 'POST', path: '/users/register', body }, expected: 'The new user has an id', actual: created })).toBeTruthy();
     customer = { id: created.id, email: body.email, password: body.password };

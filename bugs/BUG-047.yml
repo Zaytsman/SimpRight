@@ -1,0 +1,43 @@
+# yaml-language-server: $schema=./bug.schema.json
+id: BUG-047
+title: "Invoice PDF generation never completes: status stays INITIATED"
+status: open
+severity: major
+layer: api
+area: invoices
+affects:
+  - GET /invoices/{invoice_number}/download-pdf
+  - GET /invoices/{invoice_number}/download-pdf-status
+found: 2026-10-14
+ref:
+  - docs/api/contracts/Invoices_API.md#5-download-invoice-pdf
+  - docs/api/contracts/Invoices_API.md#6-get-pdf-generation-status
+  - docs/api/contracts/Invoices_API.md#notes
+description: >-
+  Major because a whole feature doesn't work: no customer can download an invoice PDF. The scheduled
+  invoice:generate command (every minute) does create the download row (INITIATED) for a new invoice, but the
+  queued CreateInvoicePDF job, which should move it to IN_PROGRESS and then COMPLETED and write the file, never
+  finishes on the deployed site. So the status endpoint reports INITIATED indefinitely and the download endpoint
+  answers 404. The cause (a stopped queue worker or a failing job) isn't visible from the API.
+steps:
+  - Register a customer and log in.
+  - Send POST /carts with an empty body and take the cart's id.
+  - Send POST /invoices with the customer's token, payment_method "cash-on-delivery", payment_details {}, billing_street "Stephansplatz 1", billing_city "Wien", billing_country "AT" and the cart's id, and take the invoice_number.
+  - Send GET /invoices/{invoice_number}/download-pdf-status with the customer's token every few seconds for a few minutes.
+  - Send GET /invoices/{invoice_number}/download-pdf with the customer's token.
+expected: >-
+  Within a few minutes (the PDF jobs run every minute) the status endpoint answers 200 with status COMPLETED, and the
+  download answers 200 with the PDF and Content-Disposition "attachment; filename=<invoice_number>.pdf".
+actual: >-
+  The status endpoint answers 200 with status INITIATED on every call and never reaches COMPLETED; the download
+  answers 404 with { "message": "Document not created. Try again later." }.
+evidence: |-
+  2026-10-14, live, throwaway customers' tokens:
+    API-0471 (tests/api/invoices/get-invoices-by-invoice-number-download-pdf-status.spec.ts): invoice INV-2026000086,
+    created about 18:42 UTC, polled every 5 s for 210 s -> 200 { "status": "INITIATED" } on every poll.
+    API-0468 (tests/api/invoices/get-invoices-by-invoice-number-download-pdf.spec.ts): invoice INV-2026000087, same
+    polling, then GET /invoices/INV-2026000087/download-pdf -> 404 (JSON body, 52 bytes).
+  Read-only probe at 18:46 UTC with the default user's token (the status endpoint doesn't check the owner):
+    INV-2026000010, INV-2026000030, INV-2026000059, INV-2026000086, INV-2026000087 -> 200 { "status": "INITIATED" };
+    INV-2026000001, INV-2025000001, INV-2024000005 -> 400 { "status": "NOT_INITIATED" }.
+  INV-2026000010 was created after the 18:00 UTC re-seed, so its job had been INITIATED for several minutes or more.

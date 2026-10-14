@@ -169,7 +169,7 @@ Returns one invoice with its lines (each with the product, its image, category a
 |---|---|---|---|
 | `invoiceId` | string (ULID) | Yes | The invoice's id (named `{id}` in the route) |
 
-**Response:** `200 OK` _(source)_
+**Response:** `200 OK` _(verified)_
 ```ts
 Invoice   // see Data Models
 ```
@@ -178,7 +178,7 @@ The service's tests assert `200` and the invoice's `id` for the owner and for an
 
 **Error Responses:**
 - `401 Unauthorized`: no token, or a malformed token, with `{ message: "Unauthorized" }`; the token is checked before the id (an id that can't exist also gives `401`) _(verified)_
-- `404 Not Found`: no invoice with this id, or, for a non-admin, an invoice of another user (`findOrFail` on the user-scoped query); `{ message: "Requested item not found" }` from the global handler _(source)_
+- `404 Not Found`: no invoice with this id, or, for a non-admin, an invoice of another user (`findOrFail` on the user-scoped query); `{ message: "Requested item not found" }` from the global handler _(verified)_
 
 ---
 
@@ -202,7 +202,7 @@ The body is the PDF file, not JSON, with `Content-Disposition: attachment; filen
 
 **Error Responses:**
 - `401 Unauthorized`: no token, or a malformed token, with `{ message: "Unauthorized" }`; checked before the number is looked up _(verified)_
-- `404 Not Found`: no file `invoices/<invoice_number>.pdf` exists (an unknown number, or a PDF that isn't generated yet); `{ message: "Document not created. Try again later." }` _(source)_
+- `404 Not Found`: no file `invoices/<invoice_number>.pdf` exists (an unknown number, or a PDF that isn't generated yet); `{ message: "Document not created. Try again later." }` _(verified)_
 
 ---
 
@@ -231,7 +231,7 @@ The service's test asserts `200` and `status: "COMPLETED"` for a finished downlo
 
 **Error Responses:**
 - `401 Unauthorized`: no token, or a malformed token, with `{ message: "Unauthorized" }` _(verified)_
-- `400 Bad Request`: no download exists for this number (it isn't started yet, or the number is unknown), with `{ status: "NOT_INITIATED" }`; the spec lists `404` instead _(source)_
+- `400 Bad Request`: no download exists for this number (it isn't started yet, or the number is unknown), with `{ status: "NOT_INITIATED" }`; the spec lists `404` instead _(verified)_
 
 ---
 
@@ -313,7 +313,7 @@ Creates an invoice for the user of the token from a cart, with one line per cart
 
 The text fields must not contain subscript or superscript characters (U+2070 to U+209F). For `payment_method: "gift-card"`, `payment_details.gift_card_number` must be 16 letters or digits and `payment_details.validation_code` 4 letters or digits. The other methods' details have no validation rules. _(source)_
 
-**Response:** `201 Created` _(source)_
+**Response:** `201 Created` _(verified)_
 ```ts
 InvoiceCreated   // see Data Models
 ```
@@ -325,7 +325,7 @@ The service's tests assert `201` for each payment method; the spec says `200`. _
 **Error Responses:**
 - `401 Unauthorized`: no token, or a malformed token, with `{ message: "Unauthorized" }` _(source)_
 - `404 Not Found`: `cart_id` is not an existing cart, with `{ message: "Requested item not found" }`; the invoice row has been created by then and stays (see Notes). A required column missing from `payment_details` (for example `bank_name`) is mapped by the global handler to `404` with `{ message: "Something went wrong" }`; suspected bug, should be `422` _(source)_
-- `422 Unprocessable Entity`: a field fails validation: a required field is missing, `payment_method` is not allowed, a field is too long or has subscript/superscript characters, the gift card number or code has the wrong format, or the address doesn't match the country (`billing_country` carries the message). The body is a map of field to messages without a wrapper (`BaseFormRequest`), e.g. `{ billing_country: ["The billing country does not match the entered address. ..."] }` or `{ "payment_details.gift_card_number": [...] }` _(source)_
+- `422 Unprocessable Entity`: a field fails validation: a required field is missing, `payment_method` is not allowed, a field is too long or has subscript/superscript characters, the gift card number or code has the wrong format, or the address doesn't match the country (`billing_country` carries the message). The body is a map of field to messages without a wrapper (`BaseFormRequest`), e.g. `{ billing_country: ["The billing country does not match the entered address. ..."] }` or `{ "payment_details.gift_card_number": [...] }` _(verified)_
 - `500 Internal Server Error`: `payment_details` is `null` or an empty string (the gift card rules turn this into `422`), or, for a method other than `cash-on-delivery`, has a key that is not a column of the method's table or a value longer than its column; the invoice row has been created by then; suspected bug, should be `422` _(source)_
 
 **Example:**
@@ -375,7 +375,7 @@ Same as `POST /invoices`, without a token: the invoice has `user_id: null`, so o
 
 The validation is inline in the controller: it has the same rules as `POST /invoices` for the shared fields but no subscript/superscript check and no gift card format check. The spec doesn't mark the three `guest_*` fields required; the code does. _(source)_
 
-**Response:** `201 Created` _(source)_
+**Response:** `201 Created` _(verified)_
 ```ts
 InvoiceCreated   // see Data Models
 ```
@@ -384,7 +384,7 @@ The spec says `200`. _(source)_
 
 **Error Responses:**
 - `404 Not Found`: `cart_id` is not an existing cart, with `{ message: "Requested item not found" }`; the invoice row has been created by then. A required column missing from `payment_details` gives `404` with `{ message: "Something went wrong" }`, as on `POST /invoices` _(source)_
-- `422 Unprocessable Entity`: a field fails validation. The body is Laravel's default `{ message: string; errors: { <field>: string[] } }`, not the `BaseFormRequest` map of `POST /invoices`, and with `Accept: application/json` only _(source)_
+- `422 Unprocessable Entity`: a field fails validation. The body is Laravel's default `{ message: string; errors: { <field>: string[] } }`, not the `BaseFormRequest` map of `POST /invoices`, and with `Accept: application/json` only _(verified)_
 - `500 Internal Server Error`: `payment_details` is `null` or has an unknown key or a too long value, as on `POST /invoices`; suspected bug _(source)_
 
 ---

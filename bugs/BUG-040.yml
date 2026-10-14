@@ -8,20 +8,33 @@ area: invoices
 affects:
   - POST /invoices
   - POST /invoices/guest
+  - GET /invoices
 found: 2026-10-11
 ref:
   - docs/api/contracts/Invoices_API.md#8-create-invoice
   - docs/api/contracts/Invoices_API.md#notes
 description: >-
-  The invoice row is created before the cart is read and before the payment is saved, with no transaction. An unknown
-  cart_id (404), or a payment that fails (404 or 500), leaves an invoice with no lines and no payment, which then shows
-  up in the customer's invoice list.
+  The invoice row is created before the cart is read and before the payment is saved, with no transaction
+  (InvoiceService::createInvoice and createGuestInvoice, then InvoiceController::handlePayment). An unknown cart_id
+  (404 "Requested item not found") leaves an invoice with subtotal and total null and no lines; a payment that fails
+  (500, see BUG-041) leaves one without a payment. A customer's orphan shows up in their GET /invoices; a guest's has
+  user_id null, so only an admin sees it. Orphans stay until the hourly re-seed (there is no DELETE /invoices).
 steps:
   - Register a customer and log in.
   - Send POST /invoices with the customer's token and a well-formed ULID that no cart has as cart_id (the call answers 404).
   - Send GET /invoices with the same token.
 expected: "The list is empty: a failed checkout creates no invoice."
-actual: "The list holds one invoice without lines or payment (from the source code; not reproduced live)."
+actual: >-
+  GET /invoices answers 200 with total 1: an invoice whose subtotal and total are null, with no lines and no payment
+  (reproduced live on 2026-10-14, API-0499). The payment-failure and guest cases are from the source code.
 evidence: |-
-  Invoices_API.md, Notes, "Orphan invoices" (read from InvoiceService in sprint5/API). No token was available when the
-  contract was written, so the calls were not made live.
+  2026-10-14 18:54 UTC, API-0499 (tests/api/invoices/post-invoices.spec.ts), a throwaway customer (token ***):
+  POST /invoices { payment_method: "cash-on-delivery", payment_details: {}, billing_street: "Stephansplatz 1",
+    billing_city: "Wien", billing_country: "AT", cart_id: "01ZZZZZZZZZZZZZZZZZZZZZZZZ" }
+    -> 404 { message: "Requested item not found" }
+  GET /invoices -> 200 { total: 1, data: [ { invoice_number: "INV-2026000098", status: "AWAITING_FULFILLMENT",
+    subtotal: null, total: null, lines: 0, payment_method: null } ] }
+  In the same run, the throwaway customers of API-0500 and API-0501 (payment failed with 500) could not be deleted
+  afterwards (409, still in use), which fits an invoice row left behind; not checked directly.
+  Source (sprint5/API, c6032ad): InvoiceService::createInvoice calls Invoice::create before Cart::findOrFail;
+  InvoiceController::store and storeGuest call handlePayment after it.

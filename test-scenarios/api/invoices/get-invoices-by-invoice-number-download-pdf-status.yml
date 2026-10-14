@@ -4,7 +4,10 @@ tags: ["@invoices-api"]
 scenarios:
   - id: API-0471
     name: Get PDF status returns 200 with COMPLETED once the PDF is generated
-    status: manual
+    status: automated
+    automatedIn: tests/api/invoices/get-invoices-by-invoice-number-download-pdf-status.spec.ts
+    knownIssue: The PDF status stays INITIATED and never reaches COMPLETED.
+    bug: BUG-047
     steps:
       - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.
       - Send POST /users/login with that email and password, and take its access_token.
@@ -15,14 +18,16 @@ scenarios:
       - Verify the body's status is "COMPLETED".
   - id: API-0472
     name: Get PDF status without a token returns 401
-    status: manual
+    status: automated
+    automatedIn: tests/api/invoices/get-invoices-by-invoice-number-download-pdf-status.spec.ts
     steps:
       - Send GET /invoices/{invoice_number}/download-pdf-status with a well-formed invoice number, without an Authorization header.
       - Verify the response status is 401.
       - Verify the body's message is "Unauthorized".
   - id: API-0473
     name: Get PDF status with an unknown invoice number returns 400 with NOT_INITIATED
-    status: manual
+    status: automated
+    automatedIn: tests/api/invoices/get-invoices-by-invoice-number-download-pdf-status.spec.ts
     steps:
       - Send GET /invoices/{invoice_number}/download-pdf-status with a well-formed invoice number that no invoice has and the default user's token.
       - Verify the response status is 400.
