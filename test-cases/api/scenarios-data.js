@@ -3,17 +3,17 @@ window.SCENARIO_CATALOG = {
  "layer": "api",
  "title": "API Test Cases",
  "prefix": "API",
- "generatedAt": "2026-10-13T19:18:00.960Z",
- "commit": "baf44f4ef77cc4d8b6488f1bbfaad2c500cdccd2",
+ "generatedAt": "2026-10-14T18:35:20.782Z",
+ "commit": "37a4950c7edd3d9f2c99c01825110a8825549a82",
  "repoUrl": "https://github.com/Zaytsman/SimpRight",
  "branch": "main",
  "workflowUrl": "https://github.com/Zaytsman/SimpRight/actions/workflows/custom-api-tests.yml",
  "stats": {
   "total": 667,
-  "automated": 515,
-  "manual": 152,
+  "automated": 571,
+  "manual": 96,
   "knownIssues": 66,
-  "automatedPct": 77
+  "automatedPct": 86
  },
  "tree": [
   {
@@ -8493,7 +8493,8 @@ window.SCENARIO_CATALOG = {
   {
    "id": "API-0343",
    "name": "List messages as a customer returns 200 with only the customer's own messages",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/messages/get-messages.spec.ts",
    "steps": [
     "Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.",
     "Send POST /users/login with that email and password, and take its access_token.",
@@ -8506,6 +8507,7 @@ window.SCENARIO_CATALOG = {
     "Verify that item's subject and message equal the values sent and it has no user key."
    ],
    "ref": [],
+   "specLine": 40,
    "area": "messages",
    "areaLabel": "Messages",
    "file": "test-scenarios/api/messages/get-messages.yml",
@@ -8514,12 +8516,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@messages-api"
    ],
-   "yaml": "- id: API-0343\n  name: List messages as a customer returns 200 with only the customer's own messages\n  status: manual\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.\n    - Send POST /users/login with that email and password, and take its access_token.\n    - Send POST /messages with that token, a unique subject and a message text, and take the new message's id.\n    - Send POST /messages without an Authorization header, with a unique subject and a message text (a guest message).\n    - Send GET /messages with the throwaway customer's access_token.\n    - Verify the response status is 200.\n    - Verify the body has the keys current_page, data, from, last_page, per_page, to and total, and its per_page is 15.\n    - Verify the body's total is 1 and its data has exactly one item, with the customer's message id as id, the new user's id as user_id and status \"NEW\".\n    - Verify that item's subject and message equal the values sent and it has no user key."
+   "yaml": "- id: API-0343\n  name: List messages as a customer returns 200 with only the customer's own messages\n  status: automated\n  automatedIn: tests/api/messages/get-messages.spec.ts\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.\n    - Send POST /users/login with that email and password, and take its access_token.\n    - Send POST /messages with that token, a unique subject and a message text, and take the new message's id.\n    - Send POST /messages without an Authorization header, with a unique subject and a message text (a guest message).\n    - Send GET /messages with the throwaway customer's access_token.\n    - Verify the response status is 200.\n    - Verify the body has the keys current_page, data, from, last_page, per_page, to and total, and its per_page is 15.\n    - Verify the body's total is 1 and its data has exactly one item, with the customer's message id as id, the new user's id as user_id and status \"NEW\".\n    - Verify that item's subject and message equal the values sent and it has no user key."
   },
   {
    "id": "API-0344",
    "name": "List messages as an admin includes guest and customer messages, each with its sender",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/messages/get-messages.spec.ts",
    "role": "admin",
    "steps": [
     "Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.",
@@ -8532,6 +8535,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's data includes an item with the guest message's id, with user_id null and user null."
    ],
    "ref": [],
+   "specLine": 99,
    "area": "messages",
    "areaLabel": "Messages",
    "file": "test-scenarios/api/messages/get-messages.yml",
@@ -8540,12 +8544,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@messages-api"
    ],
-   "yaml": "- id: API-0344\n  name: List messages as an admin includes guest and customer messages, each with its sender\n  status: manual\n  role: admin\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.\n    - Send POST /users/login with that email and password, and take its access_token.\n    - Send POST /messages with that token, a unique subject and a message text, and take the new message's id as the customer message's id.\n    - Send POST /messages without an Authorization header, with a unique subject and a message text, and take the new message's id as the guest message's id.\n    - Send GET /messages with the admin's token.\n    - Verify the response status is 200.\n    - Verify the body's data (newest first, so page 1) includes an item with the customer message's id, the new user's id as user_id and a user object whose id is the new user's id.\n    - Verify the body's data includes an item with the guest message's id, with user_id null and user null."
+   "yaml": "- id: API-0344\n  name: List messages as an admin includes guest and customer messages, each with its sender\n  status: automated\n  automatedIn: tests/api/messages/get-messages.spec.ts\n  role: admin\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.\n    - Send POST /users/login with that email and password, and take its access_token.\n    - Send POST /messages with that token, a unique subject and a message text, and take the new message's id as the customer message's id.\n    - Send POST /messages without an Authorization header, with a unique subject and a message text, and take the new message's id as the guest message's id.\n    - Send GET /messages with the admin's token.\n    - Verify the response status is 200.\n    - Verify the body's data (newest first, so page 1) includes an item with the customer message's id, the new user's id as user_id and a user object whose id is the new user's id.\n    - Verify the body's data includes an item with the guest message's id, with user_id null and user null."
   },
   {
    "id": "API-0345",
    "name": "List messages with a page past the last returns 200 with an empty data",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/messages/get-messages.spec.ts",
    "steps": [
     "Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.",
     "Send POST /users/login with that email and password, and take its access_token.",
@@ -8555,6 +8560,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's data is an empty array."
    ],
    "ref": [],
+   "specLine": 152,
    "area": "messages",
    "areaLabel": "Messages",
    "file": "test-scenarios/api/messages/get-messages.yml",
@@ -8563,18 +8569,20 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@messages-api"
    ],
-   "yaml": "- id: API-0345\n  name: List messages with a page past the last returns 200 with an empty data\n  status: manual\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.\n    - Send POST /users/login with that email and password, and take its access_token.\n    - Send POST /messages with that token, a unique subject and a message text.\n    - Send GET /messages with page 2 and that token.\n    - Verify the response status is 200.\n    - Verify the body's data is an empty array."
+   "yaml": "- id: API-0345\n  name: List messages with a page past the last returns 200 with an empty data\n  status: automated\n  automatedIn: tests/api/messages/get-messages.spec.ts\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.\n    - Send POST /users/login with that email and password, and take its access_token.\n    - Send POST /messages with that token, a unique subject and a message text.\n    - Send GET /messages with page 2 and that token.\n    - Verify the response status is 200.\n    - Verify the body's data is an empty array."
   },
   {
    "id": "API-0346",
    "name": "List messages without a token returns 401",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/messages/get-messages.spec.ts",
    "steps": [
     "Send GET /messages without an Authorization header.",
     "Verify the response status is 401.",
     "Verify the body's message is \"Unauthorized\"."
    ],
    "ref": [],
+   "specLine": 180,
    "area": "messages",
    "areaLabel": "Messages",
    "file": "test-scenarios/api/messages/get-messages.yml",
@@ -8583,18 +8591,20 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@messages-api"
    ],
-   "yaml": "- id: API-0346\n  name: List messages without a token returns 401\n  status: manual\n  steps:\n    - Send GET /messages without an Authorization header.\n    - Verify the response status is 401.\n    - Verify the body's message is \"Unauthorized\"."
+   "yaml": "- id: API-0346\n  name: List messages without a token returns 401\n  status: automated\n  automatedIn: tests/api/messages/get-messages.spec.ts\n  steps:\n    - Send GET /messages without an Authorization header.\n    - Verify the response status is 401.\n    - Verify the body's message is \"Unauthorized\"."
   },
   {
    "id": "API-0347",
    "name": "List messages with a malformed token returns 401",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/messages/get-messages.spec.ts",
    "steps": [
     "Send GET /messages with a malformed token.",
     "Verify the response status is 401.",
     "Verify the body's message is \"Unauthorized\"."
    ],
    "ref": [],
+   "specLine": 197,
    "area": "messages",
    "areaLabel": "Messages",
    "file": "test-scenarios/api/messages/get-messages.yml",
@@ -8603,12 +8613,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@messages-api"
    ],
-   "yaml": "- id: API-0347\n  name: List messages with a malformed token returns 401\n  status: manual\n  steps:\n    - Send GET /messages with a malformed token.\n    - Verify the response status is 401.\n    - Verify the body's message is \"Unauthorized\"."
+   "yaml": "- id: API-0347\n  name: List messages with a malformed token returns 401\n  status: automated\n  automatedIn: tests/api/messages/get-messages.spec.ts\n  steps:\n    - Send GET /messages with a malformed token.\n    - Verify the response status is 401.\n    - Verify the body's message is \"Unauthorized\"."
   },
   {
    "id": "API-0348",
    "name": "List messages with a disabled account's token returns 403",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/messages/get-messages.spec.ts",
    "role": "admin",
    "steps": [
     "Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.",
@@ -8619,6 +8630,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's message is \"Account disabled.\"."
    ],
    "ref": [],
+   "specLine": 217,
    "area": "messages",
    "areaLabel": "Messages",
    "file": "test-scenarios/api/messages/get-messages.yml",
@@ -8627,12 +8639,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@messages-api"
    ],
-   "yaml": "- id: API-0348\n  name: List messages with a disabled account's token returns 403\n  status: manual\n  role: admin\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.\n    - Send POST /users/login with that email and password, and take its access_token.\n    - Send PATCH /users/{userId} with that id and enabled false, with the admin's token.\n    - Send GET /messages with the throwaway customer's access_token.\n    - Verify the response status is 403.\n    - Verify the body's message is \"Account disabled.\"."
+   "yaml": "- id: API-0348\n  name: List messages with a disabled account's token returns 403\n  status: automated\n  automatedIn: tests/api/messages/get-messages.spec.ts\n  role: admin\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.\n    - Send POST /users/login with that email and password, and take its access_token.\n    - Send PATCH /users/{userId} with that id and enabled false, with the admin's token.\n    - Send GET /messages with the throwaway customer's access_token.\n    - Verify the response status is 403.\n    - Verify the body's message is \"Account disabled.\"."
   },
   {
    "id": "API-0349",
    "name": "List messages of a customer without messages returns 200 with an empty list",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/messages/get-messages.spec.ts",
    "steps": [
     "Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.",
     "Send POST /users/login with that email and password, and take its access_token.",
@@ -8641,6 +8654,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's data is an empty array."
    ],
    "ref": [],
+   "specLine": 253,
    "area": "messages",
    "areaLabel": "Messages",
    "file": "test-scenarios/api/messages/get-messages.yml",
@@ -8649,12 +8663,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@messages-api"
    ],
-   "yaml": "- id: API-0349\n  name: List messages of a customer without messages returns 200 with an empty list\n  status: manual\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.\n    - Send POST /users/login with that email and password, and take its access_token.\n    - Send GET /messages with that token.\n    - Verify the response status is 200.\n    - Verify the body's data is an empty array."
+   "yaml": "- id: API-0349\n  name: List messages of a customer without messages returns 200 with an empty list\n  status: automated\n  automatedIn: tests/api/messages/get-messages.spec.ts\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.\n    - Send POST /users/login with that email and password, and take its access_token.\n    - Send GET /messages with that token.\n    - Verify the response status is 200.\n    - Verify the body's data is an empty array."
   },
   {
    "id": "API-0350",
    "name": "Send a message as a guest returns 200 and an admin can read it",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/messages/post-messages.spec.ts",
    "role": "admin",
    "steps": [
     "Send POST /messages without an Authorization header, with a name, an email address, a unique subject and a message text, and take the body's id.",
@@ -8664,6 +8679,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /messages/{messageId} with that id and the admin's token returns 200 with the same subject and message, status \"NEW\" and user_id null."
    ],
    "ref": [],
+   "specLine": 61,
    "area": "messages",
    "areaLabel": "Messages",
    "file": "test-scenarios/api/messages/post-messages.yml",
@@ -8672,12 +8688,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@messages-api"
    ],
-   "yaml": "- id: API-0350\n  name: Send a message as a guest returns 200 and an admin can read it\n  status: manual\n  role: admin\n  steps:\n    - Send POST /messages without an Authorization header, with a name, an email address, a unique subject and a message text, and take the body's id.\n    - Verify the response status is 200.\n    - Verify the body's id is a non-empty string, its subject, message, name and email equal the values sent and its status is \"NEW\".\n    - Verify the body has a created_at and no user_id key.\n    - Verify GET /messages/{messageId} with that id and the admin's token returns 200 with the same subject and message, status \"NEW\" and user_id null."
+   "yaml": "- id: API-0350\n  name: Send a message as a guest returns 200 and an admin can read it\n  status: automated\n  automatedIn: tests/api/messages/post-messages.spec.ts\n  role: admin\n  steps:\n    - Send POST /messages without an Authorization header, with a name, an email address, a unique subject and a message text, and take the body's id.\n    - Verify the response status is 200.\n    - Verify the body's id is a non-empty string, its subject, message, name and email equal the values sent and its status is \"NEW\".\n    - Verify the body has a created_at and no user_id key.\n    - Verify GET /messages/{messageId} with that id and the admin's token returns 200 with the same subject and message, status \"NEW\" and user_id null."
   },
   {
    "id": "API-0351",
    "name": "Send a message as a logged-in customer returns 200 with the customer's user_id",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/messages/post-messages.spec.ts",
    "steps": [
     "Send GET /users/me with the default user's token and take its id.",
     "Send POST /messages with the default user's token, a unique subject and a message text, and take the body's id.",
@@ -8686,6 +8703,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /messages/{messageId} with that id and the default user's token returns 200 with the same subject, message and user_id."
    ],
    "ref": [],
+   "specLine": 100,
    "area": "messages",
    "areaLabel": "Messages",
    "file": "test-scenarios/api/messages/post-messages.yml",
@@ -8694,12 +8712,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@messages-api"
    ],
-   "yaml": "- id: API-0351\n  name: Send a message as a logged-in customer returns 200 with the customer's user_id\n  status: manual\n  steps:\n    - Send GET /users/me with the default user's token and take its id.\n    - Send POST /messages with the default user's token, a unique subject and a message text, and take the body's id.\n    - Verify the response status is 200.\n    - Verify the body's id is a non-empty string, its subject and message equal the values sent, its status is \"NEW\" and its user_id equals the default user's id.\n    - Verify GET /messages/{messageId} with that id and the default user's token returns 200 with the same subject, message and user_id."
+   "yaml": "- id: API-0351\n  name: Send a message as a logged-in customer returns 200 with the customer's user_id\n  status: automated\n  automatedIn: tests/api/messages/post-messages.spec.ts\n  steps:\n    - Send GET /users/me with the default user's token and take its id.\n    - Send POST /messages with the default user's token, a unique subject and a message text, and take the body's id.\n    - Verify the response status is 200.\n    - Verify the body's id is a non-empty string, its subject and message equal the values sent, its status is \"NEW\" and its user_id equals the default user's id.\n    - Verify GET /messages/{messageId} with that id and the default user's token returns 200 with the same subject, message and user_id."
   },
   {
    "id": "API-0352",
    "name": "Send a message with only a subject and a message returns 200",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/messages/post-messages.spec.ts",
    "role": "admin",
    "steps": [
     "Send POST /messages without an Authorization header, with a unique subject and a message text, without name and email, and take the body's id.",
@@ -8708,6 +8727,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /messages/{messageId} with that id and the admin's token returns 200 with the same subject and message, name null and email null."
    ],
    "ref": [],
+   "specLine": 140,
    "area": "messages",
    "areaLabel": "Messages",
    "file": "test-scenarios/api/messages/post-messages.yml",
@@ -8716,12 +8736,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@messages-api"
    ],
-   "yaml": "- id: API-0352\n  name: Send a message with only a subject and a message returns 200\n  status: manual\n  role: admin\n  steps:\n    - Send POST /messages without an Authorization header, with a unique subject and a message text, without name and email, and take the body's id.\n    - Verify the response status is 200.\n    - Verify the body's id is a non-empty string, its subject and message equal the values sent and its status is \"NEW\".\n    - Verify GET /messages/{messageId} with that id and the admin's token returns 200 with the same subject and message, name null and email null."
+   "yaml": "- id: API-0352\n  name: Send a message with only a subject and a message returns 200\n  status: automated\n  automatedIn: tests/api/messages/post-messages.spec.ts\n  role: admin\n  steps:\n    - Send POST /messages without an Authorization header, with a unique subject and a message text, without name and email, and take the body's id.\n    - Verify the response status is 200.\n    - Verify the body's id is a non-empty string, its subject and message equal the values sent and its status is \"NEW\".\n    - Verify GET /messages/{messageId} with that id and the admin's token returns 200 with the same subject and message, name null and email null."
   },
   {
    "id": "API-0353",
    "name": "Send a message with a 120-character subject and a 250-character message returns 200",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/messages/post-messages.spec.ts",
    "role": "admin",
    "steps": [
     "Send POST /messages without an Authorization header, with a 120-character subject and a 250-character message, and take the body's id.",
@@ -8729,6 +8750,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /messages/{messageId} with that id and the admin's token returns 200 with the same subject and message."
    ],
    "ref": [],
+   "specLine": 169,
    "area": "messages",
    "areaLabel": "Messages",
    "file": "test-scenarios/api/messages/post-messages.yml",
@@ -8737,12 +8759,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@messages-api"
    ],
-   "yaml": "- id: API-0353\n  name: Send a message with a 120-character subject and a 250-character message returns 200\n  status: manual\n  role: admin\n  steps:\n    - Send POST /messages without an Authorization header, with a 120-character subject and a 250-character message, and take the body's id.\n    - Verify the response status is 200.\n    - Verify GET /messages/{messageId} with that id and the admin's token returns 200 with the same subject and message."
+   "yaml": "- id: API-0353\n  name: Send a message with a 120-character subject and a 250-character message returns 200\n  status: automated\n  automatedIn: tests/api/messages/post-messages.spec.ts\n  role: admin\n  steps:\n    - Send POST /messages without an Authorization header, with a 120-character subject and a 250-character message, and take the body's id.\n    - Verify the response status is 200.\n    - Verify GET /messages/{messageId} with that id and the admin's token returns 200 with the same subject and message."
   },
   {
    "id": "API-0354",
    "name": "Send a message with a status in the body ignores it and creates it as NEW",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/messages/post-messages.spec.ts",
    "role": "admin",
    "steps": [
     "Send POST /messages without an Authorization header, with a unique subject, a message text and status \"RESOLVED\", and take the body's id.",
@@ -8751,6 +8774,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /messages/{messageId} with that id and the admin's token returns 200 with status \"NEW\"."
    ],
    "ref": [],
+   "specLine": 188,
    "area": "messages",
    "areaLabel": "Messages",
    "file": "test-scenarios/api/messages/post-messages.yml",
@@ -8759,12 +8783,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@messages-api"
    ],
-   "yaml": "- id: API-0354\n  name: Send a message with a status in the body ignores it and creates it as NEW\n  status: manual\n  role: admin\n  steps:\n    - Send POST /messages without an Authorization header, with a unique subject, a message text and status \"RESOLVED\", and take the body's id.\n    - Verify the response status is 200.\n    - Verify the body's status is \"NEW\".\n    - Verify GET /messages/{messageId} with that id and the admin's token returns 200 with status \"NEW\"."
+   "yaml": "- id: API-0354\n  name: Send a message with a status in the body ignores it and creates it as NEW\n  status: automated\n  automatedIn: tests/api/messages/post-messages.spec.ts\n  role: admin\n  steps:\n    - Send POST /messages without an Authorization header, with a unique subject, a message text and status \"RESOLVED\", and take the body's id.\n    - Verify the response status is 200.\n    - Verify the body's status is \"NEW\".\n    - Verify GET /messages/{messageId} with that id and the admin's token returns 200 with status \"NEW\"."
   },
   {
    "id": "API-0355",
    "name": "Send a message with a malformed token returns 200 and the message has no owner",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/messages/post-messages.spec.ts",
    "role": "admin",
    "steps": [
     "Send POST /messages with a malformed token, a unique subject and a message text, and take the body's id.",
@@ -8773,6 +8798,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /messages/{messageId} with that id and the admin's token returns 200 with user_id null."
    ],
    "ref": [],
+   "specLine": 213,
    "area": "messages",
    "areaLabel": "Messages",
    "file": "test-scenarios/api/messages/post-messages.yml",
@@ -8781,18 +8807,20 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@messages-api"
    ],
-   "yaml": "- id: API-0355\n  name: Send a message with a malformed token returns 200 and the message has no owner\n  status: manual\n  role: admin\n  steps:\n    - Send POST /messages with a malformed token, a unique subject and a message text, and take the body's id.\n    - Verify the response status is 200.\n    - Verify the body has no user_id key.\n    - Verify GET /messages/{messageId} with that id and the admin's token returns 200 with user_id null."
+   "yaml": "- id: API-0355\n  name: Send a message with a malformed token returns 200 and the message has no owner\n  status: automated\n  automatedIn: tests/api/messages/post-messages.spec.ts\n  role: admin\n  steps:\n    - Send POST /messages with a malformed token, a unique subject and a message text, and take the body's id.\n    - Verify the response status is 200.\n    - Verify the body has no user_id key.\n    - Verify GET /messages/{messageId} with that id and the admin's token returns 200 with user_id null."
   },
   {
    "id": "API-0356",
    "name": "Send a message without subject and message returns 422 for each of them",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/messages/post-messages.spec.ts",
    "steps": [
     "Send POST /messages without an Authorization header, with a name and an email address, without subject and message.",
     "Verify the response status is 422.",
     "Verify the body has the keys subject and message, each with at least one message."
    ],
    "ref": [],
+   "specLine": 242,
    "area": "messages",
    "areaLabel": "Messages",
    "file": "test-scenarios/api/messages/post-messages.yml",
@@ -8801,18 +8829,20 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@messages-api"
    ],
-   "yaml": "- id: API-0356\n  name: Send a message without subject and message returns 422 for each of them\n  status: manual\n  steps:\n    - Send POST /messages without an Authorization header, with a name and an email address, without subject and message.\n    - Verify the response status is 422.\n    - Verify the body has the keys subject and message, each with at least one message."
+   "yaml": "- id: API-0356\n  name: Send a message without subject and message returns 422 for each of them\n  status: automated\n  automatedIn: tests/api/messages/post-messages.spec.ts\n  steps:\n    - Send POST /messages without an Authorization header, with a name and an email address, without subject and message.\n    - Verify the response status is 422.\n    - Verify the body has the keys subject and message, each with at least one message."
   },
   {
    "id": "API-0357",
    "name": "Send a message with a subject longer than 120 characters returns 422",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/messages/post-messages.spec.ts",
    "steps": [
     "Send POST /messages without an Authorization header, with a 121-character subject and a message text.",
     "Verify the response status is 422.",
     "Verify the body has a subject key with at least one message."
    ],
    "ref": [],
+   "specLine": 260,
    "area": "messages",
    "areaLabel": "Messages",
    "file": "test-scenarios/api/messages/post-messages.yml",
@@ -8821,18 +8851,20 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@messages-api"
    ],
-   "yaml": "- id: API-0357\n  name: Send a message with a subject longer than 120 characters returns 422\n  status: manual\n  steps:\n    - Send POST /messages without an Authorization header, with a 121-character subject and a message text.\n    - Verify the response status is 422.\n    - Verify the body has a subject key with at least one message."
+   "yaml": "- id: API-0357\n  name: Send a message with a subject longer than 120 characters returns 422\n  status: automated\n  automatedIn: tests/api/messages/post-messages.spec.ts\n  steps:\n    - Send POST /messages without an Authorization header, with a 121-character subject and a message text.\n    - Verify the response status is 422.\n    - Verify the body has a subject key with at least one message."
   },
   {
    "id": "API-0358",
    "name": "Send a message with a message longer than 250 characters returns 422",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/messages/post-messages.spec.ts",
    "steps": [
     "Send POST /messages without an Authorization header, with a unique subject and a 251-character message.",
     "Verify the response status is 422.",
     "Verify the body has a message key with at least one message."
    ],
    "ref": [],
+   "specLine": 277,
    "area": "messages",
    "areaLabel": "Messages",
    "file": "test-scenarios/api/messages/post-messages.yml",
@@ -8841,18 +8873,20 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@messages-api"
    ],
-   "yaml": "- id: API-0358\n  name: Send a message with a message longer than 250 characters returns 422\n  status: manual\n  steps:\n    - Send POST /messages without an Authorization header, with a unique subject and a 251-character message.\n    - Verify the response status is 422.\n    - Verify the body has a message key with at least one message."
+   "yaml": "- id: API-0358\n  name: Send a message with a message longer than 250 characters returns 422\n  status: automated\n  automatedIn: tests/api/messages/post-messages.spec.ts\n  steps:\n    - Send POST /messages without an Authorization header, with a unique subject and a 251-character message.\n    - Verify the response status is 422.\n    - Verify the body has a message key with at least one message."
   },
   {
    "id": "API-0359",
    "name": "Send a message with an invalid email returns 422",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/messages/post-messages.spec.ts",
    "steps": [
     "Send POST /messages without an Authorization header, with the email \"not-an-email\", a unique subject and a message text.",
     "Verify the response status is 422.",
     "Verify the body has an email key with at least one message."
    ],
    "ref": [],
+   "specLine": 294,
    "area": "messages",
    "areaLabel": "Messages",
    "file": "test-scenarios/api/messages/post-messages.yml",
@@ -8861,18 +8895,20 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@messages-api"
    ],
-   "yaml": "- id: API-0359\n  name: Send a message with an invalid email returns 422\n  status: manual\n  steps:\n    - Send POST /messages without an Authorization header, with the email \"not-an-email\", a unique subject and a message text.\n    - Verify the response status is 422.\n    - Verify the body has an email key with at least one message."
+   "yaml": "- id: API-0359\n  name: Send a message with an invalid email returns 422\n  status: automated\n  automatedIn: tests/api/messages/post-messages.spec.ts\n  steps:\n    - Send POST /messages without an Authorization header, with the email \"not-an-email\", a unique subject and a message text.\n    - Verify the response status is 422.\n    - Verify the body has an email key with at least one message."
   },
   {
    "id": "API-0360",
    "name": "Send a message with a subscript character in the subject returns 422",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/messages/post-messages.spec.ts",
    "steps": [
     "Send POST /messages without an Authorization header, with a subject that contains the subscript character \"₂\" (U+2082) and a message text.",
     "Verify the response status is 422.",
     "Verify the body has a subject key with at least one message."
    ],
    "ref": [],
+   "specLine": 311,
    "area": "messages",
    "areaLabel": "Messages",
    "file": "test-scenarios/api/messages/post-messages.yml",
@@ -8881,7 +8917,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@messages-api"
    ],
-   "yaml": "- id: API-0360\n  name: Send a message with a subscript character in the subject returns 422\n  status: manual\n  steps:\n    - Send POST /messages without an Authorization header, with a subject that contains the subscript character \"₂\" (U+2082) and a message text.\n    - Verify the response status is 422.\n    - Verify the body has a subject key with at least one message."
+   "yaml": "- id: API-0360\n  name: Send a message with a subscript character in the subject returns 422\n  status: automated\n  automatedIn: tests/api/messages/post-messages.spec.ts\n  steps:\n    - Send POST /messages without an Authorization header, with a subject that contains the subscript character \"₂\" (U+2082) and a message text.\n    - Verify the response status is 422.\n    - Verify the body has a subject key with at least one message."
   },
   {
    "id": "API-0361",
@@ -8889,13 +8925,15 @@ window.SCENARIO_CATALOG = {
    "ref": [
     "BUG-027"
    ],
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/messages/post-messages.spec.ts",
    "knownIssue": "Returns 500 for a name of 61 to 120 characters, which the validation allows, instead of 422 or 200.",
    "bug": "BUG-027",
    "steps": [
     "Send POST /messages without an Authorization header, with a 61-character name, a unique subject and a message text.",
     "Verify the response status is 200 or 422."
    ],
+   "specLine": 328,
    "area": "messages",
    "areaLabel": "Messages",
    "file": "test-scenarios/api/messages/post-messages.yml",
@@ -8904,7 +8942,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@messages-api"
    ],
-   "yaml": "- id: API-0361\n  name: Send a message with a 61-character name returns 200 or 422, not 500\n  ref: BUG-027\n  status: manual\n  knownIssue: Returns 500 for a name of 61 to 120 characters, which the validation allows, instead of 422 or 200.\n  bug: BUG-027\n  steps:\n    - Send POST /messages without an Authorization header, with a 61-character name, a unique subject and a message text.\n    - Verify the response status is 200 or 422."
+   "yaml": "- id: API-0361\n  name: Send a message with a 61-character name returns 200 or 422, not 500\n  ref: BUG-027\n  status: automated\n  automatedIn: tests/api/messages/post-messages.spec.ts\n  knownIssue: Returns 500 for a name of 61 to 120 characters, which the validation allows, instead of 422 or 200.\n  bug: BUG-027\n  steps:\n    - Send POST /messages without an Authorization header, with a 61-character name, a unique subject and a message text.\n    - Verify the response status is 200 or 422."
   },
   {
    "id": "API-0362",
@@ -8912,13 +8950,15 @@ window.SCENARIO_CATALOG = {
    "ref": [
     "BUG-028"
    ],
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/messages/post-messages.spec.ts",
    "knownIssue": "Returns 500 when the body has a parent_id key instead of ignoring it or answering 422.",
    "bug": "BUG-028",
    "steps": [
     "Send POST /messages without an Authorization header, with a unique subject, a message text and a parent_id key set to a non-empty string.",
     "Verify the response status is 200 or 422."
    ],
+   "specLine": 342,
    "area": "messages",
    "areaLabel": "Messages",
    "file": "test-scenarios/api/messages/post-messages.yml",
@@ -8927,7 +8967,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@messages-api"
    ],
-   "yaml": "- id: API-0362\n  name: Send a message with a parent_id key returns 200 or 422, not 500\n  ref: BUG-028\n  status: manual\n  knownIssue: Returns 500 when the body has a parent_id key instead of ignoring it or answering 422.\n  bug: BUG-028\n  steps:\n    - Send POST /messages without an Authorization header, with a unique subject, a message text and a parent_id key set to a non-empty string.\n    - Verify the response status is 200 or 422."
+   "yaml": "- id: API-0362\n  name: Send a message with a parent_id key returns 200 or 422, not 500\n  ref: BUG-028\n  status: automated\n  automatedIn: tests/api/messages/post-messages.spec.ts\n  knownIssue: Returns 500 when the body has a parent_id key instead of ignoring it or answering 422.\n  bug: BUG-028\n  steps:\n    - Send POST /messages without an Authorization header, with a unique subject, a message text and a parent_id key set to a non-empty string.\n    - Verify the response status is 200 or 422."
   },
   {
    "id": "API-0363",
@@ -8935,7 +8975,8 @@ window.SCENARIO_CATALOG = {
    "ref": [
     "BUG-028"
    ],
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/messages/post-messages.spec.ts",
    "knownIssue": "Stores a guest message under the user_id sent in the body, so it shows in that user's list, instead of leaving it without an owner.",
    "bug": "BUG-028",
    "steps": [
@@ -8945,6 +8986,7 @@ window.SCENARIO_CATALOG = {
     "Send GET /messages with the throwaway customer's access_token.",
     "Verify the body's data has no item with the new message's id."
    ],
+   "specLine": 356,
    "area": "messages",
    "areaLabel": "Messages",
    "file": "test-scenarios/api/messages/post-messages.yml",
@@ -8953,12 +8995,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@messages-api"
    ],
-   "yaml": "- id: API-0363\n  name: Send a guest message with another user's user_id doesn't put it in that user's list\n  ref: BUG-028\n  status: manual\n  knownIssue: Stores a guest message under the user_id sent in the body, so it shows in that user's list, instead of leaving it without an owner.\n  bug: BUG-028\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.\n    - Send POST /users/login with that email and password, and take its access_token.\n    - Send POST /messages without an Authorization header, with a unique subject, a message text and user_id set to the new user's id, and take the body's id.\n    - Send GET /messages with the throwaway customer's access_token.\n    - Verify the body's data has no item with the new message's id."
+   "yaml": "- id: API-0363\n  name: Send a guest message with another user's user_id doesn't put it in that user's list\n  ref: BUG-028\n  status: automated\n  automatedIn: tests/api/messages/post-messages.spec.ts\n  knownIssue: Stores a guest message under the user_id sent in the body, so it shows in that user's list, instead of leaving it without an owner.\n  bug: BUG-028\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.\n    - Send POST /users/login with that email and password, and take its access_token.\n    - Send POST /messages without an Authorization header, with a unique subject, a message text and user_id set to the new user's id, and take the body's id.\n    - Send GET /messages with the throwaway customer's access_token.\n    - Verify the body's data has no item with the new message's id."
   },
   {
    "id": "API-0364",
    "name": "Get a message as its sender returns 200 with the message, its sender and no replies",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/messages/get-messages-by-message-id.spec.ts",
    "steps": [
     "Send GET /users/me with the default user's token and take its id.",
     "Send POST /messages with the default user's token, a name, an email address, a unique subject and a message text, and take the new message's id.",
@@ -8969,6 +9012,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's user has the default user's id as id and has no role, enabled and failed_login_attempts keys."
    ],
    "ref": [],
+   "specLine": 51,
    "area": "messages",
    "areaLabel": "Messages",
    "file": "test-scenarios/api/messages/get-messages-by-message-id.yml",
@@ -8977,12 +9021,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@messages-api"
    ],
-   "yaml": "- id: API-0364\n  name: Get a message as its sender returns 200 with the message, its sender and no replies\n  status: manual\n  steps:\n    - Send GET /users/me with the default user's token and take its id.\n    - Send POST /messages with the default user's token, a name, an email address, a unique subject and a message text, and take the new message's id.\n    - Send GET /messages/{messageId} with that id and the default user's token.\n    - Verify the response status is 200.\n    - Verify the body's id equals the new message's id, its user_id equals the default user's id, its subject and message equal the values sent, its status is \"NEW\" and it has a created_at.\n    - Verify the body's replies is an empty array.\n    - Verify the body's user has the default user's id as id and has no role, enabled and failed_login_attempts keys."
+   "yaml": "- id: API-0364\n  name: Get a message as its sender returns 200 with the message, its sender and no replies\n  status: automated\n  automatedIn: tests/api/messages/get-messages-by-message-id.spec.ts\n  steps:\n    - Send GET /users/me with the default user's token and take its id.\n    - Send POST /messages with the default user's token, a name, an email address, a unique subject and a message text, and take the new message's id.\n    - Send GET /messages/{messageId} with that id and the default user's token.\n    - Verify the response status is 200.\n    - Verify the body's id equals the new message's id, its user_id equals the default user's id, its subject and message equal the values sent, its status is \"NEW\" and it has a created_at.\n    - Verify the body's replies is an empty array.\n    - Verify the body's user has the default user's id as id and has no role, enabled and failed_login_attempts keys."
   },
   {
    "id": "API-0365",
    "name": "Get a customer's message as an admin returns 200 with the sender's admin-only fields",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/messages/get-messages-by-message-id.spec.ts",
    "role": "admin",
    "steps": [
     "Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.",
@@ -8994,6 +9039,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's user has the keys role, enabled and failed_login_attempts."
    ],
    "ref": [],
+   "specLine": 107,
    "area": "messages",
    "areaLabel": "Messages",
    "file": "test-scenarios/api/messages/get-messages-by-message-id.yml",
@@ -9002,12 +9048,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@messages-api"
    ],
-   "yaml": "- id: API-0365\n  name: Get a customer's message as an admin returns 200 with the sender's admin-only fields\n  status: manual\n  role: admin\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.\n    - Send POST /users/login with that email and password, and take its access_token.\n    - Send POST /messages with that token, a unique subject and a message text, and take the new message's id.\n    - Send GET /messages/{messageId} with that id and the admin's token.\n    - Verify the response status is 200.\n    - Verify the body's user_id and its user's id equal the new user's id.\n    - Verify the body's user has the keys role, enabled and failed_login_attempts."
+   "yaml": "- id: API-0365\n  name: Get a customer's message as an admin returns 200 with the sender's admin-only fields\n  status: automated\n  automatedIn: tests/api/messages/get-messages-by-message-id.spec.ts\n  role: admin\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.\n    - Send POST /users/login with that email and password, and take its access_token.\n    - Send POST /messages with that token, a unique subject and a message text, and take the new message's id.\n    - Send GET /messages/{messageId} with that id and the admin's token.\n    - Verify the response status is 200.\n    - Verify the body's user_id and its user's id equal the new user's id.\n    - Verify the body's user has the keys role, enabled and failed_login_attempts."
   },
   {
    "id": "API-0366",
    "name": "Get a guest message as an admin returns 200 with no sender",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/messages/get-messages-by-message-id.spec.ts",
    "role": "admin",
    "steps": [
     "Send POST /messages without an Authorization header, with a unique subject and a message text, and take the new message's id.",
@@ -9017,6 +9064,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's replies is an empty array."
    ],
    "ref": [],
+   "specLine": 146,
    "area": "messages",
    "areaLabel": "Messages",
    "file": "test-scenarios/api/messages/get-messages-by-message-id.yml",
@@ -9025,12 +9073,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@messages-api"
    ],
-   "yaml": "- id: API-0366\n  name: Get a guest message as an admin returns 200 with no sender\n  status: manual\n  role: admin\n  steps:\n    - Send POST /messages without an Authorization header, with a unique subject and a message text, and take the new message's id.\n    - Send GET /messages/{messageId} with that id and the admin's token.\n    - Verify the response status is 200.\n    - Verify the body's id equals the new message's id, its user_id is null and its user is null.\n    - Verify the body's replies is an empty array."
+   "yaml": "- id: API-0366\n  name: Get a guest message as an admin returns 200 with no sender\n  status: automated\n  automatedIn: tests/api/messages/get-messages-by-message-id.spec.ts\n  role: admin\n  steps:\n    - Send POST /messages without an Authorization header, with a unique subject and a message text, and take the new message's id.\n    - Send GET /messages/{messageId} with that id and the admin's token.\n    - Verify the response status is 200.\n    - Verify the body's id equals the new message's id, its user_id is null and its user is null.\n    - Verify the body's replies is an empty array."
   },
   {
    "id": "API-0367",
    "name": "Get a message with a reply returns 200 with the reply and its author",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/messages/get-messages-by-message-id.spec.ts",
    "role": "admin",
    "steps": [
     "Send POST /messages without an Authorization header, with a unique subject and a message text, and take the new message's id.",
@@ -9042,6 +9091,7 @@ window.SCENARIO_CATALOG = {
     "Verify that reply's user has the admin's id as id."
    ],
    "ref": [],
+   "specLine": 174,
    "area": "messages",
    "areaLabel": "Messages",
    "file": "test-scenarios/api/messages/get-messages-by-message-id.yml",
@@ -9050,18 +9100,20 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@messages-api"
    ],
-   "yaml": "- id: API-0367\n  name: Get a message with a reply returns 200 with the reply and its author\n  status: manual\n  role: admin\n  steps:\n    - Send POST /messages without an Authorization header, with a unique subject and a message text, and take the new message's id.\n    - Send GET /users/me with the admin's token and take its id.\n    - Send POST /messages/{messageId}/reply with that id, the admin's token and a body with a message text, and take the reply's id.\n    - Send GET /messages/{messageId} with that id and the admin's token.\n    - Verify the response status is 200.\n    - Verify the body's replies has exactly one item, with the reply's id as id, the text sent as message and a created_at.\n    - Verify that reply's user has the admin's id as id."
+   "yaml": "- id: API-0367\n  name: Get a message with a reply returns 200 with the reply and its author\n  status: automated\n  automatedIn: tests/api/messages/get-messages-by-message-id.spec.ts\n  role: admin\n  steps:\n    - Send POST /messages without an Authorization header, with a unique subject and a message text, and take the new message's id.\n    - Send GET /users/me with the admin's token and take its id.\n    - Send POST /messages/{messageId}/reply with that id, the admin's token and a body with a message text, and take the reply's id.\n    - Send GET /messages/{messageId} with that id and the admin's token.\n    - Verify the response status is 200.\n    - Verify the body's replies has exactly one item, with the reply's id as id, the text sent as message and a created_at.\n    - Verify that reply's user has the admin's id as id."
   },
   {
    "id": "API-0368",
    "name": "Get a message without a token returns 401",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/messages/get-messages-by-message-id.spec.ts",
    "steps": [
     "Send GET /messages/{messageId} without an Authorization header, with a well-formed message id that doesn't exist.",
     "Verify the response status is 401.",
     "Verify the body's message is \"Unauthorized\"."
    ],
    "ref": [],
+   "specLine": 220,
    "area": "messages",
    "areaLabel": "Messages",
    "file": "test-scenarios/api/messages/get-messages-by-message-id.yml",
@@ -9070,18 +9122,20 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@messages-api"
    ],
-   "yaml": "- id: API-0368\n  name: Get a message without a token returns 401\n  status: manual\n  steps:\n    - Send GET /messages/{messageId} without an Authorization header, with a well-formed message id that doesn't exist.\n    - Verify the response status is 401.\n    - Verify the body's message is \"Unauthorized\"."
+   "yaml": "- id: API-0368\n  name: Get a message without a token returns 401\n  status: automated\n  automatedIn: tests/api/messages/get-messages-by-message-id.spec.ts\n  steps:\n    - Send GET /messages/{messageId} without an Authorization header, with a well-formed message id that doesn't exist.\n    - Verify the response status is 401.\n    - Verify the body's message is \"Unauthorized\"."
   },
   {
    "id": "API-0369",
    "name": "Get a message with a malformed token returns 401",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/messages/get-messages-by-message-id.spec.ts",
    "steps": [
     "Send GET /messages/{messageId} with a malformed token and a well-formed message id that doesn't exist.",
     "Verify the response status is 401.",
     "Verify the body's message is \"Unauthorized\"."
    ],
    "ref": [],
+   "specLine": 237,
    "area": "messages",
    "areaLabel": "Messages",
    "file": "test-scenarios/api/messages/get-messages-by-message-id.yml",
@@ -9090,7 +9144,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@messages-api"
    ],
-   "yaml": "- id: API-0369\n  name: Get a message with a malformed token returns 401\n  status: manual\n  steps:\n    - Send GET /messages/{messageId} with a malformed token and a well-formed message id that doesn't exist.\n    - Verify the response status is 401.\n    - Verify the body's message is \"Unauthorized\"."
+   "yaml": "- id: API-0369\n  name: Get a message with a malformed token returns 401\n  status: automated\n  automatedIn: tests/api/messages/get-messages-by-message-id.spec.ts\n  steps:\n    - Send GET /messages/{messageId} with a malformed token and a well-formed message id that doesn't exist.\n    - Verify the response status is 401.\n    - Verify the body's message is \"Unauthorized\"."
   },
   {
    "id": "API-0370",
@@ -9098,7 +9152,8 @@ window.SCENARIO_CATALOG = {
    "ref": [
     "BUG-029"
    ],
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/messages/get-messages-by-message-id.spec.ts",
    "knownIssue": "Returns 200 with an empty body for a message the customer doesn't own instead of 404.",
    "bug": "BUG-029",
    "steps": [
@@ -9108,6 +9163,7 @@ window.SCENARIO_CATALOG = {
     "Send GET /messages/{messageId} with that id and the default user's token.",
     "Verify the response status is 404."
    ],
+   "specLine": 254,
    "area": "messages",
    "areaLabel": "Messages",
    "file": "test-scenarios/api/messages/get-messages-by-message-id.yml",
@@ -9116,7 +9172,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@messages-api"
    ],
-   "yaml": "- id: API-0370\n  name: Get another user's message as a customer returns 404\n  ref: BUG-029\n  status: manual\n  knownIssue: Returns 200 with an empty body for a message the customer doesn't own instead of 404.\n  bug: BUG-029\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.\n    - Send POST /users/login with that email and password, and take its access_token.\n    - Send POST /messages with that token, a unique subject and a message text, and take the new message's id.\n    - Send GET /messages/{messageId} with that id and the default user's token.\n    - Verify the response status is 404."
+   "yaml": "- id: API-0370\n  name: Get another user's message as a customer returns 404\n  ref: BUG-029\n  status: automated\n  automatedIn: tests/api/messages/get-messages-by-message-id.spec.ts\n  knownIssue: Returns 200 with an empty body for a message the customer doesn't own instead of 404.\n  bug: BUG-029\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.\n    - Send POST /users/login with that email and password, and take its access_token.\n    - Send POST /messages with that token, a unique subject and a message text, and take the new message's id.\n    - Send GET /messages/{messageId} with that id and the default user's token.\n    - Verify the response status is 404."
   },
   {
    "id": "API-0371",
@@ -9124,7 +9180,8 @@ window.SCENARIO_CATALOG = {
    "ref": [
     "BUG-029"
    ],
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/messages/get-messages-by-message-id.spec.ts",
    "role": "admin",
    "knownIssue": "Returns 200 with an empty body for an unknown message id instead of 404.",
    "bug": "BUG-029",
@@ -9132,6 +9189,7 @@ window.SCENARIO_CATALOG = {
     "Send GET /messages/{messageId} with a well-formed message id that doesn't exist and the admin's token.",
     "Verify the response status is 404."
    ],
+   "specLine": 282,
    "area": "messages",
    "areaLabel": "Messages",
    "file": "test-scenarios/api/messages/get-messages-by-message-id.yml",
@@ -9140,12 +9198,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@messages-api"
    ],
-   "yaml": "- id: API-0371\n  name: Get an unknown message id as an admin returns 404\n  ref: BUG-029\n  status: manual\n  role: admin\n  knownIssue: Returns 200 with an empty body for an unknown message id instead of 404.\n  bug: BUG-029\n  steps:\n    - Send GET /messages/{messageId} with a well-formed message id that doesn't exist and the admin's token.\n    - Verify the response status is 404."
+   "yaml": "- id: API-0371\n  name: Get an unknown message id as an admin returns 404\n  ref: BUG-029\n  status: automated\n  automatedIn: tests/api/messages/get-messages-by-message-id.spec.ts\n  role: admin\n  knownIssue: Returns 200 with an empty body for an unknown message id instead of 404.\n  bug: BUG-029\n  steps:\n    - Send GET /messages/{messageId} with a well-formed message id that doesn't exist and the admin's token.\n    - Verify the response status is 404."
   },
   {
    "id": "API-0381",
    "name": "Attach an empty txt file to a message returns 200",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/messages/post-messages-by-message-id-attach-file.spec.ts",
    "steps": [
     "Send POST /messages without an Authorization header, with a unique subject and a message text, and take the new message's id.",
     "Send POST /messages/{messageId}/attach-file with that id, without an Authorization header, as multipart/form-data with a file field holding an empty file named \"note.txt\".",
@@ -9153,6 +9212,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's success is true."
    ],
    "ref": [],
+   "specLine": 36,
    "area": "messages",
    "areaLabel": "Messages",
    "file": "test-scenarios/api/messages/post-messages-by-message-id-attach-file.yml",
@@ -9161,18 +9221,20 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@messages-api"
    ],
-   "yaml": "- id: API-0381\n  name: Attach an empty txt file to a message returns 200\n  status: manual\n  steps:\n    - Send POST /messages without an Authorization header, with a unique subject and a message text, and take the new message's id.\n    - Send POST /messages/{messageId}/attach-file with that id, without an Authorization header, as multipart/form-data with a file field holding an empty file named \"note.txt\".\n    - Verify the response status is 200.\n    - Verify the body's success is true."
+   "yaml": "- id: API-0381\n  name: Attach an empty txt file to a message returns 200\n  status: automated\n  automatedIn: tests/api/messages/post-messages-by-message-id-attach-file.spec.ts\n  steps:\n    - Send POST /messages without an Authorization header, with a unique subject and a message text, and take the new message's id.\n    - Send POST /messages/{messageId}/attach-file with that id, without an Authorization header, as multipart/form-data with a file field holding an empty file named \"note.txt\".\n    - Verify the response status is 200.\n    - Verify the body's success is true."
   },
   {
    "id": "API-0382",
    "name": "Attach no file to a message returns 400",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/messages/post-messages-by-message-id-attach-file.spec.ts",
    "steps": [
     "Send POST /messages/{messageId}/attach-file with a well-formed message id that doesn't exist, as multipart/form-data with no file field.",
     "Verify the response status is 400.",
     "Verify the body's errors is a list with the single item \"No file attached.\"."
    ],
    "ref": [],
+   "specLine": 55,
    "area": "messages",
    "areaLabel": "Messages",
    "file": "test-scenarios/api/messages/post-messages-by-message-id-attach-file.yml",
@@ -9181,18 +9243,20 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@messages-api"
    ],
-   "yaml": "- id: API-0382\n  name: Attach no file to a message returns 400\n  status: manual\n  steps:\n    - Send POST /messages/{messageId}/attach-file with a well-formed message id that doesn't exist, as multipart/form-data with no file field.\n    - Verify the response status is 400.\n    - Verify the body's errors is a list with the single item \"No file attached.\"."
+   "yaml": "- id: API-0382\n  name: Attach no file to a message returns 400\n  status: automated\n  automatedIn: tests/api/messages/post-messages-by-message-id-attach-file.spec.ts\n  steps:\n    - Send POST /messages/{messageId}/attach-file with a well-formed message id that doesn't exist, as multipart/form-data with no file field.\n    - Verify the response status is 400.\n    - Verify the body's errors is a list with the single item \"No file attached.\"."
   },
   {
    "id": "API-0383",
    "name": "Attach a non-empty txt file to a message returns 400",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/messages/post-messages-by-message-id-attach-file.spec.ts",
    "steps": [
     "Send POST /messages/{messageId}/attach-file with a well-formed message id that doesn't exist, as multipart/form-data with a file field holding a 1-byte file named \"note.txt\".",
     "Verify the response status is 400.",
     "Verify the body's errors is a list with the single item \"Currently we only allow empty files.\"."
    ],
    "ref": [],
+   "specLine": 72,
    "area": "messages",
    "areaLabel": "Messages",
    "file": "test-scenarios/api/messages/post-messages-by-message-id-attach-file.yml",
@@ -9201,18 +9265,20 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@messages-api"
    ],
-   "yaml": "- id: API-0383\n  name: Attach a non-empty txt file to a message returns 400\n  status: manual\n  steps:\n    - Send POST /messages/{messageId}/attach-file with a well-formed message id that doesn't exist, as multipart/form-data with a file field holding a 1-byte file named \"note.txt\".\n    - Verify the response status is 400.\n    - Verify the body's errors is a list with the single item \"Currently we only allow empty files.\"."
+   "yaml": "- id: API-0383\n  name: Attach a non-empty txt file to a message returns 400\n  status: automated\n  automatedIn: tests/api/messages/post-messages-by-message-id-attach-file.spec.ts\n  steps:\n    - Send POST /messages/{messageId}/attach-file with a well-formed message id that doesn't exist, as multipart/form-data with a file field holding a 1-byte file named \"note.txt\".\n    - Verify the response status is 400.\n    - Verify the body's errors is a list with the single item \"Currently we only allow empty files.\"."
   },
   {
    "id": "API-0384",
    "name": "Attach an empty pdf file to a message returns 400",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/messages/post-messages-by-message-id-attach-file.spec.ts",
    "steps": [
     "Send POST /messages/{messageId}/attach-file with a well-formed message id that doesn't exist, as multipart/form-data with a file field holding an empty file named \"note.pdf\".",
     "Verify the response status is 400.",
     "Verify the body's errors is a list with the single item \"The file extension is incorrect, we only accept txt files.\"."
    ],
    "ref": [],
+   "specLine": 89,
    "area": "messages",
    "areaLabel": "Messages",
    "file": "test-scenarios/api/messages/post-messages-by-message-id-attach-file.yml",
@@ -9221,18 +9287,20 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@messages-api"
    ],
-   "yaml": "- id: API-0384\n  name: Attach an empty pdf file to a message returns 400\n  status: manual\n  steps:\n    - Send POST /messages/{messageId}/attach-file with a well-formed message id that doesn't exist, as multipart/form-data with a file field holding an empty file named \"note.pdf\".\n    - Verify the response status is 400.\n    - Verify the body's errors is a list with the single item \"The file extension is incorrect, we only accept txt files.\"."
+   "yaml": "- id: API-0384\n  name: Attach an empty pdf file to a message returns 400\n  status: automated\n  automatedIn: tests/api/messages/post-messages-by-message-id-attach-file.spec.ts\n  steps:\n    - Send POST /messages/{messageId}/attach-file with a well-formed message id that doesn't exist, as multipart/form-data with a file field holding an empty file named \"note.pdf\".\n    - Verify the response status is 400.\n    - Verify the body's errors is a list with the single item \"The file extension is incorrect, we only accept txt files.\"."
   },
   {
    "id": "API-0385",
    "name": "Attach a non-empty pdf file to a message reports the empty-file rule first",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/messages/post-messages-by-message-id-attach-file.spec.ts",
    "steps": [
     "Send POST /messages/{messageId}/attach-file with a well-formed message id that doesn't exist, as multipart/form-data with a file field holding a 1-byte file named \"note.pdf\".",
     "Verify the response status is 400.",
     "Verify the body's errors is a list with the single item \"Currently we only allow empty files.\"."
    ],
    "ref": [],
+   "specLine": 106,
    "area": "messages",
    "areaLabel": "Messages",
    "file": "test-scenarios/api/messages/post-messages-by-message-id-attach-file.yml",
@@ -9241,18 +9309,20 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@messages-api"
    ],
-   "yaml": "- id: API-0385\n  name: Attach a non-empty pdf file to a message reports the empty-file rule first\n  status: manual\n  steps:\n    - Send POST /messages/{messageId}/attach-file with a well-formed message id that doesn't exist, as multipart/form-data with a file field holding a 1-byte file named \"note.pdf\".\n    - Verify the response status is 400.\n    - Verify the body's errors is a list with the single item \"Currently we only allow empty files.\"."
+   "yaml": "- id: API-0385\n  name: Attach a non-empty pdf file to a message reports the empty-file rule first\n  status: automated\n  automatedIn: tests/api/messages/post-messages-by-message-id-attach-file.spec.ts\n  steps:\n    - Send POST /messages/{messageId}/attach-file with a well-formed message id that doesn't exist, as multipart/form-data with a file field holding a 1-byte file named \"note.pdf\".\n    - Verify the response status is 400.\n    - Verify the body's errors is a list with the single item \"Currently we only allow empty files.\"."
   },
   {
    "id": "API-0386",
    "name": "Attach an empty file with the upper-case extension TXT to a message returns 400",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/messages/post-messages-by-message-id-attach-file.spec.ts",
    "steps": [
     "Send POST /messages/{messageId}/attach-file with a well-formed message id that doesn't exist, as multipart/form-data with a file field holding an empty file named \"note.TXT\".",
     "Verify the response status is 400.",
     "Verify the body's errors is a list with the single item \"The file extension is incorrect, we only accept txt files.\"."
    ],
    "ref": [],
+   "specLine": 123,
    "area": "messages",
    "areaLabel": "Messages",
    "file": "test-scenarios/api/messages/post-messages-by-message-id-attach-file.yml",
@@ -9261,7 +9331,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@messages-api"
    ],
-   "yaml": "- id: API-0386\n  name: Attach an empty file with the upper-case extension TXT to a message returns 400\n  status: manual\n  steps:\n    - Send POST /messages/{messageId}/attach-file with a well-formed message id that doesn't exist, as multipart/form-data with a file field holding an empty file named \"note.TXT\".\n    - Verify the response status is 400.\n    - Verify the body's errors is a list with the single item \"The file extension is incorrect, we only accept txt files.\"."
+   "yaml": "- id: API-0386\n  name: Attach an empty file with the upper-case extension TXT to a message returns 400\n  status: automated\n  automatedIn: tests/api/messages/post-messages-by-message-id-attach-file.spec.ts\n  steps:\n    - Send POST /messages/{messageId}/attach-file with a well-formed message id that doesn't exist, as multipart/form-data with a file field holding an empty file named \"note.TXT\".\n    - Verify the response status is 400.\n    - Verify the body's errors is a list with the single item \"The file extension is incorrect, we only accept txt files.\"."
   },
   {
    "id": "API-0387",
@@ -9269,13 +9339,15 @@ window.SCENARIO_CATALOG = {
    "ref": [
     "BUG-031"
    ],
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/messages/post-messages-by-message-id-attach-file.spec.ts",
    "knownIssue": "Returns 200 for a message id that doesn't exist instead of 404 (the message is never looked up).",
    "bug": "BUG-031",
    "steps": [
     "Send POST /messages/{messageId}/attach-file with a well-formed message id that doesn't exist, as multipart/form-data with a file field holding an empty file named \"note.txt\".",
     "Verify the response status is 404."
    ],
+   "specLine": 140,
    "area": "messages",
    "areaLabel": "Messages",
    "file": "test-scenarios/api/messages/post-messages-by-message-id-attach-file.yml",
@@ -9284,12 +9356,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@messages-api"
    ],
-   "yaml": "- id: API-0387\n  name: Attach an empty txt file to an unknown message id returns 404\n  ref: BUG-031\n  status: manual\n  knownIssue: Returns 200 for a message id that doesn't exist instead of 404 (the message is never looked up).\n  bug: BUG-031\n  steps:\n    - Send POST /messages/{messageId}/attach-file with a well-formed message id that doesn't exist, as multipart/form-data with a file field holding an empty file named \"note.txt\".\n    - Verify the response status is 404."
+   "yaml": "- id: API-0387\n  name: Attach an empty txt file to an unknown message id returns 404\n  ref: BUG-031\n  status: automated\n  automatedIn: tests/api/messages/post-messages-by-message-id-attach-file.spec.ts\n  knownIssue: Returns 200 for a message id that doesn't exist instead of 404 (the message is never looked up).\n  bug: BUG-031\n  steps:\n    - Send POST /messages/{messageId}/attach-file with a well-formed message id that doesn't exist, as multipart/form-data with a file field holding an empty file named \"note.txt\".\n    - Verify the response status is 404."
   },
   {
    "id": "API-0372",
    "name": "Reply to a message returns 201 and sets the message to IN_PROGRESS with the reply listed",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/messages/post-messages-by-message-id-reply.spec.ts",
    "role": "admin",
    "steps": [
     "Send POST /messages without an Authorization header, with a unique subject and a message text, and take the new message's id.",
@@ -9301,6 +9374,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /messages/{messageId} with that id and the admin's token returns 200 with status \"IN_PROGRESS\" and a replies list with exactly one item, with the reply's id as id, the text sent as message and the admin's id as its user's id."
    ],
    "ref": [],
+   "specLine": 30,
    "area": "messages",
    "areaLabel": "Messages",
    "file": "test-scenarios/api/messages/post-messages-by-message-id-reply.yml",
@@ -9309,12 +9383,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@messages-api"
    ],
-   "yaml": "- id: API-0372\n  name: Reply to a message returns 201 and sets the message to IN_PROGRESS with the reply listed\n  status: manual\n  role: admin\n  steps:\n    - Send POST /messages without an Authorization header, with a unique subject and a message text, and take the new message's id.\n    - Send GET /users/me with the admin's token and take its id.\n    - Send POST /messages/{messageId}/reply with that id, the admin's token and a body with a message text, and take the body's id as the reply's id.\n    - Verify the response status is 201.\n    - Verify the body's message equals the text sent, and its id is a non-empty string and it has a created_at.\n    - Verify the body has no message_id and no user_id keys.\n    - Verify GET /messages/{messageId} with that id and the admin's token returns 200 with status \"IN_PROGRESS\" and a replies list with exactly one item, with the reply's id as id, the text sent as message and the admin's id as its user's id."
+   "yaml": "- id: API-0372\n  name: Reply to a message returns 201 and sets the message to IN_PROGRESS with the reply listed\n  status: automated\n  automatedIn: tests/api/messages/post-messages-by-message-id-reply.spec.ts\n  role: admin\n  steps:\n    - Send POST /messages without an Authorization header, with a unique subject and a message text, and take the new message's id.\n    - Send GET /users/me with the admin's token and take its id.\n    - Send POST /messages/{messageId}/reply with that id, the admin's token and a body with a message text, and take the body's id as the reply's id.\n    - Verify the response status is 201.\n    - Verify the body's message equals the text sent, and its id is a non-empty string and it has a created_at.\n    - Verify the body has no message_id and no user_id keys.\n    - Verify GET /messages/{messageId} with that id and the admin's token returns 200 with status \"IN_PROGRESS\" and a replies list with exactly one item, with the reply's id as id, the text sent as message and the admin's id as its user's id."
   },
   {
    "id": "API-0373",
    "name": "Reply to a resolved message returns 201 and reopens it as IN_PROGRESS",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/messages/post-messages-by-message-id-reply.spec.ts",
    "role": "admin",
    "steps": [
     "Send POST /messages without an Authorization header, with a unique subject and a message text, and take the new message's id.",
@@ -9324,6 +9399,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /messages/{messageId} with that id and the admin's token returns 200 with status \"IN_PROGRESS\"."
    ],
    "ref": [],
+   "specLine": 82,
    "area": "messages",
    "areaLabel": "Messages",
    "file": "test-scenarios/api/messages/post-messages-by-message-id-reply.yml",
@@ -9332,18 +9408,20 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@messages-api"
    ],
-   "yaml": "- id: API-0373\n  name: Reply to a resolved message returns 201 and reopens it as IN_PROGRESS\n  status: manual\n  role: admin\n  steps:\n    - Send POST /messages without an Authorization header, with a unique subject and a message text, and take the new message's id.\n    - Send PUT /messages/{messageId}/status with that id, the admin's token and a body with status \"RESOLVED\".\n    - Send POST /messages/{messageId}/reply with that id, the admin's token and a body with a message text.\n    - Verify the response status is 201.\n    - Verify GET /messages/{messageId} with that id and the admin's token returns 200 with status \"IN_PROGRESS\"."
+   "yaml": "- id: API-0373\n  name: Reply to a resolved message returns 201 and reopens it as IN_PROGRESS\n  status: automated\n  automatedIn: tests/api/messages/post-messages-by-message-id-reply.spec.ts\n  role: admin\n  steps:\n    - Send POST /messages without an Authorization header, with a unique subject and a message text, and take the new message's id.\n    - Send PUT /messages/{messageId}/status with that id, the admin's token and a body with status \"RESOLVED\".\n    - Send POST /messages/{messageId}/reply with that id, the admin's token and a body with a message text.\n    - Verify the response status is 201.\n    - Verify GET /messages/{messageId} with that id and the admin's token returns 200 with status \"IN_PROGRESS\"."
   },
   {
    "id": "API-0374",
    "name": "Reply to a message without a token returns 401",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/messages/post-messages-by-message-id-reply.spec.ts",
    "steps": [
     "Send POST /messages/{messageId}/reply without an Authorization header, with a well-formed message id that doesn't exist and a body with a message text.",
     "Verify the response status is 401.",
     "Verify the body's message is \"Unauthorized\"."
    ],
    "ref": [],
+   "specLine": 114,
    "area": "messages",
    "areaLabel": "Messages",
    "file": "test-scenarios/api/messages/post-messages-by-message-id-reply.yml",
@@ -9352,18 +9430,20 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@messages-api"
    ],
-   "yaml": "- id: API-0374\n  name: Reply to a message without a token returns 401\n  status: manual\n  steps:\n    - Send POST /messages/{messageId}/reply without an Authorization header, with a well-formed message id that doesn't exist and a body with a message text.\n    - Verify the response status is 401.\n    - Verify the body's message is \"Unauthorized\"."
+   "yaml": "- id: API-0374\n  name: Reply to a message without a token returns 401\n  status: automated\n  automatedIn: tests/api/messages/post-messages-by-message-id-reply.spec.ts\n  steps:\n    - Send POST /messages/{messageId}/reply without an Authorization header, with a well-formed message id that doesn't exist and a body with a message text.\n    - Verify the response status is 401.\n    - Verify the body's message is \"Unauthorized\"."
   },
   {
    "id": "API-0375",
    "name": "Reply to a message with a malformed token returns 401",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/messages/post-messages-by-message-id-reply.spec.ts",
    "steps": [
     "Send POST /messages/{messageId}/reply with a malformed token, a well-formed message id that doesn't exist and a body with a message text.",
     "Verify the response status is 401.",
     "Verify the body's message is \"Unauthorized\"."
    ],
    "ref": [],
+   "specLine": 131,
    "area": "messages",
    "areaLabel": "Messages",
    "file": "test-scenarios/api/messages/post-messages-by-message-id-reply.yml",
@@ -9372,12 +9452,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@messages-api"
    ],
-   "yaml": "- id: API-0375\n  name: Reply to a message with a malformed token returns 401\n  status: manual\n  steps:\n    - Send POST /messages/{messageId}/reply with a malformed token, a well-formed message id that doesn't exist and a body with a message text.\n    - Verify the response status is 401.\n    - Verify the body's message is \"Unauthorized\"."
+   "yaml": "- id: API-0375\n  name: Reply to a message with a malformed token returns 401\n  status: automated\n  automatedIn: tests/api/messages/post-messages-by-message-id-reply.spec.ts\n  steps:\n    - Send POST /messages/{messageId}/reply with a malformed token, a well-formed message id that doesn't exist and a body with a message text.\n    - Verify the response status is 401.\n    - Verify the body's message is \"Unauthorized\"."
   },
   {
    "id": "API-0376",
    "name": "Reply without message returns 422 and adds nothing",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/messages/post-messages-by-message-id-reply.spec.ts",
    "role": "admin",
    "steps": [
     "Send POST /messages without an Authorization header, with a unique subject and a message text, and take the new message's id.",
@@ -9387,6 +9468,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /messages/{messageId} with that id and the admin's token returns 200 with status \"NEW\" and an empty replies list."
    ],
    "ref": [],
+   "specLine": 151,
    "area": "messages",
    "areaLabel": "Messages",
    "file": "test-scenarios/api/messages/post-messages-by-message-id-reply.yml",
@@ -9395,12 +9477,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@messages-api"
    ],
-   "yaml": "- id: API-0376\n  name: Reply without message returns 422 and adds nothing\n  status: manual\n  role: admin\n  steps:\n    - Send POST /messages without an Authorization header, with a unique subject and a message text, and take the new message's id.\n    - Send POST /messages/{messageId}/reply with that id, the admin's token and an empty JSON object as the body.\n    - Verify the response status is 422.\n    - Verify the body has a message key with at least one message.\n    - Verify GET /messages/{messageId} with that id and the admin's token returns 200 with status \"NEW\" and an empty replies list."
+   "yaml": "- id: API-0376\n  name: Reply without message returns 422 and adds nothing\n  status: automated\n  automatedIn: tests/api/messages/post-messages-by-message-id-reply.spec.ts\n  role: admin\n  steps:\n    - Send POST /messages without an Authorization header, with a unique subject and a message text, and take the new message's id.\n    - Send POST /messages/{messageId}/reply with that id, the admin's token and an empty JSON object as the body.\n    - Verify the response status is 422.\n    - Verify the body has a message key with at least one message.\n    - Verify GET /messages/{messageId} with that id and the admin's token returns 200 with status \"NEW\" and an empty replies list."
   },
   {
    "id": "API-0377",
    "name": "Reply with a message longer than 250 characters returns 422",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/messages/post-messages-by-message-id-reply.spec.ts",
    "role": "admin",
    "steps": [
     "Send POST /messages without an Authorization header, with a unique subject and a message text, and take the new message's id.",
@@ -9409,6 +9492,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body has a message key with at least one message."
    ],
    "ref": [],
+   "specLine": 176,
    "area": "messages",
    "areaLabel": "Messages",
    "file": "test-scenarios/api/messages/post-messages-by-message-id-reply.yml",
@@ -9417,12 +9501,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@messages-api"
    ],
-   "yaml": "- id: API-0377\n  name: Reply with a message longer than 250 characters returns 422\n  status: manual\n  role: admin\n  steps:\n    - Send POST /messages without an Authorization header, with a unique subject and a message text, and take the new message's id.\n    - Send POST /messages/{messageId}/reply with that id, the admin's token and a body with a 251-character message.\n    - Verify the response status is 422.\n    - Verify the body has a message key with at least one message."
+   "yaml": "- id: API-0377\n  name: Reply with a message longer than 250 characters returns 422\n  status: automated\n  automatedIn: tests/api/messages/post-messages-by-message-id-reply.spec.ts\n  role: admin\n  steps:\n    - Send POST /messages without an Authorization header, with a unique subject and a message text, and take the new message's id.\n    - Send POST /messages/{messageId}/reply with that id, the admin's token and a body with a 251-character message.\n    - Verify the response status is 422.\n    - Verify the body has a message key with at least one message."
   },
   {
    "id": "API-0378",
    "name": "Reply with a subscript character in the message returns 422",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/messages/post-messages-by-message-id-reply.spec.ts",
    "role": "admin",
    "steps": [
     "Send POST /messages without an Authorization header, with a unique subject and a message text, and take the new message's id.",
@@ -9431,6 +9516,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body has a message key with at least one message."
    ],
    "ref": [],
+   "specLine": 200,
    "area": "messages",
    "areaLabel": "Messages",
    "file": "test-scenarios/api/messages/post-messages-by-message-id-reply.yml",
@@ -9439,12 +9525,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@messages-api"
    ],
-   "yaml": "- id: API-0378\n  name: Reply with a subscript character in the message returns 422\n  status: manual\n  role: admin\n  steps:\n    - Send POST /messages without an Authorization header, with a unique subject and a message text, and take the new message's id.\n    - Send POST /messages/{messageId}/reply with that id, the admin's token and a body whose message contains the subscript character \"₂\" (U+2082).\n    - Verify the response status is 422.\n    - Verify the body has a message key with at least one message."
+   "yaml": "- id: API-0378\n  name: Reply with a subscript character in the message returns 422\n  status: automated\n  automatedIn: tests/api/messages/post-messages-by-message-id-reply.spec.ts\n  role: admin\n  steps:\n    - Send POST /messages without an Authorization header, with a unique subject and a message text, and take the new message's id.\n    - Send POST /messages/{messageId}/reply with that id, the admin's token and a body whose message contains the subscript character \"₂\" (U+2082).\n    - Verify the response status is 422.\n    - Verify the body has a message key with at least one message."
   },
   {
    "id": "API-0379",
    "name": "Reply with an invalid body to an unknown message id returns 422, not 500",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/messages/post-messages-by-message-id-reply.spec.ts",
    "role": "admin",
    "steps": [
     "Send POST /messages/{messageId}/reply with a well-formed message id that doesn't exist, the admin's token and an empty JSON object as the body.",
@@ -9452,6 +9539,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body has a message key with at least one message."
    ],
    "ref": [],
+   "specLine": 224,
    "area": "messages",
    "areaLabel": "Messages",
    "file": "test-scenarios/api/messages/post-messages-by-message-id-reply.yml",
@@ -9460,7 +9548,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@messages-api"
    ],
-   "yaml": "- id: API-0379\n  name: Reply with an invalid body to an unknown message id returns 422, not 500\n  status: manual\n  role: admin\n  steps:\n    - Send POST /messages/{messageId}/reply with a well-formed message id that doesn't exist, the admin's token and an empty JSON object as the body.\n    - Verify the response status is 422.\n    - Verify the body has a message key with at least one message."
+   "yaml": "- id: API-0379\n  name: Reply with an invalid body to an unknown message id returns 422, not 500\n  status: automated\n  automatedIn: tests/api/messages/post-messages-by-message-id-reply.spec.ts\n  role: admin\n  steps:\n    - Send POST /messages/{messageId}/reply with a well-formed message id that doesn't exist, the admin's token and an empty JSON object as the body.\n    - Verify the response status is 422.\n    - Verify the body has a message key with at least one message."
   },
   {
    "id": "API-0380",
@@ -9468,7 +9556,8 @@ window.SCENARIO_CATALOG = {
    "ref": [
     "BUG-030"
    ],
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/messages/post-messages-by-message-id-reply.spec.ts",
    "role": "admin",
    "knownIssue": "Returns 500 for a reply to an unknown message id instead of 404.",
    "bug": "BUG-030",
@@ -9476,6 +9565,7 @@ window.SCENARIO_CATALOG = {
     "Send POST /messages/{messageId}/reply with a well-formed message id that doesn't exist, the admin's token and a body with a message text.",
     "Verify the response status is 404."
    ],
+   "specLine": 241,
    "area": "messages",
    "areaLabel": "Messages",
    "file": "test-scenarios/api/messages/post-messages-by-message-id-reply.yml",
@@ -9484,12 +9574,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@messages-api"
    ],
-   "yaml": "- id: API-0380\n  name: Reply to an unknown message id returns 404\n  ref: BUG-030\n  status: manual\n  role: admin\n  knownIssue: Returns 500 for a reply to an unknown message id instead of 404.\n  bug: BUG-030\n  steps:\n    - Send POST /messages/{messageId}/reply with a well-formed message id that doesn't exist, the admin's token and a body with a message text.\n    - Verify the response status is 404."
+   "yaml": "- id: API-0380\n  name: Reply to an unknown message id returns 404\n  ref: BUG-030\n  status: automated\n  automatedIn: tests/api/messages/post-messages-by-message-id-reply.spec.ts\n  role: admin\n  knownIssue: Returns 500 for a reply to an unknown message id instead of 404.\n  bug: BUG-030\n  steps:\n    - Send POST /messages/{messageId}/reply with a well-formed message id that doesn't exist, the admin's token and a body with a message text.\n    - Verify the response status is 404."
   },
   {
    "id": "API-0388",
    "name": "Set a message's status to RESOLVED returns 200 and the message shows it",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/messages/put-messages-by-message-id-status.spec.ts",
    "role": "admin",
    "steps": [
     "Send POST /messages without an Authorization header, with a unique subject and a message text, and take the new message's id.",
@@ -9499,6 +9590,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /messages/{messageId} with that id and the admin's token returns 200 with status \"RESOLVED\"."
    ],
    "ref": [],
+   "specLine": 32,
    "area": "messages",
    "areaLabel": "Messages",
    "file": "test-scenarios/api/messages/put-messages-by-message-id-status.yml",
@@ -9507,12 +9599,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@messages-api"
    ],
-   "yaml": "- id: API-0388\n  name: Set a message's status to RESOLVED returns 200 and the message shows it\n  status: manual\n  role: admin\n  steps:\n    - Send POST /messages without an Authorization header, with a unique subject and a message text, and take the new message's id.\n    - Send PUT /messages/{messageId}/status with that id, the admin's token and a body with status \"RESOLVED\".\n    - Verify the response status is 200.\n    - Verify the body's success is true.\n    - Verify GET /messages/{messageId} with that id and the admin's token returns 200 with status \"RESOLVED\"."
+   "yaml": "- id: API-0388\n  name: Set a message's status to RESOLVED returns 200 and the message shows it\n  status: automated\n  automatedIn: tests/api/messages/put-messages-by-message-id-status.spec.ts\n  role: admin\n  steps:\n    - Send POST /messages without an Authorization header, with a unique subject and a message text, and take the new message's id.\n    - Send PUT /messages/{messageId}/status with that id, the admin's token and a body with status \"RESOLVED\".\n    - Verify the response status is 200.\n    - Verify the body's success is true.\n    - Verify GET /messages/{messageId} with that id and the admin's token returns 200 with status \"RESOLVED\"."
   },
   {
    "id": "API-0389",
    "name": "Set a message's status to IN_PROGRESS returns 200 and the message shows it",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/messages/put-messages-by-message-id-status.spec.ts",
    "role": "admin",
    "steps": [
     "Send POST /messages without an Authorization header, with a unique subject and a message text, and take the new message's id.",
@@ -9522,6 +9615,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /messages/{messageId} with that id and the admin's token returns 200 with status \"IN_PROGRESS\"."
    ],
    "ref": [],
+   "specLine": 56,
    "area": "messages",
    "areaLabel": "Messages",
    "file": "test-scenarios/api/messages/put-messages-by-message-id-status.yml",
@@ -9530,12 +9624,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@messages-api"
    ],
-   "yaml": "- id: API-0389\n  name: Set a message's status to IN_PROGRESS returns 200 and the message shows it\n  status: manual\n  role: admin\n  steps:\n    - Send POST /messages without an Authorization header, with a unique subject and a message text, and take the new message's id.\n    - Send PUT /messages/{messageId}/status with that id, the admin's token and a body with status \"IN_PROGRESS\".\n    - Verify the response status is 200.\n    - Verify the body's success is true.\n    - Verify GET /messages/{messageId} with that id and the admin's token returns 200 with status \"IN_PROGRESS\"."
+   "yaml": "- id: API-0389\n  name: Set a message's status to IN_PROGRESS returns 200 and the message shows it\n  status: automated\n  automatedIn: tests/api/messages/put-messages-by-message-id-status.spec.ts\n  role: admin\n  steps:\n    - Send POST /messages without an Authorization header, with a unique subject and a message text, and take the new message's id.\n    - Send PUT /messages/{messageId}/status with that id, the admin's token and a body with status \"IN_PROGRESS\".\n    - Verify the response status is 200.\n    - Verify the body's success is true.\n    - Verify GET /messages/{messageId} with that id and the admin's token returns 200 with status \"IN_PROGRESS\"."
   },
   {
    "id": "API-0390",
    "name": "Set a resolved message's status back to NEW returns 200",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/messages/put-messages-by-message-id-status.spec.ts",
    "role": "admin",
    "steps": [
     "Send POST /messages without an Authorization header, with a unique subject and a message text, and take the new message's id.",
@@ -9546,6 +9641,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /messages/{messageId} with that id and the admin's token returns 200 with status \"NEW\"."
    ],
    "ref": [],
+   "specLine": 80,
    "area": "messages",
    "areaLabel": "Messages",
    "file": "test-scenarios/api/messages/put-messages-by-message-id-status.yml",
@@ -9554,12 +9650,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@messages-api"
    ],
-   "yaml": "- id: API-0390\n  name: Set a resolved message's status back to NEW returns 200\n  status: manual\n  role: admin\n  steps:\n    - Send POST /messages without an Authorization header, with a unique subject and a message text, and take the new message's id.\n    - Send PUT /messages/{messageId}/status with that id, the admin's token and a body with status \"RESOLVED\".\n    - Send PUT /messages/{messageId}/status with the same id, the admin's token and a body with status \"NEW\".\n    - Verify the response status is 200.\n    - Verify the body's success is true.\n    - Verify GET /messages/{messageId} with that id and the admin's token returns 200 with status \"NEW\"."
+   "yaml": "- id: API-0390\n  name: Set a resolved message's status back to NEW returns 200\n  status: automated\n  automatedIn: tests/api/messages/put-messages-by-message-id-status.spec.ts\n  role: admin\n  steps:\n    - Send POST /messages without an Authorization header, with a unique subject and a message text, and take the new message's id.\n    - Send PUT /messages/{messageId}/status with that id, the admin's token and a body with status \"RESOLVED\".\n    - Send PUT /messages/{messageId}/status with the same id, the admin's token and a body with status \"NEW\".\n    - Verify the response status is 200.\n    - Verify the body's success is true.\n    - Verify GET /messages/{messageId} with that id and the admin's token returns 200 with status \"NEW\"."
   },
   {
    "id": "API-0391",
    "name": "Set a message's status to the status it already has returns 200",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/messages/put-messages-by-message-id-status.spec.ts",
    "role": "admin",
    "steps": [
     "Send POST /messages without an Authorization header, with a unique subject and a message text, and take the new message's id.",
@@ -9568,6 +9665,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /messages/{messageId} with that id and the admin's token returns 200 with status \"NEW\"."
    ],
    "ref": [],
+   "specLine": 110,
    "area": "messages",
    "areaLabel": "Messages",
    "file": "test-scenarios/api/messages/put-messages-by-message-id-status.yml",
@@ -9576,18 +9674,20 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@messages-api"
    ],
-   "yaml": "- id: API-0391\n  name: Set a message's status to the status it already has returns 200\n  status: manual\n  role: admin\n  steps:\n    - Send POST /messages without an Authorization header, with a unique subject and a message text, and take the new message's id.\n    - Send PUT /messages/{messageId}/status with that id, the admin's token and a body with status \"NEW\".\n    - Verify the response status is 200.\n    - Verify GET /messages/{messageId} with that id and the admin's token returns 200 with status \"NEW\"."
+   "yaml": "- id: API-0391\n  name: Set a message's status to the status it already has returns 200\n  status: automated\n  automatedIn: tests/api/messages/put-messages-by-message-id-status.spec.ts\n  role: admin\n  steps:\n    - Send POST /messages without an Authorization header, with a unique subject and a message text, and take the new message's id.\n    - Send PUT /messages/{messageId}/status with that id, the admin's token and a body with status \"NEW\".\n    - Verify the response status is 200.\n    - Verify GET /messages/{messageId} with that id and the admin's token returns 200 with status \"NEW\"."
   },
   {
    "id": "API-0392",
    "name": "Set a message's status without a token returns 401",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/messages/put-messages-by-message-id-status.spec.ts",
    "steps": [
     "Send PUT /messages/{messageId}/status without an Authorization header, with a well-formed message id that doesn't exist and a body with status \"RESOLVED\".",
     "Verify the response status is 401.",
     "Verify the body's message is \"Unauthorized\"."
    ],
    "ref": [],
+   "specLine": 131,
    "area": "messages",
    "areaLabel": "Messages",
    "file": "test-scenarios/api/messages/put-messages-by-message-id-status.yml",
@@ -9596,18 +9696,20 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@messages-api"
    ],
-   "yaml": "- id: API-0392\n  name: Set a message's status without a token returns 401\n  status: manual\n  steps:\n    - Send PUT /messages/{messageId}/status without an Authorization header, with a well-formed message id that doesn't exist and a body with status \"RESOLVED\".\n    - Verify the response status is 401.\n    - Verify the body's message is \"Unauthorized\"."
+   "yaml": "- id: API-0392\n  name: Set a message's status without a token returns 401\n  status: automated\n  automatedIn: tests/api/messages/put-messages-by-message-id-status.spec.ts\n  steps:\n    - Send PUT /messages/{messageId}/status without an Authorization header, with a well-formed message id that doesn't exist and a body with status \"RESOLVED\".\n    - Verify the response status is 401.\n    - Verify the body's message is \"Unauthorized\"."
   },
   {
    "id": "API-0393",
    "name": "Set a message's status with a malformed token returns 401",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/messages/put-messages-by-message-id-status.spec.ts",
    "steps": [
     "Send PUT /messages/{messageId}/status with a malformed token, a well-formed message id that doesn't exist and a body with status \"RESOLVED\".",
     "Verify the response status is 401.",
     "Verify the body's message is \"Unauthorized\"."
    ],
    "ref": [],
+   "specLine": 148,
    "area": "messages",
    "areaLabel": "Messages",
    "file": "test-scenarios/api/messages/put-messages-by-message-id-status.yml",
@@ -9616,12 +9718,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@messages-api"
    ],
-   "yaml": "- id: API-0393\n  name: Set a message's status with a malformed token returns 401\n  status: manual\n  steps:\n    - Send PUT /messages/{messageId}/status with a malformed token, a well-formed message id that doesn't exist and a body with status \"RESOLVED\".\n    - Verify the response status is 401.\n    - Verify the body's message is \"Unauthorized\"."
+   "yaml": "- id: API-0393\n  name: Set a message's status with a malformed token returns 401\n  status: automated\n  automatedIn: tests/api/messages/put-messages-by-message-id-status.spec.ts\n  steps:\n    - Send PUT /messages/{messageId}/status with a malformed token, a well-formed message id that doesn't exist and a body with status \"RESOLVED\".\n    - Verify the response status is 401.\n    - Verify the body's message is \"Unauthorized\"."
   },
   {
    "id": "API-0394",
    "name": "Set the status of an unknown message id returns 404",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/messages/put-messages-by-message-id-status.spec.ts",
    "role": "admin",
    "steps": [
     "Send PUT /messages/{messageId}/status with a well-formed message id that doesn't exist, the admin's token and a body with status \"RESOLVED\".",
@@ -9629,6 +9732,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's message is \"Requested item not found\"."
    ],
    "ref": [],
+   "specLine": 168,
    "area": "messages",
    "areaLabel": "Messages",
    "file": "test-scenarios/api/messages/put-messages-by-message-id-status.yml",
@@ -9637,12 +9741,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@messages-api"
    ],
-   "yaml": "- id: API-0394\n  name: Set the status of an unknown message id returns 404\n  status: manual\n  role: admin\n  steps:\n    - Send PUT /messages/{messageId}/status with a well-formed message id that doesn't exist, the admin's token and a body with status \"RESOLVED\".\n    - Verify the response status is 404.\n    - Verify the body's message is \"Requested item not found\"."
+   "yaml": "- id: API-0394\n  name: Set the status of an unknown message id returns 404\n  status: automated\n  automatedIn: tests/api/messages/put-messages-by-message-id-status.spec.ts\n  role: admin\n  steps:\n    - Send PUT /messages/{messageId}/status with a well-formed message id that doesn't exist, the admin's token and a body with status \"RESOLVED\".\n    - Verify the response status is 404.\n    - Verify the body's message is \"Requested item not found\"."
   },
   {
    "id": "API-0395",
    "name": "Set a message's status without status returns 422 and keeps the status",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/messages/put-messages-by-message-id-status.spec.ts",
    "role": "admin",
    "steps": [
     "Send POST /messages without an Authorization header, with a unique subject and a message text, and take the new message's id.",
@@ -9652,6 +9757,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /messages/{messageId} with that id and the admin's token returns 200 with status \"NEW\"."
    ],
    "ref": [],
+   "specLine": 185,
    "area": "messages",
    "areaLabel": "Messages",
    "file": "test-scenarios/api/messages/put-messages-by-message-id-status.yml",
@@ -9660,12 +9766,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@messages-api"
    ],
-   "yaml": "- id: API-0395\n  name: Set a message's status without status returns 422 and keeps the status\n  status: manual\n  role: admin\n  steps:\n    - Send POST /messages without an Authorization header, with a unique subject and a message text, and take the new message's id.\n    - Send PUT /messages/{messageId}/status with that id, the admin's token, an Accept header of application/json and an empty JSON object as the body.\n    - Verify the response status is 422.\n    - Verify the body's errors has a status key with at least one message.\n    - Verify GET /messages/{messageId} with that id and the admin's token returns 200 with status \"NEW\"."
+   "yaml": "- id: API-0395\n  name: Set a message's status without status returns 422 and keeps the status\n  status: automated\n  automatedIn: tests/api/messages/put-messages-by-message-id-status.spec.ts\n  role: admin\n  steps:\n    - Send POST /messages without an Authorization header, with a unique subject and a message text, and take the new message's id.\n    - Send PUT /messages/{messageId}/status with that id, the admin's token, an Accept header of application/json and an empty JSON object as the body.\n    - Verify the response status is 422.\n    - Verify the body's errors has a status key with at least one message.\n    - Verify GET /messages/{messageId} with that id and the admin's token returns 200 with status \"NEW\"."
   },
   {
    "id": "API-0396",
    "name": "Set a message's status to ON_HOLD returns 422 and keeps the status",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/messages/put-messages-by-message-id-status.spec.ts",
    "role": "admin",
    "steps": [
     "Send POST /messages without an Authorization header, with a unique subject and a message text, and take the new message's id.",
@@ -9675,6 +9782,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /messages/{messageId} with that id and the admin's token returns 200 with status \"NEW\"."
    ],
    "ref": [],
+   "specLine": 209,
    "area": "messages",
    "areaLabel": "Messages",
    "file": "test-scenarios/api/messages/put-messages-by-message-id-status.yml",
@@ -9683,12 +9791,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@messages-api"
    ],
-   "yaml": "- id: API-0396\n  name: Set a message's status to ON_HOLD returns 422 and keeps the status\n  status: manual\n  role: admin\n  steps:\n    - Send POST /messages without an Authorization header, with a unique subject and a message text, and take the new message's id.\n    - Send PUT /messages/{messageId}/status with that id, the admin's token, an Accept header of application/json and a body with status \"ON_HOLD\".\n    - Verify the response status is 422.\n    - Verify the body's errors has a status key with at least one message.\n    - Verify GET /messages/{messageId} with that id and the admin's token returns 200 with status \"NEW\"."
+   "yaml": "- id: API-0396\n  name: Set a message's status to ON_HOLD returns 422 and keeps the status\n  status: automated\n  automatedIn: tests/api/messages/put-messages-by-message-id-status.spec.ts\n  role: admin\n  steps:\n    - Send POST /messages without an Authorization header, with a unique subject and a message text, and take the new message's id.\n    - Send PUT /messages/{messageId}/status with that id, the admin's token, an Accept header of application/json and a body with status \"ON_HOLD\".\n    - Verify the response status is 422.\n    - Verify the body's errors has a status key with at least one message.\n    - Verify GET /messages/{messageId} with that id and the admin's token returns 200 with status \"NEW\"."
   },
   {
    "id": "API-0397",
    "name": "Set a message's status to a lower-case value returns 422",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/messages/put-messages-by-message-id-status.spec.ts",
    "role": "admin",
    "steps": [
     "Send POST /messages without an Authorization header, with a unique subject and a message text, and take the new message's id.",
@@ -9697,6 +9806,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's errors has a status key with at least one message."
    ],
    "ref": [],
+   "specLine": 233,
    "area": "messages",
    "areaLabel": "Messages",
    "file": "test-scenarios/api/messages/put-messages-by-message-id-status.yml",
@@ -9705,12 +9815,13 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@messages-api"
    ],
-   "yaml": "- id: API-0397\n  name: Set a message's status to a lower-case value returns 422\n  status: manual\n  role: admin\n  steps:\n    - Send POST /messages without an Authorization header, with a unique subject and a message text, and take the new message's id.\n    - Send PUT /messages/{messageId}/status with that id, the admin's token, an Accept header of application/json and a body with status \"resolved\".\n    - Verify the response status is 422.\n    - Verify the body's errors has a status key with at least one message."
+   "yaml": "- id: API-0397\n  name: Set a message's status to a lower-case value returns 422\n  status: automated\n  automatedIn: tests/api/messages/put-messages-by-message-id-status.spec.ts\n  role: admin\n  steps:\n    - Send POST /messages without an Authorization header, with a unique subject and a message text, and take the new message's id.\n    - Send PUT /messages/{messageId}/status with that id, the admin's token, an Accept header of application/json and a body with status \"resolved\".\n    - Verify the response status is 422.\n    - Verify the body's errors has a status key with at least one message."
   },
   {
    "id": "API-0398",
    "name": "Set the status of an unknown message id with an invalid body returns 422, not 404",
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/api/messages/put-messages-by-message-id-status.spec.ts",
    "role": "admin",
    "steps": [
     "Send PUT /messages/{messageId}/status with a well-formed message id that doesn't exist, the admin's token, an Accept header of application/json and an empty JSON object as the body.",
@@ -9718,6 +9829,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's errors has a status key with at least one message."
    ],
    "ref": [],
+   "specLine": 252,
    "area": "messages",
    "areaLabel": "Messages",
    "file": "test-scenarios/api/messages/put-messages-by-message-id-status.yml",
@@ -9726,7 +9838,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@messages-api"
    ],
-   "yaml": "- id: API-0398\n  name: Set the status of an unknown message id with an invalid body returns 422, not 404\n  status: manual\n  role: admin\n  steps:\n    - Send PUT /messages/{messageId}/status with a well-formed message id that doesn't exist, the admin's token, an Accept header of application/json and an empty JSON object as the body.\n    - Verify the response status is 422.\n    - Verify the body's errors has a status key with at least one message."
+   "yaml": "- id: API-0398\n  name: Set the status of an unknown message id with an invalid body returns 422, not 404\n  status: automated\n  automatedIn: tests/api/messages/put-messages-by-message-id-status.spec.ts\n  role: admin\n  steps:\n    - Send PUT /messages/{messageId}/status with a well-formed message id that doesn't exist, the admin's token, an Accept header of application/json and an empty JSON object as the body.\n    - Verify the response status is 422.\n    - Verify the body's errors has a status key with at least one message."
   },
   {
    "id": "API-0614",

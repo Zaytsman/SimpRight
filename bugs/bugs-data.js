@@ -2,8 +2,8 @@
 window.BUG_CATALOG = {
  "title": "Bugs",
  "prefix": "BUG",
- "generatedAt": "2026-10-13T19:18:01.601Z",
- "commit": "baf44f4ef77cc4d8b6488f1bbfaad2c500cdccd2",
+ "generatedAt": "2026-10-14T18:35:21.179Z",
+ "commit": "37a4950c7edd3d9f2c99c01825110a8825549a82",
  "repoUrl": "https://github.com/Zaytsman/SimpRight",
  "branch": "main",
  "bugsDir": "bugs",
@@ -848,7 +848,9 @@ window.BUG_CATALOG = {
      "layer": "api",
      "area": "messages",
      "file": "test-scenarios/api/messages/post-messages.yml",
-     "status": "manual",
+     "status": "automated",
+     "automatedIn": "tests/api/messages/post-messages.spec.ts",
+     "specLine": 342,
      "knownIssue": "Returns 500 when the body has a parent_id key instead of ignoring it or answering 422."
     },
     {
@@ -857,7 +859,9 @@ window.BUG_CATALOG = {
      "layer": "api",
      "area": "messages",
      "file": "test-scenarios/api/messages/post-messages.yml",
-     "status": "manual",
+     "status": "automated",
+     "automatedIn": "tests/api/messages/post-messages.spec.ts",
+     "specLine": 356,
      "knownIssue": "Stores a guest message under the user_id sent in the body, so it shows in that user's list, instead of leaving it without an owner."
     }
    ]
@@ -1488,7 +1492,9 @@ window.BUG_CATALOG = {
      "layer": "api",
      "area": "messages",
      "file": "test-scenarios/api/messages/post-messages.yml",
-     "status": "manual",
+     "status": "automated",
+     "automatedIn": "tests/api/messages/post-messages.spec.ts",
+     "specLine": 328,
      "knownIssue": "Returns 500 for a name of 61 to 120 characters, which the validation allows, instead of 422 or 200."
     }
    ]
@@ -1525,7 +1531,9 @@ window.BUG_CATALOG = {
      "layer": "api",
      "area": "messages",
      "file": "test-scenarios/api/messages/get-messages-by-message-id.yml",
-     "status": "manual",
+     "status": "automated",
+     "automatedIn": "tests/api/messages/get-messages-by-message-id.spec.ts",
+     "specLine": 254,
      "knownIssue": "Returns 200 with an empty body for a message the customer doesn't own instead of 404."
     },
     {
@@ -1534,7 +1542,9 @@ window.BUG_CATALOG = {
      "layer": "api",
      "area": "messages",
      "file": "test-scenarios/api/messages/get-messages-by-message-id.yml",
-     "status": "manual",
+     "status": "automated",
+     "automatedIn": "tests/api/messages/get-messages-by-message-id.spec.ts",
+     "specLine": 282,
      "knownIssue": "Returns 200 with an empty body for an unknown message id instead of 404."
     }
    ]
@@ -1570,7 +1580,9 @@ window.BUG_CATALOG = {
      "layer": "api",
      "area": "messages",
      "file": "test-scenarios/api/messages/post-messages-by-message-id-reply.yml",
-     "status": "manual",
+     "status": "automated",
+     "automatedIn": "tests/api/messages/post-messages-by-message-id-reply.spec.ts",
+     "specLine": 241,
      "knownIssue": "Returns 500 for a reply to an unknown message id instead of 404."
     }
    ]
@@ -1606,7 +1618,9 @@ window.BUG_CATALOG = {
      "layer": "api",
      "area": "messages",
      "file": "test-scenarios/api/messages/post-messages-by-message-id-attach-file.yml",
-     "status": "manual",
+     "status": "automated",
+     "automatedIn": "tests/api/messages/post-messages-by-message-id-attach-file.spec.ts",
+     "specLine": 140,
      "knownIssue": "Returns 200 for a message id that doesn't exist instead of 404 (the message is never looked up)."
     }
    ]
