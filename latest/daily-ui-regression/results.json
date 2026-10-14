@@ -19,24 +19,24 @@
     "maxFailures": 0,
     "metadata": {
       "ci": {
-        "commitHref": "https://github.com/Zaytsman/SimpRight/commit/bdddb4bc1dfb72878914a72e3f60dd34efe446a9",
-        "commitHash": "bdddb4bc1dfb72878914a72e3f60dd34efe446a9",
-        "buildHref": "https://github.com/Zaytsman/SimpRight/actions/runs/38404333569"
+        "commitHref": "https://github.com/Zaytsman/SimpRight/commit/baf44f4ef77cc4d8b6488f1bbfaad2c500cdccd2",
+        "commitHash": "baf44f4ef77cc4d8b6488f1bbfaad2c500cdccd2",
+        "buildHref": "https://github.com/Zaytsman/SimpRight/actions/runs/38553517206"
       },
       "gitCommit": {
-        "shortHash": "bdddb4b",
-        "hash": "bdddb4bc1dfb72878914a72e3f60dd34efe446a9",
-        "subject": "Merge pull request #43 from Zaytsman/develop",
-        "body": "Merge pull request #43 from Zaytsman/develop\n\nAutomate the Brands, Categories and Product Specs API scenarios (wave 3)",
+        "shortHash": "baf44f4",
+        "hash": "baf44f4ef77cc4d8b6488f1bbfaad2c500cdccd2",
+        "subject": "Merge pull request #46 from Zaytsman/develop",
+        "body": "Merge pull request #46 from Zaytsman/develop\n\nAutomate the Reports API scenarios (wave 5)",
         "author": {
           "name": "Andrew",
           "email": "15192104+Zaytsman@users.noreply.github.com",
-          "time": 1791733704000
+          "time": 1791919066000
         },
         "committer": {
           "name": "GitHub",
           "email": "noreply@github.com",
-          "time": 1791733704000
+          "time": 1791919066000
         },
         "branch": "main"
       },
@@ -50,24 +50,24 @@
         "retries": 2,
         "metadata": {
           "ci": {
-            "commitHref": "https://github.com/Zaytsman/SimpRight/commit/bdddb4bc1dfb72878914a72e3f60dd34efe446a9",
-            "commitHash": "bdddb4bc1dfb72878914a72e3f60dd34efe446a9",
-            "buildHref": "https://github.com/Zaytsman/SimpRight/actions/runs/38404333569"
+            "commitHref": "https://github.com/Zaytsman/SimpRight/commit/baf44f4ef77cc4d8b6488f1bbfaad2c500cdccd2",
+            "commitHash": "baf44f4ef77cc4d8b6488f1bbfaad2c500cdccd2",
+            "buildHref": "https://github.com/Zaytsman/SimpRight/actions/runs/38553517206"
           },
           "gitCommit": {
-            "shortHash": "bdddb4b",
-            "hash": "bdddb4bc1dfb72878914a72e3f60dd34efe446a9",
-            "subject": "Merge pull request #43 from Zaytsman/develop",
-            "body": "Merge pull request #43 from Zaytsman/develop\n\nAutomate the Brands, Categories and Product Specs API scenarios (wave 3)",
+            "shortHash": "baf44f4",
+            "hash": "baf44f4ef77cc4d8b6488f1bbfaad2c500cdccd2",
+            "subject": "Merge pull request #46 from Zaytsman/develop",
+            "body": "Merge pull request #46 from Zaytsman/develop\n\nAutomate the Reports API scenarios (wave 5)",
             "author": {
               "name": "Andrew",
               "email": "15192104+Zaytsman@users.noreply.github.com",
-              "time": 1791733704000
+              "time": 1791919066000
             },
             "committer": {
               "name": "GitHub",
               "email": "noreply@github.com",
-              "time": 1791733704000
+              "time": 1791919066000
             },
             "branch": "main"
           },
@@ -88,24 +88,24 @@
         "retries": 2,
         "metadata": {
           "ci": {
-            "commitHref": "https://github.com/Zaytsman/SimpRight/commit/bdddb4bc1dfb72878914a72e3f60dd34efe446a9",
-            "commitHash": "bdddb4bc1dfb72878914a72e3f60dd34efe446a9",
-            "buildHref": "https://github.com/Zaytsman/SimpRight/actions/runs/38404333569"
+            "commitHref": "https://github.com/Zaytsman/SimpRight/commit/baf44f4ef77cc4d8b6488f1bbfaad2c500cdccd2",
+            "commitHash": "baf44f4ef77cc4d8b6488f1bbfaad2c500cdccd2",
+            "buildHref": "https://github.com/Zaytsman/SimpRight/actions/runs/38553517206"
           },
           "gitCommit": {
-            "shortHash": "bdddb4b",
-            "hash": "bdddb4bc1dfb72878914a72e3f60dd34efe446a9",
-            "subject": "Merge pull request #43 from Zaytsman/develop",
-            "body": "Merge pull request #43 from Zaytsman/develop\n\nAutomate the Brands, Categories and Product Specs API scenarios (wave 3)",
+            "shortHash": "baf44f4",
+            "hash": "baf44f4ef77cc4d8b6488f1bbfaad2c500cdccd2",
+            "subject": "Merge pull request #46 from Zaytsman/develop",
+            "body": "Merge pull request #46 from Zaytsman/develop\n\nAutomate the Reports API scenarios (wave 5)",
             "author": {
               "name": "Andrew",
               "email": "15192104+Zaytsman@users.noreply.github.com",
-              "time": 1791733704000
+              "time": 1791919066000
             },
             "committer": {
               "name": "GitHub",
               "email": "noreply@github.com",
-              "time": 1791733704000
+              "time": 1791919066000
             },
             "branch": "main"
           },
@@ -196,7 +196,7 @@
                       "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 10865,
+                      "duration": 7003,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
@@ -204,40 +204,40 @@
                       "steps": [
                         {
                           "title": "Create a product for this test through the API: a unique name, in stock.",
-                          "duration": 1050
+                          "duration": 838
                         },
                         {
                           "title": "Search for that product and open it.",
-                          "duration": 4602
+                          "duration": 1993
                         },
                         {
                           "title": "Set the quantity to 2 and click \"Add to cart\".",
-                          "duration": 1013
+                          "duration": 1036
                         },
                         {
                           "title": "Verify the cart badge in the nav bar shows 2.",
-                          "duration": 14
+                          "duration": 6
                         },
                         {
                           "title": "Open the cart.",
-                          "duration": 1533
+                          "duration": 1077
                         },
                         {
                           "title": "Verify the cart has exactly one line: that product with quantity 2.",
-                          "duration": 63
+                          "duration": 71
                         },
                         {
                           "title": "Verify the cart total equals 2 × the product's unit price.",
-                          "duration": 51
+                          "duration": 3
                         }
                       ],
-                      "startTime": "2026-10-13T13:22:17.626Z",
+                      "startTime": "2026-10-14T11:01:05.675Z",
                       "annotations": [],
                       "attachments": [
                         {
                           "name": "Create Product Response",
                           "contentType": "application/json",
-                          "body": "ewogICJuYW1lIjogIlByb2R1Y3QtMjAyNjEwMTMtOWExMjE4IiwKICAicHJpY2UiOiA5Ljk5LAogICJpc19sb2NhdGlvbl9vZmZlciI6IGZhbHNlLAogICJpc19yZW50YWwiOiBmYWxzZSwKICAiaWQiOiAiMDFtNHRwdjhzc2ZtOHliejB6Y2tjNmNtODQiLAogICJpbl9zdG9jayI6IDEwLAogICJpc19lY29fZnJpZW5kbHkiOiBmYWxzZSwKICAicHJvZHVjdF9pbWFnZSI6IHsKICAgICJpZCI6ICIwMU00VE5LN0tLQkpSU1lSQzI1SFZSVzcwRCIsCiAgICAiYnlfbmFtZSI6ICJIZWxpbnRvbiBGYW50aW4iLAogICAgImJ5X3VybCI6ICJodHRwczovL3Vuc3BsYXNoLmNvbS9AZmFudGluIiwKICAgICJzb3VyY2VfbmFtZSI6ICJVbnNwbGFzaCIsCiAgICAic291cmNlX3VybCI6ICJodHRwczovL3Vuc3BsYXNoLmNvbS9waG90b3MvVzhCTnd2T3ZXNE0iLAogICAgImZpbGVfbmFtZSI6ICJwbGllcnMwMS5hdmlmIiwKICAgICJ0aXRsZSI6ICJDb21iaW5hdGlvbiBwbGllcnMiCiAgfSwKICAiY2F0ZWdvcnkiOiB7CiAgICAiaWQiOiAiMDFNNFROSzdKVDYyWlhNNEpNTTFOTjg2VFMiLAogICAgIm5hbWUiOiAiUGxpZXJzIiwKICAgICJzbHVnIjogInBsaWVycyIsCiAgICAicGFyZW50X2lkIjogIjAxTTRUTks3SkVYNjRFVEdUMzcyQ0FYRTcxIgogIH0sCiAgImJyYW5kIjogewogICAgImlkIjogIjAxTTRUTks3N0pUNjhZU1k1MDlDUjNRRDc3IiwKICAgICJuYW1lIjogIkZvcmdlRmxleCBUb29scyIsCiAgICAic2x1ZyI6ICJmb3JnZWZsZXgtdG9vbHMiCiAgfQp9"
+                          "body": "ewogICJuYW1lIjogIlByb2R1Y3QtMjAyNjEwMTQtNTk4ZWFkIiwKICAicHJpY2UiOiA5Ljk5LAogICJpc19sb2NhdGlvbl9vZmZlciI6IGZhbHNlLAogICJpc19yZW50YWwiOiBmYWxzZSwKICAiaWQiOiAiMDFtNHgxNWVybW1rMXo4bnM0MmhyMmdkZTEiLAogICJpbl9zdG9jayI6IDEwLAogICJpc19lY29fZnJpZW5kbHkiOiBmYWxzZSwKICAicHJvZHVjdF9pbWFnZSI6IHsKICAgICJpZCI6ICIwMU00WDE0M0syWkRLUTdWRkIyWk0wODFDMCIsCiAgICAiYnlfbmFtZSI6ICJIZWxpbnRvbiBGYW50aW4iLAogICAgImJ5X3VybCI6ICJodHRwczovL3Vuc3BsYXNoLmNvbS9AZmFudGluIiwKICAgICJzb3VyY2VfbmFtZSI6ICJVbnNwbGFzaCIsCiAgICAic291cmNlX3VybCI6ICJodHRwczovL3Vuc3BsYXNoLmNvbS9waG90b3MvVzhCTnd2T3ZXNE0iLAogICAgImZpbGVfbmFtZSI6ICJwbGllcnMwMS5hdmlmIiwKICAgICJ0aXRsZSI6ICJDb21iaW5hdGlvbiBwbGllcnMiCiAgfSwKICAiY2F0ZWdvcnkiOiB7CiAgICAiaWQiOiAiMDFNNFgxNDNKU1BFVDQyQjEwVFQzQ1BFM0giLAogICAgIm5hbWUiOiAiUGxpZXJzIiwKICAgICJzbHVnIjogInBsaWVycyIsCiAgICAicGFyZW50X2lkIjogIjAxTTRYMTQzSkQ5RVdWRlJGMERSWUgxNEZFIgogIH0sCiAgImJyYW5kIjogewogICAgImlkIjogIjAxTTRYMTQzOFFRWTlDWFFHQUZXMk4wRjBHIiwKICAgICJuYW1lIjogIkZvcmdlRmxleCBUb29scyIsCiAgICAic2x1ZyI6ICJmb3JnZWZsZXgtdG9vbHMiCiAgfQp9"
                         }
                       ]
                     }
@@ -285,7 +285,7 @@
                       "workerIndex": 1,
                       "parallelIndex": 1,
                       "status": "passed",
-                      "duration": 3929,
+                      "duration": 4027,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
@@ -293,42 +293,42 @@
                       "steps": [
                         {
                           "title": "Open the product \"Combination Pliers\".",
-                          "duration": 2830
+                          "duration": 2900
                         },
                         {
                           "title": "Verify the product image is shown.",
-                          "duration": 15
+                          "duration": 13
                         },
                         {
                           "title": "Verify the name \"Combination Pliers\" is shown.",
-                          "duration": 21
-                        },
-                        {
-                          "title": "Verify the product description is shown.",
-                          "duration": 22
-                        },
-                        {
-                          "title": "Verify the price \"$14.15\" is shown.",
                           "duration": 10
                         },
                         {
+                          "title": "Verify the product description is shown.",
+                          "duration": 13
+                        },
+                        {
+                          "title": "Verify the price \"$14.15\" is shown.",
+                          "duration": 13
+                        },
+                        {
                           "title": "Verify the category badge \"Pliers\" is shown.",
-                          "duration": 9
+                          "duration": 24
                         },
                         {
                           "title": "Verify the brand badge \"ForgeFlex Tools\" is shown.",
-                          "duration": 8
+                          "duration": 11
                         },
                         {
                           "title": "Verify the \"Related products\" section is shown below the product information.",
-                          "duration": 34
+                          "duration": 90
                         },
                         {
                           "title": "Verify the \"Related products\" section shows at least one product.",
                           "duration": 14
                         }
                       ],
-                      "startTime": "2026-10-13T13:22:17.615Z",
+                      "startTime": "2026-10-14T11:01:05.642Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -359,7 +359,7 @@
                       "workerIndex": 1,
                       "parallelIndex": 1,
                       "status": "passed",
-                      "duration": 3197,
+                      "duration": 2495,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
@@ -367,22 +367,22 @@
                       "steps": [
                         {
                           "title": "Open the product \"Long Nose Pliers\".",
-                          "duration": 2678
+                          "duration": 2031
                         },
                         {
                           "title": "Verify \"Add to cart\" is disabled.",
-                          "duration": 16
+                          "duration": 19
                         },
                         {
                           "title": "Verify \"Out of stock\" is shown.",
-                          "duration": 13
+                          "duration": 9
                         },
                         {
                           "title": "Verify \"Out of stock\" is shown in red.",
-                          "duration": 17
+                          "duration": 9
                         }
                       ],
-                      "startTime": "2026-10-13T13:22:24.838Z",
+                      "startTime": "2026-10-14T11:01:13.441Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -410,10 +410,10 @@
                   "projectName": "ui",
                   "results": [
                     {
-                      "workerIndex": 1,
-                      "parallelIndex": 1,
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 2329,
+                      "duration": 2476,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
@@ -421,22 +421,22 @@
                       "steps": [
                         {
                           "title": "Open the rental product \"Excavator\".",
-                          "duration": 1979
+                          "duration": 2092
                         },
                         {
                           "title": "Verify a duration slider is shown.",
-                          "duration": 12
+                          "duration": 8
                         },
                         {
                           "title": "Verify the duration slider goes from 1 to 10 hours.",
-                          "duration": 24
+                          "duration": 22
                         },
                         {
                           "title": "Verify the \"Increase quantity\" (+) and \"Decrease quantity\" (-) buttons are not shown.",
-                          "duration": 28
+                          "duration": 17
                         }
                       ],
-                      "startTime": "2026-10-13T13:22:28.060Z",
+                      "startTime": "2026-10-14T11:01:13.743Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -464,10 +464,10 @@
                   "projectName": "ui",
                   "results": [
                     {
-                      "workerIndex": 0,
-                      "parallelIndex": 0,
+                      "workerIndex": 1,
+                      "parallelIndex": 1,
                       "status": "passed",
-                      "duration": 6632,
+                      "duration": 2205,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
@@ -475,18 +475,18 @@
                       "steps": [
                         {
                           "title": "Open the rental product \"Excavator\".",
-                          "duration": 5955
+                          "duration": 1853
                         },
                         {
                           "title": "Set the duration slider to 3 hours.",
-                          "duration": 246
+                          "duration": 34
                         },
                         {
                           "title": "Verify the total price equals 3 × the hourly rate.",
-                          "duration": 30
+                          "duration": 9
                         }
                       ],
-                      "startTime": "2026-10-13T13:22:28.761Z",
+                      "startTime": "2026-10-14T11:01:15.964Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -525,7 +525,7 @@
                           "workerIndex": 1,
                           "parallelIndex": 1,
                           "status": "passed",
-                          "duration": 3003,
+                          "duration": 2576,
                           "errors": [],
                           "stdout": [],
                           "stderr": [],
@@ -533,22 +533,22 @@
                           "steps": [
                             {
                               "title": "Open a product that has a discount.",
-                              "duration": 2397
+                              "duration": 2133
                             },
                             {
                               "title": "Verify the original price is shown struck through.",
-                              "duration": 72
+                              "duration": 16
                             },
                             {
                               "title": "Verify the discounted price is shown.",
-                              "duration": 44
+                              "duration": 11
                             },
                             {
                               "title": "Verify a discount percentage badge is shown.",
-                              "duration": 33
+                              "duration": 6
                             }
                           ],
-                          "startTime": "2026-10-13T13:22:21.808Z",
+                          "startTime": "2026-10-14T11:01:10.826Z",
                           "annotations": [],
                           "attachments": []
                         }
@@ -602,10 +602,10 @@
                       "projectName": "ui",
                       "results": [
                         {
-                          "workerIndex": 1,
-                          "parallelIndex": 1,
+                          "workerIndex": 0,
+                          "parallelIndex": 0,
                           "status": "passed",
-                          "duration": 6633,
+                          "duration": 5607,
                           "errors": [],
                           "stdout": [],
                           "stderr": [],
@@ -613,22 +613,22 @@
                           "steps": [
                             {
                               "title": "The product \"Combination Pliers\" is not in the user's favourites.",
-                              "duration": 441
+                              "duration": 355
                             },
                             {
                               "title": "Open the product \"Combination Pliers\".",
-                              "duration": 2383
+                              "duration": 2214
                             },
                             {
                               "title": "Click \"Add to favourites\".",
-                              "duration": 406
+                              "duration": 282
                             },
                             {
                               "title": "Verify the message \"Product added to your favorites list.\" is shown.",
-                              "duration": 12
+                              "duration": 5
                             }
                           ],
-                          "startTime": "2026-10-13T13:22:30.408Z",
+                          "startTime": "2026-10-14T11:01:16.239Z",
                           "annotations": [],
                           "attachments": []
                         }
@@ -656,10 +656,10 @@
                       "projectName": "ui",
                       "results": [
                         {
-                          "workerIndex": 0,
-                          "parallelIndex": 0,
+                          "workerIndex": 1,
+                          "parallelIndex": 1,
                           "status": "passed",
-                          "duration": 6396,
+                          "duration": 6079,
                           "errors": [],
                           "stdout": [],
                           "stderr": [],
@@ -667,22 +667,22 @@
                           "steps": [
                             {
                               "title": "The product \"Combination Pliers\" is in the user's favourites.",
-                              "duration": 884
+                              "duration": 695
                             },
                             {
                               "title": "Open the product \"Combination Pliers\".",
-                              "duration": 2182
+                              "duration": 1767
                             },
                             {
                               "title": "Click \"Add to favourites\".",
-                              "duration": 380
+                              "duration": 352
                             },
                             {
                               "title": "Verify the message \"Product already in your favorites list.\" is shown.",
-                              "duration": 25
+                              "duration": 10
                             }
                           ],
-                          "startTime": "2026-10-13T13:22:35.414Z",
+                          "startTime": "2026-10-14T11:01:18.203Z",
                           "annotations": [],
                           "attachments": []
                         }
@@ -718,10 +718,10 @@
                       "projectName": "ui",
                       "results": [
                         {
-                          "workerIndex": 1,
-                          "parallelIndex": 1,
+                          "workerIndex": 0,
+                          "parallelIndex": 0,
                           "status": "passed",
-                          "duration": 3063,
+                          "duration": 2389,
                           "errors": [],
                           "stdout": [],
                           "stderr": [],
@@ -729,18 +729,18 @@
                           "steps": [
                             {
                               "title": "Open the product \"Combination Pliers\".",
-                              "duration": 2412
+                              "duration": 1876
                             },
                             {
                               "title": "Click \"Add to favourites\".",
-                              "duration": 411
+                              "duration": 291
                             },
                             {
                               "title": "Verify the message \"Unauthorized, can not add product to your favorite list.\" is shown.",
-                              "duration": 26
+                              "duration": 6
                             }
                           ],
-                          "startTime": "2026-10-13T13:22:37.057Z",
+                          "startTime": "2026-10-14T11:01:21.866Z",
                           "annotations": [],
                           "attachments": []
                         }
@@ -787,10 +787,10 @@
                   "projectName": "ui",
                   "results": [
                     {
-                      "workerIndex": 1,
-                      "parallelIndex": 1,
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 2335,
+                      "duration": 1610,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
@@ -798,26 +798,26 @@
                       "steps": [
                         {
                           "title": "Open the home page.",
-                          "duration": 1435
+                          "duration": 808
                         },
                         {
                           "title": "Search for \"pliers\".",
-                          "duration": 475
+                          "duration": 437
                         },
                         {
                           "title": "Verify the caption reads \"Searched for: pliers\".",
-                          "duration": 19
+                          "duration": 4
                         },
                         {
                           "title": "Verify at least one product is shown.",
-                          "duration": 19
+                          "duration": 6
                         },
                         {
                           "title": "Verify every product name contains \"pliers\" (case-insensitive).",
-                          "duration": 14
+                          "duration": 27
                         }
                       ],
-                      "startTime": "2026-10-13T13:22:40.136Z",
+                      "startTime": "2026-10-14T11:01:24.273Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -845,10 +845,10 @@
                   "projectName": "ui",
                   "results": [
                     {
-                      "workerIndex": 0,
-                      "parallelIndex": 0,
+                      "workerIndex": 1,
+                      "parallelIndex": 1,
                       "status": "passed",
-                      "duration": 2749,
+                      "duration": 2465,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
@@ -856,38 +856,38 @@
                       "steps": [
                         {
                           "title": "Open the home page.",
-                          "duration": 1053
+                          "duration": 1148
                         },
                         {
                           "title": "Check the category \"Hammer\" in the sidebar.",
-                          "duration": 429
+                          "duration": 318
                         },
                         {
                           "title": "Check the brand \"ForgeFlex Tools\" in the sidebar.",
-                          "duration": 465
+                          "duration": 337
                         },
                         {
                           "title": "Search for \"pliers\".",
-                          "duration": 460
+                          "duration": 296
                         },
                         {
                           "title": "Verify the category \"Hammer\" is not checked.",
-                          "duration": 17
+                          "duration": 14
                         },
                         {
                           "title": "Verify the brand \"ForgeFlex Tools\" is not checked.",
-                          "duration": 12
+                          "duration": 5
                         },
                         {
                           "title": "Verify at least one product is shown.",
-                          "duration": 15
+                          "duration": 5
                         },
                         {
                           "title": "Verify every product name contains \"pliers\" (case-insensitive).",
-                          "duration": 18
+                          "duration": 29
                         }
                       ],
-                      "startTime": "2026-10-13T13:22:41.829Z",
+                      "startTime": "2026-10-14T11:01:24.303Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -915,10 +915,10 @@
                   "projectName": "ui",
                   "results": [
                     {
-                      "workerIndex": 1,
-                      "parallelIndex": 1,
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 2428,
+                      "duration": 1876,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
@@ -926,26 +926,26 @@
                       "steps": [
                         {
                           "title": "Open the home page.",
-                          "duration": 1574
+                          "duration": 1105
                         },
                         {
                           "title": "Search for \"ham\".",
-                          "duration": 498
+                          "duration": 324
                         },
                         {
                           "title": "Verify the caption reads \"Searched for: ham\".",
-                          "duration": 12
+                          "duration": 4
                         },
                         {
                           "title": "Verify at least one product is shown.",
-                          "duration": 6
+                          "duration": 3
                         },
                         {
                           "title": "Verify every product name contains \"ham\" (case-insensitive).",
-                          "duration": 10
+                          "duration": 27
                         }
                       ],
-                      "startTime": "2026-10-13T13:22:42.494Z",
+                      "startTime": "2026-10-14T11:01:25.897Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -973,10 +973,10 @@
                   "projectName": "ui",
                   "results": [
                     {
-                      "workerIndex": 0,
-                      "parallelIndex": 0,
+                      "workerIndex": 1,
+                      "parallelIndex": 1,
                       "status": "passed",
-                      "duration": 2279,
+                      "duration": 1930,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
@@ -984,18 +984,18 @@
                       "steps": [
                         {
                           "title": "Open the home page.",
-                          "duration": 1389
+                          "duration": 1082
                         },
                         {
                           "title": "Search for a term of exactly 40 characters.",
-                          "duration": 503
+                          "duration": 406
                         },
                         {
                           "title": "Verify the caption reads \"Searched for: \" followed by the term.",
-                          "duration": 16
+                          "duration": 5
                         }
                       ],
-                      "startTime": "2026-10-13T13:22:44.594Z",
+                      "startTime": "2026-10-14T11:01:26.783Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -1023,10 +1023,10 @@
                   "projectName": "ui",
                   "results": [
                     {
-                      "workerIndex": 1,
-                      "parallelIndex": 1,
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 1943,
+                      "duration": 1341,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
@@ -1034,22 +1034,22 @@
                       "steps": [
                         {
                           "title": "Open the home page.",
-                          "duration": 1483
+                          "duration": 891
                         },
                         {
                           "title": "Search for \"pl\".",
-                          "duration": 120
+                          "duration": 74
                         },
                         {
                           "title": "Verify no \"Searched for:\" caption is shown.",
-                          "duration": 13
+                          "duration": 16
                         },
                         {
                           "title": "Verify the product grid still shows the first page of all products.",
-                          "duration": 10
+                          "duration": 12
                         }
                       ],
-                      "startTime": "2026-10-13T13:22:44.934Z",
+                      "startTime": "2026-10-14T11:01:27.788Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -1077,10 +1077,10 @@
                   "projectName": "ui",
                   "results": [
                     {
-                      "workerIndex": 0,
-                      "parallelIndex": 0,
+                      "workerIndex": 1,
+                      "parallelIndex": 1,
                       "status": "passed",
-                      "duration": 1830,
+                      "duration": 1505,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
@@ -1088,22 +1088,22 @@
                       "steps": [
                         {
                           "title": "Open the home page.",
-                          "duration": 1121
+                          "duration": 918
                         },
                         {
                           "title": "Search for a term of exactly 41 characters.",
-                          "duration": 114
+                          "duration": 78
                         },
                         {
                           "title": "Verify no \"Searched for:\" caption is shown.",
-                          "duration": 14
+                          "duration": 7
                         },
                         {
                           "title": "Verify the product grid still shows the first page of all products.",
-                          "duration": 11
+                          "duration": 22
                         }
                       ],
-                      "startTime": "2026-10-13T13:22:46.892Z",
+                      "startTime": "2026-10-14T11:01:28.737Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -1148,10 +1148,10 @@
                   "projectName": "ui",
                   "results": [
                     {
-                      "workerIndex": 1,
-                      "parallelIndex": 1,
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 2654,
+                      "duration": 1811,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
@@ -1159,18 +1159,18 @@
                       "steps": [
                         {
                           "title": "Open the home page.",
-                          "duration": 1895
+                          "duration": 939
                         },
                         {
                           "title": "Select \"Name (A - Z)\" in the sort list.",
-                          "duration": 440
+                          "duration": 466
                         },
                         {
                           "title": "Verify the product names are in alphabetical order, A to Z.",
-                          "duration": 18
+                          "duration": 34
                         }
                       ],
-                      "startTime": "2026-10-13T13:22:46.900Z",
+                      "startTime": "2026-10-14T11:01:29.145Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -1198,10 +1198,10 @@
                   "projectName": "ui",
                   "results": [
                     {
-                      "workerIndex": 0,
-                      "parallelIndex": 0,
+                      "workerIndex": 1,
+                      "parallelIndex": 1,
                       "status": "passed",
-                      "duration": 3757,
+                      "duration": 1955,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
@@ -1209,18 +1209,18 @@
                       "steps": [
                         {
                           "title": "Open the home page.",
-                          "duration": 2743
+                          "duration": 1135
                         },
                         {
                           "title": "Select \"Name (Z - A)\" in the sort list.",
-                          "duration": 510
+                          "duration": 301
                         },
                         {
                           "title": "Verify the product names are in reverse alphabetical order, Z to A.",
-                          "duration": 39
+                          "duration": 62
                         }
                       ],
-                      "startTime": "2026-10-13T13:22:48.755Z",
+                      "startTime": "2026-10-14T11:01:30.266Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -1248,10 +1248,10 @@
                   "projectName": "ui",
                   "results": [
                     {
-                      "workerIndex": 1,
-                      "parallelIndex": 1,
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 2710,
+                      "duration": 1954,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
@@ -1259,18 +1259,18 @@
                       "steps": [
                         {
                           "title": "Open the home page.",
-                          "duration": 1447
+                          "duration": 1079
                         },
                         {
                           "title": "Select \"Price (High - Low)\" in the sort list.",
-                          "duration": 472
+                          "duration": 359
                         },
                         {
                           "title": "Verify the products are sorted by price, highest first.",
-                          "duration": 381
+                          "duration": 114
                         }
                       ],
-                      "startTime": "2026-10-13T13:22:49.569Z",
+                      "startTime": "2026-10-14T11:01:30.972Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -1301,7 +1301,7 @@
                       "workerIndex": 1,
                       "parallelIndex": 1,
                       "status": "passed",
-                      "duration": 2356,
+                      "duration": 1687,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
@@ -1309,18 +1309,18 @@
                       "steps": [
                         {
                           "title": "Open the home page.",
-                          "duration": 1471
+                          "duration": 951
                         },
                         {
                           "title": "Select \"Price (Low - High)\" in the sort list.",
-                          "duration": 377
+                          "duration": 348
                         },
                         {
                           "title": "Verify the products are sorted by price, lowest first.",
-                          "duration": 183
+                          "duration": 42
                         }
                       ],
-                      "startTime": "2026-10-13T13:22:52.301Z",
+                      "startTime": "2026-10-14T11:01:32.257Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -1340,8 +1340,8 @@
   ],
   "errors": [],
   "stats": {
-    "startTime": "2026-10-13T13:22:15.054Z",
-    "duration": 40630.504,
+    "startTime": "2026-10-14T11:01:03.095Z",
+    "duration": 31712.185999999998,
     "expected": 19,
     "skipped": 0,
     "unexpected": 0,
