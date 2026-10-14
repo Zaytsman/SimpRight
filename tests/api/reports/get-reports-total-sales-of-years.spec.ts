@@ -10,12 +10,14 @@ import {
   firstListedProductId,
   createCart,
   addItemSetup,
+  createInvoiceSetup,
+  setInvoiceStatusSetup,
+  INVOICE_AUTH,
   type ReportRequest,
 } from '@fixtures';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { InvoiceCreated } from '@api/dto/invoice';
 import type { TotalSalesOfYearsRow } from '@api/dto/report';
-import { InvoiceFactory } from '@data/factories/InvoiceFactory';
 import { expectEmptyArray, expectMessage, expectStatus } from '@utils/apiChecks';
 import { assertMessage, attachJson } from '@utils/assertHelpers';
 
@@ -179,9 +181,9 @@ test.describe('@reports-api - Reports API', () => {
       let response: ApiResponse;
       let rows: TotalSalesOfYearsRow[];
 
-      // The admin delete registered here gets 409 once the customer has an invoice (no endpoint deletes invoices):
-      // the cleanup then only logs a warning, and the hourly re-seed removes the customer and its invoice.
-      const customer = await registerThrowawayCustomer(usersService, adminUsersService, cleanup);
+      // The customer gets an invoice (no endpoint deletes invoices), so its admin delete answers 409: deleteUnlessInUse
+      // expects that, and the hourly re-seed removes the customer and its invoice.
+      const customer = await registerThrowawayCustomer(usersService, adminUsersService, cleanup, { mayHoldInvoices: true });
       const token = await loginThrowawayCustomer(authService, customer);
 
       await test.step("Send GET /products and take the first item's id as the product's id.", async () => {
@@ -201,29 +203,20 @@ test.describe('@reports-api - Reports API', () => {
         }
       );
 
-      await test.step(
+      invoice = await createInvoiceSetup(
+        invoicesServiceForToken(token),
+        cartId,
         'Send POST /invoices with that access_token, payment_method "cash-on-delivery", payment_details {}, billing_street "Stephansplatz 1", billing_city "Wien", billing_country "AT" and the cart\'s id as cart_id, and take the new invoice\'s id and total.',
-        async () => {
-          const body = InvoiceFactory.cashOnDelivery(cartId);
-          const invoiceRequest = { method: 'POST', path: '/invoices', auth: "the new user's access_token", body };
-          await attachJson('Create Invoice Request', invoiceRequest);
-          invoice = await invoicesServiceForToken(token).create(body);
-          await attachJson('Create Invoice Response', invoice);
-          expect(
-            Boolean(invoice.id) && typeof invoice.total === 'number',
-            assertMessage({ request: invoiceRequest, expected: 'The new invoice has an id and a numeric total', actual: invoice })
-          ).toBe(true);
-        }
+        INVOICE_AUTH.throwaway
       );
 
-      await test.step('Send PUT /invoices/{invoiceId}/status with the invoice\'s id, that access_token and a body with status "COMPLETED".', async () => {
-        const body = { status: 'COMPLETED' as const };
-        const statusRequest = { method: 'PUT', path: `/invoices/${invoice.id}/status`, auth: "the new user's access_token", body };
-        await attachJson('Update Invoice Status Request', statusRequest);
-        const result = await invoicesServiceForToken(token).updateStatus(invoice.id, body);
-        await attachJson('Update Invoice Status Response', result);
-        expect(result.success, assertMessage({ request: statusRequest, expected: 'success is true', actual: result })).toBe(true);
-      });
+      await setInvoiceStatusSetup(
+        invoicesServiceForToken(token),
+        invoice.id,
+        'COMPLETED',
+        'Send PUT /invoices/{invoiceId}/status with the invoice\'s id, that access_token and a body with status "COMPLETED".',
+        INVOICE_AUTH.throwaway
+      );
 
       await test.step(
         "Send GET /reports/total-sales-of-years with another years value between 20 and 99, different from the first (so the report is computed fresh, not read from the cache), and the admin's token.",

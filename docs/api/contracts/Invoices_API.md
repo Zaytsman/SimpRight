@@ -64,7 +64,7 @@ Returns a page of invoices, newest `invoice_date` first, 15 per page. An admin g
 |---|---|---|---|
 | `page` | integer | No | Page number, starting at 1 _(spec)_ |
 
-**Response:** `200 OK` _(source)_
+**Response:** `200 OK` _(verified)_
 ```ts
 {
   current_page: number;
@@ -99,7 +99,7 @@ Searches the invoices visible to the caller (own, or all for an admin) with a `L
 | `q` | string | No | Search phrase. The spec marks it required; the code doesn't, and without it the pattern is `%%`, which matches every invoice visible to the caller. `%` and `_` in `q` aren't escaped. _(source)_ |
 | `page` | integer | No | Page number, starting at 1 _(spec)_ |
 
-**Response:** `200 OK` _(source)_
+**Response:** `200 OK` _(verified)_
 ```ts
 {
   current_page: number;
@@ -135,13 +135,12 @@ Same as `GET /invoices/search`, but the criteria are sent as a JSON body (RFC 10
 }
 ```
 
-**Response:** `200 OK` _(source)_
+**Response:** `200 OK` _(verified)_
 Same shape as `GET /invoices/search`.
 
 **Error Responses:**
 - `401 Unauthorized`: no token, with `Content-Type: application/json`; `{ message: "Unauthorized" }` _(verified)_
-- `500 Internal Server Error`: the request has a non-JSON `Content-Type` (`text/plain`) or no body; the live API answers with an empty `text/html` body, even without a token, and with or without `Accept: application/json`; suspected bug, the source aborts with `415` (next line) _(verified)_
-- `415 Unsupported Media Type`: `Content-Type` is not JSON; `HandleQueryMethod` aborts with `QUERY requests must use Content-Type: application/json` before the token is checked. Not seen on 2026-10-10 (see the `500` above and Notes) _(source)_
+- `415 Unsupported Media Type`: `Content-Type` is not JSON (`text/plain` with a body, or no body); `HandleQueryMethod` aborts before the token is checked, so the same `415` comes with or without a token. With `Accept: application/json` the body is `{ message: "QUERY requests must use Content-Type: application/json" }`; without it, Laravel's HTML "Unsupported Media Type" page _(verified)_
 
 **Example:**
 ```http
@@ -169,7 +168,7 @@ Returns one invoice with its lines (each with the product, its image, category a
 |---|---|---|---|
 | `invoiceId` | string (ULID) | Yes | The invoice's id (named `{id}` in the route) |
 
-**Response:** `200 OK` _(source)_
+**Response:** `200 OK` _(verified)_
 ```ts
 Invoice   // see Data Models
 ```
@@ -178,7 +177,7 @@ The service's tests assert `200` and the invoice's `id` for the owner and for an
 
 **Error Responses:**
 - `401 Unauthorized`: no token, or a malformed token, with `{ message: "Unauthorized" }`; the token is checked before the id (an id that can't exist also gives `401`) _(verified)_
-- `404 Not Found`: no invoice with this id, or, for a non-admin, an invoice of another user (`findOrFail` on the user-scoped query); `{ message: "Requested item not found" }` from the global handler _(source)_
+- `404 Not Found`: no invoice with this id, or, for a non-admin, an invoice of another user (`findOrFail` on the user-scoped query); `{ message: "Requested item not found" }` from the global handler _(verified)_
 
 ---
 
@@ -202,7 +201,7 @@ The body is the PDF file, not JSON, with `Content-Disposition: attachment; filen
 
 **Error Responses:**
 - `401 Unauthorized`: no token, or a malformed token, with `{ message: "Unauthorized" }`; checked before the number is looked up _(verified)_
-- `404 Not Found`: no file `invoices/<invoice_number>.pdf` exists (an unknown number, or a PDF that isn't generated yet); `{ message: "Document not created. Try again later." }` _(source)_
+- `404 Not Found`: no file `invoices/<invoice_number>.pdf` exists (an unknown number, or a PDF that isn't generated yet); `{ message: "Document not created. Try again later." }` _(verified)_
 
 ---
 
@@ -231,7 +230,7 @@ The service's test asserts `200` and `status: "COMPLETED"` for a finished downlo
 
 **Error Responses:**
 - `401 Unauthorized`: no token, or a malformed token, with `{ message: "Unauthorized" }` _(verified)_
-- `400 Bad Request`: no download exists for this number (it isn't started yet, or the number is unknown), with `{ status: "NOT_INITIATED" }`; the spec lists `404` instead _(source)_
+- `400 Bad Request`: no download exists for this number (it isn't started yet, or the number is unknown), with `{ status: "NOT_INITIATED" }`; the spec lists `404` instead _(verified)_
 
 ---
 
@@ -259,7 +258,7 @@ Sets the `status` and/or `status_message` of an invoice. Any logged-in user can 
 
 Nothing is required: a body without these keys passes the validation. The inline validation runs on `status` and `status_message` only, but the whole request body is passed to the update query, so other keys are written too, or break the query (see Notes). _(source)_
 
-**Response:** `200 OK` _(source)_
+**Response:** `200 OK` _(verified)_
 ```ts
 {
   success: boolean;   // true
@@ -271,9 +270,9 @@ Seen live: `COMPLETED` set by the invoice's own customer returns `{ success: tru
 The service's test asserts `200` and `{ success: true }` for a valid status and message. _(source)_
 
 **Error Responses:**
-- `401 Unauthorized`: no token, or a malformed token, with `{ message: "Unauthorized" }` _(source)_
-- `404 Not Found`: no invoice with this id, or the update changed no row; `{ message: "Invoice not found" }` (the handler tests the number of changed rows, see Notes) _(source)_
-- `422 Unprocessable Entity`: `status` is not one of the allowed values, or `status_message` is not a string of 5 to 50 characters. The body is Laravel's default `{ message: string; errors: { <field>: string[] } }` (framework default, not the `BaseFormRequest` shape), and with `Accept: application/json` only _(source)_
+- `401 Unauthorized`: no token, or a malformed token, with `{ message: "Unauthorized" }` _(verified)_
+- `404 Not Found`: no invoice with this id, or the update changed no row; `{ message: "Invoice not found" }` (the handler tests the number of changed rows, see Notes) _(verified)_
+- `422 Unprocessable Entity`: `status` is not one of the allowed values, or `status_message` is not a string of 5 to 50 characters. The body is Laravel's default `{ message: string; errors: { <field>: string[] } }` (framework default, not the `BaseFormRequest` shape), and with `Accept: application/json` only _(verified)_
 - `500 Internal Server Error`: the body has a key that is not a column of `invoices`; the raw request body goes into the update query and the database error is not a validation error; suspected bug, should be `422` or the key ignored _(source)_
 
 **Example:**
@@ -313,7 +312,7 @@ Creates an invoice for the user of the token from a cart, with one line per cart
 
 The text fields must not contain subscript or superscript characters (U+2070 to U+209F). For `payment_method: "gift-card"`, `payment_details.gift_card_number` must be 16 letters or digits and `payment_details.validation_code` 4 letters or digits. The other methods' details have no validation rules. _(source)_
 
-**Response:** `201 Created` _(source)_
+**Response:** `201 Created` _(verified)_
 ```ts
 InvoiceCreated   // see Data Models
 ```
@@ -324,9 +323,11 @@ The service's tests assert `201` for each payment method; the spec says `200`. _
 
 **Error Responses:**
 - `401 Unauthorized`: no token, or a malformed token, with `{ message: "Unauthorized" }` _(source)_
-- `404 Not Found`: `cart_id` is not an existing cart, with `{ message: "Requested item not found" }`; the invoice row has been created by then and stays (see Notes). A required column missing from `payment_details` (for example `bank_name`) is mapped by the global handler to `404` with `{ message: "Something went wrong" }`; suspected bug, should be `422` _(source)_
-- `422 Unprocessable Entity`: a field fails validation: a required field is missing, `payment_method` is not allowed, a field is too long or has subscript/superscript characters, the gift card number or code has the wrong format, or the address doesn't match the country (`billing_country` carries the message). The body is a map of field to messages without a wrapper (`BaseFormRequest`), e.g. `{ billing_country: ["The billing country does not match the entered address. ..."] }` or `{ "payment_details.gift_card_number": [...] }` _(source)_
-- `500 Internal Server Error`: `payment_details` is `null` or an empty string (the gift card rules turn this into `422`), or, for a method other than `cash-on-delivery`, has a key that is not a column of the method's table or a value longer than its column; the invoice row has been created by then; suspected bug, should be `422` _(source)_
+- `404 Not Found`: `cart_id` is not an existing cart, with `{ message: "Requested item not found" }`; the invoice row has been created by then and stays (see Notes) _(verified)_
+- `422 Unprocessable Entity`: a field fails validation: a required field is missing, `payment_method` is not allowed, a field is too long or has subscript/superscript characters, the gift card number or code has the wrong format, or the address doesn't match the country (`billing_country` carries the message). The body is a map of field to messages without a wrapper (`BaseFormRequest`), e.g. `{ billing_country: ["The billing country does not match the entered address. ..."] }` or `{ "payment_details.gift_card_number": [...] }` _(verified)_
+- `500 Internal Server Error`: `payment_details` is `null` (or an empty string; the gift card rules turn this into `422`): a PHP `TypeError` in the controller gives `{ message: "Server Error" }`; the invoice row has been created by then; suspected bug (BUG-041), should be `422` _(verified)_
+- `500 Internal Server Error`: for a method other than `cash-on-delivery`, `payment_details` lacks a required column of the method's table (for example `bank-transfer` with `payment_details: {}`), with `{ message: "Something went wrong" }`. The handler maps MySQL error `1364` to `404`, but it checks SQLSTATE `HY000` first, and `1364` has that SQLSTATE, so the result is `500`. The invoice row has been created by then; suspected bug (BUG-041), should be `422` _(verified)_
+- `500 Internal Server Error`: for a method other than `cash-on-delivery`, `payment_details` has a key that is not a column of the method's table or a value longer than its column, with `{ message: "Something went wrong" }`; the invoice row has been created by then; suspected bug, should be `422` _(source)_
 
 **Example:**
 ```http
@@ -375,7 +376,7 @@ Same as `POST /invoices`, without a token: the invoice has `user_id: null`, so o
 
 The validation is inline in the controller: it has the same rules as `POST /invoices` for the shared fields but no subscript/superscript check and no gift card format check. The spec doesn't mark the three `guest_*` fields required; the code does. _(source)_
 
-**Response:** `201 Created` _(source)_
+**Response:** `201 Created` _(verified)_
 ```ts
 InvoiceCreated   // see Data Models
 ```
@@ -383,9 +384,10 @@ InvoiceCreated   // see Data Models
 The spec says `200`. _(source)_
 
 **Error Responses:**
-- `404 Not Found`: `cart_id` is not an existing cart, with `{ message: "Requested item not found" }`; the invoice row has been created by then. A required column missing from `payment_details` gives `404` with `{ message: "Something went wrong" }`, as on `POST /invoices` _(source)_
-- `422 Unprocessable Entity`: a field fails validation. The body is Laravel's default `{ message: string; errors: { <field>: string[] } }`, not the `BaseFormRequest` map of `POST /invoices`, and with `Accept: application/json` only _(source)_
-- `500 Internal Server Error`: `payment_details` is `null` or has an unknown key or a too long value, as on `POST /invoices`; suspected bug _(source)_
+- `404 Not Found`: `cart_id` is not an existing cart, with `{ message: "Requested item not found" }`; the invoice row has been created by then _(verified)_
+- `422 Unprocessable Entity`: a field fails validation. The body is Laravel's default `{ message: string; errors: { <field>: string[] } }`, not the `BaseFormRequest` map of `POST /invoices`, and with `Accept: application/json` only _(verified)_
+- `500 Internal Server Error`: `payment_details` is `null`; `{ message: "Server Error" }` (a PHP `TypeError` in the controller), as on `POST /invoices`; suspected bug (BUG-041) _(verified)_
+- `500 Internal Server Error`: `payment_details` lacks a required column of the method's table (e.g. `bank-transfer` with `{}`), has an unknown key or a too long value; `{ message: "Something went wrong" }`, as on `POST /invoices` (the missing-column case is BUG-041); suspected bug _(source)_
 
 ---
 
@@ -420,7 +422,7 @@ Updates an invoice of the caller. The body is validated like a new invoice (so t
 
 The validation is `StoreInvoice`, the rules of `POST /invoices`. Beyond the validated fields, the model's `fillable` list also lets the body set `user_id`, `invoice_number`, `subtotal`, `total`, `additional_discount_percentage`, `additional_discount_amount`, `eco_discount_percentage` and `eco_discount_amount` without any check (see Notes). _(source)_
 
-**Response:** `200 OK` _(source)_
+**Response:** `200 OK` _(verified)_
 ```ts
 {
   success: boolean;   // true
@@ -428,9 +430,9 @@ The validation is `StoreInvoice`, the rules of `POST /invoices`. Beyond the vali
 ```
 
 **Error Responses:**
-- `401 Unauthorized`: no token, or a malformed token, with `{ message: "Unauthorized" }` _(source)_
-- `404 Not Found`: no invoice with this id owned by the token's user (`firstOrFail`); `{ message: "Requested item not found" }` _(source)_
-- `422 Unprocessable Entity`: a field fails validation, as on `POST /invoices`; the validation runs before the lookup, so an unknown id with an invalid body gives `422`. A map of field to messages without a wrapper _(source)_
+- `401 Unauthorized`: no token, or a malformed token, with `{ message: "Unauthorized" }` _(verified)_
+- `404 Not Found`: no invoice with this id owned by the token's user (`firstOrFail`); `{ message: "Requested item not found" }` _(verified)_
+- `422 Unprocessable Entity`: a field fails validation, as on `POST /invoices`; the validation runs before the lookup, so an unknown id with an invalid body gives `422`. A map of field to messages without a wrapper _(verified)_
 
 ---
 
@@ -463,7 +465,7 @@ Updates the billing address or the date of an invoice of the caller. Only the va
 
 Every field is `sometimes`: an empty body is valid and changes nothing. The spec's `InvoiceRequest` marks the payment fields and the cart id required; the code doesn't. _(source)_
 
-**Response:** `200 OK` _(source)_
+**Response:** `200 OK` _(verified)_
 ```ts
 {
   success: boolean;   // true
@@ -473,9 +475,9 @@ Every field is `sometimes`: an empty body is valid and changes nothing. The spec
 The service's test patches `billing_street` and asserts `200`, `{ success: true }` and the stored value. _(source)_
 
 **Error Responses:**
-- `401 Unauthorized`: no token, or a malformed token, with `{ message: "Unauthorized" }` _(source)_
-- `404 Not Found`: no invoice with this id owned by the token's user (`firstOrFail`); `{ message: "Requested item not found" }` _(source)_
-- `422 Unprocessable Entity`: a field is not a string, is too long, has subscript/superscript characters, or `invoice_date` is not `Y-m-d`; a map of field to messages without a wrapper. Validated before the lookup _(source)_
+- `401 Unauthorized`: no token, or a malformed token, with `{ message: "Unauthorized" }` _(verified)_
+- `404 Not Found`: no invoice with this id owned by the token's user (`firstOrFail`); `{ message: "Requested item not found" }` _(verified)_
+- `422 Unprocessable Entity`: a field is not a string, is too long, has subscript/superscript characters, or `invoice_date` is not `Y-m-d`; a map of field to messages without a wrapper. Validated before the lookup _(verified)_
 
 ## Data Models
 
@@ -628,7 +630,7 @@ type PaymentDetails =
 
 - Errors from the auth middleware and the global handler (`app/Exceptions/Handler.php`) have the body `{ message: string }`: `"Unauthorized"` _(verified)_, `"Requested item not found"` (a `findOrFail` miss), `"Something went wrong"` (a database error), `"Method is not allowed for the requested route"` _(source)_. The controller's own errors are `{ message: "Invoice not found" }`, `{ message: "Document not created. Try again later." }` and `{ status: "NOT_INITIATED" }`. _(source)_
 - Validation errors have two shapes. The form requests (`POST /invoices`, `PUT` and `PATCH /invoices/{invoiceId}`) return a map of field to messages without a wrapper, `{ <field>: string[] }`, with `422` (`BaseFormRequest`). The inline validation (`POST /invoices/guest`, `PUT /invoices/{invoiceId}/status`) returns Laravel's default `{ message: string; errors: { <field>: string[] } }` with `422`, and without `Accept: application/json` a redirect instead (framework default). _(source)_
-- A database error maps through the handler: `1062` to `409` `{ message: "Duplicate Entry" }`, `1364` (a NOT NULL column without a value) to `404` `{ message: "Something went wrong" }`, anything else to `500` `{ message: "Something went wrong" }`. No `409` is reachable on an invoice endpoint (no unique rule or index). _(source)_
+- A database error maps through the handler. It checks the SQLSTATE first: `22003` or `HY000` gives `500` `{ message: "Something went wrong" }`. Then the MySQL error code: `1062` gives `409` `{ message: "Duplicate Entry" }`, anything else `500` `{ message: "Something went wrong" }`. `1364` (a NOT NULL column without a value) has SQLSTATE `HY000`, so, like any `HY000` error, it gives `500` "Something went wrong"; the handler's `1364 → 404` branch is dead code (verified live on `POST /invoices`, see there). No `409` is reachable on an invoice endpoint (no unique rule or index). _(source)_
 - `405 Method Not Allowed`: any method a path has no route for, e.g. `QUERY /invoices`; `{ message: "Method is not allowed for the requested route" }`. Shared by every route, so it isn't listed per endpoint. _(verified)_
 - Every `401` is JSON even without `Accept: application/json` (the middleware builds it itself). _(verified)_
 
@@ -641,13 +643,13 @@ type PaymentDetails =
 - **PDF endpoints skip ownership:** `download-pdf` and `download-pdf-status` look the file or row up by invoice number only, so any logged-in user can download any invoice's PDF if they know its number (numbers are sequential). Suspected bug. _(source)_
 - **`PUT` mass assignment:** the update writes every `fillable` key of the body: `user_id`, `invoice_number`, `subtotal`, `total` and the discount amounts are not validated. A caller can change the total of their invoice or move it to another user. Suspected bug. `PATCH` writes only the validated keys. _(source)_
 - **`PUT` needs a whole new invoice body:** `payment_method`, `payment_details` and `cart_id` are required (and the gift card and address rules run) although none of them is stored. `PATCH` is the endpoint for a partial change. _(source)_
-- **Orphan invoices:** `POST /invoices` and `POST /invoices/guest` create the invoice row before reading the cart and before saving the payment, with no transaction. An unknown `cart_id`, or a payment that fails (`404` or `500` above), leaves an invoice without lines or payment. Suspected bug. _(source)_
+- **Orphan invoices:** `POST /invoices` and `POST /invoices/guest` create the invoice row before reading the cart and before saving the payment, with no transaction. An unknown `cart_id` (the `404` above), or a payment that fails (the payment `500`s above), leaves an invoice without lines or payment. Suspected bug (BUG-040). _(source)_ The orphan left by an unknown `cart_id` was seen live on `POST /invoices` (API-0499). _(verified)_
 - **Empty cart:** a cart without items is accepted: the invoice has no lines and a total of 0. The cart is not deleted afterwards, so the same cart can be invoiced again. _(source)_
 - **Guest invoices:** `user_id` is `null`, `guest_email`, `guest_first_name` and `guest_last_name` aren't stored (not `fillable`), and the checks of `POST /invoices` that aren't in the inline rules (gift card format, subscript/superscript characters) are skipped. _(source)_
 - **Totals:** `subtotal` sums `quantity * (discounted_price or unit_price)` per line; `additional_discount_amount` is the cart's `additional_discount_percentage` of it; `eco_discount_percentage` is 5 when more than half of the items have CO2 rating `A` or `B`, applied after the additional discount. `total` = subtotal minus both. _(source)_
 - **Products inside invoices:** the invoice queries don't select `stock`, so `in_stock` is probably always `false` (`null` for an admin token) while `is_eco_friendly` is correct. The `Invoiceline` casts name `discount_price` instead of `discounted_price`, so `discounted_price` is probably not cast to a number. Both are suspected and not observed (needs a token). _(source)_
 - **`created_at`:** `Invoice` redeclares `$hidden` and `$casts` without the `BaseModel` entries, so `created_at` is returned (not hidden) and its format is Eloquent's default, not `Y-m-d H:i:s` as in the spec's example. Not observed. _(source)_
-- **QUERY with a non-JSON content type:** the source aborts with `415`, and `GET`/`QUERY` on `/products/search` documents the same `415` as verified on 2026-10-01 (`Products_API.md`). On 2026-10-10 the live API answered `500` with an empty `text/html` body for `QUERY /invoices/search` (four calls: `text/plain` with a body, with and without `Accept`, and no body, twice) and for `QUERY /products/search` without a body (one call). Possibly a deployment change; not determined. _(verified)_
+- **QUERY with a non-JSON content type:** the source aborts with `415`, which the live API returns (see `QUERY /invoices/search`). On 2026-10-10 only, the live API answered `500` with an empty `text/html` body instead (`QUERY /invoices/search` with `text/plain` and a body or without a body, and `QUERY /products/search` without a body); by 2026-10-14 this was fixed and the `415` returned (BUG-042, closed). _(verified)_
 - **OPTIONS:** `routes/api.php` defines `OPTIONS` for every invoice path (the shared `$respondOptions` handler, `204` with an `Allow` header). Not called live. _(source)_
 - **XML:** with `Accept: text/xml`, the JSON responses are rendered as XML (`Controller::preferredFormat`). The PDF download is a file either way. _(source)_
 - **Cache headers:** the invoice routes have no cache middleware; the `401` responses carry `Cache-Control: no-cache, private`. _(verified)_

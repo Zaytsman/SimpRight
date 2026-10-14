@@ -1,8 +1,8 @@
 # yaml-language-server: $schema=./bug.schema.json
 id: BUG-041
-title: Create invoice with malformed payment_details returns 500 or 404 instead of 422
+title: Create invoice with null or incomplete payment_details returns 500 instead of 422
 status: open
-severity: minor
+severity: major
 layer: api
 area: invoices
 affects:
@@ -13,16 +13,30 @@ ref:
   - docs/api/contracts/Invoices_API.md#8-create-invoice
   - docs/api/contracts/Invoices_API.md#9-create-guest-invoice
 description: >-
-  Only the gift-card details have validation rules. For the other methods the details go straight into the payment
-  table: null, an unknown key or a too long value ends in a database error, mapped to 500, and a missing required
-  column (for example bank_name) is mapped by the global handler to 404 "Something went wrong".
+  payment_details is only required to be present; only gift-card details have validation rules. null fails in the
+  controller (Arr::except and handlePayment(array $details)) with a PHP type error, answered as 500 "Server Error".
+  For the other methods the details go straight into the method's table: a missing NOT NULL column (bank_name,
+  account_name, account_number for bank-transfer) is MySQL error 1364 with SQLSTATE HY000, and app/Exceptions/Handler.php
+  checks HY000 before the error code, so it answers 500 "Something went wrong" (its 1364 -> 404 branch is never reached);
+  an unknown key or a too long value gives 500 too. The invoice row exists by then (BUG-040).
 steps:
-  - Create a cart.
-  - Send POST /invoices with payment_method "bank-transfer", payment_details null and the cart's id (a customer's token).
-  - Send POST /invoices with payment_method "bank-transfer", payment_details {} and the cart's id (a customer's token).
-  - Send POST /invoices/guest with payment_method "bank-transfer", payment_details null, the cart's id and the guest fields.
-expected: "422 naming payment_details for each request."
-actual: "500 for null, and 404 { message: \"Something went wrong\" } for {} (from the source code; not reproduced live)."
+  - Register a customer and log in.
+  - Send POST /carts with an empty body and take the returned id as the cart's id.
+  - Send POST /invoices with the customer's token, payment_method "bank-transfer", payment_details null, billing_street "Stephansplatz 1", billing_city "Wien", billing_country "AT" and the cart's id as cart_id.
+  - Send the same POST /invoices with payment_details {}.
+  - Send POST /invoices/guest without an Authorization header, with payment_method "bank-transfer", payment_details null, the same billing fields, the cart's id as cart_id, a unique guest_email, a guest_first_name and a guest_last_name.
+expected: "422 naming payment_details (or its missing bank_name, account_name and account_number) for each request, and no invoice created."
+actual: >-
+  500 for each request: { message: "Server Error" } for null on both endpoints, and { message: "Something went wrong" }
+  for {} on POST /invoices (reproduced live on 2026-10-14: API-0500, API-0508, API-0501). The {} case on
+  POST /invoices/guest is from the source code.
 evidence: |-
-  Invoices_API.md, endpoints 8 and 9 and Error Handling (read from InvoiceService, StoreInvoice and
-  app/Exceptions/Handler.php in sprint5/API). No token was available when the contract was written, so the calls were not made live.
+  2026-10-14 18:54 UTC, throwaway customers (token ***), an empty cart from POST /carts for each request,
+  billing_street "Stephansplatz 1", billing_city "Wien", billing_country "AT":
+  POST /invoices { payment_method: "bank-transfer", payment_details: null, ... } -> 500 { message: "Server Error" } (API-0500)
+  POST /invoices { payment_method: "bank-transfer", payment_details: {}, ... } -> 500 { message: "Something went wrong" } (API-0501)
+  POST /invoices/guest { payment_method: "bank-transfer", payment_details: null, guest fields, ... }
+    -> 500 { message: "Server Error" } (API-0508)
+  Source (sprint5/API, c6032ad): StoreInvoice and InvoiceController::storeGuest ("payment_details" => ['present']);
+  InvoiceController::store and storeGuest (Arr::except on payment_details); Handler.php (HY000 checked before 1364);
+  migration payment_bank_transfer_details (bank_name, account_name, account_number NOT NULL).

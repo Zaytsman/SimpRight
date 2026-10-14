@@ -4,7 +4,8 @@ tags: ["@invoices-api"]
 scenarios:
   - id: API-0474
     name: Update invoice status returns 200 and the invoice has the new status and message
-    status: manual
+    status: automated
+    automatedIn: tests/api/invoices/put-invoices-by-invoice-id-status.spec.ts
     steps:
       - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.
       - Send POST /users/login with that email and password, and take its access_token.
@@ -16,7 +17,8 @@ scenarios:
       - Verify GET /invoices/{invoiceId} with that id and token returns 200 with status "ON_HOLD" and status_message "Waiting for the bank".
   - id: API-0475
     name: Update invoice status with a null message returns 200 and clears the message
-    status: manual
+    status: automated
+    automatedIn: tests/api/invoices/put-invoices-by-invoice-id-status.spec.ts
     steps:
       - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.
       - Send POST /users/login with that email and password, and take its access_token.
@@ -29,14 +31,16 @@ scenarios:
       - Verify GET /invoices/{invoiceId} with that id and token returns 200 with status_message null.
   - id: API-0476
     name: Update invoice status without a token returns 401
-    status: manual
+    status: automated
+    automatedIn: tests/api/invoices/put-invoices-by-invoice-id-status.spec.ts
     steps:
       - Send PUT /invoices/{invoiceId}/status with a well-formed ULID that no invoice has and a body with status "ON_HOLD", without an Authorization header.
       - Verify the response status is 401.
       - Verify the body's message is "Unauthorized".
   - id: API-0477
     name: Update invoice status with an invalid status returns 422
-    status: manual
+    status: automated
+    automatedIn: tests/api/invoices/put-invoices-by-invoice-id-status.spec.ts
     steps:
       - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.
       - Send POST /users/login with that email and password, and take its access_token.
@@ -47,7 +51,8 @@ scenarios:
       - Verify the body's errors has a status key with at least one message.
   - id: API-0478
     name: Update invoice status with a message shorter than 5 characters returns 422
-    status: manual
+    status: automated
+    automatedIn: tests/api/invoices/put-invoices-by-invoice-id-status.spec.ts
     steps:
       - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.
       - Send POST /users/login with that email and password, and take its access_token.
@@ -58,7 +63,8 @@ scenarios:
       - Verify the body's errors has a status_message key with at least one message.
   - id: API-0479
     name: Update invoice status with a message longer than 50 characters returns 422
-    status: manual
+    status: automated
+    automatedIn: tests/api/invoices/put-invoices-by-invoice-id-status.spec.ts
     steps:
       - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.
       - Send POST /users/login with that email and password, and take its access_token.
@@ -69,7 +75,8 @@ scenarios:
       - Verify the body's errors has a status_message key with at least one message.
   - id: API-0480
     name: Update invoice status with a message that is not a string returns 422
-    status: manual
+    status: automated
+    automatedIn: tests/api/invoices/put-invoices-by-invoice-id-status.spec.ts
     steps:
       - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.
       - Send POST /users/login with that email and password, and take its access_token.
@@ -80,14 +87,16 @@ scenarios:
       - Verify the body's errors has a status_message key with at least one message.
   - id: API-0481
     name: Update invoice status with an unknown id returns 404
-    status: manual
+    status: automated
+    automatedIn: tests/api/invoices/put-invoices-by-invoice-id-status.spec.ts
     steps:
       - Send PUT /invoices/{invoiceId}/status with a well-formed ULID that no invoice has, the default user's token and a body with status "ON_HOLD".
       - Verify the response status is 404.
       - Verify the body's message is "Invoice not found".
   - id: API-0482
     name: Update invoice status of another customer's invoice leaves it unchanged
-    status: manual
+    status: automated
+    automatedIn: tests/api/invoices/put-invoices-by-invoice-id-status.spec.ts
     knownIssue: Any logged-in customer can change the status of another customer's invoice (the call succeeds) instead of being refused.
     bug: BUG-037
     steps:
@@ -101,7 +110,8 @@ scenarios:
       - Verify GET /invoices/{invoiceId} with that id and customer A's access_token returns a status other than "COMPLETED".
   - id: API-0483
     name: Update invoice status with a total in the body leaves the total unchanged
-    status: manual
+    status: automated
+    automatedIn: tests/api/invoices/put-invoices-by-invoice-id-status.spec.ts
     knownIssue: Writes any column sent in the body (the total is changed) instead of only status and status_message.
     bug: BUG-038
     steps:
@@ -113,7 +123,8 @@ scenarios:
       - Verify GET /invoices/{invoiceId} with that id and token returns a total equal to the total from the create response.
   - id: API-0484
     name: Update invoice status with an unknown key in the body does not return 500
-    status: manual
+    status: automated
+    automatedIn: tests/api/invoices/put-invoices-by-invoice-id-status.spec.ts
     knownIssue: Returns 500 for a body key that is not a column of invoices instead of 422 or ignoring the key.
     bug: BUG-038
     steps:

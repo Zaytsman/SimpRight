@@ -4,7 +4,8 @@ tags: ["@invoices-api"]
 scenarios:
   - id: API-0463
     name: Get invoice returns 200 with its lines, payment and totals
-    status: manual
+    status: automated
+    automatedIn: tests/api/invoices/get-invoices-by-invoice-id.spec.ts
     steps:
       - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.
       - Send POST /users/login with that email and password, and take its access_token.
@@ -24,7 +25,8 @@ scenarios:
       - Verify the body's total equals subtotal minus additional_discount_amount minus eco_discount_amount, within a cent.
   - id: API-0464
     name: Get invoice as an admin returns 200 for another customer's invoice
-    status: manual
+    status: automated
+    automatedIn: tests/api/invoices/get-invoices-by-invoice-id.spec.ts
     role: admin
     steps:
       - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.
@@ -36,21 +38,24 @@ scenarios:
       - Verify the body's id equals the invoice's id and its user_id equals the new user's id.
   - id: API-0465
     name: Get invoice without a token returns 401
-    status: manual
+    status: automated
+    automatedIn: tests/api/invoices/get-invoices-by-invoice-id.spec.ts
     steps:
       - Send GET /invoices/{invoiceId} with a well-formed ULID that no invoice has, without an Authorization header.
       - Verify the response status is 401.
       - Verify the body's message is "Unauthorized".
   - id: API-0466
     name: Get invoice with an unknown id returns 404
-    status: manual
+    status: automated
+    automatedIn: tests/api/invoices/get-invoices-by-invoice-id.spec.ts
     steps:
       - Send GET /invoices/{invoiceId} with a well-formed ULID that no invoice has and the default user's token.
       - Verify the response status is 404.
       - Verify the body's message is "Requested item not found".
   - id: API-0467
     name: Get invoice with another customer's id returns 404
-    status: manual
+    status: automated
+    automatedIn: tests/api/invoices/get-invoices-by-invoice-id.spec.ts
     steps:
       - Send POST /users/register with a unique email, a first name, a last name and a random strong password (customer A), and take the new user's id.
       - Send POST /users/login with customer A's email and password, and take its access_token.

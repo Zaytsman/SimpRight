@@ -9,6 +9,7 @@ import type { RegisterUserRequest, User } from '../dto/user';
 import type { AuthService } from '../services/AuthService';
 import type { UsersService } from '../services/UsersService';
 import { UserFactory } from '../../data/factories/UserFactory';
+import { PAGE_KEYS } from '../../utils/apiChecks';
 import { assertMessage, attachJson } from '../../utils/assertHelpers';
 
 /**
@@ -30,13 +31,15 @@ export interface ThrowawayCustomer {
  * registers its removal as admin (DELETE /users/{userId} is admin-only). Returns its id and credentials.
  * `options.title` and `options.body` serve scenarios whose register step asks for other values (default:
  * USER_REGISTER_STEP and `UserFactory.registerCustomer()`). `options.ifExists` is for tests that delete the customer
- * themselves: cleanup then deletes it only if it still exists (`UsersService.deleteIfExists`).
+ * themselves: cleanup then deletes it only if it still exists (`UsersService.deleteIfExists`). `options.mayHoldInvoices`
+ * is for customers that may get an invoice (which blocks the delete with 409): cleanup then uses
+ * `UsersService.deleteUnlessInUse`.
  */
 export async function registerThrowawayCustomer(
   usersService: UsersService,
   adminUsersService: UsersService,
   cleanup: Cleanup,
-  options: { title?: string; body?: RegisterUserRequest; ifExists?: boolean } = {}
+  options: { title?: string; body?: RegisterUserRequest; ifExists?: boolean; mayHoldInvoices?: boolean } = {}
 ): Promise<ThrowawayCustomer> {
   let customer: ThrowawayCustomer = { id: '', email: '', password: '' };
 
@@ -44,7 +47,13 @@ export async function registerThrowawayCustomer(
     const body = options.body ?? UserFactory.registerCustomer();
     await attachJson('Register Request', { method: 'POST', path: '/users/register', body });
     const created = await usersService.register(body);
-    cleanup.add(() => (options.ifExists ? adminUsersService.deleteIfExists(created.id) : adminUsersService.delete(created.id)));
+    cleanup.add(() =>
+      options.mayHoldInvoices
+        ? adminUsersService.deleteUnlessInUse(created.id)
+        : options.ifExists
+          ? adminUsersService.deleteIfExists(created.id)
+          : adminUsersService.delete(created.id)
+    );
     await attachJson('Register Response', created);
     expect(created.id, assertMessage({ request: { method: 'POST', path: '/users/register', body }, expected: 'The new user has an id', actual: created })).toBeTruthy();
     customer = { id: created.id, email: body.email, password: body.password };
@@ -74,6 +83,21 @@ export async function loginThrowawayCustomer(authService: AuthService, customer:
   });
 
   return token;
+}
+
+/**
+ * A "Send PATCH /users/{userId} with ... enabled false, with the admin's token." setup step (title `title`): disables
+ * the customer with `adminUsersService` and fails the step unless `success` is true. `authLabel` names the token in the
+ * attached request. Use the customer's token only after this step: the API caches a user for 60 seconds.
+ */
+export async function disableCustomerSetup(adminUsersService: UsersService, userId: string, title: string, authLabel: string): Promise<void> {
+  await test.step(title, async () => {
+    const request = { method: 'PATCH', path: `/users/${userId}`, auth: authLabel, body: { enabled: false } };
+    await attachJson('Patch User Request', request);
+    const result = await adminUsersService.partialUpdate(userId, { enabled: false });
+    await attachJson('Patch User Response', result);
+    expect(result.success, assertMessage({ request, expected: 'success is true', actual: result })).toBe(true);
+  });
 }
 
 /**
@@ -146,12 +170,9 @@ export function userPageSummary(page: Partial<Paginated<User>>): Record<string, 
   };
 }
 
-/** The pagination keys of GET /users and GET/QUERY /users/search. */
-const USER_PAGE_KEYS =['current_page', 'data', 'from', 'last_page', 'per_page', 'to', 'total'] as const;
-
 /** The checks of a "Verify the body has the keys current_page, data, from, last_page, per_page, to and total ..." step (the keys part). */
 export function expectUserPageKeys(request: unknown, page: Paginated<User>): void {
-  for (const key of USER_PAGE_KEYS) {
+  for (const key of PAGE_KEYS) {
     expect(key in page, assertMessage({ request, expected: `The body has the key "${key}"`, actual: Object.keys(page) })).toBe(true);
   }
 }

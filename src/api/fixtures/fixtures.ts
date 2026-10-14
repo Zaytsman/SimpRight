@@ -23,6 +23,7 @@ import { FavoritesService } from '../services/FavoritesService';
 import { ImagesService } from '../services/ImagesService';
 import { InvoicesService } from '../services/InvoicesService';
 import { MessagesService } from '../services/MessagesService';
+import { PostcodeService } from '../services/PostcodeService';
 import { UsersService } from '../services/UsersService';
 
 /** Not a JWT at all, so the API can't parse it and treats the request as unauthenticated. */
@@ -116,8 +117,20 @@ export type ApiFixtures = {
   postcodeClient: PostcodeClient;
   /** Sends a fixed malformed bearer token (`INVALID_TOKEN`), for the checks that the postcode lookup ignores it. */
   postcodeClientWithInvalidToken: PostcodeClient;
+  /** Public postcode lookup as a happy path (setup takes a checkout's city and state from it); no token. */
+  postcodeService: PostcodeService;
   /** Builds an invoices service with a token the test obtained itself (a throwaway customer's): setup creates invoices and sets their status. */
   invoicesServiceForToken: (token: string) => InvoicesService;
+  /** Invoices endpoints with no token: guest invoices and the "no token" 401 checks. */
+  invoicesClient: InvoicesClient;
+  /** Guest invoice operations (setup creates guest invoices); no token. */
+  invoicesService: InvoicesService;
+  /** Invoices endpoints authenticated as the test's `role` ("with the admin's token" or "with the default user's token"). */
+  invoicesClientWithToken: InvoicesClient;
+  /** Builds an invoices client with a token the test obtained itself (a throwaway customer's), for the status checks. */
+  invoicesClientForToken: (token: string) => InvoicesClient;
+  /** Sends a fixed malformed bearer token (`INVALID_TOKEN`), for the "malformed token" 401 checks. */
+  invoicesClientWithInvalidToken: InvoicesClient;
   /** Reports endpoints with no token (the "no token" 401 checks). */
   reportsClient: ReportsClient;
   /** Reports endpoints authenticated as the test's `role` ("with the admin's token", or the default user's for the 403 checks). */
@@ -289,9 +302,27 @@ export const test = base.extend<ApiFixtures>({
   postcodeClientWithInvalidToken: async ({ request, config }, use) => {
     await use(new PostcodeClient(request, config, INVALID_TOKEN));
   },
+  postcodeService: async ({ postcodeClient }, use) => {
+    await use(new PostcodeService(postcodeClient));
+  },
 
   invoicesServiceForToken: async ({ request, config }, use) => {
     await use((token: string) => new InvoicesService(new InvoicesClient(request, config, token)));
+  },
+  invoicesClient: async ({ request, config }, use) => {
+    await use(new InvoicesClient(request, config));
+  },
+  invoicesService: async ({ invoicesClient }, use) => {
+    await use(new InvoicesService(invoicesClient));
+  },
+  invoicesClientWithToken: async ({ request, config, accessToken }, use) => {
+    await use(new InvoicesClient(request, config, accessToken));
+  },
+  invoicesClientForToken: async ({ request, config }, use) => {
+    await use((token: string) => new InvoicesClient(request, config, token));
+  },
+  invoicesClientWithInvalidToken: async ({ request, config }, use) => {
+    await use(new InvoicesClient(request, config, INVALID_TOKEN));
   },
 
   reportsClient: async ({ request, config }, use) => {

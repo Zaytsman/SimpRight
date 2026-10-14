@@ -5,7 +5,8 @@ scenarios:
   - id: API-0297
     name: Create invoice with billing address fields at their maximum length returns 201
     ref: docs/ui/user-stories/Checkout_Billing_Address.md#AC1
-    status: manual
+    status: automated
+    automatedIn: tests/api/invoices/post-invoices.spec.ts
     steps:
       - Send POST /users/register with a unique email, a first name, a last name and a random strong password.
       - Send POST /users/login with that email and password, and take the access_token.
@@ -17,7 +18,8 @@ scenarios:
   - id: API-0298
     name: Create invoice with a 10-character postal code returns 201
     ref: docs/ui/user-stories/Checkout_Billing_Address.md#AC1
-    status: manual
+    status: automated
+    automatedIn: tests/api/invoices/post-invoices.spec.ts
     steps:
       - Send POST /users/register with a unique email, a first name, a last name and a random strong password.
       - Send POST /users/login with that email and password, and take the access_token.
@@ -30,7 +32,8 @@ scenarios:
   - id: API-0299
     name: Create invoice without the required billing address fields returns 422 for each of them
     ref: docs/ui/user-stories/Checkout_Billing_Address.md#AC2
-    status: manual
+    status: automated
+    automatedIn: tests/api/invoices/post-invoices.spec.ts
     steps:
       - Send POST /invoices with the default user's token, payment_method "cash-on-delivery", payment_details {} and a non-empty string as cart_id, without billing_street, billing_city and billing_country.
       - Verify the response status is 422.
@@ -38,7 +41,8 @@ scenarios:
   - id: API-0300
     name: Create invoice with a billing street longer than 70 characters returns 422
     ref: docs/ui/user-stories/Checkout_Billing_Address.md#AC1
-    status: manual
+    status: automated
+    automatedIn: tests/api/invoices/post-invoices.spec.ts
     steps:
       - Send POST /invoices with the default user's token, payment_method "cash-on-delivery", payment_details {}, a 71-character billing_street, billing_city "Wien", billing_country "AT" (no billing_postal_code) and a non-empty string as cart_id.
       - Verify the response status is 422.
@@ -46,7 +50,8 @@ scenarios:
   - id: API-0301
     name: Create invoice with a billing city longer than 40 characters returns 422
     ref: docs/ui/user-stories/Checkout_Billing_Address.md#AC1
-    status: manual
+    status: automated
+    automatedIn: tests/api/invoices/post-invoices.spec.ts
     steps:
       - Send POST /invoices with the default user's token, payment_method "cash-on-delivery", payment_details {}, billing_street "Stephansplatz 1", a 41-character billing_city, billing_country "AT" (no billing_postal_code) and a non-empty string as cart_id.
       - Verify the response status is 422.
@@ -54,7 +59,8 @@ scenarios:
   - id: API-0302
     name: Create invoice with a billing state longer than 40 characters returns 422
     ref: docs/ui/user-stories/Checkout_Billing_Address.md#AC1
-    status: manual
+    status: automated
+    automatedIn: tests/api/invoices/post-invoices.spec.ts
     steps:
       - Send POST /invoices with the default user's token, payment_method "cash-on-delivery", payment_details {}, billing_street "Stephansplatz 1", billing_city "Wien", a 41-character billing_state, billing_country "AT" (no billing_postal_code) and a non-empty string as cart_id.
       - Verify the response status is 422.
@@ -62,7 +68,8 @@ scenarios:
   - id: API-0303
     name: Create invoice with a billing country longer than 40 characters returns 422
     ref: docs/ui/user-stories/Checkout_Billing_Address.md#AC1
-    status: manual
+    status: automated
+    automatedIn: tests/api/invoices/post-invoices.spec.ts
     steps:
       - Send POST /invoices with the default user's token, payment_method "cash-on-delivery", payment_details {}, billing_street "Stephansplatz 1", billing_city "Wien", a 41-character billing_country (no billing_postal_code) and a non-empty string as cart_id.
       - Verify the response status is 422.
@@ -70,14 +77,16 @@ scenarios:
   - id: API-0304
     name: Create invoice with a billing postal code longer than 10 characters returns 422
     ref: docs/ui/user-stories/Checkout_Billing_Address.md#AC1
-    status: manual
+    status: automated
+    automatedIn: tests/api/invoices/post-invoices.spec.ts
     steps:
       - Send POST /invoices with the default user's token, payment_method "cash-on-delivery", payment_details {}, billing_street "Stephansplatz 1", billing_city "Wien", billing_country "AT", an 11-character billing_postal_code and a non-empty string as cart_id.
       - Verify the response status is 422.
       - Verify the body has a billing_postal_code key with at least one message.
   - id: API-0485
     name: Create invoice returns 201 with the invoice, its totals and lines
-    status: manual
+    status: automated
+    automatedIn: tests/api/invoices/post-invoices.spec.ts
     steps:
       - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.
       - Send POST /users/login with that email and password, and take its access_token.
@@ -92,7 +101,8 @@ scenarios:
       - Verify GET /invoices/{invoiceId} with the new id and that token returns 200 with exactly one line with the product's id as product_id and quantity 2, and payment.payment_method "cash-on-delivery".
   - id: API-0486
     name: Create invoice for a cart without items returns 201 with a total of 0
-    status: manual
+    status: automated
+    automatedIn: tests/api/invoices/post-invoices.spec.ts
     steps:
       - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.
       - Send POST /users/login with that email and password, and take its access_token.
@@ -103,7 +113,8 @@ scenarios:
       - Verify GET /invoices/{invoiceId} with the new id and that token returns 200 with invoicelines as an empty array.
   - id: API-0487
     name: Create invoice with a bank-transfer payment returns 201
-    status: manual
+    status: automated
+    automatedIn: tests/api/invoices/post-invoices.spec.ts
     steps:
       - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.
       - Send POST /users/login with that email and password, and take its access_token.
@@ -113,7 +124,8 @@ scenarios:
       - Verify GET /invoices/{invoiceId} with the new id and that token returns 200 with payment.payment_method "bank-transfer" and payment.payment_details holding the bank_name, account_name and account_number sent.
   - id: API-0488
     name: Create invoice with a credit-card payment returns 201
-    status: manual
+    status: automated
+    automatedIn: tests/api/invoices/post-invoices.spec.ts
     steps:
       - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.
       - Send POST /users/login with that email and password, and take its access_token.
@@ -123,7 +135,8 @@ scenarios:
       - Verify GET /invoices/{invoiceId} with the new id and that token returns 200 with payment.payment_method "credit-card" and payment.payment_details holding the credit_card_number, expiration_date, cvv and card_holder_name sent.
   - id: API-0489
     name: Create invoice with a buy-now-pay-later payment returns 201
-    status: manual
+    status: automated
+    automatedIn: tests/api/invoices/post-invoices.spec.ts
     steps:
       - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.
       - Send POST /users/login with that email and password, and take its access_token.
@@ -133,7 +146,8 @@ scenarios:
       - Verify GET /invoices/{invoiceId} with the new id and that token returns 200 with payment.payment_method "buy-now-pay-later" and payment.payment_details holding the monthly_installments sent.
   - id: API-0490
     name: Create invoice with a gift-card payment returns 201
-    status: manual
+    status: automated
+    automatedIn: tests/api/invoices/post-invoices.spec.ts
     steps:
       - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.
       - Send POST /users/login with that email and password, and take its access_token.
@@ -143,63 +157,74 @@ scenarios:
       - Verify GET /invoices/{invoiceId} with the new id and that token returns 200 with payment.payment_method "gift-card" and payment.payment_details holding the gift_card_number and validation_code sent.
   - id: API-0491
     name: Create invoice without a token returns 401
-    status: manual
+    status: automated
+    automatedIn: tests/api/invoices/post-invoices.spec.ts
     steps:
       - Send POST /invoices without an Authorization header, with payment_method "cash-on-delivery", payment_details {}, billing_street "Stephansplatz 1", billing_city "Wien", billing_country "AT" and a non-empty string as cart_id.
       - Verify the response status is 401.
       - Verify the body's message is "Unauthorized".
   - id: API-0492
     name: Create invoice without payment_method, payment_details and cart_id returns 422 for each of them
-    status: manual
+    status: automated
+    automatedIn: tests/api/invoices/post-invoices.spec.ts
     steps:
       - Send POST /invoices with the default user's token, billing_street "Stephansplatz 1", billing_city "Wien" and billing_country "AT", without payment_method, payment_details and cart_id.
       - Verify the response status is 422.
       - Verify the body has the keys payment_method, payment_details and cart_id, each with at least one message.
   - id: API-0493
     name: Create invoice with a payment method that is not allowed returns 422
-    status: manual
+    status: automated
+    automatedIn: tests/api/invoices/post-invoices.spec.ts
     steps:
       - Send POST /invoices with the default user's token, payment_method "bitcoin", payment_details {}, billing_street "Stephansplatz 1", billing_city "Wien", billing_country "AT" and a non-empty string as cart_id.
       - Verify the response status is 422.
       - Verify the body has a payment_method key with at least one message.
   - id: API-0494
     name: Create invoice with a gift card number that is not 16 characters returns 422
-    status: manual
+    status: automated
+    automatedIn: tests/api/invoices/post-invoices.spec.ts
     steps:
       - Send POST /invoices with the default user's token, payment_method "gift-card", payment_details with a 15-character gift_card_number and a 4-character validation_code, billing_street "Stephansplatz 1", billing_city "Wien", billing_country "AT" and a non-empty string as cart_id.
       - Verify the response status is 422.
       - Verify the body has a "payment_details.gift_card_number" key with at least one message.
   - id: API-0495
     name: Create invoice with a gift card validation code that is not 4 characters returns 422
-    status: manual
+    status: automated
+    automatedIn: tests/api/invoices/post-invoices.spec.ts
     steps:
       - Send POST /invoices with the default user's token, payment_method "gift-card", payment_details with a 16-character gift_card_number and a 3-character validation_code, billing_street "Stephansplatz 1", billing_city "Wien", billing_country "AT" and a non-empty string as cart_id.
       - Verify the response status is 422.
       - Verify the body has a "payment_details.validation_code" key with at least one message.
   - id: API-0496
     name: Create invoice with a superscript character in the billing street returns 422
-    status: manual
+    status: automated
+    automatedIn: tests/api/invoices/post-invoices.spec.ts
     steps:
       - Send POST /invoices with the default user's token, payment_method "cash-on-delivery", payment_details {}, a billing_street containing the superscript digit four (U+2074), billing_city "Wien", billing_country "AT" and a non-empty string as cart_id.
       - Verify the response status is 422.
       - Verify the body has a billing_street key with at least one message.
   - id: API-0497
     name: Create invoice with a postal code that doesn't match the country returns 422
-    status: manual
+    status: automated
+    automatedIn: tests/api/invoices/post-invoices.spec.ts
     steps:
       - Send POST /invoices with the default user's token, payment_method "cash-on-delivery", payment_details {}, billing_street "Stephansplatz 1", billing_city "Amsterdam", billing_country "NL", a billing_postal_code that doesn't match the Dutch format (for example "ABCDE") and a non-empty string as cart_id.
       - Verify the response status is 422.
       - Verify the body has a billing_country key with at least one message.
   - id: API-0498
     name: Create invoice with an unknown cart returns 404
-    status: manual
+    status: automated
+    automatedIn: tests/api/invoices/post-invoices.spec.ts
     steps:
-      - Send POST /invoices with the default user's token, payment_method "cash-on-delivery", payment_details {}, billing_street "Stephansplatz 1", billing_city "Wien", billing_country "AT" and a well-formed ULID that no cart has as cart_id.
+      - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.
+      - Send POST /users/login with that email and password, and take its access_token.
+      - Send POST /invoices with that access_token, payment_method "cash-on-delivery", payment_details {}, billing_street "Stephansplatz 1", billing_city "Wien", billing_country "AT" and a well-formed ULID that no cart has as cart_id.
       - Verify the response status is 404.
       - Verify the body's message is "Requested item not found".
   - id: API-0499
     name: Create invoice with an unknown cart leaves no invoice behind
-    status: manual
+    status: automated
+    automatedIn: tests/api/invoices/post-invoices.spec.ts
     knownIssue: A failed checkout (unknown cart) leaves an invoice without lines or payment in the customer's invoice list.
     bug: BUG-040
     steps:
@@ -210,7 +235,8 @@ scenarios:
       - Verify the body's total is 0.
   - id: API-0500
     name: Create invoice with payment_details null returns 422
-    status: manual
+    status: automated
+    automatedIn: tests/api/invoices/post-invoices.spec.ts
     knownIssue: Returns 500 instead of 422 when payment_details is null for a method other than gift-card.
     bug: BUG-041
     steps:
@@ -221,8 +247,9 @@ scenarios:
       - Verify the response status is 422.
   - id: API-0501
     name: Create invoice with bank-transfer details missing the required fields returns 422
-    status: manual
-    knownIssue: Returns 404 "Something went wrong" instead of 422 when payment_details lacks the fields the payment method requires.
+    status: automated
+    automatedIn: tests/api/invoices/post-invoices.spec.ts
+    knownIssue: Returns 500 "Something went wrong" instead of 422 when payment_details lacks the fields the payment method requires.
     bug: BUG-041
     steps:
       - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.
