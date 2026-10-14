@@ -30,6 +30,23 @@ export interface ApiCallInfo {
 
 export type ApiCallListener = (call: ApiCallInfo) => void;
 
+/** A file part of a `multipart/form-data` body. */
+export interface MultipartFile {
+  name: string;
+  mimeType: string;
+  buffer: Buffer;
+}
+
+/** The fields of a `multipart/form-data` body: text values or files. */
+export type MultipartForm = Record<string, string | MultipartFile>;
+
+/** What `onApiCall` listeners see for a multipart body: the text fields as sent, each file as its name, type and size (never its bytes). */
+function describeMultipart(form: MultipartForm): Record<string, unknown> {
+  return Object.fromEntries(
+    Object.entries(form).map(([key, value]) => [key, typeof value === 'string' ? value : { name: value.name, mimeType: value.mimeType, size: value.buffer.length }])
+  );
+}
+
 /**
  * Base for all API clients. Requests go through Playwright's APIRequestContext. Listeners registered with `BaseClient.onApiCall` see every call.
  */
@@ -113,12 +130,18 @@ export abstract class BaseClient {
       maxRedirects?: number;
       /** Extra request headers (e.g. `If-None-Match`), set after the defaults and the `accept` option. */
       headers?: Record<string, string>;
+      /**
+       * A `multipart/form-data` body (used instead of `data` and `rawData`). Playwright sets the Content-Type with
+       * its boundary, so don't pass `contentType`. Listeners see the files as name, type and size only.
+       */
+      multipart?: MultipartForm;
     }
   ): Promise<ApiResponse> {
     const fullUrl = this.buildUrl(resourcePath, options?.query);
     const bodyMethods: HttpVerb[] = ['POST', 'PUT', 'PATCH', 'DELETE', 'QUERY'];
-    const hasRawBody = options?.rawData !== undefined && bodyMethods.includes(method);
-    const hasBody = !hasRawBody && options?.data !== undefined && bodyMethods.includes(method);
+    const hasMultipart = options?.multipart !== undefined && bodyMethods.includes(method);
+    const hasRawBody = !hasMultipart && options?.rawData !== undefined && bodyMethods.includes(method);
+    const hasBody = !hasMultipart && !hasRawBody && options?.data !== undefined && bodyMethods.includes(method);
     const contentType = options?.contentType ?? (hasBody ? 'application/json; charset=utf-8' : undefined);
     const headers = this.getHeaders(contentType);
     if (options?.accept === null) {
@@ -136,7 +159,7 @@ export abstract class BaseClient {
         url: fullUrl,
         path: `/${resourcePath.replace(/^\/+/, '')}`,
         query: options?.query || undefined,
-        requestBody: hasRawBody ? options!.rawData : options?.data,
+        requestBody: hasMultipart ? describeMultipart(options!.multipart!) : hasRawBody ? options!.rawData : options?.data,
         status,
         statusText,
         durationMs: Date.now() - startTime,
@@ -147,6 +170,7 @@ export abstract class BaseClient {
         method,
         headers,
         data: hasRawBody ? options!.rawData : hasBody ? JSON.stringify(options!.data) : undefined,
+        ...(hasMultipart ? { multipart: options!.multipart } : {}),
         ...(options?.maxRedirects !== undefined ? { maxRedirects: options.maxRedirects } : {}),
       });
       const bodyText = await response.text();
