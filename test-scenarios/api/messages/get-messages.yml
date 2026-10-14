@@ -4,7 +4,8 @@ tags: ["@messages-api"]
 scenarios:
   - id: API-0343
     name: List messages as a customer returns 200 with only the customer's own messages
-    status: manual
+    status: automated
+    automatedIn: tests/api/messages/get-messages.spec.ts
     steps:
       - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.
       - Send POST /users/login with that email and password, and take its access_token.
@@ -17,7 +18,8 @@ scenarios:
       - Verify that item's subject and message equal the values sent and it has no user key.
   - id: API-0344
     name: List messages as an admin includes guest and customer messages, each with its sender
-    status: manual
+    status: automated
+    automatedIn: tests/api/messages/get-messages.spec.ts
     role: admin
     steps:
       - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.
@@ -30,7 +32,8 @@ scenarios:
       - Verify the body's data includes an item with the guest message's id, with user_id null and user null.
   - id: API-0345
     name: List messages with a page past the last returns 200 with an empty data
-    status: manual
+    status: automated
+    automatedIn: tests/api/messages/get-messages.spec.ts
     steps:
       - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.
       - Send POST /users/login with that email and password, and take its access_token.
@@ -40,21 +43,24 @@ scenarios:
       - Verify the body's data is an empty array.
   - id: API-0346
     name: List messages without a token returns 401
-    status: manual
+    status: automated
+    automatedIn: tests/api/messages/get-messages.spec.ts
     steps:
       - Send GET /messages without an Authorization header.
       - Verify the response status is 401.
       - Verify the body's message is "Unauthorized".
   - id: API-0347
     name: List messages with a malformed token returns 401
-    status: manual
+    status: automated
+    automatedIn: tests/api/messages/get-messages.spec.ts
     steps:
       - Send GET /messages with a malformed token.
       - Verify the response status is 401.
       - Verify the body's message is "Unauthorized".
   - id: API-0348
     name: List messages with a disabled account's token returns 403
-    status: manual
+    status: automated
+    automatedIn: tests/api/messages/get-messages.spec.ts
     role: admin
     steps:
       - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.
@@ -65,7 +71,8 @@ scenarios:
       - Verify the body's message is "Account disabled.".
   - id: API-0349
     name: List messages of a customer without messages returns 200 with an empty list
-    status: manual
+    status: automated
+    automatedIn: tests/api/messages/get-messages.spec.ts
     steps:
       - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.
       - Send POST /users/login with that email and password, and take its access_token.

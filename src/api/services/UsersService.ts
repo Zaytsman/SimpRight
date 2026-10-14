@@ -11,6 +11,11 @@ import { assertOk, parseOk } from './serviceUtils';
 export class UsersService {
   constructor(private readonly client: UsersClient) {}
 
+  /** The token's user from `GET /users/me` (`role` only for an admin). */
+  async me(): Promise<User> {
+    return parseOk(await this.client.me(), 'get the current user');
+  }
+
   async register(body: RegisterUserRequest): Promise<RegisteredUser> {
     return parseOk(await this.client.register(body), 'register a customer');
   }

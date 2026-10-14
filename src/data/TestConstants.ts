@@ -78,6 +78,10 @@ export const TestConstants = {
     /** The seeded product limited to one per cart: a quantity above 1, or adding it twice, returns 400 (the rule matches the name). */
     thorHammer: 'Thor Hammer',
   },
+  messages: {
+    /** A well-formed ULID that no message has (the same value as products.unknownId: no created record can have it). */
+    unknownId: '01ZZZZZZZZZZZZZZZZZZZZZZZZ',
+  },
   reports: {
     /** A year with no invoices: seeded invoices fall in the 5 years before the seeding, and new ones get the current date. */
     yearWithoutInvoices: 1990,

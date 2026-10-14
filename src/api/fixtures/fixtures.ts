@@ -6,6 +6,7 @@ import { CategoriesClient } from '../clients/CategoriesClient';
 import { FavoritesClient } from '../clients/FavoritesClient';
 import { ImagesClient } from '../clients/ImagesClient';
 import { InvoicesClient } from '../clients/InvoicesClient';
+import { MessagesClient } from '../clients/MessagesClient';
 import { PaymentClient } from '../clients/PaymentClient';
 import { PostcodeClient } from '../clients/PostcodeClient';
 import { ProductsClient } from '../clients/ProductsClient';
@@ -21,6 +22,7 @@ import { CategoriesService } from '../services/CategoriesService';
 import { FavoritesService } from '../services/FavoritesService';
 import { ImagesService } from '../services/ImagesService';
 import { InvoicesService } from '../services/InvoicesService';
+import { MessagesService } from '../services/MessagesService';
 import { UsersService } from '../services/UsersService';
 
 /** Not a JWT at all, so the API can't parse it and treats the request as unauthenticated. */
@@ -124,6 +126,20 @@ export type ApiFixtures = {
   reportsClientWithInvalidToken: ReportsClient;
   /** Builds a reports client with a token the test obtained itself (a throwaway customer's, for the rate limit check). */
   reportsClientForToken: (token: string) => ReportsClient;
+  /** Messages endpoints with no token: guest messages, the file attachment and the "no token" 401 checks. */
+  messagesClient: MessagesClient;
+  /** Guest message operations (setup sends guest messages); no token. */
+  messagesService: MessagesService;
+  /** Messages endpoints authenticated as the test's `role` ("with the admin's token" or "with the default user's token"). */
+  messagesClientWithToken: MessagesClient;
+  /** Message operations as the test's `role` (setup replies and status changes; messages of the run's customer). */
+  messagesServiceWithToken: MessagesService;
+  /** Sends a fixed malformed bearer token (`INVALID_TOKEN`), for the "malformed token" checks. */
+  messagesClientWithInvalidToken: MessagesClient;
+  /** Builds a messages client with a token the test obtained itself (a throwaway customer's). */
+  messagesClientForToken: (token: string) => MessagesClient;
+  /** Builds a messages service with a token the test obtained itself (setup sends a throwaway customer's messages). */
+  messagesServiceForToken: (token: string) => MessagesService;
 };
 
 export const test = base.extend<ApiFixtures>({
@@ -289,6 +305,28 @@ export const test = base.extend<ApiFixtures>({
   },
   reportsClientForToken: async ({ request, config }, use) => {
     await use((token: string) => new ReportsClient(request, config, token));
+  },
+
+  messagesClient: async ({ request, config }, use) => {
+    await use(new MessagesClient(request, config));
+  },
+  messagesService: async ({ messagesClient }, use) => {
+    await use(new MessagesService(messagesClient));
+  },
+  messagesClientWithToken: async ({ request, config, accessToken }, use) => {
+    await use(new MessagesClient(request, config, accessToken));
+  },
+  messagesServiceWithToken: async ({ messagesClientWithToken }, use) => {
+    await use(new MessagesService(messagesClientWithToken));
+  },
+  messagesClientWithInvalidToken: async ({ request, config }, use) => {
+    await use(new MessagesClient(request, config, INVALID_TOKEN));
+  },
+  messagesClientForToken: async ({ request, config }, use) => {
+    await use((token: string) => new MessagesClient(request, config, token));
+  },
+  messagesServiceForToken: async ({ messagesClientForToken }, use) => {
+    await use((token: string) => new MessagesService(messagesClientForToken(token)));
   },
 });
 

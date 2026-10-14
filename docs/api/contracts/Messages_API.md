@@ -16,7 +16,7 @@ The contact form of the Toolshop API (the spec's tag is `Contact`): a visitor, g
 - A restricted token (the intermediate token of the two-factor login flow, with the `restricted` claim) gets `401` with `{ message: "Unauthorized token usage" }` on the protected endpoints. _(source)_
 - **There is no role check on any endpoint** (`RoleMiddleware` isn't applied here). The JWT's `role` claim (`admin` or `user`) only changes what `GET /messages` and `GET /messages/{messageId}` return: an admin reads every message, any other user only the messages whose `user_id` is theirs. Replying to a message and setting its status are open to every logged-in user, whatever the message's owner (see Notes). _(source)_
 - `POST /messages` reads the token optionally: with a valid token the message gets the token's `user_id`; without one, or with a token that doesn't validate, it is a guest message with `user_id` unset. The account-state check below doesn't run there. _(source)_
-- **Account state, shared by the four protected endpoints:** a disabled account (`enabled: false`) gets `403` with `{ message: "Account disabled." }`. The middleware caches the user for 60 seconds, so a change can take up to a minute to apply. It is not documented per endpoint. _(source)_
+- **Account state, shared by the four protected endpoints:** a disabled account (`enabled: false`) gets `403` with `{ message: "Account disabled." }` (observed on `GET /messages`) _(verified)_. The middleware caches the user for 60 seconds, so a change can take up to a minute to apply. It is not documented per endpoint. _(source)_
 
 ## Endpoints Overview
 
@@ -56,7 +56,7 @@ Returns a page of contact messages, newest `created_at` first, 15 per page. An a
 |---|---|---|---|
 | `page` | integer | No | Page number, starting at 1 _(spec)_ |
 
-**Response:** `200 OK` _(source)_
+**Response:** `200 OK` _(verified)_
 ```ts
 {
   current_page: number;
@@ -69,7 +69,7 @@ Returns a page of contact messages, newest `created_at` first, 15 per page. An a
 }
 ```
 
-`PaginateMiddleware` removes `first_page_url`, `links`, `last_page_url`, `next_page_url`, `prev_page_url` and `path` from the paginator's output. An empty list is `200` with `data: []`. The service's tests assert the `data[]` item structure (`id`, `user_id`, `email`, `subject`, `message`, `created_at`) for an admin and for a customer. _(source)_ Invalid `page` values and pages past the end are handled by the framework's paginator (read as page 1, and an empty `data`); not observed. _(source)_
+`PaginateMiddleware` removes `first_page_url`, `links`, `last_page_url`, `next_page_url`, `prev_page_url` and `path` from the paginator's output. An empty list is `200` with `data: []`, and a page past the end is `200` with an empty `data` _(verified)_. The service's tests assert the `data[]` item structure (`id`, `user_id`, `email`, `subject`, `message`, `created_at`) for an admin and for a customer. _(source)_ Invalid `page` values are read as page 1 by the framework's paginator; not observed. _(source)_
 
 **Error Responses:**
 - `401 Unauthorized`: no token, or a malformed token, with `{ message: "Unauthorized" }` _(verified)_; an expired token gives the same _(source)_
@@ -98,7 +98,7 @@ Stores a contact message with status `NEW`. Guests and logged-in users can send 
 
 Each text field must not contain subscript or superscript characters (U+2070 to U+209F). `subject` and `message` must be strings. `email` has `sometimes`, not `nullable`: omit it rather than sending `null` or `""` (the global `ConvertEmptyStringsToNull` middleware turns `""` into `null`); by Laravel's rules a `null` email fails the `email` rule, which is not verified. Unknown keys such as `first_name` and `last_name` (the service's tests send them) are ignored, because they are not in the model's `fillable` list; but the validated and unvalidated `fillable` keys `user_id`, `parent_id` and `status` are read from the body (see Notes). _(source)_
 
-**Response:** `200 OK` _(source)_
+**Response:** `200 OK` _(verified)_
 ```ts
 ContactMessage   // see Data Models: the created message, not { success: true } as the spec says
 ```
@@ -106,7 +106,7 @@ ContactMessage   // see Data Models: the created message, not { success: true } 
 The service's tests assert `200` and the keys `id`, `email`, `subject`, `message`, `created_at` for a guest, plus `user_id` for a logged-in user. The spec documents `{ success: boolean }`. _(source)_
 
 **Error Responses:**
-- `422 Unprocessable Entity`: a field fails validation: `subject` or `message` is missing, empty or not a string; a field is longer than its limit; `email` is not a valid email; a field has subscript or superscript characters. The body is a map of field to messages without a wrapper (`BaseFormRequest`), e.g. `{ subject: ["The subject field is required."] }`, and it is JSON whatever the `Accept` header _(source)_
+- `422 Unprocessable Entity`: a field fails validation: `subject` and `message` missing, a field longer than its limit, `email` not a valid email, a subscript character in a field. The body is a map of field to messages without a wrapper (`BaseFormRequest`), e.g. `{ subject: ["The subject field is required."] }` _(verified)_. An empty or non-string `subject` or `message` and superscript characters are rejected the same way, and the body is JSON whatever the `Accept` header _(source)_
 - `500 Internal Server Error`: `name` has 61 to 120 characters (the validation allows 120, the `contact_requests.name` column is `varchar(60)` and the database runs in strict mode), or the body has a `parent_id` key (a `fillable` attribute that has no column), or a guest sends a `user_id` longer than 26 characters; the database error maps to `{ message: "Something went wrong" }`; suspected bug, should be `422` or ignored _(source)_
 
 **Example:**
@@ -137,7 +137,7 @@ Returns one message with its sender and its replies (each reply with its author)
 |---|---|---|---|
 | `messageId` | string (ULID) | Yes | The message's id (named `{id}` in the route) |
 
-**Response:** `200 OK` _(source)_
+**Response:** `200 OK` _(verified)_
 ```ts
 ContactMessageDetail   // see Data Models
 ```
@@ -174,7 +174,7 @@ Adds a reply to a message and sets the message to `IN_PROGRESS` first, whatever 
 
 Only `message` is read (`$request->all(['message'])`). The spec's request body is the contact form (`name`, `email`, `subject`, `message`, with `subject` required); the code needs and uses only `message`. _(source)_
 
-**Response:** `201 Created` _(source)_
+**Response:** `201 Created` _(verified)_
 ```ts
 ContactReply   // see Data Models
 ```
@@ -183,7 +183,7 @@ The service's test asserts `201` and the keys `message` and `created_at`; the sp
 
 **Error Responses:**
 - `401 Unauthorized`: no token, or a malformed token, with `{ message: "Unauthorized" }`; checked before the body and the id _(verified)_
-- `422 Unprocessable Entity`: `message` is missing, empty, not a string, longer than 250 characters or has subscript or superscript characters. The body is a map of field to messages without a wrapper, e.g. `{ message: ["The message field is required."] }` (asserted by the service's tests). The validation runs before the lookup, so an unknown id with an invalid body gives `422` _(source)_
+- `422 Unprocessable Entity`: `message` is missing, longer than 250 characters or has a subscript character. The body is a map of field to messages without a wrapper, e.g. `{ message: ["The message field is required."] }`. The validation runs before the lookup, so an unknown id with an invalid body gives `422` _(verified)_. An empty or non-string `message` and superscript characters are rejected the same way (asserted by the service's tests) _(source)_
 - `500 Internal Server Error`: no message with this id exists; nothing checks it, and the insert breaks the foreign key `contact_request_replies.message_id`, which the handler maps to `{ message: "Something went wrong" }`; suspected bug, should be `404` _(source)_
 
 **Example:**
@@ -224,9 +224,9 @@ Checks a file uploaded for a message. The service only validates the upload and 
 }
 ```
 
-The checks run in this order and the first failure is returned alone: no file; a file that isn't empty (a file with a wrong extension and content gets this message); an extension other than `txt`. The extension comparison is case-sensitive (`TXT` is rejected). _(source)_
+The checks run in this order and the first failure is returned alone: no file; a file that isn't empty (a file with a wrong extension and content gets this message); an extension other than `txt`. The extension comparison is case-sensitive (`TXT` is rejected). _(verified)_
 
-**Response:** `200 OK` _(source)_
+**Response:** `200 OK` _(verified)_
 ```ts
 {
   success: boolean;   // true
@@ -278,7 +278,7 @@ Sets the status of a message to `NEW`, `IN_PROGRESS` or `RESOLVED`. There is no 
 
 The spec doesn't mark `status` required and lists `ON_HOLD` among the values; the inline validation (`required|in:NEW,IN_PROGRESS,RESOLVED`) requires it and rejects `ON_HOLD`. _(source)_
 
-**Response:** `200 OK` _(source)_
+**Response:** `200 OK` _(verified)_
 ```ts
 {
   success: boolean;   // true
@@ -289,8 +289,8 @@ The service's test asserts `200` and the exact body `{ success: true }` for `RES
 
 **Error Responses:**
 - `401 Unauthorized`: no token, or a malformed token, with `{ message: "Unauthorized" }`; checked before the body and the id _(verified)_
-- `404 Not Found`: no message with this id (`findOrFail`), with `{ message: "Requested item not found" }` from the global handler. The validation runs first, so an unknown id with an invalid body gives `422` _(source)_
-- `422 Unprocessable Entity`: `status` is missing or not one of the allowed values (`ON_HOLD`, a lower-case value). The inline validation returns Laravel's default `{ message: string; errors: { status: string[] } }` (framework default, not the `BaseFormRequest` shape), and only with `Accept: application/json`; the service's test asserts `422` with an error on `status` for a missing and a wrong value _(source)_
+- `404 Not Found`: no message with this id (`findOrFail`), with `{ message: "Requested item not found" }` from the global handler. The validation runs first, so an unknown id with an invalid body gives `422` _(verified)_
+- `422 Unprocessable Entity`: `status` is missing or not one of the allowed values (`ON_HOLD`, a lower-case value), with an `errors.status` list, sent with `Accept: application/json` _(verified)_. The inline validation returns Laravel's default `{ message: string; errors: { status: string[] } }` (framework default, not the `BaseFormRequest` shape), and only with `Accept: application/json`; the service's test asserts `422` with an error on `status` for a missing and a wrong value _(source)_
 
 **Example:**
 ```http

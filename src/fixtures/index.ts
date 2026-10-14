@@ -117,3 +117,22 @@ export {
   expectNonIncreasing,
   type ReportRequest,
 } from '../api/fixtures/reportSteps';
+export {
+  GUEST_MESSAGE_STEP,
+  CUSTOMER_MESSAGE_STEP,
+  MESSAGE_AUTH,
+  sendMessageSetup,
+  createGuestMessage,
+  createCustomerMessage,
+  takeOwnUserId,
+  sendGetMessage,
+  readMessageOk,
+  expectMessageStatus,
+  setStatusSetup,
+  expectNoReplies,
+  messagePageSummary,
+  sendListMessages,
+  expectListStatus,
+  type SentMessage,
+  type MessageRequest,
+} from '../api/fixtures/messageSteps';

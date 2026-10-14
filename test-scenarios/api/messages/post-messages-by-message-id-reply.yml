@@ -4,7 +4,8 @@ tags: ["@messages-api"]
 scenarios:
   - id: API-0372
     name: Reply to a message returns 201 and sets the message to IN_PROGRESS with the reply listed
-    status: manual
+    status: automated
+    automatedIn: tests/api/messages/post-messages-by-message-id-reply.spec.ts
     role: admin
     steps:
       - Send POST /messages without an Authorization header, with a unique subject and a message text, and take the new message's id.
@@ -16,7 +17,8 @@ scenarios:
       - Verify GET /messages/{messageId} with that id and the admin's token returns 200 with status "IN_PROGRESS" and a replies list with exactly one item, with the reply's id as id, the text sent as message and the admin's id as its user's id.
   - id: API-0373
     name: Reply to a resolved message returns 201 and reopens it as IN_PROGRESS
-    status: manual
+    status: automated
+    automatedIn: tests/api/messages/post-messages-by-message-id-reply.spec.ts
     role: admin
     steps:
       - Send POST /messages without an Authorization header, with a unique subject and a message text, and take the new message's id.
@@ -26,21 +28,24 @@ scenarios:
       - Verify GET /messages/{messageId} with that id and the admin's token returns 200 with status "IN_PROGRESS".
   - id: API-0374
     name: Reply to a message without a token returns 401
-    status: manual
+    status: automated
+    automatedIn: tests/api/messages/post-messages-by-message-id-reply.spec.ts
     steps:
       - Send POST /messages/{messageId}/reply without an Authorization header, with a well-formed message id that doesn't exist and a body with a message text.
       - Verify the response status is 401.
       - Verify the body's message is "Unauthorized".
   - id: API-0375
     name: Reply to a message with a malformed token returns 401
-    status: manual
+    status: automated
+    automatedIn: tests/api/messages/post-messages-by-message-id-reply.spec.ts
     steps:
       - Send POST /messages/{messageId}/reply with a malformed token, a well-formed message id that doesn't exist and a body with a message text.
       - Verify the response status is 401.
       - Verify the body's message is "Unauthorized".
   - id: API-0376
     name: Reply without message returns 422 and adds nothing
-    status: manual
+    status: automated
+    automatedIn: tests/api/messages/post-messages-by-message-id-reply.spec.ts
     role: admin
     steps:
       - Send POST /messages without an Authorization header, with a unique subject and a message text, and take the new message's id.
@@ -50,7 +55,8 @@ scenarios:
       - Verify GET /messages/{messageId} with that id and the admin's token returns 200 with status "NEW" and an empty replies list.
   - id: API-0377
     name: Reply with a message longer than 250 characters returns 422
-    status: manual
+    status: automated
+    automatedIn: tests/api/messages/post-messages-by-message-id-reply.spec.ts
     role: admin
     steps:
       - Send POST /messages without an Authorization header, with a unique subject and a message text, and take the new message's id.
@@ -59,7 +65,8 @@ scenarios:
       - Verify the body has a message key with at least one message.
   - id: API-0378
     name: Reply with a subscript character in the message returns 422
-    status: manual
+    status: automated
+    automatedIn: tests/api/messages/post-messages-by-message-id-reply.spec.ts
     role: admin
     steps:
       - Send POST /messages without an Authorization header, with a unique subject and a message text, and take the new message's id.
@@ -68,7 +75,8 @@ scenarios:
       - Verify the body has a message key with at least one message.
   - id: API-0379
     name: Reply with an invalid body to an unknown message id returns 422, not 500
-    status: manual
+    status: automated
+    automatedIn: tests/api/messages/post-messages-by-message-id-reply.spec.ts
     role: admin
     steps:
       - Send POST /messages/{messageId}/reply with a well-formed message id that doesn't exist, the admin's token and an empty JSON object as the body.
@@ -77,7 +85,8 @@ scenarios:
   - id: API-0380
     name: Reply to an unknown message id returns 404
     ref: BUG-030
-    status: manual
+    status: automated
+    automatedIn: tests/api/messages/post-messages-by-message-id-reply.spec.ts
     role: admin
     knownIssue: Returns 500 for a reply to an unknown message id instead of 404.
     bug: BUG-030
