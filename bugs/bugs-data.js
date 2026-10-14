@@ -2,8 +2,8 @@
 window.BUG_CATALOG = {
  "title": "Bugs",
  "prefix": "BUG",
- "generatedAt": "2026-10-14T18:35:21.179Z",
- "commit": "37a4950c7edd3d9f2c99c01825110a8825549a82",
+ "generatedAt": "2026-10-14T20:28:22.310Z",
+ "commit": "613c3e5763bba7e7c6a68462402a9510e37a5444",
  "repoUrl": "https://github.com/Zaytsman/SimpRight",
  "branch": "main",
  "bugsDir": "bugs",
@@ -26,9 +26,9 @@ window.BUG_CATALOG = {
   }
  ],
  "stats": {
-  "total": 44,
+  "total": 45,
   "open": 44,
-  "fixed": 0,
+  "fixed": 1,
   "wontFix": 0
  },
  "bugs": [
@@ -1069,7 +1069,9 @@ window.BUG_CATALOG = {
      "layer": "api",
      "area": "invoices",
      "file": "test-scenarios/api/invoices/put-invoices-by-invoice-id-status.yml",
-     "status": "manual",
+     "status": "automated",
+     "automatedIn": "tests/api/invoices/put-invoices-by-invoice-id-status.spec.ts",
+     "specLine": 256,
      "knownIssue": "Any logged-in customer can change the status of another customer's invoice (the call succeeds) instead of being refused."
     }
    ]
@@ -1108,7 +1110,9 @@ window.BUG_CATALOG = {
      "layer": "api",
      "area": "invoices",
      "file": "test-scenarios/api/invoices/put-invoices-by-invoice-id-status.yml",
-     "status": "manual",
+     "status": "automated",
+     "automatedIn": "tests/api/invoices/put-invoices-by-invoice-id-status.spec.ts",
+     "specLine": 280,
      "knownIssue": "Writes any column sent in the body (the total is changed) instead of only status and status_message."
     },
     {
@@ -1117,7 +1121,9 @@ window.BUG_CATALOG = {
      "layer": "api",
      "area": "invoices",
      "file": "test-scenarios/api/invoices/put-invoices-by-invoice-id-status.yml",
-     "status": "manual",
+     "status": "automated",
+     "automatedIn": "tests/api/invoices/put-invoices-by-invoice-id-status.spec.ts",
+     "specLine": 315,
      "knownIssue": "Returns 500 for a body key that is not a column of invoices instead of 422 or ignoring the key."
     }
    ]
@@ -1155,8 +1161,130 @@ window.BUG_CATALOG = {
      "layer": "api",
      "area": "invoices",
      "file": "test-scenarios/api/invoices/put-invoices-by-invoice-id.yml",
-     "status": "manual",
+     "status": "automated",
+     "automatedIn": "tests/api/invoices/put-invoices-by-invoice-id.spec.ts",
+     "specLine": 248,
      "knownIssue": "Writes the unvalidated total from the body (and other fillable keys such as user_id) instead of ignoring them."
+    }
+   ]
+  },
+  {
+   "id": "BUG-041",
+   "title": "Create invoice with null or incomplete payment_details returns 500 instead of 422",
+   "status": "open",
+   "severity": "major",
+   "layer": "api",
+   "area": "invoices",
+   "affects": [
+    "POST /invoices",
+    "POST /invoices/guest"
+   ],
+   "found": "2026-10-11",
+   "ref": [
+    "docs/api/contracts/Invoices_API.md#8-create-invoice",
+    "docs/api/contracts/Invoices_API.md#9-create-guest-invoice"
+   ],
+   "description": "payment_details is only required to be present; only gift-card details have validation rules. null fails in the controller (Arr::except and handlePayment(array $details)) with a PHP type error, answered as 500 \"Server Error\". For the other methods the details go straight into the method's table: a missing NOT NULL column (bank_name, account_name, account_number for bank-transfer) is MySQL error 1364 with SQLSTATE HY000, and app/Exceptions/Handler.php checks HY000 before the error code, so it answers 500 \"Something went wrong\" (its 1364 -> 404 branch is never reached); an unknown key or a too long value gives 500 too. The invoice row exists by then (BUG-040).",
+   "steps": [
+    "Register a customer and log in.",
+    "Send POST /carts with an empty body and take the returned id as the cart's id.",
+    "Send POST /invoices with the customer's token, payment_method \"bank-transfer\", payment_details null, billing_street \"Stephansplatz 1\", billing_city \"Wien\", billing_country \"AT\" and the cart's id as cart_id.",
+    "Send the same POST /invoices with payment_details {}.",
+    "Send POST /invoices/guest without an Authorization header, with payment_method \"bank-transfer\", payment_details null, the same billing fields, the cart's id as cart_id, a unique guest_email, a guest_first_name and a guest_last_name."
+   ],
+   "expected": "422 naming payment_details (or its missing bank_name, account_name and account_number) for each request, and no invoice created.",
+   "actual": "500 for each request: { message: \"Server Error\" } for null on both endpoints, and { message: \"Something went wrong\" } for {} on POST /invoices (reproduced live on 2026-10-14: API-0500, API-0508, API-0501). The {} case on POST /invoices/guest is from the source code.",
+   "evidence": "2026-10-14 18:54 UTC, throwaway customers (token ***), an empty cart from POST /carts for each request,\nbilling_street \"Stephansplatz 1\", billing_city \"Wien\", billing_country \"AT\":\nPOST /invoices { payment_method: \"bank-transfer\", payment_details: null, ... } -> 500 { message: \"Server Error\" } (API-0500)\nPOST /invoices { payment_method: \"bank-transfer\", payment_details: {}, ... } -> 500 { message: \"Something went wrong\" } (API-0501)\nPOST /invoices/guest { payment_method: \"bank-transfer\", payment_details: null, guest fields, ... }\n  -> 500 { message: \"Server Error\" } (API-0508)\nSource (sprint5/API, c6032ad): StoreInvoice and InvoiceController::storeGuest (\"payment_details\" => ['present']);\nInvoiceController::store and storeGuest (Arr::except on payment_details); Handler.php (HY000 checked before 1364);\nmigration payment_bank_transfer_details (bank_name, account_name, account_number NOT NULL).",
+   "file": "bugs/BUG-041.yml",
+   "yaml": "id: BUG-041\ntitle: Create invoice with null or incomplete payment_details returns 500 instead of 422\nstatus: open\nseverity: major\nlayer: api\narea: invoices\naffects:\n  - POST /invoices\n  - POST /invoices/guest\nfound: 2026-10-11\nref:\n  - docs/api/contracts/Invoices_API.md#8-create-invoice\n  - docs/api/contracts/Invoices_API.md#9-create-guest-invoice\ndescription: >-\n  payment_details is only required to be present; only gift-card details have validation rules. null fails in the\n  controller (Arr::except and handlePayment(array $details)) with a PHP type error, answered as 500 \"Server Error\".\n  For the other methods the details go straight into the method's table: a missing NOT NULL column (bank_name,\n  account_name, account_number for bank-transfer) is MySQL error 1364 with SQLSTATE HY000, and app/Exceptions/Handler.php\n  checks HY000 before the error code, so it answers 500 \"Something went wrong\" (its 1364 -> 404 branch is never reached);\n  an unknown key or a too long value gives 500 too. The invoice row exists by then (BUG-040).\nsteps:\n  - Register a customer and log in.\n  - Send POST /carts with an empty body and take the returned id as the cart's id.\n  - Send POST /invoices with the customer's token, payment_method \"bank-transfer\", payment_details null, billing_street \"Stephansplatz 1\", billing_city \"Wien\", billing_country \"AT\" and the cart's id as cart_id.\n  - Send the same POST /invoices with payment_details {}.\n  - Send POST /invoices/guest without an Authorization header, with payment_method \"bank-transfer\", payment_details null, the same billing fields, the cart's id as cart_id, a unique guest_email, a guest_first_name and a guest_last_name.\nexpected: \"422 naming payment_details (or its missing bank_name, account_name and account_number) for each request, and no invoice created.\"\nactual: >-\n  500 for each request: { message: \"Server Error\" } for null on both endpoints, and { message: \"Something went wrong\" }\n  for {} on POST /invoices (reproduced live on 2026-10-14: API-0500, API-0508, API-0501). The {} case on\n  POST /invoices/guest is from the source code.\nevidence: |-\n  2026-10-14 18:54 UTC, throwaway customers (token ***), an empty cart from POST /carts for each request,\n  billing_street \"Stephansplatz 1\", billing_city \"Wien\", billing_country \"AT\":\n  POST /invoices { payment_method: \"bank-transfer\", payment_details: null, ... } -> 500 { message: \"Server Error\" } (API-0500)\n  POST /invoices { payment_method: \"bank-transfer\", payment_details: {}, ... } -> 500 { message: \"Something went wrong\" } (API-0501)\n  POST /invoices/guest { payment_method: \"bank-transfer\", payment_details: null, guest fields, ... }\n    -> 500 { message: \"Server Error\" } (API-0508)\n  Source (sprint5/API, c6032ad): StoreInvoice and InvoiceController::storeGuest (\"payment_details\" => ['present']);\n  InvoiceController::store and storeGuest (Arr::except on payment_details); Handler.php (HY000 checked before 1364);\n  migration payment_bank_transfer_details (bank_name, account_name, account_number NOT NULL).",
+   "scenarios": [
+    {
+     "id": "API-0508",
+     "name": "Create guest invoice with payment_details null returns 422",
+     "layer": "api",
+     "area": "invoices",
+     "file": "test-scenarios/api/invoices/post-invoices-guest.yml",
+     "status": "automated",
+     "automatedIn": "tests/api/invoices/post-invoices-guest.spec.ts",
+     "specLine": 177,
+     "knownIssue": "Returns 500 instead of 422 when payment_details is null for a method other than gift-card."
+    },
+    {
+     "id": "API-0500",
+     "name": "Create invoice with payment_details null returns 422",
+     "layer": "api",
+     "area": "invoices",
+     "file": "test-scenarios/api/invoices/post-invoices.yml",
+     "status": "automated",
+     "automatedIn": "tests/api/invoices/post-invoices.spec.ts",
+     "specLine": 602,
+     "knownIssue": "Returns 500 instead of 422 when payment_details is null for a method other than gift-card."
+    },
+    {
+     "id": "API-0501",
+     "name": "Create invoice with bank-transfer details missing the required fields returns 422",
+     "layer": "api",
+     "area": "invoices",
+     "file": "test-scenarios/api/invoices/post-invoices.yml",
+     "status": "automated",
+     "automatedIn": "tests/api/invoices/post-invoices.spec.ts",
+     "specLine": 630,
+     "knownIssue": "Returns 500 \"Something went wrong\" instead of 422 when payment_details lacks the fields the payment method requires."
+    }
+   ]
+  },
+  {
+   "id": "BUG-047",
+   "title": "Invoice PDF generation never completes: status stays INITIATED",
+   "status": "open",
+   "severity": "major",
+   "layer": "api",
+   "area": "invoices",
+   "affects": [
+    "GET /invoices/{invoice_number}/download-pdf",
+    "GET /invoices/{invoice_number}/download-pdf-status"
+   ],
+   "found": "2026-10-14",
+   "ref": [
+    "docs/api/contracts/Invoices_API.md#5-download-invoice-pdf",
+    "docs/api/contracts/Invoices_API.md#6-get-pdf-generation-status",
+    "docs/api/contracts/Invoices_API.md#notes"
+   ],
+   "description": "Major because a whole feature doesn't work: no customer can download an invoice PDF. The scheduled invoice:generate command (every minute) does create the download row (INITIATED) for a new invoice, but the queued CreateInvoicePDF job, which should move it to IN_PROGRESS and then COMPLETED and write the file, never finishes on the deployed site. So the status endpoint reports INITIATED indefinitely and the download endpoint answers 404. The cause (a stopped queue worker or a failing job) isn't visible from the API.",
+   "steps": [
+    "Register a customer and log in.",
+    "Send POST /carts with an empty body and take the cart's id.",
+    "Send POST /invoices with the customer's token, payment_method \"cash-on-delivery\", payment_details {}, billing_street \"Stephansplatz 1\", billing_city \"Wien\", billing_country \"AT\" and the cart's id, and take the invoice_number.",
+    "Send GET /invoices/{invoice_number}/download-pdf-status with the customer's token every few seconds for a few minutes.",
+    "Send GET /invoices/{invoice_number}/download-pdf with the customer's token."
+   ],
+   "expected": "Within a few minutes (the PDF jobs run every minute) the status endpoint answers 200 with status COMPLETED, and the download answers 200 with the PDF and Content-Disposition \"attachment; filename=<invoice_number>.pdf\".",
+   "actual": "The status endpoint answers 200 with status INITIATED on every call and never reaches COMPLETED; the download answers 404 with { \"message\": \"Document not created. Try again later.\" }.",
+   "evidence": "2026-10-14, live, throwaway customers' tokens:\n  API-0471 (tests/api/invoices/get-invoices-by-invoice-number-download-pdf-status.spec.ts): invoice INV-2026000086,\n  created about 18:42 UTC, polled every 5 s for 210 s -> 200 { \"status\": \"INITIATED\" } on every poll.\n  API-0468 (tests/api/invoices/get-invoices-by-invoice-number-download-pdf.spec.ts): invoice INV-2026000087, same\n  polling, then GET /invoices/INV-2026000087/download-pdf -> 404 (JSON body, 52 bytes).\nRead-only probe at 18:46 UTC with the default user's token (the status endpoint doesn't check the owner):\n  INV-2026000010, INV-2026000030, INV-2026000059, INV-2026000086, INV-2026000087 -> 200 { \"status\": \"INITIATED\" };\n  INV-2026000001, INV-2025000001, INV-2024000005 -> 400 { \"status\": \"NOT_INITIATED\" }.\nINV-2026000010 was created after the 18:00 UTC re-seed, so its job had been INITIATED for several minutes or more.",
+   "file": "bugs/BUG-047.yml",
+   "yaml": "id: BUG-047\ntitle: \"Invoice PDF generation never completes: status stays INITIATED\"\nstatus: open\nseverity: major\nlayer: api\narea: invoices\naffects:\n  - GET /invoices/{invoice_number}/download-pdf\n  - GET /invoices/{invoice_number}/download-pdf-status\nfound: 2026-10-14\nref:\n  - docs/api/contracts/Invoices_API.md#5-download-invoice-pdf\n  - docs/api/contracts/Invoices_API.md#6-get-pdf-generation-status\n  - docs/api/contracts/Invoices_API.md#notes\ndescription: >-\n  Major because a whole feature doesn't work: no customer can download an invoice PDF. The scheduled\n  invoice:generate command (every minute) does create the download row (INITIATED) for a new invoice, but the\n  queued CreateInvoicePDF job, which should move it to IN_PROGRESS and then COMPLETED and write the file, never\n  finishes on the deployed site. So the status endpoint reports INITIATED indefinitely and the download endpoint\n  answers 404. The cause (a stopped queue worker or a failing job) isn't visible from the API.\nsteps:\n  - Register a customer and log in.\n  - Send POST /carts with an empty body and take the cart's id.\n  - Send POST /invoices with the customer's token, payment_method \"cash-on-delivery\", payment_details {}, billing_street \"Stephansplatz 1\", billing_city \"Wien\", billing_country \"AT\" and the cart's id, and take the invoice_number.\n  - Send GET /invoices/{invoice_number}/download-pdf-status with the customer's token every few seconds for a few minutes.\n  - Send GET /invoices/{invoice_number}/download-pdf with the customer's token.\nexpected: >-\n  Within a few minutes (the PDF jobs run every minute) the status endpoint answers 200 with status COMPLETED, and the\n  download answers 200 with the PDF and Content-Disposition \"attachment; filename=<invoice_number>.pdf\".\nactual: >-\n  The status endpoint answers 200 with status INITIATED on every call and never reaches COMPLETED; the download\n  answers 404 with { \"message\": \"Document not created. Try again later.\" }.\nevidence: |-\n  2026-10-14, live, throwaway customers' tokens:\n    API-0471 (tests/api/invoices/get-invoices-by-invoice-number-download-pdf-status.spec.ts): invoice INV-2026000086,\n    created about 18:42 UTC, polled every 5 s for 210 s -> 200 { \"status\": \"INITIATED\" } on every poll.\n    API-0468 (tests/api/invoices/get-invoices-by-invoice-number-download-pdf.spec.ts): invoice INV-2026000087, same\n    polling, then GET /invoices/INV-2026000087/download-pdf -> 404 (JSON body, 52 bytes).\n  Read-only probe at 18:46 UTC with the default user's token (the status endpoint doesn't check the owner):\n    INV-2026000010, INV-2026000030, INV-2026000059, INV-2026000086, INV-2026000087 -> 200 { \"status\": \"INITIATED\" };\n    INV-2026000001, INV-2025000001, INV-2024000005 -> 400 { \"status\": \"NOT_INITIATED\" }.\n  INV-2026000010 was created after the 18:00 UTC re-seed, so its job had been INITIATED for several minutes or more.",
+   "scenarios": [
+    {
+     "id": "API-0471",
+     "name": "Get PDF status returns 200 with COMPLETED once the PDF is generated",
+     "layer": "api",
+     "area": "invoices",
+     "file": "test-scenarios/api/invoices/get-invoices-by-invoice-number-download-pdf-status.yml",
+     "status": "automated",
+     "automatedIn": "tests/api/invoices/get-invoices-by-invoice-number-download-pdf-status.spec.ts",
+     "specLine": 17,
+     "knownIssue": "The PDF status stays INITIATED and never reaches COMPLETED."
+    },
+    {
+     "id": "API-0468",
+     "name": "Download invoice PDF returns 200 with the file once it is generated",
+     "layer": "api",
+     "area": "invoices",
+     "file": "test-scenarios/api/invoices/get-invoices-by-invoice-number-download-pdf.yml",
+     "status": "automated",
+     "automatedIn": "tests/api/invoices/get-invoices-by-invoice-number-download-pdf.spec.ts",
+     "specLine": 19,
+     "knownIssue": "The invoice's PDF is never generated, so the download returns 404 \"Document not created. Try again later.\"."
     }
    ]
   },
@@ -1673,24 +1801,25 @@ window.BUG_CATALOG = {
    "area": "invoices",
    "affects": [
     "POST /invoices",
-    "POST /invoices/guest"
+    "POST /invoices/guest",
+    "GET /invoices"
    ],
    "found": "2026-10-11",
    "ref": [
     "docs/api/contracts/Invoices_API.md#8-create-invoice",
     "docs/api/contracts/Invoices_API.md#notes"
    ],
-   "description": "The invoice row is created before the cart is read and before the payment is saved, with no transaction. An unknown cart_id (404), or a payment that fails (404 or 500), leaves an invoice with no lines and no payment, which then shows up in the customer's invoice list.",
+   "description": "The invoice row is created before the cart is read and before the payment is saved, with no transaction (InvoiceService::createInvoice and createGuestInvoice, then InvoiceController::handlePayment). An unknown cart_id (404 \"Requested item not found\") leaves an invoice with subtotal and total null and no lines; a payment that fails (500, see BUG-041) leaves one without a payment. A customer's orphan shows up in their GET /invoices; a guest's has user_id null, so only an admin sees it. Orphans stay until the hourly re-seed (there is no DELETE /invoices).",
    "steps": [
     "Register a customer and log in.",
     "Send POST /invoices with the customer's token and a well-formed ULID that no cart has as cart_id (the call answers 404).",
     "Send GET /invoices with the same token."
    ],
    "expected": "The list is empty: a failed checkout creates no invoice.",
-   "actual": "The list holds one invoice without lines or payment (from the source code; not reproduced live).",
-   "evidence": "Invoices_API.md, Notes, \"Orphan invoices\" (read from InvoiceService in sprint5/API). No token was available when the\ncontract was written, so the calls were not made live.",
+   "actual": "GET /invoices answers 200 with total 1: an invoice whose subtotal and total are null, with no lines and no payment (reproduced live on 2026-10-14, API-0499). The payment-failure and guest cases are from the source code.",
+   "evidence": "2026-10-14 18:54 UTC, API-0499 (tests/api/invoices/post-invoices.spec.ts), a throwaway customer (token ***):\nPOST /invoices { payment_method: \"cash-on-delivery\", payment_details: {}, billing_street: \"Stephansplatz 1\",\n  billing_city: \"Wien\", billing_country: \"AT\", cart_id: \"01ZZZZZZZZZZZZZZZZZZZZZZZZ\" }\n  -> 404 { message: \"Requested item not found\" }\nGET /invoices -> 200 { total: 1, data: [ { invoice_number: \"INV-2026000098\", status: \"AWAITING_FULFILLMENT\",\n  subtotal: null, total: null, lines: 0, payment_method: null } ] }\nIn the same run, the throwaway customers of API-0500 and API-0501 (payment failed with 500) could not be deleted\nafterwards (409, still in use), which fits an invoice row left behind; not checked directly.\nSource (sprint5/API, c6032ad): InvoiceService::createInvoice calls Invoice::create before Cart::findOrFail;\nInvoiceController::store and storeGuest call handlePayment after it.",
    "file": "bugs/BUG-040.yml",
-   "yaml": "id: BUG-040\ntitle: A failed checkout leaves an orphan invoice without lines or payment\nstatus: open\nseverity: minor\nlayer: api\narea: invoices\naffects:\n  - POST /invoices\n  - POST /invoices/guest\nfound: 2026-10-11\nref:\n  - docs/api/contracts/Invoices_API.md#8-create-invoice\n  - docs/api/contracts/Invoices_API.md#notes\ndescription: >-\n  The invoice row is created before the cart is read and before the payment is saved, with no transaction. An unknown\n  cart_id (404), or a payment that fails (404 or 500), leaves an invoice with no lines and no payment, which then shows\n  up in the customer's invoice list.\nsteps:\n  - Register a customer and log in.\n  - Send POST /invoices with the customer's token and a well-formed ULID that no cart has as cart_id (the call answers 404).\n  - Send GET /invoices with the same token.\nexpected: \"The list is empty: a failed checkout creates no invoice.\"\nactual: \"The list holds one invoice without lines or payment (from the source code; not reproduced live).\"\nevidence: |-\n  Invoices_API.md, Notes, \"Orphan invoices\" (read from InvoiceService in sprint5/API). No token was available when the\n  contract was written, so the calls were not made live.",
+   "yaml": "id: BUG-040\ntitle: A failed checkout leaves an orphan invoice without lines or payment\nstatus: open\nseverity: minor\nlayer: api\narea: invoices\naffects:\n  - POST /invoices\n  - POST /invoices/guest\n  - GET /invoices\nfound: 2026-10-11\nref:\n  - docs/api/contracts/Invoices_API.md#8-create-invoice\n  - docs/api/contracts/Invoices_API.md#notes\ndescription: >-\n  The invoice row is created before the cart is read and before the payment is saved, with no transaction\n  (InvoiceService::createInvoice and createGuestInvoice, then InvoiceController::handlePayment). An unknown cart_id\n  (404 \"Requested item not found\") leaves an invoice with subtotal and total null and no lines; a payment that fails\n  (500, see BUG-041) leaves one without a payment. A customer's orphan shows up in their GET /invoices; a guest's has\n  user_id null, so only an admin sees it. Orphans stay until the hourly re-seed (there is no DELETE /invoices).\nsteps:\n  - Register a customer and log in.\n  - Send POST /invoices with the customer's token and a well-formed ULID that no cart has as cart_id (the call answers 404).\n  - Send GET /invoices with the same token.\nexpected: \"The list is empty: a failed checkout creates no invoice.\"\nactual: >-\n  GET /invoices answers 200 with total 1: an invoice whose subtotal and total are null, with no lines and no payment\n  (reproduced live on 2026-10-14, API-0499). The payment-failure and guest cases are from the source code.\nevidence: |-\n  2026-10-14 18:54 UTC, API-0499 (tests/api/invoices/post-invoices.spec.ts), a throwaway customer (token ***):\n  POST /invoices { payment_method: \"cash-on-delivery\", payment_details: {}, billing_street: \"Stephansplatz 1\",\n    billing_city: \"Wien\", billing_country: \"AT\", cart_id: \"01ZZZZZZZZZZZZZZZZZZZZZZZZ\" }\n    -> 404 { message: \"Requested item not found\" }\n  GET /invoices -> 200 { total: 1, data: [ { invoice_number: \"INV-2026000098\", status: \"AWAITING_FULFILLMENT\",\n    subtotal: null, total: null, lines: 0, payment_method: null } ] }\n  In the same run, the throwaway customers of API-0500 and API-0501 (payment failed with 500) could not be deleted\n  afterwards (409, still in use), which fits an invoice row left behind; not checked directly.\n  Source (sprint5/API, c6032ad): InvoiceService::createInvoice calls Invoice::create before Cart::findOrFail;\n  InvoiceController::store and storeGuest call handlePayment after it.",
    "scenarios": [
     {
      "id": "API-0499",
@@ -1698,102 +1827,10 @@ window.BUG_CATALOG = {
      "layer": "api",
      "area": "invoices",
      "file": "test-scenarios/api/invoices/post-invoices.yml",
-     "status": "manual",
+     "status": "automated",
+     "automatedIn": "tests/api/invoices/post-invoices.spec.ts",
+     "specLine": 574,
      "knownIssue": "A failed checkout (unknown cart) leaves an invoice without lines or payment in the customer's invoice list."
-    }
-   ]
-  },
-  {
-   "id": "BUG-041",
-   "title": "Create invoice with malformed payment_details returns 500 or 404 instead of 422",
-   "status": "open",
-   "severity": "minor",
-   "layer": "api",
-   "area": "invoices",
-   "affects": [
-    "POST /invoices",
-    "POST /invoices/guest"
-   ],
-   "found": "2026-10-11",
-   "ref": [
-    "docs/api/contracts/Invoices_API.md#8-create-invoice",
-    "docs/api/contracts/Invoices_API.md#9-create-guest-invoice"
-   ],
-   "description": "Only the gift-card details have validation rules. For the other methods the details go straight into the payment table: null, an unknown key or a too long value ends in a database error, mapped to 500, and a missing required column (for example bank_name) is mapped by the global handler to 404 \"Something went wrong\".",
-   "steps": [
-    "Create a cart.",
-    "Send POST /invoices with payment_method \"bank-transfer\", payment_details null and the cart's id (a customer's token).",
-    "Send POST /invoices with payment_method \"bank-transfer\", payment_details {} and the cart's id (a customer's token).",
-    "Send POST /invoices/guest with payment_method \"bank-transfer\", payment_details null, the cart's id and the guest fields."
-   ],
-   "expected": "422 naming payment_details for each request.",
-   "actual": "500 for null, and 404 { message: \"Something went wrong\" } for {} (from the source code; not reproduced live).",
-   "evidence": "Invoices_API.md, endpoints 8 and 9 and Error Handling (read from InvoiceService, StoreInvoice and\napp/Exceptions/Handler.php in sprint5/API). No token was available when the contract was written, so the calls were not made live.",
-   "file": "bugs/BUG-041.yml",
-   "yaml": "id: BUG-041\ntitle: Create invoice with malformed payment_details returns 500 or 404 instead of 422\nstatus: open\nseverity: minor\nlayer: api\narea: invoices\naffects:\n  - POST /invoices\n  - POST /invoices/guest\nfound: 2026-10-11\nref:\n  - docs/api/contracts/Invoices_API.md#8-create-invoice\n  - docs/api/contracts/Invoices_API.md#9-create-guest-invoice\ndescription: >-\n  Only the gift-card details have validation rules. For the other methods the details go straight into the payment\n  table: null, an unknown key or a too long value ends in a database error, mapped to 500, and a missing required\n  column (for example bank_name) is mapped by the global handler to 404 \"Something went wrong\".\nsteps:\n  - Create a cart.\n  - Send POST /invoices with payment_method \"bank-transfer\", payment_details null and the cart's id (a customer's token).\n  - Send POST /invoices with payment_method \"bank-transfer\", payment_details {} and the cart's id (a customer's token).\n  - Send POST /invoices/guest with payment_method \"bank-transfer\", payment_details null, the cart's id and the guest fields.\nexpected: \"422 naming payment_details for each request.\"\nactual: \"500 for null, and 404 { message: \\\"Something went wrong\\\" } for {} (from the source code; not reproduced live).\"\nevidence: |-\n  Invoices_API.md, endpoints 8 and 9 and Error Handling (read from InvoiceService, StoreInvoice and\n  app/Exceptions/Handler.php in sprint5/API). No token was available when the contract was written, so the calls were not made live.",
-   "scenarios": [
-    {
-     "id": "API-0508",
-     "name": "Create guest invoice with payment_details null returns 422",
-     "layer": "api",
-     "area": "invoices",
-     "file": "test-scenarios/api/invoices/post-invoices-guest.yml",
-     "status": "manual",
-     "knownIssue": "Returns 500 instead of 422 when payment_details is null for a method other than gift-card."
-    },
-    {
-     "id": "API-0500",
-     "name": "Create invoice with payment_details null returns 422",
-     "layer": "api",
-     "area": "invoices",
-     "file": "test-scenarios/api/invoices/post-invoices.yml",
-     "status": "manual",
-     "knownIssue": "Returns 500 instead of 422 when payment_details is null for a method other than gift-card."
-    },
-    {
-     "id": "API-0501",
-     "name": "Create invoice with bank-transfer details missing the required fields returns 422",
-     "layer": "api",
-     "area": "invoices",
-     "file": "test-scenarios/api/invoices/post-invoices.yml",
-     "status": "manual",
-     "knownIssue": "Returns 404 \"Something went wrong\" instead of 422 when payment_details lacks the fields the payment method requires."
-    }
-   ]
-  },
-  {
-   "id": "BUG-042",
-   "title": "QUERY /invoices/search with a non-JSON Content-Type returns 500 instead of 415",
-   "status": "open",
-   "severity": "minor",
-   "layer": "api",
-   "area": "invoices",
-   "affects": [
-    "QUERY /invoices/search"
-   ],
-   "found": "2026-10-11",
-   "ref": [
-    "docs/api/contracts/Invoices_API.md#3-search-invoices-http-query",
-    "docs/api/contracts/Invoices_API.md#notes"
-   ],
-   "description": "The source of HandleQueryMethod aborts with 415 when a QUERY request's Content-Type is not JSON, and the same 415 was verified for QUERY /products/search on 2026-10-01. On 2026-10-10 the live API answered 500 with an empty text/html body for QUERY /invoices/search, with or without a body, with or without Accept. It may be a deployment change and is not determined yet.",
-   "steps": [
-    "Send QUERY /invoices/search with Content-Type: text/plain, Accept: application/json and a plain-text body, without a token."
-   ],
-   "expected": "415 (the source aborts with \"QUERY requests must use Content-Type: application/json\").",
-   "actual": "500 with an empty text/html body (observed live on 2026-10-10 by the contract writer, without a token).",
-   "evidence": "Invoices_API.md, endpoint 3 and Notes, \"QUERY with a non-JSON content type\": four calls to QUERY /invoices/search\n(text/plain with a body, with and without Accept, and no body, twice) and one to QUERY /products/search without a\nbody, all 500 with an empty text/html body, 2026-10-10. Re-check with /report-bug recheck.",
-   "file": "bugs/BUG-042.yml",
-   "yaml": "id: BUG-042\ntitle: QUERY /invoices/search with a non-JSON Content-Type returns 500 instead of 415\nstatus: open\nseverity: minor\nlayer: api\narea: invoices\naffects:\n  - QUERY /invoices/search\nfound: 2026-10-11\nref:\n  - docs/api/contracts/Invoices_API.md#3-search-invoices-http-query\n  - docs/api/contracts/Invoices_API.md#notes\ndescription: >-\n  The source of HandleQueryMethod aborts with 415 when a QUERY request's Content-Type is not JSON, and the same 415\n  was verified for QUERY /products/search on 2026-10-01. On 2026-10-10 the live API answered 500 with an empty\n  text/html body for QUERY /invoices/search, with or without a body, with or without Accept. It may be a deployment\n  change and is not determined yet.\nsteps:\n  - 'Send QUERY /invoices/search with Content-Type: text/plain, Accept: application/json and a plain-text body, without a token.'\nexpected: \"415 (the source aborts with \\\"QUERY requests must use Content-Type: application/json\\\").\"\nactual: \"500 with an empty text/html body (observed live on 2026-10-10 by the contract writer, without a token).\"\nevidence: |-\n  Invoices_API.md, endpoint 3 and Notes, \"QUERY with a non-JSON content type\": four calls to QUERY /invoices/search\n  (text/plain with a body, with and without Accept, and no body, twice) and one to QUERY /products/search without a\n  body, all 500 with an empty text/html body, 2026-10-10. Re-check with /report-bug recheck.",
-   "scenarios": [
-    {
-     "id": "API-0462",
-     "name": "QUERY search without a JSON Content-Type returns 415",
-     "layer": "api",
-     "area": "invoices",
-     "file": "test-scenarios/api/invoices/query-invoices-search.yml",
-     "status": "manual",
-     "knownIssue": "Returns 500 with an empty text/html body instead of 415 for a QUERY with a non-JSON Content-Type."
     }
    ]
   },
@@ -1868,7 +1905,7 @@ window.BUG_CATALOG = {
      "file": "test-scenarios/api/reports/get-reports-total-sales-of-years.yml",
      "status": "automated",
      "automatedIn": "tests/api/reports/get-reports-total-sales-of-years.spec.ts",
-     "specLine": 144,
+     "specLine": 146,
      "knownIssue": "Returns 500 for a non-numeric years instead of 422 or ignoring the value."
     }
    ]
@@ -2043,6 +2080,33 @@ window.BUG_CATALOG = {
      "knownIssue": "Returns { message: \"Duplicate Entry\" } instead of the slug's validation message for a duplicate slug."
     }
    ]
+  },
+  {
+   "id": "BUG-042",
+   "title": "QUERY /invoices/search with a non-JSON Content-Type returns 500 instead of 415",
+   "status": "fixed",
+   "severity": "minor",
+   "layer": "api",
+   "area": "invoices",
+   "affects": [
+    "QUERY /invoices/search"
+   ],
+   "found": "2026-10-11",
+   "resolved": "2026-10-14",
+   "ref": [
+    "docs/api/contracts/Invoices_API.md#3-search-invoices-http-query",
+    "docs/api/contracts/Invoices_API.md#notes"
+   ],
+   "description": "The source of HandleQueryMethod aborts with 415 when a QUERY request's Content-Type is not JSON, and the same 415 was verified for QUERY /products/search on 2026-10-01. On 2026-10-10 the live API answered 500 with an empty text/html body for QUERY /invoices/search, with or without a body, with or without Accept. It may be a deployment change and is not determined yet.",
+   "steps": [
+    "Send QUERY /invoices/search with Content-Type: text/plain, Accept: application/json and a plain-text body, without a token."
+   ],
+   "expected": "415 (the source aborts with \"QUERY requests must use Content-Type: application/json\").",
+   "actual": "500 with an empty text/html body (observed live on 2026-10-10 by the contract writer, without a token).",
+   "evidence": "Invoices_API.md, endpoint 3 and Notes, \"QUERY with a non-JSON content type\": four calls to QUERY /invoices/search\n(text/plain with a body, with and without Accept, and no body, twice) and one to QUERY /products/search without a\nbody, all 500 with an empty text/html body, 2026-10-10.\nRe-check 2026-10-14 (19:40 UTC), without a token: QUERY /invoices/search with text/plain and a body, and with no\nbody, with and without Accept: application/json, all 415 ({\"message\":\"QUERY requests must use Content-Type:\napplication/json\"} with Accept, an HTML \"Unsupported Media Type\" page without it); QUERY /products/search the same,\n415. With the default user's token, API-0462 got 415 in five runs on 2026-10-14 (19:33-19:40 UTC).",
+   "file": "bugs/BUG-042.yml",
+   "yaml": "id: BUG-042\ntitle: QUERY /invoices/search with a non-JSON Content-Type returns 500 instead of 415\nstatus: fixed\nseverity: minor\nlayer: api\narea: invoices\naffects:\n  - QUERY /invoices/search\nfound: 2026-10-11\nresolved: 2026-10-14\nref:\n  - docs/api/contracts/Invoices_API.md#3-search-invoices-http-query\n  - docs/api/contracts/Invoices_API.md#notes\ndescription: >-\n  The source of HandleQueryMethod aborts with 415 when a QUERY request's Content-Type is not JSON, and the same 415\n  was verified for QUERY /products/search on 2026-10-01. On 2026-10-10 the live API answered 500 with an empty\n  text/html body for QUERY /invoices/search, with or without a body, with or without Accept. It may be a deployment\n  change and is not determined yet.\nsteps:\n  - 'Send QUERY /invoices/search with Content-Type: text/plain, Accept: application/json and a plain-text body, without a token.'\nexpected: \"415 (the source aborts with \\\"QUERY requests must use Content-Type: application/json\\\").\"\nactual: \"500 with an empty text/html body (observed live on 2026-10-10 by the contract writer, without a token).\"\nevidence: |-\n  Invoices_API.md, endpoint 3 and Notes, \"QUERY with a non-JSON content type\": four calls to QUERY /invoices/search\n  (text/plain with a body, with and without Accept, and no body, twice) and one to QUERY /products/search without a\n  body, all 500 with an empty text/html body, 2026-10-10.\n  Re-check 2026-10-14 (19:40 UTC), without a token: QUERY /invoices/search with text/plain and a body, and with no\n  body, with and without Accept: application/json, all 415 ({\"message\":\"QUERY requests must use Content-Type:\n  application/json\"} with Accept, an HTML \"Unsupported Media Type\" page without it); QUERY /products/search the same,\n  415. With the default user's token, API-0462 got 415 in five runs on 2026-10-14 (19:33-19:40 UTC).",
+   "scenarios": []
   }
  ]
 };
