@@ -35,6 +35,21 @@ export const InvoiceFactory = {
     };
   },
 
+  /** A PATCH /invoices/{invoiceId} body: by default `cashOnDelivery`'s billing street only. */
+  patchBody(overrides: Record<string, unknown> = {}): Record<string, unknown> {
+    return { billing_street: InvoiceFactory.cashOnDelivery('').billing_street, ...overrides };
+  },
+
+  /** A PUT /invoices/{invoiceId}/status body; `status` is a string so the scenarios can send values the API rejects. */
+  statusBody(status: string, extra: Record<string, unknown> = {}): Record<string, unknown> {
+    return { status, ...extra };
+  },
+
+  /** A gift card number of 15 characters, one short of the required 16. */
+  shortGiftCardNumber(): string {
+    return 'ABCD1234efgh567';
+  },
+
   /** A valid body with another payment method and its details, billed like `cashOnDelivery`. */
   withPayment(cartId: string, paymentMethod: PaymentMethod, paymentDetails: Record<string, unknown>): CreateInvoiceRequest {
     return InvoiceFactory.cashOnDelivery(cartId, { payment_method: paymentMethod, payment_details: paymentDetails });
@@ -71,6 +86,11 @@ export const InvoiceFactory = {
       billing_state: ofLength(uniqueName('State'), STATE_MAX),
       billing_country: ofLength(uniqueName('Country'), COUNTRY_MAX),
     };
+  },
+
+  /** A unique billing street within the limit (70), so a search by street finds only the test's invoice. */
+  uniqueStreet(): string {
+    return uniqueName('Street');
   },
 
   /** A billing street one character over the limit (71). */

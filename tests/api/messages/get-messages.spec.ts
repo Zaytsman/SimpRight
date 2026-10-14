@@ -14,13 +14,10 @@ import {
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { Paginated } from '@api/dto/common';
 import type { ContactMessageListItem } from '@api/dto/message';
-import { expectMessage } from '@utils/apiChecks';
+import { expectMessage, PAGE_KEYS } from '@utils/apiChecks';
 import { assertMessage, attachJson } from '@utils/assertHelpers';
 
 // Scenarios: test-scenarios/api/messages/get-messages.yml
-
-/** The keys of a GET /messages page (the paginator's output without the link keys). */
-const PAGE_KEYS = ['current_page', 'data', 'from', 'last_page', 'per_page', 'to', 'total'] as const;
 
 /** Parses a GET /messages page (call after its status was checked). */
 function parsePage(response: ApiResponse): Paginated<ContactMessageListItem> {

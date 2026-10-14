@@ -512,7 +512,7 @@ test.describe('@invoices-api - Invoices API', () => {
     await expectValidationError(
       invoicesClientWithToken,
       'Send POST /invoices with the default user\'s token, payment_method "gift-card", payment_details with a 15-character gift_card_number and a 4-character validation_code, billing_street "Stephansplatz 1", billing_city "Wien", billing_country "AT" and a non-empty string as cart_id.',
-      validationBody({ payment_method: 'gift-card', payment_details: InvoiceFactory.giftCardDetails({ gift_card_number: 'ABCD1234efgh567' }) }),
+      validationBody({ payment_method: 'gift-card', payment_details: InvoiceFactory.giftCardDetails({ gift_card_number: InvoiceFactory.shortGiftCardNumber() }) }),
       ['payment_details.gift_card_number'],
       'Verify the body has a "payment_details.gift_card_number" key with at least one message.'
     );

@@ -10,8 +10,12 @@ import type {
   InvoiceCreated,
   InvoiceLine,
   InvoiceStatus,
+  InvoiceSearchQueryBody,
   InvoiceSummary,
+  PatchInvoiceRequest,
   PdfStatusResponse,
+  UpdateInvoiceRequest,
+  UpdateInvoiceStatusRequest,
 } from '../dto/invoice';
 import type { AuthService } from '../services/AuthService';
 import type { CartsService } from '../services/CartsService';
@@ -47,7 +51,19 @@ export const INVOICE_AUTH = {
   throwaway: "the new user's access_token",
   customerA: "customer A's access_token",
   customerB: "customer B's access_token",
+  throwawayCustomer: "the throwaway customer's access_token",
 } as const;
+
+/** The register and login steps of the scenarios with two customers (A holds the invoice, B tries to reach it). */
+export const CUSTOMER_A_REGISTER_STEP =
+  "Send POST /users/register with a unique email, a first name, a last name and a random strong password (customer A), and take the new user's id.";
+export const CUSTOMER_A_LOGIN_STEP = "Send POST /users/login with customer A's email and password, and take its access_token.";
+export const CUSTOMER_B_REGISTER_STEP =
+  "Send POST /users/register with a unique email, a first name, a last name and a random strong password (customer B), and take the new user's id.";
+export const CUSTOMER_B_LOGIN_STEP = "Send POST /users/login with customer B's email and password, and take its access_token.";
+/** The most common wording of customer A's invoice-create step. */
+export const CUSTOMER_A_INVOICE_STEP =
+  'Send POST /invoices with customer A\'s access_token, payment_method "cash-on-delivery", payment_details {}, billing_street "Stephansplatz 1", billing_city "Wien", billing_country "AT" and the cart\'s id as cart_id, and take the new invoice\'s id.';
 
 export type InvoiceRequest = { method: string; path: string; auth: string; query?: Record<string, unknown>; body?: unknown };
 
@@ -79,10 +95,46 @@ export async function createInvoiceSetup(
   return created!;
 }
 
-/** A status-setting setup step (title `title`): sets the status and fails the step unless `success` is true. */
-export async function setInvoiceStatusSetup(invoicesService: InvoicesService, invoiceId: string, status: InvoiceStatus, title: string, auth: string): Promise<void> {
+/**
+ * A guest-invoice setup step (title `title`): creates the invoice through `invoicesService` (no token) and fails the
+ * step unless it has an id and an invoice_number. Nothing to clean up: invoices can't be deleted.
+ */
+export async function createGuestInvoiceSetup(
+  invoicesService: InvoicesService,
+  cartId: string,
+  title: string,
+  body: CreateGuestInvoiceRequest = InvoiceFactory.guest(cartId)
+): Promise<InvoiceCreated> {
+  let created: InvoiceCreated | undefined;
+
   await test.step(title, async () => {
-    const body = { status };
+    const request: InvoiceRequest = { method: 'POST', path: '/invoices/guest', auth: INVOICE_AUTH.none, body };
+    await attachJson('Create Guest Invoice Request', request);
+    const invoice = await invoicesService.createGuest(body);
+    await attachJson('Create Guest Invoice Response', invoice);
+    expect(
+      typeof invoice.id === 'string' && invoice.id.length > 0 && typeof invoice.invoice_number === 'string',
+      assertMessage({ request, expected: 'The new invoice has an id and an invoice_number', actual: invoice })
+    ).toBe(true);
+    created = invoice;
+  });
+
+  return created!;
+}
+
+/**
+ * A status-setting setup step (title `title`): sets the status (or sends the whole body `status`, e.g. a status_message
+ * only) and fails the step unless `success` is true.
+ */
+export async function setInvoiceStatusSetup(
+  invoicesService: InvoicesService,
+  invoiceId: string,
+  status: InvoiceStatus | UpdateInvoiceStatusRequest,
+  title: string,
+  auth: string
+): Promise<void> {
+  await test.step(title, async () => {
+    const body: UpdateInvoiceStatusRequest = typeof status === 'string' ? { status } : status;
     const request: InvoiceRequest = { method: 'PUT', path: `/invoices/${invoiceId}/status`, auth, body };
     await attachJson('Update Invoice Status Request', request);
     const result = await invoicesService.updateStatus(invoiceId, body);
@@ -145,7 +197,14 @@ export interface CustomerInvoice {
  */
 export async function createCustomerInvoice(
   { usersService, adminUsersService, authService, productsService, cartsService, invoicesServiceForToken, cleanup }: InvoiceSetupFixtures,
-  options: { withProduct?: boolean; registerTitle?: string; loginTitle?: string; invoiceTitle?: string } = {}
+  options: {
+    withProduct?: boolean;
+    registerTitle?: string;
+    loginTitle?: string;
+    invoiceTitle?: string;
+    /** The invoice body for the cart (default: `InvoiceFactory.cashOnDelivery`). */
+    invoiceBody?: (cartId: string) => CreateInvoiceRequest;
+  } = {}
 ): Promise<CustomerInvoice> {
   const { token, ...customer } = await loggedInCustomer(
     { usersService, adminUsersService, authService, cleanup },
@@ -156,8 +215,42 @@ export async function createCustomerInvoice(
   if (productId) {
     await addItemSetup(cartsService, cartId, productId, 2, ADD_TWO_STEP);
   }
-  const invoice = await createInvoiceSetup(invoicesServiceForToken(token), cartId, options.invoiceTitle ?? INVOICE_CREATE_STEP, INVOICE_AUTH.throwaway);
+  const invoice = await createInvoiceSetup(
+    invoicesServiceForToken(token),
+    cartId,
+    options.invoiceTitle ?? INVOICE_CREATE_STEP,
+    INVOICE_AUTH.throwaway,
+    options.invoiceBody ? options.invoiceBody(cartId) : undefined
+  );
   return { customer, token, cartId, productId, invoice };
+}
+
+/** Customer A with an invoice, and customer B with none, both logged in. */
+export interface TwoCustomersInvoice {
+  customerA: ThrowawayCustomer;
+  tokenA: string;
+  customerB: ThrowawayCustomer;
+  tokenB: string;
+  cartId: string;
+  invoice: InvoiceCreated;
+}
+
+/**
+ * The setup steps of the scenarios where customer B reaches for customer A's invoice, titles verbatim: register and log
+ * in customer A (removed as admin unless its invoice holds it) and customer B, create a cart, and create a
+ * cash-on-delivery invoice with A's token (title `invoiceTitle`, whose ending varies by scenario).
+ */
+export async function customerAWithInvoiceAndCustomerB(
+  { usersService, adminUsersService, authService, cartsService, invoicesServiceForToken, cleanup }: Omit<InvoiceSetupFixtures, 'productsService'>,
+  invoiceTitle: string = CUSTOMER_A_INVOICE_STEP
+): Promise<TwoCustomersInvoice> {
+  const customerA = await registerThrowawayCustomer(usersService, adminUsersService, cleanup, { title: CUSTOMER_A_REGISTER_STEP, mayHoldInvoices: true });
+  const tokenA = await loginThrowawayCustomer(authService, customerA, CUSTOMER_A_LOGIN_STEP);
+  const customerB = await registerThrowawayCustomer(usersService, adminUsersService, cleanup, { title: CUSTOMER_B_REGISTER_STEP });
+  const tokenB = await loginThrowawayCustomer(authService, customerB, CUSTOMER_B_LOGIN_STEP);
+  const cartId = await createCart(cartsService, cleanup);
+  const invoice = await createInvoiceSetup(invoicesServiceForToken(tokenA), cartId, invoiceTitle, INVOICE_AUTH.customerA);
+  return { customerA, tokenA, customerB, tokenB, cartId, invoice };
 }
 
 /** Sends POST /invoices with `invoicesClient` and attaches the request and the response. */
@@ -246,13 +339,113 @@ export async function sendListInvoices(invoicesClient: InvoicesClient, auth: str
   const request: InvoiceRequest = { method: 'GET', path: '/invoices', auth, ...(page !== undefined ? { query: { page } } : {}) };
   const response = await invoicesClient.list(page);
   await attachJson('List Invoices Request', request);
+  await attachInvoicePageResponse('List Invoices Response', response);
+  return { request, response };
+}
+
+/** Attaches a page response: a 2xx page as `invoicePageSummary`, any other response with its body as it came. */
+async function attachInvoicePageResponse(name: string, response: ApiResponse): Promise<void> {
   if (response.isSuccess) {
     const body = JSON.parse(response.body) as Paginated<InvoiceSummary>;
-    await attachJson('List Invoices Response', { status: response.status, body: invoicePageSummary(body) });
+    await attachJson(name, { status: response.status, body: invoicePageSummary(body) });
   } else {
-    await attachJson('List Invoices Response', { status: response.status, body: response.body });
+    // Error bodies hold no visitor data.
+    await attachJson(name, { status: response.status, body: response.body });
   }
+}
+
+/** Sends GET /invoices/search (`q` and `page` only when given) and attaches the request and the response like `sendListInvoices`. */
+export async function sendSearchInvoices(
+  invoicesClient: InvoicesClient,
+  auth: string,
+  q?: string,
+  page?: number
+): Promise<{ request: InvoiceRequest; response: ApiResponse }> {
+  const query = { ...(q !== undefined ? { q } : {}), ...(page !== undefined ? { page } : {}) };
+  const request: InvoiceRequest = { method: 'GET', path: '/invoices/search', auth, ...(Object.keys(query).length > 0 ? { query } : {}) };
+  const response = await invoicesClient.search(q, page);
+  await attachJson('Search Invoices Request', request);
+  await attachInvoicePageResponse('Search Invoices Response', response);
   return { request, response };
+}
+
+/**
+ * Sends QUERY /invoices/search with `Accept: application/json` and attaches the request (with its Content-Type and
+ * Accept) and the response like `sendListInvoices`. A string body is sent as-is with `contentType`.
+ */
+export async function sendQuerySearchInvoices(
+  invoicesClient: InvoicesClient,
+  auth: string,
+  body: InvoiceSearchQueryBody | string,
+  contentType: string = 'application/json'
+): Promise<{ request: InvoiceRequest; response: ApiResponse }> {
+  const request = { method: 'QUERY', path: '/invoices/search', auth, contentType, accept: 'application/json', body };
+  const response = await invoicesClient.querySearch(body, { contentType });
+  await attachJson('Query Search Invoices Request', request);
+  await attachInvoicePageResponse('Query Search Invoices Response', response);
+  return { request, response };
+}
+
+/** Sends PUT /invoices/{invoiceId} and attaches the request and the response (the caller's own invoice, or an error). */
+export async function sendUpdateInvoice(
+  invoicesClient: InvoicesClient,
+  invoiceId: string,
+  body: UpdateInvoiceRequest | Record<string, unknown>,
+  auth: string
+): Promise<{ request: InvoiceRequest; response: ApiResponse }> {
+  const request: InvoiceRequest = { method: 'PUT', path: `/invoices/${invoiceId}`, auth, body };
+  const response = await invoicesClient.update(invoiceId, body);
+  await attachJson('Update Invoice Request', request);
+  await attachJson('Update Invoice Response', { status: response.status, body: response.body });
+  return { request, response };
+}
+
+/** Sends PATCH /invoices/{invoiceId} and attaches the request and the response. */
+export async function sendPatchInvoice(
+  invoicesClient: InvoicesClient,
+  invoiceId: string,
+  body: PatchInvoiceRequest | Record<string, unknown>,
+  auth: string
+): Promise<{ request: InvoiceRequest; response: ApiResponse }> {
+  const request: InvoiceRequest = { method: 'PATCH', path: `/invoices/${invoiceId}`, auth, body };
+  const response = await invoicesClient.partialUpdate(invoiceId, body);
+  await attachJson('Patch Invoice Request', request);
+  await attachJson('Patch Invoice Response', { status: response.status, body: response.body });
+  return { request, response };
+}
+
+/** Sends PUT /invoices/{invoiceId}/status and attaches the request and the response. */
+export async function sendUpdateInvoiceStatus(
+  invoicesClient: InvoicesClient,
+  invoiceId: string,
+  body: UpdateInvoiceStatusRequest | Record<string, unknown>,
+  auth: string
+): Promise<{ request: InvoiceRequest; response: ApiResponse }> {
+  const request: InvoiceRequest = { method: 'PUT', path: `/invoices/${invoiceId}/status`, auth, body };
+  const response = await invoicesClient.updateStatus(invoiceId, body);
+  await attachJson('Update Invoice Status Request', request);
+  await attachJson('Update Invoice Status Response', { status: response.status, body: response.body });
+  return { request, response };
+}
+
+/**
+ * The checks of a "Verify the body's total is 1 and data has exactly one item, whose id is <the invoice's id> ..." step;
+ * returns the item for the step's other checks. The page is shown as `invoicePageSummary` (no addresses).
+ */
+export function expectOnlyInvoice(request: unknown, page: Paginated<InvoiceSummary>, invoiceId: string): InvoiceSummary {
+  const actual = invoicePageSummary(page);
+  expect(page.total, assertMessage({ request, expected: 'total is 1', actual })).toBe(1);
+  expect(Array.isArray(page.data) && page.data.length === 1, assertMessage({ request, expected: 'data has exactly one item', actual })).toBe(true);
+  const item = page.data[0]!;
+  expect(item.id, assertMessage({ request, expected: `The item's id is the invoice's id ${invoiceId}`, actual })).toBe(invoiceId);
+  return item;
+}
+
+/** The checks of a "Verify the body's total is 0 and data is an empty array." step. */
+export function expectEmptyInvoicePage(request: unknown, page: Paginated<InvoiceSummary>): void {
+  const actual = invoicePageSummary(page);
+  expect(page.total, assertMessage({ request, expected: 'total is 0', actual })).toBe(0);
+  expect(Array.isArray(page.data) && page.data.length === 0, assertMessage({ request, expected: 'data is an empty array', actual })).toBe(true);
 }
 
 /** Sends GET /invoices/{invoice_number}/download-pdf and attaches the request, the status, the headers and the body's length (never the file). */
@@ -341,8 +534,16 @@ export function expectFieldsEqual(request: unknown, body: object, sent: object, 
   }
 }
 
-/** The checks of "invoicelines has exactly one line with the product's id as product_id [and quantity <n>]"; returns the line. */
-export function expectSingleInvoiceLine(request: unknown, invoice: Invoice, productId: string, quantity?: number): InvoiceLine {
+/**
+ * The checks of "invoicelines has exactly one line with the product's id as product_id [and quantity <n>]"; returns the
+ * line. Takes a full invoice or a list item (whose lines are untyped records).
+ */
+export function expectSingleInvoiceLine<Line extends { product_id?: unknown; quantity?: unknown } = InvoiceLine>(
+  request: unknown,
+  invoice: { invoicelines?: Line[] | null },
+  productId: string,
+  quantity?: number
+): Line {
   const lines = Array.isArray(invoice.invoicelines) ? invoice.invoicelines : [];
   const actual = lines.map((line) => ({ product_id: line.product_id, quantity: line.quantity }));
   expect(lines.length, assertMessage({ request, expected: 'invoicelines has exactly one line', actual })).toBe(1);

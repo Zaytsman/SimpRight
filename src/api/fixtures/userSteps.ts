@@ -9,6 +9,7 @@ import type { RegisterUserRequest, User } from '../dto/user';
 import type { AuthService } from '../services/AuthService';
 import type { UsersService } from '../services/UsersService';
 import { UserFactory } from '../../data/factories/UserFactory';
+import { PAGE_KEYS } from '../../utils/apiChecks';
 import { assertMessage, attachJson } from '../../utils/assertHelpers';
 
 /**
@@ -85,6 +86,21 @@ export async function loginThrowawayCustomer(authService: AuthService, customer:
 }
 
 /**
+ * A "Send PATCH /users/{userId} with ... enabled false, with the admin's token." setup step (title `title`): disables
+ * the customer with `adminUsersService` and fails the step unless `success` is true. `authLabel` names the token in the
+ * attached request. Use the customer's token only after this step: the API caches a user for 60 seconds.
+ */
+export async function disableCustomerSetup(adminUsersService: UsersService, userId: string, title: string, authLabel: string): Promise<void> {
+  await test.step(title, async () => {
+    const request = { method: 'PATCH', path: `/users/${userId}`, auth: authLabel, body: { enabled: false } };
+    await attachJson('Patch User Request', request);
+    const result = await adminUsersService.partialUpdate(userId, { enabled: false });
+    await attachJson('Patch User Response', result);
+    expect(result.success, assertMessage({ request, expected: 'success is true', actual: result })).toBe(true);
+  });
+}
+
+/**
  * The checks of a "Verify POST /users/login with that email and <password> returns 200 with a non-empty access_token."
  * step. `passwordLabel` names the password in the attached request; the token is checked as a condition.
  */
@@ -154,12 +170,9 @@ export function userPageSummary(page: Partial<Paginated<User>>): Record<string, 
   };
 }
 
-/** The pagination keys of GET /users and GET/QUERY /users/search. */
-const USER_PAGE_KEYS =['current_page', 'data', 'from', 'last_page', 'per_page', 'to', 'total'] as const;
-
 /** The checks of a "Verify the body has the keys current_page, data, from, last_page, per_page, to and total ..." step (the keys part). */
 export function expectUserPageKeys(request: unknown, page: Paginated<User>): void {
-  for (const key of USER_PAGE_KEYS) {
+  for (const key of PAGE_KEYS) {
     expect(key in page, assertMessage({ request, expected: `The body has the key "${key}"`, actual: Object.keys(page) })).toBe(true);
   }
 }

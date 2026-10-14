@@ -141,3 +141,23 @@ export interface UpdateInvoiceStatusRequest {
 export interface UpdateInvoiceStatusResponse {
   success: boolean;
 }
+
+/** Body of `PUT /invoices/{invoiceId}`: validated like `POST /invoices` (payment and cart fields required, not stored). */
+export type UpdateInvoiceRequest = CreateInvoiceRequest;
+
+/** Body of `PATCH /invoices/{invoiceId}`: every field optional; `cart_id` is validated and ignored. */
+export interface PatchInvoiceRequest {
+  billing_street?: string;
+  billing_city?: string;
+  billing_state?: string;
+  billing_country?: string;
+  billing_postal_code?: string;
+  invoice_date?: string;
+  cart_id?: string;
+}
+
+/** Body of `QUERY /invoices/search`: the criteria of `GET /invoices/search`. */
+export interface InvoiceSearchQueryBody {
+  q?: string;
+  page?: string;
+}

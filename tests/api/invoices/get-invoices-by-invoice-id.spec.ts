@@ -1,11 +1,8 @@
 import {
   test,
   expect,
-  registerThrowawayCustomer,
-  loginThrowawayCustomer,
-  createCart,
   createCustomerInvoice,
-  createInvoiceSetup,
+  customerAWithInvoiceAndCustomerB,
   sendGetInvoice,
   expectKeys,
   expectSingleInvoiceLine,
@@ -40,10 +37,6 @@ const INVOICE_KEYS = [
 
 /** The keys of the product inside an invoice line. */
 const LINE_PRODUCT_KEYS = ['id', 'name', 'description', 'price', 'co2_rating', 'is_rental', 'in_stock', 'is_eco_friendly', 'product_image', 'category', 'brand'] as const;
-
-/** The setup step of API-0467 that creates customer A's invoice. */
-const CUSTOMER_A_INVOICE_STEP =
-  'Send POST /invoices with customer A\'s access_token, payment_method "cash-on-delivery", payment_details {}, billing_street "Stephansplatz 1", billing_city "Wien", billing_country "AT" and the cart\'s id as cart_id, and take the new invoice\'s id.';
 
 /** A money value of the API as a number: amounts may come back as strings (`discounted_price`) or null. */
 function amount(value: unknown): number | null {
@@ -236,17 +229,7 @@ test.describe('@invoices-api - Invoices API', () => {
     let request: InvoiceRequest;
     let response: ApiResponse;
 
-    const customerA = await registerThrowawayCustomer(usersService, adminUsersService, cleanup, {
-      title: "Send POST /users/register with a unique email, a first name, a last name and a random strong password (customer A), and take the new user's id.",
-      mayHoldInvoices: true,
-    });
-    const tokenA = await loginThrowawayCustomer(authService, customerA, "Send POST /users/login with customer A's email and password, and take its access_token.");
-    const customerB = await registerThrowawayCustomer(usersService, adminUsersService, cleanup, {
-      title: "Send POST /users/register with a unique email, a first name, a last name and a random strong password (customer B), and take the new user's id.",
-    });
-    const tokenB = await loginThrowawayCustomer(authService, customerB, "Send POST /users/login with customer B's email and password, and take its access_token.");
-    const cartId = await createCart(cartsService, cleanup);
-    const invoice = await createInvoiceSetup(invoicesServiceForToken(tokenA), cartId, CUSTOMER_A_INVOICE_STEP, INVOICE_AUTH.customerA);
+    const { tokenB, invoice } = await customerAWithInvoiceAndCustomerB({ usersService, adminUsersService, authService, cartsService, invoicesServiceForToken, cleanup });
 
     await test.step("Send GET /invoices/{invoiceId} with that id and customer B's access_token.", async () => {
       ({ request, response } = await sendGetInvoice(invoicesClientForToken(tokenB), invoice.id, INVOICE_AUTH.customerB));

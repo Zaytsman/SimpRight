@@ -64,7 +64,7 @@ Returns a page of invoices, newest `invoice_date` first, 15 per page. An admin g
 |---|---|---|---|
 | `page` | integer | No | Page number, starting at 1 _(spec)_ |
 
-**Response:** `200 OK` _(source)_
+**Response:** `200 OK` _(verified)_
 ```ts
 {
   current_page: number;
@@ -99,7 +99,7 @@ Searches the invoices visible to the caller (own, or all for an admin) with a `L
 | `q` | string | No | Search phrase. The spec marks it required; the code doesn't, and without it the pattern is `%%`, which matches every invoice visible to the caller. `%` and `_` in `q` aren't escaped. _(source)_ |
 | `page` | integer | No | Page number, starting at 1 _(spec)_ |
 
-**Response:** `200 OK` _(source)_
+**Response:** `200 OK` _(verified)_
 ```ts
 {
   current_page: number;
@@ -135,7 +135,7 @@ Same as `GET /invoices/search`, but the criteria are sent as a JSON body (RFC 10
 }
 ```
 
-**Response:** `200 OK` _(source)_
+**Response:** `200 OK` _(verified)_
 Same shape as `GET /invoices/search`.
 
 **Error Responses:**
@@ -259,7 +259,7 @@ Sets the `status` and/or `status_message` of an invoice. Any logged-in user can 
 
 Nothing is required: a body without these keys passes the validation. The inline validation runs on `status` and `status_message` only, but the whole request body is passed to the update query, so other keys are written too, or break the query (see Notes). _(source)_
 
-**Response:** `200 OK` _(source)_
+**Response:** `200 OK` _(verified)_
 ```ts
 {
   success: boolean;   // true
@@ -271,9 +271,9 @@ Seen live: `COMPLETED` set by the invoice's own customer returns `{ success: tru
 The service's test asserts `200` and `{ success: true }` for a valid status and message. _(source)_
 
 **Error Responses:**
-- `401 Unauthorized`: no token, or a malformed token, with `{ message: "Unauthorized" }` _(source)_
-- `404 Not Found`: no invoice with this id, or the update changed no row; `{ message: "Invoice not found" }` (the handler tests the number of changed rows, see Notes) _(source)_
-- `422 Unprocessable Entity`: `status` is not one of the allowed values, or `status_message` is not a string of 5 to 50 characters. The body is Laravel's default `{ message: string; errors: { <field>: string[] } }` (framework default, not the `BaseFormRequest` shape), and with `Accept: application/json` only _(source)_
+- `401 Unauthorized`: no token, or a malformed token, with `{ message: "Unauthorized" }` _(verified)_
+- `404 Not Found`: no invoice with this id, or the update changed no row; `{ message: "Invoice not found" }` (the handler tests the number of changed rows, see Notes) _(verified)_
+- `422 Unprocessable Entity`: `status` is not one of the allowed values, or `status_message` is not a string of 5 to 50 characters. The body is Laravel's default `{ message: string; errors: { <field>: string[] } }` (framework default, not the `BaseFormRequest` shape), and with `Accept: application/json` only _(verified)_
 - `500 Internal Server Error`: the body has a key that is not a column of `invoices`; the raw request body goes into the update query and the database error is not a validation error; suspected bug, should be `422` or the key ignored _(source)_
 
 **Example:**
@@ -420,7 +420,7 @@ Updates an invoice of the caller. The body is validated like a new invoice (so t
 
 The validation is `StoreInvoice`, the rules of `POST /invoices`. Beyond the validated fields, the model's `fillable` list also lets the body set `user_id`, `invoice_number`, `subtotal`, `total`, `additional_discount_percentage`, `additional_discount_amount`, `eco_discount_percentage` and `eco_discount_amount` without any check (see Notes). _(source)_
 
-**Response:** `200 OK` _(source)_
+**Response:** `200 OK` _(verified)_
 ```ts
 {
   success: boolean;   // true
@@ -428,9 +428,9 @@ The validation is `StoreInvoice`, the rules of `POST /invoices`. Beyond the vali
 ```
 
 **Error Responses:**
-- `401 Unauthorized`: no token, or a malformed token, with `{ message: "Unauthorized" }` _(source)_
-- `404 Not Found`: no invoice with this id owned by the token's user (`firstOrFail`); `{ message: "Requested item not found" }` _(source)_
-- `422 Unprocessable Entity`: a field fails validation, as on `POST /invoices`; the validation runs before the lookup, so an unknown id with an invalid body gives `422`. A map of field to messages without a wrapper _(source)_
+- `401 Unauthorized`: no token, or a malformed token, with `{ message: "Unauthorized" }` _(verified)_
+- `404 Not Found`: no invoice with this id owned by the token's user (`firstOrFail`); `{ message: "Requested item not found" }` _(verified)_
+- `422 Unprocessable Entity`: a field fails validation, as on `POST /invoices`; the validation runs before the lookup, so an unknown id with an invalid body gives `422`. A map of field to messages without a wrapper _(verified)_
 
 ---
 
@@ -463,7 +463,7 @@ Updates the billing address or the date of an invoice of the caller. Only the va
 
 Every field is `sometimes`: an empty body is valid and changes nothing. The spec's `InvoiceRequest` marks the payment fields and the cart id required; the code doesn't. _(source)_
 
-**Response:** `200 OK` _(source)_
+**Response:** `200 OK` _(verified)_
 ```ts
 {
   success: boolean;   // true
@@ -473,9 +473,9 @@ Every field is `sometimes`: an empty body is valid and changes nothing. The spec
 The service's test patches `billing_street` and asserts `200`, `{ success: true }` and the stored value. _(source)_
 
 **Error Responses:**
-- `401 Unauthorized`: no token, or a malformed token, with `{ message: "Unauthorized" }` _(source)_
-- `404 Not Found`: no invoice with this id owned by the token's user (`firstOrFail`); `{ message: "Requested item not found" }` _(source)_
-- `422 Unprocessable Entity`: a field is not a string, is too long, has subscript/superscript characters, or `invoice_date` is not `Y-m-d`; a map of field to messages without a wrapper. Validated before the lookup _(source)_
+- `401 Unauthorized`: no token, or a malformed token, with `{ message: "Unauthorized" }` _(verified)_
+- `404 Not Found`: no invoice with this id owned by the token's user (`firstOrFail`); `{ message: "Requested item not found" }` _(verified)_
+- `422 Unprocessable Entity`: a field is not a string, is too long, has subscript/superscript characters, or `invoice_date` is not `Y-m-d`; a map of field to messages without a wrapper. Validated before the lookup _(verified)_
 
 ## Data Models
 
