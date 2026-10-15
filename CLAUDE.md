@@ -44,7 +44,7 @@ Specs import from `src/fixtures` (`index.ts`): `test`, `expect` and `openHomePag
 - `src/fixtures/base.ts` holds the fixtures shared by both layers: `role` (option, default `'default'`; set with `test.use({ role: 'admin' })`), `config` and `tokenService` (worker scope), `user`, and `cleanup` (undo steps for records the test creates, run after the test, pass or fail, newest first; a failing step only logs a warning).
 - `src/api/fixtures/fixtures.ts` and `src/ui/fixtures/fixtures.ts` each extend base. `src/fixtures/fixtures.ts` combines them with `mergeTests`. Fixtures are lazy, so a UI test that doesn't ask for `accessToken` never logs in through the API.
 - The UI fixtures set `storageState` from `role` and `authMode`, so a test starts logged in as its role. For logged-out tests, use `test.use({ authMode: 'none' })`.
-- New page, component, grid and dialog fixtures go in `src/ui/fixtures/fixtures.ts`. Precondition variants go in their own file in `src/fixtures/` (like `openHomePage.ts`) and are exported from `index.ts`.
+- New page, component, grid and dialog fixtures go in `src/ui/fixtures/fixtures.ts`. UI precondition fixtures go in their own file in `src/ui/fixtures/preconditions/`, named after the export (`openHomePageTest.ts`); they extend the merged `test` from `src/fixtures/fixtures.ts`, so a spec that uses one as its `test` keeps the API fixtures, and are exported from `src/fixtures/index.ts`. API setup helpers stay functions in `src/api/fixtures/*Steps.ts`.
 
 ## UI layer
 
@@ -60,8 +60,8 @@ Specs import from `src/fixtures` (`index.ts`): `test`, `expect` and `openHomePag
 
 - `src/`: framework code; `tests/`: specs only (no page logic in specs).
 - `src/api/`: `clients` (low-level HTTP over `APIRequestContext`), `services` (domain operations built on clients), `dto` (request/response types), `auth`, `fixtures`, `coverage` (the optional API coverage plug-in).
-- `src/ui/`: `pages` (page objects, with reusable `components` and `dialogs`; `filters` and `grids` when needed), `flows` (multi-page user journeys), `auth` (token/storage-state helpers), `fixtures`.
-- `src/fixtures/`: merges the API and UI fixtures (`mergeTests`) into the single `test`/`expect` that specs import.
+- `src/ui/`: `pages` (page objects, with reusable `components` and `dialogs`; `filters` and `grids` when needed), `flows` (multi-page user journeys), `auth` (token/storage-state helpers), `fixtures` (registrations in `fixtures.ts`, precondition fixtures in `preconditions/`).
+- `src/fixtures/`: what both layers share: `base.ts`, the merge of the API and UI fixtures (`fixtures.ts`, `mergeTests`) and `index.ts`, the single `@fixtures` that specs import (including the UI precondition fixtures).
 - `src/globalSetup.ts`: registers the run's customer (and deletes it after the run), plus the UI login for `storageState` mode.
 - `src/config/`: typed env access. `src/envs/`: per-environment JSON. `src/utils/`: helpers (`assertHelpers.ts`: `assertMessage`, `attachJson`, `redact`).
 - `src/data/` (`@data/*`): test data.

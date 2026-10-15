@@ -1,5 +1,6 @@
-import { test as base } from './fixtures';
-import type { HomePage } from '../ui/pages/HomePage';
+// Extends the merged `test` (API + UI fixtures), because a spec uses this fixture as its `test`.
+import { test as base } from '../../../fixtures/fixtures';
+import type { HomePage } from '../../pages/HomePage';
 
 type OpenHomePageFixtures = {
   homePage: HomePage;

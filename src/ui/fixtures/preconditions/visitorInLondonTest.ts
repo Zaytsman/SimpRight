@@ -1,4 +1,5 @@
-import { test as base } from './fixtures';
+// Extends the merged `test` (API + UI fixtures), because a spec uses this fixture as its `test`.
+import { test as base } from '../../../fixtures/fixtures';
 
 /**
  * Where the app keeps the visitor's location (normally set by its "Retrieve geolocation" setting).

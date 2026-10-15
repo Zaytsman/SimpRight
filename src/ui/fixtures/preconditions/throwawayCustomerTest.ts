@@ -1,7 +1,8 @@
-import { test as base } from './fixtures';
-import { tokenStorageState } from '../ui/auth/authState';
-import { UserFactory } from '../data/factories/UserFactory';
-import type { FavoritesService } from '../api/services/FavoritesService';
+// Extends the merged `test` (API + UI fixtures), because a spec uses this fixture as its `test`.
+import { test as base } from '../../../fixtures/fixtures';
+import { tokenStorageState } from '../../auth/authState';
+import { UserFactory } from '../../../data/factories/UserFactory';
+import type { FavoritesService } from '../../../api/services/FavoritesService';
 
 type ThrowawayCustomerFixtures = {
   /** The customer registered for this test: an access token of its own. */

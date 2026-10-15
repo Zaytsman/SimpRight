@@ -98,7 +98,7 @@ ui:
     dialog: src/ui/pages/dialogs/BaseDialog.ts   # no concrete dialog yet: subclasses extend this
     flow: src/ui/flows/ShoppingFlow.ts
     fixtures: src/ui/fixtures/fixtures.ts   # new pages, components, dialogs and flows are registered here
-    preconditionFixture: src/fixtures/openHomePage.ts
+    preconditionFixture: src/ui/fixtures/preconditions/openHomePageTest.ts
     fixturesIndex: src/fixtures/index.ts    # precondition fixtures are exported here
     spec: tests/ui/products/product-search.spec.ts
     constants: src/data/TestConstants.ts

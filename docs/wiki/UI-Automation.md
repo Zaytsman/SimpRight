@@ -68,7 +68,7 @@ After your approval, the same agent:
    - page objects in `src/ui/pages/`, extending `BasePage`: locators in `private readonly` fields, a noun getter only for what a test asserts on (`get searchCaption()`), verbs for actions (`addToCart()`), no assertions inside;
    - shared parts in `src/ui/pages/components/`, dialogs in `src/ui/pages/dialogs/`;
    - multi-page journeys in `src/ui/flows/`;
-   - fixtures in `src/ui/fixtures/fixtures.ts`, and precondition fixtures (a test that starts somewhere specific) in `src/fixtures/`;
+   - fixtures in `src/ui/fixtures/fixtures.ts`, and precondition fixtures (a test that starts somewhere specific) in `src/ui/fixtures/preconditions/`;
    - data a test needs (a product in stock, a throwaway customer) created and removed **through the API**, not through the UI.
 2. After a change to something shared, runs **every spec that uses it**, not only the new ones.
 3. **Writes the specs** step for step (the `ui-test-from-scenario` skill).
