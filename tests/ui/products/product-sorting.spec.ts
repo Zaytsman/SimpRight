@@ -1,4 +1,5 @@
-import { test, expect } from '@fixtures';
+// Every scenario here has the precondition "The home page is open.": the fixture opens it before the steps.
+import { openHomePageTest as test, expect } from '@fixtures';
 
 // Scenarios: test-scenarios/ui/products/product-sorting.yml
 // The user's approved reading of the Verify steps: names are compared case-insensitively, prices are the
@@ -7,10 +8,6 @@ const byName = (a: string, b: string) => a.localeCompare(b, undefined, { sensiti
 
 test.describe('@products - Product sorting', () => {
   test('UI-008: Sort by name from A to Z', async ({ homePage }) => {
-    await test.step('Open the home page.', async () => {
-      await homePage.open();
-    });
-
     await test.step('Select "Name (A - Z)" in the sort list.', async () => {
       await homePage.sortBy('Name (A - Z)');
     });
@@ -23,10 +20,6 @@ test.describe('@products - Product sorting', () => {
   });
 
   test('UI-009: Sort by name from Z to A', async ({ homePage }) => {
-    await test.step('Open the home page.', async () => {
-      await homePage.open();
-    });
-
     await test.step('Select "Name (Z - A)" in the sort list.', async () => {
       await homePage.sortBy('Name (Z - A)');
     });
@@ -39,10 +32,6 @@ test.describe('@products - Product sorting', () => {
   });
 
   test('UI-010: Sort by price from high to low', async ({ homePage }) => {
-    await test.step('Open the home page.', async () => {
-      await homePage.open();
-    });
-
     await test.step('Select "Price (High - Low)" in the sort list.', async () => {
       await homePage.sortBy('Price (High - Low)');
     });
@@ -55,10 +44,6 @@ test.describe('@products - Product sorting', () => {
   });
 
   test('UI-011: Sort by price from low to high', async ({ homePage }) => {
-    await test.step('Open the home page.', async () => {
-      await homePage.open();
-    });
-
     await test.step('Select "Price (Low - High)" in the sort list.', async () => {
       await homePage.sortBy('Price (Low - High)');
     });

@@ -1,14 +1,11 @@
-import { test, expect } from '@fixtures';
+// Every scenario here has the precondition "The home page is open.": the fixture opens it before the steps.
+import { openHomePageTest as test, expect } from '@fixtures';
 import { TestConstants } from '@data/TestConstants';
 
 // Scenarios: test-scenarios/ui/products/product-search.yml
 test.describe('@products - Product search', () => {
   test('UI-001: Search by name shows only matching products', async ({ homePage }) => {
     const term = TestConstants.products.searchTerm;
-
-    await test.step('Open the home page.', async () => {
-      await homePage.open();
-    });
 
     await test.step('Search for "pliers".', async () => {
       await homePage.search(term);
@@ -34,10 +31,6 @@ test.describe('@products - Product search', () => {
     const category = 'Hammer';
     const brand = TestConstants.products.brand;
     const term = TestConstants.products.searchTerm;
-
-    await test.step('Open the home page.', async () => {
-      await homePage.open();
-    });
 
     await test.step('Check the category "Hammer" in the sidebar.', async () => {
       await homePage.filters.checkCategory(category);
@@ -74,10 +67,6 @@ test.describe('@products - Product search', () => {
   test('UI-004: Search with a 3-character term is accepted', async ({ homePage }) => {
     const term = 'ham';
 
-    await test.step('Open the home page.', async () => {
-      await homePage.open();
-    });
-
     await test.step('Search for "ham".', async () => {
       await homePage.search(term);
     });
@@ -101,10 +90,6 @@ test.describe('@products - Product search', () => {
   test('UI-005: Search with a 40-character term is accepted', async ({ homePage }) => {
     const term = 'a'.repeat(40);
 
-    await test.step('Open the home page.', async () => {
-      await homePage.open();
-    });
-
     await test.step('Search for a term of exactly 40 characters.', async () => {
       await homePage.search(term);
     });
@@ -116,12 +101,8 @@ test.describe('@products - Product search', () => {
 
   test('UI-006: Search with a 2-character term is rejected', async ({ homePage }) => {
     const term = 'pl';
-    let firstPageNames: string[] = [];
-
-    await test.step('Open the home page.', async () => {
-      await homePage.open();
-      firstPageNames = await homePage.productGrid.getProductNames();
-    });
+    // The first page as the fixture opened it, for the last check.
+    const firstPageNames = await homePage.productGrid.getProductNames();
 
     await test.step('Search for "pl".', async () => {
       await homePage.submitSearch(term);
@@ -142,12 +123,8 @@ test.describe('@products - Product search', () => {
 
   test('UI-007: Search with a 41-character term is rejected', async ({ homePage }) => {
     const term = 'a'.repeat(41);
-    let firstPageNames: string[] = [];
-
-    await test.step('Open the home page.', async () => {
-      await homePage.open();
-      firstPageNames = await homePage.productGrid.getProductNames();
-    });
+    // The first page as the fixture opened it, for the last check.
+    const firstPageNames = await homePage.productGrid.getProductNames();
 
     await test.step('Search for a term of exactly 41 characters.', async () => {
       await homePage.submitSearch(term);

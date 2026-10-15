@@ -66,9 +66,10 @@ scenarios:
     name: A rental that is a location offer shows the discount, the discounted hourly rate and the discounted total for a visitor in London
     ref: docs/ui/user-stories/Rental_Products.md#AC5
     status: manual
-    steps:
+    preconditions:
       - The visitor is in London.
       - A rental product that is also a location offer exists.
+    steps:
       - Open the product page of that rental.
       - Set the duration slider to 3 hours.
       - Verify the discount badge "-25%" is shown.

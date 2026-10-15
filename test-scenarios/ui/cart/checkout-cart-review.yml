@@ -6,8 +6,9 @@ scenarios:
     name: The cart step shows the line under the labelled column headers
     ref: docs/ui/user-stories/Checkout_Cart_Review.md#AC1
     status: manual
-    steps:
+    preconditions:
       - A product that is in stock is in the cart.
+    steps:
       - Open the checkout page.
       - Verify the column headers "Item", "Quantity", "Price" and "Total" are shown.
       - Verify the line shows the product's name under "Item".
@@ -18,8 +19,9 @@ scenarios:
     name: Changing a line's quantity recalculates the totals and shows a confirmation
     ref: docs/ui/user-stories/Checkout_Cart_Review.md#AC2
     status: manual
-    steps:
+    preconditions:
       - A product that is in stock and has no CO2 rating A or B is in the cart with quantity 1.
+    steps:
       - Open the checkout page.
       - Change the quantity of the line from 1 to 3.
       - Verify the message "Product quantity updated." is shown.
@@ -29,8 +31,9 @@ scenarios:
     name: Deleting a line removes it and recalculates the cart total
     ref: docs/ui/user-stories/Checkout_Cart_Review.md#AC3
     status: manual
-    steps:
+    preconditions:
       - Two products that are in stock, neither with a CO2 rating A or B, are in the cart, one line each.
+    steps:
       - Open the checkout page.
       - Click the delete button on the line of the first product.
       - Verify the line of the first product is no longer shown.
@@ -40,16 +43,18 @@ scenarios:
     name: A visitor with no cart sees the empty cart message
     ref: docs/ui/user-stories/Checkout_Cart_Review.md#AC4
     status: manual
-    steps:
+    preconditions:
       - 'No cart exists yet: nothing has been added to a cart in this session.'
+    steps:
       - Open the checkout page.
       - Verify the message "Your shopping cart is empty" is shown.
   - id: UI-053
     name: Deleting the last line shows the empty cart message
     ref: docs/ui/user-stories/Checkout_Cart_Review.md#AC4
     status: manual
-    steps:
+    preconditions:
       - A product that is in stock is in the cart.
+    steps:
       - Open the checkout page.
       - Click the delete button on the line.
       - Verify the message "Your shopping cart is empty" is shown.
@@ -58,8 +63,9 @@ scenarios:
     name: '"Proceed to checkout" leads to the sign-in step'
     ref: docs/ui/user-stories/Checkout_Cart_Review.md#AC5
     status: manual
-    steps:
+    preconditions:
       - A product that is in stock is in the cart.
+    steps:
       - Open the checkout page.
       - Click "Proceed to checkout".
       - Verify the "Sign in" step is shown.
@@ -67,8 +73,9 @@ scenarios:
     name: A discounted line shows the badge, the original price and the discounted price
     ref: docs/ui/user-stories/Checkout_Cart_Review.md#AC6
     status: manual
-    steps:
+    preconditions:
       - The customer's location is Amsterdam, and a product with a location offer is added to the cart.
+    steps:
       - Open the checkout page.
       - Verify the discount badge "-20%" is shown next to the product name.
       - Verify the original price is shown struck through.
@@ -77,8 +84,9 @@ scenarios:
     name: A cart with a rental and a non-rental item shows the subtotal, the 15% discount and the total
     ref: docs/ui/user-stories/Checkout_Cart_Review.md#AC7
     status: manual
-    steps:
+    preconditions:
       - A rental product and a product that is not a rental are in the cart; neither has a discount or a CO2 rating A or B.
+    steps:
       - Open the checkout page.
       - Verify the "Subtotal" equals the sum of the line totals.
       - Verify the row "Discount (15%)" shows 15% of the subtotal.
@@ -87,8 +95,9 @@ scenarios:
     name: Deleting the rental line removes the combined discount
     ref: docs/ui/user-stories/Checkout_Cart_Review.md#AC8
     status: manual
-    steps:
+    preconditions:
       - A rental product and a product that is not a rental are in the cart; neither has a discount or a CO2 rating A or B.
+    steps:
       - Open the checkout page.
       - Click the delete button on the line of the rental product.
       - Verify the "Subtotal" row is no longer shown.
@@ -98,8 +107,9 @@ scenarios:
     name: A rental line in the checkout cart is marked "This is a rental item"
     ref: docs/ui/user-stories/Rental_Products.md#AC4
     status: manual
-    steps:
+    preconditions:
       - A rental product and a product that is not a rental are in the cart.
+    steps:
       - Open the checkout page.
       - Verify the line of the rental product is marked "This is a rental item".
       - Verify the line of the product that is not a rental is not marked "This is a rental item".

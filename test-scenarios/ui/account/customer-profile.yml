@@ -6,9 +6,10 @@ scenarios:
     name: '"My profile" in the user menu opens the profile page with the saved details'
     ref: docs/ui/user-stories/Customer_Profile.md#AC1
     status: manual
-    steps:
+    preconditions:
       - A newly registered customer with a saved phone and address, country included, is logged in.
-      - Open the home page.
+      - The home page is open.
+    steps:
       - Open the user menu in the navigation.
       - Click "My profile".
       - Verify the page heading "Profile" is shown.
@@ -47,8 +48,9 @@ scenarios:
     name: An empty phone is highlighted as invalid and the profile is not updated
     ref: docs/ui/user-stories/Customer_Profile.md#AC2
     status: manual
-    steps:
+    preconditions:
       - A newly registered customer with a saved phone and address, country included, is logged in.
+    steps:
       - Open the profile page.
       - Clear the field "Phone".
       - Click "Update Profile".
@@ -59,8 +61,9 @@ scenarios:
     name: An empty state is highlighted as invalid and the profile is not updated
     ref: docs/ui/user-stories/Customer_Profile.md#AC2
     status: manual
-    steps:
+    preconditions:
       - A newly registered customer with a saved phone and address, country included, is logged in.
+    steps:
       - Open the profile page.
       - Clear the field "State".
       - Click "Update Profile".
@@ -71,8 +74,9 @@ scenarios:
     name: An empty postal code is highlighted as invalid and the profile is not updated
     ref: docs/ui/user-stories/Customer_Profile.md#AC2
     status: manual
-    steps:
+    preconditions:
       - A newly registered customer with a saved phone and address, country included, is logged in.
+    steps:
       - Open the profile page.
       - Clear the field "Postal code".
       - Click "Update Profile".
@@ -92,8 +96,9 @@ scenarios:
     name: Updating the profile shows a success message that disappears after about 5 seconds
     ref: docs/ui/user-stories/Customer_Profile.md#AC4
     status: manual
-    steps:
+    preconditions:
       - A newly registered customer with a saved phone and address, country included, is logged in.
+    steps:
       - Open the profile page.
       - Enter "Alex" in the field "First name", replacing what is there.
       - Enter "Tester" in the field "Last name", replacing what is there.

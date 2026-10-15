@@ -27,6 +27,26 @@ export class ProductGrid {
     return this.cardLinks.filter({ has: this.productNameTexts.getByText(name, { exact: true }) });
   }
 
+  /** "Out of stock" on the card of the named product, shown when the product has no stock. */
+  outOfStockLabel(name: string): Locator {
+    return this.card(name).getByTestId('out-of-stock');
+  }
+
+  /** The image of the card at `index` (0-based, grid order); it has no data-test, its alt is the product name. */
+  cardImage(index: number): Locator {
+    return this.cardLinks.nth(index).getByRole('img');
+  }
+
+  /** The product name on the card at `index` (0-based, grid order). */
+  cardName(index: number): Locator {
+    return this.cardLinks.nth(index).getByTestId('product-name');
+  }
+
+  /** The price on the card at `index` (0-based, grid order), e.g. "$14.15"; the original price when the card shows a discount. */
+  cardPrice(index: number): Locator {
+    return this.cardLinks.nth(index).getByTestId('product-price');
+  }
+
   async getProductNames(): Promise<string[]> {
     return (await this.productNameTexts.allTextContents()).map((name) => name.trim());
   }

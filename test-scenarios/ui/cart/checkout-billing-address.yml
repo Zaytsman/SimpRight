@@ -6,8 +6,9 @@ scenarios:
     name: The billing address step shows the address fields
     ref: docs/ui/user-stories/Checkout_Billing_Address.md#AC1
     status: manual
-    steps:
+    preconditions:
       - A product that is in stock is in the cart.
+    steps:
       - Open the checkout page.
       - Click "Proceed" on the cart step.
       - Click "Proceed" on the sign-in step.
@@ -21,8 +22,9 @@ scenarios:
     name: An empty street is highlighted as invalid and disables "Proceed"
     ref: docs/ui/user-stories/Checkout_Billing_Address.md#AC2
     status: manual
-    steps:
+    preconditions:
       - A product that is in stock is in the cart.
+    steps:
       - Open the checkout page.
       - Click "Proceed" on the cart step.
       - Click "Proceed" on the sign-in step.
@@ -35,8 +37,9 @@ scenarios:
     name: An empty city is highlighted as invalid and disables "Proceed"
     ref: docs/ui/user-stories/Checkout_Billing_Address.md#AC2
     status: manual
-    steps:
+    preconditions:
       - A product that is in stock is in the cart.
+    steps:
       - Open the checkout page.
       - Click "Proceed" on the cart step.
       - Click "Proceed" on the sign-in step.
@@ -49,8 +52,9 @@ scenarios:
     name: An empty state is highlighted as invalid and disables "Proceed"
     ref: docs/ui/user-stories/Checkout_Billing_Address.md#AC2
     status: manual
-    steps:
+    preconditions:
       - A product that is in stock is in the cart.
+    steps:
       - Open the checkout page.
       - Click "Proceed" on the cart step.
       - Click "Proceed" on the sign-in step.
@@ -63,8 +67,9 @@ scenarios:
     name: An empty country is highlighted as invalid and disables "Proceed"
     ref: docs/ui/user-stories/Checkout_Billing_Address.md#AC2
     status: manual
-    steps:
+    preconditions:
       - A product that is in stock is in the cart.
+    steps:
       - Open the checkout page.
       - Click "Proceed" on the cart step.
       - Click "Proceed" on the sign-in step.
@@ -77,8 +82,9 @@ scenarios:
     name: An empty postal code is highlighted as invalid and disables "Proceed"
     ref: docs/ui/user-stories/Checkout_Billing_Address.md#AC2
     status: manual
-    steps:
+    preconditions:
       - A product that is in stock is in the cart.
+    steps:
       - Open the checkout page.
       - Click "Proceed" on the cart step.
       - Click "Proceed" on the sign-in step.
@@ -91,8 +97,9 @@ scenarios:
     name: A filled-in billing address lets the customer proceed to the payment step
     ref: docs/ui/user-stories/Checkout_Billing_Address.md#AC3
     status: manual
-    steps:
+    preconditions:
       - A product that is in stock is in the cart.
+    steps:
       - Open the checkout page.
       - Click "Proceed" on the cart step.
       - Click "Proceed" on the sign-in step.
@@ -103,9 +110,10 @@ scenarios:
     name: The billing address is pre-filled with the account's address
     ref: docs/ui/user-stories/Checkout_Billing_Address.md#AC4
     status: manual
-    steps:
+    preconditions:
       - A newly registered customer with a saved address, country included, is logged in.
       - A product that is in stock is in the cart.
+    steps:
       - Open the checkout page.
       - Click "Proceed" on the cart step.
       - Click "Proceed" on the sign-in step.

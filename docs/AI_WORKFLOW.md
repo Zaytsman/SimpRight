@@ -96,11 +96,14 @@ The **test engineers** turn `manual` scenarios into specs, again in two phases:
 The specs follow the scenario step for step, so the HTML report reads like the scenario:
 
 ```ts
+// Every scenario here has the precondition "The home page is open.": the fixture opens it before the steps.
+import { openHomePageTest as test, expect } from '@fixtures';
+
 // Scenarios: test-scenarios/ui/products/product-search.yml
 test.describe('@products - Product search', () => {
   test('UI-001: Search by name shows only matching products', async ({ homePage }) => {
-    await test.step('Open the home page.', async () => {
-      await homePage.open();
+    await test.step('Search for "pliers".', async () => {
+      await homePage.search('pliers');
     });
     await test.step('Verify the caption reads "Searched for: pliers".', async () => {
       await expect(homePage.searchCaption, 'The caption names the search term').toHaveText('Searched for: pliers');

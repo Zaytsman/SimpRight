@@ -53,8 +53,8 @@ The **same agent** writes exactly the approved scenarios. Each gets a `ref` to i
 
 ## How it writes steps
 
-- **The user's language:** `Open the home page.`, `Select "Price (High - Low)" in the sort list.`, `Click "Add to cart".` Labels quoted exactly as the app shows them. Never `data-test` ids, selectors, URLs with record ids or page object names.
-- **One user action per step**; the starting state first (`A product is in the cart.`: what's needed, not how to create it).
+- **The user's language:** `Click "Sign in".`, `Select "Price (High - Low)" in the sort list.`, `Click "Add to cart".` Labels quoted exactly as the app shows them. Never `data-test` ids, selectors, URLs with record ids or page object names.
+- **One user action per step**; the starting state goes in `preconditions` (`The home page is open.`, `A product is in the cart.`: what's needed, not how to create it).
 - **Checks** start with `Verify`, one visible concern each: `Verify the message "Product added to shopping cart." is shown.`
 - **Records named by what users see** ("the product "Combination Pliers""), because ids change when the demo site re-seeds.
 - **Roles:** none for the default customer, `guest` for a logged-out visitor, `admin` for admin pages.

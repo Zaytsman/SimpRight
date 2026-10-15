@@ -22,7 +22,7 @@ Copy the structure of the exemplar spec (`ui.exemplars.spec` in the profile) and
 - A scenario with `knownIssue`: the first line of the test is the profile's `ui.knownIssue` snippet with the scenario's `bug` ID and the text verbatim.
 - Tests in a file run in parallel and each file runs on its own: no state shared between tests, no order between them.
 - State shared between steps goes in `let` variables at the top of the test; values only this test uses are `const`s there too (from the constants module when shared).
-- **Precondition fixtures** cover setup the scenario doesn't list as a step. A step the scenario lists ("Open the home page.") is done inside that step with plain `test`.
+- **Preconditions** (the scenario's `preconditions`): each precondition is set up before the first step, never in a `test.step`: with a precondition fixture (`openHomePageTest`, `visitorInLondonTest`, `throwawayCustomerTest`) when the tests share it, imported as `test` (`import { openHomePageTest as test, expect } from '@fixtures'`) so the validator finds the titles; otherwise as setup code at the top of the test with a `// Precondition: <text>` comment. A precondition fixture that exists for the text ("The home page is open." → `openHomePageTest`) is always used; when tests in the file have different preconditions, wrap the ones that share a fixture in an anonymous `test.describe(() => { const test = <fixture>; ... })`.
 
 ## Steps
 

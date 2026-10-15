@@ -43,6 +43,7 @@ interface ScenarioFile {
     role?: string;
     knownIssue?: string;
     bug?: string;
+    preconditions?: string[];
     steps: string[];
   }[];
 }

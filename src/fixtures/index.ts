@@ -1,7 +1,7 @@
 export { test, expect, type TestFixtures } from './fixtures';
-export { openHomePageTest } from './openHomePage';
-export { visitorInLondonTest } from './visitorInLondon';
-export { throwawayCustomerTest } from './throwawayCustomer';
+export { openHomePageTest } from '../ui/fixtures/preconditions/openHomePageTest';
+export { visitorInLondonTest } from '../ui/fixtures/preconditions/visitorInLondonTest';
+export { throwawayCustomerTest } from '../ui/fixtures/preconditions/throwawayCustomerTest';
 export {
   PRODUCT_LIST_STEP,
   PRODUCT_CREATE_STEP,

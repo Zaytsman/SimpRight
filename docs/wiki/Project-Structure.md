@@ -14,11 +14,9 @@ SimpRight/
 │   ├── envs/
 │   │   └── TEST.json             one file per environment: URLs, timeouts, the admin user (${VAR} placeholders)
 │   ├── fixtures/                 what specs import as @fixtures
-│   │   ├── index.ts              exports test, expect and the precondition fixtures
+│   │   ├── index.ts              exports test, expect and the UI precondition fixtures
 │   │   ├── base.ts               fixtures shared by both layers: role, config, user, tokenService, cleanup
-│   │   ├── fixtures.ts           merges the API and UI fixtures (mergeTests)
-│   │   ├── openHomePage.ts       precondition fixture: the test starts on the home page
-│   │   └── visitorInLondon.ts    precondition fixture: the browser reports a London location
+│   │   └── fixtures.ts           merges the API and UI fixtures (mergeTests)
 │   ├── api/
 │   │   ├── clients/              one client per API area, methods 1:1 with endpoints, on top of BaseClient
 │   │   ├── services/             domain operations over clients; parse responses, throw on errors
@@ -33,6 +31,7 @@ SimpRight/
 │   │   ├── flows/                multi-page user journeys (ShoppingFlow)
 │   │   ├── auth/                 login token and storage state helpers
 │   │   └── fixtures/             UI fixtures (pages, components, flows)
+│   │       └── preconditions/    where a test starts: openHomePageTest, visitorInLondonTest, throwawayCustomerTest
 │   ├── data/
 │   │   ├── TestConstants.ts      seeded app values that several tests rely on
 │   │   └── factories/            payload builders per area, uniqueName() for created records
@@ -126,7 +125,7 @@ Defined in `tsconfig.json` and resolved by Playwright, so imports don't climb fo
 | A part shared by pages | `src/ui/pages/components/` | Expose it from the pages that contain it |
 | A dialog | `src/ui/pages/dialogs/`, extending `BaseDialog` | |
 | A multi-page journey | `src/ui/flows/` | Register a fixture |
-| A precondition (the test starts somewhere specific) | `src/fixtures/<name>.ts` | Export it from `src/fixtures/index.ts` |
+| A UI precondition (the test starts somewhere specific) | `src/ui/fixtures/preconditions/<name>Test.ts`, extending the merged `test` | Export it from `src/fixtures/index.ts` |
 | An API endpoint call | A method on the area's client in `src/api/clients/` | A service method in `src/api/services/` for the happy path |
 | A new API area | A client, a service and DTOs | Register them in `src/api/fixtures/fixtures.ts`; document the area in `docs/api/contracts/` |
 | Data a test creates | A builder in `src/data/factories/<Area>Factory.ts` | Name records with `uniqueName()` |

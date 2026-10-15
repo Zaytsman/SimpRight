@@ -119,21 +119,18 @@ qa-agents-profile.yml    project facts for the QA agents and scripts (paths, com
 
 ## Writing tests
 
-1. **Describe the scenario** in `test-scenarios/<ui|api>/<area>/<name>.yml` (API files are named after the endpoint, such as `api/products/get-products-search.yml` for `GET /products/search`) under the next free ID of its layer (such as `UI-003` or `API-0064`; `npm run validate:scenarios` prints them), with its name, the spec path (`automatedIn`) and steps. Checks are steps that start with `Verify`; `test-scenarios/scenarios.schema.json` describes the format.
+1. **Describe the scenario** in `test-scenarios/<ui|api>/<area>/<name>.yml` (API files are named after the endpoint, such as `api/products/get-products-search.yml` for `GET /products/search`) under the next free ID of its layer (such as `UI-003` or `API-0064`; `npm run validate:scenarios` prints them), with its name, the spec path (`automatedIn`), the starting state (`preconditions`, UI) and steps. Checks are steps that start with `Verify`; `test-scenarios/scenarios.schema.json` describes the format.
 2. **Add what the test needs:** page objects, components or flows (UI), or clients, services and DTOs (API). Register them as fixtures in `src/ui/fixtures/fixtures.ts` or `src/api/fixtures/fixtures.ts`.
-3. **Write the spec** in `tests/<ui|api>/<area>/`, named after the scenario file. Import `test` and `expect` from `@fixtures`, title the `describe` `<tags> - <suite>` and each test `<ID>: <name>`. Every spec has one `test.step` per scenario step, titled with the step text, and a message on every assertion; API specs use `assertMessage`/`attachJson` from `@utils/assertHelpers` (see CLAUDE.md).
+3. **Write the spec** in `tests/<ui|api>/<area>/`, named after the scenario file. Import `test` and `expect` from `@fixtures`, title the `describe` `<tags> - <suite>` and each test `<ID>: <name>`. Every spec has one `test.step` per scenario step, titled with the step text (preconditions are set up before the steps, by a precondition fixture such as `openHomePageTest`), and a message on every assertion; API specs use `assertMessage`/`attachJson` from `@utils/assertHelpers` (see CLAUDE.md).
 4. **For new API endpoints**, document them in `docs/api/contracts/` (in Claude Code, `/write-api-contracts` writes them from the API's source or spec; the format is in `docs/api/CONTRACT_FORMAT.md`).
 
 ```ts
-import { test, expect } from '@fixtures';
+// Every scenario here has the precondition "The home page is open.": the fixture opens it before the steps.
+import { openHomePageTest as test, expect } from '@fixtures';
 
 // Scenarios: test-scenarios/ui/products/product-search.yml
 test.describe('@products - Product search', () => {
   test('UI-001: Search by name shows only matching products', async ({ homePage }) => {
-    await test.step('Open the home page.', async () => {
-      await homePage.open();
-    });
-
     await test.step('Search for "pliers".', async () => {
       await homePage.search('pliers');
     });

@@ -7,8 +7,9 @@ scenarios:
     ref: docs/ui/user-stories/Checkout_Sign_In.md#AC1
     status: manual
     role: guest
-    steps:
+    preconditions:
       - A product that is in stock is in the cart.
+    steps:
       - Open the checkout page.
       - Click "Proceed to checkout".
       - Verify the "Sign in" step is shown.
@@ -18,8 +19,9 @@ scenarios:
     ref: docs/ui/user-stories/Checkout_Sign_In.md#AC2
     status: manual
     role: guest
-    steps:
+    preconditions:
       - A product that is in stock is in the cart.
+    steps:
       - Open the checkout page.
       - Click "Proceed to checkout".
       - Verify the field "Email address" is shown.
@@ -30,9 +32,10 @@ scenarios:
     ref: docs/ui/user-stories/Checkout_Sign_In.md#AC3
     status: manual
     role: guest
-    steps:
+    preconditions:
       - A product that is in stock is in the cart.
       - A customer with TOTP enabled is registered; the test can compute the account's current TOTP code.
+    steps:
       - Open the checkout page.
       - Click "Proceed to checkout".
       - Enter the customer's email in the field "Email address".
@@ -53,8 +56,9 @@ scenarios:
     ref: docs/ui/user-stories/Checkout_Sign_In.md#AC4
     status: manual
     role: guest
-    steps:
+    preconditions:
       - A product that is in stock is in the cart.
+    steps:
       - Open the checkout page.
       - Click "Proceed to checkout".
       - Enter the default user's email in the field "Email address".
@@ -68,8 +72,9 @@ scenarios:
     name: A logged-in customer sees the already-signed-in message on the sign-in step and proceeds to the billing address step
     ref: docs/ui/user-stories/Checkout_Sign_In.md#AC5
     status: manual
-    steps:
+    preconditions:
       - A product that is in stock is in the cart.
+    steps:
       - Open the checkout page.
       - Click "Proceed to checkout".
       - Verify the message "You are already signed in as" followed by the default user's first and last name is shown.
