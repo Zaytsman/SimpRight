@@ -2,7 +2,7 @@
 
 # CI Pipeline
 
-How SimpRight's GitHub Actions are put together: the workflows, the reusable test job, the pull request check and how it picks which tests to run, secrets and permissions, and Dependabot. To start or schedule runs, see [CI Runs](CI-Runs).
+How SimpRight's GitHub Actions are put together: the workflows, the reusable test job, the pull request check, secrets and permissions, and Dependabot. To start or schedule runs, see [CI Runs](CI-Runs).
 
 ```
                 ┌──────── run-api-tests.yml  (weekdays 02:00 UTC)
@@ -11,7 +11,7 @@ How SimpRight's GitHub Actions are put together: the workflows, the reusable tes
                 ├──────── custom-api-tests.yml (by hand)            (reusable)            (reports)
                 └──────── custom-ui-tests.yml  (by hand)
 
- pull requests ────────── pr-checks.yml (verify) ──► typecheck, scenarios, Test Cases and Bugs build, affected tests
+ pull requests ────────── pr-checks.yml (verify) ──► typecheck, scenarios, Test Cases and Bugs build
 
  push to main ──┬──────── publish-test-cases.yml ──► gh-pages (Test Cases + Bugs pages + portal)
                 └──────── publish-wiki.yml       ──► the wiki
@@ -73,28 +73,9 @@ No workflow uses `pull_request_target`, so pull request code never runs with acc
 
 ## The pull request check: `verify`
 
-`verify` runs on every pull request to `main` or `develop`, and it's the **required check** on `main`. It's one job with conditional steps, because a required check that is skipped as a whole never reports and would block the merge.
+`verify` runs on every pull request to `main` or `develop`, and it's the **required check** on `main`. It runs static checks only: `npm run typecheck`, `npm run validate:scenarios`, and `npm run test-cases:build` and `npm run bugs:build` (the Test Cases and Bugs pages must still build).
 
-1. **Always:** `npm run typecheck`, `npm run validate:scenarios`, and `npm run test-cases:build` and `npm run bugs:build` (the Test Cases and Bugs pages must still build).
-2. **Decide the test scope** with `scripts/pr-test-scope.sh` from the files changed against the base branch.
-3. **Run the tests** the scope asks for (Chromium is installed only when tests run).
-4. On failure, upload the report as an artifact (kept 7 days).
-
-### Test scopes
-
-| Scope | When | Tests run |
-|---|---|---|
-| `all` | A file every run depends on but no spec imports changed: `playwright.config.ts`, `src/globalSetup.ts`, `src/envs/*`, `package.json`, `package-lock.json`, `tsconfig.json`, `.npmrc`, `pr-checks.yml`, `pr-test-scope.sh` | `npx playwright test` |
-| `changed` | Only `src/` or `tests/` changed | `npx playwright test --only-changed=<base>`: the specs whose imports reach the changed files |
-| `none` | Nothing the tests depend on changed: docs, wiki, contracts, scenarios, the portal, `site/`, `.claude/`, other workflows | No tests (a notice says so) |
-
-Every spec imports `@fixtures`, which imports the whole framework, so in practice any change under `src/` runs everything, and a change to one spec runs just that spec.
-
-**When you add a file** that every run depends on but no spec imports (a new environment file format, a new setup script), add it to the `all` list in `scripts/pr-test-scope.sh`.
-
-### Forks and Dependabot
-
-Pull requests from forks and from Dependabot get no repository secrets. `verify` notices that and runs the static checks only (typecheck, scenario validation, Test Cases build). Dependabot pull requests run the tests too once the admin secrets are also added as Dependabot secrets.
+It runs no tests. They run locally before a push (each changed spec three times) and in the nightly regressions on `main`. So `verify` needs no secrets and no browser, and pull requests from forks and from Dependabot get the same check.
 
 ### Concurrency
 
@@ -123,8 +104,7 @@ Security updates ignore `target-branch` and always open against `main`; after me
 |---|---|
 | A new test area folder | Add it to the `area` options of `custom-ui-tests.yml` or `custom-api-tests.yml` |
 | A new scheduled run | A new caller of `playwright-run.yml` (example in [CI Runs](CI-Runs#add-a-new-scheduled-run)) |
-| A file every run depends on | The `all` list in `scripts/pr-test-scope.sh` |
-| A new secret | Actions secrets, the `env:` of `playwright-run.yml` and `pr-checks.yml`, `.env.example`, and the environment JSON placeholders |
+| A new secret | Actions secrets, the `env:` of `playwright-run.yml`, `.env.example`, and the environment JSON placeholders |
 | Shell scripts | Keep LF line endings (`.gitattributes` enforces it for every `*.sh`) |
 
 See also: [CI Runs](CI-Runs), [GitHub Pages Publishing](GitHub-Pages-Publishing).

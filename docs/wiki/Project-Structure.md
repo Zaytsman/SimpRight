@@ -142,7 +142,6 @@ Defined in `tsconfig.json` and resolved by Playwright, so imports don't climb fo
 | `validate-scenarios.mts` | `npm run validate:scenarios`, CI | Checks the profile, the scenario files, their IDs and that specs match them |
 | `inspect-ui.mts` | `npm run inspect:ui` | Starts the page inspector |
 | `build-test-cases.mts` | `npm run test-cases:build`, CI | Builds the UI and API Test Cases pages from the scenarios |
-| `pr-test-scope.sh` | CI (`verify`) | Decides which tests a pull request runs: all, only the affected specs, or none |
 | `publish-report.sh` | CI | Publishes a run's report to `gh-pages` and keeps the latest 30 runs |
 | `publish-test-cases.sh` | CI | Publishes the Test Cases pages and the dashboard to `gh-pages` |
 | `gh-pages-lib.sh` | the two publish scripts | Shared checkout of `gh-pages` and push with retries |
@@ -151,7 +150,7 @@ Defined in `tsconfig.json` and resolved by Playwright, so imports don't climb fo
 
 | Workflow | When | What |
 |---|---|---|
-| `pr-checks.yml` (`verify`) | every pull request to `main` or `develop` | Typecheck, scenario validation, Test Cases build, and the tests the change can affect |
+| `pr-checks.yml` (`verify`) | every pull request to `main` or `develop` | Typecheck, scenario validation, Test Cases and Bugs page builds (no tests) |
 | `run-api-tests.yml` | weekdays 02:00 UTC, or by hand | Full API regression, with the coverage report |
 | `run-ui-tests.yml` | weekdays 06:00 UTC, or by hand | Full UI regression |
 | `custom-api-tests.yml`, `custom-ui-tests.yml` | by hand | One area, optionally filtered with `--grep` |

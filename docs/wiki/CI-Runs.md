@@ -14,7 +14,7 @@ This page covers the workflows, how to start a run by hand, how to change or add
 | **UI Regression Test Run** | `run-ui-tests.yml` | weekdays at 06:00 UTC, or by hand | all UI tests | `daily-ui-regression` |
 | **Custom API Test Run** | `custom-api-tests.yml` | by hand | one API area, optionally filtered by title | `custom-api` |
 | **Custom UI Test Run** | `custom-ui-tests.yml` | by hand | one UI area, optionally filtered by title | `custom-ui` |
-| **PR Checks** (`verify`) | `pr-checks.yml` | every pull request to `main` or `develop` | typecheck, scenario validation and the tests the change can affect | none (results stay in the PR) |
+| **PR Checks** (`verify`) | `pr-checks.yml` | every pull request to `main` or `develop` | typecheck, scenario validation, Test Cases and Bugs page builds | none (results stay in the PR) |
 
 The four test workflows are thin callers of one reusable workflow, `playwright-run.yml`. It checks out the code, installs Node.js 24, the dependencies and (for UI runs) Chromium, runs the typecheck and the tests, then publishes the report. A failed test fails the job, but only after the report has been published.
 
@@ -156,14 +156,6 @@ To find out why a run failed, open its report, or use `/heal-tests <run id>` in 
 
 ## Pull request checks
 
-`verify` runs on every pull request to `main` or `develop`. It's the required check on `main`. It always runs the typecheck and the scenario validation, then picks the tests from the changed files:
-
-| Changed | Tests run |
-|---|---|
-| Config that every run depends on (`playwright.config.ts`, `src/globalSetup.ts`, `src/envs/`, `package*.json`, `tsconfig.json`, `.npmrc`, the check itself) | all |
-| Only `src/` or `tests/` | the specs whose imports reach the changed files |
-| Anything else (docs, wiki, scenarios, the dashboard, agents, other workflows) | none |
-
-Pull requests from forks and from Dependabot get no secrets, so they run the typecheck and the scenario validation only.
+`verify` runs on every pull request to `main` or `develop`. It's the required check on `main`. It runs static checks only: the typecheck, the scenario validation and the Test Cases and Bugs page builds. It runs no tests: they run locally before a push (each changed spec three times) and in the nightly regressions on `main`. It needs no secrets, so pull requests from forks and from Dependabot get the same check.
 
 See also: [Local Runs](Local-Runs).

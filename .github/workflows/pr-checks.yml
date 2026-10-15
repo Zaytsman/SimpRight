@@ -1,10 +1,8 @@
 name: PR Checks
 
 # Required status check for pull requests (the `verify` job; see the main branch ruleset).
-# Typecheck and scenario validation always run. The tests run only as far as the change needs
-# (scripts/pr-test-scope.sh): the whole suite, only the specs the changed files reach, or none.
-# Pull requests from forks get no repository secrets, so they run the static checks only.
-# It stays one job with conditional steps: a required check that is skipped never reports.
+# Static checks only: typecheck, scenario validation and the Test Cases and Bugs page builds.
+# The tests don't run here: they run locally before a push, and nightly on main.
 
 on:
   pull_request:
@@ -21,21 +19,11 @@ concurrency:
 jobs:
   verify:
     runs-on: ubuntu-latest
-    timeout-minutes: 40
-
-    env:
-      # Secrets are read by src/config/env.ts from the environment (no .env file on CI).
-      ADMIN_USER: ${{ secrets.ADMIN_USER }}
-      ADMIN_PASSWORD: ${{ secrets.ADMIN_PASSWORD }}
-      HAS_SECRETS: ${{ secrets.ADMIN_USER != '' }}
-      BASE_REF: origin/${{ github.base_ref }}
+    timeout-minutes: 15
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v7
-        with:
-          # Full history, so the base branch is there to diff against.
-          fetch-depth: 0
 
       - name: Setup Node.js
         uses: actions/setup-node@v7
@@ -50,7 +38,7 @@ jobs:
         run: npm ci
         env:
           # Read access to the private coverage package (granted to this repo in the package settings).
-          # Without access (e.g. in a fork) the optional package is skipped and the tests run without coverage.
+          # Without access (e.g. in a fork) the optional package is skipped.
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Typecheck
@@ -64,46 +52,3 @@ jobs:
         run: |
           npm run test-cases:build
           npm run bugs:build
-
-      - name: Decide test scope
-        id: scope
-        run: bash scripts/pr-test-scope.sh "$BASE_REF"
-
-      - name: Note skipped tests
-        if: env.HAS_SECRETS != 'true' || steps.scope.outputs.scope == 'none'
-        run: |
-          if [ "$HAS_SECRETS" != 'true' ]; then
-            echo "::notice::No test user secrets available (fork or Dependabot pull request); tests were skipped."
-          else
-            echo "::notice::No file that the tests depend on changed; tests were skipped."
-          fi
-
-      - name: Cache Playwright browsers
-        if: env.HAS_SECRETS == 'true' && steps.scope.outputs.scope != 'none'
-        uses: actions/cache@v6
-        with:
-          path: ~/.cache/ms-playwright
-          key: playwright-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
-
-      - name: Install Playwright browsers
-        if: env.HAS_SECRETS == 'true' && steps.scope.outputs.scope != 'none'
-        run: npm run install:browsers
-
-      - name: Run all tests
-        if: env.HAS_SECRETS == 'true' && steps.scope.outputs.scope == 'all'
-        run: npx playwright test
-
-      - name: Run tests affected by the change
-        if: env.HAS_SECRETS == 'true' && steps.scope.outputs.scope == 'changed'
-        # Changed code that no spec imports selects no tests, which is a pass.
-        run: npx playwright test --only-changed="$BASE_REF" --pass-with-no-tests
-
-      - name: Upload report artifact
-        if: ${{ failure() && env.HAS_SECRETS == 'true' }}
-        uses: actions/upload-artifact@v7
-        with:
-          name: pr-${{ github.event.pull_request.number }}-report
-          path: |
-            playwright-report/
-            test-results/
-          retention-days: 7
