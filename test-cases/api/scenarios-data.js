@@ -3,16 +3,16 @@ window.SCENARIO_CATALOG = {
  "layer": "api",
  "title": "API Test Cases",
  "prefix": "API",
- "generatedAt": "2026-10-14T20:28:21.607Z",
- "commit": "613c3e5763bba7e7c6a68462402a9510e37a5444",
+ "generatedAt": "2026-10-15T17:56:51.158Z",
+ "commit": "17eb7536e5a1cb403854197f4aa69facf75ed379",
  "repoUrl": "https://github.com/Zaytsman/SimpRight",
  "branch": "main",
  "workflowUrl": "https://github.com/Zaytsman/SimpRight/actions/workflows/custom-api-tests.yml",
  "stats": {
-  "total": 667,
-  "automated": 667,
+  "total": 670,
+  "automated": 670,
   "manual": 0,
-  "knownIssues": 67,
+  "knownIssues": 70,
   "automatedPct": 100
  },
  "tree": [
@@ -608,7 +608,8 @@ window.SCENARIO_CATALOG = {
       "API-0498",
       "API-0499",
       "API-0500",
-      "API-0501"
+      "API-0501",
+      "API-0668"
      ]
     },
     {
@@ -626,7 +627,9 @@ window.SCENARIO_CATALOG = {
       "API-0505",
       "API-0506",
       "API-0507",
-      "API-0508"
+      "API-0508",
+      "API-0669",
+      "API-0670"
      ]
     },
     {
@@ -6510,7 +6513,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's id is a non-empty string, and its billing_street, billing_city, billing_state and billing_country equal the values sent.",
     "Verify GET /invoices/{invoiceId} with the new id and that token returns 200 with the same billing_street, billing_city, billing_state and billing_country."
    ],
-   "specLine": 135,
+   "specLine": 147,
    "area": "invoices",
    "areaLabel": "Invoices",
    "file": "test-scenarios/api/invoices/post-invoices.yml",
@@ -6539,7 +6542,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's id is a non-empty string, and its billing_city, billing_state, billing_country and billing_postal_code equal the values sent.",
     "Verify GET /invoices/{invoiceId} with the new id and that token returns 200 with the same billing_city, billing_state, billing_country and billing_postal_code."
    ],
-   "specLine": 180,
+   "specLine": 192,
    "area": "invoices",
    "areaLabel": "Invoices",
    "file": "test-scenarios/api/invoices/post-invoices.yml",
@@ -6563,7 +6566,7 @@ window.SCENARIO_CATALOG = {
     "Verify the response status is 422.",
     "Verify the body has the keys billing_street, billing_city and billing_country, each with at least one message."
    ],
-   "specLine": 244,
+   "specLine": 256,
    "area": "invoices",
    "areaLabel": "Invoices",
    "file": "test-scenarios/api/invoices/post-invoices.yml",
@@ -6587,7 +6590,7 @@ window.SCENARIO_CATALOG = {
     "Verify the response status is 422.",
     "Verify the body has a billing_street key with at least one message."
    ],
-   "specLine": 254,
+   "specLine": 266,
    "area": "invoices",
    "areaLabel": "Invoices",
    "file": "test-scenarios/api/invoices/post-invoices.yml",
@@ -6611,7 +6614,7 @@ window.SCENARIO_CATALOG = {
     "Verify the response status is 422.",
     "Verify the body has a billing_city key with at least one message."
    ],
-   "specLine": 264,
+   "specLine": 276,
    "area": "invoices",
    "areaLabel": "Invoices",
    "file": "test-scenarios/api/invoices/post-invoices.yml",
@@ -6635,7 +6638,7 @@ window.SCENARIO_CATALOG = {
     "Verify the response status is 422.",
     "Verify the body has a billing_state key with at least one message."
    ],
-   "specLine": 274,
+   "specLine": 286,
    "area": "invoices",
    "areaLabel": "Invoices",
    "file": "test-scenarios/api/invoices/post-invoices.yml",
@@ -6659,7 +6662,7 @@ window.SCENARIO_CATALOG = {
     "Verify the response status is 422.",
     "Verify the body has a billing_country key with at least one message."
    ],
-   "specLine": 284,
+   "specLine": 296,
    "area": "invoices",
    "areaLabel": "Invoices",
    "file": "test-scenarios/api/invoices/post-invoices.yml",
@@ -6683,7 +6686,7 @@ window.SCENARIO_CATALOG = {
     "Verify the response status is 422.",
     "Verify the body has a billing_postal_code key with at least one message."
    ],
-   "specLine": 294,
+   "specLine": 306,
    "area": "invoices",
    "areaLabel": "Invoices",
    "file": "test-scenarios/api/invoices/post-invoices.yml",
@@ -6713,7 +6716,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /invoices/{invoiceId} with the new id and that token returns 200 with exactly one line with the product's id as product_id and quantity 2, and payment.payment_method \"cash-on-delivery\"."
    ],
    "ref": [],
-   "specLine": 304,
+   "specLine": 316,
    "area": "invoices",
    "areaLabel": "Invoices",
    "file": "test-scenarios/api/invoices/post-invoices.yml",
@@ -6739,7 +6742,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /invoices/{invoiceId} with the new id and that token returns 200 with invoicelines as an empty array."
    ],
    "ref": [],
-   "specLine": 362,
+   "specLine": 374,
    "area": "invoices",
    "areaLabel": "Invoices",
    "file": "test-scenarios/api/invoices/post-invoices.yml",
@@ -6764,7 +6767,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /invoices/{invoiceId} with the new id and that token returns 200 with payment.payment_method \"bank-transfer\" and payment.payment_details holding the bank_name, account_name and account_number sent."
    ],
    "ref": [],
-   "specLine": 403,
+   "specLine": 415,
    "area": "invoices",
    "areaLabel": "Invoices",
    "file": "test-scenarios/api/invoices/post-invoices.yml",
@@ -6789,7 +6792,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /invoices/{invoiceId} with the new id and that token returns 200 with payment.payment_method \"credit-card\" and payment.payment_details holding the credit_card_number, expiration_date, cvv and card_holder_name sent."
    ],
    "ref": [],
-   "specLine": 420,
+   "specLine": 432,
    "area": "invoices",
    "areaLabel": "Invoices",
    "file": "test-scenarios/api/invoices/post-invoices.yml",
@@ -6814,7 +6817,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /invoices/{invoiceId} with the new id and that token returns 200 with payment.payment_method \"buy-now-pay-later\" and payment.payment_details holding the monthly_installments sent."
    ],
    "ref": [],
-   "specLine": 437,
+   "specLine": 449,
    "area": "invoices",
    "areaLabel": "Invoices",
    "file": "test-scenarios/api/invoices/post-invoices.yml",
@@ -6839,7 +6842,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /invoices/{invoiceId} with the new id and that token returns 200 with payment.payment_method \"gift-card\" and payment.payment_details holding the gift_card_number and validation_code sent."
    ],
    "ref": [],
-   "specLine": 454,
+   "specLine": 466,
    "area": "invoices",
    "areaLabel": "Invoices",
    "file": "test-scenarios/api/invoices/post-invoices.yml",
@@ -6861,7 +6864,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's message is \"Unauthorized\"."
    ],
    "ref": [],
-   "specLine": 471,
+   "specLine": 483,
    "area": "invoices",
    "areaLabel": "Invoices",
    "file": "test-scenarios/api/invoices/post-invoices.yml",
@@ -6883,7 +6886,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body has the keys payment_method, payment_details and cart_id, each with at least one message."
    ],
    "ref": [],
-   "specLine": 491,
+   "specLine": 503,
    "area": "invoices",
    "areaLabel": "Invoices",
    "file": "test-scenarios/api/invoices/post-invoices.yml",
@@ -6905,7 +6908,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body has a payment_method key with at least one message."
    ],
    "ref": [],
-   "specLine": 501,
+   "specLine": 513,
    "area": "invoices",
    "areaLabel": "Invoices",
    "file": "test-scenarios/api/invoices/post-invoices.yml",
@@ -6927,7 +6930,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body has a \"payment_details.gift_card_number\" key with at least one message."
    ],
    "ref": [],
-   "specLine": 511,
+   "specLine": 523,
    "area": "invoices",
    "areaLabel": "Invoices",
    "file": "test-scenarios/api/invoices/post-invoices.yml",
@@ -6949,7 +6952,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body has a \"payment_details.validation_code\" key with at least one message."
    ],
    "ref": [],
-   "specLine": 521,
+   "specLine": 533,
    "area": "invoices",
    "areaLabel": "Invoices",
    "file": "test-scenarios/api/invoices/post-invoices.yml",
@@ -6971,7 +6974,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body has a billing_street key with at least one message."
    ],
    "ref": [],
-   "specLine": 531,
+   "specLine": 543,
    "area": "invoices",
    "areaLabel": "Invoices",
    "file": "test-scenarios/api/invoices/post-invoices.yml",
@@ -6993,7 +6996,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body has a billing_country key with at least one message."
    ],
    "ref": [],
-   "specLine": 541,
+   "specLine": 553,
    "area": "invoices",
    "areaLabel": "Invoices",
    "file": "test-scenarios/api/invoices/post-invoices.yml",
@@ -7017,7 +7020,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's message is \"Requested item not found\"."
    ],
    "ref": [],
-   "specLine": 551,
+   "specLine": 563,
    "area": "invoices",
    "areaLabel": "Invoices",
    "file": "test-scenarios/api/invoices/post-invoices.yml",
@@ -7043,7 +7046,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's total is 0."
    ],
    "ref": [],
-   "specLine": 574,
+   "specLine": 586,
    "area": "invoices",
    "areaLabel": "Invoices",
    "file": "test-scenarios/api/invoices/post-invoices.yml",
@@ -7069,7 +7072,7 @@ window.SCENARIO_CATALOG = {
     "Verify the response status is 422."
    ],
    "ref": [],
-   "specLine": 602,
+   "specLine": 610,
    "area": "invoices",
    "areaLabel": "Invoices",
    "file": "test-scenarios/api/invoices/post-invoices.yml",
@@ -7095,7 +7098,7 @@ window.SCENARIO_CATALOG = {
     "Verify the response status is 422."
    ],
    "ref": [],
-   "specLine": 630,
+   "specLine": 638,
    "area": "invoices",
    "areaLabel": "Invoices",
    "file": "test-scenarios/api/invoices/post-invoices.yml",
@@ -7105,6 +7108,33 @@ window.SCENARIO_CATALOG = {
     "@invoices-api"
    ],
    "yaml": "- id: API-0501\n  name: Create invoice with bank-transfer details missing the required fields returns 422\n  status: automated\n  automatedIn: tests/api/invoices/post-invoices.spec.ts\n  knownIssue: Returns 500 \"Something went wrong\" instead of 422 when payment_details lacks the fields the payment method requires.\n  bug: BUG-041\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.\n    - Send POST /users/login with that email and password, and take its access_token.\n    - Send POST /carts with an empty body and take the returned id as the cart's id.\n    - Send POST /invoices with that access_token, payment_method \"bank-transfer\", payment_details {}, billing_street \"Stephansplatz 1\", billing_city \"Wien\", billing_country \"AT\" and the cart's id as cart_id.\n    - Verify the response status is 422."
+  },
+  {
+   "id": "API-0668",
+   "name": "Create invoice with payment_details null leaves no invoice behind",
+   "status": "automated",
+   "automatedIn": "tests/api/invoices/post-invoices.spec.ts",
+   "knownIssue": "A failed checkout (payment_details null) leaves an invoice without lines or payment in the customer's invoice list.",
+   "bug": "BUG-040",
+   "steps": [
+    "Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.",
+    "Send POST /users/login with that email and password, and take its access_token.",
+    "Send POST /carts with an empty body and take the returned id as the cart's id.",
+    "Send POST /invoices with that access_token, payment_method \"bank-transfer\", payment_details null, billing_street \"Stephansplatz 1\", billing_city \"Wien\", billing_country \"AT\" and the cart's id as cart_id.",
+    "Send GET /invoices with that access_token.",
+    "Verify the body's total is 0."
+   ],
+   "ref": [],
+   "specLine": 665,
+   "area": "invoices",
+   "areaLabel": "Invoices",
+   "file": "test-scenarios/api/invoices/post-invoices.yml",
+   "fileLabel": "POST /invoices",
+   "suite": "Invoices API",
+   "tags": [
+    "@invoices-api"
+   ],
+   "yaml": "- id: API-0668\n  name: Create invoice with payment_details null leaves no invoice behind\n  status: automated\n  automatedIn: tests/api/invoices/post-invoices.spec.ts\n  knownIssue: A failed checkout (payment_details null) leaves an invoice without lines or payment in the customer's invoice list.\n  bug: BUG-040\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.\n    - Send POST /users/login with that email and password, and take its access_token.\n    - Send POST /carts with an empty body and take the returned id as the cart's id.\n    - Send POST /invoices with that access_token, payment_method \"bank-transfer\", payment_details null, billing_street \"Stephansplatz 1\", billing_city \"Wien\", billing_country \"AT\" and the cart's id as cart_id.\n    - Send GET /invoices with that access_token.\n    - Verify the body's total is 0."
   },
   {
    "id": "API-0502",
@@ -7123,7 +7153,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /invoices/{invoiceId} with the new id and the admin's token returns 200 with user_id null, the billing_street, billing_city and billing_country sent, and exactly one line with the product's id as product_id."
    ],
    "ref": [],
-   "specLine": 71,
+   "specLine": 74,
    "area": "invoices",
    "areaLabel": "Invoices",
    "file": "test-scenarios/api/invoices/post-invoices-guest.yml",
@@ -7145,7 +7175,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's errors has the keys payment_method, payment_details, billing_street, billing_city, billing_country, cart_id, guest_email, guest_first_name and guest_last_name, each with at least one message."
    ],
    "ref": [],
-   "specLine": 117,
+   "specLine": 120,
    "area": "invoices",
    "areaLabel": "Invoices",
    "file": "test-scenarios/api/invoices/post-invoices-guest.yml",
@@ -7167,7 +7197,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's errors has a guest_email key with at least one message."
    ],
    "ref": [],
-   "specLine": 127,
+   "specLine": 130,
    "area": "invoices",
    "areaLabel": "Invoices",
    "file": "test-scenarios/api/invoices/post-invoices-guest.yml",
@@ -7189,7 +7219,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's errors has a payment_method key with at least one message."
    ],
    "ref": [],
-   "specLine": 137,
+   "specLine": 140,
    "area": "invoices",
    "areaLabel": "Invoices",
    "file": "test-scenarios/api/invoices/post-invoices-guest.yml",
@@ -7211,7 +7241,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's errors has a billing_country key with at least one message."
    ],
    "ref": [],
-   "specLine": 147,
+   "specLine": 150,
    "area": "invoices",
    "areaLabel": "Invoices",
    "file": "test-scenarios/api/invoices/post-invoices-guest.yml",
@@ -7233,7 +7263,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's message is \"Requested item not found\"."
    ],
    "ref": [],
-   "specLine": 157,
+   "specLine": 160,
    "area": "invoices",
    "areaLabel": "Invoices",
    "file": "test-scenarios/api/invoices/post-invoices-guest.yml",
@@ -7257,7 +7287,7 @@ window.SCENARIO_CATALOG = {
     "Verify the response status is 422."
    ],
    "ref": [],
-   "specLine": 177,
+   "specLine": 180,
    "area": "invoices",
    "areaLabel": "Invoices",
    "file": "test-scenarios/api/invoices/post-invoices-guest.yml",
@@ -7267,6 +7297,55 @@ window.SCENARIO_CATALOG = {
     "@invoices-api"
    ],
    "yaml": "- id: API-0508\n  name: Create guest invoice with payment_details null returns 422\n  status: automated\n  automatedIn: tests/api/invoices/post-invoices-guest.spec.ts\n  knownIssue: Returns 500 instead of 422 when payment_details is null for a method other than gift-card.\n  bug: BUG-041\n  steps:\n    - Send POST /carts with an empty body and take the returned id as the cart's id.\n    - Send POST /invoices/guest without an Authorization header, with payment_method \"bank-transfer\", payment_details null, billing_street \"Stephansplatz 1\", billing_city \"Wien\", billing_country \"AT\", the cart's id as cart_id, a unique guest_email, a guest_first_name and a guest_last_name.\n    - Verify the response status is 422."
+  },
+  {
+   "id": "API-0669",
+   "name": "Create guest invoice with an unknown cart leaves no invoice behind",
+   "status": "automated",
+   "automatedIn": "tests/api/invoices/post-invoices-guest.spec.ts",
+   "role": "admin",
+   "knownIssue": "A failed guest checkout (unknown cart) leaves an invoice without lines or payment that an admin search finds.",
+   "bug": "BUG-040",
+   "steps": [
+    "Send POST /invoices/guest without an Authorization header, with payment_method \"cash-on-delivery\", payment_details {}, a unique billing_street of at most 70 characters, billing_city \"Wien\", billing_country \"AT\", a well-formed ULID that no cart has as cart_id, a unique guest_email, a guest_first_name and a guest_last_name.",
+    "Send GET /invoices/search with q set to that billing_street and the admin's token.",
+    "Verify the body's total is 0."
+   ],
+   "ref": [],
+   "specLine": 203,
+   "area": "invoices",
+   "areaLabel": "Invoices",
+   "file": "test-scenarios/api/invoices/post-invoices-guest.yml",
+   "fileLabel": "POST /invoices/guest",
+   "suite": "Invoices API",
+   "tags": [
+    "@invoices-api"
+   ],
+   "yaml": "- id: API-0669\n  name: Create guest invoice with an unknown cart leaves no invoice behind\n  status: automated\n  automatedIn: tests/api/invoices/post-invoices-guest.spec.ts\n  role: admin\n  knownIssue: A failed guest checkout (unknown cart) leaves an invoice without lines or payment that an admin search finds.\n  bug: BUG-040\n  steps:\n    - Send POST /invoices/guest without an Authorization header, with payment_method \"cash-on-delivery\", payment_details {}, a unique billing_street of at most 70 characters, billing_city \"Wien\", billing_country \"AT\", a well-formed ULID that no cart has as cart_id, a unique guest_email, a guest_first_name and a guest_last_name.\n    - Send GET /invoices/search with q set to that billing_street and the admin's token.\n    - Verify the body's total is 0."
+  },
+  {
+   "id": "API-0670",
+   "name": "Create guest invoice with bank-transfer details missing the required fields returns 422",
+   "status": "automated",
+   "automatedIn": "tests/api/invoices/post-invoices-guest.spec.ts",
+   "knownIssue": "Returns 500 \"Something went wrong\" instead of 422 when payment_details lacks the fields the payment method requires.",
+   "bug": "BUG-041",
+   "steps": [
+    "Send POST /carts with an empty body and take the returned id as the cart's id.",
+    "Send POST /invoices/guest without an Authorization header, with Accept: application/json, payment_method \"bank-transfer\", payment_details {}, billing_street \"Stephansplatz 1\", billing_city \"Wien\", billing_country \"AT\", the cart's id as cart_id, a unique guest_email, a guest_first_name and a guest_last_name.",
+    "Verify the response status is 422."
+   ],
+   "ref": [],
+   "specLine": 232,
+   "area": "invoices",
+   "areaLabel": "Invoices",
+   "file": "test-scenarios/api/invoices/post-invoices-guest.yml",
+   "fileLabel": "POST /invoices/guest",
+   "suite": "Invoices API",
+   "tags": [
+    "@invoices-api"
+   ],
+   "yaml": "- id: API-0670\n  name: Create guest invoice with bank-transfer details missing the required fields returns 422\n  status: automated\n  automatedIn: tests/api/invoices/post-invoices-guest.spec.ts\n  knownIssue: Returns 500 \"Something went wrong\" instead of 422 when payment_details lacks the fields the payment method requires.\n  bug: BUG-041\n  steps:\n    - Send POST /carts with an empty body and take the returned id as the cart's id.\n    - 'Send POST /invoices/guest without an Authorization header, with Accept: application/json, payment_method \"bank-transfer\", payment_details {}, billing_street \"Stephansplatz 1\", billing_city \"Wien\", billing_country \"AT\", the cart''s id as cart_id, a unique guest_email, a guest_first_name and a guest_last_name.'\n    - Verify the response status is 422."
   },
   {
    "id": "API-0449",
@@ -8581,7 +8660,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's message is \"Unauthorized\"."
    ],
    "ref": [],
-   "specLine": 64,
+   "specLine": 65,
    "area": "invoices",
    "areaLabel": "Invoices",
    "file": "test-scenarios/api/invoices/get-invoices-by-invoice-number-download-pdf.yml",
@@ -8603,7 +8682,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's message is \"Document not created. Try again later.\"."
    ],
    "ref": [],
-   "specLine": 81,
+   "specLine": 82,
    "area": "invoices",
    "areaLabel": "Invoices",
    "file": "test-scenarios/api/invoices/get-invoices-by-invoice-number-download-pdf.yml",
@@ -8653,7 +8732,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's message is \"Unauthorized\"."
    ],
    "ref": [],
-   "specLine": 48,
+   "specLine": 49,
    "area": "invoices",
    "areaLabel": "Invoices",
    "file": "test-scenarios/api/invoices/get-invoices-by-invoice-number-download-pdf-status.yml",
@@ -8675,7 +8754,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's status is \"NOT_INITIATED\"."
    ],
    "ref": [],
-   "specLine": 65,
+   "specLine": 66,
    "area": "invoices",
    "areaLabel": "Invoices",
    "file": "test-scenarios/api/invoices/get-invoices-by-invoice-number-download-pdf-status.yml",
