@@ -43,8 +43,8 @@ const BUG_KEY_ORDER = [
 // test('...'), test.only/skip/fixme/fail('...'); test.describe/test.step/test.use don't match.
 const TEST_CALL = /\btest(?:\.(?:only|skip|fixme|fail|slow))?\(\s*(['"`])((?:\\.|(?!\1)[^\\])*)\1/g;
 const DESCRIBE_CALL = /\btest\.describe(?:\.(?:only|skip|fixme|serial|parallel))?\(\s*(['"`])((?:\\.|(?!\1)[^\\])*)\1/g;
-// The text of a known-issue line: test.fail(true, '...').
-const KNOWN_ISSUE_CALL = /\btest\.fail\(\s*true\s*,\s*(['"`])((?:\\.|(?!\1)[^\\])*)\1/g;
+// The text of a known-issue line: test.fail(true, '...'), or test.skip(true, '...') for a known issue too slow to run.
+const KNOWN_ISSUE_CALL = /\btest\.(?:fail|skip)\(\s*true\s*,\s*(['"`])((?:\\.|(?!\1)[^\\])*)\1/g;
 const TITLE_ID = /^([A-Z]+-\d+):/;
 const KEBAB_CASE = '^[a-z0-9]+(-[a-z0-9]+)*$';
 
