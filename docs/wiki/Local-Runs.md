@@ -33,7 +33,7 @@ Add them to any `npx playwright test` command (after `--` for npm scripts: `npm 
 | `--debug` | Step through a test in the Playwright Inspector |
 | `--workers=1` | One test at a time (easier to follow; by default Playwright uses half of your CPU cores) |
 | `--repeat-each=3` | Run each test 3 times, to check that a new test is stable |
-| `--retries=2` | Retry failing tests, as CI does |
+| `--retries=1` | Retry failing tests, as CI does |
 | `--reporter=list` | Plain list output (note: it replaces the configured reporters, so no HTML or coverage report) |
 
 ### Environment variables
@@ -44,7 +44,7 @@ Add them to any `npx playwright test` command (after `--` for npm scripts: `npm 
 | `UI_AUTH_MODE` | `api`, `storageState` | `api` | How UI tests start logged in |
 | `HEADLESS` | `true`, `false` | `false` locally, `true` on CI | `false` shows the browser during UI tests |
 | `DISABLE_API_COVERAGE` | `true` | not set | Skip the API coverage report |
-| `CI` | any value | not set | Behave like CI: 2 retries, 2 workers, `test.only` forbidden |
+| `CI` | any value | not set | Behave like CI: 1 retry, 2 workers, `test.only` forbidden |
 
 Bash: `TEST_ENV=QA npm test`. PowerShell: `$env:TEST_ENV="QA"; npm test` (the variable stays set for the rest of that terminal session).
 

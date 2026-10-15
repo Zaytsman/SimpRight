@@ -257,3 +257,16 @@ scenarios:
       - Send POST /carts with an empty body and take the returned id as the cart's id.
       - Send POST /invoices with that access_token, payment_method "bank-transfer", payment_details {}, billing_street "Stephansplatz 1", billing_city "Wien", billing_country "AT" and the cart's id as cart_id.
       - Verify the response status is 422.
+  - id: API-0668
+    name: Create invoice with payment_details null leaves no invoice behind
+    status: automated
+    automatedIn: tests/api/invoices/post-invoices.spec.ts
+    knownIssue: A failed checkout (payment_details null) leaves an invoice without lines or payment in the customer's invoice list.
+    bug: BUG-040
+    steps:
+      - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.
+      - Send POST /users/login with that email and password, and take its access_token.
+      - Send POST /carts with an empty body and take the returned id as the cart's id.
+      - Send POST /invoices with that access_token, payment_method "bank-transfer", payment_details null, billing_street "Stephansplatz 1", billing_city "Wien", billing_country "AT" and the cart's id as cart_id.
+      - Send GET /invoices with that access_token.
+      - Verify the body's total is 0.

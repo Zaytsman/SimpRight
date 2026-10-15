@@ -114,7 +114,7 @@ Four environment variables change how a run behaves:
 | `TEST_ENV` | the name of a file in `src/envs/` | `TEST` | The environment to test |
 | `UI_AUTH_MODE` | `api`, `storageState` | `api` | How UI tests start logged in |
 | `HEADLESS` | `true`, `false` | `false` locally, `true` on CI | `false` shows the browser during UI tests |
-| `CI` | any value | not set | CI behaviour: 2 retries, 2 workers, JUnit output, `test.only` forbidden |
+| `CI` | any value | not set | CI behaviour: 1 retry, 2 workers, JUnit output, `test.only` forbidden |
 
 Setting one for a single run:
 

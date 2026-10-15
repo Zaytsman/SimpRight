@@ -28,8 +28,8 @@ steps:
 expected: "422 naming payment_details (or its missing bank_name, account_name and account_number) for each request, and no invoice created."
 actual: >-
   500 for each request: { message: "Server Error" } for null on both endpoints, and { message: "Something went wrong" }
-  for {} on POST /invoices (reproduced live on 2026-10-14: API-0500, API-0508, API-0501). The {} case on
-  POST /invoices/guest is from the source code.
+  for {} on both endpoints (reproduced live on 2026-10-14: API-0500, API-0508, API-0501; on 2026-10-15: API-0670 for
+  {} on POST /invoices/guest, and API-0668 for null on POST /invoices again).
 evidence: |-
   2026-10-14 18:54 UTC, throwaway customers (token ***), an empty cart from POST /carts for each request,
   billing_street "Stephansplatz 1", billing_city "Wien", billing_country "AT":
@@ -37,6 +37,11 @@ evidence: |-
   POST /invoices { payment_method: "bank-transfer", payment_details: {}, ... } -> 500 { message: "Something went wrong" } (API-0501)
   POST /invoices/guest { payment_method: "bank-transfer", payment_details: null, guest fields, ... }
     -> 500 { message: "Server Error" } (API-0508)
+  2026-10-15 17:38 UTC, API-0670 (tests/api/invoices/post-invoices-guest.spec.ts, repeated x3, same result), no token,
+  Accept: application/json, an empty cart from POST /carts, the same billing fields, guest fields (email ***):
+  POST /invoices/guest { payment_method: "bank-transfer", payment_details: {}, ... } -> 500 { message: "Something went wrong" }
+  2026-10-15 ~17:37 UTC, API-0668 (repeated x3): POST /invoices { payment_method: "bank-transfer", payment_details: null, ... }
+    -> 500 { message: "Server Error" }; the invoice row was left behind (BUG-040).
   Source (sprint5/API, c6032ad): StoreInvoice and InvoiceController::storeGuest ("payment_details" => ['present']);
   InvoiceController::store and storeGuest (Arr::except on payment_details); Handler.php (HY000 checked before 1364);
   migration payment_bank_transfer_details (bank_name, account_name, account_number NOT NULL).

@@ -5,7 +5,9 @@ import {
   addItemSetup,
   takeFirstProduct,
   sendCreateGuestInvoice,
+  sendSearchInvoices,
   readInvoiceOk,
+  invoicePageSummary,
   expectKeys,
   expectFieldsEqual,
   expectSingleInvoiceLine,
@@ -15,7 +17,8 @@ import {
 } from '@fixtures';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { InvoicesClient } from '@api/clients/InvoicesClient';
-import type { CreateGuestInvoiceRequest, InvoiceCreated } from '@api/dto/invoice';
+import type { Paginated } from '@api/dto/common';
+import type { CreateGuestInvoiceRequest, InvoiceCreated, InvoiceSummary } from '@api/dto/invoice';
 import { TestConstants } from '@data/TestConstants';
 import { InvoiceFactory } from '@data/factories/InvoiceFactory';
 import { expectErrorKeys, expectMessage, expectStatus } from '@utils/apiChecks';
@@ -185,6 +188,58 @@ test.describe('@invoices-api - Invoices API', () => {
       'Send POST /invoices/guest without an Authorization header, with payment_method "bank-transfer", payment_details null, billing_street "Stephansplatz 1", billing_city "Wien", billing_country "AT", the cart\'s id as cart_id, a unique guest_email, a guest_first_name and a guest_last_name.',
       async () => {
         const body = { ...InvoiceFactory.guest(cartId), ...InvoiceFactory.nullBankTransferDetails() };
+        ({ request, response } = await sendCreateGuestInvoice(invoicesClient, body));
+      }
+    );
+
+    await test.step('Verify the response status is 422.', async () => {
+      expectStatus(request, response, 422);
+    });
+  });
+
+  test.describe(() => {
+    test.use({ role: 'admin' });
+
+    test('API-0669: Create guest invoice with an unknown cart leaves no invoice behind', async ({ invoicesClient, invoicesClientWithToken }) => {
+      test.fail(true, 'Known issue BUG-040: A failed guest checkout (unknown cart) leaves an invoice without lines or payment that an admin search finds.');
+      let billingStreet: string;
+      let request: InvoiceRequest;
+      let response: ApiResponse;
+
+      await test.step(
+        'Send POST /invoices/guest without an Authorization header, with payment_method "cash-on-delivery", payment_details {}, a unique billing_street of at most 70 characters, billing_city "Wien", billing_country "AT", a well-formed ULID that no cart has as cart_id, a unique guest_email, a guest_first_name and a guest_last_name.',
+        async () => {
+          // The scenario checks no status here (the call answers 404); the orphan it may leave can't be deleted.
+          billingStreet = InvoiceFactory.uniqueStreet();
+          await sendCreateGuestInvoice(invoicesClient, InvoiceFactory.guest(TestConstants.carts.unknownId, { billing_street: billingStreet }));
+        }
+      );
+
+      await test.step("Send GET /invoices/search with q set to that billing_street and the admin's token.", async () => {
+        ({ request, response } = await sendSearchInvoices(invoicesClientWithToken, INVOICE_AUTH.admin, billingStreet));
+      });
+
+      await test.step("Verify the body's total is 0.", async () => {
+        const page = response.isSuccess ? (JSON.parse(response.body) as Paginated<InvoiceSummary>) : undefined;
+        expect(
+          page?.total,
+          assertMessage({ request, expected: 'total is 0', actual: page ? invoicePageSummary(page) : { status: response.status, body: response.body.slice(0, 500) } })
+        ).toBe(0);
+      });
+    });
+  });
+
+  test('API-0670: Create guest invoice with bank-transfer details missing the required fields returns 422', async ({ cartsService, invoicesClient, cleanup }) => {
+    test.fail(true, 'Known issue BUG-041: Returns 500 "Something went wrong" instead of 422 when payment_details lacks the fields the payment method requires.');
+    let request: InvoiceRequest;
+    let response: ApiResponse;
+
+    const cartId = await createCart(cartsService, cleanup);
+
+    await test.step(
+      'Send POST /invoices/guest without an Authorization header, with Accept: application/json, payment_method "bank-transfer", payment_details {}, billing_street "Stephansplatz 1", billing_city "Wien", billing_country "AT", the cart\'s id as cart_id, a unique guest_email, a guest_first_name and a guest_last_name.',
+      async () => {
+        const body = InvoiceFactory.guest(cartId, { payment_method: 'bank-transfer', payment_details: {} });
         ({ request, response } = await sendCreateGuestInvoice(invoicesClient, body));
       }
     );
