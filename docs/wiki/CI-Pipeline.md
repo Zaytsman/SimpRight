@@ -53,7 +53,7 @@ Its steps:
 7. Upload `playwright-report/` and `test-results/` as an artifact (kept 14 days).
 8. Fail the job if tests failed, with an error annotation that links to the published report.
 
-On CI, Playwright adds 2 retries, 2 workers, `forbidOnly`, and two more reporters: JUnit (`test-results/junit.xml`) and JSON (`test-results/results.json`, which the portal reads).
+On CI, Playwright adds 1 retry, 2 workers, `forbidOnly`, and two more reporters: JUnit (`test-results/junit.xml`) and JSON (`test-results/results.json`, which the portal reads).
 
 ## Secrets and permissions
 

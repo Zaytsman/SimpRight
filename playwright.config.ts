@@ -21,7 +21,7 @@ export default defineConfig<BaseOptions & UiOptions>({
   globalSetup: './src/globalSetup.ts',
   fullyParallel: true,
   forbidOnly: isCI,
-  retries: isCI ? 2 : 0,
+  retries: isCI ? 1 : 0,
   workers: isCI ? 2 : undefined,
   timeout: env.extendedTimeoutMs,
   expect: { timeout: env.defaultTimeoutMs },

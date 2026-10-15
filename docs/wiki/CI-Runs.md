@@ -150,7 +150,7 @@ Both permissions are needed in the calling file: a called workflow can't have mo
 
 Each family keeps its latest **30 runs** on GitHub Pages; older ones are removed when a new run is published.
 
-**Retries:** on CI a failing test is retried twice. A test that passes on a retry is marked **flaky** in the report. Look into those too: they tell you something.
+**Retries:** on CI a failing test is retried once. A test that passes on a retry is marked **flaky** in the report. Look into those too: they tell you something.
 
 To find out why a run failed, open its report, or use `/heal-tests <run id>` in Claude Code (see [docs/AI_WORKFLOW.md](https://github.com/Zaytsman/SimpRight/blob/main/docs/AI_WORKFLOW.md)).
 
