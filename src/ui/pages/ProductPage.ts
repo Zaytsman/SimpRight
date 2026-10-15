@@ -149,7 +149,13 @@ export class ProductPage extends BasePage {
     await this.waitForLoaded();
   }
 
+  /**
+   * Waits for the description element, then the product's name. The home grid's cards use the same `product-name`
+   * test id, so the description (rendered only on this page, once the product has loaded) comes first: it shows that
+   * the detail page replaced the grid after a card click. Attached, not visible: a product may have an empty description.
+   */
   async waitForLoaded(): Promise<void> {
+    await expect(this.productDescriptionText).toBeAttached();
     await expect(this.productNameHeading).toBeVisible();
   }
 

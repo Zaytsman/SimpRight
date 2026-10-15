@@ -5,7 +5,8 @@ scenarios:
   - id: UI-012
     name: An out-of-stock product shows "Out of stock" on its card
     ref: docs/ui/user-stories/Product_Overview.md#AC13
-    status: manual
+    status: automated
+    automatedIn: tests/ui/products/product-grid.spec.ts
     preconditions:
       - The home page is open.
     steps:
@@ -13,7 +14,8 @@ scenarios:
   - id: UI-070
     name: The home page shows a grid of product cards with an image, a name and a price
     ref: docs/ui/user-stories/Product_Overview.md#AC1
-    status: manual
+    status: automated
+    automatedIn: tests/ui/products/product-grid.spec.ts
     preconditions:
       - The home page is open.
     steps:
@@ -24,7 +26,8 @@ scenarios:
   - id: UI-071
     name: Clicking a product card opens that product's page
     ref: docs/ui/user-stories/Product_Overview.md#AC2
-    status: manual
+    status: automated
+    automatedIn: tests/ui/products/product-grid.spec.ts
     preconditions:
       - The home page is open.
     steps:
