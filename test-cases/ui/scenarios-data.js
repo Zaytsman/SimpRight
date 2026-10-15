@@ -3,17 +3,17 @@ window.SCENARIO_CATALOG = {
  "layer": "ui",
  "title": "UI Test Cases",
  "prefix": "UI",
- "generatedAt": "2026-10-15T17:56:51.158Z",
- "commit": "17eb7536e5a1cb403854197f4aa69facf75ed379",
+ "generatedAt": "2026-10-15T19:22:45.019Z",
+ "commit": "ed7fa2bd9317e0f1a423f77ef7581e36a0cf04ad",
  "repoUrl": "https://github.com/Zaytsman/SimpRight",
  "branch": "main",
  "workflowUrl": "https://github.com/Zaytsman/SimpRight/actions/workflows/custom-ui-tests.yml",
  "stats": {
   "total": 98,
-  "automated": 19,
-  "manual": 79,
+  "automated": 22,
+  "manual": 76,
   "knownIssues": 2,
-  "automatedPct": 19
+  "automatedPct": 22
  },
  "tree": [
   {
@@ -469,8 +469,10 @@ window.SCENARIO_CATALOG = {
     "docs/ui/user-stories/Change_Password.md#AC4"
    ],
    "status": "manual",
+   "preconditions": [
+    "A newly registered customer is logged in."
+   ],
    "steps": [
-    "A newly registered customer is logged in.",
     "Open the profile page.",
     "Enter a password that isn't the customer's in \"Current Password\".",
     "Enter a new valid password in \"New Password\".",
@@ -486,7 +488,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@account"
    ],
-   "yaml": "- id: UI-038\n  name: Changing the password with a wrong current password shows an error\n  ref: docs/ui/user-stories/Change_Password.md#AC4\n  status: manual\n  steps:\n    - A newly registered customer is logged in.\n    - Open the profile page.\n    - Enter a password that isn't the customer's in \"Current Password\".\n    - Enter a new valid password in \"New Password\".\n    - Enter the same new password in \"Confirm New Password\".\n    - Click \"Change Password\".\n    - Verify the error \"Your current password does not matches with the password.\" is shown."
+   "yaml": "- id: UI-038\n  name: Changing the password with a wrong current password shows an error\n  ref: docs/ui/user-stories/Change_Password.md#AC4\n  status: manual\n  preconditions:\n    - A newly registered customer is logged in.\n  steps:\n    - Open the profile page.\n    - Enter a password that isn't the customer's in \"Current Password\".\n    - Enter a new valid password in \"New Password\".\n    - Enter the same new password in \"Confirm New Password\".\n    - Click \"Change Password\".\n    - Verify the error \"Your current password does not matches with the password.\" is shown."
   },
   {
    "id": "UI-039",
@@ -520,8 +522,10 @@ window.SCENARIO_CATALOG = {
     "docs/ui/user-stories/Change_Password.md#AC6"
    ],
    "status": "manual",
+   "preconditions": [
+    "A newly registered customer is logged in."
+   ],
    "steps": [
-    "A newly registered customer is logged in.",
     "Open the profile page.",
     "Enter the customer's current password in \"Current Password\".",
     "Enter a new valid password in \"New Password\".",
@@ -539,7 +543,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@account"
    ],
-   "yaml": "- id: UI-040\n  name: A successful password change shows a success message and logs the user out\n  ref: docs/ui/user-stories/Change_Password.md#AC6\n  status: manual\n  steps:\n    - A newly registered customer is logged in.\n    - Open the profile page.\n    - Enter the customer's current password in \"Current Password\".\n    - Enter a new valid password in \"New Password\".\n    - Enter the same new password in \"Confirm New Password\".\n    - Click \"Change Password\".\n    - Verify the success message \"Your password is successfully updated!\" is shown.\n    - Verify that within about 5 seconds \"Sign in\" is shown in the navigation.\n    - Verify the user menu is not shown."
+   "yaml": "- id: UI-040\n  name: A successful password change shows a success message and logs the user out\n  ref: docs/ui/user-stories/Change_Password.md#AC6\n  status: manual\n  preconditions:\n    - A newly registered customer is logged in.\n  steps:\n    - Open the profile page.\n    - Enter the customer's current password in \"Current Password\".\n    - Enter a new valid password in \"New Password\".\n    - Enter the same new password in \"Confirm New Password\".\n    - Click \"Change Password\".\n    - Verify the success message \"Your password is successfully updated!\" is shown.\n    - Verify that within about 5 seconds \"Sign in\" is shown in the navigation.\n    - Verify the user menu is not shown."
   },
   {
    "id": "UI-063",
@@ -548,9 +552,11 @@ window.SCENARIO_CATALOG = {
     "docs/ui/user-stories/Customer_Profile.md#AC1"
    ],
    "status": "manual",
-   "steps": [
+   "preconditions": [
     "A newly registered customer with a saved phone and address, country included, is logged in.",
-    "Open the home page.",
+    "The home page is open."
+   ],
+   "steps": [
     "Open the user menu in the navigation.",
     "Click \"My profile\".",
     "Verify the page heading \"Profile\" is shown.",
@@ -572,7 +578,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@account"
    ],
-   "yaml": "- id: UI-063\n  name: '\"My profile\" in the user menu opens the profile page with the saved details'\n  ref: docs/ui/user-stories/Customer_Profile.md#AC1\n  status: manual\n  steps:\n    - A newly registered customer with a saved phone and address, country included, is logged in.\n    - Open the home page.\n    - Open the user menu in the navigation.\n    - Click \"My profile\".\n    - Verify the page heading \"Profile\" is shown.\n    - Verify the field \"First name\" holds the first name saved in the account.\n    - Verify the field \"Last name\" holds the last name saved in the account.\n    - Verify the field \"Email address\" holds the account's email address.\n    - Verify the field \"Phone\" holds the phone saved in the account.\n    - Verify the field \"Street\" holds the street saved in the account.\n    - Verify the field \"Postal code\" holds the postal code saved in the account.\n    - Verify the field \"City\" holds the city saved in the account.\n    - Verify the field \"State\" holds the state saved in the account.\n    - Verify the field \"Country\" holds the country saved in the account."
+   "yaml": "- id: UI-063\n  name: '\"My profile\" in the user menu opens the profile page with the saved details'\n  ref: docs/ui/user-stories/Customer_Profile.md#AC1\n  status: manual\n  preconditions:\n    - A newly registered customer with a saved phone and address, country included, is logged in.\n    - The home page is open.\n  steps:\n    - Open the user menu in the navigation.\n    - Click \"My profile\".\n    - Verify the page heading \"Profile\" is shown.\n    - Verify the field \"First name\" holds the first name saved in the account.\n    - Verify the field \"Last name\" holds the last name saved in the account.\n    - Verify the field \"Email address\" holds the account's email address.\n    - Verify the field \"Phone\" holds the phone saved in the account.\n    - Verify the field \"Street\" holds the street saved in the account.\n    - Verify the field \"Postal code\" holds the postal code saved in the account.\n    - Verify the field \"City\" holds the city saved in the account.\n    - Verify the field \"State\" holds the state saved in the account.\n    - Verify the field \"Country\" holds the country saved in the account."
   },
   {
    "id": "UI-064",
@@ -617,8 +623,10 @@ window.SCENARIO_CATALOG = {
     "docs/ui/user-stories/Customer_Profile.md#AC2"
    ],
    "status": "manual",
+   "preconditions": [
+    "A newly registered customer with a saved phone and address, country included, is logged in."
+   ],
    "steps": [
-    "A newly registered customer with a saved phone and address, country included, is logged in.",
     "Open the profile page.",
     "Clear the field \"Phone\".",
     "Click \"Update Profile\".",
@@ -634,7 +642,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@account"
    ],
-   "yaml": "- id: UI-065\n  name: An empty phone is highlighted as invalid and the profile is not updated\n  ref: docs/ui/user-stories/Customer_Profile.md#AC2\n  status: manual\n  steps:\n    - A newly registered customer with a saved phone and address, country included, is logged in.\n    - Open the profile page.\n    - Clear the field \"Phone\".\n    - Click \"Update Profile\".\n    - Verify the field \"Phone\" is highlighted as invalid.\n    - Verify the error \"Please correct the highlighted fields before saving.\" is shown.\n    - Verify no success message is shown."
+   "yaml": "- id: UI-065\n  name: An empty phone is highlighted as invalid and the profile is not updated\n  ref: docs/ui/user-stories/Customer_Profile.md#AC2\n  status: manual\n  preconditions:\n    - A newly registered customer with a saved phone and address, country included, is logged in.\n  steps:\n    - Open the profile page.\n    - Clear the field \"Phone\".\n    - Click \"Update Profile\".\n    - Verify the field \"Phone\" is highlighted as invalid.\n    - Verify the error \"Please correct the highlighted fields before saving.\" is shown.\n    - Verify no success message is shown."
   },
   {
    "id": "UI-066",
@@ -643,8 +651,10 @@ window.SCENARIO_CATALOG = {
     "docs/ui/user-stories/Customer_Profile.md#AC2"
    ],
    "status": "manual",
+   "preconditions": [
+    "A newly registered customer with a saved phone and address, country included, is logged in."
+   ],
    "steps": [
-    "A newly registered customer with a saved phone and address, country included, is logged in.",
     "Open the profile page.",
     "Clear the field \"State\".",
     "Click \"Update Profile\".",
@@ -660,7 +670,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@account"
    ],
-   "yaml": "- id: UI-066\n  name: An empty state is highlighted as invalid and the profile is not updated\n  ref: docs/ui/user-stories/Customer_Profile.md#AC2\n  status: manual\n  steps:\n    - A newly registered customer with a saved phone and address, country included, is logged in.\n    - Open the profile page.\n    - Clear the field \"State\".\n    - Click \"Update Profile\".\n    - Verify the field \"State\" is highlighted as invalid.\n    - Verify the error \"Please correct the highlighted fields before saving.\" is shown.\n    - Verify no success message is shown."
+   "yaml": "- id: UI-066\n  name: An empty state is highlighted as invalid and the profile is not updated\n  ref: docs/ui/user-stories/Customer_Profile.md#AC2\n  status: manual\n  preconditions:\n    - A newly registered customer with a saved phone and address, country included, is logged in.\n  steps:\n    - Open the profile page.\n    - Clear the field \"State\".\n    - Click \"Update Profile\".\n    - Verify the field \"State\" is highlighted as invalid.\n    - Verify the error \"Please correct the highlighted fields before saving.\" is shown.\n    - Verify no success message is shown."
   },
   {
    "id": "UI-067",
@@ -669,8 +679,10 @@ window.SCENARIO_CATALOG = {
     "docs/ui/user-stories/Customer_Profile.md#AC2"
    ],
    "status": "manual",
+   "preconditions": [
+    "A newly registered customer with a saved phone and address, country included, is logged in."
+   ],
    "steps": [
-    "A newly registered customer with a saved phone and address, country included, is logged in.",
     "Open the profile page.",
     "Clear the field \"Postal code\".",
     "Click \"Update Profile\".",
@@ -686,7 +698,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@account"
    ],
-   "yaml": "- id: UI-067\n  name: An empty postal code is highlighted as invalid and the profile is not updated\n  ref: docs/ui/user-stories/Customer_Profile.md#AC2\n  status: manual\n  steps:\n    - A newly registered customer with a saved phone and address, country included, is logged in.\n    - Open the profile page.\n    - Clear the field \"Postal code\".\n    - Click \"Update Profile\".\n    - Verify the field \"Postal code\" is highlighted as invalid.\n    - Verify the error \"Please correct the highlighted fields before saving.\" is shown.\n    - Verify no success message is shown."
+   "yaml": "- id: UI-067\n  name: An empty postal code is highlighted as invalid and the profile is not updated\n  ref: docs/ui/user-stories/Customer_Profile.md#AC2\n  status: manual\n  preconditions:\n    - A newly registered customer with a saved phone and address, country included, is logged in.\n  steps:\n    - Open the profile page.\n    - Clear the field \"Postal code\".\n    - Click \"Update Profile\".\n    - Verify the field \"Postal code\" is highlighted as invalid.\n    - Verify the error \"Please correct the highlighted fields before saving.\" is shown.\n    - Verify no success message is shown."
   },
   {
    "id": "UI-068",
@@ -718,8 +730,10 @@ window.SCENARIO_CATALOG = {
     "docs/ui/user-stories/Customer_Profile.md#AC4"
    ],
    "status": "manual",
+   "preconditions": [
+    "A newly registered customer with a saved phone and address, country included, is logged in."
+   ],
    "steps": [
-    "A newly registered customer with a saved phone and address, country included, is logged in.",
     "Open the profile page.",
     "Enter \"Alex\" in the field \"First name\", replacing what is there.",
     "Enter \"Tester\" in the field \"Last name\", replacing what is there.",
@@ -741,7 +755,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@account"
    ],
-   "yaml": "- id: UI-069\n  name: Updating the profile shows a success message that disappears after about 5 seconds\n  ref: docs/ui/user-stories/Customer_Profile.md#AC4\n  status: manual\n  steps:\n    - A newly registered customer with a saved phone and address, country included, is logged in.\n    - Open the profile page.\n    - Enter \"Alex\" in the field \"First name\", replacing what is there.\n    - Enter \"Tester\" in the field \"Last name\", replacing what is there.\n    - Enter \"0612345678\" in the field \"Phone\", replacing what is there.\n    - Enter \"Teststraat\" in the field \"Street\", replacing what is there.\n    - Enter \"1012AB\" in the field \"Postal code\", replacing what is there.\n    - Enter \"Rotterdam\" in the field \"City\", replacing what is there.\n    - Enter \"Zuid-Holland\" in the field \"State\", replacing what is there.\n    - Enter \"NL\" in the field \"Country\", replacing what is there.\n    - Click \"Update Profile\".\n    - Verify the success message \"Your profile is successfully updated!\" is shown.\n    - Verify that within about 6 seconds of saving the success message is no longer shown."
+   "yaml": "- id: UI-069\n  name: Updating the profile shows a success message that disappears after about 5 seconds\n  ref: docs/ui/user-stories/Customer_Profile.md#AC4\n  status: manual\n  preconditions:\n    - A newly registered customer with a saved phone and address, country included, is logged in.\n  steps:\n    - Open the profile page.\n    - Enter \"Alex\" in the field \"First name\", replacing what is there.\n    - Enter \"Tester\" in the field \"Last name\", replacing what is there.\n    - Enter \"0612345678\" in the field \"Phone\", replacing what is there.\n    - Enter \"Teststraat\" in the field \"Street\", replacing what is there.\n    - Enter \"1012AB\" in the field \"Postal code\", replacing what is there.\n    - Enter \"Rotterdam\" in the field \"City\", replacing what is there.\n    - Enter \"Zuid-Holland\" in the field \"State\", replacing what is there.\n    - Enter \"NL\" in the field \"Country\", replacing what is there.\n    - Click \"Update Profile\".\n    - Verify the success message \"Your profile is successfully updated!\" is shown.\n    - Verify that within about 6 seconds of saving the success message is no longer shown."
   },
   {
    "id": "UI-086",
@@ -1045,8 +1059,10 @@ window.SCENARIO_CATALOG = {
    ],
    "status": "manual",
    "role": "guest",
+   "preconditions": [
+    "A customer is registered through the API and the test knows the customer's email address."
+   ],
    "steps": [
-    "A customer is registered through the API and the test knows the customer's email address.",
     "Open the registration page.",
     "Fill in every field the page requires with valid values, using the registered customer's email address in the field \"Email address\".",
     "Click \"Register\".",
@@ -1061,7 +1077,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@account"
    ],
-   "yaml": "- id: UI-097\n  name: 'Registering with an email that is already registered shows \"Email is already in use.\"'\n  ref: docs/ui/user-stories/User_Registration.md#AC5\n  status: manual\n  role: guest\n  steps:\n    - A customer is registered through the API and the test knows the customer's email address.\n    - Open the registration page.\n    - Fill in every field the page requires with valid values, using the registered customer's email address in the field \"Email address\".\n    - Click \"Register\".\n    - Verify the error \"Email is already in use.\" is shown.\n    - Verify the registration form is still shown."
+   "yaml": "- id: UI-097\n  name: 'Registering with an email that is already registered shows \"Email is already in use.\"'\n  ref: docs/ui/user-stories/User_Registration.md#AC5\n  status: manual\n  role: guest\n  preconditions:\n    - A customer is registered through the API and the test knows the customer's email address.\n  steps:\n    - Open the registration page.\n    - Fill in every field the page requires with valid values, using the registered customer's email address in the field \"Email address\".\n    - Click \"Register\".\n    - Verify the error \"Email is already in use.\" is shown.\n    - Verify the registration form is still shown."
   },
   {
    "id": "UI-098",
@@ -1098,8 +1114,10 @@ window.SCENARIO_CATALOG = {
    ],
    "status": "automated",
    "automatedIn": "tests/ui/cart/add-to-cart.spec.ts",
+   "preconditions": [
+    "A product created for this test through the API, with a unique name, is in stock."
+   ],
    "steps": [
-    "Create a product for this test through the API: a unique name, in stock.",
     "Search for that product and open it.",
     "Set the quantity to 2 and click \"Add to cart\".",
     "Verify the cart badge in the nav bar shows 2.",
@@ -1116,7 +1134,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@cart"
    ],
-   "yaml": "- id: UI-002\n  name: Add a product with quantity 2 to the cart\n  ref: docs/ui/user-stories/Product_Detail.md#AC8\n  status: automated\n  automatedIn: tests/ui/cart/add-to-cart.spec.ts\n  steps:\n    - 'Create a product for this test through the API: a unique name, in stock.'\n    - Search for that product and open it.\n    - Set the quantity to 2 and click \"Add to cart\".\n    - Verify the cart badge in the nav bar shows 2.\n    - Open the cart.\n    - 'Verify the cart has exactly one line: that product with quantity 2.'\n    - Verify the cart total equals 2 × the product's unit price."
+   "yaml": "- id: UI-002\n  name: Add a product with quantity 2 to the cart\n  ref: docs/ui/user-stories/Product_Detail.md#AC8\n  status: automated\n  automatedIn: tests/ui/cart/add-to-cart.spec.ts\n  preconditions:\n    - A product created for this test through the API, with a unique name, is in stock.\n  steps:\n    - Search for that product and open it.\n    - Set the quantity to 2 and click \"Add to cart\".\n    - Verify the cart badge in the nav bar shows 2.\n    - Open the cart.\n    - 'Verify the cart has exactly one line: that product with quantity 2.'\n    - Verify the cart total equals 2 × the product's unit price."
   },
   {
    "id": "UI-027",
@@ -1125,8 +1143,10 @@ window.SCENARIO_CATALOG = {
     "docs/ui/user-stories/Product_Detail.md#AC8"
    ],
    "status": "manual",
+   "preconditions": [
+    "The cart is empty."
+   ],
    "steps": [
-    "The cart is empty.",
     "Open the product \"Combination Pliers\".",
     "Click \"Add to cart\".",
     "Verify the message \"Product added to shopping cart.\" is shown."
@@ -1139,7 +1159,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@cart"
    ],
-   "yaml": "- id: UI-027\n  name: Adding a product to the cart shows a success message\n  ref: docs/ui/user-stories/Product_Detail.md#AC8\n  status: manual\n  steps:\n    - The cart is empty.\n    - Open the product \"Combination Pliers\".\n    - Click \"Add to cart\".\n    - Verify the message \"Product added to shopping cart.\" is shown."
+   "yaml": "- id: UI-027\n  name: Adding a product to the cart shows a success message\n  ref: docs/ui/user-stories/Product_Detail.md#AC8\n  status: manual\n  preconditions:\n    - The cart is empty.\n  steps:\n    - Open the product \"Combination Pliers\".\n    - Click \"Add to cart\".\n    - Verify the message \"Product added to shopping cart.\" is shown."
   },
   {
    "id": "UI-041",
@@ -1148,8 +1168,10 @@ window.SCENARIO_CATALOG = {
     "docs/ui/user-stories/Checkout_Billing_Address.md#AC1"
    ],
    "status": "manual",
+   "preconditions": [
+    "A product that is in stock is in the cart."
+   ],
    "steps": [
-    "A product that is in stock is in the cart.",
     "Open the checkout page.",
     "Click \"Proceed\" on the cart step.",
     "Click \"Proceed\" on the sign-in step.",
@@ -1168,7 +1190,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@cart"
    ],
-   "yaml": "- id: UI-041\n  name: The billing address step shows the address fields\n  ref: docs/ui/user-stories/Checkout_Billing_Address.md#AC1\n  status: manual\n  steps:\n    - A product that is in stock is in the cart.\n    - Open the checkout page.\n    - Click \"Proceed\" on the cart step.\n    - Click \"Proceed\" on the sign-in step.\n    - Verify the field \"Street\" is shown.\n    - Verify the field \"City\" is shown.\n    - Verify the field \"State\" is shown.\n    - Verify the list \"Country\" is shown.\n    - Verify the field \"Postal code\" is shown.\n    - Verify the field \"House number\" is shown."
+   "yaml": "- id: UI-041\n  name: The billing address step shows the address fields\n  ref: docs/ui/user-stories/Checkout_Billing_Address.md#AC1\n  status: manual\n  preconditions:\n    - A product that is in stock is in the cart.\n  steps:\n    - Open the checkout page.\n    - Click \"Proceed\" on the cart step.\n    - Click \"Proceed\" on the sign-in step.\n    - Verify the field \"Street\" is shown.\n    - Verify the field \"City\" is shown.\n    - Verify the field \"State\" is shown.\n    - Verify the list \"Country\" is shown.\n    - Verify the field \"Postal code\" is shown.\n    - Verify the field \"House number\" is shown."
   },
   {
    "id": "UI-042",
@@ -1177,8 +1199,10 @@ window.SCENARIO_CATALOG = {
     "docs/ui/user-stories/Checkout_Billing_Address.md#AC2"
    ],
    "status": "manual",
+   "preconditions": [
+    "A product that is in stock is in the cart."
+   ],
    "steps": [
-    "A product that is in stock is in the cart.",
     "Open the checkout page.",
     "Click \"Proceed\" on the cart step.",
     "Click \"Proceed\" on the sign-in step.",
@@ -1196,7 +1220,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@cart"
    ],
-   "yaml": "- id: UI-042\n  name: An empty street is highlighted as invalid and disables \"Proceed\"\n  ref: docs/ui/user-stories/Checkout_Billing_Address.md#AC2\n  status: manual\n  steps:\n    - A product that is in stock is in the cart.\n    - Open the checkout page.\n    - Click \"Proceed\" on the cart step.\n    - Click \"Proceed\" on the sign-in step.\n    - 'Fill in the billing address: select the country \"Netherlands\", enter the postal code \"1011AB\" and the house number \"5\", wait until the page has filled in the street, city and state, then enter the street \"Teststraat\", the city \"Amsterdam\" and the state \"Noord-Holland\".'\n    - Verify the button \"Proceed\" is enabled.\n    - Clear the field \"Street\".\n    - Verify the field \"Street\" is highlighted as invalid.\n    - Verify the button \"Proceed\" is disabled."
+   "yaml": "- id: UI-042\n  name: An empty street is highlighted as invalid and disables \"Proceed\"\n  ref: docs/ui/user-stories/Checkout_Billing_Address.md#AC2\n  status: manual\n  preconditions:\n    - A product that is in stock is in the cart.\n  steps:\n    - Open the checkout page.\n    - Click \"Proceed\" on the cart step.\n    - Click \"Proceed\" on the sign-in step.\n    - 'Fill in the billing address: select the country \"Netherlands\", enter the postal code \"1011AB\" and the house number \"5\", wait until the page has filled in the street, city and state, then enter the street \"Teststraat\", the city \"Amsterdam\" and the state \"Noord-Holland\".'\n    - Verify the button \"Proceed\" is enabled.\n    - Clear the field \"Street\".\n    - Verify the field \"Street\" is highlighted as invalid.\n    - Verify the button \"Proceed\" is disabled."
   },
   {
    "id": "UI-043",
@@ -1205,8 +1229,10 @@ window.SCENARIO_CATALOG = {
     "docs/ui/user-stories/Checkout_Billing_Address.md#AC2"
    ],
    "status": "manual",
+   "preconditions": [
+    "A product that is in stock is in the cart."
+   ],
    "steps": [
-    "A product that is in stock is in the cart.",
     "Open the checkout page.",
     "Click \"Proceed\" on the cart step.",
     "Click \"Proceed\" on the sign-in step.",
@@ -1224,7 +1250,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@cart"
    ],
-   "yaml": "- id: UI-043\n  name: An empty city is highlighted as invalid and disables \"Proceed\"\n  ref: docs/ui/user-stories/Checkout_Billing_Address.md#AC2\n  status: manual\n  steps:\n    - A product that is in stock is in the cart.\n    - Open the checkout page.\n    - Click \"Proceed\" on the cart step.\n    - Click \"Proceed\" on the sign-in step.\n    - 'Fill in the billing address: select the country \"Netherlands\", enter the postal code \"1011AB\" and the house number \"5\", wait until the page has filled in the street, city and state, then enter the street \"Teststraat\", the city \"Amsterdam\" and the state \"Noord-Holland\".'\n    - Verify the button \"Proceed\" is enabled.\n    - Clear the field \"City\".\n    - Verify the field \"City\" is highlighted as invalid.\n    - Verify the button \"Proceed\" is disabled."
+   "yaml": "- id: UI-043\n  name: An empty city is highlighted as invalid and disables \"Proceed\"\n  ref: docs/ui/user-stories/Checkout_Billing_Address.md#AC2\n  status: manual\n  preconditions:\n    - A product that is in stock is in the cart.\n  steps:\n    - Open the checkout page.\n    - Click \"Proceed\" on the cart step.\n    - Click \"Proceed\" on the sign-in step.\n    - 'Fill in the billing address: select the country \"Netherlands\", enter the postal code \"1011AB\" and the house number \"5\", wait until the page has filled in the street, city and state, then enter the street \"Teststraat\", the city \"Amsterdam\" and the state \"Noord-Holland\".'\n    - Verify the button \"Proceed\" is enabled.\n    - Clear the field \"City\".\n    - Verify the field \"City\" is highlighted as invalid.\n    - Verify the button \"Proceed\" is disabled."
   },
   {
    "id": "UI-044",
@@ -1233,8 +1259,10 @@ window.SCENARIO_CATALOG = {
     "docs/ui/user-stories/Checkout_Billing_Address.md#AC2"
    ],
    "status": "manual",
+   "preconditions": [
+    "A product that is in stock is in the cart."
+   ],
    "steps": [
-    "A product that is in stock is in the cart.",
     "Open the checkout page.",
     "Click \"Proceed\" on the cart step.",
     "Click \"Proceed\" on the sign-in step.",
@@ -1252,7 +1280,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@cart"
    ],
-   "yaml": "- id: UI-044\n  name: An empty state is highlighted as invalid and disables \"Proceed\"\n  ref: docs/ui/user-stories/Checkout_Billing_Address.md#AC2\n  status: manual\n  steps:\n    - A product that is in stock is in the cart.\n    - Open the checkout page.\n    - Click \"Proceed\" on the cart step.\n    - Click \"Proceed\" on the sign-in step.\n    - 'Fill in the billing address: select the country \"Netherlands\", enter the postal code \"1011AB\" and the house number \"5\", wait until the page has filled in the street, city and state, then enter the street \"Teststraat\", the city \"Amsterdam\" and the state \"Noord-Holland\".'\n    - Verify the button \"Proceed\" is enabled.\n    - Clear the field \"State\".\n    - Verify the field \"State\" is highlighted as invalid.\n    - Verify the button \"Proceed\" is disabled."
+   "yaml": "- id: UI-044\n  name: An empty state is highlighted as invalid and disables \"Proceed\"\n  ref: docs/ui/user-stories/Checkout_Billing_Address.md#AC2\n  status: manual\n  preconditions:\n    - A product that is in stock is in the cart.\n  steps:\n    - Open the checkout page.\n    - Click \"Proceed\" on the cart step.\n    - Click \"Proceed\" on the sign-in step.\n    - 'Fill in the billing address: select the country \"Netherlands\", enter the postal code \"1011AB\" and the house number \"5\", wait until the page has filled in the street, city and state, then enter the street \"Teststraat\", the city \"Amsterdam\" and the state \"Noord-Holland\".'\n    - Verify the button \"Proceed\" is enabled.\n    - Clear the field \"State\".\n    - Verify the field \"State\" is highlighted as invalid.\n    - Verify the button \"Proceed\" is disabled."
   },
   {
    "id": "UI-045",
@@ -1261,8 +1289,10 @@ window.SCENARIO_CATALOG = {
     "docs/ui/user-stories/Checkout_Billing_Address.md#AC2"
    ],
    "status": "manual",
+   "preconditions": [
+    "A product that is in stock is in the cart."
+   ],
    "steps": [
-    "A product that is in stock is in the cart.",
     "Open the checkout page.",
     "Click \"Proceed\" on the cart step.",
     "Click \"Proceed\" on the sign-in step.",
@@ -1280,7 +1310,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@cart"
    ],
-   "yaml": "- id: UI-045\n  name: An empty country is highlighted as invalid and disables \"Proceed\"\n  ref: docs/ui/user-stories/Checkout_Billing_Address.md#AC2\n  status: manual\n  steps:\n    - A product that is in stock is in the cart.\n    - Open the checkout page.\n    - Click \"Proceed\" on the cart step.\n    - Click \"Proceed\" on the sign-in step.\n    - 'Fill in the billing address: select the country \"Netherlands\", enter the postal code \"1011AB\" and the house number \"5\", wait until the page has filled in the street, city and state, then enter the street \"Teststraat\", the city \"Amsterdam\" and the state \"Noord-Holland\".'\n    - Verify the button \"Proceed\" is enabled.\n    - Clear the selection in the list \"Country\" (choose the empty option).\n    - Verify the list \"Country\" is highlighted as invalid.\n    - Verify the button \"Proceed\" is disabled."
+   "yaml": "- id: UI-045\n  name: An empty country is highlighted as invalid and disables \"Proceed\"\n  ref: docs/ui/user-stories/Checkout_Billing_Address.md#AC2\n  status: manual\n  preconditions:\n    - A product that is in stock is in the cart.\n  steps:\n    - Open the checkout page.\n    - Click \"Proceed\" on the cart step.\n    - Click \"Proceed\" on the sign-in step.\n    - 'Fill in the billing address: select the country \"Netherlands\", enter the postal code \"1011AB\" and the house number \"5\", wait until the page has filled in the street, city and state, then enter the street \"Teststraat\", the city \"Amsterdam\" and the state \"Noord-Holland\".'\n    - Verify the button \"Proceed\" is enabled.\n    - Clear the selection in the list \"Country\" (choose the empty option).\n    - Verify the list \"Country\" is highlighted as invalid.\n    - Verify the button \"Proceed\" is disabled."
   },
   {
    "id": "UI-046",
@@ -1289,8 +1319,10 @@ window.SCENARIO_CATALOG = {
     "docs/ui/user-stories/Checkout_Billing_Address.md#AC2"
    ],
    "status": "manual",
+   "preconditions": [
+    "A product that is in stock is in the cart."
+   ],
    "steps": [
-    "A product that is in stock is in the cart.",
     "Open the checkout page.",
     "Click \"Proceed\" on the cart step.",
     "Click \"Proceed\" on the sign-in step.",
@@ -1308,7 +1340,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@cart"
    ],
-   "yaml": "- id: UI-046\n  name: An empty postal code is highlighted as invalid and disables \"Proceed\"\n  ref: docs/ui/user-stories/Checkout_Billing_Address.md#AC2\n  status: manual\n  steps:\n    - A product that is in stock is in the cart.\n    - Open the checkout page.\n    - Click \"Proceed\" on the cart step.\n    - Click \"Proceed\" on the sign-in step.\n    - 'Fill in the billing address: select the country \"Netherlands\", enter the postal code \"1011AB\" and the house number \"5\", wait until the page has filled in the street, city and state, then enter the street \"Teststraat\", the city \"Amsterdam\" and the state \"Noord-Holland\".'\n    - Verify the button \"Proceed\" is enabled.\n    - Clear the field \"Postal code\".\n    - Verify the field \"Postal code\" is highlighted as invalid.\n    - Verify the button \"Proceed\" is disabled."
+   "yaml": "- id: UI-046\n  name: An empty postal code is highlighted as invalid and disables \"Proceed\"\n  ref: docs/ui/user-stories/Checkout_Billing_Address.md#AC2\n  status: manual\n  preconditions:\n    - A product that is in stock is in the cart.\n  steps:\n    - Open the checkout page.\n    - Click \"Proceed\" on the cart step.\n    - Click \"Proceed\" on the sign-in step.\n    - 'Fill in the billing address: select the country \"Netherlands\", enter the postal code \"1011AB\" and the house number \"5\", wait until the page has filled in the street, city and state, then enter the street \"Teststraat\", the city \"Amsterdam\" and the state \"Noord-Holland\".'\n    - Verify the button \"Proceed\" is enabled.\n    - Clear the field \"Postal code\".\n    - Verify the field \"Postal code\" is highlighted as invalid.\n    - Verify the button \"Proceed\" is disabled."
   },
   {
    "id": "UI-047",
@@ -1317,8 +1349,10 @@ window.SCENARIO_CATALOG = {
     "docs/ui/user-stories/Checkout_Billing_Address.md#AC3"
    ],
    "status": "manual",
+   "preconditions": [
+    "A product that is in stock is in the cart."
+   ],
    "steps": [
-    "A product that is in stock is in the cart.",
     "Open the checkout page.",
     "Click \"Proceed\" on the cart step.",
     "Click \"Proceed\" on the sign-in step.",
@@ -1334,7 +1368,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@cart"
    ],
-   "yaml": "- id: UI-047\n  name: A filled-in billing address lets the customer proceed to the payment step\n  ref: docs/ui/user-stories/Checkout_Billing_Address.md#AC3\n  status: manual\n  steps:\n    - A product that is in stock is in the cart.\n    - Open the checkout page.\n    - Click \"Proceed\" on the cart step.\n    - Click \"Proceed\" on the sign-in step.\n    - 'Fill in the billing address: select the country \"Netherlands\", enter the postal code \"1011AB\" and the house number \"5\", wait until the page has filled in the street, city and state, then enter the street \"Teststraat\", the city \"Amsterdam\" and the state \"Noord-Holland\".'\n    - Click \"Proceed\".\n    - Verify the payment step is shown."
+   "yaml": "- id: UI-047\n  name: A filled-in billing address lets the customer proceed to the payment step\n  ref: docs/ui/user-stories/Checkout_Billing_Address.md#AC3\n  status: manual\n  preconditions:\n    - A product that is in stock is in the cart.\n  steps:\n    - Open the checkout page.\n    - Click \"Proceed\" on the cart step.\n    - Click \"Proceed\" on the sign-in step.\n    - 'Fill in the billing address: select the country \"Netherlands\", enter the postal code \"1011AB\" and the house number \"5\", wait until the page has filled in the street, city and state, then enter the street \"Teststraat\", the city \"Amsterdam\" and the state \"Noord-Holland\".'\n    - Click \"Proceed\".\n    - Verify the payment step is shown."
   },
   {
    "id": "UI-048",
@@ -1343,9 +1377,11 @@ window.SCENARIO_CATALOG = {
     "docs/ui/user-stories/Checkout_Billing_Address.md#AC4"
    ],
    "status": "manual",
-   "steps": [
+   "preconditions": [
     "A newly registered customer with a saved address, country included, is logged in.",
-    "A product that is in stock is in the cart.",
+    "A product that is in stock is in the cart."
+   ],
+   "steps": [
     "Open the checkout page.",
     "Click \"Proceed\" on the cart step.",
     "Click \"Proceed\" on the sign-in step.",
@@ -1363,7 +1399,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@cart"
    ],
-   "yaml": "- id: UI-048\n  name: The billing address is pre-filled with the account's address\n  ref: docs/ui/user-stories/Checkout_Billing_Address.md#AC4\n  status: manual\n  steps:\n    - A newly registered customer with a saved address, country included, is logged in.\n    - A product that is in stock is in the cart.\n    - Open the checkout page.\n    - Click \"Proceed\" on the cart step.\n    - Click \"Proceed\" on the sign-in step.\n    - Verify the field \"Street\" holds the street saved in the account.\n    - Verify the field \"City\" holds the city saved in the account.\n    - Verify the field \"State\" holds the state saved in the account.\n    - Verify the list \"Country\" shows the country saved in the account.\n    - Verify the field \"Postal code\" holds the postal code saved in the account."
+   "yaml": "- id: UI-048\n  name: The billing address is pre-filled with the account's address\n  ref: docs/ui/user-stories/Checkout_Billing_Address.md#AC4\n  status: manual\n  preconditions:\n    - A newly registered customer with a saved address, country included, is logged in.\n    - A product that is in stock is in the cart.\n  steps:\n    - Open the checkout page.\n    - Click \"Proceed\" on the cart step.\n    - Click \"Proceed\" on the sign-in step.\n    - Verify the field \"Street\" holds the street saved in the account.\n    - Verify the field \"City\" holds the city saved in the account.\n    - Verify the field \"State\" holds the state saved in the account.\n    - Verify the list \"Country\" shows the country saved in the account.\n    - Verify the field \"Postal code\" holds the postal code saved in the account."
   },
   {
    "id": "UI-049",
@@ -1372,8 +1408,10 @@ window.SCENARIO_CATALOG = {
     "docs/ui/user-stories/Checkout_Cart_Review.md#AC1"
    ],
    "status": "manual",
+   "preconditions": [
+    "A product that is in stock is in the cart."
+   ],
    "steps": [
-    "A product that is in stock is in the cart.",
     "Open the checkout page.",
     "Verify the column headers \"Item\", \"Quantity\", \"Price\" and \"Total\" are shown.",
     "Verify the line shows the product's name under \"Item\".",
@@ -1389,7 +1427,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@cart"
    ],
-   "yaml": "- id: UI-049\n  name: The cart step shows the line under the labelled column headers\n  ref: docs/ui/user-stories/Checkout_Cart_Review.md#AC1\n  status: manual\n  steps:\n    - A product that is in stock is in the cart.\n    - Open the checkout page.\n    - Verify the column headers \"Item\", \"Quantity\", \"Price\" and \"Total\" are shown.\n    - Verify the line shows the product's name under \"Item\".\n    - Verify the line shows its quantity under \"Quantity\".\n    - Verify the line shows the product's unit price under \"Price\".\n    - Verify the line shows its line total under \"Total\", equal to the quantity × the unit price."
+   "yaml": "- id: UI-049\n  name: The cart step shows the line under the labelled column headers\n  ref: docs/ui/user-stories/Checkout_Cart_Review.md#AC1\n  status: manual\n  preconditions:\n    - A product that is in stock is in the cart.\n  steps:\n    - Open the checkout page.\n    - Verify the column headers \"Item\", \"Quantity\", \"Price\" and \"Total\" are shown.\n    - Verify the line shows the product's name under \"Item\".\n    - Verify the line shows its quantity under \"Quantity\".\n    - Verify the line shows the product's unit price under \"Price\".\n    - Verify the line shows its line total under \"Total\", equal to the quantity × the unit price."
   },
   {
    "id": "UI-050",
@@ -1398,8 +1436,10 @@ window.SCENARIO_CATALOG = {
     "docs/ui/user-stories/Checkout_Cart_Review.md#AC2"
    ],
    "status": "manual",
+   "preconditions": [
+    "A product that is in stock and has no CO2 rating A or B is in the cart with quantity 1."
+   ],
    "steps": [
-    "A product that is in stock and has no CO2 rating A or B is in the cart with quantity 1.",
     "Open the checkout page.",
     "Change the quantity of the line from 1 to 3.",
     "Verify the message \"Product quantity updated.\" is shown.",
@@ -1414,7 +1454,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@cart"
    ],
-   "yaml": "- id: UI-050\n  name: Changing a line's quantity recalculates the totals and shows a confirmation\n  ref: docs/ui/user-stories/Checkout_Cart_Review.md#AC2\n  status: manual\n  steps:\n    - A product that is in stock and has no CO2 rating A or B is in the cart with quantity 1.\n    - Open the checkout page.\n    - Change the quantity of the line from 1 to 3.\n    - Verify the message \"Product quantity updated.\" is shown.\n    - Verify the line total equals 3 × the unit price.\n    - Verify the cart total equals 3 × the unit price."
+   "yaml": "- id: UI-050\n  name: Changing a line's quantity recalculates the totals and shows a confirmation\n  ref: docs/ui/user-stories/Checkout_Cart_Review.md#AC2\n  status: manual\n  preconditions:\n    - A product that is in stock and has no CO2 rating A or B is in the cart with quantity 1.\n  steps:\n    - Open the checkout page.\n    - Change the quantity of the line from 1 to 3.\n    - Verify the message \"Product quantity updated.\" is shown.\n    - Verify the line total equals 3 × the unit price.\n    - Verify the cart total equals 3 × the unit price."
   },
   {
    "id": "UI-051",
@@ -1423,8 +1463,10 @@ window.SCENARIO_CATALOG = {
     "docs/ui/user-stories/Checkout_Cart_Review.md#AC3"
    ],
    "status": "manual",
+   "preconditions": [
+    "Two products that are in stock, neither with a CO2 rating A or B, are in the cart, one line each."
+   ],
    "steps": [
-    "Two products that are in stock, neither with a CO2 rating A or B, are in the cart, one line each.",
     "Open the checkout page.",
     "Click the delete button on the line of the first product.",
     "Verify the line of the first product is no longer shown.",
@@ -1439,7 +1481,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@cart"
    ],
-   "yaml": "- id: UI-051\n  name: Deleting a line removes it and recalculates the cart total\n  ref: docs/ui/user-stories/Checkout_Cart_Review.md#AC3\n  status: manual\n  steps:\n    - Two products that are in stock, neither with a CO2 rating A or B, are in the cart, one line each.\n    - Open the checkout page.\n    - Click the delete button on the line of the first product.\n    - Verify the line of the first product is no longer shown.\n    - 'Verify the cart has one line: the second product.'\n    - Verify the cart total equals the remaining line's total."
+   "yaml": "- id: UI-051\n  name: Deleting a line removes it and recalculates the cart total\n  ref: docs/ui/user-stories/Checkout_Cart_Review.md#AC3\n  status: manual\n  preconditions:\n    - Two products that are in stock, neither with a CO2 rating A or B, are in the cart, one line each.\n  steps:\n    - Open the checkout page.\n    - Click the delete button on the line of the first product.\n    - Verify the line of the first product is no longer shown.\n    - 'Verify the cart has one line: the second product.'\n    - Verify the cart total equals the remaining line's total."
   },
   {
    "id": "UI-052",
@@ -1448,8 +1490,10 @@ window.SCENARIO_CATALOG = {
     "docs/ui/user-stories/Checkout_Cart_Review.md#AC4"
    ],
    "status": "manual",
+   "preconditions": [
+    "No cart exists yet: nothing has been added to a cart in this session."
+   ],
    "steps": [
-    "No cart exists yet: nothing has been added to a cart in this session.",
     "Open the checkout page.",
     "Verify the message \"Your shopping cart is empty\" is shown."
    ],
@@ -1461,7 +1505,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@cart"
    ],
-   "yaml": "- id: UI-052\n  name: A visitor with no cart sees the empty cart message\n  ref: docs/ui/user-stories/Checkout_Cart_Review.md#AC4\n  status: manual\n  steps:\n    - 'No cart exists yet: nothing has been added to a cart in this session.'\n    - Open the checkout page.\n    - Verify the message \"Your shopping cart is empty\" is shown."
+   "yaml": "- id: UI-052\n  name: A visitor with no cart sees the empty cart message\n  ref: docs/ui/user-stories/Checkout_Cart_Review.md#AC4\n  status: manual\n  preconditions:\n    - 'No cart exists yet: nothing has been added to a cart in this session.'\n  steps:\n    - Open the checkout page.\n    - Verify the message \"Your shopping cart is empty\" is shown."
   },
   {
    "id": "UI-053",
@@ -1470,8 +1514,10 @@ window.SCENARIO_CATALOG = {
     "docs/ui/user-stories/Checkout_Cart_Review.md#AC4"
    ],
    "status": "manual",
+   "preconditions": [
+    "A product that is in stock is in the cart."
+   ],
    "steps": [
-    "A product that is in stock is in the cart.",
     "Open the checkout page.",
     "Click the delete button on the line.",
     "Verify the message \"Your shopping cart is empty\" is shown.",
@@ -1485,7 +1531,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@cart"
    ],
-   "yaml": "- id: UI-053\n  name: Deleting the last line shows the empty cart message\n  ref: docs/ui/user-stories/Checkout_Cart_Review.md#AC4\n  status: manual\n  steps:\n    - A product that is in stock is in the cart.\n    - Open the checkout page.\n    - Click the delete button on the line.\n    - Verify the message \"Your shopping cart is empty\" is shown.\n    - Verify the button \"Proceed to checkout\" is not shown."
+   "yaml": "- id: UI-053\n  name: Deleting the last line shows the empty cart message\n  ref: docs/ui/user-stories/Checkout_Cart_Review.md#AC4\n  status: manual\n  preconditions:\n    - A product that is in stock is in the cart.\n  steps:\n    - Open the checkout page.\n    - Click the delete button on the line.\n    - Verify the message \"Your shopping cart is empty\" is shown.\n    - Verify the button \"Proceed to checkout\" is not shown."
   },
   {
    "id": "UI-054",
@@ -1494,8 +1540,10 @@ window.SCENARIO_CATALOG = {
     "docs/ui/user-stories/Checkout_Cart_Review.md#AC5"
    ],
    "status": "manual",
+   "preconditions": [
+    "A product that is in stock is in the cart."
+   ],
    "steps": [
-    "A product that is in stock is in the cart.",
     "Open the checkout page.",
     "Click \"Proceed to checkout\".",
     "Verify the \"Sign in\" step is shown."
@@ -1508,7 +1556,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@cart"
    ],
-   "yaml": "- id: UI-054\n  name: '\"Proceed to checkout\" leads to the sign-in step'\n  ref: docs/ui/user-stories/Checkout_Cart_Review.md#AC5\n  status: manual\n  steps:\n    - A product that is in stock is in the cart.\n    - Open the checkout page.\n    - Click \"Proceed to checkout\".\n    - Verify the \"Sign in\" step is shown."
+   "yaml": "- id: UI-054\n  name: '\"Proceed to checkout\" leads to the sign-in step'\n  ref: docs/ui/user-stories/Checkout_Cart_Review.md#AC5\n  status: manual\n  preconditions:\n    - A product that is in stock is in the cart.\n  steps:\n    - Open the checkout page.\n    - Click \"Proceed to checkout\".\n    - Verify the \"Sign in\" step is shown."
   },
   {
    "id": "UI-055",
@@ -1517,8 +1565,10 @@ window.SCENARIO_CATALOG = {
     "docs/ui/user-stories/Checkout_Cart_Review.md#AC6"
    ],
    "status": "manual",
+   "preconditions": [
+    "The customer's location is Amsterdam, and a product with a location offer is added to the cart."
+   ],
    "steps": [
-    "The customer's location is Amsterdam, and a product with a location offer is added to the cart.",
     "Open the checkout page.",
     "Verify the discount badge \"-20%\" is shown next to the product name.",
     "Verify the original price is shown struck through.",
@@ -1532,7 +1582,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@cart"
    ],
-   "yaml": "- id: UI-055\n  name: A discounted line shows the badge, the original price and the discounted price\n  ref: docs/ui/user-stories/Checkout_Cart_Review.md#AC6\n  status: manual\n  steps:\n    - The customer's location is Amsterdam, and a product with a location offer is added to the cart.\n    - Open the checkout page.\n    - Verify the discount badge \"-20%\" is shown next to the product name.\n    - Verify the original price is shown struck through.\n    - Verify the discounted price is shown, equal to 80% of the original price."
+   "yaml": "- id: UI-055\n  name: A discounted line shows the badge, the original price and the discounted price\n  ref: docs/ui/user-stories/Checkout_Cart_Review.md#AC6\n  status: manual\n  preconditions:\n    - The customer's location is Amsterdam, and a product with a location offer is added to the cart.\n  steps:\n    - Open the checkout page.\n    - Verify the discount badge \"-20%\" is shown next to the product name.\n    - Verify the original price is shown struck through.\n    - Verify the discounted price is shown, equal to 80% of the original price."
   },
   {
    "id": "UI-056",
@@ -1541,8 +1591,10 @@ window.SCENARIO_CATALOG = {
     "docs/ui/user-stories/Checkout_Cart_Review.md#AC7"
    ],
    "status": "manual",
+   "preconditions": [
+    "A rental product and a product that is not a rental are in the cart; neither has a discount or a CO2 rating A or B."
+   ],
    "steps": [
-    "A rental product and a product that is not a rental are in the cart; neither has a discount or a CO2 rating A or B.",
     "Open the checkout page.",
     "Verify the \"Subtotal\" equals the sum of the line totals.",
     "Verify the row \"Discount (15%)\" shows 15% of the subtotal.",
@@ -1556,7 +1608,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@cart"
    ],
-   "yaml": "- id: UI-056\n  name: A cart with a rental and a non-rental item shows the subtotal, the 15% discount and the total\n  ref: docs/ui/user-stories/Checkout_Cart_Review.md#AC7\n  status: manual\n  steps:\n    - A rental product and a product that is not a rental are in the cart; neither has a discount or a CO2 rating A or B.\n    - Open the checkout page.\n    - Verify the \"Subtotal\" equals the sum of the line totals.\n    - Verify the row \"Discount (15%)\" shows 15% of the subtotal.\n    - Verify the \"Total\" equals the subtotal minus the discount."
+   "yaml": "- id: UI-056\n  name: A cart with a rental and a non-rental item shows the subtotal, the 15% discount and the total\n  ref: docs/ui/user-stories/Checkout_Cart_Review.md#AC7\n  status: manual\n  preconditions:\n    - A rental product and a product that is not a rental are in the cart; neither has a discount or a CO2 rating A or B.\n  steps:\n    - Open the checkout page.\n    - Verify the \"Subtotal\" equals the sum of the line totals.\n    - Verify the row \"Discount (15%)\" shows 15% of the subtotal.\n    - Verify the \"Total\" equals the subtotal minus the discount."
   },
   {
    "id": "UI-057",
@@ -1565,8 +1617,10 @@ window.SCENARIO_CATALOG = {
     "docs/ui/user-stories/Checkout_Cart_Review.md#AC8"
    ],
    "status": "manual",
+   "preconditions": [
+    "A rental product and a product that is not a rental are in the cart; neither has a discount or a CO2 rating A or B."
+   ],
    "steps": [
-    "A rental product and a product that is not a rental are in the cart; neither has a discount or a CO2 rating A or B.",
     "Open the checkout page.",
     "Click the delete button on the line of the rental product.",
     "Verify the \"Subtotal\" row is no longer shown.",
@@ -1581,7 +1635,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@cart"
    ],
-   "yaml": "- id: UI-057\n  name: Deleting the rental line removes the combined discount\n  ref: docs/ui/user-stories/Checkout_Cart_Review.md#AC8\n  status: manual\n  steps:\n    - A rental product and a product that is not a rental are in the cart; neither has a discount or a CO2 rating A or B.\n    - Open the checkout page.\n    - Click the delete button on the line of the rental product.\n    - Verify the \"Subtotal\" row is no longer shown.\n    - Verify the \"Discount (15%)\" row is no longer shown.\n    - Verify the total equals the remaining line's total."
+   "yaml": "- id: UI-057\n  name: Deleting the rental line removes the combined discount\n  ref: docs/ui/user-stories/Checkout_Cart_Review.md#AC8\n  status: manual\n  preconditions:\n    - A rental product and a product that is not a rental are in the cart; neither has a discount or a CO2 rating A or B.\n  steps:\n    - Open the checkout page.\n    - Click the delete button on the line of the rental product.\n    - Verify the \"Subtotal\" row is no longer shown.\n    - Verify the \"Discount (15%)\" row is no longer shown.\n    - Verify the total equals the remaining line's total."
   },
   {
    "id": "UI-084",
@@ -1590,8 +1644,10 @@ window.SCENARIO_CATALOG = {
     "docs/ui/user-stories/Rental_Products.md#AC4"
    ],
    "status": "manual",
+   "preconditions": [
+    "A rental product and a product that is not a rental are in the cart."
+   ],
    "steps": [
-    "A rental product and a product that is not a rental are in the cart.",
     "Open the checkout page.",
     "Verify the line of the rental product is marked \"This is a rental item\".",
     "Verify the line of the product that is not a rental is not marked \"This is a rental item\"."
@@ -1604,7 +1660,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@cart"
    ],
-   "yaml": "- id: UI-084\n  name: A rental line in the checkout cart is marked \"This is a rental item\"\n  ref: docs/ui/user-stories/Rental_Products.md#AC4\n  status: manual\n  steps:\n    - A rental product and a product that is not a rental are in the cart.\n    - Open the checkout page.\n    - Verify the line of the rental product is marked \"This is a rental item\".\n    - Verify the line of the product that is not a rental is not marked \"This is a rental item\"."
+   "yaml": "- id: UI-084\n  name: A rental line in the checkout cart is marked \"This is a rental item\"\n  ref: docs/ui/user-stories/Rental_Products.md#AC4\n  status: manual\n  preconditions:\n    - A rental product and a product that is not a rental are in the cart.\n  steps:\n    - Open the checkout page.\n    - Verify the line of the rental product is marked \"This is a rental item\".\n    - Verify the line of the product that is not a rental is not marked \"This is a rental item\"."
   },
   {
    "id": "UI-058",
@@ -1614,8 +1670,10 @@ window.SCENARIO_CATALOG = {
    ],
    "status": "manual",
    "role": "guest",
+   "preconditions": [
+    "A product that is in stock is in the cart."
+   ],
    "steps": [
-    "A product that is in stock is in the cart.",
     "Open the checkout page.",
     "Click \"Proceed to checkout\".",
     "Verify the \"Sign in\" step is shown.",
@@ -1629,7 +1687,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@cart"
    ],
-   "yaml": "- id: UI-058\n  name: A guest who proceeds from the cart step sees the sign-in step with a login form\n  ref: docs/ui/user-stories/Checkout_Sign_In.md#AC1\n  status: manual\n  role: guest\n  steps:\n    - A product that is in stock is in the cart.\n    - Open the checkout page.\n    - Click \"Proceed to checkout\".\n    - Verify the \"Sign in\" step is shown.\n    - Verify the login form is shown."
+   "yaml": "- id: UI-058\n  name: A guest who proceeds from the cart step sees the sign-in step with a login form\n  ref: docs/ui/user-stories/Checkout_Sign_In.md#AC1\n  status: manual\n  role: guest\n  preconditions:\n    - A product that is in stock is in the cart.\n  steps:\n    - Open the checkout page.\n    - Click \"Proceed to checkout\".\n    - Verify the \"Sign in\" step is shown.\n    - Verify the login form is shown."
   },
   {
    "id": "UI-059",
@@ -1639,8 +1697,10 @@ window.SCENARIO_CATALOG = {
    ],
    "status": "manual",
    "role": "guest",
+   "preconditions": [
+    "A product that is in stock is in the cart."
+   ],
    "steps": [
-    "A product that is in stock is in the cart.",
     "Open the checkout page.",
     "Click \"Proceed to checkout\".",
     "Verify the field \"Email address\" is shown.",
@@ -1655,7 +1715,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@cart"
    ],
-   "yaml": "- id: UI-059\n  name: The sign-in step shows the email and password fields and the \"Login\" button\n  ref: docs/ui/user-stories/Checkout_Sign_In.md#AC2\n  status: manual\n  role: guest\n  steps:\n    - A product that is in stock is in the cart.\n    - Open the checkout page.\n    - Click \"Proceed to checkout\".\n    - Verify the field \"Email address\" is shown.\n    - Verify the field \"Password\" is shown.\n    - Verify the button \"Login\" is shown."
+   "yaml": "- id: UI-059\n  name: The sign-in step shows the email and password fields and the \"Login\" button\n  ref: docs/ui/user-stories/Checkout_Sign_In.md#AC2\n  status: manual\n  role: guest\n  preconditions:\n    - A product that is in stock is in the cart.\n  steps:\n    - Open the checkout page.\n    - Click \"Proceed to checkout\".\n    - Verify the field \"Email address\" is shown.\n    - Verify the field \"Password\" is shown.\n    - Verify the button \"Login\" is shown."
   },
   {
    "id": "UI-060",
@@ -1665,9 +1725,11 @@ window.SCENARIO_CATALOG = {
    ],
    "status": "manual",
    "role": "guest",
-   "steps": [
+   "preconditions": [
     "A product that is in stock is in the cart.",
-    "A customer with TOTP enabled is registered; the test can compute the account's current TOTP code.",
+    "A customer with TOTP enabled is registered; the test can compute the account's current TOTP code."
+   ],
+   "steps": [
     "Open the checkout page.",
     "Click \"Proceed to checkout\".",
     "Enter the customer's email in the field \"Email address\".",
@@ -1692,7 +1754,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@cart"
    ],
-   "yaml": "- id: UI-060\n  name: An account with TOTP enabled must enter a valid code on the sign-in step to sign in\n  ref: docs/ui/user-stories/Checkout_Sign_In.md#AC3\n  status: manual\n  role: guest\n  steps:\n    - A product that is in stock is in the cart.\n    - A customer with TOTP enabled is registered; the test can compute the account's current TOTP code.\n    - Open the checkout page.\n    - Click \"Proceed to checkout\".\n    - Enter the customer's email in the field \"Email address\".\n    - Enter the customer's password in the field \"Password\".\n    - Click \"Login\".\n    - Verify the field \"TOTP Code\" is shown.\n    - Verify the button \"Verify TOTP\" is shown.\n    - Verify the fields \"Email address\" and \"Password\" are no longer shown.\n    - Enter the code \"000000\" in the field \"TOTP Code\".\n    - Click \"Verify TOTP\".\n    - Verify the button \"Proceed to checkout\" is not shown.\n    - Enter the account's current TOTP code in the field \"TOTP Code\" (replacing the wrong one).\n    - Click \"Verify TOTP\".\n    - Verify a message that the customer is already signed in is shown.\n    - Verify the button \"Proceed to checkout\" is shown."
+   "yaml": "- id: UI-060\n  name: An account with TOTP enabled must enter a valid code on the sign-in step to sign in\n  ref: docs/ui/user-stories/Checkout_Sign_In.md#AC3\n  status: manual\n  role: guest\n  preconditions:\n    - A product that is in stock is in the cart.\n    - A customer with TOTP enabled is registered; the test can compute the account's current TOTP code.\n  steps:\n    - Open the checkout page.\n    - Click \"Proceed to checkout\".\n    - Enter the customer's email in the field \"Email address\".\n    - Enter the customer's password in the field \"Password\".\n    - Click \"Login\".\n    - Verify the field \"TOTP Code\" is shown.\n    - Verify the button \"Verify TOTP\" is shown.\n    - Verify the fields \"Email address\" and \"Password\" are no longer shown.\n    - Enter the code \"000000\" in the field \"TOTP Code\".\n    - Click \"Verify TOTP\".\n    - Verify the button \"Proceed to checkout\" is not shown.\n    - Enter the account's current TOTP code in the field \"TOTP Code\" (replacing the wrong one).\n    - Click \"Verify TOTP\".\n    - Verify a message that the customer is already signed in is shown.\n    - Verify the button \"Proceed to checkout\" is shown."
   },
   {
    "id": "UI-061",
@@ -1702,8 +1764,10 @@ window.SCENARIO_CATALOG = {
    ],
    "status": "manual",
    "role": "guest",
+   "preconditions": [
+    "A product that is in stock is in the cart."
+   ],
    "steps": [
-    "A product that is in stock is in the cart.",
     "Open the checkout page.",
     "Click \"Proceed to checkout\".",
     "Enter the default user's email in the field \"Email address\".",
@@ -1722,7 +1786,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@cart"
    ],
-   "yaml": "- id: UI-061\n  name: Valid credentials on the sign-in step sign the guest in and lead to the billing address step\n  ref: docs/ui/user-stories/Checkout_Sign_In.md#AC4\n  status: manual\n  role: guest\n  steps:\n    - A product that is in stock is in the cart.\n    - Open the checkout page.\n    - Click \"Proceed to checkout\".\n    - Enter the default user's email in the field \"Email address\".\n    - Enter the default user's password in the field \"Password\".\n    - Click \"Login\".\n    - Verify the login form is no longer shown.\n    - Verify the user menu is shown in the navigation.\n    - Click \"Proceed to checkout\" on the sign-in step.\n    - Verify the \"Billing Address\" step is shown."
+   "yaml": "- id: UI-061\n  name: Valid credentials on the sign-in step sign the guest in and lead to the billing address step\n  ref: docs/ui/user-stories/Checkout_Sign_In.md#AC4\n  status: manual\n  role: guest\n  preconditions:\n    - A product that is in stock is in the cart.\n  steps:\n    - Open the checkout page.\n    - Click \"Proceed to checkout\".\n    - Enter the default user's email in the field \"Email address\".\n    - Enter the default user's password in the field \"Password\".\n    - Click \"Login\".\n    - Verify the login form is no longer shown.\n    - Verify the user menu is shown in the navigation.\n    - Click \"Proceed to checkout\" on the sign-in step.\n    - Verify the \"Billing Address\" step is shown."
   },
   {
    "id": "UI-062",
@@ -1731,8 +1795,10 @@ window.SCENARIO_CATALOG = {
     "docs/ui/user-stories/Checkout_Sign_In.md#AC5"
    ],
    "status": "manual",
+   "preconditions": [
+    "A product that is in stock is in the cart."
+   ],
    "steps": [
-    "A product that is in stock is in the cart.",
     "Open the checkout page.",
     "Click \"Proceed to checkout\".",
     "Verify the message \"You are already signed in as\" followed by the default user's first and last name is shown.",
@@ -1748,7 +1814,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@cart"
    ],
-   "yaml": "- id: UI-062\n  name: A logged-in customer sees the already-signed-in message on the sign-in step and proceeds to the billing address step\n  ref: docs/ui/user-stories/Checkout_Sign_In.md#AC5\n  status: manual\n  steps:\n    - A product that is in stock is in the cart.\n    - Open the checkout page.\n    - Click \"Proceed to checkout\".\n    - Verify the message \"You are already signed in as\" followed by the default user's first and last name is shown.\n    - Verify the login form is not shown.\n    - Click \"Proceed to checkout\" on the sign-in step.\n    - Verify the \"Billing Address\" step is shown."
+   "yaml": "- id: UI-062\n  name: A logged-in customer sees the already-signed-in message on the sign-in step and proceeds to the billing address step\n  ref: docs/ui/user-stories/Checkout_Sign_In.md#AC5\n  status: manual\n  preconditions:\n    - A product that is in stock is in the cart.\n  steps:\n    - Open the checkout page.\n    - Click \"Proceed to checkout\".\n    - Verify the message \"You are already signed in as\" followed by the default user's first and last name is shown.\n    - Verify the login form is not shown.\n    - Click \"Proceed to checkout\" on the sign-in step.\n    - Verify the \"Billing Address\" step is shown."
   },
   {
    "id": "UI-013",
@@ -1889,9 +1955,11 @@ window.SCENARIO_CATALOG = {
     "docs/ui/user-stories/Rental_Products.md#AC5"
    ],
    "status": "manual",
-   "steps": [
+   "preconditions": [
     "The visitor is in London.",
-    "A rental product that is also a location offer exists.",
+    "A rental product that is also a location offer exists."
+   ],
+   "steps": [
     "Open the product page of that rental.",
     "Set the duration slider to 3 hours.",
     "Verify the discount badge \"-25%\" is shown.",
@@ -1907,7 +1975,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@products"
    ],
-   "yaml": "- id: UI-085\n  name: A rental that is a location offer shows the discount, the discounted hourly rate and the discounted total for a visitor in London\n  ref: docs/ui/user-stories/Rental_Products.md#AC5\n  status: manual\n  steps:\n    - The visitor is in London.\n    - A rental product that is also a location offer exists.\n    - Open the product page of that rental.\n    - Set the duration slider to 3 hours.\n    - Verify the discount badge \"-25%\" is shown.\n    - Verify the hourly rate is shown struck through.\n    - Verify the discounted hourly rate is shown, 25% below the hourly rate.\n    - Verify the total price equals 3 × the discounted hourly rate."
+   "yaml": "- id: UI-085\n  name: A rental that is a location offer shows the discount, the discounted hourly rate and the discounted total for a visitor in London\n  ref: docs/ui/user-stories/Rental_Products.md#AC5\n  status: manual\n  preconditions:\n    - The visitor is in London.\n    - A rental product that is also a location offer exists.\n  steps:\n    - Open the product page of that rental.\n    - Set the duration slider to 3 hours.\n    - Verify the discount badge \"-25%\" is shown.\n    - Verify the hourly rate is shown struck through.\n    - Verify the discounted hourly rate is shown, 25% below the hourly rate.\n    - Verify the total price equals 3 × the discounted hourly rate."
   },
   {
    "id": "UI-028",
@@ -1917,8 +1985,10 @@ window.SCENARIO_CATALOG = {
    ],
    "status": "automated",
    "automatedIn": "tests/ui/products/product-favorites.spec.ts",
+   "preconditions": [
+    "The product \"Combination Pliers\" is not in the user's favourites."
+   ],
    "steps": [
-    "The product \"Combination Pliers\" is not in the user's favourites.",
     "Open the product \"Combination Pliers\".",
     "Click \"Add to favourites\".",
     "Verify the message \"Product added to your favorites list.\" is shown."
@@ -1932,7 +2002,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@products"
    ],
-   "yaml": "- id: UI-028\n  name: Adding a product to favourites shows a success message\n  ref: docs/ui/user-stories/Product_Detail.md#AC11\n  status: automated\n  automatedIn: tests/ui/products/product-favorites.spec.ts\n  steps:\n    - The product \"Combination Pliers\" is not in the user's favourites.\n    - Open the product \"Combination Pliers\".\n    - Click \"Add to favourites\".\n    - Verify the message \"Product added to your favorites list.\" is shown."
+   "yaml": "- id: UI-028\n  name: Adding a product to favourites shows a success message\n  ref: docs/ui/user-stories/Product_Detail.md#AC11\n  status: automated\n  automatedIn: tests/ui/products/product-favorites.spec.ts\n  preconditions:\n    - The product \"Combination Pliers\" is not in the user's favourites.\n  steps:\n    - Open the product \"Combination Pliers\".\n    - Click \"Add to favourites\".\n    - Verify the message \"Product added to your favorites list.\" is shown."
   },
   {
    "id": "UI-029",
@@ -1942,13 +2012,15 @@ window.SCENARIO_CATALOG = {
    ],
    "status": "automated",
    "automatedIn": "tests/ui/products/product-favorites.spec.ts",
+   "preconditions": [
+    "The product \"Combination Pliers\" is in the user's favourites."
+   ],
    "steps": [
-    "The product \"Combination Pliers\" is in the user's favourites.",
     "Open the product \"Combination Pliers\".",
     "Click \"Add to favourites\".",
     "Verify the message \"Product already in your favorites list.\" is shown."
    ],
-   "specLine": 34,
+   "specLine": 33,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/ui/products/product-favorites.yml",
@@ -1957,7 +2029,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@products"
    ],
-   "yaml": "- id: UI-029\n  name: Adding a product that is already a favourite shows a message\n  ref: docs/ui/user-stories/Product_Detail.md#AC12\n  status: automated\n  automatedIn: tests/ui/products/product-favorites.spec.ts\n  steps:\n    - The product \"Combination Pliers\" is in the user's favourites.\n    - Open the product \"Combination Pliers\".\n    - Click \"Add to favourites\".\n    - Verify the message \"Product already in your favorites list.\" is shown."
+   "yaml": "- id: UI-029\n  name: Adding a product that is already a favourite shows a message\n  ref: docs/ui/user-stories/Product_Detail.md#AC12\n  status: automated\n  automatedIn: tests/ui/products/product-favorites.spec.ts\n  preconditions:\n    - The product \"Combination Pliers\" is in the user's favourites.\n  steps:\n    - Open the product \"Combination Pliers\".\n    - Click \"Add to favourites\".\n    - Verify the message \"Product already in your favorites list.\" is shown."
   },
   {
    "id": "UI-030",
@@ -1973,7 +2045,7 @@ window.SCENARIO_CATALOG = {
     "Click \"Add to favourites\".",
     "Verify the message \"Unauthorized, can not add product to your favorite list.\" is shown."
    ],
-   "specLine": 67,
+   "specLine": 65,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/ui/products/product-favorites.yml",
@@ -1991,8 +2063,10 @@ window.SCENARIO_CATALOG = {
     "docs/ui/user-stories/Product_Overview.md#AC5"
    ],
    "status": "manual",
+   "preconditions": [
+    "The home page is open."
+   ],
    "steps": [
-    "Open the home page.",
     "Check the category \"Pliers\" in the sidebar.",
     "Verify the grid shows only the products of the category \"Pliers\": the products the catalogue lists for it in the page's default price range, $1 to $100."
    ],
@@ -2004,7 +2078,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@products"
    ],
-   "yaml": "- id: UI-075\n  name: Checking a category shows only that category's products\n  ref: docs/ui/user-stories/Product_Overview.md#AC5\n  status: manual\n  steps:\n    - Open the home page.\n    - Check the category \"Pliers\" in the sidebar.\n    - 'Verify the grid shows only the products of the category \"Pliers\": the products the catalogue lists for it in the page''s default price range, $1 to $100.'"
+   "yaml": "- id: UI-075\n  name: Checking a category shows only that category's products\n  ref: docs/ui/user-stories/Product_Overview.md#AC5\n  status: manual\n  preconditions:\n    - The home page is open.\n  steps:\n    - Check the category \"Pliers\" in the sidebar.\n    - 'Verify the grid shows only the products of the category \"Pliers\": the products the catalogue lists for it in the page''s default price range, $1 to $100.'"
   },
   {
    "id": "UI-076",
@@ -2013,8 +2087,10 @@ window.SCENARIO_CATALOG = {
     "docs/ui/user-stories/Product_Overview.md#AC6"
    ],
    "status": "manual",
+   "preconditions": [
+    "The home page is open."
+   ],
    "steps": [
-    "Open the home page.",
     "Check the category \"Hand Tools\" in the sidebar.",
     "Verify the child categories \"Hammer\", \"Hand Saw\", \"Wrench\", \"Screwdriver\", \"Pliers\", \"Chisels\" and \"Measures\" are checked."
    ],
@@ -2026,7 +2102,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@products"
    ],
-   "yaml": "- id: UI-076\n  name: Checking a parent category checks all its child categories\n  ref: docs/ui/user-stories/Product_Overview.md#AC6\n  status: manual\n  steps:\n    - Open the home page.\n    - Check the category \"Hand Tools\" in the sidebar.\n    - Verify the child categories \"Hammer\", \"Hand Saw\", \"Wrench\", \"Screwdriver\", \"Pliers\", \"Chisels\" and \"Measures\" are checked."
+   "yaml": "- id: UI-076\n  name: Checking a parent category checks all its child categories\n  ref: docs/ui/user-stories/Product_Overview.md#AC6\n  status: manual\n  preconditions:\n    - The home page is open.\n  steps:\n    - Check the category \"Hand Tools\" in the sidebar.\n    - Verify the child categories \"Hammer\", \"Hand Saw\", \"Wrench\", \"Screwdriver\", \"Pliers\", \"Chisels\" and \"Measures\" are checked."
   },
   {
    "id": "UI-077",
@@ -2035,8 +2111,10 @@ window.SCENARIO_CATALOG = {
     "docs/ui/user-stories/Product_Overview.md#AC6"
    ],
    "status": "manual",
+   "preconditions": [
+    "The home page is open."
+   ],
    "steps": [
-    "Open the home page.",
     "Check the category \"Hand Tools\" in the sidebar.",
     "Uncheck the child category \"Hammer\".",
     "Uncheck the child category \"Hand Saw\".",
@@ -2055,7 +2133,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@products"
    ],
-   "yaml": "- id: UI-077\n  name: Unchecking all child categories unchecks the parent category\n  ref: docs/ui/user-stories/Product_Overview.md#AC6\n  status: manual\n  steps:\n    - Open the home page.\n    - Check the category \"Hand Tools\" in the sidebar.\n    - Uncheck the child category \"Hammer\".\n    - Uncheck the child category \"Hand Saw\".\n    - Uncheck the child category \"Wrench\".\n    - Uncheck the child category \"Screwdriver\".\n    - Uncheck the child category \"Pliers\".\n    - Uncheck the child category \"Chisels\".\n    - Uncheck the child category \"Measures\".\n    - Verify the category \"Hand Tools\" is not checked."
+   "yaml": "- id: UI-077\n  name: Unchecking all child categories unchecks the parent category\n  ref: docs/ui/user-stories/Product_Overview.md#AC6\n  status: manual\n  preconditions:\n    - The home page is open.\n  steps:\n    - Check the category \"Hand Tools\" in the sidebar.\n    - Uncheck the child category \"Hammer\".\n    - Uncheck the child category \"Hand Saw\".\n    - Uncheck the child category \"Wrench\".\n    - Uncheck the child category \"Screwdriver\".\n    - Uncheck the child category \"Pliers\".\n    - Uncheck the child category \"Chisels\".\n    - Uncheck the child category \"Measures\".\n    - Verify the category \"Hand Tools\" is not checked."
   },
   {
    "id": "UI-078",
@@ -2064,8 +2142,10 @@ window.SCENARIO_CATALOG = {
     "docs/ui/user-stories/Product_Overview.md#AC7"
    ],
    "status": "manual",
+   "preconditions": [
+    "The home page is open."
+   ],
    "steps": [
-    "Open the home page.",
     "Check the brand \"MightyCraft Hardware\" in the sidebar.",
     "Verify the grid shows only the products of the brand \"MightyCraft Hardware\": the products the catalogue lists for it in the page's default price range, $1 to $100."
    ],
@@ -2077,7 +2157,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@products"
    ],
-   "yaml": "- id: UI-078\n  name: Checking a brand shows only that brand's products\n  ref: docs/ui/user-stories/Product_Overview.md#AC7\n  status: manual\n  steps:\n    - Open the home page.\n    - Check the brand \"MightyCraft Hardware\" in the sidebar.\n    - 'Verify the grid shows only the products of the brand \"MightyCraft Hardware\": the products the catalogue lists for it in the page''s default price range, $1 to $100.'"
+   "yaml": "- id: UI-078\n  name: Checking a brand shows only that brand's products\n  ref: docs/ui/user-stories/Product_Overview.md#AC7\n  status: manual\n  preconditions:\n    - The home page is open.\n  steps:\n    - Check the brand \"MightyCraft Hardware\" in the sidebar.\n    - 'Verify the grid shows only the products of the brand \"MightyCraft Hardware\": the products the catalogue lists for it in the page''s default price range, $1 to $100.'"
   },
   {
    "id": "UI-079",
@@ -2086,8 +2166,10 @@ window.SCENARIO_CATALOG = {
     "docs/ui/user-stories/Product_Overview.md#AC8"
    ],
    "status": "manual",
+   "preconditions": [
+    "The home page is open."
+   ],
    "steps": [
-    "Open the home page.",
     "Check the category \"Pliers\" in the sidebar.",
     "Check the brand \"ForgeFlex Tools\" in the sidebar.",
     "Verify the grid shows only the products that belong to both the category \"Pliers\" and the brand \"ForgeFlex Tools\": the products the catalogue lists for both filters in the page's default price range, $1 to $100."
@@ -2100,7 +2182,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@products"
    ],
-   "yaml": "- id: UI-079\n  name: Checking a category and a brand shows only products that match both\n  ref: docs/ui/user-stories/Product_Overview.md#AC8\n  status: manual\n  steps:\n    - Open the home page.\n    - Check the category \"Pliers\" in the sidebar.\n    - Check the brand \"ForgeFlex Tools\" in the sidebar.\n    - 'Verify the grid shows only the products that belong to both the category \"Pliers\" and the brand \"ForgeFlex Tools\": the products the catalogue lists for both filters in the page''s default price range, $1 to $100.'"
+   "yaml": "- id: UI-079\n  name: Checking a category and a brand shows only products that match both\n  ref: docs/ui/user-stories/Product_Overview.md#AC8\n  status: manual\n  preconditions:\n    - The home page is open.\n  steps:\n    - Check the category \"Pliers\" in the sidebar.\n    - Check the brand \"ForgeFlex Tools\" in the sidebar.\n    - 'Verify the grid shows only the products that belong to both the category \"Pliers\" and the brand \"ForgeFlex Tools\": the products the catalogue lists for both filters in the page''s default price range, $1 to $100.'"
   },
   {
    "id": "UI-080",
@@ -2109,8 +2191,10 @@ window.SCENARIO_CATALOG = {
     "docs/ui/user-stories/Product_Overview.md#AC11"
    ],
    "status": "manual",
+   "preconditions": [
+    "The home page is open."
+   ],
    "steps": [
-    "Open the home page.",
     "Move the upper handle of the price range slider to 15.",
     "Move the lower handle of the price range slider to 10.",
     "Verify at least one product is shown.",
@@ -2124,7 +2208,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@products"
    ],
-   "yaml": "- id: UI-080\n  name: Moving the price range slider shows only products within the new range\n  ref: docs/ui/user-stories/Product_Overview.md#AC11\n  status: manual\n  steps:\n    - Open the home page.\n    - Move the upper handle of the price range slider to 15.\n    - Move the lower handle of the price range slider to 10.\n    - Verify at least one product is shown.\n    - Verify the price of every product shown is between $10 and $15."
+   "yaml": "- id: UI-080\n  name: Moving the price range slider shows only products within the new range\n  ref: docs/ui/user-stories/Product_Overview.md#AC11\n  status: manual\n  preconditions:\n    - The home page is open.\n  steps:\n    - Move the upper handle of the price range slider to 15.\n    - Move the lower handle of the price range slider to 10.\n    - Verify at least one product is shown.\n    - Verify the price of every product shown is between $10 and $15."
   },
   {
    "id": "UI-012",
@@ -2132,11 +2216,15 @@ window.SCENARIO_CATALOG = {
    "ref": [
     "docs/ui/user-stories/Product_Overview.md#AC13"
    ],
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/ui/products/product-grid.spec.ts",
+   "preconditions": [
+    "The home page is open."
+   ],
    "steps": [
-    "Open the home page.",
     "Verify the card of \"Long Nose Pliers\" shows \"Out of stock\"."
    ],
+   "specLine": 7,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/ui/products/product-grid.yml",
@@ -2145,7 +2233,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@products"
    ],
-   "yaml": "- id: UI-012\n  name: An out-of-stock product shows \"Out of stock\" on its card\n  ref: docs/ui/user-stories/Product_Overview.md#AC13\n  status: manual\n  steps:\n    - Open the home page.\n    - Verify the card of \"Long Nose Pliers\" shows \"Out of stock\"."
+   "yaml": "- id: UI-012\n  name: An out-of-stock product shows \"Out of stock\" on its card\n  ref: docs/ui/user-stories/Product_Overview.md#AC13\n  status: automated\n  automatedIn: tests/ui/products/product-grid.spec.ts\n  preconditions:\n    - The home page is open.\n  steps:\n    - Verify the card of \"Long Nose Pliers\" shows \"Out of stock\"."
   },
   {
    "id": "UI-070",
@@ -2153,14 +2241,18 @@ window.SCENARIO_CATALOG = {
    "ref": [
     "docs/ui/user-stories/Product_Overview.md#AC1"
    ],
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/ui/products/product-grid.spec.ts",
+   "preconditions": [
+    "The home page is open."
+   ],
    "steps": [
-    "Open the home page.",
     "Verify the product grid shows at least one product card.",
     "Verify every card shows a product image.",
     "Verify every card shows a product name.",
     "Verify every card shows a price."
    ],
+   "specLine": 17,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/ui/products/product-grid.yml",
@@ -2169,7 +2261,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@products"
    ],
-   "yaml": "- id: UI-070\n  name: The home page shows a grid of product cards with an image, a name and a price\n  ref: docs/ui/user-stories/Product_Overview.md#AC1\n  status: manual\n  steps:\n    - Open the home page.\n    - Verify the product grid shows at least one product card.\n    - Verify every card shows a product image.\n    - Verify every card shows a product name.\n    - Verify every card shows a price."
+   "yaml": "- id: UI-070\n  name: The home page shows a grid of product cards with an image, a name and a price\n  ref: docs/ui/user-stories/Product_Overview.md#AC1\n  status: automated\n  automatedIn: tests/ui/products/product-grid.spec.ts\n  preconditions:\n    - The home page is open.\n  steps:\n    - Verify the product grid shows at least one product card.\n    - Verify every card shows a product image.\n    - Verify every card shows a product name.\n    - Verify every card shows a price."
   },
   {
    "id": "UI-071",
@@ -2177,13 +2269,17 @@ window.SCENARIO_CATALOG = {
    "ref": [
     "docs/ui/user-stories/Product_Overview.md#AC2"
    ],
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/ui/products/product-grid.spec.ts",
+   "preconditions": [
+    "The home page is open."
+   ],
    "steps": [
-    "Open the home page.",
     "Click the card of \"Combination Pliers\".",
     "Verify the product detail page is shown.",
     "Verify the name \"Combination Pliers\" is shown."
    ],
+   "specLine": 53,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/ui/products/product-grid.yml",
@@ -2192,7 +2288,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@products"
    ],
-   "yaml": "- id: UI-071\n  name: Clicking a product card opens that product's page\n  ref: docs/ui/user-stories/Product_Overview.md#AC2\n  status: manual\n  steps:\n    - Open the home page.\n    - Click the card of \"Combination Pliers\".\n    - Verify the product detail page is shown.\n    - Verify the name \"Combination Pliers\" is shown."
+   "yaml": "- id: UI-071\n  name: Clicking a product card opens that product's page\n  ref: docs/ui/user-stories/Product_Overview.md#AC2\n  status: automated\n  automatedIn: tests/ui/products/product-grid.spec.ts\n  preconditions:\n    - The home page is open.\n  steps:\n    - Click the card of \"Combination Pliers\".\n    - Verify the product detail page is shown.\n    - Verify the name \"Combination Pliers\" is shown."
   },
   {
    "id": "UI-072",
@@ -2201,8 +2297,10 @@ window.SCENARIO_CATALOG = {
     "docs/ui/user-stories/Product_Overview.md#AC3"
    ],
    "status": "manual",
+   "preconditions": [
+    "The home page is open."
+   ],
    "steps": [
-    "Open the home page.",
     "Verify the pagination controls are shown below the product grid.",
     "Click page \"2\" in the pagination.",
     "Verify at least one product is shown.",
@@ -2217,7 +2315,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@products"
    ],
-   "yaml": "- id: UI-072\n  name: The pagination controls are shown below the grid and page 2 shows other products\n  ref: docs/ui/user-stories/Product_Overview.md#AC3\n  status: manual\n  steps:\n    - Open the home page.\n    - Verify the pagination controls are shown below the product grid.\n    - Click page \"2\" in the pagination.\n    - Verify at least one product is shown.\n    - Verify none of the products shown was shown on page 1.\n    - Verify page \"2\" is marked as the active page."
+   "yaml": "- id: UI-072\n  name: The pagination controls are shown below the grid and page 2 shows other products\n  ref: docs/ui/user-stories/Product_Overview.md#AC3\n  status: manual\n  preconditions:\n    - The home page is open.\n  steps:\n    - Verify the pagination controls are shown below the product grid.\n    - Click page \"2\" in the pagination.\n    - Verify at least one product is shown.\n    - Verify none of the products shown was shown on page 1.\n    - Verify page \"2\" is marked as the active page."
   },
   {
    "id": "UI-073",
@@ -2226,8 +2324,10 @@ window.SCENARIO_CATALOG = {
     "docs/ui/user-stories/Product_Overview.md#AC10"
    ],
    "status": "manual",
+   "preconditions": [
+    "The home page is open."
+   ],
    "steps": [
-    "Open the home page.",
     "Verify the price range slider is shown in the sidebar.",
     "Verify the lower handle is at 1.",
     "Verify the upper handle is at 100.",
@@ -2241,7 +2341,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@products"
    ],
-   "yaml": "- id: UI-073\n  name: The price range slider is shown with the range $1 to $100 and a maximum of $200\n  ref: docs/ui/user-stories/Product_Overview.md#AC10\n  status: manual\n  steps:\n    - Open the home page.\n    - Verify the price range slider is shown in the sidebar.\n    - Verify the lower handle is at 1.\n    - Verify the upper handle is at 100.\n    - Verify the maximum of the slider is 200."
+   "yaml": "- id: UI-073\n  name: The price range slider is shown with the range $1 to $100 and a maximum of $200\n  ref: docs/ui/user-stories/Product_Overview.md#AC10\n  status: manual\n  preconditions:\n    - The home page is open.\n  steps:\n    - Verify the price range slider is shown in the sidebar.\n    - Verify the lower handle is at 1.\n    - Verify the upper handle is at 100.\n    - Verify the maximum of the slider is 200."
   },
   {
    "id": "UI-074",
@@ -2250,9 +2350,11 @@ window.SCENARIO_CATALOG = {
     "docs/ui/user-stories/Product_Overview.md#AC12"
    ],
    "status": "manual",
-   "steps": [
+   "preconditions": [
     "The visitor is in London.",
-    "Open the home page.",
+    "The home page is open."
+   ],
+   "steps": [
     "Verify the card of \"Bolt Cutters\" is shown on the first page.",
     "Verify the card of \"Bolt Cutters\" shows its original price struck through.",
     "Verify the card of \"Bolt Cutters\" shows the discounted price, 25% below the original price."
@@ -2265,7 +2367,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@products"
    ],
-   "yaml": "- id: UI-074\n  name: A location offer's card shows the original price struck through and the discounted price for a visitor in London\n  ref: docs/ui/user-stories/Product_Overview.md#AC12\n  status: manual\n  steps:\n    - The visitor is in London.\n    - Open the home page.\n    - Verify the card of \"Bolt Cutters\" is shown on the first page.\n    - Verify the card of \"Bolt Cutters\" shows its original price struck through.\n    - Verify the card of \"Bolt Cutters\" shows the discounted price, 25% below the original price."
+   "yaml": "- id: UI-074\n  name: A location offer's card shows the original price struck through and the discounted price for a visitor in London\n  ref: docs/ui/user-stories/Product_Overview.md#AC12\n  status: manual\n  preconditions:\n    - The visitor is in London.\n    - The home page is open.\n  steps:\n    - Verify the card of \"Bolt Cutters\" is shown on the first page.\n    - Verify the card of \"Bolt Cutters\" shows its original price struck through.\n    - Verify the card of \"Bolt Cutters\" shows the discounted price, 25% below the original price."
   },
   {
    "id": "UI-018",
@@ -2484,14 +2586,16 @@ window.SCENARIO_CATALOG = {
    ],
    "status": "automated",
    "automatedIn": "tests/ui/products/product-search.spec.ts",
+   "preconditions": [
+    "The home page is open."
+   ],
    "steps": [
-    "Open the home page.",
     "Search for \"pliers\".",
     "Verify the caption reads \"Searched for: pliers\".",
     "Verify at least one product is shown.",
     "Verify every product name contains \"pliers\" (case-insensitive)."
    ],
-   "specLine": 6,
+   "specLine": 7,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/ui/products/product-search.yml",
@@ -2500,7 +2604,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@products"
    ],
-   "yaml": "- id: UI-001\n  name: Search by name shows only matching products\n  ref: docs/ui/user-stories/Product_Overview.md#AC4\n  status: automated\n  automatedIn: tests/ui/products/product-search.spec.ts\n  steps:\n    - Open the home page.\n    - Search for \"pliers\".\n    - 'Verify the caption reads \"Searched for: pliers\".'\n    - Verify at least one product is shown.\n    - Verify every product name contains \"pliers\" (case-insensitive)."
+   "yaml": "- id: UI-001\n  name: Search by name shows only matching products\n  ref: docs/ui/user-stories/Product_Overview.md#AC4\n  status: automated\n  automatedIn: tests/ui/products/product-search.spec.ts\n  preconditions:\n    - The home page is open.\n  steps:\n    - Search for \"pliers\".\n    - 'Verify the caption reads \"Searched for: pliers\".'\n    - Verify at least one product is shown.\n    - Verify every product name contains \"pliers\" (case-insensitive)."
   },
   {
    "id": "UI-003",
@@ -2510,8 +2614,10 @@ window.SCENARIO_CATALOG = {
    ],
    "status": "automated",
    "automatedIn": "tests/ui/products/product-search.spec.ts",
+   "preconditions": [
+    "The home page is open."
+   ],
    "steps": [
-    "Open the home page.",
     "Check the category \"Hammer\" in the sidebar.",
     "Check the brand \"ForgeFlex Tools\" in the sidebar.",
     "Search for \"pliers\".",
@@ -2520,7 +2626,7 @@ window.SCENARIO_CATALOG = {
     "Verify at least one product is shown.",
     "Verify every product name contains \"pliers\" (case-insensitive)."
    ],
-   "specLine": 33,
+   "specLine": 30,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/ui/products/product-search.yml",
@@ -2529,7 +2635,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@products"
    ],
-   "yaml": "- id: UI-003\n  name: Search resets the active category and brand filters\n  ref: docs/ui/user-stories/Product_Overview.md#AC4\n  status: automated\n  automatedIn: tests/ui/products/product-search.spec.ts\n  steps:\n    - Open the home page.\n    - Check the category \"Hammer\" in the sidebar.\n    - Check the brand \"ForgeFlex Tools\" in the sidebar.\n    - Search for \"pliers\".\n    - Verify the category \"Hammer\" is not checked.\n    - Verify the brand \"ForgeFlex Tools\" is not checked.\n    - Verify at least one product is shown.\n    - Verify every product name contains \"pliers\" (case-insensitive)."
+   "yaml": "- id: UI-003\n  name: Search resets the active category and brand filters\n  ref: docs/ui/user-stories/Product_Overview.md#AC4\n  status: automated\n  automatedIn: tests/ui/products/product-search.spec.ts\n  preconditions:\n    - The home page is open.\n  steps:\n    - Check the category \"Hammer\" in the sidebar.\n    - Check the brand \"ForgeFlex Tools\" in the sidebar.\n    - Search for \"pliers\".\n    - Verify the category \"Hammer\" is not checked.\n    - Verify the brand \"ForgeFlex Tools\" is not checked.\n    - Verify at least one product is shown.\n    - Verify every product name contains \"pliers\" (case-insensitive)."
   },
   {
    "id": "UI-004",
@@ -2539,14 +2645,16 @@ window.SCENARIO_CATALOG = {
    ],
    "status": "automated",
    "automatedIn": "tests/ui/products/product-search.spec.ts",
+   "preconditions": [
+    "The home page is open."
+   ],
    "steps": [
-    "Open the home page.",
     "Search for \"ham\".",
     "Verify the caption reads \"Searched for: ham\".",
     "Verify at least one product is shown.",
     "Verify every product name contains \"ham\" (case-insensitive)."
    ],
-   "specLine": 74,
+   "specLine": 67,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/ui/products/product-search.yml",
@@ -2555,7 +2663,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@products"
    ],
-   "yaml": "- id: UI-004\n  name: Search with a 3-character term is accepted\n  ref: docs/ui/user-stories/Product_Overview.md#AC4\n  status: automated\n  automatedIn: tests/ui/products/product-search.spec.ts\n  steps:\n    - Open the home page.\n    - Search for \"ham\".\n    - 'Verify the caption reads \"Searched for: ham\".'\n    - Verify at least one product is shown.\n    - Verify every product name contains \"ham\" (case-insensitive)."
+   "yaml": "- id: UI-004\n  name: Search with a 3-character term is accepted\n  ref: docs/ui/user-stories/Product_Overview.md#AC4\n  status: automated\n  automatedIn: tests/ui/products/product-search.spec.ts\n  preconditions:\n    - The home page is open.\n  steps:\n    - Search for \"ham\".\n    - 'Verify the caption reads \"Searched for: ham\".'\n    - Verify at least one product is shown.\n    - Verify every product name contains \"ham\" (case-insensitive)."
   },
   {
    "id": "UI-005",
@@ -2565,12 +2673,14 @@ window.SCENARIO_CATALOG = {
    ],
    "status": "automated",
    "automatedIn": "tests/ui/products/product-search.spec.ts",
+   "preconditions": [
+    "The home page is open."
+   ],
    "steps": [
-    "Open the home page.",
     "Search for a term of exactly 40 characters.",
     "Verify the caption reads \"Searched for: \" followed by the term."
    ],
-   "specLine": 101,
+   "specLine": 90,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/ui/products/product-search.yml",
@@ -2579,7 +2689,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@products"
    ],
-   "yaml": "- id: UI-005\n  name: Search with a 40-character term is accepted\n  ref: docs/ui/user-stories/Product_Overview.md#AC4\n  status: automated\n  automatedIn: tests/ui/products/product-search.spec.ts\n  steps:\n    - Open the home page.\n    - Search for a term of exactly 40 characters.\n    - 'Verify the caption reads \"Searched for: \" followed by the term.'"
+   "yaml": "- id: UI-005\n  name: Search with a 40-character term is accepted\n  ref: docs/ui/user-stories/Product_Overview.md#AC4\n  status: automated\n  automatedIn: tests/ui/products/product-search.spec.ts\n  preconditions:\n    - The home page is open.\n  steps:\n    - Search for a term of exactly 40 characters.\n    - 'Verify the caption reads \"Searched for: \" followed by the term.'"
   },
   {
    "id": "UI-006",
@@ -2589,13 +2699,15 @@ window.SCENARIO_CATALOG = {
    ],
    "status": "automated",
    "automatedIn": "tests/ui/products/product-search.spec.ts",
+   "preconditions": [
+    "The home page is open."
+   ],
    "steps": [
-    "Open the home page.",
     "Search for \"pl\".",
     "Verify no \"Searched for:\" caption is shown.",
     "Verify the product grid still shows the first page of all products."
    ],
-   "specLine": 117,
+   "specLine": 102,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/ui/products/product-search.yml",
@@ -2604,7 +2716,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@products"
    ],
-   "yaml": "- id: UI-006\n  name: Search with a 2-character term is rejected\n  ref: docs/ui/user-stories/Product_Overview.md#AC4\n  status: automated\n  automatedIn: tests/ui/products/product-search.spec.ts\n  steps:\n    - Open the home page.\n    - Search for \"pl\".\n    - 'Verify no \"Searched for:\" caption is shown.'\n    - Verify the product grid still shows the first page of all products."
+   "yaml": "- id: UI-006\n  name: Search with a 2-character term is rejected\n  ref: docs/ui/user-stories/Product_Overview.md#AC4\n  status: automated\n  automatedIn: tests/ui/products/product-search.spec.ts\n  preconditions:\n    - The home page is open.\n  steps:\n    - Search for \"pl\".\n    - 'Verify no \"Searched for:\" caption is shown.'\n    - Verify the product grid still shows the first page of all products."
   },
   {
    "id": "UI-007",
@@ -2614,13 +2726,15 @@ window.SCENARIO_CATALOG = {
    ],
    "status": "automated",
    "automatedIn": "tests/ui/products/product-search.spec.ts",
+   "preconditions": [
+    "The home page is open."
+   ],
    "steps": [
-    "Open the home page.",
     "Search for a term of exactly 41 characters.",
     "Verify no \"Searched for:\" caption is shown.",
     "Verify the product grid still shows the first page of all products."
    ],
-   "specLine": 143,
+   "specLine": 124,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/ui/products/product-search.yml",
@@ -2629,7 +2743,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@products"
    ],
-   "yaml": "- id: UI-007\n  name: Search with a 41-character term is rejected\n  ref: docs/ui/user-stories/Product_Overview.md#AC4\n  status: automated\n  automatedIn: tests/ui/products/product-search.spec.ts\n  steps:\n    - Open the home page.\n    - Search for a term of exactly 41 characters.\n    - 'Verify no \"Searched for:\" caption is shown.'\n    - Verify the product grid still shows the first page of all products."
+   "yaml": "- id: UI-007\n  name: Search with a 41-character term is rejected\n  ref: docs/ui/user-stories/Product_Overview.md#AC4\n  status: automated\n  automatedIn: tests/ui/products/product-search.spec.ts\n  preconditions:\n    - The home page is open.\n  steps:\n    - Search for a term of exactly 41 characters.\n    - 'Verify no \"Searched for:\" caption is shown.'\n    - Verify the product grid still shows the first page of all products."
   },
   {
    "id": "UI-008",
@@ -2639,12 +2753,14 @@ window.SCENARIO_CATALOG = {
    ],
    "status": "automated",
    "automatedIn": "tests/ui/products/product-sorting.spec.ts",
+   "preconditions": [
+    "The home page is open."
+   ],
    "steps": [
-    "Open the home page.",
     "Select \"Name (A - Z)\" in the sort list.",
     "Verify the product names are in alphabetical order, A to Z."
    ],
-   "specLine": 9,
+   "specLine": 10,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/ui/products/product-sorting.yml",
@@ -2653,7 +2769,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@products"
    ],
-   "yaml": "- id: UI-008\n  name: Sort by name from A to Z\n  ref: docs/ui/user-stories/Product_Overview.md#AC9\n  status: automated\n  automatedIn: tests/ui/products/product-sorting.spec.ts\n  steps:\n    - Open the home page.\n    - Select \"Name (A - Z)\" in the sort list.\n    - Verify the product names are in alphabetical order, A to Z."
+   "yaml": "- id: UI-008\n  name: Sort by name from A to Z\n  ref: docs/ui/user-stories/Product_Overview.md#AC9\n  status: automated\n  automatedIn: tests/ui/products/product-sorting.spec.ts\n  preconditions:\n    - The home page is open.\n  steps:\n    - Select \"Name (A - Z)\" in the sort list.\n    - Verify the product names are in alphabetical order, A to Z."
   },
   {
    "id": "UI-009",
@@ -2663,12 +2779,14 @@ window.SCENARIO_CATALOG = {
    ],
    "status": "automated",
    "automatedIn": "tests/ui/products/product-sorting.spec.ts",
+   "preconditions": [
+    "The home page is open."
+   ],
    "steps": [
-    "Open the home page.",
     "Select \"Name (Z - A)\" in the sort list.",
     "Verify the product names are in reverse alphabetical order, Z to A."
    ],
-   "specLine": 25,
+   "specLine": 22,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/ui/products/product-sorting.yml",
@@ -2677,7 +2795,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@products"
    ],
-   "yaml": "- id: UI-009\n  name: Sort by name from Z to A\n  ref: docs/ui/user-stories/Product_Overview.md#AC9\n  status: automated\n  automatedIn: tests/ui/products/product-sorting.spec.ts\n  steps:\n    - Open the home page.\n    - Select \"Name (Z - A)\" in the sort list.\n    - Verify the product names are in reverse alphabetical order, Z to A."
+   "yaml": "- id: UI-009\n  name: Sort by name from Z to A\n  ref: docs/ui/user-stories/Product_Overview.md#AC9\n  status: automated\n  automatedIn: tests/ui/products/product-sorting.spec.ts\n  preconditions:\n    - The home page is open.\n  steps:\n    - Select \"Name (Z - A)\" in the sort list.\n    - Verify the product names are in reverse alphabetical order, Z to A."
   },
   {
    "id": "UI-010",
@@ -2687,12 +2805,14 @@ window.SCENARIO_CATALOG = {
    ],
    "status": "automated",
    "automatedIn": "tests/ui/products/product-sorting.spec.ts",
+   "preconditions": [
+    "The home page is open."
+   ],
    "steps": [
-    "Open the home page.",
     "Select \"Price (High - Low)\" in the sort list.",
     "Verify the products are sorted by price, highest first."
    ],
-   "specLine": 41,
+   "specLine": 34,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/ui/products/product-sorting.yml",
@@ -2701,7 +2821,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@products"
    ],
-   "yaml": "- id: UI-010\n  name: Sort by price from high to low\n  ref: docs/ui/user-stories/Product_Overview.md#AC9\n  status: automated\n  automatedIn: tests/ui/products/product-sorting.spec.ts\n  steps:\n    - Open the home page.\n    - Select \"Price (High - Low)\" in the sort list.\n    - Verify the products are sorted by price, highest first."
+   "yaml": "- id: UI-010\n  name: Sort by price from high to low\n  ref: docs/ui/user-stories/Product_Overview.md#AC9\n  status: automated\n  automatedIn: tests/ui/products/product-sorting.spec.ts\n  preconditions:\n    - The home page is open.\n  steps:\n    - Select \"Price (High - Low)\" in the sort list.\n    - Verify the products are sorted by price, highest first."
   },
   {
    "id": "UI-011",
@@ -2711,12 +2831,14 @@ window.SCENARIO_CATALOG = {
    ],
    "status": "automated",
    "automatedIn": "tests/ui/products/product-sorting.spec.ts",
+   "preconditions": [
+    "The home page is open."
+   ],
    "steps": [
-    "Open the home page.",
     "Select \"Price (Low - High)\" in the sort list.",
     "Verify the products are sorted by price, lowest first."
    ],
-   "specLine": 57,
+   "specLine": 46,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/ui/products/product-sorting.yml",
@@ -2725,7 +2847,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@products"
    ],
-   "yaml": "- id: UI-011\n  name: Sort by price from low to high\n  ref: docs/ui/user-stories/Product_Overview.md#AC9\n  status: automated\n  automatedIn: tests/ui/products/product-sorting.spec.ts\n  steps:\n    - Open the home page.\n    - Select \"Price (Low - High)\" in the sort list.\n    - Verify the products are sorted by price, lowest first."
+   "yaml": "- id: UI-011\n  name: Sort by price from low to high\n  ref: docs/ui/user-stories/Product_Overview.md#AC9\n  status: automated\n  automatedIn: tests/ui/products/product-sorting.spec.ts\n  preconditions:\n    - The home page is open.\n  steps:\n    - Select \"Price (Low - High)\" in the sort list.\n    - Verify the products are sorted by price, lowest first."
   },
   {
    "id": "UI-081",
@@ -2734,8 +2856,10 @@ window.SCENARIO_CATALOG = {
     "docs/ui/user-stories/Rental_Products.md#AC1"
    ],
    "status": "manual",
+   "preconditions": [
+    "The home page is open."
+   ],
    "steps": [
-    "Open the home page.",
     "Open the \"Categories\" menu.",
     "Click \"Rentals\".",
     "Verify the \"Rentals\" page is shown, with the heading \"Rentals\".",
@@ -2749,7 +2873,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@products"
    ],
-   "yaml": "- id: UI-081\n  name: The Rentals page opens from the Categories menu and lists the rental products\n  ref: docs/ui/user-stories/Rental_Products.md#AC1\n  status: manual\n  steps:\n    - Open the home page.\n    - Open the \"Categories\" menu.\n    - Click \"Rentals\".\n    - Verify the \"Rentals\" page is shown, with the heading \"Rentals\".\n    - Verify the cards of \"Excavator\", \"Bulldozer\" and \"Crane\" are shown."
+   "yaml": "- id: UI-081\n  name: The Rentals page opens from the Categories menu and lists the rental products\n  ref: docs/ui/user-stories/Rental_Products.md#AC1\n  status: manual\n  preconditions:\n    - The home page is open.\n  steps:\n    - Open the \"Categories\" menu.\n    - Click \"Rentals\".\n    - Verify the \"Rentals\" page is shown, with the heading \"Rentals\".\n    - Verify the cards of \"Excavator\", \"Bulldozer\" and \"Crane\" are shown."
   },
   {
    "id": "UI-082",
