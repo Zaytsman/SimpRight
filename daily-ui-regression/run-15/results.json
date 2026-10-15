@@ -1,0 +1,1416 @@
+{
+  "config": {
+    "argv": [
+      "/opt/hostedtoolcache/node/24.21.0/x64/bin/node",
+      "/home/runner/work/SimpRight/SimpRight/node_modules/.bin/playwright",
+      "test",
+      "--project=ui"
+    ],
+    "configFile": "/home/runner/work/SimpRight/SimpRight/playwright.config.ts",
+    "rootDir": "/home/runner/work/SimpRight/SimpRight/tests",
+    "failOnFlakyTests": false,
+    "forbidOnly": true,
+    "fullyParallel": true,
+    "globalSetup": "/home/runner/work/SimpRight/SimpRight/src/globalSetup.ts",
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "ci": {
+        "commitHref": "https://github.com/Zaytsman/SimpRight/commit/613c3e5763bba7e7c6a68462402a9510e37a5444",
+        "commitHash": "613c3e5763bba7e7c6a68462402a9510e37a5444",
+        "buildHref": "https://github.com/Zaytsman/SimpRight/actions/runs/38722276538"
+      },
+      "gitCommit": {
+        "shortHash": "613c3e5",
+        "hash": "613c3e5763bba7e7c6a68462402a9510e37a5444",
+        "subject": "Merge pull request #50 from Zaytsman/develop",
+        "body": "Merge pull request #50 from Zaytsman/develop\n\nInvoices API tests",
+        "author": {
+          "name": "Andrew",
+          "email": "15192104+Zaytsman@users.noreply.github.com",
+          "time": 1792009685000
+        },
+        "committer": {
+          "name": "GitHub",
+          "email": "noreply@github.com",
+          "time": 1792009685000
+        },
+        "branch": "main"
+      },
+      "actualWorkers": 2
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "/home/runner/work/SimpRight/SimpRight/test-results",
+        "repeatEach": 1,
+        "retries": 2,
+        "metadata": {
+          "ci": {
+            "commitHref": "https://github.com/Zaytsman/SimpRight/commit/613c3e5763bba7e7c6a68462402a9510e37a5444",
+            "commitHash": "613c3e5763bba7e7c6a68462402a9510e37a5444",
+            "buildHref": "https://github.com/Zaytsman/SimpRight/actions/runs/38722276538"
+          },
+          "gitCommit": {
+            "shortHash": "613c3e5",
+            "hash": "613c3e5763bba7e7c6a68462402a9510e37a5444",
+            "subject": "Merge pull request #50 from Zaytsman/develop",
+            "body": "Merge pull request #50 from Zaytsman/develop\n\nInvoices API tests",
+            "author": {
+              "name": "Andrew",
+              "email": "15192104+Zaytsman@users.noreply.github.com",
+              "time": 1792009685000
+            },
+            "committer": {
+              "name": "GitHub",
+              "email": "noreply@github.com",
+              "time": 1792009685000
+            },
+            "branch": "main"
+          },
+          "actualWorkers": 2
+        },
+        "id": "api",
+        "name": "api",
+        "testDir": "/home/runner/work/SimpRight/SimpRight/tests/api",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 60000
+      },
+      {
+        "outputDir": "/home/runner/work/SimpRight/SimpRight/test-results",
+        "repeatEach": 1,
+        "retries": 2,
+        "metadata": {
+          "ci": {
+            "commitHref": "https://github.com/Zaytsman/SimpRight/commit/613c3e5763bba7e7c6a68462402a9510e37a5444",
+            "commitHash": "613c3e5763bba7e7c6a68462402a9510e37a5444",
+            "buildHref": "https://github.com/Zaytsman/SimpRight/actions/runs/38722276538"
+          },
+          "gitCommit": {
+            "shortHash": "613c3e5",
+            "hash": "613c3e5763bba7e7c6a68462402a9510e37a5444",
+            "subject": "Merge pull request #50 from Zaytsman/develop",
+            "body": "Merge pull request #50 from Zaytsman/develop\n\nInvoices API tests",
+            "author": {
+              "name": "Andrew",
+              "email": "15192104+Zaytsman@users.noreply.github.com",
+              "time": 1792009685000
+            },
+            "committer": {
+              "name": "GitHub",
+              "email": "noreply@github.com",
+              "time": 1792009685000
+            },
+            "branch": "main"
+          },
+          "actualWorkers": 2
+        },
+        "id": "ui",
+        "name": "ui",
+        "testDir": "/home/runner/work/SimpRight/SimpRight/tests/ui",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 60000
+      }
+    ],
+    "filteredProjects": [
+      {
+        "grep": {},
+        "grepInvert": null,
+        "outputDir": "/home/runner/work/SimpRight/SimpRight/test-results",
+        "repeatEach": 1,
+        "retries": 2,
+        "metadata": {
+          "ci": {
+            "commitHref": "https://github.com/Zaytsman/SimpRight/commit/613c3e5763bba7e7c6a68462402a9510e37a5444",
+            "commitHash": "613c3e5763bba7e7c6a68462402a9510e37a5444",
+            "buildHref": "https://github.com/Zaytsman/SimpRight/actions/runs/38722276538"
+          },
+          "gitCommit": {
+            "shortHash": "613c3e5",
+            "hash": "613c3e5763bba7e7c6a68462402a9510e37a5444",
+            "subject": "Merge pull request #50 from Zaytsman/develop",
+            "body": "Merge pull request #50 from Zaytsman/develop\n\nInvoices API tests",
+            "author": {
+              "name": "Andrew",
+              "email": "15192104+Zaytsman@users.noreply.github.com",
+              "time": 1792009685000
+            },
+            "committer": {
+              "name": "GitHub",
+              "email": "noreply@github.com",
+              "time": 1792009685000
+            },
+            "branch": "main"
+          },
+          "actualWorkers": 2
+        },
+        "name": "ui",
+        "testDir": "/home/runner/work/SimpRight/SimpRight/tests/ui",
+        "snapshotDir": "/home/runner/work/SimpRight/SimpRight/tests/ui",
+        "testIgnore": [],
+        "testMatch": "**/*.@(spec|test).?(c|m)[jt]s?(x)",
+        "timeout": 60000,
+        "use": {
+          "baseURL": "https://practicesoftwaretesting.com",
+          "testIdAttribute": "data-test",
+          "trace": "off",
+          "screenshot": "only-on-failure",
+          "video": "retain-on-failure",
+          "actionTimeout": 10000,
+          "navigationTimeout": 60000,
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/156.0.8078.4 Safari/537.36",
+          "viewport": {
+            "width": 1280,
+            "height": 720
+          },
+          "screen": {
+            "width": 1920,
+            "height": 1080
+          },
+          "deviceScaleFactor": 1,
+          "isMobile": false,
+          "hasTouch": false,
+          "defaultBrowserType": "chromium",
+          "headless": true
+        },
+        "dependencies": [],
+        "ignoreSnapshots": false,
+        "__projectId": "ui"
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "list",
+        null
+      ],
+      [
+        "html",
+        {
+          "open": "never"
+        }
+      ],
+      [
+        "junit",
+        {
+          "outputFile": "test-results/junit.xml"
+        }
+      ],
+      [
+        "json",
+        {
+          "outputFile": "test-results/results.json"
+        }
+      ],
+      [
+        "/home/runner/work/SimpRight/SimpRight/node_modules/@zaytsman/playwright-api-coverage/dist/index.js",
+        {
+          "docDir": "docs/api/contracts"
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "default",
+    "updateSourceMethod": "patch",
+    "version": "1.64.0",
+    "workers": 2,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "ui/cart/add-to-cart.spec.ts",
+      "file": "ui/cart/add-to-cart.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "@cart - Cart",
+          "file": "ui/cart/add-to-cart.spec.ts",
+          "line": 5,
+          "column": 6,
+          "specs": [
+            {
+              "title": "UI-002: Add a product with quantity 2 to the cart",
+              "ok": true,
+              "tags": [
+                "cart"
+              ],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "ui",
+                  "projectName": "ui",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 6911,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "steps": [
+                        {
+                          "title": "Create a product for this test through the API: a unique name, in stock.",
+                          "duration": 880
+                        },
+                        {
+                          "title": "Search for that product and open it.",
+                          "duration": 2007
+                        },
+                        {
+                          "title": "Set the quantity to 2 and click \"Add to cart\".",
+                          "duration": 899
+                        },
+                        {
+                          "title": "Verify the cart badge in the nav bar shows 2.",
+                          "duration": 4
+                        },
+                        {
+                          "title": "Open the cart.",
+                          "duration": 874
+                        },
+                        {
+                          "title": "Verify the cart has exactly one line: that product with quantity 2.",
+                          "duration": 32
+                        },
+                        {
+                          "title": "Verify the cart total equals 2 × the product's unit price.",
+                          "duration": 6
+                        }
+                      ],
+                      "startTime": "2026-10-15T10:43:55.816Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "Create Product Response",
+                          "contentType": "application/json",
+                          "body": "ewogICJuYW1lIjogIlByb2R1Y3QtMjAyNjEwMTUtMGE1MjRmIiwKICAicHJpY2UiOiA5Ljk5LAogICJpc19sb2NhdGlvbl9vZmZlciI6IGZhbHNlLAogICJpc19yZW50YWwiOiBmYWxzZSwKICAiaWQiOiAiMDFtNHpqanI5Mm1xdDc1OGdhMWp5eG1hMTIiLAogICJpbl9zdG9jayI6IDEwLAogICJpc19lY29fZnJpZW5kbHkiOiBmYWxzZSwKICAicHJvZHVjdF9pbWFnZSI6IHsKICAgICJpZCI6ICIwMU00WkcyVkNNUk1YUzdLOE45WUYxU0dOWCIsCiAgICAiYnlfbmFtZSI6ICJIZWxpbnRvbiBGYW50aW4iLAogICAgImJ5X3VybCI6ICJodHRwczovL3Vuc3BsYXNoLmNvbS9AZmFudGluIiwKICAgICJzb3VyY2VfbmFtZSI6ICJVbnNwbGFzaCIsCiAgICAic291cmNlX3VybCI6ICJodHRwczovL3Vuc3BsYXNoLmNvbS9waG90b3MvVzhCTnd2T3ZXNE0iLAogICAgImZpbGVfbmFtZSI6ICJwbGllcnMwMS5hdmlmIiwKICAgICJ0aXRsZSI6ICJDb21iaW5hdGlvbiBwbGllcnMiCiAgfSwKICAiY2F0ZWdvcnkiOiB7CiAgICAiaWQiOiAiMDFNNFpHMlZDOVg1UTBaWURQUEhLWTZKNFciLAogICAgIm5hbWUiOiAiUGxpZXJzIiwKICAgICJzbHVnIjogInBsaWVycyIsCiAgICAicGFyZW50X2lkIjogIjAxTTRaRzJWQzBRR1dKSFNZTkdQUzNYREpKIgogIH0sCiAgImJyYW5kIjogewogICAgImlkIjogIjAxTTRaRzJWMFY0NVRHWFQ1WUozMDA5QjBZIiwKICAgICJuYW1lIjogIkZvcmdlRmxleCBUb29scyIsCiAgICAic2x1ZyI6ICJmb3JnZWZsZXgtdG9vbHMiCiAgfQp9"
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "df43f8c3d66316e19aac-6fb06c1f51af2d3bc594",
+              "file": "ui/cart/add-to-cart.spec.ts",
+              "line": 6,
+              "column": 7
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "ui/products/product-detail.spec.ts",
+      "file": "ui/products/product-detail.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "@products - Product detail",
+          "file": "ui/products/product-detail.spec.ts",
+          "line": 5,
+          "column": 6,
+          "specs": [
+            {
+              "title": "UI-013: The product page shows the product's information and related products",
+              "ok": true,
+              "tags": [
+                "products"
+              ],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "ui",
+                  "projectName": "ui",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 1,
+                      "status": "passed",
+                      "duration": 4252,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "steps": [
+                        {
+                          "title": "Open the product \"Combination Pliers\".",
+                          "duration": 3215
+                        },
+                        {
+                          "title": "Verify the product image is shown.",
+                          "duration": 11
+                        },
+                        {
+                          "title": "Verify the name \"Combination Pliers\" is shown.",
+                          "duration": 4
+                        },
+                        {
+                          "title": "Verify the product description is shown.",
+                          "duration": 8
+                        },
+                        {
+                          "title": "Verify the price \"$14.15\" is shown.",
+                          "duration": 5
+                        },
+                        {
+                          "title": "Verify the category badge \"Pliers\" is shown.",
+                          "duration": 22
+                        },
+                        {
+                          "title": "Verify the brand badge \"ForgeFlex Tools\" is shown.",
+                          "duration": 7
+                        },
+                        {
+                          "title": "Verify the \"Related products\" section is shown below the product information.",
+                          "duration": 58
+                        },
+                        {
+                          "title": "Verify the \"Related products\" section shows at least one product.",
+                          "duration": 4
+                        }
+                      ],
+                      "startTime": "2026-10-15T10:43:55.789Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "b48e19d11f45ea48dff7-6d667a1ecf980a78edae",
+              "file": "ui/products/product-detail.spec.ts",
+              "line": 6,
+              "column": 7
+            },
+            {
+              "title": "UI-015: An out-of-stock product can't be added to the cart",
+              "ok": true,
+              "tags": [
+                "products"
+              ],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "ui",
+                  "projectName": "ui",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 1,
+                      "status": "passed",
+                      "duration": 2546,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "steps": [
+                        {
+                          "title": "Open the product \"Long Nose Pliers\".",
+                          "duration": 2265
+                        },
+                        {
+                          "title": "Verify \"Add to cart\" is disabled.",
+                          "duration": 9
+                        },
+                        {
+                          "title": "Verify \"Out of stock\" is shown.",
+                          "duration": 8
+                        },
+                        {
+                          "title": "Verify \"Out of stock\" is shown in red.",
+                          "duration": 25
+                        }
+                      ],
+                      "startTime": "2026-10-15T10:44:03.250Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "b48e19d11f45ea48dff7-4b328bd012383579c27d",
+              "file": "ui/products/product-detail.spec.ts",
+              "line": 86,
+              "column": 7
+            },
+            {
+              "title": "UI-016: A rental product shows a duration slider instead of the quantity buttons",
+              "ok": true,
+              "tags": [
+                "products"
+              ],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "ui",
+                  "projectName": "ui",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 2132,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "steps": [
+                        {
+                          "title": "Open the rental product \"Excavator\".",
+                          "duration": 1809
+                        },
+                        {
+                          "title": "Verify a duration slider is shown.",
+                          "duration": 47
+                        },
+                        {
+                          "title": "Verify the duration slider goes from 1 to 10 hours.",
+                          "duration": 24
+                        },
+                        {
+                          "title": "Verify the \"Increase quantity\" (+) and \"Decrease quantity\" (-) buttons are not shown.",
+                          "duration": 10
+                        }
+                      ],
+                      "startTime": "2026-10-15T10:44:03.828Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "b48e19d11f45ea48dff7-2ec5f16f6805935b7f3e",
+              "file": "ui/products/product-detail.spec.ts",
+              "line": 105,
+              "column": 7
+            },
+            {
+              "title": "UI-017: A rental's total price is the hourly rate times the duration",
+              "ok": true,
+              "tags": [
+                "products"
+              ],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "ui",
+                  "projectName": "ui",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 1,
+                      "status": "passed",
+                      "duration": 2675,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "steps": [
+                        {
+                          "title": "Open the rental product \"Excavator\".",
+                          "duration": 2336
+                        },
+                        {
+                          "title": "Set the duration slider to 3 hours.",
+                          "duration": 76
+                        },
+                        {
+                          "title": "Verify the total price equals 3 × the hourly rate.",
+                          "duration": 4
+                        }
+                      ],
+                      "startTime": "2026-10-15T10:44:05.812Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "b48e19d11f45ea48dff7-30804fdc599521f50e7e",
+              "file": "ui/products/product-detail.spec.ts",
+              "line": 127,
+              "column": 7
+            }
+          ],
+          "suites": [
+            {
+              "title": "",
+              "file": "ui/products/product-detail.spec.ts",
+              "line": 53,
+              "column": 8,
+              "specs": [
+                {
+                  "title": "UI-014: A discounted product shows the original price struck through, the discounted price and the discount badge",
+                  "ok": true,
+                  "tags": [
+                    "products"
+                  ],
+                  "tests": [
+                    {
+                      "timeout": 60000,
+                      "annotations": [],
+                      "expectedStatus": "passed",
+                      "projectId": "ui",
+                      "projectName": "ui",
+                      "results": [
+                        {
+                          "workerIndex": 1,
+                          "parallelIndex": 1,
+                          "status": "passed",
+                          "duration": 2108,
+                          "errors": [],
+                          "stdout": [],
+                          "stderr": [],
+                          "retry": 0,
+                          "steps": [
+                            {
+                              "title": "Open a product that has a discount.",
+                              "duration": 1870
+                            },
+                            {
+                              "title": "Verify the original price is shown struck through.",
+                              "duration": 11
+                            },
+                            {
+                              "title": "Verify the discounted price is shown.",
+                              "duration": 10
+                            },
+                            {
+                              "title": "Verify a discount percentage badge is shown.",
+                              "duration": 7
+                            }
+                          ],
+                          "startTime": "2026-10-15T10:44:01.128Z",
+                          "annotations": [],
+                          "attachments": []
+                        }
+                      ],
+                      "status": "expected"
+                    }
+                  ],
+                  "id": "b48e19d11f45ea48dff7-4e72c31a123fb11e6e17",
+                  "file": "ui/products/product-detail.spec.ts",
+                  "line": 57,
+                  "column": 5
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "ui/products/product-favorites.spec.ts",
+      "file": "ui/products/product-favorites.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "@products - Product favourites",
+          "file": "ui/products/product-favorites.spec.ts",
+          "line": 5,
+          "column": 6,
+          "specs": [],
+          "suites": [
+            {
+              "title": "",
+              "file": "ui/products/product-favorites.spec.ts",
+              "line": 6,
+              "column": 8,
+              "specs": [
+                {
+                  "title": "UI-028: Adding a product to favourites shows a success message",
+                  "ok": true,
+                  "tags": [
+                    "products"
+                  ],
+                  "tests": [
+                    {
+                      "timeout": 60000,
+                      "annotations": [],
+                      "expectedStatus": "passed",
+                      "projectId": "ui",
+                      "projectName": "ui",
+                      "results": [
+                        {
+                          "workerIndex": 0,
+                          "parallelIndex": 0,
+                          "status": "passed",
+                          "duration": 5200,
+                          "errors": [],
+                          "stdout": [],
+                          "stderr": [],
+                          "retry": 0,
+                          "steps": [
+                            {
+                              "title": "The product \"Combination Pliers\" is not in the user's favourites.",
+                              "duration": 376
+                            },
+                            {
+                              "title": "Open the product \"Combination Pliers\".",
+                              "duration": 1863
+                            },
+                            {
+                              "title": "Click \"Add to favourites\".",
+                              "duration": 293
+                            },
+                            {
+                              "title": "Verify the message \"Product added to your favorites list.\" is shown.",
+                              "duration": 4
+                            }
+                          ],
+                          "startTime": "2026-10-15T10:44:05.975Z",
+                          "annotations": [],
+                          "attachments": []
+                        }
+                      ],
+                      "status": "expected"
+                    }
+                  ],
+                  "id": "255c47f38485666e0767-df52cc0ea07e82bd4c2f",
+                  "file": "ui/products/product-favorites.spec.ts",
+                  "line": 12,
+                  "column": 5
+                },
+                {
+                  "title": "UI-029: Adding a product that is already a favourite shows a message",
+                  "ok": true,
+                  "tags": [
+                    "products"
+                  ],
+                  "tests": [
+                    {
+                      "timeout": 60000,
+                      "annotations": [],
+                      "expectedStatus": "passed",
+                      "projectId": "ui",
+                      "projectName": "ui",
+                      "results": [
+                        {
+                          "workerIndex": 1,
+                          "parallelIndex": 1,
+                          "status": "passed",
+                          "duration": 6049,
+                          "errors": [],
+                          "stdout": [],
+                          "stderr": [],
+                          "retry": 0,
+                          "steps": [
+                            {
+                              "title": "The product \"Combination Pliers\" is in the user's favourites.",
+                              "duration": 777
+                            },
+                            {
+                              "title": "Open the product \"Combination Pliers\".",
+                              "duration": 1875
+                            },
+                            {
+                              "title": "Click \"Add to favourites\".",
+                              "duration": 308
+                            },
+                            {
+                              "title": "Verify the message \"Product already in your favorites list.\" is shown.",
+                              "duration": 4
+                            }
+                          ],
+                          "startTime": "2026-10-15T10:44:08.508Z",
+                          "annotations": [],
+                          "attachments": []
+                        }
+                      ],
+                      "status": "expected"
+                    }
+                  ],
+                  "id": "255c47f38485666e0767-5e54af8a52f68714a144",
+                  "file": "ui/products/product-favorites.spec.ts",
+                  "line": 34,
+                  "column": 5
+                }
+              ]
+            },
+            {
+              "title": "",
+              "file": "ui/products/product-favorites.spec.ts",
+              "line": 64,
+              "column": 8,
+              "specs": [
+                {
+                  "title": "UI-030: A logged-out visitor can't add a product to favourites",
+                  "ok": true,
+                  "tags": [
+                    "products"
+                  ],
+                  "tests": [
+                    {
+                      "timeout": 60000,
+                      "annotations": [],
+                      "expectedStatus": "passed",
+                      "projectId": "ui",
+                      "projectName": "ui",
+                      "results": [
+                        {
+                          "workerIndex": 0,
+                          "parallelIndex": 0,
+                          "status": "passed",
+                          "duration": 2280,
+                          "errors": [],
+                          "stdout": [],
+                          "stderr": [],
+                          "retry": 0,
+                          "steps": [
+                            {
+                              "title": "Open the product \"Combination Pliers\".",
+                              "duration": 1867
+                            },
+                            {
+                              "title": "Click \"Add to favourites\".",
+                              "duration": 296
+                            },
+                            {
+                              "title": "Verify the message \"Unauthorized, can not add product to your favorite list.\" is shown.",
+                              "duration": 9
+                            }
+                          ],
+                          "startTime": "2026-10-15T10:44:11.186Z",
+                          "annotations": [],
+                          "attachments": []
+                        }
+                      ],
+                      "status": "expected"
+                    }
+                  ],
+                  "id": "255c47f38485666e0767-4f4e49ce25607484c8d4",
+                  "file": "ui/products/product-favorites.spec.ts",
+                  "line": 67,
+                  "column": 9
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "ui/products/product-search.spec.ts",
+      "file": "ui/products/product-search.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "@products - Product search",
+          "file": "ui/products/product-search.spec.ts",
+          "line": 5,
+          "column": 6,
+          "specs": [
+            {
+              "title": "UI-001: Search by name shows only matching products",
+              "ok": true,
+              "tags": [
+                "products"
+              ],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "ui",
+                  "projectName": "ui",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 1702,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "steps": [
+                        {
+                          "title": "Open the home page.",
+                          "duration": 1043
+                        },
+                        {
+                          "title": "Search for \"pliers\".",
+                          "duration": 415
+                        },
+                        {
+                          "title": "Verify the caption reads \"Searched for: pliers\".",
+                          "duration": 3
+                        },
+                        {
+                          "title": "Verify at least one product is shown.",
+                          "duration": 2
+                        },
+                        {
+                          "title": "Verify every product name contains \"pliers\" (case-insensitive).",
+                          "duration": 17
+                        }
+                      ],
+                      "startTime": "2026-10-15T10:44:13.496Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "dc17ae2af142bbbcab29-a8779d00aa4d085daf69",
+              "file": "ui/products/product-search.spec.ts",
+              "line": 6,
+              "column": 7
+            },
+            {
+              "title": "UI-003: Search resets the active category and brand filters",
+              "ok": true,
+              "tags": [
+                "products"
+              ],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "ui",
+                  "projectName": "ui",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 1,
+                      "status": "passed",
+                      "duration": 2872,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "steps": [
+                        {
+                          "title": "Open the home page.",
+                          "duration": 1614
+                        },
+                        {
+                          "title": "Check the category \"Hammer\" in the sidebar.",
+                          "duration": 331
+                        },
+                        {
+                          "title": "Check the brand \"ForgeFlex Tools\" in the sidebar.",
+                          "duration": 364
+                        },
+                        {
+                          "title": "Search for \"pliers\".",
+                          "duration": 352
+                        },
+                        {
+                          "title": "Verify the category \"Hammer\" is not checked.",
+                          "duration": 5
+                        },
+                        {
+                          "title": "Verify the brand \"ForgeFlex Tools\" is not checked.",
+                          "duration": 4
+                        },
+                        {
+                          "title": "Verify at least one product is shown.",
+                          "duration": 3
+                        },
+                        {
+                          "title": "Verify every product name contains \"pliers\" (case-insensitive).",
+                          "duration": 17
+                        }
+                      ],
+                      "startTime": "2026-10-15T10:44:14.579Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "dc17ae2af142bbbcab29-aecd98467bb5e5d22a45",
+              "file": "ui/products/product-search.spec.ts",
+              "line": 33,
+              "column": 7
+            },
+            {
+              "title": "UI-004: Search with a 3-character term is accepted",
+              "ok": true,
+              "tags": [
+                "products"
+              ],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "ui",
+                  "projectName": "ui",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 1580,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "steps": [
+                        {
+                          "title": "Open the home page.",
+                          "duration": 898
+                        },
+                        {
+                          "title": "Search for \"ham\".",
+                          "duration": 400
+                        },
+                        {
+                          "title": "Verify the caption reads \"Searched for: ham\".",
+                          "duration": 3
+                        },
+                        {
+                          "title": "Verify at least one product is shown.",
+                          "duration": 2
+                        },
+                        {
+                          "title": "Verify every product name contains \"ham\" (case-insensitive).",
+                          "duration": 22
+                        }
+                      ],
+                      "startTime": "2026-10-15T10:44:15.207Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "dc17ae2af142bbbcab29-107affa4c5cf5e3f90eb",
+              "file": "ui/products/product-search.spec.ts",
+              "line": 74,
+              "column": 7
+            },
+            {
+              "title": "UI-005: Search with a 40-character term is accepted",
+              "ok": true,
+              "tags": [
+                "products"
+              ],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "ui",
+                  "projectName": "ui",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 1791,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "steps": [
+                        {
+                          "title": "Open the home page.",
+                          "duration": 1109
+                        },
+                        {
+                          "title": "Search for a term of exactly 40 characters.",
+                          "duration": 425
+                        },
+                        {
+                          "title": "Verify the caption reads \"Searched for: \" followed by the term.",
+                          "duration": 3
+                        }
+                      ],
+                      "startTime": "2026-10-15T10:44:16.799Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "dc17ae2af142bbbcab29-bf5e76e017f751076732",
+              "file": "ui/products/product-search.spec.ts",
+              "line": 101,
+              "column": 7
+            },
+            {
+              "title": "UI-006: Search with a 2-character term is rejected",
+              "ok": true,
+              "tags": [
+                "products"
+              ],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "ui",
+                  "projectName": "ui",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 1,
+                      "status": "passed",
+                      "duration": 1309,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "steps": [
+                        {
+                          "title": "Open the home page.",
+                          "duration": 905
+                        },
+                        {
+                          "title": "Search for \"pl\".",
+                          "duration": 61
+                        },
+                        {
+                          "title": "Verify no \"Searched for:\" caption is shown.",
+                          "duration": 2
+                        },
+                        {
+                          "title": "Verify the product grid still shows the first page of all products.",
+                          "duration": 4
+                        }
+                      ],
+                      "startTime": "2026-10-15T10:44:17.460Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "dc17ae2af142bbbcab29-3b55eb5192b5838411d9",
+              "file": "ui/products/product-search.spec.ts",
+              "line": 117,
+              "column": 7
+            },
+            {
+              "title": "UI-007: Search with a 41-character term is rejected",
+              "ok": true,
+              "tags": [
+                "products"
+              ],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "ui",
+                  "projectName": "ui",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 1362,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "steps": [
+                        {
+                          "title": "Open the home page.",
+                          "duration": 996
+                        },
+                        {
+                          "title": "Search for a term of exactly 41 characters.",
+                          "duration": 73
+                        },
+                        {
+                          "title": "Verify no \"Searched for:\" caption is shown.",
+                          "duration": 3
+                        },
+                        {
+                          "title": "Verify the product grid still shows the first page of all products.",
+                          "duration": 6
+                        }
+                      ],
+                      "startTime": "2026-10-15T10:44:18.600Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "dc17ae2af142bbbcab29-39dc2e7d5acb53690ab6",
+              "file": "ui/products/product-search.spec.ts",
+              "line": 143,
+              "column": 7
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "ui/products/product-sorting.spec.ts",
+      "file": "ui/products/product-sorting.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "@products - Product sorting",
+          "file": "ui/products/product-sorting.spec.ts",
+          "line": 8,
+          "column": 6,
+          "specs": [
+            {
+              "title": "UI-008: Sort by name from A to Z",
+              "ok": true,
+              "tags": [
+                "products"
+              ],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "ui",
+                  "projectName": "ui",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 1,
+                      "status": "passed",
+                      "duration": 1566,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "steps": [
+                        {
+                          "title": "Open the home page.",
+                          "duration": 955
+                        },
+                        {
+                          "title": "Select \"Name (A - Z)\" in the sort list.",
+                          "duration": 353
+                        },
+                        {
+                          "title": "Verify the product names are in alphabetical order, A to Z.",
+                          "duration": 24
+                        }
+                      ],
+                      "startTime": "2026-10-15T10:44:18.783Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "beadb88eb5a210b4b7fe-dddf916d8be9546ad0a5",
+              "file": "ui/products/product-sorting.spec.ts",
+              "line": 9,
+              "column": 7
+            },
+            {
+              "title": "UI-009: Sort by name from Z to A",
+              "ok": true,
+              "tags": [
+                "products"
+              ],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "ui",
+                  "projectName": "ui",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 1781,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "steps": [
+                        {
+                          "title": "Open the home page.",
+                          "duration": 1121
+                        },
+                        {
+                          "title": "Select \"Name (Z - A)\" in the sort list.",
+                          "duration": 368
+                        },
+                        {
+                          "title": "Verify the product names are in reverse alphabetical order, Z to A.",
+                          "duration": 27
+                        }
+                      ],
+                      "startTime": "2026-10-15T10:44:19.979Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "beadb88eb5a210b4b7fe-00159c4b4b5cf53b7d05",
+              "file": "ui/products/product-sorting.spec.ts",
+              "line": 25,
+              "column": 7
+            },
+            {
+              "title": "UI-010: Sort by price from high to low",
+              "ok": true,
+              "tags": [
+                "products"
+              ],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "ui",
+                  "projectName": "ui",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 1,
+                      "status": "passed",
+                      "duration": 1654,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "steps": [
+                        {
+                          "title": "Open the home page.",
+                          "duration": 960
+                        },
+                        {
+                          "title": "Select \"Price (High - Low)\" in the sort list.",
+                          "duration": 358
+                        },
+                        {
+                          "title": "Verify the products are sorted by price, highest first.",
+                          "duration": 79
+                        }
+                      ],
+                      "startTime": "2026-10-15T10:44:20.358Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "beadb88eb5a210b4b7fe-163bd85dede00a81c626",
+              "file": "ui/products/product-sorting.spec.ts",
+              "line": 41,
+              "column": 7
+            },
+            {
+              "title": "UI-011: Sort by price from low to high",
+              "ok": true,
+              "tags": [
+                "products"
+              ],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "ui",
+                  "projectName": "ui",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 1709,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "steps": [
+                        {
+                          "title": "Open the home page.",
+                          "duration": 1094
+                        },
+                        {
+                          "title": "Select \"Price (Low - High)\" in the sort list.",
+                          "duration": 331
+                        },
+                        {
+                          "title": "Verify the products are sorted by price, lowest first.",
+                          "duration": 36
+                        }
+                      ],
+                      "startTime": "2026-10-15T10:44:21.770Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "beadb88eb5a210b4b7fe-3069b9b6bd22d02b32c5",
+              "file": "ui/products/product-sorting.spec.ts",
+              "line": 57,
+              "column": 7
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-10-15T10:43:53.499Z",
+    "duration": 30873.62,
+    "expected": 19,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  }
+}
