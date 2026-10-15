@@ -66,3 +66,24 @@ scenarios:
       - Send POST /carts with an empty body and take the returned id as the cart's id.
       - Send POST /invoices/guest without an Authorization header, with payment_method "bank-transfer", payment_details null, billing_street "Stephansplatz 1", billing_city "Wien", billing_country "AT", the cart's id as cart_id, a unique guest_email, a guest_first_name and a guest_last_name.
       - Verify the response status is 422.
+  - id: API-0669
+    name: Create guest invoice with an unknown cart leaves no invoice behind
+    status: automated
+    automatedIn: tests/api/invoices/post-invoices-guest.spec.ts
+    role: admin
+    knownIssue: A failed guest checkout (unknown cart) leaves an invoice without lines or payment that an admin search finds.
+    bug: BUG-040
+    steps:
+      - Send POST /invoices/guest without an Authorization header, with payment_method "cash-on-delivery", payment_details {}, a unique billing_street of at most 70 characters, billing_city "Wien", billing_country "AT", a well-formed ULID that no cart has as cart_id, a unique guest_email, a guest_first_name and a guest_last_name.
+      - Send GET /invoices/search with q set to that billing_street and the admin's token.
+      - Verify the body's total is 0.
+  - id: API-0670
+    name: Create guest invoice with bank-transfer details missing the required fields returns 422
+    status: automated
+    automatedIn: tests/api/invoices/post-invoices-guest.spec.ts
+    knownIssue: Returns 500 "Something went wrong" instead of 422 when payment_details lacks the fields the payment method requires.
+    bug: BUG-041
+    steps:
+      - Send POST /carts with an empty body and take the returned id as the cart's id.
+      - 'Send POST /invoices/guest without an Authorization header, with Accept: application/json, payment_method "bank-transfer", payment_details {}, billing_street "Stephansplatz 1", billing_city "Wien", billing_country "AT", the cart''s id as cart_id, a unique guest_email, a guest_first_name and a guest_last_name.'
+      - Verify the response status is 422.

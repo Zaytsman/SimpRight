@@ -93,6 +93,18 @@ async function expectValidationError(
   });
 }
 
+/**
+ * The check of "Verify the body's total is 0." after GET /invoices: the page's total is 0 (a non-2xx response fails
+ * it too, shown with its status and the start of its body).
+ */
+function expectNoInvoiceLeft(request: InvoiceRequest, response: ApiResponse): void {
+  const page = response.isSuccess ? (JSON.parse(response.body) as Paginated<InvoiceSummary>) : undefined;
+  expect(
+    page?.total,
+    assertMessage({ request, expected: 'total is 0', actual: page ? invoicePageSummary(page) : { status: response.status, body: response.body.slice(0, 500) } })
+  ).toBe(0);
+}
+
 /** A body for the validation scenarios: `cashOnDelivery` with a non-empty (unknown) cart id and the given changes. */
 function validationBody(overrides: Partial<CreateInvoiceRequest> = {}): CreateInvoiceRequest {
   return InvoiceFactory.cashOnDelivery(TestConstants.carts.unknownId, overrides);
@@ -591,11 +603,7 @@ test.describe('@invoices-api - Invoices API', () => {
     });
 
     await test.step("Verify the body's total is 0.", async () => {
-      const page = response.isSuccess ? (JSON.parse(response.body) as Paginated<InvoiceSummary>) : undefined;
-      expect(
-        page?.total,
-        assertMessage({ request, expected: 'total is 0', actual: page ? invoicePageSummary(page) : { status: response.status, body: response.body.slice(0, 500) } })
-      ).toBe(0);
+      expectNoInvoiceLeft(request, response);
     });
   });
 
@@ -651,6 +659,40 @@ test.describe('@invoices-api - Invoices API', () => {
 
     await test.step('Verify the response status is 422.', async () => {
       expectStatus(request, response, 422);
+    });
+  });
+
+  test('API-0668: Create invoice with payment_details null leaves no invoice behind', async ({
+    usersService,
+    adminUsersService,
+    authService,
+    cartsService,
+    invoicesClientForToken,
+    cleanup,
+  }) => {
+    test.fail(true, 'Known issue BUG-040: A failed checkout (payment_details null) leaves an invoice without lines or payment in the customer\'s invoice list.');
+    let request: InvoiceRequest;
+    let response: ApiResponse;
+
+    const customer = await loggedInCustomer({ usersService, adminUsersService, authService, cleanup });
+    const cartId = await createCart(cartsService, cleanup);
+    const client = invoicesClientForToken(customer.token);
+
+    await test.step(
+      'Send POST /invoices with that access_token, payment_method "bank-transfer", payment_details null, billing_street "Stephansplatz 1", billing_city "Wien", billing_country "AT" and the cart\'s id as cart_id.',
+      async () => {
+        // The scenario checks no status here: the call answers 500 while BUG-041 is open, so it goes through the client.
+        const body = { ...InvoiceFactory.cashOnDelivery(cartId), ...InvoiceFactory.nullBankTransferDetails() };
+        await sendCreateInvoice(client, body, INVOICE_AUTH.throwaway);
+      }
+    );
+
+    await test.step('Send GET /invoices with that access_token.', async () => {
+      ({ request, response } = await sendListInvoices(client, INVOICE_AUTH.throwaway));
+    });
+
+    await test.step("Verify the body's total is 0.", async () => {
+      expectNoInvoiceLeft(request, response);
     });
   });
 });
