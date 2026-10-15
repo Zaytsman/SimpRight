@@ -147,8 +147,9 @@ scenarios:
     ref: docs/ui/user-stories/User_Registration.md#AC5
     status: manual
     role: guest
-    steps:
+    preconditions:
       - A customer is registered through the API and the test knows the customer's email address.
+    steps:
       - Open the registration page.
       - Fill in every field the page requires with valid values, using the registered customer's email address in the field "Email address".
       - Click "Register".

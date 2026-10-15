@@ -79,14 +79,14 @@ When the brief gives **Analysis** and **Items**, the scope is the UI items, not 
 
 Follow the existing UI scenario files for tone and detail. Then:
 
-- **One user action per step**, phrased as the user does it: `Open the home page.`, `Search for "pliers".`, `Select "Price (High - Low)" in the sort list.`, `Click "Add to cart".` A setup that isn't the point of the scenario can be one step (`Open the product "Combination Pliers".`). Quote labels and texts exactly as the app shows them.
-- **Starting state** is the first step(s): the page the user starts on, and any data they need (`A product is in the cart.`). Say what is needed, not how to create it: the engineer prepares data through the API.
+- **One user action per step**, phrased as the user does it: `Open the user menu in the navigation.`, `Search for "pliers".`, `Select "Price (High - Low)" in the sort list.`, `Click "Add to cart".` A setup that isn't the point of the scenario can be one step (`Open the product "Combination Pliers".`). Quote labels and texts exactly as the app shows them.
+- **Starting state** goes in `preconditions`, not in the steps: statements, not actions (`The home page is open.`, `A product that is in stock is in the cart.`, `The visitor is in London.`). Say what is needed, not how to create it: the engineer sets it up with a precondition fixture or through the API. The steps start with the first thing the user does.
 - **Checks** are steps starting with `Verify`, in the order they happen, one concern per step, each about something visible: `Verify the products are sorted by price, highest first.`, `Verify the message "Product added to shopping cart." is shown.`
 - **Data:** use literal values the app shows and the project's constants hold (`TestConstants`), or ones the inspector showed on a page a scenario starts from. Otherwise describe the data ("a product that is out of stock").
 - **`knownIssue`:** one sentence naming the wrong behaviour and the expected one: `The sort list ignores "Price (Low - High)" and keeps the name order.`
 - **`bug`:** every `knownIssue` comes with the ID of its bug in `paths.bugs`, one bug per root cause. Look there first: when an open bug has the same cause (also an API bug the page only shows, like a server-side limit), use its ID. Otherwise propose a new bug with the next free `ids.bugs` ID (`validate:scenarios` prints it), in the format of `paths.bugSchema` (copy the style of an existing bug file), and write it in the `write` phase together with the scenario. Bug files never contain secret values.
 
-Keys in each scenario follow the order the conventions give (`id`, `name`, `ref`, `status`, `automatedIn`, `role`, `knownIssue`, `bug`, `steps`). Every new scenario has `status: manual` and no `automatedIn`.
+Keys in each scenario follow the order the conventions give (`id`, `name`, `ref`, `status`, `automatedIn`, `role`, `knownIssue`, `bug`, `preconditions`, `steps`). Every new scenario has `status: manual` and no `automatedIn`.
 
 ## Phase `propose`: write nothing
 

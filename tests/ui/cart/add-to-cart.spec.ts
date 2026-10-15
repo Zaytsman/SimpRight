@@ -15,6 +15,7 @@ test.describe('@cart - Cart', () => {
     let unitPrice: number;
     let cartPage: CartPage;
 
+    // Precondition: a product created for this test through the API, with a unique name, is in stock.
     // A product of its own, so other visitors of the demo site (who can change seeded products) can't break the test.
     const productName = (await createProductInStock(productsService, adminProductsService, cleanup)).name;
 

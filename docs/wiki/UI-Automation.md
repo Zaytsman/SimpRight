@@ -84,13 +84,12 @@ The engineer never edits a scenario's steps, never touches the app, and **never 
 ### What a generated spec looks like
 
 ```ts
+// Every scenario here has the precondition "The home page is open.": the fixture opens it before the steps.
+import { openHomePageTest as test, expect } from '@fixtures';
+
 // Scenarios: test-scenarios/ui/products/product-search.yml
 test.describe('@products - Product search', () => {
   test('UI-001: Search by name shows only matching products', async ({ homePage }) => {
-    await test.step('Open the home page.', async () => {
-      await homePage.open();
-    });
-
     await test.step('Search for "pliers".', async () => {
       await homePage.search('pliers');
     });

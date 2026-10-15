@@ -7,8 +7,9 @@ scenarios:
     ref: docs/ui/user-stories/Product_Overview.md#AC4
     status: automated
     automatedIn: tests/ui/products/product-search.spec.ts
+    preconditions:
+      - The home page is open.
     steps:
-      - Open the home page.
       - Search for "pliers".
       - 'Verify the caption reads "Searched for: pliers".'
       - Verify at least one product is shown.
@@ -18,8 +19,9 @@ scenarios:
     ref: docs/ui/user-stories/Product_Overview.md#AC4
     status: automated
     automatedIn: tests/ui/products/product-search.spec.ts
+    preconditions:
+      - The home page is open.
     steps:
-      - Open the home page.
       - Check the category "Hammer" in the sidebar.
       - Check the brand "ForgeFlex Tools" in the sidebar.
       - Search for "pliers".
@@ -32,8 +34,9 @@ scenarios:
     ref: docs/ui/user-stories/Product_Overview.md#AC4
     status: automated
     automatedIn: tests/ui/products/product-search.spec.ts
+    preconditions:
+      - The home page is open.
     steps:
-      - Open the home page.
       - Search for "ham".
       - 'Verify the caption reads "Searched for: ham".'
       - Verify at least one product is shown.
@@ -43,8 +46,9 @@ scenarios:
     ref: docs/ui/user-stories/Product_Overview.md#AC4
     status: automated
     automatedIn: tests/ui/products/product-search.spec.ts
+    preconditions:
+      - The home page is open.
     steps:
-      - Open the home page.
       - Search for a term of exactly 40 characters.
       - 'Verify the caption reads "Searched for: " followed by the term.'
   - id: UI-006
@@ -52,8 +56,9 @@ scenarios:
     ref: docs/ui/user-stories/Product_Overview.md#AC4
     status: automated
     automatedIn: tests/ui/products/product-search.spec.ts
+    preconditions:
+      - The home page is open.
     steps:
-      - Open the home page.
       - Search for "pl".
       - 'Verify no "Searched for:" caption is shown.'
       - Verify the product grid still shows the first page of all products.
@@ -62,8 +67,9 @@ scenarios:
     ref: docs/ui/user-stories/Product_Overview.md#AC4
     status: automated
     automatedIn: tests/ui/products/product-search.spec.ts
+    preconditions:
+      - The home page is open.
     steps:
-      - Open the home page.
       - Search for a term of exactly 41 characters.
       - 'Verify no "Searched for:" caption is shown.'
       - Verify the product grid still shows the first page of all products.

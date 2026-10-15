@@ -7,8 +7,9 @@ scenarios:
     ref: docs/ui/user-stories/Product_Overview.md#AC9
     status: automated
     automatedIn: tests/ui/products/product-sorting.spec.ts
+    preconditions:
+      - The home page is open.
     steps:
-      - Open the home page.
       - Select "Name (A - Z)" in the sort list.
       - Verify the product names are in alphabetical order, A to Z.
   - id: UI-009
@@ -16,8 +17,9 @@ scenarios:
     ref: docs/ui/user-stories/Product_Overview.md#AC9
     status: automated
     automatedIn: tests/ui/products/product-sorting.spec.ts
+    preconditions:
+      - The home page is open.
     steps:
-      - Open the home page.
       - Select "Name (Z - A)" in the sort list.
       - Verify the product names are in reverse alphabetical order, Z to A.
   - id: UI-010
@@ -25,8 +27,9 @@ scenarios:
     ref: docs/ui/user-stories/Product_Overview.md#AC9
     status: automated
     automatedIn: tests/ui/products/product-sorting.spec.ts
+    preconditions:
+      - The home page is open.
     steps:
-      - Open the home page.
       - Select "Price (High - Low)" in the sort list.
       - Verify the products are sorted by price, highest first.
   - id: UI-011
@@ -34,7 +37,8 @@ scenarios:
     ref: docs/ui/user-stories/Product_Overview.md#AC9
     status: automated
     automatedIn: tests/ui/products/product-sorting.spec.ts
+    preconditions:
+      - The home page is open.
     steps:
-      - Open the home page.
       - Select "Price (Low - High)" in the sort list.
       - Verify the products are sorted by price, lowest first.

@@ -7,8 +7,9 @@ scenarios:
     ref: docs/ui/user-stories/Product_Detail.md#AC11
     status: automated
     automatedIn: tests/ui/products/product-favorites.spec.ts
-    steps:
+    preconditions:
       - The product "Combination Pliers" is not in the user's favourites.
+    steps:
       - Open the product "Combination Pliers".
       - Click "Add to favourites".
       - Verify the message "Product added to your favorites list." is shown.
@@ -17,8 +18,9 @@ scenarios:
     ref: docs/ui/user-stories/Product_Detail.md#AC12
     status: automated
     automatedIn: tests/ui/products/product-favorites.spec.ts
-    steps:
+    preconditions:
       - The product "Combination Pliers" is in the user's favourites.
+    steps:
       - Open the product "Combination Pliers".
       - Click "Add to favourites".
       - Verify the message "Product already in your favorites list." is shown.

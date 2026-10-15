@@ -69,7 +69,7 @@ Preloaded into the agent; not commands.
 | **Waits** | Every action returns only when the page shows its result, in order of preference: the app's own marker or toast; the request the action triggers (`waitForResponse` started before the action); a visible change. Never `waitForTimeout` or `networkidle` |
 | **Components, dialogs** | Parts several pages share are component classes exposed as page fields (`homePage.productGrid`); modals extend `BaseDialog` |
 | **Flows** | Multi-page journeys several tests share; each method one user-level task (`openProduct(name)`) |
-| **Fixtures** | Everything new registered in `src/ui/fixtures/fixtures.ts`; precondition fixtures (`open<Page>Test`) for shared setup the scenarios don't list as steps |
+| **Fixtures** | Everything new registered in `src/ui/fixtures/fixtures.ts`; precondition fixtures (`open<Page>Test`) for the scenarios' shared `preconditions`, which run before the first step |
 | **Test data** | Shared seeded values in `TestConstants`; data the app lacks (a customer, a cart item) created through API fixtures, never through the UI |
 
 ### `ui-test-from-scenario`

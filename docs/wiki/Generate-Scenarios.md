@@ -193,7 +193,7 @@ The agents are optional. To add one yourself:
    - API file names follow the endpoint: `GET /products/{productId}` → `api/products/get-products-by-product-id.yml`.
    - UI file names follow the feature, in kebab-case: `ui/cart/add-to-cart.yml`.
    - A new area folder needs an entry in `ids.areas` in `qa-agents-profile.yml`.
-3. Keep the key order: `id`, `name`, `ref`, `status: manual`, `role`, `knownIssue`, `bug`, `steps`.
+3. Keep the key order: `id`, `name`, `ref`, `status: manual`, `role`, `knownIssue`, `bug`, `preconditions` (UI: the starting state, such as `The home page is open.`), `steps`.
 4. Run `npm run validate:scenarios` again.
 
 With the [YAML extension](https://marketplace.visualstudio.com/items?itemName=redhat.vscode-yaml) in VS Code, the schema line at the top of each file gives autocomplete and checks while you type.

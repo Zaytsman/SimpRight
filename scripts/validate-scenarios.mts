@@ -10,7 +10,7 @@
 // - every scenario file lives in <scenarios>/<layer>/<area>/<name>.yml with a layer and area from the profile,
 //   a name that matches the layer's ids.fileNames pattern (any kebab-case name when there's none),
 //   parses, and matches the scenario schema;
-// - keys are in the agreed order (file: suite, tags, scenarios; scenario: id, name, ref, status, automatedIn, role, knownIssue, bug, steps);
+// - keys are in the agreed order (file: suite, tags, scenarios; scenario: id, name, ref, status, automatedIn, role, knownIssue, bug, preconditions, steps);
 // - status automated has an automatedIn, and status manual has none;
 // - IDs are unique across files and are <PREFIX>-<number> with the prefix and digits of the file's layer
 //   (numbered across the layer, not per area); the output ends with the next free ID of each layer and of the bugs;
@@ -33,7 +33,7 @@ const PROFILE_FILE = 'qa-agents-profile.yml';
 const PROFILE_SCHEMA_FILE = 'qa-agents-profile.schema.json';
 
 const FILE_KEY_ORDER = ['suite', 'tags', 'scenarios'];
-const SCENARIO_KEY_ORDER = ['id', 'name', 'ref', 'status', 'automatedIn', 'role', 'knownIssue', 'bug', 'steps'];
+const SCENARIO_KEY_ORDER = ['id', 'name', 'ref', 'status', 'automatedIn', 'role', 'knownIssue', 'bug', 'preconditions', 'steps'];
 const BUG_KEY_ORDER = [
   'id', 'title', 'status', 'severity', 'layer', 'area', 'affects', 'found', 'resolved',
   'ref', 'upstream', 'description', 'steps', 'expected', 'actual', 'evidence',

@@ -41,7 +41,7 @@ Never a fixed sleep (`waitForTimeout`), and never `networkidle` in page objects:
 ## Fixtures (exemplars: `ui.exemplars.fixtures`, `ui.exemplars.preconditionFixture`, `ui.exemplars.fixturesIndex`)
 
 - Register every new page object, component exposed on its own, dialog and flow in the UI fixtures file, built the way the existing ones are, in the section comment that fits (pages, flows, components).
-- A precondition fixture (`open<Page>Test`) starts tests on a prepared page; it goes in its own file in the fixtures folder, extends `test` (or another precondition fixture), returns the objects the tests need, has no `test.step` inside, and is exported from the fixtures index. Add one only when several tests share setup that their scenarios don't list as a step.
+- A precondition fixture (`open<Page>Test`) starts tests on a prepared page; it goes in its own file in the fixtures folder, extends `test` (or another precondition fixture), returns the objects the tests need, has no `test.step` inside, and is exported from the fixtures index. Add one when two or more tests share a precondition (the scenarios' `preconditions`, such as "The home page is open." or "A newly registered customer is logged in.") and no fixture covers it yet; a precondition only one test has stays setup code in that test.
 
 ## Test data (exemplar: `ui.exemplars.constants`)
 

@@ -12,10 +12,9 @@ test.describe('@products - Product favourites', () => {
     test('UI-028: Adding a product to favourites shows a success message', async ({ shoppingFlow, productPage, customerFavoritesService }) => {
       const productName = TestConstants.products.inStockProduct;
 
-      await test.step(`The product "Combination Pliers" is not in the user's favourites.`, async () => {
-        // The customer is new, so the list is empty already; clearing it keeps the step true whatever the fixture gives.
-        await customerFavoritesService.deleteAll();
-      });
+      // Precondition: the product "Combination Pliers" is not in the user's favourites. The customer is new, so the
+      // list is empty already; clearing it keeps the precondition true whatever the fixture gives.
+      await customerFavoritesService.deleteAll();
 
       await test.step('Open the product "Combination Pliers".', async () => {
         await shoppingFlow.openProduct(productName);
@@ -39,12 +38,11 @@ test.describe('@products - Product favourites', () => {
     }) => {
       const productName = TestConstants.products.inStockProduct;
 
-      await test.step(`The product "Combination Pliers" is in the user's favourites.`, async () => {
-        // Ids change when the site re-seeds, so the product is found by its name.
-        const product = (await productsService.search(productName)).data.find((item) => item.name === productName);
-        if (!product) throw new Error(`No product named "${productName}" found`);
-        await customerFavoritesService.add(product.id);
-      });
+      // Precondition: the product "Combination Pliers" is in the user's favourites. Ids change when the site
+      // re-seeds, so the product is found by its name.
+      const product = (await productsService.search(productName)).data.find((item) => item.name === productName);
+      if (!product) throw new Error(`No product named "${productName}" found`);
+      await customerFavoritesService.add(product.id);
 
       await test.step('Open the product "Combination Pliers".', async () => {
         await shoppingFlow.openProduct(productName);
