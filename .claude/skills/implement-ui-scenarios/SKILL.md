@@ -10,6 +10,14 @@ The work is done by the `ui-test-engineer` subagent, in two phases: a plan, then
 
 Arguments, if any: $ARGUMENTS
 
+## How to ask
+
+Every question to the user in this skill goes through the AskUserQuestion tool:
+- Show what the question is about (the plan, the failures) as text first; the question itself stays short.
+- 2–4 options per question, at most 4 questions per call; more questions go in further calls. The tool adds "Other" for free text, so edits and lists of IDs go there; don't add an option for it.
+- Put an option first and mark it "(Recommended)" only when the agent's plan or report supports it, and say why in its description. When it's the user's judgment call, recommend nothing.
+- If the tool isn't available (a headless run), ask the same questions in one plain-text message with the options listed.
+
 ## 1. Settle the brief
 
 - **Profile:** `qa-agents-profile.yml` in the repository root. If there's none, or it has no `ui` section, stop: the agent needs one.
@@ -18,9 +26,9 @@ Arguments, if any: $ARGUMENTS
   - a scenario file: a path as given, or a file name (with or without `.yml`, any letter case) found in the area folders;
   - an area folder name (`products`): every scenario in it.
   
-  If nothing was given or nothing matches, list the UI scenario files with their count of `manual` scenarios and ask.
+  If nothing was given or nothing matches, list the UI scenario files with their count of `manual` scenarios and ask which to take: up to 4 files as options (the smallest first), with the rest named through "Other".
 - Only `status: manual` scenarios are in scope. If the selection has `automated` ones, say they're skipped, unless the user asked to redo them.
-- **Size:** more than about 10 scenarios or 2 files in one run makes the plan hard to review. Say so, and suggest starting with one file; go on if the user wants all of them.
+- **Size:** more than about 10 scenarios or 2 files in one run makes the plan hard to review. Ask: "Start with <first file> (Recommended)" (a plan that size is easy to review), "All of them".
 - **Notes:** anything the user said that matters.
 
 ## 2. Plan
@@ -36,12 +44,12 @@ Notes: <or "none">
 
 The agent inspects the pages with the read-only page inspector (each logged-in run also registers and deletes the run's throwaway customer, like every test run).
 
-Show the user the plan as the agent returned it. Then ask, in one message:
-- whether the plan is approved, or what to change;
-- for each scenario under "Writes needing approval" (the profile's `liveApi.writes` is `ask`), whether its test may create, change or delete data on the live app. Offer "all of them" as an option;
-- the answers to "Decisions needed".
+Show the user the plan as the agent returned it. Then ask in one AskUserQuestion call:
+1. **Plan:** "Approve", "Approve with edits" (the edits go in "Other"), "Rework" (say what's wrong in "Other"). Recommend "Approve" unless the plan has open assumptions or decisions that change its shape.
+2. **Writes** (only when the plan lists "Writes needing approval"; the profile's `liveApi.writes` is `ask`): may these tests create, change or delete data on the live app? "All of them", "None", and with more than one scenario "Some" (the IDs in "Other"). Up to 3 scenarios: a multi-select with one option per scenario instead. Recommend "All of them" only when every write has a cleanup in the plan; name the cleanups in the description.
+3. **Decisions needed:** one question per decision, with the agent's alternatives as the options and its preference first. More than 2 decisions go in a second call.
 
-Write nothing before a clear yes.
+"Approve" or "Approve with edits" is the clear yes; write nothing before it. On "Rework", continue the agent in `Phase: plan` with the user's notes and ask again.
 
 ## 3. Implementation
 
@@ -60,7 +68,7 @@ If the agent can't be continued, start a new `ui-test-engineer` with the brief f
 
 1. Run the profile's `commands.typecheck` and `commands.validateScenarios` yourself and confirm they pass, and run the new specs once yourself (`commands.runSpec`).
 2. Tell the user briefly: the files changed by group, the table of scenario → result, the live writes the tests make and their cleanup, and the assumptions to confirm.
-3. **Failing on app behaviour:** show each one with its step, expected, actual and the agent's proposal, and ask the user what to do with each: add the proposed `knownIssue`, fix the scenario, or leave it failing to investigate. For approved known issues, continue the agent (`Known issues approved: <ID: bug ID (existing, or new with its title): text>`) so it adds them and re-runs the specs; scenario fixes are the user's call, so don't make them unless asked.
+3. **Failing on app behaviour:** show each one with its step, expected, actual and the agent's proposal, then ask one question per failure (failures with the same cause and proposal share one question): "Add the known issue" (naming the bug: existing ID, or new with its title), "Fix the scenario", "Leave it failing". Recommend "Add the known issue" only when the agent reproduced the behaviour and matched or drafted a bug; otherwise recommend nothing. For approved known issues, continue the agent (`Known issues approved: <ID: bug ID (existing, or new with its title): text>`) so it adds them and re-runs the specs; scenario fixes are the user's call, so don't make them unless asked.
 4. Suggest the next step: review the diff, then commit.
 
 Don't commit anything unless the user asks.
