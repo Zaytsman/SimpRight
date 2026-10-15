@@ -190,3 +190,7 @@ To run it in your own fork, add the `ADMIN_USER` and `ADMIN_PASSWORD` repository
 - Day-to-day work happens on `develop`, which is merged into `main` with a pull request.
 - To contribute, fork the repo, branch from `develop`, and open a pull request into `develop`.
 - Found a security problem? See [SECURITY.md](SECURITY.md).
+
+## License
+
+[MIT](LICENSE) © Andrii Zaitsev
