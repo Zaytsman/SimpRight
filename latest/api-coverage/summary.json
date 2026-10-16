@@ -1,17 +1,17 @@
 {
-  "generatedAt": "2026-10-15T07:01:17.122Z",
+  "generatedAt": "2026-10-16T06:46:58.854Z",
   "totalEndpoints": 85,
   "coveredEndpoints": 85,
   "endpointCoveragePct": 100,
   "totalDocumentedStatusCodes": 256,
-  "coveredStatusCodes": 244,
-  "statusCodeCoveragePct": 95,
+  "coveredStatusCodes": 247,
+  "statusCodeCoveragePct": 96,
   "totalRequiredFields": 59,
   "coveredRequiredFields": 59,
   "requiredFieldCoveragePct": 100,
   "totalOptionalFields": 115,
-  "coveredOptionalFields": 87,
-  "optionalFieldCoveragePct": 76,
+  "coveredOptionalFields": 91,
+  "optionalFieldCoveragePct": 79,
   "overallCoveragePct": 97,
   "services": {
     "Brands": {
@@ -538,8 +538,8 @@
           "isCovered": true,
           "testedStatusCodes": [
             200,
-            500,
-            415
+            415,
+            500
           ],
           "documentedStatusCodes": [
             200,
@@ -1089,8 +1089,8 @@
           "testedStatusCodes": [
             201,
             422,
-            409,
-            500
+            500,
+            409
           ],
           "documentedStatusCodes": [
             201,
@@ -1398,8 +1398,8 @@
           "isCovered": true,
           "testedStatusCodes": [
             200,
-            415,
-            500
+            500,
+            415
           ],
           "documentedStatusCodes": [
             200,
@@ -1862,9 +1862,9 @@
           "callCount": 10,
           "isCovered": true,
           "testedStatusCodes": [
+            404,
             200,
-            401,
-            404
+            401
           ],
           "documentedStatusCodes": [
             200,
@@ -1922,8 +1922,8 @@
           "callCount": 17,
           "isCovered": true,
           "testedStatusCodes": [
-            401,
-            204
+            204,
+            401
           ],
           "documentedStatusCodes": [
             204,
@@ -2017,15 +2017,15 @@
       "coveredEndpoints": 11,
       "endpointCoveragePct": 100,
       "documentedStatusCodes": 38,
-      "coveredStatusCodes": 37,
-      "statusCodeCoveragePct": 97,
+      "coveredStatusCodes": 36,
+      "statusCodeCoveragePct": 95,
       "totalRequiredFields": 21,
       "coveredRequiredFields": 21,
       "requiredFieldCoveragePct": 100,
       "totalOptionalFields": 20,
       "coveredOptionalFields": 8,
       "optionalFieldCoveragePct": 40,
-      "overallCoveragePct": 93,
+      "overallCoveragePct": 91,
       "endpoints": [
         {
           "endpoint": {
@@ -2072,7 +2072,7 @@
               }
             }
           },
-          "callCount": 9,
+          "callCount": 10,
           "isCovered": true,
           "testedStatusCodes": [
             200,
@@ -2149,7 +2149,7 @@
               }
             }
           },
-          "callCount": 10,
+          "callCount": 11,
           "isCovered": true,
           "testedStatusCodes": [
             200,
@@ -2346,7 +2346,7 @@
               }
             }
           },
-          "callCount": 3,
+          "callCount": 2,
           "isCovered": true,
           "testedStatusCodes": [
             401,
@@ -2413,19 +2413,18 @@
               }
             }
           },
-          "callCount": 82,
+          "callCount": 2,
           "isCovered": true,
           "testedStatusCodes": [
-            400,
-            200,
-            401
+            401,
+            400
           ],
           "documentedStatusCodes": [
             200,
             400,
             401
           ],
-          "statusCodeCoveragePct": 100,
+          "statusCodeCoveragePct": 67,
           "testedRequiredFields": [],
           "missingRequiredFields": [],
           "requiredFieldCoveragePct": 100,
@@ -2435,7 +2434,7 @@
           "testedQueryParams": [],
           "missingQueryParams": [],
           "queryParamCoveragePct": 100,
-          "overallCoveragePct": 100
+          "overallCoveragePct": 80
         },
         {
           "endpoint": {
@@ -2499,10 +2498,10 @@
           "isCovered": true,
           "testedStatusCodes": [
             200,
-            422,
-            500,
             401,
-            404
+            422,
+            404,
+            500
           ],
           "documentedStatusCodes": [
             200,
@@ -2582,14 +2581,14 @@
               }
             }
           },
-          "callCount": 68,
+          "callCount": 67,
           "isCovered": true,
           "testedStatusCodes": [
             201,
             422,
-            401,
             404,
-            500
+            500,
+            401
           ],
           "documentedStatusCodes": [
             201,
@@ -2676,7 +2675,7 @@
               }
             }
           },
-          "callCount": 8,
+          "callCount": 10,
           "isCovered": true,
           "testedStatusCodes": [
             201,
@@ -3326,9 +3325,9 @@
           "isCovered": true,
           "testedStatusCodes": [
             200,
+            401,
             404,
-            422,
-            401
+            422
           ],
           "documentedStatusCodes": [
             200,
@@ -3684,8 +3683,8 @@
             201,
             401,
             422,
-            302,
-            500
+            500,
+            302
           ],
           "documentedStatusCodes": [
             201,
@@ -3758,8 +3757,8 @@
           "callCount": 15,
           "isCovered": true,
           "testedStatusCodes": [
-            200,
-            404
+            404,
+            200
           ],
           "documentedStatusCodes": [
             200,
@@ -3845,10 +3844,10 @@
           "isCovered": true,
           "testedStatusCodes": [
             200,
-            404,
+            401,
             422,
             302,
-            401
+            404
           ],
           "documentedStatusCodes": [
             200,
@@ -4351,8 +4350,8 @@
           "callCount": 25,
           "isCovered": true,
           "testedStatusCodes": [
-            200,
-            404
+            404,
+            200
           ],
           "documentedStatusCodes": [
             200,
@@ -4514,8 +4513,8 @@
           "callCount": 8,
           "isCovered": true,
           "testedStatusCodes": [
-            422,
             200,
+            422,
             404
           ],
           "documentedStatusCodes": [
@@ -4599,9 +4598,9 @@
           "isCovered": true,
           "testedStatusCodes": [
             204,
-            401,
             404,
-            403
+            403,
+            401
           ],
           "documentedStatusCodes": [
             204,
@@ -4662,8 +4661,8 @@
           "callCount": 3,
           "isCovered": true,
           "testedStatusCodes": [
-            500,
-            200
+            200,
+            500
           ],
           "documentedStatusCodes": [
             200,
@@ -4997,9 +4996,9 @@
           "callCount": 5,
           "isCovered": true,
           "testedStatusCodes": [
-            401,
+            200,
             403,
-            200
+            401
           ],
           "documentedStatusCodes": [
             200,
@@ -5056,8 +5055,8 @@
           "isCovered": true,
           "testedStatusCodes": [
             401,
-            403,
-            200
+            200,
+            403
           ],
           "documentedStatusCodes": [
             200,
@@ -5278,15 +5277,15 @@
       "coveredEndpoints": 14,
       "endpointCoveragePct": 100,
       "documentedStatusCodes": 46,
-      "coveredStatusCodes": 38,
-      "statusCodeCoveragePct": 83,
+      "coveredStatusCodes": 42,
+      "statusCodeCoveragePct": 91,
       "totalRequiredFields": 15,
       "coveredRequiredFields": 15,
       "requiredFieldCoveragePct": 100,
       "totalOptionalFields": 38,
-      "coveredOptionalFields": 22,
-      "optionalFieldCoveragePct": 58,
-      "overallCoveragePct": 89,
+      "coveredOptionalFields": 26,
+      "optionalFieldCoveragePct": 68,
+      "overallCoveragePct": 95,
       "endpoints": [
         {
           "endpoint": {
@@ -5342,11 +5341,10 @@
               }
             }
           },
-          "callCount": 208,
+          "callCount": 150,
           "isCovered": true,
           "testedStatusCodes": [
             200,
-            500,
             401,
             400,
             403
@@ -5434,7 +5432,7 @@
               }
             }
           },
-          "callCount": 147,
+          "callCount": 155,
           "isCovered": true,
           "testedStatusCodes": [
             201,
@@ -5580,12 +5578,12 @@
               }
             }
           },
-          "callCount": 6,
+          "callCount": 7,
           "isCovered": true,
           "testedStatusCodes": [
+            200,
             422,
-            400,
-            200
+            400
           ],
           "documentedStatusCodes": [
             200,
@@ -5638,7 +5636,7 @@
               }
             }
           },
-          "callCount": 26,
+          "callCount": 31,
           "isCovered": true,
           "testedStatusCodes": [
             200,
@@ -5824,29 +5822,31 @@
               }
             }
           },
-          "callCount": 1,
+          "callCount": 5,
           "isCovered": true,
           "testedStatusCodes": [
-            401
+            200,
+            401,
+            403
           ],
           "documentedStatusCodes": [
             200,
             401,
             403
           ],
-          "statusCodeCoveragePct": 33,
+          "statusCodeCoveragePct": 100,
           "testedRequiredFields": [],
           "missingRequiredFields": [],
           "requiredFieldCoveragePct": 100,
           "testedOptionalFields": [],
           "missingOptionalFields": [],
           "optionalFieldCoveragePct": 100,
-          "testedQueryParams": [],
-          "missingQueryParams": [
+          "testedQueryParams": [
             "page"
           ],
-          "queryParamCoveragePct": 0,
-          "overallCoveragePct": 50
+          "missingQueryParams": [],
+          "queryParamCoveragePct": 100,
+          "overallCoveragePct": 100
         },
         {
           "endpoint": {
@@ -5900,11 +5900,10 @@
               }
             }
           },
-          "callCount": 7,
+          "callCount": 10,
           "isCovered": true,
           "testedStatusCodes": [
             200,
-            500,
             401
           ],
           "documentedStatusCodes": [
@@ -5919,13 +5918,12 @@
           "missingOptionalFields": [],
           "optionalFieldCoveragePct": 100,
           "testedQueryParams": [
-            "q"
-          ],
-          "missingQueryParams": [
+            "q",
             "page"
           ],
-          "queryParamCoveragePct": 50,
-          "overallCoveragePct": 92
+          "missingQueryParams": [],
+          "queryParamCoveragePct": 100,
+          "overallCoveragePct": 100
         },
         {
           "endpoint": {
@@ -5964,18 +5962,19 @@
               }
             }
           },
-          "callCount": 3,
+          "callCount": 5,
           "isCovered": true,
           "testedStatusCodes": [
             200,
-            401
+            401,
+            415
           ],
           "documentedStatusCodes": [
             200,
             401,
             415
           ],
-          "statusCodeCoveragePct": 67,
+          "statusCodeCoveragePct": 100,
           "testedRequiredFields": [],
           "missingRequiredFields": [],
           "requiredFieldCoveragePct": 100,
@@ -5989,7 +5988,7 @@
           "testedQueryParams": [],
           "missingQueryParams": [],
           "queryParamCoveragePct": 100,
-          "overallCoveragePct": 73
+          "overallCoveragePct": 88
         },
         {
           "endpoint": {
@@ -6033,7 +6032,7 @@
               }
             }
           },
-          "callCount": 9,
+          "callCount": 14,
           "isCovered": true,
           "testedStatusCodes": [
             404,
@@ -6226,12 +6225,13 @@
               }
             }
           },
-          "callCount": 11,
+          "callCount": 20,
           "isCovered": true,
           "testedStatusCodes": [
             200,
+            403,
             401,
-            403
+            422
           ],
           "documentedStatusCodes": [
             200,
@@ -6239,19 +6239,22 @@
             403,
             422
           ],
-          "statusCodeCoveragePct": 75,
+          "statusCodeCoveragePct": 100,
           "testedRequiredFields": [],
           "missingRequiredFields": [],
           "requiredFieldCoveragePct": 100,
           "testedOptionalFields": [
             "first_name",
+            "last_name",
             "email",
+            "phone",
+            "dob",
             "enabled",
+            "failed_login_attempts",
             "totp_enabled",
             "totp_secret"
           ],
           "missingOptionalFields": [
-            "last_name",
             "address",
             "street",
             "house_number",
@@ -6259,16 +6262,13 @@
             "state",
             "country",
             "postal_code",
-            "phone",
-            "dob",
-            "failed_login_attempts",
             "totp_verified_at"
           ],
-          "optionalFieldCoveragePct": 29,
+          "optionalFieldCoveragePct": 53,
           "testedQueryParams": [],
           "missingQueryParams": [],
           "queryParamCoveragePct": 100,
-          "overallCoveragePct": 72
+          "overallCoveragePct": 89
         },
         {
           "endpoint": {
@@ -6321,14 +6321,14 @@
               }
             }
           },
-          "callCount": 133,
+          "callCount": 141,
           "isCovered": true,
           "testedStatusCodes": [
             204,
             409,
-            401,
             403,
-            500
+            500,
+            401
           ],
           "documentedStatusCodes": [
             204,
@@ -6861,8 +6861,8 @@
       "isCovered": true,
       "testedStatusCodes": [
         200,
-        500,
-        415
+        415,
+        500
       ],
       "documentedStatusCodes": [
         200,
@@ -7376,8 +7376,8 @@
       "testedStatusCodes": [
         201,
         422,
-        409,
-        500
+        500,
+        409
       ],
       "documentedStatusCodes": [
         201,
@@ -7685,8 +7685,8 @@
       "isCovered": true,
       "testedStatusCodes": [
         200,
-        415,
-        500
+        500,
+        415
       ],
       "documentedStatusCodes": [
         200,
@@ -8131,9 +8131,9 @@
       "callCount": 10,
       "isCovered": true,
       "testedStatusCodes": [
+        404,
         200,
-        401,
-        404
+        401
       ],
       "documentedStatusCodes": [
         200,
@@ -8191,8 +8191,8 @@
       "callCount": 17,
       "isCovered": true,
       "testedStatusCodes": [
-        401,
-        204
+        204,
+        401
       ],
       "documentedStatusCodes": [
         204,
@@ -8305,7 +8305,7 @@
           }
         }
       },
-      "callCount": 9,
+      "callCount": 10,
       "isCovered": true,
       "testedStatusCodes": [
         200,
@@ -8382,7 +8382,7 @@
           }
         }
       },
-      "callCount": 10,
+      "callCount": 11,
       "isCovered": true,
       "testedStatusCodes": [
         200,
@@ -8579,7 +8579,7 @@
           }
         }
       },
-      "callCount": 3,
+      "callCount": 2,
       "isCovered": true,
       "testedStatusCodes": [
         401,
@@ -8646,19 +8646,18 @@
           }
         }
       },
-      "callCount": 82,
+      "callCount": 2,
       "isCovered": true,
       "testedStatusCodes": [
-        400,
-        200,
-        401
+        401,
+        400
       ],
       "documentedStatusCodes": [
         200,
         400,
         401
       ],
-      "statusCodeCoveragePct": 100,
+      "statusCodeCoveragePct": 67,
       "testedRequiredFields": [],
       "missingRequiredFields": [],
       "requiredFieldCoveragePct": 100,
@@ -8668,7 +8667,7 @@
       "testedQueryParams": [],
       "missingQueryParams": [],
       "queryParamCoveragePct": 100,
-      "overallCoveragePct": 100
+      "overallCoveragePct": 80
     },
     {
       "endpoint": {
@@ -8732,10 +8731,10 @@
       "isCovered": true,
       "testedStatusCodes": [
         200,
-        422,
-        500,
         401,
-        404
+        422,
+        404,
+        500
       ],
       "documentedStatusCodes": [
         200,
@@ -8815,14 +8814,14 @@
           }
         }
       },
-      "callCount": 68,
+      "callCount": 67,
       "isCovered": true,
       "testedStatusCodes": [
         201,
         422,
-        401,
         404,
-        500
+        500,
+        401
       ],
       "documentedStatusCodes": [
         201,
@@ -8909,7 +8908,7 @@
           }
         }
       },
-      "callCount": 8,
+      "callCount": 10,
       "isCovered": true,
       "testedStatusCodes": [
         201,
@@ -9541,9 +9540,9 @@
       "isCovered": true,
       "testedStatusCodes": [
         200,
+        401,
         404,
-        422,
-        401
+        422
       ],
       "documentedStatusCodes": [
         200,
@@ -9845,8 +9844,8 @@
         201,
         401,
         422,
-        302,
-        500
+        500,
+        302
       ],
       "documentedStatusCodes": [
         201,
@@ -9919,8 +9918,8 @@
       "callCount": 15,
       "isCovered": true,
       "testedStatusCodes": [
-        200,
-        404
+        404,
+        200
       ],
       "documentedStatusCodes": [
         200,
@@ -10006,10 +10005,10 @@
       "isCovered": true,
       "testedStatusCodes": [
         200,
-        404,
+        401,
         422,
         302,
-        401
+        404
       ],
       "documentedStatusCodes": [
         200,
@@ -10494,8 +10493,8 @@
       "callCount": 25,
       "isCovered": true,
       "testedStatusCodes": [
-        200,
-        404
+        404,
+        200
       ],
       "documentedStatusCodes": [
         200,
@@ -10657,8 +10656,8 @@
       "callCount": 8,
       "isCovered": true,
       "testedStatusCodes": [
-        422,
         200,
+        422,
         404
       ],
       "documentedStatusCodes": [
@@ -10742,9 +10741,9 @@
       "isCovered": true,
       "testedStatusCodes": [
         204,
-        401,
         404,
-        403
+        403,
+        401
       ],
       "documentedStatusCodes": [
         204,
@@ -10805,8 +10804,8 @@
       "callCount": 3,
       "isCovered": true,
       "testedStatusCodes": [
-        500,
-        200
+        200,
+        500
       ],
       "documentedStatusCodes": [
         200,
@@ -11122,9 +11121,9 @@
       "callCount": 5,
       "isCovered": true,
       "testedStatusCodes": [
-        401,
+        200,
         403,
-        200
+        401
       ],
       "documentedStatusCodes": [
         200,
@@ -11181,8 +11180,8 @@
       "isCovered": true,
       "testedStatusCodes": [
         401,
-        403,
-        200
+        200,
+        403
       ],
       "documentedStatusCodes": [
         200,
@@ -11449,11 +11448,10 @@
           }
         }
       },
-      "callCount": 208,
+      "callCount": 150,
       "isCovered": true,
       "testedStatusCodes": [
         200,
-        500,
         401,
         400,
         403
@@ -11541,7 +11539,7 @@
           }
         }
       },
-      "callCount": 147,
+      "callCount": 155,
       "isCovered": true,
       "testedStatusCodes": [
         201,
@@ -11687,12 +11685,12 @@
           }
         }
       },
-      "callCount": 6,
+      "callCount": 7,
       "isCovered": true,
       "testedStatusCodes": [
+        200,
         422,
-        400,
-        200
+        400
       ],
       "documentedStatusCodes": [
         200,
@@ -11745,7 +11743,7 @@
           }
         }
       },
-      "callCount": 26,
+      "callCount": 31,
       "isCovered": true,
       "testedStatusCodes": [
         200,
@@ -11931,29 +11929,31 @@
           }
         }
       },
-      "callCount": 1,
+      "callCount": 5,
       "isCovered": true,
       "testedStatusCodes": [
-        401
+        200,
+        401,
+        403
       ],
       "documentedStatusCodes": [
         200,
         401,
         403
       ],
-      "statusCodeCoveragePct": 33,
+      "statusCodeCoveragePct": 100,
       "testedRequiredFields": [],
       "missingRequiredFields": [],
       "requiredFieldCoveragePct": 100,
       "testedOptionalFields": [],
       "missingOptionalFields": [],
       "optionalFieldCoveragePct": 100,
-      "testedQueryParams": [],
-      "missingQueryParams": [
+      "testedQueryParams": [
         "page"
       ],
-      "queryParamCoveragePct": 0,
-      "overallCoveragePct": 50
+      "missingQueryParams": [],
+      "queryParamCoveragePct": 100,
+      "overallCoveragePct": 100
     },
     {
       "endpoint": {
@@ -12007,11 +12007,10 @@
           }
         }
       },
-      "callCount": 7,
+      "callCount": 10,
       "isCovered": true,
       "testedStatusCodes": [
         200,
-        500,
         401
       ],
       "documentedStatusCodes": [
@@ -12026,13 +12025,12 @@
       "missingOptionalFields": [],
       "optionalFieldCoveragePct": 100,
       "testedQueryParams": [
-        "q"
-      ],
-      "missingQueryParams": [
+        "q",
         "page"
       ],
-      "queryParamCoveragePct": 50,
-      "overallCoveragePct": 92
+      "missingQueryParams": [],
+      "queryParamCoveragePct": 100,
+      "overallCoveragePct": 100
     },
     {
       "endpoint": {
@@ -12071,18 +12069,19 @@
           }
         }
       },
-      "callCount": 3,
+      "callCount": 5,
       "isCovered": true,
       "testedStatusCodes": [
         200,
-        401
+        401,
+        415
       ],
       "documentedStatusCodes": [
         200,
         401,
         415
       ],
-      "statusCodeCoveragePct": 67,
+      "statusCodeCoveragePct": 100,
       "testedRequiredFields": [],
       "missingRequiredFields": [],
       "requiredFieldCoveragePct": 100,
@@ -12096,7 +12095,7 @@
       "testedQueryParams": [],
       "missingQueryParams": [],
       "queryParamCoveragePct": 100,
-      "overallCoveragePct": 73
+      "overallCoveragePct": 88
     },
     {
       "endpoint": {
@@ -12140,7 +12139,7 @@
           }
         }
       },
-      "callCount": 9,
+      "callCount": 14,
       "isCovered": true,
       "testedStatusCodes": [
         404,
@@ -12333,12 +12332,13 @@
           }
         }
       },
-      "callCount": 11,
+      "callCount": 20,
       "isCovered": true,
       "testedStatusCodes": [
         200,
+        403,
         401,
-        403
+        422
       ],
       "documentedStatusCodes": [
         200,
@@ -12346,19 +12346,22 @@
         403,
         422
       ],
-      "statusCodeCoveragePct": 75,
+      "statusCodeCoveragePct": 100,
       "testedRequiredFields": [],
       "missingRequiredFields": [],
       "requiredFieldCoveragePct": 100,
       "testedOptionalFields": [
         "first_name",
+        "last_name",
         "email",
+        "phone",
+        "dob",
         "enabled",
+        "failed_login_attempts",
         "totp_enabled",
         "totp_secret"
       ],
       "missingOptionalFields": [
-        "last_name",
         "address",
         "street",
         "house_number",
@@ -12366,16 +12369,13 @@
         "state",
         "country",
         "postal_code",
-        "phone",
-        "dob",
-        "failed_login_attempts",
         "totp_verified_at"
       ],
-      "optionalFieldCoveragePct": 29,
+      "optionalFieldCoveragePct": 53,
       "testedQueryParams": [],
       "missingQueryParams": [],
       "queryParamCoveragePct": 100,
-      "overallCoveragePct": 72
+      "overallCoveragePct": 89
     },
     {
       "endpoint": {
@@ -12428,14 +12428,14 @@
           }
         }
       },
-      "callCount": 133,
+      "callCount": 141,
       "isCovered": true,
       "testedStatusCodes": [
         204,
         409,
-        401,
         403,
-        500
+        500,
+        401
       ],
       "documentedStatusCodes": [
         204,
