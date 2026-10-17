@@ -60,7 +60,7 @@ Specs import from `src/fixtures` (`index.ts`): `test`, `expect` and `openHomePag
 
 - `src/`: framework code; `tests/`: specs only (no page logic in specs).
 - `src/api/`: `clients` (low-level HTTP over `APIRequestContext`), `services` (domain operations built on clients), `dto` (request/response types), `auth`, `fixtures`, `coverage` (the optional API coverage plug-in).
-- `src/ui/`: `pages` (page objects, with reusable `components` and `dialogs`; `filters` and `grids` when needed), `flows` (multi-page user journeys), `auth` (token/storage-state and visitor-location helpers), `fixtures` (registrations in `fixtures.ts`, precondition fixtures in `preconditions/`).
+- `src/ui/`: `pages` (page objects, with reusable `components` and `dialogs`; `filters` and `grids` when needed), `flows` (multi-page user journeys), `auth` (token/storage-state and visitor-location helpers), `fixtures` (registrations in `fixtures.ts`, precondition fixtures in `preconditions/`, and small setup or cleanup helpers that UI specs share, such as `cartCleanup.ts`, the UI counterpart of `src/api/fixtures/*Steps.ts`).
 - `src/fixtures/`: what both layers share: `base.ts`, the merge of the API and UI fixtures (`fixtures.ts`, `mergeTests`) and `index.ts`, the single `@fixtures` that specs import (including the UI precondition fixtures).
 - `src/globalSetup.ts`: registers the run's customer (and deletes it after the run), plus the UI login for `storageState` mode.
 - `src/config/`: typed env access. `src/envs/`: per-environment JSON. `src/utils/`: helpers (`assertHelpers.ts`: `assertMessage`, `attachJson`, `redact`).

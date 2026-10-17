@@ -9,8 +9,8 @@ scenarios:
     automatedIn: tests/ui/cart/add-to-cart.spec.ts
     preconditions:
       - A product created for this test through the API, with a unique name, is in stock.
+      - The product page of that product is open.
     steps:
-      - Search for that product and open it.
       - Set the quantity to 2 and click "Add to cart".
       - Verify the cart badge in the nav bar shows 2.
       - Open the cart.
@@ -19,10 +19,11 @@ scenarios:
   - id: UI-027
     name: Adding a product to the cart shows a success message
     ref: docs/ui/user-stories/Product_Detail.md#AC8
-    status: manual
+    status: automated
+    automatedIn: tests/ui/cart/add-to-cart.spec.ts
     preconditions:
       - The cart is empty.
+      - The product page of "Combination Pliers" is open.
     steps:
-      - Open the product "Combination Pliers".
       - Click "Add to cart".
       - Verify the message "Product added to shopping cart." is shown.
