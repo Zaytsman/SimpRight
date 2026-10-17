@@ -10,11 +10,15 @@ Three agents do the work: the `requirements-analyst` writes the analysis and the
 
 Arguments, if any: $ARGUMENTS
 
+## How to ask
+
+Every question to the user in this skill goes through the AskUserQuestion tool, following `../_shared/how-to-ask.md` (next to this skill's folder): the context as text first, 2–4 options, "(Recommended)" only with a reason, plain text when the tool is missing.
+
 ## 1. Settle the brief
 
 - **Profile:** `qa-agents-profile.yml` in the repository root. If there's none, stop: tell the user the agents need a profile (paths, ID codes, roles), and that `CLAUDE.md` and the profile's schema describe it.
-- **Document:** the first argument, resolved in this order: an existing path as given; `<paths.userStories>/<name>` from the profile; a case-insensitive match of the name (with or without `.md`) in that folder. If the user pasted the work item into the conversation instead, use the text. If there's neither, list the files in the stories folder and ask which one.
-  - Pasted text: offer once to save it in the stories folder first (so the analysis and the scenarios can link to it); go on with the text if the user doesn't want that.
+- **Document:** the first argument, resolved in this order: an existing path as given; `<paths.userStories>/<name>` from the profile; a case-insensitive match of the name (with or without `.md`) in that folder. If the user pasted the work item into the conversation instead, use the text. If there's neither, ask which one: up to 4 story files as options, the rest named through "Other".
+  - Pasted text: ask once: "Save it in the stories folder first (Recommended)" (so the analysis and the scenarios can link to it), "Use the text as is".
   - Only local files and pasted text are supported; a link to a tracker (Azure DevOps, Jira) is not fetched. Ask the user to paste the work item's text.
 - **Criteria:** the remaining arguments (`AC3 AC8`, `AC1-AC5`). Default: every criterion.
 - **Notes:** anything the user said that matters (criteria to skip, known bugs, a layer they want).
@@ -33,7 +37,11 @@ Phase: analyze
 Notes: <or "none">
 ```
 
-Show the user the analysis as the agent returned it: the summary, the test plan table, "not tested" and "Decisions needed". Then ask the user to approve it, or to say what to change (move an item to the other layer, drop or reword items, answer the decisions). Write nothing before a clear yes.
+Show the user the analysis as the agent returned it: the summary, the test plan table, "not tested" and "Decisions needed". Then ask in one AskUserQuestion call:
+1. **Analysis:** "Approve", "Approve with edits" (move an item to the other layer, drop or reword items, in "Other"), "Rework".
+2. **Decisions needed:** one question per decision; a contract gap is one too: "Fill the contract first", "Go on without it". More than 3 decisions go in a second call.
+
+"Approve" or "Approve with edits" is the clear yes; write nothing before it.
 
 If a decision is a **contract gap** the user wants filled first, run the `write-api-contracts` skill's steps for that area after the analyst's `write` phase and before checkpoint 2 (ask its questions: the scope, usually the whole area, and live checks), then continue here; the analysis doesn't need to be re-run, because its items name the endpoints. If the user approves a new area or role, add it to `ids.areas` or `roles` in the profile yourself (the agents don't change the profile).
 
@@ -60,7 +68,7 @@ Phase: propose
 Notes: <the user's decisions that matter to this layer, or "none">
 ```
 
-Show the user both proposals together, API first, as the agents returned them (don't shorten the steps: they are what the user approves). Ask for one approval of both, or for changes per layer. Write nothing before a clear yes. Then continue each writer with SendMessage:
+Show the user both proposals together, API first, as the agents returned them (don't shorten the steps: they are what the user approves). Then ask in one AskUserQuestion call: one question per layer that has a proposal (**API scenarios**, **UI scenarios**: "Approve", "Approve with edits", "Rework"), and one per decision either writer left. Write nothing for a layer before its clear yes. Then continue each writer with SendMessage:
 
 ```
 Phase: write

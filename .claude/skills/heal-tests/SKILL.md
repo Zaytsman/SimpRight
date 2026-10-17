@@ -10,6 +10,10 @@ The work is done by the `test-healer` subagent, in two phases: a diagnosis, then
 
 Arguments, if any: $ARGUMENTS
 
+## How to ask
+
+Every question to the user in this skill goes through the AskUserQuestion tool, following `../_shared/how-to-ask.md` (next to this skill's folder): the context as text first, 2–4 options, "(Recommended)" only with a reason, a multi-select for the causes to fix, plain text when the tool is missing.
+
 ## 1. Settle the source
 
 - **Profile:** `qa-agents-profile.yml` in the repository root. If there's none, stop: the agent needs one.
@@ -17,7 +21,7 @@ Arguments, if any: $ARGUMENTS
   - **A CI run id** (a long number) or a run URL: that run.
   - **A PR number** (`PR 22`, `#22`): its latest failed check run (`gh pr checks <n>`, then the run id of the failed check).
   - **A spec, a scenario file or IDs:** run those now (the agent reproduces them). Say which have writes: they run only if the user approved those writes before; ask otherwise.
-  - **None:** the last local run (`test-results/.last-run.json`). If it passed or doesn't exist, show the latest failed CI runs (`gh run list --status failure --limit 5`) and ask which one.
+  - **None:** the last local run (`test-results/.last-run.json`). If it passed or doesn't exist, list the latest failed CI runs (`gh run list --status failure --limit 5`) and ask which one: up to 4 runs as options (the newest first), the rest through "Other".
 - If the run passed, say so and stop.
 - **Notes:** anything the user said that matters (a cause they suspect, tests to leave out).
 
@@ -35,11 +39,11 @@ Notes: <or "none">
 
 Before showing the diagnosis, check each high-confidence verdict that proposes a code change against the code yourself (open the file at the line). If one doesn't hold, lower its confidence or drop it, and say why.
 
-Show the diagnosis as the agent returned it. Then ask, in one message:
-- which causes to fix, by number ("all", "none", or a list); say which fixes change what a test checks, touch a shared member other tests use, or add writes: those need an explicit yes;
-- for each proposed known issue or its removal, and each scenario change, whether to make it (scenario changes are made by the user or with `/write-*-scenarios`, not by the healer). A known issue with a **new** bug can be approved here, or recorded with `/report-bug <scenario IDs>` afterwards, which reproduces it, checks for duplicates and links the scenarios; suggest that when the healer's bug note is thin or the bug may already exist under another cause;
-- the answers to "Decisions needed";
-- for records left behind on the live app, whether the user wants to remove them (removing them is a write: don't do it unasked).
+Show the diagnosis as the agent returned it. Then ask in one AskUserQuestion call (further calls when there are more than 4 questions):
+1. **Causes to fix:** a multi-select, one option per cause when there are up to 4 (its number, verdict and fix); with more, "All high-confidence", "All", with numbers through "Other". Fixes that change what a test checks, touch a shared member other tests use, or add writes need an explicit yes: say so in their descriptions. Recommend only high-confidence verdicts you checked.
+2. **Known issues:** one question per proposed known issue or its removal: "Add it" (naming the bug: existing ID, or new with its title), "Record it with `/report-bug` first", "Leave it". `/report-bug <scenario IDs>` reproduces it, checks for duplicates and links the scenarios; recommend it when the healer's bug note is thin or the bug may already exist under another cause. Scenario changes are made by the user or with `/write-*-scenarios`, not by the healer: list them and ask nothing for them.
+3. **Decisions needed:** one question per decision.
+4. **Records left behind** on the live app: "Leave them", "Remove them" (removing them is a write: don't do it unasked).
 
 Environment verdicts need no fix: suggest the re-run (`gh run rerun <id> --failed`, or the local command) and when, and run it only if the user asks.
 

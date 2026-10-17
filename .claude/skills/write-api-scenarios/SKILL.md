@@ -10,11 +10,15 @@ The work is done by the `api-scenario-writer` subagent, in two phases: a proposa
 
 Arguments, if any: $ARGUMENTS
 
+## How to ask
+
+Every question to the user in this skill goes through the AskUserQuestion tool, following `../_shared/how-to-ask.md` (next to this skill's folder): the context as text first, 2–4 options, "(Recommended)" only with a reason, plain text when the tool is missing.
+
 ## 1. Settle the brief
 
 - **Profile:** `qa-agents-profile.yml` in the repository root. If there's none, stop: tell the user the agent needs a profile (paths, ID codes, roles), and that `CLAUDE.md` and the profile's schema describe it.
-- **Contract:** the first argument, resolved in this order: an existing path as given; `<paths.contracts>/<name>` from the profile; a case-insensitive match of the name (with or without `.md`) in that folder. If nothing matches, or no argument was given, list the files in the contract folder and ask which one.
-- **Endpoints:** the remaining arguments (`GET /products/{productId}`, or just paths, which mean every method on them). Default: every endpoint in the contract. For a contract with more than about 8 endpoints, say how many there are and offer to start with a subset; go on with all of them if the user doesn't want a subset.
+- **Contract:** the first argument, resolved in this order: an existing path as given; `<paths.contracts>/<name>` from the profile; a case-insensitive match of the name (with or without `.md`) in that folder. If nothing matches, or no argument was given, ask which contract: up to 4 contract files as options, the rest named through "Other".
+- **Endpoints:** the remaining arguments (`GET /products/{productId}`, or just paths, which mean every method on them). Default: every endpoint in the contract. For a contract with more than about 8 endpoints, say how many there are and ask: "All of them", "A subset" (the endpoints in "Other").
 - **Notes:** anything the user said that matters (endpoints to skip, priorities, things they know about the API).
 
 ## 2. Proposal
@@ -29,7 +33,11 @@ Phase: propose
 Notes: <or "none">
 ```
 
-Show the user the proposal as the agent returned it: the tables, the steps and "Decisions needed". Don't shorten the steps, because they are what the user approves. Then ask the user to approve it, or to say what to change (drop, rename, merge, reword, answer the decisions). Write nothing before a clear yes.
+Show the user the proposal as the agent returned it: the tables, the steps and "Decisions needed". Don't shorten the steps, because they are what the user approves. Then ask in one AskUserQuestion call:
+1. **Proposal:** "Approve", "Approve with edits" (drop, rename, merge or reword, in "Other"), "Rework".
+2. **Decisions needed:** one question per decision. More than 3 decisions go in a second call.
+
+"Approve" or "Approve with edits" is the clear yes; write nothing before it. When the agent proposes nothing new (everything is already covered), say so and ask only its decisions, if any.
 
 If the user approves a new area, add it to `ids.areas` in the profile yourself before the writing phase (the agent doesn't change the profile).
 
