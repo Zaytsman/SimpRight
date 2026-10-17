@@ -5,9 +5,11 @@ scenarios:
   - id: UI-018
     name: An in-stock product shows the quantity selector set to 1
     ref: docs/ui/user-stories/Product_Detail.md#AC3
-    status: manual
+    status: automated
+    automatedIn: tests/ui/products/product-quantity.spec.ts
+    preconditions:
+      - The product page of "Combination Pliers" is open.
     steps:
-      - Open the product "Combination Pliers".
       - Verify the quantity field is shown.
       - Verify the "Increase quantity" (+) button is shown.
       - Verify the "Decrease quantity" (-) button is shown.
@@ -15,17 +17,21 @@ scenarios:
   - id: UI-019
     name: The plus button increases the quantity by 1
     ref: docs/ui/user-stories/Product_Detail.md#AC4
-    status: manual
+    status: automated
+    automatedIn: tests/ui/products/product-quantity.spec.ts
+    preconditions:
+      - The product page of "Combination Pliers" is open.
     steps:
-      - Open the product "Combination Pliers".
       - Click "Increase quantity".
       - Verify the quantity is 2.
   - id: UI-020
     name: The minus button decreases the quantity by 1
     ref: docs/ui/user-stories/Product_Detail.md#AC5
-    status: manual
+    status: automated
+    automatedIn: tests/ui/products/product-quantity.spec.ts
+    preconditions:
+      - The product page of "Combination Pliers" is open.
     steps:
-      - Open the product "Combination Pliers".
       - Click "Increase quantity".
       - Click "Increase quantity".
       - Verify the quantity is 3.
@@ -34,54 +40,70 @@ scenarios:
   - id: UI-021
     name: The minus button keeps the quantity at 1
     ref: docs/ui/user-stories/Product_Detail.md#AC6
-    status: manual
+    status: automated
+    automatedIn: tests/ui/products/product-quantity.spec.ts
+    preconditions:
+      - The product page of "Combination Pliers" is open.
     steps:
-      - Open the product "Combination Pliers".
       - Verify the quantity is 1.
       - Click "Decrease quantity".
       - Verify the quantity is still 1.
   - id: UI-022
     name: A quantity typed into the field is used
     ref: docs/ui/user-stories/Product_Detail.md#AC7
-    status: manual
+    status: automated
+    automatedIn: tests/ui/products/product-quantity.spec.ts
+    preconditions:
+      - The product page of "Combination Pliers" is open.
     steps:
-      - Open the product "Combination Pliers".
       - Enter 5 in the quantity field.
       - Verify the quantity is 5.
+      - Click "Increase quantity".
+      - Verify the quantity is 6.
   - id: UI-023
     name: A typed quantity of 0 is set to 1
     ref: docs/ui/user-stories/Product_Detail.md#AC7
-    status: manual
+    status: automated
+    automatedIn: tests/ui/products/product-quantity.spec.ts
+    preconditions:
+      - The product page of "Combination Pliers" is open.
     steps:
-      - Open the product "Combination Pliers".
       - Enter 0 in the quantity field.
       - Verify the quantity is 1.
   - id: UI-024
     name: A typed quantity above 999,999,999 is set to 999,999,999
     ref: docs/ui/user-stories/Product_Detail.md#AC7
-    status: manual
+    status: automated
+    automatedIn: tests/ui/products/product-quantity.spec.ts
     knownIssue: The field sets a typed quantity above 99 to 99 (with the warning "You can order at most 99 of this product.") instead of setting 1,000,000,000 to 999,999,999 as the story's range 1 to 999,999,999 requires.
     bug: BUG-008
+    preconditions:
+      - The product page of "Combination Pliers" is open.
     steps:
-      - Open the product "Combination Pliers".
       - Enter 1000000000 in the quantity field.
       - Verify the quantity is 999999999.
   - id: UI-025
     name: A typed quantity of 999,999,999 is accepted
     ref: docs/ui/user-stories/Product_Detail.md#AC7
-    status: manual
+    status: automated
+    automatedIn: tests/ui/products/product-quantity.spec.ts
     knownIssue: The field changes a typed quantity of 999,999,999 to 99 (the app allows at most 99) instead of keeping it as the story's range 1 to 999,999,999 requires.
     bug: BUG-008
+    preconditions:
+      - The product page of "Combination Pliers" is open.
     steps:
-      - Open the product "Combination Pliers".
       - Enter 999999999 in the quantity field.
       - Verify the quantity is 999999999.
   - id: UI-026
     name: A typed quantity of 1 is accepted
     ref: docs/ui/user-stories/Product_Detail.md#AC7
-    status: manual
+    status: automated
+    automatedIn: tests/ui/products/product-quantity.spec.ts
+    preconditions:
+      - The product page of "Combination Pliers" is open.
     steps:
-      - Open the product "Combination Pliers".
       - Click "Increase quantity".
       - Enter 1 in the quantity field.
       - Verify the quantity is 1.
+      - Click "Increase quantity".
+      - Verify the quantity is 2.
