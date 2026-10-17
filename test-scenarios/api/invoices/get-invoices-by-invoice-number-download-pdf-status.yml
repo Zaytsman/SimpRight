@@ -6,8 +6,6 @@ scenarios:
     name: Get PDF status returns 200 with COMPLETED once the PDF is generated
     status: automated
     automatedIn: tests/api/invoices/get-invoices-by-invoice-number-download-pdf-status.spec.ts
-    knownIssue: The PDF status stays INITIATED and never reaches COMPLETED.
-    bug: BUG-047
     steps:
       - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.
       - Send POST /users/login with that email and password, and take its access_token.

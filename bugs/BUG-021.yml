@@ -18,7 +18,11 @@ steps:
   - User A sends POST /favorites with an existing product id and takes the new favorite's id.
   - User B sends GET /favorites/{favoriteId} with that id, with user B's token.
 expected: 404 or 403, as the list and the delete hide other users' favorites.
-actual: 200 with user A's favorite (from the source code; not reproduced live).
+actual: 200 with user A's favorite (its id, user_id and product_id), as if user B owned it.
 evidence: |-
-  Favorites_API.md, Notes, "Reading other users' favorites" (read from FavoriteController in sprint5/API):
-  GET /favorites/{favoriteId} uses Favorite::findOrFail($id) with no user_id condition.
+  2026-10-16, daily API regression (run-23), API-0283:
+    GET /favorites/{favoriteId} with the second customer's token -> 200
+    body: { "id": "<the first customer's favorite id>", "user_id": "<the first customer's id>", "product_id": "..." }
+  Source (sprint5/API, checkout of 2026-09-30): FavoriteService::getFavoriteById uses Favorite::findOrFail($id)
+  with no user_id condition; getAllFavorites and deleteFavorite filter by Auth::id().
+  Favorites_API.md, Notes, "Reading other users' favorites".

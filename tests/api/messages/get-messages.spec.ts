@@ -10,6 +10,7 @@ import {
   messagePageSummary,
   MESSAGE_AUTH,
   type MessageRequest,
+  disableCustomerSetup,
 } from '@fixtures';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { Paginated } from '@api/dto/common';
@@ -224,14 +225,8 @@ test.describe('@messages-api - Messages API', () => {
       const customer = await registerThrowawayCustomer(usersService, adminUsersService, cleanup);
       const token = await loginThrowawayCustomer(authService, customer);
 
-      await test.step("Send PATCH /users/{userId} with that id and enabled false, with the admin's token.", async () => {
-        // The throwaway's token isn't used before this call, so the API's cached user can't be a stale, enabled one.
-        const patchRequest = { method: 'PATCH', path: `/users/${customer.id}`, auth: MESSAGE_AUTH.admin, body: { enabled: false } };
-        await attachJson('Patch User Request', patchRequest);
-        const result = await adminUsersService.partialUpdate(customer.id, { enabled: false });
-        await attachJson('Patch User Response', result);
-        expect(result.success, assertMessage({ request: patchRequest, expected: 'success is true', actual: result })).toBe(true);
-      });
+      // The throwaway's token isn't used before this call, so the API's cached user can't be a stale, enabled one.
+      await disableCustomerSetup(adminUsersService, customer.id, "Send PATCH /users/{userId} with that id and enabled false, with the admin's token.", MESSAGE_AUTH.admin);
 
       await test.step("Send GET /messages with the throwaway customer's access_token.", async () => {
         ({ request, response } = await sendListMessages(messagesClientForToken(token), MESSAGE_AUTH.throwaway));

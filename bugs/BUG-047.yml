@@ -1,7 +1,7 @@
 # yaml-language-server: $schema=./bug.schema.json
 id: BUG-047
 title: "Invoice PDF generation never completes: status stays INITIATED"
-status: open
+status: fixed
 severity: major
 layer: api
 area: invoices
@@ -9,6 +9,7 @@ affects:
   - GET /invoices/{invoice_number}/download-pdf
   - GET /invoices/{invoice_number}/download-pdf-status
 found: 2026-10-14
+resolved: 2026-10-17
 ref:
   - docs/api/contracts/Invoices_API.md#5-download-invoice-pdf
   - docs/api/contracts/Invoices_API.md#6-get-pdf-generation-status
@@ -41,3 +42,15 @@ evidence: |-
     INV-2026000010, INV-2026000030, INV-2026000059, INV-2026000086, INV-2026000087 -> 200 { "status": "INITIATED" };
     INV-2026000001, INV-2025000001, INV-2024000005 -> 400 { "status": "NOT_INITIATED" }.
   INV-2026000010 was created after the 18:00 UTC re-seed, so its job had been INITIATED for several minutes or more.
+  2026-10-17 recheck, live, read-only GETs with an admin token (***):
+    13:21 UTC: INV-2026000030 (created 13:20:40) -> download-pdf-status 200 { "status": "INITIATED" };
+    13:27 UTC: the same invoice -> 200 { "status": "COMPLETED" }, GET /invoices/INV-2026000030/download-pdf -> 200
+    application/pdf, Content-Disposition "attachment; filename=INV-2026000030.pdf".
+    INV-2026000018, INV-2026000023 (created 13:05) and the seeded INV-20210000001, INV-20210000002 -> COMPLETED,
+    download-pdf -> 200 PDF. The only invoices still not COMPLETED are orphans without a payment (BUG-040).
+  2026-10-17 re-run without the known issue, live, throwaway customers' tokens (***):
+    API-0471 (tests/api/invoices/get-invoices-by-invoice-number-download-pdf-status.spec.ts), 13:31 UTC: passed in
+    2.0 min including setup, the poll ended on 200 { "status": "COMPLETED" }.
+    API-0468 (tests/api/invoices/get-invoices-by-invoice-number-download-pdf.spec.ts), 13:33 UTC: invoice
+    INV-2026000033, 16 polls, 400 { "status": "NOT_INITIATED" } at first and 200 { "status": "COMPLETED" } after 79 s;
+    GET /invoices/INV-2026000033/download-pdf -> 200, Content-Disposition "attachment; filename=INV-2026000033.pdf".
