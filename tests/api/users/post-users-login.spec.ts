@@ -1,4 +1,4 @@
-import { test, expect, registerThrowawayCustomer, loginThrowawayCustomer, type ThrowawayCustomer } from '@fixtures';
+import { test, expect, registerThrowawayCustomer, loginThrowawayCustomer, type ThrowawayCustomer, disableCustomerSetup } from '@fixtures';
 import type { Cleanup } from '@fixtures/base';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { AuthClient } from '@api/clients/AuthClient';
@@ -250,13 +250,7 @@ test.describe('@users-api - Users API', () => {
 
       const customer = await registerThrowawayCustomer(usersService, adminUsersService, cleanup);
 
-      await test.step("Send PATCH /users/{userId} with that id and enabled false, with the admin's token.", async () => {
-        const patchRequest = { method: 'PATCH', path: `/users/${customer.id}`, auth: "admin's token", body: { enabled: false } };
-        await attachJson('Patch User Request', patchRequest);
-        const result = await adminUsersService.partialUpdate(customer.id, { enabled: false });
-        await attachJson('Patch User Response', result);
-        expect(result.success, assertMessage({ request: patchRequest, expected: 'success is true', actual: result })).toBe(true);
-      });
+      await disableCustomerSetup(adminUsersService, customer.id, "Send PATCH /users/{userId} with that id and enabled false, with the admin's token.", "admin's token");
 
       await test.step('Send POST /users/login with that email and password.', async () => {
         ({ request, response } = await sendLogin(authClient, { email: customer.email, password: customer.password }));

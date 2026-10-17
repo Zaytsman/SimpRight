@@ -1,4 +1,4 @@
-import { test, expect, createCustomerWithFavorite, createSecondCustomer, registerThrowawayCustomer, loginThrowawayCustomer, THROWAWAY_TOKEN, SECOND_TOKEN } from '@fixtures';
+import { test, expect, createCustomerWithFavorite, createSecondCustomer, registerThrowawayCustomer, loginThrowawayCustomer, THROWAWAY_TOKEN, SECOND_TOKEN, disableCustomerSetup } from '@fixtures';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { FavoritesClient } from '@api/clients/FavoritesClient';
 import type { Favorite } from '@api/dto/favorite';
@@ -161,14 +161,8 @@ test.describe('@favorites-api - Favorites API', () => {
       const customer = await registerThrowawayCustomer(usersService, adminUsersService, cleanup);
       const customerToken = await loginThrowawayCustomer(authService, customer);
 
-      await test.step("Send PATCH /users/{userId} with that id and enabled false, with the admin's token.", async () => {
-        // The throwaway's token isn't used before this call, so the API's cached user can't be a stale, enabled one.
-        const patchRequest = { method: 'PATCH', path: `/users/${customer.id}`, auth: "admin's token", body: { enabled: false } };
-        await attachJson('Patch User Request', patchRequest);
-        const result = await adminUsersService.partialUpdate(customer.id, { enabled: false });
-        await attachJson('Patch User Response', result);
-        expect(result.success, assertMessage({ request: patchRequest, expected: 'success is true', actual: result })).toBe(true);
-      });
+      // The throwaway's token isn't used before this call, so the API's cached user can't be a stale, enabled one.
+      await disableCustomerSetup(adminUsersService, customer.id, "Send PATCH /users/{userId} with that id and enabled false, with the admin's token.", "admin's token");
 
       await test.step("Send GET /favorites with the throwaway customer's access_token.", async () => {
         ({ request, response } = await sendList(favoritesClientForToken(customerToken), THROWAWAY_TOKEN));
