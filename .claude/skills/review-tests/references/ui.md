@@ -21,7 +21,7 @@ On top of `common.md`. The rules are in CLAUDE.md ("UI layer", "UI spec style", 
 - Actions are verbs, getters nouns; values a test reads come from `async get...()` methods that wait for the value to be there.
 - `waitForLoaded()` waits for the data the page loads (the first card, the product name), not only the frame.
 - A component extends `BaseComponent` and its locators start from `root`; one built from `page` can match the same test id elsewhere on the page. A `filter({ has })` inner locator built from `root` matches nothing (it's resolved inside each match).
-- Every new page object, component, dialog and flow is registered as a fixture (the profile's `ui.exemplars.fixtures`); a precondition fixture is exported from `ui.exemplars.fixturesIndex`.
+- Every new page object, dialog and flow, and every component used outside a page, is registered as a fixture (the profile's `ui.exemplars.fixtures`); a component a page holds is reached through that page's field (`homePage.productGrid`), not registered; a precondition fixture is exported from `ui.exemplars.fixturesIndex`.
 
 ## Data
 

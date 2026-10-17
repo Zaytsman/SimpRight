@@ -3,7 +3,9 @@ import type { Cleanup } from '../../fixtures/base';
 import type { ApiResponse } from '../clients/BaseClient';
 import type { ProductsClient } from '../clients/ProductsClient';
 import type { Paginated } from '../dto/common';
-import type { CreateProductRequest, Product, ProductDetails } from '../dto/product';
+import type { CreateProductRequest, Product, ProductDetails, ProductListQuery } from '../dto/product';
+import type { BrandsService } from '../services/BrandsService';
+import type { CategoriesService } from '../services/CategoriesService';
 import type { ProductsService } from '../services/ProductsService';
 import { ProductFactory, type ProductRefs } from '../../data/factories/ProductFactory';
 import { assertMessage, attachJson } from '../../utils/assertHelpers';
@@ -310,4 +312,32 @@ export async function sendCreateProduct(
   await attachJson('Create Product Request', request);
   await attachJson('Create Product Response', { status: response.status, body: response.body });
   return { request, response };
+}
+
+/**
+ * Not a step: the names the catalogue lists for the home page's filters, for the UI filter checks ("the products the
+ * catalogue lists for it in the page's default price range, $1 to $100"). Reads GET /products with the criteria the
+ * page sends: the category's id (found by slug), the brand's id (found by its exact name: other visitors leave brands
+ * with other names) and `between=price,1,100`. Returns page 1's names, trimmed and sorted, so a test compares them
+ * with the grid's page 1 in any order.
+ */
+export async function catalogueProductNames(
+  services: { productsService: ProductsService; categoriesService: CategoriesService; brandsService: BrandsService },
+  filters: { categorySlug?: string; brandName?: string },
+): Promise<string[]> {
+  const query: ProductListQuery = { between: 'price,1,100' };
+  if (filters.categorySlug) {
+    const categories = await services.categoriesService.list();
+    const category = categories.find((item) => item.slug === filters.categorySlug);
+    expect(category, `The catalogue has the category with the slug "${filters.categorySlug}"`).toBeTruthy();
+    query.by_category = category!.id;
+  }
+  if (filters.brandName) {
+    const brands = await services.brandsService.list();
+    const brand = brands.find((item) => item.name === filters.brandName);
+    expect(brand, `The catalogue has the brand "${filters.brandName}"`).toBeTruthy();
+    query.by_brand = brand!.id;
+  }
+  const catalogue = await services.productsService.list(query);
+  return catalogue.data.map((product) => product.name.trim()).sort();
 }

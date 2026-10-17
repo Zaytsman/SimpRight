@@ -163,6 +163,11 @@ export class ProductPage extends BasePage {
     return Number((await this.unitPriceText.textContent())?.trim());
   }
 
+  /** The discounted price (the discounted hourly rate for a rental) without the currency sign; shown only when there is a discount. */
+  async getDiscountedPrice(): Promise<number> {
+    return Number((await this.discountedPriceText.textContent())?.replace('$', '').trim());
+  }
+
   /** Rentals only: the total price shown next to the hourly rate. */
   async getTotalPrice(): Promise<number> {
     return Number((await this.totalPriceText.textContent())?.trim());

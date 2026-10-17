@@ -42,7 +42,8 @@ scenarios:
   - id: UI-078
     name: Checking a brand shows only that brand's products
     ref: docs/ui/user-stories/Product_Overview.md#AC7
-    status: manual
+    status: automated
+    automatedIn: tests/ui/products/product-filters.spec.ts
     preconditions:
       - The home page is open.
     steps:
@@ -51,7 +52,8 @@ scenarios:
   - id: UI-079
     name: Checking a category and a brand shows only products that match both
     ref: docs/ui/user-stories/Product_Overview.md#AC8
-    status: manual
+    status: automated
+    automatedIn: tests/ui/products/product-filters.spec.ts
     preconditions:
       - The home page is open.
     steps:
@@ -61,7 +63,8 @@ scenarios:
   - id: UI-080
     name: Moving the price range slider shows only products within the new range
     ref: docs/ui/user-stories/Product_Overview.md#AC11
-    status: manual
+    status: automated
+    automatedIn: tests/ui/products/product-filters.spec.ts
     preconditions:
       - The home page is open.
     steps:

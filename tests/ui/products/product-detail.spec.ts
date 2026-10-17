@@ -60,7 +60,7 @@ test.describe('@products - Product detail', () => {
         // Discounts are location-based: only location offers get one, and only for a visitor near one of the
         // app's discount cities. The fixture makes the browser a visitor in London; Bolt Cutters is a seeded
         // location offer (the approved choice for "a product that has a discount").
-        const productName = 'Bolt Cutters';
+        const productName = TestConstants.products.locationOfferProduct;
 
         await test.step('Open a product that has a discount.', async () => {
           await shoppingFlow.openProduct(productName);
@@ -78,6 +78,53 @@ test.describe('@products - Product detail', () => {
 
         await test.step('Verify a discount percentage badge is shown.', async () => {
           await expect(productPage.discountBadge, 'A discount percentage badge is shown').toBeVisible();
+        });
+      }
+    );
+
+    test(
+      'UI-085: A rental that is a location offer shows the discount, the discounted hourly rate and the discounted total for a visitor in London',
+      async ({ shoppingFlow, productPage }) => {
+        // Precondition: The visitor is in London. (the fixture)
+        // Precondition: A rental product that is also a location offer exists. Excavator is seeded as one (the approved
+        // choice: read-only, no product created).
+        const productName = TestConstants.products.rentalProduct;
+        const hours = 3;
+        let discountedRate = 0;
+
+        await test.step('Open the product page of that rental.', async () => {
+          await shoppingFlow.openProduct(productName);
+        });
+
+        await test.step('Set the duration slider to 3 hours.', async () => {
+          // Approved (as UI-017): moved with the arrow keys, like a keyboard user.
+          await productPage.setDuration(hours);
+        });
+
+        await test.step('Verify the discount badge "-25%" is shown.', async () => {
+          await expect(productPage.discountBadge, 'The discount badge is shown').toBeVisible();
+          await expect(productPage.discountBadge, 'The discount badge reads "-25%"').toHaveText('-25%');
+        });
+
+        await test.step('Verify the hourly rate is shown struck through.', async () => {
+          await expect(productPage.price, 'The hourly rate is shown').toBeVisible();
+          await expect(productPage.price, 'The hourly rate is struck through').toHaveCSS('text-decoration-line', 'line-through');
+        });
+
+        await test.step('Verify the discounted hourly rate is shown, 25% below the hourly rate.', async () => {
+          await expect(productPage.discountedPrice, 'The discounted hourly rate is shown').toBeVisible();
+          const hourlyRate = await productPage.getUnitPrice();
+          discountedRate = await productPage.getDiscountedPrice();
+          // Approved reading: 25% below = 75% of the hourly rate, within half a cent (the app rounds to the cent).
+          expect(
+            Math.abs(discountedRate - hourlyRate * 0.75),
+            `The discounted hourly rate ${discountedRate} is 75% of the hourly rate ${hourlyRate}, to the cent`,
+          ).toBeLessThanOrEqual(0.005 + 1e-9);
+        });
+
+        await test.step('Verify the total price equals 3 × the discounted hourly rate.', async () => {
+          const total = await productPage.getTotalPrice();
+          expect(total, `The total is ${hours} × ${discountedRate}`).toBeCloseTo(discountedRate * hours, 2);
         });
       }
     );

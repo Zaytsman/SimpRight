@@ -65,7 +65,8 @@ scenarios:
   - id: UI-085
     name: A rental that is a location offer shows the discount, the discounted hourly rate and the discounted total for a visitor in London
     ref: docs/ui/user-stories/Rental_Products.md#AC5
-    status: manual
+    status: automated
+    automatedIn: tests/ui/products/product-detail.spec.ts
     preconditions:
       - The visitor is in London.
       - A rental product that is also a location offer exists.

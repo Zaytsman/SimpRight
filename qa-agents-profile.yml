@@ -110,7 +110,7 @@ ui:
     - Page object locators are private readonly fields named with the element kind (searchCaptionText); a test reaches one only through a noun getter (get searchCaption()), added when a test asserts on it. Dynamic locators are methods with parameters (card(name)).
     - Locator priority is getByTestId (data-test), then getByRole, getByLabel or getByText, then CSS; never XPath. Take data-test ids and labels from commands.inspectUi, never guess them.
     - No assertions in page objects. An action waits for the app's own signal (a marker, a toast, the next page's element), never a fixed sleep.
-    - Every new page object, component, dialog and flow is registered as a fixture in ui.exemplars.fixtures.
+    - Every new page object, dialog and flow, and every component used outside a page, is registered as a fixture in ui.exemplars.fixtures; a component a page holds is reached through that page's field (homePage.productGrid).
     - A scenario's preconditions are set up before the first step, never in a test.step; a precondition fixture (open<Page>Test, no test.step inside) when tests share one, imported as test so the validator finds the titles; otherwise setup code with a // Precondition comment.
     - Every assertion carries a plain-text message saying what is checked.
     - Data a UI test needs (a customer, a product) is created and removed through API fixtures (registerThrowawayCustomer, cleanup.add), not through the UI.
