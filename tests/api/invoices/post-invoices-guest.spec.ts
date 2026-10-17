@@ -67,6 +67,27 @@ async function expectGuestValidationError(
   });
 }
 
+/**
+ * The last two steps of a "leaves no invoice behind" scenario: the admin's search by `billingStreet`, then "Verify the
+ * body's total is 0.", which parses the page only on 2xx and shows its summary (or the error) as `actual`.
+ */
+async function searchAndExpectNoInvoiceLeft(invoicesClientWithToken: InvoicesClient, billingStreet: string): Promise<void> {
+  let request: InvoiceRequest;
+  let response: ApiResponse;
+
+  await test.step("Send GET /invoices/search with q set to that billing_street and the admin's token.", async () => {
+    ({ request, response } = await sendSearchInvoices(invoicesClientWithToken, INVOICE_AUTH.admin, billingStreet));
+  });
+
+  await test.step("Verify the body's total is 0.", async () => {
+    const page = response.isSuccess ? (JSON.parse(response.body) as Paginated<InvoiceSummary>) : undefined;
+    expect(
+      page?.total,
+      assertMessage({ request, expected: 'total is 0', actual: page ? invoicePageSummary(page) : { status: response.status, body: response.body.slice(0, 500) } })
+    ).toBe(0);
+  });
+}
+
 test.describe('@invoices-api - Invoices API', () => {
   test.describe(() => {
     test.use({ role: 'admin' });
@@ -202,30 +223,34 @@ test.describe('@invoices-api - Invoices API', () => {
 
     test('API-0669: Create guest invoice with an unknown cart leaves no invoice behind', async ({ invoicesClient, invoicesClientWithToken }) => {
       test.fail(true, 'Known issue BUG-040: A failed guest checkout (unknown cart) leaves an invoice without lines or payment that an admin search finds.');
-      let billingStreet: string;
-      let request: InvoiceRequest;
-      let response: ApiResponse;
+      const billingStreet = InvoiceFactory.uniqueStreet();
 
       await test.step(
         'Send POST /invoices/guest without an Authorization header, with payment_method "cash-on-delivery", payment_details {}, a unique billing_street of at most 70 characters, billing_city "Wien", billing_country "AT", a well-formed ULID that no cart has as cart_id, a unique guest_email, a guest_first_name and a guest_last_name.',
         async () => {
           // The scenario checks no status here (the call answers 404); the orphan it may leave can't be deleted.
-          billingStreet = InvoiceFactory.uniqueStreet();
           await sendCreateGuestInvoice(invoicesClient, InvoiceFactory.guest(TestConstants.carts.unknownId, { billing_street: billingStreet }));
         }
       );
 
-      await test.step("Send GET /invoices/search with q set to that billing_street and the admin's token.", async () => {
-        ({ request, response } = await sendSearchInvoices(invoicesClientWithToken, INVOICE_AUTH.admin, billingStreet));
-      });
+      await searchAndExpectNoInvoiceLeft(invoicesClientWithToken, billingStreet);
+    });
 
-      await test.step("Verify the body's total is 0.", async () => {
-        const page = response.isSuccess ? (JSON.parse(response.body) as Paginated<InvoiceSummary>) : undefined;
-        expect(
-          page?.total,
-          assertMessage({ request, expected: 'total is 0', actual: page ? invoicePageSummary(page) : { status: response.status, body: response.body.slice(0, 500) } })
-        ).toBe(0);
-      });
+    test('API-0671: Create guest invoice with a failed bank-transfer payment leaves no invoice behind', async ({ cartsService, invoicesClient, invoicesClientWithToken, cleanup }) => {
+      test.fail(true, 'Known issue BUG-040: A failed guest checkout (bank-transfer payment_details {}) leaves an invoice without lines or payment that an admin search finds.');
+      const billingStreet = InvoiceFactory.uniqueStreet();
+
+      const cartId = await createCart(cartsService, cleanup);
+
+      await test.step(
+        'Send POST /invoices/guest without an Authorization header, with Accept: application/json, payment_method "bank-transfer", payment_details {}, a unique billing_street of at most 70 characters, billing_city "Wien", billing_country "AT", the cart\'s id as cart_id, a unique guest_email, a guest_first_name and a guest_last_name.',
+        async () => {
+          // The scenario checks no status here (the call answers 500 while BUG-041 is open); the orphan it may leave can't be deleted.
+          await sendCreateGuestInvoice(invoicesClient, InvoiceFactory.guest(cartId, { payment_method: 'bank-transfer', payment_details: {}, billing_street: billingStreet }));
+        }
+      );
+
+      await searchAndExpectNoInvoiceLeft(invoicesClientWithToken, billingStreet);
     });
   });
 

@@ -21,9 +21,9 @@ description: >-
   (500, see BUG-041) leaves one with the cart's totals (0 for an empty cart) and no payment. A customer's orphan shows
   up in their GET /invoices; a guest's has user_id null, so only an admin sees it (GET /invoices/search). Orphans stay
   until the hourly re-seed (there is no DELETE /invoices).
-  For a recheck, use the unknown-cart path (these steps, API-0499, API-0669). The failed-payment path (API-0668) depends
-  on BUG-041: if BUG-041 is fixed by validating payment_details before the invoice is created (422), API-0668 passes
-  although this bug may still be open. API-0669 doesn't check its POST's status, so it also passes if that call fails
+  For a recheck, use the unknown-cart path (these steps, API-0499, API-0669). The failed-payment path (API-0668, API-0671) depends
+  on BUG-041: if BUG-041 is fixed by validating payment_details before the invoice is created (422), API-0668 and
+  API-0671 pass although this bug may still be open. API-0669 doesn't check its POST's status, so it also passes if that call fails
   for any other reason (a 422, a 5xx) before the invoice is created. Only a 404 from the POST followed by total 0 shows
   that this bug is fixed.
 steps:
@@ -35,7 +35,8 @@ actual: >-
   GET /invoices (or, for a guest, an admin's GET /invoices/search) answers 200 with the orphan invoice: after an
   unknown cart_id with subtotal and total null, no lines and no payment (reproduced live on 2026-10-14, API-0499, and
   for POST /invoices/guest on 2026-10-15, API-0669); after a failed payment with subtotal and total 0 for an empty cart,
-  no lines and no payment (reproduced live on 2026-10-15, API-0668).
+  no lines and no payment (reproduced live on 2026-10-15, API-0668, and for POST /invoices/guest on 2026-10-17,
+  API-0671: user_id null).
 evidence: |-
   2026-10-14 18:54 UTC, API-0499 (tests/api/invoices/post-invoices.spec.ts), a throwaway customer (token ***):
   POST /invoices { payment_method: "cash-on-delivery", payment_details: {}, billing_street: "Stephansplatz 1",
@@ -56,6 +57,14 @@ evidence: |-
   GET /invoices/search?q=Street-20261015-0b8b14 (admin token ***) -> 200 { total: 1, data: [ { invoice_number:
     "INV-2026000034", user_id: null, status: "AWAITING_FULFILLMENT", subtotal: null, total: null, lines: 0,
     payment_method: null } ] } (the repeats: INV-2026000036, INV-2026000037)
+  2026-10-17 13:04 UTC, API-0671 (tests/api/invoices/post-invoices-guest.spec.ts, repeated x3, same result), no token,
+  an empty cart from POST /carts:
+  POST /invoices/guest { payment_method: "bank-transfer", payment_details: {}, billing_street: "Street-20261017-5dc392",
+    billing_city: "Wien", billing_country: "AT", cart_id: <the cart's id>, guest fields (email ***) }
+    -> 500 { message: "Something went wrong" } (BUG-041; the same call in API-0670 of that run)
+  GET /invoices/search?q=Street-20261017-5dc392 (admin token ***) -> 200 { total: 1, data: [ { invoice_number:
+    "INV-2026000008", user_id: null, status: "AWAITING_FULFILLMENT", subtotal: 0, total: 0, lines: 0,
+    payment_method: null } ] } (the repeats at 13:05: INV-2026000014, INV-2026000021, INV-2026000022)
   In the 2026-10-14 run, the throwaway customers of API-0500 and API-0501 (payment failed with 500) could not be
   deleted afterwards (409, still in use), which fits the orphan seen in API-0668.
   Source (sprint5/API, c6032ad): InvoiceService::createInvoice and createGuestInvoice call Invoice::create before
