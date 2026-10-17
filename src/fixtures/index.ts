@@ -5,6 +5,7 @@ export { openProductPageInLondonTest } from '../ui/fixtures/preconditions/openPr
 export { openHomePageInLondonTest } from '../ui/fixtures/preconditions/openHomePageInLondonTest';
 export { openProductPageWithNewCustomerTest } from '../ui/fixtures/preconditions/openProductPageWithNewCustomerTest';
 export { openRentalsPageTest } from '../ui/fixtures/preconditions/openRentalsPageTest';
+export { openHomePageWithProductInCartTest } from '../ui/fixtures/preconditions/openHomePageWithProductInCartTest';
 export { removeCartAfterTest } from '../ui/fixtures/cartCleanup';
 export {
   PRODUCT_LIST_STEP,
