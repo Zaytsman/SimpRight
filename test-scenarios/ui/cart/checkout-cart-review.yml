@@ -5,7 +5,8 @@ scenarios:
   - id: UI-049
     name: The cart step shows the line under the labelled column headers
     ref: docs/ui/user-stories/Checkout_Cart_Review.md#AC1
-    status: manual
+    status: automated
+    automatedIn: tests/ui/cart/checkout-cart-review.spec.ts
     preconditions:
       - A product that is in stock is in the cart.
     steps:
@@ -18,7 +19,8 @@ scenarios:
   - id: UI-050
     name: Changing a line's quantity recalculates the totals and shows a confirmation
     ref: docs/ui/user-stories/Checkout_Cart_Review.md#AC2
-    status: manual
+    status: automated
+    automatedIn: tests/ui/cart/checkout-cart-review.spec.ts
     preconditions:
       - A product that is in stock and has no CO2 rating A or B is in the cart with quantity 1.
     steps:
@@ -30,7 +32,8 @@ scenarios:
   - id: UI-051
     name: Deleting a line removes it and recalculates the cart total
     ref: docs/ui/user-stories/Checkout_Cart_Review.md#AC3
-    status: manual
+    status: automated
+    automatedIn: tests/ui/cart/checkout-cart-review.spec.ts
     preconditions:
       - Two products that are in stock, neither with a CO2 rating A or B, are in the cart, one line each.
     steps:
@@ -42,7 +45,10 @@ scenarios:
   - id: UI-052
     name: A visitor with no cart sees the empty cart message
     ref: docs/ui/user-stories/Checkout_Cart_Review.md#AC4
-    status: manual
+    status: automated
+    automatedIn: tests/ui/cart/checkout-cart-review.spec.ts
+    knownIssue: 'The Cart step of the checkout shows nothing (no message, table or button) for a visitor without a cart, instead of "Your shopping cart is empty".'
+    bug: BUG-049
     preconditions:
       - 'No cart exists yet: nothing has been added to a cart in this session.'
     steps:
@@ -51,7 +57,10 @@ scenarios:
   - id: UI-053
     name: Deleting the last line shows the empty cart message
     ref: docs/ui/user-stories/Checkout_Cart_Review.md#AC4
-    status: manual
+    status: automated
+    automatedIn: tests/ui/cart/checkout-cart-review.spec.ts
+    knownIssue: 'The Cart step of the checkout says "The cart is empty. Nothing to display." instead of "Your shopping cart is empty" after the last line is deleted.'
+    bug: BUG-050
     preconditions:
       - A product that is in stock is in the cart.
     steps:
@@ -62,7 +71,8 @@ scenarios:
   - id: UI-054
     name: '"Proceed to checkout" leads to the sign-in step'
     ref: docs/ui/user-stories/Checkout_Cart_Review.md#AC5
-    status: manual
+    status: automated
+    automatedIn: tests/ui/cart/checkout-cart-review.spec.ts
     preconditions:
       - A product that is in stock is in the cart.
     steps:
@@ -72,7 +82,8 @@ scenarios:
   - id: UI-055
     name: A discounted line shows the badge, the original price and the discounted price
     ref: docs/ui/user-stories/Checkout_Cart_Review.md#AC6
-    status: manual
+    status: automated
+    automatedIn: tests/ui/cart/checkout-cart-review.spec.ts
     preconditions:
       - The customer's location is Amsterdam, and a product with a location offer is added to the cart.
     steps:
@@ -83,7 +94,8 @@ scenarios:
   - id: UI-056
     name: A cart with a rental and a non-rental item shows the subtotal, the 15% discount and the total
     ref: docs/ui/user-stories/Checkout_Cart_Review.md#AC7
-    status: manual
+    status: automated
+    automatedIn: tests/ui/cart/checkout-cart-review.spec.ts
     preconditions:
       - A rental product and a product that is not a rental are in the cart; neither has a discount or a CO2 rating A or B.
     steps:
@@ -94,7 +106,8 @@ scenarios:
   - id: UI-057
     name: Deleting the rental line removes the combined discount
     ref: docs/ui/user-stories/Checkout_Cart_Review.md#AC8
-    status: manual
+    status: automated
+    automatedIn: tests/ui/cart/checkout-cart-review.spec.ts
     preconditions:
       - A rental product and a product that is not a rental are in the cart; neither has a discount or a CO2 rating A or B.
     steps:
@@ -106,7 +119,10 @@ scenarios:
   - id: UI-084
     name: A rental line in the checkout cart is marked "This is a rental item"
     ref: docs/ui/user-stories/Rental_Products.md#AC4
-    status: manual
+    status: automated
+    automatedIn: tests/ui/cart/checkout-cart-review.spec.ts
+    knownIssue: 'The checkout cart marks a rental line "Item for rent, price per hour" instead of "This is a rental item".'
+    bug: BUG-051
     preconditions:
       - A rental product and a product that is not a rental are in the cart.
     steps:

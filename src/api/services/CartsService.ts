@@ -1,5 +1,5 @@
 import type { CartsClient } from '../clients/CartsClient';
-import type { AddCartItemRequest, CartItemResult, CreateCartRequest, CreateCartResponse } from '../dto/cart';
+import type { AddCartItemRequest, Cart, CartItemResult, CreateCartRequest, CreateCartResponse } from '../dto/cart';
 import { assertOk, parseOk } from './serviceUtils';
 
 /** Domain operations on carts. Methods expect success; tests that check error statuses use `CartsClient` directly. */
@@ -14,6 +14,11 @@ export class CartsService {
   /** Deletes a cart with its items. Returns nothing (204). A product can't be deleted while a cart holds it (409). */
   async delete(cartId: string): Promise<void> {
     assertOk(await this.client.deleteById(cartId), `delete cart ${cartId}`);
+  }
+
+  /** The cart with its items and their products. */
+  async get(cartId: string): Promise<Cart> {
+    return parseOk(await this.client.getById(cartId), `get cart ${cartId}`);
   }
 
   /** Adds a product to a cart (or increases its quantity), for setup steps; the response has no ids. */

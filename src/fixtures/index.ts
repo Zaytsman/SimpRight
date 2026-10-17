@@ -6,7 +6,10 @@ export { openHomePageInLondonTest } from '../ui/fixtures/preconditions/openHomeP
 export { openProductPageWithNewCustomerTest } from '../ui/fixtures/preconditions/openProductPageWithNewCustomerTest';
 export { openRentalsPageTest } from '../ui/fixtures/preconditions/openRentalsPageTest';
 export { openHomePageWithProductInCartTest } from '../ui/fixtures/preconditions/openHomePageWithProductInCartTest';
+export { openHomePageWithRentalAndProductInCartTest } from '../ui/fixtures/preconditions/openHomePageWithRentalAndProductInCartTest';
 export { removeCartAfterTest } from '../ui/fixtures/cartCleanup';
+export { putProductsInCart, assertNoEcoRating } from '../ui/fixtures/cartSetup';
+export { AMSTERDAM } from '../ui/auth/visitorLocation';
 export {
   PRODUCT_LIST_STEP,
   PRODUCT_CREATE_STEP,
