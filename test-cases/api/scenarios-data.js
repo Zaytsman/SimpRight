@@ -3,16 +3,16 @@ window.SCENARIO_CATALOG = {
  "layer": "api",
  "title": "API Test Cases",
  "prefix": "API",
- "generatedAt": "2026-10-17T12:50:49.439Z",
- "commit": "75cebc7e3b3594c79bb2ef15ababf23769a2ed31",
+ "generatedAt": "2026-10-17T13:40:08.964Z",
+ "commit": "d4da61ad57901416a0b44ceac906716fe56a468b",
  "repoUrl": "https://github.com/Zaytsman/SimpRight",
  "branch": "main",
  "workflowUrl": "https://github.com/Zaytsman/SimpRight/actions/workflows/custom-api-tests.yml",
  "stats": {
-  "total": 670,
-  "automated": 670,
+  "total": 671,
+  "automated": 671,
   "manual": 0,
-  "knownIssues": 70,
+  "knownIssues": 69,
   "automatedPct": 100
  },
  "tree": [
@@ -629,7 +629,8 @@ window.SCENARIO_CATALOG = {
       "API-0507",
       "API-0508",
       "API-0669",
-      "API-0670"
+      "API-0670",
+      "API-0671"
      ]
     },
     {
@@ -7153,7 +7154,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /invoices/{invoiceId} with the new id and the admin's token returns 200 with user_id null, the billing_street, billing_city and billing_country sent, and exactly one line with the product's id as product_id."
    ],
    "ref": [],
-   "specLine": 74,
+   "specLine": 95,
    "area": "invoices",
    "areaLabel": "Invoices",
    "file": "test-scenarios/api/invoices/post-invoices-guest.yml",
@@ -7175,7 +7176,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's errors has the keys payment_method, payment_details, billing_street, billing_city, billing_country, cart_id, guest_email, guest_first_name and guest_last_name, each with at least one message."
    ],
    "ref": [],
-   "specLine": 120,
+   "specLine": 141,
    "area": "invoices",
    "areaLabel": "Invoices",
    "file": "test-scenarios/api/invoices/post-invoices-guest.yml",
@@ -7197,7 +7198,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's errors has a guest_email key with at least one message."
    ],
    "ref": [],
-   "specLine": 130,
+   "specLine": 151,
    "area": "invoices",
    "areaLabel": "Invoices",
    "file": "test-scenarios/api/invoices/post-invoices-guest.yml",
@@ -7219,7 +7220,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's errors has a payment_method key with at least one message."
    ],
    "ref": [],
-   "specLine": 140,
+   "specLine": 161,
    "area": "invoices",
    "areaLabel": "Invoices",
    "file": "test-scenarios/api/invoices/post-invoices-guest.yml",
@@ -7241,7 +7242,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's errors has a billing_country key with at least one message."
    ],
    "ref": [],
-   "specLine": 150,
+   "specLine": 171,
    "area": "invoices",
    "areaLabel": "Invoices",
    "file": "test-scenarios/api/invoices/post-invoices-guest.yml",
@@ -7263,7 +7264,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's message is \"Requested item not found\"."
    ],
    "ref": [],
-   "specLine": 160,
+   "specLine": 181,
    "area": "invoices",
    "areaLabel": "Invoices",
    "file": "test-scenarios/api/invoices/post-invoices-guest.yml",
@@ -7287,7 +7288,7 @@ window.SCENARIO_CATALOG = {
     "Verify the response status is 422."
    ],
    "ref": [],
-   "specLine": 180,
+   "specLine": 201,
    "area": "invoices",
    "areaLabel": "Invoices",
    "file": "test-scenarios/api/invoices/post-invoices-guest.yml",
@@ -7312,7 +7313,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's total is 0."
    ],
    "ref": [],
-   "specLine": 203,
+   "specLine": 224,
    "area": "invoices",
    "areaLabel": "Invoices",
    "file": "test-scenarios/api/invoices/post-invoices-guest.yml",
@@ -7336,7 +7337,7 @@ window.SCENARIO_CATALOG = {
     "Verify the response status is 422."
    ],
    "ref": [],
-   "specLine": 232,
+   "specLine": 257,
    "area": "invoices",
    "areaLabel": "Invoices",
    "file": "test-scenarios/api/invoices/post-invoices-guest.yml",
@@ -7346,6 +7347,32 @@ window.SCENARIO_CATALOG = {
     "@invoices-api"
    ],
    "yaml": "- id: API-0670\n  name: Create guest invoice with bank-transfer details missing the required fields returns 422\n  status: automated\n  automatedIn: tests/api/invoices/post-invoices-guest.spec.ts\n  knownIssue: Returns 500 \"Something went wrong\" instead of 422 when payment_details lacks the fields the payment method requires.\n  bug: BUG-041\n  steps:\n    - Send POST /carts with an empty body and take the returned id as the cart's id.\n    - 'Send POST /invoices/guest without an Authorization header, with Accept: application/json, payment_method \"bank-transfer\", payment_details {}, billing_street \"Stephansplatz 1\", billing_city \"Wien\", billing_country \"AT\", the cart''s id as cart_id, a unique guest_email, a guest_first_name and a guest_last_name.'\n    - Verify the response status is 422."
+  },
+  {
+   "id": "API-0671",
+   "name": "Create guest invoice with a failed bank-transfer payment leaves no invoice behind",
+   "status": "automated",
+   "automatedIn": "tests/api/invoices/post-invoices-guest.spec.ts",
+   "role": "admin",
+   "knownIssue": "A failed guest checkout (bank-transfer payment_details {}) leaves an invoice without lines or payment that an admin search finds.",
+   "bug": "BUG-040",
+   "steps": [
+    "Send POST /carts with an empty body and take the returned id as the cart's id.",
+    "Send POST /invoices/guest without an Authorization header, with Accept: application/json, payment_method \"bank-transfer\", payment_details {}, a unique billing_street of at most 70 characters, billing_city \"Wien\", billing_country \"AT\", the cart's id as cart_id, a unique guest_email, a guest_first_name and a guest_last_name.",
+    "Send GET /invoices/search with q set to that billing_street and the admin's token.",
+    "Verify the body's total is 0."
+   ],
+   "ref": [],
+   "specLine": 239,
+   "area": "invoices",
+   "areaLabel": "Invoices",
+   "file": "test-scenarios/api/invoices/post-invoices-guest.yml",
+   "fileLabel": "POST /invoices/guest",
+   "suite": "Invoices API",
+   "tags": [
+    "@invoices-api"
+   ],
+   "yaml": "- id: API-0671\n  name: Create guest invoice with a failed bank-transfer payment leaves no invoice behind\n  status: automated\n  automatedIn: tests/api/invoices/post-invoices-guest.spec.ts\n  role: admin\n  knownIssue: A failed guest checkout (bank-transfer payment_details {}) leaves an invoice without lines or payment that an admin search finds.\n  bug: BUG-040\n  steps:\n    - Send POST /carts with an empty body and take the returned id as the cart's id.\n    - 'Send POST /invoices/guest without an Authorization header, with Accept: application/json, payment_method \"bank-transfer\", payment_details {}, a unique billing_street of at most 70 characters, billing_city \"Wien\", billing_country \"AT\", the cart''s id as cart_id, a unique guest_email, a guest_first_name and a guest_last_name.'\n    - Send GET /invoices/search with q set to that billing_street and the admin's token.\n    - Verify the body's total is 0."
   },
   {
    "id": "API-0449",
@@ -8624,8 +8651,6 @@ window.SCENARIO_CATALOG = {
    "name": "Download invoice PDF returns 200 with the file once it is generated",
    "status": "automated",
    "automatedIn": "tests/api/invoices/get-invoices-by-invoice-number-download-pdf.spec.ts",
-   "knownIssue": "The invoice's PDF is never generated, so the download returns 404 \"Document not created. Try again later.\".",
-   "bug": "BUG-047",
    "steps": [
     "Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.",
     "Send POST /users/login with that email and password, and take its access_token.",
@@ -8647,7 +8672,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@invoices-api"
    ],
-   "yaml": "- id: API-0468\n  name: Download invoice PDF returns 200 with the file once it is generated\n  status: automated\n  automatedIn: tests/api/invoices/get-invoices-by-invoice-number-download-pdf.spec.ts\n  knownIssue: 'The invoice''s PDF is never generated, so the download returns 404 \"Document not created. Try again later.\".'\n  bug: BUG-047\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.\n    - Send POST /users/login with that email and password, and take its access_token.\n    - Send POST /carts with an empty body and take the returned id as the cart's id.\n    - Send POST /invoices with that access_token, payment_method \"cash-on-delivery\", payment_details {}, billing_street \"Stephansplatz 1\", billing_city \"Wien\", billing_country \"AT\" and the cart's id as cart_id, and take the new invoice's id, invoice_number and total.\n    - Send GET /invoices/{invoice_number}/download-pdf-status with the invoice's number and that access_token, and repeat every few seconds until the response status is 200 and the body's status is COMPLETED (the PDF jobs run every minute, so allow a few minutes).\n    - Send GET /invoices/{invoice_number}/download-pdf with the invoice's number and that access_token.\n    - Verify the response status is 200.\n    - Verify the Content-Disposition response header is \"attachment; filename=<invoice_number>.pdf\" with the invoice's number.\n    - Verify the response body is not empty."
+   "yaml": "- id: API-0468\n  name: Download invoice PDF returns 200 with the file once it is generated\n  status: automated\n  automatedIn: tests/api/invoices/get-invoices-by-invoice-number-download-pdf.spec.ts\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.\n    - Send POST /users/login with that email and password, and take its access_token.\n    - Send POST /carts with an empty body and take the returned id as the cart's id.\n    - Send POST /invoices with that access_token, payment_method \"cash-on-delivery\", payment_details {}, billing_street \"Stephansplatz 1\", billing_city \"Wien\", billing_country \"AT\" and the cart's id as cart_id, and take the new invoice's id, invoice_number and total.\n    - Send GET /invoices/{invoice_number}/download-pdf-status with the invoice's number and that access_token, and repeat every few seconds until the response status is 200 and the body's status is COMPLETED (the PDF jobs run every minute, so allow a few minutes).\n    - Send GET /invoices/{invoice_number}/download-pdf with the invoice's number and that access_token.\n    - Verify the response status is 200.\n    - Verify the Content-Disposition response header is \"attachment; filename=<invoice_number>.pdf\" with the invoice's number.\n    - Verify the response body is not empty."
   },
   {
    "id": "API-0469",
@@ -8660,7 +8685,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's message is \"Unauthorized\"."
    ],
    "ref": [],
-   "specLine": 65,
+   "specLine": 63,
    "area": "invoices",
    "areaLabel": "Invoices",
    "file": "test-scenarios/api/invoices/get-invoices-by-invoice-number-download-pdf.yml",
@@ -8682,7 +8707,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's message is \"Document not created. Try again later.\"."
    ],
    "ref": [],
-   "specLine": 82,
+   "specLine": 80,
    "area": "invoices",
    "areaLabel": "Invoices",
    "file": "test-scenarios/api/invoices/get-invoices-by-invoice-number-download-pdf.yml",
@@ -8698,8 +8723,6 @@ window.SCENARIO_CATALOG = {
    "name": "Get PDF status returns 200 with COMPLETED once the PDF is generated",
    "status": "automated",
    "automatedIn": "tests/api/invoices/get-invoices-by-invoice-number-download-pdf-status.spec.ts",
-   "knownIssue": "The PDF status stays INITIATED and never reaches COMPLETED.",
-   "bug": "BUG-047",
    "steps": [
     "Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.",
     "Send POST /users/login with that email and password, and take its access_token.",
@@ -8719,7 +8742,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@invoices-api"
    ],
-   "yaml": "- id: API-0471\n  name: Get PDF status returns 200 with COMPLETED once the PDF is generated\n  status: automated\n  automatedIn: tests/api/invoices/get-invoices-by-invoice-number-download-pdf-status.spec.ts\n  knownIssue: The PDF status stays INITIATED and never reaches COMPLETED.\n  bug: BUG-047\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.\n    - Send POST /users/login with that email and password, and take its access_token.\n    - Send POST /carts with an empty body and take the returned id as the cart's id.\n    - Send POST /invoices with that access_token, payment_method \"cash-on-delivery\", payment_details {}, billing_street \"Stephansplatz 1\", billing_city \"Wien\", billing_country \"AT\" and the cart's id as cart_id, and take the new invoice's id, invoice_number and total.\n    - Send GET /invoices/{invoice_number}/download-pdf-status with the invoice's number and that access_token, and repeat every few seconds until the response status is 200 and the body's status is COMPLETED (the PDF jobs run every minute, so allow a few minutes).\n    - Verify the last response's status is 200.\n    - Verify the body's status is \"COMPLETED\"."
+   "yaml": "- id: API-0471\n  name: Get PDF status returns 200 with COMPLETED once the PDF is generated\n  status: automated\n  automatedIn: tests/api/invoices/get-invoices-by-invoice-number-download-pdf-status.spec.ts\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.\n    - Send POST /users/login with that email and password, and take its access_token.\n    - Send POST /carts with an empty body and take the returned id as the cart's id.\n    - Send POST /invoices with that access_token, payment_method \"cash-on-delivery\", payment_details {}, billing_street \"Stephansplatz 1\", billing_city \"Wien\", billing_country \"AT\" and the cart's id as cart_id, and take the new invoice's id, invoice_number and total.\n    - Send GET /invoices/{invoice_number}/download-pdf-status with the invoice's number and that access_token, and repeat every few seconds until the response status is 200 and the body's status is COMPLETED (the PDF jobs run every minute, so allow a few minutes).\n    - Verify the last response's status is 200.\n    - Verify the body's status is \"COMPLETED\"."
   },
   {
    "id": "API-0472",
@@ -8732,7 +8755,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's message is \"Unauthorized\"."
    ],
    "ref": [],
-   "specLine": 49,
+   "specLine": 47,
    "area": "invoices",
    "areaLabel": "Invoices",
    "file": "test-scenarios/api/invoices/get-invoices-by-invoice-number-download-pdf-status.yml",
@@ -8754,7 +8777,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's status is \"NOT_INITIATED\"."
    ],
    "ref": [],
-   "specLine": 66,
+   "specLine": 64,
    "area": "invoices",
    "areaLabel": "Invoices",
    "file": "test-scenarios/api/invoices/get-invoices-by-invoice-number-download-pdf-status.yml",
@@ -8782,7 +8805,7 @@ window.SCENARIO_CATALOG = {
     "Verify that item's subject and message equal the values sent and it has no user key."
    ],
    "ref": [],
-   "specLine": 37,
+   "specLine": 38,
    "area": "messages",
    "areaLabel": "Messages",
    "file": "test-scenarios/api/messages/get-messages.yml",
@@ -8810,7 +8833,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's data includes an item with the guest message's id, with user_id null and user null."
    ],
    "ref": [],
-   "specLine": 96,
+   "specLine": 97,
    "area": "messages",
    "areaLabel": "Messages",
    "file": "test-scenarios/api/messages/get-messages.yml",
@@ -8835,7 +8858,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's data is an empty array."
    ],
    "ref": [],
-   "specLine": 149,
+   "specLine": 150,
    "area": "messages",
    "areaLabel": "Messages",
    "file": "test-scenarios/api/messages/get-messages.yml",
@@ -8857,7 +8880,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's message is \"Unauthorized\"."
    ],
    "ref": [],
-   "specLine": 177,
+   "specLine": 178,
    "area": "messages",
    "areaLabel": "Messages",
    "file": "test-scenarios/api/messages/get-messages.yml",
@@ -8879,7 +8902,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's message is \"Unauthorized\"."
    ],
    "ref": [],
-   "specLine": 194,
+   "specLine": 195,
    "area": "messages",
    "areaLabel": "Messages",
    "file": "test-scenarios/api/messages/get-messages.yml",
@@ -8905,7 +8928,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's message is \"Account disabled.\"."
    ],
    "ref": [],
-   "specLine": 214,
+   "specLine": 215,
    "area": "messages",
    "areaLabel": "Messages",
    "file": "test-scenarios/api/messages/get-messages.yml",
@@ -8929,7 +8952,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's data is an empty array."
    ],
    "ref": [],
-   "specLine": 250,
+   "specLine": 245,
    "area": "messages",
    "areaLabel": "Messages",
    "file": "test-scenarios/api/messages/get-messages.yml",
@@ -15974,7 +15997,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's access_token is a non-empty string.",
     "Verify the body has no token_type or expires_in key."
    ],
-   "specLine": 275,
+   "specLine": 269,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/post-users-login.yml",
@@ -16004,7 +16027,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's token_type is \"bearer\".",
     "Verify GET /users/me with the new access_token returns 200 with the throwaway customer's email."
    ],
-   "specLine": 317,
+   "specLine": 311,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/post-users-login.yml",
@@ -16032,7 +16055,7 @@ window.SCENARIO_CATALOG = {
     "Verify the response status is 401.",
     "Verify the body's message is \"Unauthorized token usage\"."
    ],
-   "specLine": 367,
+   "specLine": 361,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/post-users-login.yml",
@@ -16061,7 +16084,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's error is \"Invalid TOTP\".",
     "Verify the body has no access_token key."
    ],
-   "specLine": 397,
+   "specLine": 391,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/post-users-login.yml",
@@ -16318,7 +16341,7 @@ window.SCENARIO_CATALOG = {
     "Verify the response status is 200.",
     "Verify the body's first_name and last_name equal the values sent in the registration."
    ],
-   "specLine": 198,
+   "specLine": 192,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/get-users-me.yml",
