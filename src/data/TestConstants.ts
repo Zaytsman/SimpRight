@@ -8,6 +8,7 @@ const CATEGORY_SLUGS = {
   handTools: 'hand-tools',
   hammer: 'hammer',
   handSaw: 'hand-saw',
+  pliers: 'pliers',
   powerTools: 'power-tools',
   other: 'other',
   saw: 'saw',
@@ -51,6 +52,15 @@ export const TestConstants = {
     hammer: CATEGORY_SLUGS.hammer,
     /** The seeded sub-category Hand Saw, under Hand Tools. */
     handSaw: CATEGORY_SLUGS.handSaw,
+    /** The seeded sub-category Pliers, under Hand Tools; the category filter tests find its id by this slug. */
+    pliers: CATEGORY_SLUGS.pliers,
+    /** Sidebar labels of seeded categories, for the UI filter tests (the keys above are slugs). */
+    labels: {
+      /** The top-level category Hand Tools. */
+      handTools: 'Hand Tools',
+      /** Hand Tools' sub-categories, in sidebar order. */
+      handToolsChildren: ['Hammer', 'Hand Saw', 'Wrench', 'Screwdriver', 'Pliers', 'Chisels', 'Measures'],
+    },
     /** The seeded top-level category Power Tools (4 sub-categories). */
     powerTools: CATEGORY_SLUGS.powerTools,
     /** The seeded top-level categories; never renamed, re-parented or deleted by a test. */

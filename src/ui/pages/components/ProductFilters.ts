@@ -27,17 +27,27 @@ export class ProductFilters extends BaseComponent {
     return this.root.getByRole('checkbox', { name: label, exact: true }).and(this.root.locator('[data-test^="brand-"]'));
   }
 
-  /**
-   * Checks a category and waits until the filtered grid is rendered. A top-level category (one with
-   * subcategories) leaves the result state as it was (app source: sprint5/UI/.../overview.component.ts,
-   * `selectParentWithSubcategories`), so the marker alone could be an earlier filter's: this also waits for
-   * the products request the change sends (`QUERY /products`) to finish.
-   */
+  /** Checks a category and waits until the filtered grid is rendered (see `setCategory`). */
   async checkCategory(label: string): Promise<void> {
+    await this.setCategory(label, true);
+  }
+
+  /** Unchecks a category and waits until the filtered grid is rendered (see `setCategory`). */
+  async uncheckCategory(label: string): Promise<void> {
+    await this.setCategory(label, false);
+  }
+
+  /**
+   * Checks or unchecks a category, then waits for the products request the change sends (`QUERY /products`)
+   * and the `filter_completed` marker. A top-level category (one with subcategories) leaves the result state as
+   * it was (app source: sprint5/UI/.../overview.component.ts, `selectParentWithSubcategories`), so the marker
+   * alone could be an earlier filter's; a child category sets `filter_started` at once (`filterByCategory`).
+   */
+  private async setCategory(label: string, checked: boolean): Promise<void> {
     const filtered = this.page.waitForResponse(
       (response) => response.request().method() === 'QUERY' && new URL(response.url()).pathname.endsWith('/products'),
     );
-    await this.categoryCheckbox(label).check();
+    await this.categoryCheckbox(label).setChecked(checked);
     await (await filtered).finished();
     await expect(this.filterCompletedMarker).toBeAttached();
   }

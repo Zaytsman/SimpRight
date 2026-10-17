@@ -5,7 +5,8 @@ scenarios:
   - id: UI-075
     name: Checking a category shows only that category's products
     ref: docs/ui/user-stories/Product_Overview.md#AC5
-    status: manual
+    status: automated
+    automatedIn: tests/ui/products/product-filters.spec.ts
     preconditions:
       - The home page is open.
     steps:
@@ -14,7 +15,8 @@ scenarios:
   - id: UI-076
     name: Checking a parent category checks all its child categories
     ref: docs/ui/user-stories/Product_Overview.md#AC6
-    status: manual
+    status: automated
+    automatedIn: tests/ui/products/product-filters.spec.ts
     preconditions:
       - The home page is open.
     steps:
@@ -23,7 +25,8 @@ scenarios:
   - id: UI-077
     name: Unchecking all child categories unchecks the parent category
     ref: docs/ui/user-stories/Product_Overview.md#AC6
-    status: manual
+    status: automated
+    automatedIn: tests/ui/products/product-filters.spec.ts
     preconditions:
       - The home page is open.
     steps:
