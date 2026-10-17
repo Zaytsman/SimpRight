@@ -3,17 +3,17 @@ window.SCENARIO_CATALOG = {
  "layer": "ui",
  "title": "UI Test Cases",
  "prefix": "UI",
- "generatedAt": "2026-10-17T13:40:08.964Z",
- "commit": "d4da61ad57901416a0b44ceac906716fe56a468b",
+ "generatedAt": "2026-10-17T17:11:22.823Z",
+ "commit": "c4e530fe8339b13739d0d318f59432df95c19410",
  "repoUrl": "https://github.com/Zaytsman/SimpRight",
  "branch": "main",
  "workflowUrl": "https://github.com/Zaytsman/SimpRight/actions/workflows/custom-ui-tests.yml",
  "stats": {
   "total": 98,
-  "automated": 45,
-  "manual": 53,
-  "knownIssues": 2,
-  "automatedPct": 46
+  "automated": 60,
+  "manual": 38,
+  "knownIssues": 6,
+  "automatedPct": 61
  },
  "tree": [
   {
@@ -1409,7 +1409,8 @@ window.SCENARIO_CATALOG = {
    "ref": [
     "docs/ui/user-stories/Checkout_Cart_Review.md#AC1"
    ],
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/ui/cart/checkout-cart-review.spec.ts",
    "preconditions": [
     "A product that is in stock is in the cart."
    ],
@@ -1421,6 +1422,7 @@ window.SCENARIO_CATALOG = {
     "Verify the line shows the product's unit price under \"Price\".",
     "Verify the line shows its line total under \"Total\", equal to the quantity × the unit price."
    ],
+   "specLine": 29,
    "area": "cart",
    "areaLabel": "Cart",
    "file": "test-scenarios/ui/cart/checkout-cart-review.yml",
@@ -1429,7 +1431,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@cart"
    ],
-   "yaml": "- id: UI-049\n  name: The cart step shows the line under the labelled column headers\n  ref: docs/ui/user-stories/Checkout_Cart_Review.md#AC1\n  status: manual\n  preconditions:\n    - A product that is in stock is in the cart.\n  steps:\n    - Open the checkout page.\n    - Verify the column headers \"Item\", \"Quantity\", \"Price\" and \"Total\" are shown.\n    - Verify the line shows the product's name under \"Item\".\n    - Verify the line shows its quantity under \"Quantity\".\n    - Verify the line shows the product's unit price under \"Price\".\n    - Verify the line shows its line total under \"Total\", equal to the quantity × the unit price."
+   "yaml": "- id: UI-049\n  name: The cart step shows the line under the labelled column headers\n  ref: docs/ui/user-stories/Checkout_Cart_Review.md#AC1\n  status: automated\n  automatedIn: tests/ui/cart/checkout-cart-review.spec.ts\n  preconditions:\n    - A product that is in stock is in the cart.\n  steps:\n    - Open the checkout page.\n    - Verify the column headers \"Item\", \"Quantity\", \"Price\" and \"Total\" are shown.\n    - Verify the line shows the product's name under \"Item\".\n    - Verify the line shows its quantity under \"Quantity\".\n    - Verify the line shows the product's unit price under \"Price\".\n    - Verify the line shows its line total under \"Total\", equal to the quantity × the unit price."
   },
   {
    "id": "UI-050",
@@ -1437,7 +1439,8 @@ window.SCENARIO_CATALOG = {
    "ref": [
     "docs/ui/user-stories/Checkout_Cart_Review.md#AC2"
    ],
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/ui/cart/checkout-cart-review.spec.ts",
    "preconditions": [
     "A product that is in stock and has no CO2 rating A or B is in the cart with quantity 1."
    ],
@@ -1448,6 +1451,7 @@ window.SCENARIO_CATALOG = {
     "Verify the line total equals 3 × the unit price.",
     "Verify the cart total equals 3 × the unit price."
    ],
+   "specLine": 68,
    "area": "cart",
    "areaLabel": "Cart",
    "file": "test-scenarios/ui/cart/checkout-cart-review.yml",
@@ -1456,7 +1460,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@cart"
    ],
-   "yaml": "- id: UI-050\n  name: Changing a line's quantity recalculates the totals and shows a confirmation\n  ref: docs/ui/user-stories/Checkout_Cart_Review.md#AC2\n  status: manual\n  preconditions:\n    - A product that is in stock and has no CO2 rating A or B is in the cart with quantity 1.\n  steps:\n    - Open the checkout page.\n    - Change the quantity of the line from 1 to 3.\n    - Verify the message \"Product quantity updated.\" is shown.\n    - Verify the line total equals 3 × the unit price.\n    - Verify the cart total equals 3 × the unit price."
+   "yaml": "- id: UI-050\n  name: Changing a line's quantity recalculates the totals and shows a confirmation\n  ref: docs/ui/user-stories/Checkout_Cart_Review.md#AC2\n  status: automated\n  automatedIn: tests/ui/cart/checkout-cart-review.spec.ts\n  preconditions:\n    - A product that is in stock and has no CO2 rating A or B is in the cart with quantity 1.\n  steps:\n    - Open the checkout page.\n    - Change the quantity of the line from 1 to 3.\n    - Verify the message \"Product quantity updated.\" is shown.\n    - Verify the line total equals 3 × the unit price.\n    - Verify the cart total equals 3 × the unit price."
   },
   {
    "id": "UI-051",
@@ -1464,7 +1468,8 @@ window.SCENARIO_CATALOG = {
    "ref": [
     "docs/ui/user-stories/Checkout_Cart_Review.md#AC3"
    ],
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/ui/cart/checkout-cart-review.spec.ts",
    "preconditions": [
     "Two products that are in stock, neither with a CO2 rating A or B, are in the cart, one line each."
    ],
@@ -1475,6 +1480,7 @@ window.SCENARIO_CATALOG = {
     "Verify the cart has one line: the second product.",
     "Verify the cart total equals the remaining line's total."
    ],
+   "specLine": 135,
    "area": "cart",
    "areaLabel": "Cart",
    "file": "test-scenarios/ui/cart/checkout-cart-review.yml",
@@ -1483,7 +1489,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@cart"
    ],
-   "yaml": "- id: UI-051\n  name: Deleting a line removes it and recalculates the cart total\n  ref: docs/ui/user-stories/Checkout_Cart_Review.md#AC3\n  status: manual\n  preconditions:\n    - Two products that are in stock, neither with a CO2 rating A or B, are in the cart, one line each.\n  steps:\n    - Open the checkout page.\n    - Click the delete button on the line of the first product.\n    - Verify the line of the first product is no longer shown.\n    - 'Verify the cart has one line: the second product.'\n    - Verify the cart total equals the remaining line's total."
+   "yaml": "- id: UI-051\n  name: Deleting a line removes it and recalculates the cart total\n  ref: docs/ui/user-stories/Checkout_Cart_Review.md#AC3\n  status: automated\n  automatedIn: tests/ui/cart/checkout-cart-review.spec.ts\n  preconditions:\n    - Two products that are in stock, neither with a CO2 rating A or B, are in the cart, one line each.\n  steps:\n    - Open the checkout page.\n    - Click the delete button on the line of the first product.\n    - Verify the line of the first product is no longer shown.\n    - 'Verify the cart has one line: the second product.'\n    - Verify the cart total equals the remaining line's total."
   },
   {
    "id": "UI-052",
@@ -1491,7 +1497,10 @@ window.SCENARIO_CATALOG = {
    "ref": [
     "docs/ui/user-stories/Checkout_Cart_Review.md#AC4"
    ],
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/ui/cart/checkout-cart-review.spec.ts",
+   "knownIssue": "The Cart step of the checkout shows nothing (no message, table or button) for a visitor without a cart, instead of \"Your shopping cart is empty\".",
+   "bug": "BUG-049",
    "preconditions": [
     "No cart exists yet: nothing has been added to a cart in this session."
    ],
@@ -1499,6 +1508,7 @@ window.SCENARIO_CATALOG = {
     "Open the checkout page.",
     "Verify the message \"Your shopping cart is empty\" is shown."
    ],
+   "specLine": 176,
    "area": "cart",
    "areaLabel": "Cart",
    "file": "test-scenarios/ui/cart/checkout-cart-review.yml",
@@ -1507,7 +1517,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@cart"
    ],
-   "yaml": "- id: UI-052\n  name: A visitor with no cart sees the empty cart message\n  ref: docs/ui/user-stories/Checkout_Cart_Review.md#AC4\n  status: manual\n  preconditions:\n    - 'No cart exists yet: nothing has been added to a cart in this session.'\n  steps:\n    - Open the checkout page.\n    - Verify the message \"Your shopping cart is empty\" is shown."
+   "yaml": "- id: UI-052\n  name: A visitor with no cart sees the empty cart message\n  ref: docs/ui/user-stories/Checkout_Cart_Review.md#AC4\n  status: automated\n  automatedIn: tests/ui/cart/checkout-cart-review.spec.ts\n  knownIssue: 'The Cart step of the checkout shows nothing (no message, table or button) for a visitor without a cart, instead of \"Your shopping cart is empty\".'\n  bug: BUG-049\n  preconditions:\n    - 'No cart exists yet: nothing has been added to a cart in this session.'\n  steps:\n    - Open the checkout page.\n    - Verify the message \"Your shopping cart is empty\" is shown."
   },
   {
    "id": "UI-053",
@@ -1515,7 +1525,10 @@ window.SCENARIO_CATALOG = {
    "ref": [
     "docs/ui/user-stories/Checkout_Cart_Review.md#AC4"
    ],
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/ui/cart/checkout-cart-review.spec.ts",
+   "knownIssue": "The Cart step of the checkout says \"The cart is empty. Nothing to display.\" instead of \"Your shopping cart is empty\" after the last line is deleted.",
+   "bug": "BUG-050",
    "preconditions": [
     "A product that is in stock is in the cart."
    ],
@@ -1525,6 +1538,7 @@ window.SCENARIO_CATALOG = {
     "Verify the message \"Your shopping cart is empty\" is shown.",
     "Verify the button \"Proceed to checkout\" is not shown."
    ],
+   "specLine": 97,
    "area": "cart",
    "areaLabel": "Cart",
    "file": "test-scenarios/ui/cart/checkout-cart-review.yml",
@@ -1533,7 +1547,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@cart"
    ],
-   "yaml": "- id: UI-053\n  name: Deleting the last line shows the empty cart message\n  ref: docs/ui/user-stories/Checkout_Cart_Review.md#AC4\n  status: manual\n  preconditions:\n    - A product that is in stock is in the cart.\n  steps:\n    - Open the checkout page.\n    - Click the delete button on the line.\n    - Verify the message \"Your shopping cart is empty\" is shown.\n    - Verify the button \"Proceed to checkout\" is not shown."
+   "yaml": "- id: UI-053\n  name: Deleting the last line shows the empty cart message\n  ref: docs/ui/user-stories/Checkout_Cart_Review.md#AC4\n  status: automated\n  automatedIn: tests/ui/cart/checkout-cart-review.spec.ts\n  knownIssue: 'The Cart step of the checkout says \"The cart is empty. Nothing to display.\" instead of \"Your shopping cart is empty\" after the last line is deleted.'\n  bug: BUG-050\n  preconditions:\n    - A product that is in stock is in the cart.\n  steps:\n    - Open the checkout page.\n    - Click the delete button on the line.\n    - Verify the message \"Your shopping cart is empty\" is shown.\n    - Verify the button \"Proceed to checkout\" is not shown."
   },
   {
    "id": "UI-054",
@@ -1541,7 +1555,8 @@ window.SCENARIO_CATALOG = {
    "ref": [
     "docs/ui/user-stories/Checkout_Cart_Review.md#AC5"
    ],
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/ui/cart/checkout-cart-review.spec.ts",
    "preconditions": [
     "A product that is in stock is in the cart."
    ],
@@ -1550,6 +1565,7 @@ window.SCENARIO_CATALOG = {
     "Click \"Proceed to checkout\".",
     "Verify the \"Sign in\" step is shown."
    ],
+   "specLine": 118,
    "area": "cart",
    "areaLabel": "Cart",
    "file": "test-scenarios/ui/cart/checkout-cart-review.yml",
@@ -1558,7 +1574,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@cart"
    ],
-   "yaml": "- id: UI-054\n  name: '\"Proceed to checkout\" leads to the sign-in step'\n  ref: docs/ui/user-stories/Checkout_Cart_Review.md#AC5\n  status: manual\n  preconditions:\n    - A product that is in stock is in the cart.\n  steps:\n    - Open the checkout page.\n    - Click \"Proceed to checkout\".\n    - Verify the \"Sign in\" step is shown."
+   "yaml": "- id: UI-054\n  name: '\"Proceed to checkout\" leads to the sign-in step'\n  ref: docs/ui/user-stories/Checkout_Cart_Review.md#AC5\n  status: automated\n  automatedIn: tests/ui/cart/checkout-cart-review.spec.ts\n  preconditions:\n    - A product that is in stock is in the cart.\n  steps:\n    - Open the checkout page.\n    - Click \"Proceed to checkout\".\n    - Verify the \"Sign in\" step is shown."
   },
   {
    "id": "UI-055",
@@ -1566,7 +1582,8 @@ window.SCENARIO_CATALOG = {
    "ref": [
     "docs/ui/user-stories/Checkout_Cart_Review.md#AC6"
    ],
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/ui/cart/checkout-cart-review.spec.ts",
    "preconditions": [
     "The customer's location is Amsterdam, and a product with a location offer is added to the cart."
    ],
@@ -1576,6 +1593,7 @@ window.SCENARIO_CATALOG = {
     "Verify the original price is shown struck through.",
     "Verify the discounted price is shown, equal to 80% of the original price."
    ],
+   "specLine": 192,
    "area": "cart",
    "areaLabel": "Cart",
    "file": "test-scenarios/ui/cart/checkout-cart-review.yml",
@@ -1584,7 +1602,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@cart"
    ],
-   "yaml": "- id: UI-055\n  name: A discounted line shows the badge, the original price and the discounted price\n  ref: docs/ui/user-stories/Checkout_Cart_Review.md#AC6\n  status: manual\n  preconditions:\n    - The customer's location is Amsterdam, and a product with a location offer is added to the cart.\n  steps:\n    - Open the checkout page.\n    - Verify the discount badge \"-20%\" is shown next to the product name.\n    - Verify the original price is shown struck through.\n    - Verify the discounted price is shown, equal to 80% of the original price."
+   "yaml": "- id: UI-055\n  name: A discounted line shows the badge, the original price and the discounted price\n  ref: docs/ui/user-stories/Checkout_Cart_Review.md#AC6\n  status: automated\n  automatedIn: tests/ui/cart/checkout-cart-review.spec.ts\n  preconditions:\n    - The customer's location is Amsterdam, and a product with a location offer is added to the cart.\n  steps:\n    - Open the checkout page.\n    - Verify the discount badge \"-20%\" is shown next to the product name.\n    - Verify the original price is shown struck through.\n    - Verify the discounted price is shown, equal to 80% of the original price."
   },
   {
    "id": "UI-056",
@@ -1592,7 +1610,8 @@ window.SCENARIO_CATALOG = {
    "ref": [
     "docs/ui/user-stories/Checkout_Cart_Review.md#AC7"
    ],
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/ui/cart/checkout-cart-review.spec.ts",
    "preconditions": [
     "A rental product and a product that is not a rental are in the cart; neither has a discount or a CO2 rating A or B."
    ],
@@ -1602,6 +1621,7 @@ window.SCENARIO_CATALOG = {
     "Verify the row \"Discount (15%)\" shows 15% of the subtotal.",
     "Verify the \"Total\" equals the subtotal minus the discount."
    ],
+   "specLine": 241,
    "area": "cart",
    "areaLabel": "Cart",
    "file": "test-scenarios/ui/cart/checkout-cart-review.yml",
@@ -1610,7 +1630,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@cart"
    ],
-   "yaml": "- id: UI-056\n  name: A cart with a rental and a non-rental item shows the subtotal, the 15% discount and the total\n  ref: docs/ui/user-stories/Checkout_Cart_Review.md#AC7\n  status: manual\n  preconditions:\n    - A rental product and a product that is not a rental are in the cart; neither has a discount or a CO2 rating A or B.\n  steps:\n    - Open the checkout page.\n    - Verify the \"Subtotal\" equals the sum of the line totals.\n    - Verify the row \"Discount (15%)\" shows 15% of the subtotal.\n    - Verify the \"Total\" equals the subtotal minus the discount."
+   "yaml": "- id: UI-056\n  name: A cart with a rental and a non-rental item shows the subtotal, the 15% discount and the total\n  ref: docs/ui/user-stories/Checkout_Cart_Review.md#AC7\n  status: automated\n  automatedIn: tests/ui/cart/checkout-cart-review.spec.ts\n  preconditions:\n    - A rental product and a product that is not a rental are in the cart; neither has a discount or a CO2 rating A or B.\n  steps:\n    - Open the checkout page.\n    - Verify the \"Subtotal\" equals the sum of the line totals.\n    - Verify the row \"Discount (15%)\" shows 15% of the subtotal.\n    - Verify the \"Total\" equals the subtotal minus the discount."
   },
   {
    "id": "UI-057",
@@ -1618,7 +1638,8 @@ window.SCENARIO_CATALOG = {
    "ref": [
     "docs/ui/user-stories/Checkout_Cart_Review.md#AC8"
    ],
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/ui/cart/checkout-cart-review.spec.ts",
    "preconditions": [
     "A rental product and a product that is not a rental are in the cart; neither has a discount or a CO2 rating A or B."
    ],
@@ -1629,6 +1650,7 @@ window.SCENARIO_CATALOG = {
     "Verify the \"Discount (15%)\" row is no longer shown.",
     "Verify the total equals the remaining line's total."
    ],
+   "specLine": 269,
    "area": "cart",
    "areaLabel": "Cart",
    "file": "test-scenarios/ui/cart/checkout-cart-review.yml",
@@ -1637,7 +1659,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@cart"
    ],
-   "yaml": "- id: UI-057\n  name: Deleting the rental line removes the combined discount\n  ref: docs/ui/user-stories/Checkout_Cart_Review.md#AC8\n  status: manual\n  preconditions:\n    - A rental product and a product that is not a rental are in the cart; neither has a discount or a CO2 rating A or B.\n  steps:\n    - Open the checkout page.\n    - Click the delete button on the line of the rental product.\n    - Verify the \"Subtotal\" row is no longer shown.\n    - Verify the \"Discount (15%)\" row is no longer shown.\n    - Verify the total equals the remaining line's total."
+   "yaml": "- id: UI-057\n  name: Deleting the rental line removes the combined discount\n  ref: docs/ui/user-stories/Checkout_Cart_Review.md#AC8\n  status: automated\n  automatedIn: tests/ui/cart/checkout-cart-review.spec.ts\n  preconditions:\n    - A rental product and a product that is not a rental are in the cart; neither has a discount or a CO2 rating A or B.\n  steps:\n    - Open the checkout page.\n    - Click the delete button on the line of the rental product.\n    - Verify the \"Subtotal\" row is no longer shown.\n    - Verify the \"Discount (15%)\" row is no longer shown.\n    - Verify the total equals the remaining line's total."
   },
   {
    "id": "UI-084",
@@ -1645,7 +1667,10 @@ window.SCENARIO_CATALOG = {
    "ref": [
     "docs/ui/user-stories/Rental_Products.md#AC4"
    ],
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/ui/cart/checkout-cart-review.spec.ts",
+   "knownIssue": "The checkout cart marks a rental line \"Item for rent, price per hour\" instead of \"This is a rental item\".",
+   "bug": "BUG-051",
    "preconditions": [
     "A rental product and a product that is not a rental are in the cart."
    ],
@@ -1654,6 +1679,7 @@ window.SCENARIO_CATALOG = {
     "Verify the line of the rental product is marked \"This is a rental item\".",
     "Verify the line of the product that is not a rental is not marked \"This is a rental item\"."
    ],
+   "specLine": 294,
    "area": "cart",
    "areaLabel": "Cart",
    "file": "test-scenarios/ui/cart/checkout-cart-review.yml",
@@ -1662,7 +1688,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@cart"
    ],
-   "yaml": "- id: UI-084\n  name: A rental line in the checkout cart is marked \"This is a rental item\"\n  ref: docs/ui/user-stories/Rental_Products.md#AC4\n  status: manual\n  preconditions:\n    - A rental product and a product that is not a rental are in the cart.\n  steps:\n    - Open the checkout page.\n    - Verify the line of the rental product is marked \"This is a rental item\".\n    - Verify the line of the product that is not a rental is not marked \"This is a rental item\"."
+   "yaml": "- id: UI-084\n  name: A rental line in the checkout cart is marked \"This is a rental item\"\n  ref: docs/ui/user-stories/Rental_Products.md#AC4\n  status: automated\n  automatedIn: tests/ui/cart/checkout-cart-review.spec.ts\n  knownIssue: 'The checkout cart marks a rental line \"Item for rent, price per hour\" instead of \"This is a rental item\".'\n  bug: BUG-051\n  preconditions:\n    - A rental product and a product that is not a rental are in the cart.\n  steps:\n    - Open the checkout page.\n    - Verify the line of the rental product is marked \"This is a rental item\".\n    - Verify the line of the product that is not a rental is not marked \"This is a rental item\"."
   },
   {
    "id": "UI-058",
@@ -1670,7 +1696,8 @@ window.SCENARIO_CATALOG = {
    "ref": [
     "docs/ui/user-stories/Checkout_Sign_In.md#AC1"
    ],
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/ui/cart/checkout-sign-in.spec.ts",
    "role": "guest",
    "preconditions": [
     "A product that is in stock is in the cart."
@@ -1681,6 +1708,7 @@ window.SCENARIO_CATALOG = {
     "Verify the \"Sign in\" step is shown.",
     "Verify the login form is shown."
    ],
+   "specLine": 12,
    "area": "cart",
    "areaLabel": "Cart",
    "file": "test-scenarios/ui/cart/checkout-sign-in.yml",
@@ -1689,7 +1717,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@cart"
    ],
-   "yaml": "- id: UI-058\n  name: A guest who proceeds from the cart step sees the sign-in step with a login form\n  ref: docs/ui/user-stories/Checkout_Sign_In.md#AC1\n  status: manual\n  role: guest\n  preconditions:\n    - A product that is in stock is in the cart.\n  steps:\n    - Open the checkout page.\n    - Click \"Proceed to checkout\".\n    - Verify the \"Sign in\" step is shown.\n    - Verify the login form is shown."
+   "yaml": "- id: UI-058\n  name: A guest who proceeds from the cart step sees the sign-in step with a login form\n  ref: docs/ui/user-stories/Checkout_Sign_In.md#AC1\n  status: automated\n  automatedIn: tests/ui/cart/checkout-sign-in.spec.ts\n  role: guest\n  preconditions:\n    - A product that is in stock is in the cart.\n  steps:\n    - Open the checkout page.\n    - Click \"Proceed to checkout\".\n    - Verify the \"Sign in\" step is shown.\n    - Verify the login form is shown."
   },
   {
    "id": "UI-059",
@@ -1697,7 +1725,8 @@ window.SCENARIO_CATALOG = {
    "ref": [
     "docs/ui/user-stories/Checkout_Sign_In.md#AC2"
    ],
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/ui/cart/checkout-sign-in.spec.ts",
    "role": "guest",
    "preconditions": [
     "A product that is in stock is in the cart."
@@ -1709,6 +1738,7 @@ window.SCENARIO_CATALOG = {
     "Verify the field \"Password\" is shown.",
     "Verify the button \"Login\" is shown."
    ],
+   "specLine": 32,
    "area": "cart",
    "areaLabel": "Cart",
    "file": "test-scenarios/ui/cart/checkout-sign-in.yml",
@@ -1717,7 +1747,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@cart"
    ],
-   "yaml": "- id: UI-059\n  name: The sign-in step shows the email and password fields and the \"Login\" button\n  ref: docs/ui/user-stories/Checkout_Sign_In.md#AC2\n  status: manual\n  role: guest\n  preconditions:\n    - A product that is in stock is in the cart.\n  steps:\n    - Open the checkout page.\n    - Click \"Proceed to checkout\".\n    - Verify the field \"Email address\" is shown.\n    - Verify the field \"Password\" is shown.\n    - Verify the button \"Login\" is shown."
+   "yaml": "- id: UI-059\n  name: The sign-in step shows the email and password fields and the \"Login\" button\n  ref: docs/ui/user-stories/Checkout_Sign_In.md#AC2\n  status: automated\n  automatedIn: tests/ui/cart/checkout-sign-in.spec.ts\n  role: guest\n  preconditions:\n    - A product that is in stock is in the cart.\n  steps:\n    - Open the checkout page.\n    - Click \"Proceed to checkout\".\n    - Verify the field \"Email address\" is shown.\n    - Verify the field \"Password\" is shown.\n    - Verify the button \"Login\" is shown."
   },
   {
    "id": "UI-060",
@@ -1725,7 +1755,8 @@ window.SCENARIO_CATALOG = {
    "ref": [
     "docs/ui/user-stories/Checkout_Sign_In.md#AC3"
    ],
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/ui/cart/checkout-sign-in.spec.ts",
    "role": "guest",
    "preconditions": [
     "A product that is in stock is in the cart.",
@@ -1748,6 +1779,7 @@ window.SCENARIO_CATALOG = {
     "Verify a message that the customer is already signed in is shown.",
     "Verify the button \"Proceed to checkout\" is shown."
    ],
+   "specLine": 54,
    "area": "cart",
    "areaLabel": "Cart",
    "file": "test-scenarios/ui/cart/checkout-sign-in.yml",
@@ -1756,7 +1788,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@cart"
    ],
-   "yaml": "- id: UI-060\n  name: An account with TOTP enabled must enter a valid code on the sign-in step to sign in\n  ref: docs/ui/user-stories/Checkout_Sign_In.md#AC3\n  status: manual\n  role: guest\n  preconditions:\n    - A product that is in stock is in the cart.\n    - A customer with TOTP enabled is registered; the test can compute the account's current TOTP code.\n  steps:\n    - Open the checkout page.\n    - Click \"Proceed to checkout\".\n    - Enter the customer's email in the field \"Email address\".\n    - Enter the customer's password in the field \"Password\".\n    - Click \"Login\".\n    - Verify the field \"TOTP Code\" is shown.\n    - Verify the button \"Verify TOTP\" is shown.\n    - Verify the fields \"Email address\" and \"Password\" are no longer shown.\n    - Enter the code \"000000\" in the field \"TOTP Code\".\n    - Click \"Verify TOTP\".\n    - Verify the button \"Proceed to checkout\" is not shown.\n    - Enter the account's current TOTP code in the field \"TOTP Code\" (replacing the wrong one).\n    - Click \"Verify TOTP\".\n    - Verify a message that the customer is already signed in is shown.\n    - Verify the button \"Proceed to checkout\" is shown."
+   "yaml": "- id: UI-060\n  name: An account with TOTP enabled must enter a valid code on the sign-in step to sign in\n  ref: docs/ui/user-stories/Checkout_Sign_In.md#AC3\n  status: automated\n  automatedIn: tests/ui/cart/checkout-sign-in.spec.ts\n  role: guest\n  preconditions:\n    - A product that is in stock is in the cart.\n    - A customer with TOTP enabled is registered; the test can compute the account's current TOTP code.\n  steps:\n    - Open the checkout page.\n    - Click \"Proceed to checkout\".\n    - Enter the customer's email in the field \"Email address\".\n    - Enter the customer's password in the field \"Password\".\n    - Click \"Login\".\n    - Verify the field \"TOTP Code\" is shown.\n    - Verify the button \"Verify TOTP\" is shown.\n    - Verify the fields \"Email address\" and \"Password\" are no longer shown.\n    - Enter the code \"000000\" in the field \"TOTP Code\".\n    - Click \"Verify TOTP\".\n    - Verify the button \"Proceed to checkout\" is not shown.\n    - Enter the account's current TOTP code in the field \"TOTP Code\" (replacing the wrong one).\n    - Click \"Verify TOTP\".\n    - Verify a message that the customer is already signed in is shown.\n    - Verify the button \"Proceed to checkout\" is shown."
   },
   {
    "id": "UI-061",
@@ -1764,7 +1796,8 @@ window.SCENARIO_CATALOG = {
    "ref": [
     "docs/ui/user-stories/Checkout_Sign_In.md#AC4"
    ],
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/ui/cart/checkout-sign-in.spec.ts",
    "role": "guest",
    "preconditions": [
     "A product that is in stock is in the cart."
@@ -1780,6 +1813,7 @@ window.SCENARIO_CATALOG = {
     "Click \"Proceed to checkout\" on the sign-in step.",
     "Verify the \"Billing Address\" step is shown."
    ],
+   "specLine": 138,
    "area": "cart",
    "areaLabel": "Cart",
    "file": "test-scenarios/ui/cart/checkout-sign-in.yml",
@@ -1788,7 +1822,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@cart"
    ],
-   "yaml": "- id: UI-061\n  name: Valid credentials on the sign-in step sign the guest in and lead to the billing address step\n  ref: docs/ui/user-stories/Checkout_Sign_In.md#AC4\n  status: manual\n  role: guest\n  preconditions:\n    - A product that is in stock is in the cart.\n  steps:\n    - Open the checkout page.\n    - Click \"Proceed to checkout\".\n    - Enter the default user's email in the field \"Email address\".\n    - Enter the default user's password in the field \"Password\".\n    - Click \"Login\".\n    - Verify the login form is no longer shown.\n    - Verify the user menu is shown in the navigation.\n    - Click \"Proceed to checkout\" on the sign-in step.\n    - Verify the \"Billing Address\" step is shown."
+   "yaml": "- id: UI-061\n  name: Valid credentials on the sign-in step sign the guest in and lead to the billing address step\n  ref: docs/ui/user-stories/Checkout_Sign_In.md#AC4\n  status: automated\n  automatedIn: tests/ui/cart/checkout-sign-in.spec.ts\n  role: guest\n  preconditions:\n    - A product that is in stock is in the cart.\n  steps:\n    - Open the checkout page.\n    - Click \"Proceed to checkout\".\n    - Enter the default user's email in the field \"Email address\".\n    - Enter the default user's password in the field \"Password\".\n    - Click \"Login\".\n    - Verify the login form is no longer shown.\n    - Verify the user menu is shown in the navigation.\n    - Click \"Proceed to checkout\" on the sign-in step.\n    - Verify the \"Billing Address\" step is shown."
   },
   {
    "id": "UI-062",
@@ -1796,7 +1830,10 @@ window.SCENARIO_CATALOG = {
    "ref": [
     "docs/ui/user-stories/Checkout_Sign_In.md#AC5"
    ],
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/ui/cart/checkout-sign-in.spec.ts",
+   "knownIssue": "The sign-in step tells a logged-in customer \"Hello <first> <last>, you are already logged in.\" instead of \"You are already signed in as <first> <last>\".",
+   "bug": "BUG-048",
    "preconditions": [
     "A product that is in stock is in the cart."
    ],
@@ -1808,6 +1845,7 @@ window.SCENARIO_CATALOG = {
     "Click \"Proceed to checkout\" on the sign-in step.",
     "Verify the \"Billing Address\" step is shown."
    ],
+   "specLine": 184,
    "area": "cart",
    "areaLabel": "Cart",
    "file": "test-scenarios/ui/cart/checkout-sign-in.yml",
@@ -1816,7 +1854,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@cart"
    ],
-   "yaml": "- id: UI-062\n  name: A logged-in customer sees the already-signed-in message on the sign-in step and proceeds to the billing address step\n  ref: docs/ui/user-stories/Checkout_Sign_In.md#AC5\n  status: manual\n  preconditions:\n    - A product that is in stock is in the cart.\n  steps:\n    - Open the checkout page.\n    - Click \"Proceed to checkout\".\n    - Verify the message \"You are already signed in as\" followed by the default user's first and last name is shown.\n    - Verify the login form is not shown.\n    - Click \"Proceed to checkout\" on the sign-in step.\n    - Verify the \"Billing Address\" step is shown."
+   "yaml": "- id: UI-062\n  name: A logged-in customer sees the already-signed-in message on the sign-in step and proceeds to the billing address step\n  ref: docs/ui/user-stories/Checkout_Sign_In.md#AC5\n  status: automated\n  automatedIn: tests/ui/cart/checkout-sign-in.spec.ts\n  knownIssue: 'The sign-in step tells a logged-in customer \"Hello <first> <last>, you are already logged in.\" instead of \"You are already signed in as <first> <last>\".'\n  bug: BUG-048\n  preconditions:\n    - A product that is in stock is in the cart.\n  steps:\n    - Open the checkout page.\n    - Click \"Proceed to checkout\".\n    - Verify the message \"You are already signed in as\" followed by the default user's first and last name is shown.\n    - Verify the login form is not shown.\n    - Click \"Proceed to checkout\" on the sign-in step.\n    - Verify the \"Billing Address\" step is shown."
   },
   {
    "id": "UI-013",

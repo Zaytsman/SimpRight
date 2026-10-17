@@ -2,8 +2,8 @@
 window.BUG_CATALOG = {
  "title": "Bugs",
  "prefix": "BUG",
- "generatedAt": "2026-10-17T13:40:09.680Z",
- "commit": "d4da61ad57901416a0b44ceac906716fe56a468b",
+ "generatedAt": "2026-10-17T17:11:23.360Z",
+ "commit": "c4e530fe8339b13739d0d318f59432df95c19410",
  "repoUrl": "https://github.com/Zaytsman/SimpRight",
  "branch": "main",
  "bugsDir": "bugs",
@@ -26,8 +26,8 @@ window.BUG_CATALOG = {
   }
  ],
  "stats": {
-  "total": 45,
-  "open": 43,
+  "total": 49,
+  "open": 47,
   "fixed": 2,
   "wontFix": 0
  },
@@ -2000,6 +2000,85 @@ window.BUG_CATALOG = {
    ]
   },
   {
+   "id": "BUG-048",
+   "title": "The checkout's sign-in step greets a logged-in customer with \"Hello <name>, you are already logged in.\" instead of \"You are already signed in as <name>\"",
+   "status": "open",
+   "severity": "minor",
+   "layer": "ui",
+   "area": "cart",
+   "affects": [
+    "/checkout (step 2, Sign in)"
+   ],
+   "found": "2026-10-17",
+   "ref": [
+    "docs/ui/user-stories/Checkout_Sign_In.md#AC5"
+   ],
+   "description": "The story's AC5 says a customer who is already logged in sees \"You are already signed in as [First Name] [Last Name]\" on the checkout's sign-in step. The app shows its translation pages.checkout.sign-in.already instead: \"Hello {first_name} {last_name}, you are already logged in. You can proceed to checkout.\" The names are right and the customer can proceed; only the wording differs from the story. The same message also shows right after a successful login on that step.",
+   "steps": [
+    "Log in as a customer and put a product in the cart.",
+    "Open the checkout page.",
+    "Click \"Proceed to checkout\".",
+    "Read the message on the Sign in step."
+   ],
+   "expected": "The message reads \"You are already signed in as <first name> <last name>\".",
+   "actual": "The message reads \"Hello <first name> <last name>, you are already logged in. You can proceed to checkout.\"",
+   "evidence": "UI-062 (tests/ui/cart/checkout-sign-in.spec.ts), run 2026-10-17 against the live site: the step's message was\n\"Hello SimpRight Runner, you are already logged in. You can proceed to checkout.\" (the run customer's names).\nThe same text is in the live assets/i18n/en.json (pages.checkout.sign-in.already) and in the app source\n(sprint5/UI/src/app/checkout/login/login.component.html).",
+   "file": "bugs/BUG-048.yml",
+   "yaml": "id: BUG-048\ntitle: The checkout's sign-in step greets a logged-in customer with \"Hello <name>, you are already logged in.\" instead of \"You are already signed in as <name>\"\nstatus: open\nseverity: minor\nlayer: ui\narea: cart\naffects:\n  - /checkout (step 2, Sign in)\nfound: 2026-10-17\nref:\n  - docs/ui/user-stories/Checkout_Sign_In.md#AC5\ndescription: >-\n  The story's AC5 says a customer who is already logged in sees \"You are already signed in as [First Name] [Last Name]\"\n  on the checkout's sign-in step. The app shows its translation pages.checkout.sign-in.already instead: \"Hello\n  {first_name} {last_name}, you are already logged in. You can proceed to checkout.\" The names are right and the\n  customer can proceed; only the wording differs from the story. The same message also shows right after a\n  successful login on that step.\nsteps:\n  - Log in as a customer and put a product in the cart.\n  - Open the checkout page.\n  - Click \"Proceed to checkout\".\n  - Read the message on the Sign in step.\nexpected: 'The message reads \"You are already signed in as <first name> <last name>\".'\nactual: 'The message reads \"Hello <first name> <last name>, you are already logged in. You can proceed to checkout.\"'\nevidence: |-\n  UI-062 (tests/ui/cart/checkout-sign-in.spec.ts), run 2026-10-17 against the live site: the step's message was\n  \"Hello SimpRight Runner, you are already logged in. You can proceed to checkout.\" (the run customer's names).\n  The same text is in the live assets/i18n/en.json (pages.checkout.sign-in.already) and in the app source\n  (sprint5/UI/src/app/checkout/login/login.component.html).",
+   "scenarios": [
+    {
+     "id": "UI-062",
+     "name": "A logged-in customer sees the already-signed-in message on the sign-in step and proceeds to the billing address step",
+     "layer": "ui",
+     "area": "cart",
+     "file": "test-scenarios/ui/cart/checkout-sign-in.yml",
+     "status": "automated",
+     "automatedIn": "tests/ui/cart/checkout-sign-in.spec.ts",
+     "specLine": 184,
+     "knownIssue": "The sign-in step tells a logged-in customer \"Hello <first> <last>, you are already logged in.\" instead of \"You are already signed in as <first> <last>\"."
+    }
+   ]
+  },
+  {
+   "id": "BUG-049",
+   "title": "The checkout's Cart step is empty for a visitor without a cart, with no \"Your shopping cart is empty\" message",
+   "status": "open",
+   "severity": "minor",
+   "layer": "ui",
+   "area": "cart",
+   "affects": [
+    "/checkout (step 1, Cart)"
+   ],
+   "found": "2026-10-17",
+   "ref": [
+    "docs/ui/user-stories/Checkout_Cart_Review.md#AC4"
+   ],
+   "description": "The story's AC4 says a visitor with no items in the cart sees \"Your shopping cart is empty\". When no cart exists yet (nothing was added in the session, so there's no cart_id in sessionStorage), the Cart step of /checkout shows nothing at all: no table, no message and no buttons, only the wizard's step titles. The app's CartService.getCart() returns null without a cart id, and the cart template reads cart.cart_items without a null check, so the step fails to render. A cart that exists with no items shows a message instead (see BUG-050 for its wording).",
+   "steps": [
+    "Open the site in a new browser session, logged in or not, without adding anything to a cart.",
+    "Open the checkout page (/checkout).",
+    "Look at the Cart step."
+   ],
+   "expected": "The Cart step shows the message \"Your shopping cart is empty\".",
+   "actual": "The Cart step is empty; no message, table or button is shown.",
+   "evidence": "UI-052 (tests/ui/cart/checkout-cart-review.spec.ts), runs on 2026-10-17 against the live site: the page showed the\nwizard (Cart 1, Sign in 2, Billing Address 3, Payment 4) and nothing inside the Cart step. The page inspector showed\nthe same for /checkout as the run's customer. App source: sprint5/UI/src/app/checkout/cart/cart.component.html\n(@if (cart.cart_items.length)) and _services/cart.service.ts (getCart() returns of(null) without a cart id); the\nlive bundle has the same template.",
+   "file": "bugs/BUG-049.yml",
+   "yaml": "id: BUG-049\ntitle: The checkout's Cart step is empty for a visitor without a cart, with no \"Your shopping cart is empty\" message\nstatus: open\nseverity: minor\nlayer: ui\narea: cart\naffects:\n  - /checkout (step 1, Cart)\nfound: 2026-10-17\nref:\n  - docs/ui/user-stories/Checkout_Cart_Review.md#AC4\ndescription: >-\n  The story's AC4 says a visitor with no items in the cart sees \"Your shopping cart is empty\". When no cart exists\n  yet (nothing was added in the session, so there's no cart_id in sessionStorage), the Cart step of /checkout shows\n  nothing at all: no table, no message and no buttons, only the wizard's step titles. The app's CartService.getCart()\n  returns null without a cart id, and the cart template reads cart.cart_items without a null check, so the step\n  fails to render. A cart that exists with no items shows a message instead (see BUG-050 for its wording).\nsteps:\n  - Open the site in a new browser session, logged in or not, without adding anything to a cart.\n  - Open the checkout page (/checkout).\n  - Look at the Cart step.\nexpected: 'The Cart step shows the message \"Your shopping cart is empty\".'\nactual: The Cart step is empty; no message, table or button is shown.\nevidence: |-\n  UI-052 (tests/ui/cart/checkout-cart-review.spec.ts), runs on 2026-10-17 against the live site: the page showed the\n  wizard (Cart 1, Sign in 2, Billing Address 3, Payment 4) and nothing inside the Cart step. The page inspector showed\n  the same for /checkout as the run's customer. App source: sprint5/UI/src/app/checkout/cart/cart.component.html\n  (@if (cart.cart_items.length)) and _services/cart.service.ts (getCart() returns of(null) without a cart id); the\n  live bundle has the same template.",
+   "scenarios": [
+    {
+     "id": "UI-052",
+     "name": "A visitor with no cart sees the empty cart message",
+     "layer": "ui",
+     "area": "cart",
+     "file": "test-scenarios/ui/cart/checkout-cart-review.yml",
+     "status": "automated",
+     "automatedIn": "tests/ui/cart/checkout-cart-review.spec.ts",
+     "specLine": 176,
+     "knownIssue": "The Cart step of the checkout shows nothing (no message, table or button) for a visitor without a cart, instead of \"Your shopping cart is empty\"."
+    }
+   ]
+  },
+  {
    "id": "BUG-012",
    "title": "Brand update with a duplicate slug returns 409 with \"Duplicate Entry\" instead of the slug's validation message",
    "status": "open",
@@ -2074,6 +2153,85 @@ window.BUG_CATALOG = {
      "automatedIn": "tests/api/categories/put-categories-by-category-id.spec.ts",
      "specLine": 272,
      "knownIssue": "Returns { message: \"Duplicate Entry\" } instead of the slug's validation message for a duplicate slug."
+    }
+   ]
+  },
+  {
+   "id": "BUG-050",
+   "title": "The checkout's Cart step says \"The cart is empty. Nothing to display.\" instead of \"Your shopping cart is empty\"",
+   "status": "open",
+   "severity": "trivial",
+   "layer": "ui",
+   "area": "cart",
+   "affects": [
+    "/checkout (step 1, Cart)"
+   ],
+   "found": "2026-10-17",
+   "ref": [
+    "docs/ui/user-stories/Checkout_Cart_Review.md#AC4"
+   ],
+   "description": "The story's AC4 says an empty cart shows \"Your shopping cart is empty\". When the cart exists but has no items (for example after deleting its last line on the Cart step), the step shows its translation pages.checkout.cart.empty instead: \"The cart is empty. Nothing to display.\" The table and \"Proceed to checkout\" are gone as expected; only the wording differs from the story.",
+   "steps": [
+    "Put a product in the cart.",
+    "Open the checkout page.",
+    "Click the delete button on the product's line.",
+    "Read the message on the Cart step."
+   ],
+   "expected": "The message reads \"Your shopping cart is empty\".",
+   "actual": "The message reads \"The cart is empty. Nothing to display.\"",
+   "evidence": "UI-053 (tests/ui/cart/checkout-cart-review.spec.ts), runs on 2026-10-17 against the live site: after the last line\nwas deleted, the step's message was \"The cart is empty. Nothing to display.\". The same text is in the live\nassets/i18n/en.json (pages.checkout.cart.empty) and in the app source.",
+   "file": "bugs/BUG-050.yml",
+   "yaml": "id: BUG-050\ntitle: The checkout's Cart step says \"The cart is empty. Nothing to display.\" instead of \"Your shopping cart is empty\"\nstatus: open\nseverity: trivial\nlayer: ui\narea: cart\naffects:\n  - /checkout (step 1, Cart)\nfound: 2026-10-17\nref:\n  - docs/ui/user-stories/Checkout_Cart_Review.md#AC4\ndescription: >-\n  The story's AC4 says an empty cart shows \"Your shopping cart is empty\". When the cart exists but has no items (for\n  example after deleting its last line on the Cart step), the step shows its translation pages.checkout.cart.empty\n  instead: \"The cart is empty. Nothing to display.\" The table and \"Proceed to checkout\" are gone as expected; only\n  the wording differs from the story.\nsteps:\n  - Put a product in the cart.\n  - Open the checkout page.\n  - Click the delete button on the product's line.\n  - Read the message on the Cart step.\nexpected: 'The message reads \"Your shopping cart is empty\".'\nactual: 'The message reads \"The cart is empty. Nothing to display.\"'\nevidence: |-\n  UI-053 (tests/ui/cart/checkout-cart-review.spec.ts), runs on 2026-10-17 against the live site: after the last line\n  was deleted, the step's message was \"The cart is empty. Nothing to display.\". The same text is in the live\n  assets/i18n/en.json (pages.checkout.cart.empty) and in the app source.",
+   "scenarios": [
+    {
+     "id": "UI-053",
+     "name": "Deleting the last line shows the empty cart message",
+     "layer": "ui",
+     "area": "cart",
+     "file": "test-scenarios/ui/cart/checkout-cart-review.yml",
+     "status": "automated",
+     "automatedIn": "tests/ui/cart/checkout-cart-review.spec.ts",
+     "specLine": 97,
+     "knownIssue": "The Cart step of the checkout says \"The cart is empty. Nothing to display.\" instead of \"Your shopping cart is empty\" after the last line is deleted."
+    }
+   ]
+  },
+  {
+   "id": "BUG-051",
+   "title": "A rental line in the checkout cart is marked \"Item for rent, price per hour\" instead of \"This is a rental item\"",
+   "status": "open",
+   "severity": "trivial",
+   "layer": "ui",
+   "area": "cart",
+   "affects": [
+    "/checkout (step 1, Cart)"
+   ],
+   "found": "2026-10-17",
+   "ref": [
+    "docs/ui/user-stories/Rental_Products.md#AC4"
+   ],
+   "description": "The story Rental_Products AC4 says a rental item in the checkout cart is marked \"This is a rental item\". The Cart step shows its translation pages.checkout.cart.rental-explainer under the rental's name instead: \"Item for rent, price per hour\". Only rental lines carry the note, as expected; only the wording differs from the story.",
+   "steps": [
+    "Put a rental product (for example Excavator) and a product that is not a rental in the cart.",
+    "Open the checkout page.",
+    "Read the note under the rental's name."
+   ],
+   "expected": "The rental line is marked \"This is a rental item\".",
+   "actual": "The rental line is marked \"Item for rent, price per hour\".",
+   "evidence": "UI-084 (tests/ui/cart/checkout-cart-review.spec.ts), runs on 2026-10-17 against the live site: the note under\n\"Excavator\" was \"Item for rent, price per hour\". The same text is in the live assets/i18n/en.json\n(pages.checkout.cart.rental-explainer) and in the app source.",
+   "file": "bugs/BUG-051.yml",
+   "yaml": "id: BUG-051\ntitle: A rental line in the checkout cart is marked \"Item for rent, price per hour\" instead of \"This is a rental item\"\nstatus: open\nseverity: trivial\nlayer: ui\narea: cart\naffects:\n  - /checkout (step 1, Cart)\nfound: 2026-10-17\nref:\n  - docs/ui/user-stories/Rental_Products.md#AC4\ndescription: >-\n  The story Rental_Products AC4 says a rental item in the checkout cart is marked \"This is a rental item\". The Cart\n  step shows its translation pages.checkout.cart.rental-explainer under the rental's name instead: \"Item for rent,\n  price per hour\". Only rental lines carry the note, as expected; only the wording differs from the story.\nsteps:\n  - Put a rental product (for example Excavator) and a product that is not a rental in the cart.\n  - Open the checkout page.\n  - Read the note under the rental's name.\nexpected: 'The rental line is marked \"This is a rental item\".'\nactual: 'The rental line is marked \"Item for rent, price per hour\".'\nevidence: |-\n  UI-084 (tests/ui/cart/checkout-cart-review.spec.ts), runs on 2026-10-17 against the live site: the note under\n  \"Excavator\" was \"Item for rent, price per hour\". The same text is in the live assets/i18n/en.json\n  (pages.checkout.cart.rental-explainer) and in the app source.",
+   "scenarios": [
+    {
+     "id": "UI-084",
+     "name": "A rental line in the checkout cart is marked \"This is a rental item\"",
+     "layer": "ui",
+     "area": "cart",
+     "file": "test-scenarios/ui/cart/checkout-cart-review.yml",
+     "status": "automated",
+     "automatedIn": "tests/ui/cart/checkout-cart-review.spec.ts",
+     "specLine": 294,
+     "knownIssue": "The checkout cart marks a rental line \"Item for rent, price per hour\" instead of \"This is a rental item\"."
     }
    ]
   },
