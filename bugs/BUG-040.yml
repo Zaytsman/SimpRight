@@ -10,6 +10,8 @@ affects:
   - POST /invoices/guest
   - GET /invoices
   - GET /invoices/search
+  - GET /invoices/{invoice_number}/download-pdf
+  - GET /invoices/{invoice_number}/download-pdf-status
 found: 2026-10-11
 ref:
   - docs/api/contracts/Invoices_API.md#8-create-invoice
@@ -26,6 +28,9 @@ description: >-
   API-0671 pass although this bug may still be open. API-0669 doesn't check its POST's status, so it also passes if that call fails
   for any other reason (a 422, a 5xx) before the invoice is created. Only a 404 from the POST followed by total 0 shows
   that this bug is fixed.
+  An orphan without a payment also never gets a PDF: CreateInvoicePDF sets the download to IN_PROGRESS, then the
+  invoice template fails on the missing payment ($invoice->payment->toArray(), invoice.blade.php), so the status
+  stays IN_PROGRESS and the download answers 404; invoice:generate queues the job again every minute until the re-seed.
 steps:
   - Register a customer and log in.
   - Send POST /invoices with the customer's token and a well-formed ULID that no cart has as cart_id (the call answers 404).
@@ -36,7 +41,8 @@ actual: >-
   unknown cart_id with subtotal and total null, no lines and no payment (reproduced live on 2026-10-14, API-0499, and
   for POST /invoices/guest on 2026-10-15, API-0669); after a failed payment with subtotal and total 0 for an empty cart,
   no lines and no payment (reproduced live on 2026-10-15, API-0668, and for POST /invoices/guest on 2026-10-17,
-  API-0671: user_id null).
+  API-0671: user_id null). Such an orphan's GET /invoices/{invoice_number}/download-pdf-status stays 200 IN_PROGRESS
+  and download-pdf answers 404 (2026-10-17).
 evidence: |-
   2026-10-14 18:54 UTC, API-0499 (tests/api/invoices/post-invoices.spec.ts), a throwaway customer (token ***):
   POST /invoices { payment_method: "cash-on-delivery", payment_details: {}, billing_street: "Stephansplatz 1",
@@ -69,3 +75,9 @@ evidence: |-
   deleted afterwards (409, still in use), which fits the orphan seen in API-0668.
   Source (sprint5/API, c6032ad): InvoiceService::createInvoice and createGuestInvoice call Invoice::create before
   Cart::findOrFail; InvoiceController::store (lines 100-101) and storeGuest (lines 155-156) call handlePayment after it.
+  2026-10-17 13:27 UTC, read-only GETs, admin token ***: INV-2026000016, 0017, 0019-0022, 0024-0029 (created
+  13:05-13:09, payment null, 0 lines, user_id null; 0021 and 0022 are API-0671's) -> download-pdf-status 200
+  { "status": "IN_PROGRESS" }, download-pdf -> 404 { "message": "Document not created. Try again later." };
+  invoices with a payment created at the same time (INV-2026000018, 0023) -> COMPLETED, download 200 PDF.
+  Source (sprint5/API, c6032ad): app/Jobs/CreateInvoicePDF.php, resources/views/invoice.blade.php line 10251,
+  app/Console/Commands/InvoiceGenerate.php.
