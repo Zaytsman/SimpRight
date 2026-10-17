@@ -18,7 +18,7 @@ export const TestConstants = {
   products: {
     /** Matches several seeded products by name (case-insensitive). */
     searchTerm: 'pliers',
-    /** A seeded product in stock ($14.15, category Pliers, brand ForgeFlex Tools); the product detail and favourites tests open it. */
+    /** A seeded product in stock ($14.15, category Pliers, brand ForgeFlex Tools); several UI tests open it. */
     inStockProduct: 'Combination Pliers',
     /** A seeded product with stock 0 that isn't a rental: shows "Out of stock" and can't be added to the cart. */
     outOfStockProduct: 'Long Nose Pliers',

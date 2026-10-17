@@ -113,6 +113,11 @@ export class ProductPage extends BasePage {
     return this.addToCartButton;
   }
 
+  /** The quantity field (a number input; its value is the quantity). */
+  get quantity(): Locator {
+    return this.quantityInput;
+  }
+
   /** The "+" button next to the quantity. */
   get increaseQuantityControl(): Locator {
     return this.increaseQuantityButton;
@@ -175,6 +180,19 @@ export class ProductPage extends BasePage {
 
   async setQuantity(quantity: number): Promise<void> {
     await this.quantityInput.fill(String(quantity));
+  }
+
+  /**
+   * Clicks "+". No wait: the app changes the quantity synchronously in the click handler, with no request or marker
+   * (app source: detail.component.ts `plus()`); checks read the field with a retrying `toHaveValue`.
+   */
+  async increaseQuantity(): Promise<void> {
+    await this.increaseQuantityButton.click();
+  }
+
+  /** Clicks "-". No wait, for the same reason as `increaseQuantity()` (app source: `minus()`, which stops at 1). */
+  async decreaseQuantity(): Promise<void> {
+    await this.decreaseQuantityButton.click();
   }
 
   /**
