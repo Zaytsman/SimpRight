@@ -19,24 +19,24 @@
     "maxFailures": 0,
     "metadata": {
       "ci": {
-        "commitHref": "https://github.com/Zaytsman/SimpRight/commit/ed7fa2bd9317e0f1a423f77ef7581e36a0cf04ad",
-        "commitHash": "ed7fa2bd9317e0f1a423f77ef7581e36a0cf04ad",
-        "buildHref": "https://github.com/Zaytsman/SimpRight/actions/runs/38887714303"
+        "commitHref": "https://github.com/Zaytsman/SimpRight/commit/d4da61ad57901416a0b44ceac906716fe56a468b",
+        "commitHash": "d4da61ad57901416a0b44ceac906716fe56a468b",
+        "buildHref": "https://github.com/Zaytsman/SimpRight/actions/runs/39037721343"
       },
       "gitCommit": {
-        "shortHash": "ed7fa2b",
-        "hash": "ed7fa2bd9317e0f1a423f77ef7581e36a0cf04ad",
-        "subject": "Merge pull request #53 from Zaytsman/develop",
-        "body": "Merge pull request #53 from Zaytsman/develop\n\nUI preconditions, product grid tests and AskUserQuestion checkpoints",
+        "shortHash": "d4da61a",
+        "hash": "d4da61ad57901416a0b44ceac906716fe56a468b",
+        "subject": "Merge pull request #56 from Zaytsman/develop",
+        "body": "Merge pull request #56 from Zaytsman/develop\n\nAPI-0671, BUG-021 and BUG-047 rechecks, disable-step refactor",
         "author": {
           "name": "Andrew",
           "email": "15192104+Zaytsman@users.noreply.github.com",
-          "time": 1792092151000
+          "time": 1792244397000
         },
         "committer": {
           "name": "GitHub",
           "email": "noreply@github.com",
-          "time": 1792092151000
+          "time": 1792244397000
         },
         "branch": "main"
       },
@@ -50,24 +50,24 @@
         "retries": 1,
         "metadata": {
           "ci": {
-            "commitHref": "https://github.com/Zaytsman/SimpRight/commit/ed7fa2bd9317e0f1a423f77ef7581e36a0cf04ad",
-            "commitHash": "ed7fa2bd9317e0f1a423f77ef7581e36a0cf04ad",
-            "buildHref": "https://github.com/Zaytsman/SimpRight/actions/runs/38887714303"
+            "commitHref": "https://github.com/Zaytsman/SimpRight/commit/d4da61ad57901416a0b44ceac906716fe56a468b",
+            "commitHash": "d4da61ad57901416a0b44ceac906716fe56a468b",
+            "buildHref": "https://github.com/Zaytsman/SimpRight/actions/runs/39037721343"
           },
           "gitCommit": {
-            "shortHash": "ed7fa2b",
-            "hash": "ed7fa2bd9317e0f1a423f77ef7581e36a0cf04ad",
-            "subject": "Merge pull request #53 from Zaytsman/develop",
-            "body": "Merge pull request #53 from Zaytsman/develop\n\nUI preconditions, product grid tests and AskUserQuestion checkpoints",
+            "shortHash": "d4da61a",
+            "hash": "d4da61ad57901416a0b44ceac906716fe56a468b",
+            "subject": "Merge pull request #56 from Zaytsman/develop",
+            "body": "Merge pull request #56 from Zaytsman/develop\n\nAPI-0671, BUG-021 and BUG-047 rechecks, disable-step refactor",
             "author": {
               "name": "Andrew",
               "email": "15192104+Zaytsman@users.noreply.github.com",
-              "time": 1792092151000
+              "time": 1792244397000
             },
             "committer": {
               "name": "GitHub",
               "email": "noreply@github.com",
-              "time": 1792092151000
+              "time": 1792244397000
             },
             "branch": "main"
           },
@@ -88,24 +88,24 @@
         "retries": 1,
         "metadata": {
           "ci": {
-            "commitHref": "https://github.com/Zaytsman/SimpRight/commit/ed7fa2bd9317e0f1a423f77ef7581e36a0cf04ad",
-            "commitHash": "ed7fa2bd9317e0f1a423f77ef7581e36a0cf04ad",
-            "buildHref": "https://github.com/Zaytsman/SimpRight/actions/runs/38887714303"
+            "commitHref": "https://github.com/Zaytsman/SimpRight/commit/d4da61ad57901416a0b44ceac906716fe56a468b",
+            "commitHash": "d4da61ad57901416a0b44ceac906716fe56a468b",
+            "buildHref": "https://github.com/Zaytsman/SimpRight/actions/runs/39037721343"
           },
           "gitCommit": {
-            "shortHash": "ed7fa2b",
-            "hash": "ed7fa2bd9317e0f1a423f77ef7581e36a0cf04ad",
-            "subject": "Merge pull request #53 from Zaytsman/develop",
-            "body": "Merge pull request #53 from Zaytsman/develop\n\nUI preconditions, product grid tests and AskUserQuestion checkpoints",
+            "shortHash": "d4da61a",
+            "hash": "d4da61ad57901416a0b44ceac906716fe56a468b",
+            "subject": "Merge pull request #56 from Zaytsman/develop",
+            "body": "Merge pull request #56 from Zaytsman/develop\n\nAPI-0671, BUG-021 and BUG-047 rechecks, disable-step refactor",
             "author": {
               "name": "Andrew",
               "email": "15192104+Zaytsman@users.noreply.github.com",
-              "time": 1792092151000
+              "time": 1792244397000
             },
             "committer": {
               "name": "GitHub",
               "email": "noreply@github.com",
-              "time": 1792092151000
+              "time": 1792244397000
             },
             "branch": "main"
           },
@@ -130,24 +130,24 @@
         "retries": 1,
         "metadata": {
           "ci": {
-            "commitHref": "https://github.com/Zaytsman/SimpRight/commit/ed7fa2bd9317e0f1a423f77ef7581e36a0cf04ad",
-            "commitHash": "ed7fa2bd9317e0f1a423f77ef7581e36a0cf04ad",
-            "buildHref": "https://github.com/Zaytsman/SimpRight/actions/runs/38887714303"
+            "commitHref": "https://github.com/Zaytsman/SimpRight/commit/d4da61ad57901416a0b44ceac906716fe56a468b",
+            "commitHash": "d4da61ad57901416a0b44ceac906716fe56a468b",
+            "buildHref": "https://github.com/Zaytsman/SimpRight/actions/runs/39037721343"
           },
           "gitCommit": {
-            "shortHash": "ed7fa2b",
-            "hash": "ed7fa2bd9317e0f1a423f77ef7581e36a0cf04ad",
-            "subject": "Merge pull request #53 from Zaytsman/develop",
-            "body": "Merge pull request #53 from Zaytsman/develop\n\nUI preconditions, product grid tests and AskUserQuestion checkpoints",
+            "shortHash": "d4da61a",
+            "hash": "d4da61ad57901416a0b44ceac906716fe56a468b",
+            "subject": "Merge pull request #56 from Zaytsman/develop",
+            "body": "Merge pull request #56 from Zaytsman/develop\n\nAPI-0671, BUG-021 and BUG-047 rechecks, disable-step refactor",
             "author": {
               "name": "Andrew",
               "email": "15192104+Zaytsman@users.noreply.github.com",
-              "time": 1792092151000
+              "time": 1792244397000
             },
             "committer": {
               "name": "GitHub",
               "email": "noreply@github.com",
-              "time": 1792092151000
+              "time": 1792244397000
             },
             "branch": "main"
           },
@@ -241,7 +241,7 @@
         {
           "title": "@cart - Cart",
           "file": "ui/cart/add-to-cart.spec.ts",
-          "line": 5,
+          "line": 6,
           "column": 6,
           "specs": [
             {
@@ -262,7 +262,7 @@
                       "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 8969,
+                      "duration": 5681,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
@@ -270,40 +270,36 @@
                       "steps": [
                         {
                           "title": "Create a product for this test through the API: a unique name, in stock.",
-                          "duration": 948
-                        },
-                        {
-                          "title": "Search for that product and open it.",
-                          "duration": 2681
+                          "duration": 672
                         },
                         {
                           "title": "Set the quantity to 2 and click \"Add to cart\".",
-                          "duration": 1022
+                          "duration": 964
                         },
                         {
                           "title": "Verify the cart badge in the nav bar shows 2.",
-                          "duration": 8
+                          "duration": 5
                         },
                         {
                           "title": "Open the cart.",
-                          "duration": 1497
+                          "duration": 427
                         },
                         {
                           "title": "Verify the cart has exactly one line: that product with quantity 2.",
-                          "duration": 70
+                          "duration": 57
                         },
                         {
                           "title": "Verify the cart total equals 2 × the product's unit price.",
-                          "duration": 14
+                          "duration": 15
                         }
                       ],
-                      "startTime": "2026-10-16T10:31:22.341Z",
+                      "startTime": "2026-10-17T13:43:41.136Z",
                       "annotations": [],
                       "attachments": [
                         {
                           "name": "Create Product Response",
                           "contentType": "application/json",
-                          "body": "ewogICJuYW1lIjogIlByb2R1Y3QtMjAyNjEwMTYtYjdmMGQ3IiwKICAicHJpY2UiOiA5Ljk5LAogICJpc19sb2NhdGlvbl9vZmZlciI6IGZhbHNlLAogICJpc19yZW50YWwiOiBmYWxzZSwKICAiaWQiOiAiMDFtNTI0OGV4dDMwNWJ2MTZ6cjk1MmRwNDciLAogICJpbl9zdG9jayI6IDEwLAogICJpc19lY29fZnJpZW5kbHkiOiBmYWxzZSwKICAicHJvZHVjdF9pbWFnZSI6IHsKICAgICJpZCI6ICIwMU01MjJGU01XVEJYS0daQ1Q1WU1RREYzWiIsCiAgICAiYnlfbmFtZSI6ICJIZWxpbnRvbiBGYW50aW4iLAogICAgImJ5X3VybCI6ICJodHRwczovL3Vuc3BsYXNoLmNvbS9AZmFudGluIiwKICAgICJzb3VyY2VfbmFtZSI6ICJVbnNwbGFzaCIsCiAgICAic291cmNlX3VybCI6ICJodHRwczovL3Vuc3BsYXNoLmNvbS9waG90b3MvVzhCTnd2T3ZXNE0iLAogICAgImZpbGVfbmFtZSI6ICJwbGllcnMwMS5hdmlmIiwKICAgICJ0aXRsZSI6ICJDb21iaW5hdGlvbiBwbGllcnMiCiAgfSwKICAiY2F0ZWdvcnkiOiB7CiAgICAiaWQiOiAiMDFNNTIyRlNLRFJTOFI5WldOSllIS1QzN0ciLAogICAgIm5hbWUiOiAiUGxpZXJzIiwKICAgICJzbHVnIjogInBsaWVycyIsCiAgICAicGFyZW50X2lkIjogIjAxTTUyMkZTSldYWlpTUFg2OFFBSDY5S000IgogIH0sCiAgImJyYW5kIjogewogICAgImlkIjogIjAxTTUyMkZTNEJLWlpWN0U4RzcxTUVHMlJDIiwKICAgICJuYW1lIjogIkZvcmdlRmxleCBUb29scyIsCiAgICAic2x1ZyI6ICJmb3JnZWZsZXgtdG9vbHMiCiAgfQp9"
+                          "body": "ewogICJuYW1lIjogIlByb2R1Y3QtMjAyNjEwMTctYjM3MzhmIiwKICAicHJpY2UiOiA5Ljk5LAogICJpc19sb2NhdGlvbl9vZmZlciI6IGZhbHNlLAogICJpc19yZW50YWwiOiBmYWxzZSwKICAiaWQiOiAiMDFtNTUxbjltdG5jczAyMnhmNmFuN2U4aDkiLAogICJpbl9zdG9jayI6IDEwLAogICJpc19lY29fZnJpZW5kbHkiOiBmYWxzZSwKICAicHJvZHVjdF9pbWFnZSI6IHsKICAgICJpZCI6ICIwMU01NFo2NFJURlE2V00xWTdFQUVaUktKOCIsCiAgICAiYnlfbmFtZSI6ICJIZWxpbnRvbiBGYW50aW4iLAogICAgImJ5X3VybCI6ICJodHRwczovL3Vuc3BsYXNoLmNvbS9AZmFudGluIiwKICAgICJzb3VyY2VfbmFtZSI6ICJVbnNwbGFzaCIsCiAgICAic291cmNlX3VybCI6ICJodHRwczovL3Vuc3BsYXNoLmNvbS9waG90b3MvVzhCTnd2T3ZXNE0iLAogICAgImZpbGVfbmFtZSI6ICJwbGllcnMwMS5hdmlmIiwKICAgICJ0aXRsZSI6ICJDb21iaW5hdGlvbiBwbGllcnMiCiAgfSwKICAiY2F0ZWdvcnkiOiB7CiAgICAiaWQiOiAiMDFNNTRaNjRSQ0ZEMk1FUFROWEdUQ0E5WFciLAogICAgIm5hbWUiOiAiUGxpZXJzIiwKICAgICJzbHVnIjogInBsaWVycyIsCiAgICAicGFyZW50X2lkIjogIjAxTTU0WjY0UU5TUjY2UU4xOU1OM1o2UjU3IgogIH0sCiAgImJyYW5kIjogewogICAgImlkIjogIjAxTTU0WjY0RDI0OEY0OUhSNkZRVFdZQVA3IiwKICAgICJuYW1lIjogIkZvcmdlRmxleCBUb29scyIsCiAgICAic2x1ZyI6ICJmb3JnZWZsZXgtdG9vbHMiCiAgfQp9"
                         }
                       ]
                     }
@@ -313,8 +309,64 @@
               ],
               "id": "df43f8c3d66316e19aac-6fb06c1f51af2d3bc594",
               "file": "ui/cart/add-to-cart.spec.ts",
-              "line": 6,
+              "line": 7,
               "column": 7
+            }
+          ],
+          "suites": [
+            {
+              "title": "",
+              "file": "ui/cart/add-to-cart.spec.ts",
+              "line": 55,
+              "column": 8,
+              "specs": [
+                {
+                  "title": "UI-027: Adding a product to the cart shows a success message",
+                  "ok": true,
+                  "tags": [
+                    "cart"
+                  ],
+                  "tests": [
+                    {
+                      "timeout": 60000,
+                      "annotations": [],
+                      "expectedStatus": "passed",
+                      "projectId": "ui",
+                      "projectName": "ui",
+                      "results": [
+                        {
+                          "workerIndex": 1,
+                          "parallelIndex": 1,
+                          "status": "passed",
+                          "duration": 3929,
+                          "errors": [],
+                          "stdout": [],
+                          "stderr": [],
+                          "retry": 0,
+                          "steps": [
+                            {
+                              "title": "Click \"Add to cart\".",
+                              "duration": 1046
+                            },
+                            {
+                              "title": "Verify the message \"Product added to shopping cart.\" is shown.",
+                              "duration": 15
+                            }
+                          ],
+                          "startTime": "2026-10-17T13:43:41.124Z",
+                          "annotations": [],
+                          "attachments": []
+                        }
+                      ],
+                      "status": "expected"
+                    }
+                  ],
+                  "id": "df43f8c3d66316e19aac-995e0229f69cfd5cc14b",
+                  "file": "ui/cart/add-to-cart.spec.ts",
+                  "line": 62,
+                  "column": 5
+                }
+              ]
             }
           ]
         }
@@ -330,251 +382,18 @@
         {
           "title": "@products - Product detail",
           "file": "ui/products/product-detail.spec.ts",
-          "line": 5,
+          "line": 6,
           "column": 6,
-          "specs": [
-            {
-              "title": "UI-013: The product page shows the product's information and related products",
-              "ok": true,
-              "tags": [
-                "products"
-              ],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "ui",
-                  "projectName": "ui",
-                  "results": [
-                    {
-                      "workerIndex": 1,
-                      "parallelIndex": 1,
-                      "status": "passed",
-                      "duration": 5443,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "steps": [
-                        {
-                          "title": "Open the product \"Combination Pliers\".",
-                          "duration": 4227
-                        },
-                        {
-                          "title": "Verify the product image is shown.",
-                          "duration": 24
-                        },
-                        {
-                          "title": "Verify the name \"Combination Pliers\" is shown.",
-                          "duration": 38
-                        },
-                        {
-                          "title": "Verify the product description is shown.",
-                          "duration": 29
-                        },
-                        {
-                          "title": "Verify the price \"$14.15\" is shown.",
-                          "duration": 8
-                        },
-                        {
-                          "title": "Verify the category badge \"Pliers\" is shown.",
-                          "duration": 15
-                        },
-                        {
-                          "title": "Verify the brand badge \"ForgeFlex Tools\" is shown.",
-                          "duration": 11
-                        },
-                        {
-                          "title": "Verify the \"Related products\" section is shown below the product information.",
-                          "duration": 115
-                        },
-                        {
-                          "title": "Verify the \"Related products\" section shows at least one product.",
-                          "duration": 14
-                        }
-                      ],
-                      "startTime": "2026-10-16T10:31:22.353Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "b48e19d11f45ea48dff7-6d667a1ecf980a78edae",
-              "file": "ui/products/product-detail.spec.ts",
-              "line": 6,
-              "column": 7
-            },
-            {
-              "title": "UI-015: An out-of-stock product can't be added to the cart",
-              "ok": true,
-              "tags": [
-                "products"
-              ],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "ui",
-                  "projectName": "ui",
-                  "results": [
-                    {
-                      "workerIndex": 1,
-                      "parallelIndex": 1,
-                      "status": "passed",
-                      "duration": 2790,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "steps": [
-                        {
-                          "title": "Open the product \"Long Nose Pliers\".",
-                          "duration": 2434
-                        },
-                        {
-                          "title": "Verify \"Add to cart\" is disabled.",
-                          "duration": 7
-                        },
-                        {
-                          "title": "Verify \"Out of stock\" is shown.",
-                          "duration": 11
-                        },
-                        {
-                          "title": "Verify \"Out of stock\" is shown in red.",
-                          "duration": 14
-                        }
-                      ],
-                      "startTime": "2026-10-16T10:31:30.699Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "b48e19d11f45ea48dff7-4b328bd012383579c27d",
-              "file": "ui/products/product-detail.spec.ts",
-              "line": 86,
-              "column": 7
-            },
-            {
-              "title": "UI-016: A rental product shows a duration slider instead of the quantity buttons",
-              "ok": true,
-              "tags": [
-                "products"
-              ],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "ui",
-                  "projectName": "ui",
-                  "results": [
-                    {
-                      "workerIndex": 0,
-                      "parallelIndex": 0,
-                      "status": "passed",
-                      "duration": 2590,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "steps": [
-                        {
-                          "title": "Open the rental product \"Excavator\".",
-                          "duration": 2240
-                        },
-                        {
-                          "title": "Verify a duration slider is shown.",
-                          "duration": 4
-                        },
-                        {
-                          "title": "Verify the duration slider goes from 1 to 10 hours.",
-                          "duration": 7
-                        },
-                        {
-                          "title": "Verify the \"Increase quantity\" (+) and \"Decrease quantity\" (-) buttons are not shown.",
-                          "duration": 6
-                        }
-                      ],
-                      "startTime": "2026-10-16T10:31:31.628Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "b48e19d11f45ea48dff7-2ec5f16f6805935b7f3e",
-              "file": "ui/products/product-detail.spec.ts",
-              "line": 105,
-              "column": 7
-            },
-            {
-              "title": "UI-017: A rental's total price is the hourly rate times the duration",
-              "ok": true,
-              "tags": [
-                "products"
-              ],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "ui",
-                  "projectName": "ui",
-                  "results": [
-                    {
-                      "workerIndex": 1,
-                      "parallelIndex": 1,
-                      "status": "passed",
-                      "duration": 2830,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "steps": [
-                        {
-                          "title": "Open the rental product \"Excavator\".",
-                          "duration": 2509
-                        },
-                        {
-                          "title": "Set the duration slider to 3 hours.",
-                          "duration": 63
-                        },
-                        {
-                          "title": "Verify the total price equals 3 × the hourly rate.",
-                          "duration": 12
-                        }
-                      ],
-                      "startTime": "2026-10-16T10:31:33.504Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "b48e19d11f45ea48dff7-30804fdc599521f50e7e",
-              "file": "ui/products/product-detail.spec.ts",
-              "line": 127,
-              "column": 7
-            }
-          ],
+          "specs": [],
           "suites": [
             {
               "title": "",
               "file": "ui/products/product-detail.spec.ts",
-              "line": 53,
+              "line": 7,
               "column": 8,
               "specs": [
                 {
-                  "title": "UI-014: A discounted product shows the original price struck through, the discounted price and the discount badge",
+                  "title": "UI-013: The product page shows the product's information and related products",
                   "ok": true,
                   "tags": [
                     "products"
@@ -591,30 +410,46 @@
                           "workerIndex": 1,
                           "parallelIndex": 1,
                           "status": "passed",
-                          "duration": 2563,
+                          "duration": 2215,
                           "errors": [],
                           "stdout": [],
                           "stderr": [],
                           "retry": 0,
                           "steps": [
                             {
-                              "title": "Open a product that has a discount.",
-                              "duration": 2142
+                              "title": "Verify the product image is shown.",
+                              "duration": 4
                             },
                             {
-                              "title": "Verify the original price is shown struck through.",
-                              "duration": 28
+                              "title": "Verify the name \"Combination Pliers\" is shown.",
+                              "duration": 6
                             },
                             {
-                              "title": "Verify the discounted price is shown.",
-                              "duration": 17
+                              "title": "Verify the product description is shown.",
+                              "duration": 8
                             },
                             {
-                              "title": "Verify a discount percentage badge is shown.",
-                              "duration": 13
+                              "title": "Verify the price \"$14.15\" is shown.",
+                              "duration": 9
+                            },
+                            {
+                              "title": "Verify the category badge \"Pliers\" is shown.",
+                              "duration": 5
+                            },
+                            {
+                              "title": "Verify the brand badge \"ForgeFlex Tools\" is shown.",
+                              "duration": 3
+                            },
+                            {
+                              "title": "Verify the \"Related products\" section is shown below the product information.",
+                              "duration": 43
+                            },
+                            {
+                              "title": "Verify the \"Related products\" section shows at least one product.",
+                              "duration": 5
                             }
                           ],
-                          "startTime": "2026-10-16T10:31:28.095Z",
+                          "startTime": "2026-10-17T13:43:45.389Z",
                           "annotations": [],
                           "attachments": []
                         }
@@ -622,10 +457,305 @@
                       "status": "expected"
                     }
                   ],
-                  "id": "b48e19d11f45ea48dff7-4e72c31a123fb11e6e17",
+                  "id": "b48e19d11f45ea48dff7-6d667a1ecf980a78edae",
+                  "file": "ui/products/product-detail.spec.ts",
+                  "line": 11,
+                  "column": 9
+                }
+              ]
+            },
+            {
+              "title": "",
+              "file": "ui/products/product-detail.spec.ts",
+              "line": 53,
+              "column": 8,
+              "specs": [],
+              "suites": [
+                {
+                  "title": "",
                   "file": "ui/products/product-detail.spec.ts",
                   "line": 57,
-                  "column": 5
+                  "column": 10,
+                  "specs": [
+                    {
+                      "title": "UI-014: A discounted product shows the original price struck through, the discounted price and the discount badge",
+                      "ok": true,
+                      "tags": [
+                        "products"
+                      ],
+                      "tests": [
+                        {
+                          "timeout": 60000,
+                          "annotations": [],
+                          "expectedStatus": "passed",
+                          "projectId": "ui",
+                          "projectName": "ui",
+                          "results": [
+                            {
+                              "workerIndex": 0,
+                              "parallelIndex": 0,
+                              "status": "passed",
+                              "duration": 2300,
+                              "errors": [],
+                              "stdout": [],
+                              "stderr": [],
+                              "retry": 0,
+                              "steps": [
+                                {
+                                  "title": "Verify the original price is shown struck through.",
+                                  "duration": 28
+                                },
+                                {
+                                  "title": "Verify the discounted price is shown.",
+                                  "duration": 20
+                                },
+                                {
+                                  "title": "Verify a discount percentage badge is shown.",
+                                  "duration": 10
+                                }
+                              ],
+                              "startTime": "2026-10-17T13:43:47.124Z",
+                              "annotations": [],
+                              "attachments": []
+                            }
+                          ],
+                          "status": "expected"
+                        }
+                      ],
+                      "id": "b48e19d11f45ea48dff7-4e72c31a123fb11e6e17",
+                      "file": "ui/products/product-detail.spec.ts",
+                      "line": 63,
+                      "column": 7
+                    }
+                  ]
+                },
+                {
+                  "title": "",
+                  "file": "ui/products/product-detail.spec.ts",
+                  "line": 83,
+                  "column": 10,
+                  "specs": [
+                    {
+                      "title": "UI-085: A rental that is a location offer shows the discount, the discounted hourly rate and the discounted total for a visitor in London",
+                      "ok": true,
+                      "tags": [
+                        "products"
+                      ],
+                      "tests": [
+                        {
+                          "timeout": 60000,
+                          "annotations": [],
+                          "expectedStatus": "passed",
+                          "projectId": "ui",
+                          "projectName": "ui",
+                          "results": [
+                            {
+                              "workerIndex": 1,
+                              "parallelIndex": 1,
+                              "status": "passed",
+                              "duration": 2233,
+                              "errors": [],
+                              "stdout": [],
+                              "stderr": [],
+                              "retry": 0,
+                              "steps": [
+                                {
+                                  "title": "Set the duration slider to 3 hours.",
+                                  "duration": 144
+                                },
+                                {
+                                  "title": "Verify the discount badge \"-25%\" is shown.",
+                                  "duration": 14
+                                },
+                                {
+                                  "title": "Verify the hourly rate is shown struck through.",
+                                  "duration": 25
+                                },
+                                {
+                                  "title": "Verify the discounted hourly rate is shown, 25% below the hourly rate.",
+                                  "duration": 30
+                                },
+                                {
+                                  "title": "Verify the total price equals 3 × the discounted hourly rate.",
+                                  "duration": 14
+                                }
+                              ],
+                              "startTime": "2026-10-17T13:43:47.621Z",
+                              "annotations": [],
+                              "attachments": []
+                            }
+                          ],
+                          "status": "expected"
+                        }
+                      ],
+                      "id": "b48e19d11f45ea48dff7-194ce5cdc9120db79bb3",
+                      "file": "ui/products/product-detail.spec.ts",
+                      "line": 88,
+                      "column": 7
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "title": "",
+              "file": "ui/products/product-detail.spec.ts",
+              "line": 129,
+              "column": 8,
+              "specs": [
+                {
+                  "title": "UI-015: An out-of-stock product can't be added to the cart",
+                  "ok": true,
+                  "tags": [
+                    "products"
+                  ],
+                  "tests": [
+                    {
+                      "timeout": 60000,
+                      "annotations": [],
+                      "expectedStatus": "passed",
+                      "projectId": "ui",
+                      "projectName": "ui",
+                      "results": [
+                        {
+                          "workerIndex": 0,
+                          "parallelIndex": 0,
+                          "status": "passed",
+                          "duration": 2125,
+                          "errors": [],
+                          "stdout": [],
+                          "stderr": [],
+                          "retry": 0,
+                          "steps": [
+                            {
+                              "title": "Verify \"Add to cart\" is disabled.",
+                              "duration": 6
+                            },
+                            {
+                              "title": "Verify \"Out of stock\" is shown.",
+                              "duration": 11
+                            },
+                            {
+                              "title": "Verify \"Out of stock\" is shown in red.",
+                              "duration": 7
+                            }
+                          ],
+                          "startTime": "2026-10-17T13:43:49.449Z",
+                          "annotations": [],
+                          "attachments": []
+                        }
+                      ],
+                      "status": "expected"
+                    }
+                  ],
+                  "id": "b48e19d11f45ea48dff7-4b328bd012383579c27d",
+                  "file": "ui/products/product-detail.spec.ts",
+                  "line": 133,
+                  "column": 9
+                }
+              ]
+            },
+            {
+              "title": "",
+              "file": "ui/products/product-detail.spec.ts",
+              "line": 149,
+              "column": 8,
+              "specs": [
+                {
+                  "title": "UI-016: A rental product shows a duration slider instead of the quantity buttons",
+                  "ok": true,
+                  "tags": [
+                    "products"
+                  ],
+                  "tests": [
+                    {
+                      "timeout": 60000,
+                      "annotations": [],
+                      "expectedStatus": "passed",
+                      "projectId": "ui",
+                      "projectName": "ui",
+                      "results": [
+                        {
+                          "workerIndex": 1,
+                          "parallelIndex": 1,
+                          "status": "passed",
+                          "duration": 1993,
+                          "errors": [],
+                          "stdout": [],
+                          "stderr": [],
+                          "retry": 0,
+                          "steps": [
+                            {
+                              "title": "Verify a duration slider is shown.",
+                              "duration": 11
+                            },
+                            {
+                              "title": "Verify the duration slider goes from 1 to 10 hours.",
+                              "duration": 17
+                            },
+                            {
+                              "title": "Verify the \"Increase quantity\" (+) and \"Decrease quantity\" (-) buttons are not shown.",
+                              "duration": 18
+                            }
+                          ],
+                          "startTime": "2026-10-17T13:43:49.871Z",
+                          "annotations": [],
+                          "attachments": []
+                        }
+                      ],
+                      "status": "expected"
+                    }
+                  ],
+                  "id": "b48e19d11f45ea48dff7-2ec5f16f6805935b7f3e",
+                  "file": "ui/products/product-detail.spec.ts",
+                  "line": 153,
+                  "column": 9
+                },
+                {
+                  "title": "UI-017: A rental's total price is the hourly rate times the duration",
+                  "ok": true,
+                  "tags": [
+                    "products"
+                  ],
+                  "tests": [
+                    {
+                      "timeout": 60000,
+                      "annotations": [],
+                      "expectedStatus": "passed",
+                      "projectId": "ui",
+                      "projectName": "ui",
+                      "results": [
+                        {
+                          "workerIndex": 0,
+                          "parallelIndex": 0,
+                          "status": "passed",
+                          "duration": 2063,
+                          "errors": [],
+                          "stdout": [],
+                          "stderr": [],
+                          "retry": 0,
+                          "steps": [
+                            {
+                              "title": "Set the duration slider to 3 hours.",
+                              "duration": 38
+                            },
+                            {
+                              "title": "Verify the total price equals 3 × the hourly rate.",
+                              "duration": 7
+                            }
+                          ],
+                          "startTime": "2026-10-17T13:43:51.611Z",
+                          "annotations": [],
+                          "attachments": []
+                        }
+                      ],
+                      "status": "expected"
+                    }
+                  ],
+                  "id": "b48e19d11f45ea48dff7-30804fdc599521f50e7e",
+                  "file": "ui/products/product-detail.spec.ts",
+                  "line": 171,
+                  "column": 9
                 }
               ]
             }
@@ -650,7 +780,7 @@
             {
               "title": "",
               "file": "ui/products/product-favorites.spec.ts",
-              "line": 6,
+              "line": 9,
               "column": 8,
               "specs": [
                 {
@@ -668,29 +798,25 @@
                       "projectName": "ui",
                       "results": [
                         {
-                          "workerIndex": 0,
-                          "parallelIndex": 0,
+                          "workerIndex": 1,
+                          "parallelIndex": 1,
                           "status": "passed",
-                          "duration": 6317,
+                          "duration": 4913,
                           "errors": [],
                           "stdout": [],
                           "stderr": [],
                           "retry": 0,
                           "steps": [
                             {
-                              "title": "Open the product \"Combination Pliers\".",
-                              "duration": 2606
-                            },
-                            {
                               "title": "Click \"Add to favourites\".",
-                              "duration": 371
+                              "duration": 293
                             },
                             {
                               "title": "Verify the message \"Product added to your favorites list.\" is shown.",
-                              "duration": 5
+                              "duration": 17
                             }
                           ],
-                          "startTime": "2026-10-16T10:31:34.254Z",
+                          "startTime": "2026-10-17T13:43:51.883Z",
                           "annotations": [],
                           "attachments": []
                         }
@@ -700,7 +826,7 @@
                   ],
                   "id": "255c47f38485666e0767-df52cc0ea07e82bd4c2f",
                   "file": "ui/products/product-favorites.spec.ts",
-                  "line": 12,
+                  "line": 15,
                   "column": 5
                 },
                 {
@@ -718,29 +844,25 @@
                       "projectName": "ui",
                       "results": [
                         {
-                          "workerIndex": 1,
-                          "parallelIndex": 1,
+                          "workerIndex": 0,
+                          "parallelIndex": 0,
                           "status": "passed",
-                          "duration": 7395,
+                          "duration": 4733,
                           "errors": [],
                           "stdout": [],
                           "stderr": [],
                           "retry": 0,
                           "steps": [
                             {
-                              "title": "Open the product \"Combination Pliers\".",
-                              "duration": 2429
-                            },
-                            {
                               "title": "Click \"Add to favourites\".",
-                              "duration": 397
+                              "duration": 271
                             },
                             {
                               "title": "Verify the message \"Product already in your favorites list.\" is shown.",
-                              "duration": 18
+                              "duration": 13
                             }
                           ],
-                          "startTime": "2026-10-16T10:31:36.353Z",
+                          "startTime": "2026-10-17T13:43:53.698Z",
                           "annotations": [],
                           "attachments": []
                         }
@@ -750,7 +872,7 @@
                   ],
                   "id": "255c47f38485666e0767-5e54af8a52f68714a144",
                   "file": "ui/products/product-favorites.spec.ts",
-                  "line": 33,
+                  "line": 30,
                   "column": 5
                 }
               ]
@@ -758,7 +880,7 @@
             {
               "title": "",
               "file": "ui/products/product-favorites.spec.ts",
-              "line": 62,
+              "line": 54,
               "column": 8,
               "specs": [
                 {
@@ -776,29 +898,25 @@
                       "projectName": "ui",
                       "results": [
                         {
-                          "workerIndex": 0,
-                          "parallelIndex": 0,
+                          "workerIndex": 1,
+                          "parallelIndex": 1,
                           "status": "passed",
-                          "duration": 2647,
+                          "duration": 1875,
                           "errors": [],
                           "stdout": [],
                           "stderr": [],
                           "retry": 0,
                           "steps": [
                             {
-                              "title": "Open the product \"Combination Pliers\".",
-                              "duration": 2111
-                            },
-                            {
                               "title": "Click \"Add to favourites\".",
-                              "duration": 359
+                              "duration": 253
                             },
                             {
                               "title": "Verify the message \"Unauthorized, can not add product to your favorite list.\" is shown.",
-                              "duration": 6
+                              "duration": 11
                             }
                           ],
-                          "startTime": "2026-10-16T10:31:40.587Z",
+                          "startTime": "2026-10-17T13:43:56.820Z",
                           "annotations": [],
                           "attachments": []
                         }
@@ -808,10 +926,343 @@
                   ],
                   "id": "255c47f38485666e0767-4f4e49ce25607484c8d4",
                   "file": "ui/products/product-favorites.spec.ts",
-                  "line": 65,
+                  "line": 57,
                   "column": 9
                 }
               ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "ui/products/product-filters.spec.ts",
+      "file": "ui/products/product-filters.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "@products - Product filters",
+          "file": "ui/products/product-filters.spec.ts",
+          "line": 6,
+          "column": 6,
+          "specs": [
+            {
+              "title": "UI-075: Checking a category shows only that category's products",
+              "ok": true,
+              "tags": [
+                "products"
+              ],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "ui",
+                  "projectName": "ui",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 2160,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "steps": [
+                        {
+                          "title": "Check the category \"Pliers\" in the sidebar.",
+                          "duration": 319
+                        },
+                        {
+                          "title": "Verify the grid shows only the products of the category \"Pliers\": the products the catalogue lists for it in the page's default price range, $1 to $100.",
+                          "duration": 664
+                        }
+                      ],
+                      "startTime": "2026-10-17T13:43:58.453Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "0b6348996431d3696eb6-0226076ad4c0ab9e79d3",
+              "file": "ui/products/product-filters.spec.ts",
+              "line": 7,
+              "column": 7
+            },
+            {
+              "title": "UI-076: Checking a parent category checks all its child categories",
+              "ok": true,
+              "tags": [
+                "products"
+              ],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "ui",
+                  "projectName": "ui",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 1,
+                      "status": "passed",
+                      "duration": 1436,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "steps": [
+                        {
+                          "title": "Check the category \"Hand Tools\" in the sidebar.",
+                          "duration": 269
+                        },
+                        {
+                          "title": "Verify the child categories \"Hammer\", \"Hand Saw\", \"Wrench\", \"Screwdriver\", \"Pliers\", \"Chisels\" and \"Measures\" are checked.",
+                          "duration": 29
+                        }
+                      ],
+                      "startTime": "2026-10-17T13:43:58.710Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "0b6348996431d3696eb6-efadcdf92760fb125ae7",
+              "file": "ui/products/product-filters.spec.ts",
+              "line": 39,
+              "column": 7
+            },
+            {
+              "title": "UI-077: Unchecking all child categories unchecks the parent category",
+              "ok": true,
+              "tags": [
+                "products"
+              ],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "ui",
+                  "projectName": "ui",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 1,
+                      "status": "passed",
+                      "duration": 3395,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "steps": [
+                        {
+                          "title": "Check the category \"Hand Tools\" in the sidebar.",
+                          "duration": 280
+                        },
+                        {
+                          "title": "Uncheck the child category \"Hammer\".",
+                          "duration": 299
+                        },
+                        {
+                          "title": "Uncheck the child category \"Hand Saw\".",
+                          "duration": 329
+                        },
+                        {
+                          "title": "Uncheck the child category \"Wrench\".",
+                          "duration": 300
+                        },
+                        {
+                          "title": "Uncheck the child category \"Screwdriver\".",
+                          "duration": 337
+                        },
+                        {
+                          "title": "Uncheck the child category \"Pliers\".",
+                          "duration": 282
+                        },
+                        {
+                          "title": "Uncheck the child category \"Chisels\".",
+                          "duration": 293
+                        },
+                        {
+                          "title": "Uncheck the child category \"Measures\".",
+                          "duration": 309
+                        },
+                        {
+                          "title": "Verify the category \"Hand Tools\" is not checked.",
+                          "duration": 10
+                        }
+                      ],
+                      "startTime": "2026-10-17T13:44:00.157Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "0b6348996431d3696eb6-0abb3e53f67ba91d8999",
+              "file": "ui/products/product-filters.spec.ts",
+              "line": 54,
+              "column": 7
+            },
+            {
+              "title": "UI-078: Checking a brand shows only that brand's products",
+              "ok": true,
+              "tags": [
+                "products"
+              ],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "ui",
+                  "projectName": "ui",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 2276,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "steps": [
+                        {
+                          "title": "Check the brand \"MightyCraft Hardware\" in the sidebar.",
+                          "duration": 417
+                        },
+                        {
+                          "title": "Verify the grid shows only the products of the brand \"MightyCraft Hardware\": the products the catalogue lists for it in the page's default price range, $1 to $100.",
+                          "duration": 644
+                        }
+                      ],
+                      "startTime": "2026-10-17T13:44:00.629Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "0b6348996431d3696eb6-92736eb00cd0a6e19a6a",
+              "file": "ui/products/product-filters.spec.ts",
+              "line": 73,
+              "column": 7
+            },
+            {
+              "title": "UI-079: Checking a category and a brand shows only products that match both",
+              "ok": true,
+              "tags": [
+                "products"
+              ],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "ui",
+                  "projectName": "ui",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 2844,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "steps": [
+                        {
+                          "title": "Check the category \"Pliers\" in the sidebar.",
+                          "duration": 297
+                        },
+                        {
+                          "title": "Check the brand \"ForgeFlex Tools\" in the sidebar.",
+                          "duration": 385
+                        },
+                        {
+                          "title": "Verify the grid shows only the products that belong to both the category \"Pliers\" and the brand \"ForgeFlex Tools\": the products the catalogue lists for both filters in the page's default price range, $1 to $100.",
+                          "duration": 921
+                        }
+                      ],
+                      "startTime": "2026-10-17T13:44:02.925Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "0b6348996431d3696eb6-a90222a0acda7169c7e2",
+              "file": "ui/products/product-filters.spec.ts",
+              "line": 102,
+              "column": 7
+            },
+            {
+              "title": "UI-080: Moving the price range slider shows only products within the new range",
+              "ok": true,
+              "tags": [
+                "products"
+              ],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "ui",
+                  "projectName": "ui",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 1,
+                      "status": "passed",
+                      "duration": 1987,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "steps": [
+                        {
+                          "title": "Move the upper handle of the price range slider to 15.",
+                          "duration": 498
+                        },
+                        {
+                          "title": "Move the lower handle of the price range slider to 10.",
+                          "duration": 294
+                        },
+                        {
+                          "title": "Verify at least one product is shown.",
+                          "duration": 7
+                        },
+                        {
+                          "title": "Verify the price of every product shown is between $10 and $15.",
+                          "duration": 53
+                        }
+                      ],
+                      "startTime": "2026-10-17T13:44:03.567Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "0b6348996431d3696eb6-24aa85a10764cdf1aa48",
+              "file": "ui/products/product-filters.spec.ts",
+              "line": 139,
+              "column": 7
             }
           ]
         }
@@ -845,10 +1296,10 @@
                   "projectName": "ui",
                   "results": [
                     {
-                      "workerIndex": 0,
-                      "parallelIndex": 0,
+                      "workerIndex": 1,
+                      "parallelIndex": 1,
                       "status": "passed",
-                      "duration": 1799,
+                      "duration": 1449,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
@@ -856,10 +1307,10 @@
                       "steps": [
                         {
                           "title": "Verify the card of \"Long Nose Pliers\" shows \"Out of stock\".",
-                          "duration": 9
+                          "duration": 16
                         }
                       ],
-                      "startTime": "2026-10-16T10:31:43.252Z",
+                      "startTime": "2026-10-17T13:44:05.572Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -887,10 +1338,10 @@
                   "projectName": "ui",
                   "results": [
                     {
-                      "workerIndex": 1,
-                      "parallelIndex": 1,
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 1976,
+                      "duration": 1684,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
@@ -898,22 +1349,22 @@
                       "steps": [
                         {
                           "title": "Verify the product grid shows at least one product card.",
-                          "duration": 15
+                          "duration": 17
                         },
                         {
                           "title": "Verify every card shows a product image.",
-                          "duration": 45
+                          "duration": 86
                         },
                         {
                           "title": "Verify every card shows a product name.",
-                          "duration": 58
+                          "duration": 138
                         },
                         {
                           "title": "Verify every card shows a price.",
-                          "duration": 79
+                          "duration": 73
                         }
                       ],
-                      "startTime": "2026-10-16T10:31:43.770Z",
+                      "startTime": "2026-10-17T13:44:05.785Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -941,10 +1392,10 @@
                   "projectName": "ui",
                   "results": [
                     {
-                      "workerIndex": 0,
-                      "parallelIndex": 0,
+                      "workerIndex": 1,
+                      "parallelIndex": 1,
                       "status": "passed",
-                      "duration": 2021,
+                      "duration": 1915,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
@@ -952,18 +1403,18 @@
                       "steps": [
                         {
                           "title": "Click the card of \"Combination Pliers\".",
-                          "duration": 468
+                          "duration": 581
                         },
                         {
                           "title": "Verify the product detail page is shown.",
-                          "duration": 4
+                          "duration": 3
                         },
                         {
                           "title": "Verify the name \"Combination Pliers\" is shown.",
-                          "duration": 17
+                          "duration": 9
                         }
                       ],
-                      "startTime": "2026-10-16T10:31:45.069Z",
+                      "startTime": "2026-10-17T13:44:07.035Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -974,6 +1425,773 @@
               "id": "9a6ee4d2510ebe19f74b-57b944d6200bd4a92add",
               "file": "ui/products/product-grid.spec.ts",
               "line": 53,
+              "column": 7
+            },
+            {
+              "title": "UI-072: The pagination controls are shown below the grid and page 2 shows other products",
+              "ok": true,
+              "tags": [
+                "products"
+              ],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "ui",
+                  "projectName": "ui",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 1608,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "steps": [
+                        {
+                          "title": "Verify the pagination controls are shown below the product grid.",
+                          "duration": 159
+                        },
+                        {
+                          "title": "Click page \"2\" in the pagination.",
+                          "duration": 353
+                        },
+                        {
+                          "title": "Verify at least one product is shown.",
+                          "duration": 15
+                        },
+                        {
+                          "title": "Verify none of the products shown was shown on page 1.",
+                          "duration": 4
+                        },
+                        {
+                          "title": "Verify page \"2\" is marked as the active page.",
+                          "duration": 10
+                        }
+                      ],
+                      "startTime": "2026-10-17T13:44:07.482Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "9a6ee4d2510ebe19f74b-d9f888b0cd3d7b2385bc",
+              "file": "ui/products/product-grid.spec.ts",
+              "line": 72,
+              "column": 7
+            },
+            {
+              "title": "UI-073: The price range slider is shown with the range $1 to $100 and a maximum of $200",
+              "ok": true,
+              "tags": [
+                "products"
+              ],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "ui",
+                  "projectName": "ui",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 1,
+                      "status": "passed",
+                      "duration": 1233,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "steps": [
+                        {
+                          "title": "Verify the price range slider is shown in the sidebar.",
+                          "duration": 57
+                        },
+                        {
+                          "title": "Verify the lower handle is at 1.",
+                          "duration": 5
+                        },
+                        {
+                          "title": "Verify the upper handle is at 100.",
+                          "duration": 14
+                        },
+                        {
+                          "title": "Verify the maximum of the slider is 200.",
+                          "duration": 7
+                        }
+                      ],
+                      "startTime": "2026-10-17T13:44:08.965Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "9a6ee4d2510ebe19f74b-6bc3c40eb5d065d90179",
+              "file": "ui/products/product-grid.spec.ts",
+              "line": 111,
+              "column": 7
+            }
+          ],
+          "suites": [
+            {
+              "title": "",
+              "file": "ui/products/product-grid.spec.ts",
+              "line": 134,
+              "column": 8,
+              "specs": [
+                {
+                  "title": "UI-074: A location offer's card shows the original price struck through and the discounted price for a visitor in London",
+                  "ok": true,
+                  "tags": [
+                    "products"
+                  ],
+                  "tests": [
+                    {
+                      "timeout": 60000,
+                      "annotations": [],
+                      "expectedStatus": "passed",
+                      "projectId": "ui",
+                      "projectName": "ui",
+                      "results": [
+                        {
+                          "workerIndex": 0,
+                          "parallelIndex": 0,
+                          "status": "passed",
+                          "duration": 1467,
+                          "errors": [],
+                          "stdout": [],
+                          "stderr": [],
+                          "retry": 0,
+                          "steps": [
+                            {
+                              "title": "Verify the card of \"Bolt Cutters\" is shown on the first page.",
+                              "duration": 39
+                            },
+                            {
+                              "title": "Verify the card of \"Bolt Cutters\" shows its original price struck through.",
+                              "duration": 29
+                            },
+                            {
+                              "title": "Verify the card of \"Bolt Cutters\" shows the discounted price, 25% below the original price.",
+                              "duration": 24
+                            }
+                          ],
+                          "startTime": "2026-10-17T13:44:09.105Z",
+                          "annotations": [],
+                          "attachments": []
+                        }
+                      ],
+                      "status": "expected"
+                    }
+                  ],
+                  "id": "9a6ee4d2510ebe19f74b-83954c49828172db4a9f",
+                  "file": "ui/products/product-grid.spec.ts",
+                  "line": 139,
+                  "column": 5
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "ui/products/product-quantity.spec.ts",
+      "file": "ui/products/product-quantity.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "@products - Product quantity",
+          "file": "ui/products/product-quantity.spec.ts",
+          "line": 5,
+          "column": 6,
+          "specs": [
+            {
+              "title": "UI-018: An in-stock product shows the quantity selector set to 1",
+              "ok": true,
+              "tags": [
+                "products"
+              ],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "ui",
+                  "projectName": "ui",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 1,
+                      "status": "passed",
+                      "duration": 2185,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "steps": [
+                        {
+                          "title": "Verify the quantity field is shown.",
+                          "duration": 5
+                        },
+                        {
+                          "title": "Verify the \"Increase quantity\" (+) button is shown.",
+                          "duration": 6
+                        },
+                        {
+                          "title": "Verify the \"Decrease quantity\" (-) button is shown.",
+                          "duration": 4
+                        },
+                        {
+                          "title": "Verify the quantity is 1.",
+                          "duration": 4
+                        }
+                      ],
+                      "startTime": "2026-10-17T13:44:10.225Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "7099847573e81f5da265-1ae85e6538f375561cca",
+              "file": "ui/products/product-quantity.spec.ts",
+              "line": 9,
+              "column": 7
+            },
+            {
+              "title": "UI-019: The plus button increases the quantity by 1",
+              "ok": true,
+              "tags": [
+                "products"
+              ],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "ui",
+                  "projectName": "ui",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 2180,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "steps": [
+                        {
+                          "title": "Click \"Increase quantity\".",
+                          "duration": 74
+                        },
+                        {
+                          "title": "Verify the quantity is 2.",
+                          "duration": 10
+                        }
+                      ],
+                      "startTime": "2026-10-17T13:44:10.593Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "7099847573e81f5da265-c43c5009f157b4ea619d",
+              "file": "ui/products/product-quantity.spec.ts",
+              "line": 27,
+              "column": 7
+            },
+            {
+              "title": "UI-020: The minus button decreases the quantity by 1",
+              "ok": true,
+              "tags": [
+                "products"
+              ],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "ui",
+                  "projectName": "ui",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 1,
+                      "status": "passed",
+                      "duration": 2384,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "steps": [
+                        {
+                          "title": "Click \"Increase quantity\".",
+                          "duration": 127
+                        },
+                        {
+                          "title": "Click \"Increase quantity\".",
+                          "duration": 57
+                        },
+                        {
+                          "title": "Verify the quantity is 3.",
+                          "duration": 8
+                        },
+                        {
+                          "title": "Click \"Decrease quantity\".",
+                          "duration": 60
+                        },
+                        {
+                          "title": "Verify the quantity is 2.",
+                          "duration": 7
+                        }
+                      ],
+                      "startTime": "2026-10-17T13:44:12.434Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "7099847573e81f5da265-9fa5384e6ad7e0b68c56",
+              "file": "ui/products/product-quantity.spec.ts",
+              "line": 37,
+              "column": 7
+            },
+            {
+              "title": "UI-021: The minus button keeps the quantity at 1",
+              "ok": true,
+              "tags": [
+                "products"
+              ],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "ui",
+                  "projectName": "ui",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 2181,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "steps": [
+                        {
+                          "title": "Verify the quantity is 1.",
+                          "duration": 13
+                        },
+                        {
+                          "title": "Click \"Decrease quantity\".",
+                          "duration": 55
+                        },
+                        {
+                          "title": "Verify the quantity is still 1.",
+                          "duration": 4
+                        }
+                      ],
+                      "startTime": "2026-10-17T13:44:12.790Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "7099847573e81f5da265-f2eae6ee474c0b07b9a7",
+              "file": "ui/products/product-quantity.spec.ts",
+              "line": 59,
+              "column": 7
+            },
+            {
+              "title": "UI-022: A quantity typed into the field is used",
+              "ok": true,
+              "tags": [
+                "products"
+              ],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "ui",
+                  "projectName": "ui",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 1,
+                      "status": "passed",
+                      "duration": 2372,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "steps": [
+                        {
+                          "title": "Enter 5 in the quantity field.",
+                          "duration": 24
+                        },
+                        {
+                          "title": "Verify the quantity is 5.",
+                          "duration": 13
+                        },
+                        {
+                          "title": "Click \"Increase quantity\".",
+                          "duration": 72
+                        },
+                        {
+                          "title": "Verify the quantity is 6.",
+                          "duration": 11
+                        }
+                      ],
+                      "startTime": "2026-10-17T13:44:14.838Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "7099847573e81f5da265-783e5144e11e7be55608",
+              "file": "ui/products/product-quantity.spec.ts",
+              "line": 73,
+              "column": 7
+            },
+            {
+              "title": "UI-023: A typed quantity of 0 is set to 1",
+              "ok": true,
+              "tags": [
+                "products"
+              ],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "ui",
+                  "projectName": "ui",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 2275,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "steps": [
+                        {
+                          "title": "Enter 0 in the quantity field.",
+                          "duration": 15
+                        },
+                        {
+                          "title": "Verify the quantity is 1.",
+                          "duration": 6
+                        }
+                      ],
+                      "startTime": "2026-10-17T13:44:14.989Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "7099847573e81f5da265-6f045d8d2da72db8a106",
+              "file": "ui/products/product-quantity.spec.ts",
+              "line": 92,
+              "column": 7
+            },
+            {
+              "title": "UI-024: A typed quantity above 999,999,999 is set to 999,999,999",
+              "ok": true,
+              "tags": [
+                "products"
+              ],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [
+                    {
+                      "type": "fail",
+                      "description": "Known issue BUG-008: The field sets a typed quantity above 99 to 99 (with the warning \"You can order at most 99 of this product.\") instead of setting 1,000,000,000 to 999,999,999 as the story's range 1 to 999,999,999 requires.",
+                      "location": {
+                        "file": "/home/runner/work/SimpRight/SimpRight/tests/ui/products/product-quantity.spec.ts",
+                        "line": 103,
+                        "column": 10
+                      }
+                    }
+                  ],
+                  "expectedStatus": "failed",
+                  "projectId": "ui",
+                  "projectName": "ui",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 1,
+                      "status": "failed",
+                      "duration": 11941,
+                      "error": {
+                        "message": "Error: The typed 1000000000 is set to 999999999\n\n\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveValue\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  getByTestId('quantity')\nExpected: \u001b[32m\"99\u001b[7m9999999\u001b[27m\"\u001b[39m\nReceived: \u001b[31m\"99\"\u001b[39m\nTimeout:  10000ms\n\nCall log:\n\u001b[2m  - The typed 1000000000 is set to 999999999 getByTestId('quantity') with timeout 10000ms\u001b[22m\n\u001b[2m  - waiting for getByTestId('quantity')\u001b[22m\n\u001b[2m    24 × locator resolved to <input min=\"1\" max=\"99\" type=\"number\" id=\"quantity-input\" data-test=\"quantity\" aria-labelledby=\"Quantity\" _ngcontent-ng-c2605822289=\"\" class=\"form-control ng-untouched ng-dirty ng-valid\"/>\u001b[22m\n\u001b[2m       - unexpected value \"99\"\u001b[22m\n",
+                        "stack": "Error: The typed 1000000000 is set to 999999999\n\n\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveValue\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  getByTestId('quantity')\nExpected: \u001b[32m\"99\u001b[7m9999999\u001b[27m\"\u001b[39m\nReceived: \u001b[31m\"99\"\u001b[39m\nTimeout:  10000ms\n\nCall log:\n\u001b[2m  - The typed 1000000000 is set to 999999999 getByTestId('quantity') with timeout 10000ms\u001b[22m\n\u001b[2m  - waiting for getByTestId('quantity')\u001b[22m\n\u001b[2m    24 × locator resolved to <input min=\"1\" max=\"99\" type=\"number\" id=\"quantity-input\" data-test=\"quantity\" aria-labelledby=\"Quantity\" _ngcontent-ng-c2605822289=\"\" class=\"form-control ng-untouched ng-dirty ng-valid\"/>\u001b[22m\n\u001b[2m       - unexpected value \"99\"\u001b[22m\n\n    at /home/runner/work/SimpRight/SimpRight/tests/ui/products/product-quantity.spec.ts:110:86\n    at /home/runner/work/SimpRight/SimpRight/tests/ui/products/product-quantity.spec.ts:109:5",
+                        "location": {
+                          "file": "/home/runner/work/SimpRight/SimpRight/tests/ui/products/product-quantity.spec.ts",
+                          "column": 86,
+                          "line": 110
+                        },
+                        "snippet": "\u001b[0m \u001b[90m 108 |\u001b[39m\n \u001b[90m 109 |\u001b[39m     \u001b[36mawait\u001b[39m test\u001b[33m.\u001b[39mstep(\u001b[32m'Verify the quantity is 999999999.'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m () \u001b[33m=>\u001b[39m {\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 110 |\u001b[39m       \u001b[36mawait\u001b[39m expect(productPage\u001b[33m.\u001b[39mquantity\u001b[33m,\u001b[39m \u001b[32m'The typed 1000000000 is set to 999999999'\u001b[39m)\u001b[33m.\u001b[39mtoHaveValue(\u001b[32m'999999999'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m     |\u001b[39m                                                                                      \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 111 |\u001b[39m     })\u001b[33m;\u001b[39m\n \u001b[90m 112 |\u001b[39m   })\u001b[33m;\u001b[39m\n \u001b[90m 113 |\u001b[39m\u001b[0m"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/home/runner/work/SimpRight/SimpRight/tests/ui/products/product-quantity.spec.ts",
+                            "column": 86,
+                            "line": 110
+                          },
+                          "message": "Error: The typed 1000000000 is set to 999999999\n\n\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveValue\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  getByTestId('quantity')\nExpected: \u001b[32m\"99\u001b[7m9999999\u001b[27m\"\u001b[39m\nReceived: \u001b[31m\"99\"\u001b[39m\nTimeout:  10000ms\n\nCall log:\n\u001b[2m  - The typed 1000000000 is set to 999999999 getByTestId('quantity') with timeout 10000ms\u001b[22m\n\u001b[2m  - waiting for getByTestId('quantity')\u001b[22m\n\u001b[2m    24 × locator resolved to <input min=\"1\" max=\"99\" type=\"number\" id=\"quantity-input\" data-test=\"quantity\" aria-labelledby=\"Quantity\" _ngcontent-ng-c2605822289=\"\" class=\"form-control ng-untouched ng-dirty ng-valid\"/>\u001b[22m\n\u001b[2m       - unexpected value \"99\"\u001b[22m\n\n\n  108 |\n  109 |     await test.step('Verify the quantity is 999999999.', async () => {\n> 110 |       await expect(productPage.quantity, 'The typed 1000000000 is set to 999999999').toHaveValue('999999999');\n      |                                                                                      ^\n  111 |     });\n  112 |   });\n  113 |\n    at /home/runner/work/SimpRight/SimpRight/tests/ui/products/product-quantity.spec.ts:110:86\n    at /home/runner/work/SimpRight/SimpRight/tests/ui/products/product-quantity.spec.ts:109:5"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "steps": [
+                        {
+                          "title": "Enter 1000000000 in the quantity field.",
+                          "duration": 32
+                        },
+                        {
+                          "title": "Verify the quantity is 999999999.",
+                          "duration": 10006,
+                          "error": {
+                            "message": "Error: The typed 1000000000 is set to 999999999\n\n\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveValue\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  getByTestId('quantity')\nExpected: \u001b[32m\"99\u001b[7m9999999\u001b[27m\"\u001b[39m\nReceived: \u001b[31m\"99\"\u001b[39m\nTimeout:  10000ms\n\nCall log:\n\u001b[2m  - The typed 1000000000 is set to 999999999 getByTestId('quantity') with timeout 10000ms\u001b[22m\n\u001b[2m  - waiting for getByTestId('quantity')\u001b[22m\n\u001b[2m    24 × locator resolved to <input min=\"1\" max=\"99\" type=\"number\" id=\"quantity-input\" data-test=\"quantity\" aria-labelledby=\"Quantity\" _ngcontent-ng-c2605822289=\"\" class=\"form-control ng-untouched ng-dirty ng-valid\"/>\u001b[22m\n\u001b[2m       - unexpected value \"99\"\u001b[22m\n",
+                            "stack": "Error: The typed 1000000000 is set to 999999999\n\n\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveValue\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  getByTestId('quantity')\nExpected: \u001b[32m\"99\u001b[7m9999999\u001b[27m\"\u001b[39m\nReceived: \u001b[31m\"99\"\u001b[39m\nTimeout:  10000ms\n\nCall log:\n\u001b[2m  - The typed 1000000000 is set to 999999999 getByTestId('quantity') with timeout 10000ms\u001b[22m\n\u001b[2m  - waiting for getByTestId('quantity')\u001b[22m\n\u001b[2m    24 × locator resolved to <input min=\"1\" max=\"99\" type=\"number\" id=\"quantity-input\" data-test=\"quantity\" aria-labelledby=\"Quantity\" _ngcontent-ng-c2605822289=\"\" class=\"form-control ng-untouched ng-dirty ng-valid\"/>\u001b[22m\n\u001b[2m       - unexpected value \"99\"\u001b[22m\n\n    at /home/runner/work/SimpRight/SimpRight/tests/ui/products/product-quantity.spec.ts:110:86\n    at /home/runner/work/SimpRight/SimpRight/tests/ui/products/product-quantity.spec.ts:109:5",
+                            "location": {
+                              "file": "/home/runner/work/SimpRight/SimpRight/tests/ui/products/product-quantity.spec.ts",
+                              "column": 86,
+                              "line": 110
+                            },
+                            "snippet": "\u001b[0m \u001b[90m 108 |\u001b[39m\n \u001b[90m 109 |\u001b[39m     \u001b[36mawait\u001b[39m test\u001b[33m.\u001b[39mstep(\u001b[32m'Verify the quantity is 999999999.'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m () \u001b[33m=>\u001b[39m {\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 110 |\u001b[39m       \u001b[36mawait\u001b[39m expect(productPage\u001b[33m.\u001b[39mquantity\u001b[33m,\u001b[39m \u001b[32m'The typed 1000000000 is set to 999999999'\u001b[39m)\u001b[33m.\u001b[39mtoHaveValue(\u001b[32m'999999999'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m     |\u001b[39m                                                                                      \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 111 |\u001b[39m     })\u001b[33m;\u001b[39m\n \u001b[90m 112 |\u001b[39m   })\u001b[33m;\u001b[39m\n \u001b[90m 113 |\u001b[39m\u001b[0m"
+                          }
+                        }
+                      ],
+                      "startTime": "2026-10-17T13:44:17.227Z",
+                      "annotations": [
+                        {
+                          "type": "fail",
+                          "description": "Known issue BUG-008: The field sets a typed quantity above 99 to 99 (with the warning \"You can order at most 99 of this product.\") instead of setting 1,000,000,000 to 999,999,999 as the story's range 1 to 999,999,999 requires.",
+                          "location": {
+                            "file": "/home/runner/work/SimpRight/SimpRight/tests/ui/products/product-quantity.spec.ts",
+                            "line": 103,
+                            "column": 10
+                          }
+                        }
+                      ],
+                      "attachments": [
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/home/runner/work/SimpRight/SimpRight/test-results/products-product-quantity--cdeb0-9-999-is-set-to-999-999-999-ui/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/home/runner/work/SimpRight/SimpRight/tests/ui/products/product-quantity.spec.ts",
+                        "column": 86,
+                        "line": 110
+                      }
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "7099847573e81f5da265-22de9b892c604242118a",
+              "file": "ui/products/product-quantity.spec.ts",
+              "line": 102,
+              "column": 7
+            },
+            {
+              "title": "UI-025: A typed quantity of 999,999,999 is accepted",
+              "ok": true,
+              "tags": [
+                "products"
+              ],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [
+                    {
+                      "type": "fail",
+                      "description": "Known issue BUG-008: The field changes a typed quantity of 999,999,999 to 99 (the app allows at most 99) instead of keeping it as the story's range 1 to 999,999,999 requires.",
+                      "location": {
+                        "file": "/home/runner/work/SimpRight/SimpRight/tests/ui/products/product-quantity.spec.ts",
+                        "line": 115,
+                        "column": 10
+                      }
+                    }
+                  ],
+                  "expectedStatus": "failed",
+                  "projectId": "ui",
+                  "projectName": "ui",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 12218,
+                      "error": {
+                        "message": "Error: The typed 999999999 is kept\n\n\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveValue\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  getByTestId('quantity')\nExpected: \u001b[32m\"99\u001b[7m9999999\u001b[27m\"\u001b[39m\nReceived: \u001b[31m\"99\"\u001b[39m\nTimeout:  10000ms\n\nCall log:\n\u001b[2m  - The typed 999999999 is kept getByTestId('quantity') with timeout 10000ms\u001b[22m\n\u001b[2m  - waiting for getByTestId('quantity')\u001b[22m\n\u001b[2m    24 × locator resolved to <input min=\"1\" max=\"99\" type=\"number\" id=\"quantity-input\" data-test=\"quantity\" aria-labelledby=\"Quantity\" _ngcontent-ng-c2605822289=\"\" class=\"form-control ng-untouched ng-dirty ng-valid\"/>\u001b[22m\n\u001b[2m       - unexpected value \"99\"\u001b[22m\n",
+                        "stack": "Error: The typed 999999999 is kept\n\n\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveValue\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  getByTestId('quantity')\nExpected: \u001b[32m\"99\u001b[7m9999999\u001b[27m\"\u001b[39m\nReceived: \u001b[31m\"99\"\u001b[39m\nTimeout:  10000ms\n\nCall log:\n\u001b[2m  - The typed 999999999 is kept getByTestId('quantity') with timeout 10000ms\u001b[22m\n\u001b[2m  - waiting for getByTestId('quantity')\u001b[22m\n\u001b[2m    24 × locator resolved to <input min=\"1\" max=\"99\" type=\"number\" id=\"quantity-input\" data-test=\"quantity\" aria-labelledby=\"Quantity\" _ngcontent-ng-c2605822289=\"\" class=\"form-control ng-untouched ng-dirty ng-valid\"/>\u001b[22m\n\u001b[2m       - unexpected value \"99\"\u001b[22m\n\n    at /home/runner/work/SimpRight/SimpRight/tests/ui/products/product-quantity.spec.ts:122:73\n    at /home/runner/work/SimpRight/SimpRight/tests/ui/products/product-quantity.spec.ts:121:5",
+                        "location": {
+                          "file": "/home/runner/work/SimpRight/SimpRight/tests/ui/products/product-quantity.spec.ts",
+                          "column": 73,
+                          "line": 122
+                        },
+                        "snippet": "\u001b[0m \u001b[90m 120 |\u001b[39m\n \u001b[90m 121 |\u001b[39m     \u001b[36mawait\u001b[39m test\u001b[33m.\u001b[39mstep(\u001b[32m'Verify the quantity is 999999999.'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m () \u001b[33m=>\u001b[39m {\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 122 |\u001b[39m       \u001b[36mawait\u001b[39m expect(productPage\u001b[33m.\u001b[39mquantity\u001b[33m,\u001b[39m \u001b[32m'The typed 999999999 is kept'\u001b[39m)\u001b[33m.\u001b[39mtoHaveValue(\u001b[32m'999999999'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m     |\u001b[39m                                                                         \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 123 |\u001b[39m     })\u001b[33m;\u001b[39m\n \u001b[90m 124 |\u001b[39m   })\u001b[33m;\u001b[39m\n \u001b[90m 125 |\u001b[39m\u001b[0m"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/home/runner/work/SimpRight/SimpRight/tests/ui/products/product-quantity.spec.ts",
+                            "column": 73,
+                            "line": 122
+                          },
+                          "message": "Error: The typed 999999999 is kept\n\n\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveValue\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  getByTestId('quantity')\nExpected: \u001b[32m\"99\u001b[7m9999999\u001b[27m\"\u001b[39m\nReceived: \u001b[31m\"99\"\u001b[39m\nTimeout:  10000ms\n\nCall log:\n\u001b[2m  - The typed 999999999 is kept getByTestId('quantity') with timeout 10000ms\u001b[22m\n\u001b[2m  - waiting for getByTestId('quantity')\u001b[22m\n\u001b[2m    24 × locator resolved to <input min=\"1\" max=\"99\" type=\"number\" id=\"quantity-input\" data-test=\"quantity\" aria-labelledby=\"Quantity\" _ngcontent-ng-c2605822289=\"\" class=\"form-control ng-untouched ng-dirty ng-valid\"/>\u001b[22m\n\u001b[2m       - unexpected value \"99\"\u001b[22m\n\n\n  120 |\n  121 |     await test.step('Verify the quantity is 999999999.', async () => {\n> 122 |       await expect(productPage.quantity, 'The typed 999999999 is kept').toHaveValue('999999999');\n      |                                                                         ^\n  123 |     });\n  124 |   });\n  125 |\n    at /home/runner/work/SimpRight/SimpRight/tests/ui/products/product-quantity.spec.ts:122:73\n    at /home/runner/work/SimpRight/SimpRight/tests/ui/products/product-quantity.spec.ts:121:5"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "steps": [
+                        {
+                          "title": "Enter 999999999 in the quantity field.",
+                          "duration": 23
+                        },
+                        {
+                          "title": "Verify the quantity is 999999999.",
+                          "duration": 10004,
+                          "error": {
+                            "message": "Error: The typed 999999999 is kept\n\n\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveValue\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  getByTestId('quantity')\nExpected: \u001b[32m\"99\u001b[7m9999999\u001b[27m\"\u001b[39m\nReceived: \u001b[31m\"99\"\u001b[39m\nTimeout:  10000ms\n\nCall log:\n\u001b[2m  - The typed 999999999 is kept getByTestId('quantity') with timeout 10000ms\u001b[22m\n\u001b[2m  - waiting for getByTestId('quantity')\u001b[22m\n\u001b[2m    24 × locator resolved to <input min=\"1\" max=\"99\" type=\"number\" id=\"quantity-input\" data-test=\"quantity\" aria-labelledby=\"Quantity\" _ngcontent-ng-c2605822289=\"\" class=\"form-control ng-untouched ng-dirty ng-valid\"/>\u001b[22m\n\u001b[2m       - unexpected value \"99\"\u001b[22m\n",
+                            "stack": "Error: The typed 999999999 is kept\n\n\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveValue\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  getByTestId('quantity')\nExpected: \u001b[32m\"99\u001b[7m9999999\u001b[27m\"\u001b[39m\nReceived: \u001b[31m\"99\"\u001b[39m\nTimeout:  10000ms\n\nCall log:\n\u001b[2m  - The typed 999999999 is kept getByTestId('quantity') with timeout 10000ms\u001b[22m\n\u001b[2m  - waiting for getByTestId('quantity')\u001b[22m\n\u001b[2m    24 × locator resolved to <input min=\"1\" max=\"99\" type=\"number\" id=\"quantity-input\" data-test=\"quantity\" aria-labelledby=\"Quantity\" _ngcontent-ng-c2605822289=\"\" class=\"form-control ng-untouched ng-dirty ng-valid\"/>\u001b[22m\n\u001b[2m       - unexpected value \"99\"\u001b[22m\n\n    at /home/runner/work/SimpRight/SimpRight/tests/ui/products/product-quantity.spec.ts:122:73\n    at /home/runner/work/SimpRight/SimpRight/tests/ui/products/product-quantity.spec.ts:121:5",
+                            "location": {
+                              "file": "/home/runner/work/SimpRight/SimpRight/tests/ui/products/product-quantity.spec.ts",
+                              "column": 73,
+                              "line": 122
+                            },
+                            "snippet": "\u001b[0m \u001b[90m 120 |\u001b[39m\n \u001b[90m 121 |\u001b[39m     \u001b[36mawait\u001b[39m test\u001b[33m.\u001b[39mstep(\u001b[32m'Verify the quantity is 999999999.'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m () \u001b[33m=>\u001b[39m {\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 122 |\u001b[39m       \u001b[36mawait\u001b[39m expect(productPage\u001b[33m.\u001b[39mquantity\u001b[33m,\u001b[39m \u001b[32m'The typed 999999999 is kept'\u001b[39m)\u001b[33m.\u001b[39mtoHaveValue(\u001b[32m'999999999'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m     |\u001b[39m                                                                         \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 123 |\u001b[39m     })\u001b[33m;\u001b[39m\n \u001b[90m 124 |\u001b[39m   })\u001b[33m;\u001b[39m\n \u001b[90m 125 |\u001b[39m\u001b[0m"
+                          }
+                        }
+                      ],
+                      "startTime": "2026-10-17T13:44:17.282Z",
+                      "annotations": [
+                        {
+                          "type": "fail",
+                          "description": "Known issue BUG-008: The field changes a typed quantity of 999,999,999 to 99 (the app allows at most 99) instead of keeping it as the story's range 1 to 999,999,999 requires.",
+                          "location": {
+                            "file": "/home/runner/work/SimpRight/SimpRight/tests/ui/products/product-quantity.spec.ts",
+                            "line": 115,
+                            "column": 10
+                          }
+                        }
+                      ],
+                      "attachments": [
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/home/runner/work/SimpRight/SimpRight/test-results/products-product-quantity--11f2f--of-999-999-999-is-accepted-ui/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/home/runner/work/SimpRight/SimpRight/tests/ui/products/product-quantity.spec.ts",
+                        "column": 73,
+                        "line": 122
+                      }
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "7099847573e81f5da265-6eb1dca0dd8b8bf67c2c",
+              "file": "ui/products/product-quantity.spec.ts",
+              "line": 114,
+              "column": 7
+            },
+            {
+              "title": "UI-026: A typed quantity of 1 is accepted",
+              "ok": true,
+              "tags": [
+                "products"
+              ],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "ui",
+                  "projectName": "ui",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 1,
+                      "status": "passed",
+                      "duration": 2301,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "steps": [
+                        {
+                          "title": "Click \"Increase quantity\".",
+                          "duration": 61
+                        },
+                        {
+                          "title": "Enter 1 in the quantity field.",
+                          "duration": 24
+                        },
+                        {
+                          "title": "Verify the quantity is 1.",
+                          "duration": 11
+                        },
+                        {
+                          "title": "Click \"Increase quantity\".",
+                          "duration": 57
+                        },
+                        {
+                          "title": "Verify the quantity is 2.",
+                          "duration": 23
+                        }
+                      ],
+                      "startTime": "2026-10-17T13:44:29.186Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "7099847573e81f5da265-4a438fe2c602fd1cd97b",
+              "file": "ui/products/product-quantity.spec.ts",
+              "line": 126,
               "column": 7
             }
           ]
@@ -1008,10 +2226,10 @@
                   "projectName": "ui",
                   "results": [
                     {
-                      "workerIndex": 1,
-                      "parallelIndex": 1,
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 2062,
+                      "duration": 1633,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
@@ -1019,22 +2237,22 @@
                       "steps": [
                         {
                           "title": "Search for \"pliers\".",
-                          "duration": 545
+                          "duration": 397
                         },
                         {
                           "title": "Verify the caption reads \"Searched for: pliers\".",
-                          "duration": 4
+                          "duration": 3
                         },
                         {
                           "title": "Verify at least one product is shown.",
-                          "duration": 4
+                          "duration": 5
                         },
                         {
                           "title": "Verify every product name contains \"pliers\" (case-insensitive).",
-                          "duration": 26
+                          "duration": 33
                         }
                       ],
-                      "startTime": "2026-10-16T10:31:45.768Z",
+                      "startTime": "2026-10-17T13:44:29.518Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -1065,7 +2283,7 @@
                       "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 2552,
+                      "duration": 2231,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
@@ -1073,15 +2291,15 @@
                       "steps": [
                         {
                           "title": "Check the category \"Hammer\" in the sidebar.",
-                          "duration": 402
+                          "duration": 385
                         },
                         {
                           "title": "Check the brand \"ForgeFlex Tools\" in the sidebar.",
-                          "duration": 397
+                          "duration": 306
                         },
                         {
                           "title": "Search for \"pliers\".",
-                          "duration": 449
+                          "duration": 317
                         },
                         {
                           "title": "Verify the category \"Hammer\" is not checked.",
@@ -1093,14 +2311,14 @@
                         },
                         {
                           "title": "Verify at least one product is shown.",
-                          "duration": 5
+                          "duration": 2
                         },
                         {
                           "title": "Verify every product name contains \"pliers\" (case-insensitive).",
-                          "duration": 31
+                          "duration": 20
                         }
                       ],
-                      "startTime": "2026-10-16T10:31:47.119Z",
+                      "startTime": "2026-10-17T13:44:31.165Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -1131,7 +2349,7 @@
                       "workerIndex": 1,
                       "parallelIndex": 1,
                       "status": "passed",
-                      "duration": 2144,
+                      "duration": 1581,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
@@ -1139,11 +2357,11 @@
                       "steps": [
                         {
                           "title": "Search for \"ham\".",
-                          "duration": 460
+                          "duration": 332
                         },
                         {
                           "title": "Verify the caption reads \"Searched for: ham\".",
-                          "duration": 6
+                          "duration": 3
                         },
                         {
                           "title": "Verify at least one product is shown.",
@@ -1151,10 +2369,10 @@
                         },
                         {
                           "title": "Verify every product name contains \"ham\" (case-insensitive).",
-                          "duration": 30
+                          "duration": 23
                         }
                       ],
-                      "startTime": "2026-10-16T10:31:47.845Z",
+                      "startTime": "2026-10-17T13:44:31.510Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -1182,10 +2400,10 @@
                   "projectName": "ui",
                   "results": [
                     {
-                      "workerIndex": 0,
-                      "parallelIndex": 0,
+                      "workerIndex": 1,
+                      "parallelIndex": 1,
                       "status": "passed",
-                      "duration": 2510,
+                      "duration": 1559,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
@@ -1193,14 +2411,14 @@
                       "steps": [
                         {
                           "title": "Search for a term of exactly 40 characters.",
-                          "duration": 402
+                          "duration": 411
                         },
                         {
                           "title": "Verify the caption reads \"Searched for: \" followed by the term.",
-                          "duration": 7
+                          "duration": 3
                         }
                       ],
-                      "startTime": "2026-10-16T10:31:49.687Z",
+                      "startTime": "2026-10-17T13:44:33.105Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -1228,10 +2446,10 @@
                   "projectName": "ui",
                   "results": [
                     {
-                      "workerIndex": 1,
-                      "parallelIndex": 1,
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 1595,
+                      "duration": 1583,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
@@ -1239,18 +2457,18 @@
                       "steps": [
                         {
                           "title": "Search for \"pl\".",
-                          "duration": 113
+                          "duration": 92
                         },
                         {
                           "title": "Verify no \"Searched for:\" caption is shown.",
-                          "duration": 4
+                          "duration": 16
                         },
                         {
                           "title": "Verify the product grid still shows the first page of all products.",
-                          "duration": 5
+                          "duration": 29
                         }
                       ],
-                      "startTime": "2026-10-16T10:31:50.007Z",
+                      "startTime": "2026-10-17T13:44:33.414Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -1281,7 +2499,7 @@
                       "workerIndex": 1,
                       "parallelIndex": 1,
                       "status": "passed",
-                      "duration": 2111,
+                      "duration": 1343,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
@@ -1289,18 +2507,18 @@
                       "steps": [
                         {
                           "title": "Search for a term of exactly 41 characters.",
-                          "duration": 107
+                          "duration": 93
                         },
                         {
                           "title": "Verify no \"Searched for:\" caption is shown.",
-                          "duration": 6
+                          "duration": 12
                         },
                         {
                           "title": "Verify the product grid still shows the first page of all products.",
-                          "duration": 13
+                          "duration": 14
                         }
                       ],
-                      "startTime": "2026-10-16T10:31:51.616Z",
+                      "startTime": "2026-10-17T13:44:34.680Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -1348,7 +2566,7 @@
                       "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 2001,
+                      "duration": 1837,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
@@ -1356,14 +2574,14 @@
                       "steps": [
                         {
                           "title": "Select \"Name (A - Z)\" in the sort list.",
-                          "duration": 444
+                          "duration": 351
                         },
                         {
                           "title": "Verify the product names are in alphabetical order, A to Z.",
-                          "duration": 57
+                          "duration": 56
                         }
                       ],
-                      "startTime": "2026-10-16T10:31:52.215Z",
+                      "startTime": "2026-10-17T13:44:35.022Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -1394,7 +2612,7 @@
                       "workerIndex": 1,
                       "parallelIndex": 1,
                       "status": "passed",
-                      "duration": 1843,
+                      "duration": 1653,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
@@ -1402,14 +2620,14 @@
                       "steps": [
                         {
                           "title": "Select \"Name (Z - A)\" in the sort list.",
-                          "duration": 410
+                          "duration": 260
                         },
                         {
                           "title": "Verify the product names are in reverse alphabetical order, Z to A.",
-                          "duration": 31
+                          "duration": 56
                         }
                       ],
-                      "startTime": "2026-10-16T10:31:53.748Z",
+                      "startTime": "2026-10-17T13:44:36.047Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -1440,7 +2658,7 @@
                       "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 2308,
+                      "duration": 1956,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
@@ -1448,14 +2666,14 @@
                       "steps": [
                         {
                           "title": "Select \"Price (High - Low)\" in the sort list.",
-                          "duration": 398
+                          "duration": 276
                         },
                         {
                           "title": "Verify the products are sorted by price, highest first.",
-                          "duration": 117
+                          "duration": 119
                         }
                       ],
-                      "startTime": "2026-10-16T10:31:54.232Z",
+                      "startTime": "2026-10-17T13:44:36.874Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -1486,7 +2704,7 @@
                       "workerIndex": 1,
                       "parallelIndex": 1,
                       "status": "passed",
-                      "duration": 1782,
+                      "duration": 1932,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
@@ -1494,14 +2712,14 @@
                       "steps": [
                         {
                           "title": "Select \"Price (Low - High)\" in the sort list.",
-                          "duration": 370
+                          "duration": 335
                         },
                         {
                           "title": "Verify the products are sorted by price, lowest first.",
-                          "duration": 48
+                          "duration": 78
                         }
                       ],
-                      "startTime": "2026-10-16T10:31:55.604Z",
+                      "startTime": "2026-10-17T13:44:37.719Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -1517,13 +2735,198 @@
           ]
         }
       ]
+    },
+    {
+      "title": "ui/products/rentals.spec.ts",
+      "file": "ui/products/rentals.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "@products - Rentals",
+          "file": "ui/products/rentals.spec.ts",
+          "line": 6,
+          "column": 6,
+          "specs": [
+            {
+              "title": "UI-082: Each rental card shows an image, a name and a description",
+              "ok": true,
+              "tags": [
+                "products"
+              ],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "ui",
+                  "projectName": "ui",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 1,
+                      "status": "passed",
+                      "duration": 1317,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "steps": [
+                        {
+                          "title": "Verify the page shows at least one rental card.",
+                          "duration": 16
+                        },
+                        {
+                          "title": "Verify every rental card shows a product image.",
+                          "duration": 66
+                        },
+                        {
+                          "title": "Verify every rental card shows its name.",
+                          "duration": 58
+                        },
+                        {
+                          "title": "Verify every rental card shows a description that is not empty.",
+                          "duration": 37
+                        }
+                      ],
+                      "startTime": "2026-10-17T13:44:39.670Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "e793bf7011965cb95805-3f62685c2df4c3c04829",
+              "file": "ui/products/rentals.spec.ts",
+              "line": 40,
+              "column": 7
+            },
+            {
+              "title": "UI-083: Clicking a rental card opens its product page with the duration slider",
+              "ok": true,
+              "tags": [
+                "products"
+              ],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "ui",
+                  "projectName": "ui",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 1443,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "steps": [
+                        {
+                          "title": "Click the card of \"Excavator\".",
+                          "duration": 357
+                        },
+                        {
+                          "title": "Verify the product page of \"Excavator\" is shown, with the name \"Excavator\".",
+                          "duration": 7
+                        },
+                        {
+                          "title": "Verify a duration slider is shown.",
+                          "duration": 4
+                        }
+                      ],
+                      "startTime": "2026-10-17T13:44:40.508Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "e793bf7011965cb95805-54a12363c9fd93376b0f",
+              "file": "ui/products/rentals.spec.ts",
+              "line": 74,
+              "column": 7
+            }
+          ],
+          "suites": [
+            {
+              "title": "",
+              "file": "ui/products/rentals.spec.ts",
+              "line": 7,
+              "column": 8,
+              "specs": [
+                {
+                  "title": "UI-081: The Rentals page opens from the Categories menu and lists the rental products",
+                  "ok": true,
+                  "tags": [
+                    "products"
+                  ],
+                  "tests": [
+                    {
+                      "timeout": 60000,
+                      "annotations": [],
+                      "expectedStatus": "passed",
+                      "projectId": "ui",
+                      "projectName": "ui",
+                      "results": [
+                        {
+                          "workerIndex": 0,
+                          "parallelIndex": 0,
+                          "status": "passed",
+                          "duration": 1623,
+                          "errors": [],
+                          "stdout": [],
+                          "stderr": [],
+                          "retry": 0,
+                          "steps": [
+                            {
+                              "title": "Open the \"Categories\" menu.",
+                              "duration": 89
+                            },
+                            {
+                              "title": "Click \"Rentals\".",
+                              "duration": 324
+                            },
+                            {
+                              "title": "Verify the \"Rentals\" page is shown, with the heading \"Rentals\".",
+                              "duration": 12
+                            },
+                            {
+                              "title": "Verify the cards of \"Excavator\", \"Bulldozer\" and \"Crane\" are shown.",
+                              "duration": 19
+                            }
+                          ],
+                          "startTime": "2026-10-17T13:44:38.861Z",
+                          "annotations": [],
+                          "attachments": []
+                        }
+                      ],
+                      "status": "expected"
+                    }
+                  ],
+                  "id": "e793bf7011965cb95805-8a09a55495fedc48eb04",
+                  "file": "ui/products/rentals.spec.ts",
+                  "line": 11,
+                  "column": 5
+                }
+              ]
+            }
+          ]
+        }
+      ]
     }
   ],
   "errors": [],
   "stats": {
-    "startTime": "2026-10-16T10:31:19.445Z",
-    "duration": 38949.36,
-    "expected": 22,
+    "startTime": "2026-10-17T13:43:38.552Z",
+    "duration": 64168.473000000005,
+    "expected": 45,
     "skipped": 0,
     "unexpected": 0,
     "flaky": 0
