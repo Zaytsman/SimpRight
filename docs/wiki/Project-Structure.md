@@ -31,7 +31,7 @@ SimpRight/
 │   │   ├── flows/                multi-page user journeys (ShoppingFlow)
 │   │   ├── auth/                 login token and storage state helpers
 │   │   └── fixtures/             UI fixtures (pages, components, flows)
-│   │       └── preconditions/    where a test starts, open<Page><State>Test: openHomePageTest, openProductPageTest, their InLondon variants, throwawayCustomerTest
+│   │       └── preconditions/    where a test starts, open<Page><State>Test: openHomePageTest, openProductPageTest, their InLondon / WithNewCustomer variants
 │   ├── data/
 │   │   ├── TestConstants.ts      seeded app values that several tests rely on
 │   │   └── factories/            payload builders per area, uniqueName() for created records

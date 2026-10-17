@@ -9,8 +9,8 @@ scenarios:
     automatedIn: tests/ui/products/product-favorites.spec.ts
     preconditions:
       - The product "Combination Pliers" is not in the user's favourites.
+      - The product page of "Combination Pliers" is open.
     steps:
-      - Open the product "Combination Pliers".
       - Click "Add to favourites".
       - Verify the message "Product added to your favorites list." is shown.
   - id: UI-029
@@ -20,8 +20,8 @@ scenarios:
     automatedIn: tests/ui/products/product-favorites.spec.ts
     preconditions:
       - The product "Combination Pliers" is in the user's favourites.
+      - The product page of "Combination Pliers" is open.
     steps:
-      - Open the product "Combination Pliers".
       - Click "Add to favourites".
       - Verify the message "Product already in your favorites list." is shown.
   - id: UI-030
@@ -30,7 +30,8 @@ scenarios:
     status: automated
     automatedIn: tests/ui/products/product-favorites.spec.ts
     role: guest
+    preconditions:
+      - The product page of "Combination Pliers" is open.
     steps:
-      - Open the product "Combination Pliers".
       - Click "Add to favourites".
       - Verify the message "Unauthorized, can not add product to your favorite list." is shown.

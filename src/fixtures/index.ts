@@ -3,7 +3,7 @@ export { openHomePageTest } from '../ui/fixtures/preconditions/openHomePageTest'
 export { openProductPageTest } from '../ui/fixtures/preconditions/openProductPageTest';
 export { openProductPageInLondonTest } from '../ui/fixtures/preconditions/openProductPageInLondonTest';
 export { openHomePageInLondonTest } from '../ui/fixtures/preconditions/openHomePageInLondonTest';
-export { throwawayCustomerTest } from '../ui/fixtures/preconditions/throwawayCustomerTest';
+export { openProductPageWithNewCustomerTest } from '../ui/fixtures/preconditions/openProductPageWithNewCustomerTest';
 export {
   PRODUCT_LIST_STEP,
   PRODUCT_CREATE_STEP,
