@@ -1,192 +1,186 @@
-import { test, expect, visitorInLondonTest } from '@fixtures';
+// Every scenario here starts on an opened product page: the fixture opens `productName`'s page before the steps.
+import { openProductPageTest as test, expect, openProductPageInLondonTest } from '@fixtures';
 import { TestConstants } from '@data/TestConstants';
 
 // Scenarios: test-scenarios/ui/products/product-detail.yml
 test.describe('@products - Product detail', () => {
-  test("UI-013: The product page shows the product's information and related products", async ({ shoppingFlow, productPage }) => {
-    const productName = TestConstants.products.inStockProduct;
+  test.describe(() => {
+    // Precondition: The product page of "Combination Pliers" is open.
+    test.use({ productName: TestConstants.products.inStockProduct });
 
-    await test.step('Open the product "Combination Pliers".', async () => {
-      await shoppingFlow.openProduct(productName);
-    });
+    test("UI-013: The product page shows the product's information and related products", async ({ productPage, productName }) => {
+      await test.step('Verify the product image is shown.', async () => {
+        await expect(productPage.image, 'The product image is shown').toBeVisible();
+      });
 
-    await test.step('Verify the product image is shown.', async () => {
-      await expect(productPage.image, 'The product image is shown').toBeVisible();
-    });
+      await test.step('Verify the name "Combination Pliers" is shown.', async () => {
+        await expect(productPage.name, 'The product name is shown').toHaveText(productName);
+      });
 
-    await test.step('Verify the name "Combination Pliers" is shown.', async () => {
-      await expect(productPage.name, 'The product name is shown').toHaveText(productName);
-    });
+      await test.step('Verify the product description is shown.', async () => {
+        await expect(productPage.description, 'The product description is shown').toBeVisible();
+        await expect(productPage.description, 'The product description has text').not.toBeEmpty();
+      });
 
-    await test.step('Verify the product description is shown.', async () => {
-      await expect(productPage.description, 'The product description is shown').toBeVisible();
-      await expect(productPage.description, 'The product description has text').not.toBeEmpty();
-    });
+      await test.step('Verify the price "$14.15" is shown.', async () => {
+        await expect(productPage.price, 'The price is shown').toHaveText('$14.15');
+      });
 
-    await test.step('Verify the price "$14.15" is shown.', async () => {
-      await expect(productPage.price, 'The price is shown').toHaveText('$14.15');
-    });
+      await test.step('Verify the category badge "Pliers" is shown.', async () => {
+        await expect(productPage.categoryBadge, 'The category badge names the category').toHaveText('Pliers');
+      });
 
-    await test.step('Verify the category badge "Pliers" is shown.', async () => {
-      await expect(productPage.categoryBadge, 'The category badge names the category').toHaveText('Pliers');
-    });
+      await test.step('Verify the brand badge "ForgeFlex Tools" is shown.', async () => {
+        await expect(productPage.brandBadge, 'The brand badge names the brand').toHaveText(TestConstants.products.brand);
+      });
 
-    await test.step('Verify the brand badge "ForgeFlex Tools" is shown.', async () => {
-      await expect(productPage.brandBadge, 'The brand badge names the brand').toHaveText(TestConstants.products.brand);
-    });
+      await test.step('Verify the "Related products" section is shown below the product information.', async () => {
+        await expect(productPage.relatedProductsHeading, 'The "Related products" heading is shown').toBeVisible();
+        // Approved reading: "below the product information" = the heading's top is below the bottom of
+        // "Add to cart", the last control of the information column.
+        const heading = await productPage.relatedProductsHeading.boundingBox();
+        const addToCart = await productPage.addToCartControl.boundingBox();
+        expect(heading && addToCart, 'Both the heading and "Add to cart" have a position on the page').toBeTruthy();
+        expect(heading!.y, 'The "Related products" heading starts below "Add to cart"').toBeGreaterThanOrEqual(addToCart!.y + addToCart!.height);
+      });
 
-    await test.step('Verify the "Related products" section is shown below the product information.', async () => {
-      await expect(productPage.relatedProductsHeading, 'The "Related products" heading is shown').toBeVisible();
-      // Approved reading: "below the product information" = the heading's top is below the bottom of
-      // "Add to cart", the last control of the information column.
-      const heading = await productPage.relatedProductsHeading.boundingBox();
-      const addToCart = await productPage.addToCartControl.boundingBox();
-      expect(heading && addToCart, 'Both the heading and "Add to cart" have a position on the page').toBeTruthy();
-      expect(heading!.y, 'The "Related products" heading starts below "Add to cart"').toBeGreaterThanOrEqual(addToCart!.y + addToCart!.height);
-    });
-
-    await test.step('Verify the "Related products" section shows at least one product.', async () => {
-      await expect(productPage.relatedProducts.first(), 'At least one related product is shown').toBeVisible();
+      await test.step('Verify the "Related products" section shows at least one product.', async () => {
+        await expect(productPage.relatedProducts.first(), 'At least one related product is shown').toBeVisible();
+      });
     });
   });
 
   test.describe(() => {
-    // The precondition fixture under the name `test`, so the scenario validator finds this test by its title.
-    const test = visitorInLondonTest;
+    // The London fixture under the name `test`, so the scenario validator finds these tests by their titles.
+    const test = openProductPageInLondonTest;
 
-    test(
-      'UI-014: A discounted product shows the original price struck through, the discounted price and the discount badge',
-      async ({ shoppingFlow, productPage }) => {
-        // Discounts are location-based: only location offers get one, and only for a visitor near one of the
-        // app's discount cities. The fixture makes the browser a visitor in London; Bolt Cutters is a seeded
-        // location offer (the approved choice for "a product that has a discount").
-        const productName = TestConstants.products.locationOfferProduct;
+    test.describe(() => {
+      // Precondition: The product page of a product that has a discount is open. Discounts are location-based: only
+      // location offers get one, and only for a visitor near one of the app's discount cities (the fixture makes the
+      // browser a visitor in London). Bolt Cutters is a seeded location offer (the approved choice).
+      test.use({ productName: TestConstants.products.locationOfferProduct });
 
-        await test.step('Open a product that has a discount.', async () => {
-          await shoppingFlow.openProduct(productName);
-        });
+      test(
+        'UI-014: A discounted product shows the original price struck through, the discounted price and the discount badge',
+        async ({ productPage }) => {
+          await test.step('Verify the original price is shown struck through.', async () => {
+            await expect(productPage.price, 'The original price is shown').toBeVisible();
+            await expect(productPage.price, 'The original price is struck through').toHaveCSS('text-decoration-line', 'line-through');
+          });
 
-        await test.step('Verify the original price is shown struck through.', async () => {
-          await expect(productPage.price, 'The original price is shown').toBeVisible();
-          await expect(productPage.price, 'The original price is struck through').toHaveCSS('text-decoration-line', 'line-through');
-        });
+          await test.step('Verify the discounted price is shown.', async () => {
+            await expect(productPage.discountedPrice, 'The discounted price is shown').toBeVisible();
+            await expect(productPage.discountedPrice, 'The discounted price is a dollar amount').toHaveText(/^\$\d+(\.\d+)?$/);
+          });
 
-        await test.step('Verify the discounted price is shown.', async () => {
-          await expect(productPage.discountedPrice, 'The discounted price is shown').toBeVisible();
-          await expect(productPage.discountedPrice, 'The discounted price is a dollar amount').toHaveText(/^\$\d+(\.\d+)?$/);
-        });
-
-        await test.step('Verify a discount percentage badge is shown.', async () => {
-          await expect(productPage.discountBadge, 'A discount percentage badge is shown').toBeVisible();
-        });
-      }
-    );
-
-    test(
-      'UI-085: A rental that is a location offer shows the discount, the discounted hourly rate and the discounted total for a visitor in London',
-      async ({ shoppingFlow, productPage }) => {
-        // Precondition: The visitor is in London. (the fixture)
-        // Precondition: A rental product that is also a location offer exists. Excavator is seeded as one (the approved
-        // choice: read-only, no product created).
-        const productName = TestConstants.products.rentalProduct;
-        const hours = 3;
-        let discountedRate = 0;
-
-        await test.step('Open the product page of that rental.', async () => {
-          await shoppingFlow.openProduct(productName);
-        });
-
-        await test.step('Set the duration slider to 3 hours.', async () => {
-          // Approved (as UI-017): moved with the arrow keys, like a keyboard user.
-          await productPage.setDuration(hours);
-        });
-
-        await test.step('Verify the discount badge "-25%" is shown.', async () => {
-          await expect(productPage.discountBadge, 'The discount badge is shown').toBeVisible();
-          await expect(productPage.discountBadge, 'The discount badge reads "-25%"').toHaveText('-25%');
-        });
-
-        await test.step('Verify the hourly rate is shown struck through.', async () => {
-          await expect(productPage.price, 'The hourly rate is shown').toBeVisible();
-          await expect(productPage.price, 'The hourly rate is struck through').toHaveCSS('text-decoration-line', 'line-through');
-        });
-
-        await test.step('Verify the discounted hourly rate is shown, 25% below the hourly rate.', async () => {
-          await expect(productPage.discountedPrice, 'The discounted hourly rate is shown').toBeVisible();
-          const hourlyRate = await productPage.getUnitPrice();
-          discountedRate = await productPage.getDiscountedPrice();
-          // Approved reading: 25% below = 75% of the hourly rate, within half a cent (the app rounds to the cent).
-          expect(
-            Math.abs(discountedRate - hourlyRate * 0.75),
-            `The discounted hourly rate ${discountedRate} is 75% of the hourly rate ${hourlyRate}, to the cent`,
-          ).toBeLessThanOrEqual(0.005 + 1e-9);
-        });
-
-        await test.step('Verify the total price equals 3 × the discounted hourly rate.', async () => {
-          const total = await productPage.getTotalPrice();
-          expect(total, `The total is ${hours} × ${discountedRate}`).toBeCloseTo(discountedRate * hours, 2);
-        });
-      }
-    );
-  });
-
-  test("UI-015: An out-of-stock product can't be added to the cart", async ({ shoppingFlow, productPage }) => {
-    await test.step('Open the product "Long Nose Pliers".', async () => {
-      await shoppingFlow.openProduct(TestConstants.products.outOfStockProduct);
+          await test.step('Verify a discount percentage badge is shown.', async () => {
+            await expect(productPage.discountBadge, 'A discount percentage badge is shown').toBeVisible();
+          });
+        }
+      );
     });
 
-    await test.step('Verify "Add to cart" is disabled.', async () => {
-      await expect(productPage.addToCartControl, '"Add to cart" is disabled').toBeDisabled();
-    });
+    test.describe(() => {
+      // Precondition: The product page of a rental product that is also a location offer is open. Excavator is seeded
+      // as one (the approved choice: read-only, no product created).
+      test.use({ productName: TestConstants.products.rentalProduct });
 
-    await test.step('Verify "Out of stock" is shown.', async () => {
-      await expect(productPage.outOfStock, '"Out of stock" is shown').toHaveText('Out of stock');
-    });
+      test(
+        'UI-085: A rental that is a location offer shows the discount, the discounted hourly rate and the discounted total for a visitor in London',
+        async ({ productPage }) => {
+          const hours = 3;
+          let discountedRate = 0;
 
-    await test.step('Verify "Out of stock" is shown in red.', async () => {
-      // Approved reading: "red" is the app's danger colour, #CA0B00.
-      await expect(productPage.outOfStock, '"Out of stock" is red').toHaveCSS('color', 'rgb(202, 11, 0)');
+          await test.step('Set the duration slider to 3 hours.', async () => {
+            // Approved (as UI-017): moved with the arrow keys, like a keyboard user.
+            await productPage.setDuration(hours);
+          });
+
+          await test.step('Verify the discount badge "-25%" is shown.', async () => {
+            await expect(productPage.discountBadge, 'The discount badge is shown').toBeVisible();
+            await expect(productPage.discountBadge, 'The discount badge reads "-25%"').toHaveText('-25%');
+          });
+
+          await test.step('Verify the hourly rate is shown struck through.', async () => {
+            await expect(productPage.price, 'The hourly rate is shown').toBeVisible();
+            await expect(productPage.price, 'The hourly rate is struck through').toHaveCSS('text-decoration-line', 'line-through');
+          });
+
+          await test.step('Verify the discounted hourly rate is shown, 25% below the hourly rate.', async () => {
+            await expect(productPage.discountedPrice, 'The discounted hourly rate is shown').toBeVisible();
+            const hourlyRate = await productPage.getUnitPrice();
+            discountedRate = await productPage.getDiscountedPrice();
+            // Approved reading: 25% below = 75% of the hourly rate, within half a cent (the app rounds to the cent).
+            expect(
+              Math.abs(discountedRate - hourlyRate * 0.75),
+              `The discounted hourly rate ${discountedRate} is 75% of the hourly rate ${hourlyRate}, to the cent`,
+            ).toBeLessThanOrEqual(0.005 + 1e-9);
+          });
+
+          await test.step('Verify the total price equals 3 × the discounted hourly rate.', async () => {
+            const total = await productPage.getTotalPrice();
+            expect(total, `The total is ${hours} × ${discountedRate}`).toBeCloseTo(discountedRate * hours, 2);
+          });
+        }
+      );
     });
   });
 
-  test('UI-016: A rental product shows a duration slider instead of the quantity buttons', async ({ shoppingFlow, productPage }) => {
-    await test.step('Open the rental product "Excavator".', async () => {
-      await shoppingFlow.openProduct(TestConstants.products.rentalProduct);
-    });
+  test.describe(() => {
+    // Precondition: The product page of "Long Nose Pliers" is open.
+    test.use({ productName: TestConstants.products.outOfStockProduct });
 
-    await test.step('Verify a duration slider is shown.', async () => {
-      await expect(productPage.durationSlider, 'The duration slider is shown').toBeVisible();
-    });
+    test("UI-015: An out-of-stock product can't be added to the cart", async ({ productPage }) => {
+      await test.step('Verify "Add to cart" is disabled.', async () => {
+        await expect(productPage.addToCartControl, '"Add to cart" is disabled').toBeDisabled();
+      });
 
-    await test.step('Verify the duration slider goes from 1 to 10 hours.', async () => {
-      // Approved reading: the slider's range as it announces it (aria-valuemin/max). Its end labels are
-      // hidden when the value's own label overlaps them, so they can't be relied on.
-      await expect(productPage.durationSlider, 'The slider starts at 1 hour').toHaveAttribute('aria-valuemin', '1');
-      await expect(productPage.durationSlider, 'The slider ends at 10 hours').toHaveAttribute('aria-valuemax', '10');
-    });
+      await test.step('Verify "Out of stock" is shown.', async () => {
+        await expect(productPage.outOfStock, '"Out of stock" is shown').toHaveText('Out of stock');
+      });
 
-    await test.step('Verify the "Increase quantity" (+) and "Decrease quantity" (-) buttons are not shown.', async () => {
-      await expect(productPage.increaseQuantityControl, 'There is no "Increase quantity" button').toHaveCount(0);
-      await expect(productPage.decreaseQuantityControl, 'There is no "Decrease quantity" button').toHaveCount(0);
+      await test.step('Verify "Out of stock" is shown in red.', async () => {
+        // Approved reading: "red" is the app's danger colour, #CA0B00.
+        await expect(productPage.outOfStock, '"Out of stock" is red').toHaveCSS('color', 'rgb(202, 11, 0)');
+      });
     });
   });
 
-  test("UI-017: A rental's total price is the hourly rate times the duration", async ({ shoppingFlow, productPage }) => {
-    const hours = 3;
+  test.describe(() => {
+    // Precondition: The product page of the rental product "Excavator" is open.
+    test.use({ productName: TestConstants.products.rentalProduct });
 
-    await test.step('Open the rental product "Excavator".', async () => {
-      await shoppingFlow.openProduct(TestConstants.products.rentalProduct);
+    test('UI-016: A rental product shows a duration slider instead of the quantity buttons', async ({ productPage }) => {
+      await test.step('Verify a duration slider is shown.', async () => {
+        await expect(productPage.durationSlider, 'The duration slider is shown').toBeVisible();
+      });
+
+      await test.step('Verify the duration slider goes from 1 to 10 hours.', async () => {
+        // Approved reading: the slider's range as it announces it (aria-valuemin/max). Its end labels are
+        // hidden when the value's own label overlaps them, so they can't be relied on.
+        await expect(productPage.durationSlider, 'The slider starts at 1 hour').toHaveAttribute('aria-valuemin', '1');
+        await expect(productPage.durationSlider, 'The slider ends at 10 hours').toHaveAttribute('aria-valuemax', '10');
+      });
+
+      await test.step('Verify the "Increase quantity" (+) and "Decrease quantity" (-) buttons are not shown.', async () => {
+        await expect(productPage.increaseQuantityControl, 'There is no "Increase quantity" button').toHaveCount(0);
+        await expect(productPage.decreaseQuantityControl, 'There is no "Decrease quantity" button').toHaveCount(0);
+      });
     });
 
-    await test.step('Set the duration slider to 3 hours.', async () => {
-      // Approved: moved with the arrow keys, like a keyboard user.
-      await productPage.setDuration(hours);
-    });
+    test("UI-017: A rental's total price is the hourly rate times the duration", async ({ productPage }) => {
+      const hours = 3;
 
-    await test.step('Verify the total price equals 3 × the hourly rate.', async () => {
-      const hourlyRate = await productPage.getUnitPrice();
-      const total = await productPage.getTotalPrice();
-      expect(total, `The total is ${hours} × ${hourlyRate}`).toBeCloseTo(hourlyRate * hours, 2);
+      await test.step('Set the duration slider to 3 hours.', async () => {
+        // Approved: moved with the arrow keys, like a keyboard user.
+        await productPage.setDuration(hours);
+      });
+
+      await test.step('Verify the total price equals 3 × the hourly rate.', async () => {
+        const hourlyRate = await productPage.getUnitPrice();
+        const total = await productPage.getTotalPrice();
+        expect(total, `The total is ${hours} × ${hourlyRate}`).toBeCloseTo(hourlyRate * hours, 2);
+      });
     });
   });
 });

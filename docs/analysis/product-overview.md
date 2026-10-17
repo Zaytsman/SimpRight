@@ -33,7 +33,7 @@ A visitor wants to browse a paginated grid of all products and narrow it by sear
 
 - **API:** `QUERY /products` and `GET /products` ([Products_API.md](../api/contracts/Products_API.md) §1, §2; the page calls QUERY, the scenarios use GET, and parity is covered by API-0015..0071), `QUERY /products/search` and `GET /products/search` (§9, §10), `POST /products` (§3) and `DELETE /products/{productId}` (§7) for T31's setup and cleanup.
 - **UI:** the home page (`/`: grid, sidebar filters, sort list, price slider, pagination) and the product page (`/product/<id>`).
-- **Data:** seeded products on page 1 ("Combination Pliers", "Bolt Cutters" = a location offer, "Long Nose Pliers" = out of stock); two categories and two brands that have products (their ids change at every hourly re-seed, so read them at run time); a product with stock 0 created by the test; a visitor in London (the existing `visitorInLondonTest` fixture).
+- **Data:** seeded products on page 1 ("Combination Pliers", "Bolt Cutters" = a location offer, "Long Nose Pliers" = out of stock); two categories and two brands that have products (their ids change at every hourly re-seed, so read them at run time); a product with stock 0 created by the test; a visitor in London (the `openHomePageInLondonTest` fixture, which calls `setVisitorLocation`).
 
 ## Test plan
 
@@ -101,7 +101,7 @@ API first: a check goes to the UI only when the API can't prove it ([layer rules
   - AC10: T27 checks the handles at $1 and $100 and the maximum $200, not the floor (0).
 - **Could move to the API:** T23, T24 and T26 (UI-008, UI-009, UI-011), because the server sorts; API-0008 already proves price descending.
 - **Default grid range:** the page calls `QUERY /products` with `between=price,1,100` on every load. UI-vs-API comparisons (T15, T20, T22) must include that range, and a product priced outside $1-$100 never shows on the default grid.
-- **Where T30 finds the card:** search results and a price range change don't compute discounts (see the open question), so T30 must reach the discounted card through the default grid or a filter, not through search or the slider. "Bolt Cutters" (a seeded location offer, as in UI-014's spec) is card 3 on page 1 now. UI-074 lists "The visitor is in London." as its first step, so the spec sets the location inside that step with plain `test`, not through `visitorInLondonTest`. UI-014 covers the product page, not the grid.
+- **Where T30 finds the card:** search results and a price range change don't compute discounts (see the open question), so T30 must reach the discounted card through the default grid or a filter, not through search or the slider. "Bolt Cutters" (a seeded location offer, as in UI-014's spec) is card 3 on page 1 now. UI-074 has "The visitor is in London." and "The home page is open." as preconditions, so the spec uses `openHomePageInLondonTest`. UI-014 covers the product page, not the grid.
 - **Waiting in T29:** `changePriceRange` sets no result-state marker, so the test needs another signal (the `QUERY /products` response). The handles have the roles `slider "ngx-slider"` and `"ngx-slider-max"` (keyboard use).
 - **T31 data:** the product is created with `POST /products` and `stock` 0 (no token needed) and removed with the admin's `DELETE`. It is read back from `GET /products` with `q=<unique name>`.
 - **Seeded products:** UI-012 finds "Long Nose Pliers" on page 1; other visitors can change stock, price or the catalogue at any time (product writes need no token), hence the `data` flags.

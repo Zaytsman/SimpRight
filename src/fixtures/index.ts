@@ -1,6 +1,7 @@
 export { test, expect, type TestFixtures } from './fixtures';
 export { openHomePageTest } from '../ui/fixtures/preconditions/openHomePageTest';
-export { visitorInLondonTest } from '../ui/fixtures/preconditions/visitorInLondonTest';
+export { openProductPageTest } from '../ui/fixtures/preconditions/openProductPageTest';
+export { openProductPageInLondonTest } from '../ui/fixtures/preconditions/openProductPageInLondonTest';
 export { openHomePageInLondonTest } from '../ui/fixtures/preconditions/openHomePageInLondonTest';
 export { throwawayCustomerTest } from '../ui/fixtures/preconditions/throwawayCustomerTest';
 export {

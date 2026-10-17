@@ -6,7 +6,7 @@ On top of `common.md`. The rules are in CLAUDE.md ("UI layer", "UI spec style", 
 
 - Pages, components, flows and API services come from fixtures. No `new SomePage(...)`, no `page.goto`, no selectors (`page.locator`, `getByTestId`, ...) in a spec; a check goes through a page object getter.
 - A flow is used in a step only when it does exactly what the step says; a flow spanning several steps is for setup.
-- A scenario's `preconditions` are set up before the first step: a precondition fixture (`open<Page>Test`, or another `test.extend`, with no `test.step` inside) when tests share one, otherwise setup code with a `// Precondition:` comment. A precondition in a `test.step`, a scenario step done in a fixture, or the same setup code repeated in two or more tests where a fixture fits is a finding.
+- A scenario's `preconditions` are set up before the first step: a precondition fixture (`open<Page><State>Test`, such as `openHomePageInLondonTest`, with no `test.step` inside; a new one named otherwise is a finding) when tests share one, otherwise setup code with a `// Precondition:` comment. A precondition in a `test.step`, a scenario step done in a fixture, or the same setup code repeated in two or more tests where a fixture fits is a finding.
 - Logged-out scenarios (`guest`) use `test.use({ authMode: 'none' })`; a role uses `test.use({ role })`.
 - Messages are plain text (no `assertMessage` in UI specs).
 - Layout or style checks (position, colour, struck through): read the step's wording; these are often brittle, so they should have an approved reading comment, use a retrying matcher where one exists (`toHaveCSS`), and compare with a tolerance where pixels are involved.
