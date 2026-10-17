@@ -27,9 +27,9 @@ An action returns only when the page shows its result, so the next step never re
 
 Never a fixed sleep (`waitForTimeout`), and never `networkidle` in page objects: the app may poll, and idle is not "done".
 
-## Components and dialogs (exemplars: `ui.exemplars.component`, `ui.exemplars.dialog`)
+## Components and dialogs (exemplars: `ui.exemplars.component`, `ui.exemplars.baseComponent`, `ui.exemplars.dialog`)
 
-- A reusable part of several pages (a grid, a filter sidebar, the nav bar) is a component class in the components folder, taking the `page` (or a root locator) in its constructor, with the same locator rules. A page exposes it as a public `readonly` field (`homePage.productGrid`).
+- A reusable part of several pages (a grid, a filter sidebar, the nav bar) is a component class in the components folder extending the base component (`BaseComponent(page, root)`), with the same locator rules. Its constructor takes `root` with its container as the default (a test id, role or a host element, with a CSS reason comment), and every locator starts from `root`; `page` is only for what lies outside it (result markers, network waits) and for the inner locator of `filter({ has })`, which is resolved inside each match. A page exposes it as a public `readonly` field (`homePage.productGrid`).
 - A modal is a dialog class extending the base dialog, with its locators under `root` and actions (`confirm`, `cancel`, or the dialog's own).
 - A component or dialog only one page uses still gets its own class when it has more than a couple of locators; otherwise its locators live in the page.
 

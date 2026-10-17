@@ -1,28 +1,30 @@
 import { expect, type Locator, type Page } from '@playwright/test';
+import { BaseComponent } from './BaseComponent';
 
 /** The filter sidebar of the home/search page: category and brand checkboxes. */
-export class ProductFilters {
-  private readonly page: Page;
+export class ProductFilters extends BaseComponent {
   /**
    * The grid container's `data-test` is the app's result state: a brand or subcategory change turns it to
    * `filter_started` at once and to `filter_completed` once the filtered products are rendered. A top-level
    * category sets no started state, so after an earlier filter the marker is already there (see `checkCategory`).
+   * The grid is outside the sidebar, so this is looked up on the page.
    */
   private readonly filterCompletedMarker: Locator;
 
-  constructor(page: Page) {
-    this.page = page;
+  /** The sidebar `div`: the mobile "Filters" toggle button has the same `data-test`. */
+  constructor(page: Page, root: Locator = page.locator('div[data-test="filters"]')) {
+    super(page, root);
     this.filterCompletedMarker = page.getByTestId('filter_completed');
   }
 
   /** A category checkbox by its label. Its `data-test` is `category-<record id>`, so it's matched by prefix. */
   categoryCheckbox(label: string): Locator {
-    return this.page.getByRole('checkbox', { name: label, exact: true }).and(this.page.locator('[data-test^="category-"]'));
+    return this.root.getByRole('checkbox', { name: label, exact: true }).and(this.root.locator('[data-test^="category-"]'));
   }
 
   /** A brand checkbox by its label. Its `data-test` is `brand-<record id>`, so it's matched by prefix. */
   brandCheckbox(label: string): Locator {
-    return this.page.getByRole('checkbox', { name: label, exact: true }).and(this.page.locator('[data-test^="brand-"]'));
+    return this.root.getByRole('checkbox', { name: label, exact: true }).and(this.root.locator('[data-test^="brand-"]'));
   }
 
   /**

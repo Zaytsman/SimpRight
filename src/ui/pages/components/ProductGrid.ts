@@ -1,16 +1,22 @@
 import type { Locator, Page } from '@playwright/test';
+import { BaseComponent } from './BaseComponent';
 
 /** Grid of product cards on the home/search page. */
-export class ProductGrid {
+export class ProductGrid extends BaseComponent {
   /** Every card is a link with `data-test="product-<id>"`. */
   private readonly cardLinks: Locator;
   private readonly productNameTexts: Locator;
   private readonly noResultsText: Locator;
 
-  constructor(page: Page) {
-    this.cardLinks = page.locator('a[data-test^="product-"]');
-    this.productNameTexts = page.getByTestId('product-name');
-    this.noResultsText = page.getByTestId('no-results');
+  /**
+   * CSS: the results column next to the filter sidebar (search caption, cards, "no results"), the same on the home
+   * and category pages. The cards' own container has no fixed test id: its `data-test` is the app's result state.
+   */
+  constructor(page: Page, root: Locator = page.locator('div.col-md-9')) {
+    super(page, root);
+    this.cardLinks = root.locator('a[data-test^="product-"]');
+    this.productNameTexts = root.getByTestId('product-name');
+    this.noResultsText = root.getByTestId('no-results');
   }
 
   /** Every product card in the grid. */
@@ -24,7 +30,8 @@ export class ProductGrid {
   }
 
   card(name: string): Locator {
-    return this.cardLinks.filter({ has: this.productNameTexts.getByText(name, { exact: true }) });
+    // `has` is resolved inside each card, so it starts from the page, not from `root`.
+    return this.cardLinks.filter({ has: this.page.getByTestId('product-name').getByText(name, { exact: true }) });
   }
 
   /** "Out of stock" on the card of the named product, shown when the product has no stock. */

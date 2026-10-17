@@ -195,6 +195,7 @@
             "page": { "$ref": "#/definitions/path" },
             "basePage": { "$ref": "#/definitions/path", "description": "The base class pages extend." },
             "component": { "$ref": "#/definitions/path", "description": "A reusable part of a page." },
+            "baseComponent": { "$ref": "#/definitions/path", "description": "The base class components extend." },
             "dialog": { "$ref": "#/definitions/path", "description": "A dialog, or the base class dialogs extend." },
             "flow": { "$ref": "#/definitions/path", "description": "A multi-page user journey." },
             "fixtures": { "$ref": "#/definitions/path", "description": "Where page, component, dialog and flow fixtures are registered." },

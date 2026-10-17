@@ -26,7 +26,7 @@ SimpRight/
 │   │   └── coverage/             loader of the optional API coverage plug-in
 │   ├── ui/
 │   │   ├── pages/                page objects, on top of BasePage
-│   │   │   ├── components/       parts shared by pages: NavBar, ProductGrid
+│   │   │   ├── components/       parts shared by pages, on top of BaseComponent: NavBar, ProductGrid, ProductFilters
 │   │   │   └── dialogs/          dialogs, on top of BaseDialog
 │   │   ├── flows/                multi-page user journeys (ShoppingFlow)
 │   │   ├── auth/                 login token and storage state helpers

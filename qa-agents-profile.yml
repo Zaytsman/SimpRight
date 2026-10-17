@@ -95,6 +95,7 @@ ui:
     page: src/ui/pages/HomePage.ts
     basePage: src/ui/pages/BasePage.ts
     component: src/ui/pages/components/ProductGrid.ts
+    baseComponent: src/ui/pages/components/BaseComponent.ts   # components extend this; locators start from root
     dialog: src/ui/pages/dialogs/BaseDialog.ts   # no concrete dialog yet: subclasses extend this
     flow: src/ui/flows/ShoppingFlow.ts
     fixtures: src/ui/fixtures/fixtures.ts   # new pages, components, dialogs and flows are registered here
