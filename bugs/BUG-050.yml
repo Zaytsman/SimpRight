@@ -1,0 +1,28 @@
+# yaml-language-server: $schema=./bug.schema.json
+id: BUG-050
+title: The checkout's Cart step says "The cart is empty. Nothing to display." instead of "Your shopping cart is empty"
+status: open
+severity: trivial
+layer: ui
+area: cart
+affects:
+  - /checkout (step 1, Cart)
+found: 2026-10-17
+ref:
+  - docs/ui/user-stories/Checkout_Cart_Review.md#AC4
+description: >-
+  The story's AC4 says an empty cart shows "Your shopping cart is empty". When the cart exists but has no items (for
+  example after deleting its last line on the Cart step), the step shows its translation pages.checkout.cart.empty
+  instead: "The cart is empty. Nothing to display." The table and "Proceed to checkout" are gone as expected; only
+  the wording differs from the story.
+steps:
+  - Put a product in the cart.
+  - Open the checkout page.
+  - Click the delete button on the product's line.
+  - Read the message on the Cart step.
+expected: 'The message reads "Your shopping cart is empty".'
+actual: 'The message reads "The cart is empty. Nothing to display."'
+evidence: |-
+  UI-053 (tests/ui/cart/checkout-cart-review.spec.ts), runs on 2026-10-17 against the live site: after the last line
+  was deleted, the step's message was "The cart is empty. Nothing to display.". The same text is in the live
+  assets/i18n/en.json (pages.checkout.cart.empty) and in the app source.

@@ -1,0 +1,30 @@
+# yaml-language-server: $schema=./bug.schema.json
+id: BUG-049
+title: The checkout's Cart step is empty for a visitor without a cart, with no "Your shopping cart is empty" message
+status: open
+severity: minor
+layer: ui
+area: cart
+affects:
+  - /checkout (step 1, Cart)
+found: 2026-10-17
+ref:
+  - docs/ui/user-stories/Checkout_Cart_Review.md#AC4
+description: >-
+  The story's AC4 says a visitor with no items in the cart sees "Your shopping cart is empty". When no cart exists
+  yet (nothing was added in the session, so there's no cart_id in sessionStorage), the Cart step of /checkout shows
+  nothing at all: no table, no message and no buttons, only the wizard's step titles. The app's CartService.getCart()
+  returns null without a cart id, and the cart template reads cart.cart_items without a null check, so the step
+  fails to render. A cart that exists with no items shows a message instead (see BUG-050 for its wording).
+steps:
+  - Open the site in a new browser session, logged in or not, without adding anything to a cart.
+  - Open the checkout page (/checkout).
+  - Look at the Cart step.
+expected: 'The Cart step shows the message "Your shopping cart is empty".'
+actual: The Cart step is empty; no message, table or button is shown.
+evidence: |-
+  UI-052 (tests/ui/cart/checkout-cart-review.spec.ts), runs on 2026-10-17 against the live site: the page showed the
+  wizard (Cart 1, Sign in 2, Billing Address 3, Payment 4) and nothing inside the Cart step. The page inspector showed
+  the same for /checkout as the run's customer. App source: sprint5/UI/src/app/checkout/cart/cart.component.html
+  (@if (cart.cart_items.length)) and _services/cart.service.ts (getCart() returns of(null) without a cart id); the
+  live bundle has the same template.

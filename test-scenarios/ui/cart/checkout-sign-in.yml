@@ -5,7 +5,8 @@ scenarios:
   - id: UI-058
     name: A guest who proceeds from the cart step sees the sign-in step with a login form
     ref: docs/ui/user-stories/Checkout_Sign_In.md#AC1
-    status: manual
+    status: automated
+    automatedIn: tests/ui/cart/checkout-sign-in.spec.ts
     role: guest
     preconditions:
       - A product that is in stock is in the cart.
@@ -17,7 +18,8 @@ scenarios:
   - id: UI-059
     name: The sign-in step shows the email and password fields and the "Login" button
     ref: docs/ui/user-stories/Checkout_Sign_In.md#AC2
-    status: manual
+    status: automated
+    automatedIn: tests/ui/cart/checkout-sign-in.spec.ts
     role: guest
     preconditions:
       - A product that is in stock is in the cart.
@@ -30,7 +32,8 @@ scenarios:
   - id: UI-060
     name: An account with TOTP enabled must enter a valid code on the sign-in step to sign in
     ref: docs/ui/user-stories/Checkout_Sign_In.md#AC3
-    status: manual
+    status: automated
+    automatedIn: tests/ui/cart/checkout-sign-in.spec.ts
     role: guest
     preconditions:
       - A product that is in stock is in the cart.
@@ -54,7 +57,8 @@ scenarios:
   - id: UI-061
     name: Valid credentials on the sign-in step sign the guest in and lead to the billing address step
     ref: docs/ui/user-stories/Checkout_Sign_In.md#AC4
-    status: manual
+    status: automated
+    automatedIn: tests/ui/cart/checkout-sign-in.spec.ts
     role: guest
     preconditions:
       - A product that is in stock is in the cart.
@@ -71,7 +75,10 @@ scenarios:
   - id: UI-062
     name: A logged-in customer sees the already-signed-in message on the sign-in step and proceeds to the billing address step
     ref: docs/ui/user-stories/Checkout_Sign_In.md#AC5
-    status: manual
+    status: automated
+    automatedIn: tests/ui/cart/checkout-sign-in.spec.ts
+    knownIssue: 'The sign-in step tells a logged-in customer "Hello <first> <last>, you are already logged in." instead of "You are already signed in as <first> <last>".'
+    bug: BUG-048
     preconditions:
       - A product that is in stock is in the cart.
     steps:

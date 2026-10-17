@@ -1,0 +1,26 @@
+# yaml-language-server: $schema=./bug.schema.json
+id: BUG-051
+title: A rental line in the checkout cart is marked "Item for rent, price per hour" instead of "This is a rental item"
+status: open
+severity: trivial
+layer: ui
+area: cart
+affects:
+  - /checkout (step 1, Cart)
+found: 2026-10-17
+ref:
+  - docs/ui/user-stories/Rental_Products.md#AC4
+description: >-
+  The story Rental_Products AC4 says a rental item in the checkout cart is marked "This is a rental item". The Cart
+  step shows its translation pages.checkout.cart.rental-explainer under the rental's name instead: "Item for rent,
+  price per hour". Only rental lines carry the note, as expected; only the wording differs from the story.
+steps:
+  - Put a rental product (for example Excavator) and a product that is not a rental in the cart.
+  - Open the checkout page.
+  - Read the note under the rental's name.
+expected: 'The rental line is marked "This is a rental item".'
+actual: 'The rental line is marked "Item for rent, price per hour".'
+evidence: |-
+  UI-084 (tests/ui/cart/checkout-cart-review.spec.ts), runs on 2026-10-17 against the live site: the note under
+  "Excavator" was "Item for rent, price per hour". The same text is in the live assets/i18n/en.json
+  (pages.checkout.cart.rental-explainer) and in the app source.

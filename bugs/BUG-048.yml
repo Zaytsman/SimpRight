@@ -1,0 +1,30 @@
+# yaml-language-server: $schema=./bug.schema.json
+id: BUG-048
+title: The checkout's sign-in step greets a logged-in customer with "Hello <name>, you are already logged in." instead of "You are already signed in as <name>"
+status: open
+severity: minor
+layer: ui
+area: cart
+affects:
+  - /checkout (step 2, Sign in)
+found: 2026-10-17
+ref:
+  - docs/ui/user-stories/Checkout_Sign_In.md#AC5
+description: >-
+  The story's AC5 says a customer who is already logged in sees "You are already signed in as [First Name] [Last Name]"
+  on the checkout's sign-in step. The app shows its translation pages.checkout.sign-in.already instead: "Hello
+  {first_name} {last_name}, you are already logged in. You can proceed to checkout." The names are right and the
+  customer can proceed; only the wording differs from the story. The same message also shows right after a
+  successful login on that step.
+steps:
+  - Log in as a customer and put a product in the cart.
+  - Open the checkout page.
+  - Click "Proceed to checkout".
+  - Read the message on the Sign in step.
+expected: 'The message reads "You are already signed in as <first name> <last name>".'
+actual: 'The message reads "Hello <first name> <last name>, you are already logged in. You can proceed to checkout."'
+evidence: |-
+  UI-062 (tests/ui/cart/checkout-sign-in.spec.ts), run 2026-10-17 against the live site: the step's message was
+  "Hello SimpRight Runner, you are already logged in. You can proceed to checkout." (the run customer's names).
+  The same text is in the live assets/i18n/en.json (pages.checkout.sign-in.already) and in the app source
+  (sprint5/UI/src/app/checkout/login/login.component.html).
