@@ -3,17 +3,17 @@ window.SCENARIO_CATALOG = {
  "layer": "ui",
  "title": "UI Test Cases",
  "prefix": "UI",
- "generatedAt": "2026-10-15T19:22:45.019Z",
- "commit": "ed7fa2bd9317e0f1a423f77ef7581e36a0cf04ad",
+ "generatedAt": "2026-10-17T11:47:50.221Z",
+ "commit": "32755e9cb1a149deac3ae879de5e984573db924c",
  "repoUrl": "https://github.com/Zaytsman/SimpRight",
  "branch": "main",
  "workflowUrl": "https://github.com/Zaytsman/SimpRight/actions/workflows/custom-ui-tests.yml",
  "stats": {
   "total": 98,
-  "automated": 22,
-  "manual": 76,
+  "automated": 32,
+  "manual": 66,
   "knownIssues": 2,
-  "automatedPct": 22
+  "automatedPct": 33
  },
  "tree": [
   {
@@ -1825,8 +1825,10 @@ window.SCENARIO_CATALOG = {
    ],
    "status": "automated",
    "automatedIn": "tests/ui/products/product-detail.spec.ts",
+   "preconditions": [
+    "The product page of \"Combination Pliers\" is open."
+   ],
    "steps": [
-    "Open the product \"Combination Pliers\".",
     "Verify the product image is shown.",
     "Verify the name \"Combination Pliers\" is shown.",
     "Verify the product description is shown.",
@@ -1836,7 +1838,7 @@ window.SCENARIO_CATALOG = {
     "Verify the \"Related products\" section is shown below the product information.",
     "Verify the \"Related products\" section shows at least one product."
    ],
-   "specLine": 6,
+   "specLine": 11,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/ui/products/product-detail.yml",
@@ -1845,7 +1847,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@products"
    ],
-   "yaml": "- id: UI-013\n  name: The product page shows the product's information and related products\n  ref:\n    - docs/ui/user-stories/Product_Detail.md#AC1\n    - docs/ui/user-stories/Product_Detail.md#AC14\n  status: automated\n  automatedIn: tests/ui/products/product-detail.spec.ts\n  steps:\n    - Open the product \"Combination Pliers\".\n    - Verify the product image is shown.\n    - Verify the name \"Combination Pliers\" is shown.\n    - Verify the product description is shown.\n    - Verify the price \"$14.15\" is shown.\n    - Verify the category badge \"Pliers\" is shown.\n    - Verify the brand badge \"ForgeFlex Tools\" is shown.\n    - Verify the \"Related products\" section is shown below the product information.\n    - Verify the \"Related products\" section shows at least one product."
+   "yaml": "- id: UI-013\n  name: The product page shows the product's information and related products\n  ref:\n    - docs/ui/user-stories/Product_Detail.md#AC1\n    - docs/ui/user-stories/Product_Detail.md#AC14\n  status: automated\n  automatedIn: tests/ui/products/product-detail.spec.ts\n  preconditions:\n    - The product page of \"Combination Pliers\" is open.\n  steps:\n    - Verify the product image is shown.\n    - Verify the name \"Combination Pliers\" is shown.\n    - Verify the product description is shown.\n    - Verify the price \"$14.15\" is shown.\n    - Verify the category badge \"Pliers\" is shown.\n    - Verify the brand badge \"ForgeFlex Tools\" is shown.\n    - Verify the \"Related products\" section is shown below the product information.\n    - Verify the \"Related products\" section shows at least one product."
   },
   {
    "id": "UI-014",
@@ -1855,13 +1857,16 @@ window.SCENARIO_CATALOG = {
    ],
    "status": "automated",
    "automatedIn": "tests/ui/products/product-detail.spec.ts",
+   "preconditions": [
+    "The visitor is in London.",
+    "The product page of a product that has a discount is open."
+   ],
    "steps": [
-    "Open a product that has a discount.",
     "Verify the original price is shown struck through.",
     "Verify the discounted price is shown.",
     "Verify a discount percentage badge is shown."
    ],
-   "specLine": 58,
+   "specLine": 64,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/ui/products/product-detail.yml",
@@ -1870,7 +1875,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@products"
    ],
-   "yaml": "- id: UI-014\n  name: A discounted product shows the original price struck through, the discounted price and the discount badge\n  ref: docs/ui/user-stories/Product_Detail.md#AC2\n  status: automated\n  automatedIn: tests/ui/products/product-detail.spec.ts\n  steps:\n    - Open a product that has a discount.\n    - Verify the original price is shown struck through.\n    - Verify the discounted price is shown.\n    - Verify a discount percentage badge is shown."
+   "yaml": "- id: UI-014\n  name: A discounted product shows the original price struck through, the discounted price and the discount badge\n  ref: docs/ui/user-stories/Product_Detail.md#AC2\n  status: automated\n  automatedIn: tests/ui/products/product-detail.spec.ts\n  preconditions:\n    - The visitor is in London.\n    - The product page of a product that has a discount is open.\n  steps:\n    - Verify the original price is shown struck through.\n    - Verify the discounted price is shown.\n    - Verify a discount percentage badge is shown."
   },
   {
    "id": "UI-015",
@@ -1880,13 +1885,15 @@ window.SCENARIO_CATALOG = {
    ],
    "status": "automated",
    "automatedIn": "tests/ui/products/product-detail.spec.ts",
+   "preconditions": [
+    "The product page of \"Long Nose Pliers\" is open."
+   ],
    "steps": [
-    "Open the product \"Long Nose Pliers\".",
     "Verify \"Add to cart\" is disabled.",
     "Verify \"Out of stock\" is shown.",
     "Verify \"Out of stock\" is shown in red."
    ],
-   "specLine": 86,
+   "specLine": 133,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/ui/products/product-detail.yml",
@@ -1895,7 +1902,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@products"
    ],
-   "yaml": "- id: UI-015\n  name: An out-of-stock product can't be added to the cart\n  ref: docs/ui/user-stories/Product_Detail.md#AC9\n  status: automated\n  automatedIn: tests/ui/products/product-detail.spec.ts\n  steps:\n    - Open the product \"Long Nose Pliers\".\n    - Verify \"Add to cart\" is disabled.\n    - Verify \"Out of stock\" is shown.\n    - Verify \"Out of stock\" is shown in red."
+   "yaml": "- id: UI-015\n  name: An out-of-stock product can't be added to the cart\n  ref: docs/ui/user-stories/Product_Detail.md#AC9\n  status: automated\n  automatedIn: tests/ui/products/product-detail.spec.ts\n  preconditions:\n    - The product page of \"Long Nose Pliers\" is open.\n  steps:\n    - Verify \"Add to cart\" is disabled.\n    - Verify \"Out of stock\" is shown.\n    - Verify \"Out of stock\" is shown in red."
   },
   {
    "id": "UI-016",
@@ -1906,13 +1913,15 @@ window.SCENARIO_CATALOG = {
    ],
    "status": "automated",
    "automatedIn": "tests/ui/products/product-detail.spec.ts",
+   "preconditions": [
+    "The product page of the rental product \"Excavator\" is open."
+   ],
    "steps": [
-    "Open the rental product \"Excavator\".",
     "Verify a duration slider is shown.",
     "Verify the duration slider goes from 1 to 10 hours.",
     "Verify the \"Increase quantity\" (+) and \"Decrease quantity\" (-) buttons are not shown."
    ],
-   "specLine": 105,
+   "specLine": 153,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/ui/products/product-detail.yml",
@@ -1921,7 +1930,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@products"
    ],
-   "yaml": "- id: UI-016\n  name: A rental product shows a duration slider instead of the quantity buttons\n  ref:\n    - docs/ui/user-stories/Product_Detail.md#AC10\n    - docs/ui/user-stories/Rental_Products.md#AC3\n  status: automated\n  automatedIn: tests/ui/products/product-detail.spec.ts\n  steps:\n    - Open the rental product \"Excavator\".\n    - Verify a duration slider is shown.\n    - Verify the duration slider goes from 1 to 10 hours.\n    - Verify the \"Increase quantity\" (+) and \"Decrease quantity\" (-) buttons are not shown."
+   "yaml": "- id: UI-016\n  name: A rental product shows a duration slider instead of the quantity buttons\n  ref:\n    - docs/ui/user-stories/Product_Detail.md#AC10\n    - docs/ui/user-stories/Rental_Products.md#AC3\n  status: automated\n  automatedIn: tests/ui/products/product-detail.spec.ts\n  preconditions:\n    - The product page of the rental product \"Excavator\" is open.\n  steps:\n    - Verify a duration slider is shown.\n    - Verify the duration slider goes from 1 to 10 hours.\n    - Verify the \"Increase quantity\" (+) and \"Decrease quantity\" (-) buttons are not shown."
   },
   {
    "id": "UI-017",
@@ -1932,12 +1941,14 @@ window.SCENARIO_CATALOG = {
    ],
    "status": "automated",
    "automatedIn": "tests/ui/products/product-detail.spec.ts",
+   "preconditions": [
+    "The product page of the rental product \"Excavator\" is open."
+   ],
    "steps": [
-    "Open the rental product \"Excavator\".",
     "Set the duration slider to 3 hours.",
     "Verify the total price equals 3 × the hourly rate."
    ],
-   "specLine": 127,
+   "specLine": 171,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/ui/products/product-detail.yml",
@@ -1946,7 +1957,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@products"
    ],
-   "yaml": "- id: UI-017\n  name: A rental's total price is the hourly rate times the duration\n  ref:\n    - docs/ui/user-stories/Product_Detail.md#AC10\n    - docs/ui/user-stories/Rental_Products.md#AC3\n  status: automated\n  automatedIn: tests/ui/products/product-detail.spec.ts\n  steps:\n    - Open the rental product \"Excavator\".\n    - Set the duration slider to 3 hours.\n    - Verify the total price equals 3 × the hourly rate."
+   "yaml": "- id: UI-017\n  name: A rental's total price is the hourly rate times the duration\n  ref:\n    - docs/ui/user-stories/Product_Detail.md#AC10\n    - docs/ui/user-stories/Rental_Products.md#AC3\n  status: automated\n  automatedIn: tests/ui/products/product-detail.spec.ts\n  preconditions:\n    - The product page of the rental product \"Excavator\" is open.\n  steps:\n    - Set the duration slider to 3 hours.\n    - Verify the total price equals 3 × the hourly rate."
   },
   {
    "id": "UI-085",
@@ -1954,19 +1965,20 @@ window.SCENARIO_CATALOG = {
    "ref": [
     "docs/ui/user-stories/Rental_Products.md#AC5"
    ],
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/ui/products/product-detail.spec.ts",
    "preconditions": [
     "The visitor is in London.",
-    "A rental product that is also a location offer exists."
+    "The product page of a rental product that is also a location offer is open."
    ],
    "steps": [
-    "Open the product page of that rental.",
     "Set the duration slider to 3 hours.",
     "Verify the discount badge \"-25%\" is shown.",
     "Verify the hourly rate is shown struck through.",
     "Verify the discounted hourly rate is shown, 25% below the hourly rate.",
     "Verify the total price equals 3 × the discounted hourly rate."
    ],
+   "specLine": 89,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/ui/products/product-detail.yml",
@@ -1975,7 +1987,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@products"
    ],
-   "yaml": "- id: UI-085\n  name: A rental that is a location offer shows the discount, the discounted hourly rate and the discounted total for a visitor in London\n  ref: docs/ui/user-stories/Rental_Products.md#AC5\n  status: manual\n  preconditions:\n    - The visitor is in London.\n    - A rental product that is also a location offer exists.\n  steps:\n    - Open the product page of that rental.\n    - Set the duration slider to 3 hours.\n    - Verify the discount badge \"-25%\" is shown.\n    - Verify the hourly rate is shown struck through.\n    - Verify the discounted hourly rate is shown, 25% below the hourly rate.\n    - Verify the total price equals 3 × the discounted hourly rate."
+   "yaml": "- id: UI-085\n  name: A rental that is a location offer shows the discount, the discounted hourly rate and the discounted total for a visitor in London\n  ref: docs/ui/user-stories/Rental_Products.md#AC5\n  status: automated\n  automatedIn: tests/ui/products/product-detail.spec.ts\n  preconditions:\n    - The visitor is in London.\n    - The product page of a rental product that is also a location offer is open.\n  steps:\n    - Set the duration slider to 3 hours.\n    - Verify the discount badge \"-25%\" is shown.\n    - Verify the hourly rate is shown struck through.\n    - Verify the discounted hourly rate is shown, 25% below the hourly rate.\n    - Verify the total price equals 3 × the discounted hourly rate."
   },
   {
    "id": "UI-028",
@@ -1986,14 +1998,14 @@ window.SCENARIO_CATALOG = {
    "status": "automated",
    "automatedIn": "tests/ui/products/product-favorites.spec.ts",
    "preconditions": [
-    "The product \"Combination Pliers\" is not in the user's favourites."
+    "The product \"Combination Pliers\" is not in the user's favourites.",
+    "The product page of \"Combination Pliers\" is open."
    ],
    "steps": [
-    "Open the product \"Combination Pliers\".",
     "Click \"Add to favourites\".",
     "Verify the message \"Product added to your favorites list.\" is shown."
    ],
-   "specLine": 12,
+   "specLine": 15,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/ui/products/product-favorites.yml",
@@ -2002,7 +2014,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@products"
    ],
-   "yaml": "- id: UI-028\n  name: Adding a product to favourites shows a success message\n  ref: docs/ui/user-stories/Product_Detail.md#AC11\n  status: automated\n  automatedIn: tests/ui/products/product-favorites.spec.ts\n  preconditions:\n    - The product \"Combination Pliers\" is not in the user's favourites.\n  steps:\n    - Open the product \"Combination Pliers\".\n    - Click \"Add to favourites\".\n    - Verify the message \"Product added to your favorites list.\" is shown."
+   "yaml": "- id: UI-028\n  name: Adding a product to favourites shows a success message\n  ref: docs/ui/user-stories/Product_Detail.md#AC11\n  status: automated\n  automatedIn: tests/ui/products/product-favorites.spec.ts\n  preconditions:\n    - The product \"Combination Pliers\" is not in the user's favourites.\n    - The product page of \"Combination Pliers\" is open.\n  steps:\n    - Click \"Add to favourites\".\n    - Verify the message \"Product added to your favorites list.\" is shown."
   },
   {
    "id": "UI-029",
@@ -2013,14 +2025,14 @@ window.SCENARIO_CATALOG = {
    "status": "automated",
    "automatedIn": "tests/ui/products/product-favorites.spec.ts",
    "preconditions": [
-    "The product \"Combination Pliers\" is in the user's favourites."
+    "The product \"Combination Pliers\" is in the user's favourites.",
+    "The product page of \"Combination Pliers\" is open."
    ],
    "steps": [
-    "Open the product \"Combination Pliers\".",
     "Click \"Add to favourites\".",
     "Verify the message \"Product already in your favorites list.\" is shown."
    ],
-   "specLine": 33,
+   "specLine": 30,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/ui/products/product-favorites.yml",
@@ -2029,7 +2041,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@products"
    ],
-   "yaml": "- id: UI-029\n  name: Adding a product that is already a favourite shows a message\n  ref: docs/ui/user-stories/Product_Detail.md#AC12\n  status: automated\n  automatedIn: tests/ui/products/product-favorites.spec.ts\n  preconditions:\n    - The product \"Combination Pliers\" is in the user's favourites.\n  steps:\n    - Open the product \"Combination Pliers\".\n    - Click \"Add to favourites\".\n    - Verify the message \"Product already in your favorites list.\" is shown."
+   "yaml": "- id: UI-029\n  name: Adding a product that is already a favourite shows a message\n  ref: docs/ui/user-stories/Product_Detail.md#AC12\n  status: automated\n  automatedIn: tests/ui/products/product-favorites.spec.ts\n  preconditions:\n    - The product \"Combination Pliers\" is in the user's favourites.\n    - The product page of \"Combination Pliers\" is open.\n  steps:\n    - Click \"Add to favourites\".\n    - Verify the message \"Product already in your favorites list.\" is shown."
   },
   {
    "id": "UI-030",
@@ -2040,12 +2052,14 @@ window.SCENARIO_CATALOG = {
    "status": "automated",
    "automatedIn": "tests/ui/products/product-favorites.spec.ts",
    "role": "guest",
+   "preconditions": [
+    "The product page of \"Combination Pliers\" is open."
+   ],
    "steps": [
-    "Open the product \"Combination Pliers\".",
     "Click \"Add to favourites\".",
     "Verify the message \"Unauthorized, can not add product to your favorite list.\" is shown."
    ],
-   "specLine": 65,
+   "specLine": 57,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/ui/products/product-favorites.yml",
@@ -2054,7 +2068,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@products"
    ],
-   "yaml": "- id: UI-030\n  name: A logged-out visitor can't add a product to favourites\n  ref: docs/ui/user-stories/Product_Detail.md#AC13\n  status: automated\n  automatedIn: tests/ui/products/product-favorites.spec.ts\n  role: guest\n  steps:\n    - Open the product \"Combination Pliers\".\n    - Click \"Add to favourites\".\n    - Verify the message \"Unauthorized, can not add product to your favorite list.\" is shown."
+   "yaml": "- id: UI-030\n  name: A logged-out visitor can't add a product to favourites\n  ref: docs/ui/user-stories/Product_Detail.md#AC13\n  status: automated\n  automatedIn: tests/ui/products/product-favorites.spec.ts\n  role: guest\n  preconditions:\n    - The product page of \"Combination Pliers\" is open.\n  steps:\n    - Click \"Add to favourites\".\n    - Verify the message \"Unauthorized, can not add product to your favorite list.\" is shown."
   },
   {
    "id": "UI-075",
@@ -2062,7 +2076,8 @@ window.SCENARIO_CATALOG = {
    "ref": [
     "docs/ui/user-stories/Product_Overview.md#AC5"
    ],
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/ui/products/product-filters.spec.ts",
    "preconditions": [
     "The home page is open."
    ],
@@ -2070,6 +2085,7 @@ window.SCENARIO_CATALOG = {
     "Check the category \"Pliers\" in the sidebar.",
     "Verify the grid shows only the products of the category \"Pliers\": the products the catalogue lists for it in the page's default price range, $1 to $100."
    ],
+   "specLine": 7,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/ui/products/product-filters.yml",
@@ -2078,7 +2094,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@products"
    ],
-   "yaml": "- id: UI-075\n  name: Checking a category shows only that category's products\n  ref: docs/ui/user-stories/Product_Overview.md#AC5\n  status: manual\n  preconditions:\n    - The home page is open.\n  steps:\n    - Check the category \"Pliers\" in the sidebar.\n    - 'Verify the grid shows only the products of the category \"Pliers\": the products the catalogue lists for it in the page''s default price range, $1 to $100.'"
+   "yaml": "- id: UI-075\n  name: Checking a category shows only that category's products\n  ref: docs/ui/user-stories/Product_Overview.md#AC5\n  status: automated\n  automatedIn: tests/ui/products/product-filters.spec.ts\n  preconditions:\n    - The home page is open.\n  steps:\n    - Check the category \"Pliers\" in the sidebar.\n    - 'Verify the grid shows only the products of the category \"Pliers\": the products the catalogue lists for it in the page''s default price range, $1 to $100.'"
   },
   {
    "id": "UI-076",
@@ -2086,7 +2102,8 @@ window.SCENARIO_CATALOG = {
    "ref": [
     "docs/ui/user-stories/Product_Overview.md#AC6"
    ],
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/ui/products/product-filters.spec.ts",
    "preconditions": [
     "The home page is open."
    ],
@@ -2094,6 +2111,7 @@ window.SCENARIO_CATALOG = {
     "Check the category \"Hand Tools\" in the sidebar.",
     "Verify the child categories \"Hammer\", \"Hand Saw\", \"Wrench\", \"Screwdriver\", \"Pliers\", \"Chisels\" and \"Measures\" are checked."
    ],
+   "specLine": 39,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/ui/products/product-filters.yml",
@@ -2102,7 +2120,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@products"
    ],
-   "yaml": "- id: UI-076\n  name: Checking a parent category checks all its child categories\n  ref: docs/ui/user-stories/Product_Overview.md#AC6\n  status: manual\n  preconditions:\n    - The home page is open.\n  steps:\n    - Check the category \"Hand Tools\" in the sidebar.\n    - Verify the child categories \"Hammer\", \"Hand Saw\", \"Wrench\", \"Screwdriver\", \"Pliers\", \"Chisels\" and \"Measures\" are checked."
+   "yaml": "- id: UI-076\n  name: Checking a parent category checks all its child categories\n  ref: docs/ui/user-stories/Product_Overview.md#AC6\n  status: automated\n  automatedIn: tests/ui/products/product-filters.spec.ts\n  preconditions:\n    - The home page is open.\n  steps:\n    - Check the category \"Hand Tools\" in the sidebar.\n    - Verify the child categories \"Hammer\", \"Hand Saw\", \"Wrench\", \"Screwdriver\", \"Pliers\", \"Chisels\" and \"Measures\" are checked."
   },
   {
    "id": "UI-077",
@@ -2110,7 +2128,8 @@ window.SCENARIO_CATALOG = {
    "ref": [
     "docs/ui/user-stories/Product_Overview.md#AC6"
    ],
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/ui/products/product-filters.spec.ts",
    "preconditions": [
     "The home page is open."
    ],
@@ -2125,6 +2144,7 @@ window.SCENARIO_CATALOG = {
     "Uncheck the child category \"Measures\".",
     "Verify the category \"Hand Tools\" is not checked."
    ],
+   "specLine": 54,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/ui/products/product-filters.yml",
@@ -2133,7 +2153,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@products"
    ],
-   "yaml": "- id: UI-077\n  name: Unchecking all child categories unchecks the parent category\n  ref: docs/ui/user-stories/Product_Overview.md#AC6\n  status: manual\n  preconditions:\n    - The home page is open.\n  steps:\n    - Check the category \"Hand Tools\" in the sidebar.\n    - Uncheck the child category \"Hammer\".\n    - Uncheck the child category \"Hand Saw\".\n    - Uncheck the child category \"Wrench\".\n    - Uncheck the child category \"Screwdriver\".\n    - Uncheck the child category \"Pliers\".\n    - Uncheck the child category \"Chisels\".\n    - Uncheck the child category \"Measures\".\n    - Verify the category \"Hand Tools\" is not checked."
+   "yaml": "- id: UI-077\n  name: Unchecking all child categories unchecks the parent category\n  ref: docs/ui/user-stories/Product_Overview.md#AC6\n  status: automated\n  automatedIn: tests/ui/products/product-filters.spec.ts\n  preconditions:\n    - The home page is open.\n  steps:\n    - Check the category \"Hand Tools\" in the sidebar.\n    - Uncheck the child category \"Hammer\".\n    - Uncheck the child category \"Hand Saw\".\n    - Uncheck the child category \"Wrench\".\n    - Uncheck the child category \"Screwdriver\".\n    - Uncheck the child category \"Pliers\".\n    - Uncheck the child category \"Chisels\".\n    - Uncheck the child category \"Measures\".\n    - Verify the category \"Hand Tools\" is not checked."
   },
   {
    "id": "UI-078",
@@ -2141,7 +2161,8 @@ window.SCENARIO_CATALOG = {
    "ref": [
     "docs/ui/user-stories/Product_Overview.md#AC7"
    ],
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/ui/products/product-filters.spec.ts",
    "preconditions": [
     "The home page is open."
    ],
@@ -2149,6 +2170,7 @@ window.SCENARIO_CATALOG = {
     "Check the brand \"MightyCraft Hardware\" in the sidebar.",
     "Verify the grid shows only the products of the brand \"MightyCraft Hardware\": the products the catalogue lists for it in the page's default price range, $1 to $100."
    ],
+   "specLine": 73,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/ui/products/product-filters.yml",
@@ -2157,7 +2179,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@products"
    ],
-   "yaml": "- id: UI-078\n  name: Checking a brand shows only that brand's products\n  ref: docs/ui/user-stories/Product_Overview.md#AC7\n  status: manual\n  preconditions:\n    - The home page is open.\n  steps:\n    - Check the brand \"MightyCraft Hardware\" in the sidebar.\n    - 'Verify the grid shows only the products of the brand \"MightyCraft Hardware\": the products the catalogue lists for it in the page''s default price range, $1 to $100.'"
+   "yaml": "- id: UI-078\n  name: Checking a brand shows only that brand's products\n  ref: docs/ui/user-stories/Product_Overview.md#AC7\n  status: automated\n  automatedIn: tests/ui/products/product-filters.spec.ts\n  preconditions:\n    - The home page is open.\n  steps:\n    - Check the brand \"MightyCraft Hardware\" in the sidebar.\n    - 'Verify the grid shows only the products of the brand \"MightyCraft Hardware\": the products the catalogue lists for it in the page''s default price range, $1 to $100.'"
   },
   {
    "id": "UI-079",
@@ -2165,7 +2187,8 @@ window.SCENARIO_CATALOG = {
    "ref": [
     "docs/ui/user-stories/Product_Overview.md#AC8"
    ],
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/ui/products/product-filters.spec.ts",
    "preconditions": [
     "The home page is open."
    ],
@@ -2174,6 +2197,7 @@ window.SCENARIO_CATALOG = {
     "Check the brand \"ForgeFlex Tools\" in the sidebar.",
     "Verify the grid shows only the products that belong to both the category \"Pliers\" and the brand \"ForgeFlex Tools\": the products the catalogue lists for both filters in the page's default price range, $1 to $100."
    ],
+   "specLine": 102,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/ui/products/product-filters.yml",
@@ -2182,7 +2206,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@products"
    ],
-   "yaml": "- id: UI-079\n  name: Checking a category and a brand shows only products that match both\n  ref: docs/ui/user-stories/Product_Overview.md#AC8\n  status: manual\n  preconditions:\n    - The home page is open.\n  steps:\n    - Check the category \"Pliers\" in the sidebar.\n    - Check the brand \"ForgeFlex Tools\" in the sidebar.\n    - 'Verify the grid shows only the products that belong to both the category \"Pliers\" and the brand \"ForgeFlex Tools\": the products the catalogue lists for both filters in the page''s default price range, $1 to $100.'"
+   "yaml": "- id: UI-079\n  name: Checking a category and a brand shows only products that match both\n  ref: docs/ui/user-stories/Product_Overview.md#AC8\n  status: automated\n  automatedIn: tests/ui/products/product-filters.spec.ts\n  preconditions:\n    - The home page is open.\n  steps:\n    - Check the category \"Pliers\" in the sidebar.\n    - Check the brand \"ForgeFlex Tools\" in the sidebar.\n    - 'Verify the grid shows only the products that belong to both the category \"Pliers\" and the brand \"ForgeFlex Tools\": the products the catalogue lists for both filters in the page''s default price range, $1 to $100.'"
   },
   {
    "id": "UI-080",
@@ -2190,7 +2214,8 @@ window.SCENARIO_CATALOG = {
    "ref": [
     "docs/ui/user-stories/Product_Overview.md#AC11"
    ],
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/ui/products/product-filters.spec.ts",
    "preconditions": [
     "The home page is open."
    ],
@@ -2200,6 +2225,7 @@ window.SCENARIO_CATALOG = {
     "Verify at least one product is shown.",
     "Verify the price of every product shown is between $10 and $15."
    ],
+   "specLine": 139,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/ui/products/product-filters.yml",
@@ -2208,7 +2234,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@products"
    ],
-   "yaml": "- id: UI-080\n  name: Moving the price range slider shows only products within the new range\n  ref: docs/ui/user-stories/Product_Overview.md#AC11\n  status: manual\n  preconditions:\n    - The home page is open.\n  steps:\n    - Move the upper handle of the price range slider to 15.\n    - Move the lower handle of the price range slider to 10.\n    - Verify at least one product is shown.\n    - Verify the price of every product shown is between $10 and $15."
+   "yaml": "- id: UI-080\n  name: Moving the price range slider shows only products within the new range\n  ref: docs/ui/user-stories/Product_Overview.md#AC11\n  status: automated\n  automatedIn: tests/ui/products/product-filters.spec.ts\n  preconditions:\n    - The home page is open.\n  steps:\n    - Move the upper handle of the price range slider to 15.\n    - Move the lower handle of the price range slider to 10.\n    - Verify at least one product is shown.\n    - Verify the price of every product shown is between $10 and $15."
   },
   {
    "id": "UI-012",
@@ -2296,7 +2322,8 @@ window.SCENARIO_CATALOG = {
    "ref": [
     "docs/ui/user-stories/Product_Overview.md#AC3"
    ],
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/ui/products/product-grid.spec.ts",
    "preconditions": [
     "The home page is open."
    ],
@@ -2307,6 +2334,7 @@ window.SCENARIO_CATALOG = {
     "Verify none of the products shown was shown on page 1.",
     "Verify page \"2\" is marked as the active page."
    ],
+   "specLine": 72,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/ui/products/product-grid.yml",
@@ -2315,7 +2343,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@products"
    ],
-   "yaml": "- id: UI-072\n  name: The pagination controls are shown below the grid and page 2 shows other products\n  ref: docs/ui/user-stories/Product_Overview.md#AC3\n  status: manual\n  preconditions:\n    - The home page is open.\n  steps:\n    - Verify the pagination controls are shown below the product grid.\n    - Click page \"2\" in the pagination.\n    - Verify at least one product is shown.\n    - Verify none of the products shown was shown on page 1.\n    - Verify page \"2\" is marked as the active page."
+   "yaml": "- id: UI-072\n  name: The pagination controls are shown below the grid and page 2 shows other products\n  ref: docs/ui/user-stories/Product_Overview.md#AC3\n  status: automated\n  automatedIn: tests/ui/products/product-grid.spec.ts\n  preconditions:\n    - The home page is open.\n  steps:\n    - Verify the pagination controls are shown below the product grid.\n    - Click page \"2\" in the pagination.\n    - Verify at least one product is shown.\n    - Verify none of the products shown was shown on page 1.\n    - Verify page \"2\" is marked as the active page."
   },
   {
    "id": "UI-073",
@@ -2323,7 +2351,8 @@ window.SCENARIO_CATALOG = {
    "ref": [
     "docs/ui/user-stories/Product_Overview.md#AC10"
    ],
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/ui/products/product-grid.spec.ts",
    "preconditions": [
     "The home page is open."
    ],
@@ -2333,6 +2362,7 @@ window.SCENARIO_CATALOG = {
     "Verify the upper handle is at 100.",
     "Verify the maximum of the slider is 200."
    ],
+   "specLine": 111,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/ui/products/product-grid.yml",
@@ -2341,7 +2371,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@products"
    ],
-   "yaml": "- id: UI-073\n  name: The price range slider is shown with the range $1 to $100 and a maximum of $200\n  ref: docs/ui/user-stories/Product_Overview.md#AC10\n  status: manual\n  preconditions:\n    - The home page is open.\n  steps:\n    - Verify the price range slider is shown in the sidebar.\n    - Verify the lower handle is at 1.\n    - Verify the upper handle is at 100.\n    - Verify the maximum of the slider is 200."
+   "yaml": "- id: UI-073\n  name: The price range slider is shown with the range $1 to $100 and a maximum of $200\n  ref: docs/ui/user-stories/Product_Overview.md#AC10\n  status: automated\n  automatedIn: tests/ui/products/product-grid.spec.ts\n  preconditions:\n    - The home page is open.\n  steps:\n    - Verify the price range slider is shown in the sidebar.\n    - Verify the lower handle is at 1.\n    - Verify the upper handle is at 100.\n    - Verify the maximum of the slider is 200."
   },
   {
    "id": "UI-074",
@@ -2349,7 +2379,8 @@ window.SCENARIO_CATALOG = {
    "ref": [
     "docs/ui/user-stories/Product_Overview.md#AC12"
    ],
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/ui/products/product-grid.spec.ts",
    "preconditions": [
     "The visitor is in London.",
     "The home page is open."
@@ -2359,6 +2390,7 @@ window.SCENARIO_CATALOG = {
     "Verify the card of \"Bolt Cutters\" shows its original price struck through.",
     "Verify the card of \"Bolt Cutters\" shows the discounted price, 25% below the original price."
    ],
+   "specLine": 139,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/ui/products/product-grid.yml",
@@ -2367,7 +2399,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@products"
    ],
-   "yaml": "- id: UI-074\n  name: A location offer's card shows the original price struck through and the discounted price for a visitor in London\n  ref: docs/ui/user-stories/Product_Overview.md#AC12\n  status: manual\n  preconditions:\n    - The visitor is in London.\n    - The home page is open.\n  steps:\n    - Verify the card of \"Bolt Cutters\" is shown on the first page.\n    - Verify the card of \"Bolt Cutters\" shows its original price struck through.\n    - Verify the card of \"Bolt Cutters\" shows the discounted price, 25% below the original price."
+   "yaml": "- id: UI-074\n  name: A location offer's card shows the original price struck through and the discounted price for a visitor in London\n  ref: docs/ui/user-stories/Product_Overview.md#AC12\n  status: automated\n  automatedIn: tests/ui/products/product-grid.spec.ts\n  preconditions:\n    - The visitor is in London.\n    - The home page is open.\n  steps:\n    - Verify the card of \"Bolt Cutters\" is shown on the first page.\n    - Verify the card of \"Bolt Cutters\" shows its original price struck through.\n    - Verify the card of \"Bolt Cutters\" shows the discounted price, 25% below the original price."
   },
   {
    "id": "UI-018",
