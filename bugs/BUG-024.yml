@@ -8,6 +8,8 @@ area: carts
 affects:
   - POST /carts/{cartId}
   - GET /carts/{cartId}
+  - POST /invoices
+  - /checkout
 found: 2026-10-10
 ref:
   - docs/api/contracts/Carts_API.md#notes
@@ -17,8 +19,11 @@ description: >-
   The location discount (5 to 25 % by city) should apply only to products marked as location offers, but
   CartService::addItemToCart checks isset($existingItem->product->is_location_offer), which is true for
   false as well as true. So every product added to a cart whose coordinates match a city gets the city's
-  discount and a discounted_price. The UI creates carts with the browser's geolocation, so visitors near
-  a listed city see every item discounted at checkout.
+  discount and a discounted_price, both when it is added for the first time and when it is added again
+  (firstOrCreate, then the same check). Checkout copies the item's discount_percentage into the invoice
+  line and the subtotal, so the customer is charged the discounted price. The UI creates carts with the
+  browser's geolocation, and the checkout's cart step and the invoice details show the -N% badge and the
+  discounted price for every item.
 steps:
   - Send GET /products and take the id of an item with is_location_offer false.
   - Send POST /carts with lat 52 and lng 5 (Amsterdam) and take the returned id as the cart's id.
@@ -35,7 +40,13 @@ evidence: |-
   POST /carts { lat: 52, lng: 5 } -> 201 { id }
   POST /carts/{cartId} { product_id, quantity: 1 } -> 200 {"result":"item added or updated"}
   GET /carts/{cartId} -> 200, its only item: discount_percentage 20, discounted_price 11.32
-  Source (practice-software-testing, sprint5/API), 2026-10-10:
+  Test run, nightly API regression 2026-10-16 06:40 UTC, API-0246 (expected failure):
+  GET /carts/{cartId} -> its only item (new product, price 9.99, is_location_offer false):
+  discount_percentage 20, discounted_price 7.99
+  Source (practice-software-testing, sprint5/API), 2026-10-10, re-read 2026-10-17:
   CartService::addItemToCart: if ($cart->lat && $cart->lng && isset($existingItem->product->is_location_offer))
     -> discount_percentage = calculateDiscountPercentage(lat, lng)
   Product model: 'is_location_offer' => 'boolean'; migration: $table->boolean('is_location_offer') (not nullable)
+  InvoiceService: discounted_price from the item's discount_percentage, added to the subtotal
+  Source (sprint5/UI), 2026-10-17: checkout/cart/cart.component.html shows the badge and discounted price
+  for any item with discount_percentage / discounted_price
