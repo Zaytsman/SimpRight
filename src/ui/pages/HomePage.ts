@@ -2,6 +2,8 @@ import { expect, type Locator, type Page } from '@playwright/test';
 import type { EnvConfig } from '../../config/env';
 import { BasePage } from './BasePage';
 import { ProductFilters } from './components/ProductFilters';
+import { Pagination } from './components/Pagination';
+import { PriceRangeSlider } from './components/PriceRangeSlider';
 import { ProductGrid } from './components/ProductGrid';
 
 export class HomePage extends BasePage {
@@ -18,6 +20,10 @@ export class HomePage extends BasePage {
   private readonly sortingCompletedMarker: Locator;
   readonly productGrid: ProductGrid;
   readonly filters: ProductFilters;
+  /** The page numbers below the grid. */
+  readonly pagination: Pagination;
+  /** The price range slider in the sidebar. */
+  readonly priceRange: PriceRangeSlider;
 
   constructor(page: Page, config: EnvConfig) {
     super(page, config);
@@ -29,6 +35,8 @@ export class HomePage extends BasePage {
     this.sortingCompletedMarker = page.getByTestId('sorting_completed');
     this.productGrid = new ProductGrid(page);
     this.filters = new ProductFilters(page);
+    this.pagination = new Pagination(page, this.productGrid);
+    this.priceRange = new PriceRangeSlider(page, this.productGrid);
   }
 
   /** "Searched for: <term>", shown after a search. */

@@ -27,9 +27,9 @@ An action returns only when the page shows its result, so the next step never re
 
 Never a fixed sleep (`waitForTimeout`), and never `networkidle` in page objects: the app may poll, and idle is not "done".
 
-## Components and dialogs (exemplars: `ui.exemplars.component`, `ui.exemplars.dialog`)
+## Components and dialogs (exemplars: `ui.exemplars.component`, `ui.exemplars.baseComponent`, `ui.exemplars.dialog`)
 
-- A reusable part of several pages (a grid, a filter sidebar, the nav bar) is a component class in the components folder, taking the `page` (or a root locator) in its constructor, with the same locator rules. A page exposes it as a public `readonly` field (`homePage.productGrid`).
+- A reusable part of several pages (a grid, a filter sidebar, the nav bar) is a component class in the components folder extending the base component (`BaseComponent(page, root)`), with the same locator rules. Its constructor takes `root` with its container as the default (a test id, role or a host element, with a CSS reason comment), and every locator starts from `root`; `page` is only for what lies outside it (result markers, network waits) and for the inner locator of `filter({ has })`, which is resolved inside each match. A page exposes it as a public `readonly` field (`homePage.productGrid`).
 - A modal is a dialog class extending the base dialog, with its locators under `root` and actions (`confirm`, `cancel`, or the dialog's own).
 - A component or dialog only one page uses still gets its own class when it has more than a couple of locators; otherwise its locators live in the page.
 
@@ -41,7 +41,7 @@ Never a fixed sleep (`waitForTimeout`), and never `networkidle` in page objects:
 ## Fixtures (exemplars: `ui.exemplars.fixtures`, `ui.exemplars.preconditionFixture`, `ui.exemplars.fixturesIndex`)
 
 - Register every new page object, component exposed on its own, dialog and flow in the UI fixtures file, built the way the existing ones are, in the section comment that fits (pages, flows, components).
-- A precondition fixture (`open<Page>Test`) starts tests on a prepared page; it goes in its own file next to the exemplar (`ui.exemplars.preconditionFixture`), named after the export, extends the merged `test` as the exemplar does (or another precondition fixture), returns the objects the tests need, has no `test.step` inside, and is exported from the fixtures index. Add one when two or more tests share a precondition (the scenarios' `preconditions`, such as "The home page is open." or "A newly registered customer is logged in.") and no fixture covers it yet; a precondition only one test has stays setup code in that test.
+- A precondition fixture (`open<Page><State>Test`: the page the test starts on, then the state if any, such as `openHomePageInLondonTest`) starts tests on a prepared page; a state is a helper the fixtures call, not a fixture of its own (the visitor's location: `setVisitorLocation`; a new customer logged in: `newCustomerFixtures`, applied as `open<Page>Test.extend(newCustomerFixtures)`), and a fixture that opens a given record (a product) takes it as an option (`productName: ['', { option: true }]`, set with `test.use`); it goes in its own file next to the exemplar (`ui.exemplars.preconditionFixture`), named after the export, extends the merged `test` as the exemplar does (or another precondition fixture), returns the objects the tests need, has no `test.step` inside, and is exported from the fixtures index. Add one when two or more tests share a precondition (the scenarios' `preconditions`, such as "The home page is open." or "A newly registered customer is logged in.") and no fixture covers it yet; a precondition only one test has stays setup code in that test.
 
 ## Test data (exemplar: `ui.exemplars.constants`)
 

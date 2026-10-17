@@ -8,6 +8,7 @@ const CATEGORY_SLUGS = {
   handTools: 'hand-tools',
   hammer: 'hammer',
   handSaw: 'hand-saw',
+  pliers: 'pliers',
   powerTools: 'power-tools',
   other: 'other',
   saw: 'saw',
@@ -21,8 +22,13 @@ export const TestConstants = {
     inStockProduct: 'Combination Pliers',
     /** A seeded product with stock 0 that isn't a rental: shows "Out of stock" and can't be added to the cart. */
     outOfStockProduct: 'Long Nose Pliers',
-    /** A seeded rental: a duration slider (1-10 hours) instead of the quantity buttons, priced per hour. */
+    /** A seeded rental: a duration slider (1-10 hours) instead of the quantity buttons, priced per hour. Also a location offer (25% off in London). */
     rentalProduct: 'Excavator',
+    /**
+     * A seeded location offer ($48.41, card 3 on the home page's page 1): a visitor in London sees it 25% off, with the
+     * original price struck through, on its card and its page.
+     */
+    locationOfferProduct: 'Bolt Cutters',
     /** A seeded brand; Combination Pliers is one of its products. */
     brand: 'ForgeFlex Tools',
     /**
@@ -51,6 +57,17 @@ export const TestConstants = {
     hammer: CATEGORY_SLUGS.hammer,
     /** The seeded sub-category Hand Saw, under Hand Tools. */
     handSaw: CATEGORY_SLUGS.handSaw,
+    /** The seeded sub-category Pliers, under Hand Tools; the category filter tests find its id by this slug. */
+    pliers: CATEGORY_SLUGS.pliers,
+    /** Sidebar labels of seeded categories, for the UI filter tests (the keys above are slugs). */
+    labels: {
+      /** The top-level category Hand Tools. */
+      handTools: 'Hand Tools',
+      /** Hand Tools' sub-categories, in sidebar order. */
+      handToolsChildren: ['Hammer', 'Hand Saw', 'Wrench', 'Screwdriver', 'Pliers', 'Chisels', 'Measures'],
+      /** The sub-category Pliers (slug `pliers` above), under Hand Tools. */
+      pliers: 'Pliers',
+    },
     /** The seeded top-level category Power Tools (4 sub-categories). */
     powerTools: CATEGORY_SLUGS.powerTools,
     /** The seeded top-level categories; never renamed, re-parented or deleted by a test. */

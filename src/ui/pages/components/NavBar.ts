@@ -1,7 +1,8 @@
 import type { Locator, Page } from '@playwright/test';
+import { BaseComponent } from './BaseComponent';
 
 /** Top navigation bar, shown on every page. */
-export class NavBar {
+export class NavBar extends BaseComponent {
   private readonly homeLink: Locator;
   private readonly signInLink: Locator;
   private readonly userMenuButton: Locator;
@@ -9,12 +10,17 @@ export class NavBar {
   private readonly cartLink: Locator;
   private readonly cartQuantityBadge: Locator;
 
-  constructor(page: Page) {
-    this.homeLink = page.getByTestId('nav-home');
-    this.signInLink = page.getByTestId('nav-sign-in');
-    this.userMenuButton = page.getByTestId('nav-menu');
-    this.cartLink = page.getByTestId('nav-cart');
-    this.cartQuantityBadge = page.getByTestId('cart-quantity');
+  /**
+   * CSS: the header's Angular host element. The bar has no test id, and `getByRole('navigation')` also matches
+   * the pagination's `<nav>`.
+   */
+  constructor(page: Page, root: Locator = page.locator('app-header')) {
+    super(page, root);
+    this.homeLink = root.getByTestId('nav-home');
+    this.signInLink = root.getByTestId('nav-sign-in');
+    this.userMenuButton = root.getByTestId('nav-menu');
+    this.cartLink = root.getByTestId('nav-cart');
+    this.cartQuantityBadge = root.getByTestId('cart-quantity');
   }
 
   /** User menu with the signed-in user's name; visible only when logged in. */

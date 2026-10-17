@@ -26,12 +26,12 @@ SimpRight/
 │   │   └── coverage/             loader of the optional API coverage plug-in
 │   ├── ui/
 │   │   ├── pages/                page objects, on top of BasePage
-│   │   │   ├── components/       parts shared by pages: NavBar, ProductGrid
+│   │   │   ├── components/       parts shared by pages, on top of BaseComponent: NavBar, ProductGrid, ProductFilters
 │   │   │   └── dialogs/          dialogs, on top of BaseDialog
 │   │   ├── flows/                multi-page user journeys (ShoppingFlow)
 │   │   ├── auth/                 login token and storage state helpers
 │   │   └── fixtures/             UI fixtures (pages, components, flows)
-│   │       └── preconditions/    where a test starts: openHomePageTest, visitorInLondonTest, throwawayCustomerTest
+│   │       └── preconditions/    where a test starts, open<Page><State>Test: openHomePageTest, openProductPageTest, their InLondon / WithNewCustomer variants
 │   ├── data/
 │   │   ├── TestConstants.ts      seeded app values that several tests rely on
 │   │   └── factories/            payload builders per area, uniqueName() for created records
@@ -125,7 +125,7 @@ Defined in `tsconfig.json` and resolved by Playwright, so imports don't climb fo
 | A part shared by pages | `src/ui/pages/components/` | Expose it from the pages that contain it |
 | A dialog | `src/ui/pages/dialogs/`, extending `BaseDialog` | |
 | A multi-page journey | `src/ui/flows/` | Register a fixture |
-| A UI precondition (the test starts somewhere specific) | `src/ui/fixtures/preconditions/<name>Test.ts`, extending the merged `test` | Export it from `src/fixtures/index.ts` |
+| A UI precondition (the test starts somewhere specific) | `src/ui/fixtures/preconditions/open<Page><State>Test.ts`, extending the merged `test` | Export it from `src/fixtures/index.ts` |
 | An API endpoint call | A method on the area's client in `src/api/clients/` | A service method in `src/api/services/` for the happy path |
 | A new API area | A client, a service and DTOs | Register them in `src/api/fixtures/fixtures.ts`; document the area in `docs/api/contracts/` |
 | Data a test creates | A builder in `src/data/factories/<Area>Factory.ts` | Name records with `uniqueName()` |

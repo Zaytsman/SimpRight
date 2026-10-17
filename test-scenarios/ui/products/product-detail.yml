@@ -9,8 +9,9 @@ scenarios:
       - docs/ui/user-stories/Product_Detail.md#AC14
     status: automated
     automatedIn: tests/ui/products/product-detail.spec.ts
+    preconditions:
+      - The product page of "Combination Pliers" is open.
     steps:
-      - Open the product "Combination Pliers".
       - Verify the product image is shown.
       - Verify the name "Combination Pliers" is shown.
       - Verify the product description is shown.
@@ -24,8 +25,10 @@ scenarios:
     ref: docs/ui/user-stories/Product_Detail.md#AC2
     status: automated
     automatedIn: tests/ui/products/product-detail.spec.ts
+    preconditions:
+      - The visitor is in London.
+      - The product page of a product that has a discount is open.
     steps:
-      - Open a product that has a discount.
       - Verify the original price is shown struck through.
       - Verify the discounted price is shown.
       - Verify a discount percentage badge is shown.
@@ -34,8 +37,9 @@ scenarios:
     ref: docs/ui/user-stories/Product_Detail.md#AC9
     status: automated
     automatedIn: tests/ui/products/product-detail.spec.ts
+    preconditions:
+      - The product page of "Long Nose Pliers" is open.
     steps:
-      - Open the product "Long Nose Pliers".
       - Verify "Add to cart" is disabled.
       - Verify "Out of stock" is shown.
       - Verify "Out of stock" is shown in red.
@@ -46,8 +50,9 @@ scenarios:
       - docs/ui/user-stories/Rental_Products.md#AC3
     status: automated
     automatedIn: tests/ui/products/product-detail.spec.ts
+    preconditions:
+      - The product page of the rental product "Excavator" is open.
     steps:
-      - Open the rental product "Excavator".
       - Verify a duration slider is shown.
       - Verify the duration slider goes from 1 to 10 hours.
       - Verify the "Increase quantity" (+) and "Decrease quantity" (-) buttons are not shown.
@@ -58,19 +63,20 @@ scenarios:
       - docs/ui/user-stories/Rental_Products.md#AC3
     status: automated
     automatedIn: tests/ui/products/product-detail.spec.ts
+    preconditions:
+      - The product page of the rental product "Excavator" is open.
     steps:
-      - Open the rental product "Excavator".
       - Set the duration slider to 3 hours.
       - Verify the total price equals 3 × the hourly rate.
   - id: UI-085
     name: A rental that is a location offer shows the discount, the discounted hourly rate and the discounted total for a visitor in London
     ref: docs/ui/user-stories/Rental_Products.md#AC5
-    status: manual
+    status: automated
+    automatedIn: tests/ui/products/product-detail.spec.ts
     preconditions:
       - The visitor is in London.
-      - A rental product that is also a location offer exists.
+      - The product page of a rental product that is also a location offer is open.
     steps:
-      - Open the product page of that rental.
       - Set the duration slider to 3 hours.
       - Verify the discount badge "-25%" is shown.
       - Verify the hourly rate is shown struck through.
