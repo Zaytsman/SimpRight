@@ -10,6 +10,10 @@ The work is done by the `bug-reporter` subagent, in two phases: a draft, then th
 
 Arguments, if any: $ARGUMENTS
 
+## How to ask
+
+Every question to the user in this skill goes through the AskUserQuestion tool, following `../_shared/how-to-ask.md` (next to this skill's folder): the context as text first, 2–4 options, "(Recommended)" only with a reason, a multi-select for several items, plain text when the tool is missing.
+
 ## 1. Settle the brief
 
 - **Profile:** `qa-agents-profile.yml` in the repository root. If there's none, or it has no `paths.bugs`, stop: the agent needs both.
@@ -39,11 +43,11 @@ Before showing the draft, check it yourself:
 - each "Reproduced: yes" against what it quotes (a status, a field), and that the evidence has no secrets;
 - each bug file against the schema's keys and order (the validator will check it too).
 
-Show the draft as the agent returned it. Then ask, in one message:
-- which items to write, by number ("all", "none", or a list), with any edits (title, severity, wording);
-- which writes to allow for reproduction (listed under "Writes needed"), each with its cleanup;
-- the answers to "Decisions needed";
-- for coverage gaps, whether to add the proposed scenario now with `/write-api-scenarios` or `/write-ui-scenarios` (after this skill), or later.
+Show the draft as the agent returned it. Then ask in one AskUserQuestion call (further calls when there are more than 4 questions):
+1. **Items to write:** with one item, "Write it", "Write with edits" (title, severity or wording in "Other"), "Don't write"; with more, a multi-select with one option per item (up to 4; with more, "All", "None" and numbers through "Other"). Recommend the items whose reproduction you checked.
+2. **Writes** for reproduction (only when the draft lists "Writes needed"): each write with its cleanup in the description.
+3. **Decisions needed:** one question per decision (closing a bug now or after a re-run, extending a bug or filing a new one, a severity).
+4. **Coverage gaps:** "Add the scenario now" (with `/write-api-scenarios` or `/write-ui-scenarios` after this skill), "Later".
 
 ## 3. Write
 

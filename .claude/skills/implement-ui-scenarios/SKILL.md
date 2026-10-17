@@ -12,11 +12,7 @@ Arguments, if any: $ARGUMENTS
 
 ## How to ask
 
-Every question to the user in this skill goes through the AskUserQuestion tool:
-- Show what the question is about (the plan, the failures) as text first; the question itself stays short.
-- 2–4 options per question, at most 4 questions per call; more questions go in further calls. The tool adds "Other" for free text, so edits and lists of IDs go there; don't add an option for it.
-- Put an option first and mark it "(Recommended)" only when the agent's plan or report supports it, and say why in its description. When it's the user's judgment call, recommend nothing.
-- If the tool isn't available (a headless run), ask the same questions in one plain-text message with the options listed.
+Every question to the user in this skill goes through the AskUserQuestion tool, following `../_shared/how-to-ask.md` (next to this skill's folder): the context as text first, 2–4 options, "(Recommended)" only with a reason, plain text when the tool is missing.
 
 ## 1. Settle the brief
 

@@ -57,7 +57,7 @@ SimpRight/
 ├── site/test-cases/index.html    the Test Cases page of the dashboard
 ├── .claude/
 │   ├── agents/                   the QA agents (requirements analyst, scenario writers, test engineers, reviewer, healer, contract writer)
-│   └── skills/                   the slash commands that start them, and the skills they use
+│   └── skills/                   the slash commands that start them, the skills they use, and `_shared/how-to-ask.md` (how every checkpoint asks)
 ├── .github/
 │   ├── workflows/                CI (see below)
 │   └── dependabot.yml            weekly dependency updates

@@ -10,12 +10,16 @@ The work is done by the `ui-scenario-writer` subagent, in two phases: a proposal
 
 Arguments, if any: $ARGUMENTS
 
+## How to ask
+
+Every question to the user in this skill goes through the AskUserQuestion tool, following `../_shared/how-to-ask.md` (next to this skill's folder): the context as text first, 2–4 options, "(Recommended)" only with a reason, plain text when the tool is missing.
+
 ## 1. Settle the brief
 
 - **Profile:** `qa-agents-profile.yml` in the repository root. If there's none, stop: tell the user the agent needs a profile (paths, ID codes, roles), and that `CLAUDE.md` and the profile's schema describe it.
-- **Document:** the first argument, resolved in this order: an existing path as given; `<paths.userStories>/<name>` from the profile; a case-insensitive match of the name (with or without `.md`) in that folder. If the user pasted the story or bug into the conversation instead, use the text. If there's neither, list the files in the stories folder and ask which one.
-  - Pasted text: offer once to save it in the stories folder first (so scenarios can reference it in `ref`); go on with the text if the user doesn't want that.
-- **Criteria:** the remaining arguments (`AC3 AC8`, `AC1-AC5`). Default: every criterion. For a document with more than about 6 criteria, say how many there are and offer to start with a subset (suggest the read-only ones first: those that don't add to the cart, register, order or change a profile); go on with all of them if the user doesn't want a subset.
+- **Document:** the first argument, resolved in this order: an existing path as given; `<paths.userStories>/<name>` from the profile; a case-insensitive match of the name (with or without `.md`) in that folder. If the user pasted the story or bug into the conversation instead, use the text. If there's neither, ask which one: up to 4 story files as options, the rest named through "Other".
+  - Pasted text: ask once: "Save it in the stories folder first (Recommended)" (so scenarios can reference it in `ref`), "Use the text as is".
+- **Criteria:** the remaining arguments (`AC3 AC8`, `AC1-AC5`). Default: every criterion. For a document with more than about 6 criteria, say how many there are and ask: "The read-only ones first (Recommended)" (those that don't add to the cart, register, order or change a profile; name them), "All of them", with another subset through "Other".
 - **Notes:** anything the user said that matters (criteria to skip, known bugs, priorities).
 
 ## 2. Proposal
@@ -32,7 +36,11 @@ Notes: <or "none">
 
 The agent runs the page inspector against the live site (read-only; each logged-in run also registers and deletes the run's throwaway customer, like every test run).
 
-Show the user the proposal as the agent returned it: the tables, the steps, the criteria map and "Decisions needed". Don't shorten the steps, because they are what the user approves. Then ask the user to approve it, or to say what to change (drop, rename, merge, reword, answer the decisions). Write nothing before a clear yes.
+Show the user the proposal as the agent returned it: the tables, the steps, the criteria map and "Decisions needed". Don't shorten the steps, because they are what the user approves. Then ask in one AskUserQuestion call:
+1. **Proposal:** "Approve", "Approve with edits" (drop, rename, merge or reword, in "Other"), "Rework".
+2. **Decisions needed:** one question per decision. More than 3 decisions go in a second call.
+
+"Approve" or "Approve with edits" is the clear yes; write nothing before it.
 
 If the user approves a new area or role, add it to `ids.areas` or `roles` in the profile yourself before the writing phase (the agent doesn't change the profile). A new area also needs a folder option in the custom UI workflow, which the test engineer adds with the first spec.
 
