@@ -3,17 +3,17 @@ window.SCENARIO_CATALOG = {
  "layer": "ui",
  "title": "UI Test Cases",
  "prefix": "UI",
- "generatedAt": "2026-10-17T11:47:50.221Z",
- "commit": "32755e9cb1a149deac3ae879de5e984573db924c",
+ "generatedAt": "2026-10-17T12:50:49.439Z",
+ "commit": "75cebc7e3b3594c79bb2ef15ababf23769a2ed31",
  "repoUrl": "https://github.com/Zaytsman/SimpRight",
  "branch": "main",
  "workflowUrl": "https://github.com/Zaytsman/SimpRight/actions/workflows/custom-ui-tests.yml",
  "stats": {
   "total": 98,
-  "automated": 32,
-  "manual": 66,
+  "automated": 45,
+  "manual": 53,
   "knownIssues": 2,
-  "automatedPct": 33
+  "automatedPct": 46
  },
  "tree": [
   {
@@ -1115,17 +1115,17 @@ window.SCENARIO_CATALOG = {
    "status": "automated",
    "automatedIn": "tests/ui/cart/add-to-cart.spec.ts",
    "preconditions": [
-    "A product created for this test through the API, with a unique name, is in stock."
+    "A product created for this test through the API, with a unique name, is in stock.",
+    "The product page of that product is open."
    ],
    "steps": [
-    "Search for that product and open it.",
     "Set the quantity to 2 and click \"Add to cart\".",
     "Verify the cart badge in the nav bar shows 2.",
     "Open the cart.",
     "Verify the cart has exactly one line: that product with quantity 2.",
     "Verify the cart total equals 2 × the product's unit price."
    ],
-   "specLine": 6,
+   "specLine": 7,
    "area": "cart",
    "areaLabel": "Cart",
    "file": "test-scenarios/ui/cart/add-to-cart.yml",
@@ -1134,7 +1134,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@cart"
    ],
-   "yaml": "- id: UI-002\n  name: Add a product with quantity 2 to the cart\n  ref: docs/ui/user-stories/Product_Detail.md#AC8\n  status: automated\n  automatedIn: tests/ui/cart/add-to-cart.spec.ts\n  preconditions:\n    - A product created for this test through the API, with a unique name, is in stock.\n  steps:\n    - Search for that product and open it.\n    - Set the quantity to 2 and click \"Add to cart\".\n    - Verify the cart badge in the nav bar shows 2.\n    - Open the cart.\n    - 'Verify the cart has exactly one line: that product with quantity 2.'\n    - Verify the cart total equals 2 × the product's unit price."
+   "yaml": "- id: UI-002\n  name: Add a product with quantity 2 to the cart\n  ref: docs/ui/user-stories/Product_Detail.md#AC8\n  status: automated\n  automatedIn: tests/ui/cart/add-to-cart.spec.ts\n  preconditions:\n    - A product created for this test through the API, with a unique name, is in stock.\n    - The product page of that product is open.\n  steps:\n    - Set the quantity to 2 and click \"Add to cart\".\n    - Verify the cart badge in the nav bar shows 2.\n    - Open the cart.\n    - 'Verify the cart has exactly one line: that product with quantity 2.'\n    - Verify the cart total equals 2 × the product's unit price."
   },
   {
    "id": "UI-027",
@@ -1142,15 +1142,17 @@ window.SCENARIO_CATALOG = {
    "ref": [
     "docs/ui/user-stories/Product_Detail.md#AC8"
    ],
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/ui/cart/add-to-cart.spec.ts",
    "preconditions": [
-    "The cart is empty."
+    "The cart is empty.",
+    "The product page of \"Combination Pliers\" is open."
    ],
    "steps": [
-    "Open the product \"Combination Pliers\".",
     "Click \"Add to cart\".",
     "Verify the message \"Product added to shopping cart.\" is shown."
    ],
+   "specLine": 62,
    "area": "cart",
    "areaLabel": "Cart",
    "file": "test-scenarios/ui/cart/add-to-cart.yml",
@@ -1159,7 +1161,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@cart"
    ],
-   "yaml": "- id: UI-027\n  name: Adding a product to the cart shows a success message\n  ref: docs/ui/user-stories/Product_Detail.md#AC8\n  status: manual\n  preconditions:\n    - The cart is empty.\n  steps:\n    - Open the product \"Combination Pliers\".\n    - Click \"Add to cart\".\n    - Verify the message \"Product added to shopping cart.\" is shown."
+   "yaml": "- id: UI-027\n  name: Adding a product to the cart shows a success message\n  ref: docs/ui/user-stories/Product_Detail.md#AC8\n  status: automated\n  automatedIn: tests/ui/cart/add-to-cart.spec.ts\n  preconditions:\n    - The cart is empty.\n    - The product page of \"Combination Pliers\" is open.\n  steps:\n    - Click \"Add to cart\".\n    - Verify the message \"Product added to shopping cart.\" is shown."
   },
   {
    "id": "UI-041",
@@ -2407,14 +2409,18 @@ window.SCENARIO_CATALOG = {
    "ref": [
     "docs/ui/user-stories/Product_Detail.md#AC3"
    ],
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/ui/products/product-quantity.spec.ts",
+   "preconditions": [
+    "The product page of \"Combination Pliers\" is open."
+   ],
    "steps": [
-    "Open the product \"Combination Pliers\".",
     "Verify the quantity field is shown.",
     "Verify the \"Increase quantity\" (+) button is shown.",
     "Verify the \"Decrease quantity\" (-) button is shown.",
     "Verify the quantity is 1."
    ],
+   "specLine": 9,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/ui/products/product-quantity.yml",
@@ -2423,7 +2429,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@products"
    ],
-   "yaml": "- id: UI-018\n  name: An in-stock product shows the quantity selector set to 1\n  ref: docs/ui/user-stories/Product_Detail.md#AC3\n  status: manual\n  steps:\n    - Open the product \"Combination Pliers\".\n    - Verify the quantity field is shown.\n    - Verify the \"Increase quantity\" (+) button is shown.\n    - Verify the \"Decrease quantity\" (-) button is shown.\n    - Verify the quantity is 1."
+   "yaml": "- id: UI-018\n  name: An in-stock product shows the quantity selector set to 1\n  ref: docs/ui/user-stories/Product_Detail.md#AC3\n  status: automated\n  automatedIn: tests/ui/products/product-quantity.spec.ts\n  preconditions:\n    - The product page of \"Combination Pliers\" is open.\n  steps:\n    - Verify the quantity field is shown.\n    - Verify the \"Increase quantity\" (+) button is shown.\n    - Verify the \"Decrease quantity\" (-) button is shown.\n    - Verify the quantity is 1."
   },
   {
    "id": "UI-019",
@@ -2431,12 +2437,16 @@ window.SCENARIO_CATALOG = {
    "ref": [
     "docs/ui/user-stories/Product_Detail.md#AC4"
    ],
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/ui/products/product-quantity.spec.ts",
+   "preconditions": [
+    "The product page of \"Combination Pliers\" is open."
+   ],
    "steps": [
-    "Open the product \"Combination Pliers\".",
     "Click \"Increase quantity\".",
     "Verify the quantity is 2."
    ],
+   "specLine": 27,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/ui/products/product-quantity.yml",
@@ -2445,7 +2455,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@products"
    ],
-   "yaml": "- id: UI-019\n  name: The plus button increases the quantity by 1\n  ref: docs/ui/user-stories/Product_Detail.md#AC4\n  status: manual\n  steps:\n    - Open the product \"Combination Pliers\".\n    - Click \"Increase quantity\".\n    - Verify the quantity is 2."
+   "yaml": "- id: UI-019\n  name: The plus button increases the quantity by 1\n  ref: docs/ui/user-stories/Product_Detail.md#AC4\n  status: automated\n  automatedIn: tests/ui/products/product-quantity.spec.ts\n  preconditions:\n    - The product page of \"Combination Pliers\" is open.\n  steps:\n    - Click \"Increase quantity\".\n    - Verify the quantity is 2."
   },
   {
    "id": "UI-020",
@@ -2453,15 +2463,19 @@ window.SCENARIO_CATALOG = {
    "ref": [
     "docs/ui/user-stories/Product_Detail.md#AC5"
    ],
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/ui/products/product-quantity.spec.ts",
+   "preconditions": [
+    "The product page of \"Combination Pliers\" is open."
+   ],
    "steps": [
-    "Open the product \"Combination Pliers\".",
     "Click \"Increase quantity\".",
     "Click \"Increase quantity\".",
     "Verify the quantity is 3.",
     "Click \"Decrease quantity\".",
     "Verify the quantity is 2."
    ],
+   "specLine": 37,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/ui/products/product-quantity.yml",
@@ -2470,7 +2484,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@products"
    ],
-   "yaml": "- id: UI-020\n  name: The minus button decreases the quantity by 1\n  ref: docs/ui/user-stories/Product_Detail.md#AC5\n  status: manual\n  steps:\n    - Open the product \"Combination Pliers\".\n    - Click \"Increase quantity\".\n    - Click \"Increase quantity\".\n    - Verify the quantity is 3.\n    - Click \"Decrease quantity\".\n    - Verify the quantity is 2."
+   "yaml": "- id: UI-020\n  name: The minus button decreases the quantity by 1\n  ref: docs/ui/user-stories/Product_Detail.md#AC5\n  status: automated\n  automatedIn: tests/ui/products/product-quantity.spec.ts\n  preconditions:\n    - The product page of \"Combination Pliers\" is open.\n  steps:\n    - Click \"Increase quantity\".\n    - Click \"Increase quantity\".\n    - Verify the quantity is 3.\n    - Click \"Decrease quantity\".\n    - Verify the quantity is 2."
   },
   {
    "id": "UI-021",
@@ -2478,13 +2492,17 @@ window.SCENARIO_CATALOG = {
    "ref": [
     "docs/ui/user-stories/Product_Detail.md#AC6"
    ],
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/ui/products/product-quantity.spec.ts",
+   "preconditions": [
+    "The product page of \"Combination Pliers\" is open."
+   ],
    "steps": [
-    "Open the product \"Combination Pliers\".",
     "Verify the quantity is 1.",
     "Click \"Decrease quantity\".",
     "Verify the quantity is still 1."
    ],
+   "specLine": 59,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/ui/products/product-quantity.yml",
@@ -2493,7 +2511,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@products"
    ],
-   "yaml": "- id: UI-021\n  name: The minus button keeps the quantity at 1\n  ref: docs/ui/user-stories/Product_Detail.md#AC6\n  status: manual\n  steps:\n    - Open the product \"Combination Pliers\".\n    - Verify the quantity is 1.\n    - Click \"Decrease quantity\".\n    - Verify the quantity is still 1."
+   "yaml": "- id: UI-021\n  name: The minus button keeps the quantity at 1\n  ref: docs/ui/user-stories/Product_Detail.md#AC6\n  status: automated\n  automatedIn: tests/ui/products/product-quantity.spec.ts\n  preconditions:\n    - The product page of \"Combination Pliers\" is open.\n  steps:\n    - Verify the quantity is 1.\n    - Click \"Decrease quantity\".\n    - Verify the quantity is still 1."
   },
   {
    "id": "UI-022",
@@ -2501,12 +2519,18 @@ window.SCENARIO_CATALOG = {
    "ref": [
     "docs/ui/user-stories/Product_Detail.md#AC7"
    ],
-   "status": "manual",
-   "steps": [
-    "Open the product \"Combination Pliers\".",
-    "Enter 5 in the quantity field.",
-    "Verify the quantity is 5."
+   "status": "automated",
+   "automatedIn": "tests/ui/products/product-quantity.spec.ts",
+   "preconditions": [
+    "The product page of \"Combination Pliers\" is open."
    ],
+   "steps": [
+    "Enter 5 in the quantity field.",
+    "Verify the quantity is 5.",
+    "Click \"Increase quantity\".",
+    "Verify the quantity is 6."
+   ],
+   "specLine": 73,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/ui/products/product-quantity.yml",
@@ -2515,7 +2539,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@products"
    ],
-   "yaml": "- id: UI-022\n  name: A quantity typed into the field is used\n  ref: docs/ui/user-stories/Product_Detail.md#AC7\n  status: manual\n  steps:\n    - Open the product \"Combination Pliers\".\n    - Enter 5 in the quantity field.\n    - Verify the quantity is 5."
+   "yaml": "- id: UI-022\n  name: A quantity typed into the field is used\n  ref: docs/ui/user-stories/Product_Detail.md#AC7\n  status: automated\n  automatedIn: tests/ui/products/product-quantity.spec.ts\n  preconditions:\n    - The product page of \"Combination Pliers\" is open.\n  steps:\n    - Enter 5 in the quantity field.\n    - Verify the quantity is 5.\n    - Click \"Increase quantity\".\n    - Verify the quantity is 6."
   },
   {
    "id": "UI-023",
@@ -2523,12 +2547,16 @@ window.SCENARIO_CATALOG = {
    "ref": [
     "docs/ui/user-stories/Product_Detail.md#AC7"
    ],
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/ui/products/product-quantity.spec.ts",
+   "preconditions": [
+    "The product page of \"Combination Pliers\" is open."
+   ],
    "steps": [
-    "Open the product \"Combination Pliers\".",
     "Enter 0 in the quantity field.",
     "Verify the quantity is 1."
    ],
+   "specLine": 92,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/ui/products/product-quantity.yml",
@@ -2537,7 +2565,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@products"
    ],
-   "yaml": "- id: UI-023\n  name: A typed quantity of 0 is set to 1\n  ref: docs/ui/user-stories/Product_Detail.md#AC7\n  status: manual\n  steps:\n    - Open the product \"Combination Pliers\".\n    - Enter 0 in the quantity field.\n    - Verify the quantity is 1."
+   "yaml": "- id: UI-023\n  name: A typed quantity of 0 is set to 1\n  ref: docs/ui/user-stories/Product_Detail.md#AC7\n  status: automated\n  automatedIn: tests/ui/products/product-quantity.spec.ts\n  preconditions:\n    - The product page of \"Combination Pliers\" is open.\n  steps:\n    - Enter 0 in the quantity field.\n    - Verify the quantity is 1."
   },
   {
    "id": "UI-024",
@@ -2545,14 +2573,18 @@ window.SCENARIO_CATALOG = {
    "ref": [
     "docs/ui/user-stories/Product_Detail.md#AC7"
    ],
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/ui/products/product-quantity.spec.ts",
    "knownIssue": "The field sets a typed quantity above 99 to 99 (with the warning \"You can order at most 99 of this product.\") instead of setting 1,000,000,000 to 999,999,999 as the story's range 1 to 999,999,999 requires.",
    "bug": "BUG-008",
+   "preconditions": [
+    "The product page of \"Combination Pliers\" is open."
+   ],
    "steps": [
-    "Open the product \"Combination Pliers\".",
     "Enter 1000000000 in the quantity field.",
     "Verify the quantity is 999999999."
    ],
+   "specLine": 102,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/ui/products/product-quantity.yml",
@@ -2561,7 +2593,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@products"
    ],
-   "yaml": "- id: UI-024\n  name: A typed quantity above 999,999,999 is set to 999,999,999\n  ref: docs/ui/user-stories/Product_Detail.md#AC7\n  status: manual\n  knownIssue: The field sets a typed quantity above 99 to 99 (with the warning \"You can order at most 99 of this product.\") instead of setting 1,000,000,000 to 999,999,999 as the story's range 1 to 999,999,999 requires.\n  bug: BUG-008\n  steps:\n    - Open the product \"Combination Pliers\".\n    - Enter 1000000000 in the quantity field.\n    - Verify the quantity is 999999999."
+   "yaml": "- id: UI-024\n  name: A typed quantity above 999,999,999 is set to 999,999,999\n  ref: docs/ui/user-stories/Product_Detail.md#AC7\n  status: automated\n  automatedIn: tests/ui/products/product-quantity.spec.ts\n  knownIssue: The field sets a typed quantity above 99 to 99 (with the warning \"You can order at most 99 of this product.\") instead of setting 1,000,000,000 to 999,999,999 as the story's range 1 to 999,999,999 requires.\n  bug: BUG-008\n  preconditions:\n    - The product page of \"Combination Pliers\" is open.\n  steps:\n    - Enter 1000000000 in the quantity field.\n    - Verify the quantity is 999999999."
   },
   {
    "id": "UI-025",
@@ -2569,14 +2601,18 @@ window.SCENARIO_CATALOG = {
    "ref": [
     "docs/ui/user-stories/Product_Detail.md#AC7"
    ],
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/ui/products/product-quantity.spec.ts",
    "knownIssue": "The field changes a typed quantity of 999,999,999 to 99 (the app allows at most 99) instead of keeping it as the story's range 1 to 999,999,999 requires.",
    "bug": "BUG-008",
+   "preconditions": [
+    "The product page of \"Combination Pliers\" is open."
+   ],
    "steps": [
-    "Open the product \"Combination Pliers\".",
     "Enter 999999999 in the quantity field.",
     "Verify the quantity is 999999999."
    ],
+   "specLine": 114,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/ui/products/product-quantity.yml",
@@ -2585,7 +2621,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@products"
    ],
-   "yaml": "- id: UI-025\n  name: A typed quantity of 999,999,999 is accepted\n  ref: docs/ui/user-stories/Product_Detail.md#AC7\n  status: manual\n  knownIssue: The field changes a typed quantity of 999,999,999 to 99 (the app allows at most 99) instead of keeping it as the story's range 1 to 999,999,999 requires.\n  bug: BUG-008\n  steps:\n    - Open the product \"Combination Pliers\".\n    - Enter 999999999 in the quantity field.\n    - Verify the quantity is 999999999."
+   "yaml": "- id: UI-025\n  name: A typed quantity of 999,999,999 is accepted\n  ref: docs/ui/user-stories/Product_Detail.md#AC7\n  status: automated\n  automatedIn: tests/ui/products/product-quantity.spec.ts\n  knownIssue: The field changes a typed quantity of 999,999,999 to 99 (the app allows at most 99) instead of keeping it as the story's range 1 to 999,999,999 requires.\n  bug: BUG-008\n  preconditions:\n    - The product page of \"Combination Pliers\" is open.\n  steps:\n    - Enter 999999999 in the quantity field.\n    - Verify the quantity is 999999999."
   },
   {
    "id": "UI-026",
@@ -2593,13 +2629,19 @@ window.SCENARIO_CATALOG = {
    "ref": [
     "docs/ui/user-stories/Product_Detail.md#AC7"
    ],
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/ui/products/product-quantity.spec.ts",
+   "preconditions": [
+    "The product page of \"Combination Pliers\" is open."
+   ],
    "steps": [
-    "Open the product \"Combination Pliers\".",
     "Click \"Increase quantity\".",
     "Enter 1 in the quantity field.",
-    "Verify the quantity is 1."
+    "Verify the quantity is 1.",
+    "Click \"Increase quantity\".",
+    "Verify the quantity is 2."
    ],
+   "specLine": 126,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/ui/products/product-quantity.yml",
@@ -2608,7 +2650,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@products"
    ],
-   "yaml": "- id: UI-026\n  name: A typed quantity of 1 is accepted\n  ref: docs/ui/user-stories/Product_Detail.md#AC7\n  status: manual\n  steps:\n    - Open the product \"Combination Pliers\".\n    - Click \"Increase quantity\".\n    - Enter 1 in the quantity field.\n    - Verify the quantity is 1."
+   "yaml": "- id: UI-026\n  name: A typed quantity of 1 is accepted\n  ref: docs/ui/user-stories/Product_Detail.md#AC7\n  status: automated\n  automatedIn: tests/ui/products/product-quantity.spec.ts\n  preconditions:\n    - The product page of \"Combination Pliers\" is open.\n  steps:\n    - Click \"Increase quantity\".\n    - Enter 1 in the quantity field.\n    - Verify the quantity is 1.\n    - Click \"Increase quantity\".\n    - Verify the quantity is 2."
   },
   {
    "id": "UI-001",
@@ -2887,7 +2929,8 @@ window.SCENARIO_CATALOG = {
    "ref": [
     "docs/ui/user-stories/Rental_Products.md#AC1"
    ],
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/ui/products/rentals.spec.ts",
    "preconditions": [
     "The home page is open."
    ],
@@ -2897,6 +2940,7 @@ window.SCENARIO_CATALOG = {
     "Verify the \"Rentals\" page is shown, with the heading \"Rentals\".",
     "Verify the cards of \"Excavator\", \"Bulldozer\" and \"Crane\" are shown."
    ],
+   "specLine": 11,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/ui/products/rentals.yml",
@@ -2905,7 +2949,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@products"
    ],
-   "yaml": "- id: UI-081\n  name: The Rentals page opens from the Categories menu and lists the rental products\n  ref: docs/ui/user-stories/Rental_Products.md#AC1\n  status: manual\n  preconditions:\n    - The home page is open.\n  steps:\n    - Open the \"Categories\" menu.\n    - Click \"Rentals\".\n    - Verify the \"Rentals\" page is shown, with the heading \"Rentals\".\n    - Verify the cards of \"Excavator\", \"Bulldozer\" and \"Crane\" are shown."
+   "yaml": "- id: UI-081\n  name: The Rentals page opens from the Categories menu and lists the rental products\n  ref: docs/ui/user-stories/Rental_Products.md#AC1\n  status: automated\n  automatedIn: tests/ui/products/rentals.spec.ts\n  preconditions:\n    - The home page is open.\n  steps:\n    - Open the \"Categories\" menu.\n    - Click \"Rentals\".\n    - Verify the \"Rentals\" page is shown, with the heading \"Rentals\".\n    - Verify the cards of \"Excavator\", \"Bulldozer\" and \"Crane\" are shown."
   },
   {
    "id": "UI-082",
@@ -2913,14 +2957,18 @@ window.SCENARIO_CATALOG = {
    "ref": [
     "docs/ui/user-stories/Rental_Products.md#AC2"
    ],
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/ui/products/rentals.spec.ts",
+   "preconditions": [
+    "The rentals page is open."
+   ],
    "steps": [
-    "Open the rentals page.",
     "Verify the page shows at least one rental card.",
     "Verify every rental card shows a product image.",
     "Verify every rental card shows its name.",
     "Verify every rental card shows a description that is not empty."
    ],
+   "specLine": 40,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/ui/products/rentals.yml",
@@ -2929,7 +2977,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@products"
    ],
-   "yaml": "- id: UI-082\n  name: Each rental card shows an image, a name and a description\n  ref: docs/ui/user-stories/Rental_Products.md#AC2\n  status: manual\n  steps:\n    - Open the rentals page.\n    - Verify the page shows at least one rental card.\n    - Verify every rental card shows a product image.\n    - Verify every rental card shows its name.\n    - Verify every rental card shows a description that is not empty."
+   "yaml": "- id: UI-082\n  name: Each rental card shows an image, a name and a description\n  ref: docs/ui/user-stories/Rental_Products.md#AC2\n  status: automated\n  automatedIn: tests/ui/products/rentals.spec.ts\n  preconditions:\n    - The rentals page is open.\n  steps:\n    - Verify the page shows at least one rental card.\n    - Verify every rental card shows a product image.\n    - Verify every rental card shows its name.\n    - Verify every rental card shows a description that is not empty."
   },
   {
    "id": "UI-083",
@@ -2937,13 +2985,17 @@ window.SCENARIO_CATALOG = {
    "ref": [
     "docs/ui/user-stories/Rental_Products.md#AC3"
    ],
-   "status": "manual",
+   "status": "automated",
+   "automatedIn": "tests/ui/products/rentals.spec.ts",
+   "preconditions": [
+    "The rentals page is open."
+   ],
    "steps": [
-    "Open the rentals page.",
     "Click the card of \"Excavator\".",
     "Verify the product page of \"Excavator\" is shown, with the name \"Excavator\".",
     "Verify a duration slider is shown."
    ],
+   "specLine": 74,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/ui/products/rentals.yml",
@@ -2952,7 +3004,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@products"
    ],
-   "yaml": "- id: UI-083\n  name: Clicking a rental card opens its product page with the duration slider\n  ref: docs/ui/user-stories/Rental_Products.md#AC3\n  status: manual\n  steps:\n    - Open the rentals page.\n    - Click the card of \"Excavator\".\n    - Verify the product page of \"Excavator\" is shown, with the name \"Excavator\".\n    - Verify a duration slider is shown."
+   "yaml": "- id: UI-083\n  name: Clicking a rental card opens its product page with the duration slider\n  ref: docs/ui/user-stories/Rental_Products.md#AC3\n  status: automated\n  automatedIn: tests/ui/products/rentals.spec.ts\n  preconditions:\n    - The rentals page is open.\n  steps:\n    - Click the card of \"Excavator\".\n    - Verify the product page of \"Excavator\" is shown, with the name \"Excavator\".\n    - Verify a duration slider is shown."
   }
  ]
 };

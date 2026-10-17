@@ -2,8 +2,8 @@
 window.BUG_CATALOG = {
  "title": "Bugs",
  "prefix": "BUG",
- "generatedAt": "2026-10-17T11:47:51.071Z",
- "commit": "32755e9cb1a149deac3ae879de5e984573db924c",
+ "generatedAt": "2026-10-17T12:50:50.335Z",
+ "commit": "75cebc7e3b3594c79bb2ef15ababf23769a2ed31",
  "repoUrl": "https://github.com/Zaytsman/SimpRight",
  "branch": "main",
  "bugsDir": "bugs",
@@ -498,7 +498,9 @@ window.BUG_CATALOG = {
      "layer": "ui",
      "area": "products",
      "file": "test-scenarios/ui/products/product-quantity.yml",
-     "status": "manual",
+     "status": "automated",
+     "automatedIn": "tests/ui/products/product-quantity.spec.ts",
+     "specLine": 102,
      "knownIssue": "The field sets a typed quantity above 99 to 99 (with the warning \"You can order at most 99 of this product.\") instead of setting 1,000,000,000 to 999,999,999 as the story's range 1 to 999,999,999 requires."
     },
     {
@@ -507,7 +509,9 @@ window.BUG_CATALOG = {
      "layer": "ui",
      "area": "products",
      "file": "test-scenarios/ui/products/product-quantity.yml",
-     "status": "manual",
+     "status": "automated",
+     "automatedIn": "tests/ui/products/product-quantity.spec.ts",
+     "specLine": 114,
      "knownIssue": "The field changes a typed quantity of 999,999,999 to 99 (the app allows at most 99) instead of keeping it as the story's range 1 to 999,999,999 requires."
     }
    ]
