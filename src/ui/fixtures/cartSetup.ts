@@ -64,7 +64,7 @@ export async function putProductsInCart(
   for (const { product, quantity } of lines) {
     await cartsService.addItem(cartId, { product_id: product.id, quantity });
   }
-  await setVisitorCart(page, cartId);
+  await setVisitorCart(page, cartId, lines.reduce((total, line) => total + line.quantity, 0));
 
   return { cartId, products: lines.map((line) => line.product) };
 }
