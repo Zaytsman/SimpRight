@@ -1,12 +1,11 @@
-import { expect } from '@playwright/test';
-import type { ApiResponse } from '../clients/BaseClient';
-import { assertMessage, attachJson } from '../../utils/assertHelpers';
-
 /**
  * Helpers shared by the Reports specs. Report bodies hold aggregates only (counts, totals, product, category and country
  * names), no personal data, so responses are attached as they came. Live data changes with the hourly re-seed and other
  * visitors' orders: the checks cover shapes, types and ordering, never figures.
  */
+import { expect } from '@playwright/test';
+import type { ApiResponse } from '../clients/BaseClient';
+import { assertMessage, attachJson } from '../../utils/assertHelpers';
 
 /** How the attached requests name the tokens of the reports scenarios. */
 export const REPORT_AUTH = {

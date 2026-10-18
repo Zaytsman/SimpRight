@@ -1,4 +1,4 @@
-import type { CreateCategoryRequest, UpdateCategoryRequest } from '@api/dto/category';
+import type { CreateCategoryRequest, UpdateCategoryRequest } from '../../api/dto/category';
 import { uniqueName } from './testDataUtils';
 
 /** Prefixes of every category the factory creates: names `Category-<yyyymmdd>-<6 hex>`, slugs `category-<yyyymmdd>-<6 hex>` (uniqueName). */

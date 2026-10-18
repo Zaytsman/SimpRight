@@ -1,4 +1,4 @@
-import type { CreateGuestInvoiceRequest, CreateInvoiceRequest, PaymentMethod } from '@api/dto/invoice';
+import type { CreateGuestInvoiceRequest, CreateInvoiceRequest, PaymentMethod } from '../../api/dto/invoice';
 import { PaymentFactory } from './PaymentFactory';
 import { uniqueName } from './testDataUtils';
 

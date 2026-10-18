@@ -1,4 +1,4 @@
-import type { CreateBrandRequest, UpdateBrandRequest } from '@api/dto/brand';
+import type { CreateBrandRequest, UpdateBrandRequest } from '../../api/dto/brand';
 import { uniqueName } from './testDataUtils';
 
 /** Prefixes of every brand the factory creates: names `Brand-<yyyymmdd>-<6 hex>`, slugs `brand-<yyyymmdd>-<6 hex>` (uniqueName). */

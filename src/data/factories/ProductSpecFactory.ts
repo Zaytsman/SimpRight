@@ -1,4 +1,4 @@
-import type { CreateProductSpecRequest, UpdateProductSpecRequest } from '@api/dto/productSpec';
+import type { CreateProductSpecRequest, UpdateProductSpecRequest } from '../../api/dto/productSpec';
 import { uniqueName } from './testDataUtils';
 
 /** Prefix of every spec name the factory creates: `Spec-<yyyymmdd>-<6 hex>` (uniqueName). */

@@ -1,4 +1,4 @@
-import type { CreateProductRequest, UpdateProductRequest } from '@api/dto/product';
+import type { CreateProductRequest, UpdateProductRequest } from '../../api/dto/product';
 import { uniqueName } from './testDataUtils';
 
 /** Ids of seeded records a new product points to; a test step looks them up and passes them in. */

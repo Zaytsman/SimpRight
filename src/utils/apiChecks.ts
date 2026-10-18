@@ -1,17 +1,16 @@
-import { expect } from '@playwright/test';
-import type { ApiResponse } from '@api/clients/BaseClient';
-import type { FieldValidationError, ValidationErrors } from '@api/dto/common';
-import type { UserErrorBody } from '@api/dto/user';
-import { assertMessage } from './assertHelpers';
-
-/** The keys of a Laravel page (the paginator's output without the link keys), as the list and search endpoints return it. */
-export const PAGE_KEYS = ['current_page', 'data', 'from', 'last_page', 'per_page', 'to', 'total'] as const;
-
 /**
  * Checks that API specs share for steps checked through a client: the status, the body's message,
  * Laravel's 422 `errors` keys and a redirect's Location. `request` is the request record the spec attached, used in the
  * failure message. A check specific to one endpoint stays in its spec.
  */
+import { expect } from '@playwright/test';
+import type { ApiResponse } from '../api/clients/BaseClient';
+import type { FieldValidationError, ValidationErrors } from '../api/dto/common';
+import type { UserErrorBody } from '../api/dto/user';
+import { assertMessage } from './assertHelpers';
+
+/** The keys of a Laravel page (the paginator's output without the link keys), as the list and search endpoints return it. */
+export const PAGE_KEYS = ['current_page', 'data', 'from', 'last_page', 'per_page', 'to', 'total'] as const;
 
 /** How a request record shows the Accept header for a client's `accept` option. */
 export function describeAccept(accept: string | null | undefined): string {

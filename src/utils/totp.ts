@@ -1,10 +1,9 @@
-import { createHmac } from 'node:crypto';
-
 /**
  * Time-based one-time passwords (RFC 6238) with the settings the API's library (pragmarx/google2fa) uses by
  * default: HMAC-SHA-1, 6 digits, 30-second periods. The API accepts the codes of the current period and of
  * one period either side.
  */
+import { createHmac, randomBytes } from 'node:crypto';
 
 const BASE32_ALPHABET = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ234567';
 const PERIOD_SECONDS = 30;
@@ -24,7 +23,7 @@ function base32Decode(secret: string): Buffer {
 
 /** A random base32 secret of `length` characters (google2fa needs at least 16, a multiple of 8). */
 export function randomTotpSecret(length = 32): string {
-  return Array.from(crypto.getRandomValues(new Uint8Array(length)), (byte) => BASE32_ALPHABET[byte % 32]).join('');
+  return Array.from(randomBytes(length), (byte) => BASE32_ALPHABET[byte % 32]).join('');
 }
 
 /** The code for `secret` at `timeMs` (default: now), shifted by `offsetPeriods` 30-second periods. */
