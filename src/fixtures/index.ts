@@ -9,7 +9,7 @@ export { openHomePageWithProductInCartTest } from '../ui/fixtures/preconditions/
 export { openHomePageWithRentalAndProductInCartTest } from '../ui/fixtures/preconditions/openHomePageWithRentalAndProductInCartTest';
 export { removeCartAfterTest } from '../ui/fixtures/cartCleanup';
 export { putProductsInCart, assertNoEcoRating } from '../ui/fixtures/cartSetup';
-export { AMSTERDAM } from '../ui/auth/visitorLocation';
+export { AMSTERDAM } from '../ui/visitor/visitorLocation';
 
 // API setup and check helpers, one module per area. Everything a module exports reaches specs, so keep names that only
 // the module itself uses unexported; a name two modules export is a compile error here.

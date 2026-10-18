@@ -30,7 +30,8 @@ SimpRight/
 │   │   │   └── dialogs/          dialogs, on top of BaseDialog
 │   │   ├── flows/                multi-page user journeys (ShoppingFlow)
 │   │   ├── auth/                 login token and storage state helpers
-│   │   └── fixtures/             UI fixtures (pages, components, flows)
+│   │   ├── visitor/              visitor state the app keeps in browser storage: location, cart
+│   │   └── fixtures/             UI fixtures (pages, components, flows), the new-customer state
 │   │       └── preconditions/    where a test starts, open<Page><State>Test: openHomePageTest, openProductPageTest, their InLondon / WithNewCustomer variants
 │   ├── data/
 │   │   ├── TestConstants.ts      seeded app values that several tests rely on

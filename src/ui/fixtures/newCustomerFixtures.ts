@@ -3,7 +3,7 @@ import type { TestFixtures } from '../../fixtures/fixtures';
 import type { BaseWorkerFixtures } from '../../fixtures/base';
 import type { FavoritesService } from '../../api/services/FavoritesService';
 import { UserFactory } from '../../data/factories/UserFactory';
-import { tokenStorageState } from './authState';
+import { tokenStorageState } from '../auth/authState';
 
 export type NewCustomerFixtures = {
   /** The customer registered for this test: an access token of its own. */

@@ -1,6 +1,6 @@
 // Extends `openProductPageTest` (itself the merged `test`), because a spec uses this fixture as its `test`.
 import { openProductPageTest as base } from './openProductPageTest';
-import { newCustomerFixtures, type NewCustomerFixtures } from '../../auth/newCustomerFixtures';
+import { newCustomerFixtures, type NewCustomerFixtures } from '../newCustomerFixtures';
 
 /**
  * Same as `openProductPageTest`, but the browser is logged in as a customer registered for this test only

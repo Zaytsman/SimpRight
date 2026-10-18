@@ -4,8 +4,8 @@ import type { Product } from '../../api/dto/product';
 import type { CartsService } from '../../api/services/CartsService';
 import type { ProductsService } from '../../api/services/ProductsService';
 import { TestConstants } from '../../data/TestConstants';
-import { setVisitorCart } from '../auth/visitorCart';
-import { setVisitorLocation } from '../auth/visitorLocation';
+import { setVisitorCart } from '../visitor/visitorCart';
+import { setVisitorLocation } from '../visitor/visitorLocation';
 
 /** A product put in a cart through the API, with what the tests compare against. */
 export type CartProduct = Pick<Product, 'id' | 'name' | 'price' | 'is_rental' | 'co2_rating'>;
