@@ -3,8 +3,8 @@ window.SCENARIO_CATALOG = {
  "layer": "api",
  "title": "API Test Cases",
  "prefix": "API",
- "generatedAt": "2026-10-17T17:11:22.823Z",
- "commit": "c4e530fe8339b13739d0d318f59432df95c19410",
+ "generatedAt": "2026-10-18T08:18:46.710Z",
+ "commit": "ec28e54205ba11efccb554e8a6852d3e526b22fc",
  "repoUrl": "https://github.com/Zaytsman/SimpRight",
  "branch": "main",
  "workflowUrl": "https://github.com/Zaytsman/SimpRight/actions/workflows/custom-api-tests.yml",
@@ -8608,7 +8608,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /invoices/{invoiceId} with that id and token returns a total equal to the total from the create response."
    ],
    "ref": [],
-   "specLine": 280,
+   "specLine": 279,
    "area": "invoices",
    "areaLabel": "Invoices",
    "file": "test-scenarios/api/invoices/put-invoices-by-invoice-id-status.yml",
@@ -8635,7 +8635,7 @@ window.SCENARIO_CATALOG = {
     "Verify the response status is 200 or 422."
    ],
    "ref": [],
-   "specLine": 315,
+   "specLine": 313,
    "area": "invoices",
    "areaLabel": "Invoices",
    "file": "test-scenarios/api/invoices/put-invoices-by-invoice-id-status.yml",

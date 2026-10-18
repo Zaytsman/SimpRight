@@ -2,8 +2,8 @@
 window.BUG_CATALOG = {
  "title": "Bugs",
  "prefix": "BUG",
- "generatedAt": "2026-10-17T17:11:23.360Z",
- "commit": "c4e530fe8339b13739d0d318f59432df95c19410",
+ "generatedAt": "2026-10-18T08:18:47.230Z",
+ "commit": "ec28e54205ba11efccb554e8a6852d3e526b22fc",
  "repoUrl": "https://github.com/Zaytsman/SimpRight",
  "branch": "main",
  "bugsDir": "bugs",
@@ -781,7 +781,9 @@ window.BUG_CATALOG = {
    "area": "carts",
    "affects": [
     "POST /carts/{cartId}",
-    "GET /carts/{cartId}"
+    "GET /carts/{cartId}",
+    "POST /invoices",
+    "/checkout"
    ],
    "found": "2026-10-10",
    "ref": [
@@ -789,7 +791,7 @@ window.BUG_CATALOG = {
     "docs/api/contracts/Carts_API.md#2-add-item-to-cart",
     "docs/ui/user-stories/Rental_Products.md#AC5"
    ],
-   "description": "The location discount (5 to 25 % by city) should apply only to products marked as location offers, but CartService::addItemToCart checks isset($existingItem->product->is_location_offer), which is true for false as well as true. So every product added to a cart whose coordinates match a city gets the city's discount and a discounted_price. The UI creates carts with the browser's geolocation, so visitors near a listed city see every item discounted at checkout.",
+   "description": "The location discount (5 to 25 % by city) should apply only to products marked as location offers, but CartService::addItemToCart checks isset($existingItem->product->is_location_offer), which is true for false as well as true. So every product added to a cart whose coordinates match a city gets the city's discount and a discounted_price, both when it is added for the first time and when it is added again (firstOrCreate, then the same check). Checkout copies the item's discount_percentage into the invoice line and the subtotal, so the customer is charged the discounted price. The UI creates carts with the browser's geolocation, and the checkout's cart step and the invoice details show the -N% badge and the discounted price for every item.",
    "steps": [
     "Send GET /products and take the id of an item with is_location_offer false.",
     "Send POST /carts with lat 52 and lng 5 (Amsterdam) and take the returned id as the cart's id.",
@@ -799,9 +801,9 @@ window.BUG_CATALOG = {
    ],
    "expected": "The item has no location discount (discount_percentage null or 0) and no discounted_price, because only a product marked as a location offer gets the location discount (Rental_Products.md AC5; Carts_API.md, Enums).",
    "actual": "The item gets discount_percentage 20 and a discounted_price of its price x 0.8, like a location offer.",
-   "evidence": "Live, 2026-10-10 09:07 UTC (cart deleted afterwards, 204):\nProduct: Combination Pliers (seeded), price 14.15, is_location_offer false\nPOST /carts { lat: 52, lng: 5 } -> 201 { id }\nPOST /carts/{cartId} { product_id, quantity: 1 } -> 200 {\"result\":\"item added or updated\"}\nGET /carts/{cartId} -> 200, its only item: discount_percentage 20, discounted_price 11.32\nSource (practice-software-testing, sprint5/API), 2026-10-10:\nCartService::addItemToCart: if ($cart->lat && $cart->lng && isset($existingItem->product->is_location_offer))\n  -> discount_percentage = calculateDiscountPercentage(lat, lng)\nProduct model: 'is_location_offer' => 'boolean'; migration: $table->boolean('is_location_offer') (not nullable)",
+   "evidence": "Live, 2026-10-10 09:07 UTC (cart deleted afterwards, 204):\nProduct: Combination Pliers (seeded), price 14.15, is_location_offer false\nPOST /carts { lat: 52, lng: 5 } -> 201 { id }\nPOST /carts/{cartId} { product_id, quantity: 1 } -> 200 {\"result\":\"item added or updated\"}\nGET /carts/{cartId} -> 200, its only item: discount_percentage 20, discounted_price 11.32\nTest run, nightly API regression 2026-10-16 06:40 UTC, API-0246 (expected failure):\nGET /carts/{cartId} -> its only item (new product, price 9.99, is_location_offer false):\ndiscount_percentage 20, discounted_price 7.99\nSource (practice-software-testing, sprint5/API), 2026-10-10, re-read 2026-10-17:\nCartService::addItemToCart: if ($cart->lat && $cart->lng && isset($existingItem->product->is_location_offer))\n  -> discount_percentage = calculateDiscountPercentage(lat, lng)\nProduct model: 'is_location_offer' => 'boolean'; migration: $table->boolean('is_location_offer') (not nullable)\nInvoiceService: discounted_price from the item's discount_percentage, added to the subtotal\nSource (sprint5/UI), 2026-10-17: checkout/cart/cart.component.html shows the badge and discounted price\nfor any item with discount_percentage / discounted_price",
    "file": "bugs/BUG-024.yml",
-   "yaml": "id: BUG-024\ntitle: Products that aren't location offers get the location discount in a cart near a listed city, instead of none\nstatus: open\nseverity: major\nlayer: api\narea: carts\naffects:\n  - POST /carts/{cartId}\n  - GET /carts/{cartId}\nfound: 2026-10-10\nref:\n  - docs/api/contracts/Carts_API.md#notes\n  - docs/api/contracts/Carts_API.md#2-add-item-to-cart\n  - docs/ui/user-stories/Rental_Products.md#AC5\ndescription: >-\n  The location discount (5 to 25 % by city) should apply only to products marked as location offers, but\n  CartService::addItemToCart checks isset($existingItem->product->is_location_offer), which is true for\n  false as well as true. So every product added to a cart whose coordinates match a city gets the city's\n  discount and a discounted_price. The UI creates carts with the browser's geolocation, so visitors near\n  a listed city see every item discounted at checkout.\nsteps:\n  - Send GET /products and take the id of an item with is_location_offer false.\n  - Send POST /carts with lat 52 and lng 5 (Amsterdam) and take the returned id as the cart's id.\n  - Send POST /carts/{cartId} with the cart's id and a body with that product's id as product_id and quantity 1.\n  - Send GET /carts/{cartId} with the cart's id.\n  - Send DELETE /carts/{cartId} with the cart's id.\nexpected: >-\n  The item has no location discount (discount_percentage null or 0) and no discounted_price, because only\n  a product marked as a location offer gets the location discount (Rental_Products.md AC5; Carts_API.md, Enums).\nactual: The item gets discount_percentage 20 and a discounted_price of its price x 0.8, like a location offer.\nevidence: |-\n  Live, 2026-10-10 09:07 UTC (cart deleted afterwards, 204):\n  Product: Combination Pliers (seeded), price 14.15, is_location_offer false\n  POST /carts { lat: 52, lng: 5 } -> 201 { id }\n  POST /carts/{cartId} { product_id, quantity: 1 } -> 200 {\"result\":\"item added or updated\"}\n  GET /carts/{cartId} -> 200, its only item: discount_percentage 20, discounted_price 11.32\n  Source (practice-software-testing, sprint5/API), 2026-10-10:\n  CartService::addItemToCart: if ($cart->lat && $cart->lng && isset($existingItem->product->is_location_offer))\n    -> discount_percentage = calculateDiscountPercentage(lat, lng)\n  Product model: 'is_location_offer' => 'boolean'; migration: $table->boolean('is_location_offer') (not nullable)",
+   "yaml": "id: BUG-024\ntitle: Products that aren't location offers get the location discount in a cart near a listed city, instead of none\nstatus: open\nseverity: major\nlayer: api\narea: carts\naffects:\n  - POST /carts/{cartId}\n  - GET /carts/{cartId}\n  - POST /invoices\n  - /checkout\nfound: 2026-10-10\nref:\n  - docs/api/contracts/Carts_API.md#notes\n  - docs/api/contracts/Carts_API.md#2-add-item-to-cart\n  - docs/ui/user-stories/Rental_Products.md#AC5\ndescription: >-\n  The location discount (5 to 25 % by city) should apply only to products marked as location offers, but\n  CartService::addItemToCart checks isset($existingItem->product->is_location_offer), which is true for\n  false as well as true. So every product added to a cart whose coordinates match a city gets the city's\n  discount and a discounted_price, both when it is added for the first time and when it is added again\n  (firstOrCreate, then the same check). Checkout copies the item's discount_percentage into the invoice\n  line and the subtotal, so the customer is charged the discounted price. The UI creates carts with the\n  browser's geolocation, and the checkout's cart step and the invoice details show the -N% badge and the\n  discounted price for every item.\nsteps:\n  - Send GET /products and take the id of an item with is_location_offer false.\n  - Send POST /carts with lat 52 and lng 5 (Amsterdam) and take the returned id as the cart's id.\n  - Send POST /carts/{cartId} with the cart's id and a body with that product's id as product_id and quantity 1.\n  - Send GET /carts/{cartId} with the cart's id.\n  - Send DELETE /carts/{cartId} with the cart's id.\nexpected: >-\n  The item has no location discount (discount_percentage null or 0) and no discounted_price, because only\n  a product marked as a location offer gets the location discount (Rental_Products.md AC5; Carts_API.md, Enums).\nactual: The item gets discount_percentage 20 and a discounted_price of its price x 0.8, like a location offer.\nevidence: |-\n  Live, 2026-10-10 09:07 UTC (cart deleted afterwards, 204):\n  Product: Combination Pliers (seeded), price 14.15, is_location_offer false\n  POST /carts { lat: 52, lng: 5 } -> 201 { id }\n  POST /carts/{cartId} { product_id, quantity: 1 } -> 200 {\"result\":\"item added or updated\"}\n  GET /carts/{cartId} -> 200, its only item: discount_percentage 20, discounted_price 11.32\n  Test run, nightly API regression 2026-10-16 06:40 UTC, API-0246 (expected failure):\n  GET /carts/{cartId} -> its only item (new product, price 9.99, is_location_offer false):\n  discount_percentage 20, discounted_price 7.99\n  Source (practice-software-testing, sprint5/API), 2026-10-10, re-read 2026-10-17:\n  CartService::addItemToCart: if ($cart->lat && $cart->lng && isset($existingItem->product->is_location_offer))\n    -> discount_percentage = calculateDiscountPercentage(lat, lng)\n  Product model: 'is_location_offer' => 'boolean'; migration: $table->boolean('is_location_offer') (not nullable)\n  InvoiceService: discounted_price from the item's discount_percentage, added to the subtotal\n  Source (sprint5/UI), 2026-10-17: checkout/cart/cart.component.html shows the badge and discounted price\n  for any item with discount_percentage / discounted_price",
    "scenarios": [
     {
      "id": "API-0246",
@@ -1116,7 +1118,7 @@ window.BUG_CATALOG = {
      "file": "test-scenarios/api/invoices/put-invoices-by-invoice-id-status.yml",
      "status": "automated",
      "automatedIn": "tests/api/invoices/put-invoices-by-invoice-id-status.spec.ts",
-     "specLine": 280,
+     "specLine": 279,
      "knownIssue": "Writes any column sent in the body (the total is changed) instead of only status and status_message."
     },
     {
@@ -1127,7 +1129,7 @@ window.BUG_CATALOG = {
      "file": "test-scenarios/api/invoices/put-invoices-by-invoice-id-status.yml",
      "status": "automated",
      "automatedIn": "tests/api/invoices/put-invoices-by-invoice-id-status.spec.ts",
-     "specLine": 315,
+     "specLine": 313,
      "knownIssue": "Returns 500 for a body key that is not a column of invoices instead of 422 or ignoring the key."
     }
    ]
