@@ -1,23 +1,17 @@
 import type { Locator, Page } from '@playwright/test';
-import type { EnvConfig } from '../../../config/env';
+import { BaseComponent } from '../components/BaseComponent';
 
 /**
- * Base for modal dialogs. Buttons are looked up inside `root` (the dialog element), so an "OK" or
- * "Delete" button elsewhere on the page is never clicked by mistake. Subclasses add their own
- * locators under `root` and expose actions.
+ * Base for modal dialogs: a component whose `root` is the dialog element, so an "OK" or "Delete" button elsewhere on
+ * the page is never clicked by mistake. Subclasses add their own locators under `root` and expose actions.
  */
-export abstract class BaseDialog {
-  protected readonly page: Page;
-  protected readonly config: EnvConfig;
-  protected readonly root: Locator;
+export abstract class BaseDialog extends BaseComponent {
   private readonly cancelButton: Locator;
   private readonly okButton: Locator;
   private readonly deleteButton: Locator;
 
-  constructor(page: Page, config: EnvConfig, root: Locator = page.getByRole('dialog')) {
-    this.page = page;
-    this.config = config;
-    this.root = root;
+  constructor(page: Page, root: Locator = page.getByRole('dialog')) {
+    super(page, root);
     this.cancelButton = root.getByRole('button', { name: 'Cancel' });
     this.okButton = root.getByRole('button', { name: 'OK' });
     this.deleteButton = root.getByRole('button', { name: 'Delete' });

@@ -1,12 +1,12 @@
 import { test, expect, createProductInStock, openProductPageTest, removeCartAfterTest } from '@fixtures';
 import { TestConstants } from '@data/TestConstants';
-import type { CartPage } from '@ui/pages/CartPage';
 
 // Scenarios: test-scenarios/ui/cart/add-to-cart.yml
 test.describe('@cart - Cart', () => {
   test('UI-002: Add a product with quantity 2 to the cart', { tag: '@smoke' }, async ({
     shoppingFlow,
     productPage,
+    cartPage,
     productsService,
     adminProductsService,
     cartsService,
@@ -14,7 +14,6 @@ test.describe('@cart - Cart', () => {
   }) => {
     const quantity = 2;
     let unitPrice: number;
-    let cartPage: CartPage;
 
     // Precondition: A product created for this test through the API, with a unique name, is in stock.
     // A product of its own, so other visitors of the demo site (who can change seeded products) can't break the test.
@@ -40,7 +39,7 @@ test.describe('@cart - Cart', () => {
     });
 
     await test.step('Open the cart.', async () => {
-      cartPage = await shoppingFlow.goToCart();
+      await cartPage.open();
     });
 
     await test.step('Verify the cart has exactly one line: that product with quantity 2.', async () => {

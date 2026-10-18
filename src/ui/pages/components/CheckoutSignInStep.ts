@@ -1,4 +1,5 @@
 import { expect, type Locator, type Page } from '@playwright/test';
+import { waitForApiResponse } from '../waitForApiResponse';
 import { BaseComponent } from './BaseComponent';
 
 /**
@@ -93,7 +94,7 @@ export class CheckoutSignInStep extends BaseComponent {
    * the TOTP field, the signed-in message or the login error.
    */
   async login(): Promise<void> {
-    const answered = this.loginAnswer();
+    const answered = waitForApiResponse(this.page, 'POST', '/users/login');
     await this.loginSubmitButton.click();
     await answered;
     await expect(this.totpCodeInput.or(this.signedInMessageText).or(this.loginErrorAlert)).toBeVisible();
@@ -109,7 +110,7 @@ export class CheckoutSignInStep extends BaseComponent {
    * then until the step shows its outcome: "Proceed to checkout" or the login error.
    */
   async verifyTotp(): Promise<void> {
-    const answered = this.loginAnswer();
+    const answered = waitForApiResponse(this.page, 'POST', '/users/login');
     await this.verifyTotpSubmitButton.click();
     await answered;
     await expect(this.proceedToCheckoutButton.or(this.loginErrorAlert)).toBeVisible();
@@ -119,11 +120,5 @@ export class CheckoutSignInStep extends BaseComponent {
   async proceed(): Promise<void> {
     await this.proceedToCheckoutButton.click();
     await expect(this.root).toBeHidden();
-  }
-
-  private loginAnswer(): Promise<unknown> {
-    return this.page.waitForResponse(
-      (response) => response.request().method() === 'POST' && new URL(response.url()).pathname.endsWith('/users/login')
-    );
   }
 }

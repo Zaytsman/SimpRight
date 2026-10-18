@@ -2,7 +2,7 @@ import fs from 'node:fs';
 import { TOKEN_EXPIRY_MARGIN_MS } from '../../api/auth/TokenService';
 
 /** localStorage key where the app keeps its JWT (the site sets no auth cookie). */
-export const AUTH_TOKEN_KEY = 'auth-token';
+const AUTH_TOKEN_KEY = 'auth-token';
 
 type StorageState = {
   cookies: [];

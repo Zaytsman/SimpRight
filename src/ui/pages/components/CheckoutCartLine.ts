@@ -1,10 +1,14 @@
 import { expect, type Locator, type Page } from '@playwright/test';
 import { parseAmount } from '../../../utils/amounts';
+import { waitForApiResponse } from '../waitForApiResponse';
 import { BaseComponent } from './BaseComponent';
 
 function escapeRegExp(text: string): string {
   return text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 }
+
+/** The path of the app's cart request, `GET /carts/{id}` (cart.service.ts `getCart()`). */
+export const CART_REQUEST_PATH = /\/carts\/[^/]+$/;
 
 /**
  * One line of the checkout's cart step (wizard step 1): a table row with the product's name (plus a discount badge or a
@@ -30,6 +34,7 @@ export class CheckoutCartLine extends BaseComponent {
   /** CSS: the cart table's header cells, to find a column by its label. */
   private readonly headerCells: Locator;
   private readonly bodyCells: Locator;
+  /** The page's toast (`BasePage.toast`), where the app confirms the line's changes. */
   private readonly toastAlert: Locator;
 
   /**
@@ -114,7 +119,7 @@ export class CheckoutCartLine extends BaseComponent {
    * save it (PUT .../product/quantity), reload the cart (GET /carts/{id}, started after the save) and show its toast.
    */
   async changeQuantity(quantity: number): Promise<void> {
-    const reloaded = this.cartAnswer('PUT', /\/carts\/[^/]+\/product\/quantity$/).then(() => this.cartReload());
+    const reloaded = waitForApiResponse(this.page, 'PUT', /\/carts\/[^/]+\/product\/quantity$/).then(() => this.cartReload());
     await this.quantityInput.fill(String(quantity));
     await this.quantityInput.press('Tab');
     await reloaded;
@@ -123,7 +128,7 @@ export class CheckoutCartLine extends BaseComponent {
 
   /** Clicks the delete button, then waits for the app to delete the line, reload the cart and show its toast. */
   async delete(): Promise<void> {
-    const reloaded = this.cartAnswer('DELETE', /\/carts\/[^/]+\/product\/[^/]+$/).then(() => this.cartReload());
+    const reloaded = waitForApiResponse(this.page, 'DELETE', /\/carts\/[^/]+\/product\/[^/]+$/).then(() => this.cartReload());
     await this.deleteButton.click();
     await reloaded;
     await expect(this.toastAlert.first()).toBeVisible();
@@ -131,10 +136,6 @@ export class CheckoutCartLine extends BaseComponent {
 
   /** The cart reload the app starts once a change is saved (`fetchCartItems()`); waited for only from then on. */
   private cartReload(): Promise<unknown> {
-    return this.cartAnswer('GET', /\/carts\/[^/]+$/);
-  }
-
-  private cartAnswer(method: string, path: RegExp): Promise<unknown> {
-    return this.page.waitForResponse((response) => response.request().method() === method && path.test(new URL(response.url()).pathname));
+    return waitForApiResponse(this.page, 'GET', CART_REQUEST_PATH);
   }
 }

@@ -1,4 +1,6 @@
 import { expect, type Locator, type Page } from '@playwright/test';
+import { parseAmount } from '../../../utils/amounts';
+import { waitForApiResponse } from '../waitForApiResponse';
 import { BaseComponent } from './BaseComponent';
 
 /** Grid of product cards on the home/search page. */
@@ -6,7 +8,6 @@ export class ProductGrid extends BaseComponent {
   /** Every card is a link with `data-test="product-<id>"`. */
   private readonly cardLinks: Locator;
   private readonly productNameTexts: Locator;
-  private readonly noResultsText: Locator;
 
   /**
    * CSS: the results column next to the filter sidebar (search caption, cards, "no results"), the same on the home
@@ -16,17 +17,11 @@ export class ProductGrid extends BaseComponent {
     super(page, root);
     this.cardLinks = root.locator('a[data-test^="product-"]');
     this.productNameTexts = root.getByTestId('product-name');
-    this.noResultsText = root.getByTestId('no-results');
   }
 
   /** Every product card in the grid. */
   get cards(): Locator {
     return this.cardLinks;
-  }
-
-  /** The message shown when a search finds nothing. */
-  get noResults(): Locator {
-    return this.noResultsText;
   }
 
   card(name: string): Locator {
@@ -66,12 +61,12 @@ export class ProductGrid extends BaseComponent {
 
   /** The original price on the card of the named product, without the currency sign. */
   async getCardPrice(name: string): Promise<number> {
-    return Number((await this.cardPriceOf(name).textContent())?.replace('$', '').trim());
+    return parseAmount(await this.cardPriceOf(name).textContent());
   }
 
   /** The discounted price on the card of the named product, without the currency sign. */
   async getCardDiscountPrice(name: string): Promise<number> {
-    return Number((await this.cardDiscountPriceOf(name).textContent())?.replace('$', '').trim());
+    return parseAmount(await this.cardDiscountPriceOf(name).textContent());
   }
 
   /**
@@ -80,10 +75,8 @@ export class ProductGrid extends BaseComponent {
    * products, in order. For changes that set no result marker.
    */
   async waitForQueryResults(trigger: () => Promise<void>, matches: (criteria: Record<string, string>) => boolean): Promise<void> {
-    const answered = this.page.waitForResponse((response) => {
-      const request = response.request();
-      if (request.method() !== 'QUERY' || !new URL(response.url()).pathname.endsWith('/products')) return false;
-      const criteria: unknown = request.postDataJSON();
+    const answered = waitForApiResponse(this.page, 'QUERY', '/products', (response) => {
+      const criteria: unknown = response.request().postDataJSON();
       return typeof criteria === 'object' && criteria !== null && matches(criteria as Record<string, string>);
     });
     await trigger();
@@ -105,7 +98,7 @@ export class ProductGrid extends BaseComponent {
     for (const card of await this.cardLinks.all()) {
       const discountPrice = card.getByTestId('product-discount-price');
       const shown = (await discountPrice.count()) > 0 ? discountPrice : card.getByTestId('product-price');
-      prices.push(Number((await shown.textContent())?.replace('$', '').trim()));
+      prices.push(parseAmount(await shown.textContent()));
     }
     return prices;
   }
