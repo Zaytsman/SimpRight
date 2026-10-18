@@ -1,4 +1,5 @@
-import { test, expect } from '@fixtures';
+import { test, expect, sendAndAttach } from '@fixtures';
+import { expectStatus, parseJson } from '@utils/apiChecks';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { RelatedProduct } from '@api/dto/product';
 import { TestConstants } from '@data/TestConstants';
@@ -28,15 +29,12 @@ test.describe('@products-api - Products API', () => {
     });
 
     await test.step('Send GET /products/{productId}/related with that id.', async () => {
-      request = { method: 'GET', path: `/products/${productId}/related` };
-      response = await productsClient.related(productId);
-      await attachJson('Related Products Request', request);
-      await attachJson('Related Products Response', { status: response.status, body: response.body });
+      ({ request, response } = await sendAndAttach('Related Products', { method: 'GET', path: `/products/${productId}/related` }, () => productsClient.related(productId)));
     });
 
     await test.step('Verify the response status is 200.', async () => {
-      expect(response.status, assertMessage({ request, expected: 'Status 200', actual: response.status })).toBe(200);
-      body = JSON.parse(response.body) as RelatedProduct[];
+      expectStatus(request, response, 200);
+      body = parseJson<RelatedProduct[]>(request, response);
     });
 
     await test.step('Verify the body is an array with at most 10 items.', async () => {
@@ -80,7 +78,7 @@ test.describe('@products-api - Products API', () => {
     });
 
     await test.step('Verify the response status is 404.', async () => {
-      expect(response.status, assertMessage({ request, expected: 'Status 404', actual: response.status })).toBe(404);
+      expectStatus(request, response, 404);
     });
   });
 
@@ -98,15 +96,12 @@ test.describe('@products-api - Products API', () => {
     });
 
     await test.step('Send GET /products/{productId}/related with that id.', async () => {
-      request = { method: 'GET', path: `/products/${productId}/related` };
-      response = await productsClient.related(productId);
-      await attachJson('Related Products Request', request);
-      await attachJson('Related Products Response', { status: response.status, body: response.body });
+      ({ request, response } = await sendAndAttach('Related Products', { method: 'GET', path: `/products/${productId}/related` }, () => productsClient.related(productId)));
       expect(response.isSuccess, assertMessage({ request, expected: 'A 2xx response to read the items from', actual: response.status })).toBe(true);
     });
 
     await test.step('Verify every item has a co2_rating field.', async () => {
-      const body = JSON.parse(response.body) as Record<string, unknown>[];
+      const body = parseJson<Record<string, unknown>[]>(request, response);
       for (const item of body) {
         expect('co2_rating' in item, assertMessage({ request, expected: `Item ${String(item.id)} has a co2_rating field`, actual: Object.keys(item) })).toBe(true);
       }

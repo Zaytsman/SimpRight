@@ -1,4 +1,4 @@
-import { test, expect, createCategory, readCategory, removeCategoryIfCreated, PARENT_CREATE_STEP } from '@fixtures';
+import { test, expect, createCategory, readCategory, removeCategoryIfCreated, PARENT_CREATE_STEP, AUTH } from '@fixtures';
 import type { Cleanup } from '@fixtures/base';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { CategoriesClient } from '@api/clients/CategoriesClient';
@@ -6,7 +6,7 @@ import type { CreatedCategory } from '@api/dto/category';
 import type { CategoriesService } from '@api/services/CategoriesService';
 import { TestConstants } from '@data/TestConstants';
 import { CategoryFactory } from '@data/factories/CategoryFactory';
-import { expectFieldMessageIncludes, expectFieldMessages, expectStatus } from '@utils/apiChecks';
+import { expectFieldMessageIncludes, expectFieldMessages, expectStatus, parseJson } from '@utils/apiChecks';
 import { assertMessage, attachJson } from '@utils/assertHelpers';
 
 // Scenarios: test-scenarios/api/categories/post-categories.yml
@@ -45,13 +45,13 @@ test.describe('@categories-api - Categories API', () => {
       await test.step(
         "Send POST /categories with a unique category name and a unique slug, with the admin's token, and take the new category's id.",
         async () => {
-          ({ request, response } = await sendCreateCategory(categoriesClientWithToken, body, adminCategoriesService, cleanup, "admin's token"));
+          ({ request, response } = await sendCreateCategory(categoriesClientWithToken, body, adminCategoriesService, cleanup, AUTH.admin));
         }
       );
 
       await test.step('Verify the response status is 201.', async () => {
         expectStatus(request, response, 201);
-        created = JSON.parse(response.body) as CreatedCategory;
+        created = parseJson<CreatedCategory>(request, response);
       });
 
       await test.step("Verify the body's name and slug equal the values sent.", async () => {
@@ -95,13 +95,13 @@ test.describe('@categories-api - Categories API', () => {
         "Send POST /categories with a unique category name, a unique slug and the parent's id as parent_id, with the admin's token, and take the new category's id.",
         async () => {
           const body = CategoryFactory.createCategory({ parent_id: parent.id });
-          ({ request, response } = await sendCreateCategory(categoriesClientWithToken, body, adminCategoriesService, cleanup, "admin's token"));
+          ({ request, response } = await sendCreateCategory(categoriesClientWithToken, body, adminCategoriesService, cleanup, AUTH.admin));
         }
       );
 
       await test.step('Verify the response status is 201.', async () => {
         expectStatus(request, response, 201);
-        created = JSON.parse(response.body) as CreatedCategory;
+        created = parseJson<CreatedCategory>(request, response);
       });
 
       await test.step("Verify the body's parent_id equals the parent's id.", async () => {
@@ -143,8 +143,8 @@ test.describe('@categories-api - Categories API', () => {
       await test.step(
         'Send POST /categories with a unique category name, a unique slug and a description field set to "ignored", with the admin\'s token, and take the new category\'s id.',
         async () => {
-          ({ request, response } = await sendCreateCategory(categoriesClientWithToken, body, adminCategoriesService, cleanup, "admin's token"));
-          createdId = response.isSuccess ? ((JSON.parse(response.body) as CreatedCategory).id ?? '') : '';
+          ({ request, response } = await sendCreateCategory(categoriesClientWithToken, body, adminCategoriesService, cleanup, AUTH.admin));
+          createdId = response.isSuccess ? ((parseJson<CreatedCategory>(request, response)).id ?? '') : '';
         }
       );
 
@@ -153,7 +153,7 @@ test.describe('@categories-api - Categories API', () => {
       });
 
       await test.step('Verify the body has the keys id, name and slug only.', async () => {
-        const keys = Object.keys(JSON.parse(response.body) as object).sort();
+        const keys = Object.keys(parseJson<object>(request, response)).sort();
         expect(keys, assertMessage({ request, expected: 'Keys id, name and slug only', actual: response.body })).toEqual(['id', 'name', 'slug']);
       });
 

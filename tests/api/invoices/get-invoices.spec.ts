@@ -2,7 +2,7 @@ import { test, expect, AUTH, registerThrowawayCustomer, loginThrowawayCustomer, 
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { Paginated } from '@api/dto/common';
 import type { InvoiceCreated, InvoiceStatus, InvoiceSummary } from '@api/dto/invoice';
-import { expectMessage, expectStatus, PAGE_KEYS } from '@utils/apiChecks';
+import { expectMessage, expectStatus, PAGE_KEYS, parseJson } from '@utils/apiChecks';
 import { assertMessage } from '@utils/assertHelpers';
 
 // Scenarios: test-scenarios/api/invoices/get-invoices.yml
@@ -63,7 +63,7 @@ test.describe('@invoices-api - Invoices API', () => {
     });
 
     await test.step('Verify the body has the keys current_page, data, from, last_page, per_page, to and total, and its per_page is 15.', async () => {
-      page = JSON.parse(response.body) as Paginated<InvoiceSummary>;
+      page = parseJson<Paginated<InvoiceSummary>>(request, response);
       expectKeys(request, page, PAGE_KEYS);
       expect(page.per_page, assertMessage({ request, expected: 'per_page is 15', actual: invoicePageSummary(page) })).toBe(15);
     });
@@ -135,7 +135,7 @@ test.describe('@invoices-api - Invoices API', () => {
     });
 
     await test.step("Verify the body's total is 0 and data is an empty array.", async () => {
-      expectEmptyInvoicePage(request, JSON.parse(response.body) as Paginated<InvoiceSummary>);
+      expectEmptyInvoicePage(request, parseJson<Paginated<InvoiceSummary>>(request, response));
     });
   });
 
@@ -169,7 +169,7 @@ test.describe('@invoices-api - Invoices API', () => {
         "Verify data has an item whose id is the new invoice's id and whose user_id is the new user's id (the newest invoice is on page 1).",
         async () => {
           // The page holds other visitors' invoices: only summaries are shown.
-          const page = JSON.parse(response.body) as Paginated<InvoiceSummary>;
+          const page = parseJson<Paginated<InvoiceSummary>>(request, response);
           const actual = invoicePageSummary(page);
           const item = (page.data ?? []).find((invoice) => invoice.id === setup.invoice.id);
           expect(item !== undefined, assertMessage({ request, expected: `data has an item with the new invoice's id ${setup.invoice.id}`, actual })).toBe(true);
@@ -212,7 +212,7 @@ test.describe('@invoices-api - Invoices API', () => {
     });
 
     await test.step("Verify the body's total is 2 and data has two items, whose ids are the two invoices' ids.", async () => {
-      page = JSON.parse(response.body) as Paginated<InvoiceSummary>;
+      page = parseJson<Paginated<InvoiceSummary>>(request, response);
       const actual = invoicePageSummary(page);
       expect(page.total, assertMessage({ request, expected: 'total is 2', actual })).toBe(2);
       const ids = (page.data ?? []).map((invoice) => invoice.id).sort();
@@ -255,7 +255,7 @@ test.describe('@invoices-api - Invoices API', () => {
     });
 
     await test.step("Verify the body's data is an empty array.", async () => {
-      const page = JSON.parse(response.body) as Paginated<InvoiceSummary>;
+      const page = parseJson<Paginated<InvoiceSummary>>(request, response);
       expect(Array.isArray(page.data) && page.data.length === 0, assertMessage({ request, expected: 'data is an empty array', actual: invoicePageSummary(page) })).toBe(
         true
       );

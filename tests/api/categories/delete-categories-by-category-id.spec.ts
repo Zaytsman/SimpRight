@@ -1,4 +1,4 @@
-import { test, expect, createCategory, takeProductRefs, PARENT_CREATE_STEP, CHILD_CREATE_STEP } from '@fixtures';
+import { test, expect, createCategory, takeProductRefs, PARENT_CREATE_STEP, CHILD_CREATE_STEP, AUTH, sendAndAttach } from '@fixtures';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { CategoriesClient } from '@api/clients/CategoriesClient';
 import { TestConstants } from '@data/TestConstants';
@@ -17,10 +17,7 @@ async function sendDeleteCategory(
   auth: string
 ): Promise<{ request: DeleteCategoryRequestInfo; response: ApiResponse }> {
   const request: DeleteCategoryRequestInfo = { method: 'DELETE', path: `/categories/${categoryId}`, auth };
-  const response = await categoriesClient.deleteById(categoryId);
-  await attachJson('Delete Category Request', request);
-  await attachJson('Delete Category Response', { status: response.status, body: response.body });
-  return { request, response };
+  return sendAndAttach('Delete Category', request, () => categoriesClient.deleteById(categoryId));
 }
 
 /** Sends GET /categories/tree/{categoryId} for a Verify step and checks its status. */
@@ -43,7 +40,7 @@ test.describe('@categories-api - Categories API', () => {
       const category = await createCategory(adminCategoriesService, cleanup);
 
       await test.step("Send DELETE /categories/{categoryId} with that id, with the admin's token.", async () => {
-        ({ request, response } = await sendDeleteCategory(categoriesClientWithToken, category.id, "admin's token"));
+        ({ request, response } = await sendDeleteCategory(categoriesClientWithToken, category.id, AUTH.admin));
       });
 
       await test.step('Verify the response status is 204.', async () => {
@@ -99,7 +96,7 @@ test.describe('@categories-api - Categories API', () => {
       let response: ApiResponse;
 
       await test.step("Send DELETE /categories/{categoryId} with a well-formed ULID that no category has, with the admin's token.", async () => {
-        ({ request, response } = await sendDeleteCategory(categoriesClientWithToken, TestConstants.categories.unknownId, "admin's token"));
+        ({ request, response } = await sendDeleteCategory(categoriesClientWithToken, TestConstants.categories.unknownId, AUTH.admin));
       });
 
       await test.step('Verify the response status is 404.', async () => {
@@ -120,7 +117,7 @@ test.describe('@categories-api - Categories API', () => {
       await createCategory(adminCategoriesService, cleanup, CHILD_CREATE_STEP, { parent_id: parent.id });
 
       await test.step("Send DELETE /categories/{categoryId} with the parent's id, with the admin's token.", async () => {
-        ({ request, response } = await sendDeleteCategory(categoriesClientWithToken, parent.id, "admin's token"));
+        ({ request, response } = await sendDeleteCategory(categoriesClientWithToken, parent.id, AUTH.admin));
       });
 
       await test.step('Verify the response status is 409.', async () => {
@@ -159,7 +156,7 @@ test.describe('@categories-api - Categories API', () => {
         "Send POST /products with a unique product name, a positive price, the new category's id as category_id, that brand id, that product image id, is_location_offer false and is_rental false, with the admin's token, and take the new product's id.",
         async () => {
           const body = ProductFactory.createProduct({ ...refs, categoryId: category.id } as ProductRefs);
-          await attachJson('Create Product Request', { method: 'POST', path: '/products', auth: "admin's token", body });
+          await attachJson('Create Product Request', { method: 'POST', path: '/products', auth: AUTH.admin, body });
           const product = await adminProductsService.create(body);
           cleanup.add(() => adminProductsService.delete(product.id));
           await attachJson('Create Product Response', product);
@@ -168,7 +165,7 @@ test.describe('@categories-api - Categories API', () => {
       );
 
       await test.step("Send DELETE /categories/{categoryId} with the new category's id, with the admin's token.", async () => {
-        ({ request, response } = await sendDeleteCategory(categoriesClientWithToken, category.id, "admin's token"));
+        ({ request, response } = await sendDeleteCategory(categoriesClientWithToken, category.id, AUTH.admin));
       });
 
       await test.step('Verify the response status is 409.', async () => {
@@ -193,7 +190,7 @@ test.describe('@categories-api - Categories API', () => {
     const category = await createCategory(adminCategoriesService, cleanup);
 
     await test.step("Send DELETE /categories/{categoryId} with that id, with the default user's token.", async () => {
-      ({ request, response } = await sendDeleteCategory(categoriesClientWithToken, category.id, "default user's token"));
+      ({ request, response } = await sendDeleteCategory(categoriesClientWithToken, category.id, AUTH.defaultUser));
     });
 
     await test.step('Verify the response status is 403.', async () => {

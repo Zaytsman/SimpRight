@@ -4,7 +4,7 @@ import type { ContactMessageDetail, ContactReply } from '@api/dto/message';
 import type { MessagesService } from '@api/services/MessagesService';
 import { TestConstants } from '@data/TestConstants';
 import { MessageFactory } from '@data/factories/MessageFactory';
-import { expectMessage, expectStatus } from '@utils/apiChecks';
+import { expectMessage, expectStatus, parseJson } from '@utils/apiChecks';
 import { assertMessage, attachJson } from '@utils/assertHelpers';
 
 // Scenarios: test-scenarios/api/messages/get-messages-by-message-id.yml
@@ -14,7 +14,7 @@ const ADMIN_ONLY_USER_KEYS = ['role', 'enabled', 'failed_login_attempts'] as con
 
 /** Parses a GET /messages/{messageId} body (call after its status was checked). */
 function parseMessage(response: ApiResponse): ContactMessageDetail {
-  return JSON.parse(response.body) as ContactMessageDetail;
+  return parseJson<ContactMessageDetail>(undefined, response);
 }
 
 /** The reply setup step of API-0367: replies with the admin's token and returns the reply and the text sent. */

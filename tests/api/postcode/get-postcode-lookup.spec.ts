@@ -3,7 +3,7 @@ import type { ApiResponse } from '@api/clients/BaseClient';
 import type { PostcodeClient } from '@api/clients/PostcodeClient';
 import type { FieldValidationError } from '@api/dto/common';
 import type { PostcodeFormatError, PostcodeLookupQuery, PostcodeLookupResult } from '@api/dto/postcode';
-import { describeAccept, expectContentTypeStartsWith, expectErrorKeys, expectLocation, expectNoOtherKeys, expectStatus } from '@utils/apiChecks';
+import { describeAccept, expectContentTypeStartsWith, expectErrorKeys, expectLocation, expectNoOtherKeys, expectStatus, parseJson } from '@utils/apiChecks';
 import { assertMessage, attachJson } from '@utils/assertHelpers';
 
 // Scenarios: test-scenarios/api/postcode/get-postcode-lookup.yml
@@ -58,7 +58,7 @@ async function sendLookup(
 }
 
 function parseResult(response: ApiResponse): PostcodeLookupResult {
-  return JSON.parse(response.body) as PostcodeLookupResult;
+  return parseJson<PostcodeLookupResult>(undefined, response);
 }
 
 /** Checks one field of a 200 body against the expected value. */
@@ -104,7 +104,7 @@ async function checkFormatError(client: PostcodeClient, sendStep: string, query:
   });
 
   await test.step('Verify the body\'s message is "The postal code format is not valid for the selected country.".', async () => {
-    errorBody = JSON.parse(response.body) as PostcodeFormatError;
+    errorBody = parseJson<PostcodeFormatError>(request, response);
     expect(errorBody.message, assertMessage({ request, expected: `message is "${FORMAT_MESSAGE}"`, actual: errorBody })).toBe(FORMAT_MESSAGE);
   });
 
@@ -608,7 +608,7 @@ test.describe('@postcode-api - Postcode API', () => {
     });
 
     await test.step('Verify the body\'s message is "The postal code format is not valid for the selected country.".', async () => {
-      const body = JSON.parse(response.body) as PostcodeFormatError;
+      const body = parseJson<PostcodeFormatError>(request, response);
       expect(body.message, assertMessage({ request, expected: `message is "${FORMAT_MESSAGE}"`, actual: body })).toBe(FORMAT_MESSAGE);
     });
   });

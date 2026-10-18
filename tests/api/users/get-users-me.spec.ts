@@ -1,7 +1,8 @@
-import { test, expect, registerThrowawayCustomer, loginThrowawayCustomer, disableCustomerSetup } from '@fixtures';
+import { test, expect, registerThrowawayCustomer, loginThrowawayCustomer, disableCustomerSetup, AUTH, sendAndAttach } from '@fixtures';
+import { expectMessage, expectStatus, parseJson } from '@utils/apiChecks';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { UsersClient } from '@api/clients/UsersClient';
-import type { MessageErrorBody, User } from '@api/dto/user';
+import type { User } from '@api/dto/user';
 import { UserFactory } from '@data/factories/UserFactory';
 import { assertMessage, attachJson } from '@utils/assertHelpers';
 
@@ -12,21 +13,7 @@ type MeRequest = { method: 'GET'; path: '/users/me'; auth: string };
 /** Sends GET /users/me with `client` and attaches the request and the response. */
 async function sendMe(client: UsersClient, auth: string): Promise<{ request: MeRequest; response: ApiResponse }> {
   const request: MeRequest = { method: 'GET', path: '/users/me', auth };
-  const response = await client.me();
-  await attachJson('Current User Request', request);
-  await attachJson('Current User Response', { status: response.status, body: response.body });
-  return { request, response };
-}
-
-/** The checks of a "Verify the response status is <status>." step. */
-function expectStatus(request: MeRequest, response: ApiResponse, status: number): void {
-  expect(response.status, assertMessage({ request, expected: `Status ${status}`, actual: { status: response.status, body: response.body } })).toBe(status);
-}
-
-/** The checks of a "Verify the body's message is <message>." step. */
-function expectMessage(request: MeRequest, response: ApiResponse, message: string): void {
-  const body = JSON.parse(response.body) as MessageErrorBody;
-  expect(body.message, assertMessage({ request, expected: `message is "${message}"`, actual: body })).toBe(message);
+  return sendAndAttach('Current User', request, () => client.me());
 }
 
 test.describe('@users-api - Users API', () => {
@@ -41,11 +28,11 @@ test.describe('@users-api - Users API', () => {
     });
 
     await test.step('Verify the response status is 200.', async () => {
-      expect(response.status, assertMessage({ request, expected: 'Status 200', actual: response.status })).toBe(200);
+      expectStatus(request, response, 200);
     });
 
     await test.step('Verify email equals the default user\'s email, and id, first_name and last_name are not empty.', async () => {
-      const profile = JSON.parse(response.body) as User;
+      const profile = parseJson<User>(request, response);
       // The email is a secret: compare it as a condition so a failure diff doesn't print it.
       expect(
         profile.email === user.username,
@@ -66,12 +53,12 @@ test.describe('@users-api - Users API', () => {
       let profile: User;
 
       await test.step("Send GET /users/me with the admin's token.", async () => {
-        ({ request, response } = await sendMe(usersClientWithToken, "admin's token"));
+        ({ request, response } = await sendMe(usersClientWithToken, AUTH.admin));
       });
 
       await test.step('Verify the response status is 200.', async () => {
         expectStatus(request, response, 200);
-        profile = JSON.parse(response.body) as User;
+        profile = parseJson<User>(request, response);
       });
 
       await test.step('Verify the body\'s role is "admin".', async () => {
@@ -94,12 +81,12 @@ test.describe('@users-api - Users API', () => {
     let keys: string[];
 
     await test.step("Send GET /users/me with the default user's token.", async () => {
-      ({ request, response } = await sendMe(usersClientWithToken, "default user's token"));
+      ({ request, response } = await sendMe(usersClientWithToken, AUTH.defaultUser));
     });
 
     await test.step('Verify the response status is 200.', async () => {
       expectStatus(request, response, 200);
-      keys = Object.keys(JSON.parse(response.body) as User);
+      keys = Object.keys(parseJson<User>(request, response));
     });
 
     await test.step('Verify the body has the keys id, provider, first_name, last_name, phone, dob, email, totp_enabled, created_at and address.', async () => {
@@ -135,7 +122,7 @@ test.describe('@users-api - Users API', () => {
     let response: ApiResponse;
 
     await test.step('Send GET /users/me with a malformed token.', async () => {
-      ({ request, response } = await sendMe(usersClientWithInvalidToken, 'a malformed token'));
+      ({ request, response } = await sendMe(usersClientWithInvalidToken, AUTH.malformed));
     });
 
     await test.step('Verify the response status is 401.', async () => {
@@ -173,10 +160,10 @@ test.describe('@users-api - Users API', () => {
       });
 
       // The throwaway's token isn't used before this call, so the API's cached user can't be a stale, enabled one.
-      await disableCustomerSetup(adminUsersService, customer.id, "Send PATCH /users/{userId} with that id and enabled false, with the admin's token.", "admin's token");
+      await disableCustomerSetup(adminUsersService, customer.id, "Send PATCH /users/{userId} with that id and enabled false, with the admin's token.", AUTH.admin);
 
       await test.step("Send GET /users/me with the throwaway customer's access_token.", async () => {
-        ({ request, response } = await sendMe(usersClientForToken(customerToken), "the throwaway customer's access_token"));
+        ({ request, response } = await sendMe(usersClientForToken(customerToken), AUTH.throwaway));
       });
 
       await test.step('Verify the response status is 403.', async () => {
@@ -217,7 +204,7 @@ test.describe('@users-api - Users API', () => {
     });
 
     await test.step("Verify the body's first_name and last_name equal the values sent in the registration.", async () => {
-      const profile = JSON.parse(response.body) as User;
+      const profile = parseJson<User>(request, response);
       const actual = { first_name: profile.first_name, last_name: profile.last_name };
       expect(profile.first_name, assertMessage({ request, expected: `first_name is "${sent.first_name}"`, actual })).toBe(sent.first_name);
       expect(profile.last_name, assertMessage({ request, expected: `last_name is "${sent.last_name}"`, actual })).toBe(sent.last_name);

@@ -1,10 +1,10 @@
-import { test, expect, createBrand, readBrand, takeOtherBrandSlug, BRAND_CREATE_ID_SLUG_STEP } from '@fixtures';
+import { test, expect, createBrand, readBrand, takeOtherBrandSlug, BRAND_CREATE_ID_SLUG_STEP, AUTH, sendAndAttach } from '@fixtures';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { BrandsClient } from '@api/clients/BrandsClient';
 import { TestConstants } from '@data/TestConstants';
 import { BrandFactory } from '@data/factories/BrandFactory';
 import { expectFieldMessages, expectMessage, expectStatus, expectSuccess } from '@utils/apiChecks';
-import { assertMessage, attachJson } from '@utils/assertHelpers';
+import { assertMessage } from '@utils/assertHelpers';
 
 // Scenarios: test-scenarios/api/brands/patch-brands-by-brand-id.yml
 
@@ -18,10 +18,7 @@ async function sendPatchBrand(
   auth: string
 ): Promise<{ request: PatchBrandRequest; response: ApiResponse }> {
   const request: PatchBrandRequest = { method: 'PATCH', path: `/brands/${brandId}`, auth, body };
-  const response = await brandsClient.partialUpdate(brandId, body);
-  await attachJson('Patch Brand Request', request);
-  await attachJson('Patch Brand Response', { status: response.status, body: response.body });
-  return { request, response };
+  return sendAndAttach('Patch Brand', request, () => brandsClient.partialUpdate(brandId, body));
 }
 
 test.describe('@brands-api - Brands API', () => {
@@ -36,7 +33,7 @@ test.describe('@brands-api - Brands API', () => {
       const brand = await createBrand(adminBrandsService, cleanup, BRAND_CREATE_ID_SLUG_STEP);
 
       await test.step("Send PATCH /brands/{brandId} with that id and a body with only a new unique brand name, with the admin's token.", async () => {
-        ({ request, response } = await sendPatchBrand(brandsClientWithToken, brand.id, body, "admin's token"));
+        ({ request, response } = await sendPatchBrand(brandsClientWithToken, brand.id, body, AUTH.admin));
       });
 
       await test.step('Verify the response status is 200.', async () => {
@@ -70,7 +67,7 @@ test.describe('@brands-api - Brands API', () => {
       await test.step(
         'Send PATCH /brands/{brandId} with that id and a body with only a slug made of a unique slug followed by " x!" (a space and an exclamation mark), with the admin\'s token.',
         async () => {
-          ({ request, response } = await sendPatchBrand(brandsClientWithToken, brand.id, BrandFactory.updateInvalidSlug(), "admin's token"));
+          ({ request, response } = await sendPatchBrand(brandsClientWithToken, brand.id, BrandFactory.updateInvalidSlug(), AUTH.admin));
         }
       );
 
@@ -92,7 +89,7 @@ test.describe('@brands-api - Brands API', () => {
       await test.step(
         "Send PATCH /brands/{brandId} with that id and a body with only a 121-character name that starts with a unique brand name, with the admin's token.",
         async () => {
-          ({ request, response } = await sendPatchBrand(brandsClientWithToken, brand.id, BrandFactory.updateNameTooLong(), "admin's token"));
+          ({ request, response } = await sendPatchBrand(brandsClientWithToken, brand.id, BrandFactory.updateNameTooLong(), AUTH.admin));
         }
       );
 
@@ -118,7 +115,7 @@ test.describe('@brands-api - Brands API', () => {
       const otherSlug = await takeOtherBrandSlug(brandsService, brand.id);
 
       await test.step("Send PATCH /brands/{brandId} with the new brand's id and a body with only that other slug, with the admin's token.", async () => {
-        ({ request, response } = await sendPatchBrand(brandsClientWithToken, brand.id, BrandFactory.updateSlug(otherSlug), "admin's token"));
+        ({ request, response } = await sendPatchBrand(brandsClientWithToken, brand.id, BrandFactory.updateSlug(otherSlug), AUTH.admin));
       });
 
       await test.step('Verify the response status is 409.', async () => {
@@ -149,7 +146,7 @@ test.describe('@brands-api - Brands API', () => {
       await test.step(
         "Send PATCH /brands/{brandId} with that id and a body with a new unique brand name and the brand's own slug, with the admin's token.",
         async () => {
-          ({ request, response } = await sendPatchBrand(brandsClientWithToken, brand.id, body, "admin's token"));
+          ({ request, response } = await sendPatchBrand(brandsClientWithToken, brand.id, body, AUTH.admin));
         }
       );
 

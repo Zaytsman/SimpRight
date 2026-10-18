@@ -1,11 +1,11 @@
-import { test, expect, registerThrowawayCustomer, loginThrowawayCustomer } from '@fixtures';
+import { test, expect, registerThrowawayCustomer, loginThrowawayCustomer, AUTH, sendAndAttach } from '@fixtures';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { UsersClient } from '@api/clients/UsersClient';
 import type { User } from '@api/dto/user';
 import { TestConstants } from '@data/TestConstants';
 import { UserFactory } from '@data/factories/UserFactory';
-import { expectErrorText, expectMessage, expectStatus } from '@utils/apiChecks';
-import { assertMessage, attachJson } from '@utils/assertHelpers';
+import { expectErrorText, expectMessage, expectStatus, parseJson } from '@utils/apiChecks';
+import { assertMessage } from '@utils/assertHelpers';
 
 // Scenarios: test-scenarios/api/users/get-users-by-user-id.yml
 
@@ -14,10 +14,7 @@ type GetUserRequest = { method: 'GET'; path: string; auth: string };
 /** Sends GET /users/{userId} with the given client (`auth` describes its token) and attaches the request and the response. */
 async function sendGetUser(client: UsersClient, userId: string, auth: string): Promise<{ request: GetUserRequest; response: ApiResponse }> {
   const request: GetUserRequest = { method: 'GET', path: `/users/${userId}`, auth };
-  const response = await client.getById(userId);
-  await attachJson('Get User Request', request);
-  await attachJson('Get User Response', { status: response.status, body: response.body });
-  return { request, response };
+  return sendAndAttach('Get User', request, () => client.getById(userId));
 }
 
 const REGISTER_A_STEP = 'Send POST /users/register with a unique email, a first name, a last name and a random strong password (customer A).';
@@ -45,7 +42,7 @@ test.describe('@users-api - Users API', () => {
 
     await test.step('Verify the response status is 200.', async () => {
       expectStatus(request, response, 200);
-      user = JSON.parse(response.body) as User;
+      user = parseJson<User>(request, response);
     });
 
     await test.step("Verify the body's id equals the new user's id, and its email, first_name and last_name equal the registered values.", async () => {
@@ -73,12 +70,12 @@ test.describe('@users-api - Users API', () => {
       const customer = await registerThrowawayCustomer(usersService, adminUsersService, cleanup);
 
       await test.step("Send GET /users/{userId} with that id and the admin's token.", async () => {
-        ({ request, response } = await sendGetUser(usersClientWithToken, customer.id, "admin's token"));
+        ({ request, response } = await sendGetUser(usersClientWithToken, customer.id, AUTH.admin));
       });
 
       await test.step('Verify the response status is 200.', async () => {
         expectStatus(request, response, 200);
-        user = JSON.parse(response.body) as User;
+        user = parseJson<User>(request, response);
       });
 
       await test.step('Verify the body\'s id equals the new user\'s id and its role is "user".', async () => {
@@ -97,7 +94,7 @@ test.describe('@users-api - Users API', () => {
       let response: ApiResponse;
 
       await test.step("Send GET /users/{userId} with a well-formed ULID that no user has and the admin's token.", async () => {
-        ({ request, response } = await sendGetUser(usersClientWithToken, TestConstants.users.unknownId, "admin's token"));
+        ({ request, response } = await sendGetUser(usersClientWithToken, TestConstants.users.unknownId, AUTH.admin));
       });
 
       await test.step('Verify the response status is 404.', async () => {

@@ -11,13 +11,14 @@ import {
   getCartOk,
   expectSingleItem,
   expectNoItems,
+  sendAndAttach,
 } from '@fixtures';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { CartsClient } from '@api/clients/CartsClient';
 import type { Cart, CartItemResult, UpdateCartItemQuantityRequest } from '@api/dto/cart';
 import { TestConstants } from '@data/TestConstants';
-import { expectErrorKeys, expectErrorKeysPresent, expectMessage, expectStatus } from '@utils/apiChecks';
-import { assertMessage, attachJson } from '@utils/assertHelpers';
+import { expectErrorKeys, expectErrorKeysPresent, expectMessage, expectStatus, parseJson } from '@utils/apiChecks';
+import { assertMessage } from '@utils/assertHelpers';
 
 // Scenarios: test-scenarios/api/carts/put-carts-by-cart-id-product-quantity.yml
 
@@ -31,21 +32,18 @@ async function sendUpdateQuantity(
   body: UpdateCartItemQuantityRequest | Record<string, unknown>
 ): Promise<{ request: UpdateQuantityRequest; response: ApiResponse }> {
   const request: UpdateQuantityRequest = { method: 'PUT', path: `/carts/${cartId}/product/quantity`, body };
-  const response = await cartsClient.updateQuantity(cartId, body);
-  await attachJson('Update Quantity Request', request);
-  await attachJson('Update Quantity Response', { status: response.status, body: response.body });
-  return { request, response };
+  return sendAndAttach('Update Quantity', request, () => cartsClient.updateQuantity(cartId, body));
 }
 
 /** The checks of a "Verify the body's result is "item added or updated"." step. */
 function expectResult(request: UpdateQuantityRequest, response: ApiResponse): void {
-  const body = JSON.parse(response.body) as CartItemResult;
+  const body = parseJson<CartItemResult>(request, response);
   expect(body.result, assertMessage({ request, expected: 'result is "item added or updated"', actual: body })).toBe('item added or updated');
 }
 
 /** The checks of a "Verify the body's errors quantity messages include "<message>"." step. */
 function expectQuantityMessage(request: UpdateQuantityRequest, response: ApiResponse, message: string): void {
-  const body = JSON.parse(response.body) as { errors?: Record<string, string[]> };
+  const body = parseJson<{ errors?: Record<string, string[]> }>(request, response);
   const messages = body.errors?.['quantity'];
   expect(
     Array.isArray(messages) && messages.includes(message),

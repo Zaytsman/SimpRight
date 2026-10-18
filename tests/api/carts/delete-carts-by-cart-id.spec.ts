@@ -1,4 +1,4 @@
-import { test, createProductAndCart, addItemSetup, ADD_PRODUCT_STEP } from '@fixtures';
+import { test, createProductAndCart, addItemSetup, ADD_PRODUCT_STEP, sendAndAttach } from '@fixtures';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { CartsClient } from '@api/clients/CartsClient';
 import { TestConstants } from '@data/TestConstants';
@@ -12,10 +12,7 @@ type DeleteCartRequest = { method: 'DELETE'; path: string };
 /** Sends DELETE /carts/{cartId} and attaches the request and the response. */
 async function sendDeleteCart(cartsClient: CartsClient, cartId: string): Promise<{ request: DeleteCartRequest; response: ApiResponse }> {
   const request: DeleteCartRequest = { method: 'DELETE', path: `/carts/${cartId}` };
-  const response = await cartsClient.deleteById(cartId);
-  await attachJson('Delete Cart Request', request);
-  await attachJson('Delete Cart Response', { status: response.status, body: response.body });
-  return { request, response };
+  return sendAndAttach('Delete Cart', request, () => cartsClient.deleteById(cartId));
 }
 
 test.describe('@carts-api - Carts API', () => {

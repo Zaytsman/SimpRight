@@ -6,7 +6,7 @@ import type { CreateInvoiceRequest, InvoiceCreated, InvoiceSummary } from '@api/
 import type { PostcodeLookupResult } from '@api/dto/postcode';
 import { TestConstants } from '@data/TestConstants';
 import { InvoiceFactory } from '@data/factories/InvoiceFactory';
-import { expectFieldMessages, expectMessage, expectStatus } from '@utils/apiChecks';
+import { expectFieldMessages, expectMessage, expectStatus, parseJson } from '@utils/apiChecks';
 import { assertMessage, attachJson } from '@utils/assertHelpers';
 
 // Scenarios: test-scenarios/api/invoices/post-invoices.yml
@@ -35,7 +35,7 @@ const CREATED_KEYS = [
 
 /** Parses a 201 body of POST /invoices (call after its status was checked). */
 function parseCreated(response: ApiResponse): InvoiceCreated {
-  return JSON.parse(response.body) as InvoiceCreated;
+  return parseJson<InvoiceCreated>(undefined, response);
 }
 
 /** The checks of a "Verify the body's id is a non-empty string ..." part. */
@@ -77,7 +77,7 @@ async function expectValidationError(
  * it too, shown with its status and the start of its body).
  */
 function expectNoInvoiceLeft(request: InvoiceRequest, response: ApiResponse): void {
-  const page = response.isSuccess ? (JSON.parse(response.body) as Paginated<InvoiceSummary>) : undefined;
+  const page = response.isSuccess ? (parseJson<Paginated<InvoiceSummary>>(request, response)) : undefined;
   expect(
     page?.total,
     assertMessage({ request, expected: 'total is 0', actual: page ? invoicePageSummary(page) : { status: response.status, body: response.body.slice(0, 500) } })

@@ -1,26 +1,23 @@
-import { test, expect, AUTH, registerThrowawayCustomer, loginThrowawayCustomer, takeOwnUserId, readMessageOk, expectMessageStatus, sendListMessages, messagePageSummary, type MessageRequest } from '@fixtures';
+import { test, expect, AUTH, registerThrowawayCustomer, loginThrowawayCustomer, takeOwnUserId, readMessageOk, expectMessageStatus, sendListMessages, messagePageSummary, type MessageRequest, sendAndAttach } from '@fixtures';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { MessagesClient } from '@api/clients/MessagesClient';
 import type { Paginated } from '@api/dto/common';
 import type { ContactMessage, ContactMessageListItem } from '@api/dto/message';
 import { MessageFactory } from '@data/factories/MessageFactory';
-import { expectFieldMessages, expectStatus } from '@utils/apiChecks';
-import { assertMessage, attachJson } from '@utils/assertHelpers';
+import { expectFieldMessages, expectStatus, parseJson } from '@utils/apiChecks';
+import { assertMessage } from '@utils/assertHelpers';
 
 // Scenarios: test-scenarios/api/messages/post-messages.yml
 
 /** Sends POST /messages with `messagesClient` and attaches the request and the response. */
 async function sendMessage(messagesClient: MessagesClient, body: unknown, auth: string): Promise<{ request: MessageRequest; response: ApiResponse }> {
   const request: MessageRequest = { method: 'POST', path: '/messages', auth, body };
-  const response = await messagesClient.send(body as Record<string, unknown>);
-  await attachJson('Send Message Request', request);
-  await attachJson('Send Message Response', { status: response.status, body: response.body });
-  return { request, response };
+  return sendAndAttach('Send Message', request, () => messagesClient.send(body as Record<string, unknown>));
 }
 
 /** Parses a POST /messages body (call after its status was checked). */
 function parseSent(response: ApiResponse): ContactMessage {
-  return JSON.parse(response.body) as ContactMessage;
+  return parseJson<ContactMessage>(undefined, response);
 }
 
 /** The checks of a "Verify the body's id is a non-empty string ..." part. */
@@ -372,7 +369,7 @@ test.describe('@messages-api - Messages API', () => {
     });
 
     await test.step("Verify the body's data has no item with the new message's id.", async () => {
-      const page = JSON.parse(response.body) as Paginated<ContactMessageListItem>;
+      const page = parseJson<Paginated<ContactMessageListItem>>(request, response);
       const ids = page.data.map((item) => item.id);
       expect(ids.includes(messageId), assertMessage({ request, expected: `data has no item with the new message's id ${messageId}`, actual: messagePageSummary(page) })).toBe(
         false

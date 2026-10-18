@@ -1,4 +1,5 @@
-import { test, expect, loginForNewToken, logoutToken } from '@fixtures';
+import { test, expect, loginForNewToken, logoutToken, AUTH, sendAndAttach } from '@fixtures';
+import { expectStatus, parseJson } from '@utils/apiChecks';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { UsersClient } from '@api/clients/UsersClient';
 import type { RefreshResponse } from '@api/dto/auth';
@@ -14,15 +15,7 @@ type RefreshRequest = { method: 'GET'; path: '/users/refresh'; auth: string };
 /** Sends GET /users/refresh with `client` and attaches the request and the response. */
 async function sendRefresh(client: UsersClient, auth: string): Promise<{ request: RefreshRequest; response: ApiResponse }> {
   const request: RefreshRequest = { method: 'GET', path: '/users/refresh', auth };
-  const response = await client.refresh();
-  await attachJson('Refresh Request', request);
-  await attachJson('Refresh Response', { status: response.status, body: response.body });
-  return { request, response };
-}
-
-/** The checks of a "Verify the response status is <status>." step. */
-function expectStatus(request: RefreshRequest, response: ApiResponse, status: number): void {
-  expect(response.status, assertMessage({ request, expected: `Status ${status}`, actual: { status: response.status, body: response.body } })).toBe(status);
+  return sendAndAttach('Refresh', request, () => client.refresh());
 }
 
 /** The checks of a "Verify the body contains the text <text>." step. */
@@ -44,7 +37,7 @@ test.describe('@users-api - Users API', () => {
 
     await test.step('Verify the response status is 200.', async () => {
       expectStatus(request, response, 200);
-      body = JSON.parse(response.body) as RefreshResponse;
+      body = parseJson<RefreshResponse>(request, response);
     });
 
     await test.step("Verify the body's access_token is a non-empty string that differs from the token sent.", async () => {
@@ -145,7 +138,7 @@ test.describe('@users-api - Users API', () => {
     let response: ApiResponse;
 
     await test.step('Send GET /users/refresh with a malformed token.', async () => {
-      ({ request, response } = await sendRefresh(usersClientWithInvalidToken, 'a malformed token'));
+      ({ request, response } = await sendRefresh(usersClientWithInvalidToken, AUTH.malformed));
     });
 
     await test.step('Verify the response status is 401.', async () => {

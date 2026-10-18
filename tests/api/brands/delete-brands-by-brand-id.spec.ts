@@ -1,4 +1,4 @@
-import { test, expect, createBrand, takeProductRefs } from '@fixtures';
+import { test, expect, createBrand, takeProductRefs, AUTH, sendAndAttach } from '@fixtures';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { BrandsClient } from '@api/clients/BrandsClient';
 import { TestConstants } from '@data/TestConstants';
@@ -13,10 +13,7 @@ type DeleteBrandRequest = { method: 'DELETE'; path: string; auth: string };
 /** Sends DELETE /brands/{brandId} with the given client (`auth` describes its token) and attaches the request and the response. */
 async function sendDeleteBrand(brandsClient: BrandsClient, brandId: string, auth: string): Promise<{ request: DeleteBrandRequest; response: ApiResponse }> {
   const request: DeleteBrandRequest = { method: 'DELETE', path: `/brands/${brandId}`, auth };
-  const response = await brandsClient.deleteById(brandId);
-  await attachJson('Delete Brand Request', request);
-  await attachJson('Delete Brand Response', { status: response.status, body: response.body });
-  return { request, response };
+  return sendAndAttach('Delete Brand', request, () => brandsClient.deleteById(brandId));
 }
 
 /** Sends GET /brands/{brandId} for a Verify step and checks its status. */
@@ -39,7 +36,7 @@ test.describe('@brands-api - Brands API', () => {
       const brand = await createBrand(adminBrandsService, cleanup);
 
       await test.step("Send DELETE /brands/{brandId} with that id, with the admin's token.", async () => {
-        ({ request, response } = await sendDeleteBrand(brandsClientWithToken, brand.id, "admin's token"));
+        ({ request, response } = await sendDeleteBrand(brandsClientWithToken, brand.id, AUTH.admin));
       });
 
       await test.step('Verify the response status is 204.', async () => {
@@ -95,7 +92,7 @@ test.describe('@brands-api - Brands API', () => {
       let response: ApiResponse;
 
       await test.step("Send DELETE /brands/{brandId} with a well-formed ULID that no brand has, with the admin's token.", async () => {
-        ({ request, response } = await sendDeleteBrand(brandsClientWithToken, TestConstants.brands.unknownId, "admin's token"));
+        ({ request, response } = await sendDeleteBrand(brandsClientWithToken, TestConstants.brands.unknownId, AUTH.admin));
       });
 
       await test.step('Verify the response status is 404.', async () => {
@@ -129,7 +126,7 @@ test.describe('@brands-api - Brands API', () => {
         "Send POST /products with a unique product name, a positive price, that category id, the new brand's id as brand_id, that product image id, is_location_offer false and is_rental false, with the admin's token, and take the new product's id.",
         async () => {
           const body = ProductFactory.createProduct({ ...refs, brandId: brand.id } as ProductRefs);
-          await attachJson('Create Product Request', { method: 'POST', path: '/products', auth: "admin's token", body });
+          await attachJson('Create Product Request', { method: 'POST', path: '/products', auth: AUTH.admin, body });
           const product = await adminProductsService.create(body);
           cleanup.add(() => adminProductsService.delete(product.id));
           await attachJson('Create Product Response', product);
@@ -138,7 +135,7 @@ test.describe('@brands-api - Brands API', () => {
       );
 
       await test.step("Send DELETE /brands/{brandId} with the new brand's id, with the admin's token.", async () => {
-        ({ request, response } = await sendDeleteBrand(brandsClientWithToken, brand.id, "admin's token"));
+        ({ request, response } = await sendDeleteBrand(brandsClientWithToken, brand.id, AUTH.admin));
       });
 
       await test.step('Verify the response status is 409.', async () => {
@@ -163,7 +160,7 @@ test.describe('@brands-api - Brands API', () => {
     const brand = await createBrand(adminBrandsService, cleanup);
 
     await test.step("Send DELETE /brands/{brandId} with that id, with the default user's token.", async () => {
-      ({ request, response } = await sendDeleteBrand(brandsClientWithToken, brand.id, "default user's token"));
+      ({ request, response } = await sendDeleteBrand(brandsClientWithToken, brand.id, AUTH.defaultUser));
     });
 
     await test.step('Verify the response status is 403.', async () => {

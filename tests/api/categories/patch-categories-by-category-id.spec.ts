@@ -1,10 +1,10 @@
-import { test, expect, createCategory, readCategory, CATEGORY_CREATE_ID_SLUG_STEP } from '@fixtures';
+import { test, expect, createCategory, readCategory, CATEGORY_CREATE_ID_SLUG_STEP, AUTH, sendAndAttach } from '@fixtures';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { CategoriesClient } from '@api/clients/CategoriesClient';
 import { TestConstants } from '@data/TestConstants';
 import { CategoryFactory } from '@data/factories/CategoryFactory';
 import { expectFieldMessages, expectMessage, expectStatus, expectSuccess } from '@utils/apiChecks';
-import { assertMessage, attachJson } from '@utils/assertHelpers';
+import { assertMessage } from '@utils/assertHelpers';
 
 // Scenarios: test-scenarios/api/categories/patch-categories-by-category-id.yml
 
@@ -18,10 +18,7 @@ async function sendPatchCategory(
   auth: string
 ): Promise<{ request: PatchCategoryRequestInfo; response: ApiResponse }> {
   const request: PatchCategoryRequestInfo = { method: 'PATCH', path: `/categories/${categoryId}`, auth, body };
-  const response = await categoriesClient.partialUpdate(categoryId, body);
-  await attachJson('Patch Category Request', request);
-  await attachJson('Patch Category Response', { status: response.status, body: response.body });
-  return { request, response };
+  return sendAndAttach('Patch Category', request, () => categoriesClient.partialUpdate(categoryId, body));
 }
 
 test.describe('@categories-api - Categories API', () => {
@@ -41,7 +38,7 @@ test.describe('@categories-api - Categories API', () => {
       const category = await createCategory(adminCategoriesService, cleanup, CATEGORY_CREATE_ID_SLUG_STEP);
 
       await test.step("Send PATCH /categories/{categoryId} with that id and a body with only a new unique category name, with the admin's token.", async () => {
-        ({ request, response } = await sendPatchCategory(categoriesClientWithToken, category.id, body, "admin's token"));
+        ({ request, response } = await sendPatchCategory(categoriesClientWithToken, category.id, body, AUTH.admin));
       });
 
       await test.step('Verify the response status is 200.', async () => {
@@ -73,7 +70,7 @@ test.describe('@categories-api - Categories API', () => {
       const category = await createCategory(adminCategoriesService, cleanup);
 
       await test.step("Send PATCH /categories/{categoryId} with that id and a body with only slug set to an empty string, with the admin's token.", async () => {
-        ({ request, response } = await sendPatchCategory(categoriesClientWithToken, category.id, CategoryFactory.updateSlug(''), "admin's token"));
+        ({ request, response } = await sendPatchCategory(categoriesClientWithToken, category.id, CategoryFactory.updateSlug(''), AUTH.admin));
       });
 
       await test.step('Verify the response status is 422.', async () => {
@@ -98,7 +95,7 @@ test.describe('@categories-api - Categories API', () => {
       await test.step(
         'Send PATCH /categories/{categoryId} with that id and a body with only a slug made of a unique slug followed by " x!" (a space and an exclamation mark), with the admin\'s token.',
         async () => {
-          ({ request, response } = await sendPatchCategory(categoriesClientWithToken, category.id, CategoryFactory.updateInvalidSlug(), "admin's token"));
+          ({ request, response } = await sendPatchCategory(categoriesClientWithToken, category.id, CategoryFactory.updateInvalidSlug(), AUTH.admin));
         }
       );
 
@@ -124,7 +121,7 @@ test.describe('@categories-api - Categories API', () => {
       await test.step(
         "Send PATCH /categories/{categoryId} with that id and a body with only a 121-character name that starts with a unique category name, with the admin's token.",
         async () => {
-          ({ request, response } = await sendPatchCategory(categoriesClientWithToken, category.id, CategoryFactory.updateNameTooLong(), "admin's token"));
+          ({ request, response } = await sendPatchCategory(categoriesClientWithToken, category.id, CategoryFactory.updateNameTooLong(), AUTH.admin));
         }
       );
 
@@ -153,7 +150,7 @@ test.describe('@categories-api - Categories API', () => {
           categoriesClientWithToken,
           category.id,
           CategoryFactory.updateSlug(TestConstants.categories.handTools),
-          "admin's token"
+          AUTH.admin
         ));
       });
 
@@ -192,7 +189,7 @@ test.describe('@categories-api - Categories API', () => {
         "Send PATCH /categories/{categoryId} with that id and a body with a new unique category name and the category's own slug, with the admin's token.",
         async () => {
           body = CategoryFactory.updateNameWithSlug(category.slug);
-          ({ request, response } = await sendPatchCategory(categoriesClientWithToken, category.id, body, "admin's token"));
+          ({ request, response } = await sendPatchCategory(categoriesClientWithToken, category.id, body, AUTH.admin));
         }
       );
 
@@ -223,7 +220,7 @@ test.describe('@categories-api - Categories API', () => {
             categoriesClientWithToken,
             category.id,
             CategoryFactory.updateParent(TestConstants.categories.unknownId),
-            "admin's token"
+            AUTH.admin
           ));
         }
       );

@@ -1,11 +1,11 @@
-import { test, expect, AUTH, createGuestMessage, type MessageRequest } from '@fixtures';
+import { test, expect, AUTH, createGuestMessage, type MessageRequest, sendAndAttach } from '@fixtures';
 import type { ApiResponse, MultipartFile } from '@api/clients/BaseClient';
 import type { MessagesClient } from '@api/clients/MessagesClient';
 import type { AttachFileErrors } from '@api/dto/message';
 import { TestConstants } from '@data/TestConstants';
 import { MessageFactory } from '@data/factories/MessageFactory';
-import { expectStatus, expectSuccess } from '@utils/apiChecks';
-import { assertMessage, attachJson } from '@utils/assertHelpers';
+import { expectStatus, expectSuccess, parseJson } from '@utils/apiChecks';
+import { assertMessage } from '@utils/assertHelpers';
 
 // Scenarios: test-scenarios/api/messages/post-messages-by-message-id-attach-file.yml
 
@@ -20,15 +20,12 @@ async function sendAttach(messagesClient: MessagesClient, messageId: string, fil
     auth: AUTH.none,
     body: { contentType: 'multipart/form-data', fields: file ? { file: { name: file.name, size: file.buffer.length } } : {} },
   };
-  const response = await messagesClient.attachFile(messageId, file);
-  await attachJson('Attach File Request', request);
-  await attachJson('Attach File Response', { status: response.status, body: response.body });
-  return { request, response };
+  return sendAndAttach('Attach File', request, () => messagesClient.attachFile(messageId, file));
 }
 
 /** The checks of a "Verify the body's errors is a list with the single item "<text>"." step. */
 function expectSingleError(request: MessageRequest, response: ApiResponse, text: string): void {
-  const body = JSON.parse(response.body) as Partial<AttachFileErrors>;
+  const body = parseJson<Partial<AttachFileErrors>>(request, response);
   expect(body.errors, assertMessage({ request, expected: `errors is the list ["${text}"]`, actual: body })).toEqual([text]);
 }
 

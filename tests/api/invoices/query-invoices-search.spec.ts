@@ -2,7 +2,7 @@ import { test, createCustomerInvoice, AUTH, sendQuerySearchInvoices, expectOnlyI
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { Paginated } from '@api/dto/common';
 import type { InvoiceSummary } from '@api/dto/invoice';
-import { expectAcceptQuery, expectMessage, expectStatus } from '@utils/apiChecks';
+import { expectAcceptQuery, expectMessage, expectStatus, parseJson } from '@utils/apiChecks';
 
 // Scenarios: test-scenarios/api/invoices/query-invoices-search.yml
 
@@ -38,7 +38,7 @@ test.describe('@invoices-api - Invoices API', () => {
     });
 
     await test.step("Verify the body's total is 1 and data has exactly one item, whose id is the new invoice's id.", async () => {
-      expectOnlyInvoice(request, JSON.parse(response.body) as Paginated<InvoiceSummary>, setup.invoice.id);
+      expectOnlyInvoice(request, parseJson<Paginated<InvoiceSummary>>(request, response), setup.invoice.id);
     });
   });
 
@@ -69,7 +69,7 @@ test.describe('@invoices-api - Invoices API', () => {
     });
 
     await test.step("Verify the body's total is 1 and data has exactly one item, whose id is the new invoice's id.", async () => {
-      expectOnlyInvoice(request, JSON.parse(response.body) as Paginated<InvoiceSummary>, setup.invoice.id);
+      expectOnlyInvoice(request, parseJson<Paginated<InvoiceSummary>>(request, response), setup.invoice.id);
     });
   });
 

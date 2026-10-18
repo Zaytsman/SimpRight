@@ -4,7 +4,7 @@ import type { PaymentClient } from '@api/clients/PaymentClient';
 import type { FieldValidationError } from '@api/dto/common';
 import type { PaymentCheckResponse } from '@api/dto/payment';
 import { PaymentFactory } from '@data/factories/PaymentFactory';
-import { describeAccept, expectContentTypeStartsWith, expectErrorKeys, expectLocation, expectNoOtherKeys, expectStatus } from '@utils/apiChecks';
+import { describeAccept, expectContentTypeStartsWith, expectErrorKeys, expectLocation, expectNoOtherKeys, expectStatus, parseJson } from '@utils/apiChecks';
 import { assertMessage, attachJson } from '@utils/assertHelpers';
 
 // Scenarios: test-scenarios/api/payment/post-payment-check.yml
@@ -55,7 +55,7 @@ async function sendCheck(
 
 /** The checks of a "Verify the body's message is "Payment was successful"." step. */
 function expectSuccessMessage(request: CheckRequest, response: ApiResponse): void {
-  const body = JSON.parse(response.body) as PaymentCheckResponse;
+  const body = parseJson<PaymentCheckResponse>(request, response);
   expect(body.message, assertMessage({ request, expected: `message is "${SUCCESS_MESSAGE}"`, actual: body })).toBe(SUCCESS_MESSAGE);
 }
 

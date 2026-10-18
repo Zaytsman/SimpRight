@@ -2,7 +2,7 @@ import { test, expect, AUTH, createCustomerWithFavorite, createSecondCustomer, s
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { Favorite } from '@api/dto/favorite';
 import { TestConstants } from '@data/TestConstants';
-import { expectMessage, expectStatus } from '@utils/apiChecks';
+import { expectMessage, expectStatus, parseJson } from '@utils/apiChecks';
 import { assertMessage } from '@utils/assertHelpers';
 
 // Scenarios: test-scenarios/api/favorites/get-favorites-by-favorite-id.yml
@@ -32,7 +32,7 @@ test.describe('@favorites-api - Favorites API', () => {
 
     await test.step('Verify the response status is 200.', async () => {
       expectStatus(request, response, 200);
-      body = JSON.parse(response.body) as Favorite;
+      body = parseJson<Favorite>(request, response);
     });
 
     await test.step("Verify the body's id, user_id and product_id equal the values POST /favorites returned.", async () => {
@@ -70,7 +70,7 @@ test.describe('@favorites-api - Favorites API', () => {
     let response: ApiResponse;
 
     await test.step('Send GET /favorites/{favoriteId} with a well-formed ULID that no favorite has, with a malformed token.', async () => {
-      ({ request, response } = await sendGetFavorite(favoritesClientWithInvalidToken, TestConstants.favorites.unknownId, 'a malformed token'));
+      ({ request, response } = await sendGetFavorite(favoritesClientWithInvalidToken, TestConstants.favorites.unknownId, AUTH.malformed));
     });
 
     await test.step('Verify the response status is 401.', async () => {
@@ -87,7 +87,7 @@ test.describe('@favorites-api - Favorites API', () => {
     let response: ApiResponse;
 
     await test.step('Send GET /favorites/{favoriteId} with a well-formed ULID that no favorite has.', async () => {
-      ({ request, response } = await sendGetFavorite(favoritesClientWithToken, TestConstants.favorites.unknownId, "default user's token"));
+      ({ request, response } = await sendGetFavorite(favoritesClientWithToken, TestConstants.favorites.unknownId, AUTH.defaultUser));
     });
 
     await test.step('Verify the response status is 404.', async () => {

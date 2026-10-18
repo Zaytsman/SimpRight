@@ -17,14 +17,15 @@ import {
   RENTAL_PRODUCT_STEP,
   ADD_NON_RENTAL_STEP,
   ADD_RENTAL_STEP,
+  sendAndAttach,
 } from '@fixtures';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { CartsClient } from '@api/clients/CartsClient';
 import type { AddCartItemRequest, Cart, CartItem, CartItemResult } from '@api/dto/cart';
 import type { FieldValidationError } from '@api/dto/common';
 import { TestConstants } from '@data/TestConstants';
-import { expectErrorKeysPresent, expectMessage } from '@utils/apiChecks';
-import { assertMessage, attachJson } from '@utils/assertHelpers';
+import { expectErrorKeysPresent, expectMessage, expectStatus, parseJson } from '@utils/apiChecks';
+import { assertMessage } from '@utils/assertHelpers';
 
 // Scenarios: test-scenarios/api/carts/post-carts-by-cart-id.yml
 
@@ -41,10 +42,7 @@ async function sendAddItemBody(
   body: AddCartItemRequest | Record<string, unknown>
 ): Promise<{ request: AddItemRequest; response: ApiResponse }> {
   const request: AddItemRequest = { method: 'POST', path: `/carts/${cartId}`, body };
-  const response = await cartsClient.addItem(cartId, request.body);
-  await attachJson('Add Item Request', request);
-  await attachJson('Add Item Response', { status: response.status, body: response.body });
-  return { request, response };
+  return sendAndAttach('Add Item', request, () => cartsClient.addItem(cartId, request.body));
 }
 
 /** Sends POST /carts/{cartId} with the product and quantity, and attaches the request and the response. */
@@ -73,7 +71,7 @@ function expectDiscountedPrice(cartId: string, item: CartItem, factor: number): 
 
 /** The checks of a "Verify the body's errors has a <field> key with at least one message." step (Laravel's default 422 body). */
 function expectErrorsField(request: AddItemRequest, response: ApiResponse, field: string): void {
-  const body = JSON.parse(response.body) as FieldValidationError;
+  const body = parseJson<FieldValidationError>(request, response);
   const messages = body.errors?.[field];
   expect(
     Array.isArray(messages) && messages.length > 0,
@@ -103,11 +101,11 @@ test.describe('@carts-api - Carts API', () => {
     });
 
     await test.step('Verify the response status is 200.', async () => {
-      expect(response.status, assertMessage({ request, expected: 'Status 200', actual: response.status })).toBe(200);
+      expectStatus(request, response, 200);
     });
 
     await test.step('Verify the body\'s result is "item added or updated".', async () => {
-      const body = JSON.parse(response.body) as CartItemResult;
+      const body = parseJson<CartItemResult>(request, response);
       expect(body.result, assertMessage({ request, expected: 'result is "item added or updated"', actual: body })).toBe('item added or updated');
     });
 
@@ -141,7 +139,7 @@ test.describe('@carts-api - Carts API', () => {
     });
 
     await test.step('Verify the response status is 200.', async () => {
-      expect(response.status, assertMessage({ request, expected: 'Status 200', actual: response.status })).toBe(200);
+      expectStatus(request, response, 200);
     });
 
     await test.step("Verify GET /carts/{cartId} with the cart's id returns 200.", async () => {
@@ -173,7 +171,7 @@ test.describe('@carts-api - Carts API', () => {
     });
 
     await test.step('Verify the response status is 422.', async () => {
-      expect(response.status, assertMessage({ request, expected: 'Status 422', actual: response.status })).toBe(422);
+      expectStatus(request, response, 422);
     });
 
     await test.step("Verify the body's errors has a quantity key with at least one message.", async () => {
@@ -206,7 +204,7 @@ test.describe('@carts-api - Carts API', () => {
     });
 
     await test.step('Verify the response status is 422.', async () => {
-      expect(response.status, assertMessage({ request, expected: 'Status 422', actual: response.status })).toBe(422);
+      expectStatus(request, response, 422);
     });
 
     await test.step("Verify the body's errors has a quantity key with at least one message.", async () => {
@@ -240,7 +238,7 @@ test.describe('@carts-api - Carts API', () => {
     });
 
     await test.step('Verify the response status is 200.', async () => {
-      expect(response.status, assertMessage({ request, expected: 'Status 200', actual: response.status })).toBe(200);
+      expectStatus(request, response, 200);
     });
 
     await test.step("Verify GET /carts/{cartId} with the cart's id returns 200 and its cart_items has exactly one item, with the new product's id as product_id and quantity 999999999.", async () => {
@@ -270,7 +268,7 @@ test.describe('@carts-api - Carts API', () => {
     });
 
     await test.step('Verify the response status is 200.', async () => {
-      expect(response.status, assertMessage({ request, expected: 'Status 200', actual: response.status })).toBe(200);
+      expectStatus(request, response, 200);
     });
 
     await test.step("Verify GET /carts/{cartId} with the cart's id returns 200 and its cart_items has exactly one item, with the new product's id as product_id and quantity 3.", async () => {
@@ -299,7 +297,7 @@ test.describe('@carts-api - Carts API', () => {
     });
 
     await test.step('Verify the response status is 200.', async () => {
-      expect(response.status, assertMessage({ request, expected: 'Status 200', actual: response.status })).toBe(200);
+      expectStatus(request, response, 200);
     });
 
     await test.step("Verify GET /carts/{cartId} with the cart's id returns 200 and its cart_items has exactly one item, with the new product's id as product_id and quantity 99.", async () => {
@@ -329,7 +327,7 @@ test.describe('@carts-api - Carts API', () => {
     });
 
     await test.step('Verify the response status is 200.', async () => {
-      expect(response.status, assertMessage({ request, expected: 'Status 200', actual: response.status })).toBe(200);
+      expectStatus(request, response, 200);
     });
 
     await test.step("Verify GET /carts/{cartId} with the cart's id returns 200 and its cart_items has exactly one item, with the new product's id as product_id and quantity 198.", async () => {
@@ -365,7 +363,7 @@ test.describe('@carts-api - Carts API', () => {
     });
 
     await test.step('Verify the response status is 200.', async () => {
-      expect(response.status, assertMessage({ request, expected: 'Status 200', actual: response.status })).toBe(200);
+      expectStatus(request, response, 200);
     });
 
     await test.step("Verify GET /carts/{cartId} with the cart's id returns 200 and its cart_items has exactly one item, with the new product's id as product_id and quantity 1.", async () => {
@@ -398,7 +396,7 @@ test.describe('@carts-api - Carts API', () => {
     });
 
     await test.step('Verify the response status is 200.', async () => {
-      expect(response.status, assertMessage({ request, expected: 'Status 200', actual: response.status })).toBe(200);
+      expectStatus(request, response, 200);
     });
 
     await test.step("Verify GET /carts/{cartId} with the cart's id returns 200 with additional_discount_percentage 15.", async () => {
@@ -432,7 +430,7 @@ test.describe('@carts-api - Carts API', () => {
     });
 
     await test.step('Verify the response status is 200.', async () => {
-      expect(response.status, assertMessage({ request, expected: 'Status 200', actual: response.status })).toBe(200);
+      expectStatus(request, response, 200);
     });
 
     await test.step("Verify GET /carts/{cartId} with the cart's id returns 200 and its only item has discount_percentage 20.", async () => {
@@ -468,7 +466,7 @@ test.describe('@carts-api - Carts API', () => {
     });
 
     await test.step('Verify the response status is 200.', async () => {
-      expect(response.status, assertMessage({ request, expected: 'Status 200', actual: response.status })).toBe(200);
+      expectStatus(request, response, 200);
     });
 
     await test.step("Verify GET /carts/{cartId} with the cart's id returns 200 and its only item has discount_percentage 5.", async () => {
@@ -493,7 +491,7 @@ test.describe('@carts-api - Carts API', () => {
     });
 
     await test.step('Verify the response status is 422.', async () => {
-      expect(response.status, assertMessage({ request, expected: 'Status 422', actual: response.status })).toBe(422);
+      expectStatus(request, response, 422);
     });
 
     await test.step("Verify the body's errors has the keys product_id and quantity, each with at least one message.", async () => {
@@ -519,7 +517,7 @@ test.describe('@carts-api - Carts API', () => {
     });
 
     await test.step('Verify the response status is 422.', async () => {
-      expect(response.status, assertMessage({ request, expected: 'Status 422', actual: response.status })).toBe(422);
+      expectStatus(request, response, 422);
     });
 
     await test.step("Verify the body's errors has a product_id key with at least one message.", async () => {
@@ -551,7 +549,7 @@ test.describe('@carts-api - Carts API', () => {
     });
 
     await test.step('Verify the response status is 422.', async () => {
-      expect(response.status, assertMessage({ request, expected: 'Status 422', actual: response.status })).toBe(422);
+      expectStatus(request, response, 422);
     });
 
     await test.step("Verify the body's errors has a quantity key with at least one message.", async () => {
@@ -577,7 +575,7 @@ test.describe('@carts-api - Carts API', () => {
     );
 
     await test.step('Verify the response status is 404.', async () => {
-      expect(response.status, assertMessage({ request, expected: 'Status 404', actual: response.status })).toBe(404);
+      expectStatus(request, response, 404);
     });
 
     await test.step('Verify the body\'s message is "Cart not found".', async () => {
@@ -594,7 +592,7 @@ test.describe('@carts-api - Carts API', () => {
     });
 
     await test.step('Verify the response status is 422.', async () => {
-      expect(response.status, assertMessage({ request, expected: 'Status 422', actual: response.status })).toBe(422);
+      expectStatus(request, response, 422);
     });
 
     await test.step("Verify the body's errors has the keys product_id and quantity.", async () => {
@@ -616,7 +614,7 @@ test.describe('@carts-api - Carts API', () => {
     });
 
     await test.step('Verify the response status is 400.', async () => {
-      expect(response.status, assertMessage({ request, expected: 'Status 400', actual: response.status })).toBe(400);
+      expectStatus(request, response, 400);
     });
 
     await test.step('Verify the body\'s message is "You can only have one Thor Hammer in the cart.".', async () => {
@@ -644,7 +642,7 @@ test.describe('@carts-api - Carts API', () => {
     });
 
     await test.step('Verify the response status is 400.', async () => {
-      expect(response.status, assertMessage({ request, expected: 'Status 400', actual: response.status })).toBe(400);
+      expectStatus(request, response, 400);
     });
 
     await test.step('Verify the body\'s message is "You can only have one Thor Hammer in the cart.".', async () => {
@@ -680,7 +678,7 @@ test.describe('@carts-api - Carts API', () => {
     });
 
     await test.step('Verify the response status is 200.', async () => {
-      expect(response.status, assertMessage({ request, expected: 'Status 200', actual: response.status })).toBe(200);
+      expectStatus(request, response, 200);
     });
 
     await test.step("Verify GET /carts/{cartId} with the cart's id returns 200 and its only item has discount_percentage null or 0.", async () => {
@@ -724,7 +722,7 @@ test.describe('@carts-api - Carts API', () => {
     });
 
     await test.step('Verify the response status is 200.', async () => {
-      expect(response.status, assertMessage({ request, expected: 'Status 200', actual: response.status })).toBe(200);
+      expectStatus(request, response, 200);
     });
 
     await test.step("Verify GET /carts/{cartId} with the cart's id returns 200 and its only item has discount_percentage 25.", async () => {
@@ -765,7 +763,7 @@ test.describe('@carts-api - Carts API', () => {
     });
 
     await test.step('Verify the response status is 200.', async () => {
-      expect(response.status, assertMessage({ request, expected: 'Status 200', actual: response.status })).toBe(200);
+      expectStatus(request, response, 200);
     });
 
     await test.step("Verify GET /carts/{cartId} with the cart's id returns 200 and its only item has discount_percentage 20.", async () => {

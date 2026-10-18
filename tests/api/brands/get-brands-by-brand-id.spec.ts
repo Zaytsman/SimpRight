@@ -1,8 +1,8 @@
-import { test, expect } from '@fixtures';
+import { test, expect, sendAndAttach } from '@fixtures';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { Brand } from '@api/dto/brand';
 import { TestConstants } from '@data/TestConstants';
-import { expectMessage, expectStatus } from '@utils/apiChecks';
+import { expectMessage, expectStatus, parseJson } from '@utils/apiChecks';
 import { assertMessage, attachJson } from '@utils/assertHelpers';
 
 // Scenarios: test-scenarios/api/brands/get-brands-by-brand-id.yml
@@ -23,10 +23,7 @@ test.describe('@brands-api - Brands API', () => {
     });
 
     await test.step('Send GET /brands/{brandId} with that id.', async () => {
-      request = { method: 'GET', path: `/brands/${listed.id}` };
-      response = await brandsClient.getById(listed.id);
-      await attachJson('Get Brand Request', request);
-      await attachJson('Get Brand Response', { status: response.status, body: response.body });
+      ({ request, response } = await sendAndAttach('Get Brand', { method: 'GET', path: `/brands/${listed.id}` }, () => brandsClient.getById(listed.id)));
     });
 
     await test.step('Verify the response status is 200.', async () => {
@@ -34,7 +31,7 @@ test.describe('@brands-api - Brands API', () => {
     });
 
     await test.step("Verify the body's id, name and slug equal the list item's.", async () => {
-      const body = JSON.parse(response.body) as Brand;
+      const body = parseJson<Brand>(request, response);
       expect(
         { id: body.id, name: body.name, slug: body.slug },
         assertMessage({ request, expected: `id, name and slug of the list item: ${JSON.stringify(listed)}`, actual: body })

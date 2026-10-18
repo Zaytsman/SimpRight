@@ -1,4 +1,5 @@
-import { test, expect } from '@fixtures';
+import { test, expect, sendAndAttach } from '@fixtures';
+import { expectStatus, parseJson } from '@utils/apiChecks';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { ProductsClient } from '@api/clients/ProductsClient';
 import type { Paginated } from '@api/dto/common';
@@ -15,16 +16,13 @@ type SearchRequest = { method: 'GET'; path: '/products/search'; query?: { q?: st
 async function sendSearch(productsClient: ProductsClient, q?: string, page?: number): Promise<{ request: SearchRequest; response: ApiResponse }> {
   const query = { ...(q !== undefined ? { q } : {}), ...(page !== undefined ? { page } : {}) };
   const request: SearchRequest = { method: 'GET', path: '/products/search', ...(Object.keys(query).length ? { query } : {}) };
-  const response = await productsClient.search(q, page);
-  await attachJson('Search Request', request);
-  await attachJson('Search Response', { status: response.status, body: response.body });
-  return { request, response };
+  return sendAndAttach('Search', request, () => productsClient.search(q, page));
 }
 
 /** The checks of a "Verify the response status is 200." step; returns the parsed body. */
 function expectSearchOk(request: SearchRequest, response: ApiResponse): Paginated<Product> {
-  expect(response.status, assertMessage({ request, expected: 'Status 200', actual: response.status })).toBe(200);
-  return JSON.parse(response.body) as Paginated<Product>;
+  expectStatus(request, response, 200);
+  return parseJson<Paginated<Product>>(request, response);
 }
 
 /** The checks of a "Verify data is an empty array and from is null." step. */
@@ -50,8 +48,8 @@ test.describe('@products-api - Products API', () => {
     });
 
     await test.step('Verify the response status is 200 and the body is paginated (data, total, current_page).', async () => {
-      expect(response.status, assertMessage({ request, expected: 'Status 200', actual: response.status })).toBe(200);
-      body = JSON.parse(response.body) as Paginated<Product>;
+      expectStatus(request, response, 200);
+      body = parseJson<Paginated<Product>>(request, response);
       for (const field of ['data', 'total', 'current_page'] as const) {
         expect(body[field], assertMessage({ request, expected: `Paginated body with "${field}"`, actual: Object.keys(body) })).toBeDefined();
       }

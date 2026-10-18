@@ -2,14 +2,14 @@ import { test, expect, AUTH, registerThrowawayCustomer, loginThrowawayCustomer, 
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { Paginated } from '@api/dto/common';
 import type { ContactMessageListItem } from '@api/dto/message';
-import { expectMessage, PAGE_KEYS } from '@utils/apiChecks';
+import { expectMessage, PAGE_KEYS, parseJson } from '@utils/apiChecks';
 import { assertMessage } from '@utils/assertHelpers';
 
 // Scenarios: test-scenarios/api/messages/get-messages.yml
 
 /** Parses a GET /messages page (call after its status was checked). */
 function parsePage(response: ApiResponse): Paginated<ContactMessageListItem> {
-  return JSON.parse(response.body) as Paginated<ContactMessageListItem>;
+  return parseJson<Paginated<ContactMessageListItem>>(undefined, response);
 }
 
 /** The checks of a "Verify the body's data is an empty array." step. */

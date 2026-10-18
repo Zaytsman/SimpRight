@@ -1,11 +1,11 @@
-import { test, expect, registerThrowawayCustomer, loginThrowawayCustomer } from '@fixtures';
+import { test, expect, registerThrowawayCustomer, loginThrowawayCustomer, AUTH, sendAndAttach } from '@fixtures';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { UsersClient } from '@api/clients/UsersClient';
 import type { PatchUserRequest, User } from '@api/dto/user';
 import type { UsersService } from '@api/services/UsersService';
 import { TestConstants } from '@data/TestConstants';
 import { UserFactory } from '@data/factories/UserFactory';
-import { expectErrorText, expectFieldMessages, expectMessage, expectStatus, expectSuccess } from '@utils/apiChecks';
+import { expectErrorText, expectFieldMessages, expectMessage, expectStatus, expectSuccess, parseJson } from '@utils/apiChecks';
 import { assertMessage, attachJson } from '@utils/assertHelpers';
 
 // Scenarios: test-scenarios/api/users/patch-users-by-user-id.yml
@@ -26,10 +26,7 @@ async function sendPatch(
   auth: string
 ): Promise<{ request: PatchRequestInfo; response: ApiResponse }> {
   const request: PatchRequestInfo = { method: 'PATCH', path: `/users/${userId}`, auth, body };
-  const response = await client.partialUpdate(userId, body);
-  await attachJson('Patch User Request', request);
-  await attachJson('Patch User Response', { status: response.status, body: response.body });
-  return { request, response };
+  return sendAndAttach('Patch User', request, () => client.partialUpdate(userId, body));
 }
 
 /** The read-back of a Verify step: GET /users/me with the client's token must return 200; returns the profile. */
@@ -39,12 +36,12 @@ async function readMe(client: UsersClient, auth: string): Promise<{ request: unk
   await attachJson('Current User Request', request);
   await attachJson('Current User Response', { status: response.status, body: response.body });
   expectStatus(request, response, 200);
-  return { request, user: JSON.parse(response.body) as User };
+  return { request, user: parseJson<User>(request, response) };
 }
 
 /** The read-back of a Verify step: GET /users/{userId} with the admin's token (a setup-style read: fails on a non-2xx). */
 async function readAsAdmin(adminUsersService: UsersService, userId: string): Promise<{ request: unknown; user: User }> {
-  const request = { method: 'GET', path: `/users/${userId}`, auth: "admin's token" };
+  const request = { method: 'GET', path: `/users/${userId}`, auth: AUTH.admin };
   await attachJson('Get User Request', request);
   const user = await adminUsersService.getById(userId);
   await attachJson('Get User Response', user);
@@ -101,7 +98,7 @@ test.describe('@users-api - Users API', () => {
       await test.step(
         "Send PATCH /users/{userId} with the new user's id, the admin's token and only last_name set to a new value of at most 20 characters.",
         async () => {
-          ({ request, response } = await sendPatch(usersClientWithToken, customer.id, { last_name: NEW_NAME }, "admin's token"));
+          ({ request, response } = await sendPatch(usersClientWithToken, customer.id, { last_name: NEW_NAME }, AUTH.admin));
         }
       );
 
@@ -132,7 +129,7 @@ test.describe('@users-api - Users API', () => {
       const customer = await registerThrowawayCustomer(usersService, adminUsersService, cleanup);
 
       await test.step("Send PATCH /users/{userId} with the new user's id, the admin's token and enabled false.", async () => {
-        ({ request, response } = await sendPatch(usersClientWithToken, customer.id, { enabled: false }, "admin's token"));
+        ({ request, response } = await sendPatch(usersClientWithToken, customer.id, { enabled: false }, AUTH.admin));
       });
 
       await test.step('Verify the response status is 200.', async () => {
@@ -156,7 +153,7 @@ test.describe('@users-api - Users API', () => {
       const customer = await registerThrowawayCustomer(usersService, adminUsersService, cleanup);
 
       await test.step('Send PATCH /users/{userId} with the new user\'s id, the admin\'s token and role "admin".', async () => {
-        ({ request, response } = await sendPatch(usersClientWithToken, customer.id, { role: 'admin' }, "admin's token"));
+        ({ request, response } = await sendPatch(usersClientWithToken, customer.id, { role: 'admin' }, AUTH.admin));
       });
 
       await test.step('Verify the response status is 200.', async () => {
@@ -213,7 +210,7 @@ test.describe('@users-api - Users API', () => {
       let response: ApiResponse;
 
       await test.step("Send PATCH /users/{userId} with a well-formed ULID that no user has, first_name set to a new value and the admin's token.", async () => {
-        ({ request, response } = await sendPatch(usersClientWithToken, TestConstants.users.unknownId, { first_name: NEW_NAME }, "admin's token"));
+        ({ request, response } = await sendPatch(usersClientWithToken, TestConstants.users.unknownId, { first_name: NEW_NAME }, AUTH.admin));
       });
 
       await test.step('Verify the response status is 404.', async () => {

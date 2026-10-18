@@ -82,7 +82,7 @@ test.describe('@favorites-api - Favorites API', () => {
     const { token, favorite } = await createCustomerWithFavorite({ usersService, adminUsersService, authService, productsService, favoritesServiceForToken, cleanup });
 
     await test.step('Send DELETE /favorites/{favoriteId} with that id, with a malformed token.', async () => {
-      ({ request, response } = await sendDeleteFavorite(favoritesClientWithInvalidToken, favorite.id, 'a malformed token'));
+      ({ request, response } = await sendDeleteFavorite(favoritesClientWithInvalidToken, favorite.id, AUTH.malformed));
     });
 
     await test.step('Verify the response status is 401.', async () => {
@@ -103,7 +103,7 @@ test.describe('@favorites-api - Favorites API', () => {
     let response: ApiResponse;
 
     await test.step('Send DELETE /favorites/{favoriteId} with a well-formed ULID that no favorite has.', async () => {
-      ({ request, response } = await sendDeleteFavorite(favoritesClientWithToken, TestConstants.favorites.unknownId, "default user's token"));
+      ({ request, response } = await sendDeleteFavorite(favoritesClientWithToken, TestConstants.favorites.unknownId, AUTH.defaultUser));
     });
 
     await test.step('Verify the response status is 204.', async () => {

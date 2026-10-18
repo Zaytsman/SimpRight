@@ -1,13 +1,12 @@
-import { test, expect, registerThrowawayCustomer, loginThrowawayCustomer, expectLoginSucceeds, type ThrowawayCustomer } from '@fixtures';
+import { test, expect, registerThrowawayCustomer, loginThrowawayCustomer, expectLoginSucceeds, type ThrowawayCustomer, AUTH, sendAndAttach } from '@fixtures';
 import type { Cleanup } from '@fixtures/base';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { UsersClient } from '@api/clients/UsersClient';
-import type { SuccessMessageBody } from '@api/dto/user';
 import type { AuthService } from '@api/services/AuthService';
 import type { UsersService } from '@api/services/UsersService';
 import { UserFactory } from '@data/factories/UserFactory';
-import { assertMessage, attachJson } from '@utils/assertHelpers';
-import { expectErrorKeys, expectStatus, expectSuccess } from '@utils/apiChecks';
+import { assertMessage } from '@utils/assertHelpers';
+import { expectErrorKeys, expectMessage, expectStatus, expectSuccess } from '@utils/apiChecks';
 
 // Scenarios: test-scenarios/api/users/post-users-change-password.yml
 
@@ -24,10 +23,7 @@ async function sendChangePassword(
   auth: string
 ): Promise<{ request: ChangePasswordRequestInfo; response: ApiResponse }> {
   const request: ChangePasswordRequestInfo = { method: 'POST', path: '/users/change-password', auth, body };
-  const response = await client.changePassword(body);
-  await attachJson('Change Password Request', request);
-  await attachJson('Change Password Response', { status: response.status, body: response.body });
-  return { request, response };
+  return sendAndAttach('Change Password', request, () => client.changePassword(body));
 }
 
 /**
@@ -50,12 +46,6 @@ function anotherStrongPassword(...others: string[]): string {
   const password = UserFactory.registerCustomer().password;
   expect(others.every((other) => other !== password), assertMessage({ expected: 'The new random password differs from the others' })).toBe(true);
   return password;
-}
-
-/** The checks of a "Verify the body's message is <message>." step. */
-function expectMessage(request: ChangePasswordRequestInfo, response: ApiResponse, message: string): void {
-  const body = JSON.parse(response.body) as SuccessMessageBody;
-  expect(body.message, assertMessage({ request, expected: `message is "${message}"`, actual: body })).toBe(message);
 }
 
 test.describe('@users-api - Users API', () => {
@@ -245,7 +235,7 @@ test.describe('@users-api - Users API', () => {
       async () => {
         // The run's customer: even if the API accepted this, the password would stay the same.
         const body = { current_password: user.password, new_password: user.password, new_password_confirmation: user.password };
-        ({ request, response } = await sendChangePassword(usersClientWithToken, body, "the default user's token"));
+        ({ request, response } = await sendChangePassword(usersClientWithToken, body, AUTH.defaultUser));
       }
     );
 

@@ -1,4 +1,4 @@
-import { test, expect, registerThrowawayCustomer, loginThrowawayCustomer, type ThrowawayCustomer } from '@fixtures';
+import { test, expect, registerThrowawayCustomer, loginThrowawayCustomer, type ThrowawayCustomer, sendAndAttach } from '@fixtures';
 import type { Cleanup } from '@fixtures/base';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { UsersClient } from '@api/clients/UsersClient';
@@ -7,7 +7,7 @@ import type { AuthService } from '@api/services/AuthService';
 import type { UsersService } from '@api/services/UsersService';
 import { UserFactory } from '@data/factories/UserFactory';
 import { assertMessage, attachJson } from '@utils/assertHelpers';
-import { expectFieldMessages, expectStatus, expectSuccess } from '@utils/apiChecks';
+import { expectFieldMessages, expectStatus, expectSuccess, parseJson } from '@utils/apiChecks';
 
 // Scenarios: test-scenarios/api/users/put-users-by-user-id.yml
 
@@ -55,10 +55,7 @@ async function registerAndLogIn(
 /** Sends PUT /users/{userId} with the customer's own token and attaches the request and the response. */
 async function sendUpdate(client: UsersClient, userId: string, body: UpdateUserRequest | Record<string, unknown>): Promise<{ request: UpdateRequestInfo; response: ApiResponse }> {
   const request: UpdateRequestInfo = { method: 'PUT', path: `/users/${userId}`, auth: "the customer's access_token", body };
-  const response = await client.update(userId, body);
-  await attachJson('Update User Request', request);
-  await attachJson('Update User Response', { status: response.status, body: response.body });
-  return { request, response };
+  return sendAndAttach('Update User', request, () => client.update(userId, body));
 }
 
 /** The read-back of a Verify step: GET /users/me with the token must return 200 and `expected`'s values. */
@@ -68,7 +65,7 @@ async function expectProfile(client: UsersClient, expected: ProfileValues, label
   await attachJson('Current User Request', request);
   await attachJson('Current User Response', { status: response.status, body: response.body });
   expect(response.status, assertMessage({ request, expected: 'Status 200', actual: { status: response.status, body: response.body } })).toBe(200);
-  const profile = JSON.parse(response.body) as User;
+  const profile = parseJson<User>(request, response);
   const actual = { first_name: profile.first_name, last_name: profile.last_name, phone: profile.phone, address: profile.address };
   for (const field of ['first_name', 'last_name', 'phone'] as const) {
     expect(profile[field], assertMessage({ request, expected: `${field} is the ${label} "${expected[field]}"`, actual })).toBe(expected[field]);

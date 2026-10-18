@@ -1,10 +1,9 @@
-import { test, createGuestMessage, AUTH, readMessageOk, expectMessageStatus, setStatusSetup, type MessageRequest } from '@fixtures';
+import { test, createGuestMessage, AUTH, readMessageOk, expectMessageStatus, setStatusSetup, type MessageRequest, sendAndAttach } from '@fixtures';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { MessagesClient } from '@api/clients/MessagesClient';
 import { TestConstants } from '@data/TestConstants';
 import { MessageFactory } from '@data/factories/MessageFactory';
 import { expectErrorKeys, expectMessage, expectStatus, expectSuccess } from '@utils/apiChecks';
-import { attachJson } from '@utils/assertHelpers';
 
 // Scenarios: test-scenarios/api/messages/put-messages-by-message-id-status.yml
 
@@ -19,10 +18,7 @@ async function sendStatus(
   auth: string
 ): Promise<{ request: MessageRequest; response: ApiResponse }> {
   const request: MessageRequest & { accept: string } = { method: 'PUT', path: `/messages/${messageId}/status`, auth, accept: 'application/json', body };
-  const response = await messagesClient.updateStatus(messageId, body);
-  await attachJson('Update Status Request', request);
-  await attachJson('Update Status Response', { status: response.status, body: response.body });
-  return { request, response };
+  return sendAndAttach('Update Status', request, () => messagesClient.updateStatus(messageId, body));
 }
 
 test.describe('@messages-api - Messages API', () => {

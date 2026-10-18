@@ -8,7 +8,7 @@ import type { RegisteredUser, RegisterUserRequest, User } from '@api/dto/user';
 import type { UsersService } from '@api/services/UsersService';
 import type { Cleanup } from '@fixtures/base';
 import { UserFactory } from '@data/factories/UserFactory';
-import { expectFieldMessages } from '@utils/apiChecks';
+import { expectFieldMessages, expectStatus, parseJson } from '@utils/apiChecks';
 import { assertMessage, attachJson } from '@utils/assertHelpers';
 
 // Scenarios: test-scenarios/api/users/post-users-register.yml
@@ -31,7 +31,7 @@ async function sendRegister(
   const request: RegisterRequestInfo = { method: 'POST', path: '/users/register', body };
   const response = await client.register(body);
   if (response.status === 201) {
-    const createdId = (JSON.parse(response.body) as RegisteredUser).id;
+    const createdId = (parseJson<RegisteredUser>(request, response)).id;
     if (createdId) cleanup.add(() => adminUsersService.delete(createdId));
   }
   await attachJson('Register Request', request);
@@ -39,14 +39,9 @@ async function sendRegister(
   return { request, response };
 }
 
-/** The checks of a "Verify the response status is <status>." step. */
-function expectStatus(request: RegisterRequestInfo, response: ApiResponse, status: number): void {
-  expect(response.status, assertMessage({ request, expected: `Status ${status}`, actual: { status: response.status, body: response.body } })).toBe(status);
-}
-
 /** The checks of a "Verify the body's <field> messages include <message>." step. */
 function expectFieldMessage(request: RegisterRequestInfo, response: ApiResponse, field: string, message: string): void {
-  const body = JSON.parse(response.body) as ValidationErrors;
+  const body = parseJson<ValidationErrors>(request, response);
   const messages = body[field];
   expect(
     Array.isArray(messages) && messages.includes(message),
@@ -124,7 +119,7 @@ test.describe('@users-api - Users API', () => {
 
     await test.step('Verify the response status is 201.', async () => {
       expectStatus(request, response, 201);
-      body = JSON.parse(response.body) as RegisteredUser;
+      body = parseJson<RegisteredUser>(request, response);
     });
 
     await test.step('Verify the body has a non-empty id and a non-empty created_at.', async () => {
@@ -176,7 +171,7 @@ test.describe('@users-api - Users API', () => {
 
     await test.step('Verify the response status is 201.', async () => {
       expectStatus(request, response, 201);
-      body = JSON.parse(response.body) as RegisteredUser;
+      body = parseJson<RegisteredUser>(request, response);
     });
 
     await test.step("Verify the body's phone and dob equal the values sent.", async () => {
@@ -483,7 +478,7 @@ test.describe('@users-api - Users API', () => {
 
     await test.step('Verify the response status is 201.', async () => {
       expectStatus(request, response, 201);
-      body = JSON.parse(response.body) as RegisteredUser;
+      body = parseJson<RegisteredUser>(request, response);
     });
 
     await test.step("Verify the body's address street, city, state, country and postal_code equal the values sent.", async () => {
@@ -531,7 +526,7 @@ test.describe('@users-api - Users API', () => {
 
     await test.step('Verify the response status is 201.', async () => {
       expectStatus(request, response, 201);
-      body = JSON.parse(response.body) as RegisteredUser;
+      body = parseJson<RegisteredUser>(request, response);
     });
 
     await test.step("Verify the body's email equals the email sent.", async () => {
@@ -571,7 +566,7 @@ test.describe('@users-api - Users API', () => {
 
     await test.step('Verify the response status is 201.', async () => {
       expectStatus(request, response, 201);
-      body = JSON.parse(response.body) as RegisteredUser;
+      body = parseJson<RegisteredUser>(request, response);
     });
 
     await test.step('Verify the body has a non-empty id and the email sent.', async () => {

@@ -1,7 +1,7 @@
 import { test, expect } from '@fixtures';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { Category } from '@api/dto/category';
-import { expectStatus } from '@utils/apiChecks';
+import { expectStatus, parseJson } from '@utils/apiChecks';
 import { assertMessage, attachJson } from '@utils/assertHelpers';
 
 // Scenarios: test-scenarios/api/categories/get-categories.yml
@@ -20,7 +20,7 @@ test.describe('@categories-api - Categories API', () => {
 
     await test.step('Verify the response status is 200.', async () => {
       expectStatus(request, response, 200);
-      body = JSON.parse(response.body) as Category[];
+      body = parseJson<Category[]>(request, response);
     });
 
     await test.step('Verify the body is a non-empty array.', async () => {

@@ -1,11 +1,11 @@
-import { test, expect, AUTH, createGuestMessage, takeOwnUserId, readMessageOk, expectMessageStatus, setStatusSetup, expectNoReplies, type MessageRequest } from '@fixtures';
+import { test, expect, AUTH, createGuestMessage, takeOwnUserId, readMessageOk, expectMessageStatus, setStatusSetup, expectNoReplies, type MessageRequest, sendAndAttach } from '@fixtures';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { MessagesClient } from '@api/clients/MessagesClient';
 import type { ContactReply, ReplyRequest } from '@api/dto/message';
 import { TestConstants } from '@data/TestConstants';
 import { MessageFactory } from '@data/factories/MessageFactory';
-import { expectFieldMessages, expectMessage, expectStatus } from '@utils/apiChecks';
-import { assertMessage, attachJson } from '@utils/assertHelpers';
+import { expectFieldMessages, expectMessage, expectStatus, parseJson } from '@utils/apiChecks';
+import { assertMessage } from '@utils/assertHelpers';
 
 // Scenarios: test-scenarios/api/messages/post-messages-by-message-id-reply.yml
 
@@ -17,10 +17,7 @@ async function sendReply(
   auth: string
 ): Promise<{ request: MessageRequest; response: ApiResponse }> {
   const request: MessageRequest = { method: 'POST', path: `/messages/${messageId}/reply`, auth, body };
-  const response = await messagesClient.reply(messageId, body);
-  await attachJson('Reply Request', request);
-  await attachJson('Reply Response', { status: response.status, body: response.body });
-  return { request, response };
+  return sendAndAttach('Reply', request, () => messagesClient.reply(messageId, body));
 }
 
 test.describe('@messages-api - Messages API', () => {
@@ -50,7 +47,7 @@ test.describe('@messages-api - Messages API', () => {
       });
 
       await test.step("Verify the body's message equals the text sent, and its id is a non-empty string and it has a created_at.", async () => {
-        reply = JSON.parse(response.body) as ContactReply;
+        reply = parseJson<ContactReply>(request, response);
         expect(reply.message, assertMessage({ request, expected: `message is the text sent, "${body.message}"`, actual: reply })).toBe(body.message);
         expect(typeof reply.id === 'string' && reply.id.length > 0, assertMessage({ request, expected: 'id is a non-empty string', actual: reply })).toBe(true);
         expect(typeof reply.created_at === 'string' && reply.created_at.length > 0, assertMessage({ request, expected: 'The body has a created_at', actual: reply })).toBe(

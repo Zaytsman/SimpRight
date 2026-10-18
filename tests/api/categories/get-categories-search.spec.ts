@@ -1,10 +1,10 @@
-import { test, expect, createCategory, expectSlugsInclude } from '@fixtures';
+import { test, expect, createCategory, expectSlugsInclude, sendAndAttach } from '@fixtures';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { CategoriesClient } from '@api/clients/CategoriesClient';
 import type { CategoryTree } from '@api/dto/category';
 import { TestConstants } from '@data/TestConstants';
 import { CategoryFactory } from '@data/factories/CategoryFactory';
-import { expectEmptyArray, expectItemNamesContain, expectStatus } from '@utils/apiChecks';
+import { expectEmptyArray, expectItemNamesContain, expectStatus, parseJson } from '@utils/apiChecks';
 import { assertMessage, attachJson } from '@utils/assertHelpers';
 
 // Scenarios: test-scenarios/api/categories/get-categories-search.yml
@@ -14,10 +14,7 @@ type SearchRequestInfo = { method: 'GET'; path: '/categories/search'; query: { q
 /** Sends GET /categories/search (no `q` when `q` is undefined) and attaches the request and the response. */
 async function sendSearch(categoriesClient: CategoriesClient, q?: string | string[]): Promise<{ request: SearchRequestInfo; response: ApiResponse }> {
   const request: SearchRequestInfo = { method: 'GET', path: '/categories/search', query: q === undefined ? {} : { q } };
-  const response = await categoriesClient.search(q);
-  await attachJson('Search Categories Request', request);
-  await attachJson('Search Categories Response', { status: response.status, body: response.body });
-  return { request, response };
+  return sendAndAttach('Search Categories', request, () => categoriesClient.search(q));
 }
 
 test.describe('@categories-api - Categories API', () => {
@@ -33,7 +30,7 @@ test.describe('@categories-api - Categories API', () => {
 
     await test.step('Verify the response status is 200.', async () => {
       expectStatus(request, response, 200);
-      body = JSON.parse(response.body) as CategoryTree[];
+      body = parseJson<CategoryTree[]>(request, response);
     });
 
     await test.step('Verify the body is a non-empty array and every item\'s name contains "hand" (case-insensitive).', async () => {

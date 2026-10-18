@@ -2,7 +2,7 @@ import { test, expect, findProductWithSpecs, sendGetSpec, takeFirstProductId, ty
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { ProductSpec } from '@api/dto/product';
 import { TestConstants } from '@data/TestConstants';
-import { expectMessage, expectStatus } from '@utils/apiChecks';
+import { expectMessage, expectStatus, parseJson } from '@utils/apiChecks';
 import { assertMessage, attachJson } from '@utils/assertHelpers';
 
 // Scenarios: test-scenarios/api/products/get-products-by-product-id-specs-by-spec-id.yml
@@ -30,7 +30,7 @@ test.describe('@products-api - Products API', () => {
 
     await test.step('Verify the response status is 200.', async () => {
       expectStatus(request, response, 200);
-      body = JSON.parse(response.body) as ProductSpec;
+      body = parseJson<ProductSpec>(request, response);
     });
 
     await test.step("Verify the body's id equals the spec's id and its product_id equals the product's id.", async () => {
@@ -144,7 +144,7 @@ test.describe('@products-api - Products API', () => {
     });
 
     await test.step("Verify the body's spec_name equals the taken spec_name.", async () => {
-      const body = JSON.parse(response.body) as ProductSpec;
+      const body = parseJson<ProductSpec>(request, response);
       expect(body.spec_name, assertMessage({ request, expected: `spec_name is "${spec.spec_name}"`, actual: body })).toBe(spec.spec_name);
     });
   });

@@ -1,7 +1,7 @@
-import { test, expect, loginForNewToken, logoutToken } from '@fixtures';
+import { test, expect, loginForNewToken, logoutToken, sendAndAttach } from '@fixtures';
+import { expectMessage, expectStatus } from '@utils/apiChecks';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { UsersClient } from '@api/clients/UsersClient';
-import type { LogoutResponse, MessageErrorBody } from '@api/dto/user';
 import { assertMessage, attachJson } from '@utils/assertHelpers';
 
 // Scenarios: test-scenarios/api/users/get-users-logout.yml
@@ -13,21 +13,7 @@ type LogoutRequest = { method: 'GET'; path: '/users/logout'; auth: string };
 /** Sends GET /users/logout with `client` and attaches the request and the response. */
 async function sendLogout(client: UsersClient, auth: string): Promise<{ request: LogoutRequest; response: ApiResponse }> {
   const request: LogoutRequest = { method: 'GET', path: '/users/logout', auth };
-  const response = await client.logout();
-  await attachJson('Logout Request', request);
-  await attachJson('Logout Response', { status: response.status, body: response.body });
-  return { request, response };
-}
-
-/** The checks of a "Verify the response status is <status>." step. */
-function expectStatus(request: LogoutRequest, response: ApiResponse, status: number): void {
-  expect(response.status, assertMessage({ request, expected: `Status ${status}`, actual: { status: response.status, body: response.body } })).toBe(status);
-}
-
-/** The checks of a "Verify the body's message is <message>." step. */
-function expectMessage(request: LogoutRequest, response: ApiResponse, message: string): void {
-  const body = JSON.parse(response.body) as MessageErrorBody | LogoutResponse;
-  expect(body.message, assertMessage({ request, expected: `message is "${message}"`, actual: body })).toBe(message);
+  return sendAndAttach('Logout', request, () => client.logout());
 }
 
 test.describe('@users-api - Users API', () => {

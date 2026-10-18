@@ -2,7 +2,7 @@ import { test, expect, AUTH, createCustomerInvoice, customerAWithInvoiceAndCusto
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { Invoice } from '@api/dto/invoice';
 import { TestConstants } from '@data/TestConstants';
-import { expectMessage, expectStatus } from '@utils/apiChecks';
+import { expectMessage, expectStatus, parseJson } from '@utils/apiChecks';
 import { assertMessage } from '@utils/assertHelpers';
 
 // Scenarios: test-scenarios/api/invoices/get-invoices-by-invoice-id.yml
@@ -61,7 +61,7 @@ test.describe('@invoices-api - Invoices API', () => {
     });
 
     await test.step("Verify the body's id and invoice_number equal the invoice's, and its user_id equals the new user's id.", async () => {
-      invoice = JSON.parse(response.body) as Invoice;
+      invoice = parseJson<Invoice>(request, response);
       const actual = { id: invoice.id, invoice_number: invoice.invoice_number, user_id: invoice.user_id };
       expect(invoice.id, assertMessage({ request, expected: `id is the invoice's id ${setup.invoice.id}`, actual })).toBe(setup.invoice.id);
       expect(invoice.invoice_number, assertMessage({ request, expected: `invoice_number is the invoice's ${setup.invoice.invoice_number}`, actual })).toBe(
@@ -163,7 +163,7 @@ test.describe('@invoices-api - Invoices API', () => {
       });
 
       await test.step("Verify the body's id equals the invoice's id and its user_id equals the new user's id.", async () => {
-        const invoice = JSON.parse(response.body) as Invoice;
+        const invoice = parseJson<Invoice>(request, response);
         const actual = { id: invoice.id, user_id: invoice.user_id };
         expect(invoice.id, assertMessage({ request, expected: `id is the invoice's id ${setup.invoice.id}`, actual })).toBe(setup.invoice.id);
         expect(invoice.user_id, assertMessage({ request, expected: `user_id is the new user's id ${setup.customer.id}`, actual })).toBe(setup.customer.id);

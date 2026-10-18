@@ -2,7 +2,7 @@ import { test, expect } from '@fixtures';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { ImagesClient } from '@api/clients/ImagesClient';
 import type { ProductImage } from '@api/dto/product';
-import { describeAccept, expectContentType, expectMessage, expectStatus } from '@utils/apiChecks';
+import { describeAccept, expectContentType, expectMessage, expectStatus, parseJson } from '@utils/apiChecks';
 import { assertMessage, attachJson } from '@utils/assertHelpers';
 
 // Scenarios: test-scenarios/api/images/get-images.yml
@@ -122,7 +122,7 @@ test.describe('@images-api - Images API', () => {
     });
 
     await test.step('Verify the body equals the plain list (same items, same order).', async () => {
-      const body = JSON.parse(response.body) as ProductImage[];
+      const body = parseJson<ProductImage[]>(request, response);
       expect(body, assertMessage({ request, expected: `The plain list (${plain.length} items, same order)`, actual: Array.isArray(body) ? body.map((image) => image.id) : body })).toEqual(
         plain
       );

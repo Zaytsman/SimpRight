@@ -1,9 +1,8 @@
-import { test, createProductAndTakeOtherId, AUTH, createProductWithSpec, createSpec, sendGetSpec, takeFirstProductId } from '@fixtures';
+import { test, createProductAndTakeOtherId, AUTH, createProductWithSpec, createSpec, sendGetSpec, takeFirstProductId, sendAndAttach } from '@fixtures';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { ProductSpecsClient } from '@api/clients/ProductSpecsClient';
 import { TestConstants } from '@data/TestConstants';
 import { expectMessage, expectStatus } from '@utils/apiChecks';
-import { attachJson } from '@utils/assertHelpers';
 
 // Scenarios: test-scenarios/api/products/delete-products-by-product-id-specs-by-spec-id.yml
 
@@ -17,10 +16,7 @@ async function sendDeleteSpec(
   auth: string
 ): Promise<{ request: DeleteSpecRequest; response: ApiResponse }> {
   const request: DeleteSpecRequest = { method: 'DELETE', path: `/products/${productId}/specs/${specId}`, auth };
-  const response = await productSpecsClient.deleteById(productId, specId);
-  await attachJson('Delete Spec Request', request);
-  await attachJson('Delete Spec Response', { status: response.status, body: response.body });
-  return { request, response };
+  return sendAndAttach('Delete Spec', request, () => productSpecsClient.deleteById(productId, specId));
 }
 
 test.describe('@products-api - Products API', () => {

@@ -4,7 +4,7 @@ import type { ProductsClient } from '@api/clients/ProductsClient';
 import type { Paginated } from '@api/dto/common';
 import type { Product, ProductSearchQueryBody } from '@api/dto/product';
 import { TestConstants } from '@data/TestConstants';
-import { expectAcceptQuery } from '@utils/apiChecks';
+import { expectAcceptQuery, expectStatus, parseJson } from '@utils/apiChecks';
 import { assertMessage, attachJson } from '@utils/assertHelpers';
 
 // Scenarios: test-scenarios/api/products/query-products-search.yml
@@ -39,8 +39,8 @@ async function sendQuerySearch(
 
 /** The checks of a "Verify the response status is 200." step; returns the parsed body. */
 function expectQuerySearchOk(request: QuerySearchRequest, response: ApiResponse): Paginated<Product> {
-  expect(response.status, assertMessage({ request, expected: 'Status 200', actual: response.status })).toBe(200);
-  return JSON.parse(response.body) as Paginated<Product>;
+  expectStatus(request, response, 200);
+  return parseJson<Paginated<Product>>(request, response);
 }
 
 test.describe('@products-api - Products API', () => {
@@ -109,7 +109,7 @@ test.describe('@products-api - Products API', () => {
     });
 
     await test.step('Verify the response status is 415.', async () => {
-      expect(response.status, assertMessage({ request, expected: 'Status 415', actual: response.status })).toBe(415);
+      expectStatus(request, response, 415);
     });
   });
 

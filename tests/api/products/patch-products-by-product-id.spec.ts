@@ -1,9 +1,9 @@
-import { test, expect, createProductToUpdate, createProductWithOtherRefs } from '@fixtures';
+import { test, expect, createProductToUpdate, createProductWithOtherRefs, AUTH, sendAndAttach } from '@fixtures';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { ProductDetails, UpdateProductResponse } from '@api/dto/product';
 import { TestConstants } from '@data/TestConstants';
 import { ProductFactory } from '@data/factories/ProductFactory';
-import { expectFieldMessages } from '@utils/apiChecks';
+import { expectFieldMessages, expectStatus, parseJson } from '@utils/apiChecks';
 import { assertMessage, attachJson } from '@utils/assertHelpers';
 
 // Scenarios: test-scenarios/api/products/patch-products-by-product-id.yml
@@ -19,18 +19,15 @@ test.describe('@products-api - Products API', () => {
     await test.step('Send PATCH /products/{productId} with that id and a body with only a new unique product name.', async () => {
       const body = ProductFactory.updateName();
       newName = body.name!;
-      request = { method: 'PATCH', path: `/products/${productId}`, auth: 'none', body };
-      response = await productsClient.partialUpdate(productId, body);
-      await attachJson('Patch Product Request', request);
-      await attachJson('Patch Product Response', { status: response.status, body: response.body });
+      ({ request, response } = await sendAndAttach('Patch Product', { method: 'PATCH', path: `/products/${productId}`, auth: AUTH.none, body }, () => productsClient.partialUpdate(productId, body)));
     });
 
     await test.step('Verify the response status is 200.', async () => {
-      expect(response.status, assertMessage({ request, expected: 'Status 200', actual: response.status })).toBe(200);
+      expectStatus(request, response, 200);
     });
 
     await test.step("Verify the body's success is true.", async () => {
-      const body = JSON.parse(response.body) as UpdateProductResponse;
+      const body = parseJson<UpdateProductResponse>(request, response);
       expect(body.success, assertMessage({ request, expected: 'success is true', actual: body })).toBe(true);
     });
 
@@ -57,14 +54,11 @@ test.describe('@products-api - Products API', () => {
 
     await test.step('Send PATCH /products/{productId} with that id and a body with only price set to the string "not-a-number".', async () => {
       const body = ProductFactory.priceNotNumeric();
-      request = { method: 'PATCH', path: `/products/${productId}`, auth: 'none', body };
-      response = await productsClient.partialUpdate(productId, body);
-      await attachJson('Patch Product Request', request);
-      await attachJson('Patch Product Response', { status: response.status, body: response.body });
+      ({ request, response } = await sendAndAttach('Patch Product', { method: 'PATCH', path: `/products/${productId}`, auth: AUTH.none, body }, () => productsClient.partialUpdate(productId, body)));
     });
 
     await test.step('Verify the response status is 422.', async () => {
-      expect(response.status, assertMessage({ request, expected: 'Status 422', actual: response.status })).toBe(422);
+      expectStatus(request, response, 422);
     });
 
     await test.step('Verify the body has a price key with at least one message.', async () => {
@@ -85,14 +79,11 @@ test.describe('@products-api - Products API', () => {
 
     await test.step('Send PATCH /products/{productId} with that id and a body with only a 121-character name that starts with a unique product name.', async () => {
       const body = ProductFactory.nameTooLong();
-      request = { method: 'PATCH', path: `/products/${productId}`, auth: 'none', body };
-      response = await productsClient.partialUpdate(productId, body);
-      await attachJson('Patch Product Request', request);
-      await attachJson('Patch Product Response', { status: response.status, body: response.body });
+      ({ request, response } = await sendAndAttach('Patch Product', { method: 'PATCH', path: `/products/${productId}`, auth: AUTH.none, body }, () => productsClient.partialUpdate(productId, body)));
     });
 
     await test.step('Verify the response status is 422.', async () => {
-      expect(response.status, assertMessage({ request, expected: 'Status 422', actual: response.status })).toBe(422);
+      expectStatus(request, response, 422);
     });
 
     await test.step('Verify the body has a name key with at least one message.', async () => {
@@ -113,14 +104,11 @@ test.describe('@products-api - Products API', () => {
 
     await test.step('Send PATCH /products/{productId} with that id and a body with only a 1251-character description.', async () => {
       const body = ProductFactory.descriptionTooLong();
-      request = { method: 'PATCH', path: `/products/${productId}`, auth: 'none', body };
-      response = await productsClient.partialUpdate(productId, body);
-      await attachJson('Patch Product Request', request);
-      await attachJson('Patch Product Response', { status: response.status, body: response.body });
+      ({ request, response } = await sendAndAttach('Patch Product', { method: 'PATCH', path: `/products/${productId}`, auth: AUTH.none, body }, () => productsClient.partialUpdate(productId, body)));
     });
 
     await test.step('Verify the response status is 422.', async () => {
-      expect(response.status, assertMessage({ request, expected: 'Status 422', actual: response.status })).toBe(422);
+      expectStatus(request, response, 422);
     });
 
     await test.step('Verify the body has a description key with at least one message.', async () => {
@@ -135,18 +123,15 @@ test.describe('@products-api - Products API', () => {
 
     await test.step('Send PATCH /products/{productId} with a well-formed ULID that no product has and a body with only a unique product name.', async () => {
       const body = ProductFactory.updateName();
-      request = { method: 'PATCH', path: `/products/${unknownId}`, auth: 'none', body };
-      response = await productsClient.partialUpdate(unknownId, body);
-      await attachJson('Patch Product Request', request);
-      await attachJson('Patch Product Response', { status: response.status, body: response.body });
+      ({ request, response } = await sendAndAttach('Patch Product', { method: 'PATCH', path: `/products/${unknownId}`, auth: AUTH.none, body }, () => productsClient.partialUpdate(unknownId, body)));
     });
 
     await test.step('Verify the response status is 404.', async () => {
-      expect(response.status, assertMessage({ request, expected: 'Status 404', actual: response.status })).toBe(404);
+      expectStatus(request, response, 404);
     });
 
     await test.step('Verify the body\'s message is "Requested item not found".', async () => {
-      const body = JSON.parse(response.body) as { message?: string };
+      const body = parseJson<{ message?: string }>(request, response);
       expect(body.message, assertMessage({ request, expected: 'message is "Requested item not found"', actual: body })).toBe('Requested item not found');
     });
   });
@@ -160,14 +145,11 @@ test.describe('@products-api - Products API', () => {
 
     await test.step('Send PATCH /products/{productId} with that id and a body with only a new unique product name, without an Authorization header.', async () => {
       const body = ProductFactory.updateName();
-      request = { method: 'PATCH', path: `/products/${productId}`, auth: 'none', body };
-      response = await productsClient.partialUpdate(productId, body);
-      await attachJson('Patch Product Request', request);
-      await attachJson('Patch Product Response', { status: response.status, body: response.body });
+      ({ request, response } = await sendAndAttach('Patch Product', { method: 'PATCH', path: `/products/${productId}`, auth: AUTH.none, body }, () => productsClient.partialUpdate(productId, body)));
     });
 
     await test.step('Verify the response status is 401.', async () => {
-      expect(response.status, assertMessage({ request, expected: 'Status 401', actual: response.status })).toBe(401);
+      expectStatus(request, response, 401);
     });
   });
 
@@ -186,18 +168,15 @@ test.describe('@products-api - Products API', () => {
 
     await test.step('Send PATCH /products/{productId} with that id and a body with only the other category id, brand id and product image id.', async () => {
       const body = ProductFactory.updateRefs(otherRefs);
-      request = { method: 'PATCH', path: `/products/${productId}`, auth: 'none', body };
-      response = await productsClient.partialUpdate(productId, body);
-      await attachJson('Patch Product Request', request);
-      await attachJson('Patch Product Response', { status: response.status, body: response.body });
+      ({ request, response } = await sendAndAttach('Patch Product', { method: 'PATCH', path: `/products/${productId}`, auth: AUTH.none, body }, () => productsClient.partialUpdate(productId, body)));
     });
 
     await test.step('Verify the response status is 200.', async () => {
-      expect(response.status, assertMessage({ request, expected: 'Status 200', actual: response.status })).toBe(200);
+      expectStatus(request, response, 200);
     });
 
     await test.step("Verify the body's success is true.", async () => {
-      const body = JSON.parse(response.body) as UpdateProductResponse;
+      const body = parseJson<UpdateProductResponse>(request, response);
       expect(body.success, assertMessage({ request, expected: 'success is true', actual: body })).toBe(true);
     });
 
@@ -233,18 +212,15 @@ test.describe('@products-api - Products API', () => {
 
     await test.step('Send PATCH /products/{productId} with that id and a body with only is_location_offer true and is_rental true.', async () => {
       const body = ProductFactory.locationOfferAndRental();
-      request = { method: 'PATCH', path: `/products/${productId}`, auth: 'none', body };
-      response = await productsClient.partialUpdate(productId, body);
-      await attachJson('Patch Product Request', request);
-      await attachJson('Patch Product Response', { status: response.status, body: response.body });
+      ({ request, response } = await sendAndAttach('Patch Product', { method: 'PATCH', path: `/products/${productId}`, auth: AUTH.none, body }, () => productsClient.partialUpdate(productId, body)));
     });
 
     await test.step('Verify the response status is 200.', async () => {
-      expect(response.status, assertMessage({ request, expected: 'Status 200', actual: response.status })).toBe(200);
+      expectStatus(request, response, 200);
     });
 
     await test.step("Verify the body's success is true.", async () => {
-      const body = JSON.parse(response.body) as UpdateProductResponse;
+      const body = parseJson<UpdateProductResponse>(request, response);
       expect(body.success, assertMessage({ request, expected: 'success is true', actual: body })).toBe(true);
     });
 

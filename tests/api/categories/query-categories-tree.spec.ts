@@ -3,7 +3,7 @@ import type { ApiResponse } from '@api/clients/BaseClient';
 import type { CategoriesClient } from '@api/clients/CategoriesClient';
 import type { CategoryTree, CategoryTreeQueryBody } from '@api/dto/category';
 import { TestConstants } from '@data/TestConstants';
-import { expectAcceptQuery, expectMessage, expectStatus } from '@utils/apiChecks';
+import { expectAcceptQuery, expectMessage, expectStatus, parseJson } from '@utils/apiChecks';
 import { assertMessage, attachJson } from '@utils/assertHelpers';
 
 // Scenarios: test-scenarios/api/categories/query-categories-tree.yml
@@ -46,7 +46,7 @@ test.describe('@categories-api - Categories API', () => {
 
     await test.step('Verify the response status is 200.', async () => {
       expectStatus(request, response, 200);
-      body = JSON.parse(response.body) as CategoryTree[];
+      body = parseJson<CategoryTree[]>(request, response);
     });
 
     await test.step('Verify the Accept-Query response header is application/json.', async () => {

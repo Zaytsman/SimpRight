@@ -1,4 +1,5 @@
-import { test, expect, registerThrowawayCustomer, loginThrowawayCustomer, type ThrowawayCustomer, disableCustomerSetup } from '@fixtures';
+import { test, expect, registerThrowawayCustomer, loginThrowawayCustomer, type ThrowawayCustomer, disableCustomerSetup, AUTH, sendAndAttach } from '@fixtures';
+import { expectStatus, parseJson } from '@utils/apiChecks';
 import type { Cleanup } from '@fixtures/base';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { AuthClient } from '@api/clients/AuthClient';
@@ -23,20 +24,12 @@ const ANY_TOTP = '000000';
 /** Sends POST /users/login with `body` and attaches the request and the response. */
 async function sendLogin(authClient: AuthClient, body: Record<string, unknown>): Promise<{ request: LoginRequestInfo; response: ApiResponse }> {
   const request: LoginRequestInfo = { method: 'POST', path: '/users/login', body };
-  const response = await authClient.login(body);
-  await attachJson('Login Request', request);
-  await attachJson('Login Response', { status: response.status, body: response.body });
-  return { request, response };
-}
-
-/** The checks of a "Verify the response status is <status>." step. */
-function expectStatus(request: LoginRequestInfo, response: ApiResponse, status: number): void {
-  expect(response.status, assertMessage({ request, expected: `Status ${status}`, actual: { status: response.status, body: response.body } })).toBe(status);
+  return sendAndAttach('Login', request, () => authClient.login(body));
 }
 
 /** The checks of a "Verify the body's error is ..." step: `error` is one of `allowed`. */
 function expectLoginError(request: LoginRequestInfo, response: ApiResponse, allowed: string[]): void {
-  const body = JSON.parse(response.body) as LoginErrorBody;
+  const body = parseJson<LoginErrorBody>(request, response);
   expect(
     allowed.includes(body.error),
     assertMessage({ request, expected: `error is ${allowed.map((text) => `"${text}"`).join(' or ')}`, actual: body })
@@ -101,7 +94,7 @@ async function takeRestrictedToken(authService: AuthService, customer: Throwaway
 
 /** The checks of a "Verify the body has no <keys> key." step. */
 function expectNoKeys(request: unknown, response: ApiResponse, keys: string[]): void {
-  const body = JSON.parse(response.body) as Record<string, unknown>;
+  const body = parseJson<Record<string, unknown>>(request, response);
   const present = keys.filter((key) => key in body);
   expect(present, assertMessage({ request, expected: `The body has none of the keys ${keys.join(', ')}`, actual: Object.keys(body) })).toEqual([]);
 }
@@ -118,7 +111,7 @@ test.describe('@users-api - Users API', () => {
 
     await test.step('Verify the response status is 200.', async () => {
       expectStatus(request, response, 200);
-      body = JSON.parse(response.body) as LoginResponse;
+      body = parseJson<LoginResponse>(request, response);
     });
 
     await test.step("Verify the body's access_token is a non-empty string.", async () => {
@@ -250,7 +243,7 @@ test.describe('@users-api - Users API', () => {
 
       const customer = await registerThrowawayCustomer(usersService, adminUsersService, cleanup);
 
-      await disableCustomerSetup(adminUsersService, customer.id, "Send PATCH /users/{userId} with that id and enabled false, with the admin's token.", "admin's token");
+      await disableCustomerSetup(adminUsersService, customer.id, "Send PATCH /users/{userId} with that id and enabled false, with the admin's token.", AUTH.admin);
 
       await test.step('Send POST /users/login with that email and password.', async () => {
         ({ request, response } = await sendLogin(authClient, { email: customer.email, password: customer.password }));
@@ -286,7 +279,7 @@ test.describe('@users-api - Users API', () => {
 
     await test.step('Verify the response status is 200.', async () => {
       expectStatus(request, response, 200);
-      body = JSON.parse(response.body) as TotpRequiredResponse;
+      body = parseJson<TotpRequiredResponse>(request, response);
     });
 
     await test.step('Verify the body\'s message is "TOTP required" and requires_totp is true.', async () => {
@@ -330,7 +323,7 @@ test.describe('@users-api - Users API', () => {
 
     await test.step('Verify the response status is 200.', async () => {
       expectStatus(request, response, 200);
-      body = JSON.parse(response.body) as LoginResponse;
+      body = parseJson<LoginResponse>(request, response);
     });
 
     await test.step("Verify the body's access_token is a non-empty string.", async () => {
@@ -383,7 +376,7 @@ test.describe('@users-api - Users API', () => {
     });
 
     await test.step('Verify the body\'s message is "Unauthorized token usage".', async () => {
-      const body = JSON.parse(response.body) as MessageErrorBody;
+      const body = parseJson<MessageErrorBody>(request, response);
       expect(body.message, assertMessage({ request, expected: 'message is "Unauthorized token usage"', actual: body })).toBe('Unauthorized token usage');
     });
   });

@@ -1,4 +1,4 @@
-import { test, expect, findProductSpec, takeProductRefs, sendCreateProduct, PRODUCT_LIST_STEP, type CreateProductRequestInfo } from '@fixtures';
+import { test, expect, findProductSpec, takeProductRefs, sendCreateProduct, PRODUCT_LIST_STEP, type CreateProductRequestInfo, AUTH, sendAndAttach } from '@fixtures';
 import type { Cleanup } from '@fixtures/base';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { ProductsClient } from '@api/clients/ProductsClient';
@@ -8,7 +8,7 @@ import type { ProductsService } from '@api/services/ProductsService';
 import { TestConstants } from '@data/TestConstants';
 import { PRODUCT_NAME_PREFIX, ProductFactory, type ProductRefs } from '@data/factories/ProductFactory';
 import { assertMessage, attachJson } from '@utils/assertHelpers';
-import { expectStatus } from '@utils/apiChecks';
+import { expectStatus, parseJson } from '@utils/apiChecks';
 
 // Scenarios: test-scenarios/api/products/get-products.yml
 
@@ -19,16 +19,13 @@ const LIST_REQUEST: ListRequest = { method: 'GET', path: '/products' };
 /** Sends GET /products with the query and attaches the request and the response. */
 async function sendList(productsClient: ProductsClient, query?: ProductListQuery): Promise<{ request: ListRequest; response: ApiResponse }> {
   const request: ListRequest = { method: 'GET', path: '/products', ...(query ? { query } : {}) };
-  const response = await productsClient.list(query);
-  await attachJson('List Products Request', request);
-  await attachJson('List Products Response', { status: response.status, body: response.body });
-  return { request, response };
+  return sendAndAttach('List Products', request, () => productsClient.list(query));
 }
 
 /** The checks of a "Verify the response status is 200." step; returns the parsed body. */
 function expectListOk(request: ListRequest, response: ApiResponse): Paginated<Product> {
-  expect(response.status, assertMessage({ request, expected: 'Status 200', actual: response.status })).toBe(200);
-  return JSON.parse(response.body) as Paginated<Product>;
+  expectStatus(request, response, 200);
+  return parseJson<Paginated<Product>>(request, response);
 }
 
 const isEcoRating = (rating: string | null | undefined): boolean => ['A', 'B'].includes((rating ?? '').toUpperCase());
@@ -106,7 +103,7 @@ async function createListedProduct(
 ): Promise<{ request: CreateProductRequestInfo; response: ApiResponse; name: string; productId: string }> {
   const body = ProductFactory.createProduct(refs, overrides);
   const { request, response } = await sendCreateProduct(productsClient, body, adminProductsService, cleanup, auth);
-  const productId = response.isSuccess ? (JSON.parse(response.body) as Product).id : '';
+  const productId = response.isSuccess ? (parseJson<Product>(request, response)).id : '';
   return { request, response, name: body.name, productId };
 }
 
@@ -653,7 +650,7 @@ test.describe('@products-api - Products API', () => {
     });
 
     await test.step('Verify data is an empty array.', async () => {
-      const body = JSON.parse(response.body) as Paginated<Product>;
+      const body = parseJson<Paginated<Product>>(request, response);
       expect(Array.isArray(body.data), assertMessage({ request, expected: 'data is an array', actual: body.data })).toBe(true);
       expect(body.data, assertMessage({ request, expected: 'data is empty', actual: body.data })).toEqual([]);
     });
@@ -748,7 +745,7 @@ test.describe('@products-api - Products API', () => {
           cleanup,
           refs,
           { is_rental: true, stock: 10 },
-          "the default user's token"
+          AUTH.defaultUser
         ));
       }
     );

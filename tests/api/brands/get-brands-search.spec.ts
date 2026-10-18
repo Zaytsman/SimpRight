@@ -1,10 +1,10 @@
-import { test, expect, createBrand, expectBrandItems, takeSeededBrandIds, expectIncludesBrandIds } from '@fixtures';
+import { test, expect, createBrand, expectBrandItems, takeSeededBrandIds, expectIncludesBrandIds, sendAndAttach } from '@fixtures';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { BrandsClient } from '@api/clients/BrandsClient';
 import type { Brand } from '@api/dto/brand';
 import { TestConstants } from '@data/TestConstants';
 import { BrandFactory } from '@data/factories/BrandFactory';
-import { expectEmptyArray, expectItemNamesContain, expectStatus } from '@utils/apiChecks';
+import { expectEmptyArray, expectItemNamesContain, expectStatus, parseJson } from '@utils/apiChecks';
 import { assertMessage, attachJson } from '@utils/assertHelpers';
 
 // Scenarios: test-scenarios/api/brands/get-brands-search.yml
@@ -14,10 +14,7 @@ type SearchRequest = { method: 'GET'; path: '/brands/search'; query: { q?: strin
 /** Sends GET /brands/search (no `q` when `q` is undefined) and attaches the request and the response. */
 async function sendSearch(brandsClient: BrandsClient, q?: string | string[]): Promise<{ request: SearchRequest; response: ApiResponse }> {
   const request: SearchRequest = { method: 'GET', path: '/brands/search', query: q === undefined ? {} : { q } };
-  const response = await brandsClient.search(q);
-  await attachJson('Search Brands Request', request);
-  await attachJson('Search Brands Response', { status: response.status, body: response.body });
-  return { request, response };
+  return sendAndAttach('Search Brands', request, () => brandsClient.search(q));
 }
 
 test.describe('@brands-api - Brands API', () => {
@@ -33,7 +30,7 @@ test.describe('@brands-api - Brands API', () => {
 
     await test.step('Verify the response status is 200.', async () => {
       expectStatus(request, response, 200);
-      body = JSON.parse(response.body) as Brand[];
+      body = parseJson<Brand[]>(request, response);
     });
 
     await test.step('Verify the body is a non-empty array and every item\'s name contains "forge" (case-insensitive).', async () => {

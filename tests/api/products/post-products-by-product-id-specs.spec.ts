@@ -8,7 +8,7 @@ import type { ProductsService } from '@api/services/ProductsService';
 import type { Cleanup } from '@fixtures/base';
 import { TestConstants } from '@data/TestConstants';
 import { ProductSpecFactory } from '@data/factories/ProductSpecFactory';
-import { describeAccept, expectErrorKeys, expectErrorKeysPresent, expectMessage, expectStatus } from '@utils/apiChecks';
+import { describeAccept, expectErrorKeys, expectErrorKeysPresent, expectMessage, expectStatus, parseJson } from '@utils/apiChecks';
 import { assertMessage, attachJson } from '@utils/assertHelpers';
 
 // Scenarios: test-scenarios/api/products/post-products-by-product-id-specs.yml
@@ -37,7 +37,7 @@ async function sendCreateSpec(
   if (response.isSuccess) {
     let id: string | undefined;
     try {
-      id = (JSON.parse(response.body) as Partial<ProductSpec>).id;
+      id = (parseJson<Partial<ProductSpec>>(request, response)).id;
     } catch {
       id = undefined;
     }
@@ -101,7 +101,7 @@ test.describe('@products-api - Products API', () => {
 
     await test.step('Verify the response status is 201.', async () => {
       expectStatus(request, response, 201);
-      created = JSON.parse(response.body) as ProductSpec;
+      created = parseJson<ProductSpec>(request, response);
     });
 
     await test.step("Verify the body's product_id equals the new product's id.", async () => {
@@ -163,7 +163,7 @@ test.describe('@products-api - Products API', () => {
 
     await test.step('Verify the response status is 201.', async () => {
       expectStatus(request, response, 201);
-      created = JSON.parse(response.body) as ProductSpec;
+      created = parseJson<ProductSpec>(request, response);
     });
 
     await test.step("Verify the body's spec_unit is null.", async () => {
@@ -253,7 +253,7 @@ test.describe('@products-api - Products API', () => {
     });
 
     await test.step('Verify the body has a message.', async () => {
-      const body = JSON.parse(response.body) as { message?: unknown };
+      const body = parseJson<{ message?: unknown }>(request, response);
       expect(typeof body.message === 'string' && body.message.length > 0, assertMessage({ request, expected: 'The body has a non-empty message', actual: body })).toBe(true);
     });
 

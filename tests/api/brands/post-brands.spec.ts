@@ -1,11 +1,11 @@
-import { test, expect, removeBrandIfCreated } from '@fixtures';
+import { test, expect, removeBrandIfCreated, AUTH } from '@fixtures';
 import type { Cleanup } from '@fixtures/base';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { BrandsClient } from '@api/clients/BrandsClient';
 import type { Brand } from '@api/dto/brand';
 import type { BrandsService } from '@api/services/BrandsService';
 import { BrandFactory } from '@data/factories/BrandFactory';
-import { expectFieldMessageIncludes, expectFieldMessages, expectStatus } from '@utils/apiChecks';
+import { expectFieldMessageIncludes, expectFieldMessages, expectStatus, parseJson } from '@utils/apiChecks';
 import { assertMessage, attachJson } from '@utils/assertHelpers';
 
 // Scenarios: test-scenarios/api/brands/post-brands.yml
@@ -54,12 +54,12 @@ test.describe('@brands-api - Brands API', () => {
       let created: Brand;
 
       await test.step("Send POST /brands with a unique brand name and a unique slug, with the admin's token, and take the new brand's id.", async () => {
-        ({ request, response } = await sendCreateBrand(brandsClientWithToken, body, adminBrandsService, cleanup, "admin's token"));
+        ({ request, response } = await sendCreateBrand(brandsClientWithToken, body, adminBrandsService, cleanup, AUTH.admin));
       });
 
       await test.step('Verify the response status is 201.', async () => {
         expectStatus(request, response, 201);
-        created = JSON.parse(response.body) as Brand;
+        created = parseJson<Brand>(request, response);
       });
 
       await test.step("Verify the body's name and slug equal the values sent.", async () => {
@@ -91,8 +91,8 @@ test.describe('@brands-api - Brands API', () => {
       await test.step(
         'Send POST /brands with a unique brand name, a unique slug and a description field set to "ignored", with the admin\'s token, and take the new brand\'s id.',
         async () => {
-          ({ request, response } = await sendCreateBrand(brandsClientWithToken, body, adminBrandsService, cleanup, "admin's token"));
-          createdId = response.isSuccess ? ((JSON.parse(response.body) as Brand).id ?? '') : '';
+          ({ request, response } = await sendCreateBrand(brandsClientWithToken, body, adminBrandsService, cleanup, AUTH.admin));
+          createdId = response.isSuccess ? ((parseJson<Brand>(request, response)).id ?? '') : '';
         }
       );
 
@@ -101,7 +101,7 @@ test.describe('@brands-api - Brands API', () => {
       });
 
       await test.step('Verify the body has the keys id, name and slug only.', async () => {
-        const keys = Object.keys(JSON.parse(response.body) as object).sort();
+        const keys = Object.keys(parseJson<object>(request, response)).sort();
         expect(keys, assertMessage({ request, expected: 'Keys id, name and slug only', actual: response.body })).toEqual(['id', 'name', 'slug']);
       });
 

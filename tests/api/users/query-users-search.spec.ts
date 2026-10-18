@@ -1,10 +1,10 @@
-import { test, expect, registerThrowawayCustomer, attachUserPageResponse, expectOnlyUser, expectStatusHidingBody, userPageSummary } from '@fixtures';
+import { test, expect, registerThrowawayCustomer, attachUserPageResponse, expectOnlyUser, expectStatusHidingBody, userPageSummary, AUTH } from '@fixtures';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { UsersClient } from '@api/clients/UsersClient';
 import type { Paginated } from '@api/dto/common';
 import type { User, UserSearchQueryBody } from '@api/dto/user';
 import { UserFactory } from '@data/factories/UserFactory';
-import { expectAcceptQuery, expectMessage, expectStatus } from '@utils/apiChecks';
+import { expectAcceptQuery, expectMessage, expectStatus, parseJson } from '@utils/apiChecks';
 import { assertMessage, attachJson } from '@utils/assertHelpers';
 
 // Scenarios: test-scenarios/api/users/query-users-search.yml
@@ -54,7 +54,7 @@ test.describe('@users-api - Users API', () => {
       await test.step(
         'Send QUERY /users/search with the admin\'s token, Content-Type: application/json, Accept: application/json and the body { "q": <that first name> }.',
         async () => {
-          ({ request, response } = await sendQuerySearch(usersClientWithToken, "admin's token", { q: registered.first_name }));
+          ({ request, response } = await sendQuerySearch(usersClientWithToken, AUTH.admin, { q: registered.first_name }));
         }
       );
 
@@ -67,7 +67,7 @@ test.describe('@users-api - Users API', () => {
       });
 
       await test.step("Verify the body's total is 1 and data has exactly one item, whose id is the new user's id.", async () => {
-        expectOnlyUser(request, JSON.parse(response.body) as Paginated<User>, customer.id);
+        expectOnlyUser(request, parseJson<Paginated<User>>(request, response), customer.id);
       });
     });
 
@@ -79,13 +79,13 @@ test.describe('@users-api - Users API', () => {
       await test.step(
         "Send QUERY /users/search with the admin's token, Content-Type: application/json, Accept: application/json and an empty JSON object as the body.",
         async () => {
-          ({ request, response } = await sendQuerySearch(usersClientWithToken, "admin's token", {}));
+          ({ request, response } = await sendQuerySearch(usersClientWithToken, AUTH.admin, {}));
         }
       );
 
       await test.step('Verify the response status is 200.', async () => {
         expectStatus(request, response, 200);
-        page = JSON.parse(response.body) as Paginated<User>;
+        page = parseJson<Paginated<User>>(request, response);
       });
 
       await test.step("Verify the body's per_page is 15 and data is not empty.", async () => {
@@ -121,7 +121,7 @@ test.describe('@users-api - Users API', () => {
     let response: ApiResponse;
 
     await test.step("Send QUERY /users/search with the default user's token, Content-Type: text/plain, Accept: application/json and a plain-text body.", async () => {
-      ({ request, response } = await sendQuerySearch(usersClientWithToken, "default user's token", 'q=a', { 'Content-Type': 'text/plain', Accept: 'application/json' }));
+      ({ request, response } = await sendQuerySearch(usersClientWithToken, AUTH.defaultUser, 'q=a', { 'Content-Type': 'text/plain', Accept: 'application/json' }));
     });
 
     await test.step('Verify the response status is 415.', async () => {
@@ -137,7 +137,7 @@ test.describe('@users-api - Users API', () => {
     await test.step(
       'Send QUERY /users/search with the default user\'s token, Content-Type: application/json, Accept: application/json and the body { "q": "a" }.',
       async () => {
-        ({ request, response } = await sendQuerySearch(usersClientWithToken, "default user's token", { q: 'a' }));
+        ({ request, response } = await sendQuerySearch(usersClientWithToken, AUTH.defaultUser, { q: 'a' }));
       }
     );
 

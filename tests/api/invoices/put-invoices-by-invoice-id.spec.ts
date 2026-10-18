@@ -220,7 +220,7 @@ test.describe('@invoices-api - Invoices API', () => {
 
       const setup: CustomerInvoice = await createCustomerInvoice({ usersService, adminUsersService, authService, productsService, cartsService, invoicesServiceForToken, cleanup });
 
-      await test.step(samePutStep("the invoice's id", "the admin's token"), async () => {
+      await test.step(samePutStep("the invoice's id", AUTH.admin), async () => {
         ({ request, response } = await sendUpdateInvoice(invoicesClientWithToken, setup.invoice.id, InvoiceFactory.cashOnDelivery(setup.cartId), AUTH.admin));
       });
 

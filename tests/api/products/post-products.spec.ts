@@ -1,9 +1,9 @@
-import { test, expect, takeProductRefs, sendCreateProduct, PRODUCT_LIST_STEP, type CreateProductRequestInfo } from '@fixtures';
+import { test, expect, takeProductRefs, sendCreateProduct, PRODUCT_LIST_STEP, type CreateProductRequestInfo, AUTH } from '@fixtures';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { CreateProductRequest, Product, ProductDetails } from '@api/dto/product';
 import { TestConstants } from '@data/TestConstants';
 import { ProductFactory, type ProductRefs } from '@data/factories/ProductFactory';
-import { expectFieldMessages } from '@utils/apiChecks';
+import { expectFieldMessages, expectStatus, parseJson } from '@utils/apiChecks';
 import { assertMessage, attachJson } from '@utils/assertHelpers';
 
 // Scenarios: test-scenarios/api/products/post-products.yml
@@ -33,11 +33,11 @@ test.describe('@products-api - Products API', () => {
     );
 
     await test.step('Verify the response status is 201.', async () => {
-      expect(response.status, assertMessage({ request, expected: 'Status 201', actual: response.status })).toBe(201);
+      expectStatus(request, response, 201);
     });
 
     await test.step('Verify the body has a non-empty id.', async () => {
-      created = JSON.parse(response.body) as Product;
+      created = parseJson<Product>(request, response);
       expect(
         typeof created.id === 'string' && created.id.length > 0,
         assertMessage({ request, expected: 'A non-empty id', actual: created.id })
@@ -83,7 +83,7 @@ test.describe('@products-api - Products API', () => {
     });
 
     await test.step('Verify the response status is 422.', async () => {
-      expect(response.status, assertMessage({ request, expected: 'Status 422', actual: response.status })).toBe(422);
+      expectStatus(request, response, 422);
     });
 
     await test.step(
@@ -96,7 +96,7 @@ test.describe('@products-api - Products API', () => {
     );
 
     await test.step('Verify the body\'s name messages include "The name field is required.".', async () => {
-      const messages = (JSON.parse(response.body) as Record<string, unknown>)['name'];
+      const messages = (parseJson<Record<string, unknown>>(request, response))['name'];
       expect(
         Array.isArray(messages) && messages.includes('The name field is required.'),
         assertMessage({ request, expected: 'name messages include "The name field is required."', actual: messages })
@@ -124,7 +124,7 @@ test.describe('@products-api - Products API', () => {
     );
 
     await test.step('Verify the response status is 422.', async () => {
-      expect(response.status, assertMessage({ request, expected: 'Status 422', actual: response.status })).toBe(422);
+      expectStatus(request, response, 422);
     });
 
     await test.step('Verify the body has a name key with at least one message.', async () => {
@@ -152,7 +152,7 @@ test.describe('@products-api - Products API', () => {
     );
 
     await test.step('Verify the response status is 422.', async () => {
-      expect(response.status, assertMessage({ request, expected: 'Status 422', actual: response.status })).toBe(422);
+      expectStatus(request, response, 422);
     });
 
     await test.step('Verify the body has a description key with at least one message.', async () => {
@@ -180,7 +180,7 @@ test.describe('@products-api - Products API', () => {
     );
 
     await test.step('Verify the response status is 422.', async () => {
-      expect(response.status, assertMessage({ request, expected: 'Status 422', actual: response.status })).toBe(422);
+      expectStatus(request, response, 422);
     });
 
     await test.step('Verify the body has a name key with at least one message.', async () => {
@@ -208,7 +208,7 @@ test.describe('@products-api - Products API', () => {
     );
 
     await test.step('Verify the response status is 422.', async () => {
-      expect(response.status, assertMessage({ request, expected: 'Status 422', actual: response.status })).toBe(422);
+      expectStatus(request, response, 422);
     });
 
     await test.step('Verify the body has a description key with at least one message.', async () => {
@@ -244,7 +244,7 @@ test.describe('@products-api - Products API', () => {
     );
 
     await test.step('Verify the response status is 422.', async () => {
-      expect(response.status, assertMessage({ request, expected: 'Status 422', actual: response.status })).toBe(422);
+      expectStatus(request, response, 422);
     });
   });
 
@@ -276,7 +276,7 @@ test.describe('@products-api - Products API', () => {
     );
 
     await test.step('Verify the response status is 422.', async () => {
-      expect(response.status, assertMessage({ request, expected: 'Status 422', actual: response.status })).toBe(422);
+      expectStatus(request, response, 422);
     });
   });
 
@@ -308,7 +308,7 @@ test.describe('@products-api - Products API', () => {
     );
 
     await test.step('Verify the response status is 422.', async () => {
-      expect(response.status, assertMessage({ request, expected: 'Status 422', actual: response.status })).toBe(422);
+      expectStatus(request, response, 422);
     });
   });
 
@@ -328,7 +328,7 @@ test.describe('@products-api - Products API', () => {
     );
 
     await test.step('Verify the response status is 401.', async () => {
-      expect(response.status, assertMessage({ request, expected: 'Status 401', actual: response.status })).toBe(401);
+      expectStatus(request, response, 401);
     });
   });
 
@@ -352,34 +352,34 @@ test.describe('@products-api - Products API', () => {
         'Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental false, co2_rating "A" and stock 10, and take the new product\'s id.',
         async () => {
           const body = ProductFactory.createProduct(refs, { co2_rating: 'A', stock: 10 });
-          ({ request, response } = await sendCreateProduct(productsClientWithToken, body, adminProductsService, cleanup, "admin's token"));
-          if (response.isSuccess) productId = (JSON.parse(response.body) as Product).id;
+          ({ request, response } = await sendCreateProduct(productsClientWithToken, body, adminProductsService, cleanup, AUTH.admin));
+          if (response.isSuccess) productId = (parseJson<Product>(request, response)).id;
         }
       );
 
       await test.step('Verify the response status is 201.', async () => {
-        expect(response.status, assertMessage({ request, expected: 'Status 201', actual: response.status })).toBe(201);
+        expectStatus(request, response, 201);
       });
 
       await test.step('Verify the body\'s co2_rating is "A".', async () => {
-        const created = JSON.parse(response.body) as Product;
+        const created = parseJson<Product>(request, response);
         expect(created.co2_rating, assertMessage({ request, expected: 'co2_rating is "A"', actual: created.co2_rating })).toBe('A');
       });
 
       await test.step("Send GET /products/{productId} with the new id and the admin token.", async () => {
-        await attachJson('Get Product Request', { method: 'GET', path: `/products/${productId}`, auth: "admin's token" });
+        await attachJson('Get Product Request', { method: 'GET', path: `/products/${productId}`, auth: AUTH.admin });
         product = await adminProductsService.getById(productId);
         await attachJson('Get Product Response', product);
       });
 
       await test.step('Verify its co2_rating is "A" and its is_eco_friendly is true.', async () => {
-        const getRequest = { method: 'GET', path: `/products/${productId}`, auth: "admin's token" };
+        const getRequest = { method: 'GET', path: `/products/${productId}`, auth: AUTH.admin };
         expect(product.co2_rating, assertMessage({ request: getRequest, expected: 'co2_rating is "A"', actual: product.co2_rating })).toBe('A');
         expect(product.is_eco_friendly, assertMessage({ request: getRequest, expected: 'is_eco_friendly is true', actual: product.is_eco_friendly })).toBe(true);
       });
 
       await test.step('Verify its in_stock is 10.', async () => {
-        const getRequest = { method: 'GET', path: `/products/${productId}`, auth: "admin's token" };
+        const getRequest = { method: 'GET', path: `/products/${productId}`, auth: AUTH.admin };
         expect(product.in_stock, assertMessage({ request: getRequest, expected: 'in_stock is 10 (the stock count)', actual: product.in_stock })).toBe(10);
       });
     });

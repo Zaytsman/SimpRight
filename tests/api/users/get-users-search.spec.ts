@@ -1,16 +1,4 @@
-import {
-  test,
-  expect,
-  registerThrowawayCustomer,
-  attachUserPageResponse,
-  expectAllCustomers,
-  expectCurrentPages,
-  expectNoSharedIds,
-  expectOnlyUser,
-  expectStatusHidingBody,
-  expectUserPageKeys,
-  userPageSummary,
-} from '@fixtures';
+import { test, expect, registerThrowawayCustomer, attachUserPageResponse, expectAllCustomers, expectCurrentPages, expectNoSharedIds, expectOnlyUser, expectStatusHidingBody, expectUserPageKeys, userPageSummary, AUTH } from '@fixtures';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import { userSearchQuery, type UsersClient } from '@api/clients/UsersClient';
 import type { UsersService } from '@api/services/UsersService';
@@ -18,7 +6,7 @@ import type { Paginated } from '@api/dto/common';
 import type { User } from '@api/dto/user';
 import { UserFactory } from '@data/factories/UserFactory';
 import { uniqueName } from '@data/factories/testDataUtils';
-import { expectMessage, expectStatus } from '@utils/apiChecks';
+import { expectMessage, expectStatus, parseJson } from '@utils/apiChecks';
 import { assertMessage, attachJson } from '@utils/assertHelpers';
 
 // Scenarios: test-scenarios/api/users/get-users-search.yml
@@ -42,7 +30,7 @@ async function sendSearch(
   return { request, response, body };
 }
 
-const ADMIN = "admin's token";
+const ADMIN = AUTH.admin;
 
 /** Gets a page of GET /users/search (no q) as admin through the service (a happy path) and attaches the request and the page's summary. */
 async function searchPage(adminUsersService: UsersService, page: number): Promise<Paginated<User>> {
@@ -74,7 +62,7 @@ test.describe('@users-api - Users API', () => {
 
       await test.step('Verify the response status is 200.', async () => {
         expectStatus(request, response, 200);
-        page = JSON.parse(response.body) as Paginated<User>;
+        page = parseJson<Paginated<User>>(request, response);
       });
 
       await test.step('Verify the body has the keys current_page, data, from, last_page, per_page, to and total.', async () => {
@@ -108,7 +96,7 @@ test.describe('@users-api - Users API', () => {
       });
 
       await test.step("Verify the body's total is 1 and data has exactly one item, whose id is the new user's id.", async () => {
-        expectOnlyUser(request, JSON.parse(response.body) as Paginated<User>, customer.id);
+        expectOnlyUser(request, parseJson<Paginated<User>>(request, response), customer.id);
       });
     });
 
@@ -132,7 +120,7 @@ test.describe('@users-api - Users API', () => {
       });
 
       await test.step("Verify the body's total is 1 and data has exactly one item, whose id is the new user's id.", async () => {
-        expectOnlyUser(request, JSON.parse(response.body) as Paginated<User>, customer.id);
+        expectOnlyUser(request, parseJson<Paginated<User>>(request, response), customer.id);
       });
     });
 
@@ -156,7 +144,7 @@ test.describe('@users-api - Users API', () => {
       });
 
       await test.step("Verify the body's total is 1 and data has exactly one item, whose id is the new user's id.", async () => {
-        expectOnlyUser(request, JSON.parse(response.body) as Paginated<User>, customer.id);
+        expectOnlyUser(request, parseJson<Paginated<User>>(request, response), customer.id);
       });
     });
 
@@ -172,7 +160,7 @@ test.describe('@users-api - Users API', () => {
 
       await test.step('Verify the response status is 200.', async () => {
         expectStatus(request, response, 200);
-        page = JSON.parse(response.body) as Paginated<User>;
+        page = parseJson<Paginated<User>>(request, response);
       });
 
       await test.step("Verify the body's total is 0.", async () => {
@@ -197,7 +185,7 @@ test.describe('@users-api - Users API', () => {
 
       await test.step('Verify the response status is 200.', async () => {
         expectStatus(request, response, 200);
-        page = JSON.parse(response.body) as Paginated<User>;
+        page = parseJson<Paginated<User>>(request, response);
       });
 
       await test.step("Verify the body's per_page is 15 and data is not empty.", async () => {
@@ -258,7 +246,7 @@ test.describe('@users-api - Users API', () => {
     let response: ApiResponse;
 
     await test.step("Send GET /users/search with q set to a letter and the default user's token.", async () => {
-      ({ request, response } = await sendSearch(usersClientWithToken, "default user's token", { q: 'a' }));
+      ({ request, response } = await sendSearch(usersClientWithToken, AUTH.defaultUser, { q: 'a' }));
     });
 
     // The bug returns other customers' details: the failure message shows only the status.

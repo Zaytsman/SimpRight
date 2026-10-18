@@ -1,7 +1,7 @@
 import { test, expect, expectBrandItems } from '@fixtures';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { Brand } from '@api/dto/brand';
-import { expectStatus } from '@utils/apiChecks';
+import { expectStatus, parseJson } from '@utils/apiChecks';
 import { assertMessage, attachJson } from '@utils/assertHelpers';
 
 // Scenarios: test-scenarios/api/brands/get-brands.yml
@@ -20,7 +20,7 @@ test.describe('@brands-api - Brands API', () => {
 
     await test.step('Verify the response status is 200.', async () => {
       expectStatus(request, response, 200);
-      body = JSON.parse(response.body) as Brand[];
+      body = parseJson<Brand[]>(request, response);
     });
 
     await test.step('Verify the body is a non-empty array.', async () => {

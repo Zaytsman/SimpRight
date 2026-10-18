@@ -1,10 +1,10 @@
-import { test, expect, createBrand, readBrand, takeOtherBrandSlug, BRAND_CREATE_ID_SLUG_STEP } from '@fixtures';
+import { test, expect, createBrand, readBrand, takeOtherBrandSlug, BRAND_CREATE_ID_SLUG_STEP, AUTH, sendAndAttach } from '@fixtures';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { BrandsClient } from '@api/clients/BrandsClient';
 import { TestConstants } from '@data/TestConstants';
 import { BrandFactory } from '@data/factories/BrandFactory';
 import { expectFieldMessageIncludes, expectFieldMessages, expectMessage, expectStatus, expectSuccess } from '@utils/apiChecks';
-import { assertMessage, attachJson } from '@utils/assertHelpers';
+import { assertMessage } from '@utils/assertHelpers';
 
 // Scenarios: test-scenarios/api/brands/put-brands-by-brand-id.yml
 
@@ -18,10 +18,7 @@ async function sendPutBrand(
   auth: string
 ): Promise<{ request: PutBrandRequest; response: ApiResponse }> {
   const request: PutBrandRequest = { method: 'PUT', path: `/brands/${brandId}`, auth, body };
-  const response = await brandsClient.update(brandId, body);
-  await attachJson('Update Brand Request', request);
-  await attachJson('Update Brand Response', { status: response.status, body: response.body });
-  return { request, response };
+  return sendAndAttach('Update Brand', request, () => brandsClient.update(brandId, body));
 }
 
 test.describe('@brands-api - Brands API', () => {
@@ -36,7 +33,7 @@ test.describe('@brands-api - Brands API', () => {
       const brand = await createBrand(adminBrandsService, cleanup);
 
       await test.step("Send PUT /brands/{brandId} with that id and a body with a new unique brand name and a new unique slug, with the admin's token.", async () => {
-        ({ request, response } = await sendPutBrand(brandsClientWithToken, brand.id, body, "admin's token"));
+        ({ request, response } = await sendPutBrand(brandsClientWithToken, brand.id, body, AUTH.admin));
       });
 
       await test.step('Verify the response status is 200.', async () => {
@@ -66,7 +63,7 @@ test.describe('@brands-api - Brands API', () => {
       await test.step(
         "Send PUT /brands/{brandId} with that id and a body with only a 121-character name that starts with a unique brand name, with the admin's token.",
         async () => {
-          ({ request, response } = await sendPutBrand(brandsClientWithToken, brand.id, BrandFactory.updateNameTooLong(), "admin's token"));
+          ({ request, response } = await sendPutBrand(brandsClientWithToken, brand.id, BrandFactory.updateNameTooLong(), AUTH.admin));
         }
       );
 
@@ -92,7 +89,7 @@ test.describe('@brands-api - Brands API', () => {
       await test.step(
         'Send PUT /brands/{brandId} with that id and a body with only a slug made of a unique slug followed by " x!" (a space and an exclamation mark), with the admin\'s token.',
         async () => {
-          ({ request, response } = await sendPutBrand(brandsClientWithToken, brand.id, BrandFactory.updateInvalidSlug(), "admin's token"));
+          ({ request, response } = await sendPutBrand(brandsClientWithToken, brand.id, BrandFactory.updateInvalidSlug(), AUTH.admin));
         }
       );
 
@@ -112,7 +109,7 @@ test.describe('@brands-api - Brands API', () => {
       const brand = await createBrand(adminBrandsService, cleanup);
 
       await test.step("Send PUT /brands/{brandId} with that id and a body with only name set to the number 123, with the admin's token.", async () => {
-        ({ request, response } = await sendPutBrand(brandsClientWithToken, brand.id, BrandFactory.nameNotString(), "admin's token"));
+        ({ request, response } = await sendPutBrand(brandsClientWithToken, brand.id, BrandFactory.nameNotString(), AUTH.admin));
       });
 
       await test.step('Verify the response status is 422.', async () => {
@@ -132,7 +129,7 @@ test.describe('@brands-api - Brands API', () => {
       const otherSlug = await takeOtherBrandSlug(brandsService, brand.id);
 
       await test.step("Send PUT /brands/{brandId} with the new brand's id and a body with only that other slug, with the admin's token.", async () => {
-        ({ request, response } = await sendPutBrand(brandsClientWithToken, brand.id, BrandFactory.updateSlug(otherSlug), "admin's token"));
+        ({ request, response } = await sendPutBrand(brandsClientWithToken, brand.id, BrandFactory.updateSlug(otherSlug), AUTH.admin));
       });
 
       await test.step('Verify the response status is 409.', async () => {
@@ -161,7 +158,7 @@ test.describe('@brands-api - Brands API', () => {
       test.fail(true, 'Known issue BUG-012: Returns { message: "Duplicate Entry" } instead of the slug\'s validation message for a duplicate slug.');
 
       await test.step("Send PUT /brands/{brandId} with the new brand's id and a body with only that other slug, with the admin's token.", async () => {
-        ({ request, response } = await sendPutBrand(brandsClientWithToken, brand.id, BrandFactory.updateSlug(otherSlug), "admin's token"));
+        ({ request, response } = await sendPutBrand(brandsClientWithToken, brand.id, BrandFactory.updateSlug(otherSlug), AUTH.admin));
       });
 
       await test.step('Verify the body\'s slug messages include "A brand already exists with this slug.".', async () => {

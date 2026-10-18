@@ -5,7 +5,7 @@ import type { Paginated } from '@api/dto/common';
 import type { CreateGuestInvoiceRequest, InvoiceCreated, InvoiceSummary } from '@api/dto/invoice';
 import { TestConstants } from '@data/TestConstants';
 import { InvoiceFactory } from '@data/factories/InvoiceFactory';
-import { expectErrorKeys, expectMessage, expectStatus } from '@utils/apiChecks';
+import { expectErrorKeys, expectMessage, expectStatus, parseJson } from '@utils/apiChecks';
 import { assertMessage } from '@utils/assertHelpers';
 
 // Scenarios: test-scenarios/api/invoices/post-invoices-guest.yml
@@ -64,7 +64,7 @@ async function searchAndExpectNoInvoiceLeft(invoicesClientWithToken: InvoicesCli
   });
 
   await test.step("Verify the body's total is 0.", async () => {
-    const page = response.isSuccess ? (JSON.parse(response.body) as Paginated<InvoiceSummary>) : undefined;
+    const page = response.isSuccess ? (parseJson<Paginated<InvoiceSummary>>(request, response)) : undefined;
     expect(
       page?.total,
       assertMessage({ request, expected: 'total is 0', actual: page ? invoicePageSummary(page) : { status: response.status, body: response.body.slice(0, 500) } })
@@ -101,7 +101,7 @@ test.describe('@invoices-api - Invoices API', () => {
       await test.step(
         'Verify the body has the keys id, user_id, invoice_number, invoice_date, billing_street, billing_city, billing_country, subtotal, total and created_at.',
         async () => {
-          created = JSON.parse(response.body) as InvoiceCreated;
+          created = parseJson<InvoiceCreated>(request, response);
           expectKeys(request, created, CREATED_KEYS);
         }
       );

@@ -6,7 +6,7 @@ import type { Product, ProductListQuery, ProductQueryBody } from '@api/dto/produ
 import type { ProductsService } from '@api/services/ProductsService';
 import { TestConstants } from '@data/TestConstants';
 import { PRODUCT_NAME_PREFIX } from '@data/factories/ProductFactory';
-import { expectAcceptQuery } from '@utils/apiChecks';
+import { expectAcceptQuery, expectStatus, parseJson } from '@utils/apiChecks';
 import { assertMessage, attachJson } from '@utils/assertHelpers';
 
 // Scenarios: test-scenarios/api/products/query-products.yml
@@ -41,8 +41,8 @@ async function sendQuery(
 
 /** The checks of a "Verify the response status is 200." step; returns the parsed body. */
 function expectQueryOk(request: QueryRequest, response: ApiResponse): Paginated<Product> {
-  expect(response.status, assertMessage({ request, expected: 'Status 200', actual: response.status })).toBe(200);
-  return JSON.parse(response.body) as Paginated<Product>;
+  expectStatus(request, response, 200);
+  return parseJson<Paginated<Product>>(request, response);
 }
 
 /**
@@ -168,11 +168,11 @@ test.describe('@products-api - Products API', () => {
     });
 
     await test.step('Verify the response status is 415.', async () => {
-      expect(response.status, assertMessage({ request, expected: 'Status 415', actual: response.status })).toBe(415);
+      expectStatus(request, response, 415);
     });
 
     await test.step('Verify the body\'s message is "QUERY requests must use Content-Type: application/json".', async () => {
-      const body = JSON.parse(response.body) as { message?: string };
+      const body = parseJson<{ message?: string }>(request, response);
       expect(
         body.message,
         assertMessage({ request, expected: 'message is "QUERY requests must use Content-Type: application/json"', actual: body })
@@ -189,7 +189,7 @@ test.describe('@products-api - Products API', () => {
     });
 
     await test.step('Verify the response status is 415.', async () => {
-      expect(response.status, assertMessage({ request, expected: 'Status 415', actual: response.status })).toBe(415);
+      expectStatus(request, response, 415);
     });
 
     await test.step('Verify the body is an HTML page, not JSON.', async () => {

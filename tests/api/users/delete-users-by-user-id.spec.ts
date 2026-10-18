@@ -1,4 +1,4 @@
-import { test, expect, registerThrowawayCustomer, loginThrowawayCustomer, takeFirstProductId } from '@fixtures';
+import { test, expect, registerThrowawayCustomer, loginThrowawayCustomer, takeFirstProductId, AUTH, sendAndAttach } from '@fixtures';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { UsersClient } from '@api/clients/UsersClient';
 import { TestConstants } from '@data/TestConstants';
@@ -12,15 +12,12 @@ type DeleteUserRequest = { method: 'DELETE'; path: string; auth: string };
 /** Sends DELETE /users/{userId} with the given client (`auth` describes its token) and attaches the request and the response. */
 async function sendDeleteUser(client: UsersClient, userId: string, auth: string): Promise<{ request: DeleteUserRequest; response: ApiResponse }> {
   const request: DeleteUserRequest = { method: 'DELETE', path: `/users/${userId}`, auth };
-  const response = await client.deleteById(userId);
-  await attachJson('Delete User Request', request);
-  await attachJson('Delete User Response', { status: response.status, body: response.body });
-  return { request, response };
+  return sendAndAttach('Delete User', request, () => client.deleteById(userId));
 }
 
 /** The checks of a "Verify GET /users/{userId} with that id and the admin's token returns <status>." step. */
 async function expectGetUserStatus(adminUsersClient: UsersClient, userId: string, status: number): Promise<void> {
-  const request = { method: 'GET', path: `/users/${userId}`, auth: "admin's token" };
+  const request = { method: 'GET', path: `/users/${userId}`, auth: AUTH.admin };
   const response = await adminUsersClient.getById(userId);
   await attachJson('Get User Request', request);
   await attachJson('Get User Response', { status: response.status, body: response.body });
@@ -39,7 +36,7 @@ test.describe('@users-api - Users API', () => {
       const customer = await registerThrowawayCustomer(usersService, adminUsersService, cleanup, { ifExists: true });
 
       await test.step("Send DELETE /users/{userId} with the new user's id and the admin's token.", async () => {
-        ({ request, response } = await sendDeleteUser(usersClientWithToken, customer.id, "admin's token"));
+        ({ request, response } = await sendDeleteUser(usersClientWithToken, customer.id, AUTH.admin));
       });
 
       await test.step('Verify the response status is 204.', async () => {
@@ -109,7 +106,7 @@ test.describe('@users-api - Users API', () => {
       });
 
       await test.step("Send DELETE /users/{userId} with the new user's id and the admin's token.", async () => {
-        ({ request, response } = await sendDeleteUser(usersClientWithToken, customer.id, "admin's token"));
+        ({ request, response } = await sendDeleteUser(usersClientWithToken, customer.id, AUTH.admin));
       });
 
       await test.step('Verify the response status is 409.', async () => {
@@ -135,7 +132,7 @@ test.describe('@users-api - Users API', () => {
       let response: ApiResponse;
 
       await test.step("Send DELETE /users/{userId} with a well-formed ULID that no user has and the admin's token.", async () => {
-        ({ request, response } = await sendDeleteUser(usersClientWithToken, TestConstants.users.unknownId, "admin's token"));
+        ({ request, response } = await sendDeleteUser(usersClientWithToken, TestConstants.users.unknownId, AUTH.admin));
       });
 
       await test.step('Verify the response status is 404.', async () => {

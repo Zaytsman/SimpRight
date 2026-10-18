@@ -1,22 +1,9 @@
-import {
-  ADD_PRODUCT_STEP,
-  test,
-  expect,
-  takeProductRefs,
-  createCartProduct,
-  createCart,
-  addItemSetup,
-  NON_RENTAL_PRODUCT_STEP,
-  RENTAL_PRODUCT_STEP,
-  ADD_NON_RENTAL_STEP,
-  ADD_RENTAL_STEP,
-  CART_PRODUCT_IN_STOCK_STEP,
-} from '@fixtures';
+import { ADD_PRODUCT_STEP, test, expect, takeProductRefs, createCartProduct, createCart, addItemSetup, NON_RENTAL_PRODUCT_STEP, RENTAL_PRODUCT_STEP, ADD_NON_RENTAL_STEP, ADD_RENTAL_STEP, CART_PRODUCT_IN_STOCK_STEP, AUTH } from '@fixtures';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { CartsClient } from '@api/clients/CartsClient';
 import type { Cart, CartItem } from '@api/dto/cart';
 import { TestConstants } from '@data/TestConstants';
-import { expectMessage, expectStatus } from '@utils/apiChecks';
+import { expectMessage, expectStatus, parseJson } from '@utils/apiChecks';
 import { assertMessage, attachJson } from '@utils/assertHelpers';
 
 // Scenarios: test-scenarios/api/carts/get-carts-by-cart-id.yml
@@ -59,7 +46,7 @@ test.describe('@carts-api - Carts API', () => {
 
     await test.step('Verify the response status is 200.', async () => {
       expectStatus(request, response, 200);
-      cart = JSON.parse(response.body) as Cart;
+      cart = parseJson<Cart>(request, response);
     });
 
     await test.step('Verify the Cache-Control header contains no-cache and private.', async () => {
@@ -131,7 +118,7 @@ test.describe('@carts-api - Carts API', () => {
       await addItemSetup(cartsService, cartId, productId, 1, ADD_PRODUCT_STEP);
 
       await test.step("Send GET /carts/{cartId} with the cart's id, with the admin's token.", async () => {
-        ({ request, response } = await sendGetCart(cartsClientWithToken, cartId, "admin's token"));
+        ({ request, response } = await sendGetCart(cartsClientWithToken, cartId, AUTH.admin));
       });
 
       await test.step('Verify the response status is 200.', async () => {
@@ -139,7 +126,7 @@ test.describe('@carts-api - Carts API', () => {
       });
 
       await test.step("Verify the only item's product in_stock is the number 10.", async () => {
-        const item = onlyItem(request, JSON.parse(response.body) as Cart);
+        const item = onlyItem(request, parseJson<Cart>(request, response));
         expect(item.product.in_stock, assertMessage({ request, expected: 'in_stock is the number 10', actual: item.product })).toBe(10);
       });
     });
@@ -207,7 +194,7 @@ test.describe('@carts-api - Carts API', () => {
 
     await test.step('Verify the response status is 200.', async () => {
       expectStatus(request, response, 200);
-      cart = JSON.parse(response.body) as Cart;
+      cart = parseJson<Cart>(request, response);
     });
 
     await test.step('Verify cart_items has exactly two items.', async () => {

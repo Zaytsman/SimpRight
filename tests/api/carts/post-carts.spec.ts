@@ -1,7 +1,7 @@
 import { test, expect, getCartOk, type TestFixtures } from '@fixtures';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { Cart, CreateCartRequest, CreateCartResponse } from '@api/dto/cart';
-import { expectStatus } from '@utils/apiChecks';
+import { expectStatus, parseJson } from '@utils/apiChecks';
 import { assertMessage, attachJson } from '@utils/assertHelpers';
 
 // Scenarios: test-scenarios/api/carts/post-carts.yml
@@ -19,7 +19,7 @@ async function sendCreateCart(
   const request: CreateCartRequestInfo = { method: 'POST', path: '/carts', body };
   const response = await cartsClient.create(body);
   if (response.isSuccess) {
-    const id = (JSON.parse(response.body) as Partial<CreateCartResponse>).id;
+    const id = (parseJson<Partial<CreateCartResponse>>(request, response)).id;
     if (id) cleanup.add(() => cartsService.deleteIfExists(id));
   }
   await attachJson('Create Cart Request', request);
@@ -42,7 +42,7 @@ test.describe('@carts-api - Carts API', () => {
     });
 
     await test.step("Verify the body's id is a non-empty string.", async () => {
-      const body = JSON.parse(response.body) as Partial<CreateCartResponse>;
+      const body = parseJson<Partial<CreateCartResponse>>(request, response);
       expect(typeof body.id === 'string' && body.id.length > 0, assertMessage({ request, expected: 'id is a non-empty string', actual: body })).toBe(true);
       cartId = body.id!;
     });
@@ -67,7 +67,7 @@ test.describe('@carts-api - Carts API', () => {
     await test.step("Send POST /carts with lat 52 and lng 5 and take the returned id as the cart's id.", async () => {
       ({ request, response } = await sendCreateCart({ cartsClient, cartsService, cleanup }, body));
       // Parsed only after a successful status: a failed request may not return JSON.
-      cartId = response.isSuccess ? ((JSON.parse(response.body) as Partial<CreateCartResponse>).id ?? '') : '';
+      cartId = response.isSuccess ? ((parseJson<Partial<CreateCartResponse>>(request, response)).id ?? '') : '';
     });
 
     await test.step('Verify the response status is 201.', async () => {

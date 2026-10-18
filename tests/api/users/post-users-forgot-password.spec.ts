@@ -1,10 +1,10 @@
-import { test, expect, registerThrowawayCustomer, expectLoginSucceeds } from '@fixtures';
+import { test, expect, registerThrowawayCustomer, expectLoginSucceeds, sendAndAttach } from '@fixtures';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { UsersClient } from '@api/clients/UsersClient';
 import type { MessageErrorBody } from '@api/dto/user';
 import { UserFactory } from '@data/factories/UserFactory';
-import { assertMessage, attachJson } from '@utils/assertHelpers';
-import { expectErrorKeys, expectStatus, expectSuccess } from '@utils/apiChecks';
+import { assertMessage } from '@utils/assertHelpers';
+import { expectErrorKeys, expectStatus, expectSuccess, parseJson } from '@utils/apiChecks';
 
 // Scenarios: test-scenarios/api/users/post-users-forgot-password.yml
 
@@ -16,10 +16,7 @@ const RESET_PASSWORD = 'welcome02';
 /** Sends POST /users/forgot-password (no token) and attaches the request and the response. */
 async function sendForgotPassword(client: UsersClient, body: Record<string, unknown>): Promise<{ request: ForgotPasswordRequestInfo; response: ApiResponse }> {
   const request: ForgotPasswordRequestInfo = { method: 'POST', path: '/users/forgot-password', body };
-  const response = await client.forgotPassword(body);
-  await attachJson('Forgot Password Request', request);
-  await attachJson('Forgot Password Response', { status: response.status, body: response.body });
-  return { request, response };
+  return sendAndAttach('Forgot Password', request, () => client.forgotPassword(body));
 }
 
 test.describe('@users-api - Users API', () => {
@@ -66,7 +63,7 @@ test.describe('@users-api - Users API', () => {
     });
 
     await test.step('Verify the body\'s message is "Requested item not found".', async () => {
-      const body = JSON.parse(response.body) as MessageErrorBody;
+      const body = parseJson<MessageErrorBody>(request, response);
       expect(body.message, assertMessage({ request, expected: 'message is "Requested item not found"', actual: body })).toBe('Requested item not found');
     });
   });

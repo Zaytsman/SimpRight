@@ -1,11 +1,11 @@
-import { test, expect, expectSlugsInclude, expectSubCategoriesOf } from '@fixtures';
+import { test, expect, expectSlugsInclude, expectSubCategoriesOf, sendAndAttach } from '@fixtures';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { CategoriesClient } from '@api/clients/CategoriesClient';
 import type { CategoryTree } from '@api/dto/category';
 import { TestConstants } from '@data/TestConstants';
 import { CategoryFactory } from '@data/factories/CategoryFactory';
-import { expectEmptyArray, expectStatus } from '@utils/apiChecks';
-import { assertMessage, attachJson } from '@utils/assertHelpers';
+import { expectEmptyArray, expectStatus, parseJson } from '@utils/apiChecks';
+import { assertMessage } from '@utils/assertHelpers';
 
 // Scenarios: test-scenarios/api/categories/get-categories-tree.yml
 
@@ -14,10 +14,7 @@ type TreeRequestInfo = { method: 'GET'; path: '/categories/tree'; query: { by_ca
 /** Sends GET /categories/tree (no `by_category_slug` when `bySlug` is undefined) and attaches the request and the response. */
 async function sendTree(categoriesClient: CategoriesClient, bySlug?: string | string[]): Promise<{ request: TreeRequestInfo; response: ApiResponse }> {
   const request: TreeRequestInfo = { method: 'GET', path: '/categories/tree', query: bySlug === undefined ? {} : { by_category_slug: bySlug } };
-  const response = await categoriesClient.tree(bySlug);
-  await attachJson('Category Tree Request', request);
-  await attachJson('Category Tree Response', { status: response.status, body: response.body });
-  return { request, response };
+  return sendAndAttach('Category Tree', request, () => categoriesClient.tree(bySlug));
 }
 
 test.describe('@categories-api - Categories API', () => {
@@ -32,7 +29,7 @@ test.describe('@categories-api - Categories API', () => {
 
     await test.step('Verify the response status is 200.', async () => {
       expectStatus(request, response, 200);
-      body = JSON.parse(response.body) as CategoryTree[];
+      body = parseJson<CategoryTree[]>(request, response);
     });
 
     await test.step("Verify the body is a non-empty array and every item's parent_id is null.", async () => {
@@ -62,7 +59,7 @@ test.describe('@categories-api - Categories API', () => {
 
     await test.step('Verify the response status is 200.', async () => {
       expectStatus(request, response, 200);
-      body = JSON.parse(response.body) as CategoryTree[];
+      body = parseJson<CategoryTree[]>(request, response);
     });
 
     await test.step('Verify the body has exactly one item, whose slug is hand-tools and whose parent_id is null.', async () => {

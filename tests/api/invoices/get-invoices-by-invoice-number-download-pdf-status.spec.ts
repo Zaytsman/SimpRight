@@ -2,14 +2,14 @@ import { test, expect, AUTH, createCustomerInvoice, pollPdfStatus, sendPdfStatus
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { PdfStatusResponse } from '@api/dto/invoice';
 import { TestConstants } from '@data/TestConstants';
-import { expectMessage, expectStatus } from '@utils/apiChecks';
+import { expectMessage, expectStatus, parseJson } from '@utils/apiChecks';
 import { assertMessage } from '@utils/assertHelpers';
 
 // Scenarios: test-scenarios/api/invoices/get-invoices-by-invoice-number-download-pdf-status.yml
 
 /** The checks of a "Verify the body's status is "<status>"." step. */
 function expectPdfStatus(request: InvoiceRequest, response: ApiResponse, status: string): void {
-  const body = JSON.parse(response.body) as Partial<PdfStatusResponse>;
+  const body = parseJson<Partial<PdfStatusResponse>>(request, response);
   expect(body.status, assertMessage({ request, expected: `status is "${status}"`, actual: body })).toBe(status);
 }
 
