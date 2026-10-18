@@ -26,7 +26,7 @@ export default async function globalSetup(): Promise<() => Promise<void>> {
   // A logged-out page inspection (npm run inspect:ui -- <path> --logged-out) needs no user at all.
   if (findInspectRequest()?.role === 'none') return async () => undefined;
 
-  if (process.env.CI) await waitForReseedWindow();
+  if (env.isCI) await waitForReseedWindow();
   await createRunUser();
   try {
     await saveUiLogins();
@@ -60,7 +60,7 @@ async function saveUiLogins(): Promise<void> {
   if (env.uiAuthMode !== 'storageState') return;
 
   const roles = USER_ROLES.filter(
-    (role) => role === 'default' || process.env.CI || !isStorageStateValid(storageStatePath(role))
+    (role) => role === 'default' || env.isCI || !isStorageStateValid(storageStatePath(role))
   );
   const reused = USER_ROLES.filter((role) => !roles.includes(role));
   if (reused.length) console.log(`Reusing saved login for: ${reused.join(', ')}`);

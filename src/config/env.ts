@@ -38,6 +38,8 @@ export type UiAuthMode = 'api' | 'storageState';
 
 export interface EnvConfig {
   name: string;
+  /** From CI (set by GitHub Actions): retries, workers, reporters, headless browser, the re-seed wait. */
+  isCI: boolean;
   /** From UI_AUTH_MODE (default `api`). */
   uiAuthMode: UiAuthMode;
   /** From HEADLESS (`true`/`false`); default: headless on CI, a visible browser locally. */
@@ -63,8 +65,8 @@ function parseUiAuthMode(raw: string | undefined): UiAuthMode {
   return mode;
 }
 
-function parseHeadless(raw: string | undefined): boolean {
-  if (raw === undefined || raw === '') return !!process.env.CI;
+function parseHeadless(raw: string | undefined, isCI: boolean): boolean {
+  if (raw === undefined || raw === '') return isCI;
   if (raw !== 'true' && raw !== 'false') {
     throw new Error(`Unknown HEADLESS=${raw}. Available: true, false`);
   }
@@ -89,6 +91,15 @@ function assertPositiveNumber(value: unknown, field: string, file: string): numb
   return value;
 }
 
+/** `src/envs/<ENV>.json` as read, before validation. */
+interface RawEnvFile {
+  baseUrl?: unknown;
+  apiBaseUrl?: unknown;
+  defaultTimeoutMs?: unknown;
+  extendedTimeoutMs?: unknown;
+  testUsers?: Partial<Record<ConfiguredRole, { username?: unknown; password?: unknown }>>;
+}
+
 function loadEnv(): EnvConfig {
   const name = (process.env.TEST_ENV ?? DEFAULT_ENV).toUpperCase();
   const file = `src/envs/${name}.json`;
@@ -97,21 +108,23 @@ function loadEnv(): EnvConfig {
     throw new Error(`Unknown TEST_ENV=${name}. Available: ${availableEnvs().join(', ')}`);
   }
 
-  const raw = resolvePlaceholders(JSON.parse(fs.readFileSync(filePath, 'utf-8')) as Record<string, any>);
+  const raw = resolvePlaceholders(JSON.parse(fs.readFileSync(filePath, 'utf-8')) as RawEnvFile);
 
   const testUsers = {} as Record<ConfiguredRole, TestUser>;
   for (const role of CONFIGURED_ROLES) {
     const user = raw.testUsers?.[role];
-    if (!user?.username || !user?.password) {
+    if (typeof user?.username !== 'string' || !user.username || typeof user.password !== 'string' || !user.password) {
       throw new Error(`${file}: testUsers.${role} must have "username" and "password"`);
     }
     testUsers[role] = { username: user.username, password: user.password };
   }
 
+  const isCI = !!process.env.CI;
   return Object.freeze({
     name,
+    isCI,
     uiAuthMode: parseUiAuthMode(process.env.UI_AUTH_MODE),
-    headless: parseHeadless(process.env.HEADLESS),
+    headless: parseHeadless(process.env.HEADLESS, isCI),
     baseUrl: assertUrl(raw.baseUrl, 'baseUrl', file),
     apiBaseUrl: assertUrl(raw.apiBaseUrl, 'apiBaseUrl', file),
     defaultTimeoutMs: assertPositiveNumber(raw.defaultTimeoutMs, 'defaultTimeoutMs', file),

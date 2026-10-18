@@ -37,7 +37,7 @@ npm run bugs:build                # Bugs page into test-results/bugs/ (open inde
 - `inspect` project: the page inspector, for writing UI tests and scenarios. `npm run inspect:ui -- <path> [--role <role> | --logged-out] [--then <step> ...]` (`scripts/inspect-ui.mts`) opens a page as a role (default: the run's customer), makes the listed steps (`click:<data-test>`, `check:<label>` for a filter checkbox, `select:<data-test>=<option label>` for a list option), waits until the page stops changing, and prints every `data-test` element (grouped, with role, label or text, declared field limits, visibility) and the page's accessibility tree; the output is masked like the reports and saved in `test-results/inspect/`. The project exists only while the wrapper sets `SIMPRIGHT_INSPECT` (read by `findInspectRequest()` in `env.ts`), so `npm test` never runs it. It's read-only: its steps change only what the page shows; it never types or submits. Its spec (`scripts/inspect-ui/inspect-page.spec.ts`) is a tool, so it calls `page.goto` itself.
 - `testIdAttribute` is `data-test` (`TEST_ID_ATTRIBUTE` in `BasePage.ts`), which is what the site uses. Prefer `page.getByTestId(...)` locators.
 - `trace: 'off'` for every project: a trace stores every request and response unmasked (the login bodies with passwords, tokens, other visitors' data), and the reports are published. Don't turn it back on; screenshots and videos of UI failures stay.
-- On CI (`CI` set): 1 retry, 2 workers, JUnit output and `forbidOnly`.
+- On CI (`CI` set, read as `env.isCI`): 1 retry, 2 workers, JUnit output and `forbidOnly`.
 
 ## Fixtures
 

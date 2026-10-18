@@ -5,7 +5,7 @@ import type { BaseOptions } from './src/fixtures/base';
 import type { UiOptions } from './src/ui/fixtures/fixtures';
 import { TEST_ID_ATTRIBUTE } from './src/ui/pages/BasePage';
 
-const isCI = !!process.env.CI;
+const { isCI } = env;
 // Set only by `npm run inspect:ui` (scripts/inspect-ui.mts); a normal run has no `inspect` project.
 const inspectRequest = findInspectRequest();
 
