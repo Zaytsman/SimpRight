@@ -12,6 +12,7 @@ The framework must be installed and configured first: see [Installation & Setup]
 |---|---|
 | `npm test` | Everything: the `api` and `ui` projects |
 | `npm run test:api` | API tests only |
+| `npm run test:smoke` | The smoke set: tests tagged `@smoke` of both projects (2-3 minutes) |
 | `npm run test:ui` | UI tests only |
 | `npx playwright test tests/ui/cart/` | One folder |
 | `npx playwright test tests/api/users/post-users-login.spec.ts` | One file |

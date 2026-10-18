@@ -4,6 +4,7 @@ tags: ["@products-api"]
 scenarios:
   - id: API-0002
     name: List products returns the first page of non-rental products
+    tags: ["@smoke"]
     status: automated
     automatedIn: tests/api/products/get-products.spec.ts
     steps:
@@ -27,6 +28,7 @@ scenarios:
       - Verify data is not empty and every item's brand id equals that brand id.
   - id: API-0004
     name: Filter by category returns only that category's products
+    tags: ["@smoke"]
     status: automated
     automatedIn: tests/api/products/get-products.spec.ts
     steps:

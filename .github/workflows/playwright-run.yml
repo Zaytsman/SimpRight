@@ -1,13 +1,13 @@
 name: Playwright Run (reusable)
 
-# Shared job for all test workflows: runs one Playwright project and publishes
+# Shared job for all test workflows: runs one Playwright project (or all of them) and publishes
 # the report to GitHub Pages (gh-pages branch) under the given report family.
 
 on:
   workflow_call:
     inputs:
       project:
-        description: 'Playwright project: ui or api'
+        description: 'Playwright project: ui, api, or all (both in one run, e.g. the smoke set)'
         required: true
         type: string
       family:
@@ -64,14 +64,14 @@ jobs:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Cache Playwright browsers
-        if: inputs.project == 'ui'
+        if: inputs.project != 'api'
         uses: actions/cache@v6
         with:
           path: ~/.cache/ms-playwright
           key: playwright-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
 
       - name: Install Playwright browsers
-        if: inputs.project == 'ui'
+        if: inputs.project != 'api'
         run: npm run install:browsers
 
       - name: Typecheck
@@ -81,13 +81,15 @@ jobs:
         id: tests
         continue-on-error: true
         env:
-          # UI runs only hit the API to log in, so their API coverage would be misleading.
-          DISABLE_API_COVERAGE: ${{ inputs.project == 'ui' && 'true' || 'false' }}
+          # UI runs only hit the API to log in, and a mixed run (all) covers a few endpoints only,
+          # so their API coverage would be misleading.
+          DISABLE_API_COVERAGE: ${{ inputs.project != 'api' && 'true' || 'false' }}
           PROJECT: ${{ inputs.project }}
           SPEC_PATHS: ${{ inputs.paths }}
           GREP: ${{ inputs.grep }}
         run: |
-          args=(--project="$PROJECT")
+          args=()
+          [ "$PROJECT" != all ] && args+=(--project="$PROJECT")
           [ -n "$GREP" ] && args+=(--grep "$GREP")
           # SPEC_PATHS is a space-separated list of spec folders/files.
           npx playwright test "${args[@]}" $SPEC_PATHS

@@ -10,7 +10,7 @@ import { assertMessage, attachJson } from '@utils/assertHelpers';
 type Request = CreateProductRequestInfo;
 
 test.describe('@products-api - Products API', () => {
-  test('API-0033: Create product returns 201 with the new product', async ({
+  test('API-0033: Create product returns 201 with the new product', { tag: '@smoke' }, async ({
     productsService,
     adminProductsService,
     productsClient,

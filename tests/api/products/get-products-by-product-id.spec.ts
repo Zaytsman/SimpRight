@@ -6,7 +6,7 @@ import { assertMessage, attachJson } from '@utils/assertHelpers';
 
 // Scenarios: test-scenarios/api/products/get-products-by-product-id.yml
 test.describe('@products-api - Products API', () => {
-  test('API-0020: Get product returns the product with its category, brand, image and specs', async ({
+  test('API-0020: Get product returns the product with its category, brand, image and specs', { tag: '@smoke' }, async ({
     productsService,
     productsClient,
   }) => {

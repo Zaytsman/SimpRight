@@ -153,7 +153,8 @@ Defined in `tsconfig.json` and resolved by Playwright, so imports don't climb fo
 | `run-api-tests.yml` | weekdays 02:00 UTC, or by hand | Full API regression, with the coverage report |
 | `run-ui-tests.yml` | weekdays 06:00 UTC, or by hand | Full UI regression |
 | `custom-api-tests.yml`, `custom-ui-tests.yml` | by hand | One area, optionally filtered with `--grep` |
-| `playwright-run.yml` | called by the four above | Runs one project and publishes its report |
+| `smoke-tests.yml` | by hand | The smoke set (tests tagged `@smoke`) of both projects |
+| `playwright-run.yml` | called by the five above | Runs one project (or both) and publishes its report |
 | `publish-test-cases.yml` | scenarios or the dashboard change on `main` | Rebuilds the Test Cases pages and the dashboard |
 | `publish-wiki.yml` | `docs/wiki/` changes on `main` | Copies `docs/wiki/` to this wiki |
 

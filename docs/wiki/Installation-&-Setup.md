@@ -93,6 +93,7 @@ npm run report
 |---|---|
 | `npm test` | All tests (API and UI) |
 | `npm run test:api` | API tests only |
+| `npm run test:smoke` | The smoke set: tests tagged `@smoke` of both projects (2-3 minutes) |
 | `npm run test:ui` | UI tests only |
 | `npm run test:headed` | UI tests with a visible browser |
 | `npm run test:debug` | Step through tests in the Playwright Inspector |

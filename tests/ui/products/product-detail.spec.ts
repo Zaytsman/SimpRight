@@ -8,7 +8,7 @@ test.describe('@products - Product detail', () => {
     // Precondition: The product page of "Combination Pliers" is open.
     test.use({ productName: TestConstants.products.inStockProduct });
 
-    test("UI-013: The product page shows the product's information and related products", async ({ productPage, productName }) => {
+    test("UI-013: The product page shows the product's information and related products", { tag: '@smoke' }, async ({ productPage, productName }) => {
       await test.step('Verify the product image is shown.', async () => {
         await expect(productPage.image, 'The product image is shown').toBeVisible();
       });

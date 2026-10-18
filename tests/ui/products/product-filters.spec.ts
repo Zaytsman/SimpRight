@@ -4,7 +4,7 @@ import { TestConstants } from '@data/TestConstants';
 
 // Scenarios: test-scenarios/ui/products/product-filters.yml
 test.describe('@products - Product filters', () => {
-  test("UI-075: Checking a category shows only that category's products", async ({
+  test("UI-075: Checking a category shows only that category's products", { tag: '@smoke' }, async ({
     homePage,
     productsService,
     categoriesService,

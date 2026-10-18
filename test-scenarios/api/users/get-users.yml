@@ -4,6 +4,7 @@ tags: ["@users-api"]
 scenarios:
   - id: API-0402
     name: List users as an admin returns 200 with a page of customers
+    tags: ["@smoke"]
     status: automated
     automatedIn: tests/api/users/get-users.spec.ts
     role: admin

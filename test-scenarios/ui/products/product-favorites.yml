@@ -5,6 +5,7 @@ scenarios:
   - id: UI-028
     name: Adding a product to favourites shows a success message
     ref: docs/ui/user-stories/Product_Detail.md#AC11
+    tags: ["@smoke"]
     status: automated
     automatedIn: tests/ui/products/product-favorites.spec.ts
     preconditions:

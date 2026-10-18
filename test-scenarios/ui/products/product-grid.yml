@@ -14,6 +14,7 @@ scenarios:
   - id: UI-070
     name: The home page shows a grid of product cards with an image, a name and a price
     ref: docs/ui/user-stories/Product_Overview.md#AC1
+    tags: ["@smoke"]
     status: automated
     automatedIn: tests/ui/products/product-grid.spec.ts
     preconditions:
@@ -26,6 +27,7 @@ scenarios:
   - id: UI-071
     name: Clicking a product card opens that product's page
     ref: docs/ui/user-stories/Product_Overview.md#AC2
+    tags: ["@smoke"]
     status: automated
     automatedIn: tests/ui/products/product-grid.spec.ts
     preconditions:

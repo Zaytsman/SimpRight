@@ -107,7 +107,7 @@ function expectNoKeys(request: unknown, response: ApiResponse, keys: string[]): 
 }
 
 test.describe('@users-api - Users API', () => {
-  test('API-0078: Login returns 200 with a bearer token', async ({ authClient, user, usersClientForToken }) => {
+  test('API-0078: Login returns 200 with a bearer token', { tag: '@smoke' }, async ({ authClient, user, usersClientForToken }) => {
     let request: LoginRequestInfo;
     let response: ApiResponse;
     let body: LoginResponse;

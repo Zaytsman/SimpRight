@@ -14,7 +14,7 @@ test.describe('@products - Product grid', () => {
     });
   });
 
-  test('UI-070: The home page shows a grid of product cards with an image, a name and a price', async ({ homePage }) => {
+  test('UI-070: The home page shows a grid of product cards with an image, a name and a price', { tag: '@smoke' }, async ({ homePage }) => {
     const grid = homePage.productGrid;
 
     await test.step('Verify the product grid shows at least one product card.', async () => {
@@ -50,7 +50,7 @@ test.describe('@products - Product grid', () => {
     });
   });
 
-  test("UI-071: Clicking a product card opens that product's page", async ({ homePage, productPage }) => {
+  test("UI-071: Clicking a product card opens that product's page", { tag: '@smoke' }, async ({ homePage, productPage }) => {
     const productName = TestConstants.products.inStockProduct;
 
     await test.step('Click the card of "Combination Pliers".', async () => {

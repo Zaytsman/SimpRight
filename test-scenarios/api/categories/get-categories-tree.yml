@@ -4,6 +4,7 @@ tags: ["@categories-api"]
 scenarios:
   - id: API-0178
     name: Category tree returns the top-level categories with their sub-categories
+    tags: ["@smoke"]
     status: automated
     automatedIn: tests/api/categories/get-categories-tree.spec.ts
     steps:

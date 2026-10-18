@@ -282,7 +282,7 @@ async function createAndFindByStock(
 }
 
 test.describe('@products-api - Products API', () => {
-  test('API-0002: List products returns the first page of non-rental products', async ({ productsClient }) => {
+  test('API-0002: List products returns the first page of non-rental products', { tag: '@smoke' }, async ({ productsClient }) => {
     let request: ListRequest;
     let response: ApiResponse;
     let body: Paginated<Product>;
@@ -384,7 +384,7 @@ test.describe('@products-api - Products API', () => {
     });
   });
 
-  test("API-0004: Filter by category returns only that category's products", async ({ productsService, productsClient }) => {
+  test("API-0004: Filter by category returns only that category's products", { tag: '@smoke' }, async ({ productsService, productsClient }) => {
     let categoryId: string;
     let request: ListRequest;
     let response: ApiResponse;

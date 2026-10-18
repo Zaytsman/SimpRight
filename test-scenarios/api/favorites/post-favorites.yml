@@ -4,6 +4,7 @@ tags: ["@favorites-api"]
 scenarios:
   - id: API-0272
     name: Add favorite returns 201 with the new favorite
+    tags: ["@smoke"]
     status: automated
     automatedIn: tests/api/favorites/post-favorites.spec.ts
     steps:

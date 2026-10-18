@@ -4,6 +4,7 @@ tags: ["@users-api"]
 scenarios:
   - id: API-0063
     name: Current user endpoint returns the logged-in user's profile
+    tags: ["@smoke"]
     status: automated
     automatedIn: tests/api/users/get-users-me.spec.ts
     steps:
@@ -12,6 +13,7 @@ scenarios:
       - Verify email equals the default user's email, and id, first_name and last_name are not empty.
   - id: API-0100
     name: Current user endpoint returns the admin-only fields to an admin
+    tags: ["@smoke"]
     status: automated
     automatedIn: tests/api/users/get-users-me.spec.ts
     role: admin

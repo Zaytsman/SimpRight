@@ -4,6 +4,7 @@ tags: ["@products-api"]
 scenarios:
   - id: API-0033
     name: Create product returns 201 with the new product
+    tags: ["@smoke"]
     status: automated
     automatedIn: tests/api/products/post-products.spec.ts
     steps:

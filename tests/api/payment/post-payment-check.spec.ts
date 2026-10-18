@@ -184,7 +184,7 @@ test.describe('@payment-api - Payment API', () => {
     );
   });
 
-  test('API-0615: Check credit card details returns 200', async ({ paymentClient }) => {
+  test('API-0615: Check credit card details returns 200', { tag: '@smoke' }, async ({ paymentClient }) => {
     await checkSuccess(
       paymentClient,
       'Send POST /payment/check without an Authorization header, with payment_method "credit-card" and payment_details { credit_card_number: "1234-5678-9101-1121", expiration_date: the same month next year in m/Y form, cvv: "123", card_holder_name: "Jane Doe" }.',

@@ -7,7 +7,7 @@ import { assertMessage, attachJson } from '@utils/assertHelpers';
 // Scenarios: test-scenarios/api/brands/get-brands.yml
 
 test.describe('@brands-api - Brands API', () => {
-  test('API-0119: List brands returns the brands', async ({ brandsClient }) => {
+  test('API-0119: List brands returns the brands', { tag: '@smoke' }, async ({ brandsClient }) => {
     const request = { method: 'GET', path: '/brands' };
     let response: ApiResponse;
     let body: Brand[];

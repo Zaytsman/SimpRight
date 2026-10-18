@@ -7,6 +7,7 @@ scenarios:
     ref:
       - docs/ui/user-stories/Product_Detail.md#AC1
       - docs/ui/user-stories/Product_Detail.md#AC14
+    tags: ["@smoke"]
     status: automated
     automatedIn: tests/ui/products/product-detail.spec.ts
     preconditions:

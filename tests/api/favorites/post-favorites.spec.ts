@@ -46,7 +46,7 @@ async function sendAdd(
 }
 
 test.describe('@favorites-api - Favorites API', () => {
-  test('API-0272: Add favorite returns 201 with the new favorite', async ({
+  test('API-0272: Add favorite returns 201 with the new favorite', { tag: '@smoke' }, async ({
     usersService,
     adminUsersService,
     authService,

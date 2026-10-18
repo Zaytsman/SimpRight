@@ -49,7 +49,7 @@ test.describe('@users-api - Users API', () => {
   test.describe(() => {
     test.use({ role: 'admin' });
 
-    test('API-0402: List users as an admin returns 200 with a page of customers', async ({ usersClient }) => {
+    test('API-0402: List users as an admin returns 200 with a page of customers', { tag: '@smoke' }, async ({ usersClient }) => {
       let request: ListUsersRequest;
       let response: ApiResponse;
       let page: Paginated<User>;

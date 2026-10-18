@@ -5,6 +5,7 @@ scenarios:
   - id: UI-001
     name: Search by name shows only matching products
     ref: docs/ui/user-stories/Product_Overview.md#AC4
+    tags: ["@smoke"]
     status: automated
     automatedIn: tests/ui/products/product-search.spec.ts
     preconditions:

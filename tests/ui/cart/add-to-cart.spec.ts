@@ -4,7 +4,7 @@ import type { CartPage } from '@ui/pages/CartPage';
 
 // Scenarios: test-scenarios/ui/cart/add-to-cart.yml
 test.describe('@cart - Cart', () => {
-  test('UI-002: Add a product with quantity 2 to the cart', async ({
+  test('UI-002: Add a product with quantity 2 to the cart', { tag: '@smoke' }, async ({
     shoppingFlow,
     productPage,
     productsService,

@@ -13,6 +13,7 @@ scenarios:
       - Verify the body's message is "Payment was successful".
   - id: API-0615
     name: Check credit card details returns 200
+    tags: ["@smoke"]
     status: automated
     automatedIn: tests/api/payment/post-payment-check.spec.ts
     role: guest

@@ -37,7 +37,7 @@ function expectEmptyPage(request: SearchRequest, body: Paginated<Product>): void
 }
 
 test.describe('@products-api - Products API', () => {
-  test('API-0001: Search by name returns only matching products', async ({ productsClient }) => {
+  test('API-0001: Search by name returns only matching products', { tag: '@smoke' }, async ({ productsClient }) => {
     const term = TestConstants.products.searchTerm;
     const request = { method: 'GET', path: '/products/search', query: { q: term } };
     let response: ApiResponse;

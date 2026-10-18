@@ -12,7 +12,7 @@ It's a single static page, `index.html` in the repository root. It has no backen
 
 | Part | Shows |
 |---|---|
-| **Latest Reports** | Links to the newest report of each family: UI Regression, API Regression, Custom UI, Custom API |
+| **Latest Reports** | Links to the newest report of each family: UI Regression, API Regression, Smoke, Custom UI, Custom API |
 | **System Status** | **Healthy** or **Unhealthy** for the latest UI and API regression runs |
 
 A run is **healthy** when its failure rate is below the threshold: **2 % for UI, 1 % for API** (`HEALTHY_FAILURE_RATE` in `index.html`).
@@ -60,7 +60,7 @@ A table of every test that carries a **known issue**, with its area (the spec's 
 
 ### Test Runs History
 
-The latest 10 runs of each family (UI Regression, API Regression, Custom UI, Custom API), each linking to its full Playwright report. The site keeps 30 runs per family; older ones are pruned.
+The latest 10 runs of each family (UI Regression, API Regression, Smoke, Custom UI, Custom API), each linking to its full Playwright report. The site keeps 30 runs per family; older ones are pruned.
 
 ## Where the data comes from
 

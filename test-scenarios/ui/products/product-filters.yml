@@ -5,6 +5,7 @@ scenarios:
   - id: UI-075
     name: Checking a category shows only that category's products
     ref: docs/ui/user-stories/Product_Overview.md#AC5
+    tags: ["@smoke"]
     status: automated
     automatedIn: tests/ui/products/product-filters.spec.ts
     preconditions:

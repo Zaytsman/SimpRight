@@ -14,9 +14,10 @@ This page covers the workflows, how to start a run by hand, how to change or add
 | **UI Regression Test Run** | `run-ui-tests.yml` | weekdays at 06:00 UTC, or by hand | all UI tests | `daily-ui-regression` |
 | **Custom API Test Run** | `custom-api-tests.yml` | by hand | one API area, optionally filtered by title | `custom-api` |
 | **Custom UI Test Run** | `custom-ui-tests.yml` | by hand | one UI area, optionally filtered by title | `custom-ui` |
+| **Smoke Test Run** | `smoke-tests.yml` | by hand | the smoke set: the critical happy paths of both layers (tests tagged `@smoke`), in 2-3 minutes; avoid :45-:02 UTC, when the run waits for the hourly re-seed | `smoke` |
 | **PR Checks** (`verify`) | `pr-checks.yml` | every pull request to `main` or `develop` | typecheck, scenario validation, Test Cases and Bugs page builds | none (results stay in the PR) |
 
-The four test workflows are thin callers of one reusable workflow, `playwright-run.yml`. It checks out the code, installs Node.js 24, the dependencies and (for UI runs) Chromium, runs the typecheck and the tests, then publishes the report. A failed test fails the job, but only after the report has been published.
+The five test workflows are thin callers of one reusable workflow, `playwright-run.yml`. It checks out the code, installs Node.js 24, the dependencies and (for UI runs) Chromium, runs the typecheck and the tests, then publishes the report. A failed test fails the job, but only after the report has been published.
 
 The test runs need two repository secrets: `ADMIN_USER` and `ADMIN_PASSWORD` (Settings → Secrets and variables → Actions). CI writes no `.env` file: the secrets reach the tests as environment variables.
 
@@ -125,8 +126,8 @@ jobs:
 
 | Input | Required | Meaning |
 |---|---|---|
-| `project` | yes | The Playwright project: `ui` or `api` |
-| `family` | yes | The report family, the folder on GitHub Pages. The dashboard shows `daily-ui-regression`, `daily-api-regression`, `custom-ui` and `custom-api`; a new name is published too, but the dashboard doesn't list it |
+| `project` | yes | The Playwright project: `ui`, `api`, or `all` (both in one run) |
+| `family` | yes | The report family, the folder on GitHub Pages. The dashboard shows `daily-ui-regression`, `daily-api-regression`, `smoke`, `custom-ui` and `custom-api`; a new name is published too, but the dashboard doesn't list it |
 | `paths` | no | Space-separated spec folders or files |
 | `grep` | no | Only tests whose title matches |
 | `publish-latest-coverage` | no | `true` only for the full API regression: its coverage becomes the dashboard's API Coverage |

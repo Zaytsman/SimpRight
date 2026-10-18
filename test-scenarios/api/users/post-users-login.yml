@@ -4,6 +4,7 @@ tags: ["@users-api"]
 scenarios:
   - id: API-0078
     name: Login returns 200 with a bearer token
+    tags: ["@smoke"]
     status: automated
     automatedIn: tests/api/users/post-users-login.spec.ts
     steps:
