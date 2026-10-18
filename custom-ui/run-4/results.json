@@ -1,0 +1,1559 @@
+{
+  "config": {
+    "argv": [
+      "/opt/hostedtoolcache/node/24.21.0/x64/bin/node",
+      "/home/runner/work/SimpRight/SimpRight/node_modules/.bin/playwright",
+      "test",
+      "--project=ui",
+      "tests/ui/cart/"
+    ],
+    "configFile": "/home/runner/work/SimpRight/SimpRight/playwright.config.ts",
+    "rootDir": "/home/runner/work/SimpRight/SimpRight/tests",
+    "failOnFlakyTests": false,
+    "forbidOnly": true,
+    "fullyParallel": true,
+    "globalSetup": "/home/runner/work/SimpRight/SimpRight/src/globalSetup.ts",
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "ci": {
+        "commitHref": "https://github.com/Zaytsman/SimpRight/commit/e7ae741870d35978fa024fb263f5fe671a2753e9",
+        "commitHash": "e7ae741870d35978fa024fb263f5fe671a2753e9",
+        "buildHref": "https://github.com/Zaytsman/SimpRight/actions/runs/39113148769"
+      },
+      "gitCommit": {
+        "shortHash": "e7ae741",
+        "hash": "e7ae741870d35978fa024fb263f5fe671a2753e9",
+        "subject": "Hand the cart's quantity to the app with its id",
+        "body": "Hand the cart's quantity to the app with its id\n\nThe nav bar shows its cart link only when sessionStorage has cart_quantity,\nwhich the app sets after \"Add to cart\" or once the checkout page loads the\ncart. setVisitorCart now sets it too, so a cart put in through the API shows\nthe link on the home page and CartPage.open() can click it.\n\nCo-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>\n",
+        "author": {
+          "name": "Zaytsman",
+          "email": "15192104+Zaytsman@users.noreply.github.com",
+          "time": 1792313558000
+        },
+        "committer": {
+          "name": "Zaytsman",
+          "email": "15192104+Zaytsman@users.noreply.github.com",
+          "time": 1792313558000
+        },
+        "branch": "feature/checkout-in-app-nav"
+      },
+      "actualWorkers": 2
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "/home/runner/work/SimpRight/SimpRight/test-results",
+        "repeatEach": 1,
+        "retries": 1,
+        "metadata": {
+          "ci": {
+            "commitHref": "https://github.com/Zaytsman/SimpRight/commit/e7ae741870d35978fa024fb263f5fe671a2753e9",
+            "commitHash": "e7ae741870d35978fa024fb263f5fe671a2753e9",
+            "buildHref": "https://github.com/Zaytsman/SimpRight/actions/runs/39113148769"
+          },
+          "gitCommit": {
+            "shortHash": "e7ae741",
+            "hash": "e7ae741870d35978fa024fb263f5fe671a2753e9",
+            "subject": "Hand the cart's quantity to the app with its id",
+            "body": "Hand the cart's quantity to the app with its id\n\nThe nav bar shows its cart link only when sessionStorage has cart_quantity,\nwhich the app sets after \"Add to cart\" or once the checkout page loads the\ncart. setVisitorCart now sets it too, so a cart put in through the API shows\nthe link on the home page and CartPage.open() can click it.\n\nCo-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>\n",
+            "author": {
+              "name": "Zaytsman",
+              "email": "15192104+Zaytsman@users.noreply.github.com",
+              "time": 1792313558000
+            },
+            "committer": {
+              "name": "Zaytsman",
+              "email": "15192104+Zaytsman@users.noreply.github.com",
+              "time": 1792313558000
+            },
+            "branch": "feature/checkout-in-app-nav"
+          },
+          "actualWorkers": 2
+        },
+        "id": "api",
+        "name": "api",
+        "testDir": "/home/runner/work/SimpRight/SimpRight/tests/api",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 60000
+      },
+      {
+        "outputDir": "/home/runner/work/SimpRight/SimpRight/test-results",
+        "repeatEach": 1,
+        "retries": 1,
+        "metadata": {
+          "ci": {
+            "commitHref": "https://github.com/Zaytsman/SimpRight/commit/e7ae741870d35978fa024fb263f5fe671a2753e9",
+            "commitHash": "e7ae741870d35978fa024fb263f5fe671a2753e9",
+            "buildHref": "https://github.com/Zaytsman/SimpRight/actions/runs/39113148769"
+          },
+          "gitCommit": {
+            "shortHash": "e7ae741",
+            "hash": "e7ae741870d35978fa024fb263f5fe671a2753e9",
+            "subject": "Hand the cart's quantity to the app with its id",
+            "body": "Hand the cart's quantity to the app with its id\n\nThe nav bar shows its cart link only when sessionStorage has cart_quantity,\nwhich the app sets after \"Add to cart\" or once the checkout page loads the\ncart. setVisitorCart now sets it too, so a cart put in through the API shows\nthe link on the home page and CartPage.open() can click it.\n\nCo-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>\n",
+            "author": {
+              "name": "Zaytsman",
+              "email": "15192104+Zaytsman@users.noreply.github.com",
+              "time": 1792313558000
+            },
+            "committer": {
+              "name": "Zaytsman",
+              "email": "15192104+Zaytsman@users.noreply.github.com",
+              "time": 1792313558000
+            },
+            "branch": "feature/checkout-in-app-nav"
+          },
+          "actualWorkers": 2
+        },
+        "id": "ui",
+        "name": "ui",
+        "testDir": "/home/runner/work/SimpRight/SimpRight/tests/ui",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 60000
+      }
+    ],
+    "filteredProjects": [
+      {
+        "grep": {},
+        "grepInvert": null,
+        "outputDir": "/home/runner/work/SimpRight/SimpRight/test-results",
+        "repeatEach": 1,
+        "retries": 1,
+        "metadata": {
+          "ci": {
+            "commitHref": "https://github.com/Zaytsman/SimpRight/commit/e7ae741870d35978fa024fb263f5fe671a2753e9",
+            "commitHash": "e7ae741870d35978fa024fb263f5fe671a2753e9",
+            "buildHref": "https://github.com/Zaytsman/SimpRight/actions/runs/39113148769"
+          },
+          "gitCommit": {
+            "shortHash": "e7ae741",
+            "hash": "e7ae741870d35978fa024fb263f5fe671a2753e9",
+            "subject": "Hand the cart's quantity to the app with its id",
+            "body": "Hand the cart's quantity to the app with its id\n\nThe nav bar shows its cart link only when sessionStorage has cart_quantity,\nwhich the app sets after \"Add to cart\" or once the checkout page loads the\ncart. setVisitorCart now sets it too, so a cart put in through the API shows\nthe link on the home page and CartPage.open() can click it.\n\nCo-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>\n",
+            "author": {
+              "name": "Zaytsman",
+              "email": "15192104+Zaytsman@users.noreply.github.com",
+              "time": 1792313558000
+            },
+            "committer": {
+              "name": "Zaytsman",
+              "email": "15192104+Zaytsman@users.noreply.github.com",
+              "time": 1792313558000
+            },
+            "branch": "feature/checkout-in-app-nav"
+          },
+          "actualWorkers": 2
+        },
+        "name": "ui",
+        "testDir": "/home/runner/work/SimpRight/SimpRight/tests/ui",
+        "snapshotDir": "/home/runner/work/SimpRight/SimpRight/tests/ui",
+        "testIgnore": [],
+        "testMatch": "**/*.@(spec|test).?(c|m)[jt]s?(x)",
+        "timeout": 60000,
+        "use": {
+          "baseURL": "https://practicesoftwaretesting.com",
+          "testIdAttribute": "data-test",
+          "trace": "off",
+          "screenshot": "only-on-failure",
+          "video": "retain-on-failure",
+          "actionTimeout": 10000,
+          "navigationTimeout": 60000,
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/156.0.8078.4 Safari/537.36",
+          "viewport": {
+            "width": 1280,
+            "height": 720
+          },
+          "screen": {
+            "width": 1920,
+            "height": 1080
+          },
+          "deviceScaleFactor": 1,
+          "isMobile": false,
+          "hasTouch": false,
+          "defaultBrowserType": "chromium",
+          "headless": true
+        },
+        "dependencies": [],
+        "ignoreSnapshots": false,
+        "__projectId": "ui"
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "list",
+        null
+      ],
+      [
+        "html",
+        {
+          "open": "never"
+        }
+      ],
+      [
+        "junit",
+        {
+          "outputFile": "test-results/junit.xml"
+        }
+      ],
+      [
+        "json",
+        {
+          "outputFile": "test-results/results.json"
+        }
+      ],
+      [
+        "/home/runner/work/SimpRight/SimpRight/node_modules/@zaytsman/playwright-api-coverage/dist/index.js",
+        {
+          "docDir": "docs/api/contracts"
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "default",
+    "updateSourceMethod": "patch",
+    "version": "1.64.0",
+    "workers": 2,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "ui/cart/add-to-cart.spec.ts",
+      "file": "ui/cart/add-to-cart.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "@cart - Cart",
+          "file": "ui/cart/add-to-cart.spec.ts",
+          "line": 6,
+          "column": 6,
+          "specs": [
+            {
+              "title": "UI-002: Add a product with quantity 2 to the cart",
+              "ok": true,
+              "tags": [
+                "cart",
+                "smoke"
+              ],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "ui",
+                  "projectName": "ui",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 8820,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "steps": [
+                        {
+                          "title": "Create a product for this test through the API: a unique name, in stock.",
+                          "duration": 1054
+                        },
+                        {
+                          "title": "Set the quantity to 2 and click \"Add to cart\".",
+                          "duration": 967
+                        },
+                        {
+                          "title": "Verify the cart badge in the nav bar shows 2.",
+                          "duration": 8
+                        },
+                        {
+                          "title": "Open the cart.",
+                          "duration": 921
+                        },
+                        {
+                          "title": "Verify the cart has exactly one line: that product with quantity 2.",
+                          "duration": 31
+                        },
+                        {
+                          "title": "Verify the cart total equals 2 × the product's unit price.",
+                          "duration": 4
+                        }
+                      ],
+                      "startTime": "2026-10-18T09:03:02.780Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "Create Product Response",
+                          "contentType": "application/json",
+                          "body": "ewogICJuYW1lIjogIlByb2R1Y3QtMjAyNjEwMTgtZTJjZGRhIiwKICAicHJpY2UiOiA5Ljk5LAogICJpc19sb2NhdGlvbl9vZmZlciI6IGZhbHNlLAogICJpc19yZW50YWwiOiBmYWxzZSwKICAiaWQiOiAiMDFtNTc0MDVtejV0a250Mmd0NzlnOGF6MnYiLAogICJpbl9zdG9jayI6IDEwLAogICJpc19lY29fZnJpZW5kbHkiOiBmYWxzZSwKICAicHJvZHVjdF9pbWFnZSI6IHsKICAgICJpZCI6ICIwMU01NzNWSDJYN0ZFVEE5TUNDWTQwUEhSMSIsCiAgICAiYnlfbmFtZSI6ICJIZWxpbnRvbiBGYW50aW4iLAogICAgImJ5X3VybCI6ICJodHRwczovL3Vuc3BsYXNoLmNvbS9AZmFudGluIiwKICAgICJzb3VyY2VfbmFtZSI6ICJVbnNwbGFzaCIsCiAgICAic291cmNlX3VybCI6ICJodHRwczovL3Vuc3BsYXNoLmNvbS9waG90b3MvVzhCTnd2T3ZXNE0iLAogICAgImZpbGVfbmFtZSI6ICJwbGllcnMwMS5hdmlmIiwKICAgICJ0aXRsZSI6ICJDb21iaW5hdGlvbiBwbGllcnMiCiAgfSwKICAiY2F0ZWdvcnkiOiB7CiAgICAiaWQiOiAiMDFNNTczVkgyQ1hLQVczWVoxWEtIV0tBSzkiLAogICAgIm5hbWUiOiAiUGxpZXJzIiwKICAgICJzbHVnIjogInBsaWVycyIsCiAgICAicGFyZW50X2lkIjogIjAxTTU3M1ZIMVk5WjIxWjI2Rjg2U1RFMVpIIgogIH0sCiAgImJyYW5kIjogewogICAgImlkIjogIjAxTTU3M1ZHUEhBUTYyNTk2UlY2WVo3QVkzIiwKICAgICJuYW1lIjogIkZvcmdlRmxleCBUb29scyIsCiAgICAic2x1ZyI6ICJmb3JnZWZsZXgtdG9vbHMiCiAgfQp9"
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "df43f8c3d66316e19aac-6fb06c1f51af2d3bc594",
+              "file": "ui/cart/add-to-cart.spec.ts",
+              "line": 7,
+              "column": 7
+            }
+          ],
+          "suites": [
+            {
+              "title": "",
+              "file": "ui/cart/add-to-cart.spec.ts",
+              "line": 55,
+              "column": 8,
+              "specs": [
+                {
+                  "title": "UI-027: Adding a product to the cart shows a success message",
+                  "ok": true,
+                  "tags": [
+                    "cart"
+                  ],
+                  "tests": [
+                    {
+                      "timeout": 60000,
+                      "annotations": [],
+                      "expectedStatus": "passed",
+                      "projectId": "ui",
+                      "projectName": "ui",
+                      "results": [
+                        {
+                          "workerIndex": 1,
+                          "parallelIndex": 1,
+                          "status": "passed",
+                          "duration": 7478,
+                          "errors": [],
+                          "stdout": [],
+                          "stderr": [],
+                          "retry": 0,
+                          "steps": [
+                            {
+                              "title": "Click \"Add to cart\".",
+                              "duration": 967
+                            },
+                            {
+                              "title": "Verify the message \"Product added to shopping cart.\" is shown.",
+                              "duration": 13
+                            }
+                          ],
+                          "startTime": "2026-10-18T09:03:02.764Z",
+                          "annotations": [],
+                          "attachments": []
+                        }
+                      ],
+                      "status": "expected"
+                    }
+                  ],
+                  "id": "df43f8c3d66316e19aac-995e0229f69cfd5cc14b",
+                  "file": "ui/cart/add-to-cart.spec.ts",
+                  "line": 62,
+                  "column": 5
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "ui/cart/checkout-cart-review.spec.ts",
+      "file": "ui/cart/checkout-cart-review.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "@cart - Checkout cart review",
+          "file": "ui/cart/checkout-cart-review.spec.ts",
+          "line": 23,
+          "column": 6,
+          "specs": [
+            {
+              "title": "UI-051: Deleting a line removes it and recalculates the cart total",
+              "ok": true,
+              "tags": [
+                "cart"
+              ],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "ui",
+                  "projectName": "ui",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 5989,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "steps": [
+                        {
+                          "title": "Open the checkout page.",
+                          "duration": 2053
+                        },
+                        {
+                          "title": "Click the delete button on the line of the first product.",
+                          "duration": 716
+                        },
+                        {
+                          "title": "Verify the line of the first product is no longer shown.",
+                          "duration": 6
+                        },
+                        {
+                          "title": "Verify the cart has one line: the second product.",
+                          "duration": 47
+                        },
+                        {
+                          "title": "Verify the cart total equals the remaining line's total.",
+                          "duration": 9
+                        }
+                      ],
+                      "startTime": "2026-10-18T09:03:21.488Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "3647fec4bb92d2e86bb9-bdb6b42eb81708ae7cd6",
+              "file": "ui/cart/checkout-cart-review.spec.ts",
+              "line": 135,
+              "column": 7
+            },
+            {
+              "title": "UI-052: A visitor with no cart sees the empty cart message",
+              "ok": true,
+              "tags": [
+                "cart"
+              ],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [
+                    {
+                      "type": "fail",
+                      "description": "Known issue BUG-049: The Cart step of the checkout shows nothing (no message, table or button) for a visitor without a cart, instead of \"Your shopping cart is empty\".",
+                      "location": {
+                        "file": "/home/runner/work/SimpRight/SimpRight/tests/ui/cart/checkout-cart-review.spec.ts",
+                        "line": 177,
+                        "column": 10
+                      }
+                    }
+                  ],
+                  "expectedStatus": "failed",
+                  "projectId": "ui",
+                  "projectName": "ui",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 10781,
+                      "error": {
+                        "message": "Error: The empty cart message is visible\n\n\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('app-cart').locator('p')\nExpected: visible\nTimeout: 10000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - The empty cart message is visible locator('app-cart').locator('p') with timeout 10000ms\u001b[22m\n\u001b[2m  - waiting for locator('app-cart').locator('p')\u001b[22m\n",
+                        "stack": "Error: The empty cart message is visible\n\n\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('app-cart').locator('p')\nExpected: visible\nTimeout: 10000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - The empty cart message is visible locator('app-cart').locator('p') with timeout 10000ms\u001b[22m\n\u001b[2m  - waiting for locator('app-cart').locator('p')\u001b[22m\n\n    at /home/runner/work/SimpRight/SimpRight/tests/ui/cart/checkout-cart-review.spec.ts:187:84\n    at /home/runner/work/SimpRight/SimpRight/tests/ui/cart/checkout-cart-review.spec.ts:186:5",
+                        "location": {
+                          "file": "/home/runner/work/SimpRight/SimpRight/tests/ui/cart/checkout-cart-review.spec.ts",
+                          "column": 84,
+                          "line": 187
+                        },
+                        "snippet": "\u001b[0m \u001b[90m 185 |\u001b[39m\n \u001b[90m 186 |\u001b[39m     \u001b[36mawait\u001b[39m test\u001b[33m.\u001b[39mstep(\u001b[32m'Verify the message \"Your shopping cart is empty\" is shown.'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m () \u001b[33m=>\u001b[39m {\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 187 |\u001b[39m       \u001b[36mawait\u001b[39m expect(cartPage\u001b[33m.\u001b[39memptyCartMessage\u001b[33m,\u001b[39m \u001b[32m'The empty cart message is visible'\u001b[39m)\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\n \u001b[90m     |\u001b[39m                                                                                    \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 188 |\u001b[39m       \u001b[36mawait\u001b[39m expect(cartPage\u001b[33m.\u001b[39memptyCartMessage\u001b[33m,\u001b[39m \u001b[32m'The empty cart message is shown'\u001b[39m)\u001b[33m.\u001b[39mtoHaveText(\u001b[32m'Your shopping cart is empty'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 189 |\u001b[39m     })\u001b[33m;\u001b[39m\n \u001b[90m 190 |\u001b[39m   })\u001b[33m;\u001b[39m\u001b[0m"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/home/runner/work/SimpRight/SimpRight/tests/ui/cart/checkout-cart-review.spec.ts",
+                            "column": 84,
+                            "line": 187
+                          },
+                          "message": "Error: The empty cart message is visible\n\n\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('app-cart').locator('p')\nExpected: visible\nTimeout: 10000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - The empty cart message is visible locator('app-cart').locator('p') with timeout 10000ms\u001b[22m\n\u001b[2m  - waiting for locator('app-cart').locator('p')\u001b[22m\n\n\n  185 |\n  186 |     await test.step('Verify the message \"Your shopping cart is empty\" is shown.', async () => {\n> 187 |       await expect(cartPage.emptyCartMessage, 'The empty cart message is visible').toBeVisible();\n      |                                                                                    ^\n  188 |       await expect(cartPage.emptyCartMessage, 'The empty cart message is shown').toHaveText('Your shopping cart is empty');\n  189 |     });\n  190 |   });\n    at /home/runner/work/SimpRight/SimpRight/tests/ui/cart/checkout-cart-review.spec.ts:187:84\n    at /home/runner/work/SimpRight/SimpRight/tests/ui/cart/checkout-cart-review.spec.ts:186:5"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "steps": [
+                        {
+                          "title": "Open the checkout page.",
+                          "duration": 567
+                        },
+                        {
+                          "title": "Verify the message \"Your shopping cart is empty\" is shown.",
+                          "duration": 10002,
+                          "error": {
+                            "message": "Error: The empty cart message is visible\n\n\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('app-cart').locator('p')\nExpected: visible\nTimeout: 10000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - The empty cart message is visible locator('app-cart').locator('p') with timeout 10000ms\u001b[22m\n\u001b[2m  - waiting for locator('app-cart').locator('p')\u001b[22m\n",
+                            "stack": "Error: The empty cart message is visible\n\n\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('app-cart').locator('p')\nExpected: visible\nTimeout: 10000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - The empty cart message is visible locator('app-cart').locator('p') with timeout 10000ms\u001b[22m\n\u001b[2m  - waiting for locator('app-cart').locator('p')\u001b[22m\n\n    at /home/runner/work/SimpRight/SimpRight/tests/ui/cart/checkout-cart-review.spec.ts:187:84\n    at /home/runner/work/SimpRight/SimpRight/tests/ui/cart/checkout-cart-review.spec.ts:186:5",
+                            "location": {
+                              "file": "/home/runner/work/SimpRight/SimpRight/tests/ui/cart/checkout-cart-review.spec.ts",
+                              "column": 84,
+                              "line": 187
+                            },
+                            "snippet": "\u001b[0m \u001b[90m 185 |\u001b[39m\n \u001b[90m 186 |\u001b[39m     \u001b[36mawait\u001b[39m test\u001b[33m.\u001b[39mstep(\u001b[32m'Verify the message \"Your shopping cart is empty\" is shown.'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m () \u001b[33m=>\u001b[39m {\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 187 |\u001b[39m       \u001b[36mawait\u001b[39m expect(cartPage\u001b[33m.\u001b[39memptyCartMessage\u001b[33m,\u001b[39m \u001b[32m'The empty cart message is visible'\u001b[39m)\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\n \u001b[90m     |\u001b[39m                                                                                    \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 188 |\u001b[39m       \u001b[36mawait\u001b[39m expect(cartPage\u001b[33m.\u001b[39memptyCartMessage\u001b[33m,\u001b[39m \u001b[32m'The empty cart message is shown'\u001b[39m)\u001b[33m.\u001b[39mtoHaveText(\u001b[32m'Your shopping cart is empty'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 189 |\u001b[39m     })\u001b[33m;\u001b[39m\n \u001b[90m 190 |\u001b[39m   })\u001b[33m;\u001b[39m\u001b[0m"
+                          }
+                        }
+                      ],
+                      "startTime": "2026-10-18T09:03:27.495Z",
+                      "annotations": [
+                        {
+                          "type": "fail",
+                          "description": "Known issue BUG-049: The Cart step of the checkout shows nothing (no message, table or button) for a visitor without a cart, instead of \"Your shopping cart is empty\".",
+                          "location": {
+                            "file": "/home/runner/work/SimpRight/SimpRight/tests/ui/cart/checkout-cart-review.spec.ts",
+                            "line": 177,
+                            "column": 10
+                          }
+                        }
+                      ],
+                      "attachments": [
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/home/runner/work/SimpRight/SimpRight/test-results/cart-checkout-cart-review--6af11-sees-the-empty-cart-message-ui/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/home/runner/work/SimpRight/SimpRight/tests/ui/cart/checkout-cart-review.spec.ts",
+                        "column": 84,
+                        "line": 187
+                      }
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "3647fec4bb92d2e86bb9-3b831ba482c7b458f008",
+              "file": "ui/cart/checkout-cart-review.spec.ts",
+              "line": 176,
+              "column": 7
+            },
+            {
+              "title": "UI-055: A discounted line shows the badge, the original price and the discounted price",
+              "ok": true,
+              "tags": [
+                "cart"
+              ],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "ui",
+                  "projectName": "ui",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 1,
+                      "status": "passed",
+                      "duration": 3580,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "steps": [
+                        {
+                          "title": "Open the checkout page.",
+                          "duration": 1410
+                        },
+                        {
+                          "title": "Verify the discount badge \"-20%\" is shown next to the product name.",
+                          "duration": 18
+                        },
+                        {
+                          "title": "Verify the original price is shown struck through.",
+                          "duration": 29
+                        },
+                        {
+                          "title": "Verify the discounted price is shown, equal to 80% of the original price.",
+                          "duration": 18
+                        }
+                      ],
+                      "startTime": "2026-10-18T09:03:30.775Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "3647fec4bb92d2e86bb9-cd0f310e77e3eef39f64",
+              "file": "ui/cart/checkout-cart-review.spec.ts",
+              "line": 192,
+              "column": 7
+            }
+          ],
+          "suites": [
+            {
+              "title": "",
+              "file": "ui/cart/checkout-cart-review.spec.ts",
+              "line": 24,
+              "column": 8,
+              "specs": [
+                {
+                  "title": "UI-049: The cart step shows the line under the labelled column headers",
+                  "ok": true,
+                  "tags": [
+                    "cart"
+                  ],
+                  "tests": [
+                    {
+                      "timeout": 60000,
+                      "annotations": [],
+                      "expectedStatus": "passed",
+                      "projectId": "ui",
+                      "projectName": "ui",
+                      "results": [
+                        {
+                          "workerIndex": 1,
+                          "parallelIndex": 1,
+                          "status": "passed",
+                          "duration": 4759,
+                          "errors": [],
+                          "stdout": [],
+                          "stderr": [],
+                          "retry": 0,
+                          "steps": [
+                            {
+                              "title": "Open the checkout page.",
+                              "duration": 702
+                            },
+                            {
+                              "title": "Verify the column headers \"Item\", \"Quantity\", \"Price\" and \"Total\" are shown.",
+                              "duration": 50
+                            },
+                            {
+                              "title": "Verify the line shows the product's name under \"Item\".",
+                              "duration": 65
+                            },
+                            {
+                              "title": "Verify the line shows its quantity under \"Quantity\".",
+                              "duration": 23
+                            },
+                            {
+                              "title": "Verify the line shows the product's unit price under \"Price\".",
+                              "duration": 48
+                            },
+                            {
+                              "title": "Verify the line shows its line total under \"Total\", equal to the quantity × the unit price.",
+                              "duration": 24
+                            }
+                          ],
+                          "startTime": "2026-10-18T09:03:10.566Z",
+                          "annotations": [],
+                          "attachments": []
+                        }
+                      ],
+                      "status": "expected"
+                    }
+                  ],
+                  "id": "3647fec4bb92d2e86bb9-64137737515d6f199637",
+                  "file": "ui/cart/checkout-cart-review.spec.ts",
+                  "line": 29,
+                  "column": 5
+                },
+                {
+                  "title": "UI-050: Changing a line's quantity recalculates the totals and shows a confirmation",
+                  "ok": true,
+                  "tags": [
+                    "cart"
+                  ],
+                  "tests": [
+                    {
+                      "timeout": 60000,
+                      "annotations": [],
+                      "expectedStatus": "passed",
+                      "projectId": "ui",
+                      "projectName": "ui",
+                      "results": [
+                        {
+                          "workerIndex": 0,
+                          "parallelIndex": 0,
+                          "status": "passed",
+                          "duration": 5191,
+                          "errors": [],
+                          "stdout": [],
+                          "stderr": [],
+                          "retry": 0,
+                          "steps": [
+                            {
+                              "title": "Open the checkout page.",
+                              "duration": 895
+                            },
+                            {
+                              "title": "Change the quantity of the line from 1 to 3.",
+                              "duration": 686
+                            },
+                            {
+                              "title": "Verify the message \"Product quantity updated.\" is shown.",
+                              "duration": 12
+                            },
+                            {
+                              "title": "Verify the line total equals 3 × the unit price.",
+                              "duration": 21
+                            },
+                            {
+                              "title": "Verify the cart total equals 3 × the unit price.",
+                              "duration": 7
+                            }
+                          ],
+                          "startTime": "2026-10-18T09:03:11.943Z",
+                          "annotations": [],
+                          "attachments": []
+                        }
+                      ],
+                      "status": "expected"
+                    }
+                  ],
+                  "id": "3647fec4bb92d2e86bb9-d7140dcf1070f7975011",
+                  "file": "ui/cart/checkout-cart-review.spec.ts",
+                  "line": 68,
+                  "column": 5
+                },
+                {
+                  "title": "UI-053: Deleting the last line shows the empty cart message",
+                  "ok": true,
+                  "tags": [
+                    "cart"
+                  ],
+                  "tests": [
+                    {
+                      "timeout": 60000,
+                      "annotations": [
+                        {
+                          "type": "fail",
+                          "description": "Known issue BUG-050: The Cart step of the checkout says \"The cart is empty. Nothing to display.\" instead of \"Your shopping cart is empty\" after the last line is deleted.",
+                          "location": {
+                            "file": "/home/runner/work/SimpRight/SimpRight/tests/ui/cart/checkout-cart-review.spec.ts",
+                            "line": 98,
+                            "column": 12
+                          }
+                        }
+                      ],
+                      "expectedStatus": "failed",
+                      "projectId": "ui",
+                      "projectName": "ui",
+                      "results": [
+                        {
+                          "workerIndex": 1,
+                          "parallelIndex": 1,
+                          "status": "failed",
+                          "duration": 15391,
+                          "error": {
+                            "message": "Error: The empty cart message is shown\n\n\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  locator('app-cart').locator('p')\nExpected: \u001b[32m\"\u001b[7mYour shopping\u001b[27m cart is empty\"\u001b[39m\nReceived: \u001b[31m\"\u001b[7mThe\u001b[27m cart is empty\u001b[7m. Nothing to display.\u001b[27m\"\u001b[39m\nTimeout:  10000ms\n\nCall log:\n\u001b[2m  - The empty cart message is shown locator('app-cart').locator('p') with timeout 10000ms\u001b[22m\n\u001b[2m  - waiting for locator('app-cart').locator('p')\u001b[22m\n\u001b[2m    24 × locator resolved to <p class=\"ng-star-inserted\" _ngcontent-ng-c2879330868=\"\">The cart is empty. Nothing to display.</p>\u001b[22m\n\u001b[2m       - unexpected value \"The cart is empty. Nothing to display.\"\u001b[22m\n",
+                            "stack": "Error: The empty cart message is shown\n\n\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  locator('app-cart').locator('p')\nExpected: \u001b[32m\"\u001b[7mYour shopping\u001b[27m cart is empty\"\u001b[39m\nReceived: \u001b[31m\"\u001b[7mThe\u001b[27m cart is empty\u001b[7m. Nothing to display.\u001b[27m\"\u001b[39m\nTimeout:  10000ms\n\nCall log:\n\u001b[2m  - The empty cart message is shown locator('app-cart').locator('p') with timeout 10000ms\u001b[22m\n\u001b[2m  - waiting for locator('app-cart').locator('p')\u001b[22m\n\u001b[2m    24 × locator resolved to <p class=\"ng-star-inserted\" _ngcontent-ng-c2879330868=\"\">The cart is empty. Nothing to display.</p>\u001b[22m\n\u001b[2m       - unexpected value \"The cart is empty. Nothing to display.\"\u001b[22m\n\n    at /home/runner/work/SimpRight/SimpRight/tests/ui/cart/checkout-cart-review.spec.ts:110:84\n    at /home/runner/work/SimpRight/SimpRight/tests/ui/cart/checkout-cart-review.spec.ts:108:7",
+                            "location": {
+                              "file": "/home/runner/work/SimpRight/SimpRight/tests/ui/cart/checkout-cart-review.spec.ts",
+                              "column": 84,
+                              "line": 110
+                            },
+                            "snippet": "\u001b[0m \u001b[90m 108 |\u001b[39m       \u001b[36mawait\u001b[39m test\u001b[33m.\u001b[39mstep(\u001b[32m'Verify the message \"Your shopping cart is empty\" is shown.'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m () \u001b[33m=>\u001b[39m {\n \u001b[90m 109 |\u001b[39m         \u001b[36mawait\u001b[39m expect(cartPage\u001b[33m.\u001b[39memptyCartMessage\u001b[33m,\u001b[39m \u001b[32m'The empty cart message is visible'\u001b[39m)\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 110 |\u001b[39m         \u001b[36mawait\u001b[39m expect(cartPage\u001b[33m.\u001b[39memptyCartMessage\u001b[33m,\u001b[39m \u001b[32m'The empty cart message is shown'\u001b[39m)\u001b[33m.\u001b[39mtoHaveText(\u001b[32m'Your shopping cart is empty'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m     |\u001b[39m                                                                                    \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 111 |\u001b[39m       })\u001b[33m;\u001b[39m\n \u001b[90m 112 |\u001b[39m\n \u001b[90m 113 |\u001b[39m       \u001b[36mawait\u001b[39m test\u001b[33m.\u001b[39mstep(\u001b[32m'Verify the button \"Proceed to checkout\" is not shown.'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m () \u001b[33m=>\u001b[39m {\u001b[0m"
+                          },
+                          "errors": [
+                            {
+                              "location": {
+                                "file": "/home/runner/work/SimpRight/SimpRight/tests/ui/cart/checkout-cart-review.spec.ts",
+                                "column": 84,
+                                "line": 110
+                              },
+                              "message": "Error: The empty cart message is shown\n\n\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  locator('app-cart').locator('p')\nExpected: \u001b[32m\"\u001b[7mYour shopping\u001b[27m cart is empty\"\u001b[39m\nReceived: \u001b[31m\"\u001b[7mThe\u001b[27m cart is empty\u001b[7m. Nothing to display.\u001b[27m\"\u001b[39m\nTimeout:  10000ms\n\nCall log:\n\u001b[2m  - The empty cart message is shown locator('app-cart').locator('p') with timeout 10000ms\u001b[22m\n\u001b[2m  - waiting for locator('app-cart').locator('p')\u001b[22m\n\u001b[2m    24 × locator resolved to <p class=\"ng-star-inserted\" _ngcontent-ng-c2879330868=\"\">The cart is empty. Nothing to display.</p>\u001b[22m\n\u001b[2m       - unexpected value \"The cart is empty. Nothing to display.\"\u001b[22m\n\n\n  108 |       await test.step('Verify the message \"Your shopping cart is empty\" is shown.', async () => {\n  109 |         await expect(cartPage.emptyCartMessage, 'The empty cart message is visible').toBeVisible();\n> 110 |         await expect(cartPage.emptyCartMessage, 'The empty cart message is shown').toHaveText('Your shopping cart is empty');\n      |                                                                                    ^\n  111 |       });\n  112 |\n  113 |       await test.step('Verify the button \"Proceed to checkout\" is not shown.', async () => {\n    at /home/runner/work/SimpRight/SimpRight/tests/ui/cart/checkout-cart-review.spec.ts:110:84\n    at /home/runner/work/SimpRight/SimpRight/tests/ui/cart/checkout-cart-review.spec.ts:108:7"
+                            }
+                          ],
+                          "stdout": [],
+                          "stderr": [],
+                          "retry": 0,
+                          "steps": [
+                            {
+                              "title": "Open the checkout page.",
+                              "duration": 756
+                            },
+                            {
+                              "title": "Click the delete button on the line.",
+                              "duration": 801
+                            },
+                            {
+                              "title": "Verify the message \"Your shopping cart is empty\" is shown.",
+                              "duration": 10019,
+                              "error": {
+                                "message": "Error: The empty cart message is shown\n\n\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  locator('app-cart').locator('p')\nExpected: \u001b[32m\"\u001b[7mYour shopping\u001b[27m cart is empty\"\u001b[39m\nReceived: \u001b[31m\"\u001b[7mThe\u001b[27m cart is empty\u001b[7m. Nothing to display.\u001b[27m\"\u001b[39m\nTimeout:  10000ms\n\nCall log:\n\u001b[2m  - The empty cart message is shown locator('app-cart').locator('p') with timeout 10000ms\u001b[22m\n\u001b[2m  - waiting for locator('app-cart').locator('p')\u001b[22m\n\u001b[2m    24 × locator resolved to <p class=\"ng-star-inserted\" _ngcontent-ng-c2879330868=\"\">The cart is empty. Nothing to display.</p>\u001b[22m\n\u001b[2m       - unexpected value \"The cart is empty. Nothing to display.\"\u001b[22m\n",
+                                "stack": "Error: The empty cart message is shown\n\n\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  locator('app-cart').locator('p')\nExpected: \u001b[32m\"\u001b[7mYour shopping\u001b[27m cart is empty\"\u001b[39m\nReceived: \u001b[31m\"\u001b[7mThe\u001b[27m cart is empty\u001b[7m. Nothing to display.\u001b[27m\"\u001b[39m\nTimeout:  10000ms\n\nCall log:\n\u001b[2m  - The empty cart message is shown locator('app-cart').locator('p') with timeout 10000ms\u001b[22m\n\u001b[2m  - waiting for locator('app-cart').locator('p')\u001b[22m\n\u001b[2m    24 × locator resolved to <p class=\"ng-star-inserted\" _ngcontent-ng-c2879330868=\"\">The cart is empty. Nothing to display.</p>\u001b[22m\n\u001b[2m       - unexpected value \"The cart is empty. Nothing to display.\"\u001b[22m\n\n    at /home/runner/work/SimpRight/SimpRight/tests/ui/cart/checkout-cart-review.spec.ts:110:84\n    at /home/runner/work/SimpRight/SimpRight/tests/ui/cart/checkout-cart-review.spec.ts:108:7",
+                                "location": {
+                                  "file": "/home/runner/work/SimpRight/SimpRight/tests/ui/cart/checkout-cart-review.spec.ts",
+                                  "column": 84,
+                                  "line": 110
+                                },
+                                "snippet": "\u001b[0m \u001b[90m 108 |\u001b[39m       \u001b[36mawait\u001b[39m test\u001b[33m.\u001b[39mstep(\u001b[32m'Verify the message \"Your shopping cart is empty\" is shown.'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m () \u001b[33m=>\u001b[39m {\n \u001b[90m 109 |\u001b[39m         \u001b[36mawait\u001b[39m expect(cartPage\u001b[33m.\u001b[39memptyCartMessage\u001b[33m,\u001b[39m \u001b[32m'The empty cart message is visible'\u001b[39m)\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 110 |\u001b[39m         \u001b[36mawait\u001b[39m expect(cartPage\u001b[33m.\u001b[39memptyCartMessage\u001b[33m,\u001b[39m \u001b[32m'The empty cart message is shown'\u001b[39m)\u001b[33m.\u001b[39mtoHaveText(\u001b[32m'Your shopping cart is empty'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m     |\u001b[39m                                                                                    \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 111 |\u001b[39m       })\u001b[33m;\u001b[39m\n \u001b[90m 112 |\u001b[39m\n \u001b[90m 113 |\u001b[39m       \u001b[36mawait\u001b[39m test\u001b[33m.\u001b[39mstep(\u001b[32m'Verify the button \"Proceed to checkout\" is not shown.'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m () \u001b[33m=>\u001b[39m {\u001b[0m"
+                              }
+                            }
+                          ],
+                          "startTime": "2026-10-18T09:03:15.355Z",
+                          "annotations": [
+                            {
+                              "type": "fail",
+                              "description": "Known issue BUG-050: The Cart step of the checkout says \"The cart is empty. Nothing to display.\" instead of \"Your shopping cart is empty\" after the last line is deleted.",
+                              "location": {
+                                "file": "/home/runner/work/SimpRight/SimpRight/tests/ui/cart/checkout-cart-review.spec.ts",
+                                "line": 98,
+                                "column": 12
+                              }
+                            }
+                          ],
+                          "attachments": [
+                            {
+                              "name": "error-context",
+                              "contentType": "text/markdown",
+                              "path": "/home/runner/work/SimpRight/SimpRight/test-results/cart-checkout-cart-review--34dc5-hows-the-empty-cart-message-ui/error-context.md"
+                            }
+                          ],
+                          "errorLocation": {
+                            "file": "/home/runner/work/SimpRight/SimpRight/tests/ui/cart/checkout-cart-review.spec.ts",
+                            "column": 84,
+                            "line": 110
+                          }
+                        }
+                      ],
+                      "status": "expected"
+                    }
+                  ],
+                  "id": "3647fec4bb92d2e86bb9-4cf7c9d081244660c926",
+                  "file": "ui/cart/checkout-cart-review.spec.ts",
+                  "line": 97,
+                  "column": 5
+                },
+                {
+                  "title": "UI-054: \"Proceed to checkout\" leads to the sign-in step",
+                  "ok": true,
+                  "tags": [
+                    "cart"
+                  ],
+                  "tests": [
+                    {
+                      "timeout": 60000,
+                      "annotations": [],
+                      "expectedStatus": "passed",
+                      "projectId": "ui",
+                      "projectName": "ui",
+                      "results": [
+                        {
+                          "workerIndex": 0,
+                          "parallelIndex": 0,
+                          "status": "passed",
+                          "duration": 4324,
+                          "errors": [],
+                          "stdout": [],
+                          "stderr": [],
+                          "retry": 0,
+                          "steps": [
+                            {
+                              "title": "Open the checkout page.",
+                              "duration": 951
+                            },
+                            {
+                              "title": "Click \"Proceed to checkout\".",
+                              "duration": 74
+                            },
+                            {
+                              "title": "Verify the \"Sign in\" step is shown.",
+                              "duration": 11
+                            }
+                          ],
+                          "startTime": "2026-10-18T09:03:17.147Z",
+                          "annotations": [],
+                          "attachments": []
+                        }
+                      ],
+                      "status": "expected"
+                    }
+                  ],
+                  "id": "3647fec4bb92d2e86bb9-4310395aa4a6d6ffd5d4",
+                  "file": "ui/cart/checkout-cart-review.spec.ts",
+                  "line": 118,
+                  "column": 5
+                }
+              ]
+            },
+            {
+              "title": "",
+              "file": "ui/cart/checkout-cart-review.spec.ts",
+              "line": 236,
+              "column": 8,
+              "specs": [
+                {
+                  "title": "UI-056: A cart with a rental and a non-rental item shows the subtotal, the 15% discount and the total",
+                  "ok": true,
+                  "tags": [
+                    "cart"
+                  ],
+                  "tests": [
+                    {
+                      "timeout": 60000,
+                      "annotations": [],
+                      "expectedStatus": "passed",
+                      "projectId": "ui",
+                      "projectName": "ui",
+                      "results": [
+                        {
+                          "workerIndex": 1,
+                          "parallelIndex": 1,
+                          "status": "passed",
+                          "duration": 5733,
+                          "errors": [],
+                          "stdout": [],
+                          "stderr": [],
+                          "retry": 0,
+                          "steps": [
+                            {
+                              "title": "Open the checkout page.",
+                              "duration": 639
+                            },
+                            {
+                              "title": "Verify the \"Subtotal\" equals the sum of the line totals.",
+                              "duration": 35
+                            },
+                            {
+                              "title": "Verify the row \"Discount (15%)\" shows 15% of the subtotal.",
+                              "duration": 14
+                            },
+                            {
+                              "title": "Verify the \"Total\" equals the subtotal minus the discount.",
+                              "duration": 4
+                            }
+                          ],
+                          "startTime": "2026-10-18T09:03:34.375Z",
+                          "annotations": [],
+                          "attachments": []
+                        }
+                      ],
+                      "status": "expected"
+                    }
+                  ],
+                  "id": "3647fec4bb92d2e86bb9-bdc54e95787624c7ba03",
+                  "file": "ui/cart/checkout-cart-review.spec.ts",
+                  "line": 241,
+                  "column": 5
+                },
+                {
+                  "title": "UI-057: Deleting the rental line removes the combined discount",
+                  "ok": true,
+                  "tags": [
+                    "cart"
+                  ],
+                  "tests": [
+                    {
+                      "timeout": 60000,
+                      "annotations": [],
+                      "expectedStatus": "passed",
+                      "projectId": "ui",
+                      "projectName": "ui",
+                      "results": [
+                        {
+                          "workerIndex": 0,
+                          "parallelIndex": 0,
+                          "status": "passed",
+                          "duration": 6936,
+                          "errors": [],
+                          "stdout": [],
+                          "stderr": [],
+                          "retry": 0,
+                          "steps": [
+                            {
+                              "title": "Open the checkout page.",
+                              "duration": 1139
+                            },
+                            {
+                              "title": "Click the delete button on the line of the rental product.",
+                              "duration": 898
+                            },
+                            {
+                              "title": "Verify the \"Subtotal\" row is no longer shown.",
+                              "duration": 6
+                            },
+                            {
+                              "title": "Verify the \"Discount (15%)\" row is no longer shown.",
+                              "duration": 4
+                            },
+                            {
+                              "title": "Verify the total equals the remaining line's total.",
+                              "duration": 22
+                            }
+                          ],
+                          "startTime": "2026-10-18T09:03:38.295Z",
+                          "annotations": [],
+                          "attachments": []
+                        }
+                      ],
+                      "status": "expected"
+                    }
+                  ],
+                  "id": "3647fec4bb92d2e86bb9-0fb909cd76035763d522",
+                  "file": "ui/cart/checkout-cart-review.spec.ts",
+                  "line": 269,
+                  "column": 5
+                },
+                {
+                  "title": "UI-084: A rental line in the checkout cart is marked \"This is a rental item\"",
+                  "ok": true,
+                  "tags": [
+                    "cart"
+                  ],
+                  "tests": [
+                    {
+                      "timeout": 60000,
+                      "annotations": [
+                        {
+                          "type": "fail",
+                          "description": "Known issue BUG-051: The checkout cart marks a rental line \"Item for rent, price per hour\" instead of \"This is a rental item\".",
+                          "location": {
+                            "file": "/home/runner/work/SimpRight/SimpRight/tests/ui/cart/checkout-cart-review.spec.ts",
+                            "line": 295,
+                            "column": 12
+                          }
+                        }
+                      ],
+                      "expectedStatus": "failed",
+                      "projectId": "ui",
+                      "projectName": "ui",
+                      "results": [
+                        {
+                          "workerIndex": 1,
+                          "parallelIndex": 1,
+                          "status": "failed",
+                          "duration": 15539,
+                          "error": {
+                            "message": "Error: The note marks the rental\n\n\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  locator('app-cart tbody tr').filter({ has: getByTestId('product-title').filter({ hasText: /^\\s*Excavator(?!\\s*\\w)/ }) }).locator('small')\nExpected: \u001b[32m\"This is a rental item\"\u001b[39m\nReceived: \u001b[31m\"Item for rent, price per hour\"\u001b[39m\nTimeout:  10000ms\n\nCall log:\n\u001b[2m  - The note marks the rental locator('app-cart tbody tr').filter({ has: getByTestId('product-title').filter({ hasText: /^\\s*Excavator(?!\\s*\\w)/ }) }).locator('small') with timeout 10000ms\u001b[22m\n\u001b[2m  - waiting for locator('app-cart tbody tr').filter({ has: getByTestId('product-title').filter({ hasText: /^\\s*Excavator(?!\\s*\\w)/ }) }).locator('small')\u001b[22m\n\u001b[2m    24 × locator resolved to <small _ngcontent-ng-c2879330868=\"\">Item for rent, price per hour</small>\u001b[22m\n\u001b[2m       - unexpected value \"Item for rent, price per hour\"\u001b[22m\n",
+                            "stack": "Error: The note marks the rental\n\n\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  locator('app-cart tbody tr').filter({ has: getByTestId('product-title').filter({ hasText: /^\\s*Excavator(?!\\s*\\w)/ }) }).locator('small')\nExpected: \u001b[32m\"This is a rental item\"\u001b[39m\nReceived: \u001b[31m\"Item for rent, price per hour\"\u001b[39m\nTimeout:  10000ms\n\nCall log:\n\u001b[2m  - The note marks the rental locator('app-cart tbody tr').filter({ has: getByTestId('product-title').filter({ hasText: /^\\s*Excavator(?!\\s*\\w)/ }) }).locator('small') with timeout 10000ms\u001b[22m\n\u001b[2m  - waiting for locator('app-cart tbody tr').filter({ has: getByTestId('product-title').filter({ hasText: /^\\s*Excavator(?!\\s*\\w)/ }) }).locator('small')\u001b[22m\n\u001b[2m    24 × locator resolved to <small _ngcontent-ng-c2879330868=\"\">Item for rent, price per hour</small>\u001b[22m\n\u001b[2m       - unexpected value \"Item for rent, price per hour\"\u001b[22m\n\n    at /home/runner/work/SimpRight/SimpRight/tests/ui/cart/checkout-cart-review.spec.ts:306:74\n    at /home/runner/work/SimpRight/SimpRight/tests/ui/cart/checkout-cart-review.spec.ts:304:7",
+                            "location": {
+                              "file": "/home/runner/work/SimpRight/SimpRight/tests/ui/cart/checkout-cart-review.spec.ts",
+                              "column": 74,
+                              "line": 306
+                            },
+                            "snippet": "\u001b[0m \u001b[90m 304 |\u001b[39m       \u001b[36mawait\u001b[39m test\u001b[33m.\u001b[39mstep(\u001b[32m'Verify the line of the rental product is marked \"This is a rental item\".'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m () \u001b[33m=>\u001b[39m {\n \u001b[90m 305 |\u001b[39m         \u001b[36mawait\u001b[39m expect(rentalLine\u001b[33m.\u001b[39mrentalNote\u001b[33m,\u001b[39m \u001b[32m'The rental line has a note'\u001b[39m)\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 306 |\u001b[39m         \u001b[36mawait\u001b[39m expect(rentalLine\u001b[33m.\u001b[39mrentalNote\u001b[33m,\u001b[39m \u001b[32m'The note marks the rental'\u001b[39m)\u001b[33m.\u001b[39mtoHaveText(\u001b[32m'This is a rental item'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m     |\u001b[39m                                                                          \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 307 |\u001b[39m       })\u001b[33m;\u001b[39m\n \u001b[90m 308 |\u001b[39m\n \u001b[90m 309 |\u001b[39m       \u001b[36mawait\u001b[39m test\u001b[33m.\u001b[39mstep(\u001b[32m'Verify the line of the product that is not a rental is not marked \"This is a rental item\".'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m () \u001b[33m=>\u001b[39m {\u001b[0m"
+                          },
+                          "errors": [
+                            {
+                              "location": {
+                                "file": "/home/runner/work/SimpRight/SimpRight/tests/ui/cart/checkout-cart-review.spec.ts",
+                                "column": 74,
+                                "line": 306
+                              },
+                              "message": "Error: The note marks the rental\n\n\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  locator('app-cart tbody tr').filter({ has: getByTestId('product-title').filter({ hasText: /^\\s*Excavator(?!\\s*\\w)/ }) }).locator('small')\nExpected: \u001b[32m\"This is a rental item\"\u001b[39m\nReceived: \u001b[31m\"Item for rent, price per hour\"\u001b[39m\nTimeout:  10000ms\n\nCall log:\n\u001b[2m  - The note marks the rental locator('app-cart tbody tr').filter({ has: getByTestId('product-title').filter({ hasText: /^\\s*Excavator(?!\\s*\\w)/ }) }).locator('small') with timeout 10000ms\u001b[22m\n\u001b[2m  - waiting for locator('app-cart tbody tr').filter({ has: getByTestId('product-title').filter({ hasText: /^\\s*Excavator(?!\\s*\\w)/ }) }).locator('small')\u001b[22m\n\u001b[2m    24 × locator resolved to <small _ngcontent-ng-c2879330868=\"\">Item for rent, price per hour</small>\u001b[22m\n\u001b[2m       - unexpected value \"Item for rent, price per hour\"\u001b[22m\n\n\n  304 |       await test.step('Verify the line of the rental product is marked \"This is a rental item\".', async () => {\n  305 |         await expect(rentalLine.rentalNote, 'The rental line has a note').toBeVisible();\n> 306 |         await expect(rentalLine.rentalNote, 'The note marks the rental').toHaveText('This is a rental item');\n      |                                                                          ^\n  307 |       });\n  308 |\n  309 |       await test.step('Verify the line of the product that is not a rental is not marked \"This is a rental item\".', async () => {\n    at /home/runner/work/SimpRight/SimpRight/tests/ui/cart/checkout-cart-review.spec.ts:306:74\n    at /home/runner/work/SimpRight/SimpRight/tests/ui/cart/checkout-cart-review.spec.ts:304:7"
+                            }
+                          ],
+                          "stdout": [],
+                          "stderr": [],
+                          "retry": 0,
+                          "steps": [
+                            {
+                              "title": "Open the checkout page.",
+                              "duration": 968
+                            },
+                            {
+                              "title": "Verify the line of the rental product is marked \"This is a rental item\".",
+                              "duration": 10011,
+                              "error": {
+                                "message": "Error: The note marks the rental\n\n\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  locator('app-cart tbody tr').filter({ has: getByTestId('product-title').filter({ hasText: /^\\s*Excavator(?!\\s*\\w)/ }) }).locator('small')\nExpected: \u001b[32m\"This is a rental item\"\u001b[39m\nReceived: \u001b[31m\"Item for rent, price per hour\"\u001b[39m\nTimeout:  10000ms\n\nCall log:\n\u001b[2m  - The note marks the rental locator('app-cart tbody tr').filter({ has: getByTestId('product-title').filter({ hasText: /^\\s*Excavator(?!\\s*\\w)/ }) }).locator('small') with timeout 10000ms\u001b[22m\n\u001b[2m  - waiting for locator('app-cart tbody tr').filter({ has: getByTestId('product-title').filter({ hasText: /^\\s*Excavator(?!\\s*\\w)/ }) }).locator('small')\u001b[22m\n\u001b[2m    24 × locator resolved to <small _ngcontent-ng-c2879330868=\"\">Item for rent, price per hour</small>\u001b[22m\n\u001b[2m       - unexpected value \"Item for rent, price per hour\"\u001b[22m\n",
+                                "stack": "Error: The note marks the rental\n\n\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  locator('app-cart tbody tr').filter({ has: getByTestId('product-title').filter({ hasText: /^\\s*Excavator(?!\\s*\\w)/ }) }).locator('small')\nExpected: \u001b[32m\"This is a rental item\"\u001b[39m\nReceived: \u001b[31m\"Item for rent, price per hour\"\u001b[39m\nTimeout:  10000ms\n\nCall log:\n\u001b[2m  - The note marks the rental locator('app-cart tbody tr').filter({ has: getByTestId('product-title').filter({ hasText: /^\\s*Excavator(?!\\s*\\w)/ }) }).locator('small') with timeout 10000ms\u001b[22m\n\u001b[2m  - waiting for locator('app-cart tbody tr').filter({ has: getByTestId('product-title').filter({ hasText: /^\\s*Excavator(?!\\s*\\w)/ }) }).locator('small')\u001b[22m\n\u001b[2m    24 × locator resolved to <small _ngcontent-ng-c2879330868=\"\">Item for rent, price per hour</small>\u001b[22m\n\u001b[2m       - unexpected value \"Item for rent, price per hour\"\u001b[22m\n\n    at /home/runner/work/SimpRight/SimpRight/tests/ui/cart/checkout-cart-review.spec.ts:306:74\n    at /home/runner/work/SimpRight/SimpRight/tests/ui/cart/checkout-cart-review.spec.ts:304:7",
+                                "location": {
+                                  "file": "/home/runner/work/SimpRight/SimpRight/tests/ui/cart/checkout-cart-review.spec.ts",
+                                  "column": 74,
+                                  "line": 306
+                                },
+                                "snippet": "\u001b[0m \u001b[90m 304 |\u001b[39m       \u001b[36mawait\u001b[39m test\u001b[33m.\u001b[39mstep(\u001b[32m'Verify the line of the rental product is marked \"This is a rental item\".'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m () \u001b[33m=>\u001b[39m {\n \u001b[90m 305 |\u001b[39m         \u001b[36mawait\u001b[39m expect(rentalLine\u001b[33m.\u001b[39mrentalNote\u001b[33m,\u001b[39m \u001b[32m'The rental line has a note'\u001b[39m)\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 306 |\u001b[39m         \u001b[36mawait\u001b[39m expect(rentalLine\u001b[33m.\u001b[39mrentalNote\u001b[33m,\u001b[39m \u001b[32m'The note marks the rental'\u001b[39m)\u001b[33m.\u001b[39mtoHaveText(\u001b[32m'This is a rental item'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m     |\u001b[39m                                                                          \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 307 |\u001b[39m       })\u001b[33m;\u001b[39m\n \u001b[90m 308 |\u001b[39m\n \u001b[90m 309 |\u001b[39m       \u001b[36mawait\u001b[39m test\u001b[33m.\u001b[39mstep(\u001b[32m'Verify the line of the product that is not a rental is not marked \"This is a rental item\".'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m () \u001b[33m=>\u001b[39m {\u001b[0m"
+                              }
+                            }
+                          ],
+                          "startTime": "2026-10-18T09:03:40.123Z",
+                          "annotations": [
+                            {
+                              "type": "fail",
+                              "description": "Known issue BUG-051: The checkout cart marks a rental line \"Item for rent, price per hour\" instead of \"This is a rental item\".",
+                              "location": {
+                                "file": "/home/runner/work/SimpRight/SimpRight/tests/ui/cart/checkout-cart-review.spec.ts",
+                                "line": 295,
+                                "column": 12
+                              }
+                            }
+                          ],
+                          "attachments": [
+                            {
+                              "name": "error-context",
+                              "contentType": "text/markdown",
+                              "path": "/home/runner/work/SimpRight/SimpRight/test-results/cart-checkout-cart-review--474b7-rked-This-is-a-rental-item--ui/error-context.md"
+                            }
+                          ],
+                          "errorLocation": {
+                            "file": "/home/runner/work/SimpRight/SimpRight/tests/ui/cart/checkout-cart-review.spec.ts",
+                            "column": 74,
+                            "line": 306
+                          }
+                        }
+                      ],
+                      "status": "expected"
+                    }
+                  ],
+                  "id": "3647fec4bb92d2e86bb9-476310022ac795135c52",
+                  "file": "ui/cart/checkout-cart-review.spec.ts",
+                  "line": 294,
+                  "column": 5
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "ui/cart/checkout-sign-in.spec.ts",
+      "file": "ui/cart/checkout-sign-in.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "@cart - Checkout sign-in",
+          "file": "ui/cart/checkout-sign-in.spec.ts",
+          "line": 8,
+          "column": 6,
+          "specs": [
+            {
+              "title": "UI-062: A logged-in customer sees the already-signed-in message on the sign-in step and proceeds to the billing address step",
+              "ok": true,
+              "tags": [
+                "cart"
+              ],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [
+                    {
+                      "type": "fail",
+                      "description": "Known issue BUG-048: The sign-in step tells a logged-in customer \"Hello <first> <last>, you are already logged in.\" instead of \"You are already signed in as <first> <last>\".",
+                      "location": {
+                        "file": "/home/runner/work/SimpRight/SimpRight/tests/ui/cart/checkout-sign-in.spec.ts",
+                        "line": 189,
+                        "column": 10
+                      }
+                    }
+                  ],
+                  "expectedStatus": "failed",
+                  "projectId": "ui",
+                  "projectName": "ui",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 1,
+                      "status": "failed",
+                      "duration": 15333,
+                      "error": {
+                        "message": "Error: The message names the signed-in customer\n\n\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('app-login').locator('.login-form-1 > p')\nExpected substring: \u001b[32m\"\u001b[7mY\u001b[27mou are already \u001b[7msign\u001b[27med in\u001b[7m as SimpRight Runner\u001b[27m\"\u001b[39m\nReceived string:    \u001b[31m\"\u001b[7mHello SimpRight Runner, y\u001b[27mou are already \u001b[7mlogg\u001b[27med in\u001b[7m. You can proceed to checkout.\u001b[27m\"\u001b[39m\nTimeout: 10000ms\n\nCall log:\n\u001b[2m  - The message names the signed-in customer locator('app-login').locator('.login-form-1 > p') with timeout 10000ms\u001b[22m\n\u001b[2m  - waiting for locator('app-login').locator('.login-form-1 > p')\u001b[22m\n\u001b[2m    24 × locator resolved to <p>Hello SimpRight Runner, you are already logged in…</p>\u001b[22m\n\u001b[2m       - unexpected value \"Hello SimpRight Runner, you are already logged in. You can proceed to checkout.\"\u001b[22m\n",
+                        "stack": "Error: The message names the signed-in customer\n\n\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('app-login').locator('.login-form-1 > p')\nExpected substring: \u001b[32m\"\u001b[7mY\u001b[27mou are already \u001b[7msign\u001b[27med in\u001b[7m as SimpRight Runner\u001b[27m\"\u001b[39m\nReceived string:    \u001b[31m\"\u001b[7mHello SimpRight Runner, y\u001b[27mou are already \u001b[7mlogg\u001b[27med in\u001b[7m. You can proceed to checkout.\u001b[27m\"\u001b[39m\nTimeout: 10000ms\n\nCall log:\n\u001b[2m  - The message names the signed-in customer locator('app-login').locator('.login-form-1 > p') with timeout 10000ms\u001b[22m\n\u001b[2m  - waiting for locator('app-login').locator('.login-form-1 > p')\u001b[22m\n\u001b[2m    24 × locator resolved to <p>Hello SimpRight Runner, you are already logged in…</p>\u001b[22m\n\u001b[2m       - unexpected value \"Hello SimpRight Runner, you are already logged in. You can proceed to checkout.\"\u001b[22m\n\n    at /home/runner/work/SimpRight/SimpRight/tests/ui/cart/checkout-sign-in.spec.ts:204:88\n    at /home/runner/work/SimpRight/SimpRight/tests/ui/cart/checkout-sign-in.spec.ts:201:5",
+                        "location": {
+                          "file": "/home/runner/work/SimpRight/SimpRight/tests/ui/cart/checkout-sign-in.spec.ts",
+                          "column": 88,
+                          "line": 204
+                        },
+                        "snippet": "\u001b[0m \u001b[90m 202 |\u001b[39m       \u001b[36mconst\u001b[39m me \u001b[33m=\u001b[39m \u001b[36mawait\u001b[39m usersServiceForToken(accessToken)\u001b[33m.\u001b[39mme()\u001b[33m;\u001b[39m\n \u001b[90m 203 |\u001b[39m       \u001b[36mawait\u001b[39m expect(signIn\u001b[33m.\u001b[39msignedInMessage\u001b[33m,\u001b[39m \u001b[32m'The signed-in message is visible'\u001b[39m)\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 204 |\u001b[39m       \u001b[36mawait\u001b[39m expect(signIn\u001b[33m.\u001b[39msignedInMessage\u001b[33m,\u001b[39m \u001b[32m'The message names the signed-in customer'\u001b[39m)\u001b[33m.\u001b[39mtoContainText(\n \u001b[90m     |\u001b[39m                                                                                        \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 205 |\u001b[39m         \u001b[32m`You are already signed in as ${me.first_name} ${me.last_name}`\u001b[39m\n \u001b[90m 206 |\u001b[39m       )\u001b[33m;\u001b[39m\n \u001b[90m 207 |\u001b[39m     })\u001b[33m;\u001b[39m\u001b[0m"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/home/runner/work/SimpRight/SimpRight/tests/ui/cart/checkout-sign-in.spec.ts",
+                            "column": 88,
+                            "line": 204
+                          },
+                          "message": "Error: The message names the signed-in customer\n\n\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('app-login').locator('.login-form-1 > p')\nExpected substring: \u001b[32m\"\u001b[7mY\u001b[27mou are already \u001b[7msign\u001b[27med in\u001b[7m as SimpRight Runner\u001b[27m\"\u001b[39m\nReceived string:    \u001b[31m\"\u001b[7mHello SimpRight Runner, y\u001b[27mou are already \u001b[7mlogg\u001b[27med in\u001b[7m. You can proceed to checkout.\u001b[27m\"\u001b[39m\nTimeout: 10000ms\n\nCall log:\n\u001b[2m  - The message names the signed-in customer locator('app-login').locator('.login-form-1 > p') with timeout 10000ms\u001b[22m\n\u001b[2m  - waiting for locator('app-login').locator('.login-form-1 > p')\u001b[22m\n\u001b[2m    24 × locator resolved to <p>Hello SimpRight Runner, you are already logged in…</p>\u001b[22m\n\u001b[2m       - unexpected value \"Hello SimpRight Runner, you are already logged in. You can proceed to checkout.\"\u001b[22m\n\n\n  202 |       const me = await usersServiceForToken(accessToken).me();\n  203 |       await expect(signIn.signedInMessage, 'The signed-in message is visible').toBeVisible();\n> 204 |       await expect(signIn.signedInMessage, 'The message names the signed-in customer').toContainText(\n      |                                                                                        ^\n  205 |         `You are already signed in as ${me.first_name} ${me.last_name}`\n  206 |       );\n  207 |     });\n    at /home/runner/work/SimpRight/SimpRight/tests/ui/cart/checkout-sign-in.spec.ts:204:88\n    at /home/runner/work/SimpRight/SimpRight/tests/ui/cart/checkout-sign-in.spec.ts:201:5"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "steps": [
+                        {
+                          "title": "Open the checkout page.",
+                          "duration": 1133
+                        },
+                        {
+                          "title": "Click \"Proceed to checkout\".",
+                          "duration": 44
+                        },
+                        {
+                          "title": "Verify the message \"You are already signed in as\" followed by the default user's first and last name is shown.",
+                          "duration": 10471,
+                          "error": {
+                            "message": "Error: The message names the signed-in customer\n\n\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('app-login').locator('.login-form-1 > p')\nExpected substring: \u001b[32m\"\u001b[7mY\u001b[27mou are already \u001b[7msign\u001b[27med in\u001b[7m as SimpRight Runner\u001b[27m\"\u001b[39m\nReceived string:    \u001b[31m\"\u001b[7mHello SimpRight Runner, y\u001b[27mou are already \u001b[7mlogg\u001b[27med in\u001b[7m. You can proceed to checkout.\u001b[27m\"\u001b[39m\nTimeout: 10000ms\n\nCall log:\n\u001b[2m  - The message names the signed-in customer locator('app-login').locator('.login-form-1 > p') with timeout 10000ms\u001b[22m\n\u001b[2m  - waiting for locator('app-login').locator('.login-form-1 > p')\u001b[22m\n\u001b[2m    24 × locator resolved to <p>Hello SimpRight Runner, you are already logged in…</p>\u001b[22m\n\u001b[2m       - unexpected value \"Hello SimpRight Runner, you are already logged in. You can proceed to checkout.\"\u001b[22m\n",
+                            "stack": "Error: The message names the signed-in customer\n\n\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('app-login').locator('.login-form-1 > p')\nExpected substring: \u001b[32m\"\u001b[7mY\u001b[27mou are already \u001b[7msign\u001b[27med in\u001b[7m as SimpRight Runner\u001b[27m\"\u001b[39m\nReceived string:    \u001b[31m\"\u001b[7mHello SimpRight Runner, y\u001b[27mou are already \u001b[7mlogg\u001b[27med in\u001b[7m. You can proceed to checkout.\u001b[27m\"\u001b[39m\nTimeout: 10000ms\n\nCall log:\n\u001b[2m  - The message names the signed-in customer locator('app-login').locator('.login-form-1 > p') with timeout 10000ms\u001b[22m\n\u001b[2m  - waiting for locator('app-login').locator('.login-form-1 > p')\u001b[22m\n\u001b[2m    24 × locator resolved to <p>Hello SimpRight Runner, you are already logged in…</p>\u001b[22m\n\u001b[2m       - unexpected value \"Hello SimpRight Runner, you are already logged in. You can proceed to checkout.\"\u001b[22m\n\n    at /home/runner/work/SimpRight/SimpRight/tests/ui/cart/checkout-sign-in.spec.ts:204:88\n    at /home/runner/work/SimpRight/SimpRight/tests/ui/cart/checkout-sign-in.spec.ts:201:5",
+                            "location": {
+                              "file": "/home/runner/work/SimpRight/SimpRight/tests/ui/cart/checkout-sign-in.spec.ts",
+                              "column": 88,
+                              "line": 204
+                            },
+                            "snippet": "\u001b[0m \u001b[90m 202 |\u001b[39m       \u001b[36mconst\u001b[39m me \u001b[33m=\u001b[39m \u001b[36mawait\u001b[39m usersServiceForToken(accessToken)\u001b[33m.\u001b[39mme()\u001b[33m;\u001b[39m\n \u001b[90m 203 |\u001b[39m       \u001b[36mawait\u001b[39m expect(signIn\u001b[33m.\u001b[39msignedInMessage\u001b[33m,\u001b[39m \u001b[32m'The signed-in message is visible'\u001b[39m)\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 204 |\u001b[39m       \u001b[36mawait\u001b[39m expect(signIn\u001b[33m.\u001b[39msignedInMessage\u001b[33m,\u001b[39m \u001b[32m'The message names the signed-in customer'\u001b[39m)\u001b[33m.\u001b[39mtoContainText(\n \u001b[90m     |\u001b[39m                                                                                        \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 205 |\u001b[39m         \u001b[32m`You are already signed in as ${me.first_name} ${me.last_name}`\u001b[39m\n \u001b[90m 206 |\u001b[39m       )\u001b[33m;\u001b[39m\n \u001b[90m 207 |\u001b[39m     })\u001b[33m;\u001b[39m\u001b[0m"
+                          }
+                        }
+                      ],
+                      "startTime": "2026-10-18T09:04:02.193Z",
+                      "annotations": [
+                        {
+                          "type": "fail",
+                          "description": "Known issue BUG-048: The sign-in step tells a logged-in customer \"Hello <first> <last>, you are already logged in.\" instead of \"You are already signed in as <first> <last>\".",
+                          "location": {
+                            "file": "/home/runner/work/SimpRight/SimpRight/tests/ui/cart/checkout-sign-in.spec.ts",
+                            "line": 189,
+                            "column": 10
+                          }
+                        }
+                      ],
+                      "attachments": [
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/home/runner/work/SimpRight/SimpRight/test-results/cart-checkout-sign-in--car-908e1-to-the-billing-address-step-ui/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/home/runner/work/SimpRight/SimpRight/tests/ui/cart/checkout-sign-in.spec.ts",
+                        "column": 88,
+                        "line": 204
+                      }
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "ca076ca33587c00c7f14-94efab0350b7261a16a9",
+              "file": "ui/cart/checkout-sign-in.spec.ts",
+              "line": 184,
+              "column": 7
+            }
+          ],
+          "suites": [
+            {
+              "title": "",
+              "file": "ui/cart/checkout-sign-in.spec.ts",
+              "line": 9,
+              "column": 8,
+              "specs": [
+                {
+                  "title": "UI-058: A guest who proceeds from the cart step sees the sign-in step with a login form",
+                  "ok": true,
+                  "tags": [
+                    "cart"
+                  ],
+                  "tests": [
+                    {
+                      "timeout": 60000,
+                      "annotations": [],
+                      "expectedStatus": "passed",
+                      "projectId": "ui",
+                      "projectName": "ui",
+                      "results": [
+                        {
+                          "workerIndex": 0,
+                          "parallelIndex": 0,
+                          "status": "passed",
+                          "duration": 4571,
+                          "errors": [],
+                          "stdout": [],
+                          "stderr": [],
+                          "retry": 0,
+                          "steps": [
+                            {
+                              "title": "Open the checkout page.",
+                              "duration": 871
+                            },
+                            {
+                              "title": "Click \"Proceed to checkout\".",
+                              "duration": 64
+                            },
+                            {
+                              "title": "Verify the \"Sign in\" step is shown.",
+                              "duration": 13
+                            },
+                            {
+                              "title": "Verify the login form is shown.",
+                              "duration": 5
+                            }
+                          ],
+                          "startTime": "2026-10-18T09:03:45.252Z",
+                          "annotations": [],
+                          "attachments": []
+                        }
+                      ],
+                      "status": "expected"
+                    }
+                  ],
+                  "id": "ca076ca33587c00c7f14-09b9f8fdebff793098e4",
+                  "file": "ui/cart/checkout-sign-in.spec.ts",
+                  "line": 12,
+                  "column": 9
+                },
+                {
+                  "title": "UI-059: The sign-in step shows the email and password fields and the \"Login\" button",
+                  "ok": true,
+                  "tags": [
+                    "cart"
+                  ],
+                  "tests": [
+                    {
+                      "timeout": 60000,
+                      "annotations": [],
+                      "expectedStatus": "passed",
+                      "projectId": "ui",
+                      "projectName": "ui",
+                      "results": [
+                        {
+                          "workerIndex": 0,
+                          "parallelIndex": 0,
+                          "status": "passed",
+                          "duration": 4303,
+                          "errors": [],
+                          "stdout": [],
+                          "stderr": [],
+                          "retry": 0,
+                          "steps": [
+                            {
+                              "title": "Open the checkout page.",
+                              "duration": 835
+                            },
+                            {
+                              "title": "Click \"Proceed to checkout\".",
+                              "duration": 80
+                            },
+                            {
+                              "title": "Verify the field \"Email address\" is shown.",
+                              "duration": 9
+                            },
+                            {
+                              "title": "Verify the field \"Password\" is shown.",
+                              "duration": 14
+                            },
+                            {
+                              "title": "Verify the button \"Login\" is shown.",
+                              "duration": 10
+                            }
+                          ],
+                          "startTime": "2026-10-18T09:03:49.836Z",
+                          "annotations": [],
+                          "attachments": []
+                        }
+                      ],
+                      "status": "expected"
+                    }
+                  ],
+                  "id": "ca076ca33587c00c7f14-73a91e3c5e8c96646949",
+                  "file": "ui/cart/checkout-sign-in.spec.ts",
+                  "line": 32,
+                  "column": 9
+                },
+                {
+                  "title": "UI-060: An account with TOTP enabled must enter a valid code on the sign-in step to sign in",
+                  "ok": true,
+                  "tags": [
+                    "cart"
+                  ],
+                  "tests": [
+                    {
+                      "timeout": 60000,
+                      "annotations": [],
+                      "expectedStatus": "passed",
+                      "projectId": "ui",
+                      "projectName": "ui",
+                      "results": [
+                        {
+                          "workerIndex": 0,
+                          "parallelIndex": 0,
+                          "status": "passed",
+                          "duration": 8238,
+                          "errors": [],
+                          "stdout": [],
+                          "stderr": [],
+                          "retry": 0,
+                          "steps": [
+                            {
+                              "title": "Open the checkout page.",
+                              "duration": 930
+                            },
+                            {
+                              "title": "Click \"Proceed to checkout\".",
+                              "duration": 100
+                            },
+                            {
+                              "title": "Enter the customer's email in the field \"Email address\".",
+                              "duration": 26
+                            },
+                            {
+                              "title": "Enter the customer's password in the field \"Password\".",
+                              "duration": 49
+                            },
+                            {
+                              "title": "Click \"Login\".",
+                              "duration": 599
+                            },
+                            {
+                              "title": "Verify the field \"TOTP Code\" is shown.",
+                              "duration": 4
+                            },
+                            {
+                              "title": "Verify the button \"Verify TOTP\" is shown.",
+                              "duration": 4
+                            },
+                            {
+                              "title": "Verify the fields \"Email address\" and \"Password\" are no longer shown.",
+                              "duration": 12
+                            },
+                            {
+                              "title": "Enter the code \"000000\" in the field \"TOTP Code\".",
+                              "duration": 16
+                            },
+                            {
+                              "title": "Click \"Verify TOTP\".",
+                              "duration": 383
+                            },
+                            {
+                              "title": "Verify the button \"Proceed to checkout\" is not shown.",
+                              "duration": 4
+                            },
+                            {
+                              "title": "Enter the account's current TOTP code in the field \"TOTP Code\" (replacing the wrong one).",
+                              "duration": 10
+                            },
+                            {
+                              "title": "Click \"Verify TOTP\".",
+                              "duration": 410
+                            },
+                            {
+                              "title": "Verify a message that the customer is already signed in is shown.",
+                              "duration": 7
+                            },
+                            {
+                              "title": "Verify the button \"Proceed to checkout\" is shown.",
+                              "duration": 4
+                            }
+                          ],
+                          "startTime": "2026-10-18T09:03:54.161Z",
+                          "annotations": [],
+                          "attachments": []
+                        }
+                      ],
+                      "status": "expected"
+                    }
+                  ],
+                  "id": "ca076ca33587c00c7f14-93ebaa197deda5395e28",
+                  "file": "ui/cart/checkout-sign-in.spec.ts",
+                  "line": 54,
+                  "column": 9
+                },
+                {
+                  "title": "UI-061: Valid credentials on the sign-in step sign the guest in and lead to the billing address step",
+                  "ok": true,
+                  "tags": [
+                    "cart"
+                  ],
+                  "tests": [
+                    {
+                      "timeout": 60000,
+                      "annotations": [],
+                      "expectedStatus": "passed",
+                      "projectId": "ui",
+                      "projectName": "ui",
+                      "results": [
+                        {
+                          "workerIndex": 1,
+                          "parallelIndex": 1,
+                          "status": "passed",
+                          "duration": 6498,
+                          "errors": [],
+                          "stdout": [],
+                          "stderr": [],
+                          "retry": 0,
+                          "steps": [
+                            {
+                              "title": "Open the checkout page.",
+                              "duration": 1103
+                            },
+                            {
+                              "title": "Click \"Proceed to checkout\".",
+                              "duration": 92
+                            },
+                            {
+                              "title": "Enter the default user's email in the field \"Email address\".",
+                              "duration": 22
+                            },
+                            {
+                              "title": "Enter the default user's password in the field \"Password\".",
+                              "duration": 42
+                            },
+                            {
+                              "title": "Click \"Login\".",
+                              "duration": 479
+                            },
+                            {
+                              "title": "Verify the login form is no longer shown.",
+                              "duration": 6
+                            },
+                            {
+                              "title": "Verify the user menu is shown in the navigation.",
+                              "duration": 826
+                            },
+                            {
+                              "title": "Click \"Proceed to checkout\" on the sign-in step.",
+                              "duration": 60
+                            },
+                            {
+                              "title": "Verify the \"Billing Address\" step is shown.",
+                              "duration": 7
+                            }
+                          ],
+                          "startTime": "2026-10-18T09:03:55.681Z",
+                          "annotations": [],
+                          "attachments": []
+                        }
+                      ],
+                      "status": "expected"
+                    }
+                  ],
+                  "id": "ca076ca33587c00c7f14-0e11d6b913464c0f5f1f",
+                  "file": "ui/cart/checkout-sign-in.spec.ts",
+                  "line": 138,
+                  "column": 9
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-10-18T08:53:12.891Z",
+    "duration": 665678.535,
+    "expected": 17,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  }
+}
