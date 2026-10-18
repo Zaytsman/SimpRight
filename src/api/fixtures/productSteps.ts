@@ -115,9 +115,9 @@ export function firstProductRefs(list: Paginated<Product>, required: (keyof Prod
 }
 
 /** Setup steps of the PUT and PATCH scenarios that move a product to other seeded records (same wording in both files). */
-export const OTHER_REFS_LIST_STEP =
+const OTHER_REFS_LIST_STEP =
   "Send GET /products and take the first item's brand id, category id and product image id, and from other items of GET /products a brand id, a category id and a product image id that differ from them.";
-export const PRODUCT_CREATE_FIRST_REFS_STEP =
+const PRODUCT_CREATE_FIRST_REFS_STEP =
   "Send POST /products with a unique product name, a positive price, the first item's ids, is_location_offer false and is_rental false, and take the new product's id.";
 
 /**
@@ -185,7 +185,7 @@ export async function createProductWithOtherRefs(
 }
 
 /** The spec lookup step, shared by GET /products (API-0011) and QUERY /products (API-0070). */
-export const FIND_PRODUCT_SPEC_STEP =
+const FIND_PRODUCT_SPEC_STEP =
   "Find a product with at least one spec: send GET /products/{productId} for the items of GET /products until one returns a non-empty specs array, and take its first spec's spec_name and spec_value.";
 
 /** The FIND_PRODUCT_SPEC_STEP step: returns the first spec of the first product on page 1 that has one. */
@@ -238,7 +238,7 @@ export async function firstListedProductId(productsService: ProductsService): Pr
 }
 
 /** Setup step of UI tests that need a product to buy: one nobody else can change (no seeded product, which any visitor of the demo site can). */
-export const PRODUCT_IN_STOCK_STEP = 'Create a product for this test through the API: a unique name, in stock.';
+const PRODUCT_IN_STOCK_STEP = 'Create a product for this test through the API: a unique name, in stock.';
 
 /**
  * The PRODUCT_IN_STOCK_STEP step: takes the ids of seeded records from the first listed product, creates a product
@@ -272,9 +272,6 @@ export async function createProductInStock(
   return product!;
 }
 
-/** Moved to the shared checks; re-exported so existing imports from `@fixtures` keep working. */
-export { expectFieldMessages } from '../../utils/apiChecks';
-
 /** The request record that `sendCreateProduct` attaches and that assertion messages show. */
 export type CreateProductRequestInfo = { method: string; path: string; auth: string; body: unknown };
 
@@ -283,7 +280,7 @@ export type CreateProductRequestInfo = { method: string; path: string; auth: str
  * removal (as admin, DELETE is admin-only) only for a 2xx response with an id. Covers the known issue (POST
  * without a token creates the product) and any validation case that unexpectedly creates one.
  */
-export function removeIfCreated(response: ApiResponse, adminProductsService: ProductsService, cleanup: Cleanup): void {
+function removeIfCreated(response: ApiResponse, adminProductsService: ProductsService, cleanup: Cleanup): void {
   if (!response.isSuccess) return;
   let id: string | undefined;
   try {

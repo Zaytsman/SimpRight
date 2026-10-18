@@ -79,5 +79,3 @@ export const test = base.extend<UiOptions & UiFixtures>({
     await use(new ShoppingFlow(page, config));
   },
 });
-
-export { expect } from '@playwright/test';

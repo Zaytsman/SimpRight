@@ -16,7 +16,7 @@ import { takeProductRefs } from './productSteps';
  */
 export const CART_PRODUCT_IN_STOCK_STEP =
   "Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental false and stock 10, and take the new product's id.";
-export const CART_CREATE_STEP = "Send POST /carts with an empty body and take the returned id as the cart's id.";
+const CART_CREATE_STEP = "Send POST /carts with an empty body and take the returned id as the cart's id.";
 /** The product-create steps of the scenarios that put a rental and a non-rental product in one cart. */
 export const NON_RENTAL_PRODUCT_STEP =
   "Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental false and stock 10, and take the new product's id as the non-rental product's id.";
@@ -27,7 +27,7 @@ export const ADD_NON_RENTAL_STEP = "Send POST /carts/{cartId} with the cart's id
 /** The add-item step for the one product a carts scenario created. */
 export const ADD_PRODUCT_STEP = "Send POST /carts/{cartId} with the cart's id and a body with the new product's id as product_id and quantity 1.";
 /** The step that finds the seeded Thor Hammer, and the message of the rule that allows one per cart. */
-export const THOR_HAMMER_SEARCH_STEP = 'Send GET /products/search with q set to Thor Hammer and take the id of the item whose name is exactly "Thor Hammer".';
+const THOR_HAMMER_SEARCH_STEP = 'Send GET /products/search with q set to Thor Hammer and take the id of the item whose name is exactly "Thor Hammer".';
 export const THOR_HAMMER_MESSAGE = 'You can only have one Thor Hammer in the cart.';
 export const ADD_RENTAL_STEP = "Send POST /carts/{cartId} with the cart's id and a body with the rental product's id as product_id and quantity 1.";
 

@@ -1,4 +1,4 @@
-import { test, expect, registerThrowawayCustomer, loginThrowawayCustomer, expectFieldMessages, type ThrowawayCustomer } from '@fixtures';
+import { test, expect, registerThrowawayCustomer, loginThrowawayCustomer, type ThrowawayCustomer } from '@fixtures';
 import type { Cleanup } from '@fixtures/base';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { UsersClient } from '@api/clients/UsersClient';
@@ -7,7 +7,7 @@ import type { AuthService } from '@api/services/AuthService';
 import type { UsersService } from '@api/services/UsersService';
 import { UserFactory } from '@data/factories/UserFactory';
 import { assertMessage, attachJson } from '@utils/assertHelpers';
-import { expectStatus, expectSuccess } from '@utils/apiChecks';
+import { expectFieldMessages, expectStatus, expectSuccess } from '@utils/apiChecks';
 
 // Scenarios: test-scenarios/api/users/put-users-by-user-id.yml
 

@@ -35,9 +35,9 @@ import { loginThrowawayCustomer, registerThrowawayCustomer, type ThrowawayCustom
  * (its admin delete gets 409, which `UsersService.deleteUnlessInUse` expects). Tests only read or change invoices they
  * created. The titles are the scenario steps verbatim; the variants pass their own title.
  */
-export const FIRST_PRODUCT_STEP = "Send GET /products and take the first item's id as the product's id.";
+const FIRST_PRODUCT_STEP = "Send GET /products and take the first item's id as the product's id.";
 export const ADD_TWO_STEP = "Send POST /carts/{cartId} with the cart's id, the product's id as product_id and quantity 2.";
-export const INVOICE_CREATE_STEP =
+const INVOICE_CREATE_STEP =
   'Send POST /invoices with that access_token, payment_method "cash-on-delivery", payment_details {}, billing_street "Stephansplatz 1", billing_city "Wien", billing_country "AT" and the cart\'s id as cart_id, and take the new invoice\'s id, invoice_number and total.';
 export const PDF_STATUS_POLL_STEP =
   "Send GET /invoices/{invoice_number}/download-pdf-status with the invoice's number and that access_token, and repeat every few seconds until the response status is 200 and the body's status is COMPLETED (the PDF jobs run every minute, so allow a few minutes).";
@@ -55,14 +55,14 @@ export const INVOICE_AUTH = {
 } as const;
 
 /** The register and login steps of the scenarios with two customers (A holds the invoice, B tries to reach it). */
-export const CUSTOMER_A_REGISTER_STEP =
+const CUSTOMER_A_REGISTER_STEP =
   "Send POST /users/register with a unique email, a first name, a last name and a random strong password (customer A), and take the new user's id.";
-export const CUSTOMER_A_LOGIN_STEP = "Send POST /users/login with customer A's email and password, and take its access_token.";
-export const CUSTOMER_B_REGISTER_STEP =
+const CUSTOMER_A_LOGIN_STEP = "Send POST /users/login with customer A's email and password, and take its access_token.";
+const CUSTOMER_B_REGISTER_STEP =
   "Send POST /users/register with a unique email, a first name, a last name and a random strong password (customer B), and take the new user's id.";
-export const CUSTOMER_B_LOGIN_STEP = "Send POST /users/login with customer B's email and password, and take its access_token.";
+const CUSTOMER_B_LOGIN_STEP = "Send POST /users/login with customer B's email and password, and take its access_token.";
 /** The most common wording of customer A's invoice-create step. */
-export const CUSTOMER_A_INVOICE_STEP =
+const CUSTOMER_A_INVOICE_STEP =
   'Send POST /invoices with customer A\'s access_token, payment_method "cash-on-delivery", payment_details {}, billing_street "Stephansplatz 1", billing_city "Wien", billing_country "AT" and the cart\'s id as cart_id, and take the new invoice\'s id.';
 
 export type InvoiceRequest = { method: string; path: string; auth: string; query?: Record<string, unknown>; body?: unknown };
@@ -472,7 +472,7 @@ export async function sendPdfStatus(invoicesClient: InvoicesClient, invoiceNumbe
 }
 
 /** How long the PDF polls wait: the jobs run every minute, and the customer's token expires 300 s after its login. */
-export const PDF_POLL = { timeoutMs: 210_000, intervalMs: 5_000 } as const;
+const PDF_POLL = { timeoutMs: 210_000, intervalMs: 5_000 } as const;
 
 /**
  * The PDF_STATUS_POLL_STEP action: sends GET /invoices/{invoice_number}/download-pdf-status every `intervalMs` until it

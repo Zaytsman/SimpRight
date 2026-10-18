@@ -360,5 +360,3 @@ export const test = base.extend<ApiFixtures>({
     await use((token: string) => new MessagesService(messagesClientForToken(token)));
   },
 });
-
-export { expect } from '@playwright/test';

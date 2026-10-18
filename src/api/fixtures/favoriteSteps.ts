@@ -17,10 +17,10 @@ import { loginThrowawayCustomer, registerThrowawayCustomer, type ThrowawayCustom
  * Steps shared by the Favorites specs. Favourites are added only for customers a test registers itself (never the admin
  * or the run's customer). The titles are the scenario steps verbatim; the variants pass their own title.
  */
-export const FAVORITE_ADD_STEP = "Send POST /favorites with that product id and the throwaway customer's access_token, and take the new favorite's id.";
-export const SECOND_REGISTER_STEP =
+const FAVORITE_ADD_STEP = "Send POST /favorites with that product id and the throwaway customer's access_token, and take the new favorite's id.";
+const SECOND_REGISTER_STEP =
   "Send POST /users/register with another unique email, a first name, a last name and a random strong password, and take the second user's id.";
-export const SECOND_LOGIN_STEP = "Send POST /users/login with the second user's email and password, and take its access_token.";
+const SECOND_LOGIN_STEP = "Send POST /users/login with the second user's email and password, and take its access_token.";
 
 /** How the attached requests name the tokens of the favorites scenarios. */
 export const THROWAWAY_TOKEN = "the throwaway customer's access_token";
@@ -49,7 +49,7 @@ export interface CustomerWithFavorite {
  * token's user and registers its removal with the same token right away. Cleanup runs newest first, so the favourite goes
  * before its customer, whose delete it would block (409). DELETE answers 204 also when the favourite is already gone.
  */
-export async function addFavorite(
+async function addFavorite(
   favoritesServiceForToken: (token: string) => FavoritesService,
   token: string,
   productId: string,

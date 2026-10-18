@@ -1,8 +1,9 @@
-import { test, expect, createProductToUpdate, createProductWithOtherRefs, expectFieldMessages } from '@fixtures';
+import { test, expect, createProductToUpdate, createProductWithOtherRefs } from '@fixtures';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { ProductDetails, UpdateProductResponse } from '@api/dto/product';
 import { TestConstants } from '@data/TestConstants';
 import { ProductFactory } from '@data/factories/ProductFactory';
+import { expectFieldMessages } from '@utils/apiChecks';
 import { assertMessage, attachJson } from '@utils/assertHelpers';
 
 // Scenarios: test-scenarios/api/products/patch-products-by-product-id.yml

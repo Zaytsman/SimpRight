@@ -12,5 +12,3 @@ export const openProductPageInLondonTest = base.extend({
     await use(page);
   },
 });
-
-export { expect } from '@playwright/test';

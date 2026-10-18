@@ -16,7 +16,7 @@ import { assertMessage, attachJson } from '../../utils/assertHelpers';
  * Steps shared by the Users specs that need a throwaway customer (never the run's customer or the admin).
  * The title is the scenario step verbatim; every scenario file uses the same wording.
  */
-export const USER_REGISTER_STEP =
+const USER_REGISTER_STEP =
   "Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.";
 
 /** A customer a test registered for itself, with the credentials it was registered with. */
@@ -63,7 +63,7 @@ export async function registerThrowawayCustomer(
 }
 
 /** The login step of the scenarios that log in their throwaway customer (wording of most Users files). */
-export const THROWAWAY_LOGIN_STEP = 'Send POST /users/login with that email and password, and take its access_token.';
+const THROWAWAY_LOGIN_STEP = 'Send POST /users/login with that email and password, and take its access_token.';
 
 /**
  * The login step (title `title`, default THROWAWAY_LOGIN_STEP) for a customer the test registered: logs in with its
@@ -118,7 +118,7 @@ export async function expectLoginSucceeds(authClient: AuthClient, email: string,
 }
 
 /** The login setup step of the logout and refresh scenarios (same wording in both files). */
-export const USER_LOGIN_STEP = "Send POST /users/login with the default user's email and password, and take the new access_token.";
+const USER_LOGIN_STEP = "Send POST /users/login with the default user's email and password, and take the new access_token.";
 
 /**
  * The USER_LOGIN_STEP step: a fresh login of `user` (the default role, the run's customer), so the test gets a
@@ -141,7 +141,7 @@ export async function loginForNewToken(authService: AuthService, user: TestUser)
 }
 
 /** The logout setup step (API-0108, API-0110); where the logout itself is checked, the spec calls the client. */
-export const USER_LOGOUT_STEP = 'Send GET /users/logout with that token.';
+const USER_LOGOUT_STEP = 'Send GET /users/logout with that token.';
 
 /** The USER_LOGOUT_STEP step as setup: logs out `token` and fails the step if that doesn't succeed. */
 export async function logoutToken(usersServiceForToken: (token: string) => UsersService, token: string): Promise<void> {

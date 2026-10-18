@@ -14,8 +14,8 @@ import { expectStatus } from '../../utils/apiChecks';
  * until the hourly re-seed; tests only ever read, reply to or change messages they created. The titles are the scenario
  * steps verbatim; the variants pass their own title.
  */
-export const GUEST_MESSAGE_STEP = "Send POST /messages without an Authorization header, with a unique subject and a message text, and take the new message's id.";
-export const CUSTOMER_MESSAGE_STEP = "Send POST /messages with that token, a unique subject and a message text, and take the new message's id.";
+const GUEST_MESSAGE_STEP = "Send POST /messages without an Authorization header, with a unique subject and a message text, and take the new message's id.";
+const CUSTOMER_MESSAGE_STEP = "Send POST /messages with that token, a unique subject and a message text, and take the new message's id.";
 
 /** How the attached requests name the tokens of the messages scenarios. */
 export const MESSAGE_AUTH = {

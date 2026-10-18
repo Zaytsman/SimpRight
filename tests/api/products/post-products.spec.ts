@@ -1,8 +1,9 @@
-import { test, expect, takeProductRefs, expectFieldMessages, sendCreateProduct, PRODUCT_LIST_STEP, type CreateProductRequestInfo } from '@fixtures';
+import { test, expect, takeProductRefs, sendCreateProduct, PRODUCT_LIST_STEP, type CreateProductRequestInfo } from '@fixtures';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { CreateProductRequest, Product, ProductDetails } from '@api/dto/product';
 import { TestConstants } from '@data/TestConstants';
 import { ProductFactory, type ProductRefs } from '@data/factories/ProductFactory';
+import { expectFieldMessages } from '@utils/apiChecks';
 import { assertMessage, attachJson } from '@utils/assertHelpers';
 
 // Scenarios: test-scenarios/api/products/post-products.yml

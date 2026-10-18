@@ -1,11 +1,11 @@
-import { test, expect, registerThrowawayCustomer, loginThrowawayCustomer, expectFieldMessages } from '@fixtures';
+import { test, expect, registerThrowawayCustomer, loginThrowawayCustomer } from '@fixtures';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { UsersClient } from '@api/clients/UsersClient';
 import type { PatchUserRequest, User } from '@api/dto/user';
 import type { UsersService } from '@api/services/UsersService';
 import { TestConstants } from '@data/TestConstants';
 import { UserFactory } from '@data/factories/UserFactory';
-import { expectErrorText, expectMessage, expectStatus, expectSuccess } from '@utils/apiChecks';
+import { expectErrorText, expectFieldMessages, expectMessage, expectStatus, expectSuccess } from '@utils/apiChecks';
 import { assertMessage, attachJson } from '@utils/assertHelpers';
 
 // Scenarios: test-scenarios/api/users/patch-users-by-user-id.yml

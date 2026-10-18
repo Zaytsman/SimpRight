@@ -14,7 +14,7 @@ SimpRight/
 │   ├── envs/
 │   │   └── TEST.json             one file per environment: URLs, timeouts, the admin user (${VAR} placeholders)
 │   ├── fixtures/                 what specs import as @fixtures
-│   │   ├── index.ts              exports test, expect and the UI precondition fixtures
+│   │   ├── index.ts              exports test, expect, the UI precondition fixtures and the API step helpers
 │   │   ├── base.ts               fixtures shared by both layers: role, config, user, tokenService, cleanup
 │   │   └── fixtures.ts           merges the API and UI fixtures (mergeTests)
 │   ├── api/

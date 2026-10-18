@@ -41,7 +41,7 @@ npm run bugs:build                # Bugs page into test-results/bugs/ (open inde
 
 ## Fixtures
 
-Specs import from `src/fixtures` (`index.ts`): `test`, `expect` and `openHomePageTest`.
+Specs import from `src/fixtures` (`index.ts`): `test`, `expect`, the UI precondition fixtures (`openHomePageTest`, ...) and the API step helpers. `index.ts` re-exports each `src/api/fixtures/<area>Steps.ts` with `export *`, so a new helper needs no change there; keep names that only their own module uses unexported.
 - `src/fixtures/base.ts` holds the fixtures shared by both layers: `role` (option, default `'default'`; set with `test.use({ role: 'admin' })`), `config` and `tokenService` (worker scope), `user`, and `cleanup` (undo steps for records the test creates, run after the test, pass or fail, newest first; a failing step only logs a warning).
 - `src/api/fixtures/fixtures.ts` and `src/ui/fixtures/fixtures.ts` each extend base. `src/fixtures/fixtures.ts` combines them with `mergeTests`. Fixtures are lazy, so a UI test that doesn't ask for `accessToken` never logs in through the API.
 - The UI fixtures set `storageState` from `role` and `authMode`, so a test starts logged in as its role. For logged-out tests, use `test.use({ authMode: 'none' })`.

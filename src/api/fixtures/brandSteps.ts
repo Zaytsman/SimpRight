@@ -10,11 +10,11 @@ import { assertMessage, attachJson } from '../../utils/assertHelpers';
 /**
  * Steps shared by the Brands specs. The titles are the scenario steps verbatim; the brands files use the same wording.
  */
-export const BRAND_CREATE_STEP = "Send POST /brands with a unique brand name and a unique slug, with the admin's token, and take the new brand's id.";
+const BRAND_CREATE_STEP = "Send POST /brands with a unique brand name and a unique slug, with the admin's token, and take the new brand's id.";
 export const BRAND_CREATE_ID_SLUG_STEP =
   "Send POST /brands with a unique brand name and a unique slug, with the admin's token, and take the new brand's id and slug.";
-export const OTHER_BRAND_SLUG_STEP = 'Send GET /brands and take the slug of a brand other than the new one.';
-export const SEEDED_BRAND_IDS_STEP = 'Send GET /brands and keep the ids of the seeded brands ForgeFlex Tools and MightyCraft Hardware.';
+const OTHER_BRAND_SLUG_STEP = 'Send GET /brands and take the slug of a brand other than the new one.';
+const SEEDED_BRAND_IDS_STEP = 'Send GET /brands and keep the ids of the seeded brands ForgeFlex Tools and MightyCraft Hardware.';
 
 /**
  * A brand-create setup step (title `title`, default BRAND_CREATE_STEP): creates a brand with a unique name and slug

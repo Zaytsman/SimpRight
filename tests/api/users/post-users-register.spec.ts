@@ -1,4 +1,4 @@
-import { test, expect, registerThrowawayCustomer, expectFieldMessages } from '@fixtures';
+import { test, expect, registerThrowawayCustomer } from '@fixtures';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { AuthClient } from '@api/clients/AuthClient';
 import type { UsersClient } from '@api/clients/UsersClient';
@@ -8,6 +8,7 @@ import type { RegisteredUser, RegisterUserRequest, User } from '@api/dto/user';
 import type { UsersService } from '@api/services/UsersService';
 import type { Cleanup } from '@fixtures/base';
 import { UserFactory } from '@data/factories/UserFactory';
+import { expectFieldMessages } from '@utils/apiChecks';
 import { assertMessage, attachJson } from '@utils/assertHelpers';
 
 // Scenarios: test-scenarios/api/users/post-users-register.yml

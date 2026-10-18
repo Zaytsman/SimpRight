@@ -9,7 +9,7 @@ import { assertMessage, attachJson } from '../../utils/assertHelpers';
 /**
  * Steps shared by the Categories specs. The titles are the scenario steps verbatim; the categories files use the same wording.
  */
-export const CATEGORY_CREATE_STEP =
+const CATEGORY_CREATE_STEP =
   "Send POST /categories with a unique category name and a unique slug, with the admin's token, and take the new category's id.";
 export const CATEGORY_CREATE_ID_SLUG_STEP =
   "Send POST /categories with a unique category name and a unique slug, with the admin's token, and take the new category's id and slug.";
