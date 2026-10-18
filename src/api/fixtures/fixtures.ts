@@ -1,5 +1,8 @@
 import { test as base } from '../../fixtures/base';
+import type { UserRole } from '../../config/env';
+import type { TokenService } from '../auth/TokenService';
 import { AuthClient } from '../clients/AuthClient';
+import type { AccessToken } from '../clients/BaseClient';
 import { BrandsClient } from '../clients/BrandsClient';
 import { CartsClient } from '../clients/CartsClient';
 import { CategoriesClient } from '../clients/CategoriesClient';
@@ -28,6 +31,11 @@ import { UsersService } from '../services/UsersService';
 
 /** Not a JWT at all, so the API can't parse it and treats the request as unauthenticated. */
 const INVALID_TOKEN = 'invalid-token';
+
+/** The token of `role`, fetched from TokenService when each request is sent (cached, and refreshed before it expires). */
+function roleToken(tokenService: TokenService, role: UserRole): AccessToken {
+  return () => tokenService.getAccessToken(role);
+}
 
 export type ApiFixtures = {
   accessToken: string;
@@ -173,14 +181,14 @@ export const test = base.extend<ApiFixtures>({
   productsService: async ({ productsClient }, use) => {
     await use(new ProductsService(productsClient));
   },
-  productsClientWithToken: async ({ request, config, accessToken }, use) => {
-    await use(new ProductsClient(request, config, accessToken));
+  productsClientWithToken: async ({ request, config, role, tokenService }, use) => {
+    await use(new ProductsClient(request, config, roleToken(tokenService, role)));
   },
   productsClientWithInvalidToken: async ({ request, config }, use) => {
     await use(new ProductsClient(request, config, INVALID_TOKEN));
   },
   adminProductsService: async ({ request, config, tokenService }, use) => {
-    await use(new ProductsService(new ProductsClient(request, config, await tokenService.getAccessToken('admin'))));
+    await use(new ProductsService(new ProductsClient(request, config, roleToken(tokenService, 'admin'))));
   },
 
   productSpecsClient: async ({ request, config }, use) => {
@@ -189,8 +197,8 @@ export const test = base.extend<ApiFixtures>({
   productSpecsService: async ({ productSpecsClient }, use) => {
     await use(new ProductSpecsService(productSpecsClient));
   },
-  productSpecsClientWithToken: async ({ request, config, accessToken }, use) => {
-    await use(new ProductSpecsClient(request, config, accessToken));
+  productSpecsClientWithToken: async ({ request, config, role, tokenService }, use) => {
+    await use(new ProductSpecsClient(request, config, roleToken(tokenService, role)));
   },
   productSpecsClientWithInvalidToken: async ({ request, config }, use) => {
     await use(new ProductSpecsClient(request, config, INVALID_TOKEN));
@@ -199,8 +207,8 @@ export const test = base.extend<ApiFixtures>({
     await use(new ProductSpecsService(productSpecsClientWithToken));
   },
 
-  usersClient: async ({ request, config, accessToken }, use) => {
-    await use(new UsersClient(request, config, accessToken));
+  usersClient: async ({ request, config, role, tokenService }, use) => {
+    await use(new UsersClient(request, config, roleToken(tokenService, role)));
   },
   usersClientWithoutToken: async ({ request, config }, use) => {
     await use(new UsersClient(request, config));
@@ -218,7 +226,7 @@ export const test = base.extend<ApiFixtures>({
     await use((token: string) => new UsersService(usersClientForToken(token)));
   },
   adminUsersService: async ({ request, config, tokenService }, use) => {
-    await use(new UsersService(new UsersClient(request, config, await tokenService.getAccessToken('admin'))));
+    await use(new UsersService(new UsersClient(request, config, roleToken(tokenService, 'admin'))));
   },
 
   brandsClient: async ({ request, config }, use) => {
@@ -227,14 +235,14 @@ export const test = base.extend<ApiFixtures>({
   brandsService: async ({ brandsClient }, use) => {
     await use(new BrandsService(brandsClient));
   },
-  brandsClientWithToken: async ({ request, config, accessToken }, use) => {
-    await use(new BrandsClient(request, config, accessToken));
+  brandsClientWithToken: async ({ request, config, role, tokenService }, use) => {
+    await use(new BrandsClient(request, config, roleToken(tokenService, role)));
   },
   brandsClientWithInvalidToken: async ({ request, config }, use) => {
     await use(new BrandsClient(request, config, INVALID_TOKEN));
   },
   adminBrandsService: async ({ request, config, tokenService }, use) => {
-    await use(new BrandsService(new BrandsClient(request, config, await tokenService.getAccessToken('admin'))));
+    await use(new BrandsService(new BrandsClient(request, config, roleToken(tokenService, 'admin'))));
   },
 
   categoriesClient: async ({ request, config }, use) => {
@@ -243,14 +251,14 @@ export const test = base.extend<ApiFixtures>({
   categoriesService: async ({ categoriesClient }, use) => {
     await use(new CategoriesService(categoriesClient));
   },
-  categoriesClientWithToken: async ({ request, config, accessToken }, use) => {
-    await use(new CategoriesClient(request, config, accessToken));
+  categoriesClientWithToken: async ({ request, config, role, tokenService }, use) => {
+    await use(new CategoriesClient(request, config, roleToken(tokenService, role)));
   },
   categoriesClientWithInvalidToken: async ({ request, config }, use) => {
     await use(new CategoriesClient(request, config, INVALID_TOKEN));
   },
   adminCategoriesService: async ({ request, config, tokenService }, use) => {
-    await use(new CategoriesService(new CategoriesClient(request, config, await tokenService.getAccessToken('admin'))));
+    await use(new CategoriesService(new CategoriesClient(request, config, roleToken(tokenService, 'admin'))));
   },
 
   cartsClient: async ({ request, config }, use) => {
@@ -259,8 +267,8 @@ export const test = base.extend<ApiFixtures>({
   cartsService: async ({ cartsClient }, use) => {
     await use(new CartsService(cartsClient));
   },
-  cartsClientWithToken: async ({ request, config, accessToken }, use) => {
-    await use(new CartsClient(request, config, accessToken));
+  cartsClientWithToken: async ({ request, config, role, tokenService }, use) => {
+    await use(new CartsClient(request, config, roleToken(tokenService, role)));
   },
 
   favoritesServiceForToken: async ({ request, config }, use) => {
@@ -269,8 +277,8 @@ export const test = base.extend<ApiFixtures>({
   favoritesClient: async ({ request, config }, use) => {
     await use(new FavoritesClient(request, config));
   },
-  favoritesClientWithToken: async ({ request, config, accessToken }, use) => {
-    await use(new FavoritesClient(request, config, accessToken));
+  favoritesClientWithToken: async ({ request, config, role, tokenService }, use) => {
+    await use(new FavoritesClient(request, config, roleToken(tokenService, role)));
   },
   favoritesClientWithInvalidToken: async ({ request, config }, use) => {
     await use(new FavoritesClient(request, config, INVALID_TOKEN));
@@ -315,8 +323,8 @@ export const test = base.extend<ApiFixtures>({
   invoicesService: async ({ invoicesClient }, use) => {
     await use(new InvoicesService(invoicesClient));
   },
-  invoicesClientWithToken: async ({ request, config, accessToken }, use) => {
-    await use(new InvoicesClient(request, config, accessToken));
+  invoicesClientWithToken: async ({ request, config, role, tokenService }, use) => {
+    await use(new InvoicesClient(request, config, roleToken(tokenService, role)));
   },
   invoicesClientForToken: async ({ request, config }, use) => {
     await use((token: string) => new InvoicesClient(request, config, token));
@@ -328,8 +336,8 @@ export const test = base.extend<ApiFixtures>({
   reportsClient: async ({ request, config }, use) => {
     await use(new ReportsClient(request, config));
   },
-  reportsClientWithToken: async ({ request, config, accessToken }, use) => {
-    await use(new ReportsClient(request, config, accessToken));
+  reportsClientWithToken: async ({ request, config, role, tokenService }, use) => {
+    await use(new ReportsClient(request, config, roleToken(tokenService, role)));
   },
   reportsClientWithInvalidToken: async ({ request, config }, use) => {
     await use(new ReportsClient(request, config, INVALID_TOKEN));
@@ -344,8 +352,8 @@ export const test = base.extend<ApiFixtures>({
   messagesService: async ({ messagesClient }, use) => {
     await use(new MessagesService(messagesClient));
   },
-  messagesClientWithToken: async ({ request, config, accessToken }, use) => {
-    await use(new MessagesClient(request, config, accessToken));
+  messagesClientWithToken: async ({ request, config, role, tokenService }, use) => {
+    await use(new MessagesClient(request, config, roleToken(tokenService, role)));
   },
   messagesServiceWithToken: async ({ messagesClientWithToken }, use) => {
     await use(new MessagesService(messagesClientWithToken));

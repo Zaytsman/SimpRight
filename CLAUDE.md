@@ -135,7 +135,8 @@ Path aliases (tsconfig `paths`, resolved by Playwright): `@fixtures` (= `src/fix
   - `DISABLE_API_COVERAGE=true` turns it off. A CLI `--reporter` also turns it off, because it replaces the configured reporters.
 - **Services** (`src/api/services/`) wrap clients with domain operations and parsing; **DTOs** (`src/api/dto/`) type the request and response bodies.
 - **Auth:** `POST /users/login` with `{ email, password }` returns `access_token` and `expires_in` (300s). `TokenService` (worker-scoped) logs in each role once per worker and refreshes the token 2 minutes before it expires. The JWT's `role` claim is `admin` or `user`; `/users/me` returns `role` only for admin.
-- **Fixtures** (`src/api/fixtures/fixtures.ts`): `accessToken` (for the test's `role`, from the shared `tokenService`) and `authClient`. Register new clients and services here, built from `request`, `config` and `accessToken`.
+- **Fixtures** (`src/api/fixtures/fixtures.ts`): `accessToken` (for the test's `role`, from the shared `tokenService`) and `authClient`. Register new clients and services here, built from `request` and `config`. A client for the test's role or the admin gets `roleToken(tokenService, role)`, a function that takes the token from `tokenService` when each request is sent, so a test that outlives a token (the 300 s PDF tests) never sends an expired one; a token the test obtained itself is passed as a string (`xClientForToken`).
+  - The variants per area, as far as the scenarios need them: `xClient` and `xService` (no token), `xClientWithToken` (the test's `role`), `xClientWithInvalidToken` (a malformed token, for the 401 checks), `xClientForToken(token)` / `xServiceForToken(token)` (a token the test obtained itself, such as a throwaway customer's) and `adminXService` (always admin, for setup and cleanup).
 
 ## API contracts
 

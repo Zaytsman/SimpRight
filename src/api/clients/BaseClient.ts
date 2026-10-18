@@ -66,6 +66,12 @@ export interface QueryBodyOptions {
   accept?: string | null;
 }
 
+/**
+ * A client's bearer token: a fixed one (a token the test obtained itself, or a malformed one), or a function that
+ * returns one when each request is sent, so a test that runs longer than a token's life never sends an expired one.
+ */
+export type AccessToken = string | (() => Promise<string>);
+
 /** A query-string value; see `queryString`. */
 export type QueryValue = string | number | boolean | string[] | undefined;
 
@@ -130,15 +136,15 @@ export abstract class BaseClient {
 
   protected readonly request: APIRequestContext;
   protected readonly baseUrl: string;
-  private readonly accessToken: string | null;
+  private readonly accessToken: AccessToken | null;
 
-  constructor(request: APIRequestContext, config: Pick<EnvConfig, 'apiBaseUrl'>, accessToken?: string | null) {
+  constructor(request: APIRequestContext, config: Pick<EnvConfig, 'apiBaseUrl'>, accessToken?: AccessToken | null) {
     this.request = request;
     this.baseUrl = config.apiBaseUrl;
     this.accessToken = accessToken || null;
   }
 
-  protected getHeaders(contentType?: string): Record<string, string> {
+  protected async getHeaders(contentType?: string): Promise<Record<string, string>> {
     const headers: Record<string, string> = {
       Accept: 'application/json',
     };
@@ -147,8 +153,9 @@ export abstract class BaseClient {
       headers['Content-Type'] = contentType;
     }
 
-    if (this.accessToken) {
-      headers['Authorization'] = `Bearer ${this.accessToken}`;
+    const token = typeof this.accessToken === 'function' ? await this.accessToken() : this.accessToken;
+    if (token) {
+      headers['Authorization'] = `Bearer ${token}`;
     }
 
     return headers;
@@ -186,7 +193,7 @@ export abstract class BaseClient {
     const hasRawBody = !hasMultipart && options?.rawData !== undefined && bodyMethods.includes(method);
     const hasBody = !hasMultipart && !hasRawBody && options?.data !== undefined && bodyMethods.includes(method);
     const contentType = options?.contentType ?? (hasBody ? 'application/json; charset=utf-8' : undefined);
-    const headers = this.getHeaders(contentType);
+    const headers = await this.getHeaders(contentType);
     if (options?.accept === null) {
       delete headers['Accept'];
     } else if (options?.accept !== undefined) {
