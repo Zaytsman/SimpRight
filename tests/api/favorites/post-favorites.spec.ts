@@ -1,4 +1,4 @@
-import { test, expect, AUTH, createCustomerWithFavorite, expectGetFavoriteStatus, loginThrowawayCustomer, registerSecondCustomer, registerThrowawayCustomer, takeFirstProductId } from '@fixtures';
+import { test, expect, AUTH, createCustomerWithFavorite, expectGetFavoriteStatus, loginThrowawayCustomer, registerSecondCustomer, registerThrowawayCustomer, takeFirstProductId, sendAndAttach, removeIfCreated } from '@fixtures';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { FavoritesClient } from '@api/clients/FavoritesClient';
 import type { CreateFavoriteRequest, Favorite } from '@api/dto/favorite';
@@ -25,14 +25,11 @@ async function sendAdd(
   owner?: FavoritesService
 ): Promise<{ request: AddFavoriteRequest; response: ApiResponse }> {
   const request: AddFavoriteRequest = { method: 'POST', path: '/favorites', auth, body };
-  const response = await favoritesClient.create(body);
-  if (response.status === 201 && owner) {
-    const created = parseJson<Favorite>(request, response);
-    cleanup.add(() => owner.delete(created.id));
-  }
-  await attachJson('Add Favorite Request', request);
-  await attachJson('Add Favorite Response', { status: response.status, body: response.body });
-  return { request, response };
+  return sendAndAttach('Add Favorite', request, async () => {
+    const response = await favoritesClient.create(body);
+    if (owner) removeIfCreated(response, cleanup, (id) => owner.delete(id));
+    return response;
+  });
 }
 
 test.describe('@favorites-api - Favorites API', () => {
@@ -78,7 +75,7 @@ test.describe('@favorites-api - Favorites API', () => {
       "Verify GET /favorites/{favoriteId} with the new id and the throwaway customer's access_token returns 200 with the same product_id and user_id.",
       async () => {
         const read = await expectGetFavoriteStatus(favoritesClientForToken(token), body.id, AUTH.throwaway, 200);
-        const favorite = JSON.parse(read.body) as Favorite;
+        const favorite = parseJson<Favorite>(undefined, read);
         const readRequest = { method: 'GET', path: `/favorites/${body.id}`, auth: AUTH.throwaway };
         expect(
           { product_id: favorite.product_id, user_id: favorite.user_id },

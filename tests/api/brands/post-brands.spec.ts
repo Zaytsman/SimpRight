@@ -1,4 +1,4 @@
-import { test, expect, removeBrandIfCreated, AUTH } from '@fixtures';
+import { test, expect, removeBrandIfCreated, AUTH, checkRejectedBody, sendAndAttach } from '@fixtures';
 import type { Cleanup } from '@fixtures/base';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { BrandsClient } from '@api/clients/BrandsClient';
@@ -21,14 +21,14 @@ async function sendCreateBrand(
   body: unknown,
   adminBrandsService: BrandsService,
   cleanup: Cleanup,
-  auth = 'none'
+  auth: string = AUTH.none
 ): Promise<{ request: CreateBrandRequestInfo; response: ApiResponse }> {
   const request: CreateBrandRequestInfo = { method: 'POST', path: '/brands', auth, body };
-  const response = await brandsClient.create(body as Record<string, unknown>);
-  removeBrandIfCreated(response, adminBrandsService, cleanup);
-  await attachJson('Create Brand Request', request);
-  await attachJson('Create Brand Response', { status: response.status, body: response.body });
-  return { request, response };
+  return sendAndAttach('Create Brand', request, async () => {
+    const response = await brandsClient.create(body as Record<string, unknown>);
+    removeBrandIfCreated(response, adminBrandsService, cleanup);
+    return response;
+  });
 }
 
 /** The setup step "Send GET /brands and take the first brand's slug." */
@@ -71,9 +71,7 @@ test.describe('@brands-api - Brands API', () => {
       });
 
       await test.step('Verify GET /brands/{brandId} with the new id returns 200 with the same name and slug.', async () => {
-        const getRequest = { method: 'GET', path: `/brands/${created.id}` };
-        const getResponse = await brandsClient.getById(created.id);
-        await attachJson('Get Brand Response', { status: getResponse.status, body: getResponse.body });
+        const { request: getRequest, response: getResponse } = await sendAndAttach('Get Brand', { method: 'GET', path: `/brands/${created.id}` }, () => brandsClient.getById(created.id));
         expectStatus(getRequest, getResponse, 200);
         const fetched = parseJson<Brand>(getRequest, getResponse);
         expect({ name: fetched.name, slug: fetched.slug }, assertMessage({ request: getRequest, expected: `name and slug as sent: ${JSON.stringify(body)}`, actual: fetched })).toEqual(
@@ -106,9 +104,7 @@ test.describe('@brands-api - Brands API', () => {
       });
 
       await test.step('Verify GET /brands/{brandId} with the new id has no description key.', async () => {
-        const getRequest = { method: 'GET', path: `/brands/${createdId}` };
-        const getResponse = await brandsClient.getById(createdId);
-        await attachJson('Get Brand Response', { status: getResponse.status, body: getResponse.body });
+        const { request: getRequest, response: getResponse } = await sendAndAttach('Get Brand', { method: 'GET', path: `/brands/${createdId}` }, () => brandsClient.getById(createdId));
         expectStatus(getRequest, getResponse, 200);
         const fetched = parseJson<Record<string, unknown>>(getRequest, getResponse);
         expect('description' in fetched, assertMessage({ request: getRequest, expected: 'No description key', actual: fetched })).toBe(false);
@@ -140,78 +136,47 @@ test.describe('@brands-api - Brands API', () => {
   });
 
   test('API-0122: Create brand with a slug outside letters, digits, dashes and underscores returns 422', async ({ brandsClient, adminBrandsService, cleanup }) => {
-    let request: CreateBrandRequestInfo;
-    let response: ApiResponse;
-
-    await test.step('Send POST /brands with a unique brand name and a slug made of a unique slug followed by " x!" (a space and an exclamation mark).', async () => {
-      const body = BrandFactory.createBrand({ slug: BrandFactory.slugWithInvalidChars() });
-      ({ request, response } = await sendCreateBrand(brandsClient, body, adminBrandsService, cleanup));
-    });
-
-    await test.step('Verify the response status is 422.', async () => {
-      expectStatus(request, response, 422);
-    });
-
-    await test.step('Verify the body has a slug key with at least one message.', async () => {
-      expectFieldMessages(request, response, 'slug');
-    });
+    await checkRejectedBody(
+      'Send POST /brands with a unique brand name and a slug made of a unique slug followed by " x!" (a space and an exclamation mark).',
+      () => {
+        const body = BrandFactory.createBrand({ slug: BrandFactory.slugWithInvalidChars() });
+        return sendCreateBrand(brandsClient, body, adminBrandsService, cleanup);
+      },
+      'slug'
+    );
   });
 
   test('API-0123: Create brand with a name longer than 120 characters returns 422', async ({ brandsClient, adminBrandsService, cleanup }) => {
-    let request: CreateBrandRequestInfo;
-    let response: ApiResponse;
-
-    await test.step('Send POST /brands with a 121-character name that starts with a unique brand name, and a unique slug.', async () => {
-      const body = BrandFactory.createBrand({ name: BrandFactory.nameTooLong() });
-      ({ request, response } = await sendCreateBrand(brandsClient, body, adminBrandsService, cleanup));
-    });
-
-    await test.step('Verify the response status is 422.', async () => {
-      expectStatus(request, response, 422);
-    });
-
-    await test.step('Verify the body has a name key with at least one message.', async () => {
-      expectFieldMessages(request, response, 'name');
-    });
+    await checkRejectedBody(
+      'Send POST /brands with a 121-character name that starts with a unique brand name, and a unique slug.',
+      () => {
+        const body = BrandFactory.createBrand({ name: BrandFactory.nameTooLong() });
+        return sendCreateBrand(brandsClient, body, adminBrandsService, cleanup);
+      },
+      'name'
+    );
   });
 
   test('API-0124: Create brand with a slug longer than 120 characters returns 422', async ({ brandsClient, adminBrandsService, cleanup }) => {
-    let request: CreateBrandRequestInfo;
-    let response: ApiResponse;
-
-    await test.step(
+    await checkRejectedBody(
       'Send POST /brands with a unique brand name and a 121-character slug that starts with a unique slug and contains only letters, digits and dashes.',
-      async () => {
+      () => {
         const body = BrandFactory.createBrand({ slug: BrandFactory.slugTooLong() });
-        ({ request, response } = await sendCreateBrand(brandsClient, body, adminBrandsService, cleanup));
-      }
+        return sendCreateBrand(brandsClient, body, adminBrandsService, cleanup);
+      },
+      'slug'
     );
-
-    await test.step('Verify the response status is 422.', async () => {
-      expectStatus(request, response, 422);
-    });
-
-    await test.step('Verify the body has a slug key with at least one message.', async () => {
-      expectFieldMessages(request, response, 'slug');
-    });
   });
 
   test('API-0125: Create brand with a subscript character in the name returns 422', async ({ brandsClient, adminBrandsService, cleanup }) => {
-    let request: CreateBrandRequestInfo;
-    let response: ApiResponse;
-
-    await test.step('Send POST /brands with a unique brand name followed by a Unicode subscript character, and a unique slug.', async () => {
-      const body = BrandFactory.createBrand({ name: BrandFactory.nameWithSubscript() });
-      ({ request, response } = await sendCreateBrand(brandsClient, body, adminBrandsService, cleanup));
-    });
-
-    await test.step('Verify the response status is 422.', async () => {
-      expectStatus(request, response, 422);
-    });
-
-    await test.step('Verify the body has a name key with at least one message.', async () => {
-      expectFieldMessages(request, response, 'name');
-    });
+    await checkRejectedBody(
+      'Send POST /brands with a unique brand name followed by a Unicode subscript character, and a unique slug.',
+      () => {
+        const body = BrandFactory.createBrand({ name: BrandFactory.nameWithSubscript() });
+        return sendCreateBrand(brandsClient, body, adminBrandsService, cleanup);
+      },
+      'name'
+    );
   });
 
   test('API-0126: Create brand with an existing slug returns 409', async ({ brandsService, brandsClient, adminBrandsService, cleanup }) => {

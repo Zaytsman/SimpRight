@@ -29,6 +29,28 @@ function expectSingleError(request: MessageRequest, response: ApiResponse, text:
   expect(body.errors, assertMessage({ request, expected: `errors is the list ["${text}"]`, actual: body })).toEqual([text]);
 }
 
+/**
+ * The template of the "Attach <a file the API rejects> to a message returns 400" scenarios (API-0382..0386): sends
+ * `file` (none: no file field) to a well-formed message id no message has (title `sendStep`), then checks the 400 and
+ * that `errors` is the single item `error`.
+ */
+async function checkRejectedAttachment(messagesClient: MessagesClient, sendStep: string, file: MultipartFile | undefined, error: string): Promise<void> {
+  let request: MessageRequest;
+  let response: ApiResponse;
+
+  await test.step(sendStep, async () => {
+    ({ request, response } = await sendAttach(messagesClient, TestConstants.messages.unknownId, file));
+  });
+
+  await test.step('Verify the response status is 400.', async () => {
+    expectStatus(request, response, 400);
+  });
+
+  await test.step(`Verify the body's errors is a list with the single item "${error}".`, async () => {
+    expectSingleError(request, response, error);
+  });
+}
+
 test.describe('@messages-api - Messages API', () => {
   test('API-0381: Attach an empty txt file to a message returns 200', async ({ messagesService, messagesClient }) => {
     let request: MessageRequest;
@@ -50,88 +72,48 @@ test.describe('@messages-api - Messages API', () => {
   });
 
   test('API-0382: Attach no file to a message returns 400', async ({ messagesClient }) => {
-    let request: MessageRequest;
-    let response: ApiResponse;
-
-    await test.step("Send POST /messages/{messageId}/attach-file with a well-formed message id that doesn't exist, as multipart/form-data with no file field.", async () => {
-      ({ request, response } = await sendAttach(messagesClient, TestConstants.messages.unknownId));
-    });
-
-    await test.step('Verify the response status is 400.', async () => {
-      expectStatus(request, response, 400);
-    });
-
-    await test.step('Verify the body\'s errors is a list with the single item "No file attached.".', async () => {
-      expectSingleError(request, response, 'No file attached.');
-    });
+    await checkRejectedAttachment(
+      messagesClient,
+      "Send POST /messages/{messageId}/attach-file with a well-formed message id that doesn't exist, as multipart/form-data with no file field.",
+      undefined,
+      'No file attached.'
+    );
   });
 
   test('API-0383: Attach a non-empty txt file to a message returns 400', async ({ messagesClient }) => {
-    let request: MessageRequest;
-    let response: ApiResponse;
-
-    await test.step('Send POST /messages/{messageId}/attach-file with a well-formed message id that doesn\'t exist, as multipart/form-data with a file field holding a 1-byte file named "note.txt".', async () => {
-      ({ request, response } = await sendAttach(messagesClient, TestConstants.messages.unknownId, MessageFactory.oneByteFile('note.txt')));
-    });
-
-    await test.step('Verify the response status is 400.', async () => {
-      expectStatus(request, response, 400);
-    });
-
-    await test.step('Verify the body\'s errors is a list with the single item "Currently we only allow empty files.".', async () => {
-      expectSingleError(request, response, 'Currently we only allow empty files.');
-    });
+    await checkRejectedAttachment(
+      messagesClient,
+      'Send POST /messages/{messageId}/attach-file with a well-formed message id that doesn\'t exist, as multipart/form-data with a file field holding a 1-byte file named "note.txt".',
+      MessageFactory.oneByteFile('note.txt'),
+      'Currently we only allow empty files.'
+    );
   });
 
   test('API-0384: Attach an empty pdf file to a message returns 400', async ({ messagesClient }) => {
-    let request: MessageRequest;
-    let response: ApiResponse;
-
-    await test.step('Send POST /messages/{messageId}/attach-file with a well-formed message id that doesn\'t exist, as multipart/form-data with a file field holding an empty file named "note.pdf".', async () => {
-      ({ request, response } = await sendAttach(messagesClient, TestConstants.messages.unknownId, MessageFactory.emptyFile('note.pdf')));
-    });
-
-    await test.step('Verify the response status is 400.', async () => {
-      expectStatus(request, response, 400);
-    });
-
-    await test.step('Verify the body\'s errors is a list with the single item "The file extension is incorrect, we only accept txt files.".', async () => {
-      expectSingleError(request, response, 'The file extension is incorrect, we only accept txt files.');
-    });
+    await checkRejectedAttachment(
+      messagesClient,
+      'Send POST /messages/{messageId}/attach-file with a well-formed message id that doesn\'t exist, as multipart/form-data with a file field holding an empty file named "note.pdf".',
+      MessageFactory.emptyFile('note.pdf'),
+      'The file extension is incorrect, we only accept txt files.'
+    );
   });
 
   test('API-0385: Attach a non-empty pdf file to a message reports the empty-file rule first', async ({ messagesClient }) => {
-    let request: MessageRequest;
-    let response: ApiResponse;
-
-    await test.step('Send POST /messages/{messageId}/attach-file with a well-formed message id that doesn\'t exist, as multipart/form-data with a file field holding a 1-byte file named "note.pdf".', async () => {
-      ({ request, response } = await sendAttach(messagesClient, TestConstants.messages.unknownId, MessageFactory.oneByteFile('note.pdf')));
-    });
-
-    await test.step('Verify the response status is 400.', async () => {
-      expectStatus(request, response, 400);
-    });
-
-    await test.step('Verify the body\'s errors is a list with the single item "Currently we only allow empty files.".', async () => {
-      expectSingleError(request, response, 'Currently we only allow empty files.');
-    });
+    await checkRejectedAttachment(
+      messagesClient,
+      'Send POST /messages/{messageId}/attach-file with a well-formed message id that doesn\'t exist, as multipart/form-data with a file field holding a 1-byte file named "note.pdf".',
+      MessageFactory.oneByteFile('note.pdf'),
+      'Currently we only allow empty files.'
+    );
   });
 
   test('API-0386: Attach an empty file with the upper-case extension TXT to a message returns 400', async ({ messagesClient }) => {
-    let request: MessageRequest;
-    let response: ApiResponse;
-
-    await test.step('Send POST /messages/{messageId}/attach-file with a well-formed message id that doesn\'t exist, as multipart/form-data with a file field holding an empty file named "note.TXT".', async () => {
-      ({ request, response } = await sendAttach(messagesClient, TestConstants.messages.unknownId, MessageFactory.emptyFile('note.TXT')));
-    });
-
-    await test.step('Verify the response status is 400.', async () => {
-      expectStatus(request, response, 400);
-    });
-
-    await test.step('Verify the body\'s errors is a list with the single item "The file extension is incorrect, we only accept txt files.".', async () => {
-      expectSingleError(request, response, 'The file extension is incorrect, we only accept txt files.');
-    });
+    await checkRejectedAttachment(
+      messagesClient,
+      'Send POST /messages/{messageId}/attach-file with a well-formed message id that doesn\'t exist, as multipart/form-data with a file field holding an empty file named "note.TXT".',
+      MessageFactory.emptyFile('note.TXT'),
+      'The file extension is incorrect, we only accept txt files.'
+    );
   });
 
   test('API-0387: Attach an empty txt file to an unknown message id returns 404', async ({ messagesClient }) => {

@@ -1,4 +1,4 @@
-import { test, expect, sendAndAttach } from '@fixtures';
+import { test, expect, sendAndAttach, withHeaders } from '@fixtures';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { ImagesClient } from '@api/clients/ImagesClient';
 import type { ProductImage } from '@api/dto/product';
@@ -25,10 +25,7 @@ async function sendList(
     accept: describeAccept(options.accept),
     ...(options.ifNoneMatch !== undefined ? { ifNoneMatch: options.ifNoneMatch } : {}),
   };
-  const response = await imagesClient.list(options);
-  await attachJson('List Images Request', request);
-  await attachJson('List Images Response', { status: response.status, headers: response.headers, body: response.body });
-  return { request, response };
+  return sendAndAttach('List Images', request, () => imagesClient.list(options), withHeaders);
 }
 
 /** The checks of a "Verify the Cache-Control response header is "max-age=120, public"." step. */

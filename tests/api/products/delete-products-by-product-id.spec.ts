@@ -41,9 +41,7 @@ test.describe('@products-api - Products API', () => {
 
       // The product was never read before the DELETE, so no cached copy of it can exist.
       await test.step('Verify GET /products/{productId} with that id returns 404.', async () => {
-        const getRequest = { method: 'GET', path: `/products/${productId}` };
-        const getResponse = await productsClient.getById(productId);
-        await attachJson('Get Product Response', { status: getResponse.status, body: getResponse.body });
+        const { request: getRequest, response: getResponse } = await sendAndAttach('Get Product', { method: 'GET', path: `/products/${productId}` }, () => productsClient.getById(productId));
         expectStatus(getRequest, getResponse, 404);
       });
     });

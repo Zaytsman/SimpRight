@@ -3,7 +3,7 @@ import type { ApiResponse } from '@api/clients/BaseClient';
 import type { CategoriesClient } from '@api/clients/CategoriesClient';
 import type { CategorySearchQueryBody } from '@api/dto/category';
 import { TestConstants } from '@data/TestConstants';
-import { expectAcceptQuery, expectItemNamesContain, expectMessage, expectStatus } from '@utils/apiChecks';
+import { expectAcceptQuery, expectItemNamesContain, expectMessage, expectStatus, parseJson } from '@utils/apiChecks';
 
 // Scenarios: test-scenarios/api/categories/query-categories-search.yml
 
@@ -37,11 +37,11 @@ test.describe('@categories-api - Categories API', () => {
     });
 
     await test.step('Verify the body is a non-empty array and every item\'s name contains "saw" (case-insensitive).', async () => {
-      expectItemNamesContain(request, JSON.parse(response.body), term);
+      expectItemNamesContain(request, parseJson(request, response), term);
     });
 
     await test.step("Verify the body's slugs include hand-saw and saw.", async () => {
-      expectSlugsInclude(request, JSON.parse(response.body), slugs);
+      expectSlugsInclude(request, parseJson(request, response), slugs);
     });
   });
 
@@ -61,7 +61,7 @@ test.describe('@categories-api - Categories API', () => {
     });
 
     await test.step("Verify the body's slugs include hand-tools, hammer and saw.", async () => {
-      expectSlugsInclude(request, JSON.parse(response.body), TestConstants.categories.searchSeededSlugs);
+      expectSlugsInclude(request, parseJson(request, response), TestConstants.categories.searchSeededSlugs);
     });
   });
 

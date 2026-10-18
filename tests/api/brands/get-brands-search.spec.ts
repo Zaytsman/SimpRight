@@ -56,7 +56,7 @@ test.describe('@brands-api - Brands API', () => {
     });
 
     await test.step('Verify the body is a non-empty array and every item\'s name contains "fle" (case-insensitive).', async () => {
-      expectItemNamesContain(request, JSON.parse(response.body), term);
+      expectItemNamesContain(request, parseJson(request, response), term);
     });
   });
 
@@ -93,7 +93,7 @@ test.describe('@brands-api - Brands API', () => {
     });
 
     await test.step('Verify the body includes both seeded brand ids.', async () => {
-      expectIncludesBrandIds(request, JSON.parse(response.body), seededIds);
+      expectIncludesBrandIds(request, parseJson(request, response), seededIds);
     });
   });
 

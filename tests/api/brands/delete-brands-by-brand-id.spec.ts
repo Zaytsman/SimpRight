@@ -18,9 +18,7 @@ async function sendDeleteBrand(brandsClient: BrandsClient, brandId: string, auth
 
 /** Sends GET /brands/{brandId} for a Verify step and checks its status. */
 async function expectGetBrandStatus(brandsClient: BrandsClient, brandId: string, status: number): Promise<void> {
-  const getRequest = { method: 'GET', path: `/brands/${brandId}` };
-  const getResponse = await brandsClient.getById(brandId);
-  await attachJson('Get Brand Response', { status: getResponse.status, body: getResponse.body });
+  const { request: getRequest, response: getResponse } = await sendAndAttach('Get Brand', { method: 'GET', path: `/brands/${brandId}` }, () => brandsClient.getById(brandId));
   expectStatus(getRequest, getResponse, status);
 }
 

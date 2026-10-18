@@ -1,4 +1,4 @@
-import { test, expect, createCategory, readCategory, CATEGORY_CREATE_ID_SLUG_STEP, PARENT_CREATE_STEP, CHILD_CREATE_STEP, AUTH, sendAndAttach } from '@fixtures';
+import { test, expect, createCategory, readCategory, CATEGORY_CREATE_ID_SLUG_STEP, PARENT_CREATE_STEP, CHILD_CREATE_STEP, AUTH, sendAndAttach, checkRejectedBody } from '@fixtures';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { CategoriesClient } from '@api/clients/CategoriesClient';
 import type { CategoriesService } from '@api/services/CategoriesService';
@@ -147,25 +147,13 @@ test.describe('@categories-api - Categories API', () => {
     });
 
     test('API-0204: Update category with a name longer than 120 characters returns 422', async ({ adminCategoriesService, categoriesClientWithToken, cleanup }) => {
-      let request: UpdateCategoryRequestInfo;
-      let response: ApiResponse;
-
       const category = await createCategory(adminCategoriesService, cleanup);
 
-      await test.step(
+      await checkRejectedBody(
         "Send PUT /categories/{categoryId} with that id and a body with only a 121-character name that starts with a unique category name, with the admin's token.",
-        async () => {
-          ({ request, response } = await sendUpdateCategory(categoriesClientWithToken, category.id, CategoryFactory.updateNameTooLong(), AUTH.admin));
-        }
+        () => sendUpdateCategory(categoriesClientWithToken, category.id, CategoryFactory.updateNameTooLong(), AUTH.admin),
+        'name'
       );
-
-      await test.step('Verify the response status is 422.', async () => {
-        expectStatus(request, response, 422);
-      });
-
-      await test.step('Verify the body has a name key with at least one message.', async () => {
-        expectFieldMessages(request, response, 'name');
-      });
     });
 
     test('API-0205: Update category with a slug outside letters, digits, dashes and underscores returns 422', async ({
@@ -173,63 +161,33 @@ test.describe('@categories-api - Categories API', () => {
       categoriesClientWithToken,
       cleanup,
     }) => {
-      let request: UpdateCategoryRequestInfo;
-      let response: ApiResponse;
-
       const category = await createCategory(adminCategoriesService, cleanup);
 
-      await test.step(
+      await checkRejectedBody(
         'Send PUT /categories/{categoryId} with that id and a body with only a slug made of a unique slug followed by " x!" (a space and an exclamation mark), with the admin\'s token.',
-        async () => {
-          ({ request, response } = await sendUpdateCategory(categoriesClientWithToken, category.id, CategoryFactory.updateInvalidSlug(), AUTH.admin));
-        }
+        () => sendUpdateCategory(categoriesClientWithToken, category.id, CategoryFactory.updateInvalidSlug(), AUTH.admin),
+        'slug'
       );
-
-      await test.step('Verify the response status is 422.', async () => {
-        expectStatus(request, response, 422);
-      });
-
-      await test.step('Verify the body has a slug key with at least one message.', async () => {
-        expectFieldMessages(request, response, 'slug');
-      });
     });
 
     test("API-0206: Update category with a name that isn't a string returns 422", async ({ adminCategoriesService, categoriesClientWithToken, cleanup }) => {
-      let request: UpdateCategoryRequestInfo;
-      let response: ApiResponse;
-
       const category = await createCategory(adminCategoriesService, cleanup);
 
-      await test.step("Send PUT /categories/{categoryId} with that id and a body with only name set to the number 123, with the admin's token.", async () => {
-        ({ request, response } = await sendUpdateCategory(categoriesClientWithToken, category.id, CategoryFactory.nameNotString(), AUTH.admin));
-      });
-
-      await test.step('Verify the response status is 422.', async () => {
-        expectStatus(request, response, 422);
-      });
-
-      await test.step('Verify the body has a name key with at least one message.', async () => {
-        expectFieldMessages(request, response, 'name');
-      });
+      await checkRejectedBody(
+        "Send PUT /categories/{categoryId} with that id and a body with only name set to the number 123, with the admin's token.",
+        () => sendUpdateCategory(categoriesClientWithToken, category.id, CategoryFactory.nameNotString(), AUTH.admin),
+        'name'
+      );
     });
 
     test("API-0207: Update category with a parent_id that isn't a string returns 422", async ({ adminCategoriesService, categoriesClientWithToken, cleanup }) => {
-      let request: UpdateCategoryRequestInfo;
-      let response: ApiResponse;
-
       const category = await createCategory(adminCategoriesService, cleanup);
 
-      await test.step("Send PUT /categories/{categoryId} with that id and a body with only parent_id set to the number 123, with the admin's token.", async () => {
-        ({ request, response } = await sendUpdateCategory(categoriesClientWithToken, category.id, CategoryFactory.parentIdNotString(), AUTH.admin));
-      });
-
-      await test.step('Verify the response status is 422.', async () => {
-        expectStatus(request, response, 422);
-      });
-
-      await test.step('Verify the body has a parent_id key with at least one message.', async () => {
-        expectFieldMessages(request, response, 'parent_id');
-      });
+      await checkRejectedBody(
+        "Send PUT /categories/{categoryId} with that id and a body with only parent_id set to the number 123, with the admin's token.",
+        () => sendUpdateCategory(categoriesClientWithToken, category.id, CategoryFactory.parentIdNotString(), AUTH.admin),
+        'parent_id'
+      );
     });
 
     test("API-0210: Update category with another category's slug returns 409", async ({

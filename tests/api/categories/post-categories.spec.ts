@@ -1,4 +1,4 @@
-import { test, expect, createCategory, readCategory, removeCategoryIfCreated, PARENT_CREATE_STEP, AUTH } from '@fixtures';
+import { test, expect, createCategory, readCategory, removeCategoryIfCreated, PARENT_CREATE_STEP, AUTH, checkRejectedBody, sendAndAttach } from '@fixtures';
 import type { Cleanup } from '@fixtures/base';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { CategoriesClient } from '@api/clients/CategoriesClient';
@@ -7,7 +7,7 @@ import type { CategoriesService } from '@api/services/CategoriesService';
 import { TestConstants } from '@data/TestConstants';
 import { CategoryFactory } from '@data/factories/CategoryFactory';
 import { expectFieldMessageIncludes, expectFieldMessages, expectStatus, parseJson } from '@utils/apiChecks';
-import { assertMessage, attachJson } from '@utils/assertHelpers';
+import { assertMessage } from '@utils/assertHelpers';
 
 // Scenarios: test-scenarios/api/categories/post-categories.yml
 
@@ -22,14 +22,14 @@ async function sendCreateCategory(
   body: unknown,
   adminCategoriesService: CategoriesService,
   cleanup: Cleanup,
-  auth = 'none'
+  auth: string = AUTH.none
 ): Promise<{ request: CreateCategoryRequestInfo; response: ApiResponse }> {
   const request: CreateCategoryRequestInfo = { method: 'POST', path: '/categories', auth, body };
-  const response = await categoriesClient.create(body as Record<string, unknown>);
-  removeCategoryIfCreated(response, adminCategoriesService, cleanup);
-  await attachJson('Create Category Request', request);
-  await attachJson('Create Category Response', { status: response.status, body: response.body });
-  return { request, response };
+  return sendAndAttach('Create Category', request, async () => {
+    const response = await categoriesClient.create(body as Record<string, unknown>);
+    removeCategoryIfCreated(response, adminCategoriesService, cleanup);
+    return response;
+  });
 }
 
 test.describe('@categories-api - Categories API', () => {
@@ -65,9 +65,7 @@ test.describe('@categories-api - Categories API', () => {
       await test.step(
         'Verify GET /categories/tree/{categoryId} with the new id returns 200 with the same name and slug, a null parent_id and an empty sub_categories.',
         async () => {
-          const getRequest = { method: 'GET', path: `/categories/tree/${created.id}` };
-          const getResponse = await categoriesClient.getTreeById(created.id);
-          await attachJson('Get Category Response', { status: getResponse.status, body: getResponse.body });
+          const { request: getRequest, response: getResponse } = await sendAndAttach('Get Category', { method: 'GET', path: `/categories/tree/${created.id}` }, () => categoriesClient.getTreeById(created.id));
           expectStatus(getRequest, getResponse, 200);
           const fetched = parseJson<Record<string, unknown>>(getRequest, getResponse);
           expect(
@@ -158,9 +156,7 @@ test.describe('@categories-api - Categories API', () => {
       });
 
       await test.step('Verify GET /categories/tree/{categoryId} with the new id has no description key.', async () => {
-        const getRequest = { method: 'GET', path: `/categories/tree/${createdId}` };
-        const getResponse = await categoriesClient.getTreeById(createdId);
-        await attachJson('Get Category Response', { status: getResponse.status, body: getResponse.body });
+        const { request: getRequest, response: getResponse } = await sendAndAttach('Get Category', { method: 'GET', path: `/categories/tree/${createdId}` }, () => categoriesClient.getTreeById(createdId));
         expectStatus(getRequest, getResponse, 200);
         const fetched = parseJson<Record<string, unknown>>(getRequest, getResponse);
         expect('description' in fetched, assertMessage({ request: getRequest, expected: 'No description key', actual: fetched })).toBe(false);
@@ -196,98 +192,55 @@ test.describe('@categories-api - Categories API', () => {
     adminCategoriesService,
     cleanup,
   }) => {
-    let request: CreateCategoryRequestInfo;
-    let response: ApiResponse;
-
-    await test.step(
+    await checkRejectedBody(
       'Send POST /categories with a unique category name and a slug made of a unique slug followed by " x!" (a space and an exclamation mark).',
-      async () => {
+      () => {
         const body = CategoryFactory.createCategory({ slug: CategoryFactory.slugWithInvalidChars() });
-        ({ request, response } = await sendCreateCategory(categoriesClient, body, adminCategoriesService, cleanup));
-      }
+        return sendCreateCategory(categoriesClient, body, adminCategoriesService, cleanup);
+      },
+      'slug'
     );
-
-    await test.step('Verify the response status is 422.', async () => {
-      expectStatus(request, response, 422);
-    });
-
-    await test.step('Verify the body has a slug key with at least one message.', async () => {
-      expectFieldMessages(request, response, 'slug');
-    });
   });
 
   test('API-0169: Create category with a name longer than 120 characters returns 422', async ({ categoriesClient, adminCategoriesService, cleanup }) => {
-    let request: CreateCategoryRequestInfo;
-    let response: ApiResponse;
-
-    await test.step('Send POST /categories with a 121-character name that starts with a unique category name, and a unique slug.', async () => {
-      const body = CategoryFactory.createCategory({ name: CategoryFactory.nameTooLong() });
-      ({ request, response } = await sendCreateCategory(categoriesClient, body, adminCategoriesService, cleanup));
-    });
-
-    await test.step('Verify the response status is 422.', async () => {
-      expectStatus(request, response, 422);
-    });
-
-    await test.step('Verify the body has a name key with at least one message.', async () => {
-      expectFieldMessages(request, response, 'name');
-    });
+    await checkRejectedBody(
+      'Send POST /categories with a 121-character name that starts with a unique category name, and a unique slug.',
+      () => {
+        const body = CategoryFactory.createCategory({ name: CategoryFactory.nameTooLong() });
+        return sendCreateCategory(categoriesClient, body, adminCategoriesService, cleanup);
+      },
+      'name'
+    );
   });
 
   test('API-0170: Create category with a slug longer than 120 characters returns 422', async ({ categoriesClient, adminCategoriesService, cleanup }) => {
-    let request: CreateCategoryRequestInfo;
-    let response: ApiResponse;
-
-    await test.step(
+    await checkRejectedBody(
       'Send POST /categories with a unique category name and a 121-character slug that starts with a unique slug and contains only letters, digits and dashes.',
-      async () => {
+      () => {
         const body = CategoryFactory.createCategory({ slug: CategoryFactory.slugTooLong() });
-        ({ request, response } = await sendCreateCategory(categoriesClient, body, adminCategoriesService, cleanup));
-      }
+        return sendCreateCategory(categoriesClient, body, adminCategoriesService, cleanup);
+      },
+      'slug'
     );
-
-    await test.step('Verify the response status is 422.', async () => {
-      expectStatus(request, response, 422);
-    });
-
-    await test.step('Verify the body has a slug key with at least one message.', async () => {
-      expectFieldMessages(request, response, 'slug');
-    });
   });
 
   test("API-0171: Create category with a parent_id that isn't a string returns 422", async ({ categoriesClient, adminCategoriesService, cleanup }) => {
-    let request: CreateCategoryRequestInfo;
-    let response: ApiResponse;
-
-    await test.step('Send POST /categories with a unique category name, a unique slug and parent_id set to the number 123.', async () => {
-      ({ request, response } = await sendCreateCategory(categoriesClient, CategoryFactory.createWithParentIdNotString(), adminCategoriesService, cleanup));
-    });
-
-    await test.step('Verify the response status is 422.', async () => {
-      expectStatus(request, response, 422);
-    });
-
-    await test.step('Verify the body has a parent_id key with at least one message.', async () => {
-      expectFieldMessages(request, response, 'parent_id');
-    });
+    await checkRejectedBody(
+      'Send POST /categories with a unique category name, a unique slug and parent_id set to the number 123.',
+      () => sendCreateCategory(categoriesClient, CategoryFactory.createWithParentIdNotString(), adminCategoriesService, cleanup),
+      'parent_id'
+    );
   });
 
   test('API-0172: Create category with a subscript character in the name returns 422', async ({ categoriesClient, adminCategoriesService, cleanup }) => {
-    let request: CreateCategoryRequestInfo;
-    let response: ApiResponse;
-
-    await test.step('Send POST /categories with a unique category name followed by a Unicode subscript character, and a unique slug.', async () => {
-      const body = CategoryFactory.createCategory({ name: CategoryFactory.nameWithSubscript() });
-      ({ request, response } = await sendCreateCategory(categoriesClient, body, adminCategoriesService, cleanup));
-    });
-
-    await test.step('Verify the response status is 422.', async () => {
-      expectStatus(request, response, 422);
-    });
-
-    await test.step('Verify the body has a name key with at least one message.', async () => {
-      expectFieldMessages(request, response, 'name');
-    });
+    await checkRejectedBody(
+      'Send POST /categories with a unique category name followed by a Unicode subscript character, and a unique slug.',
+      () => {
+        const body = CategoryFactory.createCategory({ name: CategoryFactory.nameWithSubscript() });
+        return sendCreateCategory(categoriesClient, body, adminCategoriesService, cleanup);
+      },
+      'name'
+    );
   });
 
   test('API-0173: Create category with an existing slug returns 409', async ({ categoriesClient, adminCategoriesService, cleanup }) => {
@@ -309,21 +262,14 @@ test.describe('@categories-api - Categories API', () => {
   });
 
   test('API-0174: Create category with an existing slug and a too-long name returns 422', async ({ categoriesClient, adminCategoriesService, cleanup }) => {
-    let request: CreateCategoryRequestInfo;
-    let response: ApiResponse;
-
-    await test.step('Send POST /categories with a 121-character name that starts with a unique category name, and the slug hand-tools.', async () => {
-      const body = CategoryFactory.createCategory({ name: CategoryFactory.nameTooLong(), slug: TestConstants.categories.handTools });
-      ({ request, response } = await sendCreateCategory(categoriesClient, body, adminCategoriesService, cleanup));
-    });
-
-    await test.step('Verify the response status is 422.', async () => {
-      expectStatus(request, response, 422);
-    });
-
-    await test.step('Verify the body has a name key with at least one message.', async () => {
-      expectFieldMessages(request, response, 'name');
-    });
+    await checkRejectedBody(
+      'Send POST /categories with a 121-character name that starts with a unique category name, and the slug hand-tools.',
+      () => {
+        const body = CategoryFactory.createCategory({ name: CategoryFactory.nameTooLong(), slug: TestConstants.categories.handTools });
+        return sendCreateCategory(categoriesClient, body, adminCategoriesService, cleanup);
+      },
+      'name'
+    );
   });
 
   test('API-0176: Create category with an unknown parent_id returns 422', async ({ categoriesClient, adminCategoriesService, cleanup }) => {

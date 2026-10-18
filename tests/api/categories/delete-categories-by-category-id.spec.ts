@@ -22,9 +22,7 @@ async function sendDeleteCategory(
 
 /** Sends GET /categories/tree/{categoryId} for a Verify step and checks its status. */
 async function expectGetCategoryStatus(categoriesClient: CategoriesClient, categoryId: string, status: number): Promise<void> {
-  const getRequest = { method: 'GET', path: `/categories/tree/${categoryId}` };
-  const getResponse = await categoriesClient.getTreeById(categoryId);
-  await attachJson('Get Category Response', { status: getResponse.status, body: getResponse.body });
+  const { request: getRequest, response: getResponse } = await sendAndAttach('Get Category', { method: 'GET', path: `/categories/tree/${categoryId}` }, () => categoriesClient.getTreeById(categoryId));
   expectStatus(getRequest, getResponse, status);
 }
 

@@ -1,4 +1,4 @@
-import { test, expect, AUTH, registerThrowawayCustomer, loginThrowawayCustomer, takeOwnUserId, readMessageOk, expectMessageStatus, sendListMessages, messagePageSummary, type MessageRequest, sendAndAttach } from '@fixtures';
+import { test, expect, AUTH, registerThrowawayCustomer, loginThrowawayCustomer, takeOwnUserId, readMessageOk, expectMessageStatus, sendListMessages, messagePageSummary, type MessageRequest, sendAndAttach, checkRejectedBody } from '@fixtures';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { MessagesClient } from '@api/clients/MessagesClient';
 import type { Paginated } from '@api/dto/common';
@@ -243,71 +243,35 @@ test.describe('@messages-api - Messages API', () => {
   });
 
   test('API-0357: Send a message with a subject longer than 120 characters returns 422', async ({ messagesClient }) => {
-    let request: MessageRequest;
-    let response: ApiResponse;
-
-    await test.step('Send POST /messages without an Authorization header, with a 121-character subject and a message text.', async () => {
-      ({ request, response } = await sendMessage(messagesClient, MessageFactory.sendMessage({ subject: MessageFactory.subjectOfLength(121) }), AUTH.none));
-    });
-
-    await test.step('Verify the response status is 422.', async () => {
-      expectStatus(request, response, 422);
-    });
-
-    await test.step('Verify the body has a subject key with at least one message.', async () => {
-      expectFieldMessages(request, response, 'subject');
-    });
+    await checkRejectedBody(
+      'Send POST /messages without an Authorization header, with a 121-character subject and a message text.',
+      () => sendMessage(messagesClient, MessageFactory.sendMessage({ subject: MessageFactory.subjectOfLength(121) }), AUTH.none),
+      'subject'
+    );
   });
 
   test('API-0358: Send a message with a message longer than 250 characters returns 422', async ({ messagesClient }) => {
-    let request: MessageRequest;
-    let response: ApiResponse;
-
-    await test.step('Send POST /messages without an Authorization header, with a unique subject and a 251-character message.', async () => {
-      ({ request, response } = await sendMessage(messagesClient, MessageFactory.sendMessage({ message: MessageFactory.textOfLength(251) }), AUTH.none));
-    });
-
-    await test.step('Verify the response status is 422.', async () => {
-      expectStatus(request, response, 422);
-    });
-
-    await test.step('Verify the body has a message key with at least one message.', async () => {
-      expectFieldMessages(request, response, 'message');
-    });
+    await checkRejectedBody(
+      'Send POST /messages without an Authorization header, with a unique subject and a 251-character message.',
+      () => sendMessage(messagesClient, MessageFactory.sendMessage({ message: MessageFactory.textOfLength(251) }), AUTH.none),
+      'message'
+    );
   });
 
   test('API-0359: Send a message with an invalid email returns 422', async ({ messagesClient }) => {
-    let request: MessageRequest;
-    let response: ApiResponse;
-
-    await test.step('Send POST /messages without an Authorization header, with the email "not-an-email", a unique subject and a message text.', async () => {
-      ({ request, response } = await sendMessage(messagesClient, MessageFactory.sendMessage({ email: 'not-an-email' }), AUTH.none));
-    });
-
-    await test.step('Verify the response status is 422.', async () => {
-      expectStatus(request, response, 422);
-    });
-
-    await test.step('Verify the body has an email key with at least one message.', async () => {
-      expectFieldMessages(request, response, 'email');
-    });
+    await checkRejectedBody(
+      'Send POST /messages without an Authorization header, with the email "not-an-email", a unique subject and a message text.',
+      () => sendMessage(messagesClient, MessageFactory.sendMessage({ email: 'not-an-email' }), AUTH.none),
+      'email'
+    );
   });
 
   test('API-0360: Send a message with a subscript character in the subject returns 422', async ({ messagesClient }) => {
-    let request: MessageRequest;
-    let response: ApiResponse;
-
-    await test.step('Send POST /messages without an Authorization header, with a subject that contains the subscript character "₂" (U+2082) and a message text.', async () => {
-      ({ request, response } = await sendMessage(messagesClient, MessageFactory.sendMessage({ subject: MessageFactory.subscriptSubject() }), AUTH.none));
-    });
-
-    await test.step('Verify the response status is 422.', async () => {
-      expectStatus(request, response, 422);
-    });
-
-    await test.step('Verify the body has a subject key with at least one message.', async () => {
-      expectFieldMessages(request, response, 'subject');
-    });
+    await checkRejectedBody(
+      'Send POST /messages without an Authorization header, with a subject that contains the subscript character "₂" (U+2082) and a message text.',
+      () => sendMessage(messagesClient, MessageFactory.sendMessage({ subject: MessageFactory.subscriptSubject() }), AUTH.none),
+      'subject'
+    );
   });
 
   test('API-0361: Send a message with a 61-character name returns 200 or 422, not 500', async ({ messagesClient }) => {

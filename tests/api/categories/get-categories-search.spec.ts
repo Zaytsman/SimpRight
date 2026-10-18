@@ -64,11 +64,11 @@ test.describe('@categories-api - Categories API', () => {
     });
 
     await test.step('Verify the body is a non-empty array and every item\'s name contains "saw" (case-insensitive).', async () => {
-      expectItemNamesContain(request, JSON.parse(response.body), term);
+      expectItemNamesContain(request, parseJson(request, response), term);
     });
 
     await test.step("Verify the body's slugs include hand-saw and saw.", async () => {
-      expectSlugsInclude(request, JSON.parse(response.body), slugs);
+      expectSlugsInclude(request, parseJson(request, response), slugs);
     });
   });
 
@@ -102,7 +102,7 @@ test.describe('@categories-api - Categories API', () => {
     });
 
     await test.step("Verify the body's slugs include hand-tools, hammer and saw.", async () => {
-      expectSlugsInclude(request, JSON.parse(response.body), TestConstants.categories.searchSeededSlugs);
+      expectSlugsInclude(request, parseJson(request, response), TestConstants.categories.searchSeededSlugs);
     });
   });
 

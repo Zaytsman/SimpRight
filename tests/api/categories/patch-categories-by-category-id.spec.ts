@@ -1,4 +1,4 @@
-import { test, expect, createCategory, readCategory, CATEGORY_CREATE_ID_SLUG_STEP, AUTH, sendAndAttach } from '@fixtures';
+import { test, expect, createCategory, readCategory, CATEGORY_CREATE_ID_SLUG_STEP, AUTH, sendAndAttach, checkRejectedBody } from '@fixtures';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { CategoriesClient } from '@api/clients/CategoriesClient';
 import { TestConstants } from '@data/TestConstants';
@@ -64,22 +64,13 @@ test.describe('@categories-api - Categories API', () => {
     });
 
     test('API-0215: Partially update category with an empty slug returns 422', async ({ adminCategoriesService, categoriesClientWithToken, cleanup }) => {
-      let request: PatchCategoryRequestInfo;
-      let response: ApiResponse;
-
       const category = await createCategory(adminCategoriesService, cleanup);
 
-      await test.step("Send PATCH /categories/{categoryId} with that id and a body with only slug set to an empty string, with the admin's token.", async () => {
-        ({ request, response } = await sendPatchCategory(categoriesClientWithToken, category.id, CategoryFactory.updateSlug(''), AUTH.admin));
-      });
-
-      await test.step('Verify the response status is 422.', async () => {
-        expectStatus(request, response, 422);
-      });
-
-      await test.step('Verify the body has a slug key with at least one message.', async () => {
-        expectFieldMessages(request, response, 'slug');
-      });
+      await checkRejectedBody(
+        "Send PATCH /categories/{categoryId} with that id and a body with only slug set to an empty string, with the admin's token.",
+        () => sendPatchCategory(categoriesClientWithToken, category.id, CategoryFactory.updateSlug(''), AUTH.admin),
+        'slug'
+      );
     });
 
     test('API-0216: Partially update category with a slug outside letters, digits, dashes and underscores returns 422', async ({
@@ -87,25 +78,13 @@ test.describe('@categories-api - Categories API', () => {
       categoriesClientWithToken,
       cleanup,
     }) => {
-      let request: PatchCategoryRequestInfo;
-      let response: ApiResponse;
-
       const category = await createCategory(adminCategoriesService, cleanup);
 
-      await test.step(
+      await checkRejectedBody(
         'Send PATCH /categories/{categoryId} with that id and a body with only a slug made of a unique slug followed by " x!" (a space and an exclamation mark), with the admin\'s token.',
-        async () => {
-          ({ request, response } = await sendPatchCategory(categoriesClientWithToken, category.id, CategoryFactory.updateInvalidSlug(), AUTH.admin));
-        }
+        () => sendPatchCategory(categoriesClientWithToken, category.id, CategoryFactory.updateInvalidSlug(), AUTH.admin),
+        'slug'
       );
-
-      await test.step('Verify the response status is 422.', async () => {
-        expectStatus(request, response, 422);
-      });
-
-      await test.step('Verify the body has a slug key with at least one message.', async () => {
-        expectFieldMessages(request, response, 'slug');
-      });
     });
 
     test('API-0217: Partially update category with a name longer than 120 characters returns 422', async ({
@@ -113,25 +92,13 @@ test.describe('@categories-api - Categories API', () => {
       categoriesClientWithToken,
       cleanup,
     }) => {
-      let request: PatchCategoryRequestInfo;
-      let response: ApiResponse;
-
       const category = await createCategory(adminCategoriesService, cleanup);
 
-      await test.step(
+      await checkRejectedBody(
         "Send PATCH /categories/{categoryId} with that id and a body with only a 121-character name that starts with a unique category name, with the admin's token.",
-        async () => {
-          ({ request, response } = await sendPatchCategory(categoriesClientWithToken, category.id, CategoryFactory.updateNameTooLong(), AUTH.admin));
-        }
+        () => sendPatchCategory(categoriesClientWithToken, category.id, CategoryFactory.updateNameTooLong(), AUTH.admin),
+        'name'
       );
-
-      await test.step('Verify the response status is 422.', async () => {
-        expectStatus(request, response, 422);
-      });
-
-      await test.step('Verify the body has a name key with at least one message.', async () => {
-        expectFieldMessages(request, response, 'name');
-      });
     });
 
     test("API-0219: Partially update category with another category's slug returns 409", async ({

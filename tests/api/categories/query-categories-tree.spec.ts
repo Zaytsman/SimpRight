@@ -76,7 +76,7 @@ test.describe('@categories-api - Categories API', () => {
     });
 
     await test.step("Verify the body's item ids include those ids.", async () => {
-      expectIncludesIds(request, JSON.parse(response.body), ids);
+      expectIncludesIds(request, parseJson(request, response), ids);
     });
   });
 

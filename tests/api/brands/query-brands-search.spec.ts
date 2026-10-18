@@ -3,7 +3,7 @@ import type { ApiResponse } from '@api/clients/BaseClient';
 import type { BrandsClient } from '@api/clients/BrandsClient';
 import type { BrandSearchQueryBody } from '@api/dto/brand';
 import { TestConstants } from '@data/TestConstants';
-import { expectAcceptQuery, expectItemNamesContain, expectMessage, expectStatus } from '@utils/apiChecks';
+import { expectAcceptQuery, expectItemNamesContain, expectMessage, expectStatus, parseJson } from '@utils/apiChecks';
 
 // Scenarios: test-scenarios/api/brands/query-brands-search.yml
 
@@ -37,7 +37,7 @@ test.describe('@brands-api - Brands API', () => {
     });
 
     await test.step('Verify the body is a non-empty array and every item\'s name contains "forge" (case-insensitive).', async () => {
-      expectItemNamesContain(request, JSON.parse(response.body), term);
+      expectItemNamesContain(request, parseJson(request, response), term);
     });
   });
 
@@ -59,7 +59,7 @@ test.describe('@brands-api - Brands API', () => {
     });
 
     await test.step('Verify the body includes both seeded brand ids.', async () => {
-      expectIncludesBrandIds(request, JSON.parse(response.body), seededIds);
+      expectIncludesBrandIds(request, parseJson(request, response), seededIds);
     });
   });
 

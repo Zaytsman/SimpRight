@@ -7,7 +7,7 @@ import type { Cleanup } from '../../fixtures/base';
 import type { ApiResponse, QueryBodyOptions } from '../clients/BaseClient';
 import type { Paginated } from '../dto/common';
 import { attachJson } from '../../utils/assertHelpers';
-import { expectLocation, expectStatus, parseJson } from '../../utils/apiChecks';
+import { expectFieldMessages, expectLocation, expectStatus, parseJson } from '../../utils/apiChecks';
 
 /** How attached requests and assertion messages name the token a request was sent with, in the scenarios' wording. */
 export const AUTH = {
@@ -71,6 +71,33 @@ export async function sendQueryAndAttach<Body>(
 ): Promise<{ request: QueryRequestRecord<Body>; response: ApiResponse }> {
   const request: QueryRequestRecord<Body> = { method: 'QUERY', path, ...(options.auth !== undefined ? { auth: options.auth } : {}), headers, body };
   return sendAndAttach(name, request, () => send(body, { contentType: headers['Content-Type'], accept: headers.Accept ?? null }), options.describe ?? withHeaders);
+}
+
+/**
+ * The template of the validation scenarios that send one invalid body and check one field's error: the send (title
+ * `sendStep`, through `send`, usually the spec's own send helper), then the 422 and `field`'s messages (the form-request
+ * body without a wrapper). Setup the scenario has before the send (a record to update, the known-issue line) stays in
+ * the test, before the call.
+ */
+export async function checkRejectedBody(
+  sendStep: string,
+  send: () => Promise<{ request: unknown; response: ApiResponse }>,
+  field: string
+): Promise<void> {
+  let request: unknown;
+  let response: ApiResponse;
+
+  await test.step(sendStep, async () => {
+    ({ request, response } = await send());
+  });
+
+  await test.step('Verify the response status is 422.', async () => {
+    expectStatus(request, response, 422);
+  });
+
+  await test.step(fieldMessagesStep(field), async () => {
+    expectFieldMessages(request, response, field);
+  });
 }
 
 /**
