@@ -5,8 +5,8 @@
 How SimpRight's GitHub Actions are put together: the workflows, the reusable test job, the pull request check, secrets and permissions, and Dependabot. To start or schedule runs, see [CI Runs](CI-Runs).
 
 ```
-                ┌──────── run-api-tests.yml  (weekdays 02:00 UTC)
-                ├──────── run-ui-tests.yml   (weekdays 06:00 UTC)
+                ┌──────── run-api-tests.yml  (weekdays 02:15 UTC)
+                ├──────── run-ui-tests.yml   (weekdays 06:15 UTC)
  test runs  ────┤                                              ──► playwright-run.yml ──► gh-pages
                 ├──────── custom-api-tests.yml (by hand)            (reusable)            (reports)
                 ├──────── custom-ui-tests.yml  (by hand)
@@ -23,8 +23,8 @@ How SimpRight's GitHub Actions are put together: the workflows, the reusable tes
 | File | Name in Actions | Trigger | Job |
 |---|---|---|---|
 | `playwright-run.yml` | Playwright Run (reusable) | called by the five below | Runs one Playwright project (or both), publishes the report |
-| `run-api-tests.yml` | API Regression Test Run | weekdays 02:00 UTC, by hand | All API tests; also publishes the coverage as the latest |
-| `run-ui-tests.yml` | UI Regression Test Run | weekdays 06:00 UTC, by hand | All UI tests |
+| `run-api-tests.yml` | API Regression Test Run | weekdays 02:15 UTC, by hand | All API tests; also publishes the coverage as the latest |
+| `run-ui-tests.yml` | UI Regression Test Run | weekdays 06:15 UTC, by hand | All UI tests |
 | `custom-api-tests.yml` | Custom API Test Run | by hand (area, grep) | One API area or all, optionally filtered |
 | `custom-ui-tests.yml` | Custom UI Test Run | by hand (area, grep) | One UI area or all, optionally filtered |
 | `smoke-tests.yml` | Smoke Test Run | by hand | The smoke set: tests tagged `@smoke` of both projects in one run (2-3 minutes) |

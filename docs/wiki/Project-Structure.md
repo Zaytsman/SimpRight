@@ -151,8 +151,8 @@ Defined in `tsconfig.json` and resolved by Playwright, so imports don't climb fo
 | Workflow | When | What |
 |---|---|---|
 | `pr-checks.yml` (`verify`) | every pull request to `main` or `develop` | Typecheck, scenario validation, Test Cases and Bugs page builds (no tests) |
-| `run-api-tests.yml` | weekdays 02:00 UTC, or by hand | Full API regression, with the coverage report |
-| `run-ui-tests.yml` | weekdays 06:00 UTC, or by hand | Full UI regression |
+| `run-api-tests.yml` | weekdays 02:15 UTC, or by hand | Full API regression, with the coverage report |
+| `run-ui-tests.yml` | weekdays 06:15 UTC, or by hand | Full UI regression |
 | `custom-api-tests.yml`, `custom-ui-tests.yml` | by hand | One area, optionally filtered with `--grep` |
 | `smoke-tests.yml` | by hand | The smoke set (tests tagged `@smoke`) of both projects |
 | `playwright-run.yml` | called by the five above | Runs one project (or both) and publishes its report |

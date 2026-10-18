@@ -3,9 +3,9 @@ name: API Regression Test Run
 on:
   workflow_dispatch:
   schedule:
-    # GitHub schedules run in UTC: 02:00 UTC on weekdays
-    # (05:00 Kyiv in summer, 04:00 in winter).
-    - cron: '0 2 * * 1-5'
+    # GitHub schedules run in UTC: 02:15 UTC on weekdays (05:15 Kyiv in summer, 04:15 in winter).
+    # Never on the full hour: the site re-seeds its data at :00, and GitHub's queue is busiest then.
+    - cron: '15 2 * * 1-5'
 
 permissions:
   contents: write

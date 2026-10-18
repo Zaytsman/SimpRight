@@ -167,8 +167,8 @@ GitHub Actions runs the tests and publishes every report to GitHub Pages: **[zay
 
 | Workflow | When | What |
 |---|---|---|
-| API Regression Test Run | weekdays 02:00 UTC, or by hand | all API tests |
-| UI Regression Test Run | weekdays 06:00 UTC, or by hand | all UI tests |
+| API Regression Test Run | weekdays 02:15 UTC, or by hand | all API tests |
+| UI Regression Test Run | weekdays 06:15 UTC, or by hand | all UI tests |
 | Custom API / UI Test Run | by hand | one area (a folder in `tests/`), optionally filtered by a title (`--grep`) |
 | Publish Test Cases | on push to `main` that changes the scenarios or bugs, or by hand | the UI and API Test Cases pages and the Bugs page |
 | Publish Wiki | on push to `main` that changes `docs/wiki/`, or by hand | the [wiki](https://github.com/Zaytsman/SimpRight/wiki), from `docs/wiki/` |
