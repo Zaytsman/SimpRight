@@ -2,7 +2,7 @@ import { test, expect, sendAndAttach } from '@fixtures';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { ImagesClient } from '@api/clients/ImagesClient';
 import type { ProductImage } from '@api/dto/product';
-import { describeAccept, expectContentType, expectMessage, expectStatus, parseJson } from '@utils/apiChecks';
+import { describeAccept, expectContentType, expectMessage, expectSomeItems, expectStatus, parseJson } from '@utils/apiChecks';
 import { assertMessage, attachJson } from '@utils/assertHelpers';
 
 // Scenarios: test-scenarios/api/images/get-images.yml
@@ -75,6 +75,7 @@ test.describe('@images-api - Images API', () => {
     });
 
     await test.step('Verify every item has the keys id, by_name, by_url, source_name, source_url, file_name and title, each a string.', async () => {
+      expectSomeItems(request, images, 'images');
       for (const image of images) {
         for (const key of IMAGE_KEYS) {
           expect(typeof image[key], assertMessage({ request, expected: `Item ${image.id} has the key "${key}" as a string`, actual: image })).toBe('string');

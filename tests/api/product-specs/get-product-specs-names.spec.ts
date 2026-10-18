@@ -2,7 +2,7 @@ import { test, expect, AUTH, createProductToUpdate, createProductWithSpec, creat
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { ProductSpecsClient } from '@api/clients/ProductSpecsClient';
 import type { SpecName } from '@api/dto/productSpec';
-import { expectStatus, parseJson } from '@utils/apiChecks';
+import { expectSomeItems, expectStatus, parseJson } from '@utils/apiChecks';
 import { assertMessage, attachJson } from '@utils/assertHelpers';
 
 // Scenarios: test-scenarios/api/product-specs/get-product-specs-names.yml
@@ -40,6 +40,7 @@ test.describe('@product-specs-api - Product Specs API', () => {
     });
 
     await test.step('Verify every item has a name string, a values array of strings and a unit that is a string or null.', async () => {
+      expectSomeItems(request, body, 'The body');
       for (const item of body) {
         const ok =
           typeof item.name === 'string' &&

@@ -9,7 +9,7 @@ import type { RegisterUserRequest, User } from '../dto/user';
 import type { AuthService } from '../services/AuthService';
 import type { UsersService } from '../services/UsersService';
 import { UserFactory } from '../../data/factories/UserFactory';
-import { PAGE_KEYS, expectStatus, parseJson } from '../../utils/apiChecks';
+import { PAGE_KEYS, expectSomeItems, expectStatus, parseJson } from '../../utils/apiChecks';
 import { describePage, pageSummary, type DescribeResponse } from './apiSteps';
 import { assertMessage, attachJson } from '../../utils/assertHelpers';
 
@@ -193,6 +193,7 @@ export function expectNoSharedIds(request: unknown, first: Paginated<User>, seco
 
 /** The checks of a "Verify data has at most <n> items and every item's role is "user"." style step: every item's role is "user". */
 export function expectAllCustomers(request: unknown, page: Paginated<User>): void {
+  expectSomeItems(request, page.data, 'data');
   for (const user of page.data) {
     expect(user.role, assertMessage({ request, expected: `Item ${user.id} has role "user"`, actual: userPageSummary(page) })).toBe('user');
   }

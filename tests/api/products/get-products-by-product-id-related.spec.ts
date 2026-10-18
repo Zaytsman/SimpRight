@@ -1,5 +1,5 @@
 import { test, expect, sendAndAttach } from '@fixtures';
-import { expectStatus, parseJson } from '@utils/apiChecks';
+import { expectSomeItems, expectStatus, parseJson } from '@utils/apiChecks';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { RelatedProduct } from '@api/dto/product';
 import { TestConstants } from '@data/TestConstants';
@@ -48,12 +48,14 @@ test.describe('@products-api - Products API', () => {
     });
 
     await test.step("Verify every item's category id equals the product's category id.", async () => {
+      expectSomeItems(request, body, 'The body');
       for (const item of body) {
         expect(item.category?.id, assertMessage({ request, expected: `Item ${item.id} has category id ${categoryId}`, actual: item.category })).toBe(categoryId);
       }
     });
 
     await test.step("Verify every item's category has id and name.", async () => {
+      expectSomeItems(request, body, 'The body');
       for (const item of body) {
         for (const field of ['id', 'name'] as const) {
           expect(
@@ -100,6 +102,7 @@ test.describe('@products-api - Products API', () => {
 
     await test.step('Verify every item has a co2_rating field.', async () => {
       const body = parseJson<Record<string, unknown>[]>(request, response);
+      expectSomeItems(request, body, 'The body');
       for (const item of body) {
         expect('co2_rating' in item, assertMessage({ request, expected: `Item ${String(item.id)} has a co2_rating field`, actual: Object.keys(item) })).toBe(true);
       }

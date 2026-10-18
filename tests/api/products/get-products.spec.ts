@@ -8,7 +8,7 @@ import type { ProductsService } from '@api/services/ProductsService';
 import { TestConstants } from '@data/TestConstants';
 import { ProductFactory, type ProductRefs } from '@data/factories/ProductFactory';
 import { assertMessage, attachJson } from '@utils/assertHelpers';
-import { expectStatus, expectStatusAndBody, parseJson } from '@utils/apiChecks';
+import { expectSomeItems, expectStatus, expectStatusAndBody, parseJson } from '@utils/apiChecks';
 
 // Scenarios: test-scenarios/api/products/get-products.yml
 
@@ -302,6 +302,7 @@ test.describe('@products-api - Products API', () => {
 
     await test.step('Verify each item has id, name, description, price, is_location_offer, is_rental, co2_rating, in_stock, is_eco_friendly, product_image, a category with id, name and slug, and a brand with id and name.', async () => {
       const fields = ['id', 'name', 'description', 'price', 'is_location_offer', 'is_rental', 'co2_rating', 'in_stock', 'is_eco_friendly', 'product_image', 'category', 'brand'] as const;
+      expectSomeItems(request, body.data, 'data');
       for (const item of body.data) {
         for (const field of fields) {
           expect(field in item, assertMessage({ request, expected: `Item ${item.id} has "${field}"`, actual: Object.keys(item) })).toBe(true);
@@ -322,18 +323,21 @@ test.describe('@products-api - Products API', () => {
     });
 
     await test.step("Verify every item's is_rental is false.", async () => {
+      expectSomeItems(request, body.data, 'data');
       for (const item of body.data) {
         expect(item.is_rental, assertMessage({ request, expected: `Item ${item.id}: is_rental is false`, actual: item.is_rental })).toBe(false);
       }
     });
 
     await test.step("Verify every item's in_stock is a boolean.", async () => {
+      expectSomeItems(request, body.data, 'data');
       for (const item of body.data) {
         expect(typeof item.in_stock, assertMessage({ request, expected: `Item ${item.id}: in_stock is a boolean`, actual: item.in_stock })).toBe('boolean');
       }
     });
 
     await test.step("Verify every item's is_eco_friendly is true exactly when its co2_rating is A or B.", async () => {
+      expectSomeItems(request, body.data, 'data');
       for (const item of body.data) {
         const actual = { id: item.id, co2_rating: item.co2_rating, is_eco_friendly: item.is_eco_friendly };
         expect(
@@ -438,6 +442,7 @@ test.describe('@products-api - Products API', () => {
     await test.step(
       "Verify every item's category is that category or a direct sub-category of it: its category id equals that category id, or GET /products/{productId} for the item returns a category parent_id equal to that category id.",
       async () => {
+        expectSomeItems(request, body.data, 'data');
         for (const item of body.data) {
           if (item.category?.id === categoryId) continue;
           const details = await productsService.getById(item.id);
@@ -469,6 +474,7 @@ test.describe('@products-api - Products API', () => {
     });
 
     await test.step("Verify every item's is_rental is true.", async () => {
+      expectSomeItems(request, body.data, 'data');
       for (const item of body.data) {
         expect(item.is_rental, assertMessage({ request, expected: `Item ${item.id}: is_rental is true`, actual: item.is_rental })).toBe(true);
       }
@@ -489,6 +495,7 @@ test.describe('@products-api - Products API', () => {
     });
 
     await test.step("Verify every item's price is at least 10 and at most 30.", async () => {
+      expectSomeItems(request, body.data, 'data');
       for (const item of body.data) {
         const actual = { id: item.id, price: item.price };
         expect(item.price, assertMessage({ request, expected: 'price is at least 10', actual })).toBeGreaterThanOrEqual(10);
@@ -531,6 +538,7 @@ test.describe('@products-api - Products API', () => {
     });
 
     await test.step("Verify every item's co2_rating is A or B (case-insensitive) and its is_eco_friendly is true.", async () => {
+      expectSomeItems(request, body.data, 'data');
       for (const item of body.data) {
         const actual = { id: item.id, co2_rating: item.co2_rating, is_eco_friendly: item.is_eco_friendly };
         expect(isEcoRating(item.co2_rating), assertMessage({ request, expected: 'co2_rating is A or B (case-insensitive)', actual })).toBe(true);
@@ -581,6 +589,7 @@ test.describe('@products-api - Products API', () => {
     });
 
     await test.step("Verify every item's specs, from GET /products/{productId} for the item, include a spec with that spec_name and spec_value.", async () => {
+      expectSomeItems(request, body.data, 'data');
       for (const item of body.data) {
         const details = await productsService.getById(item.id);
         await attachJson(`Get Product ${item.id} Response`, details);
@@ -691,6 +700,7 @@ test.describe('@products-api - Products API', () => {
     });
 
     await test.step("Verify every item's brand id equals that brand id and its category id equals that category id.", async () => {
+      expectSomeItems(request, body.data, 'data');
       for (const item of body.data) {
         const actual = { id: item.id, brand: item.brand, category: item.category };
         expect(item.brand?.id, assertMessage({ request, expected: `Item ${item.id}: brand id is ${refs.brandId}`, actual })).toBe(refs.brandId);
@@ -783,6 +793,7 @@ test.describe('@products-api - Products API', () => {
     });
 
     await test.step('Verify every remaining item has a non-empty name, ignoring products created by tests (names starting with "Product-").', async () => {
+      expectSomeItems(request, rentals, 'rentals');
       for (const item of rentals) {
         expect(
           typeof item.name === 'string' && item.name.trim().length > 0,
@@ -794,6 +805,7 @@ test.describe('@products-api - Products API', () => {
     await test.step(
       'Verify every remaining item has a non-empty description, ignoring products created by tests (names starting with "Product-").',
       async () => {
+        expectSomeItems(request, rentals, 'rentals');
         for (const item of rentals) {
           expect(
             typeof item.description === 'string' && item.description.trim().length > 0,
@@ -806,6 +818,7 @@ test.describe('@products-api - Products API', () => {
     await test.step(
       'Verify every remaining item has a product_image with a non-empty file_name, ignoring products created by tests (names starting with "Product-").',
       async () => {
+        expectSomeItems(request, rentals, 'rentals');
         for (const item of rentals) {
           const fileName = item.product_image?.file_name;
           expect(

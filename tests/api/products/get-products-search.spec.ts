@@ -1,5 +1,5 @@
 import { test, expect, sendAndAttach } from '@fixtures';
-import { expectStatus, expectStatusAndBody, parseJson } from '@utils/apiChecks';
+import { expectSomeItems, expectStatus, expectStatusAndBody, parseJson } from '@utils/apiChecks';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { ProductsClient } from '@api/clients/ProductsClient';
 import type { Paginated } from '@api/dto/common';
@@ -58,6 +58,7 @@ test.describe('@products-api - Products API', () => {
     });
 
     await test.step('Verify each item has an id, a name and a price greater than 0.', async () => {
+      expectSomeItems(request, body.data, 'data');
       for (const product of body.data) {
         const actual = { id: product.id, name: product.name, price: product.price };
         expect(product.id, assertMessage({ request, expected: 'Product has an id', actual })).toBeTruthy();

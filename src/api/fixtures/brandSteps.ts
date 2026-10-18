@@ -6,6 +6,7 @@ import type { BrandsService } from '../services/BrandsService';
 import { BrandFactory } from '../../data/factories/BrandFactory';
 import { TestConstants } from '../../data/TestConstants';
 import { assertMessage, attachJson } from '../../utils/assertHelpers';
+import { expectSomeItems } from '../../utils/apiChecks';
 import { AUTH, removeIfCreated } from './apiSteps';
 
 /**
@@ -76,6 +77,7 @@ export function removeBrandIfCreated(response: ApiResponse, adminBrandsService: 
 
 /** The checks of a "Verify every item has a non-empty string id, name and slug." step. */
 export function expectBrandItems(request: unknown, items: Brand[]): void {
+  expectSomeItems(request, items, 'The body');
   for (const item of items) {
     const ok = (['id', 'name', 'slug'] as const).every((key) => typeof item[key] === 'string' && item[key].length > 0);
     expect(ok, assertMessage({ request, expected: 'The item has a non-empty string id, name and slug', actual: item })).toBe(true);

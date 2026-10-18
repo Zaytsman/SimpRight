@@ -1,7 +1,7 @@
 import { test, expect, sendAndAttach } from '@fixtures';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { Category } from '@api/dto/category';
-import { expectStatus, parseJson } from '@utils/apiChecks';
+import { expectSomeItems, expectStatus, parseJson } from '@utils/apiChecks';
 import { assertMessage } from '@utils/assertHelpers';
 
 // Scenarios: test-scenarios/api/categories/get-categories.yml
@@ -26,6 +26,7 @@ test.describe('@categories-api - Categories API', () => {
     });
 
     await test.step('Verify every item has a non-empty string id, name and slug, and a parent_id that is null or a string.', async () => {
+      expectSomeItems(request, body, 'The body');
       for (const item of body) {
         const ok =
           (['id', 'name', 'slug'] as const).every((key) => typeof item[key] === 'string' && item[key].length > 0) &&

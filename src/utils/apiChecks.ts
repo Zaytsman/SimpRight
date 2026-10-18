@@ -44,6 +44,17 @@ export function expectStatus(
   expect(response.status, assertMessage({ request, expected: `Status ${status}`, actual: { status: response.status, body: describeBody(response) } })).toBe(status);
 }
 
+/**
+ * Fails unless `items` has at least one element. The guard at the start of an "every item ..." step: on an empty list
+ * the step's loop checks nothing and passes.
+ */
+export function expectSomeItems(request: unknown, items: unknown, what: string): void {
+  expect(
+    Array.isArray(items) && items.length > 0,
+    assertMessage({ request, expected: `${what} has at least one item (an "every item" check needs one)`, actual: Array.isArray(items) ? `${items.length} items` : items })
+  ).toBe(true);
+}
+
 /** `expectStatus`, then the parsed body, for a status step whose body the later steps check. */
 export function expectStatusAndBody<T>(request: unknown, response: ApiResponse, status: number): T {
   expectStatus(request, response, status);

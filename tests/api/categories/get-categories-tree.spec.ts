@@ -4,7 +4,7 @@ import type { CategoriesClient } from '@api/clients/CategoriesClient';
 import type { CategoryTree } from '@api/dto/category';
 import { TestConstants } from '@data/TestConstants';
 import { CategoryFactory } from '@data/factories/CategoryFactory';
-import { expectEmptyArray, expectStatus, parseJson } from '@utils/apiChecks';
+import { expectEmptyArray, expectSomeItems, expectStatus, parseJson } from '@utils/apiChecks';
 import { assertMessage } from '@utils/assertHelpers';
 
 // Scenarios: test-scenarios/api/categories/get-categories-tree.yml
@@ -43,6 +43,7 @@ test.describe('@categories-api - Categories API', () => {
     });
 
     await test.step("Verify every item has a sub_categories array, and every sub-category's parent_id equals its item's id.", async () => {
+      expectSomeItems(request, body, 'The body');
       for (const item of body) expectSubCategoriesOf(request, item);
     });
   });
