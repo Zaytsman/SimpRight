@@ -1,4 +1,4 @@
-import { BaseClient, type ApiResponse } from './BaseClient';
+import { BaseClient, queryString, type ApiResponse, type QueryBodyOptions } from './BaseClient';
 import type {
   CreateGuestInvoiceRequest,
   CreateInvoiceRequest,
@@ -12,7 +12,7 @@ import type {
 export class InvoicesClient extends BaseClient {
   /** `GET /invoices`: a page of the token's user's invoices (every invoice for an admin), newest first, 15 per page. */
   async list(page?: number): Promise<ApiResponse> {
-    return this.get('/invoices', page !== undefined ? `page=${page}` : undefined);
+    return this.get('/invoices', queryString({ page }));
   }
 
   /**
@@ -20,20 +20,12 @@ export class InvoicesClient extends BaseClient {
    * contains `query`. Without `query`, no `q` is sent at all; an empty string sends `q=`.
    */
   async search(query?: string, page?: number): Promise<ApiResponse> {
-    const params = new URLSearchParams();
-    if (query !== undefined) params.set('q', query);
-    if (page !== undefined) params.set('page', String(page));
-    return this.get('/invoices/search', params.toString() || undefined);
+    return this.get('/invoices/search', queryString({ q: query, page }));
   }
 
-  /**
-   * `QUERY /invoices/search`. An object body is sent as JSON with `Content-Type: application/json`; a string body is
-   * sent as-is with `options.contentType` (for the 415 checks). `accept: null` leaves out `Accept: application/json`.
-   */
-  async querySearch(body: InvoiceSearchQueryBody | string, options?: { contentType?: string; accept?: string | null }): Promise<ApiResponse> {
-    return typeof body === 'string'
-      ? this.query('/invoices/search', { rawData: body, contentType: options?.contentType, accept: options?.accept })
-      : this.query('/invoices/search', { data: body, contentType: options?.contentType ?? 'application/json', accept: options?.accept });
+  /** `QUERY /invoices/search`, with `queryBody`'s handling of object and string bodies. */
+  async querySearch(body: InvoiceSearchQueryBody | string, options?: QueryBodyOptions): Promise<ApiResponse> {
+    return this.queryBody('/invoices/search', body, options);
   }
 
   /** `GET /invoices/{invoiceId}`: one invoice with its lines and payment (own invoices only, or any for an admin). */
@@ -51,30 +43,27 @@ export class InvoicesClient extends BaseClient {
     return this.get(`/invoices/${invoiceNumber}/download-pdf-status`);
   }
 
-  /** `POST /invoices`: an invoice for the token's user from a cart. Accepts any object, for the validation scenarios. */
+  /** `POST /invoices`: an invoice for the token's user from a cart. */
   async create(body: CreateInvoiceRequest | Record<string, unknown>): Promise<ApiResponse> {
-    return this.post('/invoices', body);
+    return this.post('/invoices', { data: body });
   }
 
-  /** `POST /invoices/guest`: an invoice without a user (no token needed). Accepts any object, for the validation scenarios. */
+  /** `POST /invoices/guest`: an invoice without a user (no token needed). */
   async createGuest(body: CreateGuestInvoiceRequest | Record<string, unknown>): Promise<ApiResponse> {
-    return this.post('/invoices/guest', body);
+    return this.post('/invoices/guest', { data: body });
   }
 
-  /** `PUT /invoices/{invoiceId}`: replaces the billing fields of the caller's own invoice. Accepts any object, for the validation scenarios. */
+  /** `PUT /invoices/{invoiceId}`: replaces the billing fields of the caller's own invoice. */
   async update(invoiceId: string, body: UpdateInvoiceRequest | Record<string, unknown>): Promise<ApiResponse> {
     return this.put(`/invoices/${invoiceId}`, { data: body });
   }
 
-  /**
-   * `PATCH /invoices/{invoiceId}`: changes some billing fields or the date of the caller's own invoice. Accepts any
-   * object. Named `partialUpdate` because `patch` is BaseClient's verb method.
-   */
+  /** `PATCH /invoices/{invoiceId}`: changes some billing fields or the date of the caller's own invoice. */
   async partialUpdate(invoiceId: string, body: PatchInvoiceRequest | Record<string, unknown>): Promise<ApiResponse> {
     return this.patch(`/invoices/${invoiceId}`, { data: body });
   }
 
-  /** `PUT /invoices/{invoiceId}/status`. Accepts any object, for the validation scenarios. */
+  /** `PUT /invoices/{invoiceId}/status`. */
   async updateStatus(invoiceId: string, body: UpdateInvoiceStatusRequest | Record<string, unknown>): Promise<ApiResponse> {
     return this.put(`/invoices/${invoiceId}/status`, { data: body });
   }

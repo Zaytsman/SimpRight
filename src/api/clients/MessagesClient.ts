@@ -1,4 +1,4 @@
-import { BaseClient, type ApiResponse, type MultipartFile } from './BaseClient';
+import { BaseClient, queryString, type ApiResponse, type MultipartFile } from './BaseClient';
 import type { ReplyRequest, SendMessageRequest, UpdateMessageStatusRequest } from '../dto/message';
 
 /**
@@ -8,12 +8,12 @@ import type { ReplyRequest, SendMessageRequest, UpdateMessageStatusRequest } fro
 export class MessagesClient extends BaseClient {
   /** `GET /messages`: a page of the token's user's messages (every message for an admin), newest first, 15 per page. */
   async list(page?: number): Promise<ApiResponse> {
-    return this.get('/messages', page !== undefined ? `page=${page}` : undefined);
+    return this.get('/messages', queryString({ page }));
   }
 
   /** `POST /messages`: sends a contact message (as a guest without a token). */
   async send(body: SendMessageRequest | Record<string, unknown>): Promise<ApiResponse> {
-    return this.post('/messages', body);
+    return this.post('/messages', { data: body });
   }
 
   /** `GET /messages/{messageId}`: one message with its sender and replies (own messages only, or any for an admin). */
@@ -23,7 +23,7 @@ export class MessagesClient extends BaseClient {
 
   /** `POST /messages/{messageId}/reply`: adds a reply and sets the message to IN_PROGRESS. */
   async reply(messageId: string, body: ReplyRequest | Record<string, unknown>): Promise<ApiResponse> {
-    return this.post(`/messages/${messageId}/reply`, body);
+    return this.post(`/messages/${messageId}/reply`, { data: body });
   }
 
   /**

@@ -10,7 +10,7 @@ export class FavoritesClient extends BaseClient {
 
   /** `POST /favorites`: adds a favourite (409 "Duplicate Entry" when the product already is one). */
   async create(body: CreateFavoriteRequest | Record<string, unknown>): Promise<ApiResponse> {
-    return this.post('/favorites', body);
+    return this.post('/favorites', { data: body });
   }
 
   /** `GET /favorites/{favoriteId}`: one favourite, without its product (the owner isn't checked: BUG-021). */
