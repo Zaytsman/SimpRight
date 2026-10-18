@@ -6,7 +6,7 @@ import type { BrandsService } from '../services/BrandsService';
 import { BrandFactory } from '../../data/factories/BrandFactory';
 import { TestConstants } from '../../data/TestConstants';
 import { assertMessage, attachJson } from '../../utils/assertHelpers';
-import { AUTH } from './apiSteps';
+import { AUTH, removeIfCreated } from './apiSteps';
 
 /**
  * Steps shared by the Brands specs. The titles are the scenario steps verbatim; the brands files use the same wording.
@@ -79,14 +79,7 @@ export async function takeOtherBrandSlug(brandsService: BrandsService, newBrandI
  * brand) and any validation case that unexpectedly creates one.
  */
 export function removeBrandIfCreated(response: ApiResponse, adminBrandsService: BrandsService, cleanup: Cleanup): void {
-  if (!response.isSuccess) return;
-  let id: string | undefined;
-  try {
-    id = (JSON.parse(response.body) as Partial<Brand>).id;
-  } catch {
-    return;
-  }
-  if (id) cleanup.add(() => adminBrandsService.deleteIfExists(id));
+  removeIfCreated(response, cleanup, (id) => adminBrandsService.deleteIfExists(id));
 }
 
 /** The checks of a "Verify every item has a non-empty string id, name and slug." step. */

@@ -27,7 +27,7 @@ import { assertMessage, attachJson } from '../../utils/assertHelpers';
 import { expectStatus, parseJson } from '../../utils/apiChecks';
 import { AUTH, pageSummary, describePage, sendAndAttach } from './apiSteps';
 import { addItemSetup, createCart } from './cartSteps';
-import { firstListedProductId } from './productSteps';
+import { takeFirstProductId } from './productSteps';
 import { loginThrowawayCustomer, registerThrowawayCustomer, type ThrowawayCustomer } from './userSteps';
 
 /**
@@ -36,7 +36,7 @@ import { loginThrowawayCustomer, registerThrowawayCustomer, type ThrowawayCustom
  * (its admin delete gets 409, which `UsersService.deleteUnlessInUse` expects). Tests only read or change invoices they
  * created. The titles are the scenario steps verbatim; the variants pass their own title.
  */
-const FIRST_PRODUCT_STEP = "Send GET /products and take the first item's id as the product's id.";
+export const FIRST_PRODUCT_STEP = "Send GET /products and take the first item's id as the product's id.";
 export const ADD_TWO_STEP = "Send POST /carts/{cartId} with the cart's id, the product's id as product_id and quantity 2.";
 const INVOICE_CREATE_STEP =
   'Send POST /invoices with that access_token, payment_method "cash-on-delivery", payment_details {}, billing_street "Stephansplatz 1", billing_city "Wien", billing_country "AT" and the cart\'s id as cart_id, and take the new invoice\'s id, invoice_number and total.';
@@ -132,15 +132,6 @@ export async function setInvoiceStatusSetup(
   });
 }
 
-/** The FIRST_PRODUCT_STEP step (or a variant `title`): returns the id of the first item of GET /products. */
-export async function takeFirstProduct(productsService: ProductsService, title: string = FIRST_PRODUCT_STEP): Promise<string> {
-  let productId = '';
-  await test.step(title, async () => {
-    productId = await firstListedProductId(productsService);
-  });
-  return productId;
-}
-
 /** The fixtures the invoice setup chain uses. */
 export type InvoiceSetupFixtures = {
   usersService: UsersService;
@@ -199,7 +190,7 @@ export async function createCustomerInvoice(
     { usersService, adminUsersService, authService, cleanup },
     { register: options.registerTitle, login: options.loginTitle }
   );
-  const productId = options.withProduct ? await takeFirstProduct(productsService) : undefined;
+  const productId = options.withProduct ? await takeFirstProductId(productsService, FIRST_PRODUCT_STEP) : undefined;
   const cartId = await createCart(cartsService, cleanup);
   if (productId) {
     await addItemSetup(cartsService, cartId, productId, 2, ADD_TWO_STEP);

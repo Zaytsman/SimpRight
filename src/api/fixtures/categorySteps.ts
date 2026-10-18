@@ -5,7 +5,7 @@ import type { Category, CategoryTree, CreateCategoryRequest, CreatedCategory } f
 import type { CategoriesService } from '../services/CategoriesService';
 import { CategoryFactory } from '../../data/factories/CategoryFactory';
 import { assertMessage, attachJson } from '../../utils/assertHelpers';
-import { AUTH } from './apiSteps';
+import { AUTH, removeIfCreated } from './apiSteps';
 
 /**
  * Steps shared by the Categories specs. The titles are the scenario steps verbatim; the categories files use the same wording.
@@ -66,14 +66,7 @@ export async function readCategory(categoriesService: CategoriesService, categor
  * the category) and any validation case that unexpectedly creates one.
  */
 export function removeCategoryIfCreated(response: ApiResponse, adminCategoriesService: CategoriesService, cleanup: Cleanup): void {
-  if (!response.isSuccess) return;
-  let id: string | undefined;
-  try {
-    id = (JSON.parse(response.body) as Partial<CreatedCategory>).id;
-  } catch {
-    return;
-  }
-  if (id) cleanup.add(() => adminCategoriesService.deleteIfExists(id));
+  removeIfCreated(response, cleanup, (id) => adminCategoriesService.deleteIfExists(id));
 }
 
 /**

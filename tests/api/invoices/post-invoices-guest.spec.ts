@@ -1,4 +1,4 @@
-import { test, expect, AUTH, createCart, addItemSetup, takeFirstProduct, sendCreateGuestInvoice, sendSearchInvoices, readInvoiceOk, invoicePageSummary, expectKeys, expectFieldsEqual, expectSingleInvoiceLine, ADD_TWO_STEP, type InvoiceRequest } from '@fixtures';
+import { test, expect, AUTH, createCart, addItemSetup, takeFirstProductId, FIRST_PRODUCT_STEP, sendCreateGuestInvoice, sendSearchInvoices, readInvoiceOk, invoicePageSummary, expectKeys, expectFieldsEqual, expectSingleInvoiceLine, ADD_TWO_STEP, type InvoiceRequest } from '@fixtures';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { InvoicesClient } from '@api/clients/InvoicesClient';
 import type { Paginated } from '@api/dto/common';
@@ -82,7 +82,7 @@ test.describe('@invoices-api - Invoices API', () => {
       let response: ApiResponse;
       let created: InvoiceCreated;
 
-      const productId = await takeFirstProduct(productsService);
+      const productId = await takeFirstProductId(productsService, FIRST_PRODUCT_STEP);
       const cartId = await createCart(cartsService, cleanup);
       await addItemSetup(cartsService, cartId, productId, 2, ADD_TWO_STEP);
 

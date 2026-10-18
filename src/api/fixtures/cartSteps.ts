@@ -5,12 +5,11 @@ import type { Cart, CreateCartRequest } from '../dto/cart';
 import type { CreateProductRequest, Product } from '../dto/product';
 import type { CartsService } from '../services/CartsService';
 import type { ProductsService } from '../services/ProductsService';
-import { ProductFactory, type ProductRefs } from '../../data/factories/ProductFactory';
+import type { ProductRefs } from '../../data/factories/ProductFactory';
 import { TestConstants } from '../../data/TestConstants';
 import { assertMessage, attachJson } from '../../utils/assertHelpers';
 import { expectStatus, parseJson } from '../../utils/apiChecks';
-import { AUTH } from './apiSteps';
-import { takeProductRefs } from './productSteps';
+import { createProduct, takeProductRefs } from './productSteps';
 
 /**
  * Steps shared by the Carts specs. The titles are the scenario steps verbatim; the carts files use the same wording,
@@ -52,19 +51,7 @@ export async function createCartProduct(
   title: string = CART_PRODUCT_IN_STOCK_STEP,
   overrides: Partial<CreateProductRequest> = {}
 ): Promise<Product> {
-  let created: Product | undefined;
-
-  await test.step(title, async () => {
-    const body = ProductFactory.createProduct(refs as ProductRefs, { stock: 10, ...overrides });
-    await attachJson('Create Product Request', { method: 'POST', path: '/products', auth: AUTH.admin, body });
-    const product = await adminProductsService.create(body);
-    cleanup.add(() => adminProductsService.delete(product.id));
-    await attachJson('Create Product Response', product);
-    expect(product.id, assertMessage({ request: { method: 'POST', path: '/products', body }, expected: 'The new product has an id', actual: product })).toBeTruthy();
-    created = product;
-  });
-
-  return created!;
+  return createProduct(adminProductsService, cleanup, refs, title, { stock: 10, ...overrides });
 }
 
 /**

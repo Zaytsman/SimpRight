@@ -1,4 +1,4 @@
-import { test, expect, AUTH, loggedInCustomer, createCart, addItemSetup, takeFirstProduct, sendCreateInvoice, sendListInvoices, readInvoiceOk, expectKeys, expectFieldsEqual, expectSingleInvoiceLine, expectPaymentMethod, expectPaymentDetails, invoicePageSummary, ADD_TWO_STEP, type InvoiceRequest, type CustomerFixtures, type InvoiceSetupFixtures } from '@fixtures';
+import { test, expect, AUTH, loggedInCustomer, createCart, addItemSetup, takeFirstProductId, FIRST_PRODUCT_STEP, sendCreateInvoice, sendListInvoices, readInvoiceOk, expectKeys, expectFieldsEqual, expectSingleInvoiceLine, expectPaymentMethod, expectPaymentDetails, invoicePageSummary, ADD_TWO_STEP, type InvoiceRequest, type CustomerFixtures, type InvoiceSetupFixtures } from '@fixtures';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { InvoicesClient } from '@api/clients/InvoicesClient';
 import type { Paginated } from '@api/dto/common';
@@ -306,7 +306,7 @@ test.describe('@invoices-api - Invoices API', () => {
     let created: InvoiceCreated;
 
     const customer = await loggedInCustomer({ usersService, adminUsersService, authService, cleanup });
-    const productId = await takeFirstProduct(productsService);
+    const productId = await takeFirstProductId(productsService, FIRST_PRODUCT_STEP);
     const cartId = await createCart(cartsService, cleanup);
     await addItemSetup(cartsService, cartId, productId, 2, ADD_TWO_STEP);
     const client = invoicesClientForToken(customer.token);

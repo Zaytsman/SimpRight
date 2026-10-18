@@ -11,7 +11,7 @@ import { FavoriteFactory } from '../../data/factories/FavoriteFactory';
 import { assertMessage, attachJson } from '../../utils/assertHelpers';
 import { expectStatus } from '../../utils/apiChecks';
 import { AUTH, sendAndAttach } from './apiSteps';
-import { takeFirstProductId } from './productSpecSteps';
+import { takeFirstProductId } from './productSteps';
 import { loginThrowawayCustomer, registerThrowawayCustomer, type ThrowawayCustomer } from './userSteps';
 
 /**

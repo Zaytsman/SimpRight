@@ -2,6 +2,7 @@
  * Building blocks the area step helpers (`<area>Steps.ts`) and specs share: how attached requests name their token, a
  * send that attaches its request and response, and the page summaries that keep other visitors' data out of reports.
  */
+import type { Cleanup } from '../../fixtures/base';
 import type { ApiResponse } from '../clients/BaseClient';
 import type { Paginated } from '../dto/common';
 import { attachJson } from '../../utils/assertHelpers';
@@ -43,6 +44,22 @@ export async function sendAndAttach<Request>(
   const response = await call();
   await attachJson(`${name} Response`, describe(response));
   return { request, response };
+}
+
+/**
+ * For a create call under test: a record exists only when the response says so, so `remove(id)` is registered in
+ * cleanup only for a 2xx response with an id. Covers the known issues that create a record anyway (a POST without a
+ * token) and any validation case that unexpectedly creates one.
+ */
+export function removeIfCreated(response: ApiResponse, cleanup: Cleanup, remove: (id: string) => Promise<unknown>): void {
+  if (!response.isSuccess) return;
+  let id: unknown;
+  try {
+    id = (JSON.parse(response.body) as { id?: unknown }).id;
+  } catch {
+    return;
+  }
+  if (typeof id === 'string' && id) cleanup.add(() => remove(id));
 }
 
 /**

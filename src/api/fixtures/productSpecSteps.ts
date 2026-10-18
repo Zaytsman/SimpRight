@@ -9,7 +9,7 @@ import type { ProductRefs } from '../../data/factories/ProductFactory';
 import { ProductSpecFactory } from '../../data/factories/ProductSpecFactory';
 import { assertMessage, attachJson } from '../../utils/assertHelpers';
 import { AUTH, sendAndAttach } from './apiSteps';
-import { createProductFromRefs, createProductToUpdate, firstListedProductId, firstProductRefs } from './productSteps';
+import { createProduct, createProductToUpdate, firstProductRefs } from './productSteps';
 
 /**
  * Steps shared by the product specs specs (/products/{productId}/specs and /product-specs/names). The titles are the
@@ -18,7 +18,6 @@ import { createProductFromRefs, createProductToUpdate, firstListedProductId, fir
  */
 const SPEC_CREATE_STEP =
   'Send POST /products/{productId}/specs with the new product\'s id, a body with a unique spec_name, spec_value "1.5" and spec_unit "kg", and the default user\'s token, and take the new spec\'s id.';
-const FIRST_PRODUCT_ID_STEP = "Send GET /products and take the first item's id.";
 const OTHER_PRODUCT_LIST_STEP = "Send GET /products and take the first item's brand id, category id and product image id, and the id of another item.";
 
 /** The fixtures the spec setup helpers use. */
@@ -28,15 +27,6 @@ export type SpecSetupFixtures = {
   productSpecsServiceWithToken: ProductSpecsService;
   cleanup: Cleanup;
 };
-
-/** The FIRST_PRODUCT_ID_STEP step (or a variant with the title `title`): the id of the first item of GET /products. */
-export async function takeFirstProductId(productsService: ProductsService, title: string = FIRST_PRODUCT_ID_STEP): Promise<string> {
-  let productId = '';
-  await test.step(title, async () => {
-    productId = await firstListedProductId(productsService);
-  });
-  return productId;
-}
 
 /**
  * A spec-create setup step (title `title`, default SPEC_CREATE_STEP): adds a spec with a unique name, value "1.5" and
@@ -106,7 +96,7 @@ export async function createProductAndTakeOtherId(
     ).toBe(true);
   });
 
-  const productId = await createProductFromRefs(refs as ProductRefs, adminProductsService, cleanup);
+  const productId = (await createProduct(adminProductsService, cleanup, refs)).id;
   return { productId, otherProductId };
 }
 
