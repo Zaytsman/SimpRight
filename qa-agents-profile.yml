@@ -126,6 +126,7 @@ liveApi:
   # Known ways the live app misbehaves for a while; the healer checks failures against them and never re-runs inside these windows.
   transient:
     - The demo site re-seeds every hour at :00 UTC. For a minute or two, calls fail with 500 (register, login), and brands, categories and products get new ids.
+    - Cloudflare in front of the site shows an interactive bot check ("Performing security verification", "Verify you are human") on most direct page loads of /checkout from GitHub-hosted runners (first seen 2026-10-17, run 39052798735); other paths and local runs aren't checked. BasePage.goto() then fails with "Blocked by the site's Cloudflare bot check (environment)". Re-running doesn't help.
     - GET /products answers from a 5-minute cache, so right after a re-seed it can return ids that no longer exist (a POST with them returns 500).
     - The site sometimes slows down for minutes, and plain calls time out (login after 30 s, GET /products after 10 s) across many unrelated tests at once; a slowdown can end with a few seconds of login 500s.
     - Product writes need no token, so other visitors can change or delete seeded products at any time (stock, price, category). Tests on seeded records can fail without any change on our side.
