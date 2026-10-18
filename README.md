@@ -47,6 +47,7 @@ ADMIN_PASSWORD=<admin password>
 | `npm run report` | Open the last HTML report |
 | `npm run typecheck` | TypeScript check (`tsc --noEmit`) |
 | `npm run validate:scenarios` | Check `qa-agents-profile.yml`, the scenario files and their IDs against the specs |
+| `npm run check:step-titles -- <report.json>` | Compare each test's step titles in a JSON report with its scenario's steps (CI does it after every run) |
 | `npm run inspect:ui -- <path> [--role admin \| --logged-out]` | Print a page's `data-test` elements and accessibility tree, for writing UI tests |
 | `npm run test-cases:build` | Build the Test Cases pages (the scenario catalog) into `test-results/test-cases/` |
 | `npm run bugs:build` | Build the Bugs page into `test-results/bugs/` |

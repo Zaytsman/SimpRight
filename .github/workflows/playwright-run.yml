@@ -104,6 +104,12 @@ jobs:
           # SPEC_PATHS is a space-separated list of spec folders/files.
           npx playwright test "${args[@]}" $SPEC_PATHS
 
+      # Warns (an annotation per test) when a test's step titles aren't its scenario's steps verbatim; doesn't fail the job.
+      - name: Check step titles
+        if: ${{ !cancelled() && steps.tests.outcome != 'skipped' }}
+        continue-on-error: true
+        run: npm run check:step-titles
+
       - name: Publish report to GitHub Pages
         if: ${{ !cancelled() && steps.tests.outcome != 'skipped' }}
         env:

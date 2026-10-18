@@ -28,7 +28,7 @@ Add only what the approved plan lists as new, and copy the style of the exemplar
 ## Fixtures (exemplar: `api.exemplars.fixtures`)
 
 - Register every new client and service in the fixtures file, built the way the existing ones are, and grouped and commented like them (which ones carry a token, for which role).
-- Tests never construct clients or services, and never call a token setter on a shared fixture. When tests need a different authentication (no token, an invalid token, or a fixed role such as an admin for cleanup), add a dedicated fixture that builds its own client: a fixed role gets its token from the project's token service.
+- Tests never construct clients or services, and never call a token setter on a shared fixture. When tests need a different authentication (no token, an invalid token, or a fixed role such as an admin for cleanup), add a dedicated fixture that builds its own client: a fixed role gets its token from the project's token service, read for each request (`roleToken`), so a long test never sends an expired token.
 
 ## Test data (exemplars: `api.exemplars.constants`, `api.exemplars.testDataUtils`)
 
@@ -39,6 +39,6 @@ Add only what the approved plan lists as new, and copy the style of the exemplar
 ## Keep it small
 
 - No abstraction for a single call site, and no helper a scenario doesn't need yet.
-- **Shared setup steps:** a helper that runs setup steps (for example "take the ids from the list, create a record to work on") starts inside the one spec that uses it. When a second spec needs the same steps, move the helper to a shared module next to the fixtures and import it in both specs, instead of copying it. Keep the step titles as parameters or constants, so each spec's step titles still match its scenarios verbatim.
+- **Shared setup steps:** a helper that runs setup steps (for example "take the ids from the list, create a record to work on") starts inside the one spec that uses it. When a second spec needs the same steps, move the helper to a shared module next to the fixtures and import it in both specs, instead of copying it. Keep the step titles as parameters or constants, so each spec's step titles still match its scenarios verbatim. The same for checks and send helpers: one that a second spec needs moves to the shared checks (`api.exemplars.checks`), the step helpers (`api.exemplars.steps`) or the area's `*Steps.ts`.
 - Additive changes only to shared files: no renamed or removed exports, no changed signatures or behaviour.
 - A new test folder or scenario area may need entries elsewhere: follow the conventions files (for example CI workflow options and the profile's `ids.areas`), and list what you changed.

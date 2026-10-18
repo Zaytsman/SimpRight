@@ -75,25 +75,33 @@ The engineer changes only test-side code. It never edits a scenario's steps, and
 ```ts
 // Scenarios: test-scenarios/api/users/get-users-me.yml
 test.describe('@users-api - Users API', () => {
-  test("API-0063: Current user endpoint returns the logged-in user's profile", async ({ usersClientWithToken }) => {
+  test("API-0063: Current user endpoint returns the logged-in user's profile", { tag: '@smoke' }, async ({ usersClientWithToken, user }) => {
     const request = { method: 'GET', path: '/users/me' };
     let response: ApiResponse;
 
     await test.step("Send GET /users/me with the default user's token.", async () => {
-      response = await usersClientWithToken.me();
-      await attachJson('Current User Request', request);
-      await attachJson('Current User Response', { status: response.status, body: response.body });
+      ({ response } = await sendAndAttach('Current User', request, () => usersClientWithToken.me()));
     });
 
     await test.step('Verify the response status is 200.', async () => {
-      expect(response.status, assertMessage({ request, expected: 'Status 200', actual: response.status })).toBe(200);
+      expectStatus(request, response, 200);
+    });
+
+    await test.step("Verify email equals the default user's email, and id, first_name and last_name are not empty.", async () => {
+      const profile = parseJson<User>(request, response);
+      // The email is a secret: compare it as a condition so a failure diff doesn't print it.
+      expect(profile.email === user.username, assertMessage({ request, expected: "Email equals the default user's email", actual: profile.email })).toBe(true);
+      for (const field of ['id', 'first_name', 'last_name'] as const) {
+        expect(profile[field], assertMessage({ request, expected: `"${field}" is not empty`, actual: profile })).toBeTruthy();
+      }
     });
   });
 });
 ```
 
 - One `test.step` per scenario step, titled with the step text, so the report reads like the scenario.
-- `attachJson` attaches requests and responses; `assertMessage` puts the request, the expected and the actual value in every failure. Both mask passwords, tokens and the test users' emails, because the reports are published.
+- `sendAndAttach` makes the call and attaches the request and the response; `attachJson` attaches anything else; `assertMessage` puts the request, the expected and the actual value in every failure. They mask passwords, tokens and the test users' emails, because the reports are published.
+- `expectStatus`, `parseJson` and the other shared checks (`src/utils/apiChecks.ts`) keep the steps short and the failure messages the same everywhere. Tests that differ only in their data share one template function (`src/api/fixtures/apiSteps.ts`), called from one `test()` per scenario.
 - Status-code checks use the **client** (raw response); happy-path data comes from **services**.
 - Records a test creates are removed by the `cleanup` fixture after the test, pass or fail.
 

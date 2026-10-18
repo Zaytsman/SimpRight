@@ -24,6 +24,7 @@ Copy the structure of the exemplar spec (`ui.exemplars.spec` in the profile) and
 - Tests in a file run in parallel and each file runs on its own: no state shared between tests, no order between them.
 - State shared between steps goes in `let` variables at the top of the test; values only this test uses are `const`s there too (from the constants module when shared).
 - **Preconditions** (the scenario's `preconditions`): each precondition is set up before the first step, never in a `test.step`: with a precondition fixture (`openHomePageTest`, `openHomePageInLondonTest`, `openProductPageTest`, `openProductPageInLondonTest`, `openProductPageWithNewCustomerTest`) when the tests share it, imported as `test` (`import { openHomePageTest as test, expect } from '@fixtures'`) so the validator finds the titles; otherwise as setup code at the top of the test with a `// Precondition: <text>` comment. A precondition fixture that exists for the text ("The home page is open." → `openHomePageTest`, "The product page of "X" is open." → `openProductPageTest` with `test.use({ productName })`) is always used; when tests in the file have different preconditions, wrap the ones that share a fixture in an anonymous `test.describe(() => { const test = <fixture>; ... })`.
+- **Setup** (the preconditions and the data they need: `putProductInCart`, `findProductByName`, `registerCustomerForTest`) is code before the first step, never a `test.step`; when it can't prepare the state it throws an error starting with `Setup:`. The checkout is opened with `cartPage.open()`, never by loading `/checkout`.
 
 ## Steps
 
@@ -43,6 +44,7 @@ One `test.step('<step text verbatim>', ...)` per scenario step, in order.
 - "Every item ..." and order checks: assert the list is not empty first (an empty list passes both), unless an earlier step already checked it.
 - **Approved readings:** when the user approved how to read a step (names compared case-insensitively, the displayed price, the first page only), record it in a short comment above the check, so later readers see why the test checks it that way.
 - Check exactly what the step says, on what a user can see. Don't add checks the step doesn't ask for.
+- A check that several tests of the spec repeat goes in a function in the spec (`expectEveryNameContains(homePage, term)`), not copied.
 - Compare secret values (a test user's email) as a condition, `expect(a === b, message).toBe(true)`, so a failure diff never prints them.
 
 ## Things that bite

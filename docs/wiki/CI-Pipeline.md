@@ -51,9 +51,10 @@ Its steps:
 3. UI runs only: restore the browser cache, `npm run install:browsers`.
 4. `npm run typecheck`.
 5. Run the tests: `npx playwright test --project=<project> [--grep <grep>] [paths]`. The step **continues on error**, so the report is still published. UI runs set `DISABLE_API_COVERAGE=true`: their only API calls are logins, which would make a misleading coverage report.
-6. Publish the report to `gh-pages` (`scripts/publish-report.sh <family>`, with `GH_TOKEN` = `github.token`, the only step that gets a token that can push; see [GitHub Pages Publishing](GitHub-Pages-Publishing)).
-7. Upload `playwright-report/` and `test-results/` as an artifact (kept 14 days).
-8. Fail the job if tests failed, with an error annotation that links to the published report.
+6. Check the step titles (`npm run check:step-titles`, on `test-results/results.json`): a warning annotation for each test whose step titles aren't its scenario's steps verbatim. It doesn't fail the job.
+7. Publish the report to `gh-pages` (`scripts/publish-report.sh <family>`, with `GH_TOKEN` = `github.token`, the only step that gets a token that can push; see [GitHub Pages Publishing](GitHub-Pages-Publishing)).
+8. Upload `playwright-report/` and `test-results/` as an artifact (kept 14 days).
+9. Fail the job if tests failed, with an error annotation that links to the published report.
 
 On CI, Playwright adds 1 retry, 2 workers, `forbidOnly`, and two more reporters: JUnit (`test-results/junit.xml`) and JSON (`test-results/results.json`, which the portal reads).
 

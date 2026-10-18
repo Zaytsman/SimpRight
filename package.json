@@ -14,6 +14,7 @@
     "report": "playwright show-report",
     "typecheck": "tsc --noEmit",
     "validate:scenarios": "node scripts/validate-scenarios.mts",
+    "check:step-titles": "node scripts/check-step-titles.mts",
     "inspect:ui": "node scripts/inspect-ui.mts",
     "test-cases:build": "node scripts/build-test-cases.mts",
     "bugs:build": "node scripts/build-bugs.mts",
