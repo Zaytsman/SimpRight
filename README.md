@@ -11,7 +11,7 @@ Automated test framework built with **TypeScript + Playwright**. It covers UI an
 - Test scenarios in YAML (with a schema and a validator) as the source of truth for what gets automated, and API contracts documenting the endpoints under test
 - AI agents for the whole automation cycle (contracts → scenarios → framework code and specs → review → healing), with human checkpoints: see [docs/AI_WORKFLOW.md](docs/AI_WORKFLOW.md)
 
-Step-by-step guides are in the **[wiki](https://github.com/Zaytsman/SimpRight/wiki)**, starting with [Installation & Setup](https://github.com/Zaytsman/SimpRight/wiki/Installation-&-Setup).
+Step-by-step guides are in the **[wiki](https://github.com/Zaytsman/SimpRight/wiki)**, starting with [Installation & Setup](https://github.com/Zaytsman/SimpRight/wiki/Installation-&-Setup). How the framework is built, area by area, and what the October 2026 code review changed: **[docs/framework/](docs/framework/README.md)**.
 
 ## Prerequisites
 
@@ -108,13 +108,14 @@ src/
     fixtures/            UI fixtures
   data/                  test data: TestConstants, factories/
   utils/                 helpers (assertion messages, masked attachments, env)
-  globalSetup.ts         UI login for storageState mode
+  globalSetup.ts         registers the run's customer; UI login for storageState mode
 tests/
   api/<area>/*.spec.ts
   ui/<area>/*.spec.ts
 test-scenarios/          scenario source of truth (api/, ui/)
 bugs/                    bugs found in the app under test, one BUG-001.yml per root cause
 docs/api/contracts/      API contracts, the reference for API coverage
+docs/framework/          how the framework works, one document per area
 qa-agents-profile.yml    project facts for the QA agents and scripts (paths, commands, ID formats, roles)
 ```
 
