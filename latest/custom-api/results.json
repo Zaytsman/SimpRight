@@ -5,6 +5,8 @@
       "/home/runner/work/SimpRight/SimpRight/node_modules/.bin/playwright",
       "test",
       "--project=api",
+      "--grep",
+      "API-0001",
       "tests/api/products/"
     ],
     "configFile": "/home/runner/work/SimpRight/SimpRight/playwright.config.ts",
@@ -20,26 +22,26 @@
     "maxFailures": 0,
     "metadata": {
       "ci": {
-        "commitHref": "https://github.com/Zaytsman/SimpRight/commit/20f97419f5772684494d20f0f4ea61a635627134",
-        "commitHash": "20f97419f5772684494d20f0f4ea61a635627134",
-        "buildHref": "https://github.com/Zaytsman/SimpRight/actions/runs/36616600459"
+        "commitHref": "https://github.com/Zaytsman/SimpRight/commit/e04eac533c54a4c689d9d6f7ad48c10549fcdacf",
+        "commitHash": "e04eac533c54a4c689d9d6f7ad48c10549fcdacf",
+        "buildHref": "https://github.com/Zaytsman/SimpRight/actions/runs/39153682566"
       },
       "gitCommit": {
-        "shortHash": "20f9741",
-        "hash": "20f97419f5772684494d20f0f4ea61a635627134",
-        "subject": "Add Dependabot for npm and GitHub Actions updates",
-        "body": "Add Dependabot for npm and GitHub Actions updates\n\nWeekly on Tuesdays. Minor and patch npm bumps come as one grouped PR, majors as\nseparate PRs; action updates are grouped into one PR.\n\nCo-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>\n",
+        "shortHash": "e04eac5",
+        "hash": "e04eac533c54a4c689d9d6f7ad48c10549fcdacf",
+        "subject": "Move the nightly runs off the full hour",
+        "body": "Move the nightly runs off the full hour\n\nThe API and UI regressions now start at 02:15 and 06:15 UTC instead of 02:00 and 06:00, as\nthe CI Runs page already advised: the site re-seeds its data at :00, and GitHub's schedule\nqueue is busiest at the top of the hour (recent nightlies started 4.5-8 hours late).\n\nCo-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>\n",
         "author": {
           "name": "Zaytsman",
           "email": "15192104+Zaytsman@users.noreply.github.com",
-          "time": 1790707713000
+          "time": 1792347580000
         },
         "committer": {
           "name": "Zaytsman",
           "email": "15192104+Zaytsman@users.noreply.github.com",
-          "time": 1790707713000
+          "time": 1792347580000
         },
-        "branch": "main"
+        "branch": "develop"
       },
       "actualWorkers": 1
     },
@@ -48,29 +50,29 @@
       {
         "outputDir": "/home/runner/work/SimpRight/SimpRight/test-results",
         "repeatEach": 1,
-        "retries": 2,
+        "retries": 1,
         "metadata": {
           "ci": {
-            "commitHref": "https://github.com/Zaytsman/SimpRight/commit/20f97419f5772684494d20f0f4ea61a635627134",
-            "commitHash": "20f97419f5772684494d20f0f4ea61a635627134",
-            "buildHref": "https://github.com/Zaytsman/SimpRight/actions/runs/36616600459"
+            "commitHref": "https://github.com/Zaytsman/SimpRight/commit/e04eac533c54a4c689d9d6f7ad48c10549fcdacf",
+            "commitHash": "e04eac533c54a4c689d9d6f7ad48c10549fcdacf",
+            "buildHref": "https://github.com/Zaytsman/SimpRight/actions/runs/39153682566"
           },
           "gitCommit": {
-            "shortHash": "20f9741",
-            "hash": "20f97419f5772684494d20f0f4ea61a635627134",
-            "subject": "Add Dependabot for npm and GitHub Actions updates",
-            "body": "Add Dependabot for npm and GitHub Actions updates\n\nWeekly on Tuesdays. Minor and patch npm bumps come as one grouped PR, majors as\nseparate PRs; action updates are grouped into one PR.\n\nCo-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>\n",
+            "shortHash": "e04eac5",
+            "hash": "e04eac533c54a4c689d9d6f7ad48c10549fcdacf",
+            "subject": "Move the nightly runs off the full hour",
+            "body": "Move the nightly runs off the full hour\n\nThe API and UI regressions now start at 02:15 and 06:15 UTC instead of 02:00 and 06:00, as\nthe CI Runs page already advised: the site re-seeds its data at :00, and GitHub's schedule\nqueue is busiest at the top of the hour (recent nightlies started 4.5-8 hours late).\n\nCo-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>\n",
             "author": {
               "name": "Zaytsman",
               "email": "15192104+Zaytsman@users.noreply.github.com",
-              "time": 1790707713000
+              "time": 1792347580000
             },
             "committer": {
               "name": "Zaytsman",
               "email": "15192104+Zaytsman@users.noreply.github.com",
-              "time": 1790707713000
+              "time": 1792347580000
             },
-            "branch": "main"
+            "branch": "develop"
           },
           "actualWorkers": 1
         },
@@ -86,29 +88,29 @@
       {
         "outputDir": "/home/runner/work/SimpRight/SimpRight/test-results",
         "repeatEach": 1,
-        "retries": 2,
+        "retries": 1,
         "metadata": {
           "ci": {
-            "commitHref": "https://github.com/Zaytsman/SimpRight/commit/20f97419f5772684494d20f0f4ea61a635627134",
-            "commitHash": "20f97419f5772684494d20f0f4ea61a635627134",
-            "buildHref": "https://github.com/Zaytsman/SimpRight/actions/runs/36616600459"
+            "commitHref": "https://github.com/Zaytsman/SimpRight/commit/e04eac533c54a4c689d9d6f7ad48c10549fcdacf",
+            "commitHash": "e04eac533c54a4c689d9d6f7ad48c10549fcdacf",
+            "buildHref": "https://github.com/Zaytsman/SimpRight/actions/runs/39153682566"
           },
           "gitCommit": {
-            "shortHash": "20f9741",
-            "hash": "20f97419f5772684494d20f0f4ea61a635627134",
-            "subject": "Add Dependabot for npm and GitHub Actions updates",
-            "body": "Add Dependabot for npm and GitHub Actions updates\n\nWeekly on Tuesdays. Minor and patch npm bumps come as one grouped PR, majors as\nseparate PRs; action updates are grouped into one PR.\n\nCo-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>\n",
+            "shortHash": "e04eac5",
+            "hash": "e04eac533c54a4c689d9d6f7ad48c10549fcdacf",
+            "subject": "Move the nightly runs off the full hour",
+            "body": "Move the nightly runs off the full hour\n\nThe API and UI regressions now start at 02:15 and 06:15 UTC instead of 02:00 and 06:00, as\nthe CI Runs page already advised: the site re-seeds its data at :00, and GitHub's schedule\nqueue is busiest at the top of the hour (recent nightlies started 4.5-8 hours late).\n\nCo-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>\n",
             "author": {
               "name": "Zaytsman",
               "email": "15192104+Zaytsman@users.noreply.github.com",
-              "time": 1790707713000
+              "time": 1792347580000
             },
             "committer": {
               "name": "Zaytsman",
               "email": "15192104+Zaytsman@users.noreply.github.com",
-              "time": 1790707713000
+              "time": 1792347580000
             },
-            "branch": "main"
+            "branch": "develop"
           },
           "actualWorkers": 1
         },
@@ -120,6 +122,59 @@
           "**/*.@(spec|test).?(c|m)[jt]s?(x)"
         ],
         "timeout": 60000
+      }
+    ],
+    "filteredProjects": [
+      {
+        "grep": {},
+        "grepInvert": null,
+        "outputDir": "/home/runner/work/SimpRight/SimpRight/test-results",
+        "repeatEach": 1,
+        "retries": 1,
+        "metadata": {
+          "ci": {
+            "commitHref": "https://github.com/Zaytsman/SimpRight/commit/e04eac533c54a4c689d9d6f7ad48c10549fcdacf",
+            "commitHash": "e04eac533c54a4c689d9d6f7ad48c10549fcdacf",
+            "buildHref": "https://github.com/Zaytsman/SimpRight/actions/runs/39153682566"
+          },
+          "gitCommit": {
+            "shortHash": "e04eac5",
+            "hash": "e04eac533c54a4c689d9d6f7ad48c10549fcdacf",
+            "subject": "Move the nightly runs off the full hour",
+            "body": "Move the nightly runs off the full hour\n\nThe API and UI regressions now start at 02:15 and 06:15 UTC instead of 02:00 and 06:00, as\nthe CI Runs page already advised: the site re-seeds its data at :00, and GitHub's schedule\nqueue is busiest at the top of the hour (recent nightlies started 4.5-8 hours late).\n\nCo-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>\n",
+            "author": {
+              "name": "Zaytsman",
+              "email": "15192104+Zaytsman@users.noreply.github.com",
+              "time": 1792347580000
+            },
+            "committer": {
+              "name": "Zaytsman",
+              "email": "15192104+Zaytsman@users.noreply.github.com",
+              "time": 1792347580000
+            },
+            "branch": "develop"
+          },
+          "actualWorkers": 1
+        },
+        "name": "api",
+        "testDir": "/home/runner/work/SimpRight/SimpRight/tests/api",
+        "snapshotDir": "/home/runner/work/SimpRight/SimpRight/tests/api",
+        "testIgnore": [],
+        "testMatch": "**/*.@(spec|test).?(c|m)[jt]s?(x)",
+        "timeout": 60000,
+        "use": {
+          "baseURL": "https://api.practicesoftwaretesting.com",
+          "testIdAttribute": "data-test",
+          "trace": "off",
+          "screenshot": "only-on-failure",
+          "video": "retain-on-failure",
+          "actionTimeout": 10000,
+          "navigationTimeout": 60000,
+          "authMode": "none"
+        },
+        "dependencies": [],
+        "ignoreSnapshots": false,
+        "__projectId": "api"
       }
     ],
     "quiet": false,
@@ -145,6 +200,12 @@
         {
           "outputFile": "test-results/results.json"
         }
+      ],
+      [
+        "/home/runner/work/SimpRight/SimpRight/node_modules/@zaytsman/playwright-api-coverage/dist/index.js",
+        {
+          "docDir": "docs/api/contracts"
+        }
       ]
     ],
     "reportSlowTests": {
@@ -153,30 +214,33 @@
     },
     "shard": null,
     "tags": [],
-    "updateSnapshots": "missing",
+    "updateSnapshots": "default",
     "updateSourceMethod": "patch",
-    "version": "1.63.0",
+    "version": "1.64.0",
     "workers": 2,
     "webServer": null
   },
   "suites": [
     {
-      "title": "api/products/search-products.spec.ts",
-      "file": "api/products/search-products.spec.ts",
+      "title": "api/products/get-products-search.spec.ts",
+      "file": "api/products/get-products-search.spec.ts",
       "column": 0,
       "line": 0,
       "specs": [],
       "suites": [
         {
-          "title": "Products API",
-          "file": "api/products/search-products.spec.ts",
-          "line": 4,
+          "title": "@products-api - Products API",
+          "file": "api/products/get-products-search.spec.ts",
+          "line": 53,
           "column": 6,
           "specs": [
             {
-              "title": "API-PROD-001: search by name returns only matching products",
+              "title": "API-0001: Search by name returns only matching products",
               "ok": true,
-              "tags": [],
+              "tags": [
+                "products-api",
+                "smoke"
+              ],
               "tests": [
                 {
                   "timeout": 60000,
@@ -189,22 +253,51 @@
                       "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 1132,
+                      "duration": 531,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-09-29T19:04:28.479Z",
+                      "steps": [
+                        {
+                          "title": "Send GET /products/search with q=pliers.",
+                          "duration": 506
+                        },
+                        {
+                          "title": "Verify the response status is 200 and the body is paginated (data, total, current_page).",
+                          "duration": 6
+                        },
+                        {
+                          "title": "Verify total is greater than 0 and every item's name contains \"pliers\" (case-insensitive).",
+                          "duration": 2
+                        },
+                        {
+                          "title": "Verify each item has an id, a name and a price greater than 0.",
+                          "duration": 7
+                        }
+                      ],
+                      "startTime": "2026-10-18T18:20:25.495Z",
                       "annotations": [],
-                      "attachments": []
+                      "attachments": [
+                        {
+                          "name": "Search Request",
+                          "contentType": "application/json",
+                          "body": "ewogICJtZXRob2QiOiAiR0VUIiwKICAicGF0aCI6ICIvcHJvZHVjdHMvc2VhcmNoIiwKICAicXVlcnkiOiB7CiAgICAicSI6ICJwbGllcnMiCiAgfQp9"
+                        },
+                        {
+                          "name": "Search Response",
+                          "contentType": "application/json",
+                          "body": "ewogICJzdGF0dXMiOiAyMDAsCiAgImJvZHkiOiB7CiAgICAiY3VycmVudF9wYWdlIjogMSwKICAgICJkYXRhIjogWwogICAgICB7CiAgICAgICAgImlkIjogIjAxTTU4MlIwQjNNUkE2MzAxV0dIN0sxM0RGIiwKICAgICAgICAibmFtZSI6ICJDb21iaW5hdGlvbiBQbGllcnMiLAogICAgICAgICJkZXNjcmlwdGlvbiI6ICJWZXJzYXRpbGUgY29tYmluYXRpb24gcGxpZXJzIGRlc2lnbmVkIGZvciBncmlwcGluZywgYmVuZGluZywgYW5kIGN1dHRpbmcgd2lyZSB3aXRoIGVhc2UuIEZlYXR1cmluZyBjaHJvbWUgdmFuYWRpdW0gc3RlZWwgY29uc3RydWN0aW9uIHdpdGggaW5kdWN0aW9uLWhhcmRlbmVkIGN1dHRpbmcgZWRnZXMsIHRoZXNlIHBsaWVycyBkZWxpdmVyIGV4Y2VsbGVudCBncmlwIGFuZCBsZXZlcmFnZSBmb3IgYSB3aWRlIHJhbmdlIG9mIHRhc2tzLiBUaGUgcHJlY2lzaW9uLW1hY2hpbmVkIGphd3MgY29tYmluZSBmbGF0IGdyaXBwaW5nIHN1cmZhY2VzIHdpdGggYSBwaXBlLWdyaXAgc2VjdGlvbiBhbmQgaW50ZWdyYXRlZCB3aXJlIGN1dHRlciBmb3IgdHJ1ZSBtdWx0aS1wdXJwb3NlIGZ1bmN0aW9uYWxpdHkuIEVyZ29ub21pYyBiaS1jb21wb25lbnQgaGFuZGxlcyByZWR1Y2UgaGFuZCBmYXRpZ3VlIGR1cmluZyBleHRlbmRlZCB1c2UgYW5kIHByb3ZpZGUgYSBzZWN1cmUgaG9sZCBldmVuIHdpdGggb2lseSBvciBnbG92ZWQgaGFuZHMuIFRoZSBqb2ludCBpcyBwcmVjaXNlbHkgZml0dGVkIHRvIGVsaW1pbmF0ZSBwbGF5IGFuZCBlbnN1cmUgc21vb3RoIG9wZXJhdGlvbiBvdmVyIHRob3VzYW5kcyBvZiBjeWNsZXMuIElkZWFsIGZvciBlbGVjdHJpY2lhbnMsIG1lY2hhbmljcywgYW5kIERJWSBlbnRodXNpYXN0cyB0YWNrbGluZyBldmVyeWRheSBwcm9qZWN0cyBhcm91bmQgdGhlIHdvcmtzaG9wIG9yIGpvYiBzaXRlLiIsCiAgICAgICAgInByaWNlIjogMTQuMTUsCiAgICAgICAgImlzX2xvY2F0aW9uX29mZmVyIjogZmFsc2UsCiAgICAgICAgImlzX3JlbnRhbCI6IGZhbHNlLAogICAgICAgICJjbzJfcmF0aW5nIjogIkQiLAogICAgICAgICJpbl9zdG9jayI6IHRydWUsCiAgICAgICAgImlzX2Vjb19mcmllbmRseSI6IGZhbHNlLAogICAgICAgICJwcm9kdWN0X2ltYWdlIjogewogICAgICAgICAgImlkIjogIjAxTTU4MlIwQTM1UkhWME5TRjRFMjdNQlRZIiwKICAgICAgICAgICJieV9uYW1lIjogIkhlbGludG9uIEZhbnRpbiIsCiAgICAgICAgICAiYnlfdXJsIjogImh0dHBzOi8vdW5zcGxhc2guY29tL0BmYW50aW4iLAogICAgICAgICAgInNvdXJjZV9uYW1lIjogIlVuc3BsYXNoIiwKICAgICAgICAgICJzb3VyY2VfdXJsIjogImh0dHBzOi8vdW5zcGxhc2guY29tL3Bob3Rvcy9XOEJOd3ZPdlc0TSIsCiAgICAgICAgICAiZmlsZV9uYW1lIjogInBsaWVyczAxLmF2aWYiLAogICAgICAgICAgInRpdGxlIjogIkNvbWJpbmF0aW9uIHBsaWVycyIKICAgICAgICB9LAogICAgICAgICJjYXRlZ29yeSI6IHsKICAgICAgICAgICJpZCI6ICIwMU01ODJSMDk1QlI3WU45VDAzN05YSERZTSIsCiAgICAgICAgICAibmFtZSI6ICJQbGllcnMiCiAgICAgICAgfSwKICAgICAgICAiYnJhbmQiOiB7CiAgICAgICAgICAiaWQiOiAiMDFNNTgyUVpZOUpSR1c3TTNaR1paMk45OTMiLAogICAgICAgICAgIm5hbWUiOiAiRm9yZ2VGbGV4IFRvb2xzIgogICAgICAgIH0KICAgICAgfSwKICAgICAgewogICAgICAgICJpZCI6ICIwMU01ODJSMEI2SzhSNFhIVzdaREhOOUs4QiIsCiAgICAgICAgIm5hbWUiOiAiUGxpZXJzIiwKICAgICAgICAiZGVzY3JpcHRpb24iOiAiUmVsaWFibGUgZ2VuZXJhbC1wdXJwb3NlIHBsaWVycyBjcmFmdGVkIGZyb20gZHJvcC1mb3JnZWQgY2FyYm9uIHN0ZWVsIGZvciBsb25nLWxhc3RpbmcgZHVyYWJpbGl0eSBpbiBkZW1hbmRpbmcgd29ya2luZyBjb25kaXRpb25zLiBUaGUgc2VycmF0ZWQgamF3cyBwcm92aWRlIGEgZmlybSBncmlwIG9uIGEgdmFyaWV0eSBvZiBtYXRlcmlhbHMgaW5jbHVkaW5nIHdpcmUsIG5haWxzLCBzbWFsbCBmYXN0ZW5lcnMsIGFuZCBpcnJlZ3VsYXJseSBzaGFwZWQgb2JqZWN0cy4gQ29tZm9ydGFibGUgcnViYmVyLWNvYXRlZCBoYW5kbGVzIGFic29yYiB2aWJyYXRpb24gYW5kIHJlZHVjZSBoYW5kIGZhdGlndWUgZHVyaW5nIGV4dGVuZGVkIHVzZSwgd2hpbGUgdGhlIG5vbi1zbGlwIHN1cmZhY2UgZW5zdXJlcyBjb25maWRlbnQgaGFuZGxpbmcuIFRoZSBwcmVjaXNpb24gcGl2b3Qgam9pbnQgbWFpbnRhaW5zIGFsaWdubWVudCB1bmRlciBsb2FkLCBkZWxpdmVyaW5nIHNtb290aCwgY29udHJvbGxlZCBqYXcgYWN0aW9uIHdpdGggZXZlcnkgc3F1ZWV6ZS4gSGVhdC10cmVhdGVkIHN0ZWVsIGNvbnN0cnVjdGlvbiByZXNpc3RzIHdlYXIgYW5kIGRlZm9ybWF0aW9uIGV2ZW4gdW5kZXIgaGVhdnkgdXNlLiBBIG11c3QtaGF2ZSBmb3VuZGF0aW9uYWwgdG9vbCBmb3IgYW55IHdvcmtzaG9wLCBlcXVhbGx5IHN1aXRlZCBmb3IgcHJvZmVzc2lvbmFsIHRyYWRlc3Blb3BsZSBhbmQgaG9tZSByZXBhaXIgcHJvamVjdHMuIiwKICAgICAgICAicHJpY2UiOiAxMi4wMSwKICAgICAgICAiaXNfbG9jYXRpb25fb2ZmZXIiOiBmYWxzZSwKICAgICAgICAiaXNfcmVudGFsIjogZmFsc2UsCiAgICAgICAgImNvMl9yYXRpbmciOiAiRCIsCiAgICAgICAgImluX3N0b2NrIjogdHJ1ZSwKICAgICAgICAiaXNfZWNvX2ZyaWVuZGx5IjogZmFsc2UsCiAgICAgICAgInByb2R1Y3RfaW1hZ2UiOiB7CiAgICAgICAgICAiaWQiOiAiMDFNNTgyUjBBMzVSSFYwTlNGNEUyN01CVFoiLAogICAgICAgICAgImJ5X25hbWUiOiAiRXZlcnlkYXkgYmFzaWNzIiwKICAgICAgICAgICJieV91cmwiOiAiaHR0cHM6Ly91bnNwbGFzaC5jb20vQHphbmFyZGkiLAogICAgICAgICAgInNvdXJjZV9uYW1lIjogIlVuc3BsYXNoIiwKICAgICAgICAgICJzb3VyY2VfdXJsIjogImh0dHBzOi8vdW5zcGxhc2guY29tL3Bob3Rvcy9JOGVUdU1teElmbyIsCiAgICAgICAgICAiZmlsZV9uYW1lIjogInBsaWVyczAyLmF2aWYiLAogICAgICAgICAgInRpdGxlIjogIlBsaWVycyIKICAgICAgICB9LAogICAgICAgICJjYXRlZ29yeSI6IHsKICAgICAgICAgICJpZCI6ICIwMU01ODJSMDk1QlI3WU45VDAzN05YSERZTSIsCiAgICAgICAgICAibmFtZSI6ICJQbGllcnMiCiAgICAgICAgfSwKICAgICAgICAiYnJhbmQiOiB7CiAgICAgICAgICAiaWQiOiAiMDFNNTgyUVpZOUpSR1c3TTNaR1paMk45OTMiLAogICAgICAgICAgIm5hbWUiOiAiRm9yZ2VGbGV4IFRvb2xzIgogICAgICAgIH0KICAgICAgfSwKICAgICAgewogICAgICAgICJpZCI6ICIwMU01ODJSMEI5ODc1RkYyRjBaQjAyQ0o4NCIsCiAgICAgICAgIm5hbWUiOiAiTG9uZyBOb3NlIFBsaWVycyIsCiAgICAgICAgImRlc2NyaXB0aW9uIjogIlByZWNpc2lvbiBsb25nIG5vc2UgcGxpZXJzIHdpdGggbmFycm93IHRhcGVyZWQgamF3cyBkZXNpZ25lZCBmb3IgcmVhY2hpbmcgaW50byB0aWdodCwgY29uZmluZWQgc3BhY2VzIGFuZCBiZW5kaW5nIGZpbmUgd2lyZSB3aXRoIGFjY3VyYWN5LiBNYWRlIGZyb20gY2hyb21lIHZhbmFkaXVtIHN0ZWVsIHdpdGggaW5kdWN0aW9uLWhhcmRlbmVkIGN1dHRpbmcgZWRnZXMgdGhhdCBjbGVhbmx5IHNldmVyIGNvcHBlciwgYnJhc3MsIGFuZCBzdGVlbCB3aXJlIHdpdGhvdXQgY3J1c2hpbmcgb3IgZnJheWluZy4gVGhlIHNsaW0gamF3IHByb2ZpbGUgdGFwZXJzIHRvIGEgZmluZSBwb2ludCwgbWFraW5nIHRoZXNlIHBsaWVycyBpbmRpc3BlbnNhYmxlIGZvciBlbGVjdHJpY2FsIHRlcm1pbmFsIHdvcmssIGpld2VscnkgbWFraW5nLCBhbmQgaW50cmljYXRlIG1lY2hhbmljYWwgcmVwYWlycy4gQmktY29tcG9uZW50IGNvbWZvcnQgZ3JpcHMgbWluaW1pemUgaGFuZCBzdHJhaW4gZHVyaW5nIGRldGFpbGVkIHRhc2tzIHJlcXVpcmluZyBhIHN0ZWFkeSBoYW5kIGFuZCBjb250cm9sbGVkIHByZXNzdXJlLiBUaGUgbGVhZi1zcHJpbmcgam9pbnQgcmV0dXJucyB0aGUgaGFuZGxlcyB0byB0aGUgb3BlbiBwb3NpdGlvbiBhdXRvbWF0aWNhbGx5LCBzcGVlZGluZyB1cCByZXBldGl0aXZlIHRhc2tzLiBBIG11c3QtaGF2ZSBwcmVjaXNpb24gdG9vbCB0cnVzdGVkIGJ5IGVsZWN0cmljaWFucywgZWxlY3Ryb25pY3MgdGVjaG5pY2lhbnMsIGFuZCBob2JieWlzdHMgd29ybGR3aWRlLiIsCiAgICAgICAgInByaWNlIjogMTQuMjQsCiAgICAgICAgImlzX2xvY2F0aW9uX29mZmVyIjogZmFsc2UsCiAgICAgICAgImlzX3JlbnRhbCI6IGZhbHNlLAogICAgICAgICJjbzJfcmF0aW5nIjogIkQiLAogICAgICAgICJpbl9zdG9jayI6IGZhbHNlLAogICAgICAgICJpc19lY29fZnJpZW5kbHkiOiBmYWxzZSwKICAgICAgICAicHJvZHVjdF9pbWFnZSI6IHsKICAgICAgICAgICJpZCI6ICIwMU01ODJSMEEzNVJIVjBOU0Y0RTI3TUJWMSIsCiAgICAgICAgICAiYnlfbmFtZSI6ICJCcmV0dCBKb3JkYW4iLAogICAgICAgICAgImJ5X3VybCI6ICJodHRwczovL3Vuc3BsYXNoLmNvbS9AYnJldHRfam9yZGFuIiwKICAgICAgICAgICJzb3VyY2VfbmFtZSI6ICJVbnNwbGFzaCIsCiAgICAgICAgICAic291cmNlX3VybCI6ICJodHRwczovL3Vuc3BsYXNoLmNvbS9waG90b3MvR2FtdURUVm0wMmciLAogICAgICAgICAgImZpbGVfbmFtZSI6ICJwbGllcnMwNC5hdmlmIiwKICAgICAgICAgICJ0aXRsZSI6ICJMb25nIG5vc2UgcGxpZXJzIgogICAgICAgIH0sCiAgICAgICAgImNhdGVnb3J5IjogewogICAgICAgICAgImlkIjogIjAxTTU4MlIwOTVCUjdZTjlUMDM3TlhIRFlNIiwKICAgICAgICAgICJuYW1lIjogIlBsaWVycyIKICAgICAgICB9LAogICAgICAgICJicmFuZCI6IHsKICAgICAgICAgICJpZCI6ICIwMU01ODJRWlk5SlJHVzdNM1pHWloyTjk5NCIsCiAgICAgICAgICAibmFtZSI6ICJNaWdodHlDcmFmdCBIYXJkd2FyZSIKICAgICAgICB9CiAgICAgIH0sCiAgICAgIHsKICAgICAgICAiaWQiOiAiMDFNNTgyUjBCQkc5QlIwUkVHMjdZWU5FSDQiLAogICAgICAgICJuYW1lIjogIlNsaXAgSm9pbnQgUGxpZXJzIiwKICAgICAgICAiZGVzY3JpcHRpb24iOiAiQWRqdXN0YWJsZSBzbGlwIGpvaW50IHBsaWVycyB0aGF0IGZlYXR1cmUgYSB0d28tcG9zaXRpb24gcGl2b3QgbWVjaGFuaXNtIGZvciBzd2l0Y2hpbmcgYmV0d2VlbiByZWd1bGFyIGFuZCB3aWRlIGphdyBvcGVuaW5ncyB0byBhY2NvbW1vZGF0ZSBkaWZmZXJlbnQgZmFzdGVuZXIgc2l6ZXMuIFRoZSBQVkMtY29hdGVkIGhhbmRsZXMgb2ZmZXIgYSBjb21mb3J0YWJsZSwgbm9uLXNsaXAgZ3JpcCB3aGlsZSB0aGUgcHJlY2lzZWx5IG1hY2hpbmVkIGphd3Mgc2VjdXJlbHkgZ3Jhc3Agcm91bmQsIGZsYXQsIGFuZCBoZXhhZ29uYWwgb2JqZWN0cyB3aXRob3V0IHNsaXBwaW5nLiBDb25zdHJ1Y3RlZCBmcm9tIGR1cmFibGUgZHJvcC1mb3JnZWQgY2FyYm9uIHN0ZWVsIHRoYXQgaGFzIGJlZW4gaGVhdC10cmVhdGVkIHRvIHdpdGhzdGFuZCBoZWF2eSBkYWlseSB1c2UgaW4gcHJvZmVzc2lvbmFsIGVudmlyb25tZW50cy4gVGhlIGN1cnZlZCBqYXcgc2VjdGlvbiBncmlwcyBwaXBlcyBhbmQgY3lsaW5kcmljYWwgb2JqZWN0cywgd2hpbGUgdGhlIGZsYXQgZnJvbnQgc3VyZmFjZSBoYW5kbGVzIG51dHMsIGJvbHRzLCBhbmQgc2hlZXQgbWF0ZXJpYWxzLiBBIHdpcmUgY3V0dGVyIGludGVncmF0ZWQgbmVhciB0aGUgcGl2b3QgaGFuZGxlcyBsaWdodCBjdXR0aW5nIHRhc2tzIHdpdGhvdXQgcmVhY2hpbmcgZm9yIGEgc2VwYXJhdGUgdG9vbC4gUGVyZmVjdCBmb3IgcGx1bWJpbmcsIGF1dG9tb3RpdmUsIEhWQUMsIGFuZCBnZW5lcmFsIG1haW50ZW5hbmNlIHdvcmsgd2hlcmUgYSBzaW5nbGUgdmVyc2F0aWxlIGdyaXBwaW5nIHRvb2wgc2F2ZXMgdGltZS4iLAogICAgICAgICJwcmljZSI6IDkuMTcsCiAgICAgICAgImlzX2xvY2F0aW9uX29mZmVyIjogZmFsc2UsCiAgICAgICAgImlzX3JlbnRhbCI6IGZhbHNlLAogICAgICAgICJjbzJfcmF0aW5nIjogIkQiLAogICAgICAgICJpbl9zdG9jayI6IHRydWUsCiAgICAgICAgImlzX2Vjb19mcmllbmRseSI6IGZhbHNlLAogICAgICAgICJwcm9kdWN0X2ltYWdlIjogewogICAgICAgICAgImlkIjogIjAxTTU4MlIwQTM1UkhWME5TRjRFMjdNQlYyIiwKICAgICAgICAgICJieV9uYW1lIjogIllhc2luIEhhc2FuIiwKICAgICAgICAgICJieV91cmwiOiAiaHR0cHM6Ly91bnNwbGFzaC5jb20vQHlhc2luIiwKICAgICAgICAgICJzb3VyY2VfbmFtZSI6ICJVbnNwbGFzaCIsCiAgICAgICAgICAic291cmNlX3VybCI6ICJodHRwczovL3Vuc3BsYXNoLmNvbS9waG90b3MvZHdseFRTcGZLWGciLAogICAgICAgICAgImZpbGVfbmFtZSI6ICJwbGllcnMwNS5hdmlmIiwKICAgICAgICAgICJ0aXRsZSI6ICJTbGlwIGpvaW50IHBsaWVycyIKICAgICAgICB9LAogICAgICAgICJjYXRlZ29yeSI6IHsKICAgICAgICAgICJpZCI6ICIwMU01ODJSMDk1QlI3WU45VDAzN05YSERZTSIsCiAgICAgICAgICAibmFtZSI6ICJQbGllcnMiCiAgICAgICAgfSwKICAgICAgICAiYnJhbmQiOiB7CiAgICAgICAgICAiaWQiOiAiMDFNNTgyUVpZOUpSR1c3TTNaR1paMk45OTQiLAogICAgICAgICAgIm5hbWUiOiAiTWlnaHR5Q3JhZnQgSGFyZHdhcmUiCiAgICAgICAgfQogICAgICB9CiAgICBdLAogICAgImZyb20iOiAxLAogICAgImxhc3RfcGFnZSI6IDEsCiAgICAicGVyX3BhZ2UiOiA5LAogICAgInRvIjogNCwKICAgICJ0b3RhbCI6IDQKICB9Cn0="
+                        }
+                      ]
                     }
                   ],
                   "status": "expected"
                 }
               ],
-              "id": "a888f21cae5653abfe56-012522f799e5440f8145",
-              "file": "api/products/search-products.spec.ts",
-              "line": 5,
+              "id": "7298bd89ae18c6f3b5b6-340afd0f5477ee6cfa9f",
+              "file": "api/products/get-products-search.spec.ts",
+              "line": 54,
               "column": 7
             }
           ]
@@ -214,8 +307,8 @@
   ],
   "errors": [],
   "stats": {
-    "startTime": "2026-09-29T19:04:27.844Z",
-    "duration": 1823.6729999999998,
+    "startTime": "2026-10-18T18:20:22.459Z",
+    "duration": 4621.178,
     "expected": 1,
     "skipped": 0,
     "unexpected": 0,
