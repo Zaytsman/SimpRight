@@ -1,6 +1,6 @@
 import type { BrandsClient } from '../clients/BrandsClient';
 import type { Brand, CreateBrandRequest } from '../dto/brand';
-import { assertOk, parseOk } from './serviceUtils';
+import { assertOkOrNotFound, parseOk } from './serviceUtils';
 
 /**
  * Domain operations on brands. Methods expect success and return parsed bodies;
@@ -30,8 +30,6 @@ export class BrandsService {
    * this service with an admin token. Throws on any other non-2xx status.
    */
   async deleteIfExists(brandId: string): Promise<void> {
-    const response = await this.client.deleteById(brandId);
-    if (response.status === 404) return;
-    assertOk(response, `delete brand ${brandId}`);
+    assertOkOrNotFound(await this.client.deleteById(brandId), `delete brand ${brandId}`);
   }
 }

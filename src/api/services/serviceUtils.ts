@@ -18,8 +18,17 @@ export function assertOk(response: ApiResponse, action: string): void {
   }
 }
 
-/** Like `assertOk`, then returns the parsed JSON body. */
+/** Like `assertOk`, but a 404 counts as done: for the cleanup of a record the test itself may already have deleted. */
+export function assertOkOrNotFound(response: ApiResponse, action: string): void {
+  if (response.status !== 404) assertOk(response, action);
+}
+
+/** Like `assertOk`, then returns the parsed JSON body; a 2xx body that isn't JSON fails with the action and its start. */
 export function parseOk<T>(response: ApiResponse, action: string): T {
   assertOk(response, action);
-  return JSON.parse(response.body) as T;
+  try {
+    return JSON.parse(response.body) as T;
+  } catch {
+    throw new Error(`Failed to ${action}: ${response.status} with a body that isn't JSON: ${response.body.slice(0, 200)}`);
+  }
 }
