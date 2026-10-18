@@ -1,7 +1,7 @@
-import { test, expect, AUTH, sendReport, parseRows, isNumeric, expectNoDuplicates, type ReportRequest } from '@fixtures';
+import { test, expect, AUTH, sendReport, parseRows, isNumeric, expectNoDuplicates, type ReportRequest, checkReportRejected } from '@fixtures';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { TotalSalesPerCountryRow } from '@api/dto/report';
-import { expectMessage, expectStatus } from '@utils/apiChecks';
+import { expectStatus } from '@utils/apiChecks';
 import { assertMessage } from '@utils/assertHelpers';
 
 // Scenarios: test-scenarios/api/reports/get-reports-total-sales-per-country.yml
@@ -45,53 +45,26 @@ test.describe('@reports-api - Reports API', () => {
   });
 
   test('API-0589: Total sales per country without a token returns 401', async ({ reportsClient }) => {
-    let request: ReportRequest;
-    let response: ApiResponse;
-
-    await test.step("Send GET /reports/total-sales-per-country without an Authorization header.", async () => {
-      ({ request, response } = await sendReport(PATH, AUTH.none, () => reportsClient.totalSalesPerCountry()));
-    });
-
-    await test.step('Verify the response status is 401.', async () => {
-      expectStatus(request, response, 401);
-    });
-
-    await test.step('Verify the body\'s message is "Unauthorized".', async () => {
-      expectMessage(request, response, 'Unauthorized');
-    });
+    await checkReportRejected(
+      "Send GET /reports/total-sales-per-country without an Authorization header.",
+      () => sendReport(PATH, AUTH.none, () => reportsClient.totalSalesPerCountry()),
+      401
+    );
   });
 
   test('API-0590: Total sales per country with a malformed token returns 401', async ({ reportsClientWithInvalidToken }) => {
-    let request: ReportRequest;
-    let response: ApiResponse;
-
-    await test.step("Send GET /reports/total-sales-per-country with a malformed token.", async () => {
-      ({ request, response } = await sendReport(PATH, AUTH.malformed, () => reportsClientWithInvalidToken.totalSalesPerCountry()));
-    });
-
-    await test.step('Verify the response status is 401.', async () => {
-      expectStatus(request, response, 401);
-    });
-
-    await test.step('Verify the body\'s message is "Unauthorized".', async () => {
-      expectMessage(request, response, 'Unauthorized');
-    });
+    await checkReportRejected(
+      "Send GET /reports/total-sales-per-country with a malformed token.",
+      () => sendReport(PATH, AUTH.malformed, () => reportsClientWithInvalidToken.totalSalesPerCountry()),
+      401
+    );
   });
 
   test('API-0591: Total sales per country as a customer returns 403', async ({ reportsClientWithToken }) => {
-    let request: ReportRequest;
-    let response: ApiResponse;
-
-    await test.step("Send GET /reports/total-sales-per-country with the default user's token.", async () => {
-      ({ request, response } = await sendReport(PATH, AUTH.defaultUser, () => reportsClientWithToken.totalSalesPerCountry()));
-    });
-
-    await test.step('Verify the response status is 403.', async () => {
-      expectStatus(request, response, 403);
-    });
-
-    await test.step('Verify the body\'s message is "Forbidden".', async () => {
-      expectMessage(request, response, 'Forbidden');
-    });
+    await checkReportRejected(
+      "Send GET /reports/total-sales-per-country with the default user's token.",
+      () => sendReport(PATH, AUTH.defaultUser, () => reportsClientWithToken.totalSalesPerCountry()),
+      403
+    );
   });
 });

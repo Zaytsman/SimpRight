@@ -1,8 +1,8 @@
-import { test, sendReport, AUTH, parseRows, expectPeriodRows, expectNumberFields, expectZeroRows, type ReportRequest } from '@fixtures';
+import { test, sendReport, AUTH, parseRows, expectPeriodRows, expectNumberFields, expectZeroRows, type ReportRequest, checkReportRejected } from '@fixtures';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { AverageSalesPerMonthRow } from '@api/dto/report';
 import { TestConstants } from '@data/TestConstants';
-import { expectMessage, expectStatus } from '@utils/apiChecks';
+import { expectStatus } from '@utils/apiChecks';
 
 // Scenarios: test-scenarios/api/reports/get-reports-average-sales-per-month.yml
 
@@ -61,53 +61,26 @@ test.describe('@reports-api - Reports API', () => {
   });
 
   test('API-0606: Average sales per month without a token returns 401', async ({ reportsClient }) => {
-    let request: ReportRequest;
-    let response: ApiResponse;
-
-    await test.step("Send GET /reports/average-sales-per-month without an Authorization header.", async () => {
-      ({ request, response } = await sendReport(PATH, AUTH.none, () => reportsClient.averageSalesPerMonth()));
-    });
-
-    await test.step('Verify the response status is 401.', async () => {
-      expectStatus(request, response, 401);
-    });
-
-    await test.step('Verify the body\'s message is "Unauthorized".', async () => {
-      expectMessage(request, response, 'Unauthorized');
-    });
+    await checkReportRejected(
+      "Send GET /reports/average-sales-per-month without an Authorization header.",
+      () => sendReport(PATH, AUTH.none, () => reportsClient.averageSalesPerMonth()),
+      401
+    );
   });
 
   test('API-0607: Average sales per month with a malformed token returns 401', async ({ reportsClientWithInvalidToken }) => {
-    let request: ReportRequest;
-    let response: ApiResponse;
-
-    await test.step("Send GET /reports/average-sales-per-month with a malformed token.", async () => {
-      ({ request, response } = await sendReport(PATH, AUTH.malformed, () => reportsClientWithInvalidToken.averageSalesPerMonth()));
-    });
-
-    await test.step('Verify the response status is 401.', async () => {
-      expectStatus(request, response, 401);
-    });
-
-    await test.step('Verify the body\'s message is "Unauthorized".', async () => {
-      expectMessage(request, response, 'Unauthorized');
-    });
+    await checkReportRejected(
+      "Send GET /reports/average-sales-per-month with a malformed token.",
+      () => sendReport(PATH, AUTH.malformed, () => reportsClientWithInvalidToken.averageSalesPerMonth()),
+      401
+    );
   });
 
   test('API-0608: Average sales per month as a customer returns 403', async ({ reportsClientWithToken }) => {
-    let request: ReportRequest;
-    let response: ApiResponse;
-
-    await test.step("Send GET /reports/average-sales-per-month with the default user's token.", async () => {
-      ({ request, response } = await sendReport(PATH, AUTH.defaultUser, () => reportsClientWithToken.averageSalesPerMonth()));
-    });
-
-    await test.step('Verify the response status is 403.', async () => {
-      expectStatus(request, response, 403);
-    });
-
-    await test.step('Verify the body\'s message is "Forbidden".', async () => {
-      expectMessage(request, response, 'Forbidden');
-    });
+    await checkReportRejected(
+      "Send GET /reports/average-sales-per-month with the default user's token.",
+      () => sendReport(PATH, AUTH.defaultUser, () => reportsClientWithToken.averageSalesPerMonth()),
+      403
+    );
   });
 });
