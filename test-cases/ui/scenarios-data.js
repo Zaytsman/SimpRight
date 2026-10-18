@@ -3,8 +3,8 @@ window.SCENARIO_CATALOG = {
  "layer": "ui",
  "title": "UI Test Cases",
  "prefix": "UI",
- "generatedAt": "2026-10-18T08:18:46.710Z",
- "commit": "ec28e54205ba11efccb554e8a6852d3e526b22fc",
+ "generatedAt": "2026-10-18T08:37:43.122Z",
+ "commit": "49eb93dc3af9e1a5f79cf51cfd2e1f11da049140",
  "repoUrl": "https://github.com/Zaytsman/SimpRight",
  "branch": "main",
  "workflowUrl": "https://github.com/Zaytsman/SimpRight/actions/workflows/custom-ui-tests.yml",
@@ -1112,6 +1112,9 @@ window.SCENARIO_CATALOG = {
    "ref": [
     "docs/ui/user-stories/Product_Detail.md#AC8"
    ],
+   "tags": [
+    "@cart"
+   ],
    "status": "automated",
    "automatedIn": "tests/ui/cart/add-to-cart.spec.ts",
    "preconditions": [
@@ -1131,10 +1134,7 @@ window.SCENARIO_CATALOG = {
    "file": "test-scenarios/ui/cart/add-to-cart.yml",
    "fileLabel": "Add to cart",
    "suite": "Cart",
-   "tags": [
-    "@cart"
-   ],
-   "yaml": "- id: UI-002\n  name: Add a product with quantity 2 to the cart\n  ref: docs/ui/user-stories/Product_Detail.md#AC8\n  status: automated\n  automatedIn: tests/ui/cart/add-to-cart.spec.ts\n  preconditions:\n    - A product created for this test through the API, with a unique name, is in stock.\n    - The product page of that product is open.\n  steps:\n    - Set the quantity to 2 and click \"Add to cart\".\n    - Verify the cart badge in the nav bar shows 2.\n    - Open the cart.\n    - 'Verify the cart has exactly one line: that product with quantity 2.'\n    - Verify the cart total equals 2 × the product's unit price."
+   "yaml": "- id: UI-002\n  name: Add a product with quantity 2 to the cart\n  ref: docs/ui/user-stories/Product_Detail.md#AC8\n  tags: [\"@smoke\"]\n  status: automated\n  automatedIn: tests/ui/cart/add-to-cart.spec.ts\n  preconditions:\n    - A product created for this test through the API, with a unique name, is in stock.\n    - The product page of that product is open.\n  steps:\n    - Set the quantity to 2 and click \"Add to cart\".\n    - Verify the cart badge in the nav bar shows 2.\n    - Open the cart.\n    - 'Verify the cart has exactly one line: that product with quantity 2.'\n    - Verify the cart total equals 2 × the product's unit price."
   },
   {
    "id": "UI-027",
@@ -1863,6 +1863,9 @@ window.SCENARIO_CATALOG = {
     "docs/ui/user-stories/Product_Detail.md#AC1",
     "docs/ui/user-stories/Product_Detail.md#AC14"
    ],
+   "tags": [
+    "@products"
+   ],
    "status": "automated",
    "automatedIn": "tests/ui/products/product-detail.spec.ts",
    "preconditions": [
@@ -1884,10 +1887,7 @@ window.SCENARIO_CATALOG = {
    "file": "test-scenarios/ui/products/product-detail.yml",
    "fileLabel": "Product detail",
    "suite": "Product detail",
-   "tags": [
-    "@products"
-   ],
-   "yaml": "- id: UI-013\n  name: The product page shows the product's information and related products\n  ref:\n    - docs/ui/user-stories/Product_Detail.md#AC1\n    - docs/ui/user-stories/Product_Detail.md#AC14\n  status: automated\n  automatedIn: tests/ui/products/product-detail.spec.ts\n  preconditions:\n    - The product page of \"Combination Pliers\" is open.\n  steps:\n    - Verify the product image is shown.\n    - Verify the name \"Combination Pliers\" is shown.\n    - Verify the product description is shown.\n    - Verify the price \"$14.15\" is shown.\n    - Verify the category badge \"Pliers\" is shown.\n    - Verify the brand badge \"ForgeFlex Tools\" is shown.\n    - Verify the \"Related products\" section is shown below the product information.\n    - Verify the \"Related products\" section shows at least one product."
+   "yaml": "- id: UI-013\n  name: The product page shows the product's information and related products\n  ref:\n    - docs/ui/user-stories/Product_Detail.md#AC1\n    - docs/ui/user-stories/Product_Detail.md#AC14\n  tags: [\"@smoke\"]\n  status: automated\n  automatedIn: tests/ui/products/product-detail.spec.ts\n  preconditions:\n    - The product page of \"Combination Pliers\" is open.\n  steps:\n    - Verify the product image is shown.\n    - Verify the name \"Combination Pliers\" is shown.\n    - Verify the product description is shown.\n    - Verify the price \"$14.15\" is shown.\n    - Verify the category badge \"Pliers\" is shown.\n    - Verify the brand badge \"ForgeFlex Tools\" is shown.\n    - Verify the \"Related products\" section is shown below the product information.\n    - Verify the \"Related products\" section shows at least one product."
   },
   {
    "id": "UI-014",
@@ -2035,6 +2035,9 @@ window.SCENARIO_CATALOG = {
    "ref": [
     "docs/ui/user-stories/Product_Detail.md#AC11"
    ],
+   "tags": [
+    "@products"
+   ],
    "status": "automated",
    "automatedIn": "tests/ui/products/product-favorites.spec.ts",
    "preconditions": [
@@ -2051,10 +2054,7 @@ window.SCENARIO_CATALOG = {
    "file": "test-scenarios/ui/products/product-favorites.yml",
    "fileLabel": "Product favorites",
    "suite": "Product favourites",
-   "tags": [
-    "@products"
-   ],
-   "yaml": "- id: UI-028\n  name: Adding a product to favourites shows a success message\n  ref: docs/ui/user-stories/Product_Detail.md#AC11\n  status: automated\n  automatedIn: tests/ui/products/product-favorites.spec.ts\n  preconditions:\n    - The product \"Combination Pliers\" is not in the user's favourites.\n    - The product page of \"Combination Pliers\" is open.\n  steps:\n    - Click \"Add to favourites\".\n    - Verify the message \"Product added to your favorites list.\" is shown."
+   "yaml": "- id: UI-028\n  name: Adding a product to favourites shows a success message\n  ref: docs/ui/user-stories/Product_Detail.md#AC11\n  tags: [\"@smoke\"]\n  status: automated\n  automatedIn: tests/ui/products/product-favorites.spec.ts\n  preconditions:\n    - The product \"Combination Pliers\" is not in the user's favourites.\n    - The product page of \"Combination Pliers\" is open.\n  steps:\n    - Click \"Add to favourites\".\n    - Verify the message \"Product added to your favorites list.\" is shown."
   },
   {
    "id": "UI-029",
@@ -2116,6 +2116,9 @@ window.SCENARIO_CATALOG = {
    "ref": [
     "docs/ui/user-stories/Product_Overview.md#AC5"
    ],
+   "tags": [
+    "@products"
+   ],
    "status": "automated",
    "automatedIn": "tests/ui/products/product-filters.spec.ts",
    "preconditions": [
@@ -2131,10 +2134,7 @@ window.SCENARIO_CATALOG = {
    "file": "test-scenarios/ui/products/product-filters.yml",
    "fileLabel": "Product filters",
    "suite": "Product filters",
-   "tags": [
-    "@products"
-   ],
-   "yaml": "- id: UI-075\n  name: Checking a category shows only that category's products\n  ref: docs/ui/user-stories/Product_Overview.md#AC5\n  status: automated\n  automatedIn: tests/ui/products/product-filters.spec.ts\n  preconditions:\n    - The home page is open.\n  steps:\n    - Check the category \"Pliers\" in the sidebar.\n    - 'Verify the grid shows only the products of the category \"Pliers\": the products the catalogue lists for it in the page''s default price range, $1 to $100.'"
+   "yaml": "- id: UI-075\n  name: Checking a category shows only that category's products\n  ref: docs/ui/user-stories/Product_Overview.md#AC5\n  tags: [\"@smoke\"]\n  status: automated\n  automatedIn: tests/ui/products/product-filters.spec.ts\n  preconditions:\n    - The home page is open.\n  steps:\n    - Check the category \"Pliers\" in the sidebar.\n    - 'Verify the grid shows only the products of the category \"Pliers\": the products the catalogue lists for it in the page''s default price range, $1 to $100.'"
   },
   {
    "id": "UI-076",
@@ -2307,6 +2307,9 @@ window.SCENARIO_CATALOG = {
    "ref": [
     "docs/ui/user-stories/Product_Overview.md#AC1"
    ],
+   "tags": [
+    "@products"
+   ],
    "status": "automated",
    "automatedIn": "tests/ui/products/product-grid.spec.ts",
    "preconditions": [
@@ -2324,16 +2327,16 @@ window.SCENARIO_CATALOG = {
    "file": "test-scenarios/ui/products/product-grid.yml",
    "fileLabel": "Product grid",
    "suite": "Product grid",
-   "tags": [
-    "@products"
-   ],
-   "yaml": "- id: UI-070\n  name: The home page shows a grid of product cards with an image, a name and a price\n  ref: docs/ui/user-stories/Product_Overview.md#AC1\n  status: automated\n  automatedIn: tests/ui/products/product-grid.spec.ts\n  preconditions:\n    - The home page is open.\n  steps:\n    - Verify the product grid shows at least one product card.\n    - Verify every card shows a product image.\n    - Verify every card shows a product name.\n    - Verify every card shows a price."
+   "yaml": "- id: UI-070\n  name: The home page shows a grid of product cards with an image, a name and a price\n  ref: docs/ui/user-stories/Product_Overview.md#AC1\n  tags: [\"@smoke\"]\n  status: automated\n  automatedIn: tests/ui/products/product-grid.spec.ts\n  preconditions:\n    - The home page is open.\n  steps:\n    - Verify the product grid shows at least one product card.\n    - Verify every card shows a product image.\n    - Verify every card shows a product name.\n    - Verify every card shows a price."
   },
   {
    "id": "UI-071",
    "name": "Clicking a product card opens that product's page",
    "ref": [
     "docs/ui/user-stories/Product_Overview.md#AC2"
+   ],
+   "tags": [
+    "@products"
    ],
    "status": "automated",
    "automatedIn": "tests/ui/products/product-grid.spec.ts",
@@ -2351,10 +2354,7 @@ window.SCENARIO_CATALOG = {
    "file": "test-scenarios/ui/products/product-grid.yml",
    "fileLabel": "Product grid",
    "suite": "Product grid",
-   "tags": [
-    "@products"
-   ],
-   "yaml": "- id: UI-071\n  name: Clicking a product card opens that product's page\n  ref: docs/ui/user-stories/Product_Overview.md#AC2\n  status: automated\n  automatedIn: tests/ui/products/product-grid.spec.ts\n  preconditions:\n    - The home page is open.\n  steps:\n    - Click the card of \"Combination Pliers\".\n    - Verify the product detail page is shown.\n    - Verify the name \"Combination Pliers\" is shown."
+   "yaml": "- id: UI-071\n  name: Clicking a product card opens that product's page\n  ref: docs/ui/user-stories/Product_Overview.md#AC2\n  tags: [\"@smoke\"]\n  status: automated\n  automatedIn: tests/ui/products/product-grid.spec.ts\n  preconditions:\n    - The home page is open.\n  steps:\n    - Click the card of \"Combination Pliers\".\n    - Verify the product detail page is shown.\n    - Verify the name \"Combination Pliers\" is shown."
   },
   {
    "id": "UI-072",
@@ -2696,6 +2696,9 @@ window.SCENARIO_CATALOG = {
    "ref": [
     "docs/ui/user-stories/Product_Overview.md#AC4"
    ],
+   "tags": [
+    "@products"
+   ],
    "status": "automated",
    "automatedIn": "tests/ui/products/product-search.spec.ts",
    "preconditions": [
@@ -2713,10 +2716,7 @@ window.SCENARIO_CATALOG = {
    "file": "test-scenarios/ui/products/product-search.yml",
    "fileLabel": "Product search",
    "suite": "Product search",
-   "tags": [
-    "@products"
-   ],
-   "yaml": "- id: UI-001\n  name: Search by name shows only matching products\n  ref: docs/ui/user-stories/Product_Overview.md#AC4\n  status: automated\n  automatedIn: tests/ui/products/product-search.spec.ts\n  preconditions:\n    - The home page is open.\n  steps:\n    - Search for \"pliers\".\n    - 'Verify the caption reads \"Searched for: pliers\".'\n    - Verify at least one product is shown.\n    - Verify every product name contains \"pliers\" (case-insensitive)."
+   "yaml": "- id: UI-001\n  name: Search by name shows only matching products\n  ref: docs/ui/user-stories/Product_Overview.md#AC4\n  tags: [\"@smoke\"]\n  status: automated\n  automatedIn: tests/ui/products/product-search.spec.ts\n  preconditions:\n    - The home page is open.\n  steps:\n    - Search for \"pliers\".\n    - 'Verify the caption reads \"Searched for: pliers\".'\n    - Verify at least one product is shown.\n    - Verify every product name contains \"pliers\" (case-insensitive)."
   },
   {
    "id": "UI-003",

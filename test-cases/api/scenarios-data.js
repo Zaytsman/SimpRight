@@ -3,8 +3,8 @@ window.SCENARIO_CATALOG = {
  "layer": "api",
  "title": "API Test Cases",
  "prefix": "API",
- "generatedAt": "2026-10-18T08:18:46.710Z",
- "commit": "ec28e54205ba11efccb554e8a6852d3e526b22fc",
+ "generatedAt": "2026-10-18T08:37:43.122Z",
+ "commit": "49eb93dc3af9e1a5f79cf51cfd2e1f11da049140",
  "repoUrl": "https://github.com/Zaytsman/SimpRight",
  "branch": "main",
  "workflowUrl": "https://github.com/Zaytsman/SimpRight/actions/workflows/custom-api-tests.yml",
@@ -1705,6 +1705,9 @@ window.SCENARIO_CATALOG = {
   {
    "id": "API-0119",
    "name": "List brands returns the brands",
+   "tags": [
+    "@brands-api"
+   ],
    "status": "automated",
    "automatedIn": "tests/api/brands/get-brands.spec.ts",
    "steps": [
@@ -1720,10 +1723,7 @@ window.SCENARIO_CATALOG = {
    "file": "test-scenarios/api/brands/get-brands.yml",
    "fileLabel": "GET /brands",
    "suite": "Brands API",
-   "tags": [
-    "@brands-api"
-   ],
-   "yaml": "- id: API-0119\n  name: List brands returns the brands\n  status: automated\n  automatedIn: tests/api/brands/get-brands.spec.ts\n  steps:\n    - Send GET /brands.\n    - Verify the response status is 200.\n    - Verify the body is a non-empty array.\n    - Verify every item has a non-empty string id, name and slug."
+   "yaml": "- id: API-0119\n  name: List brands returns the brands\n  tags: [\"@smoke\"]\n  status: automated\n  automatedIn: tests/api/brands/get-brands.spec.ts\n  steps:\n    - Send GET /brands.\n    - Verify the response status is 200.\n    - Verify the body is a non-empty array.\n    - Verify every item has a non-empty string id, name and slug."
   },
   {
    "id": "API-0120",
@@ -2949,6 +2949,9 @@ window.SCENARIO_CATALOG = {
    "ref": [
     "docs/ui/user-stories/Product_Detail.md#AC7"
    ],
+   "tags": [
+    "@carts-api"
+   ],
    "status": "automated",
    "automatedIn": "tests/api/carts/post-carts-by-cart-id.spec.ts",
    "steps": [
@@ -2967,10 +2970,7 @@ window.SCENARIO_CATALOG = {
    "file": "test-scenarios/api/carts/post-carts-by-cart-id.yml",
    "fileLabel": "POST /carts/{cartId}",
    "suite": "Carts API",
-   "tags": [
-    "@carts-api"
-   ],
-   "yaml": "- id: API-0114\n  name: Add a product with quantity 1 to a cart returns 200 and the cart holds it\n  ref: docs/ui/user-stories/Product_Detail.md#AC7\n  status: automated\n  automatedIn: tests/api/carts/post-carts-by-cart-id.spec.ts\n  steps:\n    - Send GET /products and take the first item's brand id, category id and product image id.\n    - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental false and stock 10, and take the new product's id.\n    - Send POST /carts with an empty body and take the returned id as the cart's id.\n    - Send POST /carts/{cartId} with the cart's id and a body with the new product's id as product_id and quantity 1.\n    - Verify the response status is 200.\n    - Verify the body's result is \"item added or updated\".\n    - Verify GET /carts/{cartId} with the cart's id returns 200.\n    - Verify its cart_items has exactly one item, with the new product's id as product_id and quantity 1."
+   "yaml": "- id: API-0114\n  name: Add a product with quantity 1 to a cart returns 200 and the cart holds it\n  ref: docs/ui/user-stories/Product_Detail.md#AC7\n  tags: [\"@smoke\"]\n  status: automated\n  automatedIn: tests/api/carts/post-carts-by-cart-id.spec.ts\n  steps:\n    - Send GET /products and take the first item's brand id, category id and product image id.\n    - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental false and stock 10, and take the new product's id.\n    - Send POST /carts with an empty body and take the returned id as the cart's id.\n    - Send POST /carts/{cartId} with the cart's id and a body with the new product's id as product_id and quantity 1.\n    - Verify the response status is 200.\n    - Verify the body's result is \"item added or updated\".\n    - Verify GET /carts/{cartId} with the cart's id returns 200.\n    - Verify its cart_items has exactly one item, with the new product's id as product_id and quantity 1."
   },
   {
    "id": "API-0115",
@@ -4559,6 +4559,9 @@ window.SCENARIO_CATALOG = {
   {
    "id": "API-0178",
    "name": "Category tree returns the top-level categories with their sub-categories",
+   "tags": [
+    "@categories-api"
+   ],
    "status": "automated",
    "automatedIn": "tests/api/categories/get-categories-tree.spec.ts",
    "steps": [
@@ -4575,10 +4578,7 @@ window.SCENARIO_CATALOG = {
    "file": "test-scenarios/api/categories/get-categories-tree.yml",
    "fileLabel": "GET /categories/tree",
    "suite": "Categories API",
-   "tags": [
-    "@categories-api"
-   ],
-   "yaml": "- id: API-0178\n  name: Category tree returns the top-level categories with their sub-categories\n  status: automated\n  automatedIn: tests/api/categories/get-categories-tree.spec.ts\n  steps:\n    - Send GET /categories/tree.\n    - Verify the response status is 200.\n    - Verify the body is a non-empty array and every item's parent_id is null.\n    - Verify the body's slugs include hand-tools, power-tools and other.\n    - Verify every item has a sub_categories array, and every sub-category's parent_id equals its item's id."
+   "yaml": "- id: API-0178\n  name: Category tree returns the top-level categories with their sub-categories\n  tags: [\"@smoke\"]\n  status: automated\n  automatedIn: tests/api/categories/get-categories-tree.spec.ts\n  steps:\n    - Send GET /categories/tree.\n    - Verify the response status is 200.\n    - Verify the body is a non-empty array and every item's parent_id is null.\n    - Verify the body's slugs include hand-tools, power-tools and other.\n    - Verify every item has a sub_categories array, and every sub-category's parent_id equals its item's id."
   },
   {
    "id": "API-0179",
@@ -5696,6 +5696,9 @@ window.SCENARIO_CATALOG = {
   {
    "id": "API-0272",
    "name": "Add favorite returns 201 with the new favorite",
+   "tags": [
+    "@favorites-api"
+   ],
    "status": "automated",
    "automatedIn": "tests/api/favorites/post-favorites.spec.ts",
    "steps": [
@@ -5716,10 +5719,7 @@ window.SCENARIO_CATALOG = {
    "file": "test-scenarios/api/favorites/post-favorites.yml",
    "fileLabel": "POST /favorites",
    "suite": "Favorites API",
-   "tags": [
-    "@favorites-api"
-   ],
-   "yaml": "- id: API-0272\n  name: Add favorite returns 201 with the new favorite\n  status: automated\n  automatedIn: tests/api/favorites/post-favorites.spec.ts\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.\n    - Send POST /users/login with that email and password, and take its access_token.\n    - Send GET /products and take the first item's id.\n    - Send POST /favorites with that product id and the throwaway customer's access_token, and take the new favorite's id.\n    - Verify the response status is 201.\n    - Verify the body's product_id equals the product id sent.\n    - Verify the body has a non-empty id.\n    - Verify the body's user_id equals the new user's id.\n    - Verify GET /favorites/{favoriteId} with the new id and the throwaway customer's access_token returns 200 with the same product_id and user_id."
+   "yaml": "- id: API-0272\n  name: Add favorite returns 201 with the new favorite\n  tags: [\"@smoke\"]\n  status: automated\n  automatedIn: tests/api/favorites/post-favorites.spec.ts\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.\n    - Send POST /users/login with that email and password, and take its access_token.\n    - Send GET /products and take the first item's id.\n    - Send POST /favorites with that product id and the throwaway customer's access_token, and take the new favorite's id.\n    - Verify the response status is 201.\n    - Verify the body's product_id equals the product id sent.\n    - Verify the body has a non-empty id.\n    - Verify the body's user_id equals the new user's id.\n    - Verify GET /favorites/{favoriteId} with the new id and the throwaway customer's access_token returns 200 with the same product_id and user_id."
   },
   {
    "id": "API-0273",
@@ -10164,6 +10164,9 @@ window.SCENARIO_CATALOG = {
   {
    "id": "API-0615",
    "name": "Check credit card details returns 200",
+   "tags": [
+    "@payment-api"
+   ],
    "status": "automated",
    "automatedIn": "tests/api/payment/post-payment-check.spec.ts",
    "role": "guest",
@@ -10179,10 +10182,7 @@ window.SCENARIO_CATALOG = {
    "file": "test-scenarios/api/payment/post-payment-check.yml",
    "fileLabel": "POST /payment/check",
    "suite": "Payment API",
-   "tags": [
-    "@payment-api"
-   ],
-   "yaml": "- id: API-0615\n  name: Check credit card details returns 200\n  status: automated\n  automatedIn: tests/api/payment/post-payment-check.spec.ts\n  role: guest\n  steps:\n    - 'Send POST /payment/check without an Authorization header, with payment_method \"credit-card\" and payment_details { credit_card_number: \"1234-5678-9101-1121\", expiration_date: the same month next year in m/Y form, cvv: \"123\", card_holder_name: \"Jane Doe\" }.'\n    - Verify the response status is 200.\n    - Verify the body's message is \"Payment was successful\"."
+   "yaml": "- id: API-0615\n  name: Check credit card details returns 200\n  tags: [\"@smoke\"]\n  status: automated\n  automatedIn: tests/api/payment/post-payment-check.spec.ts\n  role: guest\n  steps:\n    - 'Send POST /payment/check without an Authorization header, with payment_method \"credit-card\" and payment_details { credit_card_number: \"1234-5678-9101-1121\", expiration_date: the same month next year in m/Y form, cvv: \"123\", card_holder_name: \"Jane Doe\" }.'\n    - Verify the response status is 200.\n    - Verify the body's message is \"Payment was successful\"."
   },
   {
    "id": "API-0616",
@@ -10825,6 +10825,9 @@ window.SCENARIO_CATALOG = {
   {
    "id": "API-0643",
    "name": "Look up a Dutch postcode returns the address",
+   "tags": [
+    "@postcode-api"
+   ],
    "status": "automated",
    "automatedIn": "tests/api/postcode/get-postcode-lookup.spec.ts",
    "role": "guest",
@@ -10844,10 +10847,7 @@ window.SCENARIO_CATALOG = {
    "file": "test-scenarios/api/postcode/get-postcode-lookup.yml",
    "fileLabel": "GET /postcode-lookup",
    "suite": "Postcode API",
-   "tags": [
-    "@postcode-api"
-   ],
-   "yaml": "- id: API-0643\n  name: Look up a Dutch postcode returns the address\n  status: automated\n  automatedIn: tests/api/postcode/get-postcode-lookup.spec.ts\n  role: guest\n  steps:\n    - Send GET /postcode-lookup without an Authorization header, with country \"NL\", postcode \"1011AB\" and house_number \"5\".\n    - Verify the response status is 200.\n    - Verify the Content-Type header starts with \"application/json\".\n    - Verify the body has the keys street, house_number, city, state, country and postcode, and each value is a string.\n    - Verify the body's country is \"NL\".\n    - Verify the body's postcode is \"1011AB\".\n    - Verify the body's house_number is \"5\"."
+   "yaml": "- id: API-0643\n  name: Look up a Dutch postcode returns the address\n  tags: [\"@smoke\"]\n  status: automated\n  automatedIn: tests/api/postcode/get-postcode-lookup.spec.ts\n  role: guest\n  steps:\n    - Send GET /postcode-lookup without an Authorization header, with country \"NL\", postcode \"1011AB\" and house_number \"5\".\n    - Verify the response status is 200.\n    - Verify the Content-Type header starts with \"application/json\".\n    - Verify the body has the keys street, house_number, city, state, country and postcode, and each value is a string.\n    - Verify the body's country is \"NL\".\n    - Verify the body's postcode is \"1011AB\".\n    - Verify the body's house_number is \"5\"."
   },
   {
    "id": "API-0644",
@@ -11515,6 +11515,9 @@ window.SCENARIO_CATALOG = {
   {
    "id": "API-0002",
    "name": "List products returns the first page of non-rental products",
+   "tags": [
+    "@products-api"
+   ],
    "status": "automated",
    "automatedIn": "tests/api/products/get-products.spec.ts",
    "steps": [
@@ -11535,10 +11538,7 @@ window.SCENARIO_CATALOG = {
    "file": "test-scenarios/api/products/get-products.yml",
    "fileLabel": "GET /products",
    "suite": "Products API",
-   "tags": [
-    "@products-api"
-   ],
-   "yaml": "- id: API-0002\n  name: List products returns the first page of non-rental products\n  status: automated\n  automatedIn: tests/api/products/get-products.spec.ts\n  steps:\n    - Send GET /products without query parameters.\n    - Verify the response status is 200.\n    - Verify the body has current_page, data, from, last_page, per_page, to and total.\n    - Verify current_page is 1 and per_page is 9.\n    - Verify data has at most 9 items.\n    - Verify each item has id, name, description, price, is_location_offer, is_rental, co2_rating, in_stock, is_eco_friendly, product_image, a category with id, name and slug, and a brand with id and name.\n    - Verify every item's is_rental is false.\n    - Verify every item's in_stock is a boolean.\n    - Verify every item's is_eco_friendly is true exactly when its co2_rating is A or B."
+   "yaml": "- id: API-0002\n  name: List products returns the first page of non-rental products\n  tags: [\"@smoke\"]\n  status: automated\n  automatedIn: tests/api/products/get-products.spec.ts\n  steps:\n    - Send GET /products without query parameters.\n    - Verify the response status is 200.\n    - Verify the body has current_page, data, from, last_page, per_page, to and total.\n    - Verify current_page is 1 and per_page is 9.\n    - Verify data has at most 9 items.\n    - Verify each item has id, name, description, price, is_location_offer, is_rental, co2_rating, in_stock, is_eco_friendly, product_image, a category with id, name and slug, and a brand with id and name.\n    - Verify every item's is_rental is false.\n    - Verify every item's in_stock is a boolean.\n    - Verify every item's is_eco_friendly is true exactly when its co2_rating is A or B."
   },
   {
    "id": "API-0003",
@@ -11566,6 +11566,9 @@ window.SCENARIO_CATALOG = {
   {
    "id": "API-0004",
    "name": "Filter by category returns only that category's products",
+   "tags": [
+    "@products-api"
+   ],
    "status": "automated",
    "automatedIn": "tests/api/products/get-products.spec.ts",
    "steps": [
@@ -11581,10 +11584,7 @@ window.SCENARIO_CATALOG = {
    "file": "test-scenarios/api/products/get-products.yml",
    "fileLabel": "GET /products",
    "suite": "Products API",
-   "tags": [
-    "@products-api"
-   ],
-   "yaml": "- id: API-0004\n  name: Filter by category returns only that category's products\n  status: automated\n  automatedIn: tests/api/products/get-products.spec.ts\n  steps:\n    - Send GET /products and take the category id of the first item.\n    - Send GET /products with by_category set to that category id.\n    - Verify the response status is 200.\n    - Verify data is not empty and every item's category id equals that category id."
+   "yaml": "- id: API-0004\n  name: Filter by category returns only that category's products\n  tags: [\"@smoke\"]\n  status: automated\n  automatedIn: tests/api/products/get-products.spec.ts\n  steps:\n    - Send GET /products and take the category id of the first item.\n    - Send GET /products with by_category set to that category id.\n    - Verify the response status is 200.\n    - Verify data is not empty and every item's category id equals that category id."
   },
   {
    "id": "API-0005",
@@ -12318,6 +12318,9 @@ window.SCENARIO_CATALOG = {
   {
    "id": "API-0033",
    "name": "Create product returns 201 with the new product",
+   "tags": [
+    "@products-api"
+   ],
    "status": "automated",
    "automatedIn": "tests/api/products/post-products.spec.ts",
    "steps": [
@@ -12336,10 +12339,7 @@ window.SCENARIO_CATALOG = {
    "file": "test-scenarios/api/products/post-products.yml",
    "fileLabel": "POST /products",
    "suite": "Products API",
-   "tags": [
-    "@products-api"
-   ],
-   "yaml": "- id: API-0033\n  name: Create product returns 201 with the new product\n  status: automated\n  automatedIn: tests/api/products/post-products.spec.ts\n  steps:\n    - Send GET /products and take the first item's brand id, category id and product image id.\n    - Send POST /products with a unique product name, a positive price, that category id, brand id and product image id, is_location_offer false and is_rental false.\n    - Verify the response status is 201.\n    - Verify the body has a non-empty id.\n    - Verify the body's name and price equal the values sent, and its is_location_offer and is_rental are false.\n    - Verify the body's category id, brand id and product_image id equal the ids sent.\n    - Verify GET /products/{productId} with the new id returns 200 with the same name."
+   "yaml": "- id: API-0033\n  name: Create product returns 201 with the new product\n  tags: [\"@smoke\"]\n  status: automated\n  automatedIn: tests/api/products/post-products.spec.ts\n  steps:\n    - Send GET /products and take the first item's brand id, category id and product image id.\n    - Send POST /products with a unique product name, a positive price, that category id, brand id and product image id, is_location_offer false and is_rental false.\n    - Verify the response status is 201.\n    - Verify the body has a non-empty id.\n    - Verify the body's name and price equal the values sent, and its is_location_offer and is_rental are false.\n    - Verify the body's category id, brand id and product_image id equal the ids sent.\n    - Verify GET /products/{productId} with the new id returns 200 with the same name."
   },
   {
    "id": "API-0034",
@@ -12582,6 +12582,9 @@ window.SCENARIO_CATALOG = {
   {
    "id": "API-0001",
    "name": "Search by name returns only matching products",
+   "tags": [
+    "@products-api"
+   ],
    "status": "automated",
    "automatedIn": "tests/api/products/get-products-search.spec.ts",
    "steps": [
@@ -12597,10 +12600,7 @@ window.SCENARIO_CATALOG = {
    "file": "test-scenarios/api/products/get-products-search.yml",
    "fileLabel": "GET /products/search",
    "suite": "Products API",
-   "tags": [
-    "@products-api"
-   ],
-   "yaml": "- id: API-0001\n  name: Search by name returns only matching products\n  status: automated\n  automatedIn: tests/api/products/get-products-search.spec.ts\n  steps:\n    - Send GET /products/search with q=pliers.\n    - Verify the response status is 200 and the body is paginated (data, total, current_page).\n    - Verify total is greater than 0 and every item's name contains \"pliers\" (case-insensitive).\n    - Verify each item has an id, a name and a price greater than 0."
+   "yaml": "- id: API-0001\n  name: Search by name returns only matching products\n  tags: [\"@smoke\"]\n  status: automated\n  automatedIn: tests/api/products/get-products-search.spec.ts\n  steps:\n    - Send GET /products/search with q=pliers.\n    - Verify the response status is 200 and the body is paginated (data, total, current_page).\n    - Verify total is greater than 0 and every item's name contains \"pliers\" (case-insensitive).\n    - Verify each item has an id, a name and a price greater than 0."
   },
   {
    "id": "API-0026",
@@ -12785,6 +12785,9 @@ window.SCENARIO_CATALOG = {
   {
    "id": "API-0020",
    "name": "Get product returns the product with its category, brand, image and specs",
+   "tags": [
+    "@products-api"
+   ],
    "status": "automated",
    "automatedIn": "tests/api/products/get-products-by-product-id.spec.ts",
    "steps": [
@@ -12804,10 +12807,7 @@ window.SCENARIO_CATALOG = {
    "file": "test-scenarios/api/products/get-products-by-product-id.yml",
    "fileLabel": "GET /products/{productId}",
    "suite": "Products API",
-   "tags": [
-    "@products-api"
-   ],
-   "yaml": "- id: API-0020\n  name: Get product returns the product with its category, brand, image and specs\n  status: automated\n  automatedIn: tests/api/products/get-products-by-product-id.spec.ts\n  steps:\n    - Send GET /products and take the first item's id and name.\n    - Send GET /products/{productId} with that id.\n    - Verify the response status is 200.\n    - Verify the body's id equals that id and its name equals that name.\n    - Verify the body has description, price, is_location_offer, is_rental, co2_rating, in_stock, is_eco_friendly, product_image, and a brand with id and name.\n    - Verify the category has id, name, slug and parent_id.\n    - Verify specs is an array and every spec has id, product_id, spec_name, spec_value and spec_unit.\n    - Verify in_stock is a boolean."
+   "yaml": "- id: API-0020\n  name: Get product returns the product with its category, brand, image and specs\n  tags: [\"@smoke\"]\n  status: automated\n  automatedIn: tests/api/products/get-products-by-product-id.spec.ts\n  steps:\n    - Send GET /products and take the first item's id and name.\n    - Send GET /products/{productId} with that id.\n    - Verify the response status is 200.\n    - Verify the body's id equals that id and its name equals that name.\n    - Verify the body has description, price, is_location_offer, is_rental, co2_rating, in_stock, is_eco_friendly, product_image, and a brand with id and name.\n    - Verify the category has id, name, slug and parent_id.\n    - Verify specs is an array and every spec has id, product_id, spec_name, spec_value and spec_unit.\n    - Verify in_stock is a boolean."
   },
   {
    "id": "API-0021",
@@ -15478,6 +15478,9 @@ window.SCENARIO_CATALOG = {
   {
    "id": "API-0402",
    "name": "List users as an admin returns 200 with a page of customers",
+   "tags": [
+    "@users-api"
+   ],
    "status": "automated",
    "automatedIn": "tests/api/users/get-users.spec.ts",
    "role": "admin",
@@ -15494,10 +15497,7 @@ window.SCENARIO_CATALOG = {
    "file": "test-scenarios/api/users/get-users.yml",
    "fileLabel": "GET /users",
    "suite": "Users API",
-   "tags": [
-    "@users-api"
-   ],
-   "yaml": "- id: API-0402\n  name: List users as an admin returns 200 with a page of customers\n  status: automated\n  automatedIn: tests/api/users/get-users.spec.ts\n  role: admin\n  steps:\n    - Send GET /users with the admin's token.\n    - Verify the response status is 200.\n    - Verify the body has the keys current_page, data, from, last_page, per_page, to and total, and its per_page is 15.\n    - Verify data has 1 to 15 items and every item's role is \"user\"."
+   "yaml": "- id: API-0402\n  name: List users as an admin returns 200 with a page of customers\n  tags: [\"@smoke\"]\n  status: automated\n  automatedIn: tests/api/users/get-users.spec.ts\n  role: admin\n  steps:\n    - Send GET /users with the admin's token.\n    - Verify the response status is 200.\n    - Verify the body has the keys current_page, data, from, last_page, per_page, to and total, and its per_page is 15.\n    - Verify data has 1 to 15 items and every item's role is \"user\"."
   },
   {
    "id": "API-0403",
@@ -15822,6 +15822,9 @@ window.SCENARIO_CATALOG = {
   {
    "id": "API-0078",
    "name": "Login returns 200 with a bearer token",
+   "tags": [
+    "@users-api"
+   ],
    "status": "automated",
    "automatedIn": "tests/api/users/post-users-login.spec.ts",
    "steps": [
@@ -15839,10 +15842,7 @@ window.SCENARIO_CATALOG = {
    "file": "test-scenarios/api/users/post-users-login.yml",
    "fileLabel": "POST /users/login",
    "suite": "Users API",
-   "tags": [
-    "@users-api"
-   ],
-   "yaml": "- id: API-0078\n  name: Login returns 200 with a bearer token\n  status: automated\n  automatedIn: tests/api/users/post-users-login.spec.ts\n  steps:\n    - Send POST /users/login with the default user's email and password.\n    - Verify the response status is 200.\n    - Verify the body's access_token is a non-empty string.\n    - Verify the body's token_type is \"bearer\".\n    - Verify the body's expires_in is 300.\n    - Verify GET /users/me with the new access_token returns 200 with the default user's email."
+   "yaml": "- id: API-0078\n  name: Login returns 200 with a bearer token\n  tags: [\"@smoke\"]\n  status: automated\n  automatedIn: tests/api/users/post-users-login.spec.ts\n  steps:\n    - Send POST /users/login with the default user's email and password.\n    - Verify the response status is 200.\n    - Verify the body's access_token is a non-empty string.\n    - Verify the body's token_type is \"bearer\".\n    - Verify the body's expires_in is 300.\n    - Verify GET /users/me with the new access_token returns 200 with the default user's email."
   },
   {
    "id": "API-0079",
@@ -16190,6 +16190,9 @@ window.SCENARIO_CATALOG = {
   {
    "id": "API-0063",
    "name": "Current user endpoint returns the logged-in user's profile",
+   "tags": [
+    "@users-api"
+   ],
    "status": "automated",
    "automatedIn": "tests/api/users/get-users-me.spec.ts",
    "steps": [
@@ -16204,14 +16207,14 @@ window.SCENARIO_CATALOG = {
    "file": "test-scenarios/api/users/get-users-me.yml",
    "fileLabel": "GET /users/me",
    "suite": "Users API",
-   "tags": [
-    "@users-api"
-   ],
-   "yaml": "- id: API-0063\n  name: Current user endpoint returns the logged-in user's profile\n  status: automated\n  automatedIn: tests/api/users/get-users-me.spec.ts\n  steps:\n    - Send GET /users/me with the default user's token.\n    - Verify the response status is 200.\n    - Verify email equals the default user's email, and id, first_name and last_name are not empty."
+   "yaml": "- id: API-0063\n  name: Current user endpoint returns the logged-in user's profile\n  tags: [\"@smoke\"]\n  status: automated\n  automatedIn: tests/api/users/get-users-me.spec.ts\n  steps:\n    - Send GET /users/me with the default user's token.\n    - Verify the response status is 200.\n    - Verify email equals the default user's email, and id, first_name and last_name are not empty."
   },
   {
    "id": "API-0100",
    "name": "Current user endpoint returns the admin-only fields to an admin",
+   "tags": [
+    "@users-api"
+   ],
    "status": "automated",
    "automatedIn": "tests/api/users/get-users-me.spec.ts",
    "role": "admin",
@@ -16228,10 +16231,7 @@ window.SCENARIO_CATALOG = {
    "file": "test-scenarios/api/users/get-users-me.yml",
    "fileLabel": "GET /users/me",
    "suite": "Users API",
-   "tags": [
-    "@users-api"
-   ],
-   "yaml": "- id: API-0100\n  name: Current user endpoint returns the admin-only fields to an admin\n  status: automated\n  automatedIn: tests/api/users/get-users-me.spec.ts\n  role: admin\n  steps:\n    - Send GET /users/me with the admin's token.\n    - Verify the response status is 200.\n    - Verify the body's role is \"admin\".\n    - Verify the body's enabled is a boolean and failed_login_attempts is a number."
+   "yaml": "- id: API-0100\n  name: Current user endpoint returns the admin-only fields to an admin\n  tags: [\"@smoke\"]\n  status: automated\n  automatedIn: tests/api/users/get-users-me.spec.ts\n  role: admin\n  steps:\n    - Send GET /users/me with the admin's token.\n    - Verify the response status is 200.\n    - Verify the body's role is \"admin\".\n    - Verify the body's enabled is a boolean and failed_login_attempts is a number."
   },
   {
    "id": "API-0101",
@@ -16475,6 +16475,9 @@ window.SCENARIO_CATALOG = {
   {
    "id": "API-0085",
    "name": "Register returns 201 with the new customer",
+   "tags": [
+    "@users-api"
+   ],
    "status": "automated",
    "automatedIn": "tests/api/users/post-users-register.spec.ts",
    "steps": [
@@ -16492,10 +16495,7 @@ window.SCENARIO_CATALOG = {
    "file": "test-scenarios/api/users/post-users-register.yml",
    "fileLabel": "POST /users/register",
    "suite": "Users API",
-   "tags": [
-    "@users-api"
-   ],
-   "yaml": "- id: API-0085\n  name: Register returns 201 with the new customer\n  status: automated\n  automatedIn: tests/api/users/post-users-register.spec.ts\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password.\n    - Verify the response status is 201.\n    - Verify the body has a non-empty id and a non-empty created_at.\n    - Verify the body's first_name, last_name and email equal the values sent.\n    - Verify the body has an address object.\n    - Verify POST /users/login with that email and password returns 200, and GET /users/me with its access_token returns the new id and email."
+   "yaml": "- id: API-0085\n  name: Register returns 201 with the new customer\n  tags: [\"@smoke\"]\n  status: automated\n  automatedIn: tests/api/users/post-users-register.spec.ts\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password.\n    - Verify the response status is 201.\n    - Verify the body has a non-empty id and a non-empty created_at.\n    - Verify the body's first_name, last_name and email equal the values sent.\n    - Verify the body has an address object.\n    - Verify POST /users/login with that email and password returns 200, and GET /users/me with its access_token returns the new id and email."
   },
   {
    "id": "API-0086",
