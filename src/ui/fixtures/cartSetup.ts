@@ -6,6 +6,7 @@ import type { ProductsService } from '../../api/services/ProductsService';
 import { TestConstants } from '../../data/TestConstants';
 import { setVisitorCart } from '../visitor/visitorCart';
 import { setVisitorLocation } from '../visitor/visitorLocation';
+import { findProductByName } from './productSetup';
 
 /** A product put in a cart through the API, with what the tests compare against. */
 export type CartProduct = Pick<Product, 'id' | 'name' | 'price' | 'is_rental' | 'co2_rating'>;
@@ -52,8 +53,7 @@ export async function putProductsInCart(
 ): Promise<VisitorCartWithProducts> {
   const lines: { product: CartProduct; quantity: number }[] = [];
   for (const { name, quantity = 1 } of items) {
-    const found = (await productsService.search(name)).data.find((product) => product.name === name);
-    if (!found) throw new Error(`No product named exactly "${name}" to put in the cart`);
+    const found = await findProductByName(productsService, name);
     const product = { id: found.id, name: found.name, price: found.price, is_rental: found.is_rental, co2_rating: found.co2_rating };
     lines.push({ product, quantity });
   }
@@ -76,9 +76,10 @@ export async function putProductInCart(
   cartsService: CartsService,
   cleanup: Cleanup,
   productName: string = TestConstants.products.inStockProduct,
-  quantity = 1
+  quantity = 1,
+  options: PutProductsInCartOptions = {}
 ): Promise<VisitorCart> {
-  const { cartId, products } = await putProductsInCart(page, productsService, cartsService, cleanup, [{ name: productName, quantity }]);
+  const { cartId, products } = await putProductsInCart(page, productsService, cartsService, cleanup, [{ name: productName, quantity }], options);
   const [product] = products;
   if (!product) throw new Error(`Setup: "${productName}" was not put in the cart`);
   return { cartId, product };

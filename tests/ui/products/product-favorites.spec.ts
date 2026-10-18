@@ -1,4 +1,4 @@
-import { openProductPageTest as test, expect, openProductPageWithNewCustomerTest } from '@fixtures';
+import { openProductPageTest as test, expect, openProductPageWithNewCustomerTest, findProductByName } from '@fixtures';
 import { TestConstants } from '@data/TestConstants';
 
 // Scenarios: test-scenarios/ui/products/product-favorites.yml
@@ -12,10 +12,9 @@ test.describe('@products - Product favourites', () => {
     // the fixture removes the customer's favourites, then the customer.
     const test = openProductPageWithNewCustomerTest;
 
-    test('UI-028: Adding a product to favourites shows a success message', { tag: '@smoke' }, async ({ productPage, customerFavoritesService }) => {
-      // Precondition: the product "Combination Pliers" is not in the user's favourites. The customer is new, so the
-      // list is empty already; clearing it keeps the precondition true whatever the fixture gives.
-      await customerFavoritesService.deleteAll();
+    test('UI-028: Adding a product to favourites shows a success message', { tag: '@smoke' }, async ({ productPage }) => {
+      // Precondition: the product "Combination Pliers" is not in the user's favourites. Nothing to set up: the customer
+      // is registered for this test, so its list is empty.
 
       await test.step('Click "Add to favourites".', async () => {
         await productPage.addToFavorites();
@@ -36,8 +35,7 @@ test.describe('@products - Product favourites', () => {
       // Precondition: the product "Combination Pliers" is in the user's favourites. Ids change when the site
       // re-seeds, so the product is found by its name. Added after the page opened: the page doesn't read the
       // favourites, it only sends one on "Add to favourites" (app source: detail.component.ts, `addToFavorites`).
-      const product = (await productsService.search(productName)).data.find((item) => item.name === productName);
-      if (!product) throw new Error(`No product named "${productName}" found`);
+      const product = await findProductByName(productsService, productName);
       await customerFavoritesService.add(product.id);
 
       await test.step('Click "Add to favourites".', async () => {

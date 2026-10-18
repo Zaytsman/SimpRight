@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { expect } from '@playwright/test';
 import type { Cleanup } from '../../fixtures/base';
 import type { Product, ProductListQuery } from '../../api/dto/product';
 import { firstProductRefs } from '../../api/fixtures/productSteps';
@@ -6,31 +6,34 @@ import type { BrandsService } from '../../api/services/BrandsService';
 import type { CategoriesService } from '../../api/services/CategoriesService';
 import type { ProductsService } from '../../api/services/ProductsService';
 import { ProductFactory, type ProductRefs } from '../../data/factories/ProductFactory';
-import { assertMessage, attachJson } from '../../utils/assertHelpers';
-
-/** Setup step of UI tests that need a product to buy: one nobody else can change (no seeded product, which any visitor of the demo site can). */
-const PRODUCT_IN_STOCK_STEP = 'Create a product for this test through the API: a unique name, in stock.';
+import { attachJson } from '../../utils/assertHelpers';
 
 /**
- * The PRODUCT_IN_STOCK_STEP step: takes the ids of seeded records from the first listed product, creates a product
- * in stock with them (as admin) and registers its removal right away. A cart holding the product blocks its removal
- * (409), so a test that adds it to a cart also registers the cart's removal, which then runs first.
+ * The state "a product created for this test through the API, with a unique name, is in stock", for setup code (not a
+ * step): a product nobody else can change, unlike a seeded one, which any visitor of the demo site can. Takes the ids of
+ * seeded records from the first listed product, creates a product in stock with them (as admin) and registers its
+ * removal right away. A cart holding the product blocks its removal (409), so a test that adds it to a cart also
+ * registers the cart's removal, which then runs first.
  */
 export async function createProductInStock(
   productsService: ProductsService,
   adminProductsService: ProductsService,
   cleanup: Cleanup
 ): Promise<Product> {
-  return test.step(PRODUCT_IN_STOCK_STEP, async () => {
-    const refs = firstProductRefs(await productsService.list());
-    const body = ProductFactory.createProductInStock(refs as ProductRefs);
-    const product = await adminProductsService.create(body);
-    cleanup.add(() => adminProductsService.delete(product.id));
-    await attachJson('Create Product Response', product);
-    // An admin gets the stock count in in_stock, other users a boolean.
-    expect(Boolean(product.in_stock), assertMessage({ request: { method: 'POST', path: '/products', body }, expected: 'The new product is in stock', actual: product })).toBe(true);
-    return product;
-  });
+  const refs = firstProductRefs(await productsService.list());
+  const product = await adminProductsService.create(ProductFactory.createProductInStock(refs as ProductRefs));
+  cleanup.add(() => adminProductsService.delete(product.id));
+  await attachJson('Create Product Response', product);
+  // An admin gets the stock count in in_stock, other users a boolean.
+  if (!product.in_stock) throw new Error(`Setup: the new product is not in stock: ${JSON.stringify(product)}`);
+  return product;
+}
+
+/** The seeded product named exactly `name`, found by search (ids change at every re-seed); throws a setup error when there is none. */
+export async function findProductByName(productsService: ProductsService, name: string): Promise<Product> {
+  const product = (await productsService.search(name)).data.find((item) => item.name === name);
+  if (!product) throw new Error(`Setup: no product named exactly "${name}"`);
+  return product;
 }
 
 /**

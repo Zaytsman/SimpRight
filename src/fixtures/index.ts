@@ -8,8 +8,9 @@ export { openRentalsPageTest } from '../ui/fixtures/preconditions/openRentalsPag
 export { openHomePageWithProductInCartTest } from '../ui/fixtures/preconditions/openHomePageWithProductInCartTest';
 export { openHomePageWithRentalAndProductInCartTest } from '../ui/fixtures/preconditions/openHomePageWithRentalAndProductInCartTest';
 export { removeCartAfterTest } from '../ui/fixtures/cartCleanup';
-export { putProductsInCart, assertNoEcoRating } from '../ui/fixtures/cartSetup';
-export { createProductInStock, catalogueProductNames } from '../ui/fixtures/productSetup';
+export { registerCustomerForTest } from '../ui/fixtures/newCustomerFixtures';
+export { putProductsInCart, putProductInCart, assertNoEcoRating } from '../ui/fixtures/cartSetup';
+export { createProductInStock, findProductByName, catalogueProductNames } from '../ui/fixtures/productSetup';
 export { AMSTERDAM } from '../ui/visitor/visitorLocation';
 
 // API setup and check helpers, one module per area. Everything a module exports reaches specs, so keep names that only

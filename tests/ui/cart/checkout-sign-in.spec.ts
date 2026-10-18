@@ -1,8 +1,18 @@
 // Every scenario here has the precondition "A product that is in stock is in the cart.": the fixture puts one in the
 // browser's cart through the API (removed after the test) and opens the home page before the steps.
-import { openHomePageWithProductInCartTest as test, expect } from '@fixtures';
+import { openHomePageWithProductInCartTest as test, expect, registerCustomerForTest } from '@fixtures';
 import { UserFactory } from '@data/factories/UserFactory';
 import { totpCode } from '@utils/totp';
+import type { CartPage } from '@ui/pages/CartPage';
+
+/**
+ * The checks of a "Verify the "Billing Address" step is shown." step. Approved reading: the wizard marks "Billing
+ * Address" as the current step, and that step's content is visible.
+ */
+async function expectBillingAddressStep(cartPage: CartPage): Promise<void> {
+  await expect(cartPage.currentStep, 'The wizard marks "Billing Address" as the current step').toHaveText('Billing Address');
+  await expect(cartPage.billingAddressHeading, 'The Billing Address step is visible').toBeVisible();
+}
 
 // Scenarios: test-scenarios/ui/cart/checkout-sign-in.yml
 test.describe('@cart - Checkout sign-in', () => {
@@ -62,12 +72,9 @@ test.describe('@cart - Checkout sign-in', () => {
       // Precondition: A customer with TOTP enabled is registered; the test can compute the account's current TOTP code.
       // A customer of its own (removed as admin after the test), with TOTP turned on through its own token and a secret
       // the test knows, as the API scenarios do it.
-      const body = UserFactory.registerCustomer();
-      const customer = await usersService.register(body);
-      cleanup.add(() => adminUsersService.delete(customer.id));
-      const { access_token: customerToken } = await authService.login({ email: body.email, password: body.password });
+      const { body, id, token } = await registerCustomerForTest({ usersService, adminUsersService, authService }, cleanup);
       const secret = UserFactory.totpSecret();
-      const totpUpdate = await usersServiceForToken(customerToken).partialUpdate(customer.id, { totp_enabled: true, totp_secret: secret });
+      const totpUpdate = await usersServiceForToken(token).partialUpdate(id, { totp_enabled: true, totp_secret: secret });
       if (!totpUpdate.success) throw new Error(`Setup: turning TOTP on for the customer failed: ${JSON.stringify(totpUpdate)}`);
 
       const signIn = cartPage.signInStep;
@@ -174,9 +181,7 @@ test.describe('@cart - Checkout sign-in', () => {
       });
 
       await test.step('Verify the "Billing Address" step is shown.', async () => {
-        // Approved reading: the wizard marks "Billing Address" as the current step, and that step's content is visible.
-        await expect(cartPage.currentStep, 'The wizard marks "Billing Address" as the current step').toHaveText('Billing Address');
-        await expect(cartPage.billingAddressHeading, 'The Billing Address step is visible').toBeVisible();
+        await expectBillingAddressStep(cartPage);
       });
     });
   });
@@ -215,9 +220,7 @@ test.describe('@cart - Checkout sign-in', () => {
     });
 
     await test.step('Verify the "Billing Address" step is shown.', async () => {
-      // Approved reading: the wizard marks "Billing Address" as the current step, and that step's content is visible.
-      await expect(cartPage.currentStep, 'The wizard marks "Billing Address" as the current step').toHaveText('Billing Address');
-      await expect(cartPage.billingAddressHeading, 'The Billing Address step is visible').toBeVisible();
+      await expectBillingAddressStep(cartPage);
     });
   });
 });
