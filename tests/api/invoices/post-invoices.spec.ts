@@ -584,12 +584,12 @@ test.describe('@invoices-api - Invoices API', () => {
   });
 
   test('API-0499: Create invoice with an unknown cart leaves no invoice behind', async ({ usersService, adminUsersService, authService, invoicesClientForToken, cleanup }) => {
-    test.fail(true, 'Known issue BUG-040: A failed checkout (unknown cart) leaves an invoice without lines or payment in the customer\'s invoice list.');
     let request: InvoiceRequest;
     let response: ApiResponse;
 
     const customer = await loggedInCustomer({ usersService, adminUsersService, authService, cleanup });
     const client = invoicesClientForToken(customer.token);
+    test.fail(true, 'Known issue BUG-040: A failed checkout (unknown cart) leaves an invoice without lines or payment in the customer\'s invoice list.');
 
     await test.step(
       'Send POST /invoices with that access_token, payment_method "cash-on-delivery", payment_details {}, billing_street "Stephansplatz 1", billing_city "Wien", billing_country "AT" and a well-formed ULID that no cart has as cart_id.',
@@ -615,12 +615,12 @@ test.describe('@invoices-api - Invoices API', () => {
     invoicesClientForToken,
     cleanup,
   }) => {
-    test.fail(true, 'Known issue BUG-041: Returns 500 instead of 422 when payment_details is null for a method other than gift-card.');
     let request: InvoiceRequest;
     let response: ApiResponse;
 
     const customer = await loggedInCustomer({ usersService, adminUsersService, authService, cleanup });
     const cartId = await createCart(cartsService, cleanup);
+    test.fail(true, 'Known issue BUG-041: Returns 500 instead of 422 when payment_details is null for a method other than gift-card.');
 
     await test.step(
       'Send POST /invoices with that access_token, payment_method "bank-transfer", payment_details null, billing_street "Stephansplatz 1", billing_city "Wien", billing_country "AT" and the cart\'s id as cart_id.',
@@ -643,12 +643,12 @@ test.describe('@invoices-api - Invoices API', () => {
     invoicesClientForToken,
     cleanup,
   }) => {
-    test.fail(true, 'Known issue BUG-041: Returns 500 "Something went wrong" instead of 422 when payment_details lacks the fields the payment method requires.');
     let request: InvoiceRequest;
     let response: ApiResponse;
 
     const customer = await loggedInCustomer({ usersService, adminUsersService, authService, cleanup });
     const cartId = await createCart(cartsService, cleanup);
+    test.fail(true, 'Known issue BUG-041: Returns 500 "Something went wrong" instead of 422 when payment_details lacks the fields the payment method requires.');
 
     await test.step(
       'Send POST /invoices with that access_token, payment_method "bank-transfer", payment_details {}, billing_street "Stephansplatz 1", billing_city "Wien", billing_country "AT" and the cart\'s id as cart_id.',
@@ -670,13 +670,13 @@ test.describe('@invoices-api - Invoices API', () => {
     invoicesClientForToken,
     cleanup,
   }) => {
-    test.fail(true, 'Known issue BUG-040: A failed checkout (payment_details null) leaves an invoice without lines or payment in the customer\'s invoice list.');
     let request: InvoiceRequest;
     let response: ApiResponse;
 
     const customer = await loggedInCustomer({ usersService, adminUsersService, authService, cleanup });
     const cartId = await createCart(cartsService, cleanup);
     const client = invoicesClientForToken(customer.token);
+    test.fail(true, 'Known issue BUG-040: A failed checkout (payment_details null) leaves an invoice without lines or payment in the customer\'s invoice list.');
 
     await test.step(
       'Send POST /invoices with that access_token, payment_method "bank-transfer", payment_details null, billing_street "Stephansplatz 1", billing_city "Wien", billing_country "AT" and the cart\'s id as cart_id.',

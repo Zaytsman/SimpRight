@@ -30,7 +30,7 @@ actual: 500 for both.
 
 Optional keys: `resolved` (the date, required once the status isn't `open`), `upstream` (a link to the bug in the app's own tracker), `description` (impact and cause) and `evidence` (a request and response, masked like the reports).
 
-A scenario that hits a bug names it next to its `knownIssue`, and its test starts with the bug ID:
+A scenario that hits a bug names it next to its `knownIssue`, and its test declares the bug ID right before its first step (after any setup, so a failed setup isn't taken for the bug):
 
 ```yaml
   - id: API-0014

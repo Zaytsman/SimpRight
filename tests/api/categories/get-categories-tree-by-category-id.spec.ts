@@ -106,11 +106,11 @@ test.describe('@categories-api - Categories API', () => {
     test.use({ role: 'admin' });
 
     test('API-0190: Get category lists a sub-category created after the category was read', async ({ adminCategoriesService, categoriesService, cleanup }) => {
-      test.fail(true, 'Known issue BUG-020: Returns the cached category without a sub-category created after the category was first read.');
       let after: CategoryTree;
 
       // Cleanup runs newest first: the sub-category is deleted before its parent.
       const parent = await createCategory(adminCategoriesService, cleanup, PARENT_CREATE_STEP);
+      test.fail(true, 'Known issue BUG-020: Returns the cached category without a sub-category created after the category was first read.');
 
       await test.step("Send GET /categories/tree/{categoryId} with the parent's id.", async () => {
         const before = await categoriesService.getTreeById(parent.id);

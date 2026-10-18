@@ -235,11 +235,11 @@ test.describe('@products-api - Products API', () => {
   });
 
   test('API-0051: Update product without a token returns 401', async ({ productsService, adminProductsService, productsClient, cleanup }) => {
-    test.fail(true, 'Known issue BUG-001: Accepts PUT without a token instead of returning 401.');
     let request: { method: string; path: string; auth: string; body: unknown };
     let response: ApiResponse;
 
     const productId = await createProductToUpdate(productsService, adminProductsService, cleanup);
+    test.fail(true, 'Known issue BUG-001: Accepts PUT without a token instead of returning 401.');
 
     await test.step('Send PUT /products/{productId} with that id and a body with a new unique product name, without an Authorization header.', async () => {
       const body = ProductFactory.updateName();

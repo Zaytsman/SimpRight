@@ -65,7 +65,7 @@ You answer in one message: which items to write (by number) with any edits, whic
 
 ### Phase 2: files
 
-The same agent runs the approved writes (with cleanup), writes the bug files, links the scenarios (`knownIssue`, `bug`, and the known-issue line as the first line of an automated test), runs the validator and the typecheck, and runs the specs whose known-issue line changed: a newly linked test must pass as an expected failure. Claude checks it again (validator, typecheck, the Bugs page build, the changed specs) and reports.
+The same agent runs the approved writes (with cleanup), writes the bug files, links the scenarios (`knownIssue`, `bug`, and the known-issue line right before an automated test's first step), runs the validator and the typecheck, and runs the specs whose known-issue line changed: a newly linked test must pass as an expected failure. Claude checks it again (validator, typecheck, the Bugs page build, the changed specs) and reports.
 
 ### Re-checking and closing
 

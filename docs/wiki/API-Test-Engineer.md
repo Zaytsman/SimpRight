@@ -56,7 +56,7 @@ Claude then runs the typecheck and validator again and reports: files by group, 
 
 ### When the API disagrees with the scenario
 
-The test stays as written and **fails**; the report shows the request, expected, actual and a proposal. You choose: add a `knownIssue` (the agent adds it and the test starts with `test.fail(true, 'Known issue BUG-001: ...')`), fix the scenario or contract, or leave it failing to investigate.
+The test stays as written and **fails**; the report shows the request, expected, actual and a proposal. You choose: add a `knownIssue` (the agent adds it and `test.fail(true, 'Known issue BUG-001: ...')` before the test's first step), fix the scenario or contract, or leave it failing to investigate.
 
 ## The helper skills
 
@@ -78,7 +78,7 @@ These aren't commands: they're preloaded into the agent and describe how to writ
 | Part | Rules |
 |---|---|
 | **File** | Same name as the scenario file; `// Scenarios: <yml path>`; imports from `@fixtures`, DTOs, test data and the assertion helpers; one `test.describe('<tags> - <suite>')` |
-| **Tests** | One `test('<ID>: <name>')` each, name verbatim; `role` via `test.use`; known issue as the first line; no state shared between tests |
+| **Tests** | One `test('<ID>: <name>')` each, name verbatim; `role` via `test.use`; known issue right before the first step, after any setup; no state shared between tests |
 | **Action steps** | Client when the next step checks the status, service for setup; `attachJson` for request and response; `cleanup.add(...)` right after a create |
 | **Verify steps** | Checks only, in the step's order; `assertMessage({ request, expected, actual })` on every assertion; secrets compared as a condition; exactly what the step says |
 | **Things that bite** | Server-side caching (read back only records the test created); parse only after checking the status; exact status codes; no fixed sleeps |

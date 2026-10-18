@@ -92,7 +92,7 @@ Number the causes across the diagnosis, so the user can pick fixes by number.
 ## Phase `fix`
 
 1. Apply the approved fixes, in the project's style (the profile's exemplars, the conventions), and nothing else. A cause the user didn't approve stays as it is.
-2. For an approved known issue: add `knownIssue` and `bug` to the scenario in the conventions' key order (just before `steps`) and the profile's known-issue line (with the bug ID and the text) as the first line of the test; for an approved new bug, write its file with the next free `ids.bugs` ID. For an approved removal of a known issue (the bug is fixed), remove all three from every scenario of that bug, and set the bug's `status: fixed` with `resolved` (today's date).
+2. For an approved known issue: add `knownIssue` and `bug` to the scenario in the conventions' key order (just before `steps`) and the profile's known-issue line (with the bug ID and the text) right before the test's first `test.step`, after any setup code; for an approved new bug, write its file with the next free `ids.bugs` ID. For an approved removal of a known issue (the bug is fixed), remove all three from every scenario of that bug, and set the bug's `status: fixed` with `resolved` (today's date).
 3. Run `commands.typecheck` and `commands.validateScenarios`; fix what your changes broke.
 4. Run each changed spec with `commands.runSpec` and then `commands.repeatSpec` (for UI runs, `DISABLE_API_COVERAGE=true`), within the approved writes. After a change to a shared member, run every spec that uses it. At most 3 rounds per spec; if a fix doesn't hold, stop and report what you found.
 5. Don't commit.

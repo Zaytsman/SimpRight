@@ -88,7 +88,7 @@ Keep the "Needs" honest: a page object or method that exists is reused, not rewr
 6. **Finish:**
    - Set `status: automated` and `automatedIn: <spec path>` on every scenario you implemented, including those failing on app behaviour (their test exists; the report says it fails). Run `commands.validateScenarios` again.
    - A new test folder under the UI tests path needs its name in the `area` options of the custom UI workflow (see the conventions); add it and list the change.
-   - When the brief says the user approved a `knownIssue` for a scenario: add it and its `bug` to the scenario in the conventions' key order (just before `steps`) and the profile's `ui.knownIssue` line (with the bug ID and the text) as the first line of its test, then run the spec again: it must now pass as an expected failure. The bug is an open one from `paths.bugs` with the same root cause, or, when the user approved a new one, write its file (the next free `ids.bugs` ID, the format of `paths.bugSchema`) from the step, expected and actual you reported.
+   - When the brief says the user approved a `knownIssue` for a scenario: add it and its `bug` to the scenario in the conventions' key order (just before `steps`) and the profile's `ui.knownIssue` line (with the bug ID and the text) right before its test's first `test.step`, after any setup code, then run the spec again: it must now pass as an expected failure. The bug is an open one from `paths.bugs` with the same root cause, or, when the user approved a new one, write its file (the next free `ids.bugs` ID, the format of `paths.bugSchema`) from the step, expected and actual you reported.
 
 ## Report (`implement` phase)
 
