@@ -3,8 +3,8 @@ window.SCENARIO_CATALOG = {
  "layer": "ui",
  "title": "UI Test Cases",
  "prefix": "UI",
- "generatedAt": "2026-10-18T08:37:43.122Z",
- "commit": "49eb93dc3af9e1a5f79cf51cfd2e1f11da049140",
+ "generatedAt": "2026-10-18T09:12:00.246Z",
+ "commit": "3c4bf03b5c94adc9c4e0d351014f40b93f44eef2",
  "repoUrl": "https://github.com/Zaytsman/SimpRight",
  "branch": "main",
  "workflowUrl": "https://github.com/Zaytsman/SimpRight/actions/workflows/custom-ui-tests.yml",
@@ -1555,6 +1555,9 @@ window.SCENARIO_CATALOG = {
    "ref": [
     "docs/ui/user-stories/Checkout_Cart_Review.md#AC5"
    ],
+   "tags": [
+    "@cart"
+   ],
    "status": "automated",
    "automatedIn": "tests/ui/cart/checkout-cart-review.spec.ts",
    "preconditions": [
@@ -1571,10 +1574,7 @@ window.SCENARIO_CATALOG = {
    "file": "test-scenarios/ui/cart/checkout-cart-review.yml",
    "fileLabel": "Checkout cart review",
    "suite": "Checkout cart review",
-   "tags": [
-    "@cart"
-   ],
-   "yaml": "- id: UI-054\n  name: '\"Proceed to checkout\" leads to the sign-in step'\n  ref: docs/ui/user-stories/Checkout_Cart_Review.md#AC5\n  status: automated\n  automatedIn: tests/ui/cart/checkout-cart-review.spec.ts\n  preconditions:\n    - A product that is in stock is in the cart.\n  steps:\n    - Open the checkout page.\n    - Click \"Proceed to checkout\".\n    - Verify the \"Sign in\" step is shown."
+   "yaml": "- id: UI-054\n  name: '\"Proceed to checkout\" leads to the sign-in step'\n  ref: docs/ui/user-stories/Checkout_Cart_Review.md#AC5\n  tags: [\"@smoke\"]\n  status: automated\n  automatedIn: tests/ui/cart/checkout-cart-review.spec.ts\n  preconditions:\n    - A product that is in stock is in the cart.\n  steps:\n    - Open the checkout page.\n    - Click \"Proceed to checkout\".\n    - Verify the \"Sign in\" step is shown."
   },
   {
    "id": "UI-055",
@@ -1796,6 +1796,9 @@ window.SCENARIO_CATALOG = {
    "ref": [
     "docs/ui/user-stories/Checkout_Sign_In.md#AC4"
    ],
+   "tags": [
+    "@cart"
+   ],
    "status": "automated",
    "automatedIn": "tests/ui/cart/checkout-sign-in.spec.ts",
    "role": "guest",
@@ -1819,10 +1822,7 @@ window.SCENARIO_CATALOG = {
    "file": "test-scenarios/ui/cart/checkout-sign-in.yml",
    "fileLabel": "Checkout sign in",
    "suite": "Checkout sign-in",
-   "tags": [
-    "@cart"
-   ],
-   "yaml": "- id: UI-061\n  name: Valid credentials on the sign-in step sign the guest in and lead to the billing address step\n  ref: docs/ui/user-stories/Checkout_Sign_In.md#AC4\n  status: automated\n  automatedIn: tests/ui/cart/checkout-sign-in.spec.ts\n  role: guest\n  preconditions:\n    - A product that is in stock is in the cart.\n  steps:\n    - Open the checkout page.\n    - Click \"Proceed to checkout\".\n    - Enter the default user's email in the field \"Email address\".\n    - Enter the default user's password in the field \"Password\".\n    - Click \"Login\".\n    - Verify the login form is no longer shown.\n    - Verify the user menu is shown in the navigation.\n    - Click \"Proceed to checkout\" on the sign-in step.\n    - Verify the \"Billing Address\" step is shown."
+   "yaml": "- id: UI-061\n  name: Valid credentials on the sign-in step sign the guest in and lead to the billing address step\n  ref: docs/ui/user-stories/Checkout_Sign_In.md#AC4\n  tags: [\"@smoke\"]\n  status: automated\n  automatedIn: tests/ui/cart/checkout-sign-in.spec.ts\n  role: guest\n  preconditions:\n    - A product that is in stock is in the cart.\n  steps:\n    - Open the checkout page.\n    - Click \"Proceed to checkout\".\n    - Enter the default user's email in the field \"Email address\".\n    - Enter the default user's password in the field \"Password\".\n    - Click \"Login\".\n    - Verify the login form is no longer shown.\n    - Verify the user menu is shown in the navigation.\n    - Click \"Proceed to checkout\" on the sign-in step.\n    - Verify the \"Billing Address\" step is shown."
   },
   {
    "id": "UI-062",
