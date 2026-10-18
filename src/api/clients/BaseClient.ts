@@ -47,6 +47,17 @@ function describeMultipart(form: MultipartForm): Record<string, unknown> {
   );
 }
 
+/** A credential header line of Playwright's call log, up to the end of the line or its colour code: `Authorization: Bearer ...`. */
+const CREDENTIAL_HEADER = /((?:proxy-)?(?:authorization|cookie|set-cookie)[ \t]*:[ \t]*)[^\r\n\x1b]*/gi;
+
+/**
+ * The text of a failed request's error with its credentials masked. Playwright appends a call log that lists every
+ * request header, the bearer token included, and the error ends up in published reports and public CI logs.
+ */
+function describeRequestError(error: unknown): string {
+  return (error instanceof Error ? error.message : String(error)).replace(CREDENTIAL_HEADER, '$1***');
+}
+
 /**
  * Base for all API clients. Requests go through Playwright's APIRequestContext. Listeners registered with `BaseClient.onApiCall` see every call.
  */
@@ -184,8 +195,9 @@ export abstract class BaseClient {
         headers: response.headers(),
       };
     } catch (error) {
-      notify(0, error instanceof Error ? error.message : String(error));
-      throw new Error(`${method} ${fullUrl} failed: ${error}`);
+      const message = describeRequestError(error);
+      notify(0, message);
+      throw new Error(`${method} ${fullUrl} failed: ${message}`);
     }
   }
 
