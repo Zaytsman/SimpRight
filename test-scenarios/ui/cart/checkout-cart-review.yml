@@ -71,6 +71,7 @@ scenarios:
   - id: UI-054
     name: '"Proceed to checkout" leads to the sign-in step'
     ref: docs/ui/user-stories/Checkout_Cart_Review.md#AC5
+    tags: ["@smoke"]
     status: automated
     automatedIn: tests/ui/cart/checkout-cart-review.spec.ts
     preconditions:
