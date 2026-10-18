@@ -3,8 +3,8 @@ window.SCENARIO_CATALOG = {
  "layer": "api",
  "title": "API Test Cases",
  "prefix": "API",
- "generatedAt": "2026-10-18T09:12:00.246Z",
- "commit": "3c4bf03b5c94adc9c4e0d351014f40b93f44eef2",
+ "generatedAt": "2026-10-18T19:17:35.701Z",
+ "commit": "b7b56b7907674bd4aad36a39057bdf25f22bef84",
  "repoUrl": "https://github.com/Zaytsman/SimpRight",
  "branch": "main",
  "workflowUrl": "https://github.com/Zaytsman/SimpRight/actions/workflows/custom-api-tests.yml",
@@ -1762,7 +1762,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's name messages include \"The name field is required.\" and its slug messages include \"The slug field is required.\"."
    ],
    "ref": [],
-   "specLine": 119,
+   "specLine": 115,
    "area": "brands",
    "areaLabel": "Brands",
    "file": "test-scenarios/api/brands/post-brands.yml",
@@ -1784,7 +1784,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body has a slug key with at least one message."
    ],
    "ref": [],
-   "specLine": 142,
+   "specLine": 138,
    "area": "brands",
    "areaLabel": "Brands",
    "file": "test-scenarios/api/brands/post-brands.yml",
@@ -1806,7 +1806,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body has a name key with at least one message."
    ],
    "ref": [],
-   "specLine": 160,
+   "specLine": 149,
    "area": "brands",
    "areaLabel": "Brands",
    "file": "test-scenarios/api/brands/post-brands.yml",
@@ -1828,7 +1828,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body has a slug key with at least one message."
    ],
    "ref": [],
-   "specLine": 178,
+   "specLine": 160,
    "area": "brands",
    "areaLabel": "Brands",
    "file": "test-scenarios/api/brands/post-brands.yml",
@@ -1850,7 +1850,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body has a name key with at least one message."
    ],
    "ref": [],
-   "specLine": 199,
+   "specLine": 171,
    "area": "brands",
    "areaLabel": "Brands",
    "file": "test-scenarios/api/brands/post-brands.yml",
@@ -1873,7 +1873,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's slug messages include \"A brand already exists with this slug.\"."
    ],
    "ref": [],
-   "specLine": 217,
+   "specLine": 182,
    "area": "brands",
    "areaLabel": "Brands",
    "file": "test-scenarios/api/brands/post-brands.yml",
@@ -1896,7 +1896,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body has a name key with at least one message."
    ],
    "ref": [],
-   "specLine": 236,
+   "specLine": 201,
    "area": "brands",
    "areaLabel": "Brands",
    "file": "test-scenarios/api/brands/post-brands.yml",
@@ -1920,7 +1920,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /brands/{brandId} with the new id has no description key."
    ],
    "ref": [],
-   "specLine": 85,
+   "specLine": 83,
    "area": "brands",
    "areaLabel": "Brands",
    "file": "test-scenarios/api/brands/post-brands.yml",
@@ -1943,7 +1943,7 @@ window.SCENARIO_CATALOG = {
     "Verify the response status is 401."
    ],
    "ref": [],
-   "specLine": 255,
+   "specLine": 220,
    "area": "brands",
    "areaLabel": "Brands",
    "file": "test-scenarios/api/brands/post-brands.yml",
@@ -1966,7 +1966,7 @@ window.SCENARIO_CATALOG = {
     "Verify every item has a non-empty string id, name and slug."
    ],
    "ref": [],
-   "specLine": 24,
+   "specLine": 21,
    "area": "brands",
    "areaLabel": "Brands",
    "file": "test-scenarios/api/brands/get-brands-search.yml",
@@ -1988,7 +1988,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body is a non-empty array and every item's name contains \"fle\" (case-insensitive)."
    ],
    "ref": [],
-   "specLine": 48,
+   "specLine": 45,
    "area": "brands",
    "areaLabel": "Brands",
    "file": "test-scenarios/api/brands/get-brands-search.yml",
@@ -2010,7 +2010,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body is an empty array."
    ],
    "ref": [],
-   "specLine": 66,
+   "specLine": 63,
    "area": "brands",
    "areaLabel": "Brands",
    "file": "test-scenarios/api/brands/get-brands-search.yml",
@@ -2033,7 +2033,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body includes both seeded brand ids."
    ],
    "ref": [],
-   "specLine": 84,
+   "specLine": 81,
    "area": "brands",
    "areaLabel": "Brands",
    "file": "test-scenarios/api/brands/get-brands-search.yml",
@@ -2056,7 +2056,7 @@ window.SCENARIO_CATALOG = {
     "Verify the response status is 422."
    ],
    "ref": [],
-   "specLine": 103,
+   "specLine": 100,
    "area": "brands",
    "areaLabel": "Brands",
    "file": "test-scenarios/api/brands/get-brands-search.yml",
@@ -2082,7 +2082,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body includes a brand with the new id."
    ],
    "ref": [],
-   "specLine": 120,
+   "specLine": 117,
    "area": "brands",
    "areaLabel": "Brands",
    "file": "test-scenarios/api/brands/get-brands-search.yml",
@@ -2105,7 +2105,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body is a non-empty array and every item's name contains \"forge\" (case-insensitive)."
    ],
    "ref": [],
-   "specLine": 34,
+   "specLine": 22,
    "area": "brands",
    "areaLabel": "Brands",
    "file": "test-scenarios/api/brands/query-brands-search.yml",
@@ -2128,7 +2128,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body includes both seeded brand ids."
    ],
    "ref": [],
-   "specLine": 56,
+   "specLine": 44,
    "area": "brands",
    "areaLabel": "Brands",
    "file": "test-scenarios/api/brands/query-brands-search.yml",
@@ -2150,7 +2150,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's message is \"QUERY requests must use Content-Type: application/json\"."
    ],
    "ref": [],
-   "specLine": 78,
+   "specLine": 66,
    "area": "brands",
    "areaLabel": "Brands",
    "file": "test-scenarios/api/brands/query-brands-search.yml",
@@ -2173,7 +2173,7 @@ window.SCENARIO_CATALOG = {
     "Verify the response status is 422."
    ],
    "ref": [],
-   "specLine": 95,
+   "specLine": 75,
    "area": "brands",
    "areaLabel": "Brands",
    "file": "test-scenarios/api/brands/query-brands-search.yml",
@@ -2218,7 +2218,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's message is \"Requested item not found\"."
    ],
    "ref": [],
-   "specLine": 45,
+   "specLine": 42,
    "area": "brands",
    "areaLabel": "Brands",
    "file": "test-scenarios/api/brands/get-brands-by-brand-id.yml",
@@ -2243,7 +2243,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /brands/{brandId} with that id returns the new name and the new slug."
    ],
    "ref": [],
-   "specLine": 31,
+   "specLine": 28,
    "area": "brands",
    "areaLabel": "Brands",
    "file": "test-scenarios/api/brands/put-brands-by-brand-id.yml",
@@ -2267,7 +2267,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body has a name key with at least one message."
    ],
    "ref": [],
-   "specLine": 60,
+   "specLine": 57,
    "area": "brands",
    "areaLabel": "Brands",
    "file": "test-scenarios/api/brands/put-brands-by-brand-id.yml",
@@ -2291,7 +2291,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body has a slug key with at least one message."
    ],
    "ref": [],
-   "specLine": 82,
+   "specLine": 67,
    "area": "brands",
    "areaLabel": "Brands",
    "file": "test-scenarios/api/brands/put-brands-by-brand-id.yml",
@@ -2315,7 +2315,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body has a name key with at least one message."
    ],
    "ref": [],
-   "specLine": 108,
+   "specLine": 81,
    "area": "brands",
    "areaLabel": "Brands",
    "file": "test-scenarios/api/brands/put-brands-by-brand-id.yml",
@@ -2337,7 +2337,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's message is \"Requested item not found\"."
    ],
    "ref": [],
-   "specLine": 189,
+   "specLine": 153,
    "area": "brands",
    "areaLabel": "Brands",
    "file": "test-scenarios/api/brands/put-brands-by-brand-id.yml",
@@ -2359,7 +2359,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body has a name key with at least one message."
    ],
    "ref": [],
-   "specLine": 206,
+   "specLine": 162,
    "area": "brands",
    "areaLabel": "Brands",
    "file": "test-scenarios/api/brands/put-brands-by-brand-id.yml",
@@ -2384,7 +2384,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /brands/{brandId} with the new brand's id still returns its own slug."
    ],
    "ref": [],
-   "specLine": 127,
+   "specLine": 91,
    "area": "brands",
    "areaLabel": "Brands",
    "file": "test-scenarios/api/brands/put-brands-by-brand-id.yml",
@@ -2410,7 +2410,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's slug messages include \"A brand already exists with this slug.\"."
    ],
    "ref": [],
-   "specLine": 150,
+   "specLine": 114,
    "area": "brands",
    "areaLabel": "Brands",
    "file": "test-scenarios/api/brands/put-brands-by-brand-id.yml",
@@ -2435,7 +2435,7 @@ window.SCENARIO_CATALOG = {
     "Verify the response status is 401."
    ],
    "ref": [],
-   "specLine": 172,
+   "specLine": 136,
    "area": "brands",
    "areaLabel": "Brands",
    "file": "test-scenarios/api/brands/put-brands-by-brand-id.yml",
@@ -2460,7 +2460,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /brands/{brandId} with that id returns the new name and the original slug."
    ],
    "ref": [],
-   "specLine": 31,
+   "specLine": 28,
    "area": "brands",
    "areaLabel": "Brands",
    "file": "test-scenarios/api/brands/patch-brands-by-brand-id.yml",
@@ -2484,7 +2484,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body has a slug key with at least one message."
    ],
    "ref": [],
-   "specLine": 60,
+   "specLine": 57,
    "area": "brands",
    "areaLabel": "Brands",
    "file": "test-scenarios/api/brands/patch-brands-by-brand-id.yml",
@@ -2508,7 +2508,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body has a name key with at least one message."
    ],
    "ref": [],
-   "specLine": 86,
+   "specLine": 83,
    "area": "brands",
    "areaLabel": "Brands",
    "file": "test-scenarios/api/brands/patch-brands-by-brand-id.yml",
@@ -2530,7 +2530,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's message is \"Requested item not found\"."
    ],
    "ref": [],
-   "specLine": 183,
+   "specLine": 180,
    "area": "brands",
    "areaLabel": "Brands",
    "file": "test-scenarios/api/brands/patch-brands-by-brand-id.yml",
@@ -2556,7 +2556,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /brands/{brandId} with the new brand's id still returns its own slug."
    ],
    "ref": [],
-   "specLine": 108,
+   "specLine": 105,
    "area": "brands",
    "areaLabel": "Brands",
    "file": "test-scenarios/api/brands/patch-brands-by-brand-id.yml",
@@ -2582,7 +2582,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /brands/{brandId} with that id returns the new name."
    ],
    "ref": [],
-   "specLine": 140,
+   "specLine": 137,
    "area": "brands",
    "areaLabel": "Brands",
    "file": "test-scenarios/api/brands/patch-brands-by-brand-id.yml",
@@ -2607,7 +2607,7 @@ window.SCENARIO_CATALOG = {
     "Verify the response status is 401."
    ],
    "ref": [],
-   "specLine": 166,
+   "specLine": 163,
    "area": "brands",
    "areaLabel": "Brands",
    "file": "test-scenarios/api/brands/patch-brands-by-brand-id.yml",
@@ -2631,7 +2631,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /brands/{brandId} with that id returns 404."
    ],
    "ref": [],
-   "specLine": 34,
+   "specLine": 29,
    "area": "brands",
    "areaLabel": "Brands",
    "file": "test-scenarios/api/brands/delete-brands-by-brand-id.yml",
@@ -2655,7 +2655,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's message is \"Unauthorized\"."
    ],
    "ref": [],
-   "specLine": 55,
+   "specLine": 50,
    "area": "brands",
    "areaLabel": "Brands",
    "file": "test-scenarios/api/brands/delete-brands-by-brand-id.yml",
@@ -2679,7 +2679,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's message is \"Unauthorized\"."
    ],
    "ref": [],
-   "specLine": 74,
+   "specLine": 61,
    "area": "brands",
    "areaLabel": "Brands",
    "file": "test-scenarios/api/brands/delete-brands-by-brand-id.yml",
@@ -2702,7 +2702,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's message is \"Forbidden\"."
    ],
    "ref": [],
-   "specLine": 159,
+   "specLine": 130,
    "area": "brands",
    "areaLabel": "Brands",
    "file": "test-scenarios/api/brands/delete-brands-by-brand-id.yml",
@@ -2725,7 +2725,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's message is \"Requested item not found\"."
    ],
    "ref": [],
-   "specLine": 93,
+   "specLine": 72,
    "area": "brands",
    "areaLabel": "Brands",
    "file": "test-scenarios/api/brands/delete-brands-by-brand-id.yml",
@@ -2752,7 +2752,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /brands/{brandId} with the new brand's id returns 200."
    ],
    "ref": [],
-   "specLine": 110,
+   "specLine": 81,
    "area": "brands",
    "areaLabel": "Brands",
    "file": "test-scenarios/api/brands/delete-brands-by-brand-id.yml",
@@ -2775,7 +2775,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /carts/{cartId} with that id returns 200 with the same id and an empty cart_items."
    ],
    "ref": [],
-   "specLine": 31,
+   "specLine": 28,
    "area": "carts",
    "areaLabel": "Carts",
    "file": "test-scenarios/api/carts/post-carts.yml",
@@ -2797,7 +2797,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /carts/{cartId} with the cart's id returns 200 with lat numerically equal to 52 and lng numerically equal to 5."
    ],
    "ref": [],
-   "specLine": 61,
+   "specLine": 58,
    "area": "carts",
    "areaLabel": "Carts",
    "file": "test-scenarios/api/carts/post-carts.yml",
@@ -2829,7 +2829,7 @@ window.SCENARIO_CATALOG = {
     "Verify the item's product has no product_image, category or brand key."
    ],
    "ref": [],
-   "specLine": 42,
+   "specLine": 26,
    "area": "carts",
    "areaLabel": "Carts",
    "file": "test-scenarios/api/carts/get-carts-by-cart-id.yml",
@@ -2856,7 +2856,7 @@ window.SCENARIO_CATALOG = {
     "Verify the only item's product in_stock is the number 10."
    ],
    "ref": [],
-   "specLine": 116,
+   "specLine": 100,
    "area": "carts",
    "areaLabel": "Carts",
    "file": "test-scenarios/api/carts/get-carts-by-cart-id.yml",
@@ -2878,7 +2878,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's message is \"Requested item not found\"."
    ],
    "ref": [],
-   "specLine": 148,
+   "specLine": 132,
    "area": "carts",
    "areaLabel": "Carts",
    "file": "test-scenarios/api/carts/get-carts-by-cart-id.yml",
@@ -2900,7 +2900,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's message is \"Requested item not found\"."
    ],
    "ref": [],
-   "specLine": 165,
+   "specLine": 141,
    "area": "carts",
    "areaLabel": "Carts",
    "file": "test-scenarios/api/carts/get-carts-by-cart-id.yml",
@@ -2932,7 +2932,7 @@ window.SCENARIO_CATALOG = {
     "Verify the item whose product_id is the rental product's id has a product with is_rental true.",
     "Verify the item whose product_id is the non-rental product's id has a product with is_rental false."
    ],
-   "specLine": 183,
+   "specLine": 152,
    "area": "carts",
    "areaLabel": "Carts",
    "file": "test-scenarios/api/carts/get-carts-by-cart-id.yml",
@@ -2964,7 +2964,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /carts/{cartId} with the cart's id returns 200.",
     "Verify its cart_items has exactly one item, with the new product's id as product_id and quantity 1."
    ],
-   "specLine": 85,
+   "specLine": 101,
    "area": "carts",
    "areaLabel": "Carts",
    "file": "test-scenarios/api/carts/post-carts-by-cart-id.yml",
@@ -2989,7 +2989,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /carts/{cartId} with the cart's id returns 200.",
     "Verify its cart_items has exactly one item, with the new product's id as product_id and quantity 2."
    ],
-   "specLine": 123,
+   "specLine": 139,
    "area": "carts",
    "areaLabel": "Carts",
    "file": "test-scenarios/api/carts/post-carts-by-cart-id.yml",
@@ -3017,7 +3017,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's errors has a quantity key with at least one message.",
     "Verify GET /carts/{cartId} with the cart's id returns 200 and its cart_items is empty."
    ],
-   "specLine": 156,
+   "specLine": 172,
    "area": "carts",
    "areaLabel": "Carts",
    "file": "test-scenarios/api/carts/post-carts-by-cart-id.yml",
@@ -3045,7 +3045,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's errors has a quantity key with at least one message.",
     "Verify GET /carts/{cartId} with the cart's id returns 200 and its cart_items is empty."
    ],
-   "specLine": 189,
+   "specLine": 180,
    "area": "carts",
    "areaLabel": "Carts",
    "file": "test-scenarios/api/carts/post-carts-by-cart-id.yml",
@@ -3074,7 +3074,7 @@ window.SCENARIO_CATALOG = {
     "Verify the response status is 200.",
     "Verify GET /carts/{cartId} with the cart's id returns 200 and its cart_items has exactly one item, with the new product's id as product_id and quantity 999999999."
    ],
-   "specLine": 222,
+   "specLine": 188,
    "area": "carts",
    "areaLabel": "Carts",
    "file": "test-scenarios/api/carts/post-carts-by-cart-id.yml",
@@ -3100,7 +3100,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /carts/{cartId} with the cart's id returns 200 and its cart_items has exactly one item, with the new product's id as product_id and quantity 3."
    ],
    "ref": [],
-   "specLine": 252,
+   "specLine": 218,
    "area": "carts",
    "areaLabel": "Carts",
    "file": "test-scenarios/api/carts/post-carts-by-cart-id.yml",
@@ -3125,7 +3125,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /carts/{cartId} with the cart's id returns 200 and its cart_items has exactly one item, with the new product's id as product_id and quantity 99."
    ],
    "ref": [],
-   "specLine": 282,
+   "specLine": 248,
    "area": "carts",
    "areaLabel": "Carts",
    "file": "test-scenarios/api/carts/post-carts-by-cart-id.yml",
@@ -3151,7 +3151,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /carts/{cartId} with the cart's id returns 200 and its cart_items has exactly one item, with the new product's id as product_id and quantity 198."
    ],
    "ref": [],
-   "specLine": 311,
+   "specLine": 277,
    "area": "carts",
    "areaLabel": "Carts",
    "file": "test-scenarios/api/carts/post-carts-by-cart-id.yml",
@@ -3176,7 +3176,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /carts/{cartId} with the cart's id returns 200 and its cart_items has exactly one item, with the new product's id as product_id and quantity 1."
    ],
    "ref": [],
-   "specLine": 341,
+   "specLine": 307,
    "area": "carts",
    "areaLabel": "Carts",
    "file": "test-scenarios/api/carts/post-carts-by-cart-id.yml",
@@ -3205,7 +3205,7 @@ window.SCENARIO_CATALOG = {
     "Verify the response status is 200.",
     "Verify GET /carts/{cartId} with the cart's id returns 200 with additional_discount_percentage 15."
    ],
-   "specLine": 377,
+   "specLine": 343,
    "area": "carts",
    "areaLabel": "Carts",
    "file": "test-scenarios/api/carts/post-carts-by-cart-id.yml",
@@ -3233,7 +3233,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /carts/{cartId} with the cart's id returns 200 and its only item has discount_percentage 20.",
     "Verify the item's discounted_price equals its product's price × 0.8, rounded to 2 decimals."
    ],
-   "specLine": 413,
+   "specLine": 379,
    "area": "carts",
    "areaLabel": "Carts",
    "file": "test-scenarios/api/carts/post-carts-by-cart-id.yml",
@@ -3263,7 +3263,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /carts/{cartId} with the cart's id returns 200 and its only item has discount_percentage 5.",
     "Verify the item's discounted_price equals its product's price × 0.95, rounded to 2 decimals."
    ],
-   "specLine": 448,
+   "specLine": 414,
    "area": "carts",
    "areaLabel": "Carts",
    "file": "test-scenarios/api/carts/post-carts-by-cart-id.yml",
@@ -3287,7 +3287,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /carts/{cartId} with the cart's id returns 200 and its cart_items is empty."
    ],
    "ref": [],
-   "specLine": 484,
+   "specLine": 450,
    "area": "carts",
    "areaLabel": "Carts",
    "file": "test-scenarios/api/carts/post-carts-by-cart-id.yml",
@@ -3311,7 +3311,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /carts/{cartId} with the cart's id returns 200 and its cart_items is empty."
    ],
    "ref": [],
-   "specLine": 510,
+   "specLine": 476,
    "area": "carts",
    "areaLabel": "Carts",
    "file": "test-scenarios/api/carts/post-carts-by-cart-id.yml",
@@ -3337,7 +3337,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /carts/{cartId} with the cart's id returns 200 and its cart_items is empty."
    ],
    "ref": [],
-   "specLine": 535,
+   "specLine": 501,
    "area": "carts",
    "areaLabel": "Carts",
    "file": "test-scenarios/api/carts/post-carts-by-cart-id.yml",
@@ -3359,7 +3359,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's message is \"Cart not found\"."
    ],
    "ref": [],
-   "specLine": 567,
+   "specLine": 509,
    "area": "carts",
    "areaLabel": "Carts",
    "file": "test-scenarios/api/carts/post-carts-by-cart-id.yml",
@@ -3381,7 +3381,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's errors has the keys product_id and quantity."
    ],
    "ref": [],
-   "specLine": 588,
+   "specLine": 530,
    "area": "carts",
    "areaLabel": "Carts",
    "file": "test-scenarios/api/carts/post-carts-by-cart-id.yml",
@@ -3406,7 +3406,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /carts/{cartId} with the cart's id returns 200 and its cart_items is empty."
    ],
    "ref": [],
-   "specLine": 605,
+   "specLine": 547,
    "area": "carts",
    "areaLabel": "Carts",
    "file": "test-scenarios/api/carts/post-carts-by-cart-id.yml",
@@ -3432,7 +3432,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /carts/{cartId} with the cart's id returns 200 and its cart_items has exactly one item, with Thor Hammer's id as product_id and quantity 1."
    ],
    "ref": [],
-   "specLine": 632,
+   "specLine": 574,
    "area": "carts",
    "areaLabel": "Carts",
    "file": "test-scenarios/api/carts/post-carts-by-cart-id.yml",
@@ -3462,7 +3462,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /carts/{cartId} with the cart's id returns 200 and its only item has discount_percentage null or 0.",
     "Verify the item has no discounted_price."
    ],
-   "specLine": 660,
+   "specLine": 602,
    "area": "carts",
    "areaLabel": "Carts",
    "file": "test-scenarios/api/carts/post-carts-by-cart-id.yml",
@@ -3492,7 +3492,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /carts/{cartId} with the cart's id returns 200 and its only item has discount_percentage 25.",
     "Verify the item's discounted_price equals its product's price × 0.75, rounded to 2 decimals."
    ],
-   "specLine": 704,
+   "specLine": 646,
    "area": "carts",
    "areaLabel": "Carts",
    "file": "test-scenarios/api/carts/post-carts-by-cart-id.yml",
@@ -3520,7 +3520,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /carts/{cartId} with the cart's id returns 200 and its only item has discount_percentage 20.",
     "Verify the item's discounted_price equals its product's price × 0.8, rounded to 2 decimals."
    ],
-   "specLine": 740,
+   "specLine": 682,
    "area": "carts",
    "areaLabel": "Carts",
    "file": "test-scenarios/api/carts/post-carts-by-cart-id.yml",
@@ -3546,7 +3546,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /carts/{cartId} with the cart's id returns 404."
    ],
    "ref": [],
-   "specLine": 22,
+   "specLine": 18,
    "area": "carts",
    "areaLabel": "Carts",
    "file": "test-scenarios/api/carts/delete-carts-by-cart-id.yml",
@@ -3568,7 +3568,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's message is \"Cart doesnt exists\"."
    ],
    "ref": [],
-   "specLine": 48,
+   "specLine": 44,
    "area": "carts",
    "areaLabel": "Carts",
    "file": "test-scenarios/api/carts/delete-carts-by-cart-id.yml",
@@ -3597,7 +3597,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's result is \"item added or updated\".",
     "Verify GET /carts/{cartId} with the cart's id returns 200 and its cart_items has exactly one item, with the new product's id as product_id and quantity 5."
    ],
-   "specLine": 64,
+   "specLine": 62,
    "area": "carts",
    "areaLabel": "Carts",
    "file": "test-scenarios/api/carts/put-carts-by-cart-id-product-quantity.yml",
@@ -3623,7 +3623,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /carts/{cartId} with the cart's id returns 200 and its cart_items is empty."
    ],
    "ref": [],
-   "specLine": 97,
+   "specLine": 95,
    "area": "carts",
    "areaLabel": "Carts",
    "file": "test-scenarios/api/carts/put-carts-by-cart-id-product-quantity.yml",
@@ -3647,7 +3647,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's errors quantity messages include \"The quantity field is required.\"."
    ],
    "ref": [],
-   "specLine": 129,
+   "specLine": 127,
    "area": "carts",
    "areaLabel": "Carts",
    "file": "test-scenarios/api/carts/put-carts-by-cart-id-product-quantity.yml",
@@ -3674,7 +3674,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /carts/{cartId} with the cart's id returns 200 and its only item has quantity 1."
    ],
    "ref": [],
-   "specLine": 153,
+   "specLine": 151,
    "area": "carts",
    "areaLabel": "Carts",
    "file": "test-scenarios/api/carts/put-carts-by-cart-id-product-quantity.yml",
@@ -3701,7 +3701,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /carts/{cartId} with the cart's id returns 200 and its only item has quantity 1."
    ],
    "ref": [],
-   "specLine": 186,
+   "specLine": 184,
    "area": "carts",
    "areaLabel": "Carts",
    "file": "test-scenarios/api/carts/put-carts-by-cart-id-product-quantity.yml",
@@ -3724,7 +3724,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's errors has a product_id key with at least one message."
    ],
    "ref": [],
-   "specLine": 219,
+   "specLine": 217,
    "area": "carts",
    "areaLabel": "Carts",
    "file": "test-scenarios/api/carts/put-carts-by-cart-id-product-quantity.yml",
@@ -3746,7 +3746,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's message is \"Cart doesn't exist\"."
    ],
    "ref": [],
-   "specLine": 242,
+   "specLine": 240,
    "area": "carts",
    "areaLabel": "Carts",
    "file": "test-scenarios/api/carts/put-carts-by-cart-id-product-quantity.yml",
@@ -3768,7 +3768,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's errors has the keys product_id and quantity."
    ],
    "ref": [],
-   "specLine": 263,
+   "specLine": 261,
    "area": "carts",
    "areaLabel": "Carts",
    "file": "test-scenarios/api/carts/put-carts-by-cart-id-product-quantity.yml",
@@ -3794,7 +3794,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /carts/{cartId} with the cart's id returns 200 and its only item has quantity 1."
    ],
    "ref": [],
-   "specLine": 280,
+   "specLine": 278,
    "area": "carts",
    "areaLabel": "Carts",
    "file": "test-scenarios/api/carts/put-carts-by-cart-id-product-quantity.yml",
@@ -3822,7 +3822,7 @@ window.SCENARIO_CATALOG = {
     "Verify the response status is 204.",
     "Verify GET /carts/{cartId} with the cart's id returns 200 and its cart_items is empty."
    ],
-   "specLine": 79,
+   "specLine": 77,
    "area": "carts",
    "areaLabel": "Carts",
    "file": "test-scenarios/api/carts/delete-carts-by-cart-id-product-by-product-id.yml",
@@ -3853,7 +3853,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /carts/{cartId} with the cart's id returns 200 with additional_discount_percentage null.",
     "Verify its cart_items has exactly one item, with the non-rental product's id as product_id."
    ],
-   "specLine": 108,
+   "specLine": 106,
    "area": "carts",
    "areaLabel": "Carts",
    "file": "test-scenarios/api/carts/delete-carts-by-cart-id-product-by-product-id.yml",
@@ -3879,7 +3879,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /carts/{cartId} with the cart's id returns 200 and its cart_items has exactly one item, with the new product's id as product_id and quantity 1."
    ],
    "ref": [],
-   "specLine": 141,
+   "specLine": 139,
    "area": "carts",
    "areaLabel": "Carts",
    "file": "test-scenarios/api/carts/delete-carts-by-cart-id-product-by-product-id.yml",
@@ -3901,7 +3901,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's message is \"Cart doesnt exists\"."
    ],
    "ref": [],
-   "specLine": 170,
+   "specLine": 168,
    "area": "carts",
    "areaLabel": "Carts",
    "file": "test-scenarios/api/carts/delete-carts-by-cart-id-product-by-product-id.yml",
@@ -3927,7 +3927,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /carts/{cartId} with the cart's id returns 200 and its cart_items has exactly one item, with the new product's id as product_id."
    ],
    "ref": [],
-   "specLine": 191,
+   "specLine": 189,
    "area": "carts",
    "areaLabel": "Carts",
    "file": "test-scenarios/api/carts/delete-carts-by-cart-id-product-by-product-id.yml",
@@ -3958,7 +3958,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /carts/{cartId} with the cart's id returns 200 with additional_discount_percentage null.",
     "Verify its cart_items has exactly one item, with the rental product's id as product_id."
    ],
-   "specLine": 220,
+   "specLine": 218,
    "area": "carts",
    "areaLabel": "Carts",
    "file": "test-scenarios/api/carts/delete-carts-by-cart-id-product-by-product-id.yml",
@@ -3991,7 +3991,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /carts/{cartId} with the cart's id returns 200 with additional_discount_percentage 15.",
     "Verify its cart_items has exactly two items, with the non-rental product's id and the second rental product's id as product_id."
    ],
-   "specLine": 253,
+   "specLine": 251,
    "area": "carts",
    "areaLabel": "Carts",
    "file": "test-scenarios/api/carts/delete-carts-by-cart-id-product-by-product-id.yml",
@@ -4067,7 +4067,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /categories/tree/{categoryId} with the parent's id returns sub_categories with exactly one item, whose id is the new category's id."
    ],
    "ref": [],
-   "specLine": 81,
+   "specLine": 79,
    "area": "categories",
    "areaLabel": "Categories",
    "file": "test-scenarios/api/categories/post-categories.yml",
@@ -4090,7 +4090,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's name messages include \"The name field is required.\" and its slug messages include \"The slug field is required.\"."
    ],
    "ref": [],
-   "specLine": 171,
+   "specLine": 167,
    "area": "categories",
    "areaLabel": "Categories",
    "file": "test-scenarios/api/categories/post-categories.yml",
@@ -4112,7 +4112,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body has a slug key with at least one message."
    ],
    "ref": [],
-   "specLine": 194,
+   "specLine": 190,
    "area": "categories",
    "areaLabel": "Categories",
    "file": "test-scenarios/api/categories/post-categories.yml",
@@ -4134,7 +4134,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body has a name key with at least one message."
    ],
    "ref": [],
-   "specLine": 219,
+   "specLine": 205,
    "area": "categories",
    "areaLabel": "Categories",
    "file": "test-scenarios/api/categories/post-categories.yml",
@@ -4156,7 +4156,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body has a slug key with at least one message."
    ],
    "ref": [],
-   "specLine": 237,
+   "specLine": 216,
    "area": "categories",
    "areaLabel": "Categories",
    "file": "test-scenarios/api/categories/post-categories.yml",
@@ -4178,7 +4178,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body has a parent_id key with at least one message."
    ],
    "ref": [],
-   "specLine": 258,
+   "specLine": 227,
    "area": "categories",
    "areaLabel": "Categories",
    "file": "test-scenarios/api/categories/post-categories.yml",
@@ -4200,7 +4200,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body has a name key with at least one message."
    ],
    "ref": [],
-   "specLine": 275,
+   "specLine": 235,
    "area": "categories",
    "areaLabel": "Categories",
    "file": "test-scenarios/api/categories/post-categories.yml",
@@ -4222,7 +4222,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's slug messages include \"A category already exists with this slug.\"."
    ],
    "ref": [],
-   "specLine": 293,
+   "specLine": 246,
    "area": "categories",
    "areaLabel": "Categories",
    "file": "test-scenarios/api/categories/post-categories.yml",
@@ -4244,7 +4244,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body has a name key with at least one message."
    ],
    "ref": [],
-   "specLine": 311,
+   "specLine": 264,
    "area": "categories",
    "areaLabel": "Categories",
    "file": "test-scenarios/api/categories/post-categories.yml",
@@ -4268,7 +4268,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /categories/tree/{categoryId} with the new id has no description key."
    ],
    "ref": [],
-   "specLine": 132,
+   "specLine": 130,
    "area": "categories",
    "areaLabel": "Categories",
    "file": "test-scenarios/api/categories/post-categories.yml",
@@ -4291,7 +4291,7 @@ window.SCENARIO_CATALOG = {
     "Verify the response status is 422."
    ],
    "ref": [],
-   "specLine": 329,
+   "specLine": 275,
    "area": "categories",
    "areaLabel": "Categories",
    "file": "test-scenarios/api/categories/post-categories.yml",
@@ -4314,7 +4314,7 @@ window.SCENARIO_CATALOG = {
     "Verify the response status is 401."
    ],
    "ref": [],
-   "specLine": 344,
+   "specLine": 290,
    "area": "categories",
    "areaLabel": "Categories",
    "file": "test-scenarios/api/categories/post-categories.yml",
@@ -4338,7 +4338,7 @@ window.SCENARIO_CATALOG = {
     "Verify the item whose slug is hand-tools has a non-empty sub_categories."
    ],
    "ref": [],
-   "specLine": 24,
+   "specLine": 21,
    "area": "categories",
    "areaLabel": "Categories",
    "file": "test-scenarios/api/categories/get-categories-search.yml",
@@ -4361,7 +4361,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's slugs include hand-saw and saw."
    ],
    "ref": [],
-   "specLine": 56,
+   "specLine": 53,
    "area": "categories",
    "areaLabel": "Categories",
    "file": "test-scenarios/api/categories/get-categories-search.yml",
@@ -4383,7 +4383,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body is an empty array."
    ],
    "ref": [],
-   "specLine": 78,
+   "specLine": 75,
    "area": "categories",
    "areaLabel": "Categories",
    "file": "test-scenarios/api/categories/get-categories-search.yml",
@@ -4405,7 +4405,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's slugs include hand-tools, hammer and saw."
    ],
    "ref": [],
-   "specLine": 95,
+   "specLine": 92,
    "area": "categories",
    "areaLabel": "Categories",
    "file": "test-scenarios/api/categories/get-categories-search.yml",
@@ -4428,7 +4428,7 @@ window.SCENARIO_CATALOG = {
     "Verify the response status is 422."
    ],
    "ref": [],
-   "specLine": 112,
+   "specLine": 109,
    "area": "categories",
    "areaLabel": "Categories",
    "file": "test-scenarios/api/categories/get-categories-search.yml",
@@ -4454,7 +4454,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body includes a category with the new id."
    ],
    "ref": [],
-   "specLine": 129,
+   "specLine": 126,
    "area": "categories",
    "areaLabel": "Categories",
    "file": "test-scenarios/api/categories/get-categories-search.yml",
@@ -4478,7 +4478,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's slugs include hand-saw and saw."
    ],
    "ref": [],
-   "specLine": 34,
+   "specLine": 22,
    "area": "categories",
    "areaLabel": "Categories",
    "file": "test-scenarios/api/categories/query-categories-search.yml",
@@ -4500,7 +4500,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's slugs include hand-tools, hammer and saw."
    ],
    "ref": [],
-   "specLine": 60,
+   "specLine": 48,
    "area": "categories",
    "areaLabel": "Categories",
    "file": "test-scenarios/api/categories/query-categories-search.yml",
@@ -4522,7 +4522,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's message is \"QUERY requests must use Content-Type: application/json\"."
    ],
    "ref": [],
-   "specLine": 80,
+   "specLine": 68,
    "area": "categories",
    "areaLabel": "Categories",
    "file": "test-scenarios/api/categories/query-categories-search.yml",
@@ -4545,7 +4545,7 @@ window.SCENARIO_CATALOG = {
     "Verify the response status is 422."
    ],
    "ref": [],
-   "specLine": 100,
+   "specLine": 88,
    "area": "categories",
    "areaLabel": "Categories",
    "file": "test-scenarios/api/categories/query-categories-search.yml",
@@ -4572,7 +4572,7 @@ window.SCENARIO_CATALOG = {
     "Verify every item has a sub_categories array, and every sub-category's parent_id equals its item's id."
    ],
    "ref": [],
-   "specLine": 24,
+   "specLine": 21,
    "area": "categories",
    "areaLabel": "Categories",
    "file": "test-scenarios/api/categories/get-categories-tree.yml",
@@ -4592,7 +4592,7 @@ window.SCENARIO_CATALOG = {
     "Verify the item's sub_categories is non-empty, includes the slug hammer, and every sub-category's parent_id equals the item's id."
    ],
    "ref": [],
-   "specLine": 53,
+   "specLine": 51,
    "area": "categories",
    "areaLabel": "Categories",
    "file": "test-scenarios/api/categories/get-categories-tree.yml",
@@ -4614,7 +4614,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body is an empty array."
    ],
    "ref": [],
-   "specLine": 84,
+   "specLine": 82,
    "area": "categories",
    "areaLabel": "Categories",
    "file": "test-scenarios/api/categories/get-categories-tree.yml",
@@ -4636,7 +4636,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body is an empty array."
    ],
    "ref": [],
-   "specLine": 101,
+   "specLine": 99,
    "area": "categories",
    "areaLabel": "Categories",
    "file": "test-scenarios/api/categories/get-categories-tree.yml",
@@ -4659,7 +4659,7 @@ window.SCENARIO_CATALOG = {
     "Verify the response status is 422."
    ],
    "ref": [],
-   "specLine": 118,
+   "specLine": 116,
    "area": "categories",
    "areaLabel": "Categories",
    "file": "test-scenarios/api/categories/get-categories-tree.yml",
@@ -4683,7 +4683,7 @@ window.SCENARIO_CATALOG = {
     "Verify the item's sub_categories is non-empty and every sub-category's parent_id equals the item's id."
    ],
    "ref": [],
-   "specLine": 34,
+   "specLine": 23,
    "area": "categories",
    "areaLabel": "Categories",
    "file": "test-scenarios/api/categories/query-categories-tree.yml",
@@ -4706,7 +4706,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's item ids include those ids."
    ],
    "ref": [],
-   "specLine": 68,
+   "specLine": 57,
    "area": "categories",
    "areaLabel": "Categories",
    "file": "test-scenarios/api/categories/query-categories-tree.yml",
@@ -4728,7 +4728,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's message is \"QUERY requests must use Content-Type: application/json\"."
    ],
    "ref": [],
-   "specLine": 94,
+   "specLine": 83,
    "area": "categories",
    "areaLabel": "Categories",
    "file": "test-scenarios/api/categories/query-categories-tree.yml",
@@ -4751,7 +4751,7 @@ window.SCENARIO_CATALOG = {
     "Verify the response status is 422."
    ],
    "ref": [],
-   "specLine": 114,
+   "specLine": 103,
    "area": "categories",
    "areaLabel": "Categories",
    "file": "test-scenarios/api/categories/query-categories-tree.yml",
@@ -4775,7 +4775,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's sub_categories is non-empty and every sub-category's parent_id equals the body's id."
    ],
    "ref": [],
-   "specLine": 23,
+   "specLine": 20,
    "area": "categories",
    "areaLabel": "Categories",
    "file": "test-scenarios/api/categories/get-categories-tree-by-category-id.yml",
@@ -4799,7 +4799,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's sub_categories is an empty array."
    ],
    "ref": [],
-   "specLine": 56,
+   "specLine": 53,
    "area": "categories",
    "areaLabel": "Categories",
    "file": "test-scenarios/api/categories/get-categories-tree-by-category-id.yml",
@@ -4821,7 +4821,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's message is \"Requested item not found\"."
    ],
    "ref": [],
-   "specLine": 88,
+   "specLine": 85,
    "area": "categories",
    "areaLabel": "Categories",
    "file": "test-scenarios/api/categories/get-categories-tree-by-category-id.yml",
@@ -4848,7 +4848,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's sub_categories include the new category's id."
    ],
    "ref": [],
-   "specLine": 108,
+   "specLine": 97,
    "area": "categories",
    "areaLabel": "Categories",
    "file": "test-scenarios/api/categories/get-categories-tree-by-category-id.yml",
@@ -4873,7 +4873,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /categories/tree/{categoryId} with that id returns the new name and the new slug."
    ],
    "ref": [],
-   "specLine": 39,
+   "specLine": 36,
    "area": "categories",
    "areaLabel": "Categories",
    "file": "test-scenarios/api/categories/put-categories-by-category-id.yml",
@@ -4899,7 +4899,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /categories/tree doesn't include the new category's id among its items."
    ],
    "ref": [],
-   "specLine": 73,
+   "specLine": 70,
    "area": "categories",
    "areaLabel": "Categories",
    "file": "test-scenarios/api/categories/put-categories-by-category-id.yml",
@@ -4925,7 +4925,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /categories/tree includes the new category's id among its items."
    ],
    "ref": [],
-   "specLine": 114,
+   "specLine": 111,
    "area": "categories",
    "areaLabel": "Categories",
    "file": "test-scenarios/api/categories/put-categories-by-category-id.yml",
@@ -4949,7 +4949,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body has a name key with at least one message."
    ],
    "ref": [],
-   "specLine": 152,
+   "specLine": 149,
    "area": "categories",
    "areaLabel": "Categories",
    "file": "test-scenarios/api/categories/put-categories-by-category-id.yml",
@@ -4973,7 +4973,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body has a slug key with at least one message."
    ],
    "ref": [],
-   "specLine": 174,
+   "specLine": 159,
    "area": "categories",
    "areaLabel": "Categories",
    "file": "test-scenarios/api/categories/put-categories-by-category-id.yml",
@@ -4997,7 +4997,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body has a name key with at least one message."
    ],
    "ref": [],
-   "specLine": 200,
+   "specLine": 173,
    "area": "categories",
    "areaLabel": "Categories",
    "file": "test-scenarios/api/categories/put-categories-by-category-id.yml",
@@ -5021,7 +5021,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body has a parent_id key with at least one message."
    ],
    "ref": [],
-   "specLine": 219,
+   "specLine": 183,
    "area": "categories",
    "areaLabel": "Categories",
    "file": "test-scenarios/api/categories/put-categories-by-category-id.yml",
@@ -5043,7 +5043,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's message is \"Requested item not found\"."
    ],
    "ref": [],
-   "specLine": 338,
+   "specLine": 293,
    "area": "categories",
    "areaLabel": "Categories",
    "file": "test-scenarios/api/categories/put-categories-by-category-id.yml",
@@ -5065,7 +5065,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body has a name key with at least one message."
    ],
    "ref": [],
-   "specLine": 355,
+   "specLine": 302,
    "area": "categories",
    "areaLabel": "Categories",
    "file": "test-scenarios/api/categories/put-categories-by-category-id.yml",
@@ -5089,7 +5089,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /categories/tree/{categoryId} with that id still returns its own slug."
    ],
    "ref": [],
-   "specLine": 238,
+   "specLine": 193,
    "area": "categories",
    "areaLabel": "Categories",
    "file": "test-scenarios/api/categories/put-categories-by-category-id.yml",
@@ -5114,7 +5114,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's slug messages include \"A category already exists with this slug.\"."
    ],
    "ref": [],
-   "specLine": 272,
+   "specLine": 227,
    "area": "categories",
    "areaLabel": "Categories",
    "file": "test-scenarios/api/categories/put-categories-by-category-id.yml",
@@ -5139,7 +5139,7 @@ window.SCENARIO_CATALOG = {
     "Verify the response status is 422."
    ],
    "ref": [],
-   "specLine": 297,
+   "specLine": 252,
    "area": "categories",
    "areaLabel": "Categories",
    "file": "test-scenarios/api/categories/put-categories-by-category-id.yml",
@@ -5164,7 +5164,7 @@ window.SCENARIO_CATALOG = {
     "Verify the response status is 401."
    ],
    "ref": [],
-   "specLine": 321,
+   "specLine": 276,
    "area": "categories",
    "areaLabel": "Categories",
    "file": "test-scenarios/api/categories/put-categories-by-category-id.yml",
@@ -5189,7 +5189,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /categories/tree/{categoryId} with that id returns the new name and the original slug."
    ],
    "ref": [],
-   "specLine": 31,
+   "specLine": 28,
    "area": "categories",
    "areaLabel": "Categories",
    "file": "test-scenarios/api/categories/patch-categories-by-category-id.yml",
@@ -5213,7 +5213,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body has a slug key with at least one message."
    ],
    "ref": [],
-   "specLine": 69,
+   "specLine": 66,
    "area": "categories",
    "areaLabel": "Categories",
    "file": "test-scenarios/api/categories/patch-categories-by-category-id.yml",
@@ -5237,7 +5237,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body has a slug key with at least one message."
    ],
    "ref": [],
-   "specLine": 88,
+   "specLine": 76,
    "area": "categories",
    "areaLabel": "Categories",
    "file": "test-scenarios/api/categories/patch-categories-by-category-id.yml",
@@ -5261,7 +5261,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body has a name key with at least one message."
    ],
    "ref": [],
-   "specLine": 114,
+   "specLine": 90,
    "area": "categories",
    "areaLabel": "Categories",
    "file": "test-scenarios/api/categories/patch-categories-by-category-id.yml",
@@ -5283,7 +5283,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's message is \"Requested item not found\"."
    ],
    "ref": [],
-   "specLine": 253,
+   "specLine": 217,
    "area": "categories",
    "areaLabel": "Categories",
    "file": "test-scenarios/api/categories/patch-categories-by-category-id.yml",
@@ -5308,7 +5308,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /categories/tree/{categoryId} with that id still returns its own slug."
    ],
    "ref": [],
-   "specLine": 140,
+   "specLine": 104,
    "area": "categories",
    "areaLabel": "Categories",
    "file": "test-scenarios/api/categories/patch-categories-by-category-id.yml",
@@ -5334,7 +5334,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /categories/tree/{categoryId} with that id returns the new name."
    ],
    "ref": [],
-   "specLine": 178,
+   "specLine": 142,
    "area": "categories",
    "areaLabel": "Categories",
    "file": "test-scenarios/api/categories/patch-categories-by-category-id.yml",
@@ -5359,7 +5359,7 @@ window.SCENARIO_CATALOG = {
     "Verify the response status is 422."
    ],
    "ref": [],
-   "specLine": 212,
+   "specLine": 176,
    "area": "categories",
    "areaLabel": "Categories",
    "file": "test-scenarios/api/categories/patch-categories-by-category-id.yml",
@@ -5384,7 +5384,7 @@ window.SCENARIO_CATALOG = {
     "Verify the response status is 401."
    ],
    "ref": [],
-   "specLine": 236,
+   "specLine": 200,
    "area": "categories",
    "areaLabel": "Categories",
    "file": "test-scenarios/api/categories/patch-categories-by-category-id.yml",
@@ -5408,7 +5408,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /categories/tree/{categoryId} with that id returns 404."
    ],
    "ref": [],
-   "specLine": 38,
+   "specLine": 33,
    "area": "categories",
    "areaLabel": "Categories",
    "file": "test-scenarios/api/categories/delete-categories-by-category-id.yml",
@@ -5432,7 +5432,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's message is \"Unauthorized\"."
    ],
    "ref": [],
-   "specLine": 59,
+   "specLine": 54,
    "area": "categories",
    "areaLabel": "Categories",
    "file": "test-scenarios/api/categories/delete-categories-by-category-id.yml",
@@ -5456,7 +5456,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's message is \"Unauthorized\"."
    ],
    "ref": [],
-   "specLine": 78,
+   "specLine": 65,
    "area": "categories",
    "areaLabel": "Categories",
    "file": "test-scenarios/api/categories/delete-categories-by-category-id.yml",
@@ -5479,7 +5479,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's message is \"Forbidden\"."
    ],
    "ref": [],
-   "specLine": 189,
+   "specLine": 160,
    "area": "categories",
    "areaLabel": "Categories",
    "file": "test-scenarios/api/categories/delete-categories-by-category-id.yml",
@@ -5502,7 +5502,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's message is \"Requested item not found\"."
    ],
    "ref": [],
-   "specLine": 97,
+   "specLine": 76,
    "area": "categories",
    "areaLabel": "Categories",
    "file": "test-scenarios/api/categories/delete-categories-by-category-id.yml",
@@ -5528,7 +5528,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /categories/tree/{categoryId} with the parent's id returns 200."
    ],
    "ref": [],
-   "specLine": 114,
+   "specLine": 85,
    "area": "categories",
    "areaLabel": "Categories",
    "file": "test-scenarios/api/categories/delete-categories-by-category-id.yml",
@@ -5555,7 +5555,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /categories/tree/{categoryId} with the new category's id returns 200."
    ],
    "ref": [],
-   "specLine": 140,
+   "specLine": 111,
    "area": "categories",
    "areaLabel": "Categories",
    "file": "test-scenarios/api/categories/delete-categories-by-category-id.yml",
@@ -5584,7 +5584,7 @@ window.SCENARIO_CATALOG = {
     "Verify that item's product has no category key and no brand key."
    ],
    "ref": [],
-   "specLine": 22,
+   "specLine": 19,
    "area": "favorites",
    "areaLabel": "Favorites",
    "file": "test-scenarios/api/favorites/get-favorites.yml",
@@ -5612,7 +5612,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body is an empty array."
    ],
    "ref": [],
-   "specLine": 83,
+   "specLine": 80,
    "area": "favorites",
    "areaLabel": "Favorites",
    "file": "test-scenarios/api/favorites/get-favorites.yml",
@@ -5634,7 +5634,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's message is \"Unauthorized\"."
    ],
    "ref": [],
-   "specLine": 114,
+   "specLine": 111,
    "area": "favorites",
    "areaLabel": "Favorites",
    "file": "test-scenarios/api/favorites/get-favorites.yml",
@@ -5656,7 +5656,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's message is \"Unauthorized\"."
    ],
    "ref": [],
-   "specLine": 131,
+   "specLine": 120,
    "area": "favorites",
    "areaLabel": "Favorites",
    "file": "test-scenarios/api/favorites/get-favorites.yml",
@@ -5682,7 +5682,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's message is \"Account disabled.\"."
    ],
    "ref": [],
-   "specLine": 151,
+   "specLine": 132,
    "area": "favorites",
    "areaLabel": "Favorites",
    "file": "test-scenarios/api/favorites/get-favorites.yml",
@@ -5713,7 +5713,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /favorites/{favoriteId} with the new id and the throwaway customer's access_token returns 200 with the same product_id and user_id."
    ],
    "ref": [],
-   "specLine": 49,
+   "specLine": 36,
    "area": "favorites",
    "areaLabel": "Favorites",
    "file": "test-scenarios/api/favorites/post-favorites.yml",
@@ -5736,7 +5736,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's user_id equals the new user's id."
    ],
    "ref": [],
-   "specLine": 101,
+   "specLine": 88,
    "area": "favorites",
    "areaLabel": "Favorites",
    "file": "test-scenarios/api/favorites/post-favorites.yml",
@@ -5759,7 +5759,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's message is \"Unauthorized\"."
    ],
    "ref": [],
-   "specLine": 150,
+   "specLine": 137,
    "area": "favorites",
    "areaLabel": "Favorites",
    "file": "test-scenarios/api/favorites/post-favorites.yml",
@@ -5782,7 +5782,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's message is \"Unauthorized\"."
    ],
    "ref": [],
-   "specLine": 169,
+   "specLine": 148,
    "area": "favorites",
    "areaLabel": "Favorites",
    "file": "test-scenarios/api/favorites/post-favorites.yml",
@@ -5805,7 +5805,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's product_id messages include \"The product id field is required.\"."
    ],
    "ref": [],
-   "specLine": 188,
+   "specLine": 159,
    "area": "favorites",
    "areaLabel": "Favorites",
    "file": "test-scenarios/api/favorites/post-favorites.yml",
@@ -5827,7 +5827,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's product_id messages include \"The selected product id is invalid.\"."
    ],
    "ref": [],
-   "specLine": 209,
+   "specLine": 180,
    "area": "favorites",
    "areaLabel": "Favorites",
    "file": "test-scenarios/api/favorites/post-favorites.yml",
@@ -5854,7 +5854,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /favorites with the throwaway customer's access_token includes exactly one favorite with that product id."
    ],
    "ref": [],
-   "specLine": 226,
+   "specLine": 197,
    "area": "favorites",
    "areaLabel": "Favorites",
    "file": "test-scenarios/api/favorites/post-favorites.yml",
@@ -5925,7 +5925,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's message is \"Unauthorized\"."
    ],
    "ref": [],
-   "specLine": 68,
+   "specLine": 60,
    "area": "favorites",
    "areaLabel": "Favorites",
    "file": "test-scenarios/api/favorites/get-favorites-by-favorite-id.yml",
@@ -5947,7 +5947,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's message is \"Requested item not found\"."
    ],
    "ref": [],
-   "specLine": 85,
+   "specLine": 69,
    "area": "favorites",
    "areaLabel": "Favorites",
    "file": "test-scenarios/api/favorites/get-favorites-by-favorite-id.yml",
@@ -5976,7 +5976,7 @@ window.SCENARIO_CATALOG = {
     "Verify the response status is 404 or 403."
    ],
    "ref": [],
-   "specLine": 102,
+   "specLine": 78,
    "area": "favorites",
    "areaLabel": "Favorites",
    "file": "test-scenarios/api/favorites/get-favorites-by-favorite-id.yml",
@@ -6002,7 +6002,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /favorites/{favoriteId} with that id and the throwaway customer's access_token returns 404."
    ],
    "ref": [],
-   "specLine": 18,
+   "specLine": 9,
    "area": "favorites",
    "areaLabel": "Favorites",
    "file": "test-scenarios/api/favorites/delete-favorites-by-favorite-id.yml",
@@ -6029,7 +6029,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /favorites/{favoriteId} with that id and the throwaway customer's access_token returns 200."
    ],
    "ref": [],
-   "specLine": 46,
+   "specLine": 37,
    "area": "favorites",
    "areaLabel": "Favorites",
    "file": "test-scenarios/api/favorites/delete-favorites-by-favorite-id.yml",
@@ -6056,7 +6056,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /favorites/{favoriteId} with that id and the throwaway customer's access_token returns 200."
    ],
    "ref": [],
-   "specLine": 78,
+   "specLine": 69,
    "area": "favorites",
    "areaLabel": "Favorites",
    "file": "test-scenarios/api/favorites/delete-favorites-by-favorite-id.yml",
@@ -6077,7 +6077,7 @@ window.SCENARIO_CATALOG = {
     "Verify the response status is 204."
    ],
    "ref": [],
-   "specLine": 110,
+   "specLine": 101,
    "area": "favorites",
    "areaLabel": "Favorites",
    "file": "test-scenarios/api/favorites/delete-favorites-by-favorite-id.yml",
@@ -6105,7 +6105,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /favorites/{favoriteId} with that id, with the throwaway customer's access_token, returns 200."
    ],
    "ref": [],
-   "specLine": 123,
+   "specLine": 114,
    "area": "favorites",
    "areaLabel": "Favorites",
    "file": "test-scenarios/api/favorites/delete-favorites-by-favorite-id.yml",
@@ -6132,7 +6132,7 @@ window.SCENARIO_CATALOG = {
     "Verify the response has an ETag header."
    ],
    "ref": [],
-   "specLine": 60,
+   "specLine": 57,
    "area": "images",
    "areaLabel": "Images",
    "file": "test-scenarios/api/images/get-images.yml",
@@ -6155,7 +6155,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body equals the plain list (same items, same order)."
    ],
    "ref": [],
-   "specLine": 105,
+   "specLine": 103,
    "area": "images",
    "areaLabel": "Images",
    "file": "test-scenarios/api/images/get-images.yml",
@@ -6179,7 +6179,7 @@ window.SCENARIO_CATALOG = {
     "Verify the first item element has the child elements id, by_name, by_url, source_name, source_url, file_name and title."
    ],
    "ref": [],
-   "specLine": 132,
+   "specLine": 130,
    "area": "images",
    "areaLabel": "Images",
    "file": "test-scenarios/api/images/get-images.yml",
@@ -6202,7 +6202,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body is a non-empty JSON array."
    ],
    "ref": [],
-   "specLine": 170,
+   "specLine": 168,
    "area": "images",
    "areaLabel": "Images",
    "file": "test-scenarios/api/images/get-images.yml",
@@ -6225,7 +6225,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body is a non-empty JSON array."
    ],
    "ref": [],
-   "specLine": 191,
+   "specLine": 189,
    "area": "images",
    "areaLabel": "Images",
    "file": "test-scenarios/api/images/get-images.yml",
@@ -6247,7 +6247,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's message is \"Resource not found\"."
    ],
    "ref": [],
-   "specLine": 214,
+   "specLine": 212,
    "area": "images",
    "areaLabel": "Images",
    "file": "test-scenarios/api/images/get-images.yml",
@@ -6274,7 +6274,7 @@ window.SCENARIO_CATALOG = {
     "Verify the Cache-Control response header is \"max-age=120, public\"."
    ],
    "ref": [],
-   "specLine": 234,
+   "specLine": 230,
    "area": "images",
    "areaLabel": "Images",
    "file": "test-scenarios/api/images/get-images.yml",
@@ -6307,7 +6307,7 @@ window.SCENARIO_CATALOG = {
     "Verify the item's invoicelines has exactly one line with the product's id as product_id and quantity 2, whose product has the keys id, name, price, co2_rating, in_stock, is_eco_friendly and product_image."
    ],
    "ref": [],
-   "specLine": 57,
+   "specLine": 37,
    "area": "invoices",
    "areaLabel": "Invoices",
    "file": "test-scenarios/api/invoices/get-invoices.yml",
@@ -6335,7 +6335,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's total is 0 and data is an empty array."
    ],
    "ref": [],
-   "specLine": 132,
+   "specLine": 112,
    "area": "invoices",
    "areaLabel": "Invoices",
    "file": "test-scenarios/api/invoices/get-invoices.yml",
@@ -6362,7 +6362,7 @@ window.SCENARIO_CATALOG = {
     "Verify data has an item whose id is the new invoice's id and whose user_id is the new user's id (the newest invoice is on page 1)."
    ],
    "ref": [],
-   "specLine": 165,
+   "specLine": 145,
    "area": "invoices",
    "areaLabel": "Invoices",
    "file": "test-scenarios/api/invoices/get-invoices.yml",
@@ -6390,7 +6390,7 @@ window.SCENARIO_CATALOG = {
     "Verify the items' invoice_date values are in descending order (the first item is not older than the second)."
    ],
    "ref": [],
-   "specLine": 204,
+   "specLine": 184,
    "area": "invoices",
    "areaLabel": "Invoices",
    "file": "test-scenarios/api/invoices/get-invoices.yml",
@@ -6416,7 +6416,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's data is an empty array."
    ],
    "ref": [],
-   "specLine": 254,
+   "specLine": 234,
    "area": "invoices",
    "areaLabel": "Invoices",
    "file": "test-scenarios/api/invoices/get-invoices.yml",
@@ -6438,7 +6438,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's message is \"Unauthorized\"."
    ],
    "ref": [],
-   "specLine": 285,
+   "specLine": 265,
    "area": "invoices",
    "areaLabel": "Invoices",
    "file": "test-scenarios/api/invoices/get-invoices.yml",
@@ -6460,7 +6460,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's message is \"Unauthorized\"."
    ],
    "ref": [],
-   "specLine": 302,
+   "specLine": 274,
    "area": "invoices",
    "areaLabel": "Invoices",
    "file": "test-scenarios/api/invoices/get-invoices.yml",
@@ -6486,7 +6486,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's message is \"Account disabled.\"."
    ],
    "ref": [],
-   "specLine": 322,
+   "specLine": 286,
    "area": "invoices",
    "areaLabel": "Invoices",
    "file": "test-scenarios/api/invoices/get-invoices.yml",
@@ -6514,7 +6514,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's id is a non-empty string, and its billing_street, billing_city, billing_state and billing_country equal the values sent.",
     "Verify GET /invoices/{invoiceId} with the new id and that token returns 200 with the same billing_street, billing_city, billing_state and billing_country."
    ],
-   "specLine": 147,
+   "specLine": 126,
    "area": "invoices",
    "areaLabel": "Invoices",
    "file": "test-scenarios/api/invoices/post-invoices.yml",
@@ -6543,7 +6543,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's id is a non-empty string, and its billing_city, billing_state, billing_country and billing_postal_code equal the values sent.",
     "Verify GET /invoices/{invoiceId} with the new id and that token returns 200 with the same billing_city, billing_state, billing_country and billing_postal_code."
    ],
-   "specLine": 192,
+   "specLine": 171,
    "area": "invoices",
    "areaLabel": "Invoices",
    "file": "test-scenarios/api/invoices/post-invoices.yml",
@@ -6567,7 +6567,7 @@ window.SCENARIO_CATALOG = {
     "Verify the response status is 422.",
     "Verify the body has the keys billing_street, billing_city and billing_country, each with at least one message."
    ],
-   "specLine": 256,
+   "specLine": 235,
    "area": "invoices",
    "areaLabel": "Invoices",
    "file": "test-scenarios/api/invoices/post-invoices.yml",
@@ -6591,7 +6591,7 @@ window.SCENARIO_CATALOG = {
     "Verify the response status is 422.",
     "Verify the body has a billing_street key with at least one message."
    ],
-   "specLine": 266,
+   "specLine": 245,
    "area": "invoices",
    "areaLabel": "Invoices",
    "file": "test-scenarios/api/invoices/post-invoices.yml",
@@ -6615,7 +6615,7 @@ window.SCENARIO_CATALOG = {
     "Verify the response status is 422.",
     "Verify the body has a billing_city key with at least one message."
    ],
-   "specLine": 276,
+   "specLine": 255,
    "area": "invoices",
    "areaLabel": "Invoices",
    "file": "test-scenarios/api/invoices/post-invoices.yml",
@@ -6639,7 +6639,7 @@ window.SCENARIO_CATALOG = {
     "Verify the response status is 422.",
     "Verify the body has a billing_state key with at least one message."
    ],
-   "specLine": 286,
+   "specLine": 265,
    "area": "invoices",
    "areaLabel": "Invoices",
    "file": "test-scenarios/api/invoices/post-invoices.yml",
@@ -6663,7 +6663,7 @@ window.SCENARIO_CATALOG = {
     "Verify the response status is 422.",
     "Verify the body has a billing_country key with at least one message."
    ],
-   "specLine": 296,
+   "specLine": 275,
    "area": "invoices",
    "areaLabel": "Invoices",
    "file": "test-scenarios/api/invoices/post-invoices.yml",
@@ -6687,7 +6687,7 @@ window.SCENARIO_CATALOG = {
     "Verify the response status is 422.",
     "Verify the body has a billing_postal_code key with at least one message."
    ],
-   "specLine": 306,
+   "specLine": 285,
    "area": "invoices",
    "areaLabel": "Invoices",
    "file": "test-scenarios/api/invoices/post-invoices.yml",
@@ -6717,7 +6717,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /invoices/{invoiceId} with the new id and that token returns 200 with exactly one line with the product's id as product_id and quantity 2, and payment.payment_method \"cash-on-delivery\"."
    ],
    "ref": [],
-   "specLine": 316,
+   "specLine": 295,
    "area": "invoices",
    "areaLabel": "Invoices",
    "file": "test-scenarios/api/invoices/post-invoices.yml",
@@ -6743,7 +6743,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /invoices/{invoiceId} with the new id and that token returns 200 with invoicelines as an empty array."
    ],
    "ref": [],
-   "specLine": 374,
+   "specLine": 353,
    "area": "invoices",
    "areaLabel": "Invoices",
    "file": "test-scenarios/api/invoices/post-invoices.yml",
@@ -6768,7 +6768,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /invoices/{invoiceId} with the new id and that token returns 200 with payment.payment_method \"bank-transfer\" and payment.payment_details holding the bank_name, account_name and account_number sent."
    ],
    "ref": [],
-   "specLine": 415,
+   "specLine": 394,
    "area": "invoices",
    "areaLabel": "Invoices",
    "file": "test-scenarios/api/invoices/post-invoices.yml",
@@ -6793,7 +6793,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /invoices/{invoiceId} with the new id and that token returns 200 with payment.payment_method \"credit-card\" and payment.payment_details holding the credit_card_number, expiration_date, cvv and card_holder_name sent."
    ],
    "ref": [],
-   "specLine": 432,
+   "specLine": 411,
    "area": "invoices",
    "areaLabel": "Invoices",
    "file": "test-scenarios/api/invoices/post-invoices.yml",
@@ -6818,7 +6818,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /invoices/{invoiceId} with the new id and that token returns 200 with payment.payment_method \"buy-now-pay-later\" and payment.payment_details holding the monthly_installments sent."
    ],
    "ref": [],
-   "specLine": 449,
+   "specLine": 428,
    "area": "invoices",
    "areaLabel": "Invoices",
    "file": "test-scenarios/api/invoices/post-invoices.yml",
@@ -6843,7 +6843,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /invoices/{invoiceId} with the new id and that token returns 200 with payment.payment_method \"gift-card\" and payment.payment_details holding the gift_card_number and validation_code sent."
    ],
    "ref": [],
-   "specLine": 466,
+   "specLine": 445,
    "area": "invoices",
    "areaLabel": "Invoices",
    "file": "test-scenarios/api/invoices/post-invoices.yml",
@@ -6865,7 +6865,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's message is \"Unauthorized\"."
    ],
    "ref": [],
-   "specLine": 483,
+   "specLine": 462,
    "area": "invoices",
    "areaLabel": "Invoices",
    "file": "test-scenarios/api/invoices/post-invoices.yml",
@@ -6887,7 +6887,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body has the keys payment_method, payment_details and cart_id, each with at least one message."
    ],
    "ref": [],
-   "specLine": 503,
+   "specLine": 471,
    "area": "invoices",
    "areaLabel": "Invoices",
    "file": "test-scenarios/api/invoices/post-invoices.yml",
@@ -6909,7 +6909,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body has a payment_method key with at least one message."
    ],
    "ref": [],
-   "specLine": 513,
+   "specLine": 481,
    "area": "invoices",
    "areaLabel": "Invoices",
    "file": "test-scenarios/api/invoices/post-invoices.yml",
@@ -6931,7 +6931,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body has a \"payment_details.gift_card_number\" key with at least one message."
    ],
    "ref": [],
-   "specLine": 523,
+   "specLine": 491,
    "area": "invoices",
    "areaLabel": "Invoices",
    "file": "test-scenarios/api/invoices/post-invoices.yml",
@@ -6953,7 +6953,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body has a \"payment_details.validation_code\" key with at least one message."
    ],
    "ref": [],
-   "specLine": 533,
+   "specLine": 501,
    "area": "invoices",
    "areaLabel": "Invoices",
    "file": "test-scenarios/api/invoices/post-invoices.yml",
@@ -6975,7 +6975,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body has a billing_street key with at least one message."
    ],
    "ref": [],
-   "specLine": 543,
+   "specLine": 511,
    "area": "invoices",
    "areaLabel": "Invoices",
    "file": "test-scenarios/api/invoices/post-invoices.yml",
@@ -6997,7 +6997,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body has a billing_country key with at least one message."
    ],
    "ref": [],
-   "specLine": 553,
+   "specLine": 521,
    "area": "invoices",
    "areaLabel": "Invoices",
    "file": "test-scenarios/api/invoices/post-invoices.yml",
@@ -7021,7 +7021,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's message is \"Requested item not found\"."
    ],
    "ref": [],
-   "specLine": 563,
+   "specLine": 531,
    "area": "invoices",
    "areaLabel": "Invoices",
    "file": "test-scenarios/api/invoices/post-invoices.yml",
@@ -7047,7 +7047,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's total is 0."
    ],
    "ref": [],
-   "specLine": 586,
+   "specLine": 543,
    "area": "invoices",
    "areaLabel": "Invoices",
    "file": "test-scenarios/api/invoices/post-invoices.yml",
@@ -7073,7 +7073,7 @@ window.SCENARIO_CATALOG = {
     "Verify the response status is 422."
    ],
    "ref": [],
-   "specLine": 610,
+   "specLine": 567,
    "area": "invoices",
    "areaLabel": "Invoices",
    "file": "test-scenarios/api/invoices/post-invoices.yml",
@@ -7099,7 +7099,7 @@ window.SCENARIO_CATALOG = {
     "Verify the response status is 422."
    ],
    "ref": [],
-   "specLine": 638,
+   "specLine": 595,
    "area": "invoices",
    "areaLabel": "Invoices",
    "file": "test-scenarios/api/invoices/post-invoices.yml",
@@ -7126,7 +7126,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's total is 0."
    ],
    "ref": [],
-   "specLine": 665,
+   "specLine": 622,
    "area": "invoices",
    "areaLabel": "Invoices",
    "file": "test-scenarios/api/invoices/post-invoices.yml",
@@ -7154,7 +7154,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /invoices/{invoiceId} with the new id and the admin's token returns 200 with user_id null, the billing_street, billing_city and billing_country sent, and exactly one line with the product's id as product_id."
    ],
    "ref": [],
-   "specLine": 95,
+   "specLine": 79,
    "area": "invoices",
    "areaLabel": "Invoices",
    "file": "test-scenarios/api/invoices/post-invoices-guest.yml",
@@ -7176,7 +7176,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's errors has the keys payment_method, payment_details, billing_street, billing_city, billing_country, cart_id, guest_email, guest_first_name and guest_last_name, each with at least one message."
    ],
    "ref": [],
-   "specLine": 141,
+   "specLine": 125,
    "area": "invoices",
    "areaLabel": "Invoices",
    "file": "test-scenarios/api/invoices/post-invoices-guest.yml",
@@ -7198,7 +7198,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's errors has a guest_email key with at least one message."
    ],
    "ref": [],
-   "specLine": 151,
+   "specLine": 135,
    "area": "invoices",
    "areaLabel": "Invoices",
    "file": "test-scenarios/api/invoices/post-invoices-guest.yml",
@@ -7220,7 +7220,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's errors has a payment_method key with at least one message."
    ],
    "ref": [],
-   "specLine": 161,
+   "specLine": 145,
    "area": "invoices",
    "areaLabel": "Invoices",
    "file": "test-scenarios/api/invoices/post-invoices-guest.yml",
@@ -7242,7 +7242,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's errors has a billing_country key with at least one message."
    ],
    "ref": [],
-   "specLine": 171,
+   "specLine": 155,
    "area": "invoices",
    "areaLabel": "Invoices",
    "file": "test-scenarios/api/invoices/post-invoices-guest.yml",
@@ -7264,7 +7264,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's message is \"Requested item not found\"."
    ],
    "ref": [],
-   "specLine": 181,
+   "specLine": 165,
    "area": "invoices",
    "areaLabel": "Invoices",
    "file": "test-scenarios/api/invoices/post-invoices-guest.yml",
@@ -7288,7 +7288,7 @@ window.SCENARIO_CATALOG = {
     "Verify the response status is 422."
    ],
    "ref": [],
-   "specLine": 201,
+   "specLine": 174,
    "area": "invoices",
    "areaLabel": "Invoices",
    "file": "test-scenarios/api/invoices/post-invoices-guest.yml",
@@ -7313,7 +7313,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's total is 0."
    ],
    "ref": [],
-   "specLine": 224,
+   "specLine": 197,
    "area": "invoices",
    "areaLabel": "Invoices",
    "file": "test-scenarios/api/invoices/post-invoices-guest.yml",
@@ -7337,7 +7337,7 @@ window.SCENARIO_CATALOG = {
     "Verify the response status is 422."
    ],
    "ref": [],
-   "specLine": 257,
+   "specLine": 230,
    "area": "invoices",
    "areaLabel": "Invoices",
    "file": "test-scenarios/api/invoices/post-invoices-guest.yml",
@@ -7363,7 +7363,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's total is 0."
    ],
    "ref": [],
-   "specLine": 239,
+   "specLine": 212,
    "area": "invoices",
    "areaLabel": "Invoices",
    "file": "test-scenarios/api/invoices/post-invoices-guest.yml",
@@ -7390,7 +7390,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's total is 1 and data has exactly one item, whose id is the new invoice's id and invoice_number is the invoice's number."
    ],
    "ref": [],
-   "specLine": 34,
+   "specLine": 17,
    "area": "invoices",
    "areaLabel": "Invoices",
    "file": "test-scenarios/api/invoices/get-invoices-search.yml",
@@ -7416,7 +7416,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's total is 1 and data has exactly one item, whose id is the new invoice's id and billing_street equals the value sent."
    ],
    "ref": [],
-   "specLine": 75,
+   "specLine": 58,
    "area": "invoices",
    "areaLabel": "Invoices",
    "file": "test-scenarios/api/invoices/get-invoices-search.yml",
@@ -7443,7 +7443,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's total is 1 and data has exactly one item, whose id is the invoice's id and status is \"ON_HOLD\"."
    ],
    "ref": [],
-   "specLine": 118,
+   "specLine": 101,
    "area": "invoices",
    "areaLabel": "Invoices",
    "file": "test-scenarios/api/invoices/get-invoices-search.yml",
@@ -7469,7 +7469,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's total is 1 and data has exactly one item, whose id is the new invoice's id."
    ],
    "ref": [],
-   "specLine": 154,
+   "specLine": 137,
    "area": "invoices",
    "areaLabel": "Invoices",
    "file": "test-scenarios/api/invoices/get-invoices-search.yml",
@@ -7492,7 +7492,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's data is an empty array."
    ],
    "ref": [],
-   "specLine": 182,
+   "specLine": 165,
    "area": "invoices",
    "areaLabel": "Invoices",
    "file": "test-scenarios/api/invoices/get-invoices-search.yml",
@@ -7520,7 +7520,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's total is 0 and data is an empty array."
    ],
    "ref": [],
-   "specLine": 208,
+   "specLine": 191,
    "area": "invoices",
    "areaLabel": "Invoices",
    "file": "test-scenarios/api/invoices/get-invoices-search.yml",
@@ -7545,7 +7545,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's total is 1 and data has exactly one item, whose id is the new invoice's id and whose user_id is null."
    ],
    "ref": [],
-   "specLine": 241,
+   "specLine": 224,
    "area": "invoices",
    "areaLabel": "Invoices",
    "file": "test-scenarios/api/invoices/get-invoices-search.yml",
@@ -7571,7 +7571,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's data is an empty array."
    ],
    "ref": [],
-   "specLine": 268,
+   "specLine": 251,
    "area": "invoices",
    "areaLabel": "Invoices",
    "file": "test-scenarios/api/invoices/get-invoices-search.yml",
@@ -7593,7 +7593,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's message is \"Unauthorized\"."
    ],
    "ref": [],
-   "specLine": 299,
+   "specLine": 282,
    "area": "invoices",
    "areaLabel": "Invoices",
    "file": "test-scenarios/api/invoices/get-invoices-search.yml",
@@ -7615,7 +7615,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's message is \"Unauthorized\"."
    ],
    "ref": [],
-   "specLine": 316,
+   "specLine": 291,
    "area": "invoices",
    "areaLabel": "Invoices",
    "file": "test-scenarios/api/invoices/get-invoices-search.yml",
@@ -7711,7 +7711,7 @@ window.SCENARIO_CATALOG = {
     "Verify the response status is 415."
    ],
    "ref": [],
-   "specLine": 96,
+   "specLine": 85,
    "area": "invoices",
    "areaLabel": "Invoices",
    "file": "test-scenarios/api/invoices/query-invoices-search.yml",
@@ -7746,7 +7746,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's total equals subtotal minus additional_discount_amount minus eco_discount_amount, within a cent."
    ],
    "ref": [],
-   "specLine": 48,
+   "specLine": 36,
    "area": "invoices",
    "areaLabel": "Invoices",
    "file": "test-scenarios/api/invoices/get-invoices-by-invoice-id.yml",
@@ -7773,7 +7773,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's id equals the invoice's id and its user_id equals the new user's id."
    ],
    "ref": [],
-   "specLine": 154,
+   "specLine": 142,
    "area": "invoices",
    "areaLabel": "Invoices",
    "file": "test-scenarios/api/invoices/get-invoices-by-invoice-id.yml",
@@ -7795,7 +7795,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's message is \"Unauthorized\"."
    ],
    "ref": [],
-   "specLine": 186,
+   "specLine": 174,
    "area": "invoices",
    "areaLabel": "Invoices",
    "file": "test-scenarios/api/invoices/get-invoices-by-invoice-id.yml",
@@ -7817,7 +7817,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's message is \"Requested item not found\"."
    ],
    "ref": [],
-   "specLine": 203,
+   "specLine": 183,
    "area": "invoices",
    "areaLabel": "Invoices",
    "file": "test-scenarios/api/invoices/get-invoices-by-invoice-id.yml",
@@ -7845,7 +7845,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's message is \"Requested item not found\"."
    ],
    "ref": [],
-   "specLine": 220,
+   "specLine": 192,
    "area": "invoices",
    "areaLabel": "Invoices",
    "file": "test-scenarios/api/invoices/get-invoices-by-invoice-id.yml",
@@ -7872,7 +7872,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /invoices/{invoiceId} with that id and token returns 200 with the new billing_street and billing_city \"Graz\"."
    ],
    "ref": [],
-   "specLine": 31,
+   "specLine": 20,
    "area": "invoices",
    "areaLabel": "Invoices",
    "file": "test-scenarios/api/invoices/put-invoices-by-invoice-id.yml",
@@ -7894,7 +7894,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's message is \"Unauthorized\"."
    ],
    "ref": [],
-   "specLine": 69,
+   "specLine": 58,
    "area": "invoices",
    "areaLabel": "Invoices",
    "file": "test-scenarios/api/invoices/put-invoices-by-invoice-id.yml",
@@ -7920,7 +7920,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body has the keys payment_method, payment_details, billing_street, billing_city, billing_country and cart_id, each with at least one message."
    ],
    "ref": [],
-   "specLine": 90,
+   "specLine": 79,
    "area": "invoices",
    "areaLabel": "Invoices",
    "file": "test-scenarios/api/invoices/put-invoices-by-invoice-id.yml",
@@ -7946,7 +7946,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body has a \"payment_details.gift_card_number\" key with at least one message."
    ],
    "ref": [],
-   "specLine": 123,
+   "specLine": 112,
    "area": "invoices",
    "areaLabel": "Invoices",
    "file": "test-scenarios/api/invoices/put-invoices-by-invoice-id.yml",
@@ -7967,7 +7967,7 @@ window.SCENARIO_CATALOG = {
     "Verify the response status is 422."
    ],
    "ref": [],
-   "specLine": 155,
+   "specLine": 144,
    "area": "invoices",
    "areaLabel": "Invoices",
    "file": "test-scenarios/api/invoices/put-invoices-by-invoice-id.yml",
@@ -7989,7 +7989,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's message is \"Requested item not found\"."
    ],
    "ref": [],
-   "specLine": 168,
+   "specLine": 157,
    "area": "invoices",
    "areaLabel": "Invoices",
    "file": "test-scenarios/api/invoices/put-invoices-by-invoice-id.yml",
@@ -8017,7 +8017,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's message is \"Requested item not found\"."
    ],
    "ref": [],
-   "specLine": 189,
+   "specLine": 178,
    "area": "invoices",
    "areaLabel": "Invoices",
    "file": "test-scenarios/api/invoices/put-invoices-by-invoice-id.yml",
@@ -8044,7 +8044,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's message is \"Requested item not found\"."
    ],
    "ref": [],
-   "specLine": 219,
+   "specLine": 208,
    "area": "invoices",
    "areaLabel": "Invoices",
    "file": "test-scenarios/api/invoices/put-invoices-by-invoice-id.yml",
@@ -8071,7 +8071,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /invoices/{invoiceId} with that id and token returns a total equal to the total from the create response."
    ],
    "ref": [],
-   "specLine": 248,
+   "specLine": 237,
    "area": "invoices",
    "areaLabel": "Invoices",
    "file": "test-scenarios/api/invoices/put-invoices-by-invoice-id.yml",
@@ -8098,7 +8098,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /invoices/{invoiceId} with that id and token returns 200 with the new billing_street."
    ],
    "ref": [],
-   "specLine": 55,
+   "specLine": 43,
    "area": "invoices",
    "areaLabel": "Invoices",
    "file": "test-scenarios/api/invoices/patch-invoices-by-invoice-id.yml",
@@ -8125,7 +8125,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /invoices/{invoiceId} with that id and token returns 200 with billing_street \"Stephansplatz 1\", billing_city \"Wien\" and billing_country \"AT\"."
    ],
    "ref": [],
-   "specLine": 92,
+   "specLine": 80,
    "area": "invoices",
    "areaLabel": "Invoices",
    "file": "test-scenarios/api/invoices/patch-invoices-by-invoice-id.yml",
@@ -8152,7 +8152,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /invoices/{invoiceId} with that id and token returns 200 with an invoice_date that contains \"2026-01-15\"."
    ],
    "ref": [],
-   "specLine": 132,
+   "specLine": 120,
    "area": "invoices",
    "areaLabel": "Invoices",
    "file": "test-scenarios/api/invoices/patch-invoices-by-invoice-id.yml",
@@ -8174,7 +8174,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's message is \"Unauthorized\"."
    ],
    "ref": [],
-   "specLine": 167,
+   "specLine": 155,
    "area": "invoices",
    "areaLabel": "Invoices",
    "file": "test-scenarios/api/invoices/patch-invoices-by-invoice-id.yml",
@@ -8200,7 +8200,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body has a billing_street key with at least one message."
    ],
    "ref": [],
-   "specLine": 187,
+   "specLine": 164,
    "area": "invoices",
    "areaLabel": "Invoices",
    "file": "test-scenarios/api/invoices/patch-invoices-by-invoice-id.yml",
@@ -8226,7 +8226,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body has a billing_street key with at least one message."
    ],
    "ref": [],
-   "specLine": 207,
+   "specLine": 184,
    "area": "invoices",
    "areaLabel": "Invoices",
    "file": "test-scenarios/api/invoices/patch-invoices-by-invoice-id.yml",
@@ -8252,7 +8252,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body has an invoice_date key with at least one message."
    ],
    "ref": [],
-   "specLine": 227,
+   "specLine": 204,
    "area": "invoices",
    "areaLabel": "Invoices",
    "file": "test-scenarios/api/invoices/patch-invoices-by-invoice-id.yml",
@@ -8278,7 +8278,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body has a billing_street key with at least one message."
    ],
    "ref": [],
-   "specLine": 247,
+   "specLine": 224,
    "area": "invoices",
    "areaLabel": "Invoices",
    "file": "test-scenarios/api/invoices/patch-invoices-by-invoice-id.yml",
@@ -8299,7 +8299,7 @@ window.SCENARIO_CATALOG = {
     "Verify the response status is 422."
    ],
    "ref": [],
-   "specLine": 267,
+   "specLine": 244,
    "area": "invoices",
    "areaLabel": "Invoices",
    "file": "test-scenarios/api/invoices/patch-invoices-by-invoice-id.yml",
@@ -8321,7 +8321,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's message is \"Requested item not found\"."
    ],
    "ref": [],
-   "specLine": 288,
+   "specLine": 265,
    "area": "invoices",
    "areaLabel": "Invoices",
    "file": "test-scenarios/api/invoices/patch-invoices-by-invoice-id.yml",
@@ -8349,7 +8349,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's message is \"Requested item not found\"."
    ],
    "ref": [],
-   "specLine": 313,
+   "specLine": 290,
    "area": "invoices",
    "areaLabel": "Invoices",
    "file": "test-scenarios/api/invoices/patch-invoices-by-invoice-id.yml",
@@ -8376,7 +8376,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /invoices/{invoiceId} with that id and token returns 200 with status \"ON_HOLD\" and status_message \"Waiting for the bank\"."
    ],
    "ref": [],
-   "specLine": 54,
+   "specLine": 42,
    "area": "invoices",
    "areaLabel": "Invoices",
    "file": "test-scenarios/api/invoices/put-invoices-by-invoice-id-status.yml",
@@ -8404,7 +8404,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /invoices/{invoiceId} with that id and token returns 200 with status_message null."
    ],
    "ref": [],
-   "specLine": 100,
+   "specLine": 88,
    "area": "invoices",
    "areaLabel": "Invoices",
    "file": "test-scenarios/api/invoices/put-invoices-by-invoice-id-status.yml",
@@ -8426,7 +8426,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's message is \"Unauthorized\"."
    ],
    "ref": [],
-   "specLine": 140,
+   "specLine": 128,
    "area": "invoices",
    "areaLabel": "Invoices",
    "file": "test-scenarios/api/invoices/put-invoices-by-invoice-id-status.yml",
@@ -8452,7 +8452,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's errors has a status key with at least one message."
    ],
    "ref": [],
-   "specLine": 160,
+   "specLine": 137,
    "area": "invoices",
    "areaLabel": "Invoices",
    "file": "test-scenarios/api/invoices/put-invoices-by-invoice-id-status.yml",
@@ -8478,7 +8478,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's errors has a status_message key with at least one message."
    ],
    "ref": [],
-   "specLine": 179,
+   "specLine": 156,
    "area": "invoices",
    "areaLabel": "Invoices",
    "file": "test-scenarios/api/invoices/put-invoices-by-invoice-id-status.yml",
@@ -8504,7 +8504,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's errors has a status_message key with at least one message."
    ],
    "ref": [],
-   "specLine": 198,
+   "specLine": 175,
    "area": "invoices",
    "areaLabel": "Invoices",
    "file": "test-scenarios/api/invoices/put-invoices-by-invoice-id-status.yml",
@@ -8530,7 +8530,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's errors has a status_message key with at least one message."
    ],
    "ref": [],
-   "specLine": 217,
+   "specLine": 194,
    "area": "invoices",
    "areaLabel": "Invoices",
    "file": "test-scenarios/api/invoices/put-invoices-by-invoice-id-status.yml",
@@ -8552,7 +8552,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's message is \"Invoice not found\"."
    ],
    "ref": [],
-   "specLine": 236,
+   "specLine": 213,
    "area": "invoices",
    "areaLabel": "Invoices",
    "file": "test-scenarios/api/invoices/put-invoices-by-invoice-id-status.yml",
@@ -8581,7 +8581,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /invoices/{invoiceId} with that id and customer A's access_token returns a status other than \"COMPLETED\"."
    ],
    "ref": [],
-   "specLine": 256,
+   "specLine": 222,
    "area": "invoices",
    "areaLabel": "Invoices",
    "file": "test-scenarios/api/invoices/put-invoices-by-invoice-id-status.yml",
@@ -8608,7 +8608,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /invoices/{invoiceId} with that id and token returns a total equal to the total from the create response."
    ],
    "ref": [],
-   "specLine": 279,
+   "specLine": 245,
    "area": "invoices",
    "areaLabel": "Invoices",
    "file": "test-scenarios/api/invoices/put-invoices-by-invoice-id-status.yml",
@@ -8635,7 +8635,7 @@ window.SCENARIO_CATALOG = {
     "Verify the response status is 200 or 422."
    ],
    "ref": [],
-   "specLine": 313,
+   "specLine": 279,
    "area": "invoices",
    "areaLabel": "Invoices",
    "file": "test-scenarios/api/invoices/put-invoices-by-invoice-id-status.yml",
@@ -8663,7 +8663,7 @@ window.SCENARIO_CATALOG = {
     "Verify the response body is not empty."
    ],
    "ref": [],
-   "specLine": 19,
+   "specLine": 9,
    "area": "invoices",
    "areaLabel": "Invoices",
    "file": "test-scenarios/api/invoices/get-invoices-by-invoice-number-download-pdf.yml",
@@ -8685,7 +8685,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's message is \"Unauthorized\"."
    ],
    "ref": [],
-   "specLine": 63,
+   "specLine": 53,
    "area": "invoices",
    "areaLabel": "Invoices",
    "file": "test-scenarios/api/invoices/get-invoices-by-invoice-number-download-pdf.yml",
@@ -8707,7 +8707,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's message is \"Document not created. Try again later.\"."
    ],
    "ref": [],
-   "specLine": 80,
+   "specLine": 62,
    "area": "invoices",
    "areaLabel": "Invoices",
    "file": "test-scenarios/api/invoices/get-invoices-by-invoice-number-download-pdf.yml",
@@ -8777,7 +8777,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's status is \"NOT_INITIATED\"."
    ],
    "ref": [],
-   "specLine": 64,
+   "specLine": 56,
    "area": "invoices",
    "areaLabel": "Invoices",
    "file": "test-scenarios/api/invoices/get-invoices-by-invoice-number-download-pdf-status.yml",
@@ -8805,7 +8805,7 @@ window.SCENARIO_CATALOG = {
     "Verify that item's subject and message equal the values sent and it has no user key."
    ],
    "ref": [],
-   "specLine": 38,
+   "specLine": 25,
    "area": "messages",
    "areaLabel": "Messages",
    "file": "test-scenarios/api/messages/get-messages.yml",
@@ -8833,7 +8833,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's data includes an item with the guest message's id, with user_id null and user null."
    ],
    "ref": [],
-   "specLine": 97,
+   "specLine": 84,
    "area": "messages",
    "areaLabel": "Messages",
    "file": "test-scenarios/api/messages/get-messages.yml",
@@ -8858,7 +8858,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's data is an empty array."
    ],
    "ref": [],
-   "specLine": 150,
+   "specLine": 137,
    "area": "messages",
    "areaLabel": "Messages",
    "file": "test-scenarios/api/messages/get-messages.yml",
@@ -8880,7 +8880,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's message is \"Unauthorized\"."
    ],
    "ref": [],
-   "specLine": 178,
+   "specLine": 165,
    "area": "messages",
    "areaLabel": "Messages",
    "file": "test-scenarios/api/messages/get-messages.yml",
@@ -8902,7 +8902,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's message is \"Unauthorized\"."
    ],
    "ref": [],
-   "specLine": 195,
+   "specLine": 182,
    "area": "messages",
    "areaLabel": "Messages",
    "file": "test-scenarios/api/messages/get-messages.yml",
@@ -8928,7 +8928,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's message is \"Account disabled.\"."
    ],
    "ref": [],
-   "specLine": 215,
+   "specLine": 202,
    "area": "messages",
    "areaLabel": "Messages",
    "file": "test-scenarios/api/messages/get-messages.yml",
@@ -8952,7 +8952,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's data is an empty array."
    ],
    "ref": [],
-   "specLine": 245,
+   "specLine": 232,
    "area": "messages",
    "areaLabel": "Messages",
    "file": "test-scenarios/api/messages/get-messages.yml",
@@ -8977,7 +8977,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /messages/{messageId} with that id and the admin's token returns 200 with the same subject and message, status \"NEW\" and user_id null."
    ],
    "ref": [],
-   "specLine": 61,
+   "specLine": 46,
    "area": "messages",
    "areaLabel": "Messages",
    "file": "test-scenarios/api/messages/post-messages.yml",
@@ -9001,7 +9001,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /messages/{messageId} with that id and the default user's token returns 200 with the same subject, message and user_id."
    ],
    "ref": [],
-   "specLine": 100,
+   "specLine": 85,
    "area": "messages",
    "areaLabel": "Messages",
    "file": "test-scenarios/api/messages/post-messages.yml",
@@ -9025,7 +9025,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /messages/{messageId} with that id and the admin's token returns 200 with the same subject and message, name null and email null."
    ],
    "ref": [],
-   "specLine": 140,
+   "specLine": 125,
    "area": "messages",
    "areaLabel": "Messages",
    "file": "test-scenarios/api/messages/post-messages.yml",
@@ -9048,7 +9048,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /messages/{messageId} with that id and the admin's token returns 200 with the same subject and message."
    ],
    "ref": [],
-   "specLine": 169,
+   "specLine": 154,
    "area": "messages",
    "areaLabel": "Messages",
    "file": "test-scenarios/api/messages/post-messages.yml",
@@ -9072,7 +9072,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /messages/{messageId} with that id and the admin's token returns 200 with status \"NEW\"."
    ],
    "ref": [],
-   "specLine": 188,
+   "specLine": 173,
    "area": "messages",
    "areaLabel": "Messages",
    "file": "test-scenarios/api/messages/post-messages.yml",
@@ -9096,7 +9096,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /messages/{messageId} with that id and the admin's token returns 200 with user_id null."
    ],
    "ref": [],
-   "specLine": 213,
+   "specLine": 198,
    "area": "messages",
    "areaLabel": "Messages",
    "file": "test-scenarios/api/messages/post-messages.yml",
@@ -9118,7 +9118,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body has the keys subject and message, each with at least one message."
    ],
    "ref": [],
-   "specLine": 242,
+   "specLine": 227,
    "area": "messages",
    "areaLabel": "Messages",
    "file": "test-scenarios/api/messages/post-messages.yml",
@@ -9140,7 +9140,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body has a subject key with at least one message."
    ],
    "ref": [],
-   "specLine": 260,
+   "specLine": 245,
    "area": "messages",
    "areaLabel": "Messages",
    "file": "test-scenarios/api/messages/post-messages.yml",
@@ -9162,7 +9162,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body has a message key with at least one message."
    ],
    "ref": [],
-   "specLine": 277,
+   "specLine": 253,
    "area": "messages",
    "areaLabel": "Messages",
    "file": "test-scenarios/api/messages/post-messages.yml",
@@ -9184,7 +9184,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body has an email key with at least one message."
    ],
    "ref": [],
-   "specLine": 294,
+   "specLine": 261,
    "area": "messages",
    "areaLabel": "Messages",
    "file": "test-scenarios/api/messages/post-messages.yml",
@@ -9206,7 +9206,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body has a subject key with at least one message."
    ],
    "ref": [],
-   "specLine": 311,
+   "specLine": 269,
    "area": "messages",
    "areaLabel": "Messages",
    "file": "test-scenarios/api/messages/post-messages.yml",
@@ -9231,7 +9231,7 @@ window.SCENARIO_CATALOG = {
     "Send POST /messages without an Authorization header, with a 61-character name, a unique subject and a message text.",
     "Verify the response status is 200 or 422."
    ],
-   "specLine": 328,
+   "specLine": 277,
    "area": "messages",
    "areaLabel": "Messages",
    "file": "test-scenarios/api/messages/post-messages.yml",
@@ -9256,7 +9256,7 @@ window.SCENARIO_CATALOG = {
     "Send POST /messages without an Authorization header, with a unique subject, a message text and a parent_id key set to a non-empty string.",
     "Verify the response status is 200 or 422."
    ],
-   "specLine": 342,
+   "specLine": 291,
    "area": "messages",
    "areaLabel": "Messages",
    "file": "test-scenarios/api/messages/post-messages.yml",
@@ -9284,7 +9284,7 @@ window.SCENARIO_CATALOG = {
     "Send GET /messages with the throwaway customer's access_token.",
     "Verify the body's data has no item with the new message's id."
    ],
-   "specLine": 356,
+   "specLine": 305,
    "area": "messages",
    "areaLabel": "Messages",
    "file": "test-scenarios/api/messages/post-messages.yml",
@@ -9310,7 +9310,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's user has the default user's id as id and has no role, enabled and failed_login_attempts keys."
    ],
    "ref": [],
-   "specLine": 51,
+   "specLine": 38,
    "area": "messages",
    "areaLabel": "Messages",
    "file": "test-scenarios/api/messages/get-messages-by-message-id.yml",
@@ -9337,7 +9337,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's user has the keys role, enabled and failed_login_attempts."
    ],
    "ref": [],
-   "specLine": 107,
+   "specLine": 94,
    "area": "messages",
    "areaLabel": "Messages",
    "file": "test-scenarios/api/messages/get-messages-by-message-id.yml",
@@ -9362,7 +9362,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's replies is an empty array."
    ],
    "ref": [],
-   "specLine": 146,
+   "specLine": 133,
    "area": "messages",
    "areaLabel": "Messages",
    "file": "test-scenarios/api/messages/get-messages-by-message-id.yml",
@@ -9389,7 +9389,7 @@ window.SCENARIO_CATALOG = {
     "Verify that reply's user has the admin's id as id."
    ],
    "ref": [],
-   "specLine": 174,
+   "specLine": 161,
    "area": "messages",
    "areaLabel": "Messages",
    "file": "test-scenarios/api/messages/get-messages-by-message-id.yml",
@@ -9411,7 +9411,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's message is \"Unauthorized\"."
    ],
    "ref": [],
-   "specLine": 220,
+   "specLine": 207,
    "area": "messages",
    "areaLabel": "Messages",
    "file": "test-scenarios/api/messages/get-messages-by-message-id.yml",
@@ -9433,7 +9433,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's message is \"Unauthorized\"."
    ],
    "ref": [],
-   "specLine": 237,
+   "specLine": 216,
    "area": "messages",
    "areaLabel": "Messages",
    "file": "test-scenarios/api/messages/get-messages-by-message-id.yml",
@@ -9461,7 +9461,7 @@ window.SCENARIO_CATALOG = {
     "Send GET /messages/{messageId} with that id and the default user's token.",
     "Verify the response status is 404."
    ],
-   "specLine": 254,
+   "specLine": 225,
    "area": "messages",
    "areaLabel": "Messages",
    "file": "test-scenarios/api/messages/get-messages-by-message-id.yml",
@@ -9487,7 +9487,7 @@ window.SCENARIO_CATALOG = {
     "Send GET /messages/{messageId} with a well-formed message id that doesn't exist and the admin's token.",
     "Verify the response status is 404."
    ],
-   "specLine": 282,
+   "specLine": 253,
    "area": "messages",
    "areaLabel": "Messages",
    "file": "test-scenarios/api/messages/get-messages-by-message-id.yml",
@@ -9510,7 +9510,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's success is true."
    ],
    "ref": [],
-   "specLine": 36,
+   "specLine": 55,
    "area": "messages",
    "areaLabel": "Messages",
    "file": "test-scenarios/api/messages/post-messages-by-message-id-attach-file.yml",
@@ -9532,7 +9532,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's errors is a list with the single item \"No file attached.\"."
    ],
    "ref": [],
-   "specLine": 55,
+   "specLine": 74,
    "area": "messages",
    "areaLabel": "Messages",
    "file": "test-scenarios/api/messages/post-messages-by-message-id-attach-file.yml",
@@ -9554,7 +9554,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's errors is a list with the single item \"Currently we only allow empty files.\"."
    ],
    "ref": [],
-   "specLine": 72,
+   "specLine": 83,
    "area": "messages",
    "areaLabel": "Messages",
    "file": "test-scenarios/api/messages/post-messages-by-message-id-attach-file.yml",
@@ -9576,7 +9576,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's errors is a list with the single item \"The file extension is incorrect, we only accept txt files.\"."
    ],
    "ref": [],
-   "specLine": 89,
+   "specLine": 92,
    "area": "messages",
    "areaLabel": "Messages",
    "file": "test-scenarios/api/messages/post-messages-by-message-id-attach-file.yml",
@@ -9598,7 +9598,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's errors is a list with the single item \"Currently we only allow empty files.\"."
    ],
    "ref": [],
-   "specLine": 106,
+   "specLine": 101,
    "area": "messages",
    "areaLabel": "Messages",
    "file": "test-scenarios/api/messages/post-messages-by-message-id-attach-file.yml",
@@ -9620,7 +9620,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's errors is a list with the single item \"The file extension is incorrect, we only accept txt files.\"."
    ],
    "ref": [],
-   "specLine": 123,
+   "specLine": 110,
    "area": "messages",
    "areaLabel": "Messages",
    "file": "test-scenarios/api/messages/post-messages-by-message-id-attach-file.yml",
@@ -9645,7 +9645,7 @@ window.SCENARIO_CATALOG = {
     "Send POST /messages/{messageId}/attach-file with a well-formed message id that doesn't exist, as multipart/form-data with a file field holding an empty file named \"note.txt\".",
     "Verify the response status is 404."
    ],
-   "specLine": 140,
+   "specLine": 119,
    "area": "messages",
    "areaLabel": "Messages",
    "file": "test-scenarios/api/messages/post-messages-by-message-id-attach-file.yml",
@@ -9672,7 +9672,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /messages/{messageId} with that id and the admin's token returns 200 with status \"IN_PROGRESS\" and a replies list with exactly one item, with the reply's id as id, the text sent as message and the admin's id as its user's id."
    ],
    "ref": [],
-   "specLine": 30,
+   "specLine": 27,
    "area": "messages",
    "areaLabel": "Messages",
    "file": "test-scenarios/api/messages/post-messages-by-message-id-reply.yml",
@@ -9697,7 +9697,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /messages/{messageId} with that id and the admin's token returns 200 with status \"IN_PROGRESS\"."
    ],
    "ref": [],
-   "specLine": 82,
+   "specLine": 79,
    "area": "messages",
    "areaLabel": "Messages",
    "file": "test-scenarios/api/messages/post-messages-by-message-id-reply.yml",
@@ -9719,7 +9719,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's message is \"Unauthorized\"."
    ],
    "ref": [],
-   "specLine": 114,
+   "specLine": 111,
    "area": "messages",
    "areaLabel": "Messages",
    "file": "test-scenarios/api/messages/post-messages-by-message-id-reply.yml",
@@ -9741,7 +9741,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's message is \"Unauthorized\"."
    ],
    "ref": [],
-   "specLine": 131,
+   "specLine": 120,
    "area": "messages",
    "areaLabel": "Messages",
    "file": "test-scenarios/api/messages/post-messages-by-message-id-reply.yml",
@@ -9766,7 +9766,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /messages/{messageId} with that id and the admin's token returns 200 with status \"NEW\" and an empty replies list."
    ],
    "ref": [],
-   "specLine": 151,
+   "specLine": 132,
    "area": "messages",
    "areaLabel": "Messages",
    "file": "test-scenarios/api/messages/post-messages-by-message-id-reply.yml",
@@ -9790,7 +9790,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body has a message key with at least one message."
    ],
    "ref": [],
-   "specLine": 176,
+   "specLine": 157,
    "area": "messages",
    "areaLabel": "Messages",
    "file": "test-scenarios/api/messages/post-messages-by-message-id-reply.yml",
@@ -9814,7 +9814,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body has a message key with at least one message."
    ],
    "ref": [],
-   "specLine": 200,
+   "specLine": 181,
    "area": "messages",
    "areaLabel": "Messages",
    "file": "test-scenarios/api/messages/post-messages-by-message-id-reply.yml",
@@ -9837,7 +9837,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body has a message key with at least one message."
    ],
    "ref": [],
-   "specLine": 224,
+   "specLine": 205,
    "area": "messages",
    "areaLabel": "Messages",
    "file": "test-scenarios/api/messages/post-messages-by-message-id-reply.yml",
@@ -9863,7 +9863,7 @@ window.SCENARIO_CATALOG = {
     "Send POST /messages/{messageId}/reply with a well-formed message id that doesn't exist, the admin's token and a body with a message text.",
     "Verify the response status is 404."
    ],
-   "specLine": 241,
+   "specLine": 222,
    "area": "messages",
    "areaLabel": "Messages",
    "file": "test-scenarios/api/messages/post-messages-by-message-id-reply.yml",
@@ -9888,7 +9888,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /messages/{messageId} with that id and the admin's token returns 200 with status \"RESOLVED\"."
    ],
    "ref": [],
-   "specLine": 32,
+   "specLine": 28,
    "area": "messages",
    "areaLabel": "Messages",
    "file": "test-scenarios/api/messages/put-messages-by-message-id-status.yml",
@@ -9913,7 +9913,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /messages/{messageId} with that id and the admin's token returns 200 with status \"IN_PROGRESS\"."
    ],
    "ref": [],
-   "specLine": 56,
+   "specLine": 52,
    "area": "messages",
    "areaLabel": "Messages",
    "file": "test-scenarios/api/messages/put-messages-by-message-id-status.yml",
@@ -9939,7 +9939,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /messages/{messageId} with that id and the admin's token returns 200 with status \"NEW\"."
    ],
    "ref": [],
-   "specLine": 80,
+   "specLine": 76,
    "area": "messages",
    "areaLabel": "Messages",
    "file": "test-scenarios/api/messages/put-messages-by-message-id-status.yml",
@@ -9963,7 +9963,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /messages/{messageId} with that id and the admin's token returns 200 with status \"NEW\"."
    ],
    "ref": [],
-   "specLine": 110,
+   "specLine": 106,
    "area": "messages",
    "areaLabel": "Messages",
    "file": "test-scenarios/api/messages/put-messages-by-message-id-status.yml",
@@ -9985,7 +9985,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's message is \"Unauthorized\"."
    ],
    "ref": [],
-   "specLine": 131,
+   "specLine": 127,
    "area": "messages",
    "areaLabel": "Messages",
    "file": "test-scenarios/api/messages/put-messages-by-message-id-status.yml",
@@ -10007,7 +10007,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's message is \"Unauthorized\"."
    ],
    "ref": [],
-   "specLine": 148,
+   "specLine": 136,
    "area": "messages",
    "areaLabel": "Messages",
    "file": "test-scenarios/api/messages/put-messages-by-message-id-status.yml",
@@ -10030,7 +10030,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's message is \"Requested item not found\"."
    ],
    "ref": [],
-   "specLine": 168,
+   "specLine": 148,
    "area": "messages",
    "areaLabel": "Messages",
    "file": "test-scenarios/api/messages/put-messages-by-message-id-status.yml",
@@ -10055,7 +10055,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /messages/{messageId} with that id and the admin's token returns 200 with status \"NEW\"."
    ],
    "ref": [],
-   "specLine": 185,
+   "specLine": 157,
    "area": "messages",
    "areaLabel": "Messages",
    "file": "test-scenarios/api/messages/put-messages-by-message-id-status.yml",
@@ -10080,7 +10080,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /messages/{messageId} with that id and the admin's token returns 200 with status \"NEW\"."
    ],
    "ref": [],
-   "specLine": 209,
+   "specLine": 181,
    "area": "messages",
    "areaLabel": "Messages",
    "file": "test-scenarios/api/messages/put-messages-by-message-id-status.yml",
@@ -10104,7 +10104,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's errors has a status key with at least one message."
    ],
    "ref": [],
-   "specLine": 233,
+   "specLine": 205,
    "area": "messages",
    "areaLabel": "Messages",
    "file": "test-scenarios/api/messages/put-messages-by-message-id-status.yml",
@@ -10127,7 +10127,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's errors has a status key with at least one message."
    ],
    "ref": [],
-   "specLine": 252,
+   "specLine": 224,
    "area": "messages",
    "areaLabel": "Messages",
    "file": "test-scenarios/api/messages/put-messages-by-message-id-status.yml",
@@ -10150,7 +10150,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's message is \"Payment was successful\"."
    ],
    "ref": [],
-   "specLine": 179,
+   "specLine": 158,
    "area": "payment",
    "areaLabel": "Payment",
    "file": "test-scenarios/api/payment/post-payment-check.yml",
@@ -10176,7 +10176,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's message is \"Payment was successful\"."
    ],
    "ref": [],
-   "specLine": 187,
+   "specLine": 166,
    "area": "payment",
    "areaLabel": "Payment",
    "file": "test-scenarios/api/payment/post-payment-check.yml",
@@ -10196,7 +10196,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's message is \"Payment was successful\"."
    ],
    "ref": [],
-   "specLine": 195,
+   "specLine": 174,
    "area": "payment",
    "areaLabel": "Payment",
    "file": "test-scenarios/api/payment/post-payment-check.yml",
@@ -10219,7 +10219,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's message is \"Payment was successful\"."
    ],
    "ref": [],
-   "specLine": 203,
+   "specLine": 182,
    "area": "payment",
    "areaLabel": "Payment",
    "file": "test-scenarios/api/payment/post-payment-check.yml",
@@ -10242,7 +10242,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's message is \"Payment was successful\"."
    ],
    "ref": [],
-   "specLine": 211,
+   "specLine": 190,
    "area": "payment",
    "areaLabel": "Payment",
    "file": "test-scenarios/api/payment/post-payment-check.yml",
@@ -10266,7 +10266,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body is <response><message>Payment was successful</message></response>."
    ],
    "ref": [],
-   "specLine": 219,
+   "specLine": 198,
    "area": "payment",
    "areaLabel": "Payment",
    "file": "test-scenarios/api/payment/post-payment-check.yml",
@@ -10289,7 +10289,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's message is \"Payment was successful\"."
    ],
    "ref": [],
-   "specLine": 250,
+   "specLine": 229,
    "area": "payment",
    "areaLabel": "Payment",
    "file": "test-scenarios/api/payment/post-payment-check.yml",
@@ -10313,7 +10313,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's message is \"The payment details.bank name field is required. (and 2 more errors)\"."
    ],
    "ref": [],
-   "specLine": 259,
+   "specLine": 238,
    "area": "payment",
    "areaLabel": "Payment",
    "file": "test-scenarios/api/payment/post-payment-check.yml",
@@ -10336,7 +10336,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's errors has the keys payment_details.credit_card_number, payment_details.expiration_date, payment_details.cvv and payment_details.card_holder_name, each with at least one message."
    ],
    "ref": [],
-   "specLine": 285,
+   "specLine": 264,
    "area": "payment",
    "areaLabel": "Payment",
    "file": "test-scenarios/api/payment/post-payment-check.yml",
@@ -10359,7 +10359,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's errors has the key payment_details.monthly_installments with at least one message."
    ],
    "ref": [],
-   "specLine": 295,
+   "specLine": 274,
    "area": "payment",
    "areaLabel": "Payment",
    "file": "test-scenarios/api/payment/post-payment-check.yml",
@@ -10382,7 +10382,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's errors has the keys payment_details.gift_card_number and payment_details.validation_code, each with at least one message."
    ],
    "ref": [],
-   "specLine": 305,
+   "specLine": 284,
    "area": "payment",
    "areaLabel": "Payment",
    "file": "test-scenarios/api/payment/post-payment-check.yml",
@@ -10405,7 +10405,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's errors has the keys payment_details.bank_name, payment_details.account_name and payment_details.account_number, each with at least one message."
    ],
    "ref": [],
-   "specLine": 315,
+   "specLine": 294,
    "area": "payment",
    "areaLabel": "Payment",
    "file": "test-scenarios/api/payment/post-payment-check.yml",
@@ -10429,7 +10429,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's errors has no other keys."
    ],
    "ref": [],
-   "specLine": 325,
+   "specLine": 304,
    "area": "payment",
    "areaLabel": "Payment",
    "file": "test-scenarios/api/payment/post-payment-check.yml",
@@ -10453,7 +10453,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's errors has no other keys."
    ],
    "ref": [],
-   "specLine": 335,
+   "specLine": 314,
    "area": "payment",
    "areaLabel": "Payment",
    "file": "test-scenarios/api/payment/post-payment-check.yml",
@@ -10477,7 +10477,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's errors has no other keys."
    ],
    "ref": [],
-   "specLine": 345,
+   "specLine": 324,
    "area": "payment",
    "areaLabel": "Payment",
    "file": "test-scenarios/api/payment/post-payment-check.yml",
@@ -10501,7 +10501,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's errors has no other keys."
    ],
    "ref": [],
-   "specLine": 355,
+   "specLine": 334,
    "area": "payment",
    "areaLabel": "Payment",
    "file": "test-scenarios/api/payment/post-payment-check.yml",
@@ -10525,7 +10525,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's errors has no other keys."
    ],
    "ref": [],
-   "specLine": 365,
+   "specLine": 344,
    "area": "payment",
    "areaLabel": "Payment",
    "file": "test-scenarios/api/payment/post-payment-check.yml",
@@ -10550,7 +10550,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's errors has no other keys."
    ],
    "ref": [],
-   "specLine": 375,
+   "specLine": 354,
    "area": "payment",
    "areaLabel": "Payment",
    "file": "test-scenarios/api/payment/post-payment-check.yml",
@@ -10574,7 +10574,7 @@ window.SCENARIO_CATALOG = {
     "Verify that message contains \"must be a date after today\"."
    ],
    "ref": [],
-   "specLine": 385,
+   "specLine": 364,
    "area": "payment",
    "areaLabel": "Payment",
    "file": "test-scenarios/api/payment/post-payment-check.yml",
@@ -10599,7 +10599,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's errors has no other keys."
    ],
    "ref": [],
-   "specLine": 395,
+   "specLine": 374,
    "area": "payment",
    "areaLabel": "Payment",
    "file": "test-scenarios/api/payment/post-payment-check.yml",
@@ -10623,7 +10623,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's errors has no other keys."
    ],
    "ref": [],
-   "specLine": 405,
+   "specLine": 384,
    "area": "payment",
    "areaLabel": "Payment",
    "file": "test-scenarios/api/payment/post-payment-check.yml",
@@ -10647,7 +10647,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's errors has no other keys."
    ],
    "ref": [],
-   "specLine": 415,
+   "specLine": 394,
    "area": "payment",
    "areaLabel": "Payment",
    "file": "test-scenarios/api/payment/post-payment-check.yml",
@@ -10671,7 +10671,7 @@ window.SCENARIO_CATALOG = {
     "Verify that message contains \"must be a number\"."
    ],
    "ref": [],
-   "specLine": 425,
+   "specLine": 404,
    "area": "payment",
    "areaLabel": "Payment",
    "file": "test-scenarios/api/payment/post-payment-check.yml",
@@ -10695,7 +10695,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's errors has no other keys."
    ],
    "ref": [],
-   "specLine": 435,
+   "specLine": 414,
    "area": "payment",
    "areaLabel": "Payment",
    "file": "test-scenarios/api/payment/post-payment-check.yml",
@@ -10719,7 +10719,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's errors has no other keys."
    ],
    "ref": [],
-   "specLine": 445,
+   "specLine": 424,
    "area": "payment",
    "areaLabel": "Payment",
    "file": "test-scenarios/api/payment/post-payment-check.yml",
@@ -10742,7 +10742,7 @@ window.SCENARIO_CATALOG = {
     "Verify the Location header is \"https://api.practicesoftwaretesting.com\"."
    ],
    "ref": [],
-   "specLine": 455,
+   "specLine": 434,
    "area": "payment",
    "areaLabel": "Payment",
    "file": "test-scenarios/api/payment/post-payment-check.yml",
@@ -10765,7 +10765,7 @@ window.SCENARIO_CATALOG = {
     "Verify the Location header is \"https://api.practicesoftwaretesting.com\"."
    ],
    "ref": [],
-   "specLine": 463,
+   "specLine": 442,
    "area": "payment",
    "areaLabel": "Payment",
    "file": "test-scenarios/api/payment/post-payment-check.yml",
@@ -10788,7 +10788,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's message is \"Payment was successful\"."
    ],
    "ref": [],
-   "specLine": 471,
+   "specLine": 450,
    "area": "payment",
    "areaLabel": "Payment",
    "file": "test-scenarios/api/payment/post-payment-check.yml",
@@ -10811,7 +10811,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's message is \"Payment was successful\"."
    ],
    "ref": [],
-   "specLine": 479,
+   "specLine": 458,
    "area": "payment",
    "areaLabel": "Payment",
    "file": "test-scenarios/api/payment/post-payment-check.yml",
@@ -10841,7 +10841,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's house_number is \"5\"."
    ],
    "ref": [],
-   "specLine": 148,
+   "specLine": 128,
    "area": "postcode",
    "areaLabel": "Postcode",
    "file": "test-scenarios/api/postcode/get-postcode-lookup.yml",
@@ -10861,7 +10861,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's house_number is a string holding a whole number from 1 to 250."
    ],
    "ref": [],
-   "specLine": 185,
+   "specLine": 165,
    "area": "postcode",
    "areaLabel": "Postcode",
    "file": "test-scenarios/api/postcode/get-postcode-lookup.yml",
@@ -10885,7 +10885,7 @@ window.SCENARIO_CATALOG = {
     "Verify the second body equals the first body."
    ],
    "ref": [],
-   "specLine": 206,
+   "specLine": 186,
    "area": "postcode",
    "areaLabel": "Postcode",
    "file": "test-scenarios/api/postcode/get-postcode-lookup.yml",
@@ -10910,7 +10910,7 @@ window.SCENARIO_CATALOG = {
     "Verify each body's house_number is the number that request sent."
    ],
    "ref": [],
-   "specLine": 231,
+   "specLine": 211,
    "area": "postcode",
    "areaLabel": "Postcode",
    "file": "test-scenarios/api/postcode/get-postcode-lookup.yml",
@@ -10936,7 +10936,7 @@ window.SCENARIO_CATALOG = {
     "Verify the second body's street, city and state equal the first body's."
    ],
    "ref": [],
-   "specLine": 257,
+   "specLine": 237,
    "area": "postcode",
    "areaLabel": "Postcode",
    "file": "test-scenarios/api/postcode/get-postcode-lookup.yml",
@@ -10960,7 +10960,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's postcode is \"1011 AB\"."
    ],
    "ref": [],
-   "specLine": 288,
+   "specLine": 268,
    "area": "postcode",
    "areaLabel": "Postcode",
    "file": "test-scenarios/api/postcode/get-postcode-lookup.yml",
@@ -10984,7 +10984,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's postcode is \"90210-1234\"."
    ],
    "ref": [],
-   "specLine": 314,
+   "specLine": 294,
    "area": "postcode",
    "areaLabel": "Postcode",
    "file": "test-scenarios/api/postcode/get-postcode-lookup.yml",
@@ -11009,7 +11009,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's state is an empty string."
    ],
    "ref": [],
-   "specLine": 337,
+   "specLine": 317,
    "area": "postcode",
    "areaLabel": "Postcode",
    "file": "test-scenarios/api/postcode/get-postcode-lookup.yml",
@@ -11034,7 +11034,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's house_number is \"5\"."
    ],
    "ref": [],
-   "specLine": 364,
+   "specLine": 344,
    "area": "postcode",
    "areaLabel": "Postcode",
    "file": "test-scenarios/api/postcode/get-postcode-lookup.yml",
@@ -11059,7 +11059,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's house_number is \"ABCDEFGHIJ\"."
    ],
    "ref": [],
-   "specLine": 394,
+   "specLine": 374,
    "area": "postcode",
    "areaLabel": "Postcode",
    "file": "test-scenarios/api/postcode/get-postcode-lookup.yml",
@@ -11084,7 +11084,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's country is \"NL\"."
    ],
    "ref": [],
-   "specLine": 426,
+   "specLine": 406,
    "area": "postcode",
    "areaLabel": "Postcode",
    "file": "test-scenarios/api/postcode/get-postcode-lookup.yml",
@@ -11107,7 +11107,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's country is \"NL\"."
    ],
    "ref": [],
-   "specLine": 468,
+   "specLine": 448,
    "area": "postcode",
    "areaLabel": "Postcode",
    "file": "test-scenarios/api/postcode/get-postcode-lookup.yml",
@@ -11132,7 +11132,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's message is \"The country field is required. (and 1 more error)\"."
    ],
    "ref": [],
-   "specLine": 488,
+   "specLine": 468,
    "area": "postcode",
    "areaLabel": "Postcode",
    "file": "test-scenarios/api/postcode/get-postcode-lookup.yml",
@@ -11156,7 +11156,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's errors has no other keys."
    ],
    "ref": [],
-   "specLine": 515,
+   "specLine": 495,
    "area": "postcode",
    "areaLabel": "Postcode",
    "file": "test-scenarios/api/postcode/get-postcode-lookup.yml",
@@ -11180,7 +11180,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's errors has no other keys."
    ],
    "ref": [],
-   "specLine": 525,
+   "specLine": 505,
    "area": "postcode",
    "areaLabel": "Postcode",
    "file": "test-scenarios/api/postcode/get-postcode-lookup.yml",
@@ -11204,7 +11204,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's errors has no other keys."
    ],
    "ref": [],
-   "specLine": 535,
+   "specLine": 515,
    "area": "postcode",
    "areaLabel": "Postcode",
    "file": "test-scenarios/api/postcode/get-postcode-lookup.yml",
@@ -11228,7 +11228,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's errors has no other keys."
    ],
    "ref": [],
-   "specLine": 545,
+   "specLine": 525,
    "area": "postcode",
    "areaLabel": "Postcode",
    "file": "test-scenarios/api/postcode/get-postcode-lookup.yml",
@@ -11252,7 +11252,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's errors has no other keys."
    ],
    "ref": [],
-   "specLine": 555,
+   "specLine": 535,
    "area": "postcode",
    "areaLabel": "Postcode",
    "file": "test-scenarios/api/postcode/get-postcode-lookup.yml",
@@ -11276,7 +11276,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's errors has no other keys."
    ],
    "ref": [],
-   "specLine": 565,
+   "specLine": 545,
    "area": "postcode",
    "areaLabel": "Postcode",
    "file": "test-scenarios/api/postcode/get-postcode-lookup.yml",
@@ -11300,7 +11300,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body has no errors key."
    ],
    "ref": [],
-   "specLine": 575,
+   "specLine": 555,
    "area": "postcode",
    "areaLabel": "Postcode",
    "file": "test-scenarios/api/postcode/get-postcode-lookup.yml",
@@ -11324,7 +11324,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body has no errors key."
    ],
    "ref": [],
-   "specLine": 583,
+   "specLine": 563,
    "area": "postcode",
    "areaLabel": "Postcode",
    "file": "test-scenarios/api/postcode/get-postcode-lookup.yml",
@@ -11348,7 +11348,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's message is \"The postal code format is not valid for the selected country.\"."
    ],
    "ref": [],
-   "specLine": 591,
+   "specLine": 571,
    "area": "postcode",
    "areaLabel": "Postcode",
    "file": "test-scenarios/api/postcode/get-postcode-lookup.yml",
@@ -11371,7 +11371,7 @@ window.SCENARIO_CATALOG = {
     "Verify the Location header is \"https://api.practicesoftwaretesting.com\"."
    ],
    "ref": [],
-   "specLine": 616,
+   "specLine": 596,
    "area": "postcode",
    "areaLabel": "Postcode",
    "file": "test-scenarios/api/postcode/get-postcode-lookup.yml",
@@ -11394,7 +11394,7 @@ window.SCENARIO_CATALOG = {
     "Verify the Location header is \"https://api.practicesoftwaretesting.com\"."
    ],
    "ref": [],
-   "specLine": 624,
+   "specLine": 604,
    "area": "postcode",
    "areaLabel": "Postcode",
    "file": "test-scenarios/api/postcode/get-postcode-lookup.yml",
@@ -11421,7 +11421,7 @@ window.SCENARIO_CATALOG = {
     "Verify the response status is 200.",
     "Verify the body's postcode is \"1011AB\" (without the space)."
    ],
-   "specLine": 632,
+   "specLine": 612,
    "area": "postcode",
    "areaLabel": "Postcode",
    "file": "test-scenarios/api/postcode/get-postcode-lookup.yml",
@@ -11447,7 +11447,7 @@ window.SCENARIO_CATALOG = {
     "Verify no item's values has a repeated value."
    ],
    "ref": [],
-   "specLine": 27,
+   "specLine": 24,
    "area": "product-specs",
    "areaLabel": "Product specs",
    "file": "test-scenarios/api/product-specs/get-product-specs-names.yml",
@@ -11473,7 +11473,7 @@ window.SCENARIO_CATALOG = {
     "Verify that item's values are [\"1.5\"] and its unit is \"kg\"."
    ],
    "ref": [],
-   "specLine": 69,
+   "specLine": 67,
    "area": "product-specs",
    "areaLabel": "Product specs",
    "file": "test-scenarios/api/product-specs/get-product-specs-names.yml",
@@ -11501,7 +11501,7 @@ window.SCENARIO_CATALOG = {
     "Verify no item's name is that spec_name."
    ],
    "ref": [],
-   "specLine": 110,
+   "specLine": 108,
    "area": "product-specs",
    "areaLabel": "Product specs",
    "file": "test-scenarios/api/product-specs/get-product-specs-names.yml",
@@ -11532,7 +11532,7 @@ window.SCENARIO_CATALOG = {
     "Verify every item's is_eco_friendly is true exactly when its co2_rating is A or B."
    ],
    "ref": [],
-   "specLine": 285,
+   "specLine": 275,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/api/products/get-products.yml",
@@ -11552,7 +11552,7 @@ window.SCENARIO_CATALOG = {
     "Verify data is not empty and every item's brand id equals that brand id."
    ],
    "ref": [],
-   "specLine": 357,
+   "specLine": 351,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/api/products/get-products.yml",
@@ -11578,7 +11578,7 @@ window.SCENARIO_CATALOG = {
     "Verify data is not empty and every item's category id equals that category id."
    ],
    "ref": [],
-   "specLine": 387,
+   "specLine": 381,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/api/products/get-products.yml",
@@ -11599,7 +11599,7 @@ window.SCENARIO_CATALOG = {
     "Verify every item's category is that category or a direct sub-category of it: its category id equals that category id, or GET /products/{productId} for the item returns a category parent_id equal to that category id."
    ],
    "ref": [],
-   "specLine": 417,
+   "specLine": 411,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/api/products/get-products.yml",
@@ -11621,7 +11621,7 @@ window.SCENARIO_CATALOG = {
     "Verify every item's is_rental is true."
    ],
    "ref": [],
-   "specLine": 468,
+   "specLine": 463,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/api/products/get-products.yml",
@@ -11643,7 +11643,7 @@ window.SCENARIO_CATALOG = {
     "Verify every item's price is at least 10 and at most 30."
    ],
    "ref": [],
-   "specLine": 488,
+   "specLine": 484,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/api/products/get-products.yml",
@@ -11665,7 +11665,7 @@ window.SCENARIO_CATALOG = {
     "Verify the items' prices are in descending order."
    ],
    "ref": [],
-   "specLine": 510,
+   "specLine": 507,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/api/products/get-products.yml",
@@ -11687,7 +11687,7 @@ window.SCENARIO_CATALOG = {
     "Verify every item's co2_rating is A or B (case-insensitive) and its is_eco_friendly is true."
    ],
    "ref": [],
-   "specLine": 530,
+   "specLine": 527,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/api/products/get-products.yml",
@@ -11709,7 +11709,7 @@ window.SCENARIO_CATALOG = {
     "Verify data is not empty and every item's name contains \"pliers\" (case-insensitive)."
    ],
    "ref": [],
-   "specLine": 552,
+   "specLine": 550,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/api/products/get-products.yml",
@@ -11733,7 +11733,7 @@ window.SCENARIO_CATALOG = {
     "Verify every item's specs, from GET /products/{productId} for the item, include a spec with that spec_name and spec_value."
    ],
    "ref": [],
-   "specLine": 574,
+   "specLine": 572,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/api/products/get-products.yml",
@@ -11757,7 +11757,7 @@ window.SCENARIO_CATALOG = {
     "Verify no item id on page 2 is among the page 1 ids."
    ],
    "ref": [],
-   "specLine": 610,
+   "specLine": 609,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/api/products/get-products.yml",
@@ -11779,7 +11779,7 @@ window.SCENARIO_CATALOG = {
     "Verify data is an empty array."
    ],
    "ref": [],
-   "specLine": 641,
+   "specLine": 640,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/api/products/get-products.yml",
@@ -11802,7 +11802,7 @@ window.SCENARIO_CATALOG = {
     "Verify the response status is not 500."
    ],
    "ref": [],
-   "specLine": 662,
+   "specLine": 661,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/api/products/get-products.yml",
@@ -11830,7 +11830,7 @@ window.SCENARIO_CATALOG = {
     "Verify data is not empty and every item's category id is category A's id or category B's id.",
     "Verify total equals totalA plus totalB, so both categories are present in the result."
    ],
-   "specLine": 676,
+   "specLine": 675,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/api/products/get-products.yml",
@@ -11856,7 +11856,7 @@ window.SCENARIO_CATALOG = {
     "Verify data is not empty and every item's brand id is brand A's id or brand B's id.",
     "Verify brand A and brand B both appear among the items, reading page=2, 3, ... of the same request until both have appeared, and every item read has brand A's id or brand B's id."
    ],
-   "specLine": 680,
+   "specLine": 679,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/api/products/get-products.yml",
@@ -11882,7 +11882,7 @@ window.SCENARIO_CATALOG = {
     "Verify data is not empty.",
     "Verify every item's brand id equals that brand id and its category id equals that category id."
    ],
-   "specLine": 684,
+   "specLine": 683,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/api/products/get-products.yml",
@@ -12019,7 +12019,7 @@ window.SCENARIO_CATALOG = {
     "Verify per_page is 9 and data has at most 9 items."
    ],
    "ref": [],
-   "specLine": 101,
+   "specLine": 121,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/api/products/query-products.yml",
@@ -12042,7 +12042,7 @@ window.SCENARIO_CATALOG = {
     "Verify the QUERY response's item ids equal the GET response's item ids, in the same order."
    ],
    "ref": [],
-   "specLine": 130,
+   "specLine": 150,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/api/products/query-products.yml",
@@ -12064,7 +12064,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's message is \"QUERY requests must use Content-Type: application/json\"."
    ],
    "ref": [],
-   "specLine": 162,
+   "specLine": 182,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/api/products/query-products.yml",
@@ -12086,7 +12086,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body is an HTML page, not JSON."
    ],
    "ref": [],
-   "specLine": 183,
+   "specLine": 203,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/api/products/query-products.yml",
@@ -12109,7 +12109,7 @@ window.SCENARIO_CATALOG = {
     "Verify the response status is not 500."
    ],
    "ref": [],
-   "specLine": 210,
+   "specLine": 230,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/api/products/query-products.yml",
@@ -12134,7 +12134,7 @@ window.SCENARIO_CATALOG = {
     "Verify the QUERY response's item ids equal the GET response's item ids, in the same order, ignoring products created by tests (names starting with \"Product-\")."
    ],
    "ref": [],
-   "specLine": 224,
+   "specLine": 244,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/api/products/query-products.yml",
@@ -12159,7 +12159,7 @@ window.SCENARIO_CATALOG = {
     "Verify the QUERY response's item ids equal the GET response's item ids, in the same order, ignoring products created by tests (names starting with \"Product-\")."
    ],
    "ref": [],
-   "specLine": 260,
+   "specLine": 280,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/api/products/query-products.yml",
@@ -12183,7 +12183,7 @@ window.SCENARIO_CATALOG = {
     "Verify the QUERY response's item ids equal the GET response's item ids, in the same order."
    ],
    "ref": [],
-   "specLine": 301,
+   "specLine": 321,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/api/products/query-products.yml",
@@ -12207,7 +12207,7 @@ window.SCENARIO_CATALOG = {
     "Verify the QUERY response's item ids equal the GET response's item ids, in the same order."
    ],
    "ref": [],
-   "specLine": 328,
+   "specLine": 330,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/api/products/query-products.yml",
@@ -12231,7 +12231,7 @@ window.SCENARIO_CATALOG = {
     "Verify the QUERY response's item ids equal the GET response's item ids, in the same order."
    ],
    "ref": [],
-   "specLine": 356,
+   "specLine": 339,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/api/products/query-products.yml",
@@ -12255,7 +12255,7 @@ window.SCENARIO_CATALOG = {
     "Verify the QUERY response's item ids equal the GET response's item ids, in the same order."
    ],
    "ref": [],
-   "specLine": 383,
+   "specLine": 348,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/api/products/query-products.yml",
@@ -12280,7 +12280,7 @@ window.SCENARIO_CATALOG = {
     "Verify the QUERY response's item ids equal the GET response's item ids, in the same order."
    ],
    "ref": [],
-   "specLine": 411,
+   "specLine": 357,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/api/products/query-products.yml",
@@ -12304,7 +12304,7 @@ window.SCENARIO_CATALOG = {
     "Verify the QUERY response's item ids equal the GET response's item ids, in the same order."
    ],
    "ref": [],
-   "specLine": 441,
+   "specLine": 387,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/api/products/query-products.yml",
@@ -12333,7 +12333,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /products/{productId} with the new id returns 200 with the same name."
    ],
    "ref": [],
-   "specLine": 13,
+   "specLine": 73,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/api/products/post-products.yml",
@@ -12353,7 +12353,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's name messages include \"The name field is required.\"."
    ],
    "ref": [],
-   "specLine": 72,
+   "specLine": 131,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/api/products/post-products.yml",
@@ -12376,7 +12376,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body has a name key with at least one message."
    ],
    "ref": [],
-   "specLine": 106,
+   "specLine": 165,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/api/products/post-products.yml",
@@ -12399,7 +12399,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body has a description key with at least one message."
    ],
    "ref": [],
-   "specLine": 134,
+   "specLine": 174,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/api/products/post-products.yml",
@@ -12422,7 +12422,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body has a name key with at least one message."
    ],
    "ref": [],
-   "specLine": 162,
+   "specLine": 183,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/api/products/post-products.yml",
@@ -12445,7 +12445,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body has a description key with at least one message."
    ],
    "ref": [],
-   "specLine": 190,
+   "specLine": 192,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/api/products/post-products.yml",
@@ -12469,7 +12469,7 @@ window.SCENARIO_CATALOG = {
     "Verify the response status is 422."
    ],
    "ref": [],
-   "specLine": 218,
+   "specLine": 201,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/api/products/post-products.yml",
@@ -12493,7 +12493,7 @@ window.SCENARIO_CATALOG = {
     "Verify the response status is 422."
    ],
    "ref": [],
-   "specLine": 250,
+   "specLine": 211,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/api/products/post-products.yml",
@@ -12517,7 +12517,7 @@ window.SCENARIO_CATALOG = {
     "Verify the response status is 422."
    ],
    "ref": [],
-   "specLine": 282,
+   "specLine": 221,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/api/products/post-products.yml",
@@ -12541,7 +12541,7 @@ window.SCENARIO_CATALOG = {
     "Verify the response status is 401."
    ],
    "ref": [],
-   "specLine": 314,
+   "specLine": 231,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/api/products/post-products.yml",
@@ -12568,7 +12568,7 @@ window.SCENARIO_CATALOG = {
     "Verify its in_stock is 10."
    ],
    "ref": [],
-   "specLine": 337,
+   "specLine": 254,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/api/products/post-products.yml",
@@ -12594,7 +12594,7 @@ window.SCENARIO_CATALOG = {
     "Verify each item has an id, a name and a price greater than 0."
    ],
    "ref": [],
-   "specLine": 40,
+   "specLine": 54,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/api/products/get-products-search.yml",
@@ -12613,7 +12613,7 @@ window.SCENARIO_CATALOG = {
     "Verify current_page is 2."
    ],
    "ref": [],
-   "specLine": 80,
+   "specLine": 93,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/api/products/get-products-search.yml",
@@ -12635,7 +12635,7 @@ window.SCENARIO_CATALOG = {
     "Verify data is an empty array and from is null."
    ],
    "ref": [],
-   "specLine": 98,
+   "specLine": 111,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/api/products/get-products-search.yml",
@@ -12657,7 +12657,7 @@ window.SCENARIO_CATALOG = {
     "Verify data is an empty array and from is null."
    ],
    "ref": [],
-   "specLine": 117,
+   "specLine": 115,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/api/products/get-products-search.yml",
@@ -12679,7 +12679,7 @@ window.SCENARIO_CATALOG = {
     "Verify data is an empty array and from is null."
    ],
    "ref": [],
-   "specLine": 135,
+   "specLine": 119,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/api/products/get-products-search.yml",
@@ -12703,7 +12703,7 @@ window.SCENARIO_CATALOG = {
     "Verify data is not empty and every item's name contains \"pliers\" (case-insensitive)."
    ],
    "ref": [],
-   "specLine": 47,
+   "specLine": 30,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/api/products/query-products-search.yml",
@@ -12725,7 +12725,7 @@ window.SCENARIO_CATALOG = {
     "Verify data is an empty array."
    ],
    "ref": [],
-   "specLine": 82,
+   "specLine": 65,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/api/products/query-products-search.yml",
@@ -12746,7 +12746,7 @@ window.SCENARIO_CATALOG = {
     "Verify the response status is 415."
    ],
    "ref": [],
-   "specLine": 103,
+   "specLine": 86,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/api/products/query-products-search.yml",
@@ -12771,7 +12771,7 @@ window.SCENARIO_CATALOG = {
     "Verify the QUERY response's item ids equal the GET response's item ids, in the same order."
    ],
    "ref": [],
-   "specLine": 116,
+   "specLine": 99,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/api/products/query-products-search.yml",
@@ -12801,7 +12801,7 @@ window.SCENARIO_CATALOG = {
     "Verify in_stock is a boolean."
    ],
    "ref": [],
-   "specLine": 9,
+   "specLine": 10,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/api/products/get-products-by-product-id.yml",
@@ -12822,7 +12822,7 @@ window.SCENARIO_CATALOG = {
     "Verify in_stock is a number."
    ],
    "ref": [],
-   "specLine": 80,
+   "specLine": 78,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/api/products/get-products-by-product-id.yml",
@@ -12844,7 +12844,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's message is \"Requested item not found\"."
    ],
    "ref": [],
-   "specLine": 110,
+   "specLine": 105,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/api/products/get-products-by-product-id.yml",
@@ -12869,7 +12869,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /products/{productId} with that id returns the new name."
    ],
    "ref": [],
-   "specLine": 11,
+   "specLine": 12,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/api/products/put-products-by-product-id.yml",
@@ -12893,7 +12893,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body has a name key with at least one message."
    ],
    "ref": [],
-   "specLine": 46,
+   "specLine": 43,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/api/products/put-products-by-product-id.yml",
@@ -12917,7 +12917,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body has a description key with at least one message."
    ],
    "ref": [],
-   "specLine": 74,
+   "specLine": 53,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/api/products/put-products-by-product-id.yml",
@@ -12941,7 +12941,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body has a name key with at least one message."
    ],
    "ref": [],
-   "specLine": 102,
+   "specLine": 63,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/api/products/put-products-by-product-id.yml",
@@ -12965,7 +12965,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body has a description key with at least one message."
    ],
    "ref": [],
-   "specLine": 130,
+   "specLine": 73,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/api/products/put-products-by-product-id.yml",
@@ -12989,7 +12989,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body has an is_location_offer key with at least one message."
    ],
    "ref": [],
-   "specLine": 158,
+   "specLine": 83,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/api/products/put-products-by-product-id.yml",
@@ -13013,7 +13013,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body has an is_rental key with at least one message."
    ],
    "ref": [],
-   "specLine": 186,
+   "specLine": 93,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/api/products/put-products-by-product-id.yml",
@@ -13035,7 +13035,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's message is \"Requested item not found\"."
    ],
    "ref": [],
-   "specLine": 214,
+   "specLine": 103,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/api/products/put-products-by-product-id.yml",
@@ -13060,7 +13060,7 @@ window.SCENARIO_CATALOG = {
     "Verify the response status is 401."
    ],
    "ref": [],
-   "specLine": 237,
+   "specLine": 123,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/api/products/put-products-by-product-id.yml",
@@ -13087,7 +13087,7 @@ window.SCENARIO_CATALOG = {
     "Verify its category id, brand id and product_image id equal the other ids."
    ],
    "ref": [],
-   "specLine": 257,
+   "specLine": 140,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/api/products/put-products-by-product-id.yml",
@@ -13115,7 +13115,7 @@ window.SCENARIO_CATALOG = {
     "Verify its in_stock is 7."
    ],
    "ref": [],
-   "specLine": 316,
+   "specLine": 195,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/api/products/put-products-by-product-id.yml",
@@ -13140,7 +13140,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /products/{productId} with that id returns the new name."
    ],
    "ref": [],
-   "specLine": 11,
+   "specLine": 12,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/api/products/patch-products-by-product-id.yml",
@@ -13164,7 +13164,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body has a price key with at least one message."
    ],
    "ref": [],
-   "specLine": 46,
+   "specLine": 43,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/api/products/patch-products-by-product-id.yml",
@@ -13188,7 +13188,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body has a name key with at least one message."
    ],
    "ref": [],
-   "specLine": 74,
+   "specLine": 53,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/api/products/patch-products-by-product-id.yml",
@@ -13212,7 +13212,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body has a description key with at least one message."
    ],
    "ref": [],
-   "specLine": 102,
+   "specLine": 63,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/api/products/patch-products-by-product-id.yml",
@@ -13234,7 +13234,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's message is \"Requested item not found\"."
    ],
    "ref": [],
-   "specLine": 130,
+   "specLine": 73,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/api/products/patch-products-by-product-id.yml",
@@ -13259,7 +13259,7 @@ window.SCENARIO_CATALOG = {
     "Verify the response status is 401."
    ],
    "ref": [],
-   "specLine": 153,
+   "specLine": 93,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/api/products/patch-products-by-product-id.yml",
@@ -13285,7 +13285,7 @@ window.SCENARIO_CATALOG = {
     "Verify its category id, brand id and product_image id equal the other ids."
    ],
    "ref": [],
-   "specLine": 173,
+   "specLine": 110,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/api/products/patch-products-by-product-id.yml",
@@ -13311,7 +13311,7 @@ window.SCENARIO_CATALOG = {
     "Verify its is_location_offer is true and its is_rental is true."
    ],
    "ref": [],
-   "specLine": 220,
+   "specLine": 153,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/api/products/patch-products-by-product-id.yml",
@@ -13336,7 +13336,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /products/{productId} with that id returns 404."
    ],
    "ref": [],
-   "specLine": 15,
+   "specLine": 16,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/api/products/delete-products-by-product-id.yml",
@@ -13360,7 +13360,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's message is \"Unauthorized\"."
    ],
    "ref": [],
-   "specLine": 54,
+   "specLine": 50,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/api/products/delete-products-by-product-id.yml",
@@ -13384,7 +13384,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's message is \"Unauthorized\"."
    ],
    "ref": [],
-   "specLine": 77,
+   "specLine": 70,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/api/products/delete-products-by-product-id.yml",
@@ -13408,7 +13408,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's message is \"Forbidden\"."
    ],
    "ref": [],
-   "specLine": 105,
+   "specLine": 95,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/api/products/delete-products-by-product-id.yml",
@@ -13431,7 +13431,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's message is \"Requested item not found\"."
    ],
    "ref": [],
-   "specLine": 136,
+   "specLine": 123,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/api/products/delete-products-by-product-id.yml",
@@ -13458,7 +13458,7 @@ window.SCENARIO_CATALOG = {
     "Verify every item's category has id and name."
    ],
    "ref": [],
-   "specLine": 9,
+   "specLine": 10,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/api/products/get-products-by-product-id-related.yml",
@@ -13505,7 +13505,7 @@ window.SCENARIO_CATALOG = {
     "Verify every item has a co2_rating field."
    ],
    "ref": [],
-   "specLine": 87,
+   "specLine": 85,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/api/products/get-products-by-product-id-related.yml",
@@ -13531,7 +13531,7 @@ window.SCENARIO_CATALOG = {
     "Verify the items' ids are the same set as the ids in that product's specs array."
    ],
    "ref": [],
-   "specLine": 39,
+   "specLine": 36,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/api/products/get-products-by-product-id-specs.yml",
@@ -13554,7 +13554,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body is an empty array."
    ],
    "ref": [],
-   "specLine": 90,
+   "specLine": 87,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/api/products/get-products-by-product-id-specs.yml",
@@ -13578,7 +13578,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body is an empty array."
    ],
    "ref": [],
-   "specLine": 107,
+   "specLine": 104,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/api/products/get-products-by-product-id-specs.yml",
@@ -13603,7 +13603,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's ids are the same set as without the query parameter."
    ],
    "ref": [],
-   "specLine": 126,
+   "specLine": 123,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/api/products/get-products-by-product-id-specs.yml",
@@ -13627,7 +13627,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's ids are the same set as the ids in that product's specs array."
    ],
    "ref": [],
-   "specLine": 157,
+   "specLine": 154,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/api/products/get-products-by-product-id-specs.yml",
@@ -13654,7 +13654,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /products/{productId}/specs with the new product's id returns a spec with that id and those spec_name, spec_value and spec_unit."
    ],
    "ref": [],
-   "specLine": 80,
+   "specLine": 69,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/api/products/post-products-by-product-id-specs.yml",
@@ -13679,7 +13679,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /products/{productId}/specs/{specId} with the new product's id and the new spec's id returns spec_unit null."
    ],
    "ref": [],
-   "specLine": 140,
+   "specLine": 129,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/api/products/post-products-by-product-id-specs.yml",
@@ -13703,7 +13703,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's message is \"Unauthorized\"."
    ],
    "ref": [],
-   "specLine": 185,
+   "specLine": 174,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/api/products/post-products-by-product-id-specs.yml",
@@ -13727,7 +13727,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's message is \"Unauthorized\"."
    ],
    "ref": [],
-   "specLine": 210,
+   "specLine": 199,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/api/products/post-products-by-product-id-specs.yml",
@@ -13751,7 +13751,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's errors has the keys spec_name and spec_value, each with at least one message."
    ],
    "ref": [],
-   "specLine": 241,
+   "specLine": 230,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/api/products/post-products-by-product-id-specs.yml",
@@ -13774,7 +13774,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's errors has a spec_name key with at least one message."
    ],
    "ref": [],
-   "specLine": 265,
+   "specLine": 254,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/api/products/post-products-by-product-id-specs.yml",
@@ -13797,7 +13797,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's errors has a spec_value key with at least one message."
    ],
    "ref": [],
-   "specLine": 274,
+   "specLine": 263,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/api/products/post-products-by-product-id-specs.yml",
@@ -13820,7 +13820,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's errors has a spec_unit key with at least one message."
    ],
    "ref": [],
-   "specLine": 283,
+   "specLine": 272,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/api/products/post-products-by-product-id-specs.yml",
@@ -13843,7 +13843,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's errors has a spec_value key with at least one message."
    ],
    "ref": [],
-   "specLine": 292,
+   "specLine": 281,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/api/products/post-products-by-product-id-specs.yml",
@@ -13866,7 +13866,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's errors has a spec_unit key with at least one message."
    ],
    "ref": [],
-   "specLine": 301,
+   "specLine": 290,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/api/products/post-products-by-product-id-specs.yml",
@@ -13889,7 +13889,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's errors has a spec_name key with at least one message."
    ],
    "ref": [],
-   "specLine": 310,
+   "specLine": 299,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/api/products/post-products-by-product-id-specs.yml",
@@ -13911,7 +13911,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's errors has the keys spec_name and spec_value."
    ],
    "ref": [],
-   "specLine": 319,
+   "specLine": 308,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/api/products/post-products-by-product-id-specs.yml",
@@ -13933,7 +13933,7 @@ window.SCENARIO_CATALOG = {
     "Verify the response status is 302."
    ],
    "ref": [],
-   "specLine": 342,
+   "specLine": 331,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/api/products/post-products-by-product-id-specs.yml",
@@ -13956,7 +13956,7 @@ window.SCENARIO_CATALOG = {
     "Verify the response status is 404."
    ],
    "ref": [],
-   "specLine": 367,
+   "specLine": 356,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/api/products/post-products-by-product-id-specs.yml",
@@ -14103,7 +14103,7 @@ window.SCENARIO_CATALOG = {
     "Verify its spec_name and spec_unit equal the values the spec was created with."
    ],
    "ref": [],
-   "specLine": 71,
+   "specLine": 67,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/api/products/put-products-by-product-id-specs-by-spec-id.yml",
@@ -14130,7 +14130,7 @@ window.SCENARIO_CATALOG = {
     "Verify its spec_name, spec_value and spec_unit equal the new values."
    ],
    "ref": [],
-   "specLine": 118,
+   "specLine": 114,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/api/products/put-products-by-product-id-specs-by-spec-id.yml",
@@ -14158,7 +14158,7 @@ window.SCENARIO_CATALOG = {
     "Verify its spec_name and spec_value equal the values the spec was created with."
    ],
    "ref": [],
-   "specLine": 160,
+   "specLine": 156,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/api/products/put-products-by-product-id-specs-by-spec-id.yml",
@@ -14185,7 +14185,7 @@ window.SCENARIO_CATALOG = {
     "Verify its spec_name, spec_value and spec_unit equal the values the spec was created with."
    ],
    "ref": [],
-   "specLine": 205,
+   "specLine": 201,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/api/products/put-products-by-product-id-specs-by-spec-id.yml",
@@ -14212,7 +14212,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /products/{productId}/specs/{specId} with the other item's id and the new spec's id returns 404."
    ],
    "ref": [],
-   "specLine": 243,
+   "specLine": 239,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/api/products/put-products-by-product-id-specs-by-spec-id.yml",
@@ -14237,7 +14237,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's message is \"Unauthorized\"."
    ],
    "ref": [],
-   "specLine": 290,
+   "specLine": 286,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/api/products/put-products-by-product-id-specs-by-spec-id.yml",
@@ -14262,7 +14262,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's message is \"Unauthorized\"."
    ],
    "ref": [],
-   "specLine": 312,
+   "specLine": 297,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/api/products/put-products-by-product-id-specs-by-spec-id.yml",
@@ -14285,7 +14285,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's message is \"Requested item not found\"."
    ],
    "ref": [],
-   "specLine": 340,
+   "specLine": 314,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/api/products/put-products-by-product-id-specs-by-spec-id.yml",
@@ -14311,7 +14311,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /products/{productId}/specs/{specId} with the new product's id and the new spec's id returns the spec_value the spec was created with."
    ],
    "ref": [],
-   "specLine": 362,
+   "specLine": 336,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/api/products/put-products-by-product-id-specs-by-spec-id.yml",
@@ -14336,7 +14336,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's errors has a spec_name key with at least one message."
    ],
    "ref": [],
-   "specLine": 403,
+   "specLine": 377,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/api/products/put-products-by-product-id-specs-by-spec-id.yml",
@@ -14361,7 +14361,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's errors has a spec_value key with at least one message."
    ],
    "ref": [],
-   "specLine": 418,
+   "specLine": 392,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/api/products/put-products-by-product-id-specs-by-spec-id.yml",
@@ -14386,7 +14386,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's errors has a spec_unit key with at least one message."
    ],
    "ref": [],
-   "specLine": 433,
+   "specLine": 407,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/api/products/put-products-by-product-id-specs-by-spec-id.yml",
@@ -14411,7 +14411,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's errors has a spec_name key with at least one message."
    ],
    "ref": [],
-   "specLine": 448,
+   "specLine": 422,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/api/products/put-products-by-product-id-specs-by-spec-id.yml",
@@ -14436,7 +14436,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's errors has a spec_value key with at least one message."
    ],
    "ref": [],
-   "specLine": 457,
+   "specLine": 431,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/api/products/put-products-by-product-id-specs-by-spec-id.yml",
@@ -14459,7 +14459,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's errors has a spec_value key with at least one message."
    ],
    "ref": [],
-   "specLine": 466,
+   "specLine": 440,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/api/products/put-products-by-product-id-specs-by-spec-id.yml",
@@ -14483,7 +14483,7 @@ window.SCENARIO_CATALOG = {
     "Verify the response status is 302."
    ],
    "ref": [],
-   "specLine": 494,
+   "specLine": 468,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/api/products/put-products-by-product-id-specs-by-spec-id.yml",
@@ -14508,7 +14508,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /products/{productId}/specs/{specId} with the new product's id and the new spec's id returns 404."
    ],
    "ref": [],
-   "specLine": 27,
+   "specLine": 23,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/api/products/delete-products-by-product-id-specs-by-spec-id.yml",
@@ -14533,7 +14533,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's message is \"Unauthorized\"."
    ],
    "ref": [],
-   "specLine": 54,
+   "specLine": 50,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/api/products/delete-products-by-product-id-specs-by-spec-id.yml",
@@ -14558,7 +14558,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's message is \"Unauthorized\"."
    ],
    "ref": [],
-   "specLine": 73,
+   "specLine": 61,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/api/products/delete-products-by-product-id-specs-by-spec-id.yml",
@@ -14583,7 +14583,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /products/{productId}/specs/{specId} with the new product's id and the new spec's id returns 200."
    ],
    "ref": [],
-   "specLine": 98,
+   "specLine": 78,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/api/products/delete-products-by-product-id-specs-by-spec-id.yml",
@@ -14605,7 +14605,7 @@ window.SCENARIO_CATALOG = {
     "Verify the response status is 204."
    ],
    "ref": [],
-   "specLine": 126,
+   "specLine": 106,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/api/products/delete-products-by-product-id-specs-by-spec-id.yml",
@@ -14629,7 +14629,7 @@ window.SCENARIO_CATALOG = {
     "Verify every item's average and amount are numbers."
    ],
    "ref": [],
-   "specLine": 24,
+   "specLine": 15,
    "area": "reports",
    "areaLabel": "Reports",
    "file": "test-scenarios/api/reports/get-reports-average-sales-per-month.yml",
@@ -14653,7 +14653,7 @@ window.SCENARIO_CATALOG = {
     "Verify every item's average is 0 and amount is 0."
    ],
    "ref": [],
-   "specLine": 47,
+   "specLine": 38,
    "area": "reports",
    "areaLabel": "Reports",
    "file": "test-scenarios/api/reports/get-reports-average-sales-per-month.yml",
@@ -14675,7 +14675,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's message is \"Unauthorized\"."
    ],
    "ref": [],
-   "specLine": 72,
+   "specLine": 63,
    "area": "reports",
    "areaLabel": "Reports",
    "file": "test-scenarios/api/reports/get-reports-average-sales-per-month.yml",
@@ -14697,7 +14697,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's message is \"Unauthorized\"."
    ],
    "ref": [],
-   "specLine": 89,
+   "specLine": 72,
    "area": "reports",
    "areaLabel": "Reports",
    "file": "test-scenarios/api/reports/get-reports-average-sales-per-month.yml",
@@ -14719,7 +14719,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's message is \"Forbidden\"."
    ],
    "ref": [],
-   "specLine": 106,
+   "specLine": 81,
    "area": "reports",
    "areaLabel": "Reports",
    "file": "test-scenarios/api/reports/get-reports-average-sales-per-month.yml",
@@ -14743,7 +14743,7 @@ window.SCENARIO_CATALOG = {
     "Verify every item's average and amount are numbers."
    ],
    "ref": [],
-   "specLine": 24,
+   "specLine": 15,
    "area": "reports",
    "areaLabel": "Reports",
    "file": "test-scenarios/api/reports/get-reports-average-sales-per-week.yml",
@@ -14767,7 +14767,7 @@ window.SCENARIO_CATALOG = {
     "Verify every item's average is 0 and amount is 0."
    ],
    "ref": [],
-   "specLine": 47,
+   "specLine": 38,
    "area": "reports",
    "areaLabel": "Reports",
    "file": "test-scenarios/api/reports/get-reports-average-sales-per-week.yml",
@@ -14789,7 +14789,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's message is \"Unauthorized\"."
    ],
    "ref": [],
-   "specLine": 72,
+   "specLine": 63,
    "area": "reports",
    "areaLabel": "Reports",
    "file": "test-scenarios/api/reports/get-reports-average-sales-per-week.yml",
@@ -14811,7 +14811,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's message is \"Unauthorized\"."
    ],
    "ref": [],
-   "specLine": 89,
+   "specLine": 72,
    "area": "reports",
    "areaLabel": "Reports",
    "file": "test-scenarios/api/reports/get-reports-average-sales-per-week.yml",
@@ -14833,7 +14833,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's message is \"Forbidden\"."
    ],
    "ref": [],
-   "specLine": 106,
+   "specLine": 81,
    "area": "reports",
    "areaLabel": "Reports",
    "file": "test-scenarios/api/reports/get-reports-average-sales-per-week.yml",
@@ -14858,7 +14858,7 @@ window.SCENARIO_CATALOG = {
     "Verify no country appears twice."
    ],
    "ref": [],
-   "specLine": 23,
+   "specLine": 15,
    "area": "reports",
    "areaLabel": "Reports",
    "file": "test-scenarios/api/reports/get-reports-customers-by-country.yml",
@@ -14880,7 +14880,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's message is \"Unauthorized\"."
    ],
    "ref": [],
-   "specLine": 56,
+   "specLine": 48,
    "area": "reports",
    "areaLabel": "Reports",
    "file": "test-scenarios/api/reports/get-reports-customers-by-country.yml",
@@ -14902,7 +14902,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's message is \"Unauthorized\"."
    ],
    "ref": [],
-   "specLine": 73,
+   "specLine": 57,
    "area": "reports",
    "areaLabel": "Reports",
    "file": "test-scenarios/api/reports/get-reports-customers-by-country.yml",
@@ -14924,7 +14924,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's message is \"Forbidden\"."
    ],
    "ref": [],
-   "specLine": 90,
+   "specLine": 66,
    "area": "reports",
    "areaLabel": "Reports",
    "file": "test-scenarios/api/reports/get-reports-customers-by-country.yml",
@@ -14949,7 +14949,7 @@ window.SCENARIO_CATALOG = {
     "Verify each item's total_earned, compared as a number, is not greater than the previous item's."
    ],
    "ref": [],
-   "specLine": 25,
+   "specLine": 15,
    "area": "reports",
    "areaLabel": "Reports",
    "file": "test-scenarios/api/reports/get-reports-top10-best-selling-categories.yml",
@@ -14971,7 +14971,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's message is \"Unauthorized\"."
    ],
    "ref": [],
-   "specLine": 58,
+   "specLine": 48,
    "area": "reports",
    "areaLabel": "Reports",
    "file": "test-scenarios/api/reports/get-reports-top10-best-selling-categories.yml",
@@ -14993,7 +14993,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's message is \"Unauthorized\"."
    ],
    "ref": [],
-   "specLine": 75,
+   "specLine": 57,
    "area": "reports",
    "areaLabel": "Reports",
    "file": "test-scenarios/api/reports/get-reports-top10-best-selling-categories.yml",
@@ -15015,7 +15015,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's message is \"Forbidden\"."
    ],
    "ref": [],
-   "specLine": 92,
+   "specLine": 66,
    "area": "reports",
    "areaLabel": "Reports",
    "file": "test-scenarios/api/reports/get-reports-top10-best-selling-categories.yml",
@@ -15041,7 +15041,7 @@ window.SCENARIO_CATALOG = {
     "Verify each item's count is not greater than the previous item's count."
    ],
    "ref": [],
-   "specLine": 25,
+   "specLine": 15,
    "area": "reports",
    "areaLabel": "Reports",
    "file": "test-scenarios/api/reports/get-reports-top10-purchased-products.yml",
@@ -15063,7 +15063,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's message is \"Unauthorized\"."
    ],
    "ref": [],
-   "specLine": 62,
+   "specLine": 52,
    "area": "reports",
    "areaLabel": "Reports",
    "file": "test-scenarios/api/reports/get-reports-top10-purchased-products.yml",
@@ -15085,7 +15085,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's message is \"Unauthorized\"."
    ],
    "ref": [],
-   "specLine": 79,
+   "specLine": 61,
    "area": "reports",
    "areaLabel": "Reports",
    "file": "test-scenarios/api/reports/get-reports-top10-purchased-products.yml",
@@ -15107,7 +15107,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's message is \"Forbidden\"."
    ],
    "ref": [],
-   "specLine": 96,
+   "specLine": 70,
    "area": "reports",
    "areaLabel": "Reports",
    "file": "test-scenarios/api/reports/get-reports-top10-purchased-products.yml",
@@ -15132,7 +15132,7 @@ window.SCENARIO_CATALOG = {
     "Verify every item has a year and a total, both numbers."
    ],
    "ref": [],
-   "specLine": 56,
+   "specLine": 40,
    "area": "reports",
    "areaLabel": "Reports",
    "file": "test-scenarios/api/reports/get-reports-total-sales-of-years.yml",
@@ -15157,7 +15157,7 @@ window.SCENARIO_CATALOG = {
     "Verify every item has a year and a total, both numbers."
    ],
    "ref": [],
-   "specLine": 82,
+   "specLine": 66,
    "area": "reports",
    "areaLabel": "Reports",
    "file": "test-scenarios/api/reports/get-reports-total-sales-of-years.yml",
@@ -15180,7 +15180,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body has exactly one item, whose year is the current year."
    ],
    "ref": [],
-   "specLine": 109,
+   "specLine": 93,
    "area": "reports",
    "areaLabel": "Reports",
    "file": "test-scenarios/api/reports/get-reports-total-sales-of-years.yml",
@@ -15203,7 +15203,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body is an empty array."
    ],
    "ref": [],
-   "specLine": 128,
+   "specLine": 112,
    "area": "reports",
    "areaLabel": "Reports",
    "file": "test-scenarios/api/reports/get-reports-total-sales-of-years.yml",
@@ -15225,7 +15225,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's message is \"Unauthorized\"."
    ],
    "ref": [],
-   "specLine": 251,
+   "specLine": 235,
    "area": "reports",
    "areaLabel": "Reports",
    "file": "test-scenarios/api/reports/get-reports-total-sales-of-years.yml",
@@ -15247,7 +15247,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's message is \"Unauthorized\"."
    ],
    "ref": [],
-   "specLine": 268,
+   "specLine": 244,
    "area": "reports",
    "areaLabel": "Reports",
    "file": "test-scenarios/api/reports/get-reports-total-sales-of-years.yml",
@@ -15269,7 +15269,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's message is \"Forbidden\"."
    ],
    "ref": [],
-   "specLine": 285,
+   "specLine": 253,
    "area": "reports",
    "areaLabel": "Reports",
    "file": "test-scenarios/api/reports/get-reports-total-sales-of-years.yml",
@@ -15293,7 +15293,7 @@ window.SCENARIO_CATALOG = {
     "Verify the response status is 200 or 422."
    ],
    "ref": [],
-   "specLine": 146,
+   "specLine": 130,
    "area": "reports",
    "areaLabel": "Reports",
    "file": "test-scenarios/api/reports/get-reports-total-sales-of-years.yml",
@@ -15325,7 +15325,7 @@ window.SCENARIO_CATALOG = {
     "Verify the last item's total is at least the starting total plus the invoice's total."
    ],
    "ref": [],
-   "specLine": 164,
+   "specLine": 148,
    "area": "reports",
    "areaLabel": "Reports",
    "file": "test-scenarios/api/reports/get-reports-total-sales-of-years.yml",
@@ -15349,7 +15349,7 @@ window.SCENARIO_CATALOG = {
     "Verify the second response's X-RateLimit-Remaining is lower than the first's."
    ],
    "ref": [],
-   "specLine": 302,
+   "specLine": 262,
    "area": "reports",
    "areaLabel": "Reports",
    "file": "test-scenarios/api/reports/get-reports-total-sales-of-years.yml",
@@ -15373,7 +15373,7 @@ window.SCENARIO_CATALOG = {
     "Verify the 61st response body's message is \"Too many requests\"."
    ],
    "ref": [],
-   "specLine": 334,
+   "specLine": 294,
    "area": "reports",
    "areaLabel": "Reports",
    "file": "test-scenarios/api/reports/get-reports-total-sales-of-years.yml",
@@ -15398,7 +15398,7 @@ window.SCENARIO_CATALOG = {
     "Verify no billing_country appears twice."
    ],
    "ref": [],
-   "specLine": 24,
+   "specLine": 15,
    "area": "reports",
    "areaLabel": "Reports",
    "file": "test-scenarios/api/reports/get-reports-total-sales-per-country.yml",
@@ -15420,7 +15420,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's message is \"Unauthorized\"."
    ],
    "ref": [],
-   "specLine": 56,
+   "specLine": 47,
    "area": "reports",
    "areaLabel": "Reports",
    "file": "test-scenarios/api/reports/get-reports-total-sales-per-country.yml",
@@ -15442,7 +15442,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's message is \"Unauthorized\"."
    ],
    "ref": [],
-   "specLine": 73,
+   "specLine": 56,
    "area": "reports",
    "areaLabel": "Reports",
    "file": "test-scenarios/api/reports/get-reports-total-sales-per-country.yml",
@@ -15464,7 +15464,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's message is \"Forbidden\"."
    ],
    "ref": [],
-   "specLine": 90,
+   "specLine": 65,
    "area": "reports",
    "areaLabel": "Reports",
    "file": "test-scenarios/api/reports/get-reports-total-sales-per-country.yml",
@@ -15491,7 +15491,7 @@ window.SCENARIO_CATALOG = {
     "Verify data has 1 to 15 items and every item's role is \"user\"."
    ],
    "ref": [],
-   "specLine": 52,
+   "specLine": 42,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/get-users.yml",
@@ -15512,7 +15512,7 @@ window.SCENARIO_CATALOG = {
     "Verify no id appears in both pages' data."
    ],
    "ref": [],
-   "specLine": 80,
+   "specLine": 70,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/get-users.yml",
@@ -15534,7 +15534,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's message is \"Unauthorized\"."
    ],
    "ref": [],
-   "specLine": 104,
+   "specLine": 94,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/get-users.yml",
@@ -15556,7 +15556,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's message is \"Forbidden\"."
    ],
    "ref": [],
-   "specLine": 122,
+   "specLine": 112,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/get-users.yml",
@@ -15583,7 +15583,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's success is true.",
     "Verify POST /users/login with that email and the new password returns 200 with a non-empty access_token."
    ],
-   "specLine": 62,
+   "specLine": 86,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/post-users-change-password.yml",
@@ -15609,7 +15609,7 @@ window.SCENARIO_CATALOG = {
     "Verify the response status is 422.",
     "Verify the body's errors.new_password is a non-empty list."
    ],
-   "specLine": 98,
+   "specLine": 122,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/post-users-change-password.yml",
@@ -15635,7 +15635,7 @@ window.SCENARIO_CATALOG = {
     "Verify the response status is 422.",
     "Verify the body's errors.new_password is a non-empty list."
    ],
-   "specLine": 121,
+   "specLine": 130,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/post-users-change-password.yml",
@@ -15661,7 +15661,7 @@ window.SCENARIO_CATALOG = {
     "Verify the response status is 422.",
     "Verify the body's errors.new_password is a non-empty list."
    ],
-   "specLine": 150,
+   "specLine": 138,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/post-users-change-password.yml",
@@ -15688,7 +15688,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's success is false.",
     "Verify the body's message is \"Your current password does not matches with the password.\"."
    ],
-   "specLine": 181,
+   "specLine": 149,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/post-users-change-password.yml",
@@ -15715,7 +15715,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's success is false.",
     "Verify the body's message is \"Your current password does not matches with the password.\"."
    ],
-   "specLine": 209,
+   "specLine": 177,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/post-users-change-password.yml",
@@ -15740,7 +15740,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's success is false.",
     "Verify the body's message is \"New Password cannot be same as your current password.\"."
    ],
-   "specLine": 239,
+   "specLine": 207,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/post-users-change-password.yml",
@@ -15764,7 +15764,7 @@ window.SCENARIO_CATALOG = {
     "Verify POST /users/login with that email and the password \"welcome02\" returns 200 with a non-empty access_token."
    ],
    "ref": [],
-   "specLine": 26,
+   "specLine": 23,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/post-users-forgot-password.yml",
@@ -15786,7 +15786,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's message is \"Requested item not found\"."
    ],
    "ref": [],
-   "specLine": 56,
+   "specLine": 53,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/post-users-forgot-password.yml",
@@ -15808,7 +15808,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's errors.email is a non-empty list."
    ],
    "ref": [],
-   "specLine": 74,
+   "specLine": 71,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/post-users-forgot-password.yml",
@@ -15836,7 +15836,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /users/me with the new access_token returns 200 with the default user's email."
    ],
    "ref": [],
-   "specLine": 110,
+   "specLine": 103,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/post-users-login.yml",
@@ -15856,7 +15856,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's error is \"Unauthorized\" or \"Invalid login request\"."
    ],
    "ref": [],
-   "specLine": 155,
+   "specLine": 143,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/post-users-login.yml",
@@ -15878,7 +15878,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's error is \"Unauthorized\" or \"Invalid login request\"."
    ],
    "ref": [],
-   "specLine": 177,
+   "specLine": 165,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/post-users-login.yml",
@@ -15900,7 +15900,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's error is \"Unauthorized\" or \"Invalid login request\"."
    ],
    "ref": [],
-   "specLine": 196,
+   "specLine": 184,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/post-users-login.yml",
@@ -15921,7 +15921,7 @@ window.SCENARIO_CATALOG = {
     "Verify the response status is 401."
    ],
    "ref": [],
-   "specLine": 213,
+   "specLine": 201,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/post-users-login.yml",
@@ -15943,7 +15943,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's error is \"Invalid or expired token\"."
    ],
    "ref": [],
-   "specLine": 226,
+   "specLine": 214,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/post-users-login.yml",
@@ -15968,7 +15968,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's error is \"Account disabled\"."
    ],
    "ref": [],
-   "specLine": 247,
+   "specLine": 235,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/post-users-login.yml",
@@ -15997,7 +15997,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's access_token is a non-empty string.",
     "Verify the body has no token_type or expires_in key."
    ],
-   "specLine": 269,
+   "specLine": 257,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/post-users-login.yml",
@@ -16027,7 +16027,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's token_type is \"bearer\".",
     "Verify GET /users/me with the new access_token returns 200 with the throwaway customer's email."
    ],
-   "specLine": 311,
+   "specLine": 299,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/post-users-login.yml",
@@ -16055,7 +16055,7 @@ window.SCENARIO_CATALOG = {
     "Verify the response status is 401.",
     "Verify the body's message is \"Unauthorized token usage\"."
    ],
-   "specLine": 361,
+   "specLine": 344,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/post-users-login.yml",
@@ -16084,7 +16084,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's error is \"Invalid TOTP\".",
     "Verify the body has no access_token key."
    ],
-   "specLine": 391,
+   "specLine": 372,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/post-users-login.yml",
@@ -16108,7 +16108,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /users/me with that token returns 401."
    ],
    "ref": [],
-   "specLine": 34,
+   "specLine": 19,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/get-users-logout.yml",
@@ -16130,7 +16130,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's message is \"Unauthorized\"."
    ],
    "ref": [],
-   "specLine": 62,
+   "specLine": 44,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/get-users-logout.yml",
@@ -16152,7 +16152,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's message is \"Unauthorized\"."
    ],
    "ref": [],
-   "specLine": 79,
+   "specLine": 53,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/get-users-logout.yml",
@@ -16176,7 +16176,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's message is \"Unauthorized\"."
    ],
    "ref": [],
-   "specLine": 96,
+   "specLine": 62,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/get-users-logout.yml",
@@ -16201,7 +16201,7 @@ window.SCENARIO_CATALOG = {
     "Verify email equals the default user's email, and id, first_name and last_name are not empty."
    ],
    "ref": [],
-   "specLine": 33,
+   "specLine": 20,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/get-users-me.yml",
@@ -16225,7 +16225,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's enabled is a boolean and failed_login_attempts is a number."
    ],
    "ref": [],
-   "specLine": 63,
+   "specLine": 48,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/get-users-me.yml",
@@ -16245,7 +16245,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body has no role, enabled or failed_login_attempts key."
    ],
    "ref": [],
-   "specLine": 89,
+   "specLine": 74,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/get-users-me.yml",
@@ -16267,7 +16267,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's message is \"Unauthorized\"."
    ],
    "ref": [],
-   "specLine": 116,
+   "specLine": 101,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/get-users-me.yml",
@@ -16289,7 +16289,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's message is \"Unauthorized\"."
    ],
    "ref": [],
-   "specLine": 133,
+   "specLine": 110,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/get-users-me.yml",
@@ -16315,7 +16315,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's message is \"Account disabled.\"."
    ],
    "ref": [],
-   "specLine": 153,
+   "specLine": 122,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/get-users-me.yml",
@@ -16341,7 +16341,7 @@ window.SCENARIO_CATALOG = {
     "Verify the response status is 200.",
     "Verify the body's first_name and last_name equal the values sent in the registration."
    ],
-   "specLine": 192,
+   "specLine": 161,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/get-users-me.yml",
@@ -16367,7 +16367,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /users/me with the new access_token returns 200 with the default user's email."
    ],
    "ref": [],
-   "specLine": 34,
+   "specLine": 26,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/get-users-refresh.yml",
@@ -16391,7 +16391,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body contains the text \"Token is not valid\"."
    ],
    "ref": [],
-   "specLine": 81,
+   "specLine": 68,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/get-users-refresh.yml",
@@ -16415,7 +16415,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body contains the text \"Token is not valid\"."
    ],
    "ref": [],
-   "specLine": 101,
+   "specLine": 88,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/get-users-refresh.yml",
@@ -16438,7 +16438,7 @@ window.SCENARIO_CATALOG = {
     "Verify the response status is 401."
    ],
    "ref": [],
-   "specLine": 128,
+   "specLine": 115,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/get-users-refresh.yml",
@@ -16461,7 +16461,7 @@ window.SCENARIO_CATALOG = {
     "Verify the response status is 401."
    ],
    "ref": [],
-   "specLine": 142,
+   "specLine": 129,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/get-users-refresh.yml",
@@ -16489,7 +16489,7 @@ window.SCENARIO_CATALOG = {
     "Verify POST /users/login with that email and password returns 200, and GET /users/me with its access_token returns the new id and email."
    ],
    "ref": [],
-   "specLine": 108,
+   "specLine": 93,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/post-users-register.yml",
@@ -16510,7 +16510,7 @@ window.SCENARIO_CATALOG = {
     "Verify POST /users/login with that email and password returns 200, and GET /users/me with its access_token returns the same phone, dob and address values."
    ],
    "ref": [],
-   "specLine": 156,
+   "specLine": 141,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/post-users-register.yml",
@@ -16532,7 +16532,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body has the keys first_name, last_name, email and password, each with at least one message."
    ],
    "ref": [],
-   "specLine": 212,
+   "specLine": 197,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/post-users-register.yml",
@@ -16554,7 +16554,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body has a first_name key with at least one message."
    ],
    "ref": [],
-   "specLine": 231,
+   "specLine": 216,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/post-users-register.yml",
@@ -16576,7 +16576,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body has a last_name key with at least one message."
    ],
    "ref": [],
-   "specLine": 249,
+   "specLine": 225,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/post-users-register.yml",
@@ -16598,7 +16598,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body has a password key with at least one message."
    ],
    "ref": [],
-   "specLine": 267,
+   "specLine": 234,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/post-users-register.yml",
@@ -16620,7 +16620,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body has a dob key with at least one message."
    ],
    "ref": [],
-   "specLine": 285,
+   "specLine": 243,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/post-users-register.yml",
@@ -16642,7 +16642,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body has a first_name key with at least one message."
    ],
    "ref": [],
-   "specLine": 303,
+   "specLine": 252,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/post-users-register.yml",
@@ -16664,7 +16664,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body has a dob key with at least one message."
    ],
    "ref": [],
-   "specLine": 321,
+   "specLine": 261,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/post-users-register.yml",
@@ -16686,7 +16686,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body has an email key with at least one message."
    ],
    "ref": [],
-   "specLine": 339,
+   "specLine": 270,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/post-users-register.yml",
@@ -16708,7 +16708,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body has a phone key with at least one message."
    ],
    "ref": [],
-   "specLine": 362,
+   "specLine": 281,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/post-users-register.yml",
@@ -16731,7 +16731,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's email messages include \"A customer with this email address already exists.\"."
    ],
    "ref": [],
-   "specLine": 380,
+   "specLine": 290,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/post-users-register.yml",
@@ -16754,7 +16754,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body has a first_name key with at least one message."
    ],
    "ref": [],
-   "specLine": 405,
+   "specLine": 315,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/post-users-register.yml",
@@ -16776,7 +16776,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's dob messages include \"Customer must be younger than 75 years old.\"."
    ],
    "ref": [],
-   "specLine": 430,
+   "specLine": 340,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/post-users-register.yml",
@@ -16799,7 +16799,7 @@ window.SCENARIO_CATALOG = {
     "Verify the response status is 422."
    ],
    "ref": [],
-   "specLine": 448,
+   "specLine": 358,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/post-users-register.yml",
@@ -16824,7 +16824,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's address street, city, state, country and postal_code equal the values sent.",
     "Verify POST /users/login with that email and password returns 200, and GET /users/me with its access_token returns the same address street, city, state, country and postal_code."
    ],
-   "specLine": 463,
+   "specLine": 373,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/post-users-register.yml",
@@ -16849,7 +16849,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's email equals the email sent.",
     "Verify POST /users/login with that email and password returns 200, and GET /users/me with its access_token returns the new id and the same email."
    ],
-   "specLine": 511,
+   "specLine": 421,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/post-users-register.yml",
@@ -16874,7 +16874,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body has a non-empty id and the email sent.",
     "Verify POST /users/login with that email and password returns 200, and GET /users/me with its access_token returns the new id and email."
    ],
-   "specLine": 552,
+   "specLine": 462,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/post-users-register.yml",
@@ -16898,7 +16898,7 @@ window.SCENARIO_CATALOG = {
     "Verify the response status is 422.",
     "Verify the body has an address.postal_code key with at least one message."
    ],
-   "specLine": 591,
+   "specLine": 501,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/post-users-register.yml",
@@ -16922,7 +16922,7 @@ window.SCENARIO_CATALOG = {
     "Verify the response status is 422.",
     "Verify the body has a password key with at least one message."
    ],
-   "specLine": 612,
+   "specLine": 510,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/post-users-register.yml",
@@ -16946,7 +16946,7 @@ window.SCENARIO_CATALOG = {
     "Verify the response status is 422.",
     "Verify the body has a password key with at least one message."
    ],
-   "specLine": 622,
+   "specLine": 519,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/post-users-register.yml",
@@ -16970,7 +16970,7 @@ window.SCENARIO_CATALOG = {
     "Verify the response status is 422.",
     "Verify the body has a password key with at least one message."
    ],
-   "specLine": 632,
+   "specLine": 528,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/post-users-register.yml",
@@ -16994,7 +16994,7 @@ window.SCENARIO_CATALOG = {
     "Verify the response status is 422.",
     "Verify the body has a password key with at least one message."
    ],
-   "specLine": 642,
+   "specLine": 537,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/post-users-register.yml",
@@ -17018,7 +17018,7 @@ window.SCENARIO_CATALOG = {
     "Verify the response status is 422.",
     "Verify the body has a password key with at least one message."
    ],
-   "specLine": 652,
+   "specLine": 546,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/post-users-register.yml",
@@ -17043,7 +17043,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's total is 1 and data has exactly one item, whose id is the new user's id and whose first_name and email equal the registered values."
    ],
    "ref": [],
-   "specLine": 59,
+   "specLine": 77,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/get-users-search.yml",
@@ -17067,7 +17067,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's total is 1 and data has exactly one item, whose id is the new user's id."
    ],
    "ref": [],
-   "specLine": 96,
+   "specLine": 114,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/get-users-search.yml",
@@ -17091,7 +17091,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's total is 1 and data has exactly one item, whose id is the new user's id."
    ],
    "ref": [],
-   "specLine": 115,
+   "specLine": 123,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/get-users-search.yml",
@@ -17115,7 +17115,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's total is 1 and data has exactly one item, whose id is the new user's id."
    ],
    "ref": [],
-   "specLine": 139,
+   "specLine": 137,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/get-users-search.yml",
@@ -17139,7 +17139,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's data is an empty array."
    ],
    "ref": [],
-   "specLine": 163,
+   "specLine": 151,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/get-users-search.yml",
@@ -17163,7 +17163,7 @@ window.SCENARIO_CATALOG = {
     "Verify every item's role is \"user\"."
    ],
    "ref": [],
-   "specLine": 189,
+   "specLine": 177,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/get-users-search.yml",
@@ -17187,7 +17187,7 @@ window.SCENARIO_CATALOG = {
     "Verify no id appears in both pages' data."
    ],
    "ref": [],
-   "specLine": 213,
+   "specLine": 201,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/get-users-search.yml",
@@ -17209,7 +17209,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's message is \"Unauthorized\"."
    ],
    "ref": [],
-   "specLine": 237,
+   "specLine": 225,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/get-users-search.yml",
@@ -17232,7 +17232,7 @@ window.SCENARIO_CATALOG = {
     "Verify the response status is 403."
    ],
    "ref": [],
-   "specLine": 255,
+   "specLine": 243,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/get-users-search.yml",
@@ -17257,7 +17257,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's total is 1 and data has exactly one item, whose id is the new user's id."
    ],
    "ref": [],
-   "specLine": 43,
+   "specLine": 31,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/query-users-search.yml",
@@ -17280,7 +17280,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's per_page is 15 and data is not empty."
    ],
    "ref": [],
-   "specLine": 74,
+   "specLine": 62,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/query-users-search.yml",
@@ -17302,7 +17302,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's message is \"Unauthorized\"."
    ],
    "ref": [],
-   "specLine": 98,
+   "specLine": 86,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/query-users-search.yml",
@@ -17323,7 +17323,7 @@ window.SCENARIO_CATALOG = {
     "Verify the response status is 415."
    ],
    "ref": [],
-   "specLine": 119,
+   "specLine": 107,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/query-users-search.yml",
@@ -17346,7 +17346,7 @@ window.SCENARIO_CATALOG = {
     "Verify the response status is 403."
    ],
    "ref": [],
-   "specLine": 132,
+   "specLine": 120,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/query-users-search.yml",
@@ -17371,7 +17371,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body has no role, enabled or failed_login_attempts key."
    ],
    "ref": [],
-   "specLine": 27,
+   "specLine": 24,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/get-users-by-user-id.yml",
@@ -17396,7 +17396,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's enabled is a boolean and failed_login_attempts is a number."
    ],
    "ref": [],
-   "specLine": 68,
+   "specLine": 65,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/get-users-by-user-id.yml",
@@ -17418,7 +17418,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's message is \"Unauthorized\"."
    ],
    "ref": [],
-   "specLine": 113,
+   "specLine": 110,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/get-users-by-user-id.yml",
@@ -17441,7 +17441,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's error is a non-empty string."
    ],
    "ref": [],
-   "specLine": 95,
+   "specLine": 92,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/get-users-by-user-id.yml",
@@ -17466,7 +17466,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's error is a non-empty string."
    ],
    "ref": [],
-   "specLine": 130,
+   "specLine": 119,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/get-users-by-user-id.yml",
@@ -17493,7 +17493,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's success is true.",
     "Verify GET /users/me with that access_token returns the new first_name, last_name, phone, and address street, city, state, country and postal_code."
    ],
-   "specLine": 122,
+   "specLine": 114,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/put-users-by-user-id.yml",
@@ -17520,7 +17520,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body has a first_name key with at least one message.",
     "Verify GET /users/me with that access_token returns the registered first_name, last_name, phone, and address street, city, state, country and postal_code."
    ],
-   "specLine": 159,
+   "specLine": 151,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/put-users-by-user-id.yml",
@@ -17547,7 +17547,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body has a last_name key with at least one message.",
     "Verify GET /users/me with that access_token returns the registered first_name, last_name, phone, and address street, city, state, country and postal_code."
    ],
-   "specLine": 178,
+   "specLine": 170,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/put-users-by-user-id.yml",
@@ -17574,7 +17574,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body has an address.street key with at least one message.",
     "Verify GET /users/me with that access_token returns the registered first_name, last_name, phone, and address street, city, state, country and postal_code."
    ],
-   "specLine": 197,
+   "specLine": 189,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/put-users-by-user-id.yml",
@@ -17601,7 +17601,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body has an address.city key with at least one message.",
     "Verify GET /users/me with that access_token returns the registered first_name, last_name, phone, and address street, city, state, country and postal_code."
    ],
-   "specLine": 216,
+   "specLine": 208,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/put-users-by-user-id.yml",
@@ -17628,7 +17628,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body has an address.country key with at least one message.",
     "Verify GET /users/me with that access_token returns the registered first_name, last_name, phone, and address street, city, state, country and postal_code."
    ],
-   "specLine": 235,
+   "specLine": 227,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/put-users-by-user-id.yml",
@@ -17653,7 +17653,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /users/me with that access_token returns the new first_name and the registered last_name and email."
    ],
    "ref": [],
-   "specLine": 55,
+   "specLine": 42,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/patch-users-by-user-id.yml",
@@ -17678,7 +17678,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /users/{userId} with the new user's id and the admin's token returns the new last_name and the registered first_name."
    ],
    "ref": [],
-   "specLine": 94,
+   "specLine": 81,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/patch-users-by-user-id.yml",
@@ -17703,7 +17703,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /users/{userId} with the new user's id and the admin's token returns enabled false."
    ],
    "ref": [],
-   "specLine": 128,
+   "specLine": 115,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/patch-users-by-user-id.yml",
@@ -17727,7 +17727,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /users/{userId} with the new user's id and the admin's token returns role \"user\"."
    ],
    "ref": [],
-   "specLine": 152,
+   "specLine": 139,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/patch-users-by-user-id.yml",
@@ -17749,7 +17749,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's message is \"Unauthorized\"."
    ],
    "ref": [],
-   "specLine": 225,
+   "specLine": 212,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/patch-users-by-user-id.yml",
@@ -17776,7 +17776,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /users/me with B's access_token returns B's registered first_name."
    ],
    "ref": [],
-   "specLine": 242,
+   "specLine": 221,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/patch-users-by-user-id.yml",
@@ -17801,7 +17801,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /users/me with that access_token returns the registered phone."
    ],
    "ref": [],
-   "specLine": 282,
+   "specLine": 261,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/patch-users-by-user-id.yml",
@@ -17826,7 +17826,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /users/me with that access_token returns the registered dob."
    ],
    "ref": [],
-   "specLine": 318,
+   "specLine": 297,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/patch-users-by-user-id.yml",
@@ -17853,7 +17853,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /users/{userId} with the new user's id and the admin's token returns the same failed_login_attempts as before the patch."
    ],
    "ref": [],
-   "specLine": 172,
+   "specLine": 159,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/patch-users-by-user-id.yml",
@@ -17877,7 +17877,7 @@ window.SCENARIO_CATALOG = {
     "Verify the response status is 404."
    ],
    "ref": [],
-   "specLine": 210,
+   "specLine": 197,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/patch-users-by-user-id.yml",
@@ -17903,7 +17903,7 @@ window.SCENARIO_CATALOG = {
     "Verify the response status is 409 or 422."
    ],
    "ref": [],
-   "specLine": 353,
+   "specLine": 332,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/patch-users-by-user-id.yml",
@@ -17927,7 +17927,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /users/{userId} with that id and the admin's token returns 404."
    ],
    "ref": [],
-   "specLine": 34,
+   "specLine": 28,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/delete-users-by-user-id.yml",
@@ -17949,7 +17949,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's message is \"Unauthorized\"."
    ],
    "ref": [],
-   "specLine": 147,
+   "specLine": 141,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/delete-users-by-user-id.yml",
@@ -17975,7 +17975,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /users/{userId} with that id and the admin's token returns 200."
    ],
    "ref": [],
-   "specLine": 54,
+   "specLine": 48,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/delete-users-by-user-id.yml",
@@ -18004,7 +18004,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /users/{userId} with that id and the admin's token returns 200."
    ],
    "ref": [],
-   "specLine": 85,
+   "specLine": 79,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/delete-users-by-user-id.yml",
@@ -18028,7 +18028,7 @@ window.SCENARIO_CATALOG = {
     "Verify the response status is 404."
    ],
    "ref": [],
-   "specLine": 132,
+   "specLine": 126,
    "area": "users",
    "areaLabel": "Users",
    "file": "test-scenarios/api/users/delete-users-by-user-id.yml",

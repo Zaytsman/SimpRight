@@ -2,8 +2,8 @@
 window.BUG_CATALOG = {
  "title": "Bugs",
  "prefix": "BUG",
- "generatedAt": "2026-10-18T09:12:00.977Z",
- "commit": "3c4bf03b5c94adc9c4e0d351014f40b93f44eef2",
+ "generatedAt": "2026-10-18T19:17:36.249Z",
+ "commit": "b7b56b7907674bd4aad36a39057bdf25f22bef84",
  "repoUrl": "https://github.com/Zaytsman/SimpRight",
  "branch": "main",
  "bugsDir": "bugs",
@@ -67,7 +67,7 @@ window.BUG_CATALOG = {
      "file": "test-scenarios/api/products/patch-products-by-product-id.yml",
      "status": "automated",
      "automatedIn": "tests/api/products/patch-products-by-product-id.spec.ts",
-     "specLine": 153,
+     "specLine": 93,
      "knownIssue": "Accepts PATCH without a token instead of returning 401."
     },
     {
@@ -78,7 +78,7 @@ window.BUG_CATALOG = {
      "file": "test-scenarios/api/products/post-products.yml",
      "status": "automated",
      "automatedIn": "tests/api/products/post-products.spec.ts",
-     "specLine": 314,
+     "specLine": 231,
      "knownIssue": "Accepts POST without a token instead of returning 401."
     },
     {
@@ -89,7 +89,7 @@ window.BUG_CATALOG = {
      "file": "test-scenarios/api/products/put-products-by-product-id.yml",
      "status": "automated",
      "automatedIn": "tests/api/products/put-products-by-product-id.spec.ts",
-     "specLine": 237,
+     "specLine": 123,
      "knownIssue": "Accepts PUT without a token instead of returning 401."
     }
    ]
@@ -131,7 +131,7 @@ window.BUG_CATALOG = {
      "file": "test-scenarios/api/brands/patch-brands-by-brand-id.yml",
      "status": "automated",
      "automatedIn": "tests/api/brands/patch-brands-by-brand-id.spec.ts",
-     "specLine": 166,
+     "specLine": 163,
      "knownIssue": "Accepts PATCH without a token instead of returning 401."
     },
     {
@@ -142,7 +142,7 @@ window.BUG_CATALOG = {
      "file": "test-scenarios/api/brands/post-brands.yml",
      "status": "automated",
      "automatedIn": "tests/api/brands/post-brands.spec.ts",
-     "specLine": 255,
+     "specLine": 220,
      "knownIssue": "Accepts POST without a token instead of returning 401."
     },
     {
@@ -153,7 +153,7 @@ window.BUG_CATALOG = {
      "file": "test-scenarios/api/brands/put-brands-by-brand-id.yml",
      "status": "automated",
      "automatedIn": "tests/api/brands/put-brands-by-brand-id.spec.ts",
-     "specLine": 172,
+     "specLine": 136,
      "knownIssue": "Accepts PUT without a token instead of returning 401."
     }
    ]
@@ -195,7 +195,7 @@ window.BUG_CATALOG = {
      "file": "test-scenarios/api/categories/patch-categories-by-category-id.yml",
      "status": "automated",
      "automatedIn": "tests/api/categories/patch-categories-by-category-id.spec.ts",
-     "specLine": 236,
+     "specLine": 200,
      "knownIssue": "Accepts PATCH without a token instead of returning 401."
     },
     {
@@ -206,7 +206,7 @@ window.BUG_CATALOG = {
      "file": "test-scenarios/api/categories/post-categories.yml",
      "status": "automated",
      "automatedIn": "tests/api/categories/post-categories.spec.ts",
-     "specLine": 344,
+     "specLine": 290,
      "knownIssue": "Accepts POST without a token instead of returning 401."
     },
     {
@@ -217,7 +217,7 @@ window.BUG_CATALOG = {
      "file": "test-scenarios/api/categories/put-categories-by-category-id.yml",
      "status": "automated",
      "automatedIn": "tests/api/categories/put-categories-by-category-id.spec.ts",
-     "specLine": 321,
+     "specLine": 276,
      "knownIssue": "Accepts PUT without a token instead of returning 401."
     }
    ]
@@ -254,7 +254,7 @@ window.BUG_CATALOG = {
      "file": "test-scenarios/api/products/post-products.yml",
      "status": "automated",
      "automatedIn": "tests/api/products/post-products.spec.ts",
-     "specLine": 218,
+     "specLine": 201,
      "knownIssue": "Returns 500 instead of 422 when category_id doesn't exist."
     },
     {
@@ -265,7 +265,7 @@ window.BUG_CATALOG = {
      "file": "test-scenarios/api/products/post-products.yml",
      "status": "automated",
      "automatedIn": "tests/api/products/post-products.spec.ts",
-     "specLine": 250,
+     "specLine": 211,
      "knownIssue": "Returns 500 instead of 422 when brand_id doesn't exist."
     },
     {
@@ -276,7 +276,7 @@ window.BUG_CATALOG = {
      "file": "test-scenarios/api/products/post-products.yml",
      "status": "automated",
      "automatedIn": "tests/api/products/post-products.spec.ts",
-     "specLine": 282,
+     "specLine": 221,
      "knownIssue": "Returns 500 instead of 422 when product_image_id doesn't exist."
     }
    ]
@@ -316,7 +316,7 @@ window.BUG_CATALOG = {
      "file": "test-scenarios/api/products/get-products.yml",
      "status": "automated",
      "automatedIn": "tests/api/products/get-products.spec.ts",
-     "specLine": 662,
+     "specLine": 661,
      "knownIssue": "Returns 500 instead of a client error (or ignoring the column) for an unknown sort column."
     },
     {
@@ -327,7 +327,7 @@ window.BUG_CATALOG = {
      "file": "test-scenarios/api/products/query-products.yml",
      "status": "automated",
      "automatedIn": "tests/api/products/query-products.spec.ts",
-     "specLine": 210,
+     "specLine": 230,
      "knownIssue": "Returns 500 instead of a client error (or ignoring the column) for an unknown sort column."
     }
    ]
@@ -401,7 +401,7 @@ window.BUG_CATALOG = {
      "file": "test-scenarios/api/users/get-users-refresh.yml",
      "status": "automated",
      "automatedIn": "tests/api/users/get-users-refresh.spec.ts",
-     "specLine": 128,
+     "specLine": 115,
      "knownIssue": "Returns 500 instead of 401 when the request has no token."
     },
     {
@@ -412,7 +412,7 @@ window.BUG_CATALOG = {
      "file": "test-scenarios/api/users/get-users-refresh.yml",
      "status": "automated",
      "automatedIn": "tests/api/users/get-users-refresh.spec.ts",
-     "specLine": 142,
+     "specLine": 129,
      "knownIssue": "Returns 500 instead of 401 for a malformed token."
     }
    ]
@@ -448,7 +448,7 @@ window.BUG_CATALOG = {
      "file": "test-scenarios/api/users/post-users-register.yml",
      "status": "automated",
      "automatedIn": "tests/api/users/post-users-register.spec.ts",
-     "specLine": 448,
+     "specLine": 358,
      "knownIssue": "Accepts a customer born 80 years ago (201) instead of 422; the 75-year age limit only rejects birth dates more than 93 years ago."
     }
    ]
@@ -489,7 +489,7 @@ window.BUG_CATALOG = {
      "file": "test-scenarios/api/carts/post-carts-by-cart-id.yml",
      "status": "automated",
      "automatedIn": "tests/api/carts/post-carts-by-cart-id.spec.ts",
-     "specLine": 222,
+     "specLine": 188,
      "knownIssue": "Returns 422 for a quantity of 999,999,999 (the server allows at most 99) instead of adding it to the cart as the story's range 1 to 999,999,999 requires."
     },
     {
@@ -551,7 +551,7 @@ window.BUG_CATALOG = {
      "file": "test-scenarios/api/brands/get-brands-search.yml",
      "status": "automated",
      "automatedIn": "tests/api/brands/get-brands-search.spec.ts",
-     "specLine": 103,
+     "specLine": 100,
      "knownIssue": "Returns 500 instead of 422 when q is sent as an array."
     },
     {
@@ -562,7 +562,7 @@ window.BUG_CATALOG = {
      "file": "test-scenarios/api/brands/query-brands-search.yml",
      "status": "automated",
      "automatedIn": "tests/api/brands/query-brands-search.spec.ts",
-     "specLine": 95,
+     "specLine": 75,
      "knownIssue": "Returns 500 instead of 422 when q is sent as an array."
     }
    ]
@@ -605,7 +605,7 @@ window.BUG_CATALOG = {
      "file": "test-scenarios/api/categories/patch-categories-by-category-id.yml",
      "status": "automated",
      "automatedIn": "tests/api/categories/patch-categories-by-category-id.spec.ts",
-     "specLine": 212,
+     "specLine": 176,
      "knownIssue": "Returns 500 instead of 422 when parent_id is not the id of an existing category."
     },
     {
@@ -616,7 +616,7 @@ window.BUG_CATALOG = {
      "file": "test-scenarios/api/categories/post-categories.yml",
      "status": "automated",
      "automatedIn": "tests/api/categories/post-categories.spec.ts",
-     "specLine": 329,
+     "specLine": 275,
      "knownIssue": "Returns 500 instead of 422 when parent_id is not the id of an existing category."
     },
     {
@@ -627,7 +627,7 @@ window.BUG_CATALOG = {
      "file": "test-scenarios/api/categories/put-categories-by-category-id.yml",
      "status": "automated",
      "automatedIn": "tests/api/categories/put-categories-by-category-id.spec.ts",
-     "specLine": 297,
+     "specLine": 252,
      "knownIssue": "Returns 500 instead of 422 when parent_id is not the id of an existing category."
     }
    ]
@@ -667,7 +667,7 @@ window.BUG_CATALOG = {
      "file": "test-scenarios/api/categories/get-categories-tree.yml",
      "status": "automated",
      "automatedIn": "tests/api/categories/get-categories-tree.spec.ts",
-     "specLine": 118,
+     "specLine": 116,
      "knownIssue": "Returns 500 instead of 422 when by_category_slug is sent as an array."
     },
     {
@@ -678,7 +678,7 @@ window.BUG_CATALOG = {
      "file": "test-scenarios/api/categories/query-categories-tree.yml",
      "status": "automated",
      "automatedIn": "tests/api/categories/query-categories-tree.spec.ts",
-     "specLine": 114,
+     "specLine": 103,
      "knownIssue": "Returns 500 instead of 422 when by_category_slug is sent as an array."
     }
    ]
@@ -718,7 +718,7 @@ window.BUG_CATALOG = {
      "file": "test-scenarios/api/categories/get-categories-search.yml",
      "status": "automated",
      "automatedIn": "tests/api/categories/get-categories-search.spec.ts",
-     "specLine": 112,
+     "specLine": 109,
      "knownIssue": "Returns 500 instead of 422 when q is sent as an array."
     },
     {
@@ -729,7 +729,7 @@ window.BUG_CATALOG = {
      "file": "test-scenarios/api/categories/query-categories-search.yml",
      "status": "automated",
      "automatedIn": "tests/api/categories/query-categories-search.spec.ts",
-     "specLine": 100,
+     "specLine": 88,
      "knownIssue": "Returns 500 instead of 422 when q is sent as an array."
     }
    ]
@@ -767,7 +767,7 @@ window.BUG_CATALOG = {
      "file": "test-scenarios/api/favorites/get-favorites-by-favorite-id.yml",
      "status": "automated",
      "automatedIn": "tests/api/favorites/get-favorites-by-favorite-id.spec.ts",
-     "specLine": 102,
+     "specLine": 78,
      "knownIssue": "Returns 200 with another user's favorite instead of 404 or 403."
     }
    ]
@@ -813,7 +813,7 @@ window.BUG_CATALOG = {
      "file": "test-scenarios/api/carts/post-carts-by-cart-id.yml",
      "status": "automated",
      "automatedIn": "tests/api/carts/post-carts-by-cart-id.spec.ts",
-     "specLine": 660,
+     "specLine": 602,
      "knownIssue": "Applies the location discount to a product that isn't a location offer instead of leaving it undiscounted."
     }
    ]
@@ -856,7 +856,7 @@ window.BUG_CATALOG = {
      "file": "test-scenarios/api/messages/post-messages.yml",
      "status": "automated",
      "automatedIn": "tests/api/messages/post-messages.spec.ts",
-     "specLine": 342,
+     "specLine": 291,
      "knownIssue": "Returns 500 when the body has a parent_id key instead of ignoring it or answering 422."
     },
     {
@@ -867,7 +867,7 @@ window.BUG_CATALOG = {
      "file": "test-scenarios/api/messages/post-messages.yml",
      "status": "automated",
      "automatedIn": "tests/api/messages/post-messages.spec.ts",
-     "specLine": 356,
+     "specLine": 305,
      "knownIssue": "Stores a guest message under the user_id sent in the body, so it shows in that user's list, instead of leaving it without an owner."
     }
    ]
@@ -907,7 +907,7 @@ window.BUG_CATALOG = {
      "file": "test-scenarios/api/users/get-users-search.yml",
      "status": "automated",
      "automatedIn": "tests/api/users/get-users-search.spec.ts",
-     "specLine": 255,
+     "specLine": 243,
      "knownIssue": "Returns 200 with other customers' names, emails and cities instead of rejecting a customer (403, like GET /users)."
     },
     {
@@ -918,7 +918,7 @@ window.BUG_CATALOG = {
      "file": "test-scenarios/api/users/query-users-search.yml",
      "status": "automated",
      "automatedIn": "tests/api/users/query-users-search.spec.ts",
-     "specLine": 132,
+     "specLine": 120,
      "knownIssue": "Returns 200 with other customers' names, emails and cities instead of rejecting a customer (403, like GET /users)."
     }
    ]
@@ -959,7 +959,7 @@ window.BUG_CATALOG = {
      "file": "test-scenarios/api/users/patch-users-by-user-id.yml",
      "status": "automated",
      "automatedIn": "tests/api/users/patch-users-by-user-id.spec.ts",
-     "specLine": 172,
+     "specLine": 159,
      "knownIssue": "A customer can change their own failed_login_attempts (and enabled and the totp_* fields) with PATCH; the value is saved instead of being rejected or ignored."
     }
    ]
@@ -999,7 +999,7 @@ window.BUG_CATALOG = {
      "file": "test-scenarios/api/users/patch-users-by-user-id.yml",
      "status": "automated",
      "automatedIn": "tests/api/users/patch-users-by-user-id.spec.ts",
-     "specLine": 353,
+     "specLine": 332,
      "knownIssue": "Returns 403, with the SQL error in the body, instead of 409 or 422 when the email already belongs to another account."
     }
    ]
@@ -1036,7 +1036,7 @@ window.BUG_CATALOG = {
      "file": "test-scenarios/api/users/delete-users-by-user-id.yml",
      "status": "automated",
      "automatedIn": "tests/api/users/delete-users-by-user-id.spec.ts",
-     "specLine": 132,
+     "specLine": 126,
      "knownIssue": "Returns 500 instead of 404 for an unknown user id."
     }
    ]
@@ -1077,7 +1077,7 @@ window.BUG_CATALOG = {
      "file": "test-scenarios/api/invoices/put-invoices-by-invoice-id-status.yml",
      "status": "automated",
      "automatedIn": "tests/api/invoices/put-invoices-by-invoice-id-status.spec.ts",
-     "specLine": 256,
+     "specLine": 222,
      "knownIssue": "Any logged-in customer can change the status of another customer's invoice (the call succeeds) instead of being refused."
     }
    ]
@@ -1118,7 +1118,7 @@ window.BUG_CATALOG = {
      "file": "test-scenarios/api/invoices/put-invoices-by-invoice-id-status.yml",
      "status": "automated",
      "automatedIn": "tests/api/invoices/put-invoices-by-invoice-id-status.spec.ts",
-     "specLine": 279,
+     "specLine": 245,
      "knownIssue": "Writes any column sent in the body (the total is changed) instead of only status and status_message."
     },
     {
@@ -1129,7 +1129,7 @@ window.BUG_CATALOG = {
      "file": "test-scenarios/api/invoices/put-invoices-by-invoice-id-status.yml",
      "status": "automated",
      "automatedIn": "tests/api/invoices/put-invoices-by-invoice-id-status.spec.ts",
-     "specLine": 313,
+     "specLine": 279,
      "knownIssue": "Returns 500 for a body key that is not a column of invoices instead of 422 or ignoring the key."
     }
    ]
@@ -1169,7 +1169,7 @@ window.BUG_CATALOG = {
      "file": "test-scenarios/api/invoices/put-invoices-by-invoice-id.yml",
      "status": "automated",
      "automatedIn": "tests/api/invoices/put-invoices-by-invoice-id.spec.ts",
-     "specLine": 248,
+     "specLine": 237,
      "knownIssue": "Writes the unvalidated total from the body (and other fillable keys such as user_id) instead of ignoring them."
     }
    ]
@@ -1212,7 +1212,7 @@ window.BUG_CATALOG = {
      "file": "test-scenarios/api/invoices/post-invoices-guest.yml",
      "status": "automated",
      "automatedIn": "tests/api/invoices/post-invoices-guest.spec.ts",
-     "specLine": 201,
+     "specLine": 174,
      "knownIssue": "Returns 500 instead of 422 when payment_details is null for a method other than gift-card."
     },
     {
@@ -1223,7 +1223,7 @@ window.BUG_CATALOG = {
      "file": "test-scenarios/api/invoices/post-invoices-guest.yml",
      "status": "automated",
      "automatedIn": "tests/api/invoices/post-invoices-guest.spec.ts",
-     "specLine": 257,
+     "specLine": 230,
      "knownIssue": "Returns 500 \"Something went wrong\" instead of 422 when payment_details lacks the fields the payment method requires."
     },
     {
@@ -1234,7 +1234,7 @@ window.BUG_CATALOG = {
      "file": "test-scenarios/api/invoices/post-invoices.yml",
      "status": "automated",
      "automatedIn": "tests/api/invoices/post-invoices.spec.ts",
-     "specLine": 610,
+     "specLine": 567,
      "knownIssue": "Returns 500 instead of 422 when payment_details is null for a method other than gift-card."
     },
     {
@@ -1245,7 +1245,7 @@ window.BUG_CATALOG = {
      "file": "test-scenarios/api/invoices/post-invoices.yml",
      "status": "automated",
      "automatedIn": "tests/api/invoices/post-invoices.spec.ts",
-     "specLine": 638,
+     "specLine": 595,
      "knownIssue": "Returns 500 \"Something went wrong\" instead of 422 when payment_details lacks the fields the payment method requires."
     }
    ]
@@ -1284,7 +1284,7 @@ window.BUG_CATALOG = {
      "file": "test-scenarios/api/products/get-products-by-product-id-related.yml",
      "status": "automated",
      "automatedIn": "tests/api/products/get-products-by-product-id-related.spec.ts",
-     "specLine": 87,
+     "specLine": 85,
      "knownIssue": "Omits co2_rating from related products, so is_eco_friendly is always false."
     }
    ]
@@ -1323,7 +1323,7 @@ window.BUG_CATALOG = {
      "file": "test-scenarios/api/brands/patch-brands-by-brand-id.yml",
      "status": "automated",
      "automatedIn": "tests/api/brands/patch-brands-by-brand-id.spec.ts",
-     "specLine": 140,
+     "specLine": 137,
      "knownIssue": "Returns 409 instead of 200 when the body repeats the brand's own slug."
     }
    ]
@@ -1365,7 +1365,7 @@ window.BUG_CATALOG = {
      "file": "test-scenarios/api/brands/get-brands-search.yml",
      "status": "automated",
      "automatedIn": "tests/api/brands/get-brands-search.spec.ts",
-     "specLine": 120,
+     "specLine": 117,
      "knownIssue": "Returns the cached search result instead of the new brand for a term searched before the brand was created."
     }
    ]
@@ -1404,7 +1404,7 @@ window.BUG_CATALOG = {
      "file": "test-scenarios/api/categories/patch-categories-by-category-id.yml",
      "status": "automated",
      "automatedIn": "tests/api/categories/patch-categories-by-category-id.spec.ts",
-     "specLine": 178,
+     "specLine": 142,
      "knownIssue": "Returns 409 instead of 200 when the body repeats the category's own slug."
     }
    ]
@@ -1449,7 +1449,7 @@ window.BUG_CATALOG = {
      "file": "test-scenarios/api/categories/get-categories-search.yml",
      "status": "automated",
      "automatedIn": "tests/api/categories/get-categories-search.spec.ts",
-     "specLine": 129,
+     "specLine": 126,
      "knownIssue": "Returns the cached search result instead of the new category for a term searched before the category was created."
     },
     {
@@ -1460,7 +1460,7 @@ window.BUG_CATALOG = {
      "file": "test-scenarios/api/categories/get-categories-tree-by-category-id.yml",
      "status": "automated",
      "automatedIn": "tests/api/categories/get-categories-tree-by-category-id.spec.ts",
-     "specLine": 108,
+     "specLine": 97,
      "knownIssue": "Returns the cached category without a sub-category created after the category was first read."
     }
    ]
@@ -1503,7 +1503,7 @@ window.BUG_CATALOG = {
      "file": "test-scenarios/api/carts/post-carts-by-cart-id.yml",
      "status": "automated",
      "automatedIn": "tests/api/carts/post-carts-by-cart-id.spec.ts",
-     "specLine": 448,
+     "specLine": 414,
      "knownIssue": "Gives a location offer no discount at real New York coordinates (41, -74) instead of New York's 5% discount."
     }
    ]
@@ -1546,7 +1546,7 @@ window.BUG_CATALOG = {
      "file": "test-scenarios/api/carts/post-carts-by-cart-id.yml",
      "status": "automated",
      "automatedIn": "tests/api/carts/post-carts-by-cart-id.spec.ts",
-     "specLine": 704,
+     "specLine": 646,
      "knownIssue": "Gives a location offer no discount in a cart at longitude 0 (London, 51, 0) instead of London's 25% discount."
     }
    ]
@@ -1584,7 +1584,7 @@ window.BUG_CATALOG = {
      "file": "test-scenarios/api/messages/post-messages.yml",
      "status": "automated",
      "automatedIn": "tests/api/messages/post-messages.spec.ts",
-     "specLine": 328,
+     "specLine": 277,
      "knownIssue": "Returns 500 for a name of 61 to 120 characters, which the validation allows, instead of 422 or 200."
     }
    ]
@@ -1623,7 +1623,7 @@ window.BUG_CATALOG = {
      "file": "test-scenarios/api/messages/get-messages-by-message-id.yml",
      "status": "automated",
      "automatedIn": "tests/api/messages/get-messages-by-message-id.spec.ts",
-     "specLine": 254,
+     "specLine": 225,
      "knownIssue": "Returns 200 with an empty body for a message the customer doesn't own instead of 404."
     },
     {
@@ -1634,7 +1634,7 @@ window.BUG_CATALOG = {
      "file": "test-scenarios/api/messages/get-messages-by-message-id.yml",
      "status": "automated",
      "automatedIn": "tests/api/messages/get-messages-by-message-id.spec.ts",
-     "specLine": 282,
+     "specLine": 253,
      "knownIssue": "Returns 200 with an empty body for an unknown message id instead of 404."
     }
    ]
@@ -1672,7 +1672,7 @@ window.BUG_CATALOG = {
      "file": "test-scenarios/api/messages/post-messages-by-message-id-reply.yml",
      "status": "automated",
      "automatedIn": "tests/api/messages/post-messages-by-message-id-reply.spec.ts",
-     "specLine": 241,
+     "specLine": 222,
      "knownIssue": "Returns 500 for a reply to an unknown message id instead of 404."
     }
    ]
@@ -1710,7 +1710,7 @@ window.BUG_CATALOG = {
      "file": "test-scenarios/api/messages/post-messages-by-message-id-attach-file.yml",
      "status": "automated",
      "automatedIn": "tests/api/messages/post-messages-by-message-id-attach-file.spec.ts",
-     "specLine": 140,
+     "specLine": 119,
      "knownIssue": "Returns 200 for a message id that doesn't exist instead of 404 (the message is never looked up)."
     }
    ]
@@ -1749,7 +1749,7 @@ window.BUG_CATALOG = {
      "file": "test-scenarios/api/users/patch-users-by-user-id.yml",
      "status": "automated",
      "automatedIn": "tests/api/users/patch-users-by-user-id.spec.ts",
-     "specLine": 210,
+     "specLine": 197,
      "knownIssue": "Returns 403 instead of 404 for an unknown user id."
     }
    ]
@@ -1794,7 +1794,7 @@ window.BUG_CATALOG = {
      "file": "test-scenarios/api/invoices/post-invoices-guest.yml",
      "status": "automated",
      "automatedIn": "tests/api/invoices/post-invoices-guest.spec.ts",
-     "specLine": 224,
+     "specLine": 197,
      "knownIssue": "A failed guest checkout (unknown cart) leaves an invoice without lines or payment that an admin search finds."
     },
     {
@@ -1805,7 +1805,7 @@ window.BUG_CATALOG = {
      "file": "test-scenarios/api/invoices/post-invoices-guest.yml",
      "status": "automated",
      "automatedIn": "tests/api/invoices/post-invoices-guest.spec.ts",
-     "specLine": 239,
+     "specLine": 212,
      "knownIssue": "A failed guest checkout (bank-transfer payment_details {}) leaves an invoice without lines or payment that an admin search finds."
     },
     {
@@ -1816,7 +1816,7 @@ window.BUG_CATALOG = {
      "file": "test-scenarios/api/invoices/post-invoices.yml",
      "status": "automated",
      "automatedIn": "tests/api/invoices/post-invoices.spec.ts",
-     "specLine": 586,
+     "specLine": 543,
      "knownIssue": "A failed checkout (unknown cart) leaves an invoice without lines or payment in the customer's invoice list."
     },
     {
@@ -1827,7 +1827,7 @@ window.BUG_CATALOG = {
      "file": "test-scenarios/api/invoices/post-invoices.yml",
      "status": "automated",
      "automatedIn": "tests/api/invoices/post-invoices.spec.ts",
-     "specLine": 665,
+     "specLine": 622,
      "knownIssue": "A failed checkout (payment_details null) leaves an invoice without lines or payment in the customer's invoice list."
     }
    ]
@@ -1865,7 +1865,7 @@ window.BUG_CATALOG = {
      "file": "test-scenarios/api/products/post-products-by-product-id-specs.yml",
      "status": "automated",
      "automatedIn": "tests/api/products/post-products-by-product-id-specs.spec.ts",
-     "specLine": 367,
+     "specLine": 356,
      "knownIssue": "Returns 500 instead of 404 for an unknown product id."
     }
    ]
@@ -1903,7 +1903,7 @@ window.BUG_CATALOG = {
      "file": "test-scenarios/api/reports/get-reports-total-sales-of-years.yml",
      "status": "automated",
      "automatedIn": "tests/api/reports/get-reports-total-sales-of-years.spec.ts",
-     "specLine": 146,
+     "specLine": 130,
      "knownIssue": "Returns 500 for a non-numeric years instead of 422 or ignoring the value."
     }
    ]
@@ -1941,7 +1941,7 @@ window.BUG_CATALOG = {
      "file": "test-scenarios/api/postcode/get-postcode-lookup.yml",
      "status": "automated",
      "automatedIn": "tests/api/postcode/get-postcode-lookup.spec.ts",
-     "specLine": 632,
+     "specLine": 612,
      "knownIssue": "Echoes a postcode with leading whitespace untrimmed and builds the address from the untrimmed value, although the format check trims it."
     }
    ]
@@ -1996,7 +1996,7 @@ window.BUG_CATALOG = {
      "file": "test-scenarios/api/images/get-images.yml",
      "status": "automated",
      "automatedIn": "tests/api/images/get-images.spec.ts",
-     "specLine": 234,
+     "specLine": 230,
      "knownIssue": "Returns 200 instead of 304 when If-None-Match carries the ETag of a compressed response."
     }
    ]
@@ -2036,7 +2036,7 @@ window.BUG_CATALOG = {
      "file": "test-scenarios/ui/cart/checkout-sign-in.yml",
      "status": "automated",
      "automatedIn": "tests/ui/cart/checkout-sign-in.spec.ts",
-     "specLine": 184,
+     "specLine": 189,
      "knownIssue": "The sign-in step tells a logged-in customer \"Hello <first> <last>, you are already logged in.\" instead of \"You are already signed in as <first> <last>\"."
     }
    ]
@@ -2075,7 +2075,7 @@ window.BUG_CATALOG = {
      "file": "test-scenarios/ui/cart/checkout-cart-review.yml",
      "status": "automated",
      "automatedIn": "tests/ui/cart/checkout-cart-review.spec.ts",
-     "specLine": 176,
+     "specLine": 177,
      "knownIssue": "The Cart step of the checkout shows nothing (no message, table or button) for a visitor without a cart, instead of \"Your shopping cart is empty\"."
     }
    ]
@@ -2114,7 +2114,7 @@ window.BUG_CATALOG = {
      "file": "test-scenarios/api/brands/put-brands-by-brand-id.yml",
      "status": "automated",
      "automatedIn": "tests/api/brands/put-brands-by-brand-id.spec.ts",
-     "specLine": 150,
+     "specLine": 114,
      "knownIssue": "Returns { message: \"Duplicate Entry\" } instead of the slug's validation message for a duplicate slug."
     }
    ]
@@ -2153,7 +2153,7 @@ window.BUG_CATALOG = {
      "file": "test-scenarios/api/categories/put-categories-by-category-id.yml",
      "status": "automated",
      "automatedIn": "tests/api/categories/put-categories-by-category-id.spec.ts",
-     "specLine": 272,
+     "specLine": 227,
      "knownIssue": "Returns { message: \"Duplicate Entry\" } instead of the slug's validation message for a duplicate slug."
     }
    ]
@@ -2193,7 +2193,7 @@ window.BUG_CATALOG = {
      "file": "test-scenarios/ui/cart/checkout-cart-review.yml",
      "status": "automated",
      "automatedIn": "tests/ui/cart/checkout-cart-review.spec.ts",
-     "specLine": 97,
+     "specLine": 98,
      "knownIssue": "The Cart step of the checkout says \"The cart is empty. Nothing to display.\" instead of \"Your shopping cart is empty\" after the last line is deleted."
     }
    ]
@@ -2232,7 +2232,7 @@ window.BUG_CATALOG = {
      "file": "test-scenarios/ui/cart/checkout-cart-review.yml",
      "status": "automated",
      "automatedIn": "tests/ui/cart/checkout-cart-review.spec.ts",
-     "specLine": 294,
+     "specLine": 288,
      "knownIssue": "The checkout cart marks a rental line \"Item for rent, price per hour\" instead of \"This is a rental item\"."
     }
    ]

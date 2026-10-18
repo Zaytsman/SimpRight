@@ -3,8 +3,8 @@ window.SCENARIO_CATALOG = {
  "layer": "ui",
  "title": "UI Test Cases",
  "prefix": "UI",
- "generatedAt": "2026-10-18T09:12:00.246Z",
- "commit": "3c4bf03b5c94adc9c4e0d351014f40b93f44eef2",
+ "generatedAt": "2026-10-18T19:17:35.701Z",
+ "commit": "b7b56b7907674bd4aad36a39057bdf25f22bef84",
  "repoUrl": "https://github.com/Zaytsman/SimpRight",
  "branch": "main",
  "workflowUrl": "https://github.com/Zaytsman/SimpRight/actions/workflows/custom-ui-tests.yml",
@@ -1128,7 +1128,7 @@ window.SCENARIO_CATALOG = {
     "Verify the cart has exactly one line: that product with quantity 2.",
     "Verify the cart total equals 2 × the product's unit price."
    ],
-   "specLine": 7,
+   "specLine": 6,
    "area": "cart",
    "areaLabel": "Cart",
    "file": "test-scenarios/ui/cart/add-to-cart.yml",
@@ -1152,7 +1152,7 @@ window.SCENARIO_CATALOG = {
     "Click \"Add to cart\".",
     "Verify the message \"Product added to shopping cart.\" is shown."
    ],
-   "specLine": 62,
+   "specLine": 61,
    "area": "cart",
    "areaLabel": "Cart",
    "file": "test-scenarios/ui/cart/add-to-cart.yml",
@@ -1422,7 +1422,7 @@ window.SCENARIO_CATALOG = {
     "Verify the line shows the product's unit price under \"Price\".",
     "Verify the line shows its line total under \"Total\", equal to the quantity × the unit price."
    ],
-   "specLine": 29,
+   "specLine": 30,
    "area": "cart",
    "areaLabel": "Cart",
    "file": "test-scenarios/ui/cart/checkout-cart-review.yml",
@@ -1451,7 +1451,7 @@ window.SCENARIO_CATALOG = {
     "Verify the line total equals 3 × the unit price.",
     "Verify the cart total equals 3 × the unit price."
    ],
-   "specLine": 68,
+   "specLine": 69,
    "area": "cart",
    "areaLabel": "Cart",
    "file": "test-scenarios/ui/cart/checkout-cart-review.yml",
@@ -1480,7 +1480,7 @@ window.SCENARIO_CATALOG = {
     "Verify the cart has one line: the second product.",
     "Verify the cart total equals the remaining line's total."
    ],
-   "specLine": 135,
+   "specLine": 136,
    "area": "cart",
    "areaLabel": "Cart",
    "file": "test-scenarios/ui/cart/checkout-cart-review.yml",
@@ -1508,7 +1508,7 @@ window.SCENARIO_CATALOG = {
     "Open the checkout page.",
     "Verify the message \"Your shopping cart is empty\" is shown."
    ],
-   "specLine": 176,
+   "specLine": 177,
    "area": "cart",
    "areaLabel": "Cart",
    "file": "test-scenarios/ui/cart/checkout-cart-review.yml",
@@ -1538,7 +1538,7 @@ window.SCENARIO_CATALOG = {
     "Verify the message \"Your shopping cart is empty\" is shown.",
     "Verify the button \"Proceed to checkout\" is not shown."
    ],
-   "specLine": 97,
+   "specLine": 98,
    "area": "cart",
    "areaLabel": "Cart",
    "file": "test-scenarios/ui/cart/checkout-cart-review.yml",
@@ -1568,7 +1568,7 @@ window.SCENARIO_CATALOG = {
     "Click \"Proceed to checkout\".",
     "Verify the \"Sign in\" step is shown."
    ],
-   "specLine": 118,
+   "specLine": 119,
    "area": "cart",
    "areaLabel": "Cart",
    "file": "test-scenarios/ui/cart/checkout-cart-review.yml",
@@ -1593,7 +1593,7 @@ window.SCENARIO_CATALOG = {
     "Verify the original price is shown struck through.",
     "Verify the discounted price is shown, equal to 80% of the original price."
    ],
-   "specLine": 192,
+   "specLine": 193,
    "area": "cart",
    "areaLabel": "Cart",
    "file": "test-scenarios/ui/cart/checkout-cart-review.yml",
@@ -1621,7 +1621,7 @@ window.SCENARIO_CATALOG = {
     "Verify the row \"Discount (15%)\" shows 15% of the subtotal.",
     "Verify the \"Total\" equals the subtotal minus the discount."
    ],
-   "specLine": 241,
+   "specLine": 235,
    "area": "cart",
    "areaLabel": "Cart",
    "file": "test-scenarios/ui/cart/checkout-cart-review.yml",
@@ -1650,7 +1650,7 @@ window.SCENARIO_CATALOG = {
     "Verify the \"Discount (15%)\" row is no longer shown.",
     "Verify the total equals the remaining line's total."
    ],
-   "specLine": 269,
+   "specLine": 263,
    "area": "cart",
    "areaLabel": "Cart",
    "file": "test-scenarios/ui/cart/checkout-cart-review.yml",
@@ -1679,7 +1679,7 @@ window.SCENARIO_CATALOG = {
     "Verify the line of the rental product is marked \"This is a rental item\".",
     "Verify the line of the product that is not a rental is not marked \"This is a rental item\"."
    ],
-   "specLine": 294,
+   "specLine": 288,
    "area": "cart",
    "areaLabel": "Cart",
    "file": "test-scenarios/ui/cart/checkout-cart-review.yml",
@@ -1708,7 +1708,7 @@ window.SCENARIO_CATALOG = {
     "Verify the \"Sign in\" step is shown.",
     "Verify the login form is shown."
    ],
-   "specLine": 12,
+   "specLine": 22,
    "area": "cart",
    "areaLabel": "Cart",
    "file": "test-scenarios/ui/cart/checkout-sign-in.yml",
@@ -1738,7 +1738,7 @@ window.SCENARIO_CATALOG = {
     "Verify the field \"Password\" is shown.",
     "Verify the button \"Login\" is shown."
    ],
-   "specLine": 32,
+   "specLine": 42,
    "area": "cart",
    "areaLabel": "Cart",
    "file": "test-scenarios/ui/cart/checkout-sign-in.yml",
@@ -1779,7 +1779,7 @@ window.SCENARIO_CATALOG = {
     "Verify a message that the customer is already signed in is shown.",
     "Verify the button \"Proceed to checkout\" is shown."
    ],
-   "specLine": 54,
+   "specLine": 64,
    "area": "cart",
    "areaLabel": "Cart",
    "file": "test-scenarios/ui/cart/checkout-sign-in.yml",
@@ -1816,7 +1816,7 @@ window.SCENARIO_CATALOG = {
     "Click \"Proceed to checkout\" on the sign-in step.",
     "Verify the \"Billing Address\" step is shown."
    ],
-   "specLine": 138,
+   "specLine": 145,
    "area": "cart",
    "areaLabel": "Cart",
    "file": "test-scenarios/ui/cart/checkout-sign-in.yml",
@@ -1845,7 +1845,7 @@ window.SCENARIO_CATALOG = {
     "Click \"Proceed to checkout\" on the sign-in step.",
     "Verify the \"Billing Address\" step is shown."
    ],
-   "specLine": 184,
+   "specLine": 189,
    "area": "cart",
    "areaLabel": "Cart",
    "file": "test-scenarios/ui/cart/checkout-sign-in.yml",
@@ -2072,7 +2072,7 @@ window.SCENARIO_CATALOG = {
     "Click \"Add to favourites\".",
     "Verify the message \"Product already in your favorites list.\" is shown."
    ],
-   "specLine": 30,
+   "specLine": 29,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/ui/products/product-favorites.yml",
@@ -2099,7 +2099,7 @@ window.SCENARIO_CATALOG = {
     "Click \"Add to favourites\".",
     "Verify the message \"Unauthorized, can not add product to your favorite list.\" is shown."
    ],
-   "specLine": 57,
+   "specLine": 55,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/ui/products/product-favorites.yml",
@@ -2128,7 +2128,7 @@ window.SCENARIO_CATALOG = {
     "Check the category \"Pliers\" in the sidebar.",
     "Verify the grid shows only the products of the category \"Pliers\": the products the catalogue lists for it in the page's default price range, $1 to $100."
    ],
-   "specLine": 7,
+   "specLine": 26,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/ui/products/product-filters.yml",
@@ -2151,7 +2151,7 @@ window.SCENARIO_CATALOG = {
     "Check the category \"Hand Tools\" in the sidebar.",
     "Verify the child categories \"Hammer\", \"Hand Saw\", \"Wrench\", \"Screwdriver\", \"Pliers\", \"Chisels\" and \"Measures\" are checked."
    ],
-   "specLine": 39,
+   "specLine": 51,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/ui/products/product-filters.yml",
@@ -2184,7 +2184,7 @@ window.SCENARIO_CATALOG = {
     "Uncheck the child category \"Measures\".",
     "Verify the category \"Hand Tools\" is not checked."
    ],
-   "specLine": 54,
+   "specLine": 66,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/ui/products/product-filters.yml",
@@ -2210,7 +2210,7 @@ window.SCENARIO_CATALOG = {
     "Check the brand \"MightyCraft Hardware\" in the sidebar.",
     "Verify the grid shows only the products of the brand \"MightyCraft Hardware\": the products the catalogue lists for it in the page's default price range, $1 to $100."
    ],
-   "specLine": 73,
+   "specLine": 85,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/ui/products/product-filters.yml",
@@ -2237,7 +2237,7 @@ window.SCENARIO_CATALOG = {
     "Check the brand \"ForgeFlex Tools\" in the sidebar.",
     "Verify the grid shows only the products that belong to both the category \"Pliers\" and the brand \"ForgeFlex Tools\": the products the catalogue lists for both filters in the page's default price range, $1 to $100."
    ],
-   "specLine": 102,
+   "specLine": 105,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/ui/products/product-filters.yml",
@@ -2265,7 +2265,7 @@ window.SCENARIO_CATALOG = {
     "Verify at least one product is shown.",
     "Verify the price of every product shown is between $10 and $15."
    ],
-   "specLine": 139,
+   "specLine": 135,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/ui/products/product-filters.yml",
@@ -2710,7 +2710,7 @@ window.SCENARIO_CATALOG = {
     "Verify at least one product is shown.",
     "Verify every product name contains \"pliers\" (case-insensitive)."
    ],
-   "specLine": 7,
+   "specLine": 25,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/ui/products/product-search.yml",
@@ -2738,7 +2738,7 @@ window.SCENARIO_CATALOG = {
     "Verify at least one product is shown.",
     "Verify every product name contains \"pliers\" (case-insensitive)."
    ],
-   "specLine": 30,
+   "specLine": 45,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/ui/products/product-search.yml",
@@ -2766,7 +2766,7 @@ window.SCENARIO_CATALOG = {
     "Verify at least one product is shown.",
     "Verify every product name contains \"ham\" (case-insensitive)."
    ],
-   "specLine": 67,
+   "specLine": 79,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/ui/products/product-search.yml",
@@ -2792,7 +2792,7 @@ window.SCENARIO_CATALOG = {
     "Search for a term of exactly 40 characters.",
     "Verify the caption reads \"Searched for: \" followed by the term."
    ],
-   "specLine": 90,
+   "specLine": 99,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/ui/products/product-search.yml",
@@ -2819,7 +2819,7 @@ window.SCENARIO_CATALOG = {
     "Verify no \"Searched for:\" caption is shown.",
     "Verify the product grid still shows the first page of all products."
    ],
-   "specLine": 102,
+   "specLine": 111,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/ui/products/product-search.yml",
@@ -2846,7 +2846,7 @@ window.SCENARIO_CATALOG = {
     "Verify no \"Searched for:\" caption is shown.",
     "Verify the product grid still shows the first page of all products."
    ],
-   "specLine": 124,
+   "specLine": 129,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/ui/products/product-search.yml",
