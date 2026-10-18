@@ -114,7 +114,7 @@ test.describe('@invoices-api - Invoices API', () => {
       'Verify the body has the keys payment_method, payment_details, billing_street, billing_city, billing_country and cart_id, each with at least one message.',
       async () => {
         for (const field of REQUIRED_FIELDS) {
-          expectFieldMessages(response, field, request);
+          expectFieldMessages(request, response, field);
         }
       }
     );
@@ -148,7 +148,7 @@ test.describe('@invoices-api - Invoices API', () => {
     });
 
     await test.step('Verify the body has a "payment_details.gift_card_number" key with at least one message.', async () => {
-      expectFieldMessages(response, 'payment_details.gift_card_number', request);
+      expectFieldMessages(request, response, 'payment_details.gift_card_number');
     });
   });
 

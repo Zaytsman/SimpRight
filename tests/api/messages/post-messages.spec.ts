@@ -252,8 +252,8 @@ test.describe('@messages-api - Messages API', () => {
     });
 
     await test.step('Verify the body has the keys subject and message, each with at least one message.', async () => {
-      expectFieldMessages(response, 'subject', request);
-      expectFieldMessages(response, 'message', request);
+      expectFieldMessages(request, response, 'subject');
+      expectFieldMessages(request, response, 'message');
     });
   });
 
@@ -270,7 +270,7 @@ test.describe('@messages-api - Messages API', () => {
     });
 
     await test.step('Verify the body has a subject key with at least one message.', async () => {
-      expectFieldMessages(response, 'subject', request);
+      expectFieldMessages(request, response, 'subject');
     });
   });
 
@@ -287,7 +287,7 @@ test.describe('@messages-api - Messages API', () => {
     });
 
     await test.step('Verify the body has a message key with at least one message.', async () => {
-      expectFieldMessages(response, 'message', request);
+      expectFieldMessages(request, response, 'message');
     });
   });
 
@@ -304,7 +304,7 @@ test.describe('@messages-api - Messages API', () => {
     });
 
     await test.step('Verify the body has an email key with at least one message.', async () => {
-      expectFieldMessages(response, 'email', request);
+      expectFieldMessages(request, response, 'email');
     });
   });
 
@@ -321,7 +321,7 @@ test.describe('@messages-api - Messages API', () => {
     });
 
     await test.step('Verify the body has a subject key with at least one message.', async () => {
-      expectFieldMessages(response, 'subject', request);
+      expectFieldMessages(request, response, 'subject');
     });
   });
 

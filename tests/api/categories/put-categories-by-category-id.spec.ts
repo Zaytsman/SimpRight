@@ -167,7 +167,7 @@ test.describe('@categories-api - Categories API', () => {
       });
 
       await test.step('Verify the body has a name key with at least one message.', async () => {
-        expectFieldMessages(response, 'name', request);
+        expectFieldMessages(request, response, 'name');
       });
     });
 
@@ -193,7 +193,7 @@ test.describe('@categories-api - Categories API', () => {
       });
 
       await test.step('Verify the body has a slug key with at least one message.', async () => {
-        expectFieldMessages(response, 'slug', request);
+        expectFieldMessages(request, response, 'slug');
       });
     });
 
@@ -212,7 +212,7 @@ test.describe('@categories-api - Categories API', () => {
       });
 
       await test.step('Verify the body has a name key with at least one message.', async () => {
-        expectFieldMessages(response, 'name', request);
+        expectFieldMessages(request, response, 'name');
       });
     });
 
@@ -231,7 +231,7 @@ test.describe('@categories-api - Categories API', () => {
       });
 
       await test.step('Verify the body has a parent_id key with at least one message.', async () => {
-        expectFieldMessages(response, 'parent_id', request);
+        expectFieldMessages(request, response, 'parent_id');
       });
     });
 
@@ -368,7 +368,7 @@ test.describe('@categories-api - Categories API', () => {
     });
 
     await test.step('Verify the body has a name key with at least one message.', async () => {
-      expectFieldMessages(response, 'name', request);
+      expectFieldMessages(request, response, 'name');
     });
   });
 });

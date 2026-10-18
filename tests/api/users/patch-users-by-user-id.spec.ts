@@ -306,7 +306,7 @@ test.describe('@users-api - Users API', () => {
     });
 
     await test.step('Verify the body has a phone key with at least one message.', async () => {
-      expectFieldMessages(response, 'phone', request);
+      expectFieldMessages(request, response, 'phone');
     });
 
     await test.step('Verify GET /users/me with that access_token returns the registered phone.', async () => {
@@ -341,7 +341,7 @@ test.describe('@users-api - Users API', () => {
     });
 
     await test.step('Verify the body has a dob key with at least one message.', async () => {
-      expectFieldMessages(response, 'dob', request);
+      expectFieldMessages(request, response, 'dob');
     });
 
     await test.step('Verify GET /users/me with that access_token returns the registered dob.', async () => {

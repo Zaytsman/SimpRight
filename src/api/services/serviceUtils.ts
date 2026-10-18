@@ -1,9 +1,20 @@
 import type { ApiResponse } from '../clients/BaseClient';
 
-/** Throws with the status and the start of the body when `response` isn't 2xx. */
+/** A non-2xx response where a happy path was expected; `status` lets callers tell a server error from a client one. */
+export class ApiError extends Error {
+  constructor(
+    message: string,
+    readonly status: number
+  ) {
+    super(message);
+    this.name = 'ApiError';
+  }
+}
+
+/** Throws an `ApiError` with the status and the start of the body when `response` isn't 2xx. */
 export function assertOk(response: ApiResponse, action: string): void {
   if (!response.isSuccess) {
-    throw new Error(`Failed to ${action}: ${response.status} ${response.statusText}. Body: ${response.body.slice(0, 200)}`);
+    throw new ApiError(`Failed to ${action}: ${response.status} ${response.statusText}. Body: ${response.body.slice(0, 200)}`, response.status);
   }
 }
 

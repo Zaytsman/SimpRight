@@ -1,6 +1,7 @@
 import { getUser, type UserRole } from '../../config/env';
 import type { AuthClient } from '../clients/AuthClient';
 import type { LoginResponse } from '../dto/auth';
+import { ApiError } from '../services/serviceUtils';
 
 /**
  * The least time a token must have left to be handed to a test (tokens live 5 minutes): TokenService refreshes this
@@ -32,7 +33,7 @@ export class TokenService {
           : role === 'default'
             ? "The run's registered customer couldn't log in."
             : 'Check credentials in .env.';
-      throw new Error(`Login failed for "${role}" user: ${response.status} ${response.statusText}. ${hint}`);
+      throw new ApiError(`Login failed for "${role}" user: ${response.status} ${response.statusText}. ${hint}`, response.status);
     }
 
     const { access_token, expires_in } = JSON.parse(response.body) as LoginResponse;

@@ -198,7 +198,7 @@ test.describe('@favorites-api - Favorites API', () => {
     });
 
     await test.step('Verify the body has a product_id key with at least one message.', async () => {
-      expectFieldMessages(response, 'product_id', request);
+      expectFieldMessages(request, response, 'product_id');
     });
 
     await test.step('Verify the body\'s product_id messages include "The product id field is required.".', async () => {

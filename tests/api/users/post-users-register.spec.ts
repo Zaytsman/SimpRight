@@ -101,7 +101,7 @@ async function registerWithRejectedPassword(
   });
 
   await test.step('Verify the body has a password key with at least one message.', async () => {
-    expectFieldMessages(response, 'password', request);
+    expectFieldMessages(request, response, 'password');
   });
 }
 
@@ -224,7 +224,7 @@ test.describe('@users-api - Users API', () => {
 
     await test.step('Verify the body has the keys first_name, last_name, email and password, each with at least one message.', async () => {
       for (const field of ['first_name', 'last_name', 'email', 'password']) {
-        expectFieldMessages(response, field, request);
+        expectFieldMessages(request, response, field);
       }
     });
   });
@@ -243,7 +243,7 @@ test.describe('@users-api - Users API', () => {
     });
 
     await test.step('Verify the body has a first_name key with at least one message.', async () => {
-      expectFieldMessages(response, 'first_name', request);
+      expectFieldMessages(request, response, 'first_name');
     });
   });
 
@@ -261,7 +261,7 @@ test.describe('@users-api - Users API', () => {
     });
 
     await test.step('Verify the body has a last_name key with at least one message.', async () => {
-      expectFieldMessages(response, 'last_name', request);
+      expectFieldMessages(request, response, 'last_name');
     });
   });
 
@@ -279,7 +279,7 @@ test.describe('@users-api - Users API', () => {
     });
 
     await test.step('Verify the body has a password key with at least one message.', async () => {
-      expectFieldMessages(response, 'password', request);
+      expectFieldMessages(request, response, 'password');
     });
   });
 
@@ -297,7 +297,7 @@ test.describe('@users-api - Users API', () => {
     });
 
     await test.step('Verify the body has a dob key with at least one message.', async () => {
-      expectFieldMessages(response, 'dob', request);
+      expectFieldMessages(request, response, 'dob');
     });
   });
 
@@ -315,7 +315,7 @@ test.describe('@users-api - Users API', () => {
     });
 
     await test.step('Verify the body has a first_name key with at least one message.', async () => {
-      expectFieldMessages(response, 'first_name', request);
+      expectFieldMessages(request, response, 'first_name');
     });
   });
 
@@ -333,7 +333,7 @@ test.describe('@users-api - Users API', () => {
     });
 
     await test.step('Verify the body has a dob key with at least one message.', async () => {
-      expectFieldMessages(response, 'dob', request);
+      expectFieldMessages(request, response, 'dob');
     });
   });
 
@@ -356,7 +356,7 @@ test.describe('@users-api - Users API', () => {
     });
 
     await test.step('Verify the body has an email key with at least one message.', async () => {
-      expectFieldMessages(response, 'email', request);
+      expectFieldMessages(request, response, 'email');
     });
   });
 
@@ -374,7 +374,7 @@ test.describe('@users-api - Users API', () => {
     });
 
     await test.step('Verify the body has a phone key with at least one message.', async () => {
-      expectFieldMessages(response, 'phone', request);
+      expectFieldMessages(request, response, 'phone');
     });
   });
 
@@ -424,7 +424,7 @@ test.describe('@users-api - Users API', () => {
     });
 
     await test.step('Verify the body has a first_name key with at least one message.', async () => {
-      expectFieldMessages(response, 'first_name', request);
+      expectFieldMessages(request, response, 'first_name');
     });
   });
 
@@ -606,7 +606,7 @@ test.describe('@users-api - Users API', () => {
     });
 
     await test.step('Verify the body has an address.postal_code key with at least one message.', async () => {
-      expectFieldMessages(response, 'address.postal_code', request);
+      expectFieldMessages(request, response, 'address.postal_code');
     });
   });
 

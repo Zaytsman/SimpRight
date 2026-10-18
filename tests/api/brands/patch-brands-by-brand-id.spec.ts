@@ -79,7 +79,7 @@ test.describe('@brands-api - Brands API', () => {
       });
 
       await test.step('Verify the body has a slug key with at least one message.', async () => {
-        expectFieldMessages(response, 'slug', request);
+        expectFieldMessages(request, response, 'slug');
       });
     });
 
@@ -101,7 +101,7 @@ test.describe('@brands-api - Brands API', () => {
       });
 
       await test.step('Verify the body has a name key with at least one message.', async () => {
-        expectFieldMessages(response, 'name', request);
+        expectFieldMessages(request, response, 'name');
       });
     });
 
@@ -126,7 +126,7 @@ test.describe('@brands-api - Brands API', () => {
       });
 
       await test.step('Verify the body has a slug key with at least one message.', async () => {
-        expectFieldMessages(response, 'slug', request);
+        expectFieldMessages(request, response, 'slug');
       });
 
       await test.step("Verify GET /brands/{brandId} with the new brand's id still returns its own slug.", async () => {

@@ -81,7 +81,7 @@ test.describe('@categories-api - Categories API', () => {
       });
 
       await test.step('Verify the body has a slug key with at least one message.', async () => {
-        expectFieldMessages(response, 'slug', request);
+        expectFieldMessages(request, response, 'slug');
       });
     });
 
@@ -107,7 +107,7 @@ test.describe('@categories-api - Categories API', () => {
       });
 
       await test.step('Verify the body has a slug key with at least one message.', async () => {
-        expectFieldMessages(response, 'slug', request);
+        expectFieldMessages(request, response, 'slug');
       });
     });
 
@@ -133,7 +133,7 @@ test.describe('@categories-api - Categories API', () => {
       });
 
       await test.step('Verify the body has a name key with at least one message.', async () => {
-        expectFieldMessages(response, 'name', request);
+        expectFieldMessages(request, response, 'name');
       });
     });
 
@@ -162,7 +162,7 @@ test.describe('@categories-api - Categories API', () => {
       });
 
       await test.step('Verify the body has a slug key with at least one message.', async () => {
-        expectFieldMessages(response, 'slug', request);
+        expectFieldMessages(request, response, 'slug');
       });
 
       // The category was never read before the PATCH, so no cached copy of it can exist.

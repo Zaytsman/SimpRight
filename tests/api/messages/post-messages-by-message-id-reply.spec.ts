@@ -163,7 +163,7 @@ test.describe('@messages-api - Messages API', () => {
       });
 
       await test.step('Verify the body has a message key with at least one message.', async () => {
-        expectFieldMessages(response, 'message', request);
+        expectFieldMessages(request, response, 'message');
       });
 
       await test.step('Verify GET /messages/{messageId} with that id and the admin\'s token returns 200 with status "NEW" and an empty replies list.', async () => {
@@ -193,7 +193,7 @@ test.describe('@messages-api - Messages API', () => {
       });
 
       await test.step('Verify the body has a message key with at least one message.', async () => {
-        expectFieldMessages(response, 'message', request);
+        expectFieldMessages(request, response, 'message');
       });
     });
 
@@ -217,7 +217,7 @@ test.describe('@messages-api - Messages API', () => {
       });
 
       await test.step('Verify the body has a message key with at least one message.', async () => {
-        expectFieldMessages(response, 'message', request);
+        expectFieldMessages(request, response, 'message');
       });
     });
 
@@ -234,7 +234,7 @@ test.describe('@messages-api - Messages API', () => {
       });
 
       await test.step('Verify the body has a message key with at least one message.', async () => {
-        expectFieldMessages(response, 'message', request);
+        expectFieldMessages(request, response, 'message');
       });
     });
 

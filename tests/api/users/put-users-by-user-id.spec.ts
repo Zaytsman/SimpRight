@@ -110,7 +110,7 @@ async function updateWithoutField(
   });
 
   await test.step(messageStep, async () => {
-    expectFieldMessages(response, field, request);
+    expectFieldMessages(request, response, field);
   });
 
   await test.step(UNCHANGED_PROFILE_STEP, async () => {

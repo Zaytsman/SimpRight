@@ -181,8 +181,8 @@ test.describe('@categories-api - Categories API', () => {
     });
 
     await test.step('Verify the body has the keys name and slug, each with at least one message.', async () => {
-      expectFieldMessages(response, 'name', request);
-      expectFieldMessages(response, 'slug', request);
+      expectFieldMessages(request, response, 'name');
+      expectFieldMessages(request, response, 'slug');
     });
 
     await test.step('Verify the body\'s name messages include "The name field is required." and its slug messages include "The slug field is required.".', async () => {
@@ -212,7 +212,7 @@ test.describe('@categories-api - Categories API', () => {
     });
 
     await test.step('Verify the body has a slug key with at least one message.', async () => {
-      expectFieldMessages(response, 'slug', request);
+      expectFieldMessages(request, response, 'slug');
     });
   });
 
@@ -230,7 +230,7 @@ test.describe('@categories-api - Categories API', () => {
     });
 
     await test.step('Verify the body has a name key with at least one message.', async () => {
-      expectFieldMessages(response, 'name', request);
+      expectFieldMessages(request, response, 'name');
     });
   });
 
@@ -251,7 +251,7 @@ test.describe('@categories-api - Categories API', () => {
     });
 
     await test.step('Verify the body has a slug key with at least one message.', async () => {
-      expectFieldMessages(response, 'slug', request);
+      expectFieldMessages(request, response, 'slug');
     });
   });
 
@@ -268,7 +268,7 @@ test.describe('@categories-api - Categories API', () => {
     });
 
     await test.step('Verify the body has a parent_id key with at least one message.', async () => {
-      expectFieldMessages(response, 'parent_id', request);
+      expectFieldMessages(request, response, 'parent_id');
     });
   });
 
@@ -286,7 +286,7 @@ test.describe('@categories-api - Categories API', () => {
     });
 
     await test.step('Verify the body has a name key with at least one message.', async () => {
-      expectFieldMessages(response, 'name', request);
+      expectFieldMessages(request, response, 'name');
     });
   });
 
@@ -322,7 +322,7 @@ test.describe('@categories-api - Categories API', () => {
     });
 
     await test.step('Verify the body has a name key with at least one message.', async () => {
-      expectFieldMessages(response, 'name', request);
+      expectFieldMessages(request, response, 'name');
     });
   });
 

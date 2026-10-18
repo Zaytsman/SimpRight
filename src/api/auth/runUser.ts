@@ -4,6 +4,7 @@ import { UserFactory } from '../../data/factories/UserFactory';
 import { AuthClient } from '../clients/AuthClient';
 import { UsersClient } from '../clients/UsersClient';
 import { UsersService } from '../services/UsersService';
+import { ApiError } from '../services/serviceUtils';
 import { TokenService } from './TokenService';
 
 /** How long to keep retrying while the site answers 5xx (its hourly re-seed takes a few minutes). */
@@ -32,10 +33,11 @@ export async function createRunUser(): Promise<void> {
   }
 }
 
-/** A 5xx status in the register or login error, or a dropped connection. */
+/** A 5xx answer to the register or login, or a dropped connection (BaseClient rethrows it with the cause's text). */
 function isTransient(error: unknown): boolean {
+  if (error instanceof ApiError) return error.status >= 500;
   const message = error instanceof Error ? error.message : String(error);
-  return /: 5\d\d\b/.test(message) || /ECONNRESET|ECONNREFUSED|ETIMEDOUT|socket hang up/i.test(message);
+  return /ECONNRESET|ECONNREFUSED|ETIMEDOUT|socket hang up/i.test(message);
 }
 
 async function registerAndLogIn(): Promise<void> {

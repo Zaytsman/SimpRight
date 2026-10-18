@@ -68,7 +68,7 @@ test.describe('@products-api - Products API', () => {
     });
 
     await test.step('Verify the body has a price key with at least one message.', async () => {
-      expectFieldMessages(response, 'price', request);
+      expectFieldMessages(request, response, 'price');
     });
   });
 
@@ -96,7 +96,7 @@ test.describe('@products-api - Products API', () => {
     });
 
     await test.step('Verify the body has a name key with at least one message.', async () => {
-      expectFieldMessages(response, 'name', request);
+      expectFieldMessages(request, response, 'name');
     });
   });
 
@@ -124,7 +124,7 @@ test.describe('@products-api - Products API', () => {
     });
 
     await test.step('Verify the body has a description key with at least one message.', async () => {
-      expectFieldMessages(response, 'description', request);
+      expectFieldMessages(request, response, 'description');
     });
   });
 
