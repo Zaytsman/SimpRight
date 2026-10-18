@@ -7,7 +7,7 @@ import type { Cleanup } from '../../fixtures/base';
 import type { ApiResponse, QueryBodyOptions } from '../clients/BaseClient';
 import type { Paginated } from '../dto/common';
 import { attachJson } from '../../utils/assertHelpers';
-import { expectFieldMessages, expectLocation, expectStatus, parseJson } from '../../utils/apiChecks';
+import { expectFieldMessages, expectLocation, expectMessage, expectStatus, parseJson } from '../../utils/apiChecks';
 
 /** How attached requests and assertion messages name the token a request was sent with, in the scenarios' wording. */
 export const AUTH = {
@@ -71,6 +71,33 @@ export async function sendQueryAndAttach<Body>(
 ): Promise<{ request: QueryRequestRecord<Body>; response: ApiResponse }> {
   const request: QueryRequestRecord<Body> = { method: 'QUERY', path, ...(options.auth !== undefined ? { auth: options.auth } : {}), headers, body };
   return sendAndAttach(name, request, () => send(body, { contentType: headers['Content-Type'], accept: headers.Accept ?? null }), options.describe ?? withHeaders);
+}
+
+/**
+ * The template of the scenarios that send one request and check only the status and the body's message, such as the
+ * access checks every protected endpoint has (without a token or with a malformed one 401 "Unauthorized", with a
+ * customer's token 403 "Forbidden") and the QUERY 415s: the send (title `sendStep`, through `send`), then the two checks.
+ */
+export async function checkStatusAndMessage(
+  sendStep: string,
+  send: () => Promise<{ request: unknown; response: ApiResponse }>,
+  status: number,
+  message: string
+): Promise<void> {
+  let request: unknown;
+  let response: ApiResponse;
+
+  await test.step(sendStep, async () => {
+    ({ request, response } = await send());
+  });
+
+  await test.step(`Verify the response status is ${status}.`, async () => {
+    expectStatus(request, response, status);
+  });
+
+  await test.step(`Verify the body's message is "${message}".`, async () => {
+    expectMessage(request, response, message);
+  });
 }
 
 /**

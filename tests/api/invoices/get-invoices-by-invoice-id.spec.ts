@@ -1,8 +1,8 @@
-import { test, expect, AUTH, createCustomerInvoice, customerAWithInvoiceAndCustomerB, sendGetInvoice, expectKeys, expectSingleInvoiceLine, expectPaymentMethod, type CustomerInvoice, type InvoiceRequest } from '@fixtures';
+import { test, expect, AUTH, createCustomerInvoice, customerAWithInvoiceAndCustomerB, sendGetInvoice, expectKeys, expectSingleInvoiceLine, expectPaymentMethod, type CustomerInvoice, type InvoiceRequest, checkStatusAndMessage } from '@fixtures';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { Invoice } from '@api/dto/invoice';
 import { TestConstants } from '@data/TestConstants';
-import { expectMessage, expectStatus, parseJson } from '@utils/apiChecks';
+import { expectStatus, parseJson } from '@utils/apiChecks';
 import { assertMessage } from '@utils/assertHelpers';
 
 // Scenarios: test-scenarios/api/invoices/get-invoices-by-invoice-id.yml
@@ -172,37 +172,21 @@ test.describe('@invoices-api - Invoices API', () => {
   });
 
   test('API-0465: Get invoice without a token returns 401', async ({ invoicesClient }) => {
-    let request: InvoiceRequest;
-    let response: ApiResponse;
-
-    await test.step('Send GET /invoices/{invoiceId} with a well-formed ULID that no invoice has, without an Authorization header.', async () => {
-      ({ request, response } = await sendGetInvoice(invoicesClient, TestConstants.invoices.unknownId, AUTH.none));
-    });
-
-    await test.step('Verify the response status is 401.', async () => {
-      expectStatus(request, response, 401);
-    });
-
-    await test.step('Verify the body\'s message is "Unauthorized".', async () => {
-      expectMessage(request, response, 'Unauthorized');
-    });
+    await checkStatusAndMessage(
+      'Send GET /invoices/{invoiceId} with a well-formed ULID that no invoice has, without an Authorization header.',
+      () => sendGetInvoice(invoicesClient, TestConstants.invoices.unknownId, AUTH.none),
+      401,
+      'Unauthorized'
+    );
   });
 
   test('API-0466: Get invoice with an unknown id returns 404', async ({ invoicesClientWithToken }) => {
-    let request: InvoiceRequest;
-    let response: ApiResponse;
-
-    await test.step("Send GET /invoices/{invoiceId} with a well-formed ULID that no invoice has and the default user's token.", async () => {
-      ({ request, response } = await sendGetInvoice(invoicesClientWithToken, TestConstants.invoices.unknownId, AUTH.defaultUser));
-    });
-
-    await test.step('Verify the response status is 404.', async () => {
-      expectStatus(request, response, 404);
-    });
-
-    await test.step('Verify the body\'s message is "Requested item not found".', async () => {
-      expectMessage(request, response, 'Requested item not found');
-    });
+    await checkStatusAndMessage(
+      "Send GET /invoices/{invoiceId} with a well-formed ULID that no invoice has and the default user's token.",
+      () => sendGetInvoice(invoicesClientWithToken, TestConstants.invoices.unknownId, AUTH.defaultUser),
+      404,
+      'Requested item not found'
+    );
   });
 
   test("API-0467: Get invoice with another customer's id returns 404", async ({
@@ -214,21 +198,13 @@ test.describe('@invoices-api - Invoices API', () => {
     invoicesClientForToken,
     cleanup,
   }) => {
-    let request: InvoiceRequest;
-    let response: ApiResponse;
-
     const { tokenB, invoice } = await customerAWithInvoiceAndCustomerB({ usersService, adminUsersService, authService, cartsService, invoicesServiceForToken, cleanup });
 
-    await test.step("Send GET /invoices/{invoiceId} with that id and customer B's access_token.", async () => {
-      ({ request, response } = await sendGetInvoice(invoicesClientForToken(tokenB), invoice.id, AUTH.customerB));
-    });
-
-    await test.step('Verify the response status is 404.', async () => {
-      expectStatus(request, response, 404);
-    });
-
-    await test.step('Verify the body\'s message is "Requested item not found".', async () => {
-      expectMessage(request, response, 'Requested item not found');
-    });
+    await checkStatusAndMessage(
+      "Send GET /invoices/{invoiceId} with that id and customer B's access_token.",
+      () => sendGetInvoice(invoicesClientForToken(tokenB), invoice.id, AUTH.customerB),
+      404,
+      'Requested item not found'
+    );
   });
 });

@@ -1,9 +1,9 @@
-import { test, expect, createCategory, readCategory, CATEGORY_CREATE_ID_SLUG_STEP, AUTH, sendAndAttach, checkRejectedBody } from '@fixtures';
+import { test, expect, createCategory, readCategory, CATEGORY_CREATE_ID_SLUG_STEP, AUTH, sendAndAttach, checkRejectedBody, checkStatusAndMessage } from '@fixtures';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { CategoriesClient } from '@api/clients/CategoriesClient';
 import { TestConstants } from '@data/TestConstants';
 import { CategoryFactory } from '@data/factories/CategoryFactory';
-import { expectFieldMessages, expectMessage, expectStatus, expectSuccess } from '@utils/apiChecks';
+import { expectFieldMessages, expectStatus, expectSuccess } from '@utils/apiChecks';
 import { assertMessage } from '@utils/assertHelpers';
 
 // Scenarios: test-scenarios/api/categories/patch-categories-by-category-id.yml
@@ -215,19 +215,11 @@ test.describe('@categories-api - Categories API', () => {
   });
 
   test('API-0218: Partially update category with an unknown id returns 404', async ({ categoriesClient }) => {
-    let request: PatchCategoryRequestInfo;
-    let response: ApiResponse;
-
-    await test.step('Send PATCH /categories/{categoryId} with a well-formed ULID that no category has and a body with only a unique category name.', async () => {
-      ({ request, response } = await sendPatchCategory(categoriesClient, TestConstants.categories.unknownId, CategoryFactory.updateName(), 'none'));
-    });
-
-    await test.step('Verify the response status is 404.', async () => {
-      expectStatus(request, response, 404);
-    });
-
-    await test.step('Verify the body\'s message is "Requested item not found".', async () => {
-      expectMessage(request, response, 'Requested item not found');
-    });
+    await checkStatusAndMessage(
+      'Send PATCH /categories/{categoryId} with a well-formed ULID that no category has and a body with only a unique category name.',
+      () => sendPatchCategory(categoriesClient, TestConstants.categories.unknownId, CategoryFactory.updateName(), 'none'),
+      404,
+      'Requested item not found'
+    );
   });
 });

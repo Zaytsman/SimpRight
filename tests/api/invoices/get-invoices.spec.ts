@@ -1,8 +1,8 @@
-import { test, expect, AUTH, registerThrowawayCustomer, loginThrowawayCustomer, disableCustomerSetup, createCustomerInvoice, createInvoiceSetup, expectSingleInvoiceLine, customerAWithInvoiceAndCustomerB, sendListInvoices, invoiceSummary, invoicePageSummary, expectKeys, expectOnlyInvoice, expectEmptyInvoicePage, type CustomerInvoice, type InvoiceRequest } from '@fixtures';
+import { test, expect, AUTH, registerThrowawayCustomer, loginThrowawayCustomer, disableCustomerSetup, createCustomerInvoice, createInvoiceSetup, expectSingleInvoiceLine, customerAWithInvoiceAndCustomerB, sendListInvoices, invoiceSummary, invoicePageSummary, expectKeys, expectOnlyInvoice, expectEmptyInvoicePage, type CustomerInvoice, type InvoiceRequest, checkStatusAndMessage } from '@fixtures';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { Paginated } from '@api/dto/common';
 import type { InvoiceCreated, InvoiceStatus, InvoiceSummary } from '@api/dto/invoice';
-import { expectMessage, expectStatus, PAGE_KEYS, parseJson } from '@utils/apiChecks';
+import { expectStatus, PAGE_KEYS, parseJson } from '@utils/apiChecks';
 import { assertMessage } from '@utils/assertHelpers';
 
 // Scenarios: test-scenarios/api/invoices/get-invoices.yml
@@ -263,37 +263,21 @@ test.describe('@invoices-api - Invoices API', () => {
   });
 
   test('API-0446: List invoices without a token returns 401', async ({ invoicesClient }) => {
-    let request: InvoiceRequest;
-    let response: ApiResponse;
-
-    await test.step('Send GET /invoices without an Authorization header.', async () => {
-      ({ request, response } = await sendListInvoices(invoicesClient, AUTH.none));
-    });
-
-    await test.step('Verify the response status is 401.', async () => {
-      expectStatus(request, response, 401);
-    });
-
-    await test.step('Verify the body\'s message is "Unauthorized".', async () => {
-      expectMessage(request, response, 'Unauthorized');
-    });
+    await checkStatusAndMessage(
+      'Send GET /invoices without an Authorization header.',
+      () => sendListInvoices(invoicesClient, AUTH.none),
+      401,
+      'Unauthorized'
+    );
   });
 
   test('API-0447: List invoices with a malformed token returns 401', async ({ invoicesClientWithInvalidToken }) => {
-    let request: InvoiceRequest;
-    let response: ApiResponse;
-
-    await test.step('Send GET /invoices with a malformed token.', async () => {
-      ({ request, response } = await sendListInvoices(invoicesClientWithInvalidToken, AUTH.malformed));
-    });
-
-    await test.step('Verify the response status is 401.', async () => {
-      expectStatus(request, response, 401);
-    });
-
-    await test.step('Verify the body\'s message is "Unauthorized".', async () => {
-      expectMessage(request, response, 'Unauthorized');
-    });
+    await checkStatusAndMessage(
+      'Send GET /invoices with a malformed token.',
+      () => sendListInvoices(invoicesClientWithInvalidToken, AUTH.malformed),
+      401,
+      'Unauthorized'
+    );
   });
 
   test.describe(() => {
@@ -306,9 +290,6 @@ test.describe('@invoices-api - Invoices API', () => {
       invoicesClientForToken,
       cleanup,
     }) => {
-      let request: InvoiceRequest;
-      let response: ApiResponse;
-
       const customer = await registerThrowawayCustomer(usersService, adminUsersService, cleanup);
       const customerToken = await loginThrowawayCustomer(authService, customer);
       // The throwaway's token isn't used before this step, so the API's cached user can't be a stale, enabled one.
@@ -319,17 +300,12 @@ test.describe('@invoices-api - Invoices API', () => {
         AUTH.admin
       );
 
-      await test.step("Send GET /invoices with the throwaway customer's access_token.", async () => {
-        ({ request, response } = await sendListInvoices(invoicesClientForToken(customerToken), AUTH.throwaway));
-      });
-
-      await test.step('Verify the response status is 403.', async () => {
-        expectStatus(request, response, 403);
-      });
-
-      await test.step('Verify the body\'s message is "Account disabled.".', async () => {
-        expectMessage(request, response, 'Account disabled.');
-      });
+      await checkStatusAndMessage(
+        "Send GET /invoices with the throwaway customer's access_token.",
+        () => sendListInvoices(invoicesClientForToken(customerToken), AUTH.throwaway),
+        403,
+        'Account disabled.'
+      );
     });
   });
 });

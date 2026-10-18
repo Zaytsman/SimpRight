@@ -1,8 +1,8 @@
-import { test, createCustomerInvoice, AUTH, sendQuerySearchInvoices, expectOnlyInvoice, type CustomerInvoice, type InvoiceRequest } from '@fixtures';
+import { test, createCustomerInvoice, AUTH, sendQuerySearchInvoices, expectOnlyInvoice, type CustomerInvoice, type InvoiceRequest, checkStatusAndMessage } from '@fixtures';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { Paginated } from '@api/dto/common';
 import type { InvoiceSummary } from '@api/dto/invoice';
-import { expectAcceptQuery, expectMessage, expectStatus, parseJson } from '@utils/apiChecks';
+import { expectAcceptQuery, expectStatus, parseJson } from '@utils/apiChecks';
 
 // Scenarios: test-scenarios/api/invoices/query-invoices-search.yml
 
@@ -74,23 +74,12 @@ test.describe('@invoices-api - Invoices API', () => {
   });
 
   test('API-0461: QUERY search without a token returns 401', async ({ invoicesClient }) => {
-    let request: InvoiceRequest;
-    let response: ApiResponse;
-
-    await test.step(
+    await checkStatusAndMessage(
       'Send QUERY /invoices/search without an Authorization header, with Content-Type: application/json, Accept: application/json and an empty JSON object as the body.',
-      async () => {
-        ({ request, response } = await sendQuerySearchInvoices(invoicesClient, AUTH.none, {}));
-      }
+      () => sendQuerySearchInvoices(invoicesClient, AUTH.none, {}),
+      401,
+      'Unauthorized'
     );
-
-    await test.step('Verify the response status is 401.', async () => {
-      expectStatus(request, response, 401);
-    });
-
-    await test.step('Verify the body\'s message is "Unauthorized".', async () => {
-      expectMessage(request, response, 'Unauthorized');
-    });
   });
 
   test('API-0462: QUERY search without a JSON Content-Type returns 415', async ({ invoicesClientWithToken }) => {

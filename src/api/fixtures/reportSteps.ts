@@ -3,10 +3,10 @@
  * names), no personal data, so responses are attached as they came. Live data changes with the hourly re-seed and other
  * visitors' orders: the checks cover shapes, types and ordering, never figures.
  */
-import { test, expect } from '@playwright/test';
+import { expect } from '@playwright/test';
 import type { ApiResponse } from '../clients/BaseClient';
 import { assertMessage } from '../../utils/assertHelpers';
-import { expectMessage, expectStatus, parseJson } from '../../utils/apiChecks';
+import { parseJson } from '../../utils/apiChecks';
 import { sendAndAttach, withHeaders } from './apiSteps';
 
 export type ReportRequest = { method: 'GET'; path: string; query?: Record<string, string | number>; auth: string };
@@ -20,36 +20,6 @@ export async function sendReport(
 ): Promise<{ request: ReportRequest; response: ApiResponse }> {
   const request: ReportRequest = { method: 'GET', path, ...(query ? { query } : {}), auth };
   return sendAndAttach('Report', request, call, withHeaders);
-}
-
-/** The message the reports' auth middleware answers with, by status. */
-const REJECTION_MESSAGE = { 401: 'Unauthorized', 403: 'Forbidden' } as const;
-
-/**
- * The template of the reports' access scenarios, the same three for every report (without a token and with a malformed
- * token 401 "Unauthorized", with the default user's token 403 "Forbidden"): sends with `send` (title `sendStep`), then
- * checks the status and the body's message.
- */
-export async function checkReportRejected(
-  sendStep: string,
-  send: () => Promise<{ request: ReportRequest; response: ApiResponse }>,
-  status: keyof typeof REJECTION_MESSAGE
-): Promise<void> {
-  let request: ReportRequest;
-  let response: ApiResponse;
-  const message = REJECTION_MESSAGE[status];
-
-  await test.step(sendStep, async () => {
-    ({ request, response } = await send());
-  });
-
-  await test.step(`Verify the response status is ${status}.`, async () => {
-    expectStatus(request, response, status);
-  });
-
-  await test.step(`Verify the body's message is "${message}".`, async () => {
-    expectMessage(request, response, message);
-  });
 }
 
 /** Parses a report body that must be an array (checked with a message); call it after the status check. */

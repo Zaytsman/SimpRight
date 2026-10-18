@@ -1,4 +1,4 @@
-import { test, expect, registerThrowawayCustomer, loginThrowawayCustomer, takeFirstProductId, AUTH, sendAndAttach } from '@fixtures';
+import { test, expect, registerThrowawayCustomer, loginThrowawayCustomer, takeFirstProductId, AUTH, sendAndAttach, checkStatusAndMessage } from '@fixtures';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { UsersClient } from '@api/clients/UsersClient';
 import { TestConstants } from '@data/TestConstants';
@@ -139,19 +139,11 @@ test.describe('@users-api - Users API', () => {
   });
 
   test('API-0437: Delete user without a token returns 401', async ({ usersClient }) => {
-    let request: DeleteUserRequest;
-    let response: ApiResponse;
-
-    await test.step('Send DELETE /users/{userId} with a well-formed ULID that no user has, without an Authorization header.', async () => {
-      ({ request, response } = await sendDeleteUser(usersClient, TestConstants.users.unknownId, 'none'));
-    });
-
-    await test.step('Verify the response status is 401.', async () => {
-      expectStatus(request, response, 401);
-    });
-
-    await test.step('Verify the body\'s message is "Unauthorized".', async () => {
-      expectMessage(request, response, 'Unauthorized');
-    });
+    await checkStatusAndMessage(
+      'Send DELETE /users/{userId} with a well-formed ULID that no user has, without an Authorization header.',
+      () => sendDeleteUser(usersClient, TestConstants.users.unknownId, 'none'),
+      401,
+      'Unauthorized'
+    );
   });
 });

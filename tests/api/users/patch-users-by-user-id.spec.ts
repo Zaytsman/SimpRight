@@ -1,11 +1,11 @@
-import { test, expect, registerThrowawayCustomer, loginThrowawayCustomer, AUTH, sendAndAttach, readCurrentUser } from '@fixtures';
+import { test, expect, registerThrowawayCustomer, loginThrowawayCustomer, AUTH, sendAndAttach, readCurrentUser, checkStatusAndMessage } from '@fixtures';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { UsersClient } from '@api/clients/UsersClient';
 import type { PatchUserRequest, User } from '@api/dto/user';
 import type { UsersService } from '@api/services/UsersService';
 import { TestConstants } from '@data/TestConstants';
 import { UserFactory } from '@data/factories/UserFactory';
-import { expectErrorText, expectFieldMessages, expectMessage, expectStatus, expectSuccess } from '@utils/apiChecks';
+import { expectErrorText, expectFieldMessages, expectStatus, expectSuccess } from '@utils/apiChecks';
 import { assertMessage, attachJson } from '@utils/assertHelpers';
 
 // Scenarios: test-scenarios/api/users/patch-users-by-user-id.yml
@@ -210,20 +210,12 @@ test.describe('@users-api - Users API', () => {
   });
 
   test('API-0429: Patch user without a token returns 401', async ({ usersClient }) => {
-    let request: PatchRequestInfo;
-    let response: ApiResponse;
-
-    await test.step('Send PATCH /users/{userId} with a well-formed ULID that no user has and first_name set to a new value, without an Authorization header.', async () => {
-      ({ request, response } = await sendPatch(usersClient, TestConstants.users.unknownId, { first_name: NEW_NAME }, 'none'));
-    });
-
-    await test.step('Verify the response status is 401.', async () => {
-      expectStatus(request, response, 401);
-    });
-
-    await test.step('Verify the body\'s message is "Unauthorized".', async () => {
-      expectMessage(request, response, 'Unauthorized');
-    });
+    await checkStatusAndMessage(
+      'Send PATCH /users/{userId} with a well-formed ULID that no user has and first_name set to a new value, without an Authorization header.',
+      () => sendPatch(usersClient, TestConstants.users.unknownId, { first_name: NEW_NAME }, 'none'),
+      401,
+      'Unauthorized'
+    );
   });
 
   test("API-0430: Patch user with another customer's id returns 403 and leaves that customer unchanged", async ({

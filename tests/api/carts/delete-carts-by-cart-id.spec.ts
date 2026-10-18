@@ -1,8 +1,8 @@
-import { test, createProductAndCart, addItemSetup, ADD_PRODUCT_STEP, sendAndAttach } from '@fixtures';
+import { test, createProductAndCart, addItemSetup, ADD_PRODUCT_STEP, sendAndAttach, checkStatusAndMessage } from '@fixtures';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { CartsClient } from '@api/clients/CartsClient';
 import { TestConstants } from '@data/TestConstants';
-import { expectMessage, expectStatus } from '@utils/apiChecks';
+import { expectStatus } from '@utils/apiChecks';
 
 // Scenarios: test-scenarios/api/carts/delete-carts-by-cart-id.yml
 
@@ -42,19 +42,11 @@ test.describe('@carts-api - Carts API', () => {
   });
 
   test('API-0266: Delete cart with an unknown cart id returns 404', async ({ cartsClient }) => {
-    let request: DeleteCartRequest;
-    let response: ApiResponse;
-
-    await test.step("Send DELETE /carts/{cartId} with a well-formed cart id that doesn't exist.", async () => {
-      ({ request, response } = await sendDeleteCart(cartsClient, TestConstants.carts.unknownId));
-    });
-
-    await test.step('Verify the response status is 404.', async () => {
-      expectStatus(request, response, 404);
-    });
-
-    await test.step('Verify the body\'s message is "Cart doesnt exists".', async () => {
-      expectMessage(request, response, 'Cart doesnt exists');
-    });
+    await checkStatusAndMessage(
+      "Send DELETE /carts/{cartId} with a well-formed cart id that doesn't exist.",
+      () => sendDeleteCart(cartsClient, TestConstants.carts.unknownId),
+      404,
+      'Cart doesnt exists'
+    );
   });
 });

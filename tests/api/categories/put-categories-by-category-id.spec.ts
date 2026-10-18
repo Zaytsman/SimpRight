@@ -1,10 +1,10 @@
-import { test, expect, createCategory, readCategory, CATEGORY_CREATE_ID_SLUG_STEP, PARENT_CREATE_STEP, CHILD_CREATE_STEP, AUTH, sendAndAttach, checkRejectedBody } from '@fixtures';
+import { test, expect, createCategory, readCategory, CATEGORY_CREATE_ID_SLUG_STEP, PARENT_CREATE_STEP, CHILD_CREATE_STEP, AUTH, sendAndAttach, checkRejectedBody, checkStatusAndMessage } from '@fixtures';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { CategoriesClient } from '@api/clients/CategoriesClient';
 import type { CategoriesService } from '@api/services/CategoriesService';
 import { TestConstants } from '@data/TestConstants';
 import { CategoryFactory } from '@data/factories/CategoryFactory';
-import { expectFieldMessageIncludes, expectFieldMessages, expectMessage, expectStatus, expectSuccess } from '@utils/apiChecks';
+import { expectFieldMessageIncludes, expectFieldMessages, expectStatus, expectSuccess } from '@utils/apiChecks';
 import { assertMessage, attachJson } from '@utils/assertHelpers';
 
 // Scenarios: test-scenarios/api/categories/put-categories-by-category-id.yml
@@ -291,20 +291,12 @@ test.describe('@categories-api - Categories API', () => {
   });
 
   test('API-0208: Update category with an unknown id returns 404', async ({ categoriesClient }) => {
-    let request: UpdateCategoryRequestInfo;
-    let response: ApiResponse;
-
-    await test.step('Send PUT /categories/{categoryId} with a well-formed ULID that no category has and a body with only a unique category name.', async () => {
-      ({ request, response } = await sendUpdateCategory(categoriesClient, TestConstants.categories.unknownId, CategoryFactory.updateName(), 'none'));
-    });
-
-    await test.step('Verify the response status is 404.', async () => {
-      expectStatus(request, response, 404);
-    });
-
-    await test.step('Verify the body\'s message is "Requested item not found".', async () => {
-      expectMessage(request, response, 'Requested item not found');
-    });
+    await checkStatusAndMessage(
+      'Send PUT /categories/{categoryId} with a well-formed ULID that no category has and a body with only a unique category name.',
+      () => sendUpdateCategory(categoriesClient, TestConstants.categories.unknownId, CategoryFactory.updateName(), 'none'),
+      404,
+      'Requested item not found'
+    );
   });
 
   test('API-0209: Update category with an unknown id and an invalid body returns 422', async ({ categoriesClient }) => {

@@ -1,4 +1,4 @@
-import { test, loginForNewToken, logoutToken, sendAndAttach } from '@fixtures';
+import { test, loginForNewToken, logoutToken, sendAndAttach, checkStatusAndMessage } from '@fixtures';
 import { expectMessage, expectStatus } from '@utils/apiChecks';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { UsersClient } from '@api/clients/UsersClient';
@@ -42,56 +42,32 @@ test.describe('@users-api - Users API', () => {
   });
 
   test('API-0106: Logout without a token returns 401', async ({ usersClient }) => {
-    let request: LogoutRequest;
-    let response: ApiResponse;
-
-    await test.step('Send GET /users/logout without an Authorization header.', async () => {
-      ({ request, response } = await sendLogout(usersClient, 'none'));
-    });
-
-    await test.step('Verify the response status is 401.', async () => {
-      expectStatus(request, response, 401);
-    });
-
-    await test.step('Verify the body\'s message is "Unauthorized".', async () => {
-      expectMessage(request, response, 'Unauthorized');
-    });
+    await checkStatusAndMessage(
+      'Send GET /users/logout without an Authorization header.',
+      () => sendLogout(usersClient, 'none'),
+      401,
+      'Unauthorized'
+    );
   });
 
   test('API-0107: Logout with an invalid token returns 401', async ({ usersClientWithInvalidToken }) => {
-    let request: LogoutRequest;
-    let response: ApiResponse;
-
-    await test.step('Send GET /users/logout with an invalid token.', async () => {
-      ({ request, response } = await sendLogout(usersClientWithInvalidToken, 'an invalid token'));
-    });
-
-    await test.step('Verify the response status is 401.', async () => {
-      expectStatus(request, response, 401);
-    });
-
-    await test.step('Verify the body\'s message is "Unauthorized".', async () => {
-      expectMessage(request, response, 'Unauthorized');
-    });
+    await checkStatusAndMessage(
+      'Send GET /users/logout with an invalid token.',
+      () => sendLogout(usersClientWithInvalidToken, 'an invalid token'),
+      401,
+      'Unauthorized'
+    );
   });
 
   test('API-0108: Logout with an already logged-out token returns 401', async ({ authService, user, usersClientForToken, usersServiceForToken }) => {
-    let request: LogoutRequest;
-    let response: ApiResponse;
-
     const token = await loginForNewToken(authService, user);
     await logoutToken(usersServiceForToken, token);
 
-    await test.step('Send GET /users/logout with the same token again.', async () => {
-      ({ request, response } = await sendLogout(usersClientForToken(token), 'the logged-out access_token'));
-    });
-
-    await test.step('Verify the response status is 401.', async () => {
-      expectStatus(request, response, 401);
-    });
-
-    await test.step('Verify the body\'s message is "Unauthorized".', async () => {
-      expectMessage(request, response, 'Unauthorized');
-    });
+    await checkStatusAndMessage(
+      'Send GET /users/logout with the same token again.',
+      () => sendLogout(usersClientForToken(token), 'the logged-out access_token'),
+      401,
+      'Unauthorized'
+    );
   });
 });

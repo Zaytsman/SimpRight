@@ -1,9 +1,9 @@
-import { test, expect, createBrand, readBrand, takeOtherBrandSlug, BRAND_CREATE_ID_SLUG_STEP, AUTH, sendAndAttach, checkRejectedBody } from '@fixtures';
+import { test, expect, createBrand, readBrand, takeOtherBrandSlug, BRAND_CREATE_ID_SLUG_STEP, AUTH, sendAndAttach, checkRejectedBody, checkStatusAndMessage } from '@fixtures';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { BrandsClient } from '@api/clients/BrandsClient';
 import { TestConstants } from '@data/TestConstants';
 import { BrandFactory } from '@data/factories/BrandFactory';
-import { expectFieldMessageIncludes, expectFieldMessages, expectMessage, expectStatus, expectSuccess } from '@utils/apiChecks';
+import { expectFieldMessageIncludes, expectFieldMessages, expectStatus, expectSuccess } from '@utils/apiChecks';
 import { assertMessage } from '@utils/assertHelpers';
 
 // Scenarios: test-scenarios/api/brands/put-brands-by-brand-id.yml
@@ -151,20 +151,12 @@ test.describe('@brands-api - Brands API', () => {
   });
 
   test('API-0136: Update brand with an unknown id returns 404', async ({ brandsClient }) => {
-    let request: PutBrandRequest;
-    let response: ApiResponse;
-
-    await test.step('Send PUT /brands/{brandId} with a well-formed ULID that no brand has and a body with only a unique brand name.', async () => {
-      ({ request, response } = await sendPutBrand(brandsClient, TestConstants.brands.unknownId, BrandFactory.updateName(), 'none'));
-    });
-
-    await test.step('Verify the response status is 404.', async () => {
-      expectStatus(request, response, 404);
-    });
-
-    await test.step('Verify the body\'s message is "Requested item not found".', async () => {
-      expectMessage(request, response, 'Requested item not found');
-    });
+    await checkStatusAndMessage(
+      'Send PUT /brands/{brandId} with a well-formed ULID that no brand has and a body with only a unique brand name.',
+      () => sendPutBrand(brandsClient, TestConstants.brands.unknownId, BrandFactory.updateName(), 'none'),
+      404,
+      'Requested item not found'
+    );
   });
 
   test('API-0137: Update brand with an unknown id and an invalid body returns 422', async ({ brandsClient }) => {

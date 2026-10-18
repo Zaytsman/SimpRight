@@ -1,4 +1,4 @@
-import { test, expect, createCategory, takeProductRefs, PARENT_CREATE_STEP, CHILD_CREATE_STEP, AUTH, sendAndAttach } from '@fixtures';
+import { test, expect, createCategory, takeProductRefs, PARENT_CREATE_STEP, CHILD_CREATE_STEP, AUTH, sendAndAttach, checkStatusAndMessage } from '@fixtures';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { CategoriesClient } from '@api/clients/CategoriesClient';
 import { TestConstants } from '@data/TestConstants';
@@ -52,58 +52,34 @@ test.describe('@categories-api - Categories API', () => {
     });
 
     test('API-0224: Delete category without a token returns 401', async ({ adminCategoriesService, categoriesClient, cleanup }) => {
-      let request: DeleteCategoryRequestInfo;
-      let response: ApiResponse;
-
       const category = await createCategory(adminCategoriesService, cleanup);
 
-      await test.step('Send DELETE /categories/{categoryId} with that id, without an Authorization header.', async () => {
-        ({ request, response } = await sendDeleteCategory(categoriesClient, category.id, 'none'));
-      });
-
-      await test.step('Verify the response status is 401.', async () => {
-        expectStatus(request, response, 401);
-      });
-
-      await test.step('Verify the body\'s message is "Unauthorized".', async () => {
-        expectMessage(request, response, 'Unauthorized');
-      });
+      await checkStatusAndMessage(
+        'Send DELETE /categories/{categoryId} with that id, without an Authorization header.',
+        () => sendDeleteCategory(categoriesClient, category.id, 'none'),
+        401,
+        'Unauthorized'
+      );
     });
 
     test('API-0225: Delete category with an invalid token returns 401', async ({ adminCategoriesService, categoriesClientWithInvalidToken, cleanup }) => {
-      let request: DeleteCategoryRequestInfo;
-      let response: ApiResponse;
-
       const category = await createCategory(adminCategoriesService, cleanup);
 
-      await test.step('Send DELETE /categories/{categoryId} with that id, with an invalid token.', async () => {
-        ({ request, response } = await sendDeleteCategory(categoriesClientWithInvalidToken, category.id, 'invalid token'));
-      });
-
-      await test.step('Verify the response status is 401.', async () => {
-        expectStatus(request, response, 401);
-      });
-
-      await test.step('Verify the body\'s message is "Unauthorized".', async () => {
-        expectMessage(request, response, 'Unauthorized');
-      });
+      await checkStatusAndMessage(
+        'Send DELETE /categories/{categoryId} with that id, with an invalid token.',
+        () => sendDeleteCategory(categoriesClientWithInvalidToken, category.id, 'invalid token'),
+        401,
+        'Unauthorized'
+      );
     });
 
     test('API-0227: Delete category with an unknown id returns 404', async ({ categoriesClientWithToken }) => {
-      let request: DeleteCategoryRequestInfo;
-      let response: ApiResponse;
-
-      await test.step("Send DELETE /categories/{categoryId} with a well-formed ULID that no category has, with the admin's token.", async () => {
-        ({ request, response } = await sendDeleteCategory(categoriesClientWithToken, TestConstants.categories.unknownId, AUTH.admin));
-      });
-
-      await test.step('Verify the response status is 404.', async () => {
-        expectStatus(request, response, 404);
-      });
-
-      await test.step('Verify the body\'s message is "Requested item not found".', async () => {
-        expectMessage(request, response, 'Requested item not found');
-      });
+      await checkStatusAndMessage(
+        "Send DELETE /categories/{categoryId} with a well-formed ULID that no category has, with the admin's token.",
+        () => sendDeleteCategory(categoriesClientWithToken, TestConstants.categories.unknownId, AUTH.admin),
+        404,
+        'Requested item not found'
+      );
     });
 
     test('API-0228: Delete category that has sub-categories returns 409', async ({ adminCategoriesService, categoriesClient, categoriesClientWithToken, cleanup }) => {
@@ -182,21 +158,13 @@ test.describe('@categories-api - Categories API', () => {
   });
 
   test('API-0226: Delete category as a non-admin user returns 403', async ({ adminCategoriesService, categoriesClientWithToken, cleanup }) => {
-    let request: DeleteCategoryRequestInfo;
-    let response: ApiResponse;
-
     const category = await createCategory(adminCategoriesService, cleanup);
 
-    await test.step("Send DELETE /categories/{categoryId} with that id, with the default user's token.", async () => {
-      ({ request, response } = await sendDeleteCategory(categoriesClientWithToken, category.id, AUTH.defaultUser));
-    });
-
-    await test.step('Verify the response status is 403.', async () => {
-      expectStatus(request, response, 403);
-    });
-
-    await test.step('Verify the body\'s message is "Forbidden".', async () => {
-      expectMessage(request, response, 'Forbidden');
-    });
+    await checkStatusAndMessage(
+      "Send DELETE /categories/{categoryId} with that id, with the default user's token.",
+      () => sendDeleteCategory(categoriesClientWithToken, category.id, AUTH.defaultUser),
+      403,
+      'Forbidden'
+    );
   });
 });

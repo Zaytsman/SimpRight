@@ -1,10 +1,10 @@
-import { test, expect, AUTH, createGuestMessage, takeOwnUserId, readMessageOk, expectMessageStatus, setStatusSetup, expectNoReplies, type MessageRequest, sendAndAttach } from '@fixtures';
+import { test, expect, AUTH, createGuestMessage, takeOwnUserId, readMessageOk, expectMessageStatus, setStatusSetup, expectNoReplies, type MessageRequest, sendAndAttach, checkStatusAndMessage } from '@fixtures';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { MessagesClient } from '@api/clients/MessagesClient';
 import type { ContactReply, ReplyRequest } from '@api/dto/message';
 import { TestConstants } from '@data/TestConstants';
 import { MessageFactory } from '@data/factories/MessageFactory';
-import { expectFieldMessages, expectMessage, expectStatus, parseJson } from '@utils/apiChecks';
+import { expectFieldMessages, expectStatus, parseJson } from '@utils/apiChecks';
 import { assertMessage } from '@utils/assertHelpers';
 
 // Scenarios: test-scenarios/api/messages/post-messages-by-message-id-reply.yml
@@ -109,37 +109,21 @@ test.describe('@messages-api - Messages API', () => {
   });
 
   test('API-0374: Reply to a message without a token returns 401', async ({ messagesClient }) => {
-    let request: MessageRequest;
-    let response: ApiResponse;
-
-    await test.step("Send POST /messages/{messageId}/reply without an Authorization header, with a well-formed message id that doesn't exist and a body with a message text.", async () => {
-      ({ request, response } = await sendReply(messagesClient, TestConstants.messages.unknownId, MessageFactory.reply(), AUTH.none));
-    });
-
-    await test.step('Verify the response status is 401.', async () => {
-      expectStatus(request, response, 401);
-    });
-
-    await test.step('Verify the body\'s message is "Unauthorized".', async () => {
-      expectMessage(request, response, 'Unauthorized');
-    });
+    await checkStatusAndMessage(
+      "Send POST /messages/{messageId}/reply without an Authorization header, with a well-formed message id that doesn't exist and a body with a message text.",
+      () => sendReply(messagesClient, TestConstants.messages.unknownId, MessageFactory.reply(), AUTH.none),
+      401,
+      'Unauthorized'
+    );
   });
 
   test('API-0375: Reply to a message with a malformed token returns 401', async ({ messagesClientWithInvalidToken }) => {
-    let request: MessageRequest;
-    let response: ApiResponse;
-
-    await test.step("Send POST /messages/{messageId}/reply with a malformed token, a well-formed message id that doesn't exist and a body with a message text.", async () => {
-      ({ request, response } = await sendReply(messagesClientWithInvalidToken, TestConstants.messages.unknownId, MessageFactory.reply(), AUTH.malformed));
-    });
-
-    await test.step('Verify the response status is 401.', async () => {
-      expectStatus(request, response, 401);
-    });
-
-    await test.step('Verify the body\'s message is "Unauthorized".', async () => {
-      expectMessage(request, response, 'Unauthorized');
-    });
+    await checkStatusAndMessage(
+      "Send POST /messages/{messageId}/reply with a malformed token, a well-formed message id that doesn't exist and a body with a message text.",
+      () => sendReply(messagesClientWithInvalidToken, TestConstants.messages.unknownId, MessageFactory.reply(), AUTH.malformed),
+      401,
+      'Unauthorized'
+    );
   });
 
   test.describe(() => {

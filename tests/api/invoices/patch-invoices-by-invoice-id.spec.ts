@@ -1,4 +1,4 @@
-import { test, expect, AUTH, createCustomerInvoice, customerAWithInvoiceAndCustomerB, sendPatchInvoice, readInvoiceOk, expectFieldsEqual, type CustomerInvoice, type InvoiceRequest, type InvoiceSetupFixtures } from '@fixtures';
+import { test, expect, AUTH, createCustomerInvoice, customerAWithInvoiceAndCustomerB, sendPatchInvoice, readInvoiceOk, expectFieldsEqual, type CustomerInvoice, type InvoiceRequest, type InvoiceSetupFixtures, checkStatusAndMessage } from '@fixtures';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { InvoicesClient } from '@api/clients/InvoicesClient';
 import type { PatchInvoiceRequest } from '@api/dto/invoice';
@@ -153,23 +153,12 @@ test.describe('@invoices-api - Invoices API', () => {
   });
 
   test('API-0521: Partially update invoice without a token returns 401', async ({ invoicesClient }) => {
-    let request: InvoiceRequest;
-    let response: ApiResponse;
-
-    await test.step(
+    await checkStatusAndMessage(
       'Send PATCH /invoices/{invoiceId} with a well-formed ULID that no invoice has and a body with billing_street "Stephansplatz 1", without an Authorization header.',
-      async () => {
-        ({ request, response } = await sendPatchInvoice(invoicesClient, TestConstants.invoices.unknownId, InvoiceFactory.patchBody(), AUTH.none));
-      }
+      () => sendPatchInvoice(invoicesClient, TestConstants.invoices.unknownId, InvoiceFactory.patchBody(), AUTH.none),
+      401,
+      'Unauthorized'
     );
-
-    await test.step('Verify the response status is 401.', async () => {
-      expectStatus(request, response, 401);
-    });
-
-    await test.step('Verify the body\'s message is "Unauthorized".', async () => {
-      expectMessage(request, response, 'Unauthorized');
-    });
   });
 
   test('API-0522: Partially update invoice with a billing street longer than 70 characters returns 422', async ({
@@ -307,21 +296,13 @@ test.describe('@invoices-api - Invoices API', () => {
     invoicesClientForToken,
     cleanup,
   }) => {
-    let request: InvoiceRequest;
-    let response: ApiResponse;
-
     const { tokenB, invoice } = await customerAWithInvoiceAndCustomerB({ usersService, adminUsersService, authService, cartsService, invoicesServiceForToken, cleanup });
 
-    await test.step('Send PATCH /invoices/{invoiceId} with that id, customer B\'s access_token and a body with billing_street "Stephansplatz 1".', async () => {
-      ({ request, response } = await sendPatchInvoice(invoicesClientForToken(tokenB), invoice.id, InvoiceFactory.patchBody(), AUTH.customerB));
-    });
-
-    await test.step('Verify the response status is 404.', async () => {
-      expectStatus(request, response, 404);
-    });
-
-    await test.step('Verify the body\'s message is "Requested item not found".', async () => {
-      expectMessage(request, response, 'Requested item not found');
-    });
+    await checkStatusAndMessage(
+      'Send PATCH /invoices/{invoiceId} with that id, customer B\'s access_token and a body with billing_street "Stephansplatz 1".',
+      () => sendPatchInvoice(invoicesClientForToken(tokenB), invoice.id, InvoiceFactory.patchBody(), AUTH.customerB),
+      404,
+      'Requested item not found'
+    );
   });
 });

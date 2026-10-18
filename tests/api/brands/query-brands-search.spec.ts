@@ -1,9 +1,9 @@
-import { test, takeSeededBrandIds, expectIncludesBrandIds, JSON_QUERY_HEADERS, sendQueryAndAttach, type QueryHeaders, type QueryRequestRecord } from '@fixtures';
+import { test, takeSeededBrandIds, expectIncludesBrandIds, JSON_QUERY_HEADERS, sendQueryAndAttach, type QueryHeaders, type QueryRequestRecord, checkStatusAndMessage } from '@fixtures';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { BrandsClient } from '@api/clients/BrandsClient';
 import type { BrandSearchQueryBody } from '@api/dto/brand';
 import { TestConstants } from '@data/TestConstants';
-import { expectAcceptQuery, expectItemNamesContain, expectMessage, expectStatus, parseJson } from '@utils/apiChecks';
+import { expectAcceptQuery, expectItemNamesContain, expectStatus, parseJson } from '@utils/apiChecks';
 
 // Scenarios: test-scenarios/api/brands/query-brands-search.yml
 
@@ -64,20 +64,12 @@ test.describe('@brands-api - Brands API', () => {
   });
 
   test('API-0162: QUERY search without a JSON Content-Type returns 415', async ({ brandsClient }) => {
-    let request: QuerySearchRequest;
-    let response: ApiResponse;
-
-    await test.step('Send QUERY /brands/search with Content-Type: text/plain, Accept: application/json and a plain-text body.', async () => {
-      ({ request, response } = await sendQuerySearch(brandsClient, `q=${TestConstants.brands.searchTerm}`, { 'Content-Type': 'text/plain', Accept: 'application/json' }));
-    });
-
-    await test.step('Verify the response status is 415.', async () => {
-      expectStatus(request, response, 415);
-    });
-
-    await test.step('Verify the body\'s message is "QUERY requests must use Content-Type: application/json".', async () => {
-      expectMessage(request, response, 'QUERY requests must use Content-Type: application/json');
-    });
+    await checkStatusAndMessage(
+      'Send QUERY /brands/search with Content-Type: text/plain, Accept: application/json and a plain-text body.',
+      () => sendQuerySearch(brandsClient, `q=${TestConstants.brands.searchTerm}`, { 'Content-Type': 'text/plain', Accept: 'application/json' }),
+      415,
+      'QUERY requests must use Content-Type: application/json'
+    );
   });
 
   test('API-0163: QUERY search with q as an array returns 422', async ({ brandsClient }) => {

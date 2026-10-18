@@ -1,10 +1,10 @@
-import { test, expect, AUTH, createCart, createCustomerInvoice, customerAWithInvoiceAndCustomerB, setInvoiceStatusSetup, sendSearchInvoices, invoiceSummary, invoicePageSummary, expectKeys, expectOnlyInvoice, expectEmptyInvoicePage, createGuestInvoiceSetup, type CustomerInvoice, type InvoiceRequest } from '@fixtures';
+import { test, expect, AUTH, createCart, createCustomerInvoice, customerAWithInvoiceAndCustomerB, setInvoiceStatusSetup, sendSearchInvoices, invoiceSummary, invoicePageSummary, expectKeys, expectOnlyInvoice, expectEmptyInvoicePage, createGuestInvoiceSetup, type CustomerInvoice, type InvoiceRequest, checkStatusAndMessage } from '@fixtures';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { Paginated } from '@api/dto/common';
 import type { InvoiceSummary } from '@api/dto/invoice';
 import { InvoiceFactory } from '@data/factories/InvoiceFactory';
 import { uniqueName } from '@data/factories/testDataUtils';
-import { expectMessage, expectStatus, PAGE_KEYS, parseJson } from '@utils/apiChecks';
+import { expectStatus, PAGE_KEYS, parseJson } from '@utils/apiChecks';
 import { assertMessage } from '@utils/assertHelpers';
 
 // Scenarios: test-scenarios/api/invoices/get-invoices-search.yml
@@ -280,36 +280,20 @@ test.describe('@invoices-api - Invoices API', () => {
   });
 
   test('API-0457: Search invoices without a token returns 401', async ({ invoicesClient }) => {
-    let request: InvoiceRequest;
-    let response: ApiResponse;
-
-    await test.step('Send GET /invoices/search with q "INV", without an Authorization header.', async () => {
-      ({ request, response } = await sendSearchInvoices(invoicesClient, AUTH.none, 'INV'));
-    });
-
-    await test.step('Verify the response status is 401.', async () => {
-      expectStatus(request, response, 401);
-    });
-
-    await test.step('Verify the body\'s message is "Unauthorized".', async () => {
-      expectMessage(request, response, 'Unauthorized');
-    });
+    await checkStatusAndMessage(
+      'Send GET /invoices/search with q "INV", without an Authorization header.',
+      () => sendSearchInvoices(invoicesClient, AUTH.none, 'INV'),
+      401,
+      'Unauthorized'
+    );
   });
 
   test('API-0458: Search invoices with a malformed token returns 401', async ({ invoicesClientWithInvalidToken }) => {
-    let request: InvoiceRequest;
-    let response: ApiResponse;
-
-    await test.step('Send GET /invoices/search with q "INV" and a malformed token.', async () => {
-      ({ request, response } = await sendSearchInvoices(invoicesClientWithInvalidToken, AUTH.malformed, 'INV'));
-    });
-
-    await test.step('Verify the response status is 401.', async () => {
-      expectStatus(request, response, 401);
-    });
-
-    await test.step('Verify the body\'s message is "Unauthorized".', async () => {
-      expectMessage(request, response, 'Unauthorized');
-    });
+    await checkStatusAndMessage(
+      'Send GET /invoices/search with q "INV" and a malformed token.',
+      () => sendSearchInvoices(invoicesClientWithInvalidToken, AUTH.malformed, 'INV'),
+      401,
+      'Unauthorized'
+    );
   });
 });

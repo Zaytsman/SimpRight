@@ -1,4 +1,4 @@
-import { test, expect, AUTH, sendReport, parseRows, isNumeric, expectRowCountBetween, expectNonIncreasing, type ReportRequest, checkReportRejected } from '@fixtures';
+import { test, expect, AUTH, sendReport, parseRows, isNumeric, expectRowCountBetween, expectNonIncreasing, type ReportRequest, checkStatusAndMessage } from '@fixtures';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { TopSellingCategoryRow } from '@api/dto/report';
 import { expectStatus } from '@utils/apiChecks';
@@ -46,26 +46,29 @@ test.describe('@reports-api - Reports API', () => {
   });
 
   test('API-0597: Top 10 best selling categories without a token returns 401', async ({ reportsClient }) => {
-    await checkReportRejected(
+    await checkStatusAndMessage(
       "Send GET /reports/top10-best-selling-categories without an Authorization header.",
       () => sendReport(PATH, AUTH.none, () => reportsClient.top10BestSellingCategories()),
-      401
+      401,
+      'Unauthorized'
     );
   });
 
   test('API-0598: Top 10 best selling categories with a malformed token returns 401', async ({ reportsClientWithInvalidToken }) => {
-    await checkReportRejected(
+    await checkStatusAndMessage(
       "Send GET /reports/top10-best-selling-categories with a malformed token.",
       () => sendReport(PATH, AUTH.malformed, () => reportsClientWithInvalidToken.top10BestSellingCategories()),
-      401
+      401,
+      'Unauthorized'
     );
   });
 
   test('API-0599: Top 10 best selling categories as a customer returns 403', async ({ reportsClientWithToken }) => {
-    await checkReportRejected(
+    await checkStatusAndMessage(
       "Send GET /reports/top10-best-selling-categories with the default user's token.",
       () => sendReport(PATH, AUTH.defaultUser, () => reportsClientWithToken.top10BestSellingCategories()),
-      403
+      403,
+      'Forbidden'
     );
   });
 });

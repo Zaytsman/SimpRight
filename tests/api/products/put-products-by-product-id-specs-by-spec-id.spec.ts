@@ -1,4 +1,4 @@
-import { test, expect, AUTH, createProductAndTakeOtherId, createProductWithSpec, createSpec, readSpec, sendGetSpec, takeFirstProductId, sendAndAttach, type SpecSetupFixtures } from '@fixtures';
+import { test, expect, AUTH, createProductAndTakeOtherId, createProductWithSpec, createSpec, readSpec, sendGetSpec, takeFirstProductId, sendAndAttach, type SpecSetupFixtures, checkStatusAndMessage } from '@fixtures';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { ProductSpecsClient } from '@api/clients/ProductSpecsClient';
 import type { ProductSpec } from '@api/dto/product';
@@ -284,25 +284,14 @@ test.describe('@products-api - Products API', () => {
   });
 
   test('API-0558: Update a spec without a token returns 401', async ({ productsService, adminProductsService, productSpecsClient, productSpecsServiceWithToken, cleanup }) => {
-    let request: UpdateSpecRequest;
-    let response: ApiResponse;
-
     const { productId, spec } = await createProductWithSpec({ productsService, adminProductsService, productSpecsServiceWithToken, cleanup });
 
-    await test.step(
+    await checkStatusAndMessage(
       'Send PUT /products/{productId}/specs/{specId} with the new product\'s id, the new spec\'s id and a body with spec_value "2.5", without an Authorization header.',
-      async () => {
-        ({ request, response } = await sendUpdateSpec(productSpecsClient, productId, spec.id, ProductSpecFactory.updateValue(), 'none'));
-      }
+      () => sendUpdateSpec(productSpecsClient, productId, spec.id, ProductSpecFactory.updateValue(), 'none'),
+      401,
+      'Unauthorized'
     );
-
-    await test.step('Verify the response status is 401.', async () => {
-      expectStatus(request, response, 401);
-    });
-
-    await test.step('Verify the body\'s message is "Unauthorized".', async () => {
-      expectMessage(request, response, 'Unauthorized');
-    });
   });
 
   test('API-0559: Update a spec with an invalid token returns 401', async ({
@@ -312,25 +301,14 @@ test.describe('@products-api - Products API', () => {
     productSpecsServiceWithToken,
     cleanup,
   }) => {
-    let request: UpdateSpecRequest;
-    let response: ApiResponse;
-
     const { productId, spec } = await createProductWithSpec({ productsService, adminProductsService, productSpecsServiceWithToken, cleanup });
 
-    await test.step(
+    await checkStatusAndMessage(
       'Send PUT /products/{productId}/specs/{specId} with the new product\'s id, the new spec\'s id and a body with spec_value "2.5", with an invalid token.',
-      async () => {
-        ({ request, response } = await sendUpdateSpec(productSpecsClientWithInvalidToken, productId, spec.id, ProductSpecFactory.updateValue(), 'invalid token'));
-      }
+      () => sendUpdateSpec(productSpecsClientWithInvalidToken, productId, spec.id, ProductSpecFactory.updateValue(), 'invalid token'),
+      401,
+      'Unauthorized'
     );
-
-    await test.step('Verify the response status is 401.', async () => {
-      expectStatus(request, response, 401);
-    });
-
-    await test.step('Verify the body\'s message is "Unauthorized".', async () => {
-      expectMessage(request, response, 'Unauthorized');
-    });
   });
 
   test('API-0560: Update a spec with an unknown spec id returns 404', async ({ productsService, productSpecsClientWithToken }) => {

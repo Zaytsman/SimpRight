@@ -1,8 +1,8 @@
-import { test, createProductAndTakeOtherId, AUTH, createProductWithSpec, createSpec, sendGetSpec, takeFirstProductId, sendAndAttach } from '@fixtures';
+import { test, createProductAndTakeOtherId, AUTH, createProductWithSpec, createSpec, sendGetSpec, takeFirstProductId, sendAndAttach, checkStatusAndMessage } from '@fixtures';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { ProductSpecsClient } from '@api/clients/ProductSpecsClient';
 import { TestConstants } from '@data/TestConstants';
-import { expectMessage, expectStatus } from '@utils/apiChecks';
+import { expectStatus } from '@utils/apiChecks';
 
 // Scenarios: test-scenarios/api/products/delete-products-by-product-id-specs-by-spec-id.yml
 
@@ -48,22 +48,14 @@ test.describe('@products-api - Products API', () => {
   });
 
   test('API-0570: Delete a spec without a token returns 401', async ({ productsService, adminProductsService, productSpecsClient, productSpecsServiceWithToken, cleanup }) => {
-    let request: DeleteSpecRequest;
-    let response: ApiResponse;
-
     const { productId, spec } = await createProductWithSpec({ productsService, adminProductsService, productSpecsServiceWithToken, cleanup });
 
-    await test.step("Send DELETE /products/{productId}/specs/{specId} with the new product's id and the new spec's id, without an Authorization header.", async () => {
-      ({ request, response } = await sendDeleteSpec(productSpecsClient, productId, spec.id, 'none'));
-    });
-
-    await test.step('Verify the response status is 401.', async () => {
-      expectStatus(request, response, 401);
-    });
-
-    await test.step('Verify the body\'s message is "Unauthorized".', async () => {
-      expectMessage(request, response, 'Unauthorized');
-    });
+    await checkStatusAndMessage(
+      "Send DELETE /products/{productId}/specs/{specId} with the new product's id and the new spec's id, without an Authorization header.",
+      () => sendDeleteSpec(productSpecsClient, productId, spec.id, 'none'),
+      401,
+      'Unauthorized'
+    );
   });
 
   test('API-0571: Delete a spec with an invalid token returns 401', async ({
@@ -73,22 +65,14 @@ test.describe('@products-api - Products API', () => {
     productSpecsServiceWithToken,
     cleanup,
   }) => {
-    let request: DeleteSpecRequest;
-    let response: ApiResponse;
-
     const { productId, spec } = await createProductWithSpec({ productsService, adminProductsService, productSpecsServiceWithToken, cleanup });
 
-    await test.step("Send DELETE /products/{productId}/specs/{specId} with the new product's id and the new spec's id, with an invalid token.", async () => {
-      ({ request, response } = await sendDeleteSpec(productSpecsClientWithInvalidToken, productId, spec.id, 'invalid token'));
-    });
-
-    await test.step('Verify the response status is 401.', async () => {
-      expectStatus(request, response, 401);
-    });
-
-    await test.step('Verify the body\'s message is "Unauthorized".', async () => {
-      expectMessage(request, response, 'Unauthorized');
-    });
+    await checkStatusAndMessage(
+      "Send DELETE /products/{productId}/specs/{specId} with the new product's id and the new spec's id, with an invalid token.",
+      () => sendDeleteSpec(productSpecsClientWithInvalidToken, productId, spec.id, 'invalid token'),
+      401,
+      'Unauthorized'
+    );
   });
 
   test("API-0572: Delete a spec under another product's id returns 204 and deletes nothing", async ({

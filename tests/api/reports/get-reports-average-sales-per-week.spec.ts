@@ -1,4 +1,4 @@
-import { test, sendReport, AUTH, parseRows, expectPeriodRows, expectNumberFields, expectZeroRows, type ReportRequest, checkReportRejected } from '@fixtures';
+import { test, sendReport, AUTH, parseRows, expectPeriodRows, expectNumberFields, expectZeroRows, type ReportRequest, checkStatusAndMessage } from '@fixtures';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { AverageSalesPerWeekRow } from '@api/dto/report';
 import { TestConstants } from '@data/TestConstants';
@@ -61,26 +61,29 @@ test.describe('@reports-api - Reports API', () => {
   });
 
   test('API-0611: Average sales per week without a token returns 401', async ({ reportsClient }) => {
-    await checkReportRejected(
+    await checkStatusAndMessage(
       "Send GET /reports/average-sales-per-week without an Authorization header.",
       () => sendReport(PATH, AUTH.none, () => reportsClient.averageSalesPerWeek()),
-      401
+      401,
+      'Unauthorized'
     );
   });
 
   test('API-0612: Average sales per week with a malformed token returns 401', async ({ reportsClientWithInvalidToken }) => {
-    await checkReportRejected(
+    await checkStatusAndMessage(
       "Send GET /reports/average-sales-per-week with a malformed token.",
       () => sendReport(PATH, AUTH.malformed, () => reportsClientWithInvalidToken.averageSalesPerWeek()),
-      401
+      401,
+      'Unauthorized'
     );
   });
 
   test('API-0613: Average sales per week as a customer returns 403', async ({ reportsClientWithToken }) => {
-    await checkReportRejected(
+    await checkStatusAndMessage(
       "Send GET /reports/average-sales-per-week with the default user's token.",
       () => sendReport(PATH, AUTH.defaultUser, () => reportsClientWithToken.averageSalesPerWeek()),
-      403
+      403,
+      'Forbidden'
     );
   });
 });

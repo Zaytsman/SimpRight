@@ -1,4 +1,4 @@
-import { test, expect, AUTH, loggedInCustomer, createCart, addItemSetup, takeFirstProductId, FIRST_PRODUCT_STEP, sendCreateInvoice, sendListInvoices, readInvoiceOk, expectKeys, expectFieldsEqual, expectSingleInvoiceLine, expectPaymentMethod, expectPaymentDetails, invoicePageSummary, ADD_TWO_STEP, type InvoiceRequest, type CustomerFixtures, type InvoiceSetupFixtures } from '@fixtures';
+import { test, expect, AUTH, loggedInCustomer, createCart, addItemSetup, takeFirstProductId, FIRST_PRODUCT_STEP, sendCreateInvoice, sendListInvoices, readInvoiceOk, expectKeys, expectFieldsEqual, expectSingleInvoiceLine, expectPaymentMethod, expectPaymentDetails, invoicePageSummary, ADD_TWO_STEP, type InvoiceRequest, type CustomerFixtures, type InvoiceSetupFixtures, checkStatusAndMessage } from '@fixtures';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { InvoicesClient } from '@api/clients/InvoicesClient';
 import type { Paginated } from '@api/dto/common';
@@ -6,7 +6,7 @@ import type { CreateInvoiceRequest, InvoiceCreated, InvoiceSummary } from '@api/
 import type { PostcodeLookupResult } from '@api/dto/postcode';
 import { TestConstants } from '@data/TestConstants';
 import { InvoiceFactory } from '@data/factories/InvoiceFactory';
-import { expectFieldMessages, expectMessage, expectStatus, parseJson } from '@utils/apiChecks';
+import { expectFieldMessages, expectStatus, parseJson } from '@utils/apiChecks';
 import { assertMessage, attachJson } from '@utils/assertHelpers';
 
 // Scenarios: test-scenarios/api/invoices/post-invoices.yml
@@ -460,23 +460,12 @@ test.describe('@invoices-api - Invoices API', () => {
   });
 
   test('API-0491: Create invoice without a token returns 401', async ({ invoicesClient }) => {
-    let request: InvoiceRequest;
-    let response: ApiResponse;
-
-    await test.step(
+    await checkStatusAndMessage(
       'Send POST /invoices without an Authorization header, with payment_method "cash-on-delivery", payment_details {}, billing_street "Stephansplatz 1", billing_city "Wien", billing_country "AT" and a non-empty string as cart_id.',
-      async () => {
-        ({ request, response } = await sendCreateInvoice(invoicesClient, validationBody(), AUTH.none));
-      }
+      () => sendCreateInvoice(invoicesClient, validationBody(), AUTH.none),
+      401,
+      'Unauthorized'
     );
-
-    await test.step('Verify the response status is 401.', async () => {
-      expectStatus(request, response, 401);
-    });
-
-    await test.step('Verify the body\'s message is "Unauthorized".', async () => {
-      expectMessage(request, response, 'Unauthorized');
-    });
   });
 
   test('API-0492: Create invoice without payment_method, payment_details and cart_id returns 422 for each of them', async ({ invoicesClientWithToken }) => {
@@ -540,26 +529,15 @@ test.describe('@invoices-api - Invoices API', () => {
   });
 
   test('API-0498: Create invoice with an unknown cart returns 404', async ({ usersService, adminUsersService, authService, invoicesClientForToken, cleanup }) => {
-    let request: InvoiceRequest;
-    let response: ApiResponse;
-
     // BUG-040 leaves the customer an invoice without lines, so its admin delete may answer 409 (deleteUnlessInUse expects it).
     const customer = await loggedInCustomer({ usersService, adminUsersService, authService, cleanup });
 
-    await test.step(
+    await checkStatusAndMessage(
       'Send POST /invoices with that access_token, payment_method "cash-on-delivery", payment_details {}, billing_street "Stephansplatz 1", billing_city "Wien", billing_country "AT" and a well-formed ULID that no cart has as cart_id.',
-      async () => {
-        ({ request, response } = await sendCreateInvoice(invoicesClientForToken(customer.token), validationBody(), AUTH.newUser));
-      }
+      () => sendCreateInvoice(invoicesClientForToken(customer.token), validationBody(), AUTH.newUser),
+      404,
+      'Requested item not found'
     );
-
-    await test.step('Verify the response status is 404.', async () => {
-      expectStatus(request, response, 404);
-    });
-
-    await test.step('Verify the body\'s message is "Requested item not found".', async () => {
-      expectMessage(request, response, 'Requested item not found');
-    });
   });
 
   test('API-0499: Create invoice with an unknown cart leaves no invoice behind', async ({ usersService, adminUsersService, authService, invoicesClientForToken, cleanup }) => {

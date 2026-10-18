@@ -1,8 +1,8 @@
-import { test, expect, AUTH, createCustomerWithFavorite, createSecondCustomer, registerThrowawayCustomer, loginThrowawayCustomer, disableCustomerSetup, sendAndAttach } from '@fixtures';
+import { test, expect, AUTH, createCustomerWithFavorite, createSecondCustomer, registerThrowawayCustomer, loginThrowawayCustomer, disableCustomerSetup, sendAndAttach, checkStatusAndMessage } from '@fixtures';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { FavoritesClient } from '@api/clients/FavoritesClient';
 import type { Favorite } from '@api/dto/favorite';
-import { expectEmptyArray, expectMessage, expectStatus, parseJson } from '@utils/apiChecks';
+import { expectEmptyArray, expectStatus, parseJson } from '@utils/apiChecks';
 import { assertMessage } from '@utils/assertHelpers';
 
 // Scenarios: test-scenarios/api/favorites/get-favorites.yml
@@ -109,37 +109,21 @@ test.describe('@favorites-api - Favorites API', () => {
   });
 
   test('API-0269: List favorites without a token returns 401', async ({ favoritesClient }) => {
-    let request: ListFavoritesRequest;
-    let response: ApiResponse;
-
-    await test.step('Send GET /favorites without an Authorization header.', async () => {
-      ({ request, response } = await sendList(favoritesClient, 'none'));
-    });
-
-    await test.step('Verify the response status is 401.', async () => {
-      expectStatus(request, response, 401);
-    });
-
-    await test.step('Verify the body\'s message is "Unauthorized".', async () => {
-      expectMessage(request, response, 'Unauthorized');
-    });
+    await checkStatusAndMessage(
+      'Send GET /favorites without an Authorization header.',
+      () => sendList(favoritesClient, 'none'),
+      401,
+      'Unauthorized'
+    );
   });
 
   test('API-0270: List favorites with a malformed token returns 401', async ({ favoritesClientWithInvalidToken }) => {
-    let request: ListFavoritesRequest;
-    let response: ApiResponse;
-
-    await test.step('Send GET /favorites with a malformed token.', async () => {
-      ({ request, response } = await sendList(favoritesClientWithInvalidToken, AUTH.malformed));
-    });
-
-    await test.step('Verify the response status is 401.', async () => {
-      expectStatus(request, response, 401);
-    });
-
-    await test.step('Verify the body\'s message is "Unauthorized".', async () => {
-      expectMessage(request, response, 'Unauthorized');
-    });
+    await checkStatusAndMessage(
+      'Send GET /favorites with a malformed token.',
+      () => sendList(favoritesClientWithInvalidToken, AUTH.malformed),
+      401,
+      'Unauthorized'
+    );
   });
 
   test.describe(() => {
@@ -152,26 +136,18 @@ test.describe('@favorites-api - Favorites API', () => {
       favoritesClientForToken,
       cleanup,
     }) => {
-      let request: ListFavoritesRequest;
-      let response: ApiResponse;
-
       const customer = await registerThrowawayCustomer(usersService, adminUsersService, cleanup);
       const customerToken = await loginThrowawayCustomer(authService, customer);
 
       // The throwaway's token isn't used before this call, so the API's cached user can't be a stale, enabled one.
       await disableCustomerSetup(adminUsersService, customer.id, "Send PATCH /users/{userId} with that id and enabled false, with the admin's token.", AUTH.admin);
 
-      await test.step("Send GET /favorites with the throwaway customer's access_token.", async () => {
-        ({ request, response } = await sendList(favoritesClientForToken(customerToken), AUTH.throwaway));
-      });
-
-      await test.step('Verify the response status is 403.', async () => {
-        expectStatus(request, response, 403);
-      });
-
-      await test.step('Verify the body\'s message is "Account disabled.".', async () => {
-        expectMessage(request, response, 'Account disabled.');
-      });
+      await checkStatusAndMessage(
+        "Send GET /favorites with the throwaway customer's access_token.",
+        () => sendList(favoritesClientForToken(customerToken), AUTH.throwaway),
+        403,
+        'Account disabled.'
+      );
     });
   });
 });

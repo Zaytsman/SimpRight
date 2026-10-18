@@ -1,4 +1,4 @@
-import { test, sendReport, AUTH, parseRows, expectPeriodRows, expectNumberFields, expectZeroRows, type ReportRequest, checkReportRejected } from '@fixtures';
+import { test, sendReport, AUTH, parseRows, expectPeriodRows, expectNumberFields, expectZeroRows, type ReportRequest, checkStatusAndMessage } from '@fixtures';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { AverageSalesPerMonthRow } from '@api/dto/report';
 import { TestConstants } from '@data/TestConstants';
@@ -61,26 +61,29 @@ test.describe('@reports-api - Reports API', () => {
   });
 
   test('API-0606: Average sales per month without a token returns 401', async ({ reportsClient }) => {
-    await checkReportRejected(
+    await checkStatusAndMessage(
       "Send GET /reports/average-sales-per-month without an Authorization header.",
       () => sendReport(PATH, AUTH.none, () => reportsClient.averageSalesPerMonth()),
-      401
+      401,
+      'Unauthorized'
     );
   });
 
   test('API-0607: Average sales per month with a malformed token returns 401', async ({ reportsClientWithInvalidToken }) => {
-    await checkReportRejected(
+    await checkStatusAndMessage(
       "Send GET /reports/average-sales-per-month with a malformed token.",
       () => sendReport(PATH, AUTH.malformed, () => reportsClientWithInvalidToken.averageSalesPerMonth()),
-      401
+      401,
+      'Unauthorized'
     );
   });
 
   test('API-0608: Average sales per month as a customer returns 403', async ({ reportsClientWithToken }) => {
-    await checkReportRejected(
+    await checkStatusAndMessage(
       "Send GET /reports/average-sales-per-month with the default user's token.",
       () => sendReport(PATH, AUTH.defaultUser, () => reportsClientWithToken.averageSalesPerMonth()),
-      403
+      403,
+      'Forbidden'
     );
   });
 });

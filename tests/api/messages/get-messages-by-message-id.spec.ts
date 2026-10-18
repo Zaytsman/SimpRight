@@ -1,10 +1,10 @@
-import { test, expect, AUTH, registerThrowawayCustomer, loginThrowawayCustomer, createCustomerMessage, createGuestMessage, sendMessageSetup, takeOwnUserId, sendGetMessage, expectNoReplies, type MessageRequest } from '@fixtures';
+import { test, expect, AUTH, registerThrowawayCustomer, loginThrowawayCustomer, createCustomerMessage, createGuestMessage, sendMessageSetup, takeOwnUserId, sendGetMessage, expectNoReplies, type MessageRequest, checkStatusAndMessage } from '@fixtures';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { ContactMessageDetail, ContactReply } from '@api/dto/message';
 import type { MessagesService } from '@api/services/MessagesService';
 import { TestConstants } from '@data/TestConstants';
 import { MessageFactory } from '@data/factories/MessageFactory';
-import { expectMessage, expectStatus, parseJson } from '@utils/apiChecks';
+import { expectStatus, parseJson } from '@utils/apiChecks';
 import { assertMessage, attachJson } from '@utils/assertHelpers';
 
 // Scenarios: test-scenarios/api/messages/get-messages-by-message-id.yml
@@ -205,37 +205,21 @@ test.describe('@messages-api - Messages API', () => {
   });
 
   test('API-0368: Get a message without a token returns 401', async ({ messagesClient }) => {
-    let request: MessageRequest;
-    let response: ApiResponse;
-
-    await test.step("Send GET /messages/{messageId} without an Authorization header, with a well-formed message id that doesn't exist.", async () => {
-      ({ request, response } = await sendGetMessage(messagesClient, TestConstants.messages.unknownId, AUTH.none));
-    });
-
-    await test.step('Verify the response status is 401.', async () => {
-      expectStatus(request, response, 401);
-    });
-
-    await test.step('Verify the body\'s message is "Unauthorized".', async () => {
-      expectMessage(request, response, 'Unauthorized');
-    });
+    await checkStatusAndMessage(
+      "Send GET /messages/{messageId} without an Authorization header, with a well-formed message id that doesn't exist.",
+      () => sendGetMessage(messagesClient, TestConstants.messages.unknownId, AUTH.none),
+      401,
+      'Unauthorized'
+    );
   });
 
   test('API-0369: Get a message with a malformed token returns 401', async ({ messagesClientWithInvalidToken }) => {
-    let request: MessageRequest;
-    let response: ApiResponse;
-
-    await test.step("Send GET /messages/{messageId} with a malformed token and a well-formed message id that doesn't exist.", async () => {
-      ({ request, response } = await sendGetMessage(messagesClientWithInvalidToken, TestConstants.messages.unknownId, AUTH.malformed));
-    });
-
-    await test.step('Verify the response status is 401.', async () => {
-      expectStatus(request, response, 401);
-    });
-
-    await test.step('Verify the body\'s message is "Unauthorized".', async () => {
-      expectMessage(request, response, 'Unauthorized');
-    });
+    await checkStatusAndMessage(
+      "Send GET /messages/{messageId} with a malformed token and a well-formed message id that doesn't exist.",
+      () => sendGetMessage(messagesClientWithInvalidToken, TestConstants.messages.unknownId, AUTH.malformed),
+      401,
+      'Unauthorized'
+    );
   });
 
   test("API-0370: Get another user's message as a customer returns 404", async ({

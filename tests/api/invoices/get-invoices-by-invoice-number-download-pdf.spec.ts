@@ -1,7 +1,6 @@
-import { test, expect, AUTH, createCustomerInvoice, pollPdfStatus, sendDownloadPdf, PDF_STATUS_POLL_STEP, type InvoiceRequest } from '@fixtures';
+import { test, expect, AUTH, createCustomerInvoice, pollPdfStatus, sendDownloadPdf, PDF_STATUS_POLL_STEP, type InvoiceRequest, checkStatusAndMessage } from '@fixtures';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import { TestConstants } from '@data/TestConstants';
-import { expectMessage, expectStatus } from '@utils/apiChecks';
 import { assertMessage } from '@utils/assertHelpers';
 
 // Scenarios: test-scenarios/api/invoices/get-invoices-by-invoice-number-download-pdf.yml
@@ -52,36 +51,20 @@ test.describe('@invoices-api - Invoices API', () => {
   });
 
   test('API-0469: Download invoice PDF without a token returns 401', async ({ invoicesClient }) => {
-    let request: InvoiceRequest;
-    let response: ApiResponse;
-
-    await test.step('Send GET /invoices/{invoice_number}/download-pdf with a well-formed invoice number, without an Authorization header.', async () => {
-      ({ request, response } = await sendDownloadPdf(invoicesClient, TestConstants.invoices.unknownNumber, AUTH.none));
-    });
-
-    await test.step('Verify the response status is 401.', async () => {
-      expectStatus(request, response, 401);
-    });
-
-    await test.step('Verify the body\'s message is "Unauthorized".', async () => {
-      expectMessage(request, response, 'Unauthorized');
-    });
+    await checkStatusAndMessage(
+      'Send GET /invoices/{invoice_number}/download-pdf with a well-formed invoice number, without an Authorization header.',
+      () => sendDownloadPdf(invoicesClient, TestConstants.invoices.unknownNumber, AUTH.none),
+      401,
+      'Unauthorized'
+    );
   });
 
   test('API-0470: Download invoice PDF with an unknown invoice number returns 404', async ({ invoicesClientWithToken }) => {
-    let request: InvoiceRequest;
-    let response: ApiResponse;
-
-    await test.step("Send GET /invoices/{invoice_number}/download-pdf with a well-formed invoice number that no invoice has and the default user's token.", async () => {
-      ({ request, response } = await sendDownloadPdf(invoicesClientWithToken, TestConstants.invoices.unknownNumber, AUTH.defaultUser));
-    });
-
-    await test.step('Verify the response status is 404.', async () => {
-      expectStatus(request, response, 404);
-    });
-
-    await test.step('Verify the body\'s message is "Document not created. Try again later.".', async () => {
-      expectMessage(request, response, 'Document not created. Try again later.');
-    });
+    await checkStatusAndMessage(
+      "Send GET /invoices/{invoice_number}/download-pdf with a well-formed invoice number that no invoice has and the default user's token.",
+      () => sendDownloadPdf(invoicesClientWithToken, TestConstants.invoices.unknownNumber, AUTH.defaultUser),
+      404,
+      'Document not created. Try again later.'
+    );
   });
 });

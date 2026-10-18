@@ -1,9 +1,9 @@
-import { test, createGuestMessage, AUTH, readMessageOk, expectMessageStatus, setStatusSetup, type MessageRequest, sendAndAttach } from '@fixtures';
+import { test, createGuestMessage, AUTH, readMessageOk, expectMessageStatus, setStatusSetup, type MessageRequest, sendAndAttach, checkStatusAndMessage } from '@fixtures';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { MessagesClient } from '@api/clients/MessagesClient';
 import { TestConstants } from '@data/TestConstants';
 import { MessageFactory } from '@data/factories/MessageFactory';
-import { expectErrorKeys, expectMessage, expectStatus, expectSuccess } from '@utils/apiChecks';
+import { expectErrorKeys, expectStatus, expectSuccess } from '@utils/apiChecks';
 
 // Scenarios: test-scenarios/api/messages/put-messages-by-message-id-status.yml
 
@@ -125,57 +125,33 @@ test.describe('@messages-api - Messages API', () => {
   });
 
   test("API-0392: Set a message's status without a token returns 401", async ({ messagesClient }) => {
-    let request: MessageRequest;
-    let response: ApiResponse;
-
-    await test.step('Send PUT /messages/{messageId}/status without an Authorization header, with a well-formed message id that doesn\'t exist and a body with status "RESOLVED".', async () => {
-      ({ request, response } = await sendStatus(messagesClient, TestConstants.messages.unknownId, MessageFactory.status('RESOLVED'), AUTH.none));
-    });
-
-    await test.step('Verify the response status is 401.', async () => {
-      expectStatus(request, response, 401);
-    });
-
-    await test.step('Verify the body\'s message is "Unauthorized".', async () => {
-      expectMessage(request, response, 'Unauthorized');
-    });
+    await checkStatusAndMessage(
+      'Send PUT /messages/{messageId}/status without an Authorization header, with a well-formed message id that doesn\'t exist and a body with status "RESOLVED".',
+      () => sendStatus(messagesClient, TestConstants.messages.unknownId, MessageFactory.status('RESOLVED'), AUTH.none),
+      401,
+      'Unauthorized'
+    );
   });
 
   test("API-0393: Set a message's status with a malformed token returns 401", async ({ messagesClientWithInvalidToken }) => {
-    let request: MessageRequest;
-    let response: ApiResponse;
-
-    await test.step('Send PUT /messages/{messageId}/status with a malformed token, a well-formed message id that doesn\'t exist and a body with status "RESOLVED".', async () => {
-      ({ request, response } = await sendStatus(messagesClientWithInvalidToken, TestConstants.messages.unknownId, MessageFactory.status('RESOLVED'), AUTH.malformed));
-    });
-
-    await test.step('Verify the response status is 401.', async () => {
-      expectStatus(request, response, 401);
-    });
-
-    await test.step('Verify the body\'s message is "Unauthorized".', async () => {
-      expectMessage(request, response, 'Unauthorized');
-    });
+    await checkStatusAndMessage(
+      'Send PUT /messages/{messageId}/status with a malformed token, a well-formed message id that doesn\'t exist and a body with status "RESOLVED".',
+      () => sendStatus(messagesClientWithInvalidToken, TestConstants.messages.unknownId, MessageFactory.status('RESOLVED'), AUTH.malformed),
+      401,
+      'Unauthorized'
+    );
   });
 
   test.describe(() => {
     test.use({ role: 'admin' });
 
     test('API-0394: Set the status of an unknown message id returns 404', async ({ messagesClientWithToken }) => {
-      let request: MessageRequest;
-      let response: ApiResponse;
-
-      await test.step('Send PUT /messages/{messageId}/status with a well-formed message id that doesn\'t exist, the admin\'s token and a body with status "RESOLVED".', async () => {
-        ({ request, response } = await sendStatus(messagesClientWithToken, TestConstants.messages.unknownId, MessageFactory.status('RESOLVED'), AUTH.admin));
-      });
-
-      await test.step('Verify the response status is 404.', async () => {
-        expectStatus(request, response, 404);
-      });
-
-      await test.step('Verify the body\'s message is "Requested item not found".', async () => {
-        expectMessage(request, response, 'Requested item not found');
-      });
+      await checkStatusAndMessage(
+        'Send PUT /messages/{messageId}/status with a well-formed message id that doesn\'t exist, the admin\'s token and a body with status "RESOLVED".',
+        () => sendStatus(messagesClientWithToken, TestConstants.messages.unknownId, MessageFactory.status('RESOLVED'), AUTH.admin),
+        404,
+        'Requested item not found'
+      );
     });
 
     test("API-0395: Set a message's status without status returns 422 and keeps the status", async ({ messagesService, messagesClientWithToken }) => {

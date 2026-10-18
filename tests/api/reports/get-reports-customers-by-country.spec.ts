@@ -1,4 +1,4 @@
-import { test, expect, AUTH, sendReport, parseRows, expectNoDuplicates, type ReportRequest, checkReportRejected } from '@fixtures';
+import { test, expect, AUTH, sendReport, parseRows, expectNoDuplicates, type ReportRequest, checkStatusAndMessage } from '@fixtures';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { CustomersByCountryRow } from '@api/dto/report';
 import { expectStatus } from '@utils/apiChecks';
@@ -46,26 +46,29 @@ test.describe('@reports-api - Reports API', () => {
   });
 
   test('API-0601: Customers by country without a token returns 401', async ({ reportsClient }) => {
-    await checkReportRejected(
+    await checkStatusAndMessage(
       "Send GET /reports/customers-by-country without an Authorization header.",
       () => sendReport(PATH, AUTH.none, () => reportsClient.customersByCountry()),
-      401
+      401,
+      'Unauthorized'
     );
   });
 
   test('API-0602: Customers by country with a malformed token returns 401', async ({ reportsClientWithInvalidToken }) => {
-    await checkReportRejected(
+    await checkStatusAndMessage(
       "Send GET /reports/customers-by-country with a malformed token.",
       () => sendReport(PATH, AUTH.malformed, () => reportsClientWithInvalidToken.customersByCountry()),
-      401
+      401,
+      'Unauthorized'
     );
   });
 
   test('API-0603: Customers by country as a customer returns 403', async ({ reportsClientWithToken }) => {
-    await checkReportRejected(
+    await checkStatusAndMessage(
       "Send GET /reports/customers-by-country with the default user's token.",
       () => sendReport(PATH, AUTH.defaultUser, () => reportsClientWithToken.customersByCountry()),
-      403
+      403,
+      'Forbidden'
     );
   });
 });

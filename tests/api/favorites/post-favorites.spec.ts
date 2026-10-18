@@ -1,4 +1,4 @@
-import { test, expect, AUTH, createCustomerWithFavorite, expectGetFavoriteStatus, loginThrowawayCustomer, registerSecondCustomer, registerThrowawayCustomer, takeFirstProductId, sendAndAttach, removeIfCreated } from '@fixtures';
+import { test, expect, AUTH, createCustomerWithFavorite, expectGetFavoriteStatus, loginThrowawayCustomer, registerSecondCustomer, registerThrowawayCustomer, takeFirstProductId, sendAndAttach, removeIfCreated, checkStatusAndMessage } from '@fixtures';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { FavoritesClient } from '@api/clients/FavoritesClient';
 import type { CreateFavoriteRequest, Favorite } from '@api/dto/favorite';
@@ -135,41 +135,25 @@ test.describe('@favorites-api - Favorites API', () => {
   });
 
   test('API-0274: Add favorite without a token returns 401', async ({ productsService, favoritesClient, cleanup }) => {
-    let request: AddFavoriteRequest;
-    let response: ApiResponse;
-
     const productId = await takeFirstProductId(productsService, "Send GET /products and take the first product's id.");
 
-    await test.step('Send POST /favorites with that product id, without an Authorization header.', async () => {
-      ({ request, response } = await sendAdd(favoritesClient, FavoriteFactory.addFavorite(productId), 'none', cleanup));
-    });
-
-    await test.step('Verify the response status is 401.', async () => {
-      expectStatus(request, response, 401);
-    });
-
-    await test.step('Verify the body\'s message is "Unauthorized".', async () => {
-      expectMessage(request, response, 'Unauthorized');
-    });
+    await checkStatusAndMessage(
+      'Send POST /favorites with that product id, without an Authorization header.',
+      () => sendAdd(favoritesClient, FavoriteFactory.addFavorite(productId), 'none', cleanup),
+      401,
+      'Unauthorized'
+    );
   });
 
   test('API-0275: Add favorite with a malformed token returns 401', async ({ productsService, favoritesClientWithInvalidToken, cleanup }) => {
-    let request: AddFavoriteRequest;
-    let response: ApiResponse;
-
     const productId = await takeFirstProductId(productsService, "Send GET /products and take the first product's id.");
 
-    await test.step('Send POST /favorites with that product id, with a malformed token.', async () => {
-      ({ request, response } = await sendAdd(favoritesClientWithInvalidToken, FavoriteFactory.addFavorite(productId), AUTH.malformed, cleanup));
-    });
-
-    await test.step('Verify the response status is 401.', async () => {
-      expectStatus(request, response, 401);
-    });
-
-    await test.step('Verify the body\'s message is "Unauthorized".', async () => {
-      expectMessage(request, response, 'Unauthorized');
-    });
+    await checkStatusAndMessage(
+      'Send POST /favorites with that product id, with a malformed token.',
+      () => sendAdd(favoritesClientWithInvalidToken, FavoriteFactory.addFavorite(productId), AUTH.malformed, cleanup),
+      401,
+      'Unauthorized'
+    );
   });
 
   test('API-0276: Add favorite without product_id returns 422', async ({ favoritesClientWithToken, favoritesServiceWithToken, cleanup }) => {

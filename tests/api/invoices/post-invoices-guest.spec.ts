@@ -1,11 +1,11 @@
-import { test, expect, AUTH, createCart, addItemSetup, takeFirstProductId, FIRST_PRODUCT_STEP, sendCreateGuestInvoice, sendSearchInvoices, readInvoiceOk, invoicePageSummary, expectKeys, expectFieldsEqual, expectSingleInvoiceLine, ADD_TWO_STEP, type InvoiceRequest } from '@fixtures';
+import { test, expect, AUTH, createCart, addItemSetup, takeFirstProductId, FIRST_PRODUCT_STEP, sendCreateGuestInvoice, sendSearchInvoices, readInvoiceOk, invoicePageSummary, expectKeys, expectFieldsEqual, expectSingleInvoiceLine, ADD_TWO_STEP, type InvoiceRequest, checkStatusAndMessage } from '@fixtures';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { InvoicesClient } from '@api/clients/InvoicesClient';
 import type { Paginated } from '@api/dto/common';
 import type { CreateGuestInvoiceRequest, InvoiceCreated, InvoiceSummary } from '@api/dto/invoice';
 import { TestConstants } from '@data/TestConstants';
 import { InvoiceFactory } from '@data/factories/InvoiceFactory';
-import { expectErrorKeys, expectMessage, expectStatus, parseJson } from '@utils/apiChecks';
+import { expectErrorKeys, expectStatus, parseJson } from '@utils/apiChecks';
 import { assertMessage } from '@utils/assertHelpers';
 
 // Scenarios: test-scenarios/api/invoices/post-invoices-guest.yml
@@ -163,23 +163,12 @@ test.describe('@invoices-api - Invoices API', () => {
   });
 
   test('API-0507: Create guest invoice with an unknown cart returns 404', async ({ invoicesClient }) => {
-    let request: InvoiceRequest;
-    let response: ApiResponse;
-
-    await test.step(
+    await checkStatusAndMessage(
       'Send POST /invoices/guest without an Authorization header, with payment_method "cash-on-delivery", payment_details {}, billing_street "Stephansplatz 1", billing_city "Wien", billing_country "AT", a well-formed ULID that no cart has as cart_id, a unique guest_email, a guest_first_name and a guest_last_name.',
-      async () => {
-        ({ request, response } = await sendCreateGuestInvoice(invoicesClient, InvoiceFactory.guest(TestConstants.carts.unknownId)));
-      }
+      () => sendCreateGuestInvoice(invoicesClient, InvoiceFactory.guest(TestConstants.carts.unknownId)),
+      404,
+      'Requested item not found'
     );
-
-    await test.step('Verify the response status is 404.', async () => {
-      expectStatus(request, response, 404);
-    });
-
-    await test.step('Verify the body\'s message is "Requested item not found".', async () => {
-      expectMessage(request, response, 'Requested item not found');
-    });
   });
 
   test('API-0508: Create guest invoice with payment_details null returns 422', async ({ cartsService, invoicesClient, cleanup }) => {

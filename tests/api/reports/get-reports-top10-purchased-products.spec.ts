@@ -1,4 +1,4 @@
-import { test, expect, AUTH, sendReport, parseRows, expectRowCountBetween, expectNoDuplicates, expectNonIncreasing, type ReportRequest, checkReportRejected } from '@fixtures';
+import { test, expect, AUTH, sendReport, parseRows, expectRowCountBetween, expectNoDuplicates, expectNonIncreasing, type ReportRequest, checkStatusAndMessage } from '@fixtures';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { TopPurchasedProductRow } from '@api/dto/report';
 import { expectStatus } from '@utils/apiChecks';
@@ -50,26 +50,29 @@ test.describe('@reports-api - Reports API', () => {
   });
 
   test('API-0593: Top 10 purchased products without a token returns 401', async ({ reportsClient }) => {
-    await checkReportRejected(
+    await checkStatusAndMessage(
       'Send GET /reports/top10-purchased-products without an Authorization header.',
       () => sendReport(PATH, AUTH.none, () => reportsClient.top10PurchasedProducts()),
-      401
+      401,
+      'Unauthorized'
     );
   });
 
   test('API-0594: Top 10 purchased products with a malformed token returns 401', async ({ reportsClientWithInvalidToken }) => {
-    await checkReportRejected(
+    await checkStatusAndMessage(
       'Send GET /reports/top10-purchased-products with a malformed token.',
       () => sendReport(PATH, AUTH.malformed, () => reportsClientWithInvalidToken.top10PurchasedProducts()),
-      401
+      401,
+      'Unauthorized'
     );
   });
 
   test('API-0595: Top 10 purchased products as a customer returns 403', async ({ reportsClientWithToken }) => {
-    await checkReportRejected(
+    await checkStatusAndMessage(
       "Send GET /reports/top10-purchased-products with the default user's token.",
       () => sendReport(PATH, AUTH.defaultUser, () => reportsClientWithToken.top10PurchasedProducts()),
-      403
+      403,
+      'Forbidden'
     );
   });
 });

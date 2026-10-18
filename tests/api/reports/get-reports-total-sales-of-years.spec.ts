@@ -1,4 +1,4 @@
-import { test, expect, AUTH, sendReport, parseRows, expectNumberFields, registerThrowawayCustomer, loginThrowawayCustomer, firstListedProductId, createCart, addItemSetup, createInvoiceSetup, setInvoiceStatusSetup, type ReportRequest, checkReportRejected } from '@fixtures';
+import { test, expect, AUTH, sendReport, parseRows, expectNumberFields, registerThrowawayCustomer, loginThrowawayCustomer, firstListedProductId, createCart, addItemSetup, createInvoiceSetup, setInvoiceStatusSetup, type ReportRequest, checkStatusAndMessage } from '@fixtures';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { InvoiceCreated } from '@api/dto/invoice';
 import type { TotalSalesOfYearsRow } from '@api/dto/report';
@@ -233,26 +233,29 @@ test.describe('@reports-api - Reports API', () => {
   });
 
   test('API-0581: Total sales of years without a token returns 401', async ({ reportsClient }) => {
-    await checkReportRejected(
+    await checkStatusAndMessage(
       'Send GET /reports/total-sales-of-years without an Authorization header.',
       () => sendReport(PATH, AUTH.none, () => reportsClient.totalSalesOfYears()),
-      401
+      401,
+      'Unauthorized'
     );
   });
 
   test('API-0582: Total sales of years with a malformed token returns 401', async ({ reportsClientWithInvalidToken }) => {
-    await checkReportRejected(
+    await checkStatusAndMessage(
       'Send GET /reports/total-sales-of-years with a malformed token.',
       () => sendReport(PATH, AUTH.malformed, () => reportsClientWithInvalidToken.totalSalesOfYears()),
-      401
+      401,
+      'Unauthorized'
     );
   });
 
   test('API-0583: Total sales of years as a customer returns 403', async ({ reportsClientWithToken }) => {
-    await checkReportRejected(
+    await checkStatusAndMessage(
       "Send GET /reports/total-sales-of-years with the default user's token.",
       () => sendReport(PATH, AUTH.defaultUser, () => reportsClientWithToken.totalSalesOfYears()),
-      403
+      403,
+      'Forbidden'
     );
   });
 

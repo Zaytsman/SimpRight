@@ -1,4 +1,4 @@
-import { test, expect, registerThrowawayCustomer, loginThrowawayCustomer, disableCustomerSetup, AUTH, sendAndAttach } from '@fixtures';
+import { test, expect, registerThrowawayCustomer, loginThrowawayCustomer, disableCustomerSetup, AUTH, sendAndAttach, checkStatusAndMessage } from '@fixtures';
 import { expectMessage, expectStatus, parseJson } from '@utils/apiChecks';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { UsersClient } from '@api/clients/UsersClient';
@@ -99,37 +99,21 @@ test.describe('@users-api - Users API', () => {
   });
 
   test('API-0102: Current user without a token returns 401', async ({ usersClient }) => {
-    let request: MeRequest;
-    let response: ApiResponse;
-
-    await test.step('Send GET /users/me without an Authorization header.', async () => {
-      ({ request, response } = await sendMe(usersClient, 'none'));
-    });
-
-    await test.step('Verify the response status is 401.', async () => {
-      expectStatus(request, response, 401);
-    });
-
-    await test.step('Verify the body\'s message is "Unauthorized".', async () => {
-      expectMessage(request, response, 'Unauthorized');
-    });
+    await checkStatusAndMessage(
+      'Send GET /users/me without an Authorization header.',
+      () => sendMe(usersClient, 'none'),
+      401,
+      'Unauthorized'
+    );
   });
 
   test('API-0103: Current user with a malformed token returns 401', async ({ usersClientWithInvalidToken }) => {
-    let request: MeRequest;
-    let response: ApiResponse;
-
-    await test.step('Send GET /users/me with a malformed token.', async () => {
-      ({ request, response } = await sendMe(usersClientWithInvalidToken, AUTH.malformed));
-    });
-
-    await test.step('Verify the response status is 401.', async () => {
-      expectStatus(request, response, 401);
-    });
-
-    await test.step('Verify the body\'s message is "Unauthorized".', async () => {
-      expectMessage(request, response, 'Unauthorized');
-    });
+    await checkStatusAndMessage(
+      'Send GET /users/me with a malformed token.',
+      () => sendMe(usersClientWithInvalidToken, AUTH.malformed),
+      401,
+      'Unauthorized'
+    );
   });
 
   test.describe(() => {

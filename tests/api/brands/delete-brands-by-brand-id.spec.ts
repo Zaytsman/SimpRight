@@ -1,4 +1,4 @@
-import { test, expect, createBrand, takeProductRefs, AUTH, sendAndAttach } from '@fixtures';
+import { test, expect, createBrand, takeProductRefs, AUTH, sendAndAttach, checkStatusAndMessage } from '@fixtures';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { BrandsClient } from '@api/clients/BrandsClient';
 import { TestConstants } from '@data/TestConstants';
@@ -48,58 +48,34 @@ test.describe('@brands-api - Brands API', () => {
     });
 
     test('API-0149: Delete brand without a token returns 401', async ({ adminBrandsService, brandsClient, cleanup }) => {
-      let request: DeleteBrandRequest;
-      let response: ApiResponse;
-
       const brand = await createBrand(adminBrandsService, cleanup);
 
-      await test.step('Send DELETE /brands/{brandId} with that id, without an Authorization header.', async () => {
-        ({ request, response } = await sendDeleteBrand(brandsClient, brand.id, 'none'));
-      });
-
-      await test.step('Verify the response status is 401.', async () => {
-        expectStatus(request, response, 401);
-      });
-
-      await test.step('Verify the body\'s message is "Unauthorized".', async () => {
-        expectMessage(request, response, 'Unauthorized');
-      });
+      await checkStatusAndMessage(
+        'Send DELETE /brands/{brandId} with that id, without an Authorization header.',
+        () => sendDeleteBrand(brandsClient, brand.id, 'none'),
+        401,
+        'Unauthorized'
+      );
     });
 
     test('API-0150: Delete brand with an invalid token returns 401', async ({ adminBrandsService, brandsClientWithInvalidToken, cleanup }) => {
-      let request: DeleteBrandRequest;
-      let response: ApiResponse;
-
       const brand = await createBrand(adminBrandsService, cleanup);
 
-      await test.step('Send DELETE /brands/{brandId} with that id, with an invalid token.', async () => {
-        ({ request, response } = await sendDeleteBrand(brandsClientWithInvalidToken, brand.id, 'invalid token'));
-      });
-
-      await test.step('Verify the response status is 401.', async () => {
-        expectStatus(request, response, 401);
-      });
-
-      await test.step('Verify the body\'s message is "Unauthorized".', async () => {
-        expectMessage(request, response, 'Unauthorized');
-      });
+      await checkStatusAndMessage(
+        'Send DELETE /brands/{brandId} with that id, with an invalid token.',
+        () => sendDeleteBrand(brandsClientWithInvalidToken, brand.id, 'invalid token'),
+        401,
+        'Unauthorized'
+      );
     });
 
     test('API-0152: Delete brand with an unknown id returns 404', async ({ brandsClientWithToken }) => {
-      let request: DeleteBrandRequest;
-      let response: ApiResponse;
-
-      await test.step("Send DELETE /brands/{brandId} with a well-formed ULID that no brand has, with the admin's token.", async () => {
-        ({ request, response } = await sendDeleteBrand(brandsClientWithToken, TestConstants.brands.unknownId, AUTH.admin));
-      });
-
-      await test.step('Verify the response status is 404.', async () => {
-        expectStatus(request, response, 404);
-      });
-
-      await test.step('Verify the body\'s message is "Requested item not found".', async () => {
-        expectMessage(request, response, 'Requested item not found');
-      });
+      await checkStatusAndMessage(
+        "Send DELETE /brands/{brandId} with a well-formed ULID that no brand has, with the admin's token.",
+        () => sendDeleteBrand(brandsClientWithToken, TestConstants.brands.unknownId, AUTH.admin),
+        404,
+        'Requested item not found'
+      );
     });
 
     test('API-0153: Delete brand that a product uses returns 409', async ({
@@ -152,21 +128,13 @@ test.describe('@brands-api - Brands API', () => {
   });
 
   test('API-0151: Delete brand as a non-admin user returns 403', async ({ adminBrandsService, brandsClientWithToken, cleanup }) => {
-    let request: DeleteBrandRequest;
-    let response: ApiResponse;
-
     const brand = await createBrand(adminBrandsService, cleanup);
 
-    await test.step("Send DELETE /brands/{brandId} with that id, with the default user's token.", async () => {
-      ({ request, response } = await sendDeleteBrand(brandsClientWithToken, brand.id, AUTH.defaultUser));
-    });
-
-    await test.step('Verify the response status is 403.', async () => {
-      expectStatus(request, response, 403);
-    });
-
-    await test.step('Verify the body\'s message is "Forbidden".', async () => {
-      expectMessage(request, response, 'Forbidden');
-    });
+    await checkStatusAndMessage(
+      "Send DELETE /brands/{brandId} with that id, with the default user's token.",
+      () => sendDeleteBrand(brandsClientWithToken, brand.id, AUTH.defaultUser),
+      403,
+      'Forbidden'
+    );
   });
 });
