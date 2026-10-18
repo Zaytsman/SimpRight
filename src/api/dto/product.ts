@@ -1,3 +1,6 @@
+import type { Brand } from './brand';
+import type { Category } from './category';
+
 export interface Product {
   id: string;
   name: string;
@@ -9,8 +12,8 @@ export interface Product {
   in_stock: boolean;
   is_eco_friendly: boolean;
   product_image: ProductImage;
-  category: { id: string; name: string; slug: string };
-  brand: { id: string; name: string };
+  category: Omit<Category, 'parent_id'>;
+  brand: Pick<Brand, 'id' | 'name'>;
 }
 
 /** A product's image, as returned in `product_image`. */
@@ -35,7 +38,7 @@ export interface ProductSpec {
 
 /** GET /products/{productId}: the product with its category's parent and its specs. */
 export interface ProductDetails extends Omit<Product, 'category' | 'in_stock'> {
-  category: { id: string; name: string; slug: string; parent_id: string | null };
+  category: Category;
   /** A boolean, or the stock count (a number) when the caller has an admin token. */
   in_stock: boolean | number;
   specs: ProductSpec[];
@@ -43,7 +46,7 @@ export interface ProductDetails extends Omit<Product, 'category' | 'in_stock'> {
 
 /** An item of GET /products/{productId}/related: no co2_rating, and a category with id and name. */
 export interface RelatedProduct extends Omit<Product, 'co2_rating' | 'category'> {
-  category: { id: string; name: string };
+  category: Pick<Category, 'id' | 'name'>;
 }
 
 /** POST /products. The ids must exist (an unknown one makes the API return 500). */
