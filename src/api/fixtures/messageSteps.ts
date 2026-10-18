@@ -35,9 +35,7 @@ export async function sendMessageSetup(
   auth: string,
   body: SendMessageRequest = MessageFactory.sendMessage()
 ): Promise<SentMessage> {
-  let sent: SentMessage | undefined;
-
-  await test.step(title, async () => {
+  return test.step(title, async () => {
     const request = { method: 'POST', path: '/messages', auth, body };
     await attachJson('Send Message Request', request);
     const message = await messagesService.send(body);
@@ -46,10 +44,8 @@ export async function sendMessageSetup(
       typeof message.id === 'string' && message.id.length > 0,
       assertMessage({ request, expected: 'The new message has an id', actual: message })
     ).toBe(true);
-    sent = { body, message };
+    return { body, message };
   });
-
-  return sent!;
 }
 
 /** The GUEST_MESSAGE_STEP step (or a variant `title`): a guest message with a unique subject and the message text. */
@@ -64,18 +60,14 @@ export async function createCustomerMessage(messagesService: MessagesService, ti
 
 /** A "Send GET /users/me with the <role>'s token and take its id." setup step: returns the id of the token's user. */
 export async function takeOwnUserId(usersService: UsersService, title: string, auth: string): Promise<string> {
-  let id = '';
-
-  await test.step(title, async () => {
+  return test.step(title, async () => {
     const request = { method: 'GET', path: '/users/me', auth };
     await attachJson('Get Me Request', request);
     const me = await usersService.me();
     await attachJson('Get Me Response', me);
     expect(typeof me.id === 'string' && me.id.length > 0, assertMessage({ request, expected: 'The user has an id', actual: me })).toBe(true);
-    id = me.id;
+    return me.id;
   });
-
-  return id;
 }
 
 export type MessageRequest = { method: string; path: string; auth: string; query?: Record<string, unknown>; body?: unknown };

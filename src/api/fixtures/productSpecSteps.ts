@@ -5,7 +5,6 @@ import type { ProductSpecsClient } from '../clients/ProductSpecsClient';
 import type { ProductSpec } from '../dto/product';
 import type { ProductSpecsService } from '../services/ProductSpecsService';
 import type { ProductsService } from '../services/ProductsService';
-import type { ProductRefs } from '../../data/factories/ProductFactory';
 import { ProductSpecFactory } from '../../data/factories/ProductSpecFactory';
 import { assertMessage, attachJson } from '../../utils/assertHelpers';
 import { AUTH, sendAndAttach } from './apiSteps';
@@ -40,9 +39,7 @@ export async function createSpec(
   cleanup: Cleanup,
   title: string = SPEC_CREATE_STEP
 ): Promise<ProductSpec> {
-  let created: ProductSpec | undefined;
-
-  await test.step(title, async () => {
+  return test.step(title, async () => {
     const body = ProductSpecFactory.createSpec();
     const path = `/products/${productId}/specs`;
     await attachJson('Create Spec Request', { method: 'POST', path, auth: AUTH.defaultUser, body });
@@ -50,10 +47,8 @@ export async function createSpec(
     cleanup.add(() => productSpecsServiceWithToken.delete(productId, spec.id));
     await attachJson('Create Spec Response', spec);
     expect(spec.id, assertMessage({ request: { method: 'POST', path, body }, expected: 'The new spec has an id', actual: spec })).toBeTruthy();
-    created = spec;
+    return spec;
   });
-
-  return created!;
 }
 
 /**
@@ -81,19 +76,17 @@ export async function createProductAndTakeOtherId(
   adminProductsService: ProductsService,
   cleanup: Cleanup
 ): Promise<{ productId: string; otherProductId: string }> {
-  let refs: Partial<ProductRefs> = {};
-  let otherProductId = '';
-
-  await test.step(OTHER_PRODUCT_LIST_STEP, async () => {
+  const { refs, otherProductId } = await test.step(OTHER_PRODUCT_LIST_STEP, async () => {
     const list = await productsService.list();
     await attachJson('List Products Response', list);
-    refs = firstProductRefs(list);
+    const firstRefs = firstProductRefs(list);
     const firstId = list.data[0]!.id;
-    otherProductId = list.data.find((item) => item.id !== firstId)?.id ?? '';
+    const otherId = list.data.find((item) => item.id !== firstId)?.id ?? '';
     expect(
-      Boolean(otherProductId),
+      Boolean(otherId),
       assertMessage({ request: { method: 'GET', path: '/products' }, expected: `Another item whose id differs from ${firstId}`, actual: list.data.map((item) => item.id) })
     ).toBe(true);
+    return { refs: firstRefs, otherProductId: otherId };
   });
 
   const productId = (await createProduct(adminProductsService, cleanup, refs)).id;

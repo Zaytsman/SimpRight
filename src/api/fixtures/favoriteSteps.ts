@@ -53,19 +53,15 @@ async function addFavorite(
   cleanup: Cleanup,
   title: string = FAVORITE_ADD_STEP
 ): Promise<Favorite> {
-  let created: Favorite | undefined;
-
-  await test.step(title, async () => {
+  return test.step(title, async () => {
     const request = { method: 'POST', path: '/favorites', auth: AUTH.throwaway, body: FavoriteFactory.addFavorite(productId) };
     await attachJson('Add Favorite Request', request);
     const favorite = await favoritesServiceForToken(token).add(productId);
     cleanup.add(() => favoritesServiceForToken(token).delete(favorite.id));
     await attachJson('Add Favorite Response', favorite);
     expect(favorite.id, assertMessage({ request, expected: 'The new favorite has an id', actual: favorite })).toBeTruthy();
-    created = favorite;
+    return favorite;
   });
-
-  return created!;
 }
 
 /**

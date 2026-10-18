@@ -42,9 +42,7 @@ export async function registerThrowawayCustomer(
   cleanup: Cleanup,
   options: { title?: string; body?: RegisterUserRequest; ifExists?: boolean; mayHoldInvoices?: boolean } = {}
 ): Promise<ThrowawayCustomer> {
-  let customer: ThrowawayCustomer = { id: '', email: '', password: '' };
-
-  await test.step(options.title ?? USER_REGISTER_STEP, async () => {
+  return test.step(options.title ?? USER_REGISTER_STEP, async () => {
     const body = options.body ?? UserFactory.registerCustomer();
     await attachJson('Register Request', { method: 'POST', path: '/users/register', body });
     const created = await usersService.register(body);
@@ -57,10 +55,8 @@ export async function registerThrowawayCustomer(
     );
     await attachJson('Register Response', created);
     expect(created.id, assertMessage({ request: { method: 'POST', path: '/users/register', body }, expected: 'The new user has an id', actual: created })).toBeTruthy();
-    customer = { id: created.id, email: body.email, password: body.password };
+    return { id: created.id, email: body.email, password: body.password };
   });
-
-  return customer;
 }
 
 /** The login step of the scenarios that log in their throwaway customer (wording of most Users files). */
@@ -71,19 +67,15 @@ const THROWAWAY_LOGIN_STEP = 'Send POST /users/login with that email and passwor
  * email and password and returns the access_token. A setup step, so a failed login fails the step.
  */
 export async function loginThrowawayCustomer(authService: AuthService, customer: ThrowawayCustomer, title: string = THROWAWAY_LOGIN_STEP): Promise<string> {
-  let token = '';
-
-  await test.step(title, async () => {
+  return test.step(title, async () => {
     const credentials = { email: customer.email, password: customer.password };
     const request = { method: 'POST', path: '/users/login', body: credentials };
     await attachJson('Login Request', request);
     const login = await authService.login(credentials);
     await attachJson('Login Response', login);
     expect(Boolean(login.access_token), assertMessage({ request, expected: 'The login returns an access_token' })).toBe(true);
-    token = login.access_token;
+    return login.access_token;
   });
-
-  return token;
 }
 
 /**
@@ -126,19 +118,15 @@ const USER_LOGIN_STEP = "Send POST /users/login with the default user's email an
  * token of its own to log out or refresh, never the shared TokenService token other tests use. Returns that token.
  */
 export async function loginForNewToken(authService: AuthService, user: TestUser): Promise<string> {
-  let token = '';
-
-  await test.step(USER_LOGIN_STEP, async () => {
+  return test.step(USER_LOGIN_STEP, async () => {
     const credentials = { email: user.username, password: user.password };
     const request = { method: 'POST', path: '/users/login', body: credentials };
     await attachJson('Login Request', request);
     const login = await authService.login(credentials);
     await attachJson('Login Response', login);
     expect(Boolean(login.access_token), assertMessage({ request, expected: 'The login returns an access_token' })).toBe(true);
-    token = login.access_token;
+    return login.access_token;
   });
-
-  return token;
 }
 
 /** The logout setup step (API-0108, API-0110); where the logout itself is checked, the spec calls the client. */

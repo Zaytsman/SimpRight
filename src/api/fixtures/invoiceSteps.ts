@@ -67,9 +67,7 @@ export async function createInvoiceSetup(
   auth: string,
   body: CreateInvoiceRequest = InvoiceFactory.cashOnDelivery(cartId)
 ): Promise<InvoiceCreated> {
-  let created: InvoiceCreated | undefined;
-
-  await test.step(title, async () => {
+  return test.step(title, async () => {
     const request: InvoiceRequest = { method: 'POST', path: '/invoices', auth, body };
     await attachJson('Create Invoice Request', request);
     const invoice = await invoicesService.create(body);
@@ -78,10 +76,8 @@ export async function createInvoiceSetup(
       typeof invoice.id === 'string' && invoice.id.length > 0 && typeof invoice.total === 'number',
       assertMessage({ request, expected: 'The new invoice has an id and a numeric total', actual: invoice })
     ).toBe(true);
-    created = invoice;
+    return invoice;
   });
-
-  return created!;
 }
 
 /**
@@ -94,9 +90,7 @@ export async function createGuestInvoiceSetup(
   title: string,
   body: CreateGuestInvoiceRequest = InvoiceFactory.guest(cartId)
 ): Promise<InvoiceCreated> {
-  let created: InvoiceCreated | undefined;
-
-  await test.step(title, async () => {
+  return test.step(title, async () => {
     const request: InvoiceRequest = { method: 'POST', path: '/invoices/guest', auth: AUTH.none, body };
     await attachJson('Create Guest Invoice Request', request);
     const invoice = await invoicesService.createGuest(body);
@@ -105,10 +99,8 @@ export async function createGuestInvoiceSetup(
       typeof invoice.id === 'string' && invoice.id.length > 0 && typeof invoice.invoice_number === 'string',
       assertMessage({ request, expected: 'The new invoice has an id and an invoice_number', actual: invoice })
     ).toBe(true);
-    created = invoice;
+    return invoice;
   });
-
-  return created!;
 }
 
 /**

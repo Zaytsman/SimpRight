@@ -28,19 +28,15 @@ export async function createBrand(
   title: string = BRAND_CREATE_STEP,
   overrides: Partial<CreateBrandRequest> = {}
 ): Promise<Brand> {
-  let created: Brand | undefined;
-
-  await test.step(title, async () => {
+  return test.step(title, async () => {
     const body = BrandFactory.createBrand(overrides);
     await attachJson('Create Brand Request', { method: 'POST', path: '/brands', auth: AUTH.admin, body });
     const brand = await adminBrandsService.create(body);
     cleanup.add(() => adminBrandsService.deleteIfExists(brand.id));
     await attachJson('Create Brand Response', brand);
     expect(brand.id, assertMessage({ request: { method: 'POST', path: '/brands', body }, expected: 'The new brand has an id', actual: brand })).toBeTruthy();
-    created = brand;
+    return brand;
   });
-
-  return created!;
 }
 
 /** A Verify step's read-back: GET /brands/{brandId} through the service (fails the step unless it succeeds), attached. */
@@ -56,9 +52,7 @@ export async function readBrand(brandsService: BrandsService, brandId: string): 
  * stays, while another test's throwaway brand may go away mid-test.
  */
 export async function takeOtherBrandSlug(brandsService: BrandsService, newBrandId: string, title: string = OTHER_BRAND_SLUG_STEP): Promise<string> {
-  let slug = '';
-
-  await test.step(title, async () => {
+  return test.step(title, async () => {
     const brands = await brandsService.list();
     await attachJson('List Brands Response', brands);
     const seededSlugs: string[] = TestConstants.brands.seeded.map((seeded) => seeded.slug);
@@ -67,10 +61,8 @@ export async function takeOtherBrandSlug(brandsService: BrandsService, newBrandI
       other?.slug,
       assertMessage({ request: { method: 'GET', path: '/brands' }, expected: `A seeded brand other than the new one (${seededSlugs.join(' or ')})`, actual: brands })
     ).toBeTruthy();
-    slug = other!.slug;
+    return other!.slug;
   });
-
-  return slug;
 }
 
 /**
@@ -92,20 +84,17 @@ export function expectBrandItems(request: unknown, items: Brand[]): void {
 
 /** The SEEDED_BRAND_IDS_STEP step: the ids of the seeded brands (TestConstants.brands.seeded), found by name in GET /brands. */
 export async function takeSeededBrandIds(brandsService: BrandsService, title: string = SEEDED_BRAND_IDS_STEP): Promise<string[]> {
-  let ids: string[] = [];
-
-  await test.step(title, async () => {
+  return test.step(title, async () => {
     const brands = await brandsService.list();
     await attachJson('List Brands Response', brands);
     const names = TestConstants.brands.seeded.map((seeded) => seeded.name);
-    ids = names.map((name) => brands.find((brand) => brand.name === name)?.id ?? '');
+    const ids = names.map((name) => brands.find((brand) => brand.name === name)?.id ?? '');
     expect(
       ids.every(Boolean),
       assertMessage({ request: { method: 'GET', path: '/brands' }, expected: `Brands named ${names.join(' and ')}`, actual: brands })
     ).toBe(true);
+    return ids;
   });
-
-  return ids;
 }
 
 /** The checks of a "Verify the body includes both seeded brand ids." step. */

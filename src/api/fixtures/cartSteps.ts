@@ -60,18 +60,14 @@ export async function createCartProduct(
  * goes before them (a cart item blocks the product delete with 409); a 404 counts as done, for tests that delete the cart.
  */
 export async function createCart(cartsService: CartsService, cleanup: Cleanup, title: string = CART_CREATE_STEP, body: CreateCartRequest = {}): Promise<string> {
-  let cartId = '';
-
-  await test.step(title, async () => {
+  return test.step(title, async () => {
     await attachJson('Create Cart Request', { method: 'POST', path: '/carts', body });
     const cart = await cartsService.create(body);
     cleanup.add(() => cartsService.deleteIfExists(cart.id));
     await attachJson('Create Cart Response', cart);
     expect(cart.id, assertMessage({ request: { method: 'POST', path: '/carts', body }, expected: 'The new cart has an id', actual: cart })).toBeTruthy();
-    cartId = cart.id;
+    return cart.id;
   });
-
-  return cartId;
 }
 
 /**
@@ -100,9 +96,7 @@ export async function addItemSetup(cartsService: CartsService, cartId: string, p
  * "Thor Hammer"." (title `title`). Returns that id.
  */
 export async function findThorHammerId(productsService: ProductsService, title: string = THOR_HAMMER_SEARCH_STEP): Promise<string> {
-  let id = '';
-
-  await test.step(title, async () => {
+  return test.step(title, async () => {
     const name = TestConstants.carts.thorHammer;
     const result = await productsService.search(name);
     await attachJson('Search Products Response', result);
@@ -115,10 +109,8 @@ export async function findThorHammerId(productsService: ProductsService, title: 
         actual: result.data.map((product) => product.name),
       })
     ).toBe(true);
-    id = item!.id;
+    return item!.id;
   });
-
-  return id;
 }
 
 /** Sends GET /carts/{cartId}, attaches the response and checks it returns 200; returns the parsed cart. */
