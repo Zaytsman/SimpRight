@@ -12,9 +12,9 @@ import { assertMessage, attachJson } from '@utils/assertHelpers';
 type GetUserRequest = { method: 'GET'; path: string; auth: string };
 
 /** Sends GET /users/{userId} with the given client (`auth` describes its token) and attaches the request and the response. */
-async function sendGetUser(usersClient: UsersClient, userId: string, auth: string): Promise<{ request: GetUserRequest; response: ApiResponse }> {
+async function sendGetUser(client: UsersClient, userId: string, auth: string): Promise<{ request: GetUserRequest; response: ApiResponse }> {
   const request: GetUserRequest = { method: 'GET', path: `/users/${userId}`, auth };
-  const response = await usersClient.getById(userId);
+  const response = await client.getById(userId);
   await attachJson('Get User Request', request);
   await attachJson('Get User Response', { status: response.status, body: response.body });
   return { request, response };
@@ -65,7 +65,7 @@ test.describe('@users-api - Users API', () => {
   test.describe(() => {
     test.use({ role: 'admin' });
 
-    test('API-0421: Get user as an admin returns 200 with the admin-only fields', async ({ usersService, adminUsersService, usersClient, cleanup }) => {
+    test('API-0421: Get user as an admin returns 200 with the admin-only fields', async ({ usersService, adminUsersService, usersClientWithToken, cleanup }) => {
       let request: GetUserRequest;
       let response: ApiResponse;
       let user: User;
@@ -73,7 +73,7 @@ test.describe('@users-api - Users API', () => {
       const customer = await registerThrowawayCustomer(usersService, adminUsersService, cleanup);
 
       await test.step("Send GET /users/{userId} with that id and the admin's token.", async () => {
-        ({ request, response } = await sendGetUser(usersClient, customer.id, "admin's token"));
+        ({ request, response } = await sendGetUser(usersClientWithToken, customer.id, "admin's token"));
       });
 
       await test.step('Verify the response status is 200.', async () => {
@@ -92,12 +92,12 @@ test.describe('@users-api - Users API', () => {
       });
     });
 
-    test('API-0423: Get user with an unknown id returns 404', async ({ usersClient }) => {
+    test('API-0423: Get user with an unknown id returns 404', async ({ usersClientWithToken }) => {
       let request: GetUserRequest;
       let response: ApiResponse;
 
       await test.step("Send GET /users/{userId} with a well-formed ULID that no user has and the admin's token.", async () => {
-        ({ request, response } = await sendGetUser(usersClient, TestConstants.users.unknownId, "admin's token"));
+        ({ request, response } = await sendGetUser(usersClientWithToken, TestConstants.users.unknownId, "admin's token"));
       });
 
       await test.step('Verify the response status is 404.', async () => {
@@ -110,12 +110,12 @@ test.describe('@users-api - Users API', () => {
     });
   });
 
-  test('API-0422: Get user without a token returns 401', async ({ usersClientWithoutToken }) => {
+  test('API-0422: Get user without a token returns 401', async ({ usersClient }) => {
     let request: GetUserRequest;
     let response: ApiResponse;
 
     await test.step('Send GET /users/{userId} with a well-formed ULID that no user has, without an Authorization header.', async () => {
-      ({ request, response } = await sendGetUser(usersClientWithoutToken, TestConstants.users.unknownId, 'none'));
+      ({ request, response } = await sendGetUser(usersClient, TestConstants.users.unknownId, 'none'));
     });
 
     await test.step('Verify the response status is 401.', async () => {

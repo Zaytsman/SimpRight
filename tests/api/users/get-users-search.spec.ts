@@ -30,13 +30,13 @@ type SearchUsersRequest = { method: 'GET'; path: '/users/search'; query?: string
  * stay out of the public reports). Returns the parsed page for a 2xx.
  */
 async function sendSearch(
-  usersClient: UsersClient,
+  client: UsersClient,
   auth: string,
   params: { q?: string; page?: number } = {}
 ): Promise<{ request: SearchUsersRequest; response: ApiResponse; body?: Paginated<User> }> {
   const query = userSearchQuery(params.q, params.page);
   const request: SearchUsersRequest = { method: 'GET', path: '/users/search', ...(query === undefined ? {} : { query }), auth };
-  const response = await usersClient.search(params.q, params.page);
+  const response = await client.search(params.q, params.page);
   await attachJson('Search Users Request', request);
   const body = await attachUserPageResponse('Search Users Response', response);
   return { request, response, body };
@@ -56,7 +56,7 @@ test.describe('@users-api - Users API', () => {
   test.describe(() => {
     test.use({ role: 'admin' });
 
-    test('API-0406: Search users by first name returns 200 with the matching customer', async ({ usersService, adminUsersService, usersClient, cleanup }) => {
+    test('API-0406: Search users by first name returns 200 with the matching customer', async ({ usersService, adminUsersService, usersClientWithToken, cleanup }) => {
       const registered = UserFactory.registerCustomer({ first_name: UserFactory.uniqueFirstName() });
       let request: SearchUsersRequest;
       let response: ApiResponse;
@@ -69,7 +69,7 @@ test.describe('@users-api - Users API', () => {
       });
 
       await test.step("Send GET /users/search with q set to that first name and the admin's token.", async () => {
-        ({ request, response } = await sendSearch(usersClient, ADMIN, { q: registered.first_name }));
+        ({ request, response } = await sendSearch(usersClientWithToken, ADMIN, { q: registered.first_name }));
       });
 
       await test.step('Verify the response status is 200.', async () => {
@@ -93,14 +93,14 @@ test.describe('@users-api - Users API', () => {
       );
     });
 
-    test('API-0407: Search users by email returns 200 with the matching customer', async ({ usersService, adminUsersService, usersClient, cleanup }) => {
+    test('API-0407: Search users by email returns 200 with the matching customer', async ({ usersService, adminUsersService, usersClientWithToken, cleanup }) => {
       let request: SearchUsersRequest;
       let response: ApiResponse;
 
       const customer = await registerThrowawayCustomer(usersService, adminUsersService, cleanup);
 
       await test.step("Send GET /users/search with q set to the registered email and the admin's token.", async () => {
-        ({ request, response } = await sendSearch(usersClient, ADMIN, { q: customer.email }));
+        ({ request, response } = await sendSearch(usersClientWithToken, ADMIN, { q: customer.email }));
       });
 
       await test.step('Verify the response status is 200.', async () => {
@@ -112,7 +112,7 @@ test.describe('@users-api - Users API', () => {
       });
     });
 
-    test('API-0408: Search users by last name returns 200 with the matching customer', async ({ usersService, adminUsersService, usersClient, cleanup }) => {
+    test('API-0408: Search users by last name returns 200 with the matching customer', async ({ usersService, adminUsersService, usersClientWithToken, cleanup }) => {
       const registered = UserFactory.registerCustomer({ last_name: UserFactory.uniqueLastName() });
       let request: SearchUsersRequest;
       let response: ApiResponse;
@@ -124,7 +124,7 @@ test.describe('@users-api - Users API', () => {
       });
 
       await test.step("Send GET /users/search with q set to that last name and the admin's token.", async () => {
-        ({ request, response } = await sendSearch(usersClient, ADMIN, { q: registered.last_name }));
+        ({ request, response } = await sendSearch(usersClientWithToken, ADMIN, { q: registered.last_name }));
       });
 
       await test.step('Verify the response status is 200.', async () => {
@@ -136,7 +136,7 @@ test.describe('@users-api - Users API', () => {
       });
     });
 
-    test('API-0409: Search users by city returns 200 with the matching customer', async ({ usersService, adminUsersService, usersClient, cleanup }) => {
+    test('API-0409: Search users by city returns 200 with the matching customer', async ({ usersService, adminUsersService, usersClientWithToken, cleanup }) => {
       const city = UserFactory.uniqueCity();
       let request: SearchUsersRequest;
       let response: ApiResponse;
@@ -148,7 +148,7 @@ test.describe('@users-api - Users API', () => {
       });
 
       await test.step("Send GET /users/search with q set to that city and the admin's token.", async () => {
-        ({ request, response } = await sendSearch(usersClient, ADMIN, { q: city }));
+        ({ request, response } = await sendSearch(usersClientWithToken, ADMIN, { q: city }));
       });
 
       await test.step('Verify the response status is 200.', async () => {
@@ -160,14 +160,14 @@ test.describe('@users-api - Users API', () => {
       });
     });
 
-    test('API-0410: Search users with a term nobody matches returns 200 with an empty list', async ({ usersClient }) => {
+    test('API-0410: Search users with a term nobody matches returns 200 with an empty list', async ({ usersClientWithToken }) => {
       const term = uniqueName('NoSuchUser');
       let request: SearchUsersRequest;
       let response: ApiResponse;
       let page: Paginated<User>;
 
       await test.step("Send GET /users/search with q set to a unique string no customer has and the admin's token.", async () => {
-        ({ request, response } = await sendSearch(usersClient, ADMIN, { q: term }));
+        ({ request, response } = await sendSearch(usersClientWithToken, ADMIN, { q: term }));
       });
 
       await test.step('Verify the response status is 200.', async () => {
@@ -186,13 +186,13 @@ test.describe('@users-api - Users API', () => {
       });
     });
 
-    test('API-0411: Search users without q returns 200 with customers', async ({ usersClient }) => {
+    test('API-0411: Search users without q returns 200 with customers', async ({ usersClientWithToken }) => {
       let request: SearchUsersRequest;
       let response: ApiResponse;
       let page: Paginated<User>;
 
       await test.step("Send GET /users/search without q and with the admin's token.", async () => {
-        ({ request, response } = await sendSearch(usersClient, ADMIN));
+        ({ request, response } = await sendSearch(usersClientWithToken, ADMIN));
       });
 
       await test.step('Verify the response status is 200.', async () => {
@@ -234,12 +234,12 @@ test.describe('@users-api - Users API', () => {
     });
   });
 
-  test('API-0413: Search users without a token returns 401', async ({ usersClientWithoutToken }) => {
+  test('API-0413: Search users without a token returns 401', async ({ usersClient }) => {
     let request: SearchUsersRequest;
     let response: ApiResponse;
 
     await test.step('Send GET /users/search with q set to a letter, without an Authorization header.', async () => {
-      ({ request, response } = await sendSearch(usersClientWithoutToken, 'none', { q: 'a' }));
+      ({ request, response } = await sendSearch(usersClient, 'none', { q: 'a' }));
     });
 
     // A 200 here would list other customers: the failure message shows only the status.
@@ -252,13 +252,13 @@ test.describe('@users-api - Users API', () => {
     });
   });
 
-  test('API-0414: Search users as a customer returns 403', async ({ usersClient }) => {
+  test('API-0414: Search users as a customer returns 403', async ({ usersClientWithToken }) => {
     test.fail(true, "Known issue BUG-032: Returns 200 with other customers' names, emails and cities instead of rejecting a customer (403, like GET /users).");
     let request: SearchUsersRequest;
     let response: ApiResponse;
 
     await test.step("Send GET /users/search with q set to a letter and the default user's token.", async () => {
-      ({ request, response } = await sendSearch(usersClient, "default user's token", { q: 'a' }));
+      ({ request, response } = await sendSearch(usersClientWithToken, "default user's token", { q: 'a' }));
     });
 
     // The bug returns other customers' details: the failure message shows only the status.

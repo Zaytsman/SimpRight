@@ -9,10 +9,10 @@ import { assertMessage, attachJson } from '@utils/assertHelpers';
 
 type MeRequest = { method: 'GET'; path: '/users/me'; auth: string };
 
-/** Sends GET /users/me with `usersClient` and attaches the request and the response. */
-async function sendMe(usersClient: UsersClient, auth: string): Promise<{ request: MeRequest; response: ApiResponse }> {
+/** Sends GET /users/me with `client` and attaches the request and the response. */
+async function sendMe(client: UsersClient, auth: string): Promise<{ request: MeRequest; response: ApiResponse }> {
   const request: MeRequest = { method: 'GET', path: '/users/me', auth };
-  const response = await usersClient.me();
+  const response = await client.me();
   await attachJson('Current User Request', request);
   await attachJson('Current User Response', { status: response.status, body: response.body });
   return { request, response };
@@ -30,12 +30,12 @@ function expectMessage(request: MeRequest, response: ApiResponse, message: strin
 }
 
 test.describe('@users-api - Users API', () => {
-  test("API-0063: Current user endpoint returns the logged-in user's profile", { tag: '@smoke' }, async ({ usersClient, user }) => {
+  test("API-0063: Current user endpoint returns the logged-in user's profile", { tag: '@smoke' }, async ({ usersClientWithToken, user }) => {
     const request = { method: 'GET', path: '/users/me' };
     let response: ApiResponse;
 
     await test.step("Send GET /users/me with the default user's token.", async () => {
-      response = await usersClient.me();
+      response = await usersClientWithToken.me();
       await attachJson('Current User Request', request);
       await attachJson('Current User Response', { status: response.status, body: response.body });
     });
@@ -60,13 +60,13 @@ test.describe('@users-api - Users API', () => {
   test.describe(() => {
     test.use({ role: 'admin' });
 
-    test('API-0100: Current user endpoint returns the admin-only fields to an admin', { tag: '@smoke' }, async ({ usersClient }) => {
+    test('API-0100: Current user endpoint returns the admin-only fields to an admin', { tag: '@smoke' }, async ({ usersClientWithToken }) => {
       let request: MeRequest;
       let response: ApiResponse;
       let profile: User;
 
       await test.step("Send GET /users/me with the admin's token.", async () => {
-        ({ request, response } = await sendMe(usersClient, "admin's token"));
+        ({ request, response } = await sendMe(usersClientWithToken, "admin's token"));
       });
 
       await test.step('Verify the response status is 200.', async () => {
@@ -86,7 +86,7 @@ test.describe('@users-api - Users API', () => {
     });
   });
 
-  test('API-0101: Current user endpoint hides the admin-only fields from a customer', async ({ usersClient }) => {
+  test('API-0101: Current user endpoint hides the admin-only fields from a customer', async ({ usersClientWithToken }) => {
     const expectedKeys = ['id', 'provider', 'first_name', 'last_name', 'phone', 'dob', 'email', 'totp_enabled', 'created_at', 'address'];
     const adminOnlyKeys = ['role', 'enabled', 'failed_login_attempts'];
     let request: MeRequest;
@@ -94,7 +94,7 @@ test.describe('@users-api - Users API', () => {
     let keys: string[];
 
     await test.step("Send GET /users/me with the default user's token.", async () => {
-      ({ request, response } = await sendMe(usersClient, "default user's token"));
+      ({ request, response } = await sendMe(usersClientWithToken, "default user's token"));
     });
 
     await test.step('Verify the response status is 200.', async () => {
@@ -113,12 +113,12 @@ test.describe('@users-api - Users API', () => {
     });
   });
 
-  test('API-0102: Current user without a token returns 401', async ({ usersClientWithoutToken }) => {
+  test('API-0102: Current user without a token returns 401', async ({ usersClient }) => {
     let request: MeRequest;
     let response: ApiResponse;
 
     await test.step('Send GET /users/me without an Authorization header.', async () => {
-      ({ request, response } = await sendMe(usersClientWithoutToken, 'none'));
+      ({ request, response } = await sendMe(usersClient, 'none'));
     });
 
     await test.step('Verify the response status is 401.', async () => {

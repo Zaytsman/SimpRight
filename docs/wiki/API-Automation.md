@@ -75,12 +75,12 @@ The engineer changes only test-side code. It never edits a scenario's steps, and
 ```ts
 // Scenarios: test-scenarios/api/users/get-users-me.yml
 test.describe('@users-api - Users API', () => {
-  test("API-0063: Current user endpoint returns the logged-in user's profile", async ({ usersClient }) => {
+  test("API-0063: Current user endpoint returns the logged-in user's profile", async ({ usersClientWithToken }) => {
     const request = { method: 'GET', path: '/users/me' };
     let response: ApiResponse;
 
     await test.step("Send GET /users/me with the default user's token.", async () => {
-      response = await usersClient.me();
+      response = await usersClientWithToken.me();
       await attachJson('Current User Request', request);
       await attachJson('Current User Response', { status: response.status, body: response.body });
     });

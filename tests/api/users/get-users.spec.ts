@@ -26,12 +26,12 @@ type ListUsersRequest = { method: 'GET'; path: '/users'; query?: string; auth: s
  * of the public reports). Returns the parsed page for a 2xx.
  */
 async function sendListUsers(
-  usersClient: UsersClient,
+  client: UsersClient,
   auth: string,
   page?: number
 ): Promise<{ request: ListUsersRequest; response: ApiResponse; body?: Paginated<User> }> {
   const request: ListUsersRequest = { method: 'GET', path: '/users', ...(page === undefined ? {} : { query: `page=${page}` }), auth };
-  const response = await usersClient.list(page);
+  const response = await client.list(page);
   await attachJson('List Users Request', request);
   const body = await attachUserPageResponse('List Users Response', response);
   return { request, response, body };
@@ -49,13 +49,13 @@ test.describe('@users-api - Users API', () => {
   test.describe(() => {
     test.use({ role: 'admin' });
 
-    test('API-0402: List users as an admin returns 200 with a page of customers', { tag: '@smoke' }, async ({ usersClient }) => {
+    test('API-0402: List users as an admin returns 200 with a page of customers', { tag: '@smoke' }, async ({ usersClientWithToken }) => {
       let request: ListUsersRequest;
       let response: ApiResponse;
       let page: Paginated<User>;
 
       await test.step("Send GET /users with the admin's token.", async () => {
-        ({ request, response } = await sendListUsers(usersClient, "admin's token"));
+        ({ request, response } = await sendListUsers(usersClientWithToken, "admin's token"));
       });
 
       await test.step('Verify the response status is 200.', async () => {
@@ -101,12 +101,12 @@ test.describe('@users-api - Users API', () => {
     });
   });
 
-  test('API-0404: List users without a token returns 401', async ({ usersClientWithoutToken }) => {
+  test('API-0404: List users without a token returns 401', async ({ usersClient }) => {
     let request: ListUsersRequest;
     let response: ApiResponse;
 
     await test.step('Send GET /users without an Authorization header.', async () => {
-      ({ request, response } = await sendListUsers(usersClientWithoutToken, 'none'));
+      ({ request, response } = await sendListUsers(usersClient, 'none'));
     });
 
     // A 200 here would list other customers: the failure message shows only the status.
@@ -119,12 +119,12 @@ test.describe('@users-api - Users API', () => {
     });
   });
 
-  test('API-0405: List users as a customer returns 403', async ({ usersClient }) => {
+  test('API-0405: List users as a customer returns 403', async ({ usersClientWithToken }) => {
     let request: ListUsersRequest;
     let response: ApiResponse;
 
     await test.step("Send GET /users with the default user's token.", async () => {
-      ({ request, response } = await sendListUsers(usersClient, "default user's token"));
+      ({ request, response } = await sendListUsers(usersClientWithToken, "default user's token"));
     });
 
     await test.step('Verify the response status is 403.', async () => {

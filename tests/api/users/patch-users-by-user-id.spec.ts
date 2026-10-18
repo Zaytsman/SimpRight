@@ -20,22 +20,22 @@ const LOGIN_A_STEP = "Send POST /users/login with customer A's email and passwor
 
 /** Sends PATCH /users/{userId} with the given client (`auth` describes its token) and attaches the request and the response. */
 async function sendPatch(
-  usersClient: UsersClient,
+  client: UsersClient,
   userId: string,
   body: PatchUserRequest | Record<string, unknown>,
   auth: string
 ): Promise<{ request: PatchRequestInfo; response: ApiResponse }> {
   const request: PatchRequestInfo = { method: 'PATCH', path: `/users/${userId}`, auth, body };
-  const response = await usersClient.partialUpdate(userId, body);
+  const response = await client.partialUpdate(userId, body);
   await attachJson('Patch User Request', request);
   await attachJson('Patch User Response', { status: response.status, body: response.body });
   return { request, response };
 }
 
 /** The read-back of a Verify step: GET /users/me with the client's token must return 200; returns the profile. */
-async function readMe(usersClient: UsersClient, auth: string): Promise<{ request: unknown; user: User }> {
+async function readMe(client: UsersClient, auth: string): Promise<{ request: unknown; user: User }> {
   const request = { method: 'GET', path: '/users/me', auth };
-  const response = await usersClient.me();
+  const response = await client.me();
   await attachJson('Current User Request', request);
   await attachJson('Current User Response', { status: response.status, body: response.body });
   expectStatus(request, response, 200);
@@ -91,7 +91,7 @@ test.describe('@users-api - Users API', () => {
   test.describe(() => {
     test.use({ role: 'admin' });
 
-    test("API-0426: Patch user as an admin changes another user's last_name", async ({ usersService, adminUsersService, usersClient, cleanup }) => {
+    test("API-0426: Patch user as an admin changes another user's last_name", async ({ usersService, adminUsersService, usersClientWithToken, cleanup }) => {
       const registered = UserFactory.registerCustomer();
       let request: PatchRequestInfo;
       let response: ApiResponse;
@@ -101,7 +101,7 @@ test.describe('@users-api - Users API', () => {
       await test.step(
         "Send PATCH /users/{userId} with the new user's id, the admin's token and only last_name set to a new value of at most 20 characters.",
         async () => {
-          ({ request, response } = await sendPatch(usersClient, customer.id, { last_name: NEW_NAME }, "admin's token"));
+          ({ request, response } = await sendPatch(usersClientWithToken, customer.id, { last_name: NEW_NAME }, "admin's token"));
         }
       );
 
@@ -125,14 +125,14 @@ test.describe('@users-api - Users API', () => {
       );
     });
 
-    test('API-0427: Patch user as an admin with enabled false disables the account', async ({ usersService, adminUsersService, usersClient, cleanup }) => {
+    test('API-0427: Patch user as an admin with enabled false disables the account', async ({ usersService, adminUsersService, usersClientWithToken, cleanup }) => {
       let request: PatchRequestInfo;
       let response: ApiResponse;
 
       const customer = await registerThrowawayCustomer(usersService, adminUsersService, cleanup);
 
       await test.step("Send PATCH /users/{userId} with the new user's id, the admin's token and enabled false.", async () => {
-        ({ request, response } = await sendPatch(usersClient, customer.id, { enabled: false }, "admin's token"));
+        ({ request, response } = await sendPatch(usersClientWithToken, customer.id, { enabled: false }, "admin's token"));
       });
 
       await test.step('Verify the response status is 200.', async () => {
@@ -149,14 +149,14 @@ test.describe('@users-api - Users API', () => {
       });
     });
 
-    test('API-0428: Patch user as an admin with a role key drops the role silently', async ({ usersService, adminUsersService, usersClient, cleanup }) => {
+    test('API-0428: Patch user as an admin with a role key drops the role silently', async ({ usersService, adminUsersService, usersClientWithToken, cleanup }) => {
       let request: PatchRequestInfo;
       let response: ApiResponse;
 
       const customer = await registerThrowawayCustomer(usersService, adminUsersService, cleanup);
 
       await test.step('Send PATCH /users/{userId} with the new user\'s id, the admin\'s token and role "admin".', async () => {
-        ({ request, response } = await sendPatch(usersClient, customer.id, { role: 'admin' }, "admin's token"));
+        ({ request, response } = await sendPatch(usersClientWithToken, customer.id, { role: 'admin' }, "admin's token"));
       });
 
       await test.step('Verify the response status is 200.', async () => {
@@ -207,13 +207,13 @@ test.describe('@users-api - Users API', () => {
       );
     });
 
-    test('API-0434: Patch user with an unknown id as an admin returns 404', async ({ usersClient }) => {
+    test('API-0434: Patch user with an unknown id as an admin returns 404', async ({ usersClientWithToken }) => {
       test.fail(true, 'Known issue BUG-034: Returns 403 instead of 404 for an unknown user id.');
       let request: PatchRequestInfo;
       let response: ApiResponse;
 
       await test.step("Send PATCH /users/{userId} with a well-formed ULID that no user has, first_name set to a new value and the admin's token.", async () => {
-        ({ request, response } = await sendPatch(usersClient, TestConstants.users.unknownId, { first_name: NEW_NAME }, "admin's token"));
+        ({ request, response } = await sendPatch(usersClientWithToken, TestConstants.users.unknownId, { first_name: NEW_NAME }, "admin's token"));
       });
 
       await test.step('Verify the response status is 404.', async () => {
@@ -222,12 +222,12 @@ test.describe('@users-api - Users API', () => {
     });
   });
 
-  test('API-0429: Patch user without a token returns 401', async ({ usersClientWithoutToken }) => {
+  test('API-0429: Patch user without a token returns 401', async ({ usersClient }) => {
     let request: PatchRequestInfo;
     let response: ApiResponse;
 
     await test.step('Send PATCH /users/{userId} with a well-formed ULID that no user has and first_name set to a new value, without an Authorization header.', async () => {
-      ({ request, response } = await sendPatch(usersClientWithoutToken, TestConstants.users.unknownId, { first_name: NEW_NAME }, 'none'));
+      ({ request, response } = await sendPatch(usersClient, TestConstants.users.unknownId, { first_name: NEW_NAME }, 'none'));
     });
 
     await test.step('Verify the response status is 401.', async () => {

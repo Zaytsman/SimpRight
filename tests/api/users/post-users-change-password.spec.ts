@@ -17,14 +17,14 @@ type ChangePasswordRequestInfo = { method: 'POST'; path: '/users/change-password
 const LOGIN_STEP = 'Send POST /users/login with that email and password, and take the new access_token.';
 const WRONG_CURRENT_PASSWORD = 'Your current password does not matches with the password.';
 
-/** Sends POST /users/change-password with `usersClient`'s token and attaches the request and the response. */
+/** Sends POST /users/change-password with `client`'s token and attaches the request and the response. */
 async function sendChangePassword(
-  usersClient: UsersClient,
+  client: UsersClient,
   body: Record<string, unknown>,
   auth: string
 ): Promise<{ request: ChangePasswordRequestInfo; response: ApiResponse }> {
   const request: ChangePasswordRequestInfo = { method: 'POST', path: '/users/change-password', auth, body };
-  const response = await usersClient.changePassword(body);
+  const response = await client.changePassword(body);
   await attachJson('Change Password Request', request);
   await attachJson('Change Password Response', { status: response.status, body: response.body });
   return { request, response };
@@ -236,7 +236,7 @@ test.describe('@users-api - Users API', () => {
     });
   });
 
-  test('API-0296: Change password with the current password as the new one returns 400', async ({ usersClient, user }) => {
+  test('API-0296: Change password with the current password as the new one returns 400', async ({ usersClientWithToken, user }) => {
     let request: ChangePasswordRequestInfo;
     let response: ApiResponse;
 
@@ -245,7 +245,7 @@ test.describe('@users-api - Users API', () => {
       async () => {
         // The run's customer: even if the API accepted this, the password would stay the same.
         const body = { current_password: user.password, new_password: user.password, new_password_confirmation: user.password };
-        ({ request, response } = await sendChangePassword(usersClient, body, "the default user's token"));
+        ({ request, response } = await sendChangePassword(usersClientWithToken, body, "the default user's token"));
       }
     );
 

@@ -24,13 +24,13 @@ const JSON_HEADERS = { 'Content-Type': 'application/json', Accept: 'application/
  * stay out of the public reports). A string body is sent as-is with the given Content-Type.
  */
 async function sendQuerySearch(
-  usersClient: UsersClient,
+  client: UsersClient,
   auth: string,
   body: UserSearchQueryBody | string,
   headers: QuerySearchRequest['headers'] = JSON_HEADERS
 ): Promise<{ request: QuerySearchRequest; response: ApiResponse }> {
   const request: QuerySearchRequest = { method: 'QUERY', path: '/users/search', auth, headers, body };
-  const response = await usersClient.querySearch(body, { contentType: headers['Content-Type'], accept: headers.Accept });
+  const response = await client.querySearch(body, { contentType: headers['Content-Type'], accept: headers.Accept });
   await attachJson('Query Search Request', request);
   await attachUserPageResponse('Query Search Response', response);
   return { request, response };
@@ -40,7 +40,7 @@ test.describe('@users-api - Users API', () => {
   test.describe(() => {
     test.use({ role: 'admin' });
 
-    test('API-0415: QUERY search by first name returns 200 with the matching customer', async ({ usersService, adminUsersService, usersClient, cleanup }) => {
+    test('API-0415: QUERY search by first name returns 200 with the matching customer', async ({ usersService, adminUsersService, usersClientWithToken, cleanup }) => {
       const registered = UserFactory.registerCustomer({ first_name: UserFactory.uniqueFirstName() });
       let request: QuerySearchRequest;
       let response: ApiResponse;
@@ -54,7 +54,7 @@ test.describe('@users-api - Users API', () => {
       await test.step(
         'Send QUERY /users/search with the admin\'s token, Content-Type: application/json, Accept: application/json and the body { "q": <that first name> }.',
         async () => {
-          ({ request, response } = await sendQuerySearch(usersClient, "admin's token", { q: registered.first_name }));
+          ({ request, response } = await sendQuerySearch(usersClientWithToken, "admin's token", { q: registered.first_name }));
         }
       );
 
@@ -71,7 +71,7 @@ test.describe('@users-api - Users API', () => {
       });
     });
 
-    test('API-0416: QUERY search with an empty body object returns 200 with customers', async ({ usersClient }) => {
+    test('API-0416: QUERY search with an empty body object returns 200 with customers', async ({ usersClientWithToken }) => {
       let request: QuerySearchRequest;
       let response: ApiResponse;
       let page: Paginated<User>;
@@ -79,7 +79,7 @@ test.describe('@users-api - Users API', () => {
       await test.step(
         "Send QUERY /users/search with the admin's token, Content-Type: application/json, Accept: application/json and an empty JSON object as the body.",
         async () => {
-          ({ request, response } = await sendQuerySearch(usersClient, "admin's token", {}));
+          ({ request, response } = await sendQuerySearch(usersClientWithToken, "admin's token", {}));
         }
       );
 
@@ -95,14 +95,14 @@ test.describe('@users-api - Users API', () => {
     });
   });
 
-  test('API-0417: QUERY search without a token returns 401', async ({ usersClientWithoutToken }) => {
+  test('API-0417: QUERY search without a token returns 401', async ({ usersClient }) => {
     let request: QuerySearchRequest;
     let response: ApiResponse;
 
     await test.step(
       'Send QUERY /users/search without an Authorization header, with Content-Type: application/json, Accept: application/json and an empty JSON object as the body.',
       async () => {
-        ({ request, response } = await sendQuerySearch(usersClientWithoutToken, 'none', {}));
+        ({ request, response } = await sendQuerySearch(usersClient, 'none', {}));
       }
     );
 
@@ -116,12 +116,12 @@ test.describe('@users-api - Users API', () => {
     });
   });
 
-  test('API-0418: QUERY search without a JSON Content-Type returns 415', async ({ usersClient }) => {
+  test('API-0418: QUERY search without a JSON Content-Type returns 415', async ({ usersClientWithToken }) => {
     let request: QuerySearchRequest;
     let response: ApiResponse;
 
     await test.step("Send QUERY /users/search with the default user's token, Content-Type: text/plain, Accept: application/json and a plain-text body.", async () => {
-      ({ request, response } = await sendQuerySearch(usersClient, "default user's token", 'q=a', { 'Content-Type': 'text/plain', Accept: 'application/json' }));
+      ({ request, response } = await sendQuerySearch(usersClientWithToken, "default user's token", 'q=a', { 'Content-Type': 'text/plain', Accept: 'application/json' }));
     });
 
     await test.step('Verify the response status is 415.', async () => {
@@ -129,7 +129,7 @@ test.describe('@users-api - Users API', () => {
     });
   });
 
-  test('API-0419: QUERY search as a customer returns 403', async ({ usersClient }) => {
+  test('API-0419: QUERY search as a customer returns 403', async ({ usersClientWithToken }) => {
     test.fail(true, "Known issue BUG-032: Returns 200 with other customers' names, emails and cities instead of rejecting a customer (403, like GET /users).");
     let request: QuerySearchRequest;
     let response: ApiResponse;
@@ -137,7 +137,7 @@ test.describe('@users-api - Users API', () => {
     await test.step(
       'Send QUERY /users/search with the default user\'s token, Content-Type: application/json, Accept: application/json and the body { "q": "a" }.',
       async () => {
-        ({ request, response } = await sendQuerySearch(usersClient, "default user's token", { q: 'a' }));
+        ({ request, response } = await sendQuerySearch(usersClientWithToken, "default user's token", { q: 'a' }));
       }
     );
 

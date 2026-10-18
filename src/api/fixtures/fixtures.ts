@@ -37,6 +37,15 @@ function roleToken(tokenService: TokenService, role: UserRole): AccessToken {
   return () => tokenService.getAccessToken(role);
 }
 
+/**
+ * API clients and services per area, in the variants the scenarios need:
+ * - `xClient`, `xService`: no token.
+ * - `xClientWithToken`, `xServiceWithToken`: the test's `role` (`test.use({ role })`), the token fetched per request.
+ * - `xClientWithInvalidToken`: a fixed malformed bearer token (`INVALID_TOKEN`), for the "invalid token" 401 checks.
+ * - `xClientForToken(token)`, `xServiceForToken(token)`: a token the test obtained itself (a throwaway customer's).
+ * - `adminXService`: always admin, whatever the test's `role`: setup creates and cleanup deletes (DELETE is admin-only).
+ * A fixture's own comment says only what is particular to it.
+ */
 export type ApiFixtures = {
   accessToken: string;
   authClient: AuthClient;
@@ -47,9 +56,7 @@ export type ApiFixtures = {
   productsService: ProductsService;
   /** Products endpoints authenticated as the test's `role` (e.g. an admin sees the stock count). */
   productsClientWithToken: ProductsClient;
-  /** Sends a fixed malformed bearer token (`INVALID_TOKEN`), for the "invalid token" 401 checks. */
   productsClientWithInvalidToken: ProductsClient;
-  /** Always authenticated as admin, whatever the test's `role`: setup creates and cleanup deletes (DELETE is admin-only). */
   adminProductsService: ProductsService;
   /** Product specs endpoints with no token (the reads, and the writes the scenarios send without a token). */
   productSpecsClient: ProductSpecsClient;
@@ -57,17 +64,15 @@ export type ApiFixtures = {
   productSpecsService: ProductSpecsService;
   /** Product specs endpoints authenticated as the test's `role` ("with the default user's token"). */
   productSpecsClientWithToken: ProductSpecsClient;
-  /** Sends a fixed malformed bearer token (`INVALID_TOKEN`), for the "invalid token" 401 checks. */
   productSpecsClientWithInvalidToken: ProductSpecsClient;
   /** Authenticated as the test's `role` (writes need a token, any role): setup creates and deletes specs, cleanup deletes them. */
   productSpecsServiceWithToken: ProductSpecsService;
   /** Authenticated as the test's `role`. */
-  usersClient: UsersClient;
+  usersClientWithToken: UsersClient;
   /** Users endpoints with no token (public ones such as register, and the "no token" 401 checks). */
-  usersClientWithoutToken: UsersClient;
+  usersClient: UsersClient;
   /** Public user operations (register a throwaway customer); no token. */
   usersService: UsersService;
-  /** Sends a fixed malformed bearer token (`INVALID_TOKEN`), for the "invalid token" 401 checks. */
   usersClientWithInvalidToken: UsersClient;
   /** Builds a users client with a token the test obtained itself (e.g. from a throwaway customer's login). */
   usersClientForToken: (token: string) => UsersClient;
@@ -81,9 +86,7 @@ export type ApiFixtures = {
   brandsService: BrandsService;
   /** Brands endpoints authenticated as the test's `role` ("with the admin's token", or the default user's for the 403 check). */
   brandsClientWithToken: BrandsClient;
-  /** Sends a fixed malformed bearer token (`INVALID_TOKEN`), for the "invalid token" 401 checks. */
   brandsClientWithInvalidToken: BrandsClient;
-  /** Always authenticated as admin, whatever the test's `role`: setup creates and cleanup deletes (DELETE is admin-only). */
   adminBrandsService: BrandsService;
   /** Categories endpoints with no token (reads, and the writes the categories scenarios send without a token). */
   categoriesClient: CategoriesClient;
@@ -91,9 +94,7 @@ export type ApiFixtures = {
   categoriesService: CategoriesService;
   /** Categories endpoints authenticated as the test's `role` ("with the admin's token", or the default user's for the 403 check). */
   categoriesClientWithToken: CategoriesClient;
-  /** Sends a fixed malformed bearer token (`INVALID_TOKEN`), for the "invalid token" 401 checks. */
   categoriesClientWithInvalidToken: CategoriesClient;
-  /** Always authenticated as admin, whatever the test's `role`: setup creates and cleanup deletes (DELETE is admin-only). */
   adminCategoriesService: CategoriesService;
   /** Public: carts need no token (the carts specs check statuses with it). */
   cartsClient: CartsClient;
@@ -107,7 +108,6 @@ export type ApiFixtures = {
   favoritesClient: FavoritesClient;
   /** Favorites endpoints authenticated as the test's `role` (only rejected or no-op calls: tests never add favourites for a shared user). */
   favoritesClientWithToken: FavoritesClient;
-  /** Sends a fixed malformed bearer token (`INVALID_TOKEN`), for the "invalid token" 401 checks. */
   favoritesClientWithInvalidToken: FavoritesClient;
   /** Builds a favorites client with a token the test obtained itself (a throwaway customer's), for the status checks. */
   favoritesClientForToken: (token: string) => FavoritesClient;
@@ -137,13 +137,11 @@ export type ApiFixtures = {
   invoicesClientWithToken: InvoicesClient;
   /** Builds an invoices client with a token the test obtained itself (a throwaway customer's), for the status checks. */
   invoicesClientForToken: (token: string) => InvoicesClient;
-  /** Sends a fixed malformed bearer token (`INVALID_TOKEN`), for the "malformed token" 401 checks. */
   invoicesClientWithInvalidToken: InvoicesClient;
   /** Reports endpoints with no token (the "no token" 401 checks). */
   reportsClient: ReportsClient;
   /** Reports endpoints authenticated as the test's `role` ("with the admin's token", or the default user's for the 403 checks). */
   reportsClientWithToken: ReportsClient;
-  /** Sends a fixed malformed bearer token (`INVALID_TOKEN`), for the "malformed token" 401 checks. */
   reportsClientWithInvalidToken: ReportsClient;
   /** Builds a reports client with a token the test obtained itself (a throwaway customer's, for the rate limit check). */
   reportsClientForToken: (token: string) => ReportsClient;
@@ -155,7 +153,6 @@ export type ApiFixtures = {
   messagesClientWithToken: MessagesClient;
   /** Message operations as the test's `role` (setup replies and status changes; messages of the run's customer). */
   messagesServiceWithToken: MessagesService;
-  /** Sends a fixed malformed bearer token (`INVALID_TOKEN`), for the "malformed token" checks. */
   messagesClientWithInvalidToken: MessagesClient;
   /** Builds a messages client with a token the test obtained itself (a throwaway customer's). */
   messagesClientForToken: (token: string) => MessagesClient;
@@ -207,14 +204,14 @@ export const test = base.extend<ApiFixtures>({
     await use(new ProductSpecsService(productSpecsClientWithToken));
   },
 
-  usersClient: async ({ request, config, role, tokenService }, use) => {
+  usersClientWithToken: async ({ request, config, role, tokenService }, use) => {
     await use(new UsersClient(request, config, roleToken(tokenService, role)));
   },
-  usersClientWithoutToken: async ({ request, config }, use) => {
+  usersClient: async ({ request, config }, use) => {
     await use(new UsersClient(request, config));
   },
-  usersService: async ({ usersClientWithoutToken }, use) => {
-    await use(new UsersService(usersClientWithoutToken));
+  usersService: async ({ usersClient }, use) => {
+    await use(new UsersService(usersClient));
   },
   usersClientWithInvalidToken: async ({ request, config }, use) => {
     await use(new UsersClient(request, config, INVALID_TOKEN));

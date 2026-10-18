@@ -53,18 +53,18 @@ async function registerAndLogIn(
 }
 
 /** Sends PUT /users/{userId} with the customer's own token and attaches the request and the response. */
-async function sendUpdate(usersClient: UsersClient, userId: string, body: UpdateUserRequest | Record<string, unknown>): Promise<{ request: UpdateRequestInfo; response: ApiResponse }> {
+async function sendUpdate(client: UsersClient, userId: string, body: UpdateUserRequest | Record<string, unknown>): Promise<{ request: UpdateRequestInfo; response: ApiResponse }> {
   const request: UpdateRequestInfo = { method: 'PUT', path: `/users/${userId}`, auth: "the customer's access_token", body };
-  const response = await usersClient.update(userId, body);
+  const response = await client.update(userId, body);
   await attachJson('Update User Request', request);
   await attachJson('Update User Response', { status: response.status, body: response.body });
   return { request, response };
 }
 
 /** The read-back of a Verify step: GET /users/me with the token must return 200 and `expected`'s values. */
-async function expectProfile(usersClient: UsersClient, expected: ProfileValues, label: string): Promise<void> {
+async function expectProfile(client: UsersClient, expected: ProfileValues, label: string): Promise<void> {
   const request = { method: 'GET', path: '/users/me', auth: 'that access_token' };
-  const response = await usersClient.me();
+  const response = await client.me();
   await attachJson('Current User Request', request);
   await attachJson('Current User Response', { status: response.status, body: response.body });
   expect(response.status, assertMessage({ request, expected: 'Status 200', actual: { status: response.status, body: response.body } })).toBe(200);

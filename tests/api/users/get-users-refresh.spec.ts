@@ -11,10 +11,10 @@ import { assertMessage, attachJson } from '@utils/assertHelpers';
 
 type RefreshRequest = { method: 'GET'; path: '/users/refresh'; auth: string };
 
-/** Sends GET /users/refresh with `usersClient` and attaches the request and the response. */
-async function sendRefresh(usersClient: UsersClient, auth: string): Promise<{ request: RefreshRequest; response: ApiResponse }> {
+/** Sends GET /users/refresh with `client` and attaches the request and the response. */
+async function sendRefresh(client: UsersClient, auth: string): Promise<{ request: RefreshRequest; response: ApiResponse }> {
   const request: RefreshRequest = { method: 'GET', path: '/users/refresh', auth };
-  const response = await usersClient.refresh();
+  const response = await client.refresh();
   await attachJson('Refresh Request', request);
   await attachJson('Refresh Response', { status: response.status, body: response.body });
   return { request, response };
@@ -125,13 +125,13 @@ test.describe('@users-api - Users API', () => {
     });
   });
 
-  test('API-0112: Refresh without a token returns 401', async ({ usersClientWithoutToken }) => {
+  test('API-0112: Refresh without a token returns 401', async ({ usersClient }) => {
     test.fail(true, 'Known issue BUG-006: Returns 500 instead of 401 when the request has no token.');
     let request: RefreshRequest;
     let response: ApiResponse;
 
     await test.step('Send GET /users/refresh without an Authorization header.', async () => {
-      ({ request, response } = await sendRefresh(usersClientWithoutToken, 'none'));
+      ({ request, response } = await sendRefresh(usersClient, 'none'));
     });
 
     await test.step('Verify the response status is 401.', async () => {

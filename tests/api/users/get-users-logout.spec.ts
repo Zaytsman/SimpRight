@@ -10,10 +10,10 @@ import { assertMessage, attachJson } from '@utils/assertHelpers';
 
 type LogoutRequest = { method: 'GET'; path: '/users/logout'; auth: string };
 
-/** Sends GET /users/logout with `usersClient` and attaches the request and the response. */
-async function sendLogout(usersClient: UsersClient, auth: string): Promise<{ request: LogoutRequest; response: ApiResponse }> {
+/** Sends GET /users/logout with `client` and attaches the request and the response. */
+async function sendLogout(client: UsersClient, auth: string): Promise<{ request: LogoutRequest; response: ApiResponse }> {
   const request: LogoutRequest = { method: 'GET', path: '/users/logout', auth };
-  const response = await usersClient.logout();
+  const response = await client.logout();
   await attachJson('Logout Request', request);
   await attachJson('Logout Response', { status: response.status, body: response.body });
   return { request, response };
@@ -59,12 +59,12 @@ test.describe('@users-api - Users API', () => {
     });
   });
 
-  test('API-0106: Logout without a token returns 401', async ({ usersClientWithoutToken }) => {
+  test('API-0106: Logout without a token returns 401', async ({ usersClient }) => {
     let request: LogoutRequest;
     let response: ApiResponse;
 
     await test.step('Send GET /users/logout without an Authorization header.', async () => {
-      ({ request, response } = await sendLogout(usersClientWithoutToken, 'none'));
+      ({ request, response } = await sendLogout(usersClient, 'none'));
     });
 
     await test.step('Verify the response status is 401.', async () => {
