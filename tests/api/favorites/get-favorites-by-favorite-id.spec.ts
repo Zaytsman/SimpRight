@@ -108,12 +108,12 @@ test.describe('@favorites-api - Favorites API', () => {
     favoritesClientForToken,
     cleanup,
   }) => {
-    test.fail(true, "Known issue BUG-021: Returns 200 with another user's favorite instead of 404 or 403.");
     let request: FavoriteRequest;
     let response: ApiResponse;
 
     const { favorite } = await createCustomerWithFavorite({ usersService, adminUsersService, authService, productsService, favoritesServiceForToken, cleanup });
     const second = await createSecondCustomer(usersService, adminUsersService, authService, cleanup);
+    test.fail(true, "Known issue BUG-021: Returns 200 with another user's favorite instead of 404 or 403.");
 
     await test.step("Send GET /favorites/{favoriteId} with that favorite's id, with the second customer's access_token.", async () => {
       ({ request, response } = await sendGetFavorite(favoritesClientForToken(second.token), favorite.id, SECOND_TOKEN));

@@ -255,9 +255,8 @@ test.describe('@invoices-api - Invoices API', () => {
     invoicesClientForToken,
     cleanup,
   }) => {
-    test.fail(true, 'Known issue BUG-039: Writes the unvalidated total from the body (and other fillable keys such as user_id) instead of ignoring them.');
-
     const setup: CustomerInvoice = await createCustomerInvoice({ usersService, adminUsersService, authService, productsService, cartsService, invoicesServiceForToken, cleanup });
+    test.fail(true, 'Known issue BUG-039: Writes the unvalidated total from the body (and other fillable keys such as user_id) instead of ignoring them.');
 
     await test.step(
       'Send PUT /invoices/{invoiceId} with the invoice\'s id, that access_token, payment_method "cash-on-delivery", payment_details {}, billing_street "Stephansplatz 1", billing_city "Wien", billing_country "AT", the cart\'s id as cart_id and a total different from the invoice\'s total.',

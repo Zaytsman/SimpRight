@@ -138,13 +138,13 @@ test.describe('@brands-api - Brands API', () => {
     });
 
     test('API-0146: Partially update brand with its own slug returns success', async ({ adminBrandsService, brandsService, brandsClientWithToken, cleanup }) => {
-      test.fail(true, "Known issue BUG-010: Returns 409 instead of 200 when the body repeats the brand's own slug.");
       let request: PatchBrandRequest;
       let response: ApiResponse;
 
       const brand = await createBrand(adminBrandsService, cleanup, BRAND_CREATE_ID_SLUG_STEP);
       const body = BrandFactory.updateNameWithSlug(brand.slug);
       const newName = body.name!;
+      test.fail(true, "Known issue BUG-010: Returns 409 instead of 200 when the body repeats the brand's own slug.");
 
       await test.step(
         "Send PATCH /brands/{brandId} with that id and a body with a new unique brand name and the brand's own slug, with the admin's token.",
@@ -164,11 +164,11 @@ test.describe('@brands-api - Brands API', () => {
     });
 
     test('API-0147: Partially update brand without a token returns 401', async ({ adminBrandsService, brandsClient, cleanup }) => {
-      test.fail(true, 'Known issue BUG-009: Accepts PATCH without a token instead of returning 401.');
       let request: PatchBrandRequest;
       let response: ApiResponse;
 
       const brand = await createBrand(adminBrandsService, cleanup);
+      test.fail(true, 'Known issue BUG-009: Accepts PATCH without a token instead of returning 401.');
 
       await test.step('Send PATCH /brands/{brandId} with that id and a body with only a new unique brand name, without an Authorization header.', async () => {
         ({ request, response } = await sendPatchBrand(brandsClient, brand.id, BrandFactory.updateName(), 'none'));

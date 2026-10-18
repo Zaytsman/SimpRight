@@ -226,7 +226,6 @@ test.describe('@carts-api - Carts API', () => {
     cartsClient,
     cleanup,
   }) => {
-    test.fail(true, 'Known issue BUG-008: Returns 422 for a quantity of 999,999,999 (the server allows at most 99) instead of adding it to the cart as the story\'s range 1 to 999,999,999 requires.');
     const quantity = 999999999;
     let productId: string;
     let cartId: string;
@@ -234,6 +233,7 @@ test.describe('@carts-api - Carts API', () => {
     let response: ApiResponse;
 
     ({ productId, cartId } = await createProductAndCart({ productsService, adminProductsService, cartsService, cleanup }));
+    test.fail(true, 'Known issue BUG-008: Returns 422 for a quantity of 999,999,999 (the server allows at most 99) instead of adding it to the cart as the story\'s range 1 to 999,999,999 requires.');
 
     await test.step("Send POST /carts/{cartId} with the cart's id and a body with the new product's id as product_id and quantity 999999999.", async () => {
       ({ request, response } = await sendAddItem(cartsClient, cartId, productId, quantity));
@@ -452,7 +452,6 @@ test.describe('@carts-api - Carts API', () => {
     cartsClient,
     cleanup,
   }) => {
-    test.fail(true, 'Known issue BUG-025: Gives a location offer no discount at real New York coordinates (41, -74) instead of New York\'s 5% discount.');
     let productId: string;
     let cartId: string;
     let request: AddItemRequest;
@@ -462,6 +461,7 @@ test.describe('@carts-api - Carts API', () => {
     const refs = await takeProductRefs(productsService);
     productId = (await createCartProduct(adminProductsService, cleanup, refs, LOCATION_OFFER_PRODUCT_STEP, { is_location_offer: true })).id;
     cartId = await createCart(cartsService, cleanup, "Send POST /carts with lat 41 and lng -74 and take the returned id as the cart's id.", { lat: 41, lng: -74 });
+    test.fail(true, 'Known issue BUG-025: Gives a location offer no discount at real New York coordinates (41, -74) instead of New York\'s 5% discount.');
 
     await test.step("Send POST /carts/{cartId} with the cart's id and a body with the new product's id as product_id and quantity 1.", async () => {
       ({ request, response } = await sendAddItem(cartsClient, cartId, productId, 1));
@@ -664,7 +664,6 @@ test.describe('@carts-api - Carts API', () => {
     cartsClient,
     cleanup,
   }) => {
-    test.fail(true, 'Known issue BUG-024: Applies the location discount to a product that isn\'t a location offer instead of leaving it undiscounted.');
     let productId: string;
     let cartId: string;
     let request: AddItemRequest;
@@ -674,6 +673,7 @@ test.describe('@carts-api - Carts API', () => {
     const refs = await takeProductRefs(productsService);
     productId = (await createCartProduct(adminProductsService, cleanup, refs)).id;
     cartId = await createCart(cartsService, cleanup, "Send POST /carts with lat 52 and lng 5 and take the returned id as the cart's id.", { lat: 52, lng: 5 });
+    test.fail(true, 'Known issue BUG-024: Applies the location discount to a product that isn\'t a location offer instead of leaving it undiscounted.');
 
     await test.step("Send POST /carts/{cartId} with the cart's id and a body with the new product's id as product_id and quantity 1.", async () => {
       ({ request, response } = await sendAddItem(cartsClient, cartId, productId, 1));
@@ -708,7 +708,6 @@ test.describe('@carts-api - Carts API', () => {
     cartsClient,
     cleanup,
   }) => {
-    test.fail(true, 'Known issue BUG-026: Gives a location offer no discount in a cart at longitude 0 (London, 51, 0) instead of London\'s 25% discount.');
     let productId: string;
     let cartId: string;
     let request: AddItemRequest;
@@ -718,6 +717,7 @@ test.describe('@carts-api - Carts API', () => {
     const refs = await takeProductRefs(productsService);
     productId = (await createCartProduct(adminProductsService, cleanup, refs, LOCATION_OFFER_PRODUCT_STEP, { is_location_offer: true })).id;
     cartId = await createCart(cartsService, cleanup, "Send POST /carts with lat 51 and lng 0 and take the returned id as the cart's id.", { lat: 51, lng: 0 });
+    test.fail(true, 'Known issue BUG-026: Gives a location offer no discount in a cart at longitude 0 (London, 51, 0) instead of London\'s 25% discount.');
 
     await test.step("Send POST /carts/{cartId} with the cart's id and a body with the new product's id as product_id and quantity 1.", async () => {
       ({ request, response } = await sendAddItem(cartsClient, cartId, productId, 1));

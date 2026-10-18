@@ -76,7 +76,7 @@ Preloaded into the agent; not commands.
 
 | Part | Rules |
 |---|---|
-| **File and tests** | Same name as the scenario file; `// Scenarios:` comment; `test.describe('<tags> - <suite>')`; `test('<ID>: <name>')`; `role` via `test.use`, `guest` via `test.use({ authMode: 'none' })`; known issue as the first line |
+| **File and tests** | Same name as the scenario file; `// Scenarios:` comment; `test.describe('<tags> - <suite>')`; `test('<ID>: <name>')`; `role` via `test.use`, `guest` via `test.use({ authMode: 'none' })`; known issue right before the first step, after any setup |
 | **Steps** | One `test.step` per scenario step, verbatim; page objects, flows and API fixtures from fixtures; no selectors or `page.goto` in specs |
 | **Checks** | A plain-text message on every assertion; web-first assertions on locators first (they retry until the page settles); order checks against a sorted copy, after checking the list isn't empty; approved readings recorded as a comment; exactly what the step says |
 | **Things that bite** | Hourly re-seed (never use ids, find records by name); re-rendered lists read half-updated; hidden duplicate elements in responsive layouts; no fixed sleeps |

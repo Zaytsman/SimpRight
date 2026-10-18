@@ -221,7 +221,6 @@ test.describe('@products-api - Products API', () => {
     productsClient,
     cleanup,
   }) => {
-    test.fail(true, "Known issue BUG-002: Returns 500 instead of 422 when category_id doesn't exist.");
     let request: Request;
     let response: ApiResponse;
 
@@ -229,6 +228,7 @@ test.describe('@products-api - Products API', () => {
       'brandId',
       'productImageId',
     ]);
+    test.fail(true, "Known issue BUG-002: Returns 500 instead of 422 when category_id doesn't exist.");
 
     await test.step(
       'Send POST /products with a unique product name, a positive price, that brand id and product image id, is_location_offer false, is_rental false and a category_id that no category has.',
@@ -253,7 +253,6 @@ test.describe('@products-api - Products API', () => {
     productsClient,
     cleanup,
   }) => {
-    test.fail(true, "Known issue BUG-002: Returns 500 instead of 422 when brand_id doesn't exist.");
     let request: Request;
     let response: ApiResponse;
 
@@ -261,6 +260,7 @@ test.describe('@products-api - Products API', () => {
       'categoryId',
       'productImageId',
     ]);
+    test.fail(true, "Known issue BUG-002: Returns 500 instead of 422 when brand_id doesn't exist.");
 
     await test.step(
       'Send POST /products with a unique product name, a positive price, that category id and product image id, is_location_offer false, is_rental false and a brand_id that no brand has.',
@@ -285,7 +285,6 @@ test.describe('@products-api - Products API', () => {
     productsClient,
     cleanup,
   }) => {
-    test.fail(true, "Known issue BUG-002: Returns 500 instead of 422 when product_image_id doesn't exist.");
     let request: Request;
     let response: ApiResponse;
 
@@ -293,6 +292,7 @@ test.describe('@products-api - Products API', () => {
       'brandId',
       'categoryId',
     ]);
+    test.fail(true, "Known issue BUG-002: Returns 500 instead of 422 when product_image_id doesn't exist.");
 
     await test.step(
       'Send POST /products with a unique product name, a positive price, that brand id and category id, is_location_offer false, is_rental false and a product_image_id that no product image has.',
@@ -312,11 +312,11 @@ test.describe('@products-api - Products API', () => {
   });
 
   test('API-0042: Create product without a token returns 401', async ({ productsService, adminProductsService, productsClient, cleanup }) => {
-    test.fail(true, 'Known issue BUG-001: Accepts POST without a token instead of returning 401.');
     let request: Request;
     let response: ApiResponse;
 
     const refs = (await takeProductRefs(productsService, PRODUCT_LIST_STEP)) as ProductRefs;
+    test.fail(true, 'Known issue BUG-001: Accepts POST without a token instead of returning 401.');
 
     await test.step(
       'Send POST /products with a unique product name, a positive price, those ids, is_location_offer false and is_rental false, without an Authorization header.',

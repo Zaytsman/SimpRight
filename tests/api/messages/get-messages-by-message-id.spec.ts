@@ -259,13 +259,13 @@ test.describe('@messages-api - Messages API', () => {
     messagesClientWithToken,
     cleanup,
   }) => {
-    test.fail(true, "Known issue BUG-029: Returns 200 with an empty body for a message the customer doesn't own instead of 404.");
     let request: MessageRequest;
     let response: ApiResponse;
 
     const customer = await registerThrowawayCustomer(usersService, adminUsersService, cleanup);
     const token = await loginThrowawayCustomer(authService, customer);
     const sent = await createCustomerMessage(messagesServiceForToken(token));
+    test.fail(true, "Known issue BUG-029: Returns 200 with an empty body for a message the customer doesn't own instead of 404.");
 
     await test.step("Send GET /messages/{messageId} with that id and the default user's token.", async () => {
       ({ request, response } = await sendGetMessage(messagesClientWithToken, sent.message.id, MESSAGE_AUTH.defaultUser));

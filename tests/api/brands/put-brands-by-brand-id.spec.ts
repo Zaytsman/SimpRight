@@ -153,12 +153,12 @@ test.describe('@brands-api - Brands API', () => {
       brandsClientWithToken,
       cleanup,
     }) => {
-      test.fail(true, 'Known issue BUG-012: Returns { message: "Duplicate Entry" } instead of the slug\'s validation message for a duplicate slug.');
       let request: PutBrandRequest;
       let response: ApiResponse;
 
       const brand = await createBrand(adminBrandsService, cleanup);
       const otherSlug = await takeOtherBrandSlug(brandsService, brand.id);
+      test.fail(true, 'Known issue BUG-012: Returns { message: "Duplicate Entry" } instead of the slug\'s validation message for a duplicate slug.');
 
       await test.step("Send PUT /brands/{brandId} with the new brand's id and a body with only that other slug, with the admin's token.", async () => {
         ({ request, response } = await sendPutBrand(brandsClientWithToken, brand.id, BrandFactory.updateSlug(otherSlug), "admin's token"));
@@ -170,11 +170,11 @@ test.describe('@brands-api - Brands API', () => {
     });
 
     test('API-0140: Update brand without a token returns 401', async ({ adminBrandsService, brandsClient, cleanup }) => {
-      test.fail(true, 'Known issue BUG-009: Accepts PUT without a token instead of returning 401.');
       let request: PutBrandRequest;
       let response: ApiResponse;
 
       const brand = await createBrand(adminBrandsService, cleanup);
+      test.fail(true, 'Known issue BUG-009: Accepts PUT without a token instead of returning 401.');
 
       await test.step('Send PUT /brands/{brandId} with that id and a body with only a new unique brand name, without an Authorization header.', async () => {
         ({ request, response } = await sendPutBrand(brandsClient, brand.id, BrandFactory.updateName(), 'none'));

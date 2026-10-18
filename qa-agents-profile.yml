@@ -78,7 +78,8 @@ api:
     cleanup: src/fixtures/base.ts           # the cleanup fixture
     constants: src/data/TestConstants.ts    # shared seeded values
     testDataUtils: src/data/factories/testDataUtils.ts   # uniqueName for created records
-  # First line of a test whose scenario has knownIssue and bug; Playwright records it as a 'fail' annotation.
+  # Known-issue line of a test whose scenario has knownIssue and bug, right before its first test.step (after any setup,
+  # so a failed setup stays a real failure); Playwright records it as a 'fail' annotation.
   knownIssue: "test.fail(true, 'Known issue {bug}: {text}');"
   rules:
     - Happy paths go through a service; any step that checks a status code goes through the client.
@@ -103,7 +104,7 @@ ui:
     fixturesIndex: src/fixtures/index.ts    # precondition fixtures are exported here
     spec: tests/ui/products/product-search.spec.ts
     constants: src/data/TestConstants.ts
-  # First line of a test whose scenario has knownIssue and bug (the same annotation as API tests).
+  # Known-issue line of a test whose scenario has knownIssue and bug, placed like the API one (the same annotation).
   knownIssue: "test.fail(true, 'Known issue {bug}: {text}');"
   rules:
     - Specs import from @fixtures and get pages, components, flows and API services from fixtures; they never construct them, call page.goto or use selectors.

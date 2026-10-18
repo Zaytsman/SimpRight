@@ -274,11 +274,11 @@ test.describe('@categories-api - Categories API', () => {
       categoriesClientWithToken,
       cleanup,
     }) => {
-      test.fail(true, 'Known issue BUG-019: Returns { message: "Duplicate Entry" } instead of the slug\'s validation message for a duplicate slug.');
       let request: UpdateCategoryRequestInfo;
       let response: ApiResponse;
 
       const category = await createCategory(adminCategoriesService, cleanup);
+      test.fail(true, 'Known issue BUG-019: Returns { message: "Duplicate Entry" } instead of the slug\'s validation message for a duplicate slug.');
 
       await test.step("Send PUT /categories/{categoryId} with that id and a body with only the slug hand-tools, with the admin's token.", async () => {
         ({ request, response } = await sendUpdateCategory(
@@ -295,11 +295,11 @@ test.describe('@categories-api - Categories API', () => {
     });
 
     test('API-0212: Update category with an unknown parent_id returns 422', async ({ adminCategoriesService, categoriesClientWithToken, cleanup }) => {
-      test.fail(true, 'Known issue BUG-015: Returns 500 instead of 422 when parent_id is not the id of an existing category.');
       let request: UpdateCategoryRequestInfo;
       let response: ApiResponse;
 
       const category = await createCategory(adminCategoriesService, cleanup);
+      test.fail(true, 'Known issue BUG-015: Returns 500 instead of 422 when parent_id is not the id of an existing category.');
 
       await test.step(
         "Send PUT /categories/{categoryId} with that id and a body with only a well-formed ULID that no category has as parent_id, with the admin's token.",
@@ -319,11 +319,11 @@ test.describe('@categories-api - Categories API', () => {
     });
 
     test('API-0213: Update category without a token returns 401', async ({ adminCategoriesService, categoriesClient, cleanup }) => {
-      test.fail(true, 'Known issue BUG-014: Accepts PUT without a token instead of returning 401.');
       let request: UpdateCategoryRequestInfo;
       let response: ApiResponse;
 
       const category = await createCategory(adminCategoriesService, cleanup);
+      test.fail(true, 'Known issue BUG-014: Accepts PUT without a token instead of returning 401.');
 
       await test.step('Send PUT /categories/{categoryId} with that id and a body with only a new unique category name, without an Authorization header.', async () => {
         ({ request, response } = await sendUpdateCategory(categoriesClient, category.id, CategoryFactory.updateName(), 'none'));

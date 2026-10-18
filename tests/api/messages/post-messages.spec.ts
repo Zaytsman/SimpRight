@@ -361,16 +361,16 @@ test.describe('@messages-api - Messages API', () => {
     messagesClientForToken,
     cleanup,
   }) => {
-    test.fail(
-      true,
-      "Known issue BUG-028: Stores a guest message under the user_id sent in the body, so it shows in that user's list, instead of leaving it without an owner."
-    );
     let messageId = '';
     let request: MessageRequest;
     let response: ApiResponse;
 
     const customer = await registerThrowawayCustomer(usersService, adminUsersService, cleanup);
     const token = await loginThrowawayCustomer(authService, customer);
+    test.fail(
+      true,
+      "Known issue BUG-028: Stores a guest message under the user_id sent in the body, so it shows in that user's list, instead of leaving it without an owner."
+    );
 
     await test.step("Send POST /messages without an Authorization header, with a unique subject, a message text and user_id set to the new user's id, and take the body's id.", async () => {
       const sent = await sendMessage(messagesClient, MessageFactory.withExtraKeys({ user_id: customer.id }), MESSAGE_AUTH.none);

@@ -176,14 +176,14 @@ test.describe('@users-api - Users API', () => {
       usersClientForToken,
       cleanup,
     }) => {
-      test.fail(
-        true,
-        'Known issue BUG-033: A customer can change their own failed_login_attempts (and enabled and the totp_* fields) with PATCH; the value is saved instead of being rejected or ignored.'
-      );
       let before: number | undefined;
 
       const customer = await registerThrowawayCustomer(usersService, adminUsersService, cleanup);
       const token = await loginThrowawayCustomer(authService, customer);
+      test.fail(
+        true,
+        'Known issue BUG-033: A customer can change their own failed_login_attempts (and enabled and the totp_* fields) with PATCH; the value is saved instead of being rejected or ignored.'
+      );
 
       await test.step("Send GET /users/{userId} with the new user's id and the admin's token, and take failed_login_attempts.", async () => {
         const { user } = await readAsAdmin(adminUsersService, customer.id);
@@ -357,7 +357,6 @@ test.describe('@users-api - Users API', () => {
     usersClientForToken,
     cleanup,
   }) => {
-    test.fail(true, 'Known issue BUG-035: Returns 403, with the SQL error in the body, instead of 409 or 422 when the email already belongs to another account.');
     let request: PatchRequestInfo;
     let response: ApiResponse;
 
@@ -366,6 +365,7 @@ test.describe('@users-api - Users API', () => {
       title: 'Send POST /users/register with a unique email, a first name, a last name and a random strong password (customer B).',
     });
     const tokenA = await loginThrowawayCustomer(authService, customerA, LOGIN_A_STEP);
+    test.fail(true, 'Known issue BUG-035: Returns 403, with the SQL error in the body, instead of 409 or 422 when the email already belongs to another account.');
 
     await test.step("Send PATCH /users/{userId} with customer A's id, A's access_token and email set to customer B's email.", async () => {
       ({ request, response } = await sendPatch(usersClientForToken(tokenA), customerA.id, { email: customerB.email }, "A's access_token"));

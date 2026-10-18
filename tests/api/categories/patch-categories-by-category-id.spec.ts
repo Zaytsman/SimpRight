@@ -181,12 +181,12 @@ test.describe('@categories-api - Categories API', () => {
       categoriesClientWithToken,
       cleanup,
     }) => {
-      test.fail(true, "Known issue BUG-018: Returns 409 instead of 200 when the body repeats the category's own slug.");
       let request: PatchCategoryRequestInfo;
       let response: ApiResponse;
       let body: ReturnType<typeof CategoryFactory.updateNameWithSlug>;
 
       const category = await createCategory(adminCategoriesService, cleanup, CATEGORY_CREATE_ID_SLUG_STEP);
+      test.fail(true, "Known issue BUG-018: Returns 409 instead of 200 when the body repeats the category's own slug.");
 
       await test.step(
         "Send PATCH /categories/{categoryId} with that id and a body with a new unique category name and the category's own slug, with the admin's token.",
@@ -210,11 +210,11 @@ test.describe('@categories-api - Categories API', () => {
     });
 
     test('API-0221: Partially update category with an unknown parent_id returns 422', async ({ adminCategoriesService, categoriesClientWithToken, cleanup }) => {
-      test.fail(true, 'Known issue BUG-015: Returns 500 instead of 422 when parent_id is not the id of an existing category.');
       let request: PatchCategoryRequestInfo;
       let response: ApiResponse;
 
       const category = await createCategory(adminCategoriesService, cleanup);
+      test.fail(true, 'Known issue BUG-015: Returns 500 instead of 422 when parent_id is not the id of an existing category.');
 
       await test.step(
         "Send PATCH /categories/{categoryId} with that id and a body with only a well-formed ULID that no category has as parent_id, with the admin's token.",
@@ -234,11 +234,11 @@ test.describe('@categories-api - Categories API', () => {
     });
 
     test('API-0222: Partially update category without a token returns 401', async ({ adminCategoriesService, categoriesClient, cleanup }) => {
-      test.fail(true, 'Known issue BUG-014: Accepts PATCH without a token instead of returning 401.');
       let request: PatchCategoryRequestInfo;
       let response: ApiResponse;
 
       const category = await createCategory(adminCategoriesService, cleanup);
+      test.fail(true, 'Known issue BUG-014: Accepts PATCH without a token instead of returning 401.');
 
       await test.step('Send PATCH /categories/{categoryId} with that id and a body with only a new unique category name, without an Authorization header.', async () => {
         ({ request, response } = await sendPatchCategory(categoriesClient, category.id, CategoryFactory.updateName(), 'none'));

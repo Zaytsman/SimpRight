@@ -262,9 +262,8 @@ test.describe('@invoices-api - Invoices API', () => {
     invoicesClientForToken,
     cleanup,
   }) => {
-    test.fail(true, "Known issue BUG-037: Any logged-in customer can change the status of another customer's invoice (the call succeeds) instead of being refused.");
-
     const { tokenA, tokenB, invoice } = await customerAWithInvoiceAndCustomerB({ usersService, adminUsersService, authService, cartsService, invoicesServiceForToken, cleanup });
+    test.fail(true, "Known issue BUG-037: Any logged-in customer can change the status of another customer's invoice (the call succeeds) instead of being refused.");
 
     await test.step('Send PUT /invoices/{invoiceId}/status with that id, customer B\'s access_token and a body with status "COMPLETED".', async () => {
       // The call under test: the Verify step reads what it did, whatever it answered.
@@ -287,9 +286,8 @@ test.describe('@invoices-api - Invoices API', () => {
     invoicesClientForToken,
     cleanup,
   }) => {
-    test.fail(true, 'Known issue BUG-038: Writes any column sent in the body (the total is changed) instead of only status and status_message.');
-
     const setup: CustomerInvoice = await createCustomerInvoice({ usersService, adminUsersService, authService, productsService, cartsService, invoicesServiceForToken, cleanup });
+    test.fail(true, 'Known issue BUG-038: Writes any column sent in the body (the total is changed) instead of only status and status_message.');
 
     await test.step(
       'Send PUT /invoices/{invoiceId}/status with the invoice\'s id, that access_token and a body with status "ON_HOLD" and a total different from the invoice\'s total.',
@@ -322,11 +320,11 @@ test.describe('@invoices-api - Invoices API', () => {
     invoicesClientForToken,
     cleanup,
   }) => {
-    test.fail(true, 'Known issue BUG-038: Returns 500 for a body key that is not a column of invoices instead of 422 or ignoring the key.');
     let request: InvoiceRequest;
     let response: ApiResponse;
 
     const setup: CustomerInvoice = await createCustomerInvoice({ usersService, adminUsersService, authService, productsService, cartsService, invoicesServiceForToken, cleanup });
+    test.fail(true, 'Known issue BUG-038: Returns 500 for a body key that is not a column of invoices instead of 422 or ignoring the key.');
 
     await test.step(
       'Send PUT /invoices/{invoiceId}/status with the invoice\'s id, that access_token, Accept: application/json and a body with status "ON_HOLD" and a key no_such_column with the value "x".',

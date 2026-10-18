@@ -199,11 +199,11 @@ test.describe('@invoices-api - Invoices API', () => {
   });
 
   test('API-0508: Create guest invoice with payment_details null returns 422', async ({ cartsService, invoicesClient, cleanup }) => {
-    test.fail(true, 'Known issue BUG-041: Returns 500 instead of 422 when payment_details is null for a method other than gift-card.');
     let request: InvoiceRequest;
     let response: ApiResponse;
 
     const cartId = await createCart(cartsService, cleanup);
+    test.fail(true, 'Known issue BUG-041: Returns 500 instead of 422 when payment_details is null for a method other than gift-card.');
 
     await test.step(
       'Send POST /invoices/guest without an Authorization header, with payment_method "bank-transfer", payment_details null, billing_street "Stephansplatz 1", billing_city "Wien", billing_country "AT", the cart\'s id as cart_id, a unique guest_email, a guest_first_name and a guest_last_name.',
@@ -237,10 +237,10 @@ test.describe('@invoices-api - Invoices API', () => {
     });
 
     test('API-0671: Create guest invoice with a failed bank-transfer payment leaves no invoice behind', async ({ cartsService, invoicesClient, invoicesClientWithToken, cleanup }) => {
-      test.fail(true, 'Known issue BUG-040: A failed guest checkout (bank-transfer payment_details {}) leaves an invoice without lines or payment that an admin search finds.');
       const billingStreet = InvoiceFactory.uniqueStreet();
 
       const cartId = await createCart(cartsService, cleanup);
+      test.fail(true, 'Known issue BUG-040: A failed guest checkout (bank-transfer payment_details {}) leaves an invoice without lines or payment that an admin search finds.');
 
       await test.step(
         'Send POST /invoices/guest without an Authorization header, with Accept: application/json, payment_method "bank-transfer", payment_details {}, a unique billing_street of at most 70 characters, billing_city "Wien", billing_country "AT", the cart\'s id as cart_id, a unique guest_email, a guest_first_name and a guest_last_name.',
@@ -255,11 +255,11 @@ test.describe('@invoices-api - Invoices API', () => {
   });
 
   test('API-0670: Create guest invoice with bank-transfer details missing the required fields returns 422', async ({ cartsService, invoicesClient, cleanup }) => {
-    test.fail(true, 'Known issue BUG-041: Returns 500 "Something went wrong" instead of 422 when payment_details lacks the fields the payment method requires.');
     let request: InvoiceRequest;
     let response: ApiResponse;
 
     const cartId = await createCart(cartsService, cleanup);
+    test.fail(true, 'Known issue BUG-041: Returns 500 "Something went wrong" instead of 422 when payment_details lacks the fields the payment method requires.');
 
     await test.step(
       'Send POST /invoices/guest without an Authorization header, with Accept: application/json, payment_method "bank-transfer", payment_details {}, billing_street "Stephansplatz 1", billing_city "Wien", billing_country "AT", the cart\'s id as cart_id, a unique guest_email, a guest_first_name and a guest_last_name.',
