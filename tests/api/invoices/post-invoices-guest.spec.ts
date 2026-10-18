@@ -1,20 +1,4 @@
-import {
-  test,
-  expect,
-  createCart,
-  addItemSetup,
-  takeFirstProduct,
-  sendCreateGuestInvoice,
-  sendSearchInvoices,
-  readInvoiceOk,
-  invoicePageSummary,
-  expectKeys,
-  expectFieldsEqual,
-  expectSingleInvoiceLine,
-  ADD_TWO_STEP,
-  INVOICE_AUTH,
-  type InvoiceRequest,
-} from '@fixtures';
+import { test, expect, AUTH, createCart, addItemSetup, takeFirstProduct, sendCreateGuestInvoice, sendSearchInvoices, readInvoiceOk, invoicePageSummary, expectKeys, expectFieldsEqual, expectSingleInvoiceLine, ADD_TWO_STEP, type InvoiceRequest } from '@fixtures';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { InvoicesClient } from '@api/clients/InvoicesClient';
 import type { Paginated } from '@api/dto/common';
@@ -76,7 +60,7 @@ async function searchAndExpectNoInvoiceLeft(invoicesClientWithToken: InvoicesCli
   let response: ApiResponse;
 
   await test.step("Send GET /invoices/search with q set to that billing_street and the admin's token.", async () => {
-    ({ request, response } = await sendSearchInvoices(invoicesClientWithToken, INVOICE_AUTH.admin, billingStreet));
+    ({ request, response } = await sendSearchInvoices(invoicesClientWithToken, AUTH.admin, billingStreet));
   });
 
   await test.step("Verify the body's total is 0.", async () => {
@@ -129,7 +113,7 @@ test.describe('@invoices-api - Invoices API', () => {
       await test.step(
         "Verify GET /invoices/{invoiceId} with the new id and the admin's token returns 200 with user_id null, the billing_street, billing_city and billing_country sent, and exactly one line with the product's id as product_id.",
         async () => {
-          const { request: getRequest, invoice } = await readInvoiceOk(invoicesClientWithToken, created.id, INVOICE_AUTH.admin);
+          const { request: getRequest, invoice } = await readInvoiceOk(invoicesClientWithToken, created.id, AUTH.admin);
           expect(invoice.user_id, assertMessage({ request: getRequest, expected: 'user_id is null', actual: { user_id: invoice.user_id } })).toBeNull();
           expectFieldsEqual(getRequest, invoice, body, ['billing_street', 'billing_city', 'billing_country']);
           expectSingleInvoiceLine(getRequest, invoice, productId);

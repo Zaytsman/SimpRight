@@ -1,17 +1,4 @@
-import {
-  test,
-  expect,
-  registerThrowawayCustomer,
-  loginThrowawayCustomer,
-  createCustomerMessage,
-  createGuestMessage,
-  sendMessageSetup,
-  takeOwnUserId,
-  sendGetMessage,
-  expectNoReplies,
-  MESSAGE_AUTH,
-  type MessageRequest,
-} from '@fixtures';
+import { test, expect, AUTH, registerThrowawayCustomer, loginThrowawayCustomer, createCustomerMessage, createGuestMessage, sendMessageSetup, takeOwnUserId, sendGetMessage, expectNoReplies, type MessageRequest } from '@fixtures';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { ContactMessageDetail, ContactReply } from '@api/dto/message';
 import type { MessagesService } from '@api/services/MessagesService';
@@ -36,7 +23,7 @@ async function replySetup(messagesService: MessagesService, messageId: string): 
 
   await test.step("Send POST /messages/{messageId}/reply with that id, the admin's token and a body with a message text, and take the reply's id.", async () => {
     const body = MessageFactory.reply();
-    const request = { method: 'POST', path: `/messages/${messageId}/reply`, auth: MESSAGE_AUTH.admin, body };
+    const request = { method: 'POST', path: `/messages/${messageId}/reply`, auth: AUTH.admin, body };
     await attachJson('Reply Request', request);
     const reply = await messagesService.reply(messageId, body);
     await attachJson('Reply Response', reply);
@@ -58,16 +45,16 @@ test.describe('@messages-api - Messages API', () => {
     let response: ApiResponse;
     let message: ContactMessageDetail;
 
-    const userId = await takeOwnUserId(usersServiceForToken(accessToken), "Send GET /users/me with the default user's token and take its id.", MESSAGE_AUTH.defaultUser);
+    const userId = await takeOwnUserId(usersServiceForToken(accessToken), "Send GET /users/me with the default user's token and take its id.", AUTH.defaultUser);
     const sent = await sendMessageSetup(
       messagesServiceWithToken,
       "Send POST /messages with the default user's token, a name, an email address, a unique subject and a message text, and take the new message's id.",
-      MESSAGE_AUTH.defaultUser,
+      AUTH.defaultUser,
       MessageFactory.withSender()
     );
 
     await test.step("Send GET /messages/{messageId} with that id and the default user's token.", async () => {
-      ({ request, response } = await sendGetMessage(messagesClientWithToken, sent.message.id, MESSAGE_AUTH.defaultUser));
+      ({ request, response } = await sendGetMessage(messagesClientWithToken, sent.message.id, AUTH.defaultUser));
     });
 
     await test.step('Verify the response status is 200.', async () => {
@@ -121,7 +108,7 @@ test.describe('@messages-api - Messages API', () => {
       const sent = await createCustomerMessage(messagesServiceForToken(token));
 
       await test.step("Send GET /messages/{messageId} with that id and the admin's token.", async () => {
-        ({ request, response } = await sendGetMessage(messagesClientWithToken, sent.message.id, MESSAGE_AUTH.admin));
+        ({ request, response } = await sendGetMessage(messagesClientWithToken, sent.message.id, AUTH.admin));
       });
 
       await test.step('Verify the response status is 200.', async () => {
@@ -151,7 +138,7 @@ test.describe('@messages-api - Messages API', () => {
       const sent = await createGuestMessage(messagesService);
 
       await test.step("Send GET /messages/{messageId} with that id and the admin's token.", async () => {
-        ({ request, response } = await sendGetMessage(messagesClientWithToken, sent.message.id, MESSAGE_AUTH.admin));
+        ({ request, response } = await sendGetMessage(messagesClientWithToken, sent.message.id, AUTH.admin));
       });
 
       await test.step('Verify the response status is 200.', async () => {
@@ -183,11 +170,11 @@ test.describe('@messages-api - Messages API', () => {
       let message: ContactMessageDetail;
 
       const sent = await createGuestMessage(messagesService);
-      const adminId = await takeOwnUserId(usersServiceForToken(accessToken), "Send GET /users/me with the admin's token and take its id.", MESSAGE_AUTH.admin);
+      const adminId = await takeOwnUserId(usersServiceForToken(accessToken), "Send GET /users/me with the admin's token and take its id.", AUTH.admin);
       const { reply, text } = await replySetup(messagesServiceWithToken, sent.message.id);
 
       await test.step("Send GET /messages/{messageId} with that id and the admin's token.", async () => {
-        ({ request, response } = await sendGetMessage(messagesClientWithToken, sent.message.id, MESSAGE_AUTH.admin));
+        ({ request, response } = await sendGetMessage(messagesClientWithToken, sent.message.id, AUTH.admin));
       });
 
       await test.step('Verify the response status is 200.', async () => {
@@ -222,7 +209,7 @@ test.describe('@messages-api - Messages API', () => {
     let response: ApiResponse;
 
     await test.step("Send GET /messages/{messageId} without an Authorization header, with a well-formed message id that doesn't exist.", async () => {
-      ({ request, response } = await sendGetMessage(messagesClient, TestConstants.messages.unknownId, MESSAGE_AUTH.none));
+      ({ request, response } = await sendGetMessage(messagesClient, TestConstants.messages.unknownId, AUTH.none));
     });
 
     await test.step('Verify the response status is 401.', async () => {
@@ -239,7 +226,7 @@ test.describe('@messages-api - Messages API', () => {
     let response: ApiResponse;
 
     await test.step("Send GET /messages/{messageId} with a malformed token and a well-formed message id that doesn't exist.", async () => {
-      ({ request, response } = await sendGetMessage(messagesClientWithInvalidToken, TestConstants.messages.unknownId, MESSAGE_AUTH.malformed));
+      ({ request, response } = await sendGetMessage(messagesClientWithInvalidToken, TestConstants.messages.unknownId, AUTH.malformed));
     });
 
     await test.step('Verify the response status is 401.', async () => {
@@ -268,7 +255,7 @@ test.describe('@messages-api - Messages API', () => {
     test.fail(true, "Known issue BUG-029: Returns 200 with an empty body for a message the customer doesn't own instead of 404.");
 
     await test.step("Send GET /messages/{messageId} with that id and the default user's token.", async () => {
-      ({ request, response } = await sendGetMessage(messagesClientWithToken, sent.message.id, MESSAGE_AUTH.defaultUser));
+      ({ request, response } = await sendGetMessage(messagesClientWithToken, sent.message.id, AUTH.defaultUser));
     });
 
     await test.step('Verify the response status is 404.', async () => {
@@ -285,7 +272,7 @@ test.describe('@messages-api - Messages API', () => {
       let response: ApiResponse;
 
       await test.step("Send GET /messages/{messageId} with a well-formed message id that doesn't exist and the admin's token.", async () => {
-        ({ request, response } = await sendGetMessage(messagesClientWithToken, TestConstants.messages.unknownId, MESSAGE_AUTH.admin));
+        ({ request, response } = await sendGetMessage(messagesClientWithToken, TestConstants.messages.unknownId, AUTH.admin));
       });
 
       await test.step('Verify the response status is 404.', async () => {

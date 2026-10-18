@@ -8,6 +8,8 @@ import type { ProductsService } from '../services/ProductsService';
 import { ProductFactory, type ProductRefs } from '../../data/factories/ProductFactory';
 import { TestConstants } from '../../data/TestConstants';
 import { assertMessage, attachJson } from '../../utils/assertHelpers';
+import { expectStatus, parseJson } from '../../utils/apiChecks';
+import { AUTH } from './apiSteps';
 import { takeProductRefs } from './productSteps';
 
 /**
@@ -54,7 +56,7 @@ export async function createCartProduct(
 
   await test.step(title, async () => {
     const body = ProductFactory.createProduct(refs as ProductRefs, { stock: 10, ...overrides });
-    await attachJson('Create Product Request', { method: 'POST', path: '/products', auth: "admin's token", body });
+    await attachJson('Create Product Request', { method: 'POST', path: '/products', auth: AUTH.admin, body });
     const product = await adminProductsService.create(body);
     cleanup.add(() => adminProductsService.delete(product.id));
     await attachJson('Create Product Response', product);
@@ -137,8 +139,8 @@ export async function getCartOk(cartsClient: CartsClient, cartId: string): Promi
   const request = { method: 'GET', path: `/carts/${cartId}` };
   const response = await cartsClient.getById(cartId);
   await attachJson('Get Cart Response', { status: response.status, body: response.body });
-  expect(response.status, assertMessage({ request, expected: 'Status 200', actual: response.status })).toBe(200);
-  return JSON.parse(response.body) as Cart;
+  expectStatus(request, response, 200);
+  return parseJson<Cart>(request, response);
 }
 
 /**

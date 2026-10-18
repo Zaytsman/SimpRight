@@ -1,14 +1,4 @@
-import {
-  test,
-  expect,
-  REPORT_AUTH,
-  sendReport,
-  parseRows,
-  expectRowCountBetween,
-  expectNoDuplicates,
-  expectNonIncreasing,
-  type ReportRequest,
-} from '@fixtures';
+import { test, expect, AUTH, sendReport, parseRows, expectRowCountBetween, expectNoDuplicates, expectNonIncreasing, type ReportRequest } from '@fixtures';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { TopPurchasedProductRow } from '@api/dto/report';
 import { expectMessage, expectStatus } from '@utils/apiChecks';
@@ -28,7 +18,7 @@ test.describe('@reports-api - Reports API', () => {
       let rows: TopPurchasedProductRow[];
 
       await test.step("Send GET /reports/top10-purchased-products with the admin's token.", async () => {
-        ({ request, response } = await sendReport(PATH, REPORT_AUTH.admin, () => reportsClientWithToken.top10PurchasedProducts()));
+        ({ request, response } = await sendReport(PATH, AUTH.admin, () => reportsClientWithToken.top10PurchasedProducts()));
       });
 
       await test.step('Verify the response status is 200.', async () => {
@@ -64,7 +54,7 @@ test.describe('@reports-api - Reports API', () => {
     let response: ApiResponse;
 
     await test.step('Send GET /reports/top10-purchased-products without an Authorization header.', async () => {
-      ({ request, response } = await sendReport(PATH, REPORT_AUTH.none, () => reportsClient.top10PurchasedProducts()));
+      ({ request, response } = await sendReport(PATH, AUTH.none, () => reportsClient.top10PurchasedProducts()));
     });
 
     await test.step('Verify the response status is 401.', async () => {
@@ -81,7 +71,7 @@ test.describe('@reports-api - Reports API', () => {
     let response: ApiResponse;
 
     await test.step('Send GET /reports/top10-purchased-products with a malformed token.', async () => {
-      ({ request, response } = await sendReport(PATH, REPORT_AUTH.malformed, () => reportsClientWithInvalidToken.top10PurchasedProducts()));
+      ({ request, response } = await sendReport(PATH, AUTH.malformed, () => reportsClientWithInvalidToken.top10PurchasedProducts()));
     });
 
     await test.step('Verify the response status is 401.', async () => {
@@ -98,7 +88,7 @@ test.describe('@reports-api - Reports API', () => {
     let response: ApiResponse;
 
     await test.step("Send GET /reports/top10-purchased-products with the default user's token.", async () => {
-      ({ request, response } = await sendReport(PATH, REPORT_AUTH.customer, () => reportsClientWithToken.top10PurchasedProducts()));
+      ({ request, response } = await sendReport(PATH, AUTH.defaultUser, () => reportsClientWithToken.top10PurchasedProducts()));
     });
 
     await test.step('Verify the response status is 403.', async () => {

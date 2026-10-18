@@ -1,4 +1,4 @@
-import { test, expect, createCustomerWithFavorite, createSecondCustomer, sendGetFavorite, THROWAWAY_TOKEN, SECOND_TOKEN, type FavoriteRequest } from '@fixtures';
+import { test, expect, AUTH, createCustomerWithFavorite, createSecondCustomer, sendGetFavorite, type FavoriteRequest } from '@fixtures';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { Favorite } from '@api/dto/favorite';
 import { TestConstants } from '@data/TestConstants';
@@ -27,7 +27,7 @@ test.describe('@favorites-api - Favorites API', () => {
     );
 
     await test.step("Send GET /favorites/{favoriteId} with that id and the throwaway customer's access_token.", async () => {
-      ({ request, response } = await sendGetFavorite(favoritesClientForToken(token), favorite.id, THROWAWAY_TOKEN));
+      ({ request, response } = await sendGetFavorite(favoritesClientForToken(token), favorite.id, AUTH.throwaway));
     });
 
     await test.step('Verify the response status is 200.', async () => {
@@ -116,7 +116,7 @@ test.describe('@favorites-api - Favorites API', () => {
     test.fail(true, "Known issue BUG-021: Returns 200 with another user's favorite instead of 404 or 403.");
 
     await test.step("Send GET /favorites/{favoriteId} with that favorite's id, with the second customer's access_token.", async () => {
-      ({ request, response } = await sendGetFavorite(favoritesClientForToken(second.token), favorite.id, SECOND_TOKEN));
+      ({ request, response } = await sendGetFavorite(favoritesClientForToken(second.token), favorite.id, AUTH.second));
     });
 
     await test.step('Verify the response status is 404 or 403.', async () => {

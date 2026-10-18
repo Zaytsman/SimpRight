@@ -1,16 +1,4 @@
-import {
-  test,
-  expect,
-  createCustomerInvoice,
-  customerAWithInvoiceAndCustomerB,
-  sendGetInvoice,
-  expectKeys,
-  expectSingleInvoiceLine,
-  expectPaymentMethod,
-  INVOICE_AUTH,
-  type CustomerInvoice,
-  type InvoiceRequest,
-} from '@fixtures';
+import { test, expect, AUTH, createCustomerInvoice, customerAWithInvoiceAndCustomerB, sendGetInvoice, expectKeys, expectSingleInvoiceLine, expectPaymentMethod, type CustomerInvoice, type InvoiceRequest } from '@fixtures';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { Invoice } from '@api/dto/invoice';
 import { TestConstants } from '@data/TestConstants';
@@ -65,7 +53,7 @@ test.describe('@invoices-api - Invoices API', () => {
     );
 
     await test.step("Send GET /invoices/{invoiceId} with the invoice's id and that access_token.", async () => {
-      ({ request, response } = await sendGetInvoice(invoicesClientForToken(setup.token), setup.invoice.id, INVOICE_AUTH.throwaway));
+      ({ request, response } = await sendGetInvoice(invoicesClientForToken(setup.token), setup.invoice.id, AUTH.newUser));
     });
 
     await test.step('Verify the response status is 200.', async () => {
@@ -167,7 +155,7 @@ test.describe('@invoices-api - Invoices API', () => {
       const setup: CustomerInvoice = await createCustomerInvoice({ usersService, adminUsersService, authService, productsService, cartsService, invoicesServiceForToken, cleanup });
 
       await test.step("Send GET /invoices/{invoiceId} with the invoice's id and the admin's token.", async () => {
-        ({ request, response } = await sendGetInvoice(invoicesClientWithToken, setup.invoice.id, INVOICE_AUTH.admin));
+        ({ request, response } = await sendGetInvoice(invoicesClientWithToken, setup.invoice.id, AUTH.admin));
       });
 
       await test.step('Verify the response status is 200.', async () => {
@@ -188,7 +176,7 @@ test.describe('@invoices-api - Invoices API', () => {
     let response: ApiResponse;
 
     await test.step('Send GET /invoices/{invoiceId} with a well-formed ULID that no invoice has, without an Authorization header.', async () => {
-      ({ request, response } = await sendGetInvoice(invoicesClient, TestConstants.invoices.unknownId, INVOICE_AUTH.none));
+      ({ request, response } = await sendGetInvoice(invoicesClient, TestConstants.invoices.unknownId, AUTH.none));
     });
 
     await test.step('Verify the response status is 401.', async () => {
@@ -205,7 +193,7 @@ test.describe('@invoices-api - Invoices API', () => {
     let response: ApiResponse;
 
     await test.step("Send GET /invoices/{invoiceId} with a well-formed ULID that no invoice has and the default user's token.", async () => {
-      ({ request, response } = await sendGetInvoice(invoicesClientWithToken, TestConstants.invoices.unknownId, INVOICE_AUTH.defaultUser));
+      ({ request, response } = await sendGetInvoice(invoicesClientWithToken, TestConstants.invoices.unknownId, AUTH.defaultUser));
     });
 
     await test.step('Verify the response status is 404.', async () => {
@@ -232,7 +220,7 @@ test.describe('@invoices-api - Invoices API', () => {
     const { tokenB, invoice } = await customerAWithInvoiceAndCustomerB({ usersService, adminUsersService, authService, cartsService, invoicesServiceForToken, cleanup });
 
     await test.step("Send GET /invoices/{invoiceId} with that id and customer B's access_token.", async () => {
-      ({ request, response } = await sendGetInvoice(invoicesClientForToken(tokenB), invoice.id, INVOICE_AUTH.customerB));
+      ({ request, response } = await sendGetInvoice(invoicesClientForToken(tokenB), invoice.id, AUTH.customerB));
     });
 
     await test.step('Verify the response status is 404.', async () => {

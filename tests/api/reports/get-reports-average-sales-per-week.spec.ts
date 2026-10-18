@@ -1,13 +1,4 @@
-import {
-  test,
-  REPORT_AUTH,
-  sendReport,
-  parseRows,
-  expectPeriodRows,
-  expectNumberFields,
-  expectZeroRows,
-  type ReportRequest,
-} from '@fixtures';
+import { test, sendReport, AUTH, parseRows, expectPeriodRows, expectNumberFields, expectZeroRows, type ReportRequest } from '@fixtures';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { AverageSalesPerWeekRow } from '@api/dto/report';
 import { TestConstants } from '@data/TestConstants';
@@ -27,7 +18,7 @@ test.describe('@reports-api - Reports API', () => {
       let rows: AverageSalesPerWeekRow[];
 
       await test.step("Send GET /reports/average-sales-per-week with the admin's token.", async () => {
-        ({ request, response } = await sendReport(PATH, REPORT_AUTH.admin, () => reportsClientWithToken.averageSalesPerWeek()));
+        ({ request, response } = await sendReport(PATH, AUTH.admin, () => reportsClientWithToken.averageSalesPerWeek()));
       });
 
       await test.step('Verify the response status is 200.', async () => {
@@ -51,7 +42,7 @@ test.describe('@reports-api - Reports API', () => {
       let rows: AverageSalesPerWeekRow[];
 
       await test.step("Send GET /reports/average-sales-per-week with year 1990 and the admin's token.", async () => {
-        ({ request, response } = await sendReport(PATH, REPORT_AUTH.admin, () => reportsClientWithToken.averageSalesPerWeek(year), { year }));
+        ({ request, response } = await sendReport(PATH, AUTH.admin, () => reportsClientWithToken.averageSalesPerWeek(year), { year }));
       });
 
       await test.step('Verify the response status is 200.', async () => {
@@ -74,7 +65,7 @@ test.describe('@reports-api - Reports API', () => {
     let response: ApiResponse;
 
     await test.step("Send GET /reports/average-sales-per-week without an Authorization header.", async () => {
-      ({ request, response } = await sendReport(PATH, REPORT_AUTH.none, () => reportsClient.averageSalesPerWeek()));
+      ({ request, response } = await sendReport(PATH, AUTH.none, () => reportsClient.averageSalesPerWeek()));
     });
 
     await test.step('Verify the response status is 401.', async () => {
@@ -91,7 +82,7 @@ test.describe('@reports-api - Reports API', () => {
     let response: ApiResponse;
 
     await test.step("Send GET /reports/average-sales-per-week with a malformed token.", async () => {
-      ({ request, response } = await sendReport(PATH, REPORT_AUTH.malformed, () => reportsClientWithInvalidToken.averageSalesPerWeek()));
+      ({ request, response } = await sendReport(PATH, AUTH.malformed, () => reportsClientWithInvalidToken.averageSalesPerWeek()));
     });
 
     await test.step('Verify the response status is 401.', async () => {
@@ -108,7 +99,7 @@ test.describe('@reports-api - Reports API', () => {
     let response: ApiResponse;
 
     await test.step("Send GET /reports/average-sales-per-week with the default user's token.", async () => {
-      ({ request, response } = await sendReport(PATH, REPORT_AUTH.customer, () => reportsClientWithToken.averageSalesPerWeek()));
+      ({ request, response } = await sendReport(PATH, AUTH.defaultUser, () => reportsClientWithToken.averageSalesPerWeek()));
     });
 
     await test.step('Verify the response status is 403.', async () => {

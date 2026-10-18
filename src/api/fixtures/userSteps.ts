@@ -9,7 +9,8 @@ import type { RegisterUserRequest, User } from '../dto/user';
 import type { AuthService } from '../services/AuthService';
 import type { UsersService } from '../services/UsersService';
 import { UserFactory } from '../../data/factories/UserFactory';
-import { PAGE_KEYS } from '../../utils/apiChecks';
+import { PAGE_KEYS, expectStatus, parseJson } from '../../utils/apiChecks';
+import { describePage, pageSummary } from './apiSteps';
 import { assertMessage, attachJson } from '../../utils/assertHelpers';
 
 /**
@@ -159,15 +160,12 @@ export async function logoutToken(usersServiceForToken: (token: string) => Users
  * id and role of each item. Other visitors' names, emails and cities are on these pages, and the reports are public.
  */
 export function userPageSummary(page: Partial<Paginated<User>>): Record<string, unknown> {
-  return {
-    current_page: page.current_page,
-    from: page.from,
-    last_page: page.last_page,
-    per_page: page.per_page,
-    to: page.to,
-    total: page.total,
-    data: Array.isArray(page.data) ? page.data.map((user) => ({ id: user.id, role: user.role })) : page.data,
-  };
+  return pageSummary(page, userItemSummary);
+}
+
+/** A user of a page as `userPageSummary` shows it: its id and role. */
+function userItemSummary(user: User): Record<string, unknown> {
+  return { id: user.id, role: user.role };
 }
 
 /** The checks of a "Verify the body has the keys current_page, data, from, last_page, per_page, to and total ..." step (the keys part). */
@@ -217,7 +215,7 @@ export function expectAllCustomers(request: unknown, page: Paginated<User>): voi
  * which fail on every run): shows only the status, never the body, in the failure message.
  */
 export function expectStatusHidingBody(request: unknown, response: ApiResponse, status: number): void {
-  expect(response.status, assertMessage({ request, expected: `Status ${status}`, actual: { status: response.status } })).toBe(status);
+  expectStatus(request, response, status, () => undefined);
 }
 
 /**
@@ -225,11 +223,6 @@ export function expectStatusHidingBody(request: unknown, response: ApiResponse, 
  * response with its body as it came (error bodies hold no user data). Returns the parsed page for a 2xx, else undefined.
  */
 export async function attachUserPageResponse(name: string, response: ApiResponse): Promise<Paginated<User> | undefined> {
-  if (!response.isSuccess) {
-    await attachJson(name, { status: response.status, body: response.body });
-    return undefined;
-  }
-  const page = JSON.parse(response.body) as Paginated<User>;
-  await attachJson(name, { status: response.status, headers: response.headers, body: userPageSummary(page) });
-  return page;
+  await attachJson(name, describePage(userItemSummary, { headers: true })(response));
+  return response.isSuccess ? parseJson<Paginated<User>>(undefined, response) : undefined;
 }

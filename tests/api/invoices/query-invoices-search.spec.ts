@@ -1,4 +1,4 @@
-import { test, createCustomerInvoice, sendQuerySearchInvoices, expectOnlyInvoice, INVOICE_AUTH, type CustomerInvoice, type InvoiceRequest } from '@fixtures';
+import { test, createCustomerInvoice, AUTH, sendQuerySearchInvoices, expectOnlyInvoice, type CustomerInvoice, type InvoiceRequest } from '@fixtures';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { Paginated } from '@api/dto/common';
 import type { InvoiceSummary } from '@api/dto/invoice';
@@ -25,7 +25,7 @@ test.describe('@invoices-api - Invoices API', () => {
     await test.step(
       'Send QUERY /invoices/search with that access_token, Content-Type: application/json, Accept: application/json and the body { "q": <the invoice\'s number> }.',
       async () => {
-        ({ request, response } = await sendQuerySearchInvoices(invoicesClientForToken(setup.token), INVOICE_AUTH.throwaway, { q: setup.invoice.invoice_number }));
+        ({ request, response } = await sendQuerySearchInvoices(invoicesClientForToken(setup.token), AUTH.newUser, { q: setup.invoice.invoice_number }));
       }
     );
 
@@ -60,7 +60,7 @@ test.describe('@invoices-api - Invoices API', () => {
     await test.step(
       'Send QUERY /invoices/search with that access_token, Content-Type: application/json, Accept: application/json and an empty JSON object as the body.',
       async () => {
-        ({ request, response } = await sendQuerySearchInvoices(invoicesClientForToken(setup.token), INVOICE_AUTH.throwaway, {}));
+        ({ request, response } = await sendQuerySearchInvoices(invoicesClientForToken(setup.token), AUTH.newUser, {}));
       }
     );
 
@@ -80,7 +80,7 @@ test.describe('@invoices-api - Invoices API', () => {
     await test.step(
       'Send QUERY /invoices/search without an Authorization header, with Content-Type: application/json, Accept: application/json and an empty JSON object as the body.',
       async () => {
-        ({ request, response } = await sendQuerySearchInvoices(invoicesClient, INVOICE_AUTH.none, {}));
+        ({ request, response } = await sendQuerySearchInvoices(invoicesClient, AUTH.none, {}));
       }
     );
 
@@ -100,7 +100,7 @@ test.describe('@invoices-api - Invoices API', () => {
     await test.step(
       "Send QUERY /invoices/search with the default user's token, Content-Type: text/plain, Accept: application/json and a plain-text body.",
       async () => {
-        ({ request, response } = await sendQuerySearchInvoices(invoicesClientWithToken, INVOICE_AUTH.defaultUser, 'q=INV', 'text/plain'));
+        ({ request, response } = await sendQuerySearchInvoices(invoicesClientWithToken, AUTH.defaultUser, 'q=INV', 'text/plain'));
       }
     );
 

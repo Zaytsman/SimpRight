@@ -1,4 +1,4 @@
-import { test, createProductAndTakeOtherId, createProductWithSpec, createSpec, sendGetSpec, takeFirstProductId, DEFAULT_TOKEN } from '@fixtures';
+import { test, createProductAndTakeOtherId, AUTH, createProductWithSpec, createSpec, sendGetSpec, takeFirstProductId } from '@fixtures';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { ProductSpecsClient } from '@api/clients/ProductSpecsClient';
 import { TestConstants } from '@data/TestConstants';
@@ -38,7 +38,7 @@ test.describe('@products-api - Products API', () => {
     const { productId, spec } = await createProductWithSpec({ productsService, adminProductsService, productSpecsServiceWithToken, cleanup });
 
     await test.step("Send DELETE /products/{productId}/specs/{specId} with the new product's id, the new spec's id and the default user's token.", async () => {
-      ({ request, response } = await sendDeleteSpec(productSpecsClientWithToken, productId, spec.id, DEFAULT_TOKEN));
+      ({ request, response } = await sendDeleteSpec(productSpecsClientWithToken, productId, spec.id, AUTH.defaultUser));
     });
 
     await test.step('Verify the response status is 204.', async () => {
@@ -110,7 +110,7 @@ test.describe('@products-api - Products API', () => {
     const spec = await createSpec(productSpecsServiceWithToken, productId, cleanup);
 
     await test.step("Send DELETE /products/{productId}/specs/{specId} with the other item's id, the new spec's id and the default user's token.", async () => {
-      ({ request, response } = await sendDeleteSpec(productSpecsClientWithToken, otherProductId, spec.id, DEFAULT_TOKEN));
+      ({ request, response } = await sendDeleteSpec(productSpecsClientWithToken, otherProductId, spec.id, AUTH.defaultUser));
     });
 
     await test.step('Verify the response status is 204.', async () => {
@@ -130,7 +130,7 @@ test.describe('@products-api - Products API', () => {
     const productId = await takeFirstProductId(productsService);
 
     await test.step("Send DELETE /products/{productId}/specs/{specId} with that id, a well-formed ULID that no spec has and the default user's token.", async () => {
-      ({ request, response } = await sendDeleteSpec(productSpecsClientWithToken, productId, TestConstants.productSpecs.unknownId, DEFAULT_TOKEN));
+      ({ request, response } = await sendDeleteSpec(productSpecsClientWithToken, productId, TestConstants.productSpecs.unknownId, AUTH.defaultUser));
     });
 
     await test.step('Verify the response status is 204.', async () => {

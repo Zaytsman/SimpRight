@@ -1,21 +1,4 @@
-import {
-  test,
-  expect,
-  createCart,
-  createCustomerInvoice,
-  customerAWithInvoiceAndCustomerB,
-  setInvoiceStatusSetup,
-  sendSearchInvoices,
-  invoiceSummary,
-  invoicePageSummary,
-  expectKeys,
-  expectOnlyInvoice,
-  expectEmptyInvoicePage,
-  createGuestInvoiceSetup,
-  INVOICE_AUTH,
-  type CustomerInvoice,
-  type InvoiceRequest,
-} from '@fixtures';
+import { test, expect, AUTH, createCart, createCustomerInvoice, customerAWithInvoiceAndCustomerB, setInvoiceStatusSetup, sendSearchInvoices, invoiceSummary, invoicePageSummary, expectKeys, expectOnlyInvoice, expectEmptyInvoicePage, createGuestInvoiceSetup, type CustomerInvoice, type InvoiceRequest } from '@fixtures';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { Paginated } from '@api/dto/common';
 import type { InvoiceSummary } from '@api/dto/invoice';
@@ -48,7 +31,7 @@ test.describe('@invoices-api - Invoices API', () => {
     const setup: CustomerInvoice = await createCustomerInvoice({ usersService, adminUsersService, authService, productsService, cartsService, invoicesServiceForToken, cleanup });
 
     await test.step("Send GET /invoices/search with q set to the invoice's number and that access_token.", async () => {
-      ({ request, response } = await sendSearchInvoices(invoicesClientForToken(setup.token), INVOICE_AUTH.throwaway, setup.invoice.invoice_number));
+      ({ request, response } = await sendSearchInvoices(invoicesClientForToken(setup.token), AUTH.newUser, setup.invoice.invoice_number));
     });
 
     await test.step('Verify the response status is 200.', async () => {
@@ -96,7 +79,7 @@ test.describe('@invoices-api - Invoices API', () => {
     );
 
     await test.step('Send GET /invoices/search with q set to that billing_street and that access_token.', async () => {
-      ({ request, response } = await sendSearchInvoices(invoicesClientForToken(setup.token), INVOICE_AUTH.throwaway, billingStreet));
+      ({ request, response } = await sendSearchInvoices(invoicesClientForToken(setup.token), AUTH.newUser, billingStreet));
     });
 
     await test.step('Verify the response status is 200.', async () => {
@@ -134,11 +117,11 @@ test.describe('@invoices-api - Invoices API', () => {
       setup.invoice.id,
       'ON_HOLD',
       'Send PUT /invoices/{invoiceId}/status with the invoice\'s id, that access_token and a body with status "ON_HOLD".',
-      INVOICE_AUTH.throwaway
+      AUTH.newUser
     );
 
     await test.step('Send GET /invoices/search with q "ON_HOLD" and that access_token.', async () => {
-      ({ request, response } = await sendSearchInvoices(invoicesClientForToken(setup.token), INVOICE_AUTH.throwaway, 'ON_HOLD'));
+      ({ request, response } = await sendSearchInvoices(invoicesClientForToken(setup.token), AUTH.newUser, 'ON_HOLD'));
     });
 
     await test.step('Verify the response status is 200.', async () => {
@@ -167,7 +150,7 @@ test.describe('@invoices-api - Invoices API', () => {
     const setup: CustomerInvoice = await createCustomerInvoice({ usersService, adminUsersService, authService, productsService, cartsService, invoicesServiceForToken, cleanup });
 
     await test.step('Send GET /invoices/search without q and with that access_token.', async () => {
-      ({ request, response } = await sendSearchInvoices(invoicesClientForToken(setup.token), INVOICE_AUTH.throwaway));
+      ({ request, response } = await sendSearchInvoices(invoicesClientForToken(setup.token), AUTH.newUser));
     });
 
     await test.step('Verify the response status is 200.', async () => {
@@ -186,7 +169,7 @@ test.describe('@invoices-api - Invoices API', () => {
     const term = uniqueName('NoSuchInvoice');
 
     await test.step("Send GET /invoices/search with q set to a unique string no invoice has and the default user's token.", async () => {
-      ({ request, response } = await sendSearchInvoices(invoicesClientWithToken, INVOICE_AUTH.defaultUser, term));
+      ({ request, response } = await sendSearchInvoices(invoicesClientWithToken, AUTH.defaultUser, term));
     });
 
     await test.step('Verify the response status is 200.', async () => {
@@ -223,7 +206,7 @@ test.describe('@invoices-api - Invoices API', () => {
     );
 
     await test.step("Send GET /invoices/search with q set to that invoice number and customer B's access_token.", async () => {
-      ({ request, response } = await sendSearchInvoices(invoicesClientForToken(tokenB), INVOICE_AUTH.customerB, invoice.invoice_number));
+      ({ request, response } = await sendSearchInvoices(invoicesClientForToken(tokenB), AUTH.customerB, invoice.invoice_number));
     });
 
     await test.step('Verify the response status is 200.', async () => {
@@ -251,7 +234,7 @@ test.describe('@invoices-api - Invoices API', () => {
       );
 
       await test.step("Send GET /invoices/search with q set to that invoice number and the admin's token.", async () => {
-        ({ request, response } = await sendSearchInvoices(invoicesClientWithToken, INVOICE_AUTH.admin, created.invoice_number));
+        ({ request, response } = await sendSearchInvoices(invoicesClientWithToken, AUTH.admin, created.invoice_number));
       });
 
       await test.step('Verify the response status is 200.', async () => {
@@ -281,7 +264,7 @@ test.describe('@invoices-api - Invoices API', () => {
     const setup: CustomerInvoice = await createCustomerInvoice({ usersService, adminUsersService, authService, productsService, cartsService, invoicesServiceForToken, cleanup });
 
     await test.step("Send GET /invoices/search with q set to the invoice's number, page 2 and that access_token.", async () => {
-      ({ request, response } = await sendSearchInvoices(invoicesClientForToken(setup.token), INVOICE_AUTH.throwaway, setup.invoice.invoice_number, 2));
+      ({ request, response } = await sendSearchInvoices(invoicesClientForToken(setup.token), AUTH.newUser, setup.invoice.invoice_number, 2));
     });
 
     await test.step('Verify the response status is 200.', async () => {
@@ -301,7 +284,7 @@ test.describe('@invoices-api - Invoices API', () => {
     let response: ApiResponse;
 
     await test.step('Send GET /invoices/search with q "INV", without an Authorization header.', async () => {
-      ({ request, response } = await sendSearchInvoices(invoicesClient, INVOICE_AUTH.none, 'INV'));
+      ({ request, response } = await sendSearchInvoices(invoicesClient, AUTH.none, 'INV'));
     });
 
     await test.step('Verify the response status is 401.', async () => {
@@ -318,7 +301,7 @@ test.describe('@invoices-api - Invoices API', () => {
     let response: ApiResponse;
 
     await test.step('Send GET /invoices/search with q "INV" and a malformed token.', async () => {
-      ({ request, response } = await sendSearchInvoices(invoicesClientWithInvalidToken, INVOICE_AUTH.malformed, 'INV'));
+      ({ request, response } = await sendSearchInvoices(invoicesClientWithInvalidToken, AUTH.malformed, 'INV'));
     });
 
     await test.step('Verify the response status is 401.', async () => {

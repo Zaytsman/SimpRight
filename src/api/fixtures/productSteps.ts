@@ -9,6 +9,7 @@ import type { CategoriesService } from '../services/CategoriesService';
 import type { ProductsService } from '../services/ProductsService';
 import { ProductFactory, type ProductRefs } from '../../data/factories/ProductFactory';
 import { assertMessage, attachJson } from '../../utils/assertHelpers';
+import { AUTH } from './apiSteps';
 
 /**
  * Steps shared by the Products specs that change a product (PUT and PATCH /products/{productId}).
@@ -60,7 +61,7 @@ export async function createProductFromRefs(
 
   await test.step(title, async () => {
     const body = ProductFactory.createProduct(refs);
-    await attachJson('Create Product Request', { method: 'POST', path: '/products', auth: "admin's token", body });
+    await attachJson('Create Product Request', { method: 'POST', path: '/products', auth: AUTH.admin, body });
     const product = await adminProductsService.create(body);
     cleanup.add(() => adminProductsService.delete(product.id));
     await attachJson('Create Product Response', product);
@@ -173,7 +174,7 @@ export async function createProductWithOtherRefs(
 
   await test.step(PRODUCT_CREATE_FIRST_REFS_STEP, async () => {
     const body = ProductFactory.createProduct(firstRefs);
-    await attachJson('Create Product Request', { method: 'POST', path: '/products', auth: "admin's token", body });
+    await attachJson('Create Product Request', { method: 'POST', path: '/products', auth: AUTH.admin, body });
     const product = await adminProductsService.create(body);
     cleanup.add(() => adminProductsService.delete(product.id));
     await attachJson('Create Product Response', product);

@@ -1,24 +1,4 @@
-import {
-  test,
-  expect,
-  registerThrowawayCustomer,
-  loginThrowawayCustomer,
-  disableCustomerSetup,
-  createCart,
-  createCustomerInvoice,
-  createInvoiceSetup,
-  expectSingleInvoiceLine,
-  customerAWithInvoiceAndCustomerB,
-  sendListInvoices,
-  invoiceSummary,
-  invoicePageSummary,
-  expectKeys,
-  expectOnlyInvoice,
-  expectEmptyInvoicePage,
-  INVOICE_AUTH,
-  type CustomerInvoice,
-  type InvoiceRequest,
-} from '@fixtures';
+import { test, expect, AUTH, registerThrowawayCustomer, loginThrowawayCustomer, disableCustomerSetup, createCustomerInvoice, createInvoiceSetup, expectSingleInvoiceLine, customerAWithInvoiceAndCustomerB, sendListInvoices, invoiceSummary, invoicePageSummary, expectKeys, expectOnlyInvoice, expectEmptyInvoicePage, type CustomerInvoice, type InvoiceRequest } from '@fixtures';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { Paginated } from '@api/dto/common';
 import type { InvoiceCreated, InvoiceStatus, InvoiceSummary } from '@api/dto/invoice';
@@ -75,7 +55,7 @@ test.describe('@invoices-api - Invoices API', () => {
     );
 
     await test.step('Send GET /invoices with that access_token.', async () => {
-      ({ request, response } = await sendListInvoices(invoicesClientForToken(setup.token), INVOICE_AUTH.throwaway));
+      ({ request, response } = await sendListInvoices(invoicesClientForToken(setup.token), AUTH.newUser));
     });
 
     await test.step('Verify the response status is 200.', async () => {
@@ -147,7 +127,7 @@ test.describe('@invoices-api - Invoices API', () => {
     );
 
     await test.step("Send GET /invoices with customer B's access_token.", async () => {
-      ({ request, response } = await sendListInvoices(invoicesClientForToken(tokenB), INVOICE_AUTH.customerB));
+      ({ request, response } = await sendListInvoices(invoicesClientForToken(tokenB), AUTH.customerB));
     });
 
     await test.step('Verify the response status is 200.', async () => {
@@ -178,7 +158,7 @@ test.describe('@invoices-api - Invoices API', () => {
       const setup: CustomerInvoice = await createCustomerInvoice({ usersService, adminUsersService, authService, productsService, cartsService, invoicesServiceForToken, cleanup });
 
       await test.step("Send GET /invoices with the admin's token.", async () => {
-        ({ request, response } = await sendListInvoices(invoicesClientWithToken, INVOICE_AUTH.admin));
+        ({ request, response } = await sendListInvoices(invoicesClientWithToken, AUTH.admin));
       });
 
       await test.step('Verify the response status is 200.', async () => {
@@ -220,11 +200,11 @@ test.describe('@invoices-api - Invoices API', () => {
       invoicesServiceForToken(setup.token),
       setup.cartId,
       "Send POST /invoices again with that access_token and the same body and cart's id, and take the second invoice's id.",
-      INVOICE_AUTH.throwaway
+      AUTH.newUser
     );
 
     await test.step('Send GET /invoices with that access_token.', async () => {
-      ({ request, response } = await sendListInvoices(invoicesClientForToken(setup.token), INVOICE_AUTH.throwaway));
+      ({ request, response } = await sendListInvoices(invoicesClientForToken(setup.token), AUTH.newUser));
     });
 
     await test.step('Verify the response status is 200.', async () => {
@@ -267,7 +247,7 @@ test.describe('@invoices-api - Invoices API', () => {
     const setup: CustomerInvoice = await createCustomerInvoice({ usersService, adminUsersService, authService, productsService, cartsService, invoicesServiceForToken, cleanup });
 
     await test.step('Send GET /invoices with page 2 and that access_token.', async () => {
-      ({ request, response } = await sendListInvoices(invoicesClientForToken(setup.token), INVOICE_AUTH.throwaway, 2));
+      ({ request, response } = await sendListInvoices(invoicesClientForToken(setup.token), AUTH.newUser, 2));
     });
 
     await test.step('Verify the response status is 200.', async () => {
@@ -287,7 +267,7 @@ test.describe('@invoices-api - Invoices API', () => {
     let response: ApiResponse;
 
     await test.step('Send GET /invoices without an Authorization header.', async () => {
-      ({ request, response } = await sendListInvoices(invoicesClient, INVOICE_AUTH.none));
+      ({ request, response } = await sendListInvoices(invoicesClient, AUTH.none));
     });
 
     await test.step('Verify the response status is 401.', async () => {
@@ -304,7 +284,7 @@ test.describe('@invoices-api - Invoices API', () => {
     let response: ApiResponse;
 
     await test.step('Send GET /invoices with a malformed token.', async () => {
-      ({ request, response } = await sendListInvoices(invoicesClientWithInvalidToken, INVOICE_AUTH.malformed));
+      ({ request, response } = await sendListInvoices(invoicesClientWithInvalidToken, AUTH.malformed));
     });
 
     await test.step('Verify the response status is 401.', async () => {
@@ -336,11 +316,11 @@ test.describe('@invoices-api - Invoices API', () => {
         adminUsersService,
         customer.id,
         "Send PATCH /users/{userId} with the new user's id and enabled false, with the admin's token.",
-        INVOICE_AUTH.admin
+        AUTH.admin
       );
 
       await test.step("Send GET /invoices with the throwaway customer's access_token.", async () => {
-        ({ request, response } = await sendListInvoices(invoicesClientForToken(customerToken), INVOICE_AUTH.throwawayCustomer));
+        ({ request, response } = await sendListInvoices(invoicesClientForToken(customerToken), AUTH.throwaway));
       });
 
       await test.step('Verify the response status is 403.', async () => {

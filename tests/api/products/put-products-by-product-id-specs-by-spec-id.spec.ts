@@ -1,4 +1,4 @@
-import { test, expect, createProductAndTakeOtherId, createProductWithSpec, createSpec, readSpec, sendGetSpec, takeFirstProductId, DEFAULT_TOKEN, type SpecSetupFixtures } from '@fixtures';
+import { test, expect, AUTH, createProductAndTakeOtherId, createProductWithSpec, createSpec, readSpec, sendGetSpec, takeFirstProductId, type SpecSetupFixtures } from '@fixtures';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { ProductSpecsClient } from '@api/clients/ProductSpecsClient';
 import type { ProductSpec } from '@api/dto/product';
@@ -55,7 +55,7 @@ async function checkInvalidUpdate(
   const { productId, spec } = await createProductWithSpec(fixtures);
 
   await test.step(sendStep, async () => {
-    ({ request, response } = await sendUpdateSpec(fixtures.productSpecsClientWithToken, productId, spec.id, body, DEFAULT_TOKEN));
+    ({ request, response } = await sendUpdateSpec(fixtures.productSpecsClientWithToken, productId, spec.id, body, AUTH.defaultUser));
   });
 
   await test.step('Verify the response status is 422.', async () => {
@@ -85,7 +85,7 @@ test.describe('@products-api - Products API', () => {
     await test.step(
       'Send PUT /products/{productId}/specs/{specId} with the new product\'s id, the new spec\'s id and a body with spec_value "2.5", with the default user\'s token.',
       async () => {
-        ({ request, response } = await sendUpdateSpec(productSpecsClientWithToken, productId, spec.id, ProductSpecFactory.updateValue(), DEFAULT_TOKEN));
+        ({ request, response } = await sendUpdateSpec(productSpecsClientWithToken, productId, spec.id, ProductSpecFactory.updateValue(), AUTH.defaultUser));
       }
     );
 
@@ -133,7 +133,7 @@ test.describe('@products-api - Products API', () => {
     await test.step(
       'Send PUT /products/{productId}/specs/{specId} with the new product\'s id, the new spec\'s id and a body with a new unique spec_name, spec_value "9" and spec_unit "g", with the default user\'s token.',
       async () => {
-        ({ request, response } = await sendUpdateSpec(productSpecsClientWithToken, productId, spec.id, body, DEFAULT_TOKEN));
+        ({ request, response } = await sendUpdateSpec(productSpecsClientWithToken, productId, spec.id, body, AUTH.defaultUser));
       }
     );
 
@@ -174,7 +174,7 @@ test.describe('@products-api - Products API', () => {
     await test.step(
       "Send PUT /products/{productId}/specs/{specId} with the new product's id, the new spec's id and a body with spec_unit set to null, with the default user's token.",
       async () => {
-        ({ request, response } = await sendUpdateSpec(productSpecsClientWithToken, productId, spec.id, ProductSpecFactory.clearUnit(), DEFAULT_TOKEN));
+        ({ request, response } = await sendUpdateSpec(productSpecsClientWithToken, productId, spec.id, ProductSpecFactory.clearUnit(), AUTH.defaultUser));
       }
     );
 
@@ -217,7 +217,7 @@ test.describe('@products-api - Products API', () => {
     const { productId, spec } = await createProductWithSpec({ productsService, adminProductsService, productSpecsServiceWithToken, cleanup });
 
     await test.step("Send PUT /products/{productId}/specs/{specId} with the new product's id, the new spec's id and an empty body {}, with the default user's token.", async () => {
-      ({ request, response } = await sendUpdateSpec(productSpecsClientWithToken, productId, spec.id, ProductSpecFactory.empty(), DEFAULT_TOKEN));
+      ({ request, response } = await sendUpdateSpec(productSpecsClientWithToken, productId, spec.id, ProductSpecFactory.empty(), AUTH.defaultUser));
     });
 
     await test.step('Verify the response status is 200.', async () => {
@@ -262,7 +262,7 @@ test.describe('@products-api - Products API', () => {
         // If the API moved the spec to the other (seeded) product, the new product's removal wouldn't take it along:
         // remove it under the other id too (a 204 no-op when it isn't there).
         cleanup.add(() => productSpecsServiceWithToken.delete(otherProductId, spec.id));
-        ({ request, response } = await sendUpdateSpec(productSpecsClientWithToken, productId, spec.id, ProductSpecFactory.updateValueWithProductId(otherProductId), DEFAULT_TOKEN));
+        ({ request, response } = await sendUpdateSpec(productSpecsClientWithToken, productId, spec.id, ProductSpecFactory.updateValueWithProductId(otherProductId), AUTH.defaultUser));
       }
     );
 
@@ -346,7 +346,7 @@ test.describe('@products-api - Products API', () => {
     await test.step(
       'Send PUT /products/{productId}/specs/{specId} with that id, a well-formed ULID that no spec has and a body with spec_value "2.5", with the default user\'s token.',
       async () => {
-        ({ request, response } = await sendUpdateSpec(productSpecsClientWithToken, productId, TestConstants.productSpecs.unknownId, ProductSpecFactory.updateValue(), DEFAULT_TOKEN));
+        ({ request, response } = await sendUpdateSpec(productSpecsClientWithToken, productId, TestConstants.productSpecs.unknownId, ProductSpecFactory.updateValue(), AUTH.defaultUser));
       }
     );
 
@@ -376,7 +376,7 @@ test.describe('@products-api - Products API', () => {
     await test.step(
       'Send PUT /products/{productId}/specs/{specId} with the other item\'s id, the new spec\'s id and a body with spec_value "2.5", with the default user\'s token.',
       async () => {
-        ({ request, response } = await sendUpdateSpec(productSpecsClientWithToken, otherProductId, spec.id, ProductSpecFactory.updateValue(), DEFAULT_TOKEN));
+        ({ request, response } = await sendUpdateSpec(productSpecsClientWithToken, otherProductId, spec.id, ProductSpecFactory.updateValue(), AUTH.defaultUser));
       }
     );
 
@@ -477,7 +477,7 @@ test.describe('@products-api - Products API', () => {
           productId,
           TestConstants.productSpecs.unknownId,
           ProductSpecFactory.updateSpecValueTooLong(),
-          DEFAULT_TOKEN
+          AUTH.defaultUser
         ));
       }
     );
@@ -506,7 +506,7 @@ test.describe('@products-api - Products API', () => {
     await test.step(
       "Send PUT /products/{productId}/specs/{specId} with the new product's id, the new spec's id and a body with a 101-character spec_name, with the default user's token, with the Accept header left out and without following redirects.",
       async () => {
-        ({ request, response } = await sendUpdateSpec(productSpecsClientWithToken, productId, spec.id, ProductSpecFactory.updateSpecNameTooLong(), DEFAULT_TOKEN, {
+        ({ request, response } = await sendUpdateSpec(productSpecsClientWithToken, productId, spec.id, ProductSpecFactory.updateSpecNameTooLong(), AUTH.defaultUser, {
           accept: null,
           followRedirects: false,
         }));

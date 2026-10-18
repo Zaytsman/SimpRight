@@ -1,4 +1,4 @@
-import { test, expect, createGuestMessage, MESSAGE_AUTH, type MessageRequest } from '@fixtures';
+import { test, expect, AUTH, createGuestMessage, type MessageRequest } from '@fixtures';
 import type { ApiResponse, MultipartFile } from '@api/clients/BaseClient';
 import type { MessagesClient } from '@api/clients/MessagesClient';
 import type { AttachFileErrors } from '@api/dto/message';
@@ -17,7 +17,7 @@ async function sendAttach(messagesClient: MessagesClient, messageId: string, fil
   const request: MessageRequest = {
     method: 'POST',
     path: `/messages/${messageId}/attach-file`,
-    auth: MESSAGE_AUTH.none,
+    auth: AUTH.none,
     body: { contentType: 'multipart/form-data', fields: file ? { file: { name: file.name, size: file.buffer.length } } : {} },
   };
   const response = await messagesClient.attachFile(messageId, file);

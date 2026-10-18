@@ -5,15 +5,8 @@
  */
 import { expect } from '@playwright/test';
 import type { ApiResponse } from '../clients/BaseClient';
-import { assertMessage, attachJson } from '../../utils/assertHelpers';
-
-/** How the attached requests name the tokens of the reports scenarios. */
-export const REPORT_AUTH = {
-  admin: "the admin's token",
-  none: 'none',
-  malformed: 'a malformed token',
-  customer: "the default user's token",
-} as const;
+import { assertMessage } from '../../utils/assertHelpers';
+import { sendAndAttach, withHeaders } from './apiSteps';
 
 export type ReportRequest = { method: 'GET'; path: string; query?: Record<string, string | number>; auth: string };
 
@@ -25,10 +18,7 @@ export async function sendReport(
   query?: Record<string, string | number>
 ): Promise<{ request: ReportRequest; response: ApiResponse }> {
   const request: ReportRequest = { method: 'GET', path, ...(query ? { query } : {}), auth };
-  const response = await call();
-  await attachJson('Report Request', request);
-  await attachJson('Report Response', { status: response.status, headers: response.headers, body: response.body });
-  return { request, response };
+  return sendAndAttach('Report', request, call, withHeaders);
 }
 
 /** Parses a report body that must be an array (checked with a message); call it after the status check. */

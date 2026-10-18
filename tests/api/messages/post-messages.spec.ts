@@ -1,16 +1,4 @@
-import {
-  test,
-  expect,
-  registerThrowawayCustomer,
-  loginThrowawayCustomer,
-  takeOwnUserId,
-  readMessageOk,
-  expectMessageStatus,
-  sendListMessages,
-  messagePageSummary,
-  MESSAGE_AUTH,
-  type MessageRequest,
-} from '@fixtures';
+import { test, expect, AUTH, registerThrowawayCustomer, loginThrowawayCustomer, takeOwnUserId, readMessageOk, expectMessageStatus, sendListMessages, messagePageSummary, type MessageRequest } from '@fixtures';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { MessagesClient } from '@api/clients/MessagesClient';
 import type { Paginated } from '@api/dto/common';
@@ -65,7 +53,7 @@ test.describe('@messages-api - Messages API', () => {
       let sent: ContactMessage;
 
       await test.step("Send POST /messages without an Authorization header, with a name, an email address, a unique subject and a message text, and take the body's id.", async () => {
-        ({ request, response } = await sendMessage(messagesClient, body, MESSAGE_AUTH.none));
+        ({ request, response } = await sendMessage(messagesClient, body, AUTH.none));
       });
 
       await test.step('Verify the response status is 200.', async () => {
@@ -89,7 +77,7 @@ test.describe('@messages-api - Messages API', () => {
       });
 
       await test.step('Verify GET /messages/{messageId} with that id and the admin\'s token returns 200 with the same subject and message, status "NEW" and user_id null.', async () => {
-        const { request: getRequest, message } = await readMessageOk(messagesClientWithToken, sent.id, MESSAGE_AUTH.admin);
+        const { request: getRequest, message } = await readMessageOk(messagesClientWithToken, sent.id, AUTH.admin);
         expectSubjectAndMessage(getRequest, message, body);
         expectMessageStatus(getRequest, message, 'NEW');
         expect(message.user_id, assertMessage({ request: getRequest, expected: 'user_id is null', actual: { user_id: message.user_id } })).toBeNull();
@@ -107,10 +95,10 @@ test.describe('@messages-api - Messages API', () => {
     let response: ApiResponse;
     let sent: ContactMessage;
 
-    const userId = await takeOwnUserId(usersServiceForToken(accessToken), "Send GET /users/me with the default user's token and take its id.", MESSAGE_AUTH.defaultUser);
+    const userId = await takeOwnUserId(usersServiceForToken(accessToken), "Send GET /users/me with the default user's token and take its id.", AUTH.defaultUser);
 
     await test.step("Send POST /messages with the default user's token, a unique subject and a message text, and take the body's id.", async () => {
-      ({ request, response } = await sendMessage(messagesClientWithToken, body, MESSAGE_AUTH.defaultUser));
+      ({ request, response } = await sendMessage(messagesClientWithToken, body, AUTH.defaultUser));
     });
 
     await test.step('Verify the response status is 200.', async () => {
@@ -126,7 +114,7 @@ test.describe('@messages-api - Messages API', () => {
     });
 
     await test.step("Verify GET /messages/{messageId} with that id and the default user's token returns 200 with the same subject, message and user_id.", async () => {
-      const { request: getRequest, message } = await readMessageOk(messagesClientWithToken, sent.id, MESSAGE_AUTH.defaultUser);
+      const { request: getRequest, message } = await readMessageOk(messagesClientWithToken, sent.id, AUTH.defaultUser);
       expectSubjectAndMessage(getRequest, message, body);
       expect(message.user_id, assertMessage({ request: getRequest, expected: `user_id is the default user's id ${userId}`, actual: { user_id: message.user_id } })).toBe(
         userId
@@ -144,7 +132,7 @@ test.describe('@messages-api - Messages API', () => {
       let sent: ContactMessage;
 
       await test.step("Send POST /messages without an Authorization header, with a unique subject and a message text, without name and email, and take the body's id.", async () => {
-        ({ request, response } = await sendMessage(messagesClient, body, MESSAGE_AUTH.none));
+        ({ request, response } = await sendMessage(messagesClient, body, AUTH.none));
       });
 
       await test.step('Verify the response status is 200.', async () => {
@@ -159,7 +147,7 @@ test.describe('@messages-api - Messages API', () => {
       });
 
       await test.step("Verify GET /messages/{messageId} with that id and the admin's token returns 200 with the same subject and message, name null and email null.", async () => {
-        const { request: getRequest, message } = await readMessageOk(messagesClientWithToken, sent.id, MESSAGE_AUTH.admin);
+        const { request: getRequest, message } = await readMessageOk(messagesClientWithToken, sent.id, AUTH.admin);
         expectSubjectAndMessage(getRequest, message, body);
         expect(message.name, assertMessage({ request: getRequest, expected: 'name is null', actual: { name: message.name } })).toBeNull();
         expect(message.email, assertMessage({ request: getRequest, expected: 'email is null', actual: { email: message.email } })).toBeNull();
@@ -172,7 +160,7 @@ test.describe('@messages-api - Messages API', () => {
       let response: ApiResponse;
 
       await test.step("Send POST /messages without an Authorization header, with a 120-character subject and a 250-character message, and take the body's id.", async () => {
-        ({ request, response } = await sendMessage(messagesClient, body, MESSAGE_AUTH.none));
+        ({ request, response } = await sendMessage(messagesClient, body, AUTH.none));
       });
 
       await test.step('Verify the response status is 200.', async () => {
@@ -180,7 +168,7 @@ test.describe('@messages-api - Messages API', () => {
       });
 
       await test.step("Verify GET /messages/{messageId} with that id and the admin's token returns 200 with the same subject and message.", async () => {
-        const { request: getRequest, message } = await readMessageOk(messagesClientWithToken, parseSent(response).id, MESSAGE_AUTH.admin);
+        const { request: getRequest, message } = await readMessageOk(messagesClientWithToken, parseSent(response).id, AUTH.admin);
         expectSubjectAndMessage(getRequest, message, body);
       });
     });
@@ -192,7 +180,7 @@ test.describe('@messages-api - Messages API', () => {
       let sent: ContactMessage;
 
       await test.step('Send POST /messages without an Authorization header, with a unique subject, a message text and status "RESOLVED", and take the body\'s id.', async () => {
-        ({ request, response } = await sendMessage(messagesClient, body, MESSAGE_AUTH.none));
+        ({ request, response } = await sendMessage(messagesClient, body, AUTH.none));
       });
 
       await test.step('Verify the response status is 200.', async () => {
@@ -205,7 +193,7 @@ test.describe('@messages-api - Messages API', () => {
       });
 
       await test.step('Verify GET /messages/{messageId} with that id and the admin\'s token returns 200 with status "NEW".', async () => {
-        const { request: getRequest, message } = await readMessageOk(messagesClientWithToken, sent.id, MESSAGE_AUTH.admin);
+        const { request: getRequest, message } = await readMessageOk(messagesClientWithToken, sent.id, AUTH.admin);
         expectMessageStatus(getRequest, message, 'NEW');
       });
     });
@@ -220,7 +208,7 @@ test.describe('@messages-api - Messages API', () => {
       let sent: ContactMessage;
 
       await test.step("Send POST /messages with a malformed token, a unique subject and a message text, and take the body's id.", async () => {
-        ({ request, response } = await sendMessage(messagesClientWithInvalidToken, body, MESSAGE_AUTH.malformed));
+        ({ request, response } = await sendMessage(messagesClientWithInvalidToken, body, AUTH.malformed));
       });
 
       await test.step('Verify the response status is 200.', async () => {
@@ -233,7 +221,7 @@ test.describe('@messages-api - Messages API', () => {
       });
 
       await test.step("Verify GET /messages/{messageId} with that id and the admin's token returns 200 with user_id null.", async () => {
-        const { request: getRequest, message } = await readMessageOk(messagesClientWithToken, sent.id, MESSAGE_AUTH.admin);
+        const { request: getRequest, message } = await readMessageOk(messagesClientWithToken, sent.id, AUTH.admin);
         expect(message.user_id, assertMessage({ request: getRequest, expected: 'user_id is null', actual: { user_id: message.user_id } })).toBeNull();
       });
     });
@@ -244,7 +232,7 @@ test.describe('@messages-api - Messages API', () => {
     let response: ApiResponse;
 
     await test.step('Send POST /messages without an Authorization header, with a name and an email address, without subject and message.', async () => {
-      ({ request, response } = await sendMessage(messagesClient, MessageFactory.withoutSubjectAndMessage(), MESSAGE_AUTH.none));
+      ({ request, response } = await sendMessage(messagesClient, MessageFactory.withoutSubjectAndMessage(), AUTH.none));
     });
 
     await test.step('Verify the response status is 422.', async () => {
@@ -262,7 +250,7 @@ test.describe('@messages-api - Messages API', () => {
     let response: ApiResponse;
 
     await test.step('Send POST /messages without an Authorization header, with a 121-character subject and a message text.', async () => {
-      ({ request, response } = await sendMessage(messagesClient, MessageFactory.sendMessage({ subject: MessageFactory.subjectOfLength(121) }), MESSAGE_AUTH.none));
+      ({ request, response } = await sendMessage(messagesClient, MessageFactory.sendMessage({ subject: MessageFactory.subjectOfLength(121) }), AUTH.none));
     });
 
     await test.step('Verify the response status is 422.', async () => {
@@ -279,7 +267,7 @@ test.describe('@messages-api - Messages API', () => {
     let response: ApiResponse;
 
     await test.step('Send POST /messages without an Authorization header, with a unique subject and a 251-character message.', async () => {
-      ({ request, response } = await sendMessage(messagesClient, MessageFactory.sendMessage({ message: MessageFactory.textOfLength(251) }), MESSAGE_AUTH.none));
+      ({ request, response } = await sendMessage(messagesClient, MessageFactory.sendMessage({ message: MessageFactory.textOfLength(251) }), AUTH.none));
     });
 
     await test.step('Verify the response status is 422.', async () => {
@@ -296,7 +284,7 @@ test.describe('@messages-api - Messages API', () => {
     let response: ApiResponse;
 
     await test.step('Send POST /messages without an Authorization header, with the email "not-an-email", a unique subject and a message text.', async () => {
-      ({ request, response } = await sendMessage(messagesClient, MessageFactory.sendMessage({ email: 'not-an-email' }), MESSAGE_AUTH.none));
+      ({ request, response } = await sendMessage(messagesClient, MessageFactory.sendMessage({ email: 'not-an-email' }), AUTH.none));
     });
 
     await test.step('Verify the response status is 422.', async () => {
@@ -313,7 +301,7 @@ test.describe('@messages-api - Messages API', () => {
     let response: ApiResponse;
 
     await test.step('Send POST /messages without an Authorization header, with a subject that contains the subscript character "₂" (U+2082) and a message text.', async () => {
-      ({ request, response } = await sendMessage(messagesClient, MessageFactory.sendMessage({ subject: MessageFactory.subscriptSubject() }), MESSAGE_AUTH.none));
+      ({ request, response } = await sendMessage(messagesClient, MessageFactory.sendMessage({ subject: MessageFactory.subscriptSubject() }), AUTH.none));
     });
 
     await test.step('Verify the response status is 422.', async () => {
@@ -331,7 +319,7 @@ test.describe('@messages-api - Messages API', () => {
     let response: ApiResponse;
 
     await test.step('Send POST /messages without an Authorization header, with a 61-character name, a unique subject and a message text.', async () => {
-      ({ request, response } = await sendMessage(messagesClient, MessageFactory.sendMessage({ name: MessageFactory.nameOfLength(61) }), MESSAGE_AUTH.none));
+      ({ request, response } = await sendMessage(messagesClient, MessageFactory.sendMessage({ name: MessageFactory.nameOfLength(61) }), AUTH.none));
     });
 
     await test.step('Verify the response status is 200 or 422.', async () => {
@@ -345,7 +333,7 @@ test.describe('@messages-api - Messages API', () => {
     let response: ApiResponse;
 
     await test.step('Send POST /messages without an Authorization header, with a unique subject, a message text and a parent_id key set to a non-empty string.', async () => {
-      ({ request, response } = await sendMessage(messagesClient, MessageFactory.withExtraKeys({ parent_id: 'parent-from-simpright' }), MESSAGE_AUTH.none));
+      ({ request, response } = await sendMessage(messagesClient, MessageFactory.withExtraKeys({ parent_id: 'parent-from-simpright' }), AUTH.none));
     });
 
     await test.step('Verify the response status is 200 or 422.', async () => {
@@ -373,13 +361,13 @@ test.describe('@messages-api - Messages API', () => {
     );
 
     await test.step("Send POST /messages without an Authorization header, with a unique subject, a message text and user_id set to the new user's id, and take the body's id.", async () => {
-      const sent = await sendMessage(messagesClient, MessageFactory.withExtraKeys({ user_id: customer.id }), MESSAGE_AUTH.none);
+      const sent = await sendMessage(messagesClient, MessageFactory.withExtraKeys({ user_id: customer.id }), AUTH.none);
       expectStatus(sent.request, sent.response, 200);
       messageId = parseSent(sent.response).id;
     });
 
     await test.step("Send GET /messages with the throwaway customer's access_token.", async () => {
-      ({ request, response } = await sendListMessages(messagesClientForToken(token), MESSAGE_AUTH.throwaway));
+      ({ request, response } = await sendListMessages(messagesClientForToken(token), AUTH.throwaway));
       expectStatus(request, response, 200);
     });
 

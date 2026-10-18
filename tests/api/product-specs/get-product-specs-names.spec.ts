@@ -1,4 +1,4 @@
-import { test, expect, createProductToUpdate, createProductWithSpec, createSpec, DEFAULT_TOKEN } from '@fixtures';
+import { test, expect, AUTH, createProductToUpdate, createProductWithSpec, createSpec } from '@fixtures';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { ProductSpecsClient } from '@api/clients/ProductSpecsClient';
 import type { SpecName } from '@api/dto/productSpec';
@@ -134,7 +134,7 @@ test.describe('@product-specs-api - Product Specs API', () => {
     });
 
     await test.step("Send DELETE /products/{productId}/specs/{specId} with the new product's id, the new spec's id and the default user's token.", async () => {
-      await attachJson('Delete Spec Request', { method: 'DELETE', path: `/products/${productId}/specs/${spec.id}`, auth: DEFAULT_TOKEN });
+      await attachJson('Delete Spec Request', { method: 'DELETE', path: `/products/${productId}/specs/${spec.id}`, auth: AUTH.defaultUser });
       await productSpecsServiceWithToken.delete(productId, spec.id);
     });
 

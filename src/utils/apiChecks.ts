@@ -31,11 +31,17 @@ export function parseJson<T>(request: unknown, response: ApiResponse): T {
   }
 }
 
-/** The checks of a "Verify the response status is <status>." step. */
-export function expectStatus(request: unknown, response: ApiResponse, status: number): void {
-  expect(response.status, assertMessage({ request, expected: `Status ${status}`, actual: { status: response.status, body: response.body.slice(0, 500) } })).toBe(
-    status
-  );
+/**
+ * The checks of a "Verify the response status is <status>." step. The failure message shows the status and the start of
+ * the body, or what `describeBody` returns: a page summary, or nothing for a body that may list other visitors.
+ */
+export function expectStatus(
+  request: unknown,
+  response: ApiResponse,
+  status: number,
+  describeBody: (response: ApiResponse) => unknown = (sent) => sent.body.slice(0, 500)
+): void {
+  expect(response.status, assertMessage({ request, expected: `Status ${status}`, actual: { status: response.status, body: describeBody(response) } })).toBe(status);
 }
 
 /** The checks of a "Verify the body's success is <true | false>." step. */

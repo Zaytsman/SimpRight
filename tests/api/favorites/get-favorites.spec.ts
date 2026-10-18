@@ -1,4 +1,4 @@
-import { test, expect, createCustomerWithFavorite, createSecondCustomer, registerThrowawayCustomer, loginThrowawayCustomer, THROWAWAY_TOKEN, SECOND_TOKEN, disableCustomerSetup } from '@fixtures';
+import { test, expect, AUTH, createCustomerWithFavorite, createSecondCustomer, registerThrowawayCustomer, loginThrowawayCustomer, disableCustomerSetup } from '@fixtures';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { FavoritesClient } from '@api/clients/FavoritesClient';
 import type { Favorite } from '@api/dto/favorite';
@@ -38,7 +38,7 @@ test.describe('@favorites-api - Favorites API', () => {
     );
 
     await test.step("Send GET /favorites with the throwaway customer's access_token.", async () => {
-      ({ request, response } = await sendList(favoritesClientForToken(token), THROWAWAY_TOKEN));
+      ({ request, response } = await sendList(favoritesClientForToken(token), AUTH.throwaway));
     });
 
     await test.step('Verify the response status is 200.', async () => {
@@ -99,7 +99,7 @@ test.describe('@favorites-api - Favorites API', () => {
     const second = await createSecondCustomer(usersService, adminUsersService, authService, cleanup);
 
     await test.step("Send GET /favorites with the second customer's access_token.", async () => {
-      ({ request, response } = await sendList(favoritesClientForToken(second.token), SECOND_TOKEN));
+      ({ request, response } = await sendList(favoritesClientForToken(second.token), AUTH.second));
     });
 
     await test.step('Verify the response status is 200.', async () => {
@@ -165,7 +165,7 @@ test.describe('@favorites-api - Favorites API', () => {
       await disableCustomerSetup(adminUsersService, customer.id, "Send PATCH /users/{userId} with that id and enabled false, with the admin's token.", "admin's token");
 
       await test.step("Send GET /favorites with the throwaway customer's access_token.", async () => {
-        ({ request, response } = await sendList(favoritesClientForToken(customerToken), THROWAWAY_TOKEN));
+        ({ request, response } = await sendList(favoritesClientForToken(customerToken), AUTH.throwaway));
       });
 
       await test.step('Verify the response status is 403.', async () => {

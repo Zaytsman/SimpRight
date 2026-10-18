@@ -7,7 +7,8 @@ import type { MessagesService } from '../services/MessagesService';
 import type { UsersService } from '../services/UsersService';
 import { MessageFactory } from '../../data/factories/MessageFactory';
 import { assertMessage, attachJson } from '../../utils/assertHelpers';
-import { expectStatus } from '../../utils/apiChecks';
+import { expectStatus, parseJson } from '../../utils/apiChecks';
+import { AUTH, describePage, pageSummary, sendAndAttach } from './apiSteps';
 
 /**
  * Steps shared by the Messages specs. Messages can't be deleted (no DELETE route), so the ones a test creates stay
@@ -16,15 +17,6 @@ import { expectStatus } from '../../utils/apiChecks';
  */
 const GUEST_MESSAGE_STEP = "Send POST /messages without an Authorization header, with a unique subject and a message text, and take the new message's id.";
 const CUSTOMER_MESSAGE_STEP = "Send POST /messages with that token, a unique subject and a message text, and take the new message's id.";
-
-/** How the attached requests name the tokens of the messages scenarios. */
-export const MESSAGE_AUTH = {
-  none: 'none',
-  malformed: 'a malformed token',
-  admin: "the admin's token",
-  defaultUser: "the default user's token",
-  throwaway: "the throwaway customer's access_token",
-} as const;
 
 /** A message a setup step sent: the body sent and the message the API returned. */
 export interface SentMessage {
@@ -62,12 +54,12 @@ export async function sendMessageSetup(
 
 /** The GUEST_MESSAGE_STEP step (or a variant `title`): a guest message with a unique subject and the message text. */
 export async function createGuestMessage(messagesService: MessagesService, title: string = GUEST_MESSAGE_STEP): Promise<SentMessage> {
-  return sendMessageSetup(messagesService, title, MESSAGE_AUTH.none);
+  return sendMessageSetup(messagesService, title, AUTH.none);
 }
 
 /** The CUSTOMER_MESSAGE_STEP step (or a variant `title`): a message of the throwaway customer whose token built `messagesService`. */
 export async function createCustomerMessage(messagesService: MessagesService, title: string = CUSTOMER_MESSAGE_STEP): Promise<SentMessage> {
-  return sendMessageSetup(messagesService, title, MESSAGE_AUTH.throwaway);
+  return sendMessageSetup(messagesService, title, AUTH.throwaway);
 }
 
 /** A "Send GET /users/me with the <role>'s token and take its id." setup step: returns the id of the token's user. */
@@ -94,10 +86,7 @@ export type MessageRequest = { method: string; path: string; auth: string; query
  */
 export async function sendGetMessage(messagesClient: MessagesClient, messageId: string, auth: string): Promise<{ request: MessageRequest; response: ApiResponse }> {
   const request: MessageRequest = { method: 'GET', path: `/messages/${messageId}`, auth };
-  const response = await messagesClient.getById(messageId);
-  await attachJson('Get Message Request', request);
-  await attachJson('Get Message Response', { status: response.status, body: response.body });
-  return { request, response };
+  return sendAndAttach('Get Message', request, () => messagesClient.getById(messageId));
 }
 
 /**
@@ -111,13 +100,13 @@ export async function readMessageOk(
 ): Promise<{ request: MessageRequest; message: ContactMessageDetail }> {
   const { request, response } = await sendGetMessage(messagesClient, messageId, auth);
   expectStatus(request, response, 200);
-  return { request, message: JSON.parse(response.body) as ContactMessageDetail };
+  return { request, message: parseJson<ContactMessageDetail>(request, response) };
 }
 
 /** A status-setting setup step (title `title`): sets the status with the admin's token and fails the step if that doesn't succeed. */
 export async function setStatusSetup(messagesService: MessagesService, messageId: string, status: MessageStatus, title: string): Promise<void> {
   await test.step(title, async () => {
-    const request = { method: 'PUT', path: `/messages/${messageId}/status`, auth: MESSAGE_AUTH.admin, body: { status } };
+    const request = { method: 'PUT', path: `/messages/${messageId}/status`, auth: AUTH.admin, body: { status } };
     await attachJson('Update Status Request', request);
     const result = await messagesService.updateStatus(messageId, status);
     await attachJson('Update Status Response', result);
@@ -144,21 +133,16 @@ export function expectMessageStatus(request: unknown, message: ContactMessageDet
  * and the reports are public.
  */
 export function messagePageSummary(page: Partial<Paginated<ContactMessageListItem>>): Record<string, unknown> {
+  return pageSummary(page, messageItemSummary);
+}
+
+/** A message of a page as `messagePageSummary` shows it: its id, user_id, status and the sender's id. */
+function messageItemSummary(item: ContactMessageListItem): Record<string, unknown> {
   return {
-    current_page: page.current_page,
-    from: page.from,
-    last_page: page.last_page,
-    per_page: page.per_page,
-    to: page.to,
-    total: page.total,
-    data: Array.isArray(page.data)
-      ? page.data.map((item) => ({
-          id: item.id,
-          user_id: item.user_id,
-          status: item.status,
-          ...('user' in item ? { user: item.user ? { id: item.user.id } : null } : {}),
-        }))
-      : page.data,
+    id: item.id,
+    user_id: item.user_id,
+    status: item.status,
+    ...('user' in item ? { user: item.user ? { id: item.user.id } : null } : {}),
   };
 }
 
@@ -172,15 +156,7 @@ export async function sendListMessages(
   page?: number
 ): Promise<{ request: MessageRequest; response: ApiResponse }> {
   const request: MessageRequest = { method: 'GET', path: '/messages', auth, ...(page !== undefined ? { query: { page } } : {}) };
-  const response = await messagesClient.list(page);
-  await attachJson('List Messages Request', request);
-  if (response.isSuccess) {
-    const body = JSON.parse(response.body) as Paginated<ContactMessageListItem>;
-    await attachJson('List Messages Response', { status: response.status, body: messagePageSummary(body) });
-  } else {
-    await attachJson('List Messages Response', { status: response.status, body: response.body });
-  }
-  return { request, response };
+  return sendAndAttach('List Messages', request, () => messagesClient.list(page), describePage(messageItemSummary));
 }
 
 /**
@@ -188,8 +164,5 @@ export async function sendListMessages(
  * status and the page summary, never the raw body (an admin's page lists other visitors' messages).
  */
 export function expectListStatus(request: unknown, response: ApiResponse, status: number): void {
-  const actual = response.isSuccess
-    ? { status: response.status, body: messagePageSummary(JSON.parse(response.body) as Paginated<ContactMessageListItem>) }
-    : { status: response.status, body: response.body.slice(0, 500) };
-  expect(response.status, assertMessage({ request, expected: `Status ${status}`, actual })).toBe(status);
+  expectStatus(request, response, status, (sent) => (sent.isSuccess ? messagePageSummary(parseJson(request, sent)) : sent.body.slice(0, 500)));
 }

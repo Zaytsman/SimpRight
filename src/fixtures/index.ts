@@ -13,6 +13,7 @@ export { AMSTERDAM } from '../ui/visitor/visitorLocation';
 
 // API setup and check helpers, one module per area. Everything a module exports reaches specs, so keep names that only
 // the module itself uses unexported; a name two modules export is a compile error here.
+export * from '../api/fixtures/apiSteps';
 export * from '../api/fixtures/productSteps';
 export * from '../api/fixtures/cartSteps';
 export * from '../api/fixtures/userSteps';

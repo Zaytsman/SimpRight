@@ -6,6 +6,7 @@ import type { BrandsService } from '../services/BrandsService';
 import { BrandFactory } from '../../data/factories/BrandFactory';
 import { TestConstants } from '../../data/TestConstants';
 import { assertMessage, attachJson } from '../../utils/assertHelpers';
+import { AUTH } from './apiSteps';
 
 /**
  * Steps shared by the Brands specs. The titles are the scenario steps verbatim; the brands files use the same wording.
@@ -31,7 +32,7 @@ export async function createBrand(
 
   await test.step(title, async () => {
     const body = BrandFactory.createBrand(overrides);
-    await attachJson('Create Brand Request', { method: 'POST', path: '/brands', auth: "admin's token", body });
+    await attachJson('Create Brand Request', { method: 'POST', path: '/brands', auth: AUTH.admin, body });
     const brand = await adminBrandsService.create(body);
     cleanup.add(() => adminBrandsService.deleteIfExists(brand.id));
     await attachJson('Create Brand Response', brand);

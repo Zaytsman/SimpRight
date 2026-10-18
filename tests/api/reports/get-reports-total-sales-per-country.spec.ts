@@ -1,13 +1,4 @@
-import {
-  test,
-  expect,
-  REPORT_AUTH,
-  sendReport,
-  parseRows,
-  isNumeric,
-  expectNoDuplicates,
-  type ReportRequest,
-} from '@fixtures';
+import { test, expect, AUTH, sendReport, parseRows, isNumeric, expectNoDuplicates, type ReportRequest } from '@fixtures';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { TotalSalesPerCountryRow } from '@api/dto/report';
 import { expectMessage, expectStatus } from '@utils/apiChecks';
@@ -27,7 +18,7 @@ test.describe('@reports-api - Reports API', () => {
       let rows: TotalSalesPerCountryRow[];
 
       await test.step("Send GET /reports/total-sales-per-country with the admin's token.", async () => {
-        ({ request, response } = await sendReport(PATH, REPORT_AUTH.admin, () => reportsClientWithToken.totalSalesPerCountry()));
+        ({ request, response } = await sendReport(PATH, AUTH.admin, () => reportsClientWithToken.totalSalesPerCountry()));
       });
 
       await test.step('Verify the response status is 200.', async () => {
@@ -58,7 +49,7 @@ test.describe('@reports-api - Reports API', () => {
     let response: ApiResponse;
 
     await test.step("Send GET /reports/total-sales-per-country without an Authorization header.", async () => {
-      ({ request, response } = await sendReport(PATH, REPORT_AUTH.none, () => reportsClient.totalSalesPerCountry()));
+      ({ request, response } = await sendReport(PATH, AUTH.none, () => reportsClient.totalSalesPerCountry()));
     });
 
     await test.step('Verify the response status is 401.', async () => {
@@ -75,7 +66,7 @@ test.describe('@reports-api - Reports API', () => {
     let response: ApiResponse;
 
     await test.step("Send GET /reports/total-sales-per-country with a malformed token.", async () => {
-      ({ request, response } = await sendReport(PATH, REPORT_AUTH.malformed, () => reportsClientWithInvalidToken.totalSalesPerCountry()));
+      ({ request, response } = await sendReport(PATH, AUTH.malformed, () => reportsClientWithInvalidToken.totalSalesPerCountry()));
     });
 
     await test.step('Verify the response status is 401.', async () => {
@@ -92,7 +83,7 @@ test.describe('@reports-api - Reports API', () => {
     let response: ApiResponse;
 
     await test.step("Send GET /reports/total-sales-per-country with the default user's token.", async () => {
-      ({ request, response } = await sendReport(PATH, REPORT_AUTH.customer, () => reportsClientWithToken.totalSalesPerCountry()));
+      ({ request, response } = await sendReport(PATH, AUTH.defaultUser, () => reportsClientWithToken.totalSalesPerCountry()));
     });
 
     await test.step('Verify the response status is 403.', async () => {

@@ -10,6 +10,7 @@ import type { UsersService } from '../services/UsersService';
 import { FavoriteFactory } from '../../data/factories/FavoriteFactory';
 import { assertMessage, attachJson } from '../../utils/assertHelpers';
 import { expectStatus } from '../../utils/apiChecks';
+import { AUTH, sendAndAttach } from './apiSteps';
 import { takeFirstProductId } from './productSpecSteps';
 import { loginThrowawayCustomer, registerThrowawayCustomer, type ThrowawayCustomer } from './userSteps';
 
@@ -21,10 +22,6 @@ const FAVORITE_ADD_STEP = "Send POST /favorites with that product id and the thr
 const SECOND_REGISTER_STEP =
   "Send POST /users/register with another unique email, a first name, a last name and a random strong password, and take the second user's id.";
 const SECOND_LOGIN_STEP = "Send POST /users/login with the second user's email and password, and take its access_token.";
-
-/** How the attached requests name the tokens of the favorites scenarios. */
-export const THROWAWAY_TOKEN = "the throwaway customer's access_token";
-export const SECOND_TOKEN = "the second customer's access_token";
 
 /** The fixtures the favorites setup helpers use. */
 export type FavoriteSetupFixtures = {
@@ -59,7 +56,7 @@ async function addFavorite(
   let created: Favorite | undefined;
 
   await test.step(title, async () => {
-    const request = { method: 'POST', path: '/favorites', auth: THROWAWAY_TOKEN, body: FavoriteFactory.addFavorite(productId) };
+    const request = { method: 'POST', path: '/favorites', auth: AUTH.throwaway, body: FavoriteFactory.addFavorite(productId) };
     await attachJson('Add Favorite Request', request);
     const favorite = await favoritesServiceForToken(token).add(productId);
     cleanup.add(() => favoritesServiceForToken(token).delete(favorite.id));
@@ -113,10 +110,7 @@ export async function sendGetFavorite(
   auth: string
 ): Promise<{ request: FavoriteRequest; response: ApiResponse }> {
   const request: FavoriteRequest = { method: 'GET', path: `/favorites/${favoriteId}`, auth };
-  const response = await favoritesClient.getById(favoriteId);
-  await attachJson('Get Favorite Request', request);
-  await attachJson('Get Favorite Response', { status: response.status, body: response.body });
-  return { request, response };
+  return sendAndAttach('Get Favorite', request, () => favoritesClient.getById(favoriteId));
 }
 
 /** Sends DELETE /favorites/{favoriteId} with `favoritesClient` and attaches the request and the response. */
@@ -126,10 +120,7 @@ export async function sendDeleteFavorite(
   auth: string
 ): Promise<{ request: FavoriteRequest; response: ApiResponse }> {
   const request: FavoriteRequest = { method: 'DELETE', path: `/favorites/${favoriteId}`, auth };
-  const response = await favoritesClient.deleteById(favoriteId);
-  await attachJson('Delete Favorite Request', request);
-  await attachJson('Delete Favorite Response', { status: response.status, body: response.body });
-  return { request, response };
+  return sendAndAttach('Delete Favorite', request, () => favoritesClient.deleteById(favoriteId));
 }
 
 /** The checks of a "Verify GET /favorites/{favoriteId} with that id ... returns <status>." step; returns the response. */

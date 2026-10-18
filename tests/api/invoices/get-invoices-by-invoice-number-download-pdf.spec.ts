@@ -1,13 +1,4 @@
-import {
-  test,
-  expect,
-  createCustomerInvoice,
-  pollPdfStatus,
-  sendDownloadPdf,
-  INVOICE_AUTH,
-  PDF_STATUS_POLL_STEP,
-  type InvoiceRequest,
-} from '@fixtures';
+import { test, expect, AUTH, createCustomerInvoice, pollPdfStatus, sendDownloadPdf, PDF_STATUS_POLL_STEP, type InvoiceRequest } from '@fixtures';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import { TestConstants } from '@data/TestConstants';
 import { expectMessage, expectStatus } from '@utils/apiChecks';
@@ -36,11 +27,11 @@ test.describe('@invoices-api - Invoices API', () => {
     const invoiceNumber = setup.invoice.invoice_number;
 
     await test.step(PDF_STATUS_POLL_STEP, async () => {
-      await pollPdfStatus(client, invoiceNumber, INVOICE_AUTH.throwaway);
+      await pollPdfStatus(client, invoiceNumber, AUTH.newUser);
     });
 
     await test.step("Send GET /invoices/{invoice_number}/download-pdf with the invoice's number and that access_token.", async () => {
-      ({ request, response } = await sendDownloadPdf(client, invoiceNumber, INVOICE_AUTH.throwaway));
+      ({ request, response } = await sendDownloadPdf(client, invoiceNumber, AUTH.newUser));
     });
 
     await test.step('Verify the response status is 200.', async () => {
@@ -65,7 +56,7 @@ test.describe('@invoices-api - Invoices API', () => {
     let response: ApiResponse;
 
     await test.step('Send GET /invoices/{invoice_number}/download-pdf with a well-formed invoice number, without an Authorization header.', async () => {
-      ({ request, response } = await sendDownloadPdf(invoicesClient, TestConstants.invoices.unknownNumber, INVOICE_AUTH.none));
+      ({ request, response } = await sendDownloadPdf(invoicesClient, TestConstants.invoices.unknownNumber, AUTH.none));
     });
 
     await test.step('Verify the response status is 401.', async () => {
@@ -82,7 +73,7 @@ test.describe('@invoices-api - Invoices API', () => {
     let response: ApiResponse;
 
     await test.step("Send GET /invoices/{invoice_number}/download-pdf with a well-formed invoice number that no invoice has and the default user's token.", async () => {
-      ({ request, response } = await sendDownloadPdf(invoicesClientWithToken, TestConstants.invoices.unknownNumber, INVOICE_AUTH.defaultUser));
+      ({ request, response } = await sendDownloadPdf(invoicesClientWithToken, TestConstants.invoices.unknownNumber, AUTH.defaultUser));
     });
 
     await test.step('Verify the response status is 404.', async () => {

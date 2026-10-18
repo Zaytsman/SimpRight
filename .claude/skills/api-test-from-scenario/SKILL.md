@@ -30,7 +30,7 @@ One `test.step('<step text verbatim>', ...)` per scenario step, in order.
 
 **Action steps** (everything that isn't a `Verify` step):
 - Make the call. When the next steps check the status of this call, use the client; when the step is setup (taking ids from a list, creating a record to work on), use the service, which fails the step with a clear error if setup breaks.
-- Attach what was sent and what came back with the helper (`attachJson('<Name> Request', ...)`, `attachJson('<Name> Response', { status, body })`), never with the runner's attach API directly, so secrets are masked.
+- Attach what was sent and what came back with the helpers, never with the runner's attach API directly, so secrets are masked: a call whose status a step checks goes through `sendAndAttach('<Name>', request, () => client.x(...))`, which attaches both and returns `{ request, response }`; other attachments use `attachJson`. Name the token in the request record with the shared `AUTH` labels, and attach a page that may list other visitors as a summary (`describePage`). Parse a body with `parseJson(request, response)`, never `JSON.parse`.
 - Assert only what's needed to continue (a setup call succeeded), and with a message.
 - **Created records:** register their removal right after the call that creates them, in the same step: `cleanup.add(() => <service>.delete(id))`, using a fixture with the role allowed to delete. When the creating call is the one under test (or a known issue that may create a record), register cleanup only when the response shows the record was created.
 - Payloads come from the area's factory; names from the unique-name helper; shared seeded values from the constants module.

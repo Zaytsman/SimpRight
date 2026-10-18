@@ -5,6 +5,7 @@ import type { Category, CategoryTree, CreateCategoryRequest, CreatedCategory } f
 import type { CategoriesService } from '../services/CategoriesService';
 import { CategoryFactory } from '../../data/factories/CategoryFactory';
 import { assertMessage, attachJson } from '../../utils/assertHelpers';
+import { AUTH } from './apiSteps';
 
 /**
  * Steps shared by the Categories specs. The titles are the scenario steps verbatim; the categories files use the same wording.
@@ -34,7 +35,7 @@ export async function createCategory(
 
   await test.step(title, async () => {
     const body = CategoryFactory.createCategory(overrides);
-    await attachJson('Create Category Request', { method: 'POST', path: '/categories', auth: "admin's token", body });
+    await attachJson('Create Category Request', { method: 'POST', path: '/categories', auth: AUTH.admin, body });
     const category = await adminCategoriesService.create(body);
     cleanup.add(() => adminCategoriesService.deleteIfExists(category.id));
     await attachJson('Create Category Response', category);

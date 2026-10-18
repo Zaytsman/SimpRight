@@ -1,22 +1,9 @@
-import {
-  test,
-  expect,
-  registerThrowawayCustomer,
-  loginThrowawayCustomer,
-  createCustomerMessage,
-  sendMessageSetup,
-  sendListMessages,
-  expectListStatus,
-  messagePageSummary,
-  MESSAGE_AUTH,
-  type MessageRequest,
-  disableCustomerSetup,
-} from '@fixtures';
+import { test, expect, AUTH, registerThrowawayCustomer, loginThrowawayCustomer, createCustomerMessage, sendMessageSetup, sendListMessages, expectListStatus, messagePageSummary, type MessageRequest, disableCustomerSetup } from '@fixtures';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { Paginated } from '@api/dto/common';
 import type { ContactMessageListItem } from '@api/dto/message';
 import { expectMessage, PAGE_KEYS } from '@utils/apiChecks';
-import { assertMessage, attachJson } from '@utils/assertHelpers';
+import { assertMessage } from '@utils/assertHelpers';
 
 // Scenarios: test-scenarios/api/messages/get-messages.yml
 
@@ -54,11 +41,11 @@ test.describe('@messages-api - Messages API', () => {
     await sendMessageSetup(
       messagesService,
       'Send POST /messages without an Authorization header, with a unique subject and a message text (a guest message).',
-      MESSAGE_AUTH.none
+      AUTH.none
     );
 
     await test.step("Send GET /messages with the throwaway customer's access_token.", async () => {
-      ({ request, response } = await sendListMessages(messagesClientForToken(token), MESSAGE_AUTH.throwaway));
+      ({ request, response } = await sendListMessages(messagesClientForToken(token), AUTH.throwaway));
     });
 
     await test.step('Verify the response status is 200.', async () => {
@@ -116,11 +103,11 @@ test.describe('@messages-api - Messages API', () => {
       const guestMessage = await sendMessageSetup(
         messagesService,
         "Send POST /messages without an Authorization header, with a unique subject and a message text, and take the new message's id as the guest message's id.",
-        MESSAGE_AUTH.none
+        AUTH.none
       );
 
       await test.step("Send GET /messages with the admin's token.", async () => {
-        ({ request, response } = await sendListMessages(messagesClientWithToken, MESSAGE_AUTH.admin));
+        ({ request, response } = await sendListMessages(messagesClientWithToken, AUTH.admin));
       });
 
       await test.step('Verify the response status is 200.', async () => {
@@ -163,7 +150,7 @@ test.describe('@messages-api - Messages API', () => {
     await createCustomerMessage(messagesServiceForToken(token), 'Send POST /messages with that token, a unique subject and a message text.');
 
     await test.step('Send GET /messages with page 2 and that token.', async () => {
-      ({ request, response } = await sendListMessages(messagesClientForToken(token), MESSAGE_AUTH.throwaway, 2));
+      ({ request, response } = await sendListMessages(messagesClientForToken(token), AUTH.throwaway, 2));
     });
 
     await test.step('Verify the response status is 200.', async () => {
@@ -180,7 +167,7 @@ test.describe('@messages-api - Messages API', () => {
     let response: ApiResponse;
 
     await test.step('Send GET /messages without an Authorization header.', async () => {
-      ({ request, response } = await sendListMessages(messagesClient, MESSAGE_AUTH.none));
+      ({ request, response } = await sendListMessages(messagesClient, AUTH.none));
     });
 
     await test.step('Verify the response status is 401.', async () => {
@@ -197,7 +184,7 @@ test.describe('@messages-api - Messages API', () => {
     let response: ApiResponse;
 
     await test.step('Send GET /messages with a malformed token.', async () => {
-      ({ request, response } = await sendListMessages(messagesClientWithInvalidToken, MESSAGE_AUTH.malformed));
+      ({ request, response } = await sendListMessages(messagesClientWithInvalidToken, AUTH.malformed));
     });
 
     await test.step('Verify the response status is 401.', async () => {
@@ -226,10 +213,10 @@ test.describe('@messages-api - Messages API', () => {
       const token = await loginThrowawayCustomer(authService, customer);
 
       // The throwaway's token isn't used before this call, so the API's cached user can't be a stale, enabled one.
-      await disableCustomerSetup(adminUsersService, customer.id, "Send PATCH /users/{userId} with that id and enabled false, with the admin's token.", MESSAGE_AUTH.admin);
+      await disableCustomerSetup(adminUsersService, customer.id, "Send PATCH /users/{userId} with that id and enabled false, with the admin's token.", AUTH.admin);
 
       await test.step("Send GET /messages with the throwaway customer's access_token.", async () => {
-        ({ request, response } = await sendListMessages(messagesClientForToken(token), MESSAGE_AUTH.throwaway));
+        ({ request, response } = await sendListMessages(messagesClientForToken(token), AUTH.throwaway));
       });
 
       await test.step('Verify the response status is 403.', async () => {
@@ -256,7 +243,7 @@ test.describe('@messages-api - Messages API', () => {
     const token = await loginThrowawayCustomer(authService, customer);
 
     await test.step('Send GET /messages with that token.', async () => {
-      ({ request, response } = await sendListMessages(messagesClientForToken(token), MESSAGE_AUTH.throwaway));
+      ({ request, response } = await sendListMessages(messagesClientForToken(token), AUTH.throwaway));
     });
 
     await test.step('Verify the response status is 200.', async () => {

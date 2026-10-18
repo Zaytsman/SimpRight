@@ -1,4 +1,4 @@
-import { test, expect, createProductToUpdate, readSpec, takeFirstProductId, DEFAULT_TOKEN } from '@fixtures';
+import { test, expect, AUTH, createProductToUpdate, readSpec, takeFirstProductId } from '@fixtures';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { ProductSpecsClient } from '@api/clients/ProductSpecsClient';
 import type { ProductSpec } from '@api/dto/product';
@@ -64,7 +64,7 @@ async function checkInvalidBody(
   const productId = await takeFirstProductId(fixtures.productsService);
 
   await test.step(sendStep, async () => {
-    ({ request, response } = await sendCreateSpec(fixtures.productSpecsClientWithToken, productId, body, DEFAULT_TOKEN, fixtures));
+    ({ request, response } = await sendCreateSpec(fixtures.productSpecsClientWithToken, productId, body, AUTH.defaultUser, fixtures));
   });
 
   await test.step('Verify the response status is 422.', async () => {
@@ -95,7 +95,7 @@ test.describe('@products-api - Products API', () => {
     await test.step(
       'Send POST /products/{productId}/specs with the new product\'s id, a body with a unique spec_name, spec_value "1.5" and spec_unit "kg", and the default user\'s token, and take the new spec\'s id.',
       async () => {
-        ({ request, response } = await sendCreateSpec(productSpecsClientWithToken, productId, body, DEFAULT_TOKEN, { productSpecsServiceWithToken, cleanup }));
+        ({ request, response } = await sendCreateSpec(productSpecsClientWithToken, productId, body, AUTH.defaultUser, { productSpecsServiceWithToken, cleanup }));
       }
     );
 
@@ -154,7 +154,7 @@ test.describe('@products-api - Products API', () => {
     await test.step(
       'Send POST /products/{productId}/specs with the new product\'s id, a body with a unique spec_name and spec_value "1.5" and no spec_unit, and the default user\'s token, and take the new spec\'s id.',
       async () => {
-        ({ request, response } = await sendCreateSpec(productSpecsClientWithToken, productId, ProductSpecFactory.createSpecWithoutUnit(), DEFAULT_TOKEN, {
+        ({ request, response } = await sendCreateSpec(productSpecsClientWithToken, productId, ProductSpecFactory.createSpecWithoutUnit(), AUTH.defaultUser, {
           productSpecsServiceWithToken,
           cleanup,
         }));
@@ -245,7 +245,7 @@ test.describe('@products-api - Products API', () => {
     const productId = await takeFirstProductId(productsService);
 
     await test.step("Send POST /products/{productId}/specs with that id and an empty body {}, with the default user's token.", async () => {
-      ({ request, response } = await sendCreateSpec(productSpecsClientWithToken, productId, ProductSpecFactory.empty(), DEFAULT_TOKEN, { productSpecsServiceWithToken, cleanup }));
+      ({ request, response } = await sendCreateSpec(productSpecsClientWithToken, productId, ProductSpecFactory.empty(), AUTH.defaultUser, { productSpecsServiceWithToken, cleanup }));
     });
 
     await test.step('Verify the response status is 422.', async () => {
@@ -323,7 +323,7 @@ test.describe('@products-api - Products API', () => {
     await test.step(
       "Send POST /products/{productId}/specs with a well-formed ULID that no product has and an empty body {}, with the default user's token.",
       async () => {
-        ({ request, response } = await sendCreateSpec(productSpecsClientWithToken, TestConstants.products.unknownId, ProductSpecFactory.empty(), DEFAULT_TOKEN, {
+        ({ request, response } = await sendCreateSpec(productSpecsClientWithToken, TestConstants.products.unknownId, ProductSpecFactory.empty(), AUTH.defaultUser, {
           productSpecsServiceWithToken,
           cleanup,
         }));
@@ -352,7 +352,7 @@ test.describe('@products-api - Products API', () => {
           productSpecsClientWithToken,
           productId,
           ProductSpecFactory.empty(),
-          DEFAULT_TOKEN,
+          AUTH.defaultUser,
           { productSpecsServiceWithToken, cleanup },
           { accept: null, followRedirects: false }
         ));
@@ -376,7 +376,7 @@ test.describe('@products-api - Products API', () => {
           productSpecsClientWithToken,
           TestConstants.products.unknownId,
           ProductSpecFactory.createSpecWithoutUnit(),
-          DEFAULT_TOKEN,
+          AUTH.defaultUser,
           { productSpecsServiceWithToken, cleanup }
         ));
       }

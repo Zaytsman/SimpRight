@@ -8,6 +8,7 @@ import type { ProductsService } from '../services/ProductsService';
 import type { ProductRefs } from '../../data/factories/ProductFactory';
 import { ProductSpecFactory } from '../../data/factories/ProductSpecFactory';
 import { assertMessage, attachJson } from '../../utils/assertHelpers';
+import { AUTH, sendAndAttach } from './apiSteps';
 import { createProductFromRefs, createProductToUpdate, firstListedProductId, firstProductRefs } from './productSteps';
 
 /**
@@ -19,9 +20,6 @@ const SPEC_CREATE_STEP =
   'Send POST /products/{productId}/specs with the new product\'s id, a body with a unique spec_name, spec_value "1.5" and spec_unit "kg", and the default user\'s token, and take the new spec\'s id.';
 const FIRST_PRODUCT_ID_STEP = "Send GET /products and take the first item's id.";
 const OTHER_PRODUCT_LIST_STEP = "Send GET /products and take the first item's brand id, category id and product image id, and the id of another item.";
-
-/** How the attached requests describe the token of the spec writes ("with the default user's token"). */
-export const DEFAULT_TOKEN = "default user's token";
 
 /** The fixtures the spec setup helpers use. */
 export type SpecSetupFixtures = {
@@ -57,7 +55,7 @@ export async function createSpec(
   await test.step(title, async () => {
     const body = ProductSpecFactory.createSpec();
     const path = `/products/${productId}/specs`;
-    await attachJson('Create Spec Request', { method: 'POST', path, auth: DEFAULT_TOKEN, body });
+    await attachJson('Create Spec Request', { method: 'POST', path, auth: AUTH.defaultUser, body });
     const spec = await productSpecsServiceWithToken.create(productId, body);
     cleanup.add(() => productSpecsServiceWithToken.delete(productId, spec.id));
     await attachJson('Create Spec Response', spec);
@@ -133,8 +131,5 @@ export async function sendGetSpec(
   auth: string
 ): Promise<{ request: GetSpecRequest; response: ApiResponse }> {
   const request: GetSpecRequest = { method: 'GET', path: `/products/${productId}/specs/${specId}`, auth };
-  const response = await productSpecsClient.getById(productId, specId);
-  await attachJson('Get Spec Request', request);
-  await attachJson('Get Spec Response', { status: response.status, body: response.body });
-  return { request, response };
+  return sendAndAttach('Get Spec', request, () => productSpecsClient.getById(productId, specId));
 }

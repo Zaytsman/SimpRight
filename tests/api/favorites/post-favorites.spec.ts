@@ -1,14 +1,4 @@
-import {
-  test,
-  expect,
-  createCustomerWithFavorite,
-  expectGetFavoriteStatus,
-  loginThrowawayCustomer,
-  registerSecondCustomer,
-  registerThrowawayCustomer,
-  takeFirstProductId,
-  THROWAWAY_TOKEN,
-} from '@fixtures';
+import { test, expect, AUTH, createCustomerWithFavorite, expectGetFavoriteStatus, loginThrowawayCustomer, registerSecondCustomer, registerThrowawayCustomer, takeFirstProductId } from '@fixtures';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { FavoritesClient } from '@api/clients/FavoritesClient';
 import type { CreateFavoriteRequest, Favorite } from '@api/dto/favorite';
@@ -64,7 +54,7 @@ test.describe('@favorites-api - Favorites API', () => {
     const productId = await takeFirstProductId(productsService);
 
     await test.step("Send POST /favorites with that product id and the throwaway customer's access_token, and take the new favorite's id.", async () => {
-      ({ request, response } = await sendAdd(favoritesClientForToken(token), FavoriteFactory.addFavorite(productId), THROWAWAY_TOKEN, cleanup, favoritesServiceForToken(token)));
+      ({ request, response } = await sendAdd(favoritesClientForToken(token), FavoriteFactory.addFavorite(productId), AUTH.throwaway, cleanup, favoritesServiceForToken(token)));
     });
 
     await test.step('Verify the response status is 201.', async () => {
@@ -87,9 +77,9 @@ test.describe('@favorites-api - Favorites API', () => {
     await test.step(
       "Verify GET /favorites/{favoriteId} with the new id and the throwaway customer's access_token returns 200 with the same product_id and user_id.",
       async () => {
-        const read = await expectGetFavoriteStatus(favoritesClientForToken(token), body.id, THROWAWAY_TOKEN, 200);
+        const read = await expectGetFavoriteStatus(favoritesClientForToken(token), body.id, AUTH.throwaway, 200);
         const favorite = JSON.parse(read.body) as Favorite;
-        const readRequest = { method: 'GET', path: `/favorites/${body.id}`, auth: THROWAWAY_TOKEN };
+        const readRequest = { method: 'GET', path: `/favorites/${body.id}`, auth: AUTH.throwaway };
         expect(
           { product_id: favorite.product_id, user_id: favorite.user_id },
           assertMessage({ request: readRequest, expected: `product_id ${body.product_id} and user_id ${body.user_id}, as POST returned`, actual: favorite })
@@ -127,7 +117,7 @@ test.describe('@favorites-api - Favorites API', () => {
         ({ request, response } = await sendAdd(
           favoritesClientForToken(token),
           FavoriteFactory.addFavoriteForUser(productId, second.id),
-          THROWAWAY_TOKEN,
+          AUTH.throwaway,
           cleanup,
           favoritesServiceForToken(token)
         ));
@@ -238,7 +228,7 @@ test.describe('@favorites-api - Favorites API', () => {
     const { token, productId } = await createCustomerWithFavorite({ usersService, adminUsersService, authService, productsService, favoritesServiceForToken, cleanup });
 
     await test.step('Send POST /favorites with the same product id again, with the same token.', async () => {
-      ({ request, response } = await sendAdd(favoritesClientForToken(token), FavoriteFactory.addFavorite(productId), THROWAWAY_TOKEN, cleanup, favoritesServiceForToken(token)));
+      ({ request, response } = await sendAdd(favoritesClientForToken(token), FavoriteFactory.addFavorite(productId), AUTH.throwaway, cleanup, favoritesServiceForToken(token)));
     });
 
     await test.step('Verify the response status is 409.', async () => {
@@ -250,7 +240,7 @@ test.describe('@favorites-api - Favorites API', () => {
     });
 
     await test.step("Verify GET /favorites with the throwaway customer's access_token includes exactly one favorite with that product id.", async () => {
-      const listRequest = { method: 'GET', path: '/favorites', auth: THROWAWAY_TOKEN };
+      const listRequest = { method: 'GET', path: '/favorites', auth: AUTH.throwaway };
       await attachJson('List Favorites Request', listRequest);
       const favorites = await favoritesServiceForToken(token).list();
       await attachJson('List Favorites Response', favorites);
