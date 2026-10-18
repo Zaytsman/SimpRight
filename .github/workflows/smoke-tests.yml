@@ -1,0 +1,21 @@
+name: Smoke Test Run
+
+# The smoke set: the critical happy paths of both layers (scenarios tagged @smoke), in one run of
+# about 2-3 minutes. Manual only for now. Avoid starting it between :45 and :02 UTC: globalSetup
+# then waits for the site's hourly re-seed to finish.
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  packages: read
+
+jobs:
+  smoke-tests:
+    uses: ./.github/workflows/playwright-run.yml
+    secrets: inherit
+    with:
+      project: all
+      family: smoke
+      grep: '@smoke'

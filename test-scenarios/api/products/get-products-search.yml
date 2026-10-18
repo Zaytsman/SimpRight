@@ -4,6 +4,7 @@ tags: ["@products-api"]
 scenarios:
   - id: API-0001
     name: Search by name returns only matching products
+    tags: ["@smoke"]
     status: automated
     automatedIn: tests/api/products/get-products-search.spec.ts
     steps:

@@ -4,6 +4,7 @@ tags: ["@users-api"]
 scenarios:
   - id: API-0085
     name: Register returns 201 with the new customer
+    tags: ["@smoke"]
     status: automated
     automatedIn: tests/api/users/post-users-register.spec.ts
     steps:

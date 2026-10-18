@@ -15,12 +15,13 @@ gh-pages/
 │   └── run-56/ ...                  the latest 30 runs of the family
 ├── daily-api-regression-manifest.json   ["run-57", "run-56", ...], newest first
 ├── daily-ui-regression/ ...         the same for the other families
+├── smoke/ ...
 ├── custom-api/ ...
 ├── custom-ui/ ...
 ├── latest/
 │   ├── daily-api-regression/        a copy of the family's newest run (stable URL)
 │   ├── daily-ui-regression/
-│   ├── custom-api/, custom-ui/
+│   ├── smoke/, custom-api/, custom-ui/
 │   └── api-coverage/                API coverage of the latest full API regression
 └── test-cases/
     ├── ui/                          index.html + scenarios-data.js

@@ -4,6 +4,7 @@ tags: ["@products-api"]
 scenarios:
   - id: API-0020
     name: Get product returns the product with its category, brand, image and specs
+    tags: ["@smoke"]
     status: automated
     automatedIn: tests/api/products/get-products-by-product-id.spec.ts
     steps:

@@ -10,7 +10,9 @@
 // - every scenario file lives in <scenarios>/<layer>/<area>/<name>.yml with a layer and area from the profile,
 //   a name that matches the layer's ids.fileNames pattern (any kebab-case name when there's none),
 //   parses, and matches the scenario schema;
-// - keys are in the agreed order (file: suite, tags, scenarios; scenario: id, name, ref, status, automatedIn, role, knownIssue, bug, preconditions, steps);
+// - keys are in the agreed order (file: suite, tags, scenarios; scenario: id, name, ref, tags, status, automatedIn, role, knownIssue, bug, preconditions, steps);
+// - a scenario tagged @smoke is automated and has no knownIssue, and its test's tag option ({ tag: ... }) holds
+//   exactly the scenario's tags;
 // - status automated has an automatedIn, and status manual has none;
 // - IDs are unique across files and are <PREFIX>-<number> with the prefix and digits of the file's layer
 //   (numbered across the layer, not per area); the output ends with the next free ID of each layer and of the bugs;
@@ -33,7 +35,7 @@ const PROFILE_FILE = 'qa-agents-profile.yml';
 const PROFILE_SCHEMA_FILE = 'qa-agents-profile.schema.json';
 
 const FILE_KEY_ORDER = ['suite', 'tags', 'scenarios'];
-const SCENARIO_KEY_ORDER = ['id', 'name', 'ref', 'status', 'automatedIn', 'role', 'knownIssue', 'bug', 'preconditions', 'steps'];
+const SCENARIO_KEY_ORDER = ['id', 'name', 'ref', 'tags', 'status', 'automatedIn', 'role', 'knownIssue', 'bug', 'preconditions', 'steps'];
 const BUG_KEY_ORDER = [
   'id', 'title', 'status', 'severity', 'layer', 'area', 'affects', 'found', 'resolved',
   'ref', 'upstream', 'description', 'steps', 'expected', 'actual', 'evidence',
@@ -45,12 +47,25 @@ const TEST_CALL = /\btest(?:\.(?:only|skip|fixme|fail|slow))?\(\s*(['"`])((?:\\.
 const DESCRIBE_CALL = /\btest\.describe(?:\.(?:only|skip|fixme|serial|parallel))?\(\s*(['"`])((?:\\.|(?!\1)[^\\])*)\1/g;
 // The text of a known-issue line: test.fail(true, '...'), or test.skip(true, '...') for a known issue too slow to run.
 const KNOWN_ISSUE_CALL = /\btest\.(?:fail|skip)\(\s*true\s*,\s*(['"`])((?:\\.|(?!\1)[^\\])*)\1/g;
+// A test call with its details object: test('...', { tag: '@smoke' }, ...) or { tag: ['@a', '@b'] }.
+const TEST_WITH_DETAILS = /\btest(?:\.(?:only|skip|fixme|fail|slow))?\(\s*(['"`])((?:\\.|(?!\1)[^\\])*)\1\s*,\s*\{([^{}]*)\}/g;
+const TAG_OPTION = /\btag\s*:\s*(\[[^\]]*\]|'[^']*'|"[^"]*")/;
 const TITLE_ID = /^([A-Z]+-\d+):/;
 const KEBAB_CASE = '^[a-z0-9]+(-[a-z0-9]+)*$';
 
 /** The titles of the calls `pattern` matches in `source`, with escapes resolved. */
 function titlesOf(source: string, pattern: RegExp): string[] {
   return [...source.matchAll(pattern)].map((match) => (match[2] ?? '').replace(/\\(.)/g, '$1'));
+}
+
+/** Test title → the tags in its tag option, for the tests in `source` that have one. */
+function testTagsOf(source: string): Map<string, string[]> {
+  const tags = new Map<string, string[]>();
+  for (const match of source.matchAll(TEST_WITH_DETAILS)) {
+    const option = TAG_OPTION.exec(match[3] ?? '')?.[1];
+    if (option) tags.set((match[2] ?? '').replace(/\\(.)/g, '$1'), [...option.matchAll(/['"]([^'"]*)['"]/g)].map((tag) => tag[1] ?? ''));
+  }
+  return tags;
 }
 
 /** The parts of qa-agents-profile.yml this script uses (the schema describes the whole file). */
@@ -80,6 +95,7 @@ interface Scenario {
   id: string;
   name: string;
   ref?: string | string[];
+  tags?: string[];
   status: 'manual' | 'automated';
   automatedIn?: string;
   role?: string;
@@ -314,6 +330,10 @@ for (const file of listFiles(paths.scenarios, ['.yml', '.yaml'])) {
     if (scenario.status === 'manual' && scenario.automatedIn) {
       fail(where, 'automatedIn is set, so status must be automated');
     }
+    if (scenario.tags?.includes('@smoke')) {
+      if (scenario.status !== 'automated') fail(where, 'a @smoke scenario must be automated');
+      if (scenario.knownIssue) fail(where, 'a @smoke scenario must have no knownIssue: drop @smoke while the bug is open');
+    }
 
     if (scenario.automatedIn) {
       if (scenario.automatedIn !== specFile) {
@@ -329,6 +349,16 @@ for (const file of listFiles(paths.scenarios, ['.yml', '.yaml'])) {
       if (!titles.includes(title)) {
         const found = titles.find((other) => other.startsWith(`${scenario.id}:`));
         fail(where, `${scenario.automatedIn} needs a test titled '${title}'${found ? ` (found '${found}')` : ''}`);
+      }
+      const expectedTags = [...(scenario.tags ?? [])].sort();
+      const testTags = [...(testTagsOf(spec).get(title) ?? [])].sort();
+      if (expectedTags.join(' ') !== testTags.join(' ')) {
+        fail(
+          where,
+          expectedTags.length
+            ? `${scenario.automatedIn}: the test needs the tag option { tag: ${expectedTags.length === 1 ? `'${expectedTags[0]}'` : `[${expectedTags.map((tag) => `'${tag}'`).join(', ')}]`} } (the scenario's tags)${testTags.length ? `, found ${testTags.join(' ')}` : ''}`
+            : `${scenario.automatedIn}: the test has the tags ${testTags.join(' ')}, but the scenario has no tags`
+        );
       }
       const template = knownIssueTemplate(layer);
       if (scenario.knownIssue && scenario.bug && template) {

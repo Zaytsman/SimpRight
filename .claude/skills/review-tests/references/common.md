@@ -13,6 +13,7 @@ The conventions themselves are in the files under the profile's `project.convent
   - A negative step ("is not shown") → asserted in a way that can fail: `toHaveCount(0)` or `not.toBeVisible()` on a locator that would match the element if it appeared, not on a locator that can never match.
 - A step the code does as setup (a fixture, `beforeEach`) is not also a scenario step, and a scenario step isn't hidden in a fixture.
 - `// Approved reading:` comments: the code does what the comment says.
+- Smoke: a test tagged `@smoke` is a happy path with no known issue, cleans up every record it creates (`cleanup`, throwaway customers), and has no fixed waits or reads of shared totals that could flake.
 - Known issues: the scenario's `knownIssue` and `bug` and the test's known-issue line agree (the profile's `knownIssue` snippet, same bug ID and text); the line sits right before the first `test.step`, with no setup code (an `await` outside a step) after it, because a setup failure after it passes as "bug still present"; the bug is open and has the same root cause as the scenario's failure; no `test.fail` without a `knownIssue`, and no `test.skip`/`test.fixme` left in.
 - The test uses the scenario's `role` (`test.use({ role })`; `guest` → `authMode: 'none'`).
 

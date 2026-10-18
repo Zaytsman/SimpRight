@@ -82,7 +82,7 @@ function expectErrorsField(request: AddItemRequest, response: ApiResponse, field
 }
 
 test.describe('@carts-api - Carts API', () => {
-  test('API-0114: Add a product with quantity 1 to a cart returns 200 and the cart holds it', async ({
+  test('API-0114: Add a product with quantity 1 to a cart returns 200 and the cart holds it', { tag: '@smoke' }, async ({
     productsService,
     adminProductsService,
     cartsService,

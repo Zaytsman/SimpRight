@@ -21,7 +21,7 @@ async function sendTree(categoriesClient: CategoriesClient, bySlug?: string | st
 }
 
 test.describe('@categories-api - Categories API', () => {
-  test('API-0178: Category tree returns the top-level categories with their sub-categories', async ({ categoriesClient }) => {
+  test('API-0178: Category tree returns the top-level categories with their sub-categories', { tag: '@smoke' }, async ({ categoriesClient }) => {
     let request: TreeRequestInfo;
     let response: ApiResponse;
     let body: CategoryTree[];

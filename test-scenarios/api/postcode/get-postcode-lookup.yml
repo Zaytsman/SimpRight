@@ -4,6 +4,7 @@ tags: ["@postcode-api"]
 scenarios:
   - id: API-0643
     name: Look up a Dutch postcode returns the address
+    tags: ["@smoke"]
     status: automated
     automatedIn: tests/api/postcode/get-postcode-lookup.spec.ts
     role: guest

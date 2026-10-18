@@ -5,6 +5,7 @@ scenarios:
   - id: API-0114
     name: Add a product with quantity 1 to a cart returns 200 and the cart holds it
     ref: docs/ui/user-stories/Product_Detail.md#AC7
+    tags: ["@smoke"]
     status: automated
     automatedIn: tests/api/carts/post-carts-by-cart-id.spec.ts
     steps:

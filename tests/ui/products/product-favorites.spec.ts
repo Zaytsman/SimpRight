@@ -12,7 +12,7 @@ test.describe('@products - Product favourites', () => {
     // the fixture removes the customer's favourites, then the customer.
     const test = openProductPageWithNewCustomerTest;
 
-    test('UI-028: Adding a product to favourites shows a success message', async ({ productPage, customerFavoritesService }) => {
+    test('UI-028: Adding a product to favourites shows a success message', { tag: '@smoke' }, async ({ productPage, customerFavoritesService }) => {
       // Precondition: the product "Combination Pliers" is not in the user's favourites. The customer is new, so the
       // list is empty already; clearing it keeps the precondition true whatever the fixture gives.
       await customerFavoritesService.deleteAll();

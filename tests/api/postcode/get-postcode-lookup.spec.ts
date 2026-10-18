@@ -145,7 +145,7 @@ function expectSameLocality(request: LookupRequest, first: PostcodeLookupResult,
 test.describe('@postcode-api - Postcode API', () => {
   test.use({ authMode: 'none' });
 
-  test('API-0643: Look up a Dutch postcode returns the address', async ({ postcodeClient }) => {
+  test('API-0643: Look up a Dutch postcode returns the address', { tag: '@smoke' }, async ({ postcodeClient }) => {
     let request: LookupRequest;
     let response: ApiResponse;
     let body: PostcodeLookupResult;

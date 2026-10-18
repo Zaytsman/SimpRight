@@ -30,7 +30,7 @@ function expectMessage(request: MeRequest, response: ApiResponse, message: strin
 }
 
 test.describe('@users-api - Users API', () => {
-  test("API-0063: Current user endpoint returns the logged-in user's profile", async ({ usersClient, user }) => {
+  test("API-0063: Current user endpoint returns the logged-in user's profile", { tag: '@smoke' }, async ({ usersClient, user }) => {
     const request = { method: 'GET', path: '/users/me' };
     let response: ApiResponse;
 
@@ -60,7 +60,7 @@ test.describe('@users-api - Users API', () => {
   test.describe(() => {
     test.use({ role: 'admin' });
 
-    test('API-0100: Current user endpoint returns the admin-only fields to an admin', async ({ usersClient }) => {
+    test('API-0100: Current user endpoint returns the admin-only fields to an admin', { tag: '@smoke' }, async ({ usersClient }) => {
       let request: MeRequest;
       let response: ApiResponse;
       let profile: User;

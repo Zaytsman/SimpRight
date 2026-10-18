@@ -604,6 +604,7 @@
         <ul class="nav-list">
           <li><a href="latest/daily-ui-regression/" target="_blank" rel="noreferrer"><div><strong>UI Regression</strong><br><span>Latest UI run</span></div><span class="badge-pill">View</span></a></li>
           <li><a href="latest/daily-api-regression/" target="_blank" rel="noreferrer"><div><strong>API Regression</strong><br><span>Latest API run</span></div><span class="badge-pill">View</span></a></li>
+          <li><a href="latest/smoke/" target="_blank" rel="noreferrer"><div><strong>Smoke</strong><br><span>Latest smoke run (UI + API)</span></div><span class="badge-pill">View</span></a></li>
           <li><a href="latest/custom-ui/" target="_blank" rel="noreferrer"><div><strong>Custom UI</strong><br><span>Latest custom UI run</span></div><span class="badge-pill">View</span></a></li>
           <li><a href="latest/custom-api/" target="_blank" rel="noreferrer"><div><strong>Custom API</strong><br><span>Latest custom API run</span></div><span class="badge-pill">View</span></a></li>
         </ul>
@@ -761,6 +762,14 @@
               <div class="detail-body" id="history-daily-api">
                 <div class="loading">Loading...</div>
                 <ul class="detail-list" id="history-daily-api-list"></ul>
+              </div>
+            </details>
+
+            <details>
+              <summary><div>Smoke Runs<small>Latest 10 runs</small></div><span class="label-chip" id="history-smoke-count">10</span></summary>
+              <div class="detail-body" id="history-smoke">
+                <div class="loading">Loading...</div>
+                <ul class="detail-list" id="history-smoke-list"></ul>
               </div>
             </details>
 
@@ -1148,6 +1157,7 @@
       setRepoLinks();
       loadHistorySection('daily-ui-regression/', 'daily-ui-regression-manifest.json', 'history-daily-ui');
       loadHistorySection('daily-api-regression/', 'daily-api-regression-manifest.json', 'history-daily-api');
+      loadHistorySection('smoke/', 'smoke-manifest.json', 'history-smoke');
       loadHistorySection('custom-ui/', 'custom-ui-manifest.json', 'history-custom-ui');
       loadHistorySection('custom-api/', 'custom-api-manifest.json', 'history-custom-api');
     });

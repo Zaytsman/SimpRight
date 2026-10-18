@@ -105,7 +105,7 @@ async function registerWithRejectedPassword(
 }
 
 test.describe('@users-api - Users API', () => {
-  test('API-0085: Register returns 201 with the new customer', async ({
+  test('API-0085: Register returns 201 with the new customer', { tag: '@smoke' }, async ({
     usersClientWithoutToken,
     adminUsersService,
     authClient,
