@@ -1,9 +1,9 @@
-import { test, expect } from '@fixtures';
+import { test, expect, checkValidationRedirect } from '@fixtures';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { PostcodeClient } from '@api/clients/PostcodeClient';
 import type { FieldValidationError } from '@api/dto/common';
 import type { PostcodeFormatError, PostcodeLookupQuery, PostcodeLookupResult } from '@api/dto/postcode';
-import { describeAccept, expectContentTypeStartsWith, expectErrorKeys, expectLocation, expectNoOtherKeys, expectStatus } from '@utils/apiChecks';
+import { describeAccept, expectContentTypeStartsWith, expectErrorKeys, expectNoOtherKeys, expectStatus, parseJson } from '@utils/apiChecks';
 import { assertMessage, attachJson } from '@utils/assertHelpers';
 
 // Scenarios: test-scenarios/api/postcode/get-postcode-lookup.yml
@@ -13,8 +13,6 @@ const NL_QUERY = { country: 'NL', postcode: '1011AB', house_number: '5' } as con
 const RESULT_KEYS = ['street', 'house_number', 'city', 'state', 'country', 'postcode'] as const;
 const FORMAT_MESSAGE = 'The postal code format is not valid for the selected country.';
 /** Where the API redirects a failed validation that doesn't ask for JSON (the steps name it literally). */
-const REDIRECT_LOCATION = 'https://api.practicesoftwaretesting.com';
-
 type LookupRequest = {
   method: 'GET';
   path: '/postcode-lookup';
@@ -58,7 +56,7 @@ async function sendLookup(
 }
 
 function parseResult(response: ApiResponse): PostcodeLookupResult {
-  return JSON.parse(response.body) as PostcodeLookupResult;
+  return parseJson<PostcodeLookupResult>(undefined, response);
 }
 
 /** Checks one field of a 200 body against the expected value. */
@@ -104,30 +102,12 @@ async function checkFormatError(client: PostcodeClient, sendStep: string, query:
   });
 
   await test.step('Verify the body\'s message is "The postal code format is not valid for the selected country.".', async () => {
-    errorBody = JSON.parse(response.body) as PostcodeFormatError;
+    errorBody = parseJson<PostcodeFormatError>(request, response);
     expect(errorBody.message, assertMessage({ request, expected: `message is "${FORMAT_MESSAGE}"`, actual: errorBody })).toBe(FORMAT_MESSAGE);
   });
 
   await test.step('Verify the body has no errors key.', async () => {
     expect('errors' in errorBody, assertMessage({ request, expected: 'The body has no "errors" key', actual: errorBody })).toBe(false);
-  });
-}
-
-/** The common shape of the redirect scenarios: send without following redirects, 302, the Location. */
-async function checkRedirect(client: PostcodeClient, sendStep: string, accept: string | null): Promise<void> {
-  let request: LookupRequest;
-  let response: ApiResponse;
-
-  await test.step(sendStep, async () => {
-    ({ request, response } = await sendLookup(client, {}, { accept, followRedirects: false }));
-  });
-
-  await test.step('Verify the response status is 302.', async () => {
-    expectStatus(request, response, 302);
-  });
-
-  await test.step('Verify the Location header is "https://api.practicesoftwaretesting.com".', async () => {
-    expectLocation(request, response, REDIRECT_LOCATION);
   });
 }
 
@@ -608,24 +588,24 @@ test.describe('@postcode-api - Postcode API', () => {
     });
 
     await test.step('Verify the body\'s message is "The postal code format is not valid for the selected country.".', async () => {
-      const body = JSON.parse(response.body) as PostcodeFormatError;
+      const body = parseJson<PostcodeFormatError>(request, response);
       expect(body.message, assertMessage({ request, expected: `message is "${FORMAT_MESSAGE}"`, actual: body })).toBe(FORMAT_MESSAGE);
     });
   });
 
-  test('API-0665: Look up without country and postcode and without Accept returns a 302 redirect', async ({ postcodeClient }) => {
-    await checkRedirect(
-      postcodeClient,
+  test('API-0665: Look up without country and postcode and without Accept returns a 302 redirect', async ({ postcodeClient, config }) => {
+    await checkValidationRedirect(
       'Send GET /postcode-lookup without an Authorization header, without a Referer header, without following redirects and with the Accept header left out, with no country, postcode or house_number.',
-      null
+      () => sendLookup(postcodeClient, {}, { accept: null, followRedirects: false }),
+      config.apiBaseUrl
     );
   });
 
-  test('API-0666: Look up without country and postcode with Accept */* returns a 302 redirect', async ({ postcodeClient }) => {
-    await checkRedirect(
-      postcodeClient,
+  test('API-0666: Look up without country and postcode with Accept */* returns a 302 redirect', async ({ postcodeClient, config }) => {
+    await checkValidationRedirect(
       'Send GET /postcode-lookup without an Authorization header, without a Referer header, without following redirects and with Accept: */*, with no country, postcode or house_number.',
-      '*/*'
+      () => sendLookup(postcodeClient, {}, { accept: '*/*', followRedirects: false }),
+      config.apiBaseUrl
     );
   });
 

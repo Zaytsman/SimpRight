@@ -1,9 +1,29 @@
 import type { Fixtures, PlaywrightTestArgs, PlaywrightTestOptions, PlaywrightWorkerArgs, PlaywrightWorkerOptions } from '@playwright/test';
 import type { TestFixtures } from '../../fixtures/fixtures';
-import type { BaseWorkerFixtures } from '../../fixtures/base';
+import type { BaseWorkerFixtures, Cleanup } from '../../fixtures/base';
+import type { RegisterUserRequest } from '../../api/dto/user';
+import type { AuthService } from '../../api/services/AuthService';
 import type { FavoritesService } from '../../api/services/FavoritesService';
+import type { UsersService } from '../../api/services/UsersService';
 import { UserFactory } from '../../data/factories/UserFactory';
-import { tokenStorageState } from './authState';
+import { tokenStorageState } from '../auth/authState';
+
+/**
+ * Setup code (not a step): registers a customer for this test only through the API (a unique email, a random strong
+ * password), registers its removal as admin right away, and logs it in. Returns what it registered with (`body`: the
+ * email and password), its id and its access token. A customer with favourites can't be deleted (409), so a test that
+ * adds some registers their removal after this call, and cleanup (newest first) removes them first.
+ */
+export async function registerCustomerForTest(
+  services: { usersService: UsersService; adminUsersService: UsersService; authService: AuthService },
+  cleanup: Cleanup
+): Promise<{ body: RegisterUserRequest; id: string; token: string }> {
+  const body = UserFactory.registerCustomer();
+  const { id } = await services.usersService.register(body);
+  cleanup.add(() => services.adminUsersService.delete(id));
+  const { access_token: token } = await services.authService.login({ email: body.email, password: body.password });
+  return { body, id, token };
+}
 
 export type NewCustomerFixtures = {
   /** The customer registered for this test: an access token of its own. */
@@ -25,13 +45,10 @@ export const newCustomerFixtures: Fixtures<
   BaseWorkerFixtures & PlaywrightWorkerArgs & PlaywrightWorkerOptions
 > = {
   newCustomer: async ({ usersService, adminUsersService, authService, favoritesServiceForToken, cleanup }, use) => {
-    const body = UserFactory.registerCustomer();
-    const created = await usersService.register(body);
-    cleanup.add(() => adminUsersService.delete(created.id));
-    const login = await authService.login({ email: body.email, password: body.password });
+    const { token } = await registerCustomerForTest({ usersService, adminUsersService, authService }, cleanup);
     // Registered after the customer's delete, so it runs first (cleanup runs newest first).
-    cleanup.add(() => favoritesServiceForToken(login.access_token).deleteAll());
-    await use({ token: login.access_token });
+    cleanup.add(() => favoritesServiceForToken(token).deleteAll());
+    await use({ token });
   },
 
   customerFavoritesService: async ({ newCustomer, favoritesServiceForToken }, use) => {

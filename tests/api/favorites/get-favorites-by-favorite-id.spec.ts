@@ -1,8 +1,8 @@
-import { test, expect, createCustomerWithFavorite, createSecondCustomer, sendGetFavorite, THROWAWAY_TOKEN, SECOND_TOKEN, type FavoriteRequest } from '@fixtures';
+import { test, expect, AUTH, createCustomerWithFavorite, createSecondCustomer, sendGetFavorite, type FavoriteRequest, checkStatusAndMessage } from '@fixtures';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { Favorite } from '@api/dto/favorite';
 import { TestConstants } from '@data/TestConstants';
-import { expectMessage, expectStatus } from '@utils/apiChecks';
+import { expectStatus, parseJson } from '@utils/apiChecks';
 import { assertMessage } from '@utils/assertHelpers';
 
 // Scenarios: test-scenarios/api/favorites/get-favorites-by-favorite-id.yml
@@ -27,12 +27,12 @@ test.describe('@favorites-api - Favorites API', () => {
     );
 
     await test.step("Send GET /favorites/{favoriteId} with that id and the throwaway customer's access_token.", async () => {
-      ({ request, response } = await sendGetFavorite(favoritesClientForToken(token), favorite.id, THROWAWAY_TOKEN));
+      ({ request, response } = await sendGetFavorite(favoritesClientForToken(token), favorite.id, AUTH.throwaway));
     });
 
     await test.step('Verify the response status is 200.', async () => {
       expectStatus(request, response, 200);
-      body = JSON.parse(response.body) as Favorite;
+      body = parseJson<Favorite>(request, response);
     });
 
     await test.step("Verify the body's id, user_id and product_id equal the values POST /favorites returned.", async () => {
@@ -49,54 +49,30 @@ test.describe('@favorites-api - Favorites API', () => {
   });
 
   test('API-0280: Get favorite without a token returns 401', async ({ favoritesClient }) => {
-    let request: FavoriteRequest;
-    let response: ApiResponse;
-
-    await test.step('Send GET /favorites/{favoriteId} with a well-formed ULID that no favorite has, without an Authorization header.', async () => {
-      ({ request, response } = await sendGetFavorite(favoritesClient, TestConstants.favorites.unknownId, 'none'));
-    });
-
-    await test.step('Verify the response status is 401.', async () => {
-      expectStatus(request, response, 401);
-    });
-
-    await test.step('Verify the body\'s message is "Unauthorized".', async () => {
-      expectMessage(request, response, 'Unauthorized');
-    });
+    await checkStatusAndMessage(
+      'Send GET /favorites/{favoriteId} with a well-formed ULID that no favorite has, without an Authorization header.',
+      () => sendGetFavorite(favoritesClient, TestConstants.favorites.unknownId, AUTH.none),
+      401,
+      'Unauthorized'
+    );
   });
 
   test('API-0281: Get favorite with a malformed token returns 401', async ({ favoritesClientWithInvalidToken }) => {
-    let request: FavoriteRequest;
-    let response: ApiResponse;
-
-    await test.step('Send GET /favorites/{favoriteId} with a well-formed ULID that no favorite has, with a malformed token.', async () => {
-      ({ request, response } = await sendGetFavorite(favoritesClientWithInvalidToken, TestConstants.favorites.unknownId, 'a malformed token'));
-    });
-
-    await test.step('Verify the response status is 401.', async () => {
-      expectStatus(request, response, 401);
-    });
-
-    await test.step('Verify the body\'s message is "Unauthorized".', async () => {
-      expectMessage(request, response, 'Unauthorized');
-    });
+    await checkStatusAndMessage(
+      'Send GET /favorites/{favoriteId} with a well-formed ULID that no favorite has, with a malformed token.',
+      () => sendGetFavorite(favoritesClientWithInvalidToken, TestConstants.favorites.unknownId, AUTH.malformed),
+      401,
+      'Unauthorized'
+    );
   });
 
   test('API-0282: Get favorite with an unknown id returns 404', async ({ favoritesClientWithToken }) => {
-    let request: FavoriteRequest;
-    let response: ApiResponse;
-
-    await test.step('Send GET /favorites/{favoriteId} with a well-formed ULID that no favorite has.', async () => {
-      ({ request, response } = await sendGetFavorite(favoritesClientWithToken, TestConstants.favorites.unknownId, "default user's token"));
-    });
-
-    await test.step('Verify the response status is 404.', async () => {
-      expectStatus(request, response, 404);
-    });
-
-    await test.step('Verify the body\'s message is "Requested item not found".', async () => {
-      expectMessage(request, response, 'Requested item not found');
-    });
+    await checkStatusAndMessage(
+      'Send GET /favorites/{favoriteId} with a well-formed ULID that no favorite has.',
+      () => sendGetFavorite(favoritesClientWithToken, TestConstants.favorites.unknownId, AUTH.defaultUser),
+      404,
+      'Requested item not found'
+    );
   });
 
   test("API-0283: Get another user's favorite is refused", async ({
@@ -116,7 +92,7 @@ test.describe('@favorites-api - Favorites API', () => {
     test.fail(true, "Known issue BUG-021: Returns 200 with another user's favorite instead of 404 or 403.");
 
     await test.step("Send GET /favorites/{favoriteId} with that favorite's id, with the second customer's access_token.", async () => {
-      ({ request, response } = await sendGetFavorite(favoritesClientForToken(second.token), favorite.id, SECOND_TOKEN));
+      ({ request, response } = await sendGetFavorite(favoritesClientForToken(second.token), favorite.id, AUTH.second));
     });
 
     await test.step('Verify the response status is 404 or 403.', async () => {

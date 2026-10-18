@@ -1,5 +1,5 @@
 import { randomInt } from 'node:crypto';
-import type { RegisterAddress, RegisterUserRequest, UpdateUserRequest } from '@api/dto/user';
+import type { RegisterAddress, RegisterUserRequest, UpdateUserRequest } from '../../api/dto/user';
 import { randomTotpSecret } from '../../utils/totp';
 import { uniqueName } from './testDataUtils';
 

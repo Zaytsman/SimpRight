@@ -1,9 +1,9 @@
-import { test, expect, createCategory, takeCategoryBySlug, expectSubCategoriesOf, PARENT_CREATE_STEP, CHILD_CREATE_STEP } from '@fixtures';
+import { test, expect, createCategory, takeCategoryBySlug, expectSubCategoriesOf, PARENT_CREATE_STEP, CHILD_CREATE_STEP, sendAndAttach, checkStatusAndMessage } from '@fixtures';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { CategoriesClient } from '@api/clients/CategoriesClient';
 import type { CategoryTree } from '@api/dto/category';
 import { TestConstants } from '@data/TestConstants';
-import { expectMessage, expectStatus } from '@utils/apiChecks';
+import { expectStatus, parseJson } from '@utils/apiChecks';
 import { assertMessage, attachJson } from '@utils/assertHelpers';
 
 // Scenarios: test-scenarios/api/categories/get-categories-tree-by-category-id.yml
@@ -13,10 +13,7 @@ type GetCategoryRequestInfo = { method: 'GET'; path: string };
 /** Sends GET /categories/tree/{categoryId} and attaches the request and the response. */
 async function sendGetCategory(categoriesClient: CategoriesClient, categoryId: string): Promise<{ request: GetCategoryRequestInfo; response: ApiResponse }> {
   const request: GetCategoryRequestInfo = { method: 'GET', path: `/categories/tree/${categoryId}` };
-  const response = await categoriesClient.getTreeById(categoryId);
-  await attachJson('Get Category Request', request);
-  await attachJson('Get Category Response', { status: response.status, body: response.body });
-  return { request, response };
+  return sendAndAttach('Get Category', request, () => categoriesClient.getTreeById(categoryId));
 }
 
 test.describe('@categories-api - Categories API', () => {
@@ -37,7 +34,7 @@ test.describe('@categories-api - Categories API', () => {
 
     await test.step('Verify the response status is 200.', async () => {
       expectStatus(request, response, 200);
-      body = JSON.parse(response.body) as CategoryTree;
+      body = parseJson<CategoryTree>(request, response);
     });
 
     await test.step("Verify the body's id, name and slug equal the list item's and its parent_id is null.", async () => {
@@ -70,7 +67,7 @@ test.describe('@categories-api - Categories API', () => {
 
     await test.step('Verify the response status is 200.', async () => {
       expectStatus(request, response, 200);
-      body = JSON.parse(response.body) as CategoryTree;
+      body = parseJson<CategoryTree>(request, response);
     });
 
     await test.step("Verify the body's id, name, slug and parent_id equal the list item's.", async () => {
@@ -86,20 +83,12 @@ test.describe('@categories-api - Categories API', () => {
   });
 
   test('API-0189: Get category with an unknown id returns 404', async ({ categoriesClient }) => {
-    let request: GetCategoryRequestInfo;
-    let response: ApiResponse;
-
-    await test.step('Send GET /categories/tree/{categoryId} with a well-formed ULID that no category has.', async () => {
-      ({ request, response } = await sendGetCategory(categoriesClient, TestConstants.categories.unknownId));
-    });
-
-    await test.step('Verify the response status is 404.', async () => {
-      expectStatus(request, response, 404);
-    });
-
-    await test.step('Verify the body\'s message is "Requested item not found".', async () => {
-      expectMessage(request, response, 'Requested item not found');
-    });
+    await checkStatusAndMessage(
+      'Send GET /categories/tree/{categoryId} with a well-formed ULID that no category has.',
+      () => sendGetCategory(categoriesClient, TestConstants.categories.unknownId),
+      404,
+      'Requested item not found'
+    );
   });
 
   test.describe(() => {

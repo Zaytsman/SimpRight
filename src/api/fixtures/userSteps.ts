@@ -3,20 +3,22 @@ import type { Cleanup } from '../../fixtures/base';
 import type { TestUser } from '../../config/env';
 import type { AuthClient } from '../clients/AuthClient';
 import type { ApiResponse } from '../clients/BaseClient';
+import type { UsersClient } from '../clients/UsersClient';
 import type { LoginResponse } from '../dto/auth';
 import type { Paginated } from '../dto/common';
 import type { RegisterUserRequest, User } from '../dto/user';
 import type { AuthService } from '../services/AuthService';
 import type { UsersService } from '../services/UsersService';
 import { UserFactory } from '../../data/factories/UserFactory';
-import { PAGE_KEYS } from '../../utils/apiChecks';
+import { PAGE_KEYS, expectSomeItems, expectStatus, expectStatusAndBody, parseJson } from '../../utils/apiChecks';
+import { describePage, pageSummary, sendAndAttach, type DescribeResponse, AUTH, type AuthLabel } from './apiSteps';
 import { assertMessage, attachJson } from '../../utils/assertHelpers';
 
 /**
  * Steps shared by the Users specs that need a throwaway customer (never the run's customer or the admin).
  * The title is the scenario step verbatim; every scenario file uses the same wording.
  */
-export const USER_REGISTER_STEP =
+const USER_REGISTER_STEP =
   "Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.";
 
 /** A customer a test registered for itself, with the credentials it was registered with. */
@@ -41,9 +43,7 @@ export async function registerThrowawayCustomer(
   cleanup: Cleanup,
   options: { title?: string; body?: RegisterUserRequest; ifExists?: boolean; mayHoldInvoices?: boolean } = {}
 ): Promise<ThrowawayCustomer> {
-  let customer: ThrowawayCustomer = { id: '', email: '', password: '' };
-
-  await test.step(options.title ?? USER_REGISTER_STEP, async () => {
+  return test.step(options.title ?? USER_REGISTER_STEP, async () => {
     const body = options.body ?? UserFactory.registerCustomer();
     await attachJson('Register Request', { method: 'POST', path: '/users/register', body });
     const created = await usersService.register(body);
@@ -56,33 +56,27 @@ export async function registerThrowawayCustomer(
     );
     await attachJson('Register Response', created);
     expect(created.id, assertMessage({ request: { method: 'POST', path: '/users/register', body }, expected: 'The new user has an id', actual: created })).toBeTruthy();
-    customer = { id: created.id, email: body.email, password: body.password };
+    return { id: created.id, email: body.email, password: body.password };
   });
-
-  return customer;
 }
 
 /** The login step of the scenarios that log in their throwaway customer (wording of most Users files). */
-export const THROWAWAY_LOGIN_STEP = 'Send POST /users/login with that email and password, and take its access_token.';
+const THROWAWAY_LOGIN_STEP = 'Send POST /users/login with that email and password, and take its access_token.';
 
 /**
  * The login step (title `title`, default THROWAWAY_LOGIN_STEP) for a customer the test registered: logs in with its
  * email and password and returns the access_token. A setup step, so a failed login fails the step.
  */
 export async function loginThrowawayCustomer(authService: AuthService, customer: ThrowawayCustomer, title: string = THROWAWAY_LOGIN_STEP): Promise<string> {
-  let token = '';
-
-  await test.step(title, async () => {
+  return test.step(title, async () => {
     const credentials = { email: customer.email, password: customer.password };
     const request = { method: 'POST', path: '/users/login', body: credentials };
     await attachJson('Login Request', request);
     const login = await authService.login(credentials);
     await attachJson('Login Response', login);
     expect(Boolean(login.access_token), assertMessage({ request, expected: 'The login returns an access_token' })).toBe(true);
-    token = login.access_token;
+    return login.access_token;
   });
-
-  return token;
 }
 
 /**
@@ -118,35 +112,31 @@ export async function expectLoginSucceeds(authClient: AuthClient, email: string,
 }
 
 /** The login setup step of the logout and refresh scenarios (same wording in both files). */
-export const USER_LOGIN_STEP = "Send POST /users/login with the default user's email and password, and take the new access_token.";
+const USER_LOGIN_STEP = "Send POST /users/login with the default user's email and password, and take the new access_token.";
 
 /**
  * The USER_LOGIN_STEP step: a fresh login of `user` (the default role, the run's customer), so the test gets a
  * token of its own to log out or refresh, never the shared TokenService token other tests use. Returns that token.
  */
 export async function loginForNewToken(authService: AuthService, user: TestUser): Promise<string> {
-  let token = '';
-
-  await test.step(USER_LOGIN_STEP, async () => {
+  return test.step(USER_LOGIN_STEP, async () => {
     const credentials = { email: user.username, password: user.password };
     const request = { method: 'POST', path: '/users/login', body: credentials };
     await attachJson('Login Request', request);
     const login = await authService.login(credentials);
     await attachJson('Login Response', login);
     expect(Boolean(login.access_token), assertMessage({ request, expected: 'The login returns an access_token' })).toBe(true);
-    token = login.access_token;
+    return login.access_token;
   });
-
-  return token;
 }
 
 /** The logout setup step (API-0108, API-0110); where the logout itself is checked, the spec calls the client. */
-export const USER_LOGOUT_STEP = 'Send GET /users/logout with that token.';
+const USER_LOGOUT_STEP = 'Send GET /users/logout with that token.';
 
 /** The USER_LOGOUT_STEP step as setup: logs out `token` and fails the step if that doesn't succeed. */
 export async function logoutToken(usersServiceForToken: (token: string) => UsersService, token: string): Promise<void> {
   await test.step(USER_LOGOUT_STEP, async () => {
-    const request = { method: 'GET', path: '/users/logout', auth: 'that token' };
+    const request = { method: 'GET', path: '/users/logout', auth: AUTH.newLogin };
     await attachJson('Logout Request', request);
     const result = await usersServiceForToken(token).logout();
     await attachJson('Logout Response', result);
@@ -159,15 +149,12 @@ export async function logoutToken(usersServiceForToken: (token: string) => Users
  * id and role of each item. Other visitors' names, emails and cities are on these pages, and the reports are public.
  */
 export function userPageSummary(page: Partial<Paginated<User>>): Record<string, unknown> {
-  return {
-    current_page: page.current_page,
-    from: page.from,
-    last_page: page.last_page,
-    per_page: page.per_page,
-    to: page.to,
-    total: page.total,
-    data: Array.isArray(page.data) ? page.data.map((user) => ({ id: user.id, role: user.role })) : page.data,
-  };
+  return pageSummary(page, userItemSummary);
+}
+
+/** A user of a page as `userPageSummary` shows it: its id and role. */
+function userItemSummary(user: User): Record<string, unknown> {
+  return { id: user.id, role: user.role };
 }
 
 /** The checks of a "Verify the body has the keys current_page, data, from, last_page, per_page, to and total ..." step (the keys part). */
@@ -207,6 +194,7 @@ export function expectNoSharedIds(request: unknown, first: Paginated<User>, seco
 
 /** The checks of a "Verify data has at most <n> items and every item's role is "user"." style step: every item's role is "user". */
 export function expectAllCustomers(request: unknown, page: Paginated<User>): void {
+  expectSomeItems(request, page.data, 'data');
   for (const user of page.data) {
     expect(user.role, assertMessage({ request, expected: `Item ${user.id} has role "user"`, actual: userPageSummary(page) })).toBe('user');
   }
@@ -217,7 +205,7 @@ export function expectAllCustomers(request: unknown, page: Paginated<User>): voi
  * which fail on every run): shows only the status, never the body, in the failure message.
  */
 export function expectStatusHidingBody(request: unknown, response: ApiResponse, status: number): void {
-  expect(response.status, assertMessage({ request, expected: `Status ${status}`, actual: { status: response.status } })).toBe(status);
+  expectStatus(request, response, status, () => undefined);
 }
 
 /**
@@ -225,11 +213,18 @@ export function expectStatusHidingBody(request: unknown, response: ApiResponse, 
  * response with its body as it came (error bodies hold no user data). Returns the parsed page for a 2xx, else undefined.
  */
 export async function attachUserPageResponse(name: string, response: ApiResponse): Promise<Paginated<User> | undefined> {
-  if (!response.isSuccess) {
-    await attachJson(name, { status: response.status, body: response.body });
-    return undefined;
-  }
-  const page = JSON.parse(response.body) as Paginated<User>;
-  await attachJson(name, { status: response.status, headers: response.headers, body: userPageSummary(page) });
-  return page;
+  await attachJson(name, describeUserPage(response));
+  return response.isSuccess ? parseJson<Paginated<User>>(undefined, response) : undefined;
 }
+
+/**
+ * A read-back for a Verify step: GET /users/me with `client` (`auth` names its token in the attached request), which
+ * must answer 200. Returns the request record, for the step's messages, and the profile.
+ */
+export async function readCurrentUser(client: UsersClient, auth: AuthLabel): Promise<{ request: unknown; user: User }> {
+  const { request, response } = await sendAndAttach('Current User', { method: 'GET', path: '/users/me', auth }, () => client.me());
+  return { request, user: expectStatusAndBody<User>(request, response, 200) };
+}
+
+/** How a users page response is attached: its status, headers and `userPageSummary` (any other response as it came). */
+export const describeUserPage: DescribeResponse = describePage(userItemSummary, { headers: true });

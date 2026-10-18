@@ -1,8 +1,10 @@
 /**
- * Stable values from the app's seeded data that more than one test relies on, grouped by area.
- * A value only one test uses stays a variable in that test. Data a test creates comes from a
- * factory in `factories/`, never from here. Roles are not repeated here: they're `UserRole` in config.
+ * A well-formed ULID that no record of any area has (no product, category, brand, product image, spec, user, favorite,
+ * cart, message or invoice): every area's `unknownId`, for 404 checks and unknown reference ids. Its timestamp part is
+ * around 2039, and the seeders and the API generate ULIDs for the current time.
  */
+const UNKNOWN_ID = '01ZZZZZZZZZZZZZZZZZZZZZZZZ';
+
 /** Seeded category slugs (CategorySeeder) that several TestConstants.categories values are built from. */
 const CATEGORY_SLUGS = {
   handTools: 'hand-tools',
@@ -14,6 +16,11 @@ const CATEGORY_SLUGS = {
   saw: 'saw',
 } as const;
 
+/**
+ * Stable values from the app's seeded data that more than one test relies on, grouped by area.
+ * A value only one test uses stays a variable in that test. Data a test creates comes from a
+ * factory in `factories/`, never from here. Roles are not repeated here: they're `UserRole` in config.
+ */
 export const TestConstants = {
   products: {
     /** Matches several seeded products by name (case-insensitive). */
@@ -31,15 +38,10 @@ export const TestConstants = {
     locationOfferProduct: 'Bolt Cutters',
     /** A seeded brand; Combination Pliers is one of its products. */
     brand: 'ForgeFlex Tools',
-    /**
-     * A well-formed ULID that no record has: no product, category, brand or product image (for 404 checks
-     * and unknown reference ids). Its timestamp part is around 2039, and the seeders generate ULIDs at seed time.
-     */
-    unknownId: '01ZZZZZZZZZZZZZZZZZZZZZZZZ',
+    unknownId: UNKNOWN_ID,
   },
   brands: {
-    /** A well-formed ULID that no brand has (the same value as products.unknownId: no seeded or created record can have it). */
-    unknownId: '01ZZZZZZZZZZZZZZZZZZZZZZZZ',
+    unknownId: UNKNOWN_ID,
     /** Matches the seeded brand ForgeFlex Tools by name (case-insensitive); GET and QUERY /brands/search use it. */
     searchTerm: 'forge',
     /** The two seeded brands (BrandSeeder); their ids change at every hourly re-seed, so tests read them from GET /brands. */
@@ -49,8 +51,7 @@ export const TestConstants = {
     ],
   },
   categories: {
-    /** A well-formed ULID that no category has (the same value as products.unknownId: no seeded or created record can have it). */
-    unknownId: '01ZZZZZZZZZZZZZZZZZZZZZZZZ',
+    unknownId: UNKNOWN_ID,
     /** The seeded top-level category Hand Tools (7 sub-categories, Hammer among them); its id changes at every re-seed, so tests find it by slug. */
     handTools: CATEGORY_SLUGS.handTools,
     /** The seeded sub-category Hammer, under Hand Tools. */
@@ -78,30 +79,24 @@ export const TestConstants = {
     shortSearch: { term: 'saw', slugs: [CATEGORY_SLUGS.handSaw, CATEGORY_SLUGS.saw] },
   },
   productSpecs: {
-    /** A well-formed ULID that no spec has (the same value as products.unknownId: no seeded or created record can have it). */
-    unknownId: '01ZZZZZZZZZZZZZZZZZZZZZZZZ',
+    unknownId: UNKNOWN_ID,
   },
   users: {
-    /** A well-formed ULID that no user has (the same value as products.unknownId: no seeded or registered user can have it). */
-    unknownId: '01ZZZZZZZZZZZZZZZZZZZZZZZZ',
+    unknownId: UNKNOWN_ID,
   },
   favorites: {
-    /** A well-formed ULID that no favorite has (the same value as products.unknownId: no seeded or created record can have it). */
-    unknownId: '01ZZZZZZZZZZZZZZZZZZZZZZZZ',
+    unknownId: UNKNOWN_ID,
   },
   carts: {
-    /** A well-formed ULID that no cart has (the same value as products.unknownId: no seeded or created record can have it). */
-    unknownId: '01ZZZZZZZZZZZZZZZZZZZZZZZZ',
+    unknownId: UNKNOWN_ID,
     /** The seeded product limited to one per cart: a quantity above 1, or adding it twice, returns 400 (the rule matches the name). */
     thorHammer: 'Thor Hammer',
   },
   messages: {
-    /** A well-formed ULID that no message has (the same value as products.unknownId: no created record can have it). */
-    unknownId: '01ZZZZZZZZZZZZZZZZZZZZZZZZ',
+    unknownId: UNKNOWN_ID,
   },
   invoices: {
-    /** A well-formed ULID that no invoice has (the same value as products.unknownId: no seeded or created record can have it). */
-    unknownId: '01ZZZZZZZZZZZZZZZZZZZZZZZZ',
+    unknownId: UNKNOWN_ID,
     /** A well-formed invoice number (INV-<year><6 digits>) that no invoice has: 1990 has no invoices (see reports.yearWithoutInvoices). */
     unknownNumber: 'INV-1990000001',
   },

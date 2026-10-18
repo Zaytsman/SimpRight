@@ -13,5 +13,3 @@ export const openRentalsPageTest = base.extend<OpenRentalsPageFixtures>({
     await use(rentalsPage);
   },
 });
-
-export { expect } from '@playwright/test';

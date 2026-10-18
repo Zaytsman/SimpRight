@@ -1,28 +1,20 @@
-import { test, expect, loginForNewToken, logoutToken } from '@fixtures';
+import { test, expect, loginForNewToken, logoutToken, AUTH, sendAndAttach, readCurrentUser, type AuthLabel } from '@fixtures';
+import { expectStatus, parseJson } from '@utils/apiChecks';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { UsersClient } from '@api/clients/UsersClient';
 import type { RefreshResponse } from '@api/dto/auth';
-import type { User } from '@api/dto/user';
 import { assertMessage, attachJson } from '@utils/assertHelpers';
 
 // Scenarios: test-scenarios/api/users/get-users-refresh.yml
 // Every test that refreshes logs the default user in again first (loginForNewToken): a refresh invalidates
 // the token it is sent with, so the shared TokenService token other tests use is never sent here.
 
-type RefreshRequest = { method: 'GET'; path: '/users/refresh'; auth: string };
+type RefreshRequest = { method: 'GET'; path: '/users/refresh'; auth: AuthLabel };
 
-/** Sends GET /users/refresh with `usersClient` and attaches the request and the response. */
-async function sendRefresh(usersClient: UsersClient, auth: string): Promise<{ request: RefreshRequest; response: ApiResponse }> {
+/** Sends GET /users/refresh with `client` and attaches the request and the response. */
+async function sendRefresh(client: UsersClient, auth: AuthLabel): Promise<{ request: RefreshRequest; response: ApiResponse }> {
   const request: RefreshRequest = { method: 'GET', path: '/users/refresh', auth };
-  const response = await usersClient.refresh();
-  await attachJson('Refresh Request', request);
-  await attachJson('Refresh Response', { status: response.status, body: response.body });
-  return { request, response };
-}
-
-/** The checks of a "Verify the response status is <status>." step. */
-function expectStatus(request: RefreshRequest, response: ApiResponse, status: number): void {
-  expect(response.status, assertMessage({ request, expected: `Status ${status}`, actual: { status: response.status, body: response.body } })).toBe(status);
+  return sendAndAttach('Refresh', request, () => client.refresh());
 }
 
 /** The checks of a "Verify the body contains the text <text>." step. */
@@ -39,12 +31,12 @@ test.describe('@users-api - Users API', () => {
     const token = await loginForNewToken(authService, user);
 
     await test.step('Send GET /users/refresh with that token.', async () => {
-      ({ request, response } = await sendRefresh(usersClientForToken(token), 'the new access_token'));
+      ({ request, response } = await sendRefresh(usersClientForToken(token), AUTH.newLogin));
     });
 
     await test.step('Verify the response status is 200.', async () => {
       expectStatus(request, response, 200);
-      body = JSON.parse(response.body) as RefreshResponse;
+      body = parseJson<RefreshResponse>(request, response);
     });
 
     await test.step("Verify the body's access_token is a non-empty string that differs from the token sent.", async () => {
@@ -65,12 +57,7 @@ test.describe('@users-api - Users API', () => {
     });
 
     await test.step("Verify GET /users/me with the new access_token returns 200 with the default user's email.", async () => {
-      const meRequest = { method: 'GET', path: '/users/me', auth: 'the refreshed access_token' };
-      const meResponse = await usersClientForToken(body.access_token).me();
-      await attachJson('Current User Request', meRequest);
-      await attachJson('Current User Response', { status: meResponse.status, body: meResponse.body });
-      expect(meResponse.status, assertMessage({ request: meRequest, expected: 'Status 200', actual: { status: meResponse.status, body: meResponse.body } })).toBe(200);
-      const profile = JSON.parse(meResponse.body) as User;
+      const { request: meRequest, user: profile } = await readCurrentUser(usersClientForToken(body.access_token), AUTH.refreshed);
       // The email is a secret: compare it as a condition so a failure diff doesn't print it.
       expect(profile.email === user.username, assertMessage({ request: meRequest, expected: "Email equals the default user's email", actual: profile.email })).toBe(
         true
@@ -86,7 +73,7 @@ test.describe('@users-api - Users API', () => {
     await logoutToken(usersServiceForToken, token);
 
     await test.step('Send GET /users/refresh with the same token.', async () => {
-      ({ request, response } = await sendRefresh(usersClientForToken(token), 'the logged-out access_token'));
+      ({ request, response } = await sendRefresh(usersClientForToken(token), AUTH.loggedOut));
     });
 
     await test.step('Verify the response status is 401.', async () => {
@@ -105,7 +92,7 @@ test.describe('@users-api - Users API', () => {
     const token = await loginForNewToken(authService, user);
 
     await test.step('Send GET /users/refresh with that token.', async () => {
-      const setupRequest = { method: 'GET', path: '/users/refresh', auth: 'the new access_token' };
+      const setupRequest = { method: 'GET', path: '/users/refresh', auth: AUTH.newLogin };
       await attachJson('Refresh Request', setupRequest);
       const refreshed = await usersServiceForToken(token).refresh();
       await attachJson('Refresh Response', refreshed);
@@ -113,7 +100,7 @@ test.describe('@users-api - Users API', () => {
     });
 
     await test.step('Send GET /users/refresh with the same (old) token again.', async () => {
-      ({ request, response } = await sendRefresh(usersClientForToken(token), 'the old (already refreshed) access_token'));
+      ({ request, response } = await sendRefresh(usersClientForToken(token), AUTH.replacedByRefresh));
     });
 
     await test.step('Verify the response status is 401.', async () => {
@@ -125,13 +112,13 @@ test.describe('@users-api - Users API', () => {
     });
   });
 
-  test('API-0112: Refresh without a token returns 401', async ({ usersClientWithoutToken }) => {
+  test('API-0112: Refresh without a token returns 401', async ({ usersClient }) => {
     test.fail(true, 'Known issue BUG-006: Returns 500 instead of 401 when the request has no token.');
     let request: RefreshRequest;
     let response: ApiResponse;
 
     await test.step('Send GET /users/refresh without an Authorization header.', async () => {
-      ({ request, response } = await sendRefresh(usersClientWithoutToken, 'none'));
+      ({ request, response } = await sendRefresh(usersClient, AUTH.none));
     });
 
     await test.step('Verify the response status is 401.', async () => {
@@ -145,7 +132,7 @@ test.describe('@users-api - Users API', () => {
     let response: ApiResponse;
 
     await test.step('Send GET /users/refresh with a malformed token.', async () => {
-      ({ request, response } = await sendRefresh(usersClientWithInvalidToken, 'a malformed token'));
+      ({ request, response } = await sendRefresh(usersClientWithInvalidToken, AUTH.malformed));
     });
 
     await test.step('Verify the response status is 401.', async () => {

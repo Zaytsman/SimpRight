@@ -123,11 +123,6 @@ export interface UpdateUserRequest {
   role?: string;
 }
 
-/** Response of `PUT /users/{userId}` (200). */
-export interface UpdateUserResponse {
-  success: boolean;
-}
-
 /** Body of `POST /users/change-password` (see the Users contract, section 4). */
 export interface ChangePasswordRequest {
   current_password: string;

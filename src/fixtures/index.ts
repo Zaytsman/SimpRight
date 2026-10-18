@@ -8,188 +8,21 @@ export { openRentalsPageTest } from '../ui/fixtures/preconditions/openRentalsPag
 export { openHomePageWithProductInCartTest } from '../ui/fixtures/preconditions/openHomePageWithProductInCartTest';
 export { openHomePageWithRentalAndProductInCartTest } from '../ui/fixtures/preconditions/openHomePageWithRentalAndProductInCartTest';
 export { removeCartAfterTest } from '../ui/fixtures/cartCleanup';
-export { putProductsInCart, assertNoEcoRating } from '../ui/fixtures/cartSetup';
-export { AMSTERDAM } from '../ui/auth/visitorLocation';
-export {
-  PRODUCT_LIST_STEP,
-  PRODUCT_CREATE_STEP,
-  OTHER_REFS_LIST_STEP,
-  PRODUCT_CREATE_FIRST_REFS_STEP,
-  FIND_PRODUCT_SPEC_STEP,
-  PRODUCT_IN_STOCK_STEP,
-  createProductToUpdate,
-  createProductWithOtherRefs,
-  createProductInStock,
-  takeProductRefs,
-  findProductSpec,
-  findProductWithSpecs,
-  firstListedProductId,
-  catalogueProductNames,
-  expectFieldMessages,
-  sendCreateProduct,
-  type CreateProductRequestInfo,
-} from '../api/fixtures/productSteps';
-export {
-  CART_PRODUCT_IN_STOCK_STEP,
-  NON_RENTAL_PRODUCT_STEP,
-  RENTAL_PRODUCT_STEP,
-  ADD_NON_RENTAL_STEP,
-  ADD_RENTAL_STEP,
-  ADD_PRODUCT_STEP,
-  THOR_HAMMER_SEARCH_STEP,
-  THOR_HAMMER_MESSAGE,
-  createCartProduct,
-  createCart,
-  createProductAndCart,
-  addItemSetup,
-  findThorHammerId,
-  getCartOk,
-  expectSingleItem,
-  expectNoItems,
-  type CartSetupFixtures,
-} from '../api/fixtures/cartSteps';
-export {
-  USER_REGISTER_STEP,
-  USER_LOGIN_STEP,
-  USER_LOGOUT_STEP,
-  THROWAWAY_LOGIN_STEP,
-  registerThrowawayCustomer,
-  loginForNewToken,
-  logoutToken,
-  loginThrowawayCustomer,
-  disableCustomerSetup,
-  expectLoginSucceeds,
-  userPageSummary,
-  expectUserPageKeys,
-  expectOnlyUser,
-  expectCurrentPages,
-  expectNoSharedIds,
-  expectAllCustomers,
-  expectStatusHidingBody,
-  attachUserPageResponse,
-  type ThrowawayCustomer,
-} from '../api/fixtures/userSteps';
-export {
-  BRAND_CREATE_ID_SLUG_STEP,
-  takeSeededBrandIds,
-  expectIncludesBrandIds,
-  createBrand,
-  readBrand,
-  takeOtherBrandSlug,
-  removeBrandIfCreated,
-  expectBrandItems,
-} from '../api/fixtures/brandSteps';
-export {
-  CATEGORY_CREATE_ID_SLUG_STEP,
-  PARENT_CREATE_STEP,
-  CHILD_CREATE_STEP,
-  createCategory,
-  readCategory,
-  removeCategoryIfCreated,
-  takeCategoryBySlug,
-  takeTreeItemIdsBySlugs,
-  expectSlugsInclude,
-  expectIncludesIds,
-  expectSubCategoriesOf,
-} from '../api/fixtures/categorySteps';
-export {
-  DEFAULT_TOKEN,
-  takeFirstProductId,
-  createSpec,
-  createProductWithSpec,
-  createProductAndTakeOtherId,
-  readSpec,
-  sendGetSpec,
-  type GetSpecRequest,
-  type SpecSetupFixtures,
-} from '../api/fixtures/productSpecSteps';
-export {
-  THROWAWAY_TOKEN,
-  SECOND_TOKEN,
-  createCustomerWithFavorite,
-  registerSecondCustomer,
-  createSecondCustomer,
-  sendGetFavorite,
-  sendDeleteFavorite,
-  expectGetFavoriteStatus,
-  type FavoriteRequest,
-} from '../api/fixtures/favoriteSteps';
-export {
-  REPORT_AUTH,
-  sendReport,
-  parseRows,
-  isNumeric,
-  expectPeriodRows,
-  expectNumberFields,
-  expectZeroRows,
-  expectRowCountBetween,
-  expectNoDuplicates,
-  expectNonIncreasing,
-  type ReportRequest,
-} from '../api/fixtures/reportSteps';
-export {
-  GUEST_MESSAGE_STEP,
-  CUSTOMER_MESSAGE_STEP,
-  MESSAGE_AUTH,
-  sendMessageSetup,
-  createGuestMessage,
-  createCustomerMessage,
-  takeOwnUserId,
-  sendGetMessage,
-  readMessageOk,
-  expectMessageStatus,
-  setStatusSetup,
-  expectNoReplies,
-  messagePageSummary,
-  sendListMessages,
-  expectListStatus,
-  type SentMessage,
-  type MessageRequest,
-} from '../api/fixtures/messageSteps';
-export {
-  FIRST_PRODUCT_STEP,
-  ADD_TWO_STEP,
-  INVOICE_CREATE_STEP,
-  PDF_STATUS_POLL_STEP,
-  CUSTOMER_A_REGISTER_STEP,
-  CUSTOMER_A_LOGIN_STEP,
-  CUSTOMER_B_REGISTER_STEP,
-  CUSTOMER_B_LOGIN_STEP,
-  CUSTOMER_A_INVOICE_STEP,
-  INVOICE_AUTH,
-  PDF_POLL,
-  createInvoiceSetup,
-  createGuestInvoiceSetup,
-  setInvoiceStatusSetup,
-  takeFirstProduct,
-  loggedInCustomer,
-  createCustomerInvoice,
-  customerAWithInvoiceAndCustomerB,
-  sendCreateInvoice,
-  sendCreateGuestInvoice,
-  sendGetInvoice,
-  readInvoiceOk,
-  invoiceSummary,
-  invoicePageSummary,
-  sendListInvoices,
-  sendSearchInvoices,
-  sendQuerySearchInvoices,
-  sendUpdateInvoice,
-  sendPatchInvoice,
-  sendUpdateInvoiceStatus,
-  expectOnlyInvoice,
-  expectEmptyInvoicePage,
-  sendDownloadPdf,
-  sendPdfStatus,
-  pollPdfStatus,
-  expectKeys,
-  expectFieldsEqual,
-  expectSingleInvoiceLine,
-  expectPaymentMethod,
-  expectPaymentDetails,
-  type InvoiceRequest,
-  type InvoiceSetupFixtures,
-  type CustomerFixtures,
-  type CustomerInvoice,
-  type TwoCustomersInvoice,
-} from '../api/fixtures/invoiceSteps';
+export { registerCustomerForTest } from '../ui/fixtures/newCustomerFixtures';
+export { putProductsInCart, putProductInCart, assertNoEcoRating } from '../ui/fixtures/cartSetup';
+export { createProductInStock, findProductByName, catalogueProductNames } from '../ui/fixtures/productSetup';
+export { AMSTERDAM } from '../ui/visitor/visitorLocation';
+
+// API setup and check helpers, one module per area. Everything a module exports reaches specs, so keep names that only
+// the module itself uses unexported; a name two modules export is a compile error here.
+export * from '../api/fixtures/apiSteps';
+export * from '../api/fixtures/productSteps';
+export * from '../api/fixtures/cartSteps';
+export * from '../api/fixtures/userSteps';
+export * from '../api/fixtures/brandSteps';
+export * from '../api/fixtures/categorySteps';
+export * from '../api/fixtures/productSpecSteps';
+export * from '../api/fixtures/favoriteSteps';
+export * from '../api/fixtures/reportSteps';
+export * from '../api/fixtures/messageSteps';
+export * from '../api/fixtures/invoiceSteps';

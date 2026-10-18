@@ -1,4 +1,4 @@
-import { test, expect, findProductSpec, takeProductRefs, sendCreateProduct, PRODUCT_LIST_STEP, type CreateProductRequestInfo } from '@fixtures';
+import { test, expect, findProductSpec, takeProductRefs, sendCreateProduct, PRODUCT_LIST_STEP, type CreateProductRequestInfo, AUTH, sendAndAttach, type AuthLabel } from '@fixtures';
 import type { Cleanup } from '@fixtures/base';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { ProductsClient } from '@api/clients/ProductsClient';
@@ -6,9 +6,9 @@ import type { Paginated } from '@api/dto/common';
 import type { CreateProductRequest, Product, ProductListQuery } from '@api/dto/product';
 import type { ProductsService } from '@api/services/ProductsService';
 import { TestConstants } from '@data/TestConstants';
-import { PRODUCT_NAME_PREFIX, ProductFactory, type ProductRefs } from '@data/factories/ProductFactory';
+import { ProductFactory, type ProductRefs } from '@data/factories/ProductFactory';
 import { assertMessage, attachJson } from '@utils/assertHelpers';
-import { expectStatus } from '@utils/apiChecks';
+import { expectSomeItems, expectStatus, expectStatusAndBody, parseJson } from '@utils/apiChecks';
 
 // Scenarios: test-scenarios/api/products/get-products.yml
 
@@ -19,16 +19,7 @@ const LIST_REQUEST: ListRequest = { method: 'GET', path: '/products' };
 /** Sends GET /products with the query and attaches the request and the response. */
 async function sendList(productsClient: ProductsClient, query?: ProductListQuery): Promise<{ request: ListRequest; response: ApiResponse }> {
   const request: ListRequest = { method: 'GET', path: '/products', ...(query ? { query } : {}) };
-  const response = await productsClient.list(query);
-  await attachJson('List Products Request', request);
-  await attachJson('List Products Response', { status: response.status, body: response.body });
-  return { request, response };
-}
-
-/** The checks of a "Verify the response status is 200." step; returns the parsed body. */
-function expectListOk(request: ListRequest, response: ApiResponse): Paginated<Product> {
-  expect(response.status, assertMessage({ request, expected: 'Status 200', actual: response.status })).toBe(200);
-  return JSON.parse(response.body) as Paginated<Product>;
+  return sendAndAttach('List Products', request, () => productsClient.list(query));
 }
 
 const isEcoRating = (rating: string | null | undefined): boolean => ['A', 'B'].includes((rating ?? '').toUpperCase());
@@ -102,11 +93,11 @@ async function createListedProduct(
   cleanup: Cleanup,
   refs: ProductRefs,
   overrides: Partial<CreateProductRequest>,
-  auth: string
+  auth: AuthLabel
 ): Promise<{ request: CreateProductRequestInfo; response: ApiResponse; name: string; productId: string }> {
   const body = ProductFactory.createProduct(refs, overrides);
   const { request, response } = await sendCreateProduct(productsClient, body, adminProductsService, cleanup, auth);
-  const productId = response.isSuccess ? (JSON.parse(response.body) as Product).id : '';
+  const productId = response.isSuccess ? (parseJson<Product>(request, response)).id : '';
   return { request, response, name: body.name, productId };
 }
 
@@ -119,7 +110,6 @@ function expectOnlyNewProduct(request: ListRequest, body: Paginated<Product>, pr
 }
 
 /** Products the tests create have names starting with "Product-" (the factory's prefix); API-0325 ignores them. */
-const isTestProduct = (item: Product): boolean => item.name.startsWith(`${PRODUCT_NAME_PREFIX}-`);
 
 /** Checks that every item's category (or brand) id is A's or B's. */
 function expectItemsOfAOrB(request: ListRequest, items: Product[], kind: RefKind, idA: string, idB: string): void {
@@ -161,7 +151,7 @@ async function filterByTwoCategories(productsService: ProductsService, productsC
   });
 
   await test.step('Verify the response status is 200.', async () => {
-    body = expectListOk(request, response);
+    body = expectStatusAndBody<Paginated<Product>>(request, response, 200);
   });
 
   await test.step("Verify data is not empty and every item's category id is category A's id or category B's id.", async () => {
@@ -197,7 +187,7 @@ async function filterByTwoBrands(productsService: ProductsService, productsClien
   });
 
   await test.step('Verify the response status is 200.', async () => {
-    body = expectListOk(request, response);
+    body = expectStatusAndBody<Paginated<Product>>(request, response, 200);
   });
 
   await test.step("Verify data is not empty and every item's brand id is brand A's id or brand B's id.", async () => {
@@ -211,7 +201,7 @@ async function filterByTwoBrands(productsService: ProductsService, productsClien
       const seen = new Set(body.data.map((item) => refIdOf(item, 'brand')));
       for (let page = 2; !(seen.has(idA) && seen.has(idB)) && page <= body.last_page; page++) {
         const { request: pageRequest, response: pageResponse } = await sendList(productsClient, { by_brand: `${idA},${idB}`, page });
-        const pageBody = expectListOk(pageRequest, pageResponse);
+        const pageBody = expectStatusAndBody<Paginated<Product>>(pageRequest, pageResponse, 200);
         expectItemsOfAOrB(pageRequest, pageBody.data, 'brand', idA, idB);
         for (const item of pageBody.data) seen.add(refIdOf(item, 'brand'));
       }
@@ -255,7 +245,7 @@ async function createAndFindByStock(
         cleanup,
         refs,
         { stock },
-        'none'
+        AUTH.none
       ));
     }
   );
@@ -269,7 +259,7 @@ async function createAndFindByStock(
   });
 
   await test.step('Verify the response status is 200.', async () => {
-    body = expectListOk(request, response);
+    body = expectStatusAndBody<Paginated<Product>>(request, response, 200);
   });
 
   await test.step("Verify data has exactly one item and its id is the new product's id.", async () => {
@@ -292,7 +282,7 @@ test.describe('@products-api - Products API', () => {
     });
 
     await test.step('Verify the response status is 200.', async () => {
-      body = expectListOk(request, response);
+      body = expectStatusAndBody<Paginated<Product>>(request, response, 200);
     });
 
     await test.step('Verify the body has current_page, data, from, last_page, per_page, to and total.', async () => {
@@ -312,6 +302,7 @@ test.describe('@products-api - Products API', () => {
 
     await test.step('Verify each item has id, name, description, price, is_location_offer, is_rental, co2_rating, in_stock, is_eco_friendly, product_image, a category with id, name and slug, and a brand with id and name.', async () => {
       const fields = ['id', 'name', 'description', 'price', 'is_location_offer', 'is_rental', 'co2_rating', 'in_stock', 'is_eco_friendly', 'product_image', 'category', 'brand'] as const;
+      expectSomeItems(request, body.data, 'data');
       for (const item of body.data) {
         for (const field of fields) {
           expect(field in item, assertMessage({ request, expected: `Item ${item.id} has "${field}"`, actual: Object.keys(item) })).toBe(true);
@@ -332,18 +323,21 @@ test.describe('@products-api - Products API', () => {
     });
 
     await test.step("Verify every item's is_rental is false.", async () => {
+      expectSomeItems(request, body.data, 'data');
       for (const item of body.data) {
         expect(item.is_rental, assertMessage({ request, expected: `Item ${item.id}: is_rental is false`, actual: item.is_rental })).toBe(false);
       }
     });
 
     await test.step("Verify every item's in_stock is a boolean.", async () => {
+      expectSomeItems(request, body.data, 'data');
       for (const item of body.data) {
         expect(typeof item.in_stock, assertMessage({ request, expected: `Item ${item.id}: in_stock is a boolean`, actual: item.in_stock })).toBe('boolean');
       }
     });
 
     await test.step("Verify every item's is_eco_friendly is true exactly when its co2_rating is A or B.", async () => {
+      expectSomeItems(request, body.data, 'data');
       for (const item of body.data) {
         const actual = { id: item.id, co2_rating: item.co2_rating, is_eco_friendly: item.is_eco_friendly };
         expect(
@@ -373,7 +367,7 @@ test.describe('@products-api - Products API', () => {
     });
 
     await test.step('Verify the response status is 200.', async () => {
-      body = expectListOk(request, response);
+      body = expectStatusAndBody<Paginated<Product>>(request, response, 200);
     });
 
     await test.step("Verify data is not empty and every item's brand id equals that brand id.", async () => {
@@ -403,7 +397,7 @@ test.describe('@products-api - Products API', () => {
     });
 
     await test.step('Verify the response status is 200.', async () => {
-      body = expectListOk(request, response);
+      body = expectStatusAndBody<Paginated<Product>>(request, response, 200);
     });
 
     await test.step("Verify data is not empty and every item's category id equals that category id.", async () => {
@@ -438,7 +432,7 @@ test.describe('@products-api - Products API', () => {
     });
 
     await test.step('Verify the response status is 200.', async () => {
-      body = expectListOk(request, response);
+      body = expectStatusAndBody<Paginated<Product>>(request, response, 200);
     });
 
     await test.step('Verify data is not empty.', async () => {
@@ -448,6 +442,7 @@ test.describe('@products-api - Products API', () => {
     await test.step(
       "Verify every item's category is that category or a direct sub-category of it: its category id equals that category id, or GET /products/{productId} for the item returns a category parent_id equal to that category id.",
       async () => {
+        expectSomeItems(request, body.data, 'data');
         for (const item of body.data) {
           if (item.category?.id === categoryId) continue;
           const details = await productsService.getById(item.id);
@@ -475,10 +470,11 @@ test.describe('@products-api - Products API', () => {
     });
 
     await test.step('Verify the response status is 200.', async () => {
-      body = expectListOk(request, response);
+      body = expectStatusAndBody<Paginated<Product>>(request, response, 200);
     });
 
     await test.step("Verify every item's is_rental is true.", async () => {
+      expectSomeItems(request, body.data, 'data');
       for (const item of body.data) {
         expect(item.is_rental, assertMessage({ request, expected: `Item ${item.id}: is_rental is true`, actual: item.is_rental })).toBe(true);
       }
@@ -495,10 +491,11 @@ test.describe('@products-api - Products API', () => {
     });
 
     await test.step('Verify the response status is 200.', async () => {
-      body = expectListOk(request, response);
+      body = expectStatusAndBody<Paginated<Product>>(request, response, 200);
     });
 
     await test.step("Verify every item's price is at least 10 and at most 30.", async () => {
+      expectSomeItems(request, body.data, 'data');
       for (const item of body.data) {
         const actual = { id: item.id, price: item.price };
         expect(item.price, assertMessage({ request, expected: 'price is at least 10', actual })).toBeGreaterThanOrEqual(10);
@@ -517,7 +514,7 @@ test.describe('@products-api - Products API', () => {
     });
 
     await test.step('Verify the response status is 200.', async () => {
-      body = expectListOk(request, response);
+      body = expectStatusAndBody<Paginated<Product>>(request, response, 200);
     });
 
     await test.step("Verify the items' prices are in descending order.", async () => {
@@ -537,10 +534,11 @@ test.describe('@products-api - Products API', () => {
     });
 
     await test.step('Verify the response status is 200.', async () => {
-      body = expectListOk(request, response);
+      body = expectStatusAndBody<Paginated<Product>>(request, response, 200);
     });
 
     await test.step("Verify every item's co2_rating is A or B (case-insensitive) and its is_eco_friendly is true.", async () => {
+      expectSomeItems(request, body.data, 'data');
       for (const item of body.data) {
         const actual = { id: item.id, co2_rating: item.co2_rating, is_eco_friendly: item.is_eco_friendly };
         expect(isEcoRating(item.co2_rating), assertMessage({ request, expected: 'co2_rating is A or B (case-insensitive)', actual })).toBe(true);
@@ -560,7 +558,7 @@ test.describe('@products-api - Products API', () => {
     });
 
     await test.step('Verify the response status is 200.', async () => {
-      body = expectListOk(request, response);
+      body = expectStatusAndBody<Paginated<Product>>(request, response, 200);
     });
 
     await test.step('Verify data is not empty and every item\'s name contains "pliers" (case-insensitive).', async () => {
@@ -583,7 +581,7 @@ test.describe('@products-api - Products API', () => {
     });
 
     await test.step('Verify the response status is 200.', async () => {
-      body = expectListOk(request, response);
+      body = expectStatusAndBody<Paginated<Product>>(request, response, 200);
     });
 
     await test.step('Verify data is not empty.', async () => {
@@ -591,6 +589,7 @@ test.describe('@products-api - Products API', () => {
     });
 
     await test.step("Verify every item's specs, from GET /products/{productId} for the item, include a spec with that spec_name and spec_value.", async () => {
+      expectSomeItems(request, body.data, 'data');
       for (const item of body.data) {
         const details = await productsService.getById(item.id);
         await attachJson(`Get Product ${item.id} Response`, details);
@@ -625,7 +624,7 @@ test.describe('@products-api - Products API', () => {
     });
 
     await test.step('Verify the response status is 200.', async () => {
-      body = expectListOk(request, response);
+      body = expectStatusAndBody<Paginated<Product>>(request, response, 200);
     });
 
     await test.step('Verify current_page is 2.', async () => {
@@ -649,11 +648,11 @@ test.describe('@products-api - Products API', () => {
     });
 
     await test.step('Verify the response status is 200.', async () => {
-      expectListOk(request, response);
+      expectStatusAndBody<Paginated<Product>>(request, response, 200);
     });
 
     await test.step('Verify data is an empty array.', async () => {
-      const body = JSON.parse(response.body) as Paginated<Product>;
+      const body = parseJson<Paginated<Product>>(request, response);
       expect(Array.isArray(body.data), assertMessage({ request, expected: 'data is an array', actual: body.data })).toBe(true);
       expect(body.data, assertMessage({ request, expected: 'data is empty', actual: body.data })).toEqual([]);
     });
@@ -693,7 +692,7 @@ test.describe('@products-api - Products API', () => {
     });
 
     await test.step('Verify the response status is 200.', async () => {
-      body = expectListOk(request, response);
+      body = expectStatusAndBody<Paginated<Product>>(request, response, 200);
     });
 
     await test.step('Verify data is not empty.', async () => {
@@ -701,6 +700,7 @@ test.describe('@products-api - Products API', () => {
     });
 
     await test.step("Verify every item's brand id equals that brand id and its category id equals that category id.", async () => {
+      expectSomeItems(request, body.data, 'data');
       for (const item of body.data) {
         const actual = { id: item.id, brand: item.brand, category: item.category };
         expect(item.brand?.id, assertMessage({ request, expected: `Item ${item.id}: brand id is ${refs.brandId}`, actual })).toBe(refs.brandId);
@@ -748,7 +748,7 @@ test.describe('@products-api - Products API', () => {
           cleanup,
           refs,
           { is_rental: true, stock: 10 },
-          "the default user's token"
+          AUTH.defaultUser
         ));
       }
     );
@@ -762,7 +762,7 @@ test.describe('@products-api - Products API', () => {
     });
 
     await test.step('Verify the response status is 200.', async () => {
-      body = expectListOk(request, response);
+      body = expectStatusAndBody<Paginated<Product>>(request, response, 200);
     });
 
     await test.step("Verify data has exactly one item and its id is the new product's id.", async () => {
@@ -784,15 +784,16 @@ test.describe('@products-api - Products API', () => {
     });
 
     await test.step('Verify the response status is 200.', async () => {
-      rentals = expectListOk(request, response).data;
+      rentals = expectStatusAndBody<Paginated<Product>>(request, response, 200).data;
     });
 
     await test.step('Verify data is not empty after ignoring products created by tests (names starting with "Product-").', async () => {
-      rentals = rentals.filter((item) => !isTestProduct(item));
+      rentals = rentals.filter((item) => !ProductFactory.isTestProduct(item.name));
       expect(rentals.length, assertMessage({ request, expected: 'At least one rental not created by a test', actual: rentals.length })).toBeGreaterThan(0);
     });
 
     await test.step('Verify every remaining item has a non-empty name, ignoring products created by tests (names starting with "Product-").', async () => {
+      expectSomeItems(request, rentals, 'rentals');
       for (const item of rentals) {
         expect(
           typeof item.name === 'string' && item.name.trim().length > 0,
@@ -804,6 +805,7 @@ test.describe('@products-api - Products API', () => {
     await test.step(
       'Verify every remaining item has a non-empty description, ignoring products created by tests (names starting with "Product-").',
       async () => {
+        expectSomeItems(request, rentals, 'rentals');
         for (const item of rentals) {
           expect(
             typeof item.description === 'string' && item.description.trim().length > 0,
@@ -816,6 +818,7 @@ test.describe('@products-api - Products API', () => {
     await test.step(
       'Verify every remaining item has a product_image with a non-empty file_name, ignoring products created by tests (names starting with "Product-").',
       async () => {
+        expectSomeItems(request, rentals, 'rentals');
         for (const item of rentals) {
           const fileName = item.product_image?.file_name;
           expect(

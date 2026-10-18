@@ -1,8 +1,8 @@
-import { test, expect } from '@fixtures';
+import { test, expect, sendAndAttach, withHeaders } from '@fixtures';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { ImagesClient } from '@api/clients/ImagesClient';
 import type { ProductImage } from '@api/dto/product';
-import { describeAccept, expectContentType, expectMessage, expectStatus } from '@utils/apiChecks';
+import { describeAccept, expectContentType, expectMessage, expectSomeItems, expectStatus, parseJson } from '@utils/apiChecks';
 import { assertMessage, attachJson } from '@utils/assertHelpers';
 
 // Scenarios: test-scenarios/api/images/get-images.yml
@@ -25,10 +25,7 @@ async function sendList(
     accept: describeAccept(options.accept),
     ...(options.ifNoneMatch !== undefined ? { ifNoneMatch: options.ifNoneMatch } : {}),
   };
-  const response = await imagesClient.list(options);
-  await attachJson('List Images Request', request);
-  await attachJson('List Images Response', { status: response.status, headers: response.headers, body: response.body });
-  return { request, response };
+  return sendAndAttach('List Images', request, () => imagesClient.list(options), withHeaders);
 }
 
 /** The checks of a "Verify the Cache-Control response header is "max-age=120, public"." step. */
@@ -75,6 +72,7 @@ test.describe('@images-api - Images API', () => {
     });
 
     await test.step('Verify every item has the keys id, by_name, by_url, source_name, source_url, file_name and title, each a string.', async () => {
+      expectSomeItems(request, images, 'images');
       for (const image of images) {
         for (const key of IMAGE_KEYS) {
           expect(typeof image[key], assertMessage({ request, expected: `Item ${image.id} has the key "${key}" as a string`, actual: image })).toBe('string');
@@ -122,7 +120,7 @@ test.describe('@images-api - Images API', () => {
     });
 
     await test.step('Verify the body equals the plain list (same items, same order).', async () => {
-      const body = JSON.parse(response.body) as ProductImage[];
+      const body = parseJson<ProductImage[]>(request, response);
       expect(body, assertMessage({ request, expected: `The plain list (${plain.length} items, same order)`, actual: Array.isArray(body) ? body.map((image) => image.id) : body })).toEqual(
         plain
       );
@@ -217,9 +215,7 @@ test.describe('@images-api - Images API', () => {
     let response: ApiResponse;
 
     await test.step('Send GET /images/00000000000000000000000000.', async () => {
-      response = await imagesClient.getByPath(segment);
-      await attachJson('Get Image Path Request', request);
-      await attachJson('Get Image Path Response', { status: response.status, body: response.body });
+      ({ response } = await sendAndAttach('Get Image Path', request, () => imagesClient.getByPath(segment)));
     });
 
     await test.step('Verify the response status is 404.', async () => {

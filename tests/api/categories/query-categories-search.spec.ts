@@ -1,33 +1,21 @@
-import { test, expectSlugsInclude } from '@fixtures';
+import { test, expectSlugsInclude, JSON_QUERY_HEADERS, sendQueryAndAttach, type QueryHeaders, type QueryRequestRecord } from '@fixtures';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { CategoriesClient } from '@api/clients/CategoriesClient';
 import type { CategorySearchQueryBody } from '@api/dto/category';
 import { TestConstants } from '@data/TestConstants';
-import { expectAcceptQuery, expectItemNamesContain, expectMessage, expectStatus } from '@utils/apiChecks';
-import { attachJson } from '@utils/assertHelpers';
+import { expectAcceptQuery, expectItemNamesContain, expectMessage, expectStatus, parseJson } from '@utils/apiChecks';
 
 // Scenarios: test-scenarios/api/categories/query-categories-search.yml
 
-type QuerySearchRequestInfo = {
-  method: 'QUERY';
-  path: '/categories/search';
-  headers: { 'Content-Type': string; Accept: string };
-  body: CategorySearchQueryBody | string;
-};
-
-const JSON_HEADERS = { 'Content-Type': 'application/json', Accept: 'application/json' } as const;
+type QuerySearchRequestInfo = QueryRequestRecord<CategorySearchQueryBody>;
 
 /** Sends QUERY /categories/search and attaches the request and the response. A string body is sent as-is with the given Content-Type. */
 async function sendQuerySearch(
   categoriesClient: CategoriesClient,
   body: CategorySearchQueryBody | string,
-  headers: QuerySearchRequestInfo['headers'] = JSON_HEADERS
+  headers: QueryHeaders = JSON_QUERY_HEADERS
 ): Promise<{ request: QuerySearchRequestInfo; response: ApiResponse }> {
-  const request: QuerySearchRequestInfo = { method: 'QUERY', path: '/categories/search', headers, body };
-  const response = await categoriesClient.querySearch(body, { contentType: headers['Content-Type'], accept: headers.Accept });
-  await attachJson('Query Search Request', request);
-  await attachJson('Query Search Response', { status: response.status, headers: response.headers, body: response.body });
-  return { request, response };
+  return sendQueryAndAttach('Query Search', '/categories/search', body, headers, (sent, options) => categoriesClient.querySearch(sent, options));
 }
 
 test.describe('@categories-api - Categories API', () => {
@@ -49,11 +37,11 @@ test.describe('@categories-api - Categories API', () => {
     });
 
     await test.step('Verify the body is a non-empty array and every item\'s name contains "saw" (case-insensitive).', async () => {
-      expectItemNamesContain(request, JSON.parse(response.body), term);
+      expectItemNamesContain(request, parseJson(request, response), term);
     });
 
     await test.step("Verify the body's slugs include hand-saw and saw.", async () => {
-      expectSlugsInclude(request, JSON.parse(response.body), slugs);
+      expectSlugsInclude(request, parseJson(request, response), slugs);
     });
   });
 
@@ -73,7 +61,7 @@ test.describe('@categories-api - Categories API', () => {
     });
 
     await test.step("Verify the body's slugs include hand-tools, hammer and saw.", async () => {
-      expectSlugsInclude(request, JSON.parse(response.body), TestConstants.categories.searchSeededSlugs);
+      expectSlugsInclude(request, parseJson(request, response), TestConstants.categories.searchSeededSlugs);
     });
   });
 

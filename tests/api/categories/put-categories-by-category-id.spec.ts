@@ -1,28 +1,25 @@
-import { test, expect, createCategory, readCategory, CATEGORY_CREATE_ID_SLUG_STEP, PARENT_CREATE_STEP, CHILD_CREATE_STEP } from '@fixtures';
+import { test, expect, createCategory, readCategory, CATEGORY_CREATE_ID_SLUG_STEP, PARENT_CREATE_STEP, CHILD_CREATE_STEP, AUTH, sendAndAttach, checkRejectedBody, checkStatusAndMessage, type AuthLabel } from '@fixtures';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { CategoriesClient } from '@api/clients/CategoriesClient';
 import type { CategoriesService } from '@api/services/CategoriesService';
 import { TestConstants } from '@data/TestConstants';
 import { CategoryFactory } from '@data/factories/CategoryFactory';
-import { expectFieldMessageIncludes, expectFieldMessages, expectMessage, expectStatus, expectSuccess } from '@utils/apiChecks';
+import { expectFieldMessageIncludes, expectFieldMessages, expectStatus, expectSuccess } from '@utils/apiChecks';
 import { assertMessage, attachJson } from '@utils/assertHelpers';
 
 // Scenarios: test-scenarios/api/categories/put-categories-by-category-id.yml
 
-type UpdateCategoryRequestInfo = { method: 'PUT'; path: string; auth: string; body: unknown };
+type UpdateCategoryRequestInfo = { method: 'PUT'; path: string; auth: AuthLabel; body: unknown };
 
 /** Sends PUT /categories/{categoryId} with the given client (`auth` describes its token) and attaches the request and the response. */
 async function sendUpdateCategory(
   categoriesClient: CategoriesClient,
   categoryId: string,
   body: Record<string, unknown>,
-  auth: string
+  auth: AuthLabel
 ): Promise<{ request: UpdateCategoryRequestInfo; response: ApiResponse }> {
   const request: UpdateCategoryRequestInfo = { method: 'PUT', path: `/categories/${categoryId}`, auth, body };
-  const response = await categoriesClient.update(categoryId, body);
-  await attachJson('Update Category Request', request);
-  await attachJson('Update Category Response', { status: response.status, body: response.body });
-  return { request, response };
+  return sendAndAttach('Update Category', request, () => categoriesClient.update(categoryId, body));
 }
 
 /** A Verify step's read of GET /categories/tree through the service (fails the step unless it succeeds): the ids of its items. */
@@ -49,7 +46,7 @@ test.describe('@categories-api - Categories API', () => {
       const category = await createCategory(adminCategoriesService, cleanup);
 
       await test.step("Send PUT /categories/{categoryId} with that id and a body with a new unique category name and a new unique slug, with the admin's token.", async () => {
-        ({ request, response } = await sendUpdateCategory(categoriesClientWithToken, category.id, body, "admin's token"));
+        ({ request, response } = await sendUpdateCategory(categoriesClientWithToken, category.id, body, AUTH.admin));
       });
 
       await test.step('Verify the response status is 200.', async () => {
@@ -86,7 +83,7 @@ test.describe('@categories-api - Categories API', () => {
       await test.step(
         "Send PUT /categories/{categoryId} with the new category's id and a body with only the parent's id as parent_id, with the admin's token.",
         async () => {
-          ({ request, response } = await sendUpdateCategory(categoriesClientWithToken, category.id, CategoryFactory.updateParent(parent.id), "admin's token"));
+          ({ request, response } = await sendUpdateCategory(categoriesClientWithToken, category.id, CategoryFactory.updateParent(parent.id), AUTH.admin));
         }
       );
 
@@ -125,7 +122,7 @@ test.describe('@categories-api - Categories API', () => {
       const child = await createCategory(adminCategoriesService, cleanup, CHILD_CREATE_STEP, { parent_id: parent.id });
 
       await test.step("Send PUT /categories/{categoryId} with the new category's id and a body with only parent_id set to null, with the admin's token.", async () => {
-        ({ request, response } = await sendUpdateCategory(categoriesClientWithToken, child.id, CategoryFactory.updateParent(null), "admin's token"));
+        ({ request, response } = await sendUpdateCategory(categoriesClientWithToken, child.id, CategoryFactory.updateParent(null), AUTH.admin));
       });
 
       await test.step('Verify the response status is 200.', async () => {
@@ -150,25 +147,13 @@ test.describe('@categories-api - Categories API', () => {
     });
 
     test('API-0204: Update category with a name longer than 120 characters returns 422', async ({ adminCategoriesService, categoriesClientWithToken, cleanup }) => {
-      let request: UpdateCategoryRequestInfo;
-      let response: ApiResponse;
-
       const category = await createCategory(adminCategoriesService, cleanup);
 
-      await test.step(
+      await checkRejectedBody(
         "Send PUT /categories/{categoryId} with that id and a body with only a 121-character name that starts with a unique category name, with the admin's token.",
-        async () => {
-          ({ request, response } = await sendUpdateCategory(categoriesClientWithToken, category.id, CategoryFactory.updateNameTooLong(), "admin's token"));
-        }
+        () => sendUpdateCategory(categoriesClientWithToken, category.id, CategoryFactory.updateNameTooLong(), AUTH.admin),
+        'name'
       );
-
-      await test.step('Verify the response status is 422.', async () => {
-        expectStatus(request, response, 422);
-      });
-
-      await test.step('Verify the body has a name key with at least one message.', async () => {
-        expectFieldMessages(response, 'name', request);
-      });
     });
 
     test('API-0205: Update category with a slug outside letters, digits, dashes and underscores returns 422', async ({
@@ -176,63 +161,33 @@ test.describe('@categories-api - Categories API', () => {
       categoriesClientWithToken,
       cleanup,
     }) => {
-      let request: UpdateCategoryRequestInfo;
-      let response: ApiResponse;
-
       const category = await createCategory(adminCategoriesService, cleanup);
 
-      await test.step(
+      await checkRejectedBody(
         'Send PUT /categories/{categoryId} with that id and a body with only a slug made of a unique slug followed by " x!" (a space and an exclamation mark), with the admin\'s token.',
-        async () => {
-          ({ request, response } = await sendUpdateCategory(categoriesClientWithToken, category.id, CategoryFactory.updateInvalidSlug(), "admin's token"));
-        }
+        () => sendUpdateCategory(categoriesClientWithToken, category.id, CategoryFactory.updateInvalidSlug(), AUTH.admin),
+        'slug'
       );
-
-      await test.step('Verify the response status is 422.', async () => {
-        expectStatus(request, response, 422);
-      });
-
-      await test.step('Verify the body has a slug key with at least one message.', async () => {
-        expectFieldMessages(response, 'slug', request);
-      });
     });
 
     test("API-0206: Update category with a name that isn't a string returns 422", async ({ adminCategoriesService, categoriesClientWithToken, cleanup }) => {
-      let request: UpdateCategoryRequestInfo;
-      let response: ApiResponse;
-
       const category = await createCategory(adminCategoriesService, cleanup);
 
-      await test.step("Send PUT /categories/{categoryId} with that id and a body with only name set to the number 123, with the admin's token.", async () => {
-        ({ request, response } = await sendUpdateCategory(categoriesClientWithToken, category.id, CategoryFactory.nameNotString(), "admin's token"));
-      });
-
-      await test.step('Verify the response status is 422.', async () => {
-        expectStatus(request, response, 422);
-      });
-
-      await test.step('Verify the body has a name key with at least one message.', async () => {
-        expectFieldMessages(response, 'name', request);
-      });
+      await checkRejectedBody(
+        "Send PUT /categories/{categoryId} with that id and a body with only name set to the number 123, with the admin's token.",
+        () => sendUpdateCategory(categoriesClientWithToken, category.id, CategoryFactory.nameNotString(), AUTH.admin),
+        'name'
+      );
     });
 
     test("API-0207: Update category with a parent_id that isn't a string returns 422", async ({ adminCategoriesService, categoriesClientWithToken, cleanup }) => {
-      let request: UpdateCategoryRequestInfo;
-      let response: ApiResponse;
-
       const category = await createCategory(adminCategoriesService, cleanup);
 
-      await test.step("Send PUT /categories/{categoryId} with that id and a body with only parent_id set to the number 123, with the admin's token.", async () => {
-        ({ request, response } = await sendUpdateCategory(categoriesClientWithToken, category.id, CategoryFactory.parentIdNotString(), "admin's token"));
-      });
-
-      await test.step('Verify the response status is 422.', async () => {
-        expectStatus(request, response, 422);
-      });
-
-      await test.step('Verify the body has a parent_id key with at least one message.', async () => {
-        expectFieldMessages(response, 'parent_id', request);
-      });
+      await checkRejectedBody(
+        "Send PUT /categories/{categoryId} with that id and a body with only parent_id set to the number 123, with the admin's token.",
+        () => sendUpdateCategory(categoriesClientWithToken, category.id, CategoryFactory.parentIdNotString(), AUTH.admin),
+        'parent_id'
+      );
     });
 
     test("API-0210: Update category with another category's slug returns 409", async ({
@@ -251,7 +206,7 @@ test.describe('@categories-api - Categories API', () => {
           categoriesClientWithToken,
           category.id,
           CategoryFactory.updateSlug(TestConstants.categories.handTools),
-          "admin's token"
+          AUTH.admin
         ));
       });
 
@@ -285,7 +240,7 @@ test.describe('@categories-api - Categories API', () => {
           categoriesClientWithToken,
           category.id,
           CategoryFactory.updateSlug(TestConstants.categories.handTools),
-          "admin's token"
+          AUTH.admin
         ));
       });
 
@@ -308,7 +263,7 @@ test.describe('@categories-api - Categories API', () => {
             categoriesClientWithToken,
             category.id,
             CategoryFactory.updateParent(TestConstants.categories.unknownId),
-            "admin's token"
+            AUTH.admin
           ));
         }
       );
@@ -326,7 +281,7 @@ test.describe('@categories-api - Categories API', () => {
       test.fail(true, 'Known issue BUG-014: Accepts PUT without a token instead of returning 401.');
 
       await test.step('Send PUT /categories/{categoryId} with that id and a body with only a new unique category name, without an Authorization header.', async () => {
-        ({ request, response } = await sendUpdateCategory(categoriesClient, category.id, CategoryFactory.updateName(), 'none'));
+        ({ request, response } = await sendUpdateCategory(categoriesClient, category.id, CategoryFactory.updateName(), AUTH.none));
       });
 
       await test.step('Verify the response status is 401.', async () => {
@@ -336,20 +291,12 @@ test.describe('@categories-api - Categories API', () => {
   });
 
   test('API-0208: Update category with an unknown id returns 404', async ({ categoriesClient }) => {
-    let request: UpdateCategoryRequestInfo;
-    let response: ApiResponse;
-
-    await test.step('Send PUT /categories/{categoryId} with a well-formed ULID that no category has and a body with only a unique category name.', async () => {
-      ({ request, response } = await sendUpdateCategory(categoriesClient, TestConstants.categories.unknownId, CategoryFactory.updateName(), 'none'));
-    });
-
-    await test.step('Verify the response status is 404.', async () => {
-      expectStatus(request, response, 404);
-    });
-
-    await test.step('Verify the body\'s message is "Requested item not found".', async () => {
-      expectMessage(request, response, 'Requested item not found');
-    });
+    await checkStatusAndMessage(
+      'Send PUT /categories/{categoryId} with a well-formed ULID that no category has and a body with only a unique category name.',
+      () => sendUpdateCategory(categoriesClient, TestConstants.categories.unknownId, CategoryFactory.updateName(), AUTH.none),
+      404,
+      'Requested item not found'
+    );
   });
 
   test('API-0209: Update category with an unknown id and an invalid body returns 422', async ({ categoriesClient }) => {
@@ -359,7 +306,7 @@ test.describe('@categories-api - Categories API', () => {
     await test.step(
       'Send PUT /categories/{categoryId} with a well-formed ULID that no category has and a body with only a 121-character name that starts with a unique category name.',
       async () => {
-        ({ request, response } = await sendUpdateCategory(categoriesClient, TestConstants.categories.unknownId, CategoryFactory.updateNameTooLong(), 'none'));
+        ({ request, response } = await sendUpdateCategory(categoriesClient, TestConstants.categories.unknownId, CategoryFactory.updateNameTooLong(), AUTH.none));
       }
     );
 
@@ -368,7 +315,7 @@ test.describe('@categories-api - Categories API', () => {
     });
 
     await test.step('Verify the body has a name key with at least one message.', async () => {
-      expectFieldMessages(response, 'name', request);
+      expectFieldMessages(request, response, 'name');
     });
   });
 });

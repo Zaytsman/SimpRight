@@ -1,22 +1,15 @@
-import { test, expect } from '@fixtures';
+import { test, expect, JSON_QUERY_HEADERS, sendQueryAndAttach, type QueryHeaders, type QueryRequestRecord } from '@fixtures';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { ProductsClient } from '@api/clients/ProductsClient';
 import type { Paginated } from '@api/dto/common';
 import type { Product, ProductSearchQueryBody } from '@api/dto/product';
 import { TestConstants } from '@data/TestConstants';
-import { expectAcceptQuery } from '@utils/apiChecks';
+import { expectAcceptQuery, expectStatus, expectStatusAndBody } from '@utils/apiChecks';
 import { assertMessage, attachJson } from '@utils/assertHelpers';
 
 // Scenarios: test-scenarios/api/products/query-products-search.yml
 
-type QuerySearchRequest = {
-  method: 'QUERY';
-  path: '/products/search';
-  headers: { 'Content-Type': string; Accept?: string };
-  body: ProductSearchQueryBody | string;
-};
-
-const JSON_HEADERS = { 'Content-Type': 'application/json', Accept: 'application/json' } as const;
+type QuerySearchRequest = QueryRequestRecord<ProductSearchQueryBody>;
 
 /** Any non-JSON text: the 415 scenario only needs a plain-text body. */
 const PLAIN_TEXT_BODY = 'q=pliers';
@@ -28,19 +21,9 @@ const PLAIN_TEXT_BODY = 'q=pliers';
 async function sendQuerySearch(
   productsClient: ProductsClient,
   body: ProductSearchQueryBody | string,
-  headers: QuerySearchRequest['headers'] = JSON_HEADERS
+  headers: QueryHeaders = JSON_QUERY_HEADERS
 ): Promise<{ request: QuerySearchRequest; response: ApiResponse }> {
-  const request: QuerySearchRequest = { method: 'QUERY', path: '/products/search', headers, body };
-  const response = await productsClient.querySearch(body, { contentType: headers['Content-Type'], accept: headers.Accept ?? null });
-  await attachJson('Query Search Request', request);
-  await attachJson('Query Search Response', { status: response.status, headers: response.headers, body: response.body });
-  return { request, response };
-}
-
-/** The checks of a "Verify the response status is 200." step; returns the parsed body. */
-function expectQuerySearchOk(request: QuerySearchRequest, response: ApiResponse): Paginated<Product> {
-  expect(response.status, assertMessage({ request, expected: 'Status 200', actual: response.status })).toBe(200);
-  return JSON.parse(response.body) as Paginated<Product>;
+  return sendQueryAndAttach('Query Search', '/products/search', body, headers, (sent, options) => productsClient.querySearch(sent, options));
 }
 
 test.describe('@products-api - Products API', () => {
@@ -55,7 +38,7 @@ test.describe('@products-api - Products API', () => {
     });
 
     await test.step('Verify the response status is 200.', async () => {
-      body = expectQuerySearchOk(request, response);
+      body = expectStatusAndBody<Paginated<Product>>(request, response, 200);
     });
 
     await test.step('Verify the Accept-Query response header is application/json.', async () => {
@@ -89,7 +72,7 @@ test.describe('@products-api - Products API', () => {
     });
 
     await test.step('Verify the response status is 200.', async () => {
-      body = expectQuerySearchOk(request, response);
+      body = expectStatusAndBody<Paginated<Product>>(request, response, 200);
     });
 
     await test.step('Verify data is an empty array.', async () => {
@@ -109,7 +92,7 @@ test.describe('@products-api - Products API', () => {
     });
 
     await test.step('Verify the response status is 415.', async () => {
-      expect(response.status, assertMessage({ request, expected: 'Status 415', actual: response.status })).toBe(415);
+      expectStatus(request, response, 415);
     });
   });
 
@@ -133,7 +116,7 @@ test.describe('@products-api - Products API', () => {
     });
 
     await test.step('Verify the response status is 200.', async () => {
-      body = expectQuerySearchOk(request, response);
+      body = expectStatusAndBody<Paginated<Product>>(request, response, 200);
     });
 
     await test.step('Verify data is not empty.', async () => {

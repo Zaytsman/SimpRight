@@ -5,11 +5,12 @@ import type { Category, CategoryTree, CreateCategoryRequest, CreatedCategory } f
 import type { CategoriesService } from '../services/CategoriesService';
 import { CategoryFactory } from '../../data/factories/CategoryFactory';
 import { assertMessage, attachJson } from '../../utils/assertHelpers';
+import { AUTH, removeIfCreated } from './apiSteps';
 
 /**
  * Steps shared by the Categories specs. The titles are the scenario steps verbatim; the categories files use the same wording.
  */
-export const CATEGORY_CREATE_STEP =
+const CATEGORY_CREATE_STEP =
   "Send POST /categories with a unique category name and a unique slug, with the admin's token, and take the new category's id.";
 export const CATEGORY_CREATE_ID_SLUG_STEP =
   "Send POST /categories with a unique category name and a unique slug, with the admin's token, and take the new category's id and slug.";
@@ -30,11 +31,9 @@ export async function createCategory(
   title: string = CATEGORY_CREATE_STEP,
   overrides: Partial<CreateCategoryRequest> = {}
 ): Promise<CreatedCategory> {
-  let created: CreatedCategory | undefined;
-
-  await test.step(title, async () => {
+  return test.step(title, async () => {
     const body = CategoryFactory.createCategory(overrides);
-    await attachJson('Create Category Request', { method: 'POST', path: '/categories', auth: "admin's token", body });
+    await attachJson('Create Category Request', { method: 'POST', path: '/categories', auth: AUTH.admin, body });
     const category = await adminCategoriesService.create(body);
     cleanup.add(() => adminCategoriesService.deleteIfExists(category.id));
     await attachJson('Create Category Response', category);
@@ -42,10 +41,8 @@ export async function createCategory(
       category.id,
       assertMessage({ request: { method: 'POST', path: '/categories', body }, expected: 'The new category has an id', actual: category })
     ).toBeTruthy();
-    created = category;
+    return category;
   });
-
-  return created!;
 }
 
 /**
@@ -65,14 +62,7 @@ export async function readCategory(categoriesService: CategoriesService, categor
  * the category) and any validation case that unexpectedly creates one.
  */
 export function removeCategoryIfCreated(response: ApiResponse, adminCategoriesService: CategoriesService, cleanup: Cleanup): void {
-  if (!response.isSuccess) return;
-  let id: string | undefined;
-  try {
-    id = (JSON.parse(response.body) as Partial<CreatedCategory>).id;
-  } catch {
-    return;
-  }
-  if (id) cleanup.add(() => adminCategoriesService.deleteIfExists(id));
+  removeIfCreated(response, cleanup, (id) => adminCategoriesService.deleteIfExists(id));
 }
 
 /**
@@ -80,16 +70,13 @@ export function removeCategoryIfCreated(response: ApiResponse, adminCategoriesSe
  * (the API promises no order).
  */
 export async function takeCategoryBySlug(categoriesService: CategoriesService, slug: string, title: string): Promise<Category> {
-  let found: Category | undefined;
-
-  await test.step(title, async () => {
+  return test.step(title, async () => {
     const categories = await categoriesService.list();
     await attachJson('List Categories Response', categories);
-    found = categories.find((category) => category.slug === slug);
+    const found = categories.find((category) => category.slug === slug);
     expect(found, assertMessage({ request: { method: 'GET', path: '/categories' }, expected: `A category with the slug "${slug}"`, actual: categories })).toBeTruthy();
+    return found!;
   });
-
-  return found!;
 }
 
 /**
@@ -97,19 +84,16 @@ export async function takeCategoryBySlug(categoriesService: CategoriesService, s
  * categories with the given slugs, found by slug among the tree's items.
  */
 export async function takeTreeItemIdsBySlugs(categoriesService: CategoriesService, slugs: readonly string[], title: string): Promise<string[]> {
-  let ids: string[] = [];
-
-  await test.step(title, async () => {
+  return test.step(title, async () => {
     const tree = await categoriesService.tree();
     await attachJson('Category Tree Response', tree);
-    ids = slugs.map((slug) => tree.find((item) => item.slug === slug)?.id ?? '');
+    const ids = slugs.map((slug) => tree.find((item) => item.slug === slug)?.id ?? '');
     expect(
       ids.every(Boolean),
       assertMessage({ request: { method: 'GET', path: '/categories/tree' }, expected: `Items with the slugs ${slugs.join(', ')}`, actual: tree })
     ).toBe(true);
+    return ids;
   });
-
-  return ids;
 }
 
 /** The checks of a "Verify the body's slugs include <slugs>." step. */

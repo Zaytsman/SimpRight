@@ -1,6 +1,8 @@
 import { expect, type Locator, type Page } from '@playwright/test';
 import type { EnvConfig } from '../../config/env';
+import { parseAmount } from '../../utils/amounts';
 import { BasePage } from './BasePage';
+import { waitForApiResponse } from './waitForApiResponse';
 
 export class ProductPage extends BasePage {
   private readonly productImage: Locator;
@@ -41,13 +43,8 @@ export class ProductPage extends BasePage {
   private readonly relatedProductsTitle: Locator;
   /** Related product cards: links with a level-5 heading, which nothing else on the page has. */
   private readonly relatedProductLinks: Locator;
-  /** Toast shown after adding to cart. */
+  /** The toast shown after adding to cart. */
   private readonly addedToCartToast: Locator;
-  /**
-   * The toast the app shows (ngx-toastr, role "alert"), e.g. after "Add to favourites". The page has no other
-   * alert at rest. From the app source and the cart toast; the inspector can't trigger a toast (it never submits).
-   */
-  private readonly toastAlert: Locator;
 
   constructor(page: Page, config: EnvConfig) {
     super(page, config);
@@ -71,7 +68,6 @@ export class ProductPage extends BasePage {
     this.totalPriceText = page.locator('#total-price');
     this.relatedProductsTitle = page.getByRole('heading', { name: 'Related products', level: 2 });
     this.relatedProductLinks = page.getByRole('link').filter({ has: page.getByRole('heading', { level: 5 }) });
-    this.toastAlert = page.getByRole('alert');
     this.addedToCartToast = this.toastAlert.filter({ hasText: 'Product added to shopping cart' });
   }
 
@@ -144,11 +140,6 @@ export class ProductPage extends BasePage {
     return this.relatedProductLinks;
   }
 
-  /** The toast message the app shows after an action, e.g. "Add to favourites". */
-  get toast(): Locator {
-    return this.toastAlert;
-  }
-
   async open(productId: string): Promise<void> {
     await this.goto(`/product/${productId}`);
     await this.waitForLoaded();
@@ -165,17 +156,17 @@ export class ProductPage extends BasePage {
   }
 
   async getUnitPrice(): Promise<number> {
-    return Number((await this.unitPriceText.textContent())?.trim());
+    return parseAmount(await this.unitPriceText.textContent());
   }
 
   /** The discounted price (the discounted hourly rate for a rental) without the currency sign; shown only when there is a discount. */
   async getDiscountedPrice(): Promise<number> {
-    return Number((await this.discountedPriceText.textContent())?.replace('$', '').trim());
+    return parseAmount(await this.discountedPriceText.textContent());
   }
 
   /** Rentals only: the total price shown next to the hourly rate. */
   async getTotalPrice(): Promise<number> {
-    return Number((await this.totalPriceText.textContent())?.trim());
+    return parseAmount(await this.totalPriceText.textContent());
   }
 
   async setQuantity(quantity: number): Promise<void> {
@@ -215,9 +206,7 @@ export class ProductPage extends BasePage {
    * a logged-out visitor 401) and the toast it shows for it. Source: the app's FavoriteService.addFavorite.
    */
   async addToFavorites(): Promise<void> {
-    const answered = this.page.waitForResponse(
-      (response) => response.request().method() === 'POST' && new URL(response.url()).pathname.endsWith('/favorites')
-    );
+    const answered = waitForApiResponse(this.page, 'POST', '/favorites');
     await this.addToFavoritesButton.click();
     await answered;
     await expect(this.toastAlert.first()).toBeVisible();

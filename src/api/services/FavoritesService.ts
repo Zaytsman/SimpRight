@@ -1,6 +1,6 @@
 import type { FavoritesClient } from '../clients/FavoritesClient';
 import type { Favorite } from '../dto/favorite';
-import { FavoriteFactory } from '@data/factories/FavoriteFactory';
+import { FavoriteFactory } from '../../data/factories/FavoriteFactory';
 import { assertOk, parseOk } from './serviceUtils';
 
 /**

@@ -1,17 +1,17 @@
-import { test, expect, registerThrowawayCustomer, loginThrowawayCustomer, expectFieldMessages, type ThrowawayCustomer } from '@fixtures';
+import { test, expect, registerThrowawayCustomer, loginThrowawayCustomer, type ThrowawayCustomer, sendAndAttach, readCurrentUser, AUTH, type AuthLabel } from '@fixtures';
 import type { Cleanup } from '@fixtures/base';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { UsersClient } from '@api/clients/UsersClient';
-import type { RegisterUserRequest, UpdateUserRequest, User } from '@api/dto/user';
+import type { RegisterUserRequest, UpdateUserRequest } from '@api/dto/user';
 import type { AuthService } from '@api/services/AuthService';
 import type { UsersService } from '@api/services/UsersService';
 import { UserFactory } from '@data/factories/UserFactory';
-import { assertMessage, attachJson } from '@utils/assertHelpers';
-import { expectStatus, expectSuccess } from '@utils/apiChecks';
+import { assertMessage } from '@utils/assertHelpers';
+import { expectFieldMessages, expectStatus, expectSuccess } from '@utils/apiChecks';
 
 // Scenarios: test-scenarios/api/users/put-users-by-user-id.yml
 
-type UpdateRequestInfo = { method: 'PUT'; path: string; auth: string; body: unknown };
+type UpdateRequestInfo = { method: 'PUT'; path: string; auth: AuthLabel; body: unknown };
 
 /** The register step of every scenario in this file (same wording in each). */
 const REGISTER_STEP =
@@ -53,22 +53,14 @@ async function registerAndLogIn(
 }
 
 /** Sends PUT /users/{userId} with the customer's own token and attaches the request and the response. */
-async function sendUpdate(usersClient: UsersClient, userId: string, body: UpdateUserRequest | Record<string, unknown>): Promise<{ request: UpdateRequestInfo; response: ApiResponse }> {
-  const request: UpdateRequestInfo = { method: 'PUT', path: `/users/${userId}`, auth: "the customer's access_token", body };
-  const response = await usersClient.update(userId, body);
-  await attachJson('Update User Request', request);
-  await attachJson('Update User Response', { status: response.status, body: response.body });
-  return { request, response };
+async function sendUpdate(client: UsersClient, userId: string, body: UpdateUserRequest | Record<string, unknown>): Promise<{ request: UpdateRequestInfo; response: ApiResponse }> {
+  const request: UpdateRequestInfo = { method: 'PUT', path: `/users/${userId}`, auth: AUTH.customer, body };
+  return sendAndAttach('Update User', request, () => client.update(userId, body));
 }
 
 /** The read-back of a Verify step: GET /users/me with the token must return 200 and `expected`'s values. */
-async function expectProfile(usersClient: UsersClient, expected: ProfileValues, label: string): Promise<void> {
-  const request = { method: 'GET', path: '/users/me', auth: 'that access_token' };
-  const response = await usersClient.me();
-  await attachJson('Current User Request', request);
-  await attachJson('Current User Response', { status: response.status, body: response.body });
-  expect(response.status, assertMessage({ request, expected: 'Status 200', actual: { status: response.status, body: response.body } })).toBe(200);
-  const profile = JSON.parse(response.body) as User;
+async function expectProfile(client: UsersClient, expected: ProfileValues, label: string): Promise<void> {
+  const { request: request, user: profile } = await readCurrentUser(client, AUTH.customer);
   const actual = { first_name: profile.first_name, last_name: profile.last_name, phone: profile.phone, address: profile.address };
   for (const field of ['first_name', 'last_name', 'phone'] as const) {
     expect(profile[field], assertMessage({ request, expected: `${field} is the ${label} "${expected[field]}"`, actual })).toBe(expected[field]);
@@ -110,7 +102,7 @@ async function updateWithoutField(
   });
 
   await test.step(messageStep, async () => {
-    expectFieldMessages(response, field, request);
+    expectFieldMessages(request, response, field);
   });
 
   await test.step(UNCHANGED_PROFILE_STEP, async () => {

@@ -50,5 +50,3 @@ export const openHomePageWithRentalAndProductInCartTest = base.extend<OpenHomePa
     { auto: true },
   ],
 });
-
-export { expect } from '@playwright/test';

@@ -1,40 +1,30 @@
-import { expect } from '@playwright/test';
-import type { ApiResponse } from '../clients/BaseClient';
-import { assertMessage, attachJson } from '../../utils/assertHelpers';
-
 /**
  * Helpers shared by the Reports specs. Report bodies hold aggregates only (counts, totals, product, category and country
  * names), no personal data, so responses are attached as they came. Live data changes with the hourly re-seed and other
  * visitors' orders: the checks cover shapes, types and ordering, never figures.
  */
+import { expect } from '@playwright/test';
+import type { ApiResponse } from '../clients/BaseClient';
+import { assertMessage } from '../../utils/assertHelpers';
+import { parseJson } from '../../utils/apiChecks';
+import { sendAndAttach, withHeaders, type AuthLabel } from './apiSteps';
 
-/** How the attached requests name the tokens of the reports scenarios. */
-export const REPORT_AUTH = {
-  admin: "the admin's token",
-  none: 'none',
-  malformed: 'a malformed token',
-  customer: "the default user's token",
-} as const;
-
-export type ReportRequest = { method: 'GET'; path: string; query?: Record<string, string | number>; auth: string };
+export type ReportRequest = { method: 'GET'; path: string; query?: Record<string, string | number>; auth: AuthLabel };
 
 /** Sends a report call (`call`), attaches the request and the response, and returns both. */
 export async function sendReport(
   path: string,
-  auth: string,
+  auth: AuthLabel,
   call: () => Promise<ApiResponse>,
   query?: Record<string, string | number>
 ): Promise<{ request: ReportRequest; response: ApiResponse }> {
   const request: ReportRequest = { method: 'GET', path, ...(query ? { query } : {}), auth };
-  const response = await call();
-  await attachJson('Report Request', request);
-  await attachJson('Report Response', { status: response.status, headers: response.headers, body: response.body });
-  return { request, response };
+  return sendAndAttach('Report', request, call, withHeaders);
 }
 
 /** Parses a report body that must be an array (checked with a message); call it after the status check. */
 export function parseRows<T>(request: unknown, response: ApiResponse): T[] {
-  const body = JSON.parse(response.body) as unknown;
+  const body = parseJson<unknown>(request, response);
   expect(Array.isArray(body), assertMessage({ request, expected: 'The body is an array', actual: body })).toBe(true);
   return body as T[];
 }

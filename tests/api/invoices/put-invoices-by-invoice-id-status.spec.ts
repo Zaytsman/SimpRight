@@ -1,21 +1,9 @@
-import {
-  test,
-  expect,
-  createCustomerInvoice,
-  customerAWithInvoiceAndCustomerB,
-  setInvoiceStatusSetup,
-  sendUpdateInvoiceStatus,
-  readInvoiceOk,
-  INVOICE_AUTH,
-  type CustomerInvoice,
-  type InvoiceRequest,
-  type InvoiceSetupFixtures,
-} from '@fixtures';
+import { test, expect, AUTH, createCustomerInvoice, customerAWithInvoiceAndCustomerB, setInvoiceStatusSetup, sendUpdateInvoiceStatus, readInvoiceOk, type CustomerInvoice, type InvoiceRequest, type InvoiceSetupFixtures, checkStatusAndMessage } from '@fixtures';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { InvoicesClient } from '@api/clients/InvoicesClient';
 import { TestConstants } from '@data/TestConstants';
 import { InvoiceFactory } from '@data/factories/InvoiceFactory';
-import { expectErrorKeys, expectMessage, expectStatus, expectSuccess } from '@utils/apiChecks';
+import { expectErrorKeys, expectStatus, expectSuccess } from '@utils/apiChecks';
 import { assertMessage } from '@utils/assertHelpers';
 
 // Scenarios: test-scenarios/api/invoices/put-invoices-by-invoice-id-status.yml
@@ -38,7 +26,7 @@ async function expectStatusValidationError(
   const setup: CustomerInvoice = await createCustomerInvoice(fixtures);
 
   await test.step(title, async () => {
-    ({ request, response } = await sendUpdateInvoiceStatus(invoicesClientForToken(setup.token), setup.invoice.id, body, INVOICE_AUTH.throwaway));
+    ({ request, response } = await sendUpdateInvoiceStatus(invoicesClientForToken(setup.token), setup.invoice.id, body, AUTH.newUser));
   });
 
   await test.step('Verify the response status is 422.', async () => {
@@ -73,7 +61,7 @@ test.describe('@invoices-api - Invoices API', () => {
           invoicesClientForToken(setup.token),
           setup.invoice.id,
           InvoiceFactory.statusBody('ON_HOLD', { status_message: 'Waiting for the bank' }),
-          INVOICE_AUTH.throwaway
+          AUTH.newUser
         ));
       }
     );
@@ -89,7 +77,7 @@ test.describe('@invoices-api - Invoices API', () => {
     await test.step(
       'Verify GET /invoices/{invoiceId} with that id and token returns 200 with status "ON_HOLD" and status_message "Waiting for the bank".',
       async () => {
-        const { request: getRequest, invoice } = await readInvoiceOk(invoicesClientForToken(setup.token), setup.invoice.id, INVOICE_AUTH.throwaway);
+        const { request: getRequest, invoice } = await readInvoiceOk(invoicesClientForToken(setup.token), setup.invoice.id, AUTH.newUser);
         const actual = { status: invoice.status, status_message: invoice.status_message };
         expect(invoice.status, assertMessage({ request: getRequest, expected: 'status is "ON_HOLD"', actual })).toBe('ON_HOLD');
         expect(invoice.status_message, assertMessage({ request: getRequest, expected: 'status_message is "Waiting for the bank"', actual })).toBe('Waiting for the bank');
@@ -116,11 +104,11 @@ test.describe('@invoices-api - Invoices API', () => {
       setup.invoice.id,
       { status_message: 'Waiting for the bank' },
       'Send PUT /invoices/{invoiceId}/status with the invoice\'s id, that access_token and a body with status_message "Waiting for the bank".',
-      INVOICE_AUTH.throwaway
+      AUTH.newUser
     );
 
     await test.step("Send PUT /invoices/{invoiceId}/status with the invoice's id, that access_token and a body with status_message null.", async () => {
-      ({ request, response } = await sendUpdateInvoiceStatus(invoicesClientForToken(setup.token), setup.invoice.id, { status_message: null }, INVOICE_AUTH.throwaway));
+      ({ request, response } = await sendUpdateInvoiceStatus(invoicesClientForToken(setup.token), setup.invoice.id, { status_message: null }, AUTH.newUser));
     });
 
     await test.step('Verify the response status is 200.', async () => {
@@ -132,29 +120,18 @@ test.describe('@invoices-api - Invoices API', () => {
     });
 
     await test.step('Verify GET /invoices/{invoiceId} with that id and token returns 200 with status_message null.', async () => {
-      const { request: getRequest, invoice } = await readInvoiceOk(invoicesClientForToken(setup.token), setup.invoice.id, INVOICE_AUTH.throwaway);
+      const { request: getRequest, invoice } = await readInvoiceOk(invoicesClientForToken(setup.token), setup.invoice.id, AUTH.newUser);
       expect(invoice.status_message, assertMessage({ request: getRequest, expected: 'status_message is null', actual: { status_message: invoice.status_message } })).toBeNull();
     });
   });
 
   test('API-0476: Update invoice status without a token returns 401', async ({ invoicesClient }) => {
-    let request: InvoiceRequest;
-    let response: ApiResponse;
-
-    await test.step(
+    await checkStatusAndMessage(
       'Send PUT /invoices/{invoiceId}/status with a well-formed ULID that no invoice has and a body with status "ON_HOLD", without an Authorization header.',
-      async () => {
-        ({ request, response } = await sendUpdateInvoiceStatus(invoicesClient, TestConstants.invoices.unknownId, InvoiceFactory.statusBody('ON_HOLD'), INVOICE_AUTH.none));
-      }
+      () => sendUpdateInvoiceStatus(invoicesClient, TestConstants.invoices.unknownId, InvoiceFactory.statusBody('ON_HOLD'), AUTH.none),
+      401,
+      'Unauthorized'
     );
-
-    await test.step('Verify the response status is 401.', async () => {
-      expectStatus(request, response, 401);
-    });
-
-    await test.step('Verify the body\'s message is "Unauthorized".', async () => {
-      expectMessage(request, response, 'Unauthorized');
-    });
   });
 
   test('API-0477: Update invoice status with an invalid status returns 422', async ({
@@ -234,23 +211,12 @@ test.describe('@invoices-api - Invoices API', () => {
   });
 
   test('API-0481: Update invoice status with an unknown id returns 404', async ({ invoicesClientWithToken }) => {
-    let request: InvoiceRequest;
-    let response: ApiResponse;
-
-    await test.step(
+    await checkStatusAndMessage(
       'Send PUT /invoices/{invoiceId}/status with a well-formed ULID that no invoice has, the default user\'s token and a body with status "ON_HOLD".',
-      async () => {
-        ({ request, response } = await sendUpdateInvoiceStatus(invoicesClientWithToken, TestConstants.invoices.unknownId, InvoiceFactory.statusBody('ON_HOLD'), INVOICE_AUTH.defaultUser));
-      }
+      () => sendUpdateInvoiceStatus(invoicesClientWithToken, TestConstants.invoices.unknownId, InvoiceFactory.statusBody('ON_HOLD'), AUTH.defaultUser),
+      404,
+      'Invoice not found'
     );
-
-    await test.step('Verify the response status is 404.', async () => {
-      expectStatus(request, response, 404);
-    });
-
-    await test.step('Verify the body\'s message is "Invoice not found".', async () => {
-      expectMessage(request, response, 'Invoice not found');
-    });
   });
 
   test("API-0482: Update invoice status of another customer's invoice leaves it unchanged", async ({
@@ -267,11 +233,11 @@ test.describe('@invoices-api - Invoices API', () => {
 
     await test.step('Send PUT /invoices/{invoiceId}/status with that id, customer B\'s access_token and a body with status "COMPLETED".', async () => {
       // The call under test: the Verify step reads what it did, whatever it answered.
-      await sendUpdateInvoiceStatus(invoicesClientForToken(tokenB), invoice.id, InvoiceFactory.statusBody('COMPLETED'), INVOICE_AUTH.customerB);
+      await sendUpdateInvoiceStatus(invoicesClientForToken(tokenB), invoice.id, InvoiceFactory.statusBody('COMPLETED'), AUTH.customerB);
     });
 
     await test.step('Verify GET /invoices/{invoiceId} with that id and customer A\'s access_token returns a status other than "COMPLETED".', async () => {
-      const { request, invoice: read } = await readInvoiceOk(invoicesClientForToken(tokenA), invoice.id, INVOICE_AUTH.customerA);
+      const { request, invoice: read } = await readInvoiceOk(invoicesClientForToken(tokenA), invoice.id, AUTH.customerA);
       expect(read.status, assertMessage({ request, expected: 'status is not "COMPLETED"', actual: { status: read.status } })).not.toBe('COMPLETED');
     });
   });
@@ -297,13 +263,13 @@ test.describe('@invoices-api - Invoices API', () => {
           invoicesClientForToken(setup.token),
           setup.invoice.id,
           InvoiceFactory.statusBody('ON_HOLD', { total: setup.invoice.total + 1 }),
-          INVOICE_AUTH.throwaway
+          AUTH.newUser
         );
       }
     );
 
     await test.step('Verify GET /invoices/{invoiceId} with that id and token returns a total equal to the total from the create response.', async () => {
-      const { request, invoice } = await readInvoiceOk(invoicesClientForToken(setup.token), setup.invoice.id, INVOICE_AUTH.throwaway);
+      const { request, invoice } = await readInvoiceOk(invoicesClientForToken(setup.token), setup.invoice.id, AUTH.newUser);
       expect(Number(invoice.total), assertMessage({ request, expected: `total is the created total ${setup.invoice.total}`, actual: { total: invoice.total } })).toBe(
         setup.invoice.total
       );
@@ -333,7 +299,7 @@ test.describe('@invoices-api - Invoices API', () => {
           invoicesClientForToken(setup.token),
           setup.invoice.id,
           InvoiceFactory.statusBody('ON_HOLD', { no_such_column: 'x' }),
-          INVOICE_AUTH.throwaway
+          AUTH.newUser
         ));
       }
     );

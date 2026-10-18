@@ -14,7 +14,7 @@ SimpRight/
 │   ├── envs/
 │   │   └── TEST.json             one file per environment: URLs, timeouts, the admin user (${VAR} placeholders)
 │   ├── fixtures/                 what specs import as @fixtures
-│   │   ├── index.ts              exports test, expect and the UI precondition fixtures
+│   │   ├── index.ts              exports test, expect, the UI precondition fixtures and the API step helpers
 │   │   ├── base.ts               fixtures shared by both layers: role, config, user, tokenService, cleanup
 │   │   └── fixtures.ts           merges the API and UI fixtures (mergeTests)
 │   ├── api/
@@ -22,7 +22,7 @@ SimpRight/
 │   │   ├── services/             domain operations over clients; parse responses, throw on errors
 │   │   ├── dto/                  request and response types
 │   │   ├── auth/                 TokenService (token cache per role), runUser (the run's customer)
-│   │   ├── fixtures/             API fixtures (clients, services, tokens) and shared setup steps
+│   │   ├── fixtures/             API fixtures (clients, services, tokens) and step helpers: apiSteps (sendAndAttach, AUTH, templates), <area>Steps
 │   │   └── coverage/             loader of the optional API coverage plug-in
 │   ├── ui/
 │   │   ├── pages/                page objects, on top of BasePage
@@ -30,15 +30,16 @@ SimpRight/
 │   │   │   └── dialogs/          dialogs, on top of BaseDialog
 │   │   ├── flows/                multi-page user journeys (ShoppingFlow)
 │   │   ├── auth/                 login token and storage state helpers
-│   │   └── fixtures/             UI fixtures (pages, components, flows)
+│   │   ├── visitor/              visitor state the app keeps in browser storage: location, cart
+│   │   └── fixtures/             UI fixtures (pages, components, flows), the new-customer state, setup helpers (cartSetup, productSetup)
 │   │       └── preconditions/    where a test starts, open<Page><State>Test: openHomePageTest, openProductPageTest, their InLondon / WithNewCustomer variants
 │   ├── data/
 │   │   ├── TestConstants.ts      seeded app values that several tests rely on
 │   │   └── factories/            payload builders per area, uniqueName() for created records
-│   ├── utils/                    assertHelpers (assertMessage, attachJson, redact), envUtils
+│   ├── utils/                    assertHelpers (assertMessage, attachJson, redact), apiChecks (parseJson, expectStatus, ...), amounts (parseAmount), totp, envUtils
 │   └── globalSetup.ts            registers the run's customer (deleted after the run); UI login in storageState mode
 ├── tests/                        specs only, one per scenario file
-│   ├── api/<area>/*.spec.ts      products/, users/
+│   ├── api/<area>/*.spec.ts      products/, users/, carts/, ... (13 areas)
 │   └── ui/<area>/*.spec.ts       cart/, products/
 ├── test-scenarios/               what gets automated: the source of truth
 │   ├── scenarios.schema.json     the format of a scenario file
@@ -141,6 +142,8 @@ Defined in `tsconfig.json` and resolved by Playwright, so imports don't climb fo
 | `validate-scenarios.mts` | `npm run validate:scenarios`, CI | Checks the profile, the scenario files, their IDs and that specs match them |
 | `inspect-ui.mts` | `npm run inspect:ui` | Starts the page inspector |
 | `build-test-cases.mts` | `npm run test-cases:build`, CI | Builds the UI and API Test Cases pages from the scenarios |
+| `build-bugs.mts` | `npm run bugs:build`, CI | Builds the Bugs page from `bugs/` and the scenarios that name them |
+| `check-step-titles.mts` | `npm run check:step-titles`, CI | Compares each test's step titles in a run's JSON report with its scenario's steps |
 | `publish-report.sh` | CI | Publishes a run's report to `gh-pages` and keeps the latest 30 runs |
 | `publish-test-cases.sh` | CI | Publishes the Test Cases pages and the dashboard to `gh-pages` |
 | `gh-pages-lib.sh` | the two publish scripts | Shared checkout of `gh-pages` and push with retries |
@@ -150,8 +153,8 @@ Defined in `tsconfig.json` and resolved by Playwright, so imports don't climb fo
 | Workflow | When | What |
 |---|---|---|
 | `pr-checks.yml` (`verify`) | every pull request to `main` or `develop` | Typecheck, scenario validation, Test Cases and Bugs page builds (no tests) |
-| `run-api-tests.yml` | weekdays 02:00 UTC, or by hand | Full API regression, with the coverage report |
-| `run-ui-tests.yml` | weekdays 06:00 UTC, or by hand | Full UI regression |
+| `run-api-tests.yml` | weekdays 02:15 UTC, or by hand | Full API regression, with the coverage report |
+| `run-ui-tests.yml` | weekdays 06:15 UTC, or by hand | Full UI regression |
 | `custom-api-tests.yml`, `custom-ui-tests.yml` | by hand | One area, optionally filtered with `--grep` |
 | `smoke-tests.yml` | by hand | The smoke set (tests tagged `@smoke`) of both projects |
 | `playwright-run.yml` | called by the five above | Runs one project (or both) and publishes its report |

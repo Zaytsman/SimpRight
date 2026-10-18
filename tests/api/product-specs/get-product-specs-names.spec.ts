@@ -1,23 +1,20 @@
-import { test, expect, createProductToUpdate, createProductWithSpec, createSpec, DEFAULT_TOKEN } from '@fixtures';
+import { test, expect, AUTH, createProductToUpdate, createProductWithSpec, createSpec, sendAndAttach, type AuthLabel } from '@fixtures';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { ProductSpecsClient } from '@api/clients/ProductSpecsClient';
 import type { SpecName } from '@api/dto/productSpec';
-import { expectStatus } from '@utils/apiChecks';
+import { expectSomeItems, expectStatus, parseJson } from '@utils/apiChecks';
 import { assertMessage, attachJson } from '@utils/assertHelpers';
 
 // Scenarios: test-scenarios/api/product-specs/get-product-specs-names.yml
 
 const NAMES_STEP = 'Send GET /product-specs/names.';
 
-type NamesRequest = { method: 'GET'; path: string; auth: string };
+type NamesRequest = { method: 'GET'; path: string; auth: AuthLabel };
 
 /** Sends GET /product-specs/names without a token and attaches the request and the response. */
 async function sendNames(productSpecsClient: ProductSpecsClient): Promise<{ request: NamesRequest; response: ApiResponse }> {
-  const request: NamesRequest = { method: 'GET', path: '/product-specs/names', auth: 'none' };
-  const response = await productSpecsClient.names();
-  await attachJson('Spec Names Request', request);
-  await attachJson('Spec Names Response', { status: response.status, body: response.body });
-  return { request, response };
+  const request: NamesRequest = { method: 'GET', path: '/product-specs/names', auth: AUTH.none };
+  return sendAndAttach('Spec Names', request, () => productSpecsClient.names());
 }
 
 test.describe('@product-specs-api - Product Specs API', () => {
@@ -38,11 +35,12 @@ test.describe('@product-specs-api - Product Specs API', () => {
     });
 
     await test.step('Verify the body is a non-empty array.', async () => {
-      body = JSON.parse(response.body) as SpecName[];
+      body = parseJson<SpecName[]>(request, response);
       expect(Array.isArray(body) && body.length > 0, assertMessage({ request, expected: 'The body is a non-empty array', actual: body })).toBe(true);
     });
 
     await test.step('Verify every item has a name string, a values array of strings and a unit that is a string or null.', async () => {
+      expectSomeItems(request, body, 'The body');
       for (const item of body) {
         const ok =
           typeof item.name === 'string' &&
@@ -94,7 +92,7 @@ test.describe('@product-specs-api - Product Specs API', () => {
     });
 
     await test.step('Verify the body has exactly one item whose name is that spec_name.', async () => {
-      matches = (JSON.parse(response.body) as SpecName[]).filter((item) => item.name === spec.spec_name);
+      matches = (parseJson<SpecName[]>(request, response)).filter((item) => item.name === spec.spec_name);
       expect(matches.length, assertMessage({ request, expected: `Exactly one item named "${spec.spec_name}"`, actual: matches })).toBe(1);
     });
 
@@ -134,7 +132,7 @@ test.describe('@product-specs-api - Product Specs API', () => {
     });
 
     await test.step("Send DELETE /products/{productId}/specs/{specId} with the new product's id, the new spec's id and the default user's token.", async () => {
-      await attachJson('Delete Spec Request', { method: 'DELETE', path: `/products/${productId}/specs/${spec.id}`, auth: DEFAULT_TOKEN });
+      await attachJson('Delete Spec Request', { method: 'DELETE', path: `/products/${productId}/specs/${spec.id}`, auth: AUTH.defaultUser });
       await productSpecsServiceWithToken.delete(productId, spec.id);
     });
 
@@ -147,7 +145,7 @@ test.describe('@product-specs-api - Product Specs API', () => {
     });
 
     await test.step("Verify no item's name is that spec_name.", async () => {
-      const matches = (JSON.parse(response.body) as SpecName[]).filter((item) => item.name === spec.spec_name);
+      const matches = (parseJson<SpecName[]>(request, response)).filter((item) => item.name === spec.spec_name);
       expect(matches, assertMessage({ request, expected: `No item named "${spec.spec_name}"`, actual: matches })).toEqual([]);
     });
   });

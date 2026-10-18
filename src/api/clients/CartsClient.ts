@@ -5,15 +5,12 @@ import type { AddCartItemRequest, CreateCartRequest, UpdateCartItemQuantityReque
 export class CartsClient extends BaseClient {
   /** POST /carts: creates an empty cart (201 with its id). An empty body is fine. */
   async create(body: CreateCartRequest | Record<string, unknown> = {}): Promise<ApiResponse> {
-    return this.post('/carts', body);
+    return this.post('/carts', { data: body });
   }
 
-  /**
-   * POST /carts/{cartId}: adds a product, or increases its quantity. Accepts any object as the body,
-   * so tests can send the invalid payloads validation scenarios need.
-   */
+  /** POST /carts/{cartId}: adds a product, or increases its quantity. */
   async addItem(cartId: string, body: AddCartItemRequest | Record<string, unknown>): Promise<ApiResponse> {
-    return this.post(`/carts/${cartId}`, body);
+    return this.post(`/carts/${cartId}`, { data: body });
   }
 
   /** GET /carts/{cartId}: the cart with its items and their products. */
@@ -21,10 +18,7 @@ export class CartsClient extends BaseClient {
     return this.get(`/carts/${cartId}`);
   }
 
-  /**
-   * PUT /carts/{cartId}/product/quantity: sets (replaces) the quantity of a product in the cart. Accepts any object
-   * as the body, so tests can send the invalid payloads validation scenarios need.
-   */
+  /** PUT /carts/{cartId}/product/quantity: sets (replaces) the quantity of a product in the cart. */
   async updateQuantity(cartId: string, body: UpdateCartItemQuantityRequest | Record<string, unknown>): Promise<ApiResponse> {
     return this.put(`/carts/${cartId}/product/quantity`, { data: body });
   }

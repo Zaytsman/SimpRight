@@ -77,8 +77,8 @@ Static checks: typecheck passed, validator passed
 | File | Covers |
 |---|---|
 | `references/common.md` | Both layers, in six parts: the test matches its scenario (every step verbatim; a named value is compared; "every" covers every item; an empty list can't pass), assertions, stability (waits, races, shared data), test data, live app safety (approved writes, cleanup, secrets), shared code |
-| `references/ui.md` | UI: specs (no selectors, fixtures, messages), page objects, components and dialogs (private locators and getters, locator priority, waits for the app's signal), data |
-| `references/api.md` | API: specs (client vs service, `assertMessage`, `attachJson`, status codes, cleanup), clients, services and DTOs, contracts |
+| `references/ui.md` | UI: specs (no selectors, fixtures, messages, setup outside the steps), page objects, components and dialogs (private locators and getters, locator priority, waits for the app's signal or request, `parseAmount`), data |
+| `references/api.md` | API: specs (client vs service, `assertMessage`, `sendAndAttach` and `parseJson`, status codes, shared checks and templates instead of copies, cleanup), clients, services and DTOs, contracts |
 
 They point to the rules in CLAUDE.md and the profile; a finding cites the rule where it's written.
 

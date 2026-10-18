@@ -13,5 +13,3 @@ export const openHomePageTest = base.extend<OpenHomePageFixtures>({
     await use(homePage);
   },
 });
-
-export { expect } from '@playwright/test';

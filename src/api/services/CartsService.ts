@@ -1,6 +1,6 @@
 import type { CartsClient } from '../clients/CartsClient';
 import type { AddCartItemRequest, Cart, CartItemResult, CreateCartRequest, CreateCartResponse } from '../dto/cart';
-import { assertOk, parseOk } from './serviceUtils';
+import { assertOk, assertOkOrNotFound, parseOk } from './serviceUtils';
 
 /** Domain operations on carts. Methods expect success; tests that check error statuses use `CartsClient` directly. */
 export class CartsService {
@@ -28,8 +28,6 @@ export class CartsService {
 
   /** Like `delete`, but a 404 counts as done: for cleanup of a cart the test itself may already have deleted. */
   async deleteIfExists(cartId: string): Promise<void> {
-    const response = await this.client.deleteById(cartId);
-    if (response.status === 404) return;
-    assertOk(response, `delete cart ${cartId}`);
+    assertOkOrNotFound(await this.client.deleteById(cartId), `delete cart ${cartId}`);
   }
 }

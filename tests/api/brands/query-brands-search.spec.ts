@@ -1,33 +1,21 @@
-import { test, takeSeededBrandIds, expectIncludesBrandIds } from '@fixtures';
+import { test, takeSeededBrandIds, expectIncludesBrandIds, JSON_QUERY_HEADERS, sendQueryAndAttach, type QueryHeaders, type QueryRequestRecord, checkStatusAndMessage } from '@fixtures';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { BrandsClient } from '@api/clients/BrandsClient';
 import type { BrandSearchQueryBody } from '@api/dto/brand';
 import { TestConstants } from '@data/TestConstants';
-import { expectAcceptQuery, expectItemNamesContain, expectMessage, expectStatus } from '@utils/apiChecks';
-import { attachJson } from '@utils/assertHelpers';
+import { expectAcceptQuery, expectItemNamesContain, expectStatus, parseJson } from '@utils/apiChecks';
 
 // Scenarios: test-scenarios/api/brands/query-brands-search.yml
 
-type QuerySearchRequest = {
-  method: 'QUERY';
-  path: '/brands/search';
-  headers: { 'Content-Type': string; Accept: string };
-  body: BrandSearchQueryBody | string;
-};
-
-const JSON_HEADERS = { 'Content-Type': 'application/json', Accept: 'application/json' } as const;
+type QuerySearchRequest = QueryRequestRecord<BrandSearchQueryBody>;
 
 /** Sends QUERY /brands/search and attaches the request and the response. A string body is sent as-is with the given Content-Type. */
 async function sendQuerySearch(
   brandsClient: BrandsClient,
   body: BrandSearchQueryBody | string,
-  headers: QuerySearchRequest['headers'] = JSON_HEADERS
+  headers: QueryHeaders = JSON_QUERY_HEADERS
 ): Promise<{ request: QuerySearchRequest; response: ApiResponse }> {
-  const request: QuerySearchRequest = { method: 'QUERY', path: '/brands/search', headers, body };
-  const response = await brandsClient.querySearch(body, { contentType: headers['Content-Type'], accept: headers.Accept });
-  await attachJson('Query Search Request', request);
-  await attachJson('Query Search Response', { status: response.status, headers: response.headers, body: response.body });
-  return { request, response };
+  return sendQueryAndAttach('Query Search', '/brands/search', body, headers, (sent, options) => brandsClient.querySearch(sent, options));
 }
 
 test.describe('@brands-api - Brands API', () => {
@@ -49,7 +37,7 @@ test.describe('@brands-api - Brands API', () => {
     });
 
     await test.step('Verify the body is a non-empty array and every item\'s name contains "forge" (case-insensitive).', async () => {
-      expectItemNamesContain(request, JSON.parse(response.body), term);
+      expectItemNamesContain(request, parseJson(request, response), term);
     });
   });
 
@@ -71,25 +59,17 @@ test.describe('@brands-api - Brands API', () => {
     });
 
     await test.step('Verify the body includes both seeded brand ids.', async () => {
-      expectIncludesBrandIds(request, JSON.parse(response.body), seededIds);
+      expectIncludesBrandIds(request, parseJson(request, response), seededIds);
     });
   });
 
   test('API-0162: QUERY search without a JSON Content-Type returns 415', async ({ brandsClient }) => {
-    let request: QuerySearchRequest;
-    let response: ApiResponse;
-
-    await test.step('Send QUERY /brands/search with Content-Type: text/plain, Accept: application/json and a plain-text body.', async () => {
-      ({ request, response } = await sendQuerySearch(brandsClient, `q=${TestConstants.brands.searchTerm}`, { 'Content-Type': 'text/plain', Accept: 'application/json' }));
-    });
-
-    await test.step('Verify the response status is 415.', async () => {
-      expectStatus(request, response, 415);
-    });
-
-    await test.step('Verify the body\'s message is "QUERY requests must use Content-Type: application/json".', async () => {
-      expectMessage(request, response, 'QUERY requests must use Content-Type: application/json');
-    });
+    await checkStatusAndMessage(
+      'Send QUERY /brands/search with Content-Type: text/plain, Accept: application/json and a plain-text body.',
+      () => sendQuerySearch(brandsClient, `q=${TestConstants.brands.searchTerm}`, { 'Content-Type': 'text/plain', Accept: 'application/json' }),
+      415,
+      'QUERY requests must use Content-Type: application/json'
+    );
   });
 
   test('API-0163: QUERY search with q as an array returns 422', async ({ brandsClient }) => {

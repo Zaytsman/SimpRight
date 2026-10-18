@@ -1,6 +1,25 @@
 // Every scenario here has the precondition "The home page is open.": the fixture opens it before the steps.
 import { openHomePageTest as test, expect, catalogueProductNames } from '@fixtures';
 import { TestConstants } from '@data/TestConstants';
+import type { HomePage } from '@ui/pages/HomePage';
+
+/**
+ * The checks of a "Verify the grid shows only the products of <filters>: the products the catalogue lists for ... in
+ * the page's default price range, $1 to $100." step (`label` names the filters in the messages). Approved reading
+ * (UI-075): the catalogue is GET /products with the criteria the page sends (the category's and the brand's ids,
+ * between=price,1,100), and the grid's page 1 is compared with the catalogue's page 1, in any order.
+ */
+async function expectGridMatchesCatalogue(
+  homePage: HomePage,
+  services: Parameters<typeof catalogueProductNames>[0],
+  filters: Parameters<typeof catalogueProductNames>[1],
+  label: string
+): Promise<void> {
+  const expected = await catalogueProductNames(services, filters);
+  expect(expected.length, `The catalogue lists at least one product of ${label}`).toBeGreaterThan(0);
+  const shown = (await homePage.productGrid.getProductNames()).sort();
+  expect(shown, `The grid shows the catalogue's products of ${label}: ${shown.join(' | ')} (catalogue: ${expected.join(' | ')})`).toEqual(expected);
+}
 
 // Scenarios: test-scenarios/ui/products/product-filters.yml
 test.describe('@products - Product filters', () => {
@@ -19,19 +38,12 @@ test.describe('@products - Product filters', () => {
     await test.step(
       'Verify the grid shows only the products of the category "Pliers": the products the catalogue lists for it in the page\'s default price range, $1 to $100.',
       async () => {
-        // Approved reading: the catalogue is GET /products with the criteria the page sends (the category's id,
-        // between=price,1,100), and the grid's page 1 is compared with the catalogue's page 1, in any order.
-        const expected = await catalogueProductNames(
+        await expectGridMatchesCatalogue(
+          homePage,
           { productsService, categoriesService, brandsService },
           { categorySlug: TestConstants.categories.pliers },
+          `the category "${category}"`,
         );
-        expect(expected.length, `The catalogue lists at least one product of the category "${category}"`).toBeGreaterThan(0);
-
-        const shown = (await homePage.productGrid.getProductNames()).sort();
-        expect(
-          shown,
-          `The grid shows the catalogue's products of "${category}": ${shown.join(' | ')} (catalogue: ${expected.join(' | ')})`,
-        ).toEqual(expected);
       },
     );
   });
@@ -85,16 +97,7 @@ test.describe('@products - Product filters', () => {
     await test.step(
       'Verify the grid shows only the products of the brand "MightyCraft Hardware": the products the catalogue lists for it in the page\'s default price range, $1 to $100.',
       async () => {
-        // Approved reading (as UI-075): the catalogue is GET /products with the criteria the page sends (the brand's id,
-        // between=price,1,100), and the grid's page 1 is compared with the catalogue's page 1, in any order.
-        const expected = await catalogueProductNames({ productsService, categoriesService, brandsService }, { brandName: brand });
-        expect(expected.length, `The catalogue lists at least one product of the brand "${brand}"`).toBeGreaterThan(0);
-
-        const shown = (await homePage.productGrid.getProductNames()).sort();
-        expect(
-          shown,
-          `The grid shows the catalogue's products of "${brand}": ${shown.join(' | ')} (catalogue: ${expected.join(' | ')})`,
-        ).toEqual(expected);
+        await expectGridMatchesCatalogue(homePage, { productsService, categoriesService, brandsService }, { brandName: brand }, `the brand "${brand}"`);
       },
     );
   });
@@ -119,19 +122,12 @@ test.describe('@products - Product filters', () => {
     await test.step(
       'Verify the grid shows only the products that belong to both the category "Pliers" and the brand "ForgeFlex Tools": the products the catalogue lists for both filters in the page\'s default price range, $1 to $100.',
       async () => {
-        // Approved reading (as UI-075): the catalogue is GET /products with the criteria the page sends (the category's
-        // and the brand's ids, between=price,1,100), and the grid's page 1 is compared with the catalogue's page 1, in any order.
-        const expected = await catalogueProductNames(
+        await expectGridMatchesCatalogue(
+          homePage,
           { productsService, categoriesService, brandsService },
           { categorySlug: TestConstants.categories.pliers, brandName: brand },
+          `the category "${category}" and the brand "${brand}"`,
         );
-        expect(expected.length, `The catalogue lists at least one product of "${category}" and "${brand}"`).toBeGreaterThan(0);
-
-        const shown = (await homePage.productGrid.getProductNames()).sort();
-        expect(
-          shown,
-          `The grid shows the catalogue's products of "${category}" and "${brand}": ${shown.join(' | ')} (catalogue: ${expected.join(' | ')})`,
-        ).toEqual(expected);
       },
     );
   });

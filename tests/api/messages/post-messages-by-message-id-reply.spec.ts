@@ -1,11 +1,11 @@
-import { test, expect, createGuestMessage, takeOwnUserId, readMessageOk, expectMessageStatus, setStatusSetup, expectNoReplies, MESSAGE_AUTH, type MessageRequest } from '@fixtures';
+import { test, expect, AUTH, createGuestMessage, takeOwnUserId, readMessageOk, expectMessageStatus, setStatusSetup, expectNoReplies, type MessageRequest, sendAndAttach, checkStatusAndMessage, type AuthLabel } from '@fixtures';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { MessagesClient } from '@api/clients/MessagesClient';
 import type { ContactReply, ReplyRequest } from '@api/dto/message';
 import { TestConstants } from '@data/TestConstants';
 import { MessageFactory } from '@data/factories/MessageFactory';
-import { expectFieldMessages, expectMessage, expectStatus } from '@utils/apiChecks';
-import { assertMessage, attachJson } from '@utils/assertHelpers';
+import { expectFieldMessages, expectStatus, parseJson } from '@utils/apiChecks';
+import { assertMessage } from '@utils/assertHelpers';
 
 // Scenarios: test-scenarios/api/messages/post-messages-by-message-id-reply.yml
 
@@ -14,13 +14,10 @@ async function sendReply(
   messagesClient: MessagesClient,
   messageId: string,
   body: ReplyRequest | Record<string, unknown>,
-  auth: string
+  auth: AuthLabel
 ): Promise<{ request: MessageRequest; response: ApiResponse }> {
   const request: MessageRequest = { method: 'POST', path: `/messages/${messageId}/reply`, auth, body };
-  const response = await messagesClient.reply(messageId, body);
-  await attachJson('Reply Request', request);
-  await attachJson('Reply Response', { status: response.status, body: response.body });
-  return { request, response };
+  return sendAndAttach('Reply', request, () => messagesClient.reply(messageId, body));
 }
 
 test.describe('@messages-api - Messages API', () => {
@@ -39,10 +36,10 @@ test.describe('@messages-api - Messages API', () => {
       let reply: ContactReply;
 
       const sent = await createGuestMessage(messagesService);
-      const adminId = await takeOwnUserId(usersServiceForToken(accessToken), "Send GET /users/me with the admin's token and take its id.", MESSAGE_AUTH.admin);
+      const adminId = await takeOwnUserId(usersServiceForToken(accessToken), "Send GET /users/me with the admin's token and take its id.", AUTH.admin);
 
       await test.step("Send POST /messages/{messageId}/reply with that id, the admin's token and a body with a message text, and take the body's id as the reply's id.", async () => {
-        ({ request, response } = await sendReply(messagesClientWithToken, sent.message.id, body, MESSAGE_AUTH.admin));
+        ({ request, response } = await sendReply(messagesClientWithToken, sent.message.id, body, AUTH.admin));
       });
 
       await test.step('Verify the response status is 201.', async () => {
@@ -50,7 +47,7 @@ test.describe('@messages-api - Messages API', () => {
       });
 
       await test.step("Verify the body's message equals the text sent, and its id is a non-empty string and it has a created_at.", async () => {
-        reply = JSON.parse(response.body) as ContactReply;
+        reply = parseJson<ContactReply>(request, response);
         expect(reply.message, assertMessage({ request, expected: `message is the text sent, "${body.message}"`, actual: reply })).toBe(body.message);
         expect(typeof reply.id === 'string' && reply.id.length > 0, assertMessage({ request, expected: 'id is a non-empty string', actual: reply })).toBe(true);
         expect(typeof reply.created_at === 'string' && reply.created_at.length > 0, assertMessage({ request, expected: 'The body has a created_at', actual: reply })).toBe(
@@ -65,7 +62,7 @@ test.describe('@messages-api - Messages API', () => {
       });
 
       await test.step('Verify GET /messages/{messageId} with that id and the admin\'s token returns 200 with status "IN_PROGRESS" and a replies list with exactly one item, with the reply\'s id as id, the text sent as message and the admin\'s id as its user\'s id.', async () => {
-        const { request: getRequest, message } = await readMessageOk(messagesClientWithToken, sent.message.id, MESSAGE_AUTH.admin);
+        const { request: getRequest, message } = await readMessageOk(messagesClientWithToken, sent.message.id, AUTH.admin);
         expectMessageStatus(getRequest, message, 'IN_PROGRESS');
         const actual = (message.replies ?? []).map((item) => ({ id: item.id, message: item.message, user: { id: item.user?.id } }));
         expect(
@@ -97,7 +94,7 @@ test.describe('@messages-api - Messages API', () => {
       );
 
       await test.step("Send POST /messages/{messageId}/reply with that id, the admin's token and a body with a message text.", async () => {
-        ({ request, response } = await sendReply(messagesClientWithToken, sent.message.id, MessageFactory.reply(), MESSAGE_AUTH.admin));
+        ({ request, response } = await sendReply(messagesClientWithToken, sent.message.id, MessageFactory.reply(), AUTH.admin));
       });
 
       await test.step('Verify the response status is 201.', async () => {
@@ -105,44 +102,28 @@ test.describe('@messages-api - Messages API', () => {
       });
 
       await test.step('Verify GET /messages/{messageId} with that id and the admin\'s token returns 200 with status "IN_PROGRESS".', async () => {
-        const { request: getRequest, message } = await readMessageOk(messagesClientWithToken, sent.message.id, MESSAGE_AUTH.admin);
+        const { request: getRequest, message } = await readMessageOk(messagesClientWithToken, sent.message.id, AUTH.admin);
         expectMessageStatus(getRequest, message, 'IN_PROGRESS');
       });
     });
   });
 
   test('API-0374: Reply to a message without a token returns 401', async ({ messagesClient }) => {
-    let request: MessageRequest;
-    let response: ApiResponse;
-
-    await test.step("Send POST /messages/{messageId}/reply without an Authorization header, with a well-formed message id that doesn't exist and a body with a message text.", async () => {
-      ({ request, response } = await sendReply(messagesClient, TestConstants.messages.unknownId, MessageFactory.reply(), MESSAGE_AUTH.none));
-    });
-
-    await test.step('Verify the response status is 401.', async () => {
-      expectStatus(request, response, 401);
-    });
-
-    await test.step('Verify the body\'s message is "Unauthorized".', async () => {
-      expectMessage(request, response, 'Unauthorized');
-    });
+    await checkStatusAndMessage(
+      "Send POST /messages/{messageId}/reply without an Authorization header, with a well-formed message id that doesn't exist and a body with a message text.",
+      () => sendReply(messagesClient, TestConstants.messages.unknownId, MessageFactory.reply(), AUTH.none),
+      401,
+      'Unauthorized'
+    );
   });
 
   test('API-0375: Reply to a message with a malformed token returns 401', async ({ messagesClientWithInvalidToken }) => {
-    let request: MessageRequest;
-    let response: ApiResponse;
-
-    await test.step("Send POST /messages/{messageId}/reply with a malformed token, a well-formed message id that doesn't exist and a body with a message text.", async () => {
-      ({ request, response } = await sendReply(messagesClientWithInvalidToken, TestConstants.messages.unknownId, MessageFactory.reply(), MESSAGE_AUTH.malformed));
-    });
-
-    await test.step('Verify the response status is 401.', async () => {
-      expectStatus(request, response, 401);
-    });
-
-    await test.step('Verify the body\'s message is "Unauthorized".', async () => {
-      expectMessage(request, response, 'Unauthorized');
-    });
+    await checkStatusAndMessage(
+      "Send POST /messages/{messageId}/reply with a malformed token, a well-formed message id that doesn't exist and a body with a message text.",
+      () => sendReply(messagesClientWithInvalidToken, TestConstants.messages.unknownId, MessageFactory.reply(), AUTH.malformed),
+      401,
+      'Unauthorized'
+    );
   });
 
   test.describe(() => {
@@ -155,7 +136,7 @@ test.describe('@messages-api - Messages API', () => {
       const sent = await createGuestMessage(messagesService);
 
       await test.step("Send POST /messages/{messageId}/reply with that id, the admin's token and an empty JSON object as the body.", async () => {
-        ({ request, response } = await sendReply(messagesClientWithToken, sent.message.id, MessageFactory.emptyBody(), MESSAGE_AUTH.admin));
+        ({ request, response } = await sendReply(messagesClientWithToken, sent.message.id, MessageFactory.emptyBody(), AUTH.admin));
       });
 
       await test.step('Verify the response status is 422.', async () => {
@@ -163,11 +144,11 @@ test.describe('@messages-api - Messages API', () => {
       });
 
       await test.step('Verify the body has a message key with at least one message.', async () => {
-        expectFieldMessages(response, 'message', request);
+        expectFieldMessages(request, response, 'message');
       });
 
       await test.step('Verify GET /messages/{messageId} with that id and the admin\'s token returns 200 with status "NEW" and an empty replies list.', async () => {
-        const { request: getRequest, message } = await readMessageOk(messagesClientWithToken, sent.message.id, MESSAGE_AUTH.admin);
+        const { request: getRequest, message } = await readMessageOk(messagesClientWithToken, sent.message.id, AUTH.admin);
         expectMessageStatus(getRequest, message, 'NEW');
         expectNoReplies(getRequest, message);
       });
@@ -184,7 +165,7 @@ test.describe('@messages-api - Messages API', () => {
           messagesClientWithToken,
           sent.message.id,
           MessageFactory.reply({ message: MessageFactory.replyOfLength(251) }),
-          MESSAGE_AUTH.admin
+          AUTH.admin
         ));
       });
 
@@ -193,7 +174,7 @@ test.describe('@messages-api - Messages API', () => {
       });
 
       await test.step('Verify the body has a message key with at least one message.', async () => {
-        expectFieldMessages(response, 'message', request);
+        expectFieldMessages(request, response, 'message');
       });
     });
 
@@ -208,7 +189,7 @@ test.describe('@messages-api - Messages API', () => {
           messagesClientWithToken,
           sent.message.id,
           MessageFactory.reply({ message: MessageFactory.subscriptReply() }),
-          MESSAGE_AUTH.admin
+          AUTH.admin
         ));
       });
 
@@ -217,7 +198,7 @@ test.describe('@messages-api - Messages API', () => {
       });
 
       await test.step('Verify the body has a message key with at least one message.', async () => {
-        expectFieldMessages(response, 'message', request);
+        expectFieldMessages(request, response, 'message');
       });
     });
 
@@ -226,7 +207,7 @@ test.describe('@messages-api - Messages API', () => {
       let response: ApiResponse;
 
       await test.step("Send POST /messages/{messageId}/reply with a well-formed message id that doesn't exist, the admin's token and an empty JSON object as the body.", async () => {
-        ({ request, response } = await sendReply(messagesClientWithToken, TestConstants.messages.unknownId, MessageFactory.emptyBody(), MESSAGE_AUTH.admin));
+        ({ request, response } = await sendReply(messagesClientWithToken, TestConstants.messages.unknownId, MessageFactory.emptyBody(), AUTH.admin));
       });
 
       await test.step('Verify the response status is 422.', async () => {
@@ -234,7 +215,7 @@ test.describe('@messages-api - Messages API', () => {
       });
 
       await test.step('Verify the body has a message key with at least one message.', async () => {
-        expectFieldMessages(response, 'message', request);
+        expectFieldMessages(request, response, 'message');
       });
     });
 
@@ -244,7 +225,7 @@ test.describe('@messages-api - Messages API', () => {
       let response: ApiResponse;
 
       await test.step("Send POST /messages/{messageId}/reply with a well-formed message id that doesn't exist, the admin's token and a body with a message text.", async () => {
-        ({ request, response } = await sendReply(messagesClientWithToken, TestConstants.messages.unknownId, MessageFactory.reply(), MESSAGE_AUTH.admin));
+        ({ request, response } = await sendReply(messagesClientWithToken, TestConstants.messages.unknownId, MessageFactory.reply(), AUTH.admin));
       });
 
       await test.step('Verify the response status is 404.', async () => {

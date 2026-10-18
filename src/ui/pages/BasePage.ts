@@ -1,4 +1,4 @@
-import type { Page } from '@playwright/test';
+import type { Locator, Page } from '@playwright/test';
 import type { EnvConfig } from '../../config/env';
 import { NavBar } from './components/NavBar';
 
@@ -12,11 +12,23 @@ export abstract class BasePage {
   protected readonly page: Page;
   protected readonly config: EnvConfig;
   readonly navBar: NavBar;
+  /**
+   * The toast the app shows after an action (ngx-toastr, role "alert"), such as "Product added to shopping cart." or
+   * "Product quantity updated.". The pages have no other alert at rest. From the app source; the inspector can't
+   * trigger a toast (it never submits).
+   */
+  protected readonly toastAlert: Locator;
 
   constructor(page: Page, config: EnvConfig) {
     this.page = page;
     this.config = config;
     this.navBar = new NavBar(page);
+    this.toastAlert = page.getByRole('alert');
+  }
+
+  /** The toast message the app shows after an action. */
+  get toast(): Locator {
+    return this.toastAlert;
   }
 
   /** The id of the visitor's cart, which the app keeps in sessionStorage once something is added; null before that. */

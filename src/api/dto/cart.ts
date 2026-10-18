@@ -1,3 +1,5 @@
+import type { Product } from './product';
+
 /** Body of `POST /carts`. Both fields are optional (an empty body is fine); they decide the location discount. */
 export interface CreateCartRequest {
   lat?: number;
@@ -52,15 +54,7 @@ export interface CartItem {
 }
 
 /** The product as loaded for a cart: no product_image, category or brand. */
-export interface CartProduct {
-  id: string;
-  name: string;
-  description: string;
-  price: number;
-  is_location_offer: boolean;
-  is_rental: boolean;
-  co2_rating: string;
+export interface CartProduct extends Omit<Product, 'product_image' | 'category' | 'brand' | 'in_stock'> {
   /** A boolean, or the stock count (a number) when the caller has an admin token. */
   in_stock: boolean | number;
-  is_eco_friendly: boolean;
 }

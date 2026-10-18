@@ -1,4 +1,5 @@
-import { test, expect } from '@fixtures';
+import { test, expect, AUTH, sendAndAttach, type AuthLabel } from '@fixtures';
+import { expectStatus, parseJson } from '@utils/apiChecks';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { ProductDetails } from '@api/dto/product';
 import { TestConstants } from '@data/TestConstants';
@@ -25,15 +26,12 @@ test.describe('@products-api - Products API', () => {
     });
 
     await test.step('Send GET /products/{productId} with that id.', async () => {
-      request = { method: 'GET', path: `/products/${productId}` };
-      response = await productsClient.getById(productId);
-      await attachJson('Get Product Request', request);
-      await attachJson('Get Product Response', { status: response.status, body: response.body });
+      ({ request, response } = await sendAndAttach('Get Product', { method: 'GET', path: `/products/${productId}` }, () => productsClient.getById(productId)));
     });
 
     await test.step('Verify the response status is 200.', async () => {
-      expect(response.status, assertMessage({ request, expected: 'Status 200', actual: response.status })).toBe(200);
-      body = JSON.parse(response.body) as ProductDetails;
+      expectStatus(request, response, 200);
+      body = parseJson<ProductDetails>(request, response);
     });
 
     await test.step("Verify the body's id equals that id and its name equals that name.", async () => {
@@ -79,7 +77,7 @@ test.describe('@products-api - Products API', () => {
 
     test('API-0021: Get product with an admin token returns the stock count', async ({ productsService, productsClientWithToken }) => {
       let productId: string;
-      let request: { method: string; path: string; auth: string };
+      let request: { method: string; path: string; auth: AuthLabel };
       let response: ApiResponse;
 
       await test.step("Send GET /products and take the first item's id.", async () => {
@@ -90,18 +88,15 @@ test.describe('@products-api - Products API', () => {
       });
 
       await test.step("Send GET /products/{productId} with that id, with the admin's token.", async () => {
-        request = { method: 'GET', path: `/products/${productId}`, auth: "admin's token" };
-        response = await productsClientWithToken.getById(productId);
-        await attachJson('Get Product Request', request);
-        await attachJson('Get Product Response', { status: response.status, body: response.body });
+        ({ request, response } = await sendAndAttach('Get Product', { method: 'GET', path: `/products/${productId}`, auth: AUTH.admin }, () => productsClientWithToken.getById(productId)));
       });
 
       await test.step('Verify the response status is 200.', async () => {
-        expect(response.status, assertMessage({ request, expected: 'Status 200', actual: response.status })).toBe(200);
+        expectStatus(request, response, 200);
       });
 
       await test.step('Verify in_stock is a number.', async () => {
-        const body = JSON.parse(response.body) as ProductDetails;
+        const body = parseJson<ProductDetails>(request, response);
         expect(typeof body.in_stock, assertMessage({ request, expected: 'in_stock is a number (the stock count)', actual: body.in_stock })).toBe('number');
       });
     });
@@ -113,17 +108,15 @@ test.describe('@products-api - Products API', () => {
     let response: ApiResponse;
 
     await test.step('Send GET /products/{productId} with a well-formed ULID that no product has.', async () => {
-      response = await productsClient.getById(unknownId);
-      await attachJson('Get Product Request', request);
-      await attachJson('Get Product Response', { status: response.status, body: response.body });
+      ({ response } = await sendAndAttach('Get Product', request, () => productsClient.getById(unknownId)));
     });
 
     await test.step('Verify the response status is 404.', async () => {
-      expect(response.status, assertMessage({ request, expected: 'Status 404', actual: response.status })).toBe(404);
+      expectStatus(request, response, 404);
     });
 
     await test.step('Verify the body\'s message is "Requested item not found".', async () => {
-      const body = JSON.parse(response.body) as { message?: string };
+      const body = parseJson<{ message?: string }>(request, response);
       expect(body.message, assertMessage({ request, expected: 'message is "Requested item not found"', actual: body })).toBe('Requested item not found');
     });
   });

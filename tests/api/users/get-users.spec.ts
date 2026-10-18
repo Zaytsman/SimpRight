@@ -1,37 +1,27 @@
-import {
-  test,
-  expect,
-  attachUserPageResponse,
-  expectAllCustomers,
-  expectCurrentPages,
-  expectNoSharedIds,
-  expectStatusHidingBody,
-  expectUserPageKeys,
-  userPageSummary,
-} from '@fixtures';
+import { test, expect, attachUserPageResponse, expectAllCustomers, expectCurrentPages, expectNoSharedIds, expectStatusHidingBody, expectUserPageKeys, userPageSummary, AUTH, type AuthLabel } from '@fixtures';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { UsersClient } from '@api/clients/UsersClient';
 import type { UsersService } from '@api/services/UsersService';
 import type { Paginated } from '@api/dto/common';
 import type { User } from '@api/dto/user';
-import { expectMessage, expectStatus } from '@utils/apiChecks';
+import { expectMessage, expectStatus, parseJson } from '@utils/apiChecks';
 import { assertMessage, attachJson } from '@utils/assertHelpers';
 
 // Scenarios: test-scenarios/api/users/get-users.yml
 
-type ListUsersRequest = { method: 'GET'; path: '/users'; query?: string; auth: string };
+type ListUsersRequest = { method: 'GET'; path: '/users'; query?: string; auth: AuthLabel };
 
 /**
  * Sends GET /users and attaches the request and the response (a page as its summary: other visitors' details stay out
  * of the public reports). Returns the parsed page for a 2xx.
  */
 async function sendListUsers(
-  usersClient: UsersClient,
-  auth: string,
+  client: UsersClient,
+  auth: AuthLabel,
   page?: number
 ): Promise<{ request: ListUsersRequest; response: ApiResponse; body?: Paginated<User> }> {
   const request: ListUsersRequest = { method: 'GET', path: '/users', ...(page === undefined ? {} : { query: `page=${page}` }), auth };
-  const response = await usersClient.list(page);
+  const response = await client.list(page);
   await attachJson('List Users Request', request);
   const body = await attachUserPageResponse('List Users Response', response);
   return { request, response, body };
@@ -40,7 +30,7 @@ async function sendListUsers(
 /** Gets a page of GET /users as admin through the service (a happy path) and attaches the request and the page's summary. */
 async function listPage(adminUsersService: UsersService, page: number): Promise<Paginated<User>> {
   const body = await adminUsersService.list(page);
-  await attachJson('List Users Request', { method: 'GET', path: '/users', query: `page=${page}`, auth: "admin's token" });
+  await attachJson('List Users Request', { method: 'GET', path: '/users', query: `page=${page}`, auth: AUTH.admin });
   await attachJson('List Users Response', userPageSummary(body));
   return body;
 }
@@ -49,18 +39,18 @@ test.describe('@users-api - Users API', () => {
   test.describe(() => {
     test.use({ role: 'admin' });
 
-    test('API-0402: List users as an admin returns 200 with a page of customers', { tag: '@smoke' }, async ({ usersClient }) => {
+    test('API-0402: List users as an admin returns 200 with a page of customers', { tag: '@smoke' }, async ({ usersClientWithToken }) => {
       let request: ListUsersRequest;
       let response: ApiResponse;
       let page: Paginated<User>;
 
       await test.step("Send GET /users with the admin's token.", async () => {
-        ({ request, response } = await sendListUsers(usersClient, "admin's token"));
+        ({ request, response } = await sendListUsers(usersClientWithToken, AUTH.admin));
       });
 
       await test.step('Verify the response status is 200.', async () => {
         expectStatus(request, response, 200);
-        page = JSON.parse(response.body) as Paginated<User>;
+        page = parseJson<Paginated<User>>(request, response);
       });
 
       await test.step('Verify the body has the keys current_page, data, from, last_page, per_page, to and total, and its per_page is 15.', async () => {
@@ -89,7 +79,7 @@ test.describe('@users-api - Users API', () => {
         secondPage = await listPage(adminUsersService, 2);
       });
 
-      const request = { method: 'GET', path: '/users', query: ['page=1', 'page=2'], auth: "admin's token" };
+      const request = { method: 'GET', path: '/users', query: ['page=1', 'page=2'], auth: AUTH.admin };
 
       await test.step("Verify the first response's current_page is 1 and the second response's current_page is 2.", async () => {
         expectCurrentPages(request, firstPage, secondPage);
@@ -101,12 +91,12 @@ test.describe('@users-api - Users API', () => {
     });
   });
 
-  test('API-0404: List users without a token returns 401', async ({ usersClientWithoutToken }) => {
+  test('API-0404: List users without a token returns 401', async ({ usersClient }) => {
     let request: ListUsersRequest;
     let response: ApiResponse;
 
     await test.step('Send GET /users without an Authorization header.', async () => {
-      ({ request, response } = await sendListUsers(usersClientWithoutToken, 'none'));
+      ({ request, response } = await sendListUsers(usersClient, AUTH.none));
     });
 
     // A 200 here would list other customers: the failure message shows only the status.
@@ -119,12 +109,12 @@ test.describe('@users-api - Users API', () => {
     });
   });
 
-  test('API-0405: List users as a customer returns 403', async ({ usersClient }) => {
+  test('API-0405: List users as a customer returns 403', async ({ usersClientWithToken }) => {
     let request: ListUsersRequest;
     let response: ApiResponse;
 
     await test.step("Send GET /users with the default user's token.", async () => {
-      ({ request, response } = await sendListUsers(usersClient, "default user's token"));
+      ({ request, response } = await sendListUsers(usersClientWithToken, AUTH.defaultUser));
     });
 
     await test.step('Verify the response status is 403.', async () => {

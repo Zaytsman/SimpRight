@@ -1,35 +1,19 @@
-import {
-  ADD_PRODUCT_STEP,
-  test,
-  expect,
-  takeProductRefs,
-  createCartProduct,
-  createCart,
-  addItemSetup,
-  NON_RENTAL_PRODUCT_STEP,
-  RENTAL_PRODUCT_STEP,
-  ADD_NON_RENTAL_STEP,
-  ADD_RENTAL_STEP,
-  CART_PRODUCT_IN_STOCK_STEP,
-} from '@fixtures';
+import { ADD_PRODUCT_STEP, test, expect, takeProductRefs, createCartProduct, createCart, addItemSetup, NON_RENTAL_PRODUCT_STEP, RENTAL_PRODUCT_STEP, ADD_NON_RENTAL_STEP, ADD_RENTAL_STEP, CART_PRODUCT_IN_STOCK_STEP, AUTH, sendAndAttach, withHeaders, checkStatusAndMessage, type AuthLabel } from '@fixtures';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { CartsClient } from '@api/clients/CartsClient';
 import type { Cart, CartItem } from '@api/dto/cart';
 import { TestConstants } from '@data/TestConstants';
-import { expectMessage, expectStatus } from '@utils/apiChecks';
-import { assertMessage, attachJson } from '@utils/assertHelpers';
+import { expectStatus, parseJson } from '@utils/apiChecks';
+import { assertMessage } from '@utils/assertHelpers';
 
 // Scenarios: test-scenarios/api/carts/get-carts-by-cart-id.yml
 
-type GetCartRequest = { method: 'GET'; path: string; auth: string };
+type GetCartRequest = { method: 'GET'; path: string; auth: AuthLabel };
 
 /** Sends GET /carts/{cartId} with the given client and attaches the request and the response. `auth` describes the client's token. */
-async function sendGetCart(client: CartsClient, cartId: string, auth = 'none'): Promise<{ request: GetCartRequest; response: ApiResponse }> {
+async function sendGetCart(client: CartsClient, cartId: string, auth: AuthLabel = AUTH.none): Promise<{ request: GetCartRequest; response: ApiResponse }> {
   const request: GetCartRequest = { method: 'GET', path: `/carts/${cartId}`, auth };
-  const response = await client.getById(cartId);
-  await attachJson('Get Cart Request', request);
-  await attachJson('Get Cart Response', { status: response.status, headers: response.headers, body: response.body });
-  return { request, response };
+  return sendAndAttach('Get Cart', request, () => client.getById(cartId), withHeaders);
 }
 
 /** The cart's only item, checked to be the only one. */
@@ -59,7 +43,7 @@ test.describe('@carts-api - Carts API', () => {
 
     await test.step('Verify the response status is 200.', async () => {
       expectStatus(request, response, 200);
-      cart = JSON.parse(response.body) as Cart;
+      cart = parseJson<Cart>(request, response);
     });
 
     await test.step('Verify the Cache-Control header contains no-cache and private.', async () => {
@@ -131,7 +115,7 @@ test.describe('@carts-api - Carts API', () => {
       await addItemSetup(cartsService, cartId, productId, 1, ADD_PRODUCT_STEP);
 
       await test.step("Send GET /carts/{cartId} with the cart's id, with the admin's token.", async () => {
-        ({ request, response } = await sendGetCart(cartsClientWithToken, cartId, "admin's token"));
+        ({ request, response } = await sendGetCart(cartsClientWithToken, cartId, AUTH.admin));
       });
 
       await test.step('Verify the response status is 200.', async () => {
@@ -139,45 +123,30 @@ test.describe('@carts-api - Carts API', () => {
       });
 
       await test.step("Verify the only item's product in_stock is the number 10.", async () => {
-        const item = onlyItem(request, JSON.parse(response.body) as Cart);
+        const item = onlyItem(request, parseJson<Cart>(request, response));
         expect(item.product.in_stock, assertMessage({ request, expected: 'in_stock is the number 10', actual: item.product })).toBe(10);
       });
     });
   });
 
   test('API-0249: Get cart with an unknown cart id returns 404', async ({ cartsClient }) => {
-    let request: GetCartRequest;
-    let response: ApiResponse;
-
-    await test.step("Send GET /carts/{cartId} with a well-formed cart id that doesn't exist.", async () => {
-      ({ request, response } = await sendGetCart(cartsClient, TestConstants.carts.unknownId));
-    });
-
-    await test.step('Verify the response status is 404.', async () => {
-      expectStatus(request, response, 404);
-    });
-
-    await test.step('Verify the body\'s message is "Requested item not found".', async () => {
-      expectMessage(request, response, 'Requested item not found');
-    });
+    await checkStatusAndMessage(
+      "Send GET /carts/{cartId} with a well-formed cart id that doesn't exist.",
+      () => sendGetCart(cartsClient, TestConstants.carts.unknownId),
+      404,
+      'Requested item not found'
+    );
   });
 
   test('API-0250: Get cart with a malformed cart id returns 404', async ({ cartsClient }) => {
     const malformedId = 'abc';
-    let request: GetCartRequest;
-    let response: ApiResponse;
 
-    await test.step('Send GET /carts/{cartId} with abc as the cart id.', async () => {
-      ({ request, response } = await sendGetCart(cartsClient, malformedId));
-    });
-
-    await test.step('Verify the response status is 404.', async () => {
-      expectStatus(request, response, 404);
-    });
-
-    await test.step('Verify the body\'s message is "Requested item not found".', async () => {
-      expectMessage(request, response, 'Requested item not found');
-    });
+    await checkStatusAndMessage(
+      'Send GET /carts/{cartId} with abc as the cart id.',
+      () => sendGetCart(cartsClient, malformedId),
+      404,
+      'Requested item not found'
+    );
   });
 
   test('API-0327: Get cart returns product.is_rental true for a rental line and false for a non-rental line', async ({
@@ -207,7 +176,7 @@ test.describe('@carts-api - Carts API', () => {
 
     await test.step('Verify the response status is 200.', async () => {
       expectStatus(request, response, 200);
-      cart = JSON.parse(response.body) as Cart;
+      cart = parseJson<Cart>(request, response);
     });
 
     await test.step('Verify cart_items has exactly two items.', async () => {

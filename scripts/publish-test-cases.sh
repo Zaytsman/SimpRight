@@ -9,7 +9,7 @@
 #   test-cases/<layer>/      index.html + scenarios-data.js of each scenario layer (ui, api)
 #   bugs/                    index.html + bugs-data.js (only when the profile has paths.bugs)
 #
-# Runs in GitHub Actions (publish-test-cases.yml) after actions/checkout and npm ci.
+# Runs in GitHub Actions (publish-test-cases.yml) after npm ci, with GH_TOKEN set (see gh-pages-lib.sh).
 set -euo pipefail
 source "$(dirname "$0")/gh-pages-lib.sh"
 
@@ -28,7 +28,5 @@ cp -r "$BUILD" "$SITE/test-cases"
 if [ -d "$BUGS_BUILD" ]; then
   cp -r "$BUGS_BUILD" "$SITE/bugs"
 fi
-cp index.html "$SITE/index.html"
-touch "$SITE/.nojekyll"
 
 ghp_publish "$SITE" "Publish test cases and bugs (${GITHUB_SHA:0:7})"

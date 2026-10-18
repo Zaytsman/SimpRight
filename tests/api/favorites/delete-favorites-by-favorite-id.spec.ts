@@ -1,13 +1,4 @@
-import {
-  test,
-  createCustomerWithFavorite,
-  createSecondCustomer,
-  expectGetFavoriteStatus,
-  sendDeleteFavorite,
-  THROWAWAY_TOKEN,
-  SECOND_TOKEN,
-  type FavoriteRequest,
-} from '@fixtures';
+import { test, createCustomerWithFavorite, AUTH, createSecondCustomer, expectGetFavoriteStatus, sendDeleteFavorite, type FavoriteRequest } from '@fixtures';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import { TestConstants } from '@data/TestConstants';
 import { expectMessage, expectStatus } from '@utils/apiChecks';
@@ -31,7 +22,7 @@ test.describe('@favorites-api - Favorites API', () => {
     const { token, favorite } = await createCustomerWithFavorite({ usersService, adminUsersService, authService, productsService, favoritesServiceForToken, cleanup });
 
     await test.step("Send DELETE /favorites/{favoriteId} with that id and the throwaway customer's access_token.", async () => {
-      ({ request, response } = await sendDeleteFavorite(favoritesClientForToken(token), favorite.id, THROWAWAY_TOKEN));
+      ({ request, response } = await sendDeleteFavorite(favoritesClientForToken(token), favorite.id, AUTH.throwaway));
     });
 
     await test.step('Verify the response status is 204.', async () => {
@@ -39,7 +30,7 @@ test.describe('@favorites-api - Favorites API', () => {
     });
 
     await test.step("Verify GET /favorites/{favoriteId} with that id and the throwaway customer's access_token returns 404.", async () => {
-      await expectGetFavoriteStatus(favoritesClientForToken(token), favorite.id, THROWAWAY_TOKEN, 404);
+      await expectGetFavoriteStatus(favoritesClientForToken(token), favorite.id, AUTH.throwaway, 404);
     });
   });
 
@@ -59,7 +50,7 @@ test.describe('@favorites-api - Favorites API', () => {
     const { token, favorite } = await createCustomerWithFavorite({ usersService, adminUsersService, authService, productsService, favoritesServiceForToken, cleanup });
 
     await test.step('Send DELETE /favorites/{favoriteId} with that id, without an Authorization header.', async () => {
-      ({ request, response } = await sendDeleteFavorite(favoritesClient, favorite.id, 'none'));
+      ({ request, response } = await sendDeleteFavorite(favoritesClient, favorite.id, AUTH.none));
     });
 
     await test.step('Verify the response status is 401.', async () => {
@@ -71,7 +62,7 @@ test.describe('@favorites-api - Favorites API', () => {
     });
 
     await test.step("Verify GET /favorites/{favoriteId} with that id and the throwaway customer's access_token returns 200.", async () => {
-      await expectGetFavoriteStatus(favoritesClientForToken(token), favorite.id, THROWAWAY_TOKEN, 200);
+      await expectGetFavoriteStatus(favoritesClientForToken(token), favorite.id, AUTH.throwaway, 200);
     });
   });
 
@@ -91,7 +82,7 @@ test.describe('@favorites-api - Favorites API', () => {
     const { token, favorite } = await createCustomerWithFavorite({ usersService, adminUsersService, authService, productsService, favoritesServiceForToken, cleanup });
 
     await test.step('Send DELETE /favorites/{favoriteId} with that id, with a malformed token.', async () => {
-      ({ request, response } = await sendDeleteFavorite(favoritesClientWithInvalidToken, favorite.id, 'a malformed token'));
+      ({ request, response } = await sendDeleteFavorite(favoritesClientWithInvalidToken, favorite.id, AUTH.malformed));
     });
 
     await test.step('Verify the response status is 401.', async () => {
@@ -103,7 +94,7 @@ test.describe('@favorites-api - Favorites API', () => {
     });
 
     await test.step("Verify GET /favorites/{favoriteId} with that id and the throwaway customer's access_token returns 200.", async () => {
-      await expectGetFavoriteStatus(favoritesClientForToken(token), favorite.id, THROWAWAY_TOKEN, 200);
+      await expectGetFavoriteStatus(favoritesClientForToken(token), favorite.id, AUTH.throwaway, 200);
     });
   });
 
@@ -112,7 +103,7 @@ test.describe('@favorites-api - Favorites API', () => {
     let response: ApiResponse;
 
     await test.step('Send DELETE /favorites/{favoriteId} with a well-formed ULID that no favorite has.', async () => {
-      ({ request, response } = await sendDeleteFavorite(favoritesClientWithToken, TestConstants.favorites.unknownId, "default user's token"));
+      ({ request, response } = await sendDeleteFavorite(favoritesClientWithToken, TestConstants.favorites.unknownId, AUTH.defaultUser));
     });
 
     await test.step('Verify the response status is 204.', async () => {
@@ -136,7 +127,7 @@ test.describe('@favorites-api - Favorites API', () => {
     const second = await createSecondCustomer(usersService, adminUsersService, authService, cleanup);
 
     await test.step("Send DELETE /favorites/{favoriteId} with that favorite's id, with the second customer's access_token.", async () => {
-      ({ request, response } = await sendDeleteFavorite(favoritesClientForToken(second.token), favorite.id, SECOND_TOKEN));
+      ({ request, response } = await sendDeleteFavorite(favoritesClientForToken(second.token), favorite.id, AUTH.second));
     });
 
     await test.step('Verify the response status is 204.', async () => {
@@ -144,7 +135,7 @@ test.describe('@favorites-api - Favorites API', () => {
     });
 
     await test.step("Verify GET /favorites/{favoriteId} with that id, with the throwaway customer's access_token, returns 200.", async () => {
-      await expectGetFavoriteStatus(favoritesClientForToken(token), favorite.id, THROWAWAY_TOKEN, 200);
+      await expectGetFavoriteStatus(favoritesClientForToken(token), favorite.id, AUTH.throwaway, 200);
     });
   });
 });

@@ -25,8 +25,8 @@ function secretValues(): string[] {
     .filter((value) => value.length > 0);
 }
 
-function maskSecretValues(text: string): string {
-  return secretValues().reduce((masked, secret) => masked.replaceAll(secret, MASK), text);
+function maskSecretValues(text: string, secrets: string[] = secretValues()): string {
+  return secrets.reduce((masked, secret) => masked.replaceAll(secret, MASK), text);
 }
 
 /**
@@ -36,21 +36,25 @@ function maskSecretValues(text: string): string {
  * through here.
  */
 export function redact(value: unknown): unknown {
+  return redactWith(value, secretValues());
+}
+
+function redactWith(value: unknown, secrets: string[]): unknown {
   if (typeof value === 'string') {
     const trimmed = value.trim();
     if (trimmed.startsWith('{') || trimmed.startsWith('[')) {
       try {
-        return redact(JSON.parse(trimmed));
+        return redactWith(JSON.parse(trimmed), secrets);
       } catch {
-        return maskSecretValues(value);
+        return maskSecretValues(value, secrets);
       }
     }
-    return maskSecretValues(value);
+    return maskSecretValues(value, secrets);
   }
-  if (Array.isArray(value)) return value.map(redact);
+  if (Array.isArray(value)) return value.map((item) => redactWith(item, secrets));
   if (value !== null && typeof value === 'object') {
     return Object.fromEntries(
-      Object.entries(value).map(([key, item]) => [key, SECRET_KEYS.has(key.toLowerCase()) ? MASK : redact(item)])
+      Object.entries(value).map(([key, item]) => [key, SECRET_KEYS.has(key.toLowerCase()) ? MASK : redactWith(item, secrets)])
     );
   }
   return value;

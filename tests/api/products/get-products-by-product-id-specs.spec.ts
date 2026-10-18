@@ -1,18 +1,18 @@
-import { test, expect, createProductToUpdate, findProductWithSpecs } from '@fixtures';
+import { test, expect, createProductToUpdate, findProductWithSpecs, AUTH, sendAndAttach, type AuthLabel } from '@fixtures';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { ProductSpecsClient } from '@api/clients/ProductSpecsClient';
 import type { ProductSpec } from '@api/dto/product';
 import { TestConstants } from '@data/TestConstants';
 import { ProductSpecFactory } from '@data/factories/ProductSpecFactory';
-import { expectEmptyArray, expectStatus } from '@utils/apiChecks';
-import { assertMessage, attachJson } from '@utils/assertHelpers';
+import { expectEmptyArray, expectStatus, parseJson } from '@utils/apiChecks';
+import { assertMessage } from '@utils/assertHelpers';
 
 // Scenarios: test-scenarios/api/products/get-products-by-product-id-specs.yml
 
 const FIND_PRODUCT_STEP =
   'Find a product with at least one spec: send GET /products/{productId} for the items of GET /products until one returns a non-empty specs array, and take its id and its specs.';
 
-type ListSpecsRequest = { method: 'GET'; path: string; auth: string; query?: Record<string, string> };
+type ListSpecsRequest = { method: 'GET'; path: string; auth: AuthLabel; query?: Record<string, string> };
 
 /** Sends GET /products/{productId}/specs without a token and attaches the request and the response. */
 async function sendListSpecs(
@@ -20,11 +20,8 @@ async function sendListSpecs(
   productId: string,
   query?: Record<string, string>
 ): Promise<{ request: ListSpecsRequest; response: ApiResponse }> {
-  const request: ListSpecsRequest = { method: 'GET', path: `/products/${productId}/specs`, auth: 'none', ...(query ? { query } : {}) };
-  const response = await productSpecsClient.list(productId, query);
-  await attachJson('List Specs Request', request);
-  await attachJson('List Specs Response', { status: response.status, body: response.body });
-  return { request, response };
+  const request: ListSpecsRequest = { method: 'GET', path: `/products/${productId}/specs`, auth: AUTH.none, ...(query ? { query } : {}) };
+  return sendAndAttach('List Specs', request, () => productSpecsClient.list(productId, query));
 }
 
 /** The spec ids of a list body, sorted, so two lists compare as sets. */
@@ -52,7 +49,7 @@ test.describe('@products-api - Products API', () => {
     });
 
     await test.step('Verify the body is a non-empty array.', async () => {
-      body = JSON.parse(response.body) as ProductSpec[];
+      body = parseJson<ProductSpec[]>(request, response);
       expect(Array.isArray(body) && body.length > 0, assertMessage({ request, expected: 'The body is a non-empty array', actual: body })).toBe(true);
     });
 
@@ -133,7 +130,7 @@ test.describe('@products-api - Products API', () => {
     await test.step('Send GET /products/{productId}/specs with that id and take the spec ids of the body.', async () => {
       const first = await sendListSpecs(productSpecsClient, product.id);
       expectStatus(first.request, first.response, 200);
-      idsWithoutQuery = sortedIds(JSON.parse(first.response.body) as ProductSpec[]);
+      idsWithoutQuery = sortedIds(parseJson<ProductSpec[]>(first.request, first.response));
     });
 
     await test.step(
@@ -149,7 +146,7 @@ test.describe('@products-api - Products API', () => {
     });
 
     await test.step("Verify the body's ids are the same set as without the query parameter.", async () => {
-      const ids = sortedIds(JSON.parse(response.body) as ProductSpec[]);
+      const ids = sortedIds(parseJson<ProductSpec[]>(request, response));
       expect(ids, assertMessage({ request, expected: `The ids without the query parameter: ${idsWithoutQuery.join(', ')}`, actual: ids })).toEqual(idsWithoutQuery);
     });
   });
@@ -170,7 +167,7 @@ test.describe('@products-api - Products API', () => {
 
     await test.step("Verify the body's ids are the same set as the ids in that product's specs array.", async () => {
       const expected = sortedIds(product.specs);
-      const ids = sortedIds(JSON.parse(response.body) as ProductSpec[]);
+      const ids = sortedIds(parseJson<ProductSpec[]>(request, response));
       expect(ids, assertMessage({ request, expected: `The spec ids of GET /products/${product.id}: ${expected.join(', ')}`, actual: ids })).toEqual(expected);
     });
   });

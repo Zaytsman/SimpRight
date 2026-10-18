@@ -1,27 +1,11 @@
-import {
-  test,
-  expect,
-  createCart,
-  addItemSetup,
-  takeFirstProduct,
-  sendCreateGuestInvoice,
-  sendSearchInvoices,
-  readInvoiceOk,
-  invoicePageSummary,
-  expectKeys,
-  expectFieldsEqual,
-  expectSingleInvoiceLine,
-  ADD_TWO_STEP,
-  INVOICE_AUTH,
-  type InvoiceRequest,
-} from '@fixtures';
+import { test, expect, AUTH, createCart, addItemSetup, takeFirstProductId, FIRST_PRODUCT_STEP, sendCreateGuestInvoice, sendSearchInvoices, readInvoiceOk, invoicePageSummary, expectKeys, expectFieldsEqual, expectSingleInvoiceLine, ADD_TWO_STEP, type InvoiceRequest, checkStatusAndMessage } from '@fixtures';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { InvoicesClient } from '@api/clients/InvoicesClient';
 import type { Paginated } from '@api/dto/common';
 import type { CreateGuestInvoiceRequest, InvoiceCreated, InvoiceSummary } from '@api/dto/invoice';
 import { TestConstants } from '@data/TestConstants';
 import { InvoiceFactory } from '@data/factories/InvoiceFactory';
-import { expectErrorKeys, expectMessage, expectStatus } from '@utils/apiChecks';
+import { expectErrorKeys, expectStatus, parseJson } from '@utils/apiChecks';
 import { assertMessage } from '@utils/assertHelpers';
 
 // Scenarios: test-scenarios/api/invoices/post-invoices-guest.yml
@@ -76,11 +60,11 @@ async function searchAndExpectNoInvoiceLeft(invoicesClientWithToken: InvoicesCli
   let response: ApiResponse;
 
   await test.step("Send GET /invoices/search with q set to that billing_street and the admin's token.", async () => {
-    ({ request, response } = await sendSearchInvoices(invoicesClientWithToken, INVOICE_AUTH.admin, billingStreet));
+    ({ request, response } = await sendSearchInvoices(invoicesClientWithToken, AUTH.admin, billingStreet));
   });
 
   await test.step("Verify the body's total is 0.", async () => {
-    const page = response.isSuccess ? (JSON.parse(response.body) as Paginated<InvoiceSummary>) : undefined;
+    const page = response.isSuccess ? (parseJson<Paginated<InvoiceSummary>>(request, response)) : undefined;
     expect(
       page?.total,
       assertMessage({ request, expected: 'total is 0', actual: page ? invoicePageSummary(page) : { status: response.status, body: response.body.slice(0, 500) } })
@@ -98,7 +82,7 @@ test.describe('@invoices-api - Invoices API', () => {
       let response: ApiResponse;
       let created: InvoiceCreated;
 
-      const productId = await takeFirstProduct(productsService);
+      const productId = await takeFirstProductId(productsService, FIRST_PRODUCT_STEP);
       const cartId = await createCart(cartsService, cleanup);
       await addItemSetup(cartsService, cartId, productId, 2, ADD_TWO_STEP);
 
@@ -117,7 +101,7 @@ test.describe('@invoices-api - Invoices API', () => {
       await test.step(
         'Verify the body has the keys id, user_id, invoice_number, invoice_date, billing_street, billing_city, billing_country, subtotal, total and created_at.',
         async () => {
-          created = JSON.parse(response.body) as InvoiceCreated;
+          created = parseJson<InvoiceCreated>(request, response);
           expectKeys(request, created, CREATED_KEYS);
         }
       );
@@ -129,7 +113,7 @@ test.describe('@invoices-api - Invoices API', () => {
       await test.step(
         "Verify GET /invoices/{invoiceId} with the new id and the admin's token returns 200 with user_id null, the billing_street, billing_city and billing_country sent, and exactly one line with the product's id as product_id.",
         async () => {
-          const { request: getRequest, invoice } = await readInvoiceOk(invoicesClientWithToken, created.id, INVOICE_AUTH.admin);
+          const { request: getRequest, invoice } = await readInvoiceOk(invoicesClientWithToken, created.id, AUTH.admin);
           expect(invoice.user_id, assertMessage({ request: getRequest, expected: 'user_id is null', actual: { user_id: invoice.user_id } })).toBeNull();
           expectFieldsEqual(getRequest, invoice, body, ['billing_street', 'billing_city', 'billing_country']);
           expectSingleInvoiceLine(getRequest, invoice, productId);
@@ -179,23 +163,12 @@ test.describe('@invoices-api - Invoices API', () => {
   });
 
   test('API-0507: Create guest invoice with an unknown cart returns 404', async ({ invoicesClient }) => {
-    let request: InvoiceRequest;
-    let response: ApiResponse;
-
-    await test.step(
+    await checkStatusAndMessage(
       'Send POST /invoices/guest without an Authorization header, with payment_method "cash-on-delivery", payment_details {}, billing_street "Stephansplatz 1", billing_city "Wien", billing_country "AT", a well-formed ULID that no cart has as cart_id, a unique guest_email, a guest_first_name and a guest_last_name.',
-      async () => {
-        ({ request, response } = await sendCreateGuestInvoice(invoicesClient, InvoiceFactory.guest(TestConstants.carts.unknownId)));
-      }
+      () => sendCreateGuestInvoice(invoicesClient, InvoiceFactory.guest(TestConstants.carts.unknownId)),
+      404,
+      'Requested item not found'
     );
-
-    await test.step('Verify the response status is 404.', async () => {
-      expectStatus(request, response, 404);
-    });
-
-    await test.step('Verify the body\'s message is "Requested item not found".', async () => {
-      expectMessage(request, response, 'Requested item not found');
-    });
   });
 
   test('API-0508: Create guest invoice with payment_details null returns 422', async ({ cartsService, invoicesClient, cleanup }) => {

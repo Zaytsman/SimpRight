@@ -1,27 +1,24 @@
-import { test, expect, createBrand, readBrand, takeOtherBrandSlug, BRAND_CREATE_ID_SLUG_STEP } from '@fixtures';
+import { test, expect, createBrand, readBrand, takeOtherBrandSlug, BRAND_CREATE_ID_SLUG_STEP, AUTH, sendAndAttach, checkStatusAndMessage, type AuthLabel } from '@fixtures';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { BrandsClient } from '@api/clients/BrandsClient';
 import { TestConstants } from '@data/TestConstants';
 import { BrandFactory } from '@data/factories/BrandFactory';
-import { expectFieldMessages, expectMessage, expectStatus, expectSuccess } from '@utils/apiChecks';
-import { assertMessage, attachJson } from '@utils/assertHelpers';
+import { expectFieldMessages, expectStatus, expectSuccess } from '@utils/apiChecks';
+import { assertMessage } from '@utils/assertHelpers';
 
 // Scenarios: test-scenarios/api/brands/patch-brands-by-brand-id.yml
 
-type PatchBrandRequest = { method: 'PATCH'; path: string; auth: string; body: unknown };
+type PatchBrandRequest = { method: 'PATCH'; path: string; auth: AuthLabel; body: unknown };
 
 /** Sends PATCH /brands/{brandId} with the given client (`auth` describes its token) and attaches the request and the response. */
 async function sendPatchBrand(
   brandsClient: BrandsClient,
   brandId: string,
   body: Record<string, unknown>,
-  auth: string
+  auth: AuthLabel
 ): Promise<{ request: PatchBrandRequest; response: ApiResponse }> {
   const request: PatchBrandRequest = { method: 'PATCH', path: `/brands/${brandId}`, auth, body };
-  const response = await brandsClient.partialUpdate(brandId, body);
-  await attachJson('Patch Brand Request', request);
-  await attachJson('Patch Brand Response', { status: response.status, body: response.body });
-  return { request, response };
+  return sendAndAttach('Patch Brand', request, () => brandsClient.partialUpdate(brandId, body));
 }
 
 test.describe('@brands-api - Brands API', () => {
@@ -36,7 +33,7 @@ test.describe('@brands-api - Brands API', () => {
       const brand = await createBrand(adminBrandsService, cleanup, BRAND_CREATE_ID_SLUG_STEP);
 
       await test.step("Send PATCH /brands/{brandId} with that id and a body with only a new unique brand name, with the admin's token.", async () => {
-        ({ request, response } = await sendPatchBrand(brandsClientWithToken, brand.id, body, "admin's token"));
+        ({ request, response } = await sendPatchBrand(brandsClientWithToken, brand.id, body, AUTH.admin));
       });
 
       await test.step('Verify the response status is 200.', async () => {
@@ -70,7 +67,7 @@ test.describe('@brands-api - Brands API', () => {
       await test.step(
         'Send PATCH /brands/{brandId} with that id and a body with only a slug made of a unique slug followed by " x!" (a space and an exclamation mark), with the admin\'s token.',
         async () => {
-          ({ request, response } = await sendPatchBrand(brandsClientWithToken, brand.id, BrandFactory.updateInvalidSlug(), "admin's token"));
+          ({ request, response } = await sendPatchBrand(brandsClientWithToken, brand.id, BrandFactory.updateInvalidSlug(), AUTH.admin));
         }
       );
 
@@ -79,7 +76,7 @@ test.describe('@brands-api - Brands API', () => {
       });
 
       await test.step('Verify the body has a slug key with at least one message.', async () => {
-        expectFieldMessages(response, 'slug', request);
+        expectFieldMessages(request, response, 'slug');
       });
     });
 
@@ -92,7 +89,7 @@ test.describe('@brands-api - Brands API', () => {
       await test.step(
         "Send PATCH /brands/{brandId} with that id and a body with only a 121-character name that starts with a unique brand name, with the admin's token.",
         async () => {
-          ({ request, response } = await sendPatchBrand(brandsClientWithToken, brand.id, BrandFactory.updateNameTooLong(), "admin's token"));
+          ({ request, response } = await sendPatchBrand(brandsClientWithToken, brand.id, BrandFactory.updateNameTooLong(), AUTH.admin));
         }
       );
 
@@ -101,7 +98,7 @@ test.describe('@brands-api - Brands API', () => {
       });
 
       await test.step('Verify the body has a name key with at least one message.', async () => {
-        expectFieldMessages(response, 'name', request);
+        expectFieldMessages(request, response, 'name');
       });
     });
 
@@ -118,7 +115,7 @@ test.describe('@brands-api - Brands API', () => {
       const otherSlug = await takeOtherBrandSlug(brandsService, brand.id);
 
       await test.step("Send PATCH /brands/{brandId} with the new brand's id and a body with only that other slug, with the admin's token.", async () => {
-        ({ request, response } = await sendPatchBrand(brandsClientWithToken, brand.id, BrandFactory.updateSlug(otherSlug), "admin's token"));
+        ({ request, response } = await sendPatchBrand(brandsClientWithToken, brand.id, BrandFactory.updateSlug(otherSlug), AUTH.admin));
       });
 
       await test.step('Verify the response status is 409.', async () => {
@@ -126,7 +123,7 @@ test.describe('@brands-api - Brands API', () => {
       });
 
       await test.step('Verify the body has a slug key with at least one message.', async () => {
-        expectFieldMessages(response, 'slug', request);
+        expectFieldMessages(request, response, 'slug');
       });
 
       await test.step("Verify GET /brands/{brandId} with the new brand's id still returns its own slug.", async () => {
@@ -143,13 +140,13 @@ test.describe('@brands-api - Brands API', () => {
 
       const brand = await createBrand(adminBrandsService, cleanup, BRAND_CREATE_ID_SLUG_STEP);
       const body = BrandFactory.updateNameWithSlug(brand.slug);
-      const newName = body.name!;
+      const newName = body.name;
       test.fail(true, "Known issue BUG-010: Returns 409 instead of 200 when the body repeats the brand's own slug.");
 
       await test.step(
         "Send PATCH /brands/{brandId} with that id and a body with a new unique brand name and the brand's own slug, with the admin's token.",
         async () => {
-          ({ request, response } = await sendPatchBrand(brandsClientWithToken, brand.id, body, "admin's token"));
+          ({ request, response } = await sendPatchBrand(brandsClientWithToken, brand.id, body, AUTH.admin));
         }
       );
 
@@ -171,7 +168,7 @@ test.describe('@brands-api - Brands API', () => {
       test.fail(true, 'Known issue BUG-009: Accepts PATCH without a token instead of returning 401.');
 
       await test.step('Send PATCH /brands/{brandId} with that id and a body with only a new unique brand name, without an Authorization header.', async () => {
-        ({ request, response } = await sendPatchBrand(brandsClient, brand.id, BrandFactory.updateName(), 'none'));
+        ({ request, response } = await sendPatchBrand(brandsClient, brand.id, BrandFactory.updateName(), AUTH.none));
       });
 
       await test.step('Verify the response status is 401.', async () => {
@@ -181,19 +178,11 @@ test.describe('@brands-api - Brands API', () => {
   });
 
   test('API-0144: Partially update brand with an unknown id returns 404', async ({ brandsClient }) => {
-    let request: PatchBrandRequest;
-    let response: ApiResponse;
-
-    await test.step('Send PATCH /brands/{brandId} with a well-formed ULID that no brand has and a body with only a unique brand name.', async () => {
-      ({ request, response } = await sendPatchBrand(brandsClient, TestConstants.brands.unknownId, BrandFactory.updateName(), 'none'));
-    });
-
-    await test.step('Verify the response status is 404.', async () => {
-      expectStatus(request, response, 404);
-    });
-
-    await test.step('Verify the body\'s message is "Requested item not found".', async () => {
-      expectMessage(request, response, 'Requested item not found');
-    });
+    await checkStatusAndMessage(
+      'Send PATCH /brands/{brandId} with a well-formed ULID that no brand has and a body with only a unique brand name.',
+      () => sendPatchBrand(brandsClient, TestConstants.brands.unknownId, BrandFactory.updateName(), AUTH.none),
+      404,
+      'Requested item not found'
+    );
   });
 });

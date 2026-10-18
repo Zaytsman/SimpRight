@@ -1,6 +1,6 @@
 import type { CategoriesClient } from '../clients/CategoriesClient';
 import type { Category, CategoryTree, CreateCategoryRequest, CreatedCategory } from '../dto/category';
-import { assertOk, parseOk } from './serviceUtils';
+import { assertOkOrNotFound, parseOk } from './serviceUtils';
 
 /**
  * Domain operations on categories. Methods expect success and return parsed bodies;
@@ -35,8 +35,6 @@ export class CategoriesService {
    * this service with an admin token. Throws on any other non-2xx status.
    */
   async deleteIfExists(categoryId: string): Promise<void> {
-    const response = await this.client.deleteById(categoryId);
-    if (response.status === 404) return;
-    assertOk(response, `delete category ${categoryId}`);
+    assertOkOrNotFound(await this.client.deleteById(categoryId), `delete category ${categoryId}`);
   }
 }

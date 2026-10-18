@@ -1,6 +1,6 @@
 // Extends `openHomePageTest` (itself the merged `test`), because a spec uses this fixture as its `test`.
 import { openHomePageTest as base } from './openHomePageTest';
-import { LONDON, setVisitorLocation } from '../../auth/visitorLocation';
+import { LONDON, setVisitorLocation } from '../../visitor/visitorLocation';
 
 /**
  * Same as `openHomePageTest`, but the browser is a visitor in London, so the grid's location offers show their
@@ -12,5 +12,3 @@ export const openHomePageInLondonTest = base.extend({
     await use(page);
   },
 });
-
-export { expect } from '@playwright/test';

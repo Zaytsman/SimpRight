@@ -1,28 +1,8 @@
-import {
-  test,
-  expect,
-  registerThrowawayCustomer,
-  loginThrowawayCustomer,
-  disableCustomerSetup,
-  createCart,
-  createCustomerInvoice,
-  createInvoiceSetup,
-  expectSingleInvoiceLine,
-  customerAWithInvoiceAndCustomerB,
-  sendListInvoices,
-  invoiceSummary,
-  invoicePageSummary,
-  expectKeys,
-  expectOnlyInvoice,
-  expectEmptyInvoicePage,
-  INVOICE_AUTH,
-  type CustomerInvoice,
-  type InvoiceRequest,
-} from '@fixtures';
+import { test, expect, AUTH, registerThrowawayCustomer, loginThrowawayCustomer, disableCustomerSetup, createCustomerInvoice, createInvoiceSetup, expectSingleInvoiceLine, customerAWithInvoiceAndCustomerB, sendListInvoices, invoiceSummary, invoicePageSummary, expectKeys, expectOnlyInvoice, expectEmptyInvoicePage, type CustomerInvoice, type InvoiceRequest, checkStatusAndMessage } from '@fixtures';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { Paginated } from '@api/dto/common';
 import type { InvoiceCreated, InvoiceStatus, InvoiceSummary } from '@api/dto/invoice';
-import { expectMessage, expectStatus, PAGE_KEYS } from '@utils/apiChecks';
+import { expectStatus, PAGE_KEYS, parseJson } from '@utils/apiChecks';
 import { assertMessage } from '@utils/assertHelpers';
 
 // Scenarios: test-scenarios/api/invoices/get-invoices.yml
@@ -75,7 +55,7 @@ test.describe('@invoices-api - Invoices API', () => {
     );
 
     await test.step('Send GET /invoices with that access_token.', async () => {
-      ({ request, response } = await sendListInvoices(invoicesClientForToken(setup.token), INVOICE_AUTH.throwaway));
+      ({ request, response } = await sendListInvoices(invoicesClientForToken(setup.token), AUTH.newUser));
     });
 
     await test.step('Verify the response status is 200.', async () => {
@@ -83,7 +63,7 @@ test.describe('@invoices-api - Invoices API', () => {
     });
 
     await test.step('Verify the body has the keys current_page, data, from, last_page, per_page, to and total, and its per_page is 15.', async () => {
-      page = JSON.parse(response.body) as Paginated<InvoiceSummary>;
+      page = parseJson<Paginated<InvoiceSummary>>(request, response);
       expectKeys(request, page, PAGE_KEYS);
       expect(page.per_page, assertMessage({ request, expected: 'per_page is 15', actual: invoicePageSummary(page) })).toBe(15);
     });
@@ -147,7 +127,7 @@ test.describe('@invoices-api - Invoices API', () => {
     );
 
     await test.step("Send GET /invoices with customer B's access_token.", async () => {
-      ({ request, response } = await sendListInvoices(invoicesClientForToken(tokenB), INVOICE_AUTH.customerB));
+      ({ request, response } = await sendListInvoices(invoicesClientForToken(tokenB), AUTH.customerB));
     });
 
     await test.step('Verify the response status is 200.', async () => {
@@ -155,7 +135,7 @@ test.describe('@invoices-api - Invoices API', () => {
     });
 
     await test.step("Verify the body's total is 0 and data is an empty array.", async () => {
-      expectEmptyInvoicePage(request, JSON.parse(response.body) as Paginated<InvoiceSummary>);
+      expectEmptyInvoicePage(request, parseJson<Paginated<InvoiceSummary>>(request, response));
     });
   });
 
@@ -178,7 +158,7 @@ test.describe('@invoices-api - Invoices API', () => {
       const setup: CustomerInvoice = await createCustomerInvoice({ usersService, adminUsersService, authService, productsService, cartsService, invoicesServiceForToken, cleanup });
 
       await test.step("Send GET /invoices with the admin's token.", async () => {
-        ({ request, response } = await sendListInvoices(invoicesClientWithToken, INVOICE_AUTH.admin));
+        ({ request, response } = await sendListInvoices(invoicesClientWithToken, AUTH.admin));
       });
 
       await test.step('Verify the response status is 200.', async () => {
@@ -189,7 +169,7 @@ test.describe('@invoices-api - Invoices API', () => {
         "Verify data has an item whose id is the new invoice's id and whose user_id is the new user's id (the newest invoice is on page 1).",
         async () => {
           // The page holds other visitors' invoices: only summaries are shown.
-          const page = JSON.parse(response.body) as Paginated<InvoiceSummary>;
+          const page = parseJson<Paginated<InvoiceSummary>>(request, response);
           const actual = invoicePageSummary(page);
           const item = (page.data ?? []).find((invoice) => invoice.id === setup.invoice.id);
           expect(item !== undefined, assertMessage({ request, expected: `data has an item with the new invoice's id ${setup.invoice.id}`, actual })).toBe(true);
@@ -220,11 +200,11 @@ test.describe('@invoices-api - Invoices API', () => {
       invoicesServiceForToken(setup.token),
       setup.cartId,
       "Send POST /invoices again with that access_token and the same body and cart's id, and take the second invoice's id.",
-      INVOICE_AUTH.throwaway
+      AUTH.newUser
     );
 
     await test.step('Send GET /invoices with that access_token.', async () => {
-      ({ request, response } = await sendListInvoices(invoicesClientForToken(setup.token), INVOICE_AUTH.throwaway));
+      ({ request, response } = await sendListInvoices(invoicesClientForToken(setup.token), AUTH.newUser));
     });
 
     await test.step('Verify the response status is 200.', async () => {
@@ -232,7 +212,7 @@ test.describe('@invoices-api - Invoices API', () => {
     });
 
     await test.step("Verify the body's total is 2 and data has two items, whose ids are the two invoices' ids.", async () => {
-      page = JSON.parse(response.body) as Paginated<InvoiceSummary>;
+      page = parseJson<Paginated<InvoiceSummary>>(request, response);
       const actual = invoicePageSummary(page);
       expect(page.total, assertMessage({ request, expected: 'total is 2', actual })).toBe(2);
       const ids = (page.data ?? []).map((invoice) => invoice.id).sort();
@@ -267,7 +247,7 @@ test.describe('@invoices-api - Invoices API', () => {
     const setup: CustomerInvoice = await createCustomerInvoice({ usersService, adminUsersService, authService, productsService, cartsService, invoicesServiceForToken, cleanup });
 
     await test.step('Send GET /invoices with page 2 and that access_token.', async () => {
-      ({ request, response } = await sendListInvoices(invoicesClientForToken(setup.token), INVOICE_AUTH.throwaway, 2));
+      ({ request, response } = await sendListInvoices(invoicesClientForToken(setup.token), AUTH.newUser, 2));
     });
 
     await test.step('Verify the response status is 200.', async () => {
@@ -275,7 +255,7 @@ test.describe('@invoices-api - Invoices API', () => {
     });
 
     await test.step("Verify the body's data is an empty array.", async () => {
-      const page = JSON.parse(response.body) as Paginated<InvoiceSummary>;
+      const page = parseJson<Paginated<InvoiceSummary>>(request, response);
       expect(Array.isArray(page.data) && page.data.length === 0, assertMessage({ request, expected: 'data is an empty array', actual: invoicePageSummary(page) })).toBe(
         true
       );
@@ -283,37 +263,21 @@ test.describe('@invoices-api - Invoices API', () => {
   });
 
   test('API-0446: List invoices without a token returns 401', async ({ invoicesClient }) => {
-    let request: InvoiceRequest;
-    let response: ApiResponse;
-
-    await test.step('Send GET /invoices without an Authorization header.', async () => {
-      ({ request, response } = await sendListInvoices(invoicesClient, INVOICE_AUTH.none));
-    });
-
-    await test.step('Verify the response status is 401.', async () => {
-      expectStatus(request, response, 401);
-    });
-
-    await test.step('Verify the body\'s message is "Unauthorized".', async () => {
-      expectMessage(request, response, 'Unauthorized');
-    });
+    await checkStatusAndMessage(
+      'Send GET /invoices without an Authorization header.',
+      () => sendListInvoices(invoicesClient, AUTH.none),
+      401,
+      'Unauthorized'
+    );
   });
 
   test('API-0447: List invoices with a malformed token returns 401', async ({ invoicesClientWithInvalidToken }) => {
-    let request: InvoiceRequest;
-    let response: ApiResponse;
-
-    await test.step('Send GET /invoices with a malformed token.', async () => {
-      ({ request, response } = await sendListInvoices(invoicesClientWithInvalidToken, INVOICE_AUTH.malformed));
-    });
-
-    await test.step('Verify the response status is 401.', async () => {
-      expectStatus(request, response, 401);
-    });
-
-    await test.step('Verify the body\'s message is "Unauthorized".', async () => {
-      expectMessage(request, response, 'Unauthorized');
-    });
+    await checkStatusAndMessage(
+      'Send GET /invoices with a malformed token.',
+      () => sendListInvoices(invoicesClientWithInvalidToken, AUTH.malformed),
+      401,
+      'Unauthorized'
+    );
   });
 
   test.describe(() => {
@@ -326,9 +290,6 @@ test.describe('@invoices-api - Invoices API', () => {
       invoicesClientForToken,
       cleanup,
     }) => {
-      let request: InvoiceRequest;
-      let response: ApiResponse;
-
       const customer = await registerThrowawayCustomer(usersService, adminUsersService, cleanup);
       const customerToken = await loginThrowawayCustomer(authService, customer);
       // The throwaway's token isn't used before this step, so the API's cached user can't be a stale, enabled one.
@@ -336,20 +297,15 @@ test.describe('@invoices-api - Invoices API', () => {
         adminUsersService,
         customer.id,
         "Send PATCH /users/{userId} with the new user's id and enabled false, with the admin's token.",
-        INVOICE_AUTH.admin
+        AUTH.admin
       );
 
-      await test.step("Send GET /invoices with the throwaway customer's access_token.", async () => {
-        ({ request, response } = await sendListInvoices(invoicesClientForToken(customerToken), INVOICE_AUTH.throwawayCustomer));
-      });
-
-      await test.step('Verify the response status is 403.', async () => {
-        expectStatus(request, response, 403);
-      });
-
-      await test.step('Verify the body\'s message is "Account disabled.".', async () => {
-        expectMessage(request, response, 'Account disabled.');
-      });
+      await checkStatusAndMessage(
+        "Send GET /invoices with the throwaway customer's access_token.",
+        () => sendListInvoices(invoicesClientForToken(customerToken), AUTH.throwaway),
+        403,
+        'Account disabled.'
+      );
     });
   });
 });

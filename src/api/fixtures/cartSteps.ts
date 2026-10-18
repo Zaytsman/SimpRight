@@ -5,10 +5,11 @@ import type { Cart, CreateCartRequest } from '../dto/cart';
 import type { CreateProductRequest, Product } from '../dto/product';
 import type { CartsService } from '../services/CartsService';
 import type { ProductsService } from '../services/ProductsService';
-import { ProductFactory, type ProductRefs } from '../../data/factories/ProductFactory';
+import type { ProductRefs } from '../../data/factories/ProductFactory';
 import { TestConstants } from '../../data/TestConstants';
 import { assertMessage, attachJson } from '../../utils/assertHelpers';
-import { takeProductRefs } from './productSteps';
+import { expectStatus, parseJson } from '../../utils/apiChecks';
+import { createProduct, takeProductRefs } from './productSteps';
 
 /**
  * Steps shared by the Carts specs. The titles are the scenario steps verbatim; the carts files use the same wording,
@@ -16,7 +17,7 @@ import { takeProductRefs } from './productSteps';
  */
 export const CART_PRODUCT_IN_STOCK_STEP =
   "Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental false and stock 10, and take the new product's id.";
-export const CART_CREATE_STEP = "Send POST /carts with an empty body and take the returned id as the cart's id.";
+const CART_CREATE_STEP = "Send POST /carts with an empty body and take the returned id as the cart's id.";
 /** The product-create steps of the scenarios that put a rental and a non-rental product in one cart. */
 export const NON_RENTAL_PRODUCT_STEP =
   "Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental false and stock 10, and take the new product's id as the non-rental product's id.";
@@ -27,7 +28,7 @@ export const ADD_NON_RENTAL_STEP = "Send POST /carts/{cartId} with the cart's id
 /** The add-item step for the one product a carts scenario created. */
 export const ADD_PRODUCT_STEP = "Send POST /carts/{cartId} with the cart's id and a body with the new product's id as product_id and quantity 1.";
 /** The step that finds the seeded Thor Hammer, and the message of the rule that allows one per cart. */
-export const THOR_HAMMER_SEARCH_STEP = 'Send GET /products/search with q set to Thor Hammer and take the id of the item whose name is exactly "Thor Hammer".';
+const THOR_HAMMER_SEARCH_STEP = 'Send GET /products/search with q set to Thor Hammer and take the id of the item whose name is exactly "Thor Hammer".';
 export const THOR_HAMMER_MESSAGE = 'You can only have one Thor Hammer in the cart.';
 export const ADD_RENTAL_STEP = "Send POST /carts/{cartId} with the cart's id and a body with the rental product's id as product_id and quantity 1.";
 
@@ -50,19 +51,7 @@ export async function createCartProduct(
   title: string = CART_PRODUCT_IN_STOCK_STEP,
   overrides: Partial<CreateProductRequest> = {}
 ): Promise<Product> {
-  let created: Product | undefined;
-
-  await test.step(title, async () => {
-    const body = ProductFactory.createProduct(refs as ProductRefs, { stock: 10, ...overrides });
-    await attachJson('Create Product Request', { method: 'POST', path: '/products', auth: "admin's token", body });
-    const product = await adminProductsService.create(body);
-    cleanup.add(() => adminProductsService.delete(product.id));
-    await attachJson('Create Product Response', product);
-    expect(product.id, assertMessage({ request: { method: 'POST', path: '/products', body }, expected: 'The new product has an id', actual: product })).toBeTruthy();
-    created = product;
-  });
-
-  return created!;
+  return createProduct(adminProductsService, cleanup, refs, title, { stock: 10, ...overrides });
 }
 
 /**
@@ -71,18 +60,14 @@ export async function createCartProduct(
  * goes before them (a cart item blocks the product delete with 409); a 404 counts as done, for tests that delete the cart.
  */
 export async function createCart(cartsService: CartsService, cleanup: Cleanup, title: string = CART_CREATE_STEP, body: CreateCartRequest = {}): Promise<string> {
-  let cartId = '';
-
-  await test.step(title, async () => {
+  return test.step(title, async () => {
     await attachJson('Create Cart Request', { method: 'POST', path: '/carts', body });
     const cart = await cartsService.create(body);
     cleanup.add(() => cartsService.deleteIfExists(cart.id));
     await attachJson('Create Cart Response', cart);
     expect(cart.id, assertMessage({ request: { method: 'POST', path: '/carts', body }, expected: 'The new cart has an id', actual: cart })).toBeTruthy();
-    cartId = cart.id;
+    return cart.id;
   });
-
-  return cartId;
 }
 
 /**
@@ -111,9 +96,7 @@ export async function addItemSetup(cartsService: CartsService, cartId: string, p
  * "Thor Hammer"." (title `title`). Returns that id.
  */
 export async function findThorHammerId(productsService: ProductsService, title: string = THOR_HAMMER_SEARCH_STEP): Promise<string> {
-  let id = '';
-
-  await test.step(title, async () => {
+  return test.step(title, async () => {
     const name = TestConstants.carts.thorHammer;
     const result = await productsService.search(name);
     await attachJson('Search Products Response', result);
@@ -126,10 +109,8 @@ export async function findThorHammerId(productsService: ProductsService, title: 
         actual: result.data.map((product) => product.name),
       })
     ).toBe(true);
-    id = item!.id;
+    return item!.id;
   });
-
-  return id;
 }
 
 /** Sends GET /carts/{cartId}, attaches the response and checks it returns 200; returns the parsed cart. */
@@ -137,8 +118,8 @@ export async function getCartOk(cartsClient: CartsClient, cartId: string): Promi
   const request = { method: 'GET', path: `/carts/${cartId}` };
   const response = await cartsClient.getById(cartId);
   await attachJson('Get Cart Response', { status: response.status, body: response.body });
-  expect(response.status, assertMessage({ request, expected: 'Status 200', actual: response.status })).toBe(200);
-  return JSON.parse(response.body) as Cart;
+  expectStatus(request, response, 200);
+  return parseJson<Cart>(request, response);
 }
 
 /**

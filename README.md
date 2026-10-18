@@ -11,7 +11,7 @@ Automated test framework built with **TypeScript + Playwright**. It covers UI an
 - Test scenarios in YAML (with a schema and a validator) as the source of truth for what gets automated, and API contracts documenting the endpoints under test
 - AI agents for the whole automation cycle (contracts → scenarios → framework code and specs → review → healing), with human checkpoints: see [docs/AI_WORKFLOW.md](docs/AI_WORKFLOW.md)
 
-Step-by-step guides are in the **[wiki](https://github.com/Zaytsman/SimpRight/wiki)**, starting with [Installation & Setup](https://github.com/Zaytsman/SimpRight/wiki/Installation-&-Setup).
+Step-by-step guides are in the **[wiki](https://github.com/Zaytsman/SimpRight/wiki)**, starting with [Installation & Setup](https://github.com/Zaytsman/SimpRight/wiki/Installation-&-Setup). How the framework is built, area by area, and what the October 2026 code review changed: **[docs/framework/](docs/framework/README.md)**.
 
 ## Prerequisites
 
@@ -47,6 +47,7 @@ ADMIN_PASSWORD=<admin password>
 | `npm run report` | Open the last HTML report |
 | `npm run typecheck` | TypeScript check (`tsc --noEmit`) |
 | `npm run validate:scenarios` | Check `qa-agents-profile.yml`, the scenario files and their IDs against the specs |
+| `npm run check:step-titles -- <report.json>` | Compare each test's step titles in a JSON report with its scenario's steps (CI does it after every run) |
 | `npm run inspect:ui -- <path> [--role admin \| --logged-out]` | Print a page's `data-test` elements and accessibility tree, for writing UI tests |
 | `npm run test-cases:build` | Build the Test Cases pages (the scenario catalog) into `test-results/test-cases/` |
 | `npm run bugs:build` | Build the Bugs page into `test-results/bugs/` |
@@ -107,13 +108,14 @@ src/
     fixtures/            UI fixtures
   data/                  test data: TestConstants, factories/
   utils/                 helpers (assertion messages, masked attachments, env)
-  globalSetup.ts         UI login for storageState mode
+  globalSetup.ts         registers the run's customer; UI login for storageState mode
 tests/
   api/<area>/*.spec.ts
   ui/<area>/*.spec.ts
 test-scenarios/          scenario source of truth (api/, ui/)
 bugs/                    bugs found in the app under test, one BUG-001.yml per root cause
 docs/api/contracts/      API contracts, the reference for API coverage
+docs/framework/          how the framework works, one document per area
 qa-agents-profile.yml    project facts for the QA agents and scripts (paths, commands, ID formats, roles)
 ```
 
@@ -167,8 +169,8 @@ GitHub Actions runs the tests and publishes every report to GitHub Pages: **[zay
 
 | Workflow | When | What |
 |---|---|---|
-| API Regression Test Run | weekdays 02:00 UTC, or by hand | all API tests |
-| UI Regression Test Run | weekdays 06:00 UTC, or by hand | all UI tests |
+| API Regression Test Run | weekdays 02:15 UTC, or by hand | all API tests |
+| UI Regression Test Run | weekdays 06:15 UTC, or by hand | all UI tests |
 | Custom API / UI Test Run | by hand | one area (a folder in `tests/`), optionally filtered by a title (`--grep`) |
 | Publish Test Cases | on push to `main` that changes the scenarios or bugs, or by hand | the UI and API Test Cases pages and the Bugs page |
 | Publish Wiki | on push to `main` that changes `docs/wiki/`, or by hand | the [wiki](https://github.com/Zaytsman/SimpRight/wiki), from `docs/wiki/` |

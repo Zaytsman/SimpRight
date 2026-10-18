@@ -21,5 +21,3 @@ export const openProductPageTest = base.extend<OpenProductPageFixtures>({
     await use(productPage);
   },
 });
-
-export { expect } from '@playwright/test';

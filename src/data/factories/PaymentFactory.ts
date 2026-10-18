@@ -1,4 +1,4 @@
-import type { BankTransferDetails, CreditCardDetails, GiftCardDetails } from '@api/dto/payment';
+import type { BankTransferDetails, CreditCardDetails, GiftCardDetails } from '../../api/dto/payment';
 
 /**
  * Payment details for POST /payment/check, with the values of the payment scenarios. Never calls the API.

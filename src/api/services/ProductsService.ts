@@ -1,7 +1,7 @@
 import type { ProductsClient } from '../clients/ProductsClient';
 import type { Paginated } from '../dto/common';
 import type { CreateProductRequest, Product, ProductDetails, ProductListQuery } from '../dto/product';
-import { assertOk, parseOk } from './serviceUtils';
+import { assertOk, assertOkOrNotFound, parseOk } from './serviceUtils';
 
 /**
  * Domain operations on products. Methods expect success and return parsed bodies;
@@ -36,8 +36,6 @@ export class ProductsService {
    * Admin only, like `delete`. Throws on any other non-2xx status.
    */
   async deleteIfExists(productId: string): Promise<void> {
-    const response = await this.client.deleteById(productId);
-    if (response.status === 404) return;
-    assertOk(response, `delete product ${productId}`);
+    assertOkOrNotFound(await this.client.deleteById(productId), `delete product ${productId}`);
   }
 }

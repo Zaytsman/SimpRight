@@ -1,23 +1,20 @@
-import { test, expect, registerThrowawayCustomer, loginThrowawayCustomer } from '@fixtures';
+import { test, expect, registerThrowawayCustomer, loginThrowawayCustomer, AUTH, sendAndAttach, checkStatusAndMessage, type AuthLabel } from '@fixtures';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { UsersClient } from '@api/clients/UsersClient';
 import type { User } from '@api/dto/user';
 import { TestConstants } from '@data/TestConstants';
 import { UserFactory } from '@data/factories/UserFactory';
-import { expectErrorText, expectMessage, expectStatus } from '@utils/apiChecks';
-import { assertMessage, attachJson } from '@utils/assertHelpers';
+import { expectErrorText, expectStatus, parseJson } from '@utils/apiChecks';
+import { assertMessage } from '@utils/assertHelpers';
 
 // Scenarios: test-scenarios/api/users/get-users-by-user-id.yml
 
-type GetUserRequest = { method: 'GET'; path: string; auth: string };
+type GetUserRequest = { method: 'GET'; path: string; auth: AuthLabel };
 
 /** Sends GET /users/{userId} with the given client (`auth` describes its token) and attaches the request and the response. */
-async function sendGetUser(usersClient: UsersClient, userId: string, auth: string): Promise<{ request: GetUserRequest; response: ApiResponse }> {
+async function sendGetUser(client: UsersClient, userId: string, auth: AuthLabel): Promise<{ request: GetUserRequest; response: ApiResponse }> {
   const request: GetUserRequest = { method: 'GET', path: `/users/${userId}`, auth };
-  const response = await usersClient.getById(userId);
-  await attachJson('Get User Request', request);
-  await attachJson('Get User Response', { status: response.status, body: response.body });
-  return { request, response };
+  return sendAndAttach('Get User', request, () => client.getById(userId));
 }
 
 const REGISTER_A_STEP = 'Send POST /users/register with a unique email, a first name, a last name and a random strong password (customer A).';
@@ -40,12 +37,12 @@ test.describe('@users-api - Users API', () => {
     const token = await loginThrowawayCustomer(authService, customer);
 
     await test.step('Send GET /users/{userId} with that id and access_token.', async () => {
-      ({ request, response } = await sendGetUser(usersClientForToken(token), customer.id, "the customer's access_token"));
+      ({ request, response } = await sendGetUser(usersClientForToken(token), customer.id, AUTH.customer));
     });
 
     await test.step('Verify the response status is 200.', async () => {
       expectStatus(request, response, 200);
-      user = JSON.parse(response.body) as User;
+      user = parseJson<User>(request, response);
     });
 
     await test.step("Verify the body's id equals the new user's id, and its email, first_name and last_name equal the registered values.", async () => {
@@ -65,7 +62,7 @@ test.describe('@users-api - Users API', () => {
   test.describe(() => {
     test.use({ role: 'admin' });
 
-    test('API-0421: Get user as an admin returns 200 with the admin-only fields', async ({ usersService, adminUsersService, usersClient, cleanup }) => {
+    test('API-0421: Get user as an admin returns 200 with the admin-only fields', async ({ usersService, adminUsersService, usersClientWithToken, cleanup }) => {
       let request: GetUserRequest;
       let response: ApiResponse;
       let user: User;
@@ -73,12 +70,12 @@ test.describe('@users-api - Users API', () => {
       const customer = await registerThrowawayCustomer(usersService, adminUsersService, cleanup);
 
       await test.step("Send GET /users/{userId} with that id and the admin's token.", async () => {
-        ({ request, response } = await sendGetUser(usersClient, customer.id, "admin's token"));
+        ({ request, response } = await sendGetUser(usersClientWithToken, customer.id, AUTH.admin));
       });
 
       await test.step('Verify the response status is 200.', async () => {
         expectStatus(request, response, 200);
-        user = JSON.parse(response.body) as User;
+        user = parseJson<User>(request, response);
       });
 
       await test.step('Verify the body\'s id equals the new user\'s id and its role is "user".', async () => {
@@ -92,12 +89,12 @@ test.describe('@users-api - Users API', () => {
       });
     });
 
-    test('API-0423: Get user with an unknown id returns 404', async ({ usersClient }) => {
+    test('API-0423: Get user with an unknown id returns 404', async ({ usersClientWithToken }) => {
       let request: GetUserRequest;
       let response: ApiResponse;
 
       await test.step("Send GET /users/{userId} with a well-formed ULID that no user has and the admin's token.", async () => {
-        ({ request, response } = await sendGetUser(usersClient, TestConstants.users.unknownId, "admin's token"));
+        ({ request, response } = await sendGetUser(usersClientWithToken, TestConstants.users.unknownId, AUTH.admin));
       });
 
       await test.step('Verify the response status is 404.', async () => {
@@ -110,21 +107,13 @@ test.describe('@users-api - Users API', () => {
     });
   });
 
-  test('API-0422: Get user without a token returns 401', async ({ usersClientWithoutToken }) => {
-    let request: GetUserRequest;
-    let response: ApiResponse;
-
-    await test.step('Send GET /users/{userId} with a well-formed ULID that no user has, without an Authorization header.', async () => {
-      ({ request, response } = await sendGetUser(usersClientWithoutToken, TestConstants.users.unknownId, 'none'));
-    });
-
-    await test.step('Verify the response status is 401.', async () => {
-      expectStatus(request, response, 401);
-    });
-
-    await test.step('Verify the body\'s message is "Unauthorized".', async () => {
-      expectMessage(request, response, 'Unauthorized');
-    });
+  test('API-0422: Get user without a token returns 401', async ({ usersClient }) => {
+    await checkStatusAndMessage(
+      'Send GET /users/{userId} with a well-formed ULID that no user has, without an Authorization header.',
+      () => sendGetUser(usersClient, TestConstants.users.unknownId, AUTH.none),
+      401,
+      'Unauthorized'
+    );
   });
 
   test('API-0424: Get user with another customer\'s id returns 404', async ({ usersService, adminUsersService, authService, usersClientForToken, cleanup }) => {
@@ -136,7 +125,7 @@ test.describe('@users-api - Users API', () => {
     const tokenA = await loginThrowawayCustomer(authService, customerA, "Send POST /users/login with customer A's email and password, and take its access_token.");
 
     await test.step("Send GET /users/{userId} with customer B's id and customer A's access_token.", async () => {
-      ({ request, response } = await sendGetUser(usersClientForToken(tokenA), customerB.id, "customer A's access_token"));
+      ({ request, response } = await sendGetUser(usersClientForToken(tokenA), customerB.id, AUTH.customerA));
     });
 
     await test.step('Verify the response status is 404.', async () => {

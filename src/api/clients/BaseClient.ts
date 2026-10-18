@@ -47,8 +47,70 @@ function describeMultipart(form: MultipartForm): Record<string, unknown> {
   );
 }
 
+/** Options of endpoint methods that negative tests vary: the Accept header and redirects. */
+export interface RequestOptions {
+  /**
+   * The Accept header: `application/json` when undefined; `null` leaves it out (Playwright then sends its own default,
+   * which accepts any type: an APIRequestContext request can't go without an Accept header).
+   */
+  accept?: string | null;
+  /** Redirects to follow (Playwright's default, 20, when undefined); `0` returns a 3xx response as it is. */
+  maxRedirects?: number;
+}
+
+/** Options of a QUERY request with a body (see `BaseClient.queryBody`). */
+export interface QueryBodyOptions {
+  /** The Content-Type: `application/json` for an object body when undefined; a string body is sent with this type. */
+  contentType?: string;
+  /** As in `RequestOptions`. */
+  accept?: string | null;
+}
+
+/**
+ * A client's bearer token: a fixed one (a token the test obtained itself, or a malformed one), or a function that
+ * returns one when each request is sent, so a test that runs longer than a token's life never sends an expired one.
+ */
+export type AccessToken = string | (() => Promise<string>);
+
+/** A query-string value; see `queryString`. */
+export type QueryValue = string | number | boolean | string[] | undefined;
+
+/**
+ * A query string from `params`, in their order: each defined value as `name=<value>`, and an array as `name[]=<value>`
+ * for each item (the invalid input the 422 checks send). Undefined values are left out, so a parameter the test
+ * doesn't give isn't sent at all, and an empty string is sent as `name=`. Encoded by URLSearchParams (a space is `+`).
+ * Undefined when nothing is left.
+ */
+export function queryString(params: { readonly [name: string]: QueryValue } = {}): string | undefined {
+  const search = new URLSearchParams();
+  for (const [name, value] of Object.entries(params)) {
+    if (Array.isArray(value)) {
+      for (const item of value) search.append(`${name}[]`, item);
+    } else if (value !== undefined) {
+      search.append(name, String(value));
+    }
+  }
+  return search.toString() || undefined;
+}
+
+/** A credential header line of Playwright's call log, up to the end of the line or its colour code: `Authorization: Bearer ...`. */
+const CREDENTIAL_HEADER = /((?:proxy-)?(?:authorization|cookie|set-cookie)[ \t]*:[ \t]*)[^\r\n\x1b]*/gi;
+
+/**
+ * The text of a failed request's error with its credentials masked. Playwright appends a call log that lists every
+ * request header, the bearer token included, and the error ends up in published reports and public CI logs.
+ */
+function describeRequestError(error: unknown): string {
+  return (error instanceof Error ? error.message : String(error)).replace(CREDENTIAL_HEADER, '$1***');
+}
+
 /**
  * Base for all API clients. Requests go through Playwright's APIRequestContext. Listeners registered with `BaseClient.onApiCall` see every call.
+ *
+ * Subclasses have one public method per endpoint, built on the protected verb helpers. Write methods accept their
+ * request DTO or any object (`Record<string, unknown>`), so negative tests can send the invalid bodies validation
+ * scenarios need; services keep the strict types. The PATCH method is called `partialUpdate`, because `patch` is the
+ * verb helper.
  */
 export abstract class BaseClient {
   private static readonly apiCallListeners = new Set<ApiCallListener>();
@@ -73,22 +135,16 @@ export abstract class BaseClient {
   }
 
   protected readonly request: APIRequestContext;
-  protected readonly config: EnvConfig;
-  protected baseUrl: string;
-  private accessToken: string | null;
+  protected readonly baseUrl: string;
+  private readonly accessToken: AccessToken | null;
 
-  constructor(request: APIRequestContext, config: EnvConfig, accessToken?: string | null) {
+  constructor(request: APIRequestContext, config: Pick<EnvConfig, 'apiBaseUrl'>, accessToken?: AccessToken | null) {
     this.request = request;
-    this.config = config;
     this.baseUrl = config.apiBaseUrl;
     this.accessToken = accessToken || null;
   }
 
-  setToken(token: string | null): void {
-    this.accessToken = token || null;
-  }
-
-  protected getHeaders(contentType?: string): Record<string, string> {
+  protected async getHeaders(contentType?: string): Promise<Record<string, string>> {
     const headers: Record<string, string> = {
       Accept: 'application/json',
     };
@@ -97,8 +153,9 @@ export abstract class BaseClient {
       headers['Content-Type'] = contentType;
     }
 
-    if (this.accessToken) {
-      headers['Authorization'] = `Bearer ${this.accessToken}`;
+    const token = typeof this.accessToken === 'function' ? await this.accessToken() : this.accessToken;
+    if (token) {
+      headers['Authorization'] = `Bearer ${token}`;
     }
 
     return headers;
@@ -115,19 +172,12 @@ export abstract class BaseClient {
   protected async executeRequest(
     method: HttpVerb,
     resourcePath: string,
-    options?: {
+    options?: RequestOptions & {
       data?: unknown;
       /** A body sent as-is, without JSON encoding (pass its `contentType`). Used instead of `data`. */
       rawData?: string;
       query?: string;
       contentType?: string;
-      /**
-       * The Accept header: `application/json` when undefined; `null` leaves it out (Playwright then sends
-       * its own default, which accepts any type: an APIRequestContext request can't go without an Accept header).
-       */
-      accept?: string | null;
-      /** Redirects to follow (Playwright's default, 20, when undefined); `0` returns a 3xx response as it is. */
-      maxRedirects?: number;
       /** Extra request headers (e.g. `If-None-Match`), set after the defaults and the `accept` option. */
       headers?: Record<string, string>;
       /**
@@ -143,7 +193,7 @@ export abstract class BaseClient {
     const hasRawBody = !hasMultipart && options?.rawData !== undefined && bodyMethods.includes(method);
     const hasBody = !hasMultipart && !hasRawBody && options?.data !== undefined && bodyMethods.includes(method);
     const contentType = options?.contentType ?? (hasBody ? 'application/json; charset=utf-8' : undefined);
-    const headers = this.getHeaders(contentType);
+    const headers = await this.getHeaders(contentType);
     if (options?.accept === null) {
       delete headers['Accept'];
     } else if (options?.accept !== undefined) {
@@ -159,7 +209,7 @@ export abstract class BaseClient {
         url: fullUrl,
         path: `/${resourcePath.replace(/^\/+/, '')}`,
         query: options?.query || undefined,
-        requestBody: hasMultipart ? describeMultipart(options!.multipart!) : hasRawBody ? options!.rawData : options?.data,
+        requestBody: hasMultipart ? describeMultipart(options.multipart!) : hasRawBody ? options.rawData : options?.data,
         status,
         statusText,
         durationMs: Date.now() - startTime,
@@ -169,8 +219,8 @@ export abstract class BaseClient {
       const response = await this.request.fetch(fullUrl, {
         method,
         headers,
-        data: hasRawBody ? options!.rawData : hasBody ? JSON.stringify(options!.data) : undefined,
-        ...(hasMultipart ? { multipart: options!.multipart } : {}),
+        data: hasRawBody ? options.rawData : hasBody ? JSON.stringify(options.data) : undefined,
+        ...(hasMultipart ? { multipart: options.multipart } : {}),
         ...(options?.maxRedirects !== undefined ? { maxRedirects: options.maxRedirects } : {}),
       });
       const bodyText = await response.text();
@@ -184,36 +234,50 @@ export abstract class BaseClient {
         headers: response.headers(),
       };
     } catch (error) {
-      notify(0, error instanceof Error ? error.message : String(error));
-      throw new Error(`${method} ${fullUrl} failed: ${error}`);
+      const message = describeRequestError(error);
+      notify(0, message);
+      throw new Error(`${method} ${fullUrl} failed: ${message}`);
     }
   }
 
-  async get(resource: string, query?: string): Promise<ApiResponse> {
-    return this.executeRequest('GET', resource, { query });
+  protected get(resourcePath: string, query?: string): Promise<ApiResponse> {
+    return this.executeRequest('GET', resourcePath, { query });
   }
 
-  async post<TData>(resourcePath: string, data?: TData, query?: string): Promise<ApiResponse> {
-    return this.executeRequest('POST', resourcePath, { data, query });
+  protected post(resourcePath: string, options?: BodyOptions): Promise<ApiResponse> {
+    return this.executeRequest('POST', resourcePath, options);
   }
 
-  async delete<TData>(resource: string, options?: { data?: TData; query?: string }): Promise<ApiResponse> {
-    return this.executeRequest('DELETE', resource, { data: options?.data, query: options?.query });
+  protected put(resourcePath: string, options?: BodyOptions): Promise<ApiResponse> {
+    return this.executeRequest('PUT', resourcePath, options);
   }
 
-  async put<TData>(resourcePath: string, options?: { data?: TData; query?: string }): Promise<ApiResponse> {
-    return this.executeRequest('PUT', resourcePath, { data: options?.data, query: options?.query });
+  protected patch(resourcePath: string, options?: BodyOptions): Promise<ApiResponse> {
+    return this.executeRequest('PATCH', resourcePath, options);
   }
 
-  async patch<TData>(resourcePath: string, options?: { data?: TData; query?: string }): Promise<ApiResponse> {
-    return this.executeRequest('PATCH', resourcePath, { data: options?.data, query: options?.query });
+  protected delete(resourcePath: string, options?: BodyOptions): Promise<ApiResponse> {
+    return this.executeRequest('DELETE', resourcePath, options);
   }
 
   /** HTTP QUERY (RFC 10008): the criteria go in the body. `rawData` sends a non-JSON body as-is. */
-  async query<TData>(
+  protected query(
     resourcePath: string,
-    options?: { data?: TData; rawData?: string; query?: string; contentType?: string; accept?: string | null }
+    options?: BodyOptions & QueryBodyOptions & { rawData?: string }
   ): Promise<ApiResponse> {
     return this.executeRequest('QUERY', resourcePath, options);
   }
+
+  /**
+   * A QUERY request with `body`: an object is sent as JSON (`Content-Type: application/json`, no charset), a string
+   * as-is with `options.contentType` (for the 415 checks). `accept: null` leaves out `Accept: application/json`.
+   */
+  protected queryBody(resourcePath: string, body: object | string, options?: QueryBodyOptions): Promise<ApiResponse> {
+    return typeof body === 'string'
+      ? this.query(resourcePath, { rawData: body, contentType: options?.contentType, accept: options?.accept })
+      : this.query(resourcePath, { data: body, contentType: options?.contentType ?? 'application/json', accept: options?.accept });
+  }
 }
+
+/** The body and query string of a verb helper's request. */
+type BodyOptions = { data?: unknown; query?: string };

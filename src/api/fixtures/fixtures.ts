@@ -1,5 +1,8 @@
 import { test as base } from '../../fixtures/base';
+import type { UserRole } from '../../config/env';
+import type { TokenService } from '../auth/TokenService';
 import { AuthClient } from '../clients/AuthClient';
+import type { AccessToken } from '../clients/BaseClient';
 import { BrandsClient } from '../clients/BrandsClient';
 import { CartsClient } from '../clients/CartsClient';
 import { CategoriesClient } from '../clients/CategoriesClient';
@@ -29,6 +32,20 @@ import { UsersService } from '../services/UsersService';
 /** Not a JWT at all, so the API can't parse it and treats the request as unauthenticated. */
 const INVALID_TOKEN = 'invalid-token';
 
+/** The token of `role`, fetched from TokenService when each request is sent (cached, and refreshed before it expires). */
+function roleToken(tokenService: TokenService, role: UserRole): AccessToken {
+  return () => tokenService.getAccessToken(role);
+}
+
+/**
+ * API clients and services per area, in the variants the scenarios need:
+ * - `xClient`, `xService`: no token.
+ * - `xClientWithToken`, `xServiceWithToken`: the test's `role` (`test.use({ role })`), the token fetched per request.
+ * - `xClientWithInvalidToken`: a fixed malformed bearer token (`INVALID_TOKEN`), for the "invalid token" 401 checks.
+ * - `xClientForToken(token)`, `xServiceForToken(token)`: a token the test obtained itself (a throwaway customer's).
+ * - `adminXService`: always admin, whatever the test's `role`: setup creates and cleanup deletes (DELETE is admin-only).
+ * A fixture's own comment says only what is particular to it.
+ */
 export type ApiFixtures = {
   accessToken: string;
   authClient: AuthClient;
@@ -39,9 +56,7 @@ export type ApiFixtures = {
   productsService: ProductsService;
   /** Products endpoints authenticated as the test's `role` (e.g. an admin sees the stock count). */
   productsClientWithToken: ProductsClient;
-  /** Sends a fixed malformed bearer token (`INVALID_TOKEN`), for the "invalid token" 401 checks. */
   productsClientWithInvalidToken: ProductsClient;
-  /** Always authenticated as admin, whatever the test's `role`: setup creates and cleanup deletes (DELETE is admin-only). */
   adminProductsService: ProductsService;
   /** Product specs endpoints with no token (the reads, and the writes the scenarios send without a token). */
   productSpecsClient: ProductSpecsClient;
@@ -49,17 +64,15 @@ export type ApiFixtures = {
   productSpecsService: ProductSpecsService;
   /** Product specs endpoints authenticated as the test's `role` ("with the default user's token"). */
   productSpecsClientWithToken: ProductSpecsClient;
-  /** Sends a fixed malformed bearer token (`INVALID_TOKEN`), for the "invalid token" 401 checks. */
   productSpecsClientWithInvalidToken: ProductSpecsClient;
   /** Authenticated as the test's `role` (writes need a token, any role): setup creates and deletes specs, cleanup deletes them. */
   productSpecsServiceWithToken: ProductSpecsService;
   /** Authenticated as the test's `role`. */
-  usersClient: UsersClient;
+  usersClientWithToken: UsersClient;
   /** Users endpoints with no token (public ones such as register, and the "no token" 401 checks). */
-  usersClientWithoutToken: UsersClient;
+  usersClient: UsersClient;
   /** Public user operations (register a throwaway customer); no token. */
   usersService: UsersService;
-  /** Sends a fixed malformed bearer token (`INVALID_TOKEN`), for the "invalid token" 401 checks. */
   usersClientWithInvalidToken: UsersClient;
   /** Builds a users client with a token the test obtained itself (e.g. from a throwaway customer's login). */
   usersClientForToken: (token: string) => UsersClient;
@@ -73,9 +86,7 @@ export type ApiFixtures = {
   brandsService: BrandsService;
   /** Brands endpoints authenticated as the test's `role` ("with the admin's token", or the default user's for the 403 check). */
   brandsClientWithToken: BrandsClient;
-  /** Sends a fixed malformed bearer token (`INVALID_TOKEN`), for the "invalid token" 401 checks. */
   brandsClientWithInvalidToken: BrandsClient;
-  /** Always authenticated as admin, whatever the test's `role`: setup creates and cleanup deletes (DELETE is admin-only). */
   adminBrandsService: BrandsService;
   /** Categories endpoints with no token (reads, and the writes the categories scenarios send without a token). */
   categoriesClient: CategoriesClient;
@@ -83,9 +94,7 @@ export type ApiFixtures = {
   categoriesService: CategoriesService;
   /** Categories endpoints authenticated as the test's `role` ("with the admin's token", or the default user's for the 403 check). */
   categoriesClientWithToken: CategoriesClient;
-  /** Sends a fixed malformed bearer token (`INVALID_TOKEN`), for the "invalid token" 401 checks. */
   categoriesClientWithInvalidToken: CategoriesClient;
-  /** Always authenticated as admin, whatever the test's `role`: setup creates and cleanup deletes (DELETE is admin-only). */
   adminCategoriesService: CategoriesService;
   /** Public: carts need no token (the carts specs check statuses with it). */
   cartsClient: CartsClient;
@@ -99,7 +108,6 @@ export type ApiFixtures = {
   favoritesClient: FavoritesClient;
   /** Favorites endpoints authenticated as the test's `role` (only rejected or no-op calls: tests never add favourites for a shared user). */
   favoritesClientWithToken: FavoritesClient;
-  /** Sends a fixed malformed bearer token (`INVALID_TOKEN`), for the "invalid token" 401 checks. */
   favoritesClientWithInvalidToken: FavoritesClient;
   /** Builds a favorites client with a token the test obtained itself (a throwaway customer's), for the status checks. */
   favoritesClientForToken: (token: string) => FavoritesClient;
@@ -129,13 +137,11 @@ export type ApiFixtures = {
   invoicesClientWithToken: InvoicesClient;
   /** Builds an invoices client with a token the test obtained itself (a throwaway customer's), for the status checks. */
   invoicesClientForToken: (token: string) => InvoicesClient;
-  /** Sends a fixed malformed bearer token (`INVALID_TOKEN`), for the "malformed token" 401 checks. */
   invoicesClientWithInvalidToken: InvoicesClient;
   /** Reports endpoints with no token (the "no token" 401 checks). */
   reportsClient: ReportsClient;
   /** Reports endpoints authenticated as the test's `role` ("with the admin's token", or the default user's for the 403 checks). */
   reportsClientWithToken: ReportsClient;
-  /** Sends a fixed malformed bearer token (`INVALID_TOKEN`), for the "malformed token" 401 checks. */
   reportsClientWithInvalidToken: ReportsClient;
   /** Builds a reports client with a token the test obtained itself (a throwaway customer's, for the rate limit check). */
   reportsClientForToken: (token: string) => ReportsClient;
@@ -147,7 +153,6 @@ export type ApiFixtures = {
   messagesClientWithToken: MessagesClient;
   /** Message operations as the test's `role` (setup replies and status changes; messages of the run's customer). */
   messagesServiceWithToken: MessagesService;
-  /** Sends a fixed malformed bearer token (`INVALID_TOKEN`), for the "malformed token" checks. */
   messagesClientWithInvalidToken: MessagesClient;
   /** Builds a messages client with a token the test obtained itself (a throwaway customer's). */
   messagesClientForToken: (token: string) => MessagesClient;
@@ -173,14 +178,14 @@ export const test = base.extend<ApiFixtures>({
   productsService: async ({ productsClient }, use) => {
     await use(new ProductsService(productsClient));
   },
-  productsClientWithToken: async ({ request, config, accessToken }, use) => {
-    await use(new ProductsClient(request, config, accessToken));
+  productsClientWithToken: async ({ request, config, role, tokenService }, use) => {
+    await use(new ProductsClient(request, config, roleToken(tokenService, role)));
   },
   productsClientWithInvalidToken: async ({ request, config }, use) => {
     await use(new ProductsClient(request, config, INVALID_TOKEN));
   },
   adminProductsService: async ({ request, config, tokenService }, use) => {
-    await use(new ProductsService(new ProductsClient(request, config, await tokenService.getAccessToken('admin'))));
+    await use(new ProductsService(new ProductsClient(request, config, roleToken(tokenService, 'admin'))));
   },
 
   productSpecsClient: async ({ request, config }, use) => {
@@ -189,8 +194,8 @@ export const test = base.extend<ApiFixtures>({
   productSpecsService: async ({ productSpecsClient }, use) => {
     await use(new ProductSpecsService(productSpecsClient));
   },
-  productSpecsClientWithToken: async ({ request, config, accessToken }, use) => {
-    await use(new ProductSpecsClient(request, config, accessToken));
+  productSpecsClientWithToken: async ({ request, config, role, tokenService }, use) => {
+    await use(new ProductSpecsClient(request, config, roleToken(tokenService, role)));
   },
   productSpecsClientWithInvalidToken: async ({ request, config }, use) => {
     await use(new ProductSpecsClient(request, config, INVALID_TOKEN));
@@ -199,14 +204,14 @@ export const test = base.extend<ApiFixtures>({
     await use(new ProductSpecsService(productSpecsClientWithToken));
   },
 
-  usersClient: async ({ request, config, accessToken }, use) => {
-    await use(new UsersClient(request, config, accessToken));
+  usersClientWithToken: async ({ request, config, role, tokenService }, use) => {
+    await use(new UsersClient(request, config, roleToken(tokenService, role)));
   },
-  usersClientWithoutToken: async ({ request, config }, use) => {
+  usersClient: async ({ request, config }, use) => {
     await use(new UsersClient(request, config));
   },
-  usersService: async ({ usersClientWithoutToken }, use) => {
-    await use(new UsersService(usersClientWithoutToken));
+  usersService: async ({ usersClient }, use) => {
+    await use(new UsersService(usersClient));
   },
   usersClientWithInvalidToken: async ({ request, config }, use) => {
     await use(new UsersClient(request, config, INVALID_TOKEN));
@@ -218,7 +223,7 @@ export const test = base.extend<ApiFixtures>({
     await use((token: string) => new UsersService(usersClientForToken(token)));
   },
   adminUsersService: async ({ request, config, tokenService }, use) => {
-    await use(new UsersService(new UsersClient(request, config, await tokenService.getAccessToken('admin'))));
+    await use(new UsersService(new UsersClient(request, config, roleToken(tokenService, 'admin'))));
   },
 
   brandsClient: async ({ request, config }, use) => {
@@ -227,14 +232,14 @@ export const test = base.extend<ApiFixtures>({
   brandsService: async ({ brandsClient }, use) => {
     await use(new BrandsService(brandsClient));
   },
-  brandsClientWithToken: async ({ request, config, accessToken }, use) => {
-    await use(new BrandsClient(request, config, accessToken));
+  brandsClientWithToken: async ({ request, config, role, tokenService }, use) => {
+    await use(new BrandsClient(request, config, roleToken(tokenService, role)));
   },
   brandsClientWithInvalidToken: async ({ request, config }, use) => {
     await use(new BrandsClient(request, config, INVALID_TOKEN));
   },
   adminBrandsService: async ({ request, config, tokenService }, use) => {
-    await use(new BrandsService(new BrandsClient(request, config, await tokenService.getAccessToken('admin'))));
+    await use(new BrandsService(new BrandsClient(request, config, roleToken(tokenService, 'admin'))));
   },
 
   categoriesClient: async ({ request, config }, use) => {
@@ -243,14 +248,14 @@ export const test = base.extend<ApiFixtures>({
   categoriesService: async ({ categoriesClient }, use) => {
     await use(new CategoriesService(categoriesClient));
   },
-  categoriesClientWithToken: async ({ request, config, accessToken }, use) => {
-    await use(new CategoriesClient(request, config, accessToken));
+  categoriesClientWithToken: async ({ request, config, role, tokenService }, use) => {
+    await use(new CategoriesClient(request, config, roleToken(tokenService, role)));
   },
   categoriesClientWithInvalidToken: async ({ request, config }, use) => {
     await use(new CategoriesClient(request, config, INVALID_TOKEN));
   },
   adminCategoriesService: async ({ request, config, tokenService }, use) => {
-    await use(new CategoriesService(new CategoriesClient(request, config, await tokenService.getAccessToken('admin'))));
+    await use(new CategoriesService(new CategoriesClient(request, config, roleToken(tokenService, 'admin'))));
   },
 
   cartsClient: async ({ request, config }, use) => {
@@ -259,8 +264,8 @@ export const test = base.extend<ApiFixtures>({
   cartsService: async ({ cartsClient }, use) => {
     await use(new CartsService(cartsClient));
   },
-  cartsClientWithToken: async ({ request, config, accessToken }, use) => {
-    await use(new CartsClient(request, config, accessToken));
+  cartsClientWithToken: async ({ request, config, role, tokenService }, use) => {
+    await use(new CartsClient(request, config, roleToken(tokenService, role)));
   },
 
   favoritesServiceForToken: async ({ request, config }, use) => {
@@ -269,8 +274,8 @@ export const test = base.extend<ApiFixtures>({
   favoritesClient: async ({ request, config }, use) => {
     await use(new FavoritesClient(request, config));
   },
-  favoritesClientWithToken: async ({ request, config, accessToken }, use) => {
-    await use(new FavoritesClient(request, config, accessToken));
+  favoritesClientWithToken: async ({ request, config, role, tokenService }, use) => {
+    await use(new FavoritesClient(request, config, roleToken(tokenService, role)));
   },
   favoritesClientWithInvalidToken: async ({ request, config }, use) => {
     await use(new FavoritesClient(request, config, INVALID_TOKEN));
@@ -315,8 +320,8 @@ export const test = base.extend<ApiFixtures>({
   invoicesService: async ({ invoicesClient }, use) => {
     await use(new InvoicesService(invoicesClient));
   },
-  invoicesClientWithToken: async ({ request, config, accessToken }, use) => {
-    await use(new InvoicesClient(request, config, accessToken));
+  invoicesClientWithToken: async ({ request, config, role, tokenService }, use) => {
+    await use(new InvoicesClient(request, config, roleToken(tokenService, role)));
   },
   invoicesClientForToken: async ({ request, config }, use) => {
     await use((token: string) => new InvoicesClient(request, config, token));
@@ -328,8 +333,8 @@ export const test = base.extend<ApiFixtures>({
   reportsClient: async ({ request, config }, use) => {
     await use(new ReportsClient(request, config));
   },
-  reportsClientWithToken: async ({ request, config, accessToken }, use) => {
-    await use(new ReportsClient(request, config, accessToken));
+  reportsClientWithToken: async ({ request, config, role, tokenService }, use) => {
+    await use(new ReportsClient(request, config, roleToken(tokenService, role)));
   },
   reportsClientWithInvalidToken: async ({ request, config }, use) => {
     await use(new ReportsClient(request, config, INVALID_TOKEN));
@@ -344,8 +349,8 @@ export const test = base.extend<ApiFixtures>({
   messagesService: async ({ messagesClient }, use) => {
     await use(new MessagesService(messagesClient));
   },
-  messagesClientWithToken: async ({ request, config, accessToken }, use) => {
-    await use(new MessagesClient(request, config, accessToken));
+  messagesClientWithToken: async ({ request, config, role, tokenService }, use) => {
+    await use(new MessagesClient(request, config, roleToken(tokenService, role)));
   },
   messagesServiceWithToken: async ({ messagesClientWithToken }, use) => {
     await use(new MessagesService(messagesClientWithToken));
@@ -360,5 +365,3 @@ export const test = base.extend<ApiFixtures>({
     await use((token: string) => new MessagesService(messagesClientForToken(token)));
   },
 });
-
-export { expect } from '@playwright/test';

@@ -4,7 +4,6 @@ import { isStorageStateValid, tokenStorageState } from '../auth/authState';
 import { ShoppingFlow } from '../flows/ShoppingFlow';
 import { CartPage } from '../pages/CartPage';
 import { HomePage } from '../pages/HomePage';
-import { LoginPage } from '../pages/LoginPage';
 import { ProductPage } from '../pages/ProductPage';
 import { RentalsPage } from '../pages/RentalsPage';
 
@@ -21,7 +20,6 @@ export type UiOptions = {
 
 export type UiFixtures = {
   // Pages
-  loginPage: LoginPage;
   homePage: HomePage;
   productPage: ProductPage;
   cartPage: CartPage;
@@ -59,9 +57,6 @@ export const test = base.extend<UiOptions & UiFixtures>({
     await use(tokenStorageState(config.baseUrl, await tokenService.getAccessToken(role)));
   },
 
-  loginPage: async ({ page, config }, use) => {
-    await use(new LoginPage(page, config));
-  },
   homePage: async ({ page, config }, use) => {
     await use(new HomePage(page, config));
   },
@@ -79,5 +74,3 @@ export const test = base.extend<UiOptions & UiFixtures>({
     await use(new ShoppingFlow(page, config));
   },
 });
-
-export { expect } from '@playwright/test';

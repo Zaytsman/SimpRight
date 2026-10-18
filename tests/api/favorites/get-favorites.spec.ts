@@ -1,21 +1,18 @@
-import { test, expect, createCustomerWithFavorite, createSecondCustomer, registerThrowawayCustomer, loginThrowawayCustomer, THROWAWAY_TOKEN, SECOND_TOKEN, disableCustomerSetup } from '@fixtures';
+import { test, expect, AUTH, createCustomerWithFavorite, createSecondCustomer, registerThrowawayCustomer, loginThrowawayCustomer, disableCustomerSetup, sendAndAttach, checkStatusAndMessage, type AuthLabel } from '@fixtures';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { FavoritesClient } from '@api/clients/FavoritesClient';
 import type { Favorite } from '@api/dto/favorite';
-import { expectEmptyArray, expectMessage, expectStatus } from '@utils/apiChecks';
-import { assertMessage, attachJson } from '@utils/assertHelpers';
+import { expectEmptyArray, expectStatus, parseJson } from '@utils/apiChecks';
+import { assertMessage } from '@utils/assertHelpers';
 
 // Scenarios: test-scenarios/api/favorites/get-favorites.yml
 
-type ListFavoritesRequest = { method: 'GET'; path: '/favorites'; auth: string };
+type ListFavoritesRequest = { method: 'GET'; path: '/favorites'; auth: AuthLabel };
 
 /** Sends GET /favorites with `favoritesClient` and attaches the request and the response. */
-async function sendList(favoritesClient: FavoritesClient, auth: string): Promise<{ request: ListFavoritesRequest; response: ApiResponse }> {
+async function sendList(favoritesClient: FavoritesClient, auth: AuthLabel): Promise<{ request: ListFavoritesRequest; response: ApiResponse }> {
   const request: ListFavoritesRequest = { method: 'GET', path: '/favorites', auth };
-  const response = await favoritesClient.list();
-  await attachJson('List Favorites Request', request);
-  await attachJson('List Favorites Response', { status: response.status, body: response.body });
-  return { request, response };
+  return sendAndAttach('List Favorites', request, () => favoritesClient.list());
 }
 
 test.describe('@favorites-api - Favorites API', () => {
@@ -38,7 +35,7 @@ test.describe('@favorites-api - Favorites API', () => {
     );
 
     await test.step("Send GET /favorites with the throwaway customer's access_token.", async () => {
-      ({ request, response } = await sendList(favoritesClientForToken(token), THROWAWAY_TOKEN));
+      ({ request, response } = await sendList(favoritesClientForToken(token), AUTH.throwaway));
     });
 
     await test.step('Verify the response status is 200.', async () => {
@@ -46,7 +43,7 @@ test.describe('@favorites-api - Favorites API', () => {
     });
 
     await test.step("Verify the body is an array that includes an item with the new favorite's id.", async () => {
-      const body = JSON.parse(response.body) as Favorite[];
+      const body = parseJson<Favorite[]>(request, response);
       expect(Array.isArray(body), assertMessage({ request, expected: 'The body is an array', actual: body })).toBe(true);
       item = body.find((entry) => entry.id === favorite.id);
       expect(item, assertMessage({ request, expected: `An item with the new favorite's id ${favorite.id}`, actual: body })).toBeDefined();
@@ -99,7 +96,7 @@ test.describe('@favorites-api - Favorites API', () => {
     const second = await createSecondCustomer(usersService, adminUsersService, authService, cleanup);
 
     await test.step("Send GET /favorites with the second customer's access_token.", async () => {
-      ({ request, response } = await sendList(favoritesClientForToken(second.token), SECOND_TOKEN));
+      ({ request, response } = await sendList(favoritesClientForToken(second.token), AUTH.second));
     });
 
     await test.step('Verify the response status is 200.', async () => {
@@ -112,37 +109,21 @@ test.describe('@favorites-api - Favorites API', () => {
   });
 
   test('API-0269: List favorites without a token returns 401', async ({ favoritesClient }) => {
-    let request: ListFavoritesRequest;
-    let response: ApiResponse;
-
-    await test.step('Send GET /favorites without an Authorization header.', async () => {
-      ({ request, response } = await sendList(favoritesClient, 'none'));
-    });
-
-    await test.step('Verify the response status is 401.', async () => {
-      expectStatus(request, response, 401);
-    });
-
-    await test.step('Verify the body\'s message is "Unauthorized".', async () => {
-      expectMessage(request, response, 'Unauthorized');
-    });
+    await checkStatusAndMessage(
+      'Send GET /favorites without an Authorization header.',
+      () => sendList(favoritesClient, AUTH.none),
+      401,
+      'Unauthorized'
+    );
   });
 
   test('API-0270: List favorites with a malformed token returns 401', async ({ favoritesClientWithInvalidToken }) => {
-    let request: ListFavoritesRequest;
-    let response: ApiResponse;
-
-    await test.step('Send GET /favorites with a malformed token.', async () => {
-      ({ request, response } = await sendList(favoritesClientWithInvalidToken, 'a malformed token'));
-    });
-
-    await test.step('Verify the response status is 401.', async () => {
-      expectStatus(request, response, 401);
-    });
-
-    await test.step('Verify the body\'s message is "Unauthorized".', async () => {
-      expectMessage(request, response, 'Unauthorized');
-    });
+    await checkStatusAndMessage(
+      'Send GET /favorites with a malformed token.',
+      () => sendList(favoritesClientWithInvalidToken, AUTH.malformed),
+      401,
+      'Unauthorized'
+    );
   });
 
   test.describe(() => {
@@ -155,26 +136,18 @@ test.describe('@favorites-api - Favorites API', () => {
       favoritesClientForToken,
       cleanup,
     }) => {
-      let request: ListFavoritesRequest;
-      let response: ApiResponse;
-
       const customer = await registerThrowawayCustomer(usersService, adminUsersService, cleanup);
       const customerToken = await loginThrowawayCustomer(authService, customer);
 
       // The throwaway's token isn't used before this call, so the API's cached user can't be a stale, enabled one.
-      await disableCustomerSetup(adminUsersService, customer.id, "Send PATCH /users/{userId} with that id and enabled false, with the admin's token.", "admin's token");
+      await disableCustomerSetup(adminUsersService, customer.id, "Send PATCH /users/{userId} with that id and enabled false, with the admin's token.", AUTH.admin);
 
-      await test.step("Send GET /favorites with the throwaway customer's access_token.", async () => {
-        ({ request, response } = await sendList(favoritesClientForToken(customerToken), THROWAWAY_TOKEN));
-      });
-
-      await test.step('Verify the response status is 403.', async () => {
-        expectStatus(request, response, 403);
-      });
-
-      await test.step('Verify the body\'s message is "Account disabled.".', async () => {
-        expectMessage(request, response, 'Account disabled.');
-      });
+      await checkStatusAndMessage(
+        "Send GET /favorites with the throwaway customer's access_token.",
+        () => sendList(favoritesClientForToken(customerToken), AUTH.throwaway),
+        403,
+        'Account disabled.'
+      );
     });
   });
 });

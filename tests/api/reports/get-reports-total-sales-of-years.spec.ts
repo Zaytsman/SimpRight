@@ -1,20 +1,4 @@
-import {
-  test,
-  expect,
-  REPORT_AUTH,
-  sendReport,
-  parseRows,
-  expectNumberFields,
-  registerThrowawayCustomer,
-  loginThrowawayCustomer,
-  firstListedProductId,
-  createCart,
-  addItemSetup,
-  createInvoiceSetup,
-  setInvoiceStatusSetup,
-  INVOICE_AUTH,
-  type ReportRequest,
-} from '@fixtures';
+import { test, expect, AUTH, sendReport, parseRows, expectNumberFields, registerThrowawayCustomer, loginThrowawayCustomer, firstListedProductId, createCart, addItemSetup, createInvoiceSetup, setInvoiceStatusSetup, type ReportRequest, checkStatusAndMessage } from '@fixtures';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { InvoiceCreated } from '@api/dto/invoice';
 import type { TotalSalesOfYearsRow } from '@api/dto/report';
@@ -59,7 +43,7 @@ test.describe('@reports-api - Reports API', () => {
       let rows: TotalSalesOfYearsRow[];
 
       await test.step("Send GET /reports/total-sales-of-years with the admin's token.", async () => {
-        ({ request, response } = await sendReport(PATH, REPORT_AUTH.admin, () => reportsClientWithToken.totalSalesOfYears()));
+        ({ request, response } = await sendReport(PATH, AUTH.admin, () => reportsClientWithToken.totalSalesOfYears()));
       });
 
       await test.step('Verify the response status is 200.', async () => {
@@ -86,7 +70,7 @@ test.describe('@reports-api - Reports API', () => {
       let rows: TotalSalesOfYearsRow[];
 
       await test.step("Send GET /reports/total-sales-of-years with years 3 and the admin's token.", async () => {
-        ({ request, response } = await sendReport(PATH, REPORT_AUTH.admin, () => reportsClientWithToken.totalSalesOfYears(years), { years }));
+        ({ request, response } = await sendReport(PATH, AUTH.admin, () => reportsClientWithToken.totalSalesOfYears(years), { years }));
       });
 
       await test.step('Verify the response status is 200.', async () => {
@@ -112,7 +96,7 @@ test.describe('@reports-api - Reports API', () => {
       let response: ApiResponse;
 
       await test.step("Send GET /reports/total-sales-of-years with years 0 and the admin's token.", async () => {
-        ({ request, response } = await sendReport(PATH, REPORT_AUTH.admin, () => reportsClientWithToken.totalSalesOfYears(years), { years }));
+        ({ request, response } = await sendReport(PATH, AUTH.admin, () => reportsClientWithToken.totalSalesOfYears(years), { years }));
       });
 
       await test.step('Verify the response status is 200.', async () => {
@@ -131,7 +115,7 @@ test.describe('@reports-api - Reports API', () => {
       let response: ApiResponse;
 
       await test.step("Send GET /reports/total-sales-of-years with years -1 and the admin's token.", async () => {
-        ({ request, response } = await sendReport(PATH, REPORT_AUTH.admin, () => reportsClientWithToken.totalSalesOfYears(years), { years }));
+        ({ request, response } = await sendReport(PATH, AUTH.admin, () => reportsClientWithToken.totalSalesOfYears(years), { years }));
       });
 
       await test.step('Verify the response status is 200.', async () => {
@@ -150,7 +134,7 @@ test.describe('@reports-api - Reports API', () => {
       let response: ApiResponse;
 
       await test.step('Send GET /reports/total-sales-of-years with years "abc" and the admin\'s token.', async () => {
-        ({ request, response } = await sendReport(PATH, REPORT_AUTH.admin, () => reportsClientWithToken.totalSalesOfYears(years), { years }));
+        ({ request, response } = await sendReport(PATH, AUTH.admin, () => reportsClientWithToken.totalSalesOfYears(years), { years }));
       });
 
       await test.step('Verify the response status is 200 or 422.', async () => {
@@ -197,7 +181,7 @@ test.describe('@reports-api - Reports API', () => {
       await test.step(
         "Send GET /reports/total-sales-of-years with a years value picked at random between 20 and 99 and the admin's token, and take the last item's total as the starting total.",
         async () => {
-          const start = await sendReport(PATH, REPORT_AUTH.admin, () => reportsClientWithToken.totalSalesOfYears(startYears), { years: startYears });
+          const start = await sendReport(PATH, AUTH.admin, () => reportsClientWithToken.totalSalesOfYears(startYears), { years: startYears });
           expectStatus(start.request, start.response, 200);
           startTotal = parseRows<TotalSalesOfYearsRow>(start.request, start.response).at(-1)!.total;
         }
@@ -207,7 +191,7 @@ test.describe('@reports-api - Reports API', () => {
         invoicesServiceForToken(token),
         cartId,
         'Send POST /invoices with that access_token, payment_method "cash-on-delivery", payment_details {}, billing_street "Stephansplatz 1", billing_city "Wien", billing_country "AT" and the cart\'s id as cart_id, and take the new invoice\'s id and total.',
-        INVOICE_AUTH.throwaway
+        AUTH.newUser
       );
 
       await setInvoiceStatusSetup(
@@ -215,13 +199,13 @@ test.describe('@reports-api - Reports API', () => {
         invoice.id,
         'COMPLETED',
         'Send PUT /invoices/{invoiceId}/status with the invoice\'s id, that access_token and a body with status "COMPLETED".',
-        INVOICE_AUTH.throwaway
+        AUTH.newUser
       );
 
       await test.step(
         "Send GET /reports/total-sales-of-years with another years value between 20 and 99, different from the first (so the report is computed fresh, not read from the cache), and the admin's token.",
         async () => {
-          ({ request, response } = await sendReport(PATH, REPORT_AUTH.admin, () => reportsClientWithToken.totalSalesOfYears(years), { years }));
+          ({ request, response } = await sendReport(PATH, AUTH.admin, () => reportsClientWithToken.totalSalesOfYears(years), { years }));
         }
       );
 
@@ -249,54 +233,30 @@ test.describe('@reports-api - Reports API', () => {
   });
 
   test('API-0581: Total sales of years without a token returns 401', async ({ reportsClient }) => {
-    let request: ReportRequest;
-    let response: ApiResponse;
-
-    await test.step('Send GET /reports/total-sales-of-years without an Authorization header.', async () => {
-      ({ request, response } = await sendReport(PATH, REPORT_AUTH.none, () => reportsClient.totalSalesOfYears()));
-    });
-
-    await test.step('Verify the response status is 401.', async () => {
-      expectStatus(request, response, 401);
-    });
-
-    await test.step('Verify the body\'s message is "Unauthorized".', async () => {
-      expectMessage(request, response, 'Unauthorized');
-    });
+    await checkStatusAndMessage(
+      'Send GET /reports/total-sales-of-years without an Authorization header.',
+      () => sendReport(PATH, AUTH.none, () => reportsClient.totalSalesOfYears()),
+      401,
+      'Unauthorized'
+    );
   });
 
   test('API-0582: Total sales of years with a malformed token returns 401', async ({ reportsClientWithInvalidToken }) => {
-    let request: ReportRequest;
-    let response: ApiResponse;
-
-    await test.step('Send GET /reports/total-sales-of-years with a malformed token.', async () => {
-      ({ request, response } = await sendReport(PATH, REPORT_AUTH.malformed, () => reportsClientWithInvalidToken.totalSalesOfYears()));
-    });
-
-    await test.step('Verify the response status is 401.', async () => {
-      expectStatus(request, response, 401);
-    });
-
-    await test.step('Verify the body\'s message is "Unauthorized".', async () => {
-      expectMessage(request, response, 'Unauthorized');
-    });
+    await checkStatusAndMessage(
+      'Send GET /reports/total-sales-of-years with a malformed token.',
+      () => sendReport(PATH, AUTH.malformed, () => reportsClientWithInvalidToken.totalSalesOfYears()),
+      401,
+      'Unauthorized'
+    );
   });
 
   test('API-0583: Total sales of years as a customer returns 403', async ({ reportsClientWithToken }) => {
-    let request: ReportRequest;
-    let response: ApiResponse;
-
-    await test.step("Send GET /reports/total-sales-of-years with the default user's token.", async () => {
-      ({ request, response } = await sendReport(PATH, REPORT_AUTH.customer, () => reportsClientWithToken.totalSalesOfYears()));
-    });
-
-    await test.step('Verify the response status is 403.', async () => {
-      expectStatus(request, response, 403);
-    });
-
-    await test.step('Verify the body\'s message is "Forbidden".', async () => {
-      expectMessage(request, response, 'Forbidden');
-    });
+    await checkStatusAndMessage(
+      "Send GET /reports/total-sales-of-years with the default user's token.",
+      () => sendReport(PATH, AUTH.defaultUser, () => reportsClientWithToken.totalSalesOfYears()),
+      403,
+      'Forbidden'
+    );
   });
 
   test('API-0586: Report requests share one rate limit counter', async ({ reportsClient }) => {
@@ -304,11 +264,11 @@ test.describe('@reports-api - Reports API', () => {
     let second: { request: ReportRequest; response: ApiResponse };
 
     await test.step('Send GET /reports/total-sales-of-years without an Authorization header, and note the X-RateLimit-Remaining header.', async () => {
-      first = await sendReport(PATH, REPORT_AUTH.none, () => reportsClient.totalSalesOfYears());
+      first = await sendReport(PATH, AUTH.none, () => reportsClient.totalSalesOfYears());
     });
 
     await test.step('Send GET /reports/top10-purchased-products without an Authorization header, and note its X-RateLimit-Remaining header.', async () => {
-      second = await sendReport('/reports/top10-purchased-products', REPORT_AUTH.none, () => reportsClient.top10PurchasedProducts());
+      second = await sendReport('/reports/top10-purchased-products', AUTH.none, () => reportsClient.top10PurchasedProducts());
     });
 
     await test.step('Verify both responses have status 401.', async () => {
@@ -341,7 +301,7 @@ test.describe('@reports-api - Reports API', () => {
     // 61 calls in a row plus a registration and a login can take longer than the default test timeout.
     test.slow();
     const calls = 61;
-    const request = { method: 'GET', path: PATH, auth: "the new user's access_token", times: calls };
+    const request = { method: 'GET', path: PATH, auth: AUTH.newUser, times: calls };
     let last: ApiResponse;
 
     const customer = await registerThrowawayCustomer(usersService, adminUsersService, cleanup);

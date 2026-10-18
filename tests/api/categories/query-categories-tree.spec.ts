@@ -1,33 +1,22 @@
-import { test, expect, expectIncludesIds, expectSubCategoriesOf, takeTreeItemIdsBySlugs } from '@fixtures';
+import { test, expect, expectIncludesIds, expectSubCategoriesOf, takeTreeItemIdsBySlugs, JSON_QUERY_HEADERS, sendQueryAndAttach, type QueryHeaders, type QueryRequestRecord } from '@fixtures';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { CategoriesClient } from '@api/clients/CategoriesClient';
 import type { CategoryTree, CategoryTreeQueryBody } from '@api/dto/category';
 import { TestConstants } from '@data/TestConstants';
-import { expectAcceptQuery, expectMessage, expectStatus } from '@utils/apiChecks';
-import { assertMessage, attachJson } from '@utils/assertHelpers';
+import { expectAcceptQuery, expectMessage, expectStatus, parseJson } from '@utils/apiChecks';
+import { assertMessage } from '@utils/assertHelpers';
 
 // Scenarios: test-scenarios/api/categories/query-categories-tree.yml
 
-type QueryTreeRequestInfo = {
-  method: 'QUERY';
-  path: '/categories/tree';
-  headers: { 'Content-Type': string; Accept: string };
-  body: CategoryTreeQueryBody | string;
-};
-
-const JSON_HEADERS = { 'Content-Type': 'application/json', Accept: 'application/json' } as const;
+type QueryTreeRequestInfo = QueryRequestRecord<CategoryTreeQueryBody>;
 
 /** Sends QUERY /categories/tree and attaches the request and the response. A string body is sent as-is with the given Content-Type. */
 async function sendQueryTree(
   categoriesClient: CategoriesClient,
   body: CategoryTreeQueryBody | string,
-  headers: QueryTreeRequestInfo['headers'] = JSON_HEADERS
+  headers: QueryHeaders = JSON_QUERY_HEADERS
 ): Promise<{ request: QueryTreeRequestInfo; response: ApiResponse }> {
-  const request: QueryTreeRequestInfo = { method: 'QUERY', path: '/categories/tree', headers, body };
-  const response = await categoriesClient.queryTree(body, { contentType: headers['Content-Type'], accept: headers.Accept });
-  await attachJson('Query Category Tree Request', request);
-  await attachJson('Query Category Tree Response', { status: response.status, headers: response.headers, body: response.body });
-  return { request, response };
+  return sendQueryAndAttach('Query Category Tree', '/categories/tree', body, headers, (sent, options) => categoriesClient.queryTree(sent, options));
 }
 
 test.describe('@categories-api - Categories API', () => {
@@ -46,7 +35,7 @@ test.describe('@categories-api - Categories API', () => {
 
     await test.step('Verify the response status is 200.', async () => {
       expectStatus(request, response, 200);
-      body = JSON.parse(response.body) as CategoryTree[];
+      body = parseJson<CategoryTree[]>(request, response);
     });
 
     await test.step('Verify the Accept-Query response header is application/json.', async () => {
@@ -87,7 +76,7 @@ test.describe('@categories-api - Categories API', () => {
     });
 
     await test.step("Verify the body's item ids include those ids.", async () => {
-      expectIncludesIds(request, JSON.parse(response.body), ids);
+      expectIncludesIds(request, parseJson(request, response), ids);
     });
   });
 

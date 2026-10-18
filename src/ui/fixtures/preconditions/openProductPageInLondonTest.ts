@@ -1,6 +1,6 @@
 // Extends `openProductPageTest` (itself the merged `test`), because a spec uses this fixture as its `test`.
 import { openProductPageTest as base } from './openProductPageTest';
-import { LONDON, setVisitorLocation } from '../../auth/visitorLocation';
+import { LONDON, setVisitorLocation } from '../../visitor/visitorLocation';
 
 /**
  * Same as `openProductPageTest`, but the browser is a visitor in London, so a location offer's page shows its
@@ -12,5 +12,3 @@ export const openProductPageInLondonTest = base.extend({
     await use(page);
   },
 });
-
-export { expect } from '@playwright/test';

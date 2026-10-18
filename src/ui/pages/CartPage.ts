@@ -2,8 +2,10 @@ import { expect, type Locator, type Page } from '@playwright/test';
 import type { EnvConfig } from '../../config/env';
 import { parseAmount } from '../../utils/amounts';
 import { BasePage } from './BasePage';
-import { CheckoutCartLine } from './components/CheckoutCartLine';
+import { CART_REQUEST_PATH, CheckoutCartLine } from './components/CheckoutCartLine';
 import { CheckoutSignInStep } from './components/CheckoutSignInStep';
+import { HomePage } from './HomePage';
+import { waitForApiResponse } from './waitForApiResponse';
 
 export interface CartLine {
   title: string;
@@ -29,8 +31,6 @@ export class CartPage extends BasePage {
   private readonly discountTableRow: Locator;
   /** CSS: the message has no test id or role; it's the cart step's only paragraph, rendered only for an empty cart. */
   private readonly emptyCartMessageText: Locator;
-  /** The toast the app shows (ngx-toastr, role "alert") after a change, e.g. "Product quantity updated.". */
-  private readonly toastAlert: Locator;
   /**
    * The title of the wizard's current step ("Cart", "Sign in", "Billing Address", "Payment").
    * CSS: the step indicator has no test id, role state or aria-current; the wizard library marks the current one with
@@ -41,6 +41,8 @@ export class CartPage extends BasePage {
   private readonly billingAddressTitle: Locator;
   /** Step 2 of the wizard. */
   readonly signInStep: CheckoutSignInStep;
+  /** The page `open()` starts from when no page of the app is open yet. */
+  private readonly homePage: HomePage;
 
   constructor(page: Page, config: EnvConfig) {
     super(page, config);
@@ -55,10 +57,10 @@ export class CartPage extends BasePage {
     this.discountText = this.cartStep.getByTestId('cart-discount');
     this.discountTableRow = this.cartStep.locator('tr').filter({ has: page.getByTestId('cart-discount') });
     this.emptyCartMessageText = this.cartStep.locator('p');
-    this.toastAlert = page.getByRole('alert');
     this.currentStepLabel = page.locator('aw-wizard-navigation-bar li.current .label');
     this.billingAddressTitle = page.locator('app-address').getByRole('heading', { name: 'Billing Address' });
     this.signInStep = new CheckoutSignInStep(page);
+    this.homePage = new HomePage(page, config);
   }
 
   /** The title of the wizard's current step. */
@@ -110,18 +112,23 @@ export class CartPage extends BasePage {
     return this.proceedButton;
   }
 
-  get toast(): Locator {
-    return this.toastAlert;
-  }
-
   /**
-   * Opens the checkout page from the home page through the nav bar's cart link, so the browser never loads /checkout
-   * itself: Cloudflare answers most direct loads of /checkout from GitHub-hosted runners with its bot check, and
-   * moving inside the app sends no page request. The cart link shows only once the cart has items.
+   * Opens the checkout page through the nav bar's cart link, so the browser never loads /checkout itself: Cloudflare
+   * answers most direct loads of /checkout from GitHub-hosted runners with its bot check, and moving inside the app
+   * sends no page request. Opens the home page first only when no page of the app is open yet (a precondition fixture
+   * or an earlier step may have opened one), and waits until it has loaded: a click on the cart link right after the
+   * load can be lost (seen: the page stayed on the home page, the link focused). The cart link shows only once the cart
+   * has items. Then waits for the app's `GET /carts/{id}`, failing with what happened when the cart doesn't load, and
+   * for the cart step to render.
    */
   async open(): Promise<void> {
-    await this.goto('/');
+    if (!this.page.url().startsWith(new URL(this.config.baseUrl).origin)) await this.homePage.open();
+    const cartLoaded = waitForApiResponse(this.page, 'GET', CART_REQUEST_PATH);
     await this.navBar.openCart();
+    const response = await cartLoaded.catch((error: unknown) => {
+      throw new Error(`The cart didn't load: no answer to GET /carts/{id} after the click on the cart link (${(error as Error).message})`);
+    });
+    if (!response.ok()) throw new Error(`The cart didn't load: GET /carts/{id} answered ${response.status()}`);
     await this.waitForLoaded();
   }
 

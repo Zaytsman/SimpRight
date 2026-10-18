@@ -1,8 +1,7 @@
 /** Invoice types (`Invoices_API.md`). */
+import type { PaymentMethod } from './payment';
 
 export type InvoiceStatus = 'AWAITING_FULFILLMENT' | 'ON_HOLD' | 'AWAITING_SHIPMENT' | 'SHIPPED' | 'COMPLETED';
-
-export type PaymentMethod = 'bank-transfer' | 'cash-on-delivery' | 'credit-card' | 'buy-now-pay-later' | 'gift-card';
 
 /** The state of an invoice's PDF job; `NOT_INITIATED` comes with a 400 when no job exists for the number. */
 export type DownloadStatus = 'NOT_INITIATED' | 'INITIATED' | 'IN_PROGRESS' | 'COMPLETED';

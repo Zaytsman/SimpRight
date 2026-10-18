@@ -5,10 +5,10 @@ import type { ProductSpecsClient } from '../clients/ProductSpecsClient';
 import type { ProductSpec } from '../dto/product';
 import type { ProductSpecsService } from '../services/ProductSpecsService';
 import type { ProductsService } from '../services/ProductsService';
-import type { ProductRefs } from '../../data/factories/ProductFactory';
 import { ProductSpecFactory } from '../../data/factories/ProductSpecFactory';
 import { assertMessage, attachJson } from '../../utils/assertHelpers';
-import { createProductFromRefs, createProductToUpdate, firstListedProductId, firstProductRefs } from './productSteps';
+import { AUTH, sendAndAttach, type AuthLabel } from './apiSteps';
+import { createProduct, createProductToUpdate, firstProductRefs } from './productSteps';
 
 /**
  * Steps shared by the product specs specs (/products/{productId}/specs and /product-specs/names). The titles are the
@@ -17,11 +17,7 @@ import { createProductFromRefs, createProductToUpdate, firstListedProductId, fir
  */
 const SPEC_CREATE_STEP =
   'Send POST /products/{productId}/specs with the new product\'s id, a body with a unique spec_name, spec_value "1.5" and spec_unit "kg", and the default user\'s token, and take the new spec\'s id.';
-const FIRST_PRODUCT_ID_STEP = "Send GET /products and take the first item's id.";
 const OTHER_PRODUCT_LIST_STEP = "Send GET /products and take the first item's brand id, category id and product image id, and the id of another item.";
-
-/** How the attached requests describe the token of the spec writes ("with the default user's token"). */
-export const DEFAULT_TOKEN = "default user's token";
 
 /** The fixtures the spec setup helpers use. */
 export type SpecSetupFixtures = {
@@ -30,15 +26,6 @@ export type SpecSetupFixtures = {
   productSpecsServiceWithToken: ProductSpecsService;
   cleanup: Cleanup;
 };
-
-/** The FIRST_PRODUCT_ID_STEP step (or a variant with the title `title`): the id of the first item of GET /products. */
-export async function takeFirstProductId(productsService: ProductsService, title: string = FIRST_PRODUCT_ID_STEP): Promise<string> {
-  let productId = '';
-  await test.step(title, async () => {
-    productId = await firstListedProductId(productsService);
-  });
-  return productId;
-}
 
 /**
  * A spec-create setup step (title `title`, default SPEC_CREATE_STEP): adds a spec with a unique name, value "1.5" and
@@ -52,20 +39,16 @@ export async function createSpec(
   cleanup: Cleanup,
   title: string = SPEC_CREATE_STEP
 ): Promise<ProductSpec> {
-  let created: ProductSpec | undefined;
-
-  await test.step(title, async () => {
+  return test.step(title, async () => {
     const body = ProductSpecFactory.createSpec();
     const path = `/products/${productId}/specs`;
-    await attachJson('Create Spec Request', { method: 'POST', path, auth: DEFAULT_TOKEN, body });
+    await attachJson('Create Spec Request', { method: 'POST', path, auth: AUTH.defaultUser, body });
     const spec = await productSpecsServiceWithToken.create(productId, body);
     cleanup.add(() => productSpecsServiceWithToken.delete(productId, spec.id));
     await attachJson('Create Spec Response', spec);
     expect(spec.id, assertMessage({ request: { method: 'POST', path, body }, expected: 'The new spec has an id', actual: spec })).toBeTruthy();
-    created = spec;
+    return spec;
   });
-
-  return created!;
 }
 
 /**
@@ -93,22 +76,20 @@ export async function createProductAndTakeOtherId(
   adminProductsService: ProductsService,
   cleanup: Cleanup
 ): Promise<{ productId: string; otherProductId: string }> {
-  let refs: Partial<ProductRefs> = {};
-  let otherProductId = '';
-
-  await test.step(OTHER_PRODUCT_LIST_STEP, async () => {
+  const { refs, otherProductId } = await test.step(OTHER_PRODUCT_LIST_STEP, async () => {
     const list = await productsService.list();
     await attachJson('List Products Response', list);
-    refs = firstProductRefs(list);
+    const firstRefs = firstProductRefs(list);
     const firstId = list.data[0]!.id;
-    otherProductId = list.data.find((item) => item.id !== firstId)?.id ?? '';
+    const otherId = list.data.find((item) => item.id !== firstId)?.id ?? '';
     expect(
-      Boolean(otherProductId),
+      Boolean(otherId),
       assertMessage({ request: { method: 'GET', path: '/products' }, expected: `Another item whose id differs from ${firstId}`, actual: list.data.map((item) => item.id) })
     ).toBe(true);
+    return { refs: firstRefs, otherProductId: otherId };
   });
 
-  const productId = await createProductFromRefs(refs as ProductRefs, adminProductsService, cleanup);
+  const productId = (await createProduct(adminProductsService, cleanup, refs)).id;
   return { productId, otherProductId };
 }
 
@@ -120,7 +101,7 @@ export async function readSpec(productSpecsService: ProductSpecsService, product
 }
 
 /** The request record that `sendGetSpec` attaches and that assertion messages show. */
-export type GetSpecRequest = { method: 'GET'; path: string; auth: string };
+export type GetSpecRequest = { method: 'GET'; path: string; auth: AuthLabel };
 
 /**
  * Sends GET /products/{productId}/specs/{specId} with the given client (`auth` describes its token) and attaches the
@@ -130,11 +111,8 @@ export async function sendGetSpec(
   productSpecsClient: ProductSpecsClient,
   productId: string,
   specId: string,
-  auth: string
+  auth: AuthLabel
 ): Promise<{ request: GetSpecRequest; response: ApiResponse }> {
   const request: GetSpecRequest = { method: 'GET', path: `/products/${productId}/specs/${specId}`, auth };
-  const response = await productSpecsClient.getById(productId, specId);
-  await attachJson('Get Spec Request', request);
-  await attachJson('Get Spec Response', { status: response.status, body: response.body });
-  return { request, response };
+  return sendAndAttach('Get Spec', request, () => productSpecsClient.getById(productId, specId));
 }

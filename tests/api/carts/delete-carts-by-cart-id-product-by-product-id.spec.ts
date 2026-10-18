@@ -16,13 +16,14 @@ import {
   ADD_NON_RENTAL_STEP,
   ADD_RENTAL_STEP,
   type CartSetupFixtures,
+  sendAndAttach,
 } from '@fixtures';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { CartsClient } from '@api/clients/CartsClient';
 import type { Cart } from '@api/dto/cart';
 import { TestConstants } from '@data/TestConstants';
 import { expectMessage, expectStatus } from '@utils/apiChecks';
-import { assertMessage, attachJson } from '@utils/assertHelpers';
+import { assertMessage } from '@utils/assertHelpers';
 
 // Scenarios: test-scenarios/api/carts/delete-carts-by-cart-id-product-by-product-id.yml
 
@@ -32,10 +33,7 @@ type RemoveProductRequest = { method: 'DELETE'; path: string };
 /** Sends DELETE /carts/{cartId}/product/{productId} and attaches the request and the response. */
 async function sendRemoveProduct(cartsClient: CartsClient, cartId: string, productId: string): Promise<{ request: RemoveProductRequest; response: ApiResponse }> {
   const request: RemoveProductRequest = { method: 'DELETE', path: `/carts/${cartId}/product/${productId}` };
-  const response = await cartsClient.removeProduct(cartId, productId);
-  await attachJson('Remove Product Request', request);
-  await attachJson('Remove Product Response', { status: response.status, body: response.body });
-  return { request, response };
+  return sendAndAttach('Remove Product', request, () => cartsClient.removeProduct(cartId, productId));
 }
 
 /**

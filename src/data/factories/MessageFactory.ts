@@ -1,5 +1,5 @@
-import type { MultipartFile } from '@api/clients/BaseClient';
-import type { ReplyRequest, SendMessageRequest } from '@api/dto/message';
+import type { MultipartFile } from '../../api/clients/BaseClient';
+import type { ReplyRequest, SendMessageRequest } from '../../api/dto/message';
 import { uniqueName } from './testDataUtils';
 
 const MESSAGE_TEXT = 'Message from the SimpRight API tests.';

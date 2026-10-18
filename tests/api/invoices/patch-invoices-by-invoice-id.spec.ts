@@ -1,16 +1,4 @@
-import {
-  test,
-  expect,
-  createCustomerInvoice,
-  customerAWithInvoiceAndCustomerB,
-  sendPatchInvoice,
-  readInvoiceOk,
-  expectFieldsEqual,
-  INVOICE_AUTH,
-  type CustomerInvoice,
-  type InvoiceRequest,
-  type InvoiceSetupFixtures,
-} from '@fixtures';
+import { test, expect, AUTH, createCustomerInvoice, customerAWithInvoiceAndCustomerB, sendPatchInvoice, readInvoiceOk, expectFieldsEqual, type CustomerInvoice, type InvoiceRequest, type InvoiceSetupFixtures, checkStatusAndMessage } from '@fixtures';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { InvoicesClient } from '@api/clients/InvoicesClient';
 import type { PatchInvoiceRequest } from '@api/dto/invoice';
@@ -39,7 +27,7 @@ async function expectPatchValidationError(
   const setup: CustomerInvoice = await createCustomerInvoice(fixtures);
 
   await test.step(title, async () => {
-    ({ request, response } = await sendPatchInvoice(invoicesClientForToken(setup.token), setup.invoice.id, body, INVOICE_AUTH.throwaway));
+    ({ request, response } = await sendPatchInvoice(invoicesClientForToken(setup.token), setup.invoice.id, body, AUTH.newUser));
   });
 
   await test.step('Verify the response status is 422.', async () => {
@@ -47,7 +35,7 @@ async function expectPatchValidationError(
   });
 
   await test.step(verifyTitle, async () => {
-    expectFieldMessages(response, field, request);
+    expectFieldMessages(request, response, field);
   });
 }
 
@@ -71,7 +59,7 @@ test.describe('@invoices-api - Invoices API', () => {
     await test.step(
       "Send PATCH /invoices/{invoiceId} with the invoice's id, that access_token and a body with a unique billing_street of at most 70 characters.",
       async () => {
-        ({ request, response } = await sendPatchInvoice(invoicesClientForToken(setup.token), setup.invoice.id, body, INVOICE_AUTH.throwaway));
+        ({ request, response } = await sendPatchInvoice(invoicesClientForToken(setup.token), setup.invoice.id, body, AUTH.newUser));
       }
     );
 
@@ -84,7 +72,7 @@ test.describe('@invoices-api - Invoices API', () => {
     });
 
     await test.step('Verify GET /invoices/{invoiceId} with that id and token returns 200 with the new billing_street.', async () => {
-      const { request: getRequest, invoice } = await readInvoiceOk(invoicesClientForToken(setup.token), setup.invoice.id, INVOICE_AUTH.throwaway);
+      const { request: getRequest, invoice } = await readInvoiceOk(invoicesClientForToken(setup.token), setup.invoice.id, AUTH.newUser);
       expectFieldsEqual(getRequest, invoice, body, ['billing_street']);
     });
   });
@@ -105,7 +93,7 @@ test.describe('@invoices-api - Invoices API', () => {
     const setup: CustomerInvoice = await createCustomerInvoice({ usersService, adminUsersService, authService, productsService, cartsService, invoicesServiceForToken, cleanup });
 
     await test.step("Send PATCH /invoices/{invoiceId} with the invoice's id, that access_token and an empty JSON object as the body.", async () => {
-      ({ request, response } = await sendPatchInvoice(invoicesClientForToken(setup.token), setup.invoice.id, {}, INVOICE_AUTH.throwaway));
+      ({ request, response } = await sendPatchInvoice(invoicesClientForToken(setup.token), setup.invoice.id, {}, AUTH.newUser));
     });
 
     await test.step('Verify the response status is 200.', async () => {
@@ -119,7 +107,7 @@ test.describe('@invoices-api - Invoices API', () => {
     await test.step(
       'Verify GET /invoices/{invoiceId} with that id and token returns 200 with billing_street "Stephansplatz 1", billing_city "Wien" and billing_country "AT".',
       async () => {
-        const { request: getRequest, invoice } = await readInvoiceOk(invoicesClientForToken(setup.token), setup.invoice.id, INVOICE_AUTH.throwaway);
+        const { request: getRequest, invoice } = await readInvoiceOk(invoicesClientForToken(setup.token), setup.invoice.id, AUTH.newUser);
         expectFieldsEqual(getRequest, invoice, { billing_street: 'Stephansplatz 1', billing_city: 'Wien', billing_country: 'AT' }, [
           'billing_street',
           'billing_city',
@@ -145,7 +133,7 @@ test.describe('@invoices-api - Invoices API', () => {
     const setup: CustomerInvoice = await createCustomerInvoice({ usersService, adminUsersService, authService, productsService, cartsService, invoicesServiceForToken, cleanup });
 
     await test.step('Send PATCH /invoices/{invoiceId} with the invoice\'s id, that access_token and a body with invoice_date "2026-01-15".', async () => {
-      ({ request, response } = await sendPatchInvoice(invoicesClientForToken(setup.token), setup.invoice.id, { invoice_date: '2026-01-15' }, INVOICE_AUTH.throwaway));
+      ({ request, response } = await sendPatchInvoice(invoicesClientForToken(setup.token), setup.invoice.id, { invoice_date: '2026-01-15' }, AUTH.newUser));
     });
 
     await test.step('Verify the response status is 200.', async () => {
@@ -157,7 +145,7 @@ test.describe('@invoices-api - Invoices API', () => {
     });
 
     await test.step('Verify GET /invoices/{invoiceId} with that id and token returns 200 with an invoice_date that contains "2026-01-15".', async () => {
-      const { request: getRequest, invoice } = await readInvoiceOk(invoicesClientForToken(setup.token), setup.invoice.id, INVOICE_AUTH.throwaway);
+      const { request: getRequest, invoice } = await readInvoiceOk(invoicesClientForToken(setup.token), setup.invoice.id, AUTH.newUser);
       expect(invoice.invoice_date, assertMessage({ request: getRequest, expected: 'invoice_date contains "2026-01-15"', actual: { invoice_date: invoice.invoice_date } })).toContain(
         '2026-01-15'
       );
@@ -165,23 +153,12 @@ test.describe('@invoices-api - Invoices API', () => {
   });
 
   test('API-0521: Partially update invoice without a token returns 401', async ({ invoicesClient }) => {
-    let request: InvoiceRequest;
-    let response: ApiResponse;
-
-    await test.step(
+    await checkStatusAndMessage(
       'Send PATCH /invoices/{invoiceId} with a well-formed ULID that no invoice has and a body with billing_street "Stephansplatz 1", without an Authorization header.',
-      async () => {
-        ({ request, response } = await sendPatchInvoice(invoicesClient, TestConstants.invoices.unknownId, InvoiceFactory.patchBody(), INVOICE_AUTH.none));
-      }
+      () => sendPatchInvoice(invoicesClient, TestConstants.invoices.unknownId, InvoiceFactory.patchBody(), AUTH.none),
+      401,
+      'Unauthorized'
     );
-
-    await test.step('Verify the response status is 401.', async () => {
-      expectStatus(request, response, 401);
-    });
-
-    await test.step('Verify the body\'s message is "Unauthorized".', async () => {
-      expectMessage(request, response, 'Unauthorized');
-    });
   });
 
   test('API-0522: Partially update invoice with a billing street longer than 70 characters returns 422', async ({
@@ -275,7 +252,7 @@ test.describe('@invoices-api - Invoices API', () => {
           invoicesClientWithToken,
           TestConstants.invoices.unknownId,
           { billing_street: InvoiceFactory.tooLongStreet() },
-          INVOICE_AUTH.defaultUser
+          AUTH.defaultUser
         ));
       }
     );
@@ -296,7 +273,7 @@ test.describe('@invoices-api - Invoices API', () => {
           invoicesClientWithToken,
           TestConstants.invoices.unknownId,
           InvoiceFactory.patchBody(),
-          INVOICE_AUTH.defaultUser
+          AUTH.defaultUser
         ));
       }
     );
@@ -319,21 +296,13 @@ test.describe('@invoices-api - Invoices API', () => {
     invoicesClientForToken,
     cleanup,
   }) => {
-    let request: InvoiceRequest;
-    let response: ApiResponse;
-
     const { tokenB, invoice } = await customerAWithInvoiceAndCustomerB({ usersService, adminUsersService, authService, cartsService, invoicesServiceForToken, cleanup });
 
-    await test.step('Send PATCH /invoices/{invoiceId} with that id, customer B\'s access_token and a body with billing_street "Stephansplatz 1".', async () => {
-      ({ request, response } = await sendPatchInvoice(invoicesClientForToken(tokenB), invoice.id, InvoiceFactory.patchBody(), INVOICE_AUTH.customerB));
-    });
-
-    await test.step('Verify the response status is 404.', async () => {
-      expectStatus(request, response, 404);
-    });
-
-    await test.step('Verify the body\'s message is "Requested item not found".', async () => {
-      expectMessage(request, response, 'Requested item not found');
-    });
+    await checkStatusAndMessage(
+      'Send PATCH /invoices/{invoiceId} with that id, customer B\'s access_token and a body with billing_street "Stephansplatz 1".',
+      () => sendPatchInvoice(invoicesClientForToken(tokenB), invoice.id, InvoiceFactory.patchBody(), AUTH.customerB),
+      404,
+      'Requested item not found'
+    );
   });
 });

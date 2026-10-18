@@ -1,6 +1,24 @@
 // Every scenario here has the precondition "The home page is open.": the fixture opens it before the steps.
 import { openHomePageTest as test, expect } from '@fixtures';
 import { TestConstants } from '@data/TestConstants';
+import type { HomePage } from '@ui/pages/HomePage';
+
+/** The checks of a "Verify every product name contains "<term>" (case-insensitive)." step: the grid's page 1. */
+async function expectEveryNameContains(homePage: HomePage, term: string): Promise<void> {
+  for (const name of await homePage.productGrid.getProductNames()) {
+    expect(name.toLowerCase(), `Product "${name}" should contain "${term}"`).toContain(term);
+  }
+}
+
+/**
+ * The checks of a "Verify the product grid still shows the first page of all products." step. Approved reading: "the
+ * first page of all products" = the same names, in the same order, as right after the home page loaded.
+ */
+async function expectGridUnchanged(homePage: HomePage, firstPageNames: string[]): Promise<void> {
+  expect(firstPageNames.length, 'The home page showed products before the search').toBeGreaterThan(0);
+  const names = await homePage.productGrid.getProductNames();
+  expect(names, `The grid is unchanged: ${names.join(' | ')} (before: ${firstPageNames.join(' | ')})`).toEqual(firstPageNames);
+}
 
 // Scenarios: test-scenarios/ui/products/product-search.yml
 test.describe('@products - Product search', () => {
@@ -20,10 +38,7 @@ test.describe('@products - Product search', () => {
     });
 
     await test.step('Verify every product name contains "pliers" (case-insensitive).', async () => {
-      const names = await homePage.productGrid.getProductNames();
-      for (const name of names) {
-        expect(name.toLowerCase(), `Product "${name}" should contain "${term}"`).toContain(term);
-      }
+      await expectEveryNameContains(homePage, term);
     });
   });
 
@@ -57,10 +72,7 @@ test.describe('@products - Product search', () => {
     });
 
     await test.step('Verify every product name contains "pliers" (case-insensitive).', async () => {
-      const names = await homePage.productGrid.getProductNames();
-      for (const name of names) {
-        expect(name.toLowerCase(), `Product "${name}" should contain "${term}"`).toContain(term);
-      }
+      await expectEveryNameContains(homePage, term);
     });
   });
 
@@ -80,10 +92,7 @@ test.describe('@products - Product search', () => {
     });
 
     await test.step('Verify every product name contains "ham" (case-insensitive).', async () => {
-      const names = await homePage.productGrid.getProductNames();
-      for (const name of names) {
-        expect(name.toLowerCase(), `Product "${name}" should contain "${term}"`).toContain(term);
-      }
+      await expectEveryNameContains(homePage, term);
     });
   });
 
@@ -112,12 +121,8 @@ test.describe('@products - Product search', () => {
       await expect(homePage.searchCaption, 'No search caption is shown').toBeHidden();
     });
 
-    // Approved reading: "the first page of all products" = the same names, in the same order, as right after
-    // the home page loaded.
     await test.step('Verify the product grid still shows the first page of all products.', async () => {
-      expect(firstPageNames.length, 'The home page showed products before the search').toBeGreaterThan(0);
-      const names = await homePage.productGrid.getProductNames();
-      expect(names, `The grid is unchanged: ${names.join(' | ')} (before: ${firstPageNames.join(' | ')})`).toEqual(firstPageNames);
+      await expectGridUnchanged(homePage, firstPageNames);
     });
   });
 
@@ -134,12 +139,8 @@ test.describe('@products - Product search', () => {
       await expect(homePage.searchCaption, 'No search caption is shown').toBeHidden();
     });
 
-    // Approved reading: "the first page of all products" = the same names, in the same order, as right after
-    // the home page loaded.
     await test.step('Verify the product grid still shows the first page of all products.', async () => {
-      expect(firstPageNames.length, 'The home page showed products before the search').toBeGreaterThan(0);
-      const names = await homePage.productGrid.getProductNames();
-      expect(names, `The grid is unchanged: ${names.join(' | ')} (before: ${firstPageNames.join(' | ')})`).toEqual(firstPageNames);
+      await expectGridUnchanged(homePage, firstPageNames);
     });
   });
 });

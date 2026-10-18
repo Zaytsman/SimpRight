@@ -24,9 +24,10 @@ import type { ProductsService } from '../services/ProductsService';
 import type { UsersService } from '../services/UsersService';
 import { InvoiceFactory } from '../../data/factories/InvoiceFactory';
 import { assertMessage, attachJson } from '../../utils/assertHelpers';
-import { expectStatus } from '../../utils/apiChecks';
+import { expectStatus, parseJson } from '../../utils/apiChecks';
+import { AUTH, pageSummary, describePage, sendAndAttach, type AuthLabel } from './apiSteps';
 import { addItemSetup, createCart } from './cartSteps';
-import { firstListedProductId } from './productSteps';
+import { takeFirstProductId } from './productSteps';
 import { loginThrowawayCustomer, registerThrowawayCustomer, type ThrowawayCustomer } from './userSteps';
 
 /**
@@ -37,35 +38,23 @@ import { loginThrowawayCustomer, registerThrowawayCustomer, type ThrowawayCustom
  */
 export const FIRST_PRODUCT_STEP = "Send GET /products and take the first item's id as the product's id.";
 export const ADD_TWO_STEP = "Send POST /carts/{cartId} with the cart's id, the product's id as product_id and quantity 2.";
-export const INVOICE_CREATE_STEP =
+const INVOICE_CREATE_STEP =
   'Send POST /invoices with that access_token, payment_method "cash-on-delivery", payment_details {}, billing_street "Stephansplatz 1", billing_city "Wien", billing_country "AT" and the cart\'s id as cart_id, and take the new invoice\'s id, invoice_number and total.';
 export const PDF_STATUS_POLL_STEP =
   "Send GET /invoices/{invoice_number}/download-pdf-status with the invoice's number and that access_token, and repeat every few seconds until the response status is 200 and the body's status is COMPLETED (the PDF jobs run every minute, so allow a few minutes).";
 
-/** How the attached requests name the tokens of the invoices scenarios. */
-export const INVOICE_AUTH = {
-  none: 'none',
-  malformed: 'a malformed token',
-  defaultUser: "the default user's token",
-  admin: "the admin's token",
-  throwaway: "the new user's access_token",
-  customerA: "customer A's access_token",
-  customerB: "customer B's access_token",
-  throwawayCustomer: "the throwaway customer's access_token",
-} as const;
-
 /** The register and login steps of the scenarios with two customers (A holds the invoice, B tries to reach it). */
-export const CUSTOMER_A_REGISTER_STEP =
+const CUSTOMER_A_REGISTER_STEP =
   "Send POST /users/register with a unique email, a first name, a last name and a random strong password (customer A), and take the new user's id.";
-export const CUSTOMER_A_LOGIN_STEP = "Send POST /users/login with customer A's email and password, and take its access_token.";
-export const CUSTOMER_B_REGISTER_STEP =
+const CUSTOMER_A_LOGIN_STEP = "Send POST /users/login with customer A's email and password, and take its access_token.";
+const CUSTOMER_B_REGISTER_STEP =
   "Send POST /users/register with a unique email, a first name, a last name and a random strong password (customer B), and take the new user's id.";
-export const CUSTOMER_B_LOGIN_STEP = "Send POST /users/login with customer B's email and password, and take its access_token.";
+const CUSTOMER_B_LOGIN_STEP = "Send POST /users/login with customer B's email and password, and take its access_token.";
 /** The most common wording of customer A's invoice-create step. */
-export const CUSTOMER_A_INVOICE_STEP =
+const CUSTOMER_A_INVOICE_STEP =
   'Send POST /invoices with customer A\'s access_token, payment_method "cash-on-delivery", payment_details {}, billing_street "Stephansplatz 1", billing_city "Wien", billing_country "AT" and the cart\'s id as cart_id, and take the new invoice\'s id.';
 
-export type InvoiceRequest = { method: string; path: string; auth: string; query?: Record<string, unknown>; body?: unknown };
+export type InvoiceRequest = { method: string; path: string; auth: AuthLabel; query?: Record<string, unknown>; body?: unknown };
 
 /**
  * An invoice-create setup step (title `title`): creates the invoice through `invoicesService` (built with the
@@ -75,12 +64,10 @@ export async function createInvoiceSetup(
   invoicesService: InvoicesService,
   cartId: string,
   title: string,
-  auth: string,
+  auth: AuthLabel,
   body: CreateInvoiceRequest = InvoiceFactory.cashOnDelivery(cartId)
 ): Promise<InvoiceCreated> {
-  let created: InvoiceCreated | undefined;
-
-  await test.step(title, async () => {
+  return test.step(title, async () => {
     const request: InvoiceRequest = { method: 'POST', path: '/invoices', auth, body };
     await attachJson('Create Invoice Request', request);
     const invoice = await invoicesService.create(body);
@@ -89,10 +76,8 @@ export async function createInvoiceSetup(
       typeof invoice.id === 'string' && invoice.id.length > 0 && typeof invoice.total === 'number',
       assertMessage({ request, expected: 'The new invoice has an id and a numeric total', actual: invoice })
     ).toBe(true);
-    created = invoice;
+    return invoice;
   });
-
-  return created!;
 }
 
 /**
@@ -105,10 +90,8 @@ export async function createGuestInvoiceSetup(
   title: string,
   body: CreateGuestInvoiceRequest = InvoiceFactory.guest(cartId)
 ): Promise<InvoiceCreated> {
-  let created: InvoiceCreated | undefined;
-
-  await test.step(title, async () => {
-    const request: InvoiceRequest = { method: 'POST', path: '/invoices/guest', auth: INVOICE_AUTH.none, body };
+  return test.step(title, async () => {
+    const request: InvoiceRequest = { method: 'POST', path: '/invoices/guest', auth: AUTH.none, body };
     await attachJson('Create Guest Invoice Request', request);
     const invoice = await invoicesService.createGuest(body);
     await attachJson('Create Guest Invoice Response', invoice);
@@ -116,10 +99,8 @@ export async function createGuestInvoiceSetup(
       typeof invoice.id === 'string' && invoice.id.length > 0 && typeof invoice.invoice_number === 'string',
       assertMessage({ request, expected: 'The new invoice has an id and an invoice_number', actual: invoice })
     ).toBe(true);
-    created = invoice;
+    return invoice;
   });
-
-  return created!;
 }
 
 /**
@@ -131,7 +112,7 @@ export async function setInvoiceStatusSetup(
   invoiceId: string,
   status: InvoiceStatus | UpdateInvoiceStatusRequest,
   title: string,
-  auth: string
+  auth: AuthLabel
 ): Promise<void> {
   await test.step(title, async () => {
     const body: UpdateInvoiceStatusRequest = typeof status === 'string' ? { status } : status;
@@ -141,15 +122,6 @@ export async function setInvoiceStatusSetup(
     await attachJson('Update Invoice Status Response', result);
     expect(result.success, assertMessage({ request, expected: 'success is true', actual: result })).toBe(true);
   });
-}
-
-/** The FIRST_PRODUCT_STEP step (or a variant `title`): returns the id of the first item of GET /products. */
-export async function takeFirstProduct(productsService: ProductsService, title: string = FIRST_PRODUCT_STEP): Promise<string> {
-  let productId = '';
-  await test.step(title, async () => {
-    productId = await firstListedProductId(productsService);
-  });
-  return productId;
 }
 
 /** The fixtures the invoice setup chain uses. */
@@ -210,7 +182,7 @@ export async function createCustomerInvoice(
     { usersService, adminUsersService, authService, cleanup },
     { register: options.registerTitle, login: options.loginTitle }
   );
-  const productId = options.withProduct ? await takeFirstProduct(productsService) : undefined;
+  const productId = options.withProduct ? await takeFirstProductId(productsService, FIRST_PRODUCT_STEP) : undefined;
   const cartId = await createCart(cartsService, cleanup);
   if (productId) {
     await addItemSetup(cartsService, cartId, productId, 2, ADD_TWO_STEP);
@@ -219,7 +191,7 @@ export async function createCustomerInvoice(
     invoicesServiceForToken(token),
     cartId,
     options.invoiceTitle ?? INVOICE_CREATE_STEP,
-    INVOICE_AUTH.throwaway,
+    AUTH.newUser,
     options.invoiceBody ? options.invoiceBody(cartId) : undefined
   );
   return { customer, token, cartId, productId, invoice };
@@ -249,7 +221,7 @@ export async function customerAWithInvoiceAndCustomerB(
   const customerB = await registerThrowawayCustomer(usersService, adminUsersService, cleanup, { title: CUSTOMER_B_REGISTER_STEP });
   const tokenB = await loginThrowawayCustomer(authService, customerB, CUSTOMER_B_LOGIN_STEP);
   const cartId = await createCart(cartsService, cleanup);
-  const invoice = await createInvoiceSetup(invoicesServiceForToken(tokenA), cartId, invoiceTitle, INVOICE_AUTH.customerA);
+  const invoice = await createInvoiceSetup(invoicesServiceForToken(tokenA), cartId, invoiceTitle, AUTH.customerA);
   return { customerA, tokenA, customerB, tokenB, cartId, invoice };
 }
 
@@ -257,13 +229,10 @@ export async function customerAWithInvoiceAndCustomerB(
 export async function sendCreateInvoice(
   invoicesClient: InvoicesClient,
   body: CreateInvoiceRequest | Record<string, unknown>,
-  auth: string
+  auth: AuthLabel
 ): Promise<{ request: InvoiceRequest; response: ApiResponse }> {
   const request: InvoiceRequest = { method: 'POST', path: '/invoices', auth, body };
-  const response = await invoicesClient.create(body);
-  await attachJson('Create Invoice Request', request);
-  await attachJson('Create Invoice Response', { status: response.status, body: response.body });
-  return { request, response };
+  return sendAndAttach('Create Invoice', request, () => invoicesClient.create(body));
 }
 
 /** Sends POST /invoices/guest with `invoicesClient` (no token) and attaches the request and the response. */
@@ -271,33 +240,27 @@ export async function sendCreateGuestInvoice(
   invoicesClient: InvoicesClient,
   body: CreateGuestInvoiceRequest | Record<string, unknown>
 ): Promise<{ request: InvoiceRequest; response: ApiResponse }> {
-  const request: InvoiceRequest = { method: 'POST', path: '/invoices/guest', auth: INVOICE_AUTH.none, body };
-  const response = await invoicesClient.createGuest(body);
-  await attachJson('Create Guest Invoice Request', request);
-  await attachJson('Create Guest Invoice Response', { status: response.status, body: response.body });
-  return { request, response };
+  const request: InvoiceRequest = { method: 'POST', path: '/invoices/guest', auth: AUTH.none, body };
+  return sendAndAttach('Create Guest Invoice', request, () => invoicesClient.createGuest(body));
 }
 
 /**
  * Sends GET /invoices/{invoiceId} and attaches the request and the response. Tests read only invoices they created
  * (their own made-up addresses), so the body is attached as it came.
  */
-export async function sendGetInvoice(invoicesClient: InvoicesClient, invoiceId: string, auth: string): Promise<{ request: InvoiceRequest; response: ApiResponse }> {
+export async function sendGetInvoice(invoicesClient: InvoicesClient, invoiceId: string, auth: AuthLabel): Promise<{ request: InvoiceRequest; response: ApiResponse }> {
   const request: InvoiceRequest = { method: 'GET', path: `/invoices/${invoiceId}`, auth };
-  const response = await invoicesClient.getById(invoiceId);
-  await attachJson('Get Invoice Request', request);
-  await attachJson('Get Invoice Response', { status: response.status, body: response.body });
-  return { request, response };
+  return sendAndAttach('Get Invoice', request, () => invoicesClient.getById(invoiceId));
 }
 
 /**
  * The first half of a "Verify GET /invoices/{invoiceId} with the new id and <token> returns 200 with ..." step: reads
  * the invoice, checks the 200 and returns the request record and the parsed invoice for the step's other checks.
  */
-export async function readInvoiceOk(invoicesClient: InvoicesClient, invoiceId: string, auth: string): Promise<{ request: InvoiceRequest; invoice: Invoice }> {
+export async function readInvoiceOk(invoicesClient: InvoicesClient, invoiceId: string, auth: AuthLabel): Promise<{ request: InvoiceRequest; invoice: Invoice }> {
   const { request, response } = await sendGetInvoice(invoicesClient, invoiceId, auth);
   expectStatus(request, response, 200);
-  return { request, invoice: JSON.parse(response.body) as Invoice };
+  return { request, invoice: parseJson<Invoice>(request, response) };
 }
 
 /**
@@ -320,53 +283,28 @@ export function invoiceSummary(invoice: Partial<InvoiceSummary>): Record<string,
 
 /** `invoiceSummary` for a page: the pagination fields and the summary of each item. */
 export function invoicePageSummary(page: Partial<Paginated<InvoiceSummary>>): Record<string, unknown> {
-  return {
-    current_page: page.current_page,
-    from: page.from,
-    last_page: page.last_page,
-    per_page: page.per_page,
-    to: page.to,
-    total: page.total,
-    data: Array.isArray(page.data) ? page.data.map(invoiceSummary) : page.data,
-  };
+  return pageSummary(page, invoiceSummary);
 }
 
 /**
  * Sends GET /invoices (with `page` when given) and attaches the request and the response: a 2xx page as
  * `invoicePageSummary`, any other response with its body as it came (error bodies hold no visitor data).
  */
-export async function sendListInvoices(invoicesClient: InvoicesClient, auth: string, page?: number): Promise<{ request: InvoiceRequest; response: ApiResponse }> {
+export async function sendListInvoices(invoicesClient: InvoicesClient, auth: AuthLabel, page?: number): Promise<{ request: InvoiceRequest; response: ApiResponse }> {
   const request: InvoiceRequest = { method: 'GET', path: '/invoices', auth, ...(page !== undefined ? { query: { page } } : {}) };
-  const response = await invoicesClient.list(page);
-  await attachJson('List Invoices Request', request);
-  await attachInvoicePageResponse('List Invoices Response', response);
-  return { request, response };
-}
-
-/** Attaches a page response: a 2xx page as `invoicePageSummary`, any other response with its body as it came. */
-async function attachInvoicePageResponse(name: string, response: ApiResponse): Promise<void> {
-  if (response.isSuccess) {
-    const body = JSON.parse(response.body) as Paginated<InvoiceSummary>;
-    await attachJson(name, { status: response.status, body: invoicePageSummary(body) });
-  } else {
-    // Error bodies hold no visitor data.
-    await attachJson(name, { status: response.status, body: response.body });
-  }
+  return sendAndAttach('List Invoices', request, () => invoicesClient.list(page), describePage(invoiceSummary));
 }
 
 /** Sends GET /invoices/search (`q` and `page` only when given) and attaches the request and the response like `sendListInvoices`. */
 export async function sendSearchInvoices(
   invoicesClient: InvoicesClient,
-  auth: string,
+  auth: AuthLabel,
   q?: string,
   page?: number
 ): Promise<{ request: InvoiceRequest; response: ApiResponse }> {
   const query = { ...(q !== undefined ? { q } : {}), ...(page !== undefined ? { page } : {}) };
   const request: InvoiceRequest = { method: 'GET', path: '/invoices/search', auth, ...(Object.keys(query).length > 0 ? { query } : {}) };
-  const response = await invoicesClient.search(q, page);
-  await attachJson('Search Invoices Request', request);
-  await attachInvoicePageResponse('Search Invoices Response', response);
-  return { request, response };
+  return sendAndAttach('Search Invoices', request, () => invoicesClient.search(q, page), describePage(invoiceSummary));
 }
 
 /**
@@ -375,15 +313,12 @@ export async function sendSearchInvoices(
  */
 export async function sendQuerySearchInvoices(
   invoicesClient: InvoicesClient,
-  auth: string,
+  auth: AuthLabel,
   body: InvoiceSearchQueryBody | string,
   contentType: string = 'application/json'
 ): Promise<{ request: InvoiceRequest; response: ApiResponse }> {
   const request = { method: 'QUERY', path: '/invoices/search', auth, contentType, accept: 'application/json', body };
-  const response = await invoicesClient.querySearch(body, { contentType });
-  await attachJson('Query Search Invoices Request', request);
-  await attachInvoicePageResponse('Query Search Invoices Response', response);
-  return { request, response };
+  return sendAndAttach('Query Search Invoices', request, () => invoicesClient.querySearch(body, { contentType }), describePage(invoiceSummary));
 }
 
 /** Sends PUT /invoices/{invoiceId} and attaches the request and the response (the caller's own invoice, or an error). */
@@ -391,13 +326,10 @@ export async function sendUpdateInvoice(
   invoicesClient: InvoicesClient,
   invoiceId: string,
   body: UpdateInvoiceRequest | Record<string, unknown>,
-  auth: string
+  auth: AuthLabel
 ): Promise<{ request: InvoiceRequest; response: ApiResponse }> {
   const request: InvoiceRequest = { method: 'PUT', path: `/invoices/${invoiceId}`, auth, body };
-  const response = await invoicesClient.update(invoiceId, body);
-  await attachJson('Update Invoice Request', request);
-  await attachJson('Update Invoice Response', { status: response.status, body: response.body });
-  return { request, response };
+  return sendAndAttach('Update Invoice', request, () => invoicesClient.update(invoiceId, body));
 }
 
 /** Sends PATCH /invoices/{invoiceId} and attaches the request and the response. */
@@ -405,13 +337,10 @@ export async function sendPatchInvoice(
   invoicesClient: InvoicesClient,
   invoiceId: string,
   body: PatchInvoiceRequest | Record<string, unknown>,
-  auth: string
+  auth: AuthLabel
 ): Promise<{ request: InvoiceRequest; response: ApiResponse }> {
   const request: InvoiceRequest = { method: 'PATCH', path: `/invoices/${invoiceId}`, auth, body };
-  const response = await invoicesClient.partialUpdate(invoiceId, body);
-  await attachJson('Patch Invoice Request', request);
-  await attachJson('Patch Invoice Response', { status: response.status, body: response.body });
-  return { request, response };
+  return sendAndAttach('Patch Invoice', request, () => invoicesClient.partialUpdate(invoiceId, body));
 }
 
 /** Sends PUT /invoices/{invoiceId}/status and attaches the request and the response. */
@@ -419,13 +348,10 @@ export async function sendUpdateInvoiceStatus(
   invoicesClient: InvoicesClient,
   invoiceId: string,
   body: UpdateInvoiceStatusRequest | Record<string, unknown>,
-  auth: string
+  auth: AuthLabel
 ): Promise<{ request: InvoiceRequest; response: ApiResponse }> {
   const request: InvoiceRequest = { method: 'PUT', path: `/invoices/${invoiceId}/status`, auth, body };
-  const response = await invoicesClient.updateStatus(invoiceId, body);
-  await attachJson('Update Invoice Status Request', request);
-  await attachJson('Update Invoice Status Response', { status: response.status, body: response.body });
-  return { request, response };
+  return sendAndAttach('Update Invoice Status', request, () => invoicesClient.updateStatus(invoiceId, body));
 }
 
 /**
@@ -449,30 +375,23 @@ export function expectEmptyInvoicePage(request: unknown, page: Paginated<Invoice
 }
 
 /** Sends GET /invoices/{invoice_number}/download-pdf and attaches the request, the status, the headers and the body's length (never the file). */
-export async function sendDownloadPdf(invoicesClient: InvoicesClient, invoiceNumber: string, auth: string): Promise<{ request: InvoiceRequest; response: ApiResponse }> {
+export async function sendDownloadPdf(invoicesClient: InvoicesClient, invoiceNumber: string, auth: AuthLabel): Promise<{ request: InvoiceRequest; response: ApiResponse }> {
   const request: InvoiceRequest = { method: 'GET', path: `/invoices/${invoiceNumber}/download-pdf`, auth };
-  const response = await invoicesClient.downloadPdf(invoiceNumber);
-  await attachJson('Download PDF Request', request);
-  const isJson = (response.headers['content-type'] ?? '').includes('json');
-  await attachJson('Download PDF Response', {
+  return sendAndAttach('Download PDF', request, () => invoicesClient.downloadPdf(invoiceNumber), (response) => ({
     status: response.status,
     headers: response.headers,
-    ...(isJson ? { body: response.body } : { bodyLength: response.body.length }),
-  });
-  return { request, response };
+    ...((response.headers['content-type'] ?? '').includes('json') ? { body: response.body } : { bodyLength: response.body.length }),
+  }));
 }
 
 /** Sends GET /invoices/{invoice_number}/download-pdf-status and attaches the request and the response. */
-export async function sendPdfStatus(invoicesClient: InvoicesClient, invoiceNumber: string, auth: string): Promise<{ request: InvoiceRequest; response: ApiResponse }> {
+export async function sendPdfStatus(invoicesClient: InvoicesClient, invoiceNumber: string, auth: AuthLabel): Promise<{ request: InvoiceRequest; response: ApiResponse }> {
   const request: InvoiceRequest = { method: 'GET', path: `/invoices/${invoiceNumber}/download-pdf-status`, auth };
-  const response = await invoicesClient.downloadPdfStatus(invoiceNumber);
-  await attachJson('PDF Status Request', request);
-  await attachJson('PDF Status Response', { status: response.status, body: response.body });
-  return { request, response };
+  return sendAndAttach('PDF Status', request, () => invoicesClient.downloadPdfStatus(invoiceNumber));
 }
 
 /** How long the PDF polls wait: the jobs run every minute, and the customer's token expires 300 s after its login. */
-export const PDF_POLL = { timeoutMs: 210_000, intervalMs: 5_000 } as const;
+const PDF_POLL = { timeoutMs: 210_000, intervalMs: 5_000 } as const;
 
 /**
  * The PDF_STATUS_POLL_STEP action: sends GET /invoices/{invoice_number}/download-pdf-status every `intervalMs` until it
@@ -482,7 +401,7 @@ export const PDF_POLL = { timeoutMs: 210_000, intervalMs: 5_000 } as const;
 export async function pollPdfStatus(
   invoicesClient: InvoicesClient,
   invoiceNumber: string,
-  auth: string,
+  auth: AuthLabel,
   { timeoutMs, intervalMs }: { timeoutMs: number; intervalMs: number } = PDF_POLL
 ): Promise<{ request: InvoiceRequest; response: ApiResponse }> {
   const request: InvoiceRequest = { method: 'GET', path: `/invoices/${invoiceNumber}/download-pdf-status`, auth };
@@ -506,8 +425,8 @@ export async function pollPdfStatus(
     await attachJson('PDF Status Polls', polls);
   }
 
-  await attachJson('PDF Status Response', { status: response!.status, body: response!.body });
-  return { request, response: response! };
+  await attachJson('PDF Status Response', { status: response.status, body: response.body });
+  return { request, response };
 }
 
 function isCompleted(response: ApiResponse): boolean {

@@ -66,7 +66,7 @@ Preloaded into the agent; not commands.
 |---|---|
 | **Page objects** | One class per page extending `BasePage`; `open()` through `goto()` plus `waitForLoaded()`. Locators are `private readonly` fields named with the element kind (`sortSelect`, `searchCaptionText`); a test reaches one only through a noun getter (`get searchCaption()`); dynamic locators are methods (`card(name)`); verbs for actions, async readers for values (`getPrices()`). No assertions |
 | **Locator priority** | `getByTestId` → `getByRole` / `getByLabel` / `getByText` → CSS; never XPath. Ids ending in a record id change on re-seed: match by prefix or by label |
-| **Waits** | Every action returns only when the page shows its result, in order of preference: the app's own marker or toast; the request the action triggers (`waitForResponse` started before the action); a visible change. Never `waitForTimeout` or `networkidle` |
+| **Waits** | Every action returns only when the page shows its result, in order of preference: the app's own marker or toast; the request the action triggers (`waitForApiResponse` started before the action); a visible change. Never `waitForTimeout` or `networkidle` |
 | **Components, dialogs** | Parts several pages share are component classes exposed as page fields (`homePage.productGrid`); they extend `BaseComponent` and look up their locators inside their container (`root`). Modals extend `BaseDialog` |
 | **Flows** | Multi-page journeys several tests share; each method one user-level task (`openProduct(name)`) |
 | **Fixtures** | Everything new registered in `src/ui/fixtures/fixtures.ts`; precondition fixtures (`open<Page><State>Test`, such as `openHomePageInLondonTest`) for the scenarios' shared `preconditions`, which run before the first step |

@@ -1,4 +1,4 @@
-import type { CreateFavoriteRequest } from '@api/dto/favorite';
+import type { CreateFavoriteRequest } from '../../api/dto/favorite';
 import { TestConstants } from '../TestConstants';
 
 /**

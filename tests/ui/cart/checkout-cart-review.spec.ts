@@ -5,6 +5,7 @@ import {
   openHomePageWithProductInCartTest,
   openHomePageWithRentalAndProductInCartTest,
   putProductsInCart,
+  putProductInCart,
   assertNoEcoRating,
   AMSTERDAM,
 } from '@fixtures';
@@ -198,16 +199,9 @@ test.describe('@cart - Checkout cart review', () => {
   }) => {
     // Precondition: The customer's location is Amsterdam, and a product with a location offer is added to the cart.
     // The location is set in the browser and given to the new cart, as the app does; the API then gives the line 20% off.
-    const { products } = await putProductsInCart(
-      page,
-      productsService,
-      cartsService,
-      cleanup,
-      [{ name: TestConstants.products.locationOfferProduct }],
-      { location: AMSTERDAM }
-    );
-    const [product] = products;
-    if (!product) throw new Error('Setup: the location offer was not put in the cart');
+    const { product } = await putProductInCart(page, productsService, cartsService, cleanup, TestConstants.products.locationOfferProduct, 1, {
+      location: AMSTERDAM,
+    });
     const line = cartPage.line(product.name);
 
     await test.step('Open the checkout page.', async () => {

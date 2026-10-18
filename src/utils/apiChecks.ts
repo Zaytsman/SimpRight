@@ -1,17 +1,16 @@
-import { expect } from '@playwright/test';
-import type { ApiResponse } from '@api/clients/BaseClient';
-import type { FieldValidationError, ValidationErrors } from '@api/dto/common';
-import type { UserErrorBody } from '@api/dto/user';
-import { assertMessage } from './assertHelpers';
-
-/** The keys of a Laravel page (the paginator's output without the link keys), as the list and search endpoints return it. */
-export const PAGE_KEYS = ['current_page', 'data', 'from', 'last_page', 'per_page', 'to', 'total'] as const;
-
 /**
  * Checks that API specs share for steps checked through a client: the status, the body's message,
  * Laravel's 422 `errors` keys and a redirect's Location. `request` is the request record the spec attached, used in the
  * failure message. A check specific to one endpoint stays in its spec.
  */
+import { expect } from '@playwright/test';
+import type { ApiResponse } from '../api/clients/BaseClient';
+import type { FieldValidationError, ValidationErrors } from '../api/dto/common';
+import type { UserErrorBody } from '../api/dto/user';
+import { assertMessage } from './assertHelpers';
+
+/** The keys of a Laravel page (the paginator's output without the link keys), as the list and search endpoints return it. */
+export const PAGE_KEYS = ['current_page', 'data', 'from', 'last_page', 'per_page', 'to', 'total'] as const;
 
 /** How a request record shows the Accept header for a client's `accept` option. */
 export function describeAccept(accept: string | null | undefined): string {
@@ -20,22 +19,57 @@ export function describeAccept(accept: string | null | undefined): string {
   return accept ?? 'left out (Playwright sends its default, any type)';
 }
 
-/** The checks of a "Verify the response status is <status>." step. */
-export function expectStatus(request: unknown, response: ApiResponse, status: number): void {
-  expect(response.status, assertMessage({ request, expected: `Status ${status}`, actual: { status: response.status, body: response.body.slice(0, 500) } })).toBe(
-    status
-  );
+/**
+ * The response body parsed as JSON. When it isn't JSON (an HTML error page, Cloudflare's bot check), fails with the
+ * request, the status and the start of the body instead of a bare "Unexpected token" SyntaxError.
+ */
+export function parseJson<T>(request: unknown, response: ApiResponse): T {
+  try {
+    return JSON.parse(response.body) as T;
+  } catch {
+    throw new Error(assertMessage({ request, expected: 'A JSON body', actual: { status: response.status, body: response.body.slice(0, 500) } }));
+  }
+}
+
+/**
+ * The checks of a "Verify the response status is <status>." step. The failure message shows the status and the start of
+ * the body, or what `describeBody` returns: a page summary, or nothing for a body that may list other visitors.
+ */
+export function expectStatus(
+  request: unknown,
+  response: ApiResponse,
+  status: number,
+  describeBody: (response: ApiResponse) => unknown = (sent) => sent.body.slice(0, 500)
+): void {
+  expect(response.status, assertMessage({ request, expected: `Status ${status}`, actual: { status: response.status, body: describeBody(response) } })).toBe(status);
+}
+
+/**
+ * Fails unless `items` has at least one element. The guard at the start of an "every item ..." step: on an empty list
+ * the step's loop checks nothing and passes.
+ */
+export function expectSomeItems(request: unknown, items: unknown, what: string): void {
+  expect(
+    Array.isArray(items) && items.length > 0,
+    assertMessage({ request, expected: `${what} has at least one item (an "every item" check needs one)`, actual: Array.isArray(items) ? `${items.length} items` : items })
+  ).toBe(true);
+}
+
+/** `expectStatus`, then the parsed body, for a status step whose body the later steps check. */
+export function expectStatusAndBody<T>(request: unknown, response: ApiResponse, status: number): T {
+  expectStatus(request, response, status);
+  return parseJson<T>(request, response);
 }
 
 /** The checks of a "Verify the body's success is <true | false>." step. */
 export function expectSuccess(request: unknown, response: ApiResponse, success: boolean): void {
-  const body = JSON.parse(response.body) as { success?: unknown };
+  const body = parseJson<{ success?: unknown }>(request, response);
   expect(body.success, assertMessage({ request, expected: `success is ${success}`, actual: body })).toBe(success);
 }
 
 /** The checks of a "Verify the body's errors has the key(s) ..., each with at least one message." step; returns the parsed body. */
 export function expectErrorKeys(request: unknown, response: ApiResponse, keys: string[]): FieldValidationError {
-  const body = JSON.parse(response.body) as FieldValidationError;
+  const body = parseJson<FieldValidationError>(request, response);
   for (const key of keys) {
     const messages = body.errors?.[key];
     expect(
@@ -48,7 +82,7 @@ export function expectErrorKeys(request: unknown, response: ApiResponse, keys: s
 
 /** The checks of a "Verify the body's errors has the keys ..." step that asks only for the keys, not for their messages. */
 export function expectErrorKeysPresent(request: unknown, response: ApiResponse, keys: string[]): FieldValidationError {
-  const body = JSON.parse(response.body) as FieldValidationError;
+  const body = parseJson<FieldValidationError>(request, response);
   for (const key of keys) {
     expect(
       body.errors !== null && typeof body.errors === 'object' && key in body.errors,
@@ -60,7 +94,7 @@ export function expectErrorKeysPresent(request: unknown, response: ApiResponse, 
 
 /** The checks of a "Verify the body's message is "<message>"." step. */
 export function expectMessage(request: unknown, response: ApiResponse, message: string): void {
-  const body = JSON.parse(response.body) as { message?: unknown };
+  const body = parseJson<{ message?: unknown }>(request, response);
   expect(body.message, assertMessage({ request, expected: `message is "${message}"`, actual: body })).toBe(message);
 }
 
@@ -77,10 +111,10 @@ export function expectLocation(request: unknown, response: ApiResponse, location
 
 /**
  * The checks of a "Verify the body has a <field> key with at least one message." step, for endpoints whose 422 body is
- * the field map without a wrapper (form requests). Keeps its original argument order (response first): specs call it as before.
+ * the field map without a wrapper (form requests).
  */
-export function expectFieldMessages(response: ApiResponse, field: string, request: unknown): void {
-  const body = JSON.parse(response.body) as ValidationErrors;
+export function expectFieldMessages(request: unknown, response: ApiResponse, field: string): void {
+  const body = parseJson<ValidationErrors>(request, response);
   const messages = body[field];
   expect(
     Array.isArray(messages) && messages.length > 0,
@@ -90,7 +124,7 @@ export function expectFieldMessages(response: ApiResponse, field: string, reques
 
 /** The checks of a "Verify the body's <field> messages include "<message>"." step (a field map without a wrapper). */
 export function expectFieldMessageIncludes(request: unknown, response: ApiResponse, field: string, message: string): void {
-  const body = JSON.parse(response.body) as ValidationErrors;
+  const body = parseJson<ValidationErrors>(request, response);
   const messages = body[field];
   expect(
     Array.isArray(messages) && messages.includes(message),
@@ -115,7 +149,7 @@ export function expectAcceptQuery(request: unknown, response: ApiResponse): void
 
 /** The checks of a "Verify the body is an empty array." step. */
 export function expectEmptyArray(request: unknown, response: ApiResponse): void {
-  const body = JSON.parse(response.body) as unknown;
+  const body = parseJson<unknown>(request, response);
   expect(Array.isArray(body) && body.length === 0, assertMessage({ request, expected: 'The body is an empty array', actual: body })).toBe(true);
 }
 
@@ -132,7 +166,7 @@ export function expectContentTypeStartsWith(request: unknown, response: ApiRespo
 
 /** The checks of a "Verify the body's error is a non-empty string." step (errors that a controller builds as `{ error }`). */
 export function expectErrorText(request: unknown, response: ApiResponse): void {
-  const body = JSON.parse(response.body) as Partial<UserErrorBody>;
+  const body = parseJson<Partial<UserErrorBody>>(request, response);
   expect(
     typeof body.error === 'string' && body.error.length > 0,
     assertMessage({ request, expected: 'error is a non-empty string', actual: body })

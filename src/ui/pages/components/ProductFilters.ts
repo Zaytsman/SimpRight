@@ -1,4 +1,5 @@
 import { expect, type Locator, type Page } from '@playwright/test';
+import { waitForApiResponse } from '../waitForApiResponse';
 import { BaseComponent } from './BaseComponent';
 
 /** The filter sidebar of the home/search page: category and brand checkboxes. */
@@ -44,9 +45,7 @@ export class ProductFilters extends BaseComponent {
    * alone could be an earlier filter's; a child category sets `filter_started` at once (`filterByCategory`).
    */
   private async setCategory(label: string, checked: boolean): Promise<void> {
-    const filtered = this.page.waitForResponse(
-      (response) => response.request().method() === 'QUERY' && new URL(response.url()).pathname.endsWith('/products'),
-    );
+    const filtered = waitForApiResponse(this.page, 'QUERY', '/products');
     await this.categoryCheckbox(label).setChecked(checked);
     await (await filtered).finished();
     await expect(this.filterCompletedMarker).toBeAttached();

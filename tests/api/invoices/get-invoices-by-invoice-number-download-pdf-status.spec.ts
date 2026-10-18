@@ -1,15 +1,15 @@
-import { test, expect, createCustomerInvoice, pollPdfStatus, sendPdfStatus, INVOICE_AUTH, PDF_STATUS_POLL_STEP, type InvoiceRequest } from '@fixtures';
+import { test, expect, AUTH, createCustomerInvoice, pollPdfStatus, sendPdfStatus, PDF_STATUS_POLL_STEP, type InvoiceRequest, checkStatusAndMessage } from '@fixtures';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { PdfStatusResponse } from '@api/dto/invoice';
 import { TestConstants } from '@data/TestConstants';
-import { expectMessage, expectStatus } from '@utils/apiChecks';
+import { expectStatus, parseJson } from '@utils/apiChecks';
 import { assertMessage } from '@utils/assertHelpers';
 
 // Scenarios: test-scenarios/api/invoices/get-invoices-by-invoice-number-download-pdf-status.yml
 
 /** The checks of a "Verify the body's status is "<status>"." step. */
 function expectPdfStatus(request: InvoiceRequest, response: ApiResponse, status: string): void {
-  const body = JSON.parse(response.body) as Partial<PdfStatusResponse>;
+  const body = parseJson<Partial<PdfStatusResponse>>(request, response);
   expect(body.status, assertMessage({ request, expected: `status is "${status}"`, actual: body })).toBe(status);
 }
 
@@ -32,7 +32,7 @@ test.describe('@invoices-api - Invoices API', () => {
     const setup = await createCustomerInvoice({ usersService, adminUsersService, authService, productsService, cartsService, invoicesServiceForToken, cleanup });
 
     await test.step(PDF_STATUS_POLL_STEP, async () => {
-      ({ request, response } = await pollPdfStatus(invoicesClientForToken(setup.token), setup.invoice.invoice_number, INVOICE_AUTH.throwaway));
+      ({ request, response } = await pollPdfStatus(invoicesClientForToken(setup.token), setup.invoice.invoice_number, AUTH.newUser));
     });
 
     await test.step("Verify the last response's status is 200.", async () => {
@@ -45,20 +45,12 @@ test.describe('@invoices-api - Invoices API', () => {
   });
 
   test('API-0472: Get PDF status without a token returns 401', async ({ invoicesClient }) => {
-    let request: InvoiceRequest;
-    let response: ApiResponse;
-
-    await test.step('Send GET /invoices/{invoice_number}/download-pdf-status with a well-formed invoice number, without an Authorization header.', async () => {
-      ({ request, response } = await sendPdfStatus(invoicesClient, TestConstants.invoices.unknownNumber, INVOICE_AUTH.none));
-    });
-
-    await test.step('Verify the response status is 401.', async () => {
-      expectStatus(request, response, 401);
-    });
-
-    await test.step('Verify the body\'s message is "Unauthorized".', async () => {
-      expectMessage(request, response, 'Unauthorized');
-    });
+    await checkStatusAndMessage(
+      'Send GET /invoices/{invoice_number}/download-pdf-status with a well-formed invoice number, without an Authorization header.',
+      () => sendPdfStatus(invoicesClient, TestConstants.invoices.unknownNumber, AUTH.none),
+      401,
+      'Unauthorized'
+    );
   });
 
   test('API-0473: Get PDF status with an unknown invoice number returns 400 with NOT_INITIATED', async ({ invoicesClientWithToken }) => {
@@ -66,7 +58,7 @@ test.describe('@invoices-api - Invoices API', () => {
     let response: ApiResponse;
 
     await test.step("Send GET /invoices/{invoice_number}/download-pdf-status with a well-formed invoice number that no invoice has and the default user's token.", async () => {
-      ({ request, response } = await sendPdfStatus(invoicesClientWithToken, TestConstants.invoices.unknownNumber, INVOICE_AUTH.defaultUser));
+      ({ request, response } = await sendPdfStatus(invoicesClientWithToken, TestConstants.invoices.unknownNumber, AUTH.defaultUser));
     });
 
     await test.step('Verify the response status is 400.', async () => {

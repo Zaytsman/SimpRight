@@ -43,7 +43,7 @@ gh-pages/
 |---|---|---|
 | `scripts/publish-report.sh <family> [--latest-coverage]` | `playwright-run.yml`, after every test run | The run's report, `latest/<family>/`, the manifest, the coverage (with the flag), the portal |
 | `scripts/publish-test-cases.sh` | `publish-test-cases.yml`, on pushes to `main` | `test-cases/`, `bugs/` and the portal |
-| `scripts/gh-pages-lib.sh` | both scripts above | The shared checkout and push |
+| `scripts/gh-pages-lib.sh` | both scripts above | The shared checkout, the portal copy and the push |
 
 Each script replaces only its own files and leaves the rest of the branch alone, so test runs and Test Cases publishing never overwrite each other.
 
@@ -53,24 +53,23 @@ Each script replaces only its own files and leaves the rest of the branch alone,
 2. Check out `gh-pages` (see below).
 3. Copy the HTML report into `<family>/run-<N>/`, plus `test-results/results.json` (the JSON reporter's output on CI, which the portal reads) and `test-results/api-coverage/` when there is one.
 4. Replace `latest/<family>/` with a copy of this run; with `--latest-coverage`, also replace `latest/api-coverage/` (only the full API regression passes it, because only its coverage represents the whole suite).
-5. Copy `index.html` from the repository, so a portal change goes live with the next run.
-6. **Prune:** keep the newest `KEEP_RUNS` runs of the family (30 by default), delete older ones, and rebuild `<family>-manifest.json` from what's left.
-7. Commit and push.
+5. **Prune:** keep the newest `KEEP_RUNS` runs of the family (30 by default), delete older ones, and rebuild `<family>-manifest.json` from what's left.
+6. Commit and push, with the portal (see below).
 
 Runs are sorted by number (`sort -V`), so `run-100` comes after `run-99`.
 
 ## Publishing the Test Cases and Bugs pages: `publish-test-cases.sh`
 
 1. Build the pages with `scripts/build-test-cases.mts` into `test-results/test-cases/`, and the Bugs page with `scripts/build-bugs.mts` into `test-results/bugs/`.
-2. Check out `gh-pages`, replace the whole `test-cases/` and `bugs/` folders (so a removed layer disappears too), copy `index.html`.
-3. Commit and push.
+2. Check out `gh-pages`, replace the whole `test-cases/` and `bugs/` folders (so a removed layer disappears too).
+3. Commit and push, with the portal.
 
 The workflow validates the scenarios first, so a broken scenario file never reaches the site.
 
 ## Checkout and push: `gh-pages-lib.sh`
 
-- **`ghp_checkout <dir>`** checks out `gh-pages` as a **git worktree** in `.gh-pages/` (git-ignored), fetching only its latest commit. On the very first publish, when the branch doesn't exist, it creates it as an empty orphan branch.
-- **`ghp_publish <dir> <message>`** commits everything as `github-actions[bot]`, and does nothing when nothing changed. Several workflows can publish at the same time (a UI and an API run, plus Test Cases), so a rejected push is **rebased onto the remote branch and retried**, up to 3 times. Because each script touches only its own folders, the rebase doesn't conflict.
+- **`ghp_checkout <dir>`** points `origin` at the repository with `GH_TOKEN` as the credential (the workflows check out without one, so only the publish step has a token that can push), then checks out `gh-pages` as a **git worktree** in `.gh-pages/` (git-ignored), fetching only its latest commit. On the very first publish, when `git ls-remote` finds no such branch, it creates it as an empty orphan branch; any other error (network, access) stops the publish with its message.
+- **`ghp_publish <dir> <message>`** copies `index.html` from the repository (so a portal change goes live with the next publish of either kind) and `.nojekyll`, commits everything as `github-actions[bot]`, and does nothing when nothing changed. Several workflows can publish at the same time (a UI and an API run, plus Test Cases), so a rejected push is **rebased onto the remote branch and retried**, up to 3 times. Because each script touches only its own folders, the rebase doesn't conflict.
 
 Pruning on the branch itself keeps `gh-pages` from growing forever: at most 30 runs per family are kept.
 

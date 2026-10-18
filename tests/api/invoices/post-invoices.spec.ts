@@ -1,25 +1,4 @@
-import {
-  test,
-  expect,
-  loggedInCustomer,
-  createCart,
-  addItemSetup,
-  takeFirstProduct,
-  sendCreateInvoice,
-  sendListInvoices,
-  readInvoiceOk,
-  expectKeys,
-  expectFieldsEqual,
-  expectSingleInvoiceLine,
-  expectPaymentMethod,
-  expectPaymentDetails,
-  invoicePageSummary,
-  ADD_TWO_STEP,
-  INVOICE_AUTH,
-  type InvoiceRequest,
-  type CustomerFixtures,
-  type InvoiceSetupFixtures,
-} from '@fixtures';
+import { test, expect, AUTH, loggedInCustomer, createCart, addItemSetup, takeFirstProductId, FIRST_PRODUCT_STEP, sendCreateInvoice, sendListInvoices, readInvoiceOk, expectKeys, expectFieldsEqual, expectSingleInvoiceLine, expectPaymentMethod, expectPaymentDetails, invoicePageSummary, ADD_TWO_STEP, type InvoiceRequest, type CustomerFixtures, type InvoiceSetupFixtures, checkStatusAndMessage } from '@fixtures';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { InvoicesClient } from '@api/clients/InvoicesClient';
 import type { Paginated } from '@api/dto/common';
@@ -27,7 +6,7 @@ import type { CreateInvoiceRequest, InvoiceCreated, InvoiceSummary } from '@api/
 import type { PostcodeLookupResult } from '@api/dto/postcode';
 import { TestConstants } from '@data/TestConstants';
 import { InvoiceFactory } from '@data/factories/InvoiceFactory';
-import { expectFieldMessages, expectMessage, expectStatus } from '@utils/apiChecks';
+import { expectFieldMessages, expectStatus, parseJson } from '@utils/apiChecks';
 import { assertMessage, attachJson } from '@utils/assertHelpers';
 
 // Scenarios: test-scenarios/api/invoices/post-invoices.yml
@@ -56,7 +35,7 @@ const CREATED_KEYS = [
 
 /** Parses a 201 body of POST /invoices (call after its status was checked). */
 function parseCreated(response: ApiResponse): InvoiceCreated {
-  return JSON.parse(response.body) as InvoiceCreated;
+  return parseJson<InvoiceCreated>(undefined, response);
 }
 
 /** The checks of a "Verify the body's id is a non-empty string ..." part. */
@@ -79,7 +58,7 @@ async function expectValidationError(
   let response: ApiResponse;
 
   await test.step(title, async () => {
-    ({ request, response } = await sendCreateInvoice(invoicesClient, body, INVOICE_AUTH.defaultUser));
+    ({ request, response } = await sendCreateInvoice(invoicesClient, body, AUTH.defaultUser));
   });
 
   await test.step('Verify the response status is 422.', async () => {
@@ -88,7 +67,7 @@ async function expectValidationError(
 
   await test.step(verifyTitle, async () => {
     for (const field of fields) {
-      expectFieldMessages(response, field, request);
+      expectFieldMessages(request, response, field);
     }
   });
 }
@@ -98,7 +77,7 @@ async function expectValidationError(
  * it too, shown with its status and the start of its body).
  */
 function expectNoInvoiceLeft(request: InvoiceRequest, response: ApiResponse): void {
-  const page = response.isSuccess ? (JSON.parse(response.body) as Paginated<InvoiceSummary>) : undefined;
+  const page = response.isSuccess ? (parseJson<Paginated<InvoiceSummary>>(request, response)) : undefined;
   expect(
     page?.total,
     assertMessage({ request, expected: 'total is 0', actual: page ? invoicePageSummary(page) : { status: response.status, body: response.body.slice(0, 500) } })
@@ -129,7 +108,7 @@ async function expectPaymentStored(
   const client = fixtures.invoicesClientForToken(customer.token);
 
   await test.step(createTitle, async () => {
-    ({ request, response } = await sendCreateInvoice(client, InvoiceFactory.withPayment(cartId, paymentMethod, details), INVOICE_AUTH.throwaway));
+    ({ request, response } = await sendCreateInvoice(client, InvoiceFactory.withPayment(cartId, paymentMethod, details), AUTH.newUser));
   });
 
   await test.step('Verify the response status is 201.', async () => {
@@ -137,7 +116,7 @@ async function expectPaymentStored(
   });
 
   await test.step(verifyTitle, async () => {
-    const { request: getRequest, invoice } = await readInvoiceOk(client, parseCreated(response).id, INVOICE_AUTH.throwaway);
+    const { request: getRequest, invoice } = await readInvoiceOk(client, parseCreated(response).id, AUTH.newUser);
     expectPaymentMethod(getRequest, invoice, paymentMethod);
     expectPaymentDetails(getRequest, invoice, details);
   });
@@ -166,7 +145,7 @@ test.describe('@invoices-api - Invoices API', () => {
     await test.step(
       'Send POST /invoices with that token, payment_method "cash-on-delivery", payment_details {}, a 70-character billing_street, a 40-character billing_city, a 40-character billing_state, a 40-character billing_country (no billing_postal_code) and the cart\'s id as cart_id.',
       async () => {
-        ({ request, response } = await sendCreateInvoice(client, body, INVOICE_AUTH.throwaway));
+        ({ request, response } = await sendCreateInvoice(client, body, AUTH.newUser));
       }
     );
 
@@ -183,7 +162,7 @@ test.describe('@invoices-api - Invoices API', () => {
     await test.step(
       'Verify GET /invoices/{invoiceId} with the new id and that token returns 200 with the same billing_street, billing_city, billing_state and billing_country.',
       async () => {
-        const { request: getRequest, invoice } = await readInvoiceOk(client, created.id, INVOICE_AUTH.throwaway);
+        const { request: getRequest, invoice } = await readInvoiceOk(client, created.id, AUTH.newUser);
         expectFieldsEqual(getRequest, invoice, body, fields);
       }
     );
@@ -230,7 +209,7 @@ test.describe('@invoices-api - Invoices API', () => {
           billing_country: 'US',
           billing_postal_code: lookupQuery.postcode,
         });
-        ({ request, response } = await sendCreateInvoice(client, body, INVOICE_AUTH.throwaway));
+        ({ request, response } = await sendCreateInvoice(client, body, AUTH.newUser));
       }
     );
 
@@ -247,7 +226,7 @@ test.describe('@invoices-api - Invoices API', () => {
     await test.step(
       'Verify GET /invoices/{invoiceId} with the new id and that token returns 200 with the same billing_city, billing_state, billing_country and billing_postal_code.',
       async () => {
-        const { request: getRequest, invoice } = await readInvoiceOk(client, created.id, INVOICE_AUTH.throwaway);
+        const { request: getRequest, invoice } = await readInvoiceOk(client, created.id, AUTH.newUser);
         expectFieldsEqual(getRequest, invoice, body, fields);
       }
     );
@@ -327,7 +306,7 @@ test.describe('@invoices-api - Invoices API', () => {
     let created: InvoiceCreated;
 
     const customer = await loggedInCustomer({ usersService, adminUsersService, authService, cleanup });
-    const productId = await takeFirstProduct(productsService);
+    const productId = await takeFirstProductId(productsService, FIRST_PRODUCT_STEP);
     const cartId = await createCart(cartsService, cleanup);
     await addItemSetup(cartsService, cartId, productId, 2, ADD_TWO_STEP);
     const client = invoicesClientForToken(customer.token);
@@ -335,7 +314,7 @@ test.describe('@invoices-api - Invoices API', () => {
     await test.step(
       'Send POST /invoices with that access_token, payment_method "cash-on-delivery", payment_details {}, billing_street "Stephansplatz 1", billing_city "Wien", billing_country "AT" and the cart\'s id as cart_id, and take the new invoice\'s id, invoice_number and total.',
       async () => {
-        ({ request, response } = await sendCreateInvoice(client, InvoiceFactory.cashOnDelivery(cartId), INVOICE_AUTH.throwaway));
+        ({ request, response } = await sendCreateInvoice(client, InvoiceFactory.cashOnDelivery(cartId), AUTH.newUser));
       }
     );
 
@@ -364,7 +343,7 @@ test.describe('@invoices-api - Invoices API', () => {
     await test.step(
       'Verify GET /invoices/{invoiceId} with the new id and that token returns 200 with exactly one line with the product\'s id as product_id and quantity 2, and payment.payment_method "cash-on-delivery".',
       async () => {
-        const { request: getRequest, invoice } = await readInvoiceOk(client, created.id, INVOICE_AUTH.throwaway);
+        const { request: getRequest, invoice } = await readInvoiceOk(client, created.id, AUTH.newUser);
         expectSingleInvoiceLine(getRequest, invoice, productId, 2);
         expectPaymentMethod(getRequest, invoice, 'cash-on-delivery');
       }
@@ -390,7 +369,7 @@ test.describe('@invoices-api - Invoices API', () => {
     await test.step(
       'Send POST /invoices with that access_token, payment_method "cash-on-delivery", payment_details {}, billing_street "Stephansplatz 1", billing_city "Wien", billing_country "AT" and the cart\'s id as cart_id, and take the new invoice\'s id, invoice_number and total.',
       async () => {
-        ({ request, response } = await sendCreateInvoice(client, InvoiceFactory.cashOnDelivery(cartId), INVOICE_AUTH.throwaway));
+        ({ request, response } = await sendCreateInvoice(client, InvoiceFactory.cashOnDelivery(cartId), AUTH.newUser));
       }
     );
 
@@ -404,7 +383,7 @@ test.describe('@invoices-api - Invoices API', () => {
     });
 
     await test.step('Verify GET /invoices/{invoiceId} with the new id and that token returns 200 with invoicelines as an empty array.', async () => {
-      const { request: getRequest, invoice } = await readInvoiceOk(client, created.id, INVOICE_AUTH.throwaway);
+      const { request: getRequest, invoice } = await readInvoiceOk(client, created.id, AUTH.newUser);
       expect(
         Array.isArray(invoice.invoicelines) && invoice.invoicelines.length === 0,
         assertMessage({ request: getRequest, expected: 'invoicelines is an empty array', actual: invoice.invoicelines })
@@ -481,23 +460,12 @@ test.describe('@invoices-api - Invoices API', () => {
   });
 
   test('API-0491: Create invoice without a token returns 401', async ({ invoicesClient }) => {
-    let request: InvoiceRequest;
-    let response: ApiResponse;
-
-    await test.step(
+    await checkStatusAndMessage(
       'Send POST /invoices without an Authorization header, with payment_method "cash-on-delivery", payment_details {}, billing_street "Stephansplatz 1", billing_city "Wien", billing_country "AT" and a non-empty string as cart_id.',
-      async () => {
-        ({ request, response } = await sendCreateInvoice(invoicesClient, validationBody(), INVOICE_AUTH.none));
-      }
+      () => sendCreateInvoice(invoicesClient, validationBody(), AUTH.none),
+      401,
+      'Unauthorized'
     );
-
-    await test.step('Verify the response status is 401.', async () => {
-      expectStatus(request, response, 401);
-    });
-
-    await test.step('Verify the body\'s message is "Unauthorized".', async () => {
-      expectMessage(request, response, 'Unauthorized');
-    });
   });
 
   test('API-0492: Create invoice without payment_method, payment_details and cart_id returns 422 for each of them', async ({ invoicesClientWithToken }) => {
@@ -561,26 +529,15 @@ test.describe('@invoices-api - Invoices API', () => {
   });
 
   test('API-0498: Create invoice with an unknown cart returns 404', async ({ usersService, adminUsersService, authService, invoicesClientForToken, cleanup }) => {
-    let request: InvoiceRequest;
-    let response: ApiResponse;
-
     // BUG-040 leaves the customer an invoice without lines, so its admin delete may answer 409 (deleteUnlessInUse expects it).
     const customer = await loggedInCustomer({ usersService, adminUsersService, authService, cleanup });
 
-    await test.step(
+    await checkStatusAndMessage(
       'Send POST /invoices with that access_token, payment_method "cash-on-delivery", payment_details {}, billing_street "Stephansplatz 1", billing_city "Wien", billing_country "AT" and a well-formed ULID that no cart has as cart_id.',
-      async () => {
-        ({ request, response } = await sendCreateInvoice(invoicesClientForToken(customer.token), validationBody(), INVOICE_AUTH.throwaway));
-      }
+      () => sendCreateInvoice(invoicesClientForToken(customer.token), validationBody(), AUTH.newUser),
+      404,
+      'Requested item not found'
     );
-
-    await test.step('Verify the response status is 404.', async () => {
-      expectStatus(request, response, 404);
-    });
-
-    await test.step('Verify the body\'s message is "Requested item not found".', async () => {
-      expectMessage(request, response, 'Requested item not found');
-    });
   });
 
   test('API-0499: Create invoice with an unknown cart leaves no invoice behind', async ({ usersService, adminUsersService, authService, invoicesClientForToken, cleanup }) => {
@@ -594,12 +551,12 @@ test.describe('@invoices-api - Invoices API', () => {
     await test.step(
       'Send POST /invoices with that access_token, payment_method "cash-on-delivery", payment_details {}, billing_street "Stephansplatz 1", billing_city "Wien", billing_country "AT" and a well-formed ULID that no cart has as cart_id.',
       async () => {
-        await sendCreateInvoice(client, validationBody(), INVOICE_AUTH.throwaway);
+        await sendCreateInvoice(client, validationBody(), AUTH.newUser);
       }
     );
 
     await test.step('Send GET /invoices with that access_token.', async () => {
-      ({ request, response } = await sendListInvoices(client, INVOICE_AUTH.throwaway));
+      ({ request, response } = await sendListInvoices(client, AUTH.newUser));
     });
 
     await test.step("Verify the body's total is 0.", async () => {
@@ -626,7 +583,7 @@ test.describe('@invoices-api - Invoices API', () => {
       'Send POST /invoices with that access_token, payment_method "bank-transfer", payment_details null, billing_street "Stephansplatz 1", billing_city "Wien", billing_country "AT" and the cart\'s id as cart_id.',
       async () => {
         const body = { ...InvoiceFactory.cashOnDelivery(cartId), ...InvoiceFactory.nullBankTransferDetails() };
-        ({ request, response } = await sendCreateInvoice(invoicesClientForToken(customer.token), body, INVOICE_AUTH.throwaway));
+        ({ request, response } = await sendCreateInvoice(invoicesClientForToken(customer.token), body, AUTH.newUser));
       }
     );
 
@@ -653,7 +610,7 @@ test.describe('@invoices-api - Invoices API', () => {
     await test.step(
       'Send POST /invoices with that access_token, payment_method "bank-transfer", payment_details {}, billing_street "Stephansplatz 1", billing_city "Wien", billing_country "AT" and the cart\'s id as cart_id.',
       async () => {
-        ({ request, response } = await sendCreateInvoice(invoicesClientForToken(customer.token), InvoiceFactory.withPayment(cartId, 'bank-transfer', {}), INVOICE_AUTH.throwaway));
+        ({ request, response } = await sendCreateInvoice(invoicesClientForToken(customer.token), InvoiceFactory.withPayment(cartId, 'bank-transfer', {}), AUTH.newUser));
       }
     );
 
@@ -683,12 +640,12 @@ test.describe('@invoices-api - Invoices API', () => {
       async () => {
         // The scenario checks no status here: the call answers 500 while BUG-041 is open, so it goes through the client.
         const body = { ...InvoiceFactory.cashOnDelivery(cartId), ...InvoiceFactory.nullBankTransferDetails() };
-        await sendCreateInvoice(client, body, INVOICE_AUTH.throwaway);
+        await sendCreateInvoice(client, body, AUTH.newUser);
       }
     );
 
     await test.step('Send GET /invoices with that access_token.', async () => {
-      ({ request, response } = await sendListInvoices(client, INVOICE_AUTH.throwaway));
+      ({ request, response } = await sendListInvoices(client, AUTH.newUser));
     });
 
     await test.step("Verify the body's total is 0.", async () => {

@@ -4,7 +4,7 @@ The conventions themselves are in the files under the profile's `project.convent
 
 ## 1. The test matches its scenario
 
-- Every scenario step has its own `test.step`, titled with the step text verbatim, in the scenario's order. None dropped, merged or split.
+- Every scenario step has its own `test.step`, titled with the step text verbatim, in the scenario's order. None dropped, merged or split. After a run, `npm run check:step-titles -- <JSON report>` compares them (titles passed to a template are only visible there).
 - An action step does what it says, and only that (it may read values for later checks). A `Verify` step checks and never changes data.
 - **A `Verify` step checks what it says, completely.** Compare the step's words with the assertion:
   - The step names a value ("the price \"$14.15\"", "with quantity 2") → the assertion compares that value, not only visibility or existence.

@@ -10,8 +10,8 @@ This page covers the workflows, how to start a run by hand, how to change or add
 
 | Workflow | File | When it runs | What it runs | Report family |
 |---|---|---|---|---|
-| **API Regression Test Run** | `run-api-tests.yml` | weekdays at 02:00 UTC, or by hand | all API tests, with the coverage report | `daily-api-regression` |
-| **UI Regression Test Run** | `run-ui-tests.yml` | weekdays at 06:00 UTC, or by hand | all UI tests | `daily-ui-regression` |
+| **API Regression Test Run** | `run-api-tests.yml` | weekdays at 02:15 UTC, or by hand | all API tests, with the coverage report | `daily-api-regression` |
+| **UI Regression Test Run** | `run-ui-tests.yml` | weekdays at 06:15 UTC, or by hand | all UI tests | `daily-ui-regression` |
 | **Custom API Test Run** | `custom-api-tests.yml` | by hand | one API area, optionally filtered by title | `custom-api` |
 | **Custom UI Test Run** | `custom-ui-tests.yml` | by hand | one UI area, optionally filtered by title | `custom-ui` |
 | **Smoke Test Run** | `smoke-tests.yml` | by hand | the smoke set: the critical happy paths of both layers (tests tagged `@smoke`), in 2-3 minutes; avoid :45-:02 UTC, when the run waits for the hourly re-seed | `smoke` |
@@ -58,8 +58,8 @@ Schedules are `cron` lines in the workflow files:
 on:
   workflow_dispatch:
   schedule:
-    # GitHub schedules run in UTC: 02:00 UTC on weekdays
-    - cron: '0 2 * * 1-5'
+    # GitHub schedules run in UTC: 02:15 UTC on weekdays
+    - cron: '15 2 * * 1-5'
 ```
 
 To change the time or the days, edit the line in `run-api-tests.yml` or `run-ui-tests.yml` and merge the change into `main`.
@@ -75,12 +75,12 @@ Five fields, separated by spaces, always in **UTC**:
 │ │ │ ┌─────── month (1-12)
 │ │ │ │ ┌───── day of the week (0-6, Sunday = 0)
 │ │ │ │ │
-0 2 * * 1-5
+15 2 * * 1-5
 ```
 
 | Schedule | Cron |
 |---|---|
-| Weekdays at 02:00 UTC | `0 2 * * 1-5` |
+| Weekdays at 02:15 UTC | `15 2 * * 1-5` |
 | Every day at 03:30 UTC | `30 3 * * *` |
 | Weekdays at 06:15 and 14:15 UTC | `15 6,14 * * 1-5` |
 | Every 6 hours | `0 */6 * * *` |
@@ -93,7 +93,7 @@ A workflow can have several `- cron:` lines; it runs at each of them. [crontab.g
 - **They run on the default branch only** (`main`). A schedule changed on `develop` takes effect after the merge, and it always tests `main`'s code.
 - **UTC only.** Convert from your time zone, and remember that daylight saving time moves the local time by an hour twice a year.
 - **They can start late**, often by 5-15 minutes and sometimes more when GitHub is busy, at the top of the hour most of all. They can even be skipped under heavy load.
-- **Avoid the full hour for this app.** The demo site re-seeds its data every hour at :00, and logins and registrations can fail for a minute or two. A few minutes past the hour (`15 2 * * 1-5`) is safer.
+- **Avoid the full hour for this app.** The demo site re-seeds its data every hour at :00, and logins and registrations can fail for a minute or two. A few minutes past the hour is safer, which is why the nightly runs start at :15 (`15 2 * * 1-5`).
 - **Inactive public repositories:** GitHub turns schedules off after 60 days without activity in the repository. Re-enable the workflow on the Actions tab.
 - **Forks:** schedules don't run in a fork until Actions is enabled there.
 
@@ -116,7 +116,9 @@ permissions:
 jobs:
   ui-tests:
     uses: ./.github/workflows/playwright-run.yml
-    secrets: inherit
+    secrets:
+      ADMIN_USER: ${{ secrets.ADMIN_USER }}
+      ADMIN_PASSWORD: ${{ secrets.ADMIN_PASSWORD }}
     with:
       project: ui               # ui or api
       family: custom-ui         # where the report is published
@@ -132,7 +134,7 @@ jobs:
 | `grep` | no | Only tests whose title matches |
 | `publish-latest-coverage` | no | `true` only for the full API regression: its coverage becomes the dashboard's API Coverage |
 
-Both permissions are needed in the calling file: a called workflow can't have more permissions than its caller.
+Both permissions are needed in the calling file: a called workflow can't have more permissions than its caller. The two secrets are passed by name: `playwright-run.yml` declares them, and no other secret reaches the test job.
 
 ## Pause or stop a schedule
 

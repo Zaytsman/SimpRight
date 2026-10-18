@@ -1,4 +1,4 @@
-import { BaseClient, type ApiResponse } from './BaseClient';
+import { BaseClient, queryString, type ApiResponse, type RequestOptions } from './BaseClient';
 import type { CreateProductSpecRequest, UpdateProductSpecRequest } from '../dto/productSpec';
 
 /**
@@ -8,35 +8,21 @@ import type { CreateProductSpecRequest, UpdateProductSpecRequest } from '../dto/
 export class ProductSpecsClient extends BaseClient {
   /** `query` adds query parameters (the API ignores them). */
   async list(productId: string, query?: Record<string, string>): Promise<ApiResponse> {
-    const params = new URLSearchParams(query ?? {});
-    return this.get(`/products/${productId}/specs`, params.toString() || undefined);
+    return this.get(`/products/${productId}/specs`, queryString(query));
   }
 
-  /**
-   * Accepts any object as the body, so tests can send the invalid payloads validation scenarios need.
-   * `accept: null` leaves out `Accept: application/json`; `maxRedirects: 0` returns the 302 a failed validation
-   * gives without it, instead of following it.
-   */
-  async create(
-    productId: string,
-    body: CreateProductSpecRequest | Record<string, unknown>,
-    options?: { accept?: string | null; maxRedirects?: number }
-  ): Promise<ApiResponse> {
-    return this.executeRequest('POST', `/products/${productId}/specs`, { data: body, accept: options?.accept, maxRedirects: options?.maxRedirects });
+  /** `maxRedirects: 0` returns the 302 a failed validation gives without `Accept: application/json`, instead of following it. */
+  async create(productId: string, body: CreateProductSpecRequest | Record<string, unknown>, options?: RequestOptions): Promise<ApiResponse> {
+    return this.executeRequest('POST', `/products/${productId}/specs`, { data: body, ...options });
   }
 
   async getById(productId: string, specId: string): Promise<ApiResponse> {
     return this.get(`/products/${productId}/specs/${specId}`);
   }
 
-  /** Accepts any object as the body; `accept` and `maxRedirects` as in `create`. */
-  async update(
-    productId: string,
-    specId: string,
-    body: UpdateProductSpecRequest | Record<string, unknown>,
-    options?: { accept?: string | null; maxRedirects?: number }
-  ): Promise<ApiResponse> {
-    return this.executeRequest('PUT', `/products/${productId}/specs/${specId}`, { data: body, accept: options?.accept, maxRedirects: options?.maxRedirects });
+  /** `options` as in `create`. */
+  async update(productId: string, specId: string, body: UpdateProductSpecRequest | Record<string, unknown>, options?: RequestOptions): Promise<ApiResponse> {
+    return this.executeRequest('PUT', `/products/${productId}/specs/${specId}`, { data: body, ...options });
   }
 
   async deleteById(productId: string, specId: string): Promise<ApiResponse> {
