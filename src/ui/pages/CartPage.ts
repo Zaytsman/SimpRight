@@ -114,8 +114,14 @@ export class CartPage extends BasePage {
     return this.toastAlert;
   }
 
+  /**
+   * Opens the checkout page from the home page through the nav bar's cart link, so the browser never loads /checkout
+   * itself: Cloudflare answers most direct loads of /checkout from GitHub-hosted runners with its bot check, and
+   * moving inside the app sends no page request. The cart link shows only once the cart has items.
+   */
   async open(): Promise<void> {
-    await this.goto('/checkout');
+    await this.goto('/');
+    await this.navBar.openCart();
     await this.waitForLoaded();
   }
 

@@ -115,7 +115,7 @@ test.describe('@cart - Checkout cart review', () => {
       });
     });
 
-    test('UI-054: "Proceed to checkout" leads to the sign-in step', async ({ cartPage }) => {
+    test('UI-054: "Proceed to checkout" leads to the sign-in step', { tag: '@smoke' }, async ({ cartPage }) => {
       await test.step('Open the checkout page.', async () => {
         await cartPage.open();
       });

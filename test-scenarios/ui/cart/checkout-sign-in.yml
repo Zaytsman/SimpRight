@@ -57,6 +57,7 @@ scenarios:
   - id: UI-061
     name: Valid credentials on the sign-in step sign the guest in and lead to the billing address step
     ref: docs/ui/user-stories/Checkout_Sign_In.md#AC4
+    tags: ["@smoke"]
     status: automated
     automatedIn: tests/ui/cart/checkout-sign-in.spec.ts
     role: guest

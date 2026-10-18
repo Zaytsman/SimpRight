@@ -135,7 +135,7 @@ test.describe('@cart - Checkout sign-in', () => {
       });
     });
 
-    test('UI-061: Valid credentials on the sign-in step sign the guest in and lead to the billing address step', async ({
+    test('UI-061: Valid credentials on the sign-in step sign the guest in and lead to the billing address step', { tag: '@smoke' }, async ({
       cartPage,
       user,
     }) => {
