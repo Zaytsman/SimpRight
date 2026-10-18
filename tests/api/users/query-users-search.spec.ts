@@ -1,23 +1,15 @@
-import { test, expect, registerThrowawayCustomer, attachUserPageResponse, expectOnlyUser, expectStatusHidingBody, userPageSummary, AUTH } from '@fixtures';
+import { test, expect, registerThrowawayCustomer, expectOnlyUser, expectStatusHidingBody, userPageSummary, AUTH, JSON_QUERY_HEADERS, sendQueryAndAttach, type QueryHeaders, type QueryRequestRecord, describeUserPage } from '@fixtures';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { UsersClient } from '@api/clients/UsersClient';
 import type { Paginated } from '@api/dto/common';
 import type { User, UserSearchQueryBody } from '@api/dto/user';
 import { UserFactory } from '@data/factories/UserFactory';
 import { expectAcceptQuery, expectMessage, expectStatus, parseJson } from '@utils/apiChecks';
-import { assertMessage, attachJson } from '@utils/assertHelpers';
+import { assertMessage } from '@utils/assertHelpers';
 
 // Scenarios: test-scenarios/api/users/query-users-search.yml
 
-type QuerySearchRequest = {
-  method: 'QUERY';
-  path: '/users/search';
-  auth: string;
-  headers: { 'Content-Type': string; Accept: string };
-  body: UserSearchQueryBody | string;
-};
-
-const JSON_HEADERS = { 'Content-Type': 'application/json', Accept: 'application/json' } as const;
+type QuerySearchRequest = QueryRequestRecord<UserSearchQueryBody>;
 
 /**
  * Sends QUERY /users/search and attaches the request and the response (a page as its summary: other visitors' details
@@ -27,13 +19,9 @@ async function sendQuerySearch(
   client: UsersClient,
   auth: string,
   body: UserSearchQueryBody | string,
-  headers: QuerySearchRequest['headers'] = JSON_HEADERS
+  headers: QueryHeaders = JSON_QUERY_HEADERS
 ): Promise<{ request: QuerySearchRequest; response: ApiResponse }> {
-  const request: QuerySearchRequest = { method: 'QUERY', path: '/users/search', auth, headers, body };
-  const response = await client.querySearch(body, { contentType: headers['Content-Type'], accept: headers.Accept });
-  await attachJson('Query Search Request', request);
-  await attachUserPageResponse('Query Search Response', response);
-  return { request, response };
+  return sendQueryAndAttach('Query Search', '/users/search', body, headers, (sent, options) => client.querySearch(sent, options), { auth, describe: describeUserPage });
 }
 
 test.describe('@users-api - Users API', () => {

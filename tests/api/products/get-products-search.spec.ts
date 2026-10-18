@@ -1,12 +1,12 @@
 import { test, expect, sendAndAttach } from '@fixtures';
-import { expectStatus, parseJson } from '@utils/apiChecks';
+import { expectStatus, expectStatusAndBody, parseJson } from '@utils/apiChecks';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { ProductsClient } from '@api/clients/ProductsClient';
 import type { Paginated } from '@api/dto/common';
 import type { Product } from '@api/dto/product';
 import { TestConstants } from '@data/TestConstants';
 import { uniqueName } from '@data/factories/testDataUtils';
-import { assertMessage, attachJson } from '@utils/assertHelpers';
+import { assertMessage } from '@utils/assertHelpers';
 
 // Scenarios: test-scenarios/api/products/get-products-search.yml
 
@@ -17,12 +17,6 @@ async function sendSearch(productsClient: ProductsClient, q?: string, page?: num
   const query = { ...(q !== undefined ? { q } : {}), ...(page !== undefined ? { page } : {}) };
   const request: SearchRequest = { method: 'GET', path: '/products/search', ...(Object.keys(query).length ? { query } : {}) };
   return sendAndAttach('Search', request, () => productsClient.search(q, page));
-}
-
-/** The checks of a "Verify the response status is 200." step; returns the parsed body. */
-function expectSearchOk(request: SearchRequest, response: ApiResponse): Paginated<Product> {
-  expectStatus(request, response, 200);
-  return parseJson<Paginated<Product>>(request, response);
 }
 
 /** The checks of a "Verify data is an empty array and from is null." step. */
@@ -42,9 +36,7 @@ test.describe('@products-api - Products API', () => {
     let body: Paginated<Product>;
 
     await test.step('Send GET /products/search with q=pliers.', async () => {
-      response = await productsClient.search(term);
-      await attachJson('Search Request', request);
-      await attachJson('Search Response', { status: response.status, body: response.body });
+      ({ response } = await sendAndAttach('Search', request, () => productsClient.search(term)));
     });
 
     await test.step('Verify the response status is 200 and the body is paginated (data, total, current_page).', async () => {
@@ -85,7 +77,7 @@ test.describe('@products-api - Products API', () => {
     });
 
     await test.step('Verify the response status is 200.', async () => {
-      body = expectSearchOk(request, response);
+      body = expectStatusAndBody<Paginated<Product>>(request, response, 200);
     });
 
     await test.step('Verify current_page is 2.', async () => {
@@ -104,7 +96,7 @@ test.describe('@products-api - Products API', () => {
     });
 
     await test.step('Verify the response status is 200.', async () => {
-      body = expectSearchOk(request, response);
+      body = expectStatusAndBody<Paginated<Product>>(request, response, 200);
     });
 
     await test.step('Verify data is an empty array and from is null.', async () => {
@@ -122,7 +114,7 @@ test.describe('@products-api - Products API', () => {
     });
 
     await test.step('Verify the response status is 200.', async () => {
-      body = expectSearchOk(request, response);
+      body = expectStatusAndBody<Paginated<Product>>(request, response, 200);
     });
 
     await test.step('Verify data is an empty array and from is null.', async () => {
@@ -140,7 +132,7 @@ test.describe('@products-api - Products API', () => {
     });
 
     await test.step('Verify the response status is 200.', async () => {
-      body = expectSearchOk(request, response);
+      body = expectStatusAndBody<Paginated<Product>>(request, response, 200);
     });
 
     await test.step('Verify data is an empty array and from is null.', async () => {

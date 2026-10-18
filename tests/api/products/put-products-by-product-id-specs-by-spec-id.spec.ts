@@ -1,4 +1,4 @@
-import { test, expect, AUTH, createProductAndTakeOtherId, createProductWithSpec, createSpec, readSpec, sendGetSpec, takeFirstProductId, type SpecSetupFixtures } from '@fixtures';
+import { test, expect, AUTH, createProductAndTakeOtherId, createProductWithSpec, createSpec, readSpec, sendGetSpec, takeFirstProductId, sendAndAttach, type SpecSetupFixtures } from '@fixtures';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { ProductSpecsClient } from '@api/clients/ProductSpecsClient';
 import type { ProductSpec } from '@api/dto/product';
@@ -6,7 +6,7 @@ import type { UpdateProductSpecRequest } from '@api/dto/productSpec';
 import { TestConstants } from '@data/TestConstants';
 import { ProductSpecFactory } from '@data/factories/ProductSpecFactory';
 import { describeAccept, expectErrorKeys, expectMessage, expectStatus, expectSuccess } from '@utils/apiChecks';
-import { assertMessage, attachJson } from '@utils/assertHelpers';
+import { assertMessage } from '@utils/assertHelpers';
 
 // Scenarios: test-scenarios/api/products/put-products-by-product-id-specs-by-spec-id.yml
 
@@ -25,13 +25,9 @@ async function sendUpdateSpec(
   options: { accept?: string | null; followRedirects?: boolean } = {}
 ): Promise<{ request: UpdateSpecRequest; response: ApiResponse }> {
   const request: UpdateSpecRequest = { method: 'PUT', path: `/products/${productId}/specs/${specId}`, auth, accept: describeAccept(options.accept), body };
-  const response = await productSpecsClient.update(productId, specId, body, {
-    accept: options.accept,
-    maxRedirects: options.followRedirects === false ? 0 : undefined,
-  });
-  await attachJson('Update Spec Request', request);
-  await attachJson('Update Spec Response', { status: response.status, body: response.body });
-  return { request, response };
+  return sendAndAttach('Update Spec', request, () =>
+    productSpecsClient.update(productId, specId, body, { accept: options.accept, maxRedirects: options.followRedirects === false ? 0 : undefined })
+  );
 }
 
 /** The spec's three values, for comparing a read-back with what was sent or created. */

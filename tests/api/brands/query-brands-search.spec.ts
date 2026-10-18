@@ -1,33 +1,22 @@
-import { test, takeSeededBrandIds, expectIncludesBrandIds } from '@fixtures';
+import { test, takeSeededBrandIds, expectIncludesBrandIds, JSON_QUERY_HEADERS, sendQueryAndAttach, type QueryHeaders, type QueryRequestRecord } from '@fixtures';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { BrandsClient } from '@api/clients/BrandsClient';
 import type { BrandSearchQueryBody } from '@api/dto/brand';
 import { TestConstants } from '@data/TestConstants';
 import { expectAcceptQuery, expectItemNamesContain, expectMessage, expectStatus } from '@utils/apiChecks';
-import { attachJson } from '@utils/assertHelpers';
+import {  } from '@utils/assertHelpers';
 
 // Scenarios: test-scenarios/api/brands/query-brands-search.yml
 
-type QuerySearchRequest = {
-  method: 'QUERY';
-  path: '/brands/search';
-  headers: { 'Content-Type': string; Accept: string };
-  body: BrandSearchQueryBody | string;
-};
-
-const JSON_HEADERS = { 'Content-Type': 'application/json', Accept: 'application/json' } as const;
+type QuerySearchRequest = QueryRequestRecord<BrandSearchQueryBody>;
 
 /** Sends QUERY /brands/search and attaches the request and the response. A string body is sent as-is with the given Content-Type. */
 async function sendQuerySearch(
   brandsClient: BrandsClient,
   body: BrandSearchQueryBody | string,
-  headers: QuerySearchRequest['headers'] = JSON_HEADERS
+  headers: QueryHeaders = JSON_QUERY_HEADERS
 ): Promise<{ request: QuerySearchRequest; response: ApiResponse }> {
-  const request: QuerySearchRequest = { method: 'QUERY', path: '/brands/search', headers, body };
-  const response = await brandsClient.querySearch(body, { contentType: headers['Content-Type'], accept: headers.Accept });
-  await attachJson('Query Search Request', request);
-  await attachJson('Query Search Response', { status: response.status, headers: response.headers, body: response.body });
-  return { request, response };
+  return sendQueryAndAttach('Query Search', '/brands/search', body, headers, (sent, options) => brandsClient.querySearch(sent, options));
 }
 
 test.describe('@brands-api - Brands API', () => {

@@ -44,6 +44,12 @@ export function expectStatus(
   expect(response.status, assertMessage({ request, expected: `Status ${status}`, actual: { status: response.status, body: describeBody(response) } })).toBe(status);
 }
 
+/** `expectStatus`, then the parsed body, for a status step whose body the later steps check. */
+export function expectStatusAndBody<T>(request: unknown, response: ApiResponse, status: number): T {
+  expectStatus(request, response, status);
+  return parseJson<T>(request, response);
+}
+
 /** The checks of a "Verify the body's success is <true | false>." step. */
 export function expectSuccess(request: unknown, response: ApiResponse, success: boolean): void {
   const body = parseJson<{ success?: unknown }>(request, response);

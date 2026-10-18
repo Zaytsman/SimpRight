@@ -18,6 +18,14 @@ const DESCRIPTION_MAX = 1250;
  * The invalid payloads are plain objects, because they break the request types on purpose.
  */
 export const ProductFactory = {
+  /** How the names of the products this factory creates start (`Product-`), for messages that name them. */
+  testNameStart: `${PRODUCT_NAME_PREFIX}-`,
+
+  /** True for a product this factory created, in any test (shared lists include other tests' products). */
+  isTestProduct(name: string): boolean {
+    return name.startsWith(ProductFactory.testNameStart);
+  },
+
   /** A valid POST /products body with a unique name, price 9.99 and both flags false. */
   createProduct(refs: ProductRefs, overrides: Partial<CreateProductRequest> = {}): CreateProductRequest {
     return {

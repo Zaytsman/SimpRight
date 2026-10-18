@@ -7,7 +7,8 @@ import type { CreateProductRequest, Product, ProductDetails } from '../dto/produ
 import type { ProductsService } from '../services/ProductsService';
 import { ProductFactory, type ProductRefs } from '../../data/factories/ProductFactory';
 import { assertMessage, attachJson } from '../../utils/assertHelpers';
-import { AUTH, removeIfCreated, sendAndAttach } from './apiSteps';
+import { expectFieldMessages, expectStatus } from '../../utils/apiChecks';
+import { AUTH, fieldMessagesStep, removeIfCreated, sendAndAttach } from './apiSteps';
 
 /**
  * Steps shared by the Products specs that change a product (PUT and PATCH /products/{productId}).
@@ -201,6 +202,45 @@ export async function firstListedProductId(productsService: ProductsService): Pr
 /** A "Send GET /products and take the first item's id ..." step (title `title`, default FIRST_PRODUCT_ID_STEP): that id. */
 export async function takeFirstProductId(productsService: ProductsService, title: string = FIRST_PRODUCT_ID_STEP): Promise<string> {
   return test.step(title, () => firstListedProductId(productsService));
+}
+
+/** The fixtures `checkInvalidProductChange` uses. */
+export type ProductChangeFixtures = {
+  productsService: ProductsService;
+  adminProductsService: ProductsService;
+  productsClient: ProductsClient;
+  cleanup: Cleanup;
+};
+
+/**
+ * The template of the "Update / Partially update product with <an invalid field> returns 422" scenarios: the two setup
+ * steps (create a product to change), the PUT or PATCH of `body` without a token (title `sendStep`), then the 422 and
+ * the field's messages. Every member of the family has exactly these steps; only `sendStep`, `body` and `field` vary.
+ */
+export async function checkInvalidProductChange(
+  fixtures: ProductChangeFixtures,
+  method: 'PUT' | 'PATCH',
+  sendStep: string,
+  body: Record<string, unknown>,
+  field: string
+): Promise<void> {
+  let request: { method: string; path: string; auth: string; body: unknown };
+  let response: ApiResponse;
+
+  const productId = await createProductToUpdate(fixtures.productsService, fixtures.adminProductsService, fixtures.cleanup);
+
+  await test.step(sendStep, async () => {
+    const send = () => (method === 'PUT' ? fixtures.productsClient.update(productId, body) : fixtures.productsClient.partialUpdate(productId, body));
+    ({ request, response } = await sendAndAttach(method === 'PUT' ? 'Update Product' : 'Patch Product', { method, path: `/products/${productId}`, auth: AUTH.none, body }, send));
+  });
+
+  await test.step('Verify the response status is 422.', async () => {
+    expectStatus(request, response, 422);
+  });
+
+  await test.step(fieldMessagesStep(field), async () => {
+    expectFieldMessages(request, response, field);
+  });
 }
 
 /** The request record that `sendCreateProduct` attaches and that assertion messages show. */

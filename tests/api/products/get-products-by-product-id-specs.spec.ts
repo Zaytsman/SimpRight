@@ -130,7 +130,7 @@ test.describe('@products-api - Products API', () => {
     await test.step('Send GET /products/{productId}/specs with that id and take the spec ids of the body.', async () => {
       const first = await sendListSpecs(productSpecsClient, product.id);
       expectStatus(first.request, first.response, 200);
-      idsWithoutQuery = sortedIds(JSON.parse(first.response.body) as ProductSpec[]);
+      idsWithoutQuery = sortedIds(parseJson<ProductSpec[]>(first.request, first.response));
     });
 
     await test.step(

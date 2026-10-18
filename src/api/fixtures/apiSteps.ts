@@ -3,7 +3,7 @@
  * send that attaches its request and response, and the page summaries that keep other visitors' data out of reports.
  */
 import type { Cleanup } from '../../fixtures/base';
-import type { ApiResponse } from '../clients/BaseClient';
+import type { ApiResponse, QueryBodyOptions } from '../clients/BaseClient';
 import type { Paginated } from '../dto/common';
 import { attachJson } from '../../utils/assertHelpers';
 import { parseJson } from '../../utils/apiChecks';
@@ -44,6 +44,40 @@ export async function sendAndAttach<Request>(
   const response = await call();
   await attachJson(`${name} Response`, describe(response));
   return { request, response };
+}
+
+/** The headers a QUERY scenario sends unless it says otherwise: a JSON body and `Accept: application/json`. */
+export const JSON_QUERY_HEADERS = { 'Content-Type': 'application/json', Accept: 'application/json' } as const;
+
+/** The Content-Type and Accept of a QUERY request; without `Accept`, the request leaves the header out. */
+export type QueryHeaders = { 'Content-Type': string; Accept?: string };
+
+/** The record a QUERY step attaches and its assertion messages show. */
+export type QueryRequestRecord<Body> = { method: 'QUERY'; path: string; auth?: string; headers: QueryHeaders; body: Body | string };
+
+/**
+ * Sends a QUERY through `send` (a client's query method) with `headers` (a string body goes as-is with their
+ * Content-Type), and attaches the request record and the response with its headers (or `options.describe`'s view,
+ * such as a page summary). `options.auth` names the token in the record.
+ */
+export async function sendQueryAndAttach<Body>(
+  name: string,
+  path: string,
+  body: Body | string,
+  headers: QueryHeaders,
+  send: (body: Body | string, options: QueryBodyOptions) => Promise<ApiResponse>,
+  options: { auth?: string; describe?: DescribeResponse } = {}
+): Promise<{ request: QueryRequestRecord<Body>; response: ApiResponse }> {
+  const request: QueryRequestRecord<Body> = { method: 'QUERY', path, ...(options.auth !== undefined ? { auth: options.auth } : {}), headers, body };
+  return sendAndAttach(name, request, () => send(body, { contentType: headers['Content-Type'], accept: headers.Accept ?? null }), options.describe ?? withHeaders);
+}
+
+/**
+ * The title of a "Verify the body has a <field> key with at least one message." step, as the validation scenarios
+ * word it ("an" before a vowel: "an is_rental key"). For the templates that run a family of such scenarios.
+ */
+export function fieldMessagesStep(field: string): string {
+  return `Verify the body has ${/^[aeiou]/i.test(field) ? 'an' : 'a'} ${field} key with at least one message.`;
 }
 
 /**

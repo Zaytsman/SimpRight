@@ -10,7 +10,7 @@ import type { AuthService } from '../services/AuthService';
 import type { UsersService } from '../services/UsersService';
 import { UserFactory } from '../../data/factories/UserFactory';
 import { PAGE_KEYS, expectStatus, parseJson } from '../../utils/apiChecks';
-import { describePage, pageSummary } from './apiSteps';
+import { describePage, pageSummary, type DescribeResponse } from './apiSteps';
 import { assertMessage, attachJson } from '../../utils/assertHelpers';
 
 /**
@@ -211,6 +211,9 @@ export function expectStatusHidingBody(request: unknown, response: ApiResponse, 
  * response with its body as it came (error bodies hold no user data). Returns the parsed page for a 2xx, else undefined.
  */
 export async function attachUserPageResponse(name: string, response: ApiResponse): Promise<Paginated<User> | undefined> {
-  await attachJson(name, describePage(userItemSummary, { headers: true })(response));
+  await attachJson(name, describeUserPage(response));
   return response.isSuccess ? parseJson<Paginated<User>>(undefined, response) : undefined;
 }
+
+/** How a users page response is attached: its status, headers and `userPageSummary` (any other response as it came). */
+export const describeUserPage: DescribeResponse = describePage(userItemSummary, { headers: true });

@@ -1,4 +1,4 @@
-import { test, expect } from '@fixtures';
+import { test, expect, sendAndAttach } from '@fixtures';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { ImagesClient } from '@api/clients/ImagesClient';
 import type { ProductImage } from '@api/dto/product';
@@ -217,9 +217,7 @@ test.describe('@images-api - Images API', () => {
     let response: ApiResponse;
 
     await test.step('Send GET /images/00000000000000000000000000.', async () => {
-      response = await imagesClient.getByPath(segment);
-      await attachJson('Get Image Path Request', request);
-      await attachJson('Get Image Path Response', { status: response.status, body: response.body });
+      ({ response } = await sendAndAttach('Get Image Path', request, () => imagesClient.getByPath(segment)));
     });
 
     await test.step('Verify the response status is 404.', async () => {

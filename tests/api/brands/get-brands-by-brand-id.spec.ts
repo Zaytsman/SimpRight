@@ -45,9 +45,7 @@ test.describe('@brands-api - Brands API', () => {
     let response: ApiResponse;
 
     await test.step('Send GET /brands/{brandId} with a well-formed ULID that no brand has.', async () => {
-      response = await brandsClient.getById(unknownId);
-      await attachJson('Get Brand Request', request);
-      await attachJson('Get Brand Response', { status: response.status, body: response.body });
+      ({ response } = await sendAndAttach('Get Brand', request, () => brandsClient.getById(unknownId)));
     });
 
     await test.step('Verify the response status is 404.', async () => {

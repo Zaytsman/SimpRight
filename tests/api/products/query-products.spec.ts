@@ -1,24 +1,17 @@
-import { test, expect, takeProductRefs, findProductSpec } from '@fixtures';
+import { test, expect, takeProductRefs, findProductSpec, JSON_QUERY_HEADERS, sendQueryAndAttach, type QueryHeaders, type QueryRequestRecord } from '@fixtures';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { ProductsClient } from '@api/clients/ProductsClient';
 import type { Paginated } from '@api/dto/common';
 import type { Product, ProductListQuery, ProductQueryBody } from '@api/dto/product';
 import type { ProductsService } from '@api/services/ProductsService';
 import { TestConstants } from '@data/TestConstants';
-import { PRODUCT_NAME_PREFIX } from '@data/factories/ProductFactory';
-import { expectAcceptQuery, expectStatus, parseJson } from '@utils/apiChecks';
+import { ProductFactory } from '@data/factories/ProductFactory';
+import { expectAcceptQuery, expectStatus, expectStatusAndBody, parseJson } from '@utils/apiChecks';
 import { assertMessage, attachJson } from '@utils/assertHelpers';
 
 // Scenarios: test-scenarios/api/products/query-products.yml
 
-type QueryRequest = {
-  method: 'QUERY';
-  path: '/products';
-  headers: { 'Content-Type': string; Accept?: string };
-  body: ProductQueryBody | string;
-};
-
-const JSON_HEADERS = { 'Content-Type': 'application/json', Accept: 'application/json' } as const;
+type QueryRequest = QueryRequestRecord<ProductQueryBody>;
 
 /** Any non-JSON text: the 415 scenarios only need a plain-text body. */
 const PLAIN_TEXT_BODY = 'sort=name,asc';
@@ -30,19 +23,9 @@ const PLAIN_TEXT_BODY = 'sort=name,asc';
 async function sendQuery(
   productsClient: ProductsClient,
   body: ProductQueryBody | string,
-  headers: QueryRequest['headers'] = JSON_HEADERS
+  headers: QueryHeaders = JSON_QUERY_HEADERS
 ): Promise<{ request: QueryRequest; response: ApiResponse }> {
-  const request: QueryRequest = { method: 'QUERY', path: '/products', headers, body };
-  const response = await productsClient.queryList(body, { contentType: headers['Content-Type'], accept: headers.Accept ?? null });
-  await attachJson('Query Products Request', request);
-  await attachJson('Query Products Response', { status: response.status, headers: response.headers, body: response.body });
-  return { request, response };
-}
-
-/** The checks of a "Verify the response status is 200." step; returns the parsed body. */
-function expectQueryOk(request: QueryRequest, response: ApiResponse): Paginated<Product> {
-  expectStatus(request, response, 200);
-  return parseJson<Paginated<Product>>(request, response);
+  return sendQueryAndAttach('Query Products', '/products', body, headers, (sent, options) => productsClient.queryList(sent, options));
 }
 
 /**
@@ -61,12 +44,12 @@ async function listProducts(productsService: ProductsService, query: ProductList
   return list.data;
 }
 
-/** Products other tests create (ProductFactory names) can appear in one list and not the other while tests run in parallel. */
-const TEST_PRODUCT_NAME_START = `${PRODUCT_NAME_PREFIX}-`;
-
-/** The ids of the items, without the products tests create (names starting with "Product-"). */
+/**
+ * The ids of the items, without the products tests create (ProductFactory names, "Product-..."): other tests' products
+ * can appear in one list and not the other while tests run in parallel.
+ */
 function idsWithoutTestProducts(items: Product[]): string[] {
-  return items.filter((item) => !item.name.startsWith(TEST_PRODUCT_NAME_START)).map((item) => item.id);
+  return items.filter((item) => !ProductFactory.isTestProduct(item.name)).map((item) => item.id);
 }
 
 /**
@@ -80,7 +63,7 @@ function expectSameIdsIgnoringTestProducts(request: QueryRequest, body: Paginate
     queryIds,
     assertMessage({
       request,
-      expected: `The GET's ids in order, without products named "${TEST_PRODUCT_NAME_START}...": ${JSON.stringify(getIds)}`,
+      expected: `The GET's ids in order, without products named "${ProductFactory.testNameStart}...": ${JSON.stringify(getIds)}`,
       actual: { queryIds, queryItems: body.data.map((item) => ({ id: item.id, name: item.name })) },
     })
   ).toEqual(getIds);
@@ -97,6 +80,43 @@ function expectNotEmpty(request: QueryRequest, body: Paginated<Product>): void {
   expect(body.data.length, assertMessage({ request, expected: 'data is not empty', actual: body.total })).toBeGreaterThan(0);
 }
 
+/**
+ * The template of the "QUERY list with <a filter> returns the same products as the GET" scenarios (API-0066..0069): the
+ * GET with `criteria` (title `getStep`), the QUERY with the same criteria as a JSON body (title `queryStep`), then the
+ * 200, a non-empty page and the same item ids in the same order.
+ */
+async function checkQueryMatchesGet(
+  { productsService, productsClient }: { productsService: ProductsService; productsClient: ProductsClient },
+  getStep: string,
+  queryStep: string,
+  criteria: Omit<ProductListQuery, 'page'>
+): Promise<void> {
+  let getIds: string[] = [];
+  let request: QueryRequest;
+  let response: ApiResponse;
+  let body: Paginated<Product>;
+
+  await test.step(getStep, async () => {
+    getIds = await listIds(productsService, criteria);
+  });
+
+  await test.step(queryStep, async () => {
+    ({ request, response } = await sendQuery(productsClient, criteria));
+  });
+
+  await test.step('Verify the response status is 200.', async () => {
+    body = expectStatusAndBody<Paginated<Product>>(request, response, 200);
+  });
+
+  await test.step('Verify data is not empty.', async () => {
+    expectNotEmpty(request, body);
+  });
+
+  await test.step("Verify the QUERY response's item ids equal the GET response's item ids, in the same order.", async () => {
+    expectSameIds(request, body, getIds);
+  });
+}
+
 test.describe('@products-api - Products API', () => {
   test('API-0015: QUERY list products returns a paginated list', async ({ productsClient }) => {
     let request: QueryRequest;
@@ -108,7 +128,7 @@ test.describe('@products-api - Products API', () => {
     });
 
     await test.step('Verify the response status is 200.', async () => {
-      body = expectQueryOk(request, response);
+      body = expectStatusAndBody<Paginated<Product>>(request, response, 200);
     });
 
     await test.step('Verify the Accept-Query response header is application/json.', async () => {
@@ -150,7 +170,7 @@ test.describe('@products-api - Products API', () => {
     });
 
     await test.step('Verify the response status is 200.', async () => {
-      body = expectQueryOk(request, response);
+      body = expectStatusAndBody<Paginated<Product>>(request, response, 200);
     });
 
     await test.step("Verify the QUERY response's item ids equal the GET response's item ids, in the same order.", async () => {
@@ -242,7 +262,7 @@ test.describe('@products-api - Products API', () => {
     );
 
     await test.step('Verify the response status is 200.', async () => {
-      body = expectQueryOk(request, response);
+      body = expectStatusAndBody<Paginated<Product>>(request, response, 200);
     });
 
     await test.step('Verify data is not empty.', async () => {
@@ -283,7 +303,7 @@ test.describe('@products-api - Products API', () => {
     });
 
     await test.step('Verify the response status is 200.', async () => {
-      body = expectQueryOk(request, response);
+      body = expectStatusAndBody<Paginated<Product>>(request, response, 200);
     });
 
     await test.step('Verify data is not empty.', async () => {
@@ -299,113 +319,39 @@ test.describe('@products-api - Products API', () => {
   });
 
   test('API-0066: QUERY list with the rental filter returns the same products as the GET', async ({ productsService, productsClient }) => {
-    let getIds: string[] = [];
-    let request: QueryRequest;
-    let response: ApiResponse;
-    let body: Paginated<Product>;
-
-    await test.step('Send GET /products with is_rental=true and keep the item ids in order.', async () => {
-      getIds = await listIds(productsService, { is_rental: 'true' });
-    });
-
-    await test.step('Send QUERY /products with Content-Type: application/json, Accept: application/json and the body { "is_rental": "true" }.', async () => {
-      ({ request, response } = await sendQuery(productsClient, { is_rental: 'true' }));
-    });
-
-    await test.step('Verify the response status is 200.', async () => {
-      body = expectQueryOk(request, response);
-    });
-
-    await test.step('Verify data is not empty.', async () => {
-      expectNotEmpty(request, body);
-    });
-
-    await test.step("Verify the QUERY response's item ids equal the GET response's item ids, in the same order.", async () => {
-      expectSameIds(request, body, getIds);
-    });
+    await checkQueryMatchesGet(
+      { productsService, productsClient },
+      'Send GET /products with is_rental=true and keep the item ids in order.',
+      'Send QUERY /products with Content-Type: application/json, Accept: application/json and the body { "is_rental": "true" }.',
+      { is_rental: 'true' }
+    );
   });
 
   test('API-0067: QUERY list with a price range filter returns the same products as the GET', async ({ productsService, productsClient }) => {
-    const between = 'price,10,30';
-    let getIds: string[] = [];
-    let request: QueryRequest;
-    let response: ApiResponse;
-    let body: Paginated<Product>;
-
-    await test.step('Send GET /products with between=price,10,30 and keep the item ids in order.', async () => {
-      getIds = await listIds(productsService, { between });
-    });
-
-    await test.step('Send QUERY /products with Content-Type: application/json, Accept: application/json and the body { "between": "price,10,30" }.', async () => {
-      ({ request, response } = await sendQuery(productsClient, { between }));
-    });
-
-    await test.step('Verify the response status is 200.', async () => {
-      body = expectQueryOk(request, response);
-    });
-
-    await test.step('Verify data is not empty.', async () => {
-      expectNotEmpty(request, body);
-    });
-
-    await test.step("Verify the QUERY response's item ids equal the GET response's item ids, in the same order.", async () => {
-      expectSameIds(request, body, getIds);
-    });
+    await checkQueryMatchesGet(
+      { productsService, productsClient },
+      'Send GET /products with between=price,10,30 and keep the item ids in order.',
+      'Send QUERY /products with Content-Type: application/json, Accept: application/json and the body { "between": "price,10,30" }.',
+      { between: 'price,10,30' }
+    );
   });
 
   test('API-0068: QUERY list with the eco-friendly filter returns the same products as the GET', async ({ productsService, productsClient }) => {
-    let getIds: string[] = [];
-    let request: QueryRequest;
-    let response: ApiResponse;
-    let body: Paginated<Product>;
-
-    await test.step('Send GET /products with eco_friendly=true and keep the item ids in order.', async () => {
-      getIds = await listIds(productsService, { eco_friendly: 'true' });
-    });
-
-    await test.step('Send QUERY /products with Content-Type: application/json, Accept: application/json and the body { "eco_friendly": "true" }.', async () => {
-      ({ request, response } = await sendQuery(productsClient, { eco_friendly: 'true' }));
-    });
-
-    await test.step('Verify the response status is 200.', async () => {
-      body = expectQueryOk(request, response);
-    });
-
-    await test.step('Verify data is not empty.', async () => {
-      expectNotEmpty(request, body);
-    });
-
-    await test.step("Verify the QUERY response's item ids equal the GET response's item ids, in the same order.", async () => {
-      expectSameIds(request, body, getIds);
-    });
+    await checkQueryMatchesGet(
+      { productsService, productsClient },
+      'Send GET /products with eco_friendly=true and keep the item ids in order.',
+      'Send QUERY /products with Content-Type: application/json, Accept: application/json and the body { "eco_friendly": "true" }.',
+      { eco_friendly: 'true' }
+    );
   });
 
   test('API-0069: QUERY list with a name filter returns the same products as the GET', async ({ productsService, productsClient }) => {
-    const q = TestConstants.products.searchTerm;
-    let getIds: string[] = [];
-    let request: QueryRequest;
-    let response: ApiResponse;
-    let body: Paginated<Product>;
-
-    await test.step('Send GET /products with q=pliers and keep the item ids in order.', async () => {
-      getIds = await listIds(productsService, { q });
-    });
-
-    await test.step('Send QUERY /products with Content-Type: application/json, Accept: application/json and the body { "q": "pliers" }.', async () => {
-      ({ request, response } = await sendQuery(productsClient, { q }));
-    });
-
-    await test.step('Verify the response status is 200.', async () => {
-      body = expectQueryOk(request, response);
-    });
-
-    await test.step('Verify data is not empty.', async () => {
-      expectNotEmpty(request, body);
-    });
-
-    await test.step("Verify the QUERY response's item ids equal the GET response's item ids, in the same order.", async () => {
-      expectSameIds(request, body, getIds);
-    });
+    await checkQueryMatchesGet(
+      { productsService, productsClient },
+      'Send GET /products with q=pliers and keep the item ids in order.',
+      'Send QUERY /products with Content-Type: application/json, Accept: application/json and the body { "q": "pliers" }.',
+      { q: TestConstants.products.searchTerm }
+    );
   });
 
   test('API-0070: QUERY list with a spec filter returns the same products as the GET', async ({ productsService, productsClient }) => {
@@ -426,7 +372,7 @@ test.describe('@products-api - Products API', () => {
     });
 
     await test.step('Verify the response status is 200.', async () => {
-      body = expectQueryOk(request, response);
+      body = expectStatusAndBody<Paginated<Product>>(request, response, 200);
     });
 
     await test.step('Verify data is not empty.', async () => {
@@ -453,7 +399,7 @@ test.describe('@products-api - Products API', () => {
     });
 
     await test.step('Verify the response status is 200.', async () => {
-      body = expectQueryOk(request, response);
+      body = expectStatusAndBody<Paginated<Product>>(request, response, 200);
     });
 
     await test.step('Verify current_page is 2.', async () => {

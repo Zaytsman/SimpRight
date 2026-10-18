@@ -1,8 +1,8 @@
-import { test, expect } from '@fixtures';
+import { test, expect, sendAndAttach } from '@fixtures';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { Category } from '@api/dto/category';
 import { expectStatus, parseJson } from '@utils/apiChecks';
-import { assertMessage, attachJson } from '@utils/assertHelpers';
+import { assertMessage } from '@utils/assertHelpers';
 
 // Scenarios: test-scenarios/api/categories/get-categories.yml
 
@@ -13,9 +13,7 @@ test.describe('@categories-api - Categories API', () => {
     let body: Category[];
 
     await test.step('Send GET /categories.', async () => {
-      response = await categoriesClient.list();
-      await attachJson('List Categories Request', request);
-      await attachJson('List Categories Response', { status: response.status, body: response.body });
+      ({ response } = await sendAndAttach('List Categories', request, () => categoriesClient.list()));
     });
 
     await test.step('Verify the response status is 200.', async () => {

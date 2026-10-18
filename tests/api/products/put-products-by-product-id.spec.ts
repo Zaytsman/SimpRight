@@ -1,9 +1,9 @@
-import { test, expect, createProductToUpdate, createProductWithOtherRefs, takeProductRefs, PRODUCT_LIST_STEP, AUTH, sendAndAttach } from '@fixtures';
+import { test, expect, createProductToUpdate, createProductWithOtherRefs, takeProductRefs, PRODUCT_LIST_STEP, AUTH, sendAndAttach, checkInvalidProductChange } from '@fixtures';
 import type { ApiResponse } from '@api/clients/BaseClient';
-import type { ProductDetails, UpdateProductResponse } from '@api/dto/product';
+import type { ProductDetails } from '@api/dto/product';
 import { TestConstants } from '@data/TestConstants';
 import { ProductFactory, type ProductRefs } from '@data/factories/ProductFactory';
-import { expectFieldMessages, expectStatus, parseJson } from '@utils/apiChecks';
+import { expectStatus, expectSuccess, parseJson } from '@utils/apiChecks';
 import { assertMessage, attachJson } from '@utils/assertHelpers';
 
 // Scenarios: test-scenarios/api/products/put-products-by-product-id.yml
@@ -27,8 +27,7 @@ test.describe('@products-api - Products API', () => {
     });
 
     await test.step("Verify the body's success is true.", async () => {
-      const body = parseJson<UpdateProductResponse>(request, response);
-      expect(body.success, assertMessage({ request, expected: 'success is true', actual: body })).toBe(true);
+      expectSuccess(request, response, true);
     });
 
     await test.step('Verify GET /products/{productId} with that id returns the new name.', async () => {
@@ -41,154 +40,64 @@ test.describe('@products-api - Products API', () => {
     });
   });
 
-  test('API-0044: Update product with a name longer than 120 characters returns 422', async ({
-    productsService,
-    adminProductsService,
-    productsClient,
-    cleanup,
-  }) => {
-    let request: { method: string; path: string; auth: string; body: unknown };
-    let response: ApiResponse;
-
-    const productId = await createProductToUpdate(productsService, adminProductsService, cleanup);
-
-    await test.step('Send PUT /products/{productId} with that id and a body with a 121-character name that starts with a unique product name.', async () => {
-      const body = ProductFactory.nameTooLong();
-      ({ request, response } = await sendAndAttach('Update Product', { method: 'PUT', path: `/products/${productId}`, auth: AUTH.none, body }, () => productsClient.update(productId, body)));
-    });
-
-    await test.step('Verify the response status is 422.', async () => {
-      expectStatus(request, response, 422);
-    });
-
-    await test.step('Verify the body has a name key with at least one message.', async () => {
-      expectFieldMessages(request, response, 'name');
-    });
+  test('API-0044: Update product with a name longer than 120 characters returns 422', async ({ productsService, adminProductsService, productsClient, cleanup }) => {
+    await checkInvalidProductChange(
+      { productsService, adminProductsService, productsClient, cleanup },
+      'PUT',
+      'Send PUT /products/{productId} with that id and a body with a 121-character name that starts with a unique product name.',
+      ProductFactory.nameTooLong(),
+      'name',
+    );
   });
 
-  test('API-0045: Update product with a description longer than 1250 characters returns 422', async ({
-    productsService,
-    adminProductsService,
-    productsClient,
-    cleanup,
-  }) => {
-    let request: { method: string; path: string; auth: string; body: unknown };
-    let response: ApiResponse;
-
-    const productId = await createProductToUpdate(productsService, adminProductsService, cleanup);
-
-    await test.step('Send PUT /products/{productId} with that id and a body with a 1251-character description.', async () => {
-      const body = ProductFactory.descriptionTooLong();
-      ({ request, response } = await sendAndAttach('Update Product', { method: 'PUT', path: `/products/${productId}`, auth: AUTH.none, body }, () => productsClient.update(productId, body)));
-    });
-
-    await test.step('Verify the response status is 422.', async () => {
-      expectStatus(request, response, 422);
-    });
-
-    await test.step('Verify the body has a description key with at least one message.', async () => {
-      expectFieldMessages(request, response, 'description');
-    });
+  test('API-0045: Update product with a description longer than 1250 characters returns 422', async ({ productsService, adminProductsService, productsClient, cleanup }) => {
+    await checkInvalidProductChange(
+      { productsService, adminProductsService, productsClient, cleanup },
+      'PUT',
+      'Send PUT /products/{productId} with that id and a body with a 1251-character description.',
+      ProductFactory.descriptionTooLong(),
+      'description',
+    );
   });
 
-  test("API-0046: Update product with a name that isn't a string returns 422", async ({
-    productsService,
-    adminProductsService,
-    productsClient,
-    cleanup,
-  }) => {
-    let request: { method: string; path: string; auth: string; body: unknown };
-    let response: ApiResponse;
-
-    const productId = await createProductToUpdate(productsService, adminProductsService, cleanup);
-
-    await test.step('Send PUT /products/{productId} with that id and a body with name set to a number.', async () => {
-      const body = ProductFactory.nameNotString();
-      ({ request, response } = await sendAndAttach('Update Product', { method: 'PUT', path: `/products/${productId}`, auth: AUTH.none, body }, () => productsClient.update(productId, body)));
-    });
-
-    await test.step('Verify the response status is 422.', async () => {
-      expectStatus(request, response, 422);
-    });
-
-    await test.step('Verify the body has a name key with at least one message.', async () => {
-      expectFieldMessages(request, response, 'name');
-    });
+  test("API-0046: Update product with a name that isn't a string returns 422", async ({ productsService, adminProductsService, productsClient, cleanup }) => {
+    await checkInvalidProductChange(
+      { productsService, adminProductsService, productsClient, cleanup },
+      'PUT',
+      'Send PUT /products/{productId} with that id and a body with name set to a number.',
+      ProductFactory.nameNotString(),
+      'name',
+    );
   });
 
-  test("API-0047: Update product with a description that isn't a string returns 422", async ({
-    productsService,
-    adminProductsService,
-    productsClient,
-    cleanup,
-  }) => {
-    let request: { method: string; path: string; auth: string; body: unknown };
-    let response: ApiResponse;
-
-    const productId = await createProductToUpdate(productsService, adminProductsService, cleanup);
-
-    await test.step('Send PUT /products/{productId} with that id and a body with description set to a number.', async () => {
-      const body = ProductFactory.descriptionNotString();
-      ({ request, response } = await sendAndAttach('Update Product', { method: 'PUT', path: `/products/${productId}`, auth: AUTH.none, body }, () => productsClient.update(productId, body)));
-    });
-
-    await test.step('Verify the response status is 422.', async () => {
-      expectStatus(request, response, 422);
-    });
-
-    await test.step('Verify the body has a description key with at least one message.', async () => {
-      expectFieldMessages(request, response, 'description');
-    });
+  test("API-0047: Update product with a description that isn't a string returns 422", async ({ productsService, adminProductsService, productsClient, cleanup }) => {
+    await checkInvalidProductChange(
+      { productsService, adminProductsService, productsClient, cleanup },
+      'PUT',
+      'Send PUT /products/{productId} with that id and a body with description set to a number.',
+      ProductFactory.descriptionNotString(),
+      'description',
+    );
   });
 
-  test('API-0048: Update product with a non-boolean is_location_offer returns 422', async ({
-    productsService,
-    adminProductsService,
-    productsClient,
-    cleanup,
-  }) => {
-    let request: { method: string; path: string; auth: string; body: unknown };
-    let response: ApiResponse;
-
-    const productId = await createProductToUpdate(productsService, adminProductsService, cleanup);
-
-    await test.step('Send PUT /products/{productId} with that id and a body with is_location_offer set to the string "not-a-boolean".', async () => {
-      const body = ProductFactory.isLocationOfferNotBoolean();
-      ({ request, response } = await sendAndAttach('Update Product', { method: 'PUT', path: `/products/${productId}`, auth: AUTH.none, body }, () => productsClient.update(productId, body)));
-    });
-
-    await test.step('Verify the response status is 422.', async () => {
-      expectStatus(request, response, 422);
-    });
-
-    await test.step('Verify the body has an is_location_offer key with at least one message.', async () => {
-      expectFieldMessages(request, response, 'is_location_offer');
-    });
+  test('API-0048: Update product with a non-boolean is_location_offer returns 422', async ({ productsService, adminProductsService, productsClient, cleanup }) => {
+    await checkInvalidProductChange(
+      { productsService, adminProductsService, productsClient, cleanup },
+      'PUT',
+      'Send PUT /products/{productId} with that id and a body with is_location_offer set to the string "not-a-boolean".',
+      ProductFactory.isLocationOfferNotBoolean(),
+      'is_location_offer',
+    );
   });
 
-  test('API-0049: Update product with a non-boolean is_rental returns 422', async ({
-    productsService,
-    adminProductsService,
-    productsClient,
-    cleanup,
-  }) => {
-    let request: { method: string; path: string; auth: string; body: unknown };
-    let response: ApiResponse;
-
-    const productId = await createProductToUpdate(productsService, adminProductsService, cleanup);
-
-    await test.step('Send PUT /products/{productId} with that id and a body with is_rental set to the string "not-a-boolean".', async () => {
-      const body = ProductFactory.isRentalNotBoolean();
-      ({ request, response } = await sendAndAttach('Update Product', { method: 'PUT', path: `/products/${productId}`, auth: AUTH.none, body }, () => productsClient.update(productId, body)));
-    });
-
-    await test.step('Verify the response status is 422.', async () => {
-      expectStatus(request, response, 422);
-    });
-
-    await test.step('Verify the body has an is_rental key with at least one message.', async () => {
-      expectFieldMessages(request, response, 'is_rental');
-    });
+  test('API-0049: Update product with a non-boolean is_rental returns 422', async ({ productsService, adminProductsService, productsClient, cleanup }) => {
+    await checkInvalidProductChange(
+      { productsService, adminProductsService, productsClient, cleanup },
+      'PUT',
+      'Send PUT /products/{productId} with that id and a body with is_rental set to the string "not-a-boolean".',
+      ProductFactory.isRentalNotBoolean(),
+      'is_rental',
+    );
   });
 
   test('API-0050: Update product with an unknown id returns 404', async ({ productsClient }) => {
@@ -256,8 +165,7 @@ test.describe('@products-api - Products API', () => {
     });
 
     await test.step("Verify the body's success is true.", async () => {
-      const body = parseJson<UpdateProductResponse>(request, response);
-      expect(body.success, assertMessage({ request, expected: 'success is true', actual: body })).toBe(true);
+      expectSuccess(request, response, true);
     });
 
     await test.step('Send GET /products/{productId} with that id.', async () => {
@@ -322,8 +230,7 @@ test.describe('@products-api - Products API', () => {
       });
 
       await test.step("Verify the body's success is true.", async () => {
-        const body = parseJson<UpdateProductResponse>(request, response);
-        expect(body.success, assertMessage({ request, expected: 'success is true', actual: body })).toBe(true);
+        expectSuccess(request, response, true);
       });
 
       await test.step('Send GET /products/{productId} with that id and the admin token.', async () => {

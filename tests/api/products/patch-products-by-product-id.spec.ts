@@ -1,9 +1,9 @@
-import { test, expect, createProductToUpdate, createProductWithOtherRefs, AUTH, sendAndAttach } from '@fixtures';
+import { test, expect, createProductToUpdate, createProductWithOtherRefs, AUTH, sendAndAttach, checkInvalidProductChange } from '@fixtures';
 import type { ApiResponse } from '@api/clients/BaseClient';
-import type { ProductDetails, UpdateProductResponse } from '@api/dto/product';
+import type { ProductDetails } from '@api/dto/product';
 import { TestConstants } from '@data/TestConstants';
 import { ProductFactory } from '@data/factories/ProductFactory';
-import { expectFieldMessages, expectStatus, parseJson } from '@utils/apiChecks';
+import { expectStatus, expectSuccess, parseJson } from '@utils/apiChecks';
 import { assertMessage, attachJson } from '@utils/assertHelpers';
 
 // Scenarios: test-scenarios/api/products/patch-products-by-product-id.yml
@@ -27,8 +27,7 @@ test.describe('@products-api - Products API', () => {
     });
 
     await test.step("Verify the body's success is true.", async () => {
-      const body = parseJson<UpdateProductResponse>(request, response);
-      expect(body.success, assertMessage({ request, expected: 'success is true', actual: body })).toBe(true);
+      expectSuccess(request, response, true);
     });
 
     await test.step('Verify GET /products/{productId} with that id returns the new name.', async () => {
@@ -41,79 +40,34 @@ test.describe('@products-api - Products API', () => {
     });
   });
 
-  test('API-0053: Partially update product with a non-numeric price returns 422', async ({
-    productsService,
-    adminProductsService,
-    productsClient,
-    cleanup,
-  }) => {
-    let request: { method: string; path: string; auth: string; body: unknown };
-    let response: ApiResponse;
-
-    const productId = await createProductToUpdate(productsService, adminProductsService, cleanup);
-
-    await test.step('Send PATCH /products/{productId} with that id and a body with only price set to the string "not-a-number".', async () => {
-      const body = ProductFactory.priceNotNumeric();
-      ({ request, response } = await sendAndAttach('Patch Product', { method: 'PATCH', path: `/products/${productId}`, auth: AUTH.none, body }, () => productsClient.partialUpdate(productId, body)));
-    });
-
-    await test.step('Verify the response status is 422.', async () => {
-      expectStatus(request, response, 422);
-    });
-
-    await test.step('Verify the body has a price key with at least one message.', async () => {
-      expectFieldMessages(request, response, 'price');
-    });
+  test('API-0053: Partially update product with a non-numeric price returns 422', async ({ productsService, adminProductsService, productsClient, cleanup }) => {
+    await checkInvalidProductChange(
+      { productsService, adminProductsService, productsClient, cleanup },
+      'PATCH',
+      'Send PATCH /products/{productId} with that id and a body with only price set to the string "not-a-number".',
+      ProductFactory.priceNotNumeric(),
+      'price',
+    );
   });
 
-  test('API-0054: Partially update product with a name longer than 120 characters returns 422', async ({
-    productsService,
-    adminProductsService,
-    productsClient,
-    cleanup,
-  }) => {
-    let request: { method: string; path: string; auth: string; body: unknown };
-    let response: ApiResponse;
-
-    const productId = await createProductToUpdate(productsService, adminProductsService, cleanup);
-
-    await test.step('Send PATCH /products/{productId} with that id and a body with only a 121-character name that starts with a unique product name.', async () => {
-      const body = ProductFactory.nameTooLong();
-      ({ request, response } = await sendAndAttach('Patch Product', { method: 'PATCH', path: `/products/${productId}`, auth: AUTH.none, body }, () => productsClient.partialUpdate(productId, body)));
-    });
-
-    await test.step('Verify the response status is 422.', async () => {
-      expectStatus(request, response, 422);
-    });
-
-    await test.step('Verify the body has a name key with at least one message.', async () => {
-      expectFieldMessages(request, response, 'name');
-    });
+  test('API-0054: Partially update product with a name longer than 120 characters returns 422', async ({ productsService, adminProductsService, productsClient, cleanup }) => {
+    await checkInvalidProductChange(
+      { productsService, adminProductsService, productsClient, cleanup },
+      'PATCH',
+      'Send PATCH /products/{productId} with that id and a body with only a 121-character name that starts with a unique product name.',
+      ProductFactory.nameTooLong(),
+      'name',
+    );
   });
 
-  test('API-0055: Partially update product with a description longer than 1250 characters returns 422', async ({
-    productsService,
-    adminProductsService,
-    productsClient,
-    cleanup,
-  }) => {
-    let request: { method: string; path: string; auth: string; body: unknown };
-    let response: ApiResponse;
-
-    const productId = await createProductToUpdate(productsService, adminProductsService, cleanup);
-
-    await test.step('Send PATCH /products/{productId} with that id and a body with only a 1251-character description.', async () => {
-      const body = ProductFactory.descriptionTooLong();
-      ({ request, response } = await sendAndAttach('Patch Product', { method: 'PATCH', path: `/products/${productId}`, auth: AUTH.none, body }, () => productsClient.partialUpdate(productId, body)));
-    });
-
-    await test.step('Verify the response status is 422.', async () => {
-      expectStatus(request, response, 422);
-    });
-
-    await test.step('Verify the body has a description key with at least one message.', async () => {
-      expectFieldMessages(request, response, 'description');
-    });
+  test('API-0055: Partially update product with a description longer than 1250 characters returns 422', async ({ productsService, adminProductsService, productsClient, cleanup }) => {
+    await checkInvalidProductChange(
+      { productsService, adminProductsService, productsClient, cleanup },
+      'PATCH',
+      'Send PATCH /products/{productId} with that id and a body with only a 1251-character description.',
+      ProductFactory.descriptionTooLong(),
+      'description',
+    );
   });
 
   test('API-0056: Partially update product with an unknown id returns 404', async ({ productsClient }) => {
@@ -176,8 +130,7 @@ test.describe('@products-api - Products API', () => {
     });
 
     await test.step("Verify the body's success is true.", async () => {
-      const body = parseJson<UpdateProductResponse>(request, response);
-      expect(body.success, assertMessage({ request, expected: 'success is true', actual: body })).toBe(true);
+      expectSuccess(request, response, true);
     });
 
     await test.step('Send GET /products/{productId} with that id.', async () => {
@@ -220,8 +173,7 @@ test.describe('@products-api - Products API', () => {
     });
 
     await test.step("Verify the body's success is true.", async () => {
-      const body = parseJson<UpdateProductResponse>(request, response);
-      expect(body.success, assertMessage({ request, expected: 'success is true', actual: body })).toBe(true);
+      expectSuccess(request, response, true);
     });
 
     await test.step('Send GET /products/{productId} with that id.', async () => {

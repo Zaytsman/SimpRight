@@ -72,9 +72,7 @@ test.describe('@products-api - Products API', () => {
     let response: ApiResponse;
 
     await test.step('Send GET /products/{productId}/related with a well-formed ULID that no product has.', async () => {
-      response = await productsClient.related(unknownId);
-      await attachJson('Related Products Request', request);
-      await attachJson('Related Products Response', { status: response.status, body: response.body });
+      ({ response } = await sendAndAttach('Related Products', request, () => productsClient.related(unknownId)));
     });
 
     await test.step('Verify the response status is 404.', async () => {

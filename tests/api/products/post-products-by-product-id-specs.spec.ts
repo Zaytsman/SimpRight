@@ -1,4 +1,4 @@
-import { test, expect, AUTH, createProductToUpdate, readSpec, takeFirstProductId } from '@fixtures';
+import { test, expect, AUTH, createProductToUpdate, readSpec, takeFirstProductId, removeIfCreated, sendAndAttach } from '@fixtures';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { ProductSpecsClient } from '@api/clients/ProductSpecsClient';
 import type { ProductSpec } from '@api/dto/product';
@@ -30,22 +30,11 @@ async function sendCreateSpec(
   options: { accept?: string | null; followRedirects?: boolean } = {}
 ): Promise<{ request: CreateSpecRequest; response: ApiResponse }> {
   const request: CreateSpecRequest = { method: 'POST', path: `/products/${productId}/specs`, auth, accept: describeAccept(options.accept), body };
-  const response = await productSpecsClient.create(productId, body, {
-    accept: options.accept,
-    maxRedirects: options.followRedirects === false ? 0 : undefined,
+  return sendAndAttach('Create Spec', request, async () => {
+    const response = await productSpecsClient.create(productId, body, { accept: options.accept, maxRedirects: options.followRedirects === false ? 0 : undefined });
+    removeIfCreated(response, remover.cleanup, (id) => remover.productSpecsServiceWithToken.delete(productId, id));
+    return response;
   });
-  if (response.isSuccess) {
-    let id: string | undefined;
-    try {
-      id = (parseJson<Partial<ProductSpec>>(request, response)).id;
-    } catch {
-      id = undefined;
-    }
-    if (id) remover.cleanup.add(() => remover.productSpecsServiceWithToken.delete(productId, id));
-  }
-  await attachJson('Create Spec Request', request);
-  await attachJson('Create Spec Response', { status: response.status, body: response.body });
-  return { request, response };
 }
 
 /**

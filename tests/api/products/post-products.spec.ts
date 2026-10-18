@@ -1,14 +1,43 @@
-import { test, expect, takeProductRefs, sendCreateProduct, PRODUCT_LIST_STEP, type CreateProductRequestInfo, AUTH } from '@fixtures';
+import { test, expect, takeProductRefs, sendCreateProduct, PRODUCT_LIST_STEP, fieldMessagesStep, type CreateProductRequestInfo, type ProductChangeFixtures, AUTH, sendAndAttach } from '@fixtures';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { CreateProductRequest, Product, ProductDetails } from '@api/dto/product';
 import { TestConstants } from '@data/TestConstants';
 import { ProductFactory, type ProductRefs } from '@data/factories/ProductFactory';
-import { expectFieldMessages, expectStatus, parseJson } from '@utils/apiChecks';
+import { expectFieldMessages, expectStatus, expectStatusAndBody, parseJson } from '@utils/apiChecks';
 import { assertMessage, attachJson } from '@utils/assertHelpers';
 
 // Scenarios: test-scenarios/api/products/post-products.yml
 
 type Request = CreateProductRequestInfo;
+
+/**
+ * The template of the "Create product with <an invalid name or description> returns 422" scenarios (API-0035..0038):
+ * takes the first listed product's ids, sends POST /products without a token with the body `bodyFrom(refs)` builds
+ * (title `sendStep`; a product it creates anyway is removed), then checks the 422 and the field's messages.
+ */
+async function checkInvalidCreate(
+  { productsService, adminProductsService, productsClient, cleanup }: ProductChangeFixtures,
+  sendStep: string,
+  bodyFrom: (refs: ProductRefs) => CreateProductRequest,
+  field: string
+): Promise<void> {
+  let request: Request;
+  let response: ApiResponse;
+
+  const refs = (await takeProductRefs(productsService, PRODUCT_LIST_STEP)) as ProductRefs;
+
+  await test.step(sendStep, async () => {
+    ({ request, response } = await sendCreateProduct(productsClient, bodyFrom(refs), adminProductsService, cleanup));
+  });
+
+  await test.step('Verify the response status is 422.', async () => {
+    expectStatus(request, response, 422);
+  });
+
+  await test.step(fieldMessagesStep(field), async () => {
+    expectFieldMessages(request, response, field);
+  });
+}
 
 test.describe('@products-api - Products API', () => {
   test('API-0033: Create product returns 201 with the new product', { tag: '@smoke' }, async ({
@@ -61,11 +90,10 @@ test.describe('@products-api - Products API', () => {
     });
 
     await test.step('Verify GET /products/{productId} with the new id returns 200 with the same name.', async () => {
-      const getRequest = { method: 'GET', path: `/products/${created.id}` };
-      const getResponse = await productsClient.getById(created.id);
-      await attachJson('Get Product Response', { status: getResponse.status, body: getResponse.body });
-      expect(getResponse.status, assertMessage({ request: getRequest, expected: 'Status 200', actual: getResponse.status })).toBe(200);
-      const product = JSON.parse(getResponse.body) as ProductDetails;
+      const { request: getRequest, response: getResponse } = await sendAndAttach('Get Product', { method: 'GET', path: `/products/${created.id}` }, () =>
+        productsClient.getById(created.id)
+      );
+      const product = expectStatusAndBody<ProductDetails>(getRequest, getResponse, 200);
       expect(product.name, assertMessage({ request: getRequest, expected: `name is "${sent.name}"`, actual: product.name })).toBe(sent.name);
     });
   });
@@ -104,116 +132,40 @@ test.describe('@products-api - Products API', () => {
     });
   });
 
-  test('API-0035: Create product with a name longer than 120 characters returns 422', async ({
-    productsService,
-    adminProductsService,
-    productsClient,
-    cleanup,
-  }) => {
-    let request: Request;
-    let response: ApiResponse;
-
-    const refs = (await takeProductRefs(productsService, PRODUCT_LIST_STEP)) as ProductRefs;
-
-    await test.step(
+  test('API-0035: Create product with a name longer than 120 characters returns 422', async ({ productsService, adminProductsService, productsClient, cleanup }) => {
+    await checkInvalidCreate(
+      { productsService, adminProductsService, productsClient, cleanup },
       'Send POST /products with a 121-character name that starts with a unique product name, a positive price, those ids, is_location_offer false and is_rental false.',
-      async () => {
-        const body = ProductFactory.createProduct(refs, ProductFactory.nameTooLong());
-        ({ request, response } = await sendCreateProduct(productsClient, body, adminProductsService, cleanup));
-      }
+      (refs) => ProductFactory.createProduct(refs, ProductFactory.nameTooLong()),
+      'name',
     );
-
-    await test.step('Verify the response status is 422.', async () => {
-      expectStatus(request, response, 422);
-    });
-
-    await test.step('Verify the body has a name key with at least one message.', async () => {
-      expectFieldMessages(request, response, 'name');
-    });
   });
 
-  test('API-0036: Create product with a description longer than 1250 characters returns 422', async ({
-    productsService,
-    adminProductsService,
-    productsClient,
-    cleanup,
-  }) => {
-    let request: Request;
-    let response: ApiResponse;
-
-    const refs = (await takeProductRefs(productsService, PRODUCT_LIST_STEP)) as ProductRefs;
-
-    await test.step(
+  test('API-0036: Create product with a description longer than 1250 characters returns 422', async ({ productsService, adminProductsService, productsClient, cleanup }) => {
+    await checkInvalidCreate(
+      { productsService, adminProductsService, productsClient, cleanup },
       'Send POST /products with a unique product name, a 1251-character description, a positive price, those ids, is_location_offer false and is_rental false.',
-      async () => {
-        const body = ProductFactory.createProduct(refs, ProductFactory.descriptionTooLong());
-        ({ request, response } = await sendCreateProduct(productsClient, body, adminProductsService, cleanup));
-      }
+      (refs) => ProductFactory.createProduct(refs, ProductFactory.descriptionTooLong()),
+      'description',
     );
-
-    await test.step('Verify the response status is 422.', async () => {
-      expectStatus(request, response, 422);
-    });
-
-    await test.step('Verify the body has a description key with at least one message.', async () => {
-      expectFieldMessages(request, response, 'description');
-    });
   });
 
-  test('API-0037: Create product with a subscript character in the name returns 422', async ({
-    productsService,
-    adminProductsService,
-    productsClient,
-    cleanup,
-  }) => {
-    let request: Request;
-    let response: ApiResponse;
-
-    const refs = (await takeProductRefs(productsService, PRODUCT_LIST_STEP)) as ProductRefs;
-
-    await test.step(
+  test('API-0037: Create product with a subscript character in the name returns 422', async ({ productsService, adminProductsService, productsClient, cleanup }) => {
+    await checkInvalidCreate(
+      { productsService, adminProductsService, productsClient, cleanup },
       'Send POST /products with a unique product name followed by a Unicode subscript character, a positive price, those ids, is_location_offer false and is_rental false.',
-      async () => {
-        const body = ProductFactory.createProduct(refs, ProductFactory.nameWithSubscript());
-        ({ request, response } = await sendCreateProduct(productsClient, body, adminProductsService, cleanup));
-      }
+      (refs) => ProductFactory.createProduct(refs, ProductFactory.nameWithSubscript()),
+      'name',
     );
-
-    await test.step('Verify the response status is 422.', async () => {
-      expectStatus(request, response, 422);
-    });
-
-    await test.step('Verify the body has a name key with at least one message.', async () => {
-      expectFieldMessages(request, response, 'name');
-    });
   });
 
-  test('API-0038: Create product with a superscript character in the description returns 422', async ({
-    productsService,
-    adminProductsService,
-    productsClient,
-    cleanup,
-  }) => {
-    let request: Request;
-    let response: ApiResponse;
-
-    const refs = (await takeProductRefs(productsService, PRODUCT_LIST_STEP)) as ProductRefs;
-
-    await test.step(
+  test('API-0038: Create product with a superscript character in the description returns 422', async ({ productsService, adminProductsService, productsClient, cleanup }) => {
+    await checkInvalidCreate(
+      { productsService, adminProductsService, productsClient, cleanup },
       'Send POST /products with a unique product name, a description that contains a Unicode superscript character, a positive price, those ids, is_location_offer false and is_rental false.',
-      async () => {
-        const body = ProductFactory.createProduct(refs, ProductFactory.descriptionWithSuperscript());
-        ({ request, response } = await sendCreateProduct(productsClient, body, adminProductsService, cleanup));
-      }
+      (refs) => ProductFactory.createProduct(refs, ProductFactory.descriptionWithSuperscript()),
+      'description',
     );
-
-    await test.step('Verify the response status is 422.', async () => {
-      expectStatus(request, response, 422);
-    });
-
-    await test.step('Verify the body has a description key with at least one message.', async () => {
-      expectFieldMessages(request, response, 'description');
-    });
   });
 
   test('API-0039: Create product with an unknown category id returns 422', async ({

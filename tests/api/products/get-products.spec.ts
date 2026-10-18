@@ -6,9 +6,9 @@ import type { Paginated } from '@api/dto/common';
 import type { CreateProductRequest, Product, ProductListQuery } from '@api/dto/product';
 import type { ProductsService } from '@api/services/ProductsService';
 import { TestConstants } from '@data/TestConstants';
-import { PRODUCT_NAME_PREFIX, ProductFactory, type ProductRefs } from '@data/factories/ProductFactory';
+import { ProductFactory, type ProductRefs } from '@data/factories/ProductFactory';
 import { assertMessage, attachJson } from '@utils/assertHelpers';
-import { expectStatus, parseJson } from '@utils/apiChecks';
+import { expectStatus, expectStatusAndBody, parseJson } from '@utils/apiChecks';
 
 // Scenarios: test-scenarios/api/products/get-products.yml
 
@@ -20,12 +20,6 @@ const LIST_REQUEST: ListRequest = { method: 'GET', path: '/products' };
 async function sendList(productsClient: ProductsClient, query?: ProductListQuery): Promise<{ request: ListRequest; response: ApiResponse }> {
   const request: ListRequest = { method: 'GET', path: '/products', ...(query ? { query } : {}) };
   return sendAndAttach('List Products', request, () => productsClient.list(query));
-}
-
-/** The checks of a "Verify the response status is 200." step; returns the parsed body. */
-function expectListOk(request: ListRequest, response: ApiResponse): Paginated<Product> {
-  expectStatus(request, response, 200);
-  return parseJson<Paginated<Product>>(request, response);
 }
 
 const isEcoRating = (rating: string | null | undefined): boolean => ['A', 'B'].includes((rating ?? '').toUpperCase());
@@ -116,7 +110,6 @@ function expectOnlyNewProduct(request: ListRequest, body: Paginated<Product>, pr
 }
 
 /** Products the tests create have names starting with "Product-" (the factory's prefix); API-0325 ignores them. */
-const isTestProduct = (item: Product): boolean => item.name.startsWith(`${PRODUCT_NAME_PREFIX}-`);
 
 /** Checks that every item's category (or brand) id is A's or B's. */
 function expectItemsOfAOrB(request: ListRequest, items: Product[], kind: RefKind, idA: string, idB: string): void {
@@ -158,7 +151,7 @@ async function filterByTwoCategories(productsService: ProductsService, productsC
   });
 
   await test.step('Verify the response status is 200.', async () => {
-    body = expectListOk(request, response);
+    body = expectStatusAndBody<Paginated<Product>>(request, response, 200);
   });
 
   await test.step("Verify data is not empty and every item's category id is category A's id or category B's id.", async () => {
@@ -194,7 +187,7 @@ async function filterByTwoBrands(productsService: ProductsService, productsClien
   });
 
   await test.step('Verify the response status is 200.', async () => {
-    body = expectListOk(request, response);
+    body = expectStatusAndBody<Paginated<Product>>(request, response, 200);
   });
 
   await test.step("Verify data is not empty and every item's brand id is brand A's id or brand B's id.", async () => {
@@ -208,7 +201,7 @@ async function filterByTwoBrands(productsService: ProductsService, productsClien
       const seen = new Set(body.data.map((item) => refIdOf(item, 'brand')));
       for (let page = 2; !(seen.has(idA) && seen.has(idB)) && page <= body.last_page; page++) {
         const { request: pageRequest, response: pageResponse } = await sendList(productsClient, { by_brand: `${idA},${idB}`, page });
-        const pageBody = expectListOk(pageRequest, pageResponse);
+        const pageBody = expectStatusAndBody<Paginated<Product>>(pageRequest, pageResponse, 200);
         expectItemsOfAOrB(pageRequest, pageBody.data, 'brand', idA, idB);
         for (const item of pageBody.data) seen.add(refIdOf(item, 'brand'));
       }
@@ -266,7 +259,7 @@ async function createAndFindByStock(
   });
 
   await test.step('Verify the response status is 200.', async () => {
-    body = expectListOk(request, response);
+    body = expectStatusAndBody<Paginated<Product>>(request, response, 200);
   });
 
   await test.step("Verify data has exactly one item and its id is the new product's id.", async () => {
@@ -289,7 +282,7 @@ test.describe('@products-api - Products API', () => {
     });
 
     await test.step('Verify the response status is 200.', async () => {
-      body = expectListOk(request, response);
+      body = expectStatusAndBody<Paginated<Product>>(request, response, 200);
     });
 
     await test.step('Verify the body has current_page, data, from, last_page, per_page, to and total.', async () => {
@@ -370,7 +363,7 @@ test.describe('@products-api - Products API', () => {
     });
 
     await test.step('Verify the response status is 200.', async () => {
-      body = expectListOk(request, response);
+      body = expectStatusAndBody<Paginated<Product>>(request, response, 200);
     });
 
     await test.step("Verify data is not empty and every item's brand id equals that brand id.", async () => {
@@ -400,7 +393,7 @@ test.describe('@products-api - Products API', () => {
     });
 
     await test.step('Verify the response status is 200.', async () => {
-      body = expectListOk(request, response);
+      body = expectStatusAndBody<Paginated<Product>>(request, response, 200);
     });
 
     await test.step("Verify data is not empty and every item's category id equals that category id.", async () => {
@@ -435,7 +428,7 @@ test.describe('@products-api - Products API', () => {
     });
 
     await test.step('Verify the response status is 200.', async () => {
-      body = expectListOk(request, response);
+      body = expectStatusAndBody<Paginated<Product>>(request, response, 200);
     });
 
     await test.step('Verify data is not empty.', async () => {
@@ -472,7 +465,7 @@ test.describe('@products-api - Products API', () => {
     });
 
     await test.step('Verify the response status is 200.', async () => {
-      body = expectListOk(request, response);
+      body = expectStatusAndBody<Paginated<Product>>(request, response, 200);
     });
 
     await test.step("Verify every item's is_rental is true.", async () => {
@@ -492,7 +485,7 @@ test.describe('@products-api - Products API', () => {
     });
 
     await test.step('Verify the response status is 200.', async () => {
-      body = expectListOk(request, response);
+      body = expectStatusAndBody<Paginated<Product>>(request, response, 200);
     });
 
     await test.step("Verify every item's price is at least 10 and at most 30.", async () => {
@@ -514,7 +507,7 @@ test.describe('@products-api - Products API', () => {
     });
 
     await test.step('Verify the response status is 200.', async () => {
-      body = expectListOk(request, response);
+      body = expectStatusAndBody<Paginated<Product>>(request, response, 200);
     });
 
     await test.step("Verify the items' prices are in descending order.", async () => {
@@ -534,7 +527,7 @@ test.describe('@products-api - Products API', () => {
     });
 
     await test.step('Verify the response status is 200.', async () => {
-      body = expectListOk(request, response);
+      body = expectStatusAndBody<Paginated<Product>>(request, response, 200);
     });
 
     await test.step("Verify every item's co2_rating is A or B (case-insensitive) and its is_eco_friendly is true.", async () => {
@@ -557,7 +550,7 @@ test.describe('@products-api - Products API', () => {
     });
 
     await test.step('Verify the response status is 200.', async () => {
-      body = expectListOk(request, response);
+      body = expectStatusAndBody<Paginated<Product>>(request, response, 200);
     });
 
     await test.step('Verify data is not empty and every item\'s name contains "pliers" (case-insensitive).', async () => {
@@ -580,7 +573,7 @@ test.describe('@products-api - Products API', () => {
     });
 
     await test.step('Verify the response status is 200.', async () => {
-      body = expectListOk(request, response);
+      body = expectStatusAndBody<Paginated<Product>>(request, response, 200);
     });
 
     await test.step('Verify data is not empty.', async () => {
@@ -622,7 +615,7 @@ test.describe('@products-api - Products API', () => {
     });
 
     await test.step('Verify the response status is 200.', async () => {
-      body = expectListOk(request, response);
+      body = expectStatusAndBody<Paginated<Product>>(request, response, 200);
     });
 
     await test.step('Verify current_page is 2.', async () => {
@@ -646,7 +639,7 @@ test.describe('@products-api - Products API', () => {
     });
 
     await test.step('Verify the response status is 200.', async () => {
-      expectListOk(request, response);
+      expectStatusAndBody<Paginated<Product>>(request, response, 200);
     });
 
     await test.step('Verify data is an empty array.', async () => {
@@ -690,7 +683,7 @@ test.describe('@products-api - Products API', () => {
     });
 
     await test.step('Verify the response status is 200.', async () => {
-      body = expectListOk(request, response);
+      body = expectStatusAndBody<Paginated<Product>>(request, response, 200);
     });
 
     await test.step('Verify data is not empty.', async () => {
@@ -759,7 +752,7 @@ test.describe('@products-api - Products API', () => {
     });
 
     await test.step('Verify the response status is 200.', async () => {
-      body = expectListOk(request, response);
+      body = expectStatusAndBody<Paginated<Product>>(request, response, 200);
     });
 
     await test.step("Verify data has exactly one item and its id is the new product's id.", async () => {
@@ -781,11 +774,11 @@ test.describe('@products-api - Products API', () => {
     });
 
     await test.step('Verify the response status is 200.', async () => {
-      rentals = expectListOk(request, response).data;
+      rentals = expectStatusAndBody<Paginated<Product>>(request, response, 200).data;
     });
 
     await test.step('Verify data is not empty after ignoring products created by tests (names starting with "Product-").', async () => {
-      rentals = rentals.filter((item) => !isTestProduct(item));
+      rentals = rentals.filter((item) => !ProductFactory.isTestProduct(item.name));
       expect(rentals.length, assertMessage({ request, expected: 'At least one rental not created by a test', actual: rentals.length })).toBeGreaterThan(0);
     });
 
