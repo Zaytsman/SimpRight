@@ -53,12 +53,12 @@ async function checkEmptySearch(productsClient: ProductsClient, sendStep: string
 test.describe('@products-api - Products API', () => {
   test('API-0001: Search by name returns only matching products', { tag: '@smoke' }, async ({ productsClient }) => {
     const term = TestConstants.products.searchTerm;
-    const request = { method: 'GET', path: '/products/search', query: { q: term } };
+    let request: SearchRequest;
     let response: ApiResponse;
     let body: Paginated<Product>;
 
     await test.step('Send GET /products/search with q=pliers.', async () => {
-      ({ response } = await sendAndAttach('Search', request, () => productsClient.search(term)));
+      ({ request, response } = await sendSearch(productsClient, term));
     });
 
     await test.step('Verify the response status is 200 and the body is paginated (data, total, current_page).', async () => {

@@ -425,8 +425,8 @@ export async function pollPdfStatus(
     await attachJson('PDF Status Polls', polls);
   }
 
-  await attachJson('PDF Status Response', { status: response!.status, body: response!.body });
-  return { request, response: response! };
+  await attachJson('PDF Status Response', { status: response.status, body: response.body });
+  return { request, response };
 }
 
 function isCompleted(response: ApiResponse): boolean {

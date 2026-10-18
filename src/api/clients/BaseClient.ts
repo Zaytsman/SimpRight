@@ -209,7 +209,7 @@ export abstract class BaseClient {
         url: fullUrl,
         path: `/${resourcePath.replace(/^\/+/, '')}`,
         query: options?.query || undefined,
-        requestBody: hasMultipart ? describeMultipart(options!.multipart!) : hasRawBody ? options!.rawData : options?.data,
+        requestBody: hasMultipart ? describeMultipart(options.multipart!) : hasRawBody ? options.rawData : options?.data,
         status,
         statusText,
         durationMs: Date.now() - startTime,
@@ -219,8 +219,8 @@ export abstract class BaseClient {
       const response = await this.request.fetch(fullUrl, {
         method,
         headers,
-        data: hasRawBody ? options!.rawData : hasBody ? JSON.stringify(options!.data) : undefined,
-        ...(hasMultipart ? { multipart: options!.multipart } : {}),
+        data: hasRawBody ? options.rawData : hasBody ? JSON.stringify(options.data) : undefined,
+        ...(hasMultipart ? { multipart: options.multipart } : {}),
         ...(options?.maxRedirects !== undefined ? { maxRedirects: options.maxRedirects } : {}),
       });
       const bodyText = await response.text();

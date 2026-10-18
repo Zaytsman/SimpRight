@@ -140,7 +140,7 @@ test.describe('@brands-api - Brands API', () => {
 
       const brand = await createBrand(adminBrandsService, cleanup, BRAND_CREATE_ID_SLUG_STEP);
       const body = BrandFactory.updateNameWithSlug(brand.slug);
-      const newName = body.name!;
+      const newName = body.name;
       test.fail(true, "Known issue BUG-010: Returns 409 instead of 200 when the body repeats the brand's own slug.");
 
       await test.step(
