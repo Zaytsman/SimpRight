@@ -1,4 +1,4 @@
-import { test, createGuestMessage, AUTH, readMessageOk, expectMessageStatus, setStatusSetup, type MessageRequest, sendAndAttach, checkStatusAndMessage } from '@fixtures';
+import { test, createGuestMessage, AUTH, readMessageOk, expectMessageStatus, setStatusSetup, type MessageRequest, sendAndAttach, checkStatusAndMessage, type AuthLabel } from '@fixtures';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { MessagesClient } from '@api/clients/MessagesClient';
 import { TestConstants } from '@data/TestConstants';
@@ -15,7 +15,7 @@ async function sendStatus(
   messagesClient: MessagesClient,
   messageId: string,
   body: Record<string, unknown>,
-  auth: string
+  auth: AuthLabel
 ): Promise<{ request: MessageRequest; response: ApiResponse }> {
   const request: MessageRequest & { accept: string } = { method: 'PUT', path: `/messages/${messageId}/status`, auth, accept: 'application/json', body };
   return sendAndAttach('Update Status', request, () => messagesClient.updateStatus(messageId, body));

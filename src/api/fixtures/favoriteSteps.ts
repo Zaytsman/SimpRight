@@ -10,7 +10,7 @@ import type { UsersService } from '../services/UsersService';
 import { FavoriteFactory } from '../../data/factories/FavoriteFactory';
 import { assertMessage, attachJson } from '../../utils/assertHelpers';
 import { expectStatus } from '../../utils/apiChecks';
-import { AUTH, sendAndAttach } from './apiSteps';
+import { AUTH, sendAndAttach, type AuthLabel } from './apiSteps';
 import { takeFirstProductId } from './productSteps';
 import { loginThrowawayCustomer, registerThrowawayCustomer, type ThrowawayCustomer } from './userSteps';
 
@@ -97,13 +97,13 @@ export async function createSecondCustomer(
   return { customer, token };
 }
 
-export type FavoriteRequest = { method: 'GET' | 'DELETE'; path: string; auth: string };
+export type FavoriteRequest = { method: 'GET' | 'DELETE'; path: string; auth: AuthLabel };
 
 /** Sends GET /favorites/{favoriteId} with `favoritesClient` and attaches the request and the response. */
 export async function sendGetFavorite(
   favoritesClient: FavoritesClient,
   favoriteId: string,
-  auth: string
+  auth: AuthLabel
 ): Promise<{ request: FavoriteRequest; response: ApiResponse }> {
   const request: FavoriteRequest = { method: 'GET', path: `/favorites/${favoriteId}`, auth };
   return sendAndAttach('Get Favorite', request, () => favoritesClient.getById(favoriteId));
@@ -113,14 +113,14 @@ export async function sendGetFavorite(
 export async function sendDeleteFavorite(
   favoritesClient: FavoritesClient,
   favoriteId: string,
-  auth: string
+  auth: AuthLabel
 ): Promise<{ request: FavoriteRequest; response: ApiResponse }> {
   const request: FavoriteRequest = { method: 'DELETE', path: `/favorites/${favoriteId}`, auth };
   return sendAndAttach('Delete Favorite', request, () => favoritesClient.deleteById(favoriteId));
 }
 
 /** The checks of a "Verify GET /favorites/{favoriteId} with that id ... returns <status>." step; returns the response. */
-export async function expectGetFavoriteStatus(favoritesClient: FavoritesClient, favoriteId: string, auth: string, status: number): Promise<ApiResponse> {
+export async function expectGetFavoriteStatus(favoritesClient: FavoritesClient, favoriteId: string, auth: AuthLabel, status: number): Promise<ApiResponse> {
   const { request, response } = await sendGetFavorite(favoritesClient, favoriteId, auth);
   expectStatus(request, response, status);
   return response;

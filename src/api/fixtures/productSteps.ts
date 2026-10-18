@@ -8,7 +8,7 @@ import type { ProductsService } from '../services/ProductsService';
 import { ProductFactory, type ProductRefs } from '../../data/factories/ProductFactory';
 import { assertMessage, attachJson } from '../../utils/assertHelpers';
 import { expectFieldMessages, expectStatus } from '../../utils/apiChecks';
-import { AUTH, fieldMessagesStep, removeIfCreated, sendAndAttach } from './apiSteps';
+import { AUTH, fieldMessagesStep, removeIfCreated, sendAndAttach, type AuthLabel } from './apiSteps';
 
 /**
  * Steps shared by the Products specs that change a product (PUT and PATCH /products/{productId}).
@@ -224,7 +224,7 @@ export async function checkInvalidProductChange(
   body: Record<string, unknown>,
   field: string
 ): Promise<void> {
-  let request: { method: string; path: string; auth: string; body: unknown };
+  let request: { method: string; path: string; auth: AuthLabel; body: unknown };
   let response: ApiResponse;
 
   const productId = await createProductToUpdate(fixtures.productsService, fixtures.adminProductsService, fixtures.cleanup);
@@ -244,7 +244,7 @@ export async function checkInvalidProductChange(
 }
 
 /** The request record that `sendCreateProduct` attaches and that assertion messages show. */
-export type CreateProductRequestInfo = { method: string; path: string; auth: string; body: unknown };
+export type CreateProductRequestInfo = { method: string; path: string; auth: AuthLabel; body: unknown };
 
 /**
  * Sends POST /products with the given client (the public one, without a token, unless a test passes another),
@@ -257,7 +257,7 @@ export async function sendCreateProduct(
   body: CreateProductRequest | Record<string, unknown>,
   adminProductsService: ProductsService,
   cleanup: Cleanup,
-  auth: string = AUTH.none
+  auth: AuthLabel = AUTH.none
 ): Promise<{ request: CreateProductRequestInfo; response: ApiResponse }> {
   const request: CreateProductRequestInfo = { method: 'POST', path: '/products', auth, body };
   return sendAndAttach('Create Product', request, async () => {

@@ -7,14 +7,14 @@ import { expect } from '@playwright/test';
 import type { ApiResponse } from '../clients/BaseClient';
 import { assertMessage } from '../../utils/assertHelpers';
 import { parseJson } from '../../utils/apiChecks';
-import { sendAndAttach, withHeaders } from './apiSteps';
+import { sendAndAttach, withHeaders, type AuthLabel } from './apiSteps';
 
-export type ReportRequest = { method: 'GET'; path: string; query?: Record<string, string | number>; auth: string };
+export type ReportRequest = { method: 'GET'; path: string; query?: Record<string, string | number>; auth: AuthLabel };
 
 /** Sends a report call (`call`), attaches the request and the response, and returns both. */
 export async function sendReport(
   path: string,
-  auth: string,
+  auth: AuthLabel,
   call: () => Promise<ApiResponse>,
   query?: Record<string, string | number>
 ): Promise<{ request: ReportRequest; response: ApiResponse }> {

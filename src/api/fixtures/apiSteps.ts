@@ -16,11 +16,21 @@ export const AUTH = {
   admin: "the admin's token",
   defaultUser: "the default user's token",
   throwaway: "the throwaway customer's access_token",
+  customer: "the customer's access_token",
   second: "the second customer's access_token",
   newUser: "the new user's access_token",
   customerA: "customer A's access_token",
   customerB: "customer B's access_token",
+  // The login, logout and refresh scenarios name their token by its state.
+  newLogin: 'the new access_token',
+  loggedOut: 'the logged-out access_token',
+  refreshed: 'the refreshed access_token',
+  replacedByRefresh: 'the old (already refreshed) access_token',
+  restricted: 'the restricted access_token',
 } as const;
+
+/** A token label: one of `AUTH`'s. Request records and send helpers take this type, so a label of a spec's own fails the typecheck. */
+export type AuthLabel = (typeof AUTH)[keyof typeof AUTH];
 
 /** What a send attaches for its response; the default is the status and the body as they came. */
 export type DescribeResponse = (response: ApiResponse) => unknown;
@@ -54,7 +64,7 @@ export const JSON_QUERY_HEADERS = { 'Content-Type': 'application/json', Accept: 
 export type QueryHeaders = { 'Content-Type': string; Accept?: string };
 
 /** The record a QUERY step attaches and its assertion messages show. */
-export type QueryRequestRecord<Body> = { method: 'QUERY'; path: string; auth?: string; headers: QueryHeaders; body: Body | string };
+export type QueryRequestRecord<Body> = { method: 'QUERY'; path: string; auth?: AuthLabel; headers: QueryHeaders; body: Body | string };
 
 /**
  * Sends a QUERY through `send` (a client's query method) with `headers` (a string body goes as-is with their
@@ -67,7 +77,7 @@ export async function sendQueryAndAttach<Body>(
   body: Body | string,
   headers: QueryHeaders,
   send: (body: Body | string, options: QueryBodyOptions) => Promise<ApiResponse>,
-  options: { auth?: string; describe?: DescribeResponse } = {}
+  options: { auth?: AuthLabel; describe?: DescribeResponse } = {}
 ): Promise<{ request: QueryRequestRecord<Body>; response: ApiResponse }> {
   const request: QueryRequestRecord<Body> = { method: 'QUERY', path, ...(options.auth !== undefined ? { auth: options.auth } : {}), headers, body };
   return sendAndAttach(name, request, () => send(body, { contentType: headers['Content-Type'], accept: headers.Accept ?? null }), options.describe ?? withHeaders);

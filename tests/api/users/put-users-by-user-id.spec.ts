@@ -1,4 +1,4 @@
-import { test, expect, registerThrowawayCustomer, loginThrowawayCustomer, type ThrowawayCustomer, sendAndAttach, readCurrentUser } from '@fixtures';
+import { test, expect, registerThrowawayCustomer, loginThrowawayCustomer, type ThrowawayCustomer, sendAndAttach, readCurrentUser, AUTH, type AuthLabel } from '@fixtures';
 import type { Cleanup } from '@fixtures/base';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { UsersClient } from '@api/clients/UsersClient';
@@ -11,7 +11,7 @@ import { expectFieldMessages, expectStatus, expectSuccess } from '@utils/apiChec
 
 // Scenarios: test-scenarios/api/users/put-users-by-user-id.yml
 
-type UpdateRequestInfo = { method: 'PUT'; path: string; auth: string; body: unknown };
+type UpdateRequestInfo = { method: 'PUT'; path: string; auth: AuthLabel; body: unknown };
 
 /** The register step of every scenario in this file (same wording in each). */
 const REGISTER_STEP =
@@ -54,13 +54,13 @@ async function registerAndLogIn(
 
 /** Sends PUT /users/{userId} with the customer's own token and attaches the request and the response. */
 async function sendUpdate(client: UsersClient, userId: string, body: UpdateUserRequest | Record<string, unknown>): Promise<{ request: UpdateRequestInfo; response: ApiResponse }> {
-  const request: UpdateRequestInfo = { method: 'PUT', path: `/users/${userId}`, auth: "the customer's access_token", body };
+  const request: UpdateRequestInfo = { method: 'PUT', path: `/users/${userId}`, auth: AUTH.customer, body };
   return sendAndAttach('Update User', request, () => client.update(userId, body));
 }
 
 /** The read-back of a Verify step: GET /users/me with the token must return 200 and `expected`'s values. */
 async function expectProfile(client: UsersClient, expected: ProfileValues, label: string): Promise<void> {
-  const { request: request, user: profile } = await readCurrentUser(client, 'that access_token');
+  const { request: request, user: profile } = await readCurrentUser(client, AUTH.customer);
   const actual = { first_name: profile.first_name, last_name: profile.last_name, phone: profile.phone, address: profile.address };
   for (const field of ['first_name', 'last_name', 'phone'] as const) {
     expect(profile[field], assertMessage({ request, expected: `${field} is the ${label} "${expected[field]}"`, actual })).toBe(expected[field]);

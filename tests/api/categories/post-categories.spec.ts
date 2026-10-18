@@ -1,4 +1,4 @@
-import { test, expect, createCategory, readCategory, removeCategoryIfCreated, PARENT_CREATE_STEP, AUTH, checkRejectedBody, sendAndAttach } from '@fixtures';
+import { test, expect, createCategory, readCategory, removeCategoryIfCreated, PARENT_CREATE_STEP, AUTH, checkRejectedBody, sendAndAttach, type AuthLabel } from '@fixtures';
 import type { Cleanup } from '@fixtures/base';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { CategoriesClient } from '@api/clients/CategoriesClient';
@@ -11,7 +11,7 @@ import { assertMessage } from '@utils/assertHelpers';
 
 // Scenarios: test-scenarios/api/categories/post-categories.yml
 
-type CreateCategoryRequestInfo = { method: 'POST'; path: '/categories'; auth: string; body: unknown };
+type CreateCategoryRequestInfo = { method: 'POST'; path: '/categories'; auth: AuthLabel; body: unknown };
 
 /**
  * Sends POST /categories with the given client (`auth` describes its token), registers the category's removal (as admin)
@@ -22,7 +22,7 @@ async function sendCreateCategory(
   body: unknown,
   adminCategoriesService: CategoriesService,
   cleanup: Cleanup,
-  auth: string = AUTH.none
+  auth: AuthLabel = AUTH.none
 ): Promise<{ request: CreateCategoryRequestInfo; response: ApiResponse }> {
   const request: CreateCategoryRequestInfo = { method: 'POST', path: '/categories', auth, body };
   return sendAndAttach('Create Category', request, async () => {

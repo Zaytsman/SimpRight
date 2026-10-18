@@ -1,4 +1,4 @@
-import { test, expect, findProductSpec, takeProductRefs, sendCreateProduct, PRODUCT_LIST_STEP, type CreateProductRequestInfo, AUTH, sendAndAttach } from '@fixtures';
+import { test, expect, findProductSpec, takeProductRefs, sendCreateProduct, PRODUCT_LIST_STEP, type CreateProductRequestInfo, AUTH, sendAndAttach, type AuthLabel } from '@fixtures';
 import type { Cleanup } from '@fixtures/base';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { ProductsClient } from '@api/clients/ProductsClient';
@@ -93,7 +93,7 @@ async function createListedProduct(
   cleanup: Cleanup,
   refs: ProductRefs,
   overrides: Partial<CreateProductRequest>,
-  auth: string
+  auth: AuthLabel
 ): Promise<{ request: CreateProductRequestInfo; response: ApiResponse; name: string; productId: string }> {
   const body = ProductFactory.createProduct(refs, overrides);
   const { request, response } = await sendCreateProduct(productsClient, body, adminProductsService, cleanup, auth);
@@ -245,7 +245,7 @@ async function createAndFindByStock(
         cleanup,
         refs,
         { stock },
-        'none'
+        AUTH.none
       ));
     }
   );

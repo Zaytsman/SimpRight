@@ -8,7 +8,7 @@ import type { UsersService } from '../services/UsersService';
 import { MessageFactory } from '../../data/factories/MessageFactory';
 import { assertMessage, attachJson } from '../../utils/assertHelpers';
 import { expectStatus, parseJson } from '../../utils/apiChecks';
-import { AUTH, describePage, pageSummary, sendAndAttach } from './apiSteps';
+import { AUTH, describePage, pageSummary, sendAndAttach, type AuthLabel } from './apiSteps';
 
 /**
  * Steps shared by the Messages specs. Messages can't be deleted (no DELETE route), so the ones a test creates stay
@@ -32,7 +32,7 @@ export interface SentMessage {
 export async function sendMessageSetup(
   messagesService: MessagesService,
   title: string,
-  auth: string,
+  auth: AuthLabel,
   body: SendMessageRequest = MessageFactory.sendMessage()
 ): Promise<SentMessage> {
   return test.step(title, async () => {
@@ -59,7 +59,7 @@ export async function createCustomerMessage(messagesService: MessagesService, ti
 }
 
 /** A "Send GET /users/me with the <role>'s token and take its id." setup step: returns the id of the token's user. */
-export async function takeOwnUserId(usersService: UsersService, title: string, auth: string): Promise<string> {
+export async function takeOwnUserId(usersService: UsersService, title: string, auth: AuthLabel): Promise<string> {
   return test.step(title, async () => {
     const request = { method: 'GET', path: '/users/me', auth };
     await attachJson('Get Me Request', request);
@@ -70,13 +70,13 @@ export async function takeOwnUserId(usersService: UsersService, title: string, a
   });
 }
 
-export type MessageRequest = { method: string; path: string; auth: string; query?: Record<string, unknown>; body?: unknown };
+export type MessageRequest = { method: string; path: string; auth: AuthLabel; query?: Record<string, unknown>; body?: unknown };
 
 /**
  * Sends GET /messages/{messageId} with `messagesClient` and attaches the request and the response. Only messages the test
  * created are read, so the body (the sender and the reply authors, emails masked) is attached as it came.
  */
-export async function sendGetMessage(messagesClient: MessagesClient, messageId: string, auth: string): Promise<{ request: MessageRequest; response: ApiResponse }> {
+export async function sendGetMessage(messagesClient: MessagesClient, messageId: string, auth: AuthLabel): Promise<{ request: MessageRequest; response: ApiResponse }> {
   const request: MessageRequest = { method: 'GET', path: `/messages/${messageId}`, auth };
   return sendAndAttach('Get Message', request, () => messagesClient.getById(messageId));
 }
@@ -88,7 +88,7 @@ export async function sendGetMessage(messagesClient: MessagesClient, messageId: 
 export async function readMessageOk(
   messagesClient: MessagesClient,
   messageId: string,
-  auth: string
+  auth: AuthLabel
 ): Promise<{ request: MessageRequest; message: ContactMessageDetail }> {
   const { request, response } = await sendGetMessage(messagesClient, messageId, auth);
   expectStatus(request, response, 200);
@@ -144,7 +144,7 @@ function messageItemSummary(item: ContactMessageListItem): Record<string, unknow
  */
 export async function sendListMessages(
   messagesClient: MessagesClient,
-  auth: string,
+  auth: AuthLabel,
   page?: number
 ): Promise<{ request: MessageRequest; response: ApiResponse }> {
   const request: MessageRequest = { method: 'GET', path: '/messages', auth, ...(page !== undefined ? { query: { page } } : {}) };

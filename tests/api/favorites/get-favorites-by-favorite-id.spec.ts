@@ -51,7 +51,7 @@ test.describe('@favorites-api - Favorites API', () => {
   test('API-0280: Get favorite without a token returns 401', async ({ favoritesClient }) => {
     await checkStatusAndMessage(
       'Send GET /favorites/{favoriteId} with a well-formed ULID that no favorite has, without an Authorization header.',
-      () => sendGetFavorite(favoritesClient, TestConstants.favorites.unknownId, 'none'),
+      () => sendGetFavorite(favoritesClient, TestConstants.favorites.unknownId, AUTH.none),
       401,
       'Unauthorized'
     );

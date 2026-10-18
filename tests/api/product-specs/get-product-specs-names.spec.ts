@@ -1,4 +1,4 @@
-import { test, expect, AUTH, createProductToUpdate, createProductWithSpec, createSpec, sendAndAttach } from '@fixtures';
+import { test, expect, AUTH, createProductToUpdate, createProductWithSpec, createSpec, sendAndAttach, type AuthLabel } from '@fixtures';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { ProductSpecsClient } from '@api/clients/ProductSpecsClient';
 import type { SpecName } from '@api/dto/productSpec';
@@ -9,7 +9,7 @@ import { assertMessage, attachJson } from '@utils/assertHelpers';
 
 const NAMES_STEP = 'Send GET /product-specs/names.';
 
-type NamesRequest = { method: 'GET'; path: string; auth: string };
+type NamesRequest = { method: 'GET'; path: string; auth: AuthLabel };
 
 /** Sends GET /product-specs/names without a token and attaches the request and the response. */
 async function sendNames(productSpecsClient: ProductSpecsClient): Promise<{ request: NamesRequest; response: ApiResponse }> {

@@ -1,4 +1,4 @@
-import { test, createProductAndTakeOtherId, AUTH, createProductWithSpec, createSpec, sendGetSpec, takeFirstProductId, sendAndAttach, checkStatusAndMessage } from '@fixtures';
+import { test, createProductAndTakeOtherId, AUTH, createProductWithSpec, createSpec, sendGetSpec, takeFirstProductId, sendAndAttach, checkStatusAndMessage, type AuthLabel } from '@fixtures';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { ProductSpecsClient } from '@api/clients/ProductSpecsClient';
 import { TestConstants } from '@data/TestConstants';
@@ -6,14 +6,14 @@ import { expectStatus } from '@utils/apiChecks';
 
 // Scenarios: test-scenarios/api/products/delete-products-by-product-id-specs-by-spec-id.yml
 
-type DeleteSpecRequest = { method: 'DELETE'; path: string; auth: string };
+type DeleteSpecRequest = { method: 'DELETE'; path: string; auth: AuthLabel };
 
 /** Sends DELETE /products/{productId}/specs/{specId} with the given client (`auth` describes its token) and attaches the request and the response. */
 async function sendDeleteSpec(
   productSpecsClient: ProductSpecsClient,
   productId: string,
   specId: string,
-  auth: string
+  auth: AuthLabel
 ): Promise<{ request: DeleteSpecRequest; response: ApiResponse }> {
   const request: DeleteSpecRequest = { method: 'DELETE', path: `/products/${productId}/specs/${specId}`, auth };
   return sendAndAttach('Delete Spec', request, () => productSpecsClient.deleteById(productId, specId));
@@ -42,7 +42,7 @@ test.describe('@products-api - Products API', () => {
     });
 
     await test.step("Verify GET /products/{productId}/specs/{specId} with the new product's id and the new spec's id returns 404.", async () => {
-      const fetched = await sendGetSpec(productSpecsClient, productId, spec.id, 'none');
+      const fetched = await sendGetSpec(productSpecsClient, productId, spec.id, AUTH.none);
       expectStatus(fetched.request, fetched.response, 404);
     });
   });
@@ -52,7 +52,7 @@ test.describe('@products-api - Products API', () => {
 
     await checkStatusAndMessage(
       "Send DELETE /products/{productId}/specs/{specId} with the new product's id and the new spec's id, without an Authorization header.",
-      () => sendDeleteSpec(productSpecsClient, productId, spec.id, 'none'),
+      () => sendDeleteSpec(productSpecsClient, productId, spec.id, AUTH.none),
       401,
       'Unauthorized'
     );
@@ -69,7 +69,7 @@ test.describe('@products-api - Products API', () => {
 
     await checkStatusAndMessage(
       "Send DELETE /products/{productId}/specs/{specId} with the new product's id and the new spec's id, with an invalid token.",
-      () => sendDeleteSpec(productSpecsClientWithInvalidToken, productId, spec.id, 'invalid token'),
+      () => sendDeleteSpec(productSpecsClientWithInvalidToken, productId, spec.id, AUTH.malformed),
       401,
       'Unauthorized'
     );
@@ -98,7 +98,7 @@ test.describe('@products-api - Products API', () => {
     });
 
     await test.step("Verify GET /products/{productId}/specs/{specId} with the new product's id and the new spec's id returns 200.", async () => {
-      const fetched = await sendGetSpec(productSpecsClient, productId, spec.id, 'none');
+      const fetched = await sendGetSpec(productSpecsClient, productId, spec.id, AUTH.none);
       expectStatus(fetched.request, fetched.response, 200);
     });
   });

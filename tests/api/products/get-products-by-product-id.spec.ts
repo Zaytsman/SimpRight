@@ -1,4 +1,4 @@
-import { test, expect, AUTH, sendAndAttach } from '@fixtures';
+import { test, expect, AUTH, sendAndAttach, type AuthLabel } from '@fixtures';
 import { expectStatus, parseJson } from '@utils/apiChecks';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { ProductDetails } from '@api/dto/product';
@@ -77,7 +77,7 @@ test.describe('@products-api - Products API', () => {
 
     test('API-0021: Get product with an admin token returns the stock count', async ({ productsService, productsClientWithToken }) => {
       let productId: string;
-      let request: { method: string; path: string; auth: string };
+      let request: { method: string; path: string; auth: AuthLabel };
       let response: ApiResponse;
 
       await test.step("Send GET /products and take the first item's id.", async () => {

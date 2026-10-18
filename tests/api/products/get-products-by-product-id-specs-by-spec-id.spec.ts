@@ -1,4 +1,4 @@
-import { test, expect, findProductWithSpecs, sendGetSpec, takeFirstProductId, type GetSpecRequest } from '@fixtures';
+import { test, expect, findProductWithSpecs, sendGetSpec, takeFirstProductId, type GetSpecRequest, AUTH } from '@fixtures';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { ProductSpec } from '@api/dto/product';
 import { TestConstants } from '@data/TestConstants';
@@ -25,7 +25,7 @@ test.describe('@products-api - Products API', () => {
     const spec = product.specs[0]!;
 
     await test.step("Send GET /products/{productId}/specs/{specId} with that product's id and that spec's id, without an Authorization header.", async () => {
-      ({ request, response } = await sendGetSpec(productSpecsClient, product.id, spec.id, 'none'));
+      ({ request, response } = await sendGetSpec(productSpecsClient, product.id, spec.id, AUTH.none));
     });
 
     await test.step('Verify the response status is 200.', async () => {
@@ -56,7 +56,7 @@ test.describe('@products-api - Products API', () => {
     const productId = await takeFirstProductId(productsService);
 
     await test.step('Send GET /products/{productId}/specs/{specId} with that id and a well-formed ULID that no spec has.', async () => {
-      ({ request, response } = await sendGetSpec(productSpecsClient, productId, TestConstants.productSpecs.unknownId, 'none'));
+      ({ request, response } = await sendGetSpec(productSpecsClient, productId, TestConstants.productSpecs.unknownId, AUTH.none));
     });
 
     await test.step('Verify the response status is 404.', async () => {
@@ -90,7 +90,7 @@ test.describe('@products-api - Products API', () => {
     });
 
     await test.step("Send GET /products/{productId}/specs/{specId} with the other product's id and that spec's id.", async () => {
-      ({ request, response } = await sendGetSpec(productSpecsClient, otherProductId, specId, 'none'));
+      ({ request, response } = await sendGetSpec(productSpecsClient, otherProductId, specId, AUTH.none));
     });
 
     await test.step('Verify the response status is 404.', async () => {
@@ -113,7 +113,7 @@ test.describe('@products-api - Products API', () => {
     const specId = product.specs[0]!.id;
 
     await test.step("Send GET /products/{productId}/specs/{specId} with a well-formed ULID that no product has and that spec's id.", async () => {
-      ({ request, response } = await sendGetSpec(productSpecsClient, TestConstants.products.unknownId, specId, 'none'));
+      ({ request, response } = await sendGetSpec(productSpecsClient, TestConstants.products.unknownId, specId, AUTH.none));
     });
 
     await test.step('Verify the response status is 404.', async () => {
@@ -136,7 +136,7 @@ test.describe('@products-api - Products API', () => {
     const spec = product.specs[0]!;
 
     await test.step("Send GET /products/{productId}/specs/{specId} with the product's id and the spec's id, both in lower case, without an Authorization header.", async () => {
-      ({ request, response } = await sendGetSpec(productSpecsClient, product.id.toLowerCase(), spec.id.toLowerCase(), 'none'));
+      ({ request, response } = await sendGetSpec(productSpecsClient, product.id.toLowerCase(), spec.id.toLowerCase(), AUTH.none));
     });
 
     await test.step('Verify the response status is 200.', async () => {

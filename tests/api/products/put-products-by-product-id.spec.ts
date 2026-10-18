@@ -1,4 +1,4 @@
-import { test, expect, createProductToUpdate, createProductWithOtherRefs, takeProductRefs, PRODUCT_LIST_STEP, AUTH, sendAndAttach, checkInvalidProductChange } from '@fixtures';
+import { test, expect, createProductToUpdate, createProductWithOtherRefs, takeProductRefs, PRODUCT_LIST_STEP, AUTH, sendAndAttach, checkInvalidProductChange, type AuthLabel } from '@fixtures';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { ProductDetails } from '@api/dto/product';
 import { TestConstants } from '@data/TestConstants';
@@ -11,7 +11,7 @@ import { assertMessage, attachJson } from '@utils/assertHelpers';
 test.describe('@products-api - Products API', () => {
   test('API-0043: Update product returns success', async ({ productsService, adminProductsService, productsClient, cleanup }) => {
     let newName: string;
-    let request: { method: string; path: string; auth: string; body: unknown };
+    let request: { method: string; path: string; auth: AuthLabel; body: unknown };
     let response: ApiResponse;
 
     const productId = await createProductToUpdate(productsService, adminProductsService, cleanup);
@@ -102,7 +102,7 @@ test.describe('@products-api - Products API', () => {
 
   test('API-0050: Update product with an unknown id returns 404', async ({ productsClient }) => {
     const unknownId = TestConstants.products.unknownId;
-    let request: { method: string; path: string; auth: string; body: unknown };
+    let request: { method: string; path: string; auth: AuthLabel; body: unknown };
     let response: ApiResponse;
 
     await test.step('Send PUT /products/{productId} with a well-formed ULID that no product has and a body with a unique product name.', async () => {
@@ -121,7 +121,7 @@ test.describe('@products-api - Products API', () => {
   });
 
   test('API-0051: Update product without a token returns 401', async ({ productsService, adminProductsService, productsClient, cleanup }) => {
-    let request: { method: string; path: string; auth: string; body: unknown };
+    let request: { method: string; path: string; auth: AuthLabel; body: unknown };
     let response: ApiResponse;
 
     const productId = await createProductToUpdate(productsService, adminProductsService, cleanup);
@@ -145,7 +145,7 @@ test.describe('@products-api - Products API', () => {
   }) => {
     /** Differs from the factory's create price (9.99). */
     const newPrice = 19.99;
-    let request: { method: string; path: string; auth: string; body: unknown };
+    let request: { method: string; path: string; auth: AuthLabel; body: unknown };
     let response: ApiResponse;
     let product: ProductDetails;
 
@@ -199,7 +199,7 @@ test.describe('@products-api - Products API', () => {
       cleanup,
     }) => {
       let productId = '';
-      let request: { method: string; path: string; auth: string; body: unknown };
+      let request: { method: string; path: string; auth: AuthLabel; body: unknown };
       let response: ApiResponse;
       let product: ProductDetails;
 

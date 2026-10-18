@@ -1,4 +1,4 @@
-import { test, expect, attachUserPageResponse, expectAllCustomers, expectCurrentPages, expectNoSharedIds, expectStatusHidingBody, expectUserPageKeys, userPageSummary, AUTH } from '@fixtures';
+import { test, expect, attachUserPageResponse, expectAllCustomers, expectCurrentPages, expectNoSharedIds, expectStatusHidingBody, expectUserPageKeys, userPageSummary, AUTH, type AuthLabel } from '@fixtures';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { UsersClient } from '@api/clients/UsersClient';
 import type { UsersService } from '@api/services/UsersService';
@@ -9,7 +9,7 @@ import { assertMessage, attachJson } from '@utils/assertHelpers';
 
 // Scenarios: test-scenarios/api/users/get-users.yml
 
-type ListUsersRequest = { method: 'GET'; path: '/users'; query?: string; auth: string };
+type ListUsersRequest = { method: 'GET'; path: '/users'; query?: string; auth: AuthLabel };
 
 /**
  * Sends GET /users and attaches the request and the response (a page as its summary: other visitors' details stay out
@@ -17,7 +17,7 @@ type ListUsersRequest = { method: 'GET'; path: '/users'; query?: string; auth: s
  */
 async function sendListUsers(
   client: UsersClient,
-  auth: string,
+  auth: AuthLabel,
   page?: number
 ): Promise<{ request: ListUsersRequest; response: ApiResponse; body?: Paginated<User> }> {
   const request: ListUsersRequest = { method: 'GET', path: '/users', ...(page === undefined ? {} : { query: `page=${page}` }), auth };
@@ -96,7 +96,7 @@ test.describe('@users-api - Users API', () => {
     let response: ApiResponse;
 
     await test.step('Send GET /users without an Authorization header.', async () => {
-      ({ request, response } = await sendListUsers(usersClient, 'none'));
+      ({ request, response } = await sendListUsers(usersClient, AUTH.none));
     });
 
     // A 200 here would list other customers: the failure message shows only the status.

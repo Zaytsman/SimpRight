@@ -7,7 +7,7 @@ import type { ProductSpecsService } from '../services/ProductSpecsService';
 import type { ProductsService } from '../services/ProductsService';
 import { ProductSpecFactory } from '../../data/factories/ProductSpecFactory';
 import { assertMessage, attachJson } from '../../utils/assertHelpers';
-import { AUTH, sendAndAttach } from './apiSteps';
+import { AUTH, sendAndAttach, type AuthLabel } from './apiSteps';
 import { createProduct, createProductToUpdate, firstProductRefs } from './productSteps';
 
 /**
@@ -101,7 +101,7 @@ export async function readSpec(productSpecsService: ProductSpecsService, product
 }
 
 /** The request record that `sendGetSpec` attaches and that assertion messages show. */
-export type GetSpecRequest = { method: 'GET'; path: string; auth: string };
+export type GetSpecRequest = { method: 'GET'; path: string; auth: AuthLabel };
 
 /**
  * Sends GET /products/{productId}/specs/{specId} with the given client (`auth` describes its token) and attaches the
@@ -111,7 +111,7 @@ export async function sendGetSpec(
   productSpecsClient: ProductSpecsClient,
   productId: string,
   specId: string,
-  auth: string
+  auth: AuthLabel
 ): Promise<{ request: GetSpecRequest; response: ApiResponse }> {
   const request: GetSpecRequest = { method: 'GET', path: `/products/${productId}/specs/${specId}`, auth };
   return sendAndAttach('Get Spec', request, () => productSpecsClient.getById(productId, specId));

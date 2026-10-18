@@ -1,4 +1,4 @@
-import { test, expect, AUTH, createProductAndTakeOtherId, createProductWithSpec, createSpec, readSpec, sendGetSpec, takeFirstProductId, sendAndAttach, type SpecSetupFixtures, checkStatusAndMessage } from '@fixtures';
+import { test, expect, AUTH, createProductAndTakeOtherId, createProductWithSpec, createSpec, readSpec, sendGetSpec, takeFirstProductId, sendAndAttach, type SpecSetupFixtures, checkStatusAndMessage, type AuthLabel } from '@fixtures';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { ProductSpecsClient } from '@api/clients/ProductSpecsClient';
 import type { ProductSpec } from '@api/dto/product';
@@ -13,7 +13,7 @@ import { assertMessage } from '@utils/assertHelpers';
 const NOT_FOUND = 'Requested item not found';
 const READ_BACK_STEP = "Send GET /products/{productId}/specs/{specId} with the new product's id and the new spec's id.";
 
-type UpdateSpecRequest = { method: 'PUT'; path: string; auth: string; accept: string; body: unknown };
+type UpdateSpecRequest = { method: 'PUT'; path: string; auth: AuthLabel; accept: string; body: unknown };
 
 /** Sends PUT /products/{productId}/specs/{specId} with the given client (`auth` describes its token) and attaches the request and the response. */
 async function sendUpdateSpec(
@@ -21,7 +21,7 @@ async function sendUpdateSpec(
   productId: string,
   specId: string,
   body: UpdateProductSpecRequest | Record<string, unknown>,
-  auth: string,
+  auth: AuthLabel,
   options: { accept?: string | null; followRedirects?: boolean } = {}
 ): Promise<{ request: UpdateSpecRequest; response: ApiResponse }> {
   const request: UpdateSpecRequest = { method: 'PUT', path: `/products/${productId}/specs/${specId}`, auth, accept: describeAccept(options.accept), body };
@@ -278,7 +278,7 @@ test.describe('@products-api - Products API', () => {
     });
 
     await test.step("Verify GET /products/{productId}/specs/{specId} with the other item's id and the new spec's id returns 404.", async () => {
-      const other = await sendGetSpec(productSpecsClient, otherProductId, spec.id, 'none');
+      const other = await sendGetSpec(productSpecsClient, otherProductId, spec.id, AUTH.none);
       expectStatus(other.request, other.response, 404);
     });
   });
@@ -288,7 +288,7 @@ test.describe('@products-api - Products API', () => {
 
     await checkStatusAndMessage(
       'Send PUT /products/{productId}/specs/{specId} with the new product\'s id, the new spec\'s id and a body with spec_value "2.5", without an Authorization header.',
-      () => sendUpdateSpec(productSpecsClient, productId, spec.id, ProductSpecFactory.updateValue(), 'none'),
+      () => sendUpdateSpec(productSpecsClient, productId, spec.id, ProductSpecFactory.updateValue(), AUTH.none),
       401,
       'Unauthorized'
     );
@@ -305,7 +305,7 @@ test.describe('@products-api - Products API', () => {
 
     await checkStatusAndMessage(
       'Send PUT /products/{productId}/specs/{specId} with the new product\'s id, the new spec\'s id and a body with spec_value "2.5", with an invalid token.',
-      () => sendUpdateSpec(productSpecsClientWithInvalidToken, productId, spec.id, ProductSpecFactory.updateValue(), 'invalid token'),
+      () => sendUpdateSpec(productSpecsClientWithInvalidToken, productId, spec.id, ProductSpecFactory.updateValue(), AUTH.malformed),
       401,
       'Unauthorized'
     );

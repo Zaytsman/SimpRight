@@ -50,7 +50,7 @@ test.describe('@favorites-api - Favorites API', () => {
     const { token, favorite } = await createCustomerWithFavorite({ usersService, adminUsersService, authService, productsService, favoritesServiceForToken, cleanup });
 
     await test.step('Send DELETE /favorites/{favoriteId} with that id, without an Authorization header.', async () => {
-      ({ request, response } = await sendDeleteFavorite(favoritesClient, favorite.id, 'none'));
+      ({ request, response } = await sendDeleteFavorite(favoritesClient, favorite.id, AUTH.none));
     });
 
     await test.step('Verify the response status is 401.', async () => {

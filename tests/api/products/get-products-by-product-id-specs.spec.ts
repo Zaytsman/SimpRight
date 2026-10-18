@@ -1,4 +1,4 @@
-import { test, expect, createProductToUpdate, findProductWithSpecs, AUTH, sendAndAttach } from '@fixtures';
+import { test, expect, createProductToUpdate, findProductWithSpecs, AUTH, sendAndAttach, type AuthLabel } from '@fixtures';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { ProductSpecsClient } from '@api/clients/ProductSpecsClient';
 import type { ProductSpec } from '@api/dto/product';
@@ -12,7 +12,7 @@ import { assertMessage } from '@utils/assertHelpers';
 const FIND_PRODUCT_STEP =
   'Find a product with at least one spec: send GET /products/{productId} for the items of GET /products until one returns a non-empty specs array, and take its id and its specs.';
 
-type ListSpecsRequest = { method: 'GET'; path: string; auth: string; query?: Record<string, string> };
+type ListSpecsRequest = { method: 'GET'; path: string; auth: AuthLabel; query?: Record<string, string> };
 
 /** Sends GET /products/{productId}/specs without a token and attaches the request and the response. */
 async function sendListSpecs(

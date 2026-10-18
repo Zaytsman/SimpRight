@@ -58,7 +58,7 @@ const { response } = await sendAndAttach('Create Brand', request, () => brandsCl
 
 | Helper | For |
 |---|---|
-| `AUTH` | The token's name in a record, in the scenarios' wording: `AUTH.none`, `AUTH.malformed`, `AUTH.admin`, `AUTH.defaultUser`, `AUTH.throwaway`, ... Never a string of a spec's own |
+| `AUTH` | The token's name in a record, in the scenarios' wording: `AUTH.none`, `AUTH.malformed`, `AUTH.admin`, `AUTH.defaultUser`, `AUTH.throwaway`, `AUTH.customer`, ...; the login, logout and refresh specs name their token by its state (`AUTH.newLogin`, `AUTH.loggedOut`, `AUTH.refreshed`). Never a string of a spec's own: send helpers and typed records take `auth` as `AuthLabel`, so another string fails the typecheck |
 | `withHeaders` | A `describe` that attaches the response headers too, for steps that check a header |
 | `describePage(item)`, `pageSummary(page, item)` | Attach a page that may list other visitors (users, invoices, messages) as a summary: pagination fields and a reduced view of each item. Reports are public. |
 | `sendQueryAndAttach`, `JSON_QUERY_HEADERS` | The same for `QUERY` requests with explicit Content-Type and Accept |
@@ -92,7 +92,7 @@ test('API-0150: Delete brand with an invalid token returns 401', async ({ adminB
 
   await checkStatusAndMessage(
     'Send DELETE /brands/{brandId} with that id, with an invalid token.',
-    () => sendDeleteBrand(brandsClientWithInvalidToken, brand.id, 'invalid token'),   // the spec's own send helper
+    () => sendDeleteBrand(brandsClientWithInvalidToken, brand.id, AUTH.malformed),   // the spec's own send helper
     401,
     'Unauthorized'
   );

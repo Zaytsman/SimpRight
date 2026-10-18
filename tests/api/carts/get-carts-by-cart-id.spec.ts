@@ -1,4 +1,4 @@
-import { ADD_PRODUCT_STEP, test, expect, takeProductRefs, createCartProduct, createCart, addItemSetup, NON_RENTAL_PRODUCT_STEP, RENTAL_PRODUCT_STEP, ADD_NON_RENTAL_STEP, ADD_RENTAL_STEP, CART_PRODUCT_IN_STOCK_STEP, AUTH, sendAndAttach, withHeaders, checkStatusAndMessage } from '@fixtures';
+import { ADD_PRODUCT_STEP, test, expect, takeProductRefs, createCartProduct, createCart, addItemSetup, NON_RENTAL_PRODUCT_STEP, RENTAL_PRODUCT_STEP, ADD_NON_RENTAL_STEP, ADD_RENTAL_STEP, CART_PRODUCT_IN_STOCK_STEP, AUTH, sendAndAttach, withHeaders, checkStatusAndMessage, type AuthLabel } from '@fixtures';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { CartsClient } from '@api/clients/CartsClient';
 import type { Cart, CartItem } from '@api/dto/cart';
@@ -8,10 +8,10 @@ import { assertMessage } from '@utils/assertHelpers';
 
 // Scenarios: test-scenarios/api/carts/get-carts-by-cart-id.yml
 
-type GetCartRequest = { method: 'GET'; path: string; auth: string };
+type GetCartRequest = { method: 'GET'; path: string; auth: AuthLabel };
 
 /** Sends GET /carts/{cartId} with the given client and attaches the request and the response. `auth` describes the client's token. */
-async function sendGetCart(client: CartsClient, cartId: string, auth = 'none'): Promise<{ request: GetCartRequest; response: ApiResponse }> {
+async function sendGetCart(client: CartsClient, cartId: string, auth: AuthLabel = AUTH.none): Promise<{ request: GetCartRequest; response: ApiResponse }> {
   const request: GetCartRequest = { method: 'GET', path: `/carts/${cartId}`, auth };
   return sendAndAttach('Get Cart', request, () => client.getById(cartId), withHeaders);
 }

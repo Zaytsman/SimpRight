@@ -1,4 +1,4 @@
-import { test, expect, createBrand, readBrand, takeOtherBrandSlug, BRAND_CREATE_ID_SLUG_STEP, AUTH, sendAndAttach, checkStatusAndMessage } from '@fixtures';
+import { test, expect, createBrand, readBrand, takeOtherBrandSlug, BRAND_CREATE_ID_SLUG_STEP, AUTH, sendAndAttach, checkStatusAndMessage, type AuthLabel } from '@fixtures';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { BrandsClient } from '@api/clients/BrandsClient';
 import { TestConstants } from '@data/TestConstants';
@@ -8,14 +8,14 @@ import { assertMessage } from '@utils/assertHelpers';
 
 // Scenarios: test-scenarios/api/brands/patch-brands-by-brand-id.yml
 
-type PatchBrandRequest = { method: 'PATCH'; path: string; auth: string; body: unknown };
+type PatchBrandRequest = { method: 'PATCH'; path: string; auth: AuthLabel; body: unknown };
 
 /** Sends PATCH /brands/{brandId} with the given client (`auth` describes its token) and attaches the request and the response. */
 async function sendPatchBrand(
   brandsClient: BrandsClient,
   brandId: string,
   body: Record<string, unknown>,
-  auth: string
+  auth: AuthLabel
 ): Promise<{ request: PatchBrandRequest; response: ApiResponse }> {
   const request: PatchBrandRequest = { method: 'PATCH', path: `/brands/${brandId}`, auth, body };
   return sendAndAttach('Patch Brand', request, () => brandsClient.partialUpdate(brandId, body));
@@ -168,7 +168,7 @@ test.describe('@brands-api - Brands API', () => {
       test.fail(true, 'Known issue BUG-009: Accepts PATCH without a token instead of returning 401.');
 
       await test.step('Send PATCH /brands/{brandId} with that id and a body with only a new unique brand name, without an Authorization header.', async () => {
-        ({ request, response } = await sendPatchBrand(brandsClient, brand.id, BrandFactory.updateName(), 'none'));
+        ({ request, response } = await sendPatchBrand(brandsClient, brand.id, BrandFactory.updateName(), AUTH.none));
       });
 
       await test.step('Verify the response status is 401.', async () => {
@@ -180,7 +180,7 @@ test.describe('@brands-api - Brands API', () => {
   test('API-0144: Partially update brand with an unknown id returns 404', async ({ brandsClient }) => {
     await checkStatusAndMessage(
       'Send PATCH /brands/{brandId} with a well-formed ULID that no brand has and a body with only a unique brand name.',
-      () => sendPatchBrand(brandsClient, TestConstants.brands.unknownId, BrandFactory.updateName(), 'none'),
+      () => sendPatchBrand(brandsClient, TestConstants.brands.unknownId, BrandFactory.updateName(), AUTH.none),
       404,
       'Requested item not found'
     );

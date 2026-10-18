@@ -1,4 +1,4 @@
-import { test, expect, AUTH, createGuestMessage, takeOwnUserId, readMessageOk, expectMessageStatus, setStatusSetup, expectNoReplies, type MessageRequest, sendAndAttach, checkStatusAndMessage } from '@fixtures';
+import { test, expect, AUTH, createGuestMessage, takeOwnUserId, readMessageOk, expectMessageStatus, setStatusSetup, expectNoReplies, type MessageRequest, sendAndAttach, checkStatusAndMessage, type AuthLabel } from '@fixtures';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { MessagesClient } from '@api/clients/MessagesClient';
 import type { ContactReply, ReplyRequest } from '@api/dto/message';
@@ -14,7 +14,7 @@ async function sendReply(
   messagesClient: MessagesClient,
   messageId: string,
   body: ReplyRequest | Record<string, unknown>,
-  auth: string
+  auth: AuthLabel
 ): Promise<{ request: MessageRequest; response: ApiResponse }> {
   const request: MessageRequest = { method: 'POST', path: `/messages/${messageId}/reply`, auth, body };
   return sendAndAttach('Reply', request, () => messagesClient.reply(messageId, body));

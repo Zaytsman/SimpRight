@@ -1,4 +1,4 @@
-import { test, expect, removeBrandIfCreated, AUTH, checkRejectedBody, sendAndAttach } from '@fixtures';
+import { test, expect, removeBrandIfCreated, AUTH, checkRejectedBody, sendAndAttach, type AuthLabel } from '@fixtures';
 import type { Cleanup } from '@fixtures/base';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { BrandsClient } from '@api/clients/BrandsClient';
@@ -10,7 +10,7 @@ import { assertMessage, attachJson } from '@utils/assertHelpers';
 
 // Scenarios: test-scenarios/api/brands/post-brands.yml
 
-type CreateBrandRequestInfo = { method: 'POST'; path: '/brands'; auth: string; body: unknown };
+type CreateBrandRequestInfo = { method: 'POST'; path: '/brands'; auth: AuthLabel; body: unknown };
 
 /**
  * Sends POST /brands with the given client (`auth` describes its token), registers the brand's removal (as admin) when
@@ -21,7 +21,7 @@ async function sendCreateBrand(
   body: unknown,
   adminBrandsService: BrandsService,
   cleanup: Cleanup,
-  auth: string = AUTH.none
+  auth: AuthLabel = AUTH.none
 ): Promise<{ request: CreateBrandRequestInfo; response: ApiResponse }> {
   const request: CreateBrandRequestInfo = { method: 'POST', path: '/brands', auth, body };
   return sendAndAttach('Create Brand', request, async () => {

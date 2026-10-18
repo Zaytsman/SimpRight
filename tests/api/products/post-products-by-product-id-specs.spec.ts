@@ -1,4 +1,4 @@
-import { test, expect, AUTH, createProductToUpdate, readSpec, takeFirstProductId, removeIfCreated, sendAndAttach } from '@fixtures';
+import { test, expect, AUTH, createProductToUpdate, readSpec, takeFirstProductId, removeIfCreated, sendAndAttach, type AuthLabel } from '@fixtures';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { ProductSpecsClient } from '@api/clients/ProductSpecsClient';
 import type { ProductSpec } from '@api/dto/product';
@@ -13,7 +13,7 @@ import { assertMessage, attachJson } from '@utils/assertHelpers';
 
 // Scenarios: test-scenarios/api/products/post-products-by-product-id-specs.yml
 
-type CreateSpecRequest = { method: 'POST'; path: string; auth: string; accept: string; body: unknown };
+type CreateSpecRequest = { method: 'POST'; path: string; auth: AuthLabel; accept: string; body: unknown };
 
 /**
  * Sends POST /products/{productId}/specs with the given client (`auth` describes its token) and attaches the request and
@@ -25,7 +25,7 @@ async function sendCreateSpec(
   productSpecsClient: ProductSpecsClient,
   productId: string,
   body: CreateProductSpecRequest | Record<string, unknown>,
-  auth: string,
+  auth: AuthLabel,
   remover: { productSpecsServiceWithToken: ProductSpecsService; cleanup: Cleanup },
   options: { accept?: string | null; followRedirects?: boolean } = {}
 ): Promise<{ request: CreateSpecRequest; response: ApiResponse }> {
@@ -180,7 +180,7 @@ test.describe('@products-api - Products API', () => {
     await test.step(
       'Send POST /products/{productId}/specs with the new product\'s id and a body with a unique spec_name and spec_value "1.5", without an Authorization header.',
       async () => {
-        ({ request, response } = await sendCreateSpec(productSpecsClient, productId, ProductSpecFactory.createSpecWithoutUnit(), 'none', {
+        ({ request, response } = await sendCreateSpec(productSpecsClient, productId, ProductSpecFactory.createSpecWithoutUnit(), AUTH.none, {
           productSpecsServiceWithToken,
           cleanup,
         }));
@@ -211,7 +211,7 @@ test.describe('@products-api - Products API', () => {
     await test.step(
       'Send POST /products/{productId}/specs with the new product\'s id and a body with a unique spec_name and spec_value "1.5", with an invalid token.',
       async () => {
-        ({ request, response } = await sendCreateSpec(productSpecsClientWithInvalidToken, productId, ProductSpecFactory.createSpecWithoutUnit(), 'invalid token', {
+        ({ request, response } = await sendCreateSpec(productSpecsClientWithInvalidToken, productId, ProductSpecFactory.createSpecWithoutUnit(), AUTH.malformed, {
           productSpecsServiceWithToken,
           cleanup,
         }));

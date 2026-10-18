@@ -11,7 +11,7 @@ import type { AuthService } from '../services/AuthService';
 import type { UsersService } from '../services/UsersService';
 import { UserFactory } from '../../data/factories/UserFactory';
 import { PAGE_KEYS, expectSomeItems, expectStatus, expectStatusAndBody, parseJson } from '../../utils/apiChecks';
-import { describePage, pageSummary, sendAndAttach, type DescribeResponse } from './apiSteps';
+import { describePage, pageSummary, sendAndAttach, type DescribeResponse, AUTH, type AuthLabel } from './apiSteps';
 import { assertMessage, attachJson } from '../../utils/assertHelpers';
 
 /**
@@ -136,7 +136,7 @@ const USER_LOGOUT_STEP = 'Send GET /users/logout with that token.';
 /** The USER_LOGOUT_STEP step as setup: logs out `token` and fails the step if that doesn't succeed. */
 export async function logoutToken(usersServiceForToken: (token: string) => UsersService, token: string): Promise<void> {
   await test.step(USER_LOGOUT_STEP, async () => {
-    const request = { method: 'GET', path: '/users/logout', auth: 'that token' };
+    const request = { method: 'GET', path: '/users/logout', auth: AUTH.newLogin };
     await attachJson('Logout Request', request);
     const result = await usersServiceForToken(token).logout();
     await attachJson('Logout Response', result);
@@ -221,7 +221,7 @@ export async function attachUserPageResponse(name: string, response: ApiResponse
  * A read-back for a Verify step: GET /users/me with `client` (`auth` names its token in the attached request), which
  * must answer 200. Returns the request record, for the step's messages, and the profile.
  */
-export async function readCurrentUser(client: UsersClient, auth: string): Promise<{ request: unknown; user: User }> {
+export async function readCurrentUser(client: UsersClient, auth: AuthLabel): Promise<{ request: unknown; user: User }> {
   const { request, response } = await sendAndAttach('Current User', { method: 'GET', path: '/users/me', auth }, () => client.me());
   return { request, user: expectStatusAndBody<User>(request, response, 200) };
 }

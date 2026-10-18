@@ -1,4 +1,4 @@
-import { test, expect, registerThrowawayCustomer, fieldMessagesStep, removeIfCreated, sendAndAttach, readCurrentUser } from '@fixtures';
+import { test, expect, registerThrowawayCustomer, fieldMessagesStep, removeIfCreated, sendAndAttach, readCurrentUser, AUTH } from '@fixtures';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { AuthClient } from '@api/clients/AuthClient';
 import type { UsersClient } from '@api/clients/UsersClient';
@@ -59,7 +59,7 @@ async function loginAndReadProfile(
   const { request: loginRequest, response: loginResponse } = await sendAndAttach('Login', { method: 'POST', path: '/users/login', body: { email, password } }, () => authClient.login({ email, password }));
   expectStatus(loginRequest, loginResponse, 200);
 
-  return (await readCurrentUser(usersClientForToken(parseJson<LoginResponse>(loginRequest, loginResponse).access_token), 'the access_token of that login')).user;
+  return (await readCurrentUser(usersClientForToken(parseJson<LoginResponse>(loginRequest, loginResponse).access_token), AUTH.newUser)).user;
 }
 
 /**

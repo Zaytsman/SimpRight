@@ -301,7 +301,7 @@ test.describe('@reports-api - Reports API', () => {
     // 61 calls in a row plus a registration and a login can take longer than the default test timeout.
     test.slow();
     const calls = 61;
-    const request = { method: 'GET', path: PATH, auth: "the new user's access_token", times: calls };
+    const request = { method: 'GET', path: PATH, auth: AUTH.newUser, times: calls };
     let last: ApiResponse;
 
     const customer = await registerThrowawayCustomer(usersService, adminUsersService, cleanup);

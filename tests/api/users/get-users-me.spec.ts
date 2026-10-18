@@ -1,4 +1,4 @@
-import { test, expect, registerThrowawayCustomer, loginThrowawayCustomer, disableCustomerSetup, AUTH, sendAndAttach, checkStatusAndMessage } from '@fixtures';
+import { test, expect, registerThrowawayCustomer, loginThrowawayCustomer, disableCustomerSetup, AUTH, sendAndAttach, checkStatusAndMessage, type AuthLabel } from '@fixtures';
 import { expectMessage, expectStatus, parseJson } from '@utils/apiChecks';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { UsersClient } from '@api/clients/UsersClient';
@@ -8,10 +8,10 @@ import { assertMessage, attachJson } from '@utils/assertHelpers';
 
 // Scenarios: test-scenarios/api/users/get-users-me.yml
 
-type MeRequest = { method: 'GET'; path: '/users/me'; auth: string };
+type MeRequest = { method: 'GET'; path: '/users/me'; auth: AuthLabel };
 
 /** Sends GET /users/me with `client` and attaches the request and the response. */
-async function sendMe(client: UsersClient, auth: string): Promise<{ request: MeRequest; response: ApiResponse }> {
+async function sendMe(client: UsersClient, auth: AuthLabel): Promise<{ request: MeRequest; response: ApiResponse }> {
   const request: MeRequest = { method: 'GET', path: '/users/me', auth };
   return sendAndAttach('Current User', request, () => client.me());
 }
@@ -101,7 +101,7 @@ test.describe('@users-api - Users API', () => {
   test('API-0102: Current user without a token returns 401', async ({ usersClient }) => {
     await checkStatusAndMessage(
       'Send GET /users/me without an Authorization header.',
-      () => sendMe(usersClient, 'none'),
+      () => sendMe(usersClient, AUTH.none),
       401,
       'Unauthorized'
     );
@@ -178,7 +178,7 @@ test.describe('@users-api - Users API', () => {
     const token = await loginThrowawayCustomer(authService, customer);
 
     await test.step('Send GET /users/me with that access_token.', async () => {
-      ({ request, response } = await sendMe(usersClientForToken(token), 'that access_token'));
+      ({ request, response } = await sendMe(usersClientForToken(token), AUTH.newUser));
     });
 
     await test.step('Verify the response status is 200.', async () => {

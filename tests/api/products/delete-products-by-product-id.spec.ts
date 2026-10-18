@@ -1,4 +1,4 @@
-import { test, expect, createProductToUpdate, takeProductRefs, PRODUCT_CREATE_STEP, AUTH, sendAndAttach } from '@fixtures';
+import { test, expect, createProductToUpdate, takeProductRefs, PRODUCT_CREATE_STEP, AUTH, sendAndAttach, type AuthLabel } from '@fixtures';
 import { expectStatus, parseJson } from '@utils/apiChecks';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import { TestConstants } from '@data/TestConstants';
@@ -7,7 +7,7 @@ import { assertMessage, attachJson } from '@utils/assertHelpers';
 
 // Scenarios: test-scenarios/api/products/delete-products-by-product-id.yml
 
-type Request = { method: string; path: string; auth: string };
+type Request = { method: string; path: string; auth: AuthLabel };
 
 test.describe('@products-api - Products API', () => {
   test.describe(() => {
@@ -79,7 +79,7 @@ test.describe('@products-api - Products API', () => {
     const productId = await createProductToUpdate(productsService, adminProductsService, cleanup);
 
     await test.step('Send DELETE /products/{productId} with that id, with an invalid token.', async () => {
-      ({ request, response } = await sendAndAttach('Delete Product', { method: 'DELETE', path: `/products/${productId}`, auth: 'invalid token' }, () => productsClientWithInvalidToken.deleteById(productId)));
+      ({ request, response } = await sendAndAttach('Delete Product', { method: 'DELETE', path: `/products/${productId}`, auth: AUTH.malformed }, () => productsClientWithInvalidToken.deleteById(productId)));
     });
 
     await test.step('Verify the response status is 401.', async () => {

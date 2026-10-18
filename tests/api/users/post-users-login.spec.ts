@@ -62,7 +62,7 @@ async function registerTotpCustomer(
 
   await test.step(TOTP_ENABLE_STEP, async () => {
     const body = { totp_enabled: true, totp_secret: secret };
-    const patchRequest = { method: 'PATCH', path: `/users/${customer.id}`, auth: "the customer's own access_token", body };
+    const patchRequest = { method: 'PATCH', path: `/users/${customer.id}`, auth: AUTH.customer, body };
     await attachJson('Patch User Request', patchRequest);
     const result = await usersServiceForToken(token).partialUpdate(customer.id, body);
     await attachJson('Patch User Response', result);
@@ -131,7 +131,7 @@ test.describe('@users-api - Users API', () => {
     });
 
     await test.step("Verify GET /users/me with the new access_token returns 200 with the default user's email.", async () => {
-      const { request: meRequest, user: profile } = await readCurrentUser(usersClientForToken(body.access_token), 'the new access_token');
+      const { request: meRequest, user: profile } = await readCurrentUser(usersClientForToken(body.access_token), AUTH.newLogin);
       // The email is a secret: compare it as a condition so a failure diff doesn't print it.
       expect(
         profile.email === user.username,
@@ -333,7 +333,7 @@ test.describe('@users-api - Users API', () => {
     });
 
     await test.step("Verify GET /users/me with the new access_token returns 200 with the throwaway customer's email.", async () => {
-      const { request: meRequest, user: profile } = await readCurrentUser(usersClientForToken(body.access_token), 'the new access_token');
+      const { request: meRequest, user: profile } = await readCurrentUser(usersClientForToken(body.access_token), AUTH.newLogin);
       expect(
         profile.email === customer.email,
         assertMessage({ request: meRequest, expected: "Email equals the throwaway customer's email", actual: profile.email })
@@ -349,7 +349,7 @@ test.describe('@users-api - Users API', () => {
     usersClientForToken,
     cleanup,
   }) => {
-    const request = { method: 'GET', path: '/users/me', auth: 'the restricted access_token' };
+    const request = { method: 'GET', path: '/users/me', auth: AUTH.restricted };
     let response: ApiResponse;
 
     const { customer } = await registerTotpCustomer(usersService, adminUsersService, authService, usersServiceForToken, cleanup);

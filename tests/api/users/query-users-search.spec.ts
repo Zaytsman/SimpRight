@@ -1,4 +1,4 @@
-import { test, expect, registerThrowawayCustomer, expectOnlyUser, expectStatusHidingBody, userPageSummary, AUTH, JSON_QUERY_HEADERS, sendQueryAndAttach, type QueryHeaders, type QueryRequestRecord, describeUserPage } from '@fixtures';
+import { test, expect, registerThrowawayCustomer, expectOnlyUser, expectStatusHidingBody, userPageSummary, AUTH, JSON_QUERY_HEADERS, sendQueryAndAttach, type QueryHeaders, type QueryRequestRecord, describeUserPage, type AuthLabel } from '@fixtures';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { UsersClient } from '@api/clients/UsersClient';
 import type { Paginated } from '@api/dto/common';
@@ -17,7 +17,7 @@ type QuerySearchRequest = QueryRequestRecord<UserSearchQueryBody>;
  */
 async function sendQuerySearch(
   client: UsersClient,
-  auth: string,
+  auth: AuthLabel,
   body: UserSearchQueryBody | string,
   headers: QueryHeaders = JSON_QUERY_HEADERS
 ): Promise<{ request: QuerySearchRequest; response: ApiResponse }> {
@@ -90,7 +90,7 @@ test.describe('@users-api - Users API', () => {
     await test.step(
       'Send QUERY /users/search without an Authorization header, with Content-Type: application/json, Accept: application/json and an empty JSON object as the body.',
       async () => {
-        ({ request, response } = await sendQuerySearch(usersClient, 'none', {}));
+        ({ request, response } = await sendQuerySearch(usersClient, AUTH.none, {}));
       }
     );
 

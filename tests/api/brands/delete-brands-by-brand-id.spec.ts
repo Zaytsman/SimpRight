@@ -1,4 +1,4 @@
-import { test, expect, createBrand, takeProductRefs, AUTH, sendAndAttach, checkStatusAndMessage } from '@fixtures';
+import { test, expect, createBrand, takeProductRefs, AUTH, sendAndAttach, checkStatusAndMessage, type AuthLabel } from '@fixtures';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { BrandsClient } from '@api/clients/BrandsClient';
 import { TestConstants } from '@data/TestConstants';
@@ -8,10 +8,10 @@ import { assertMessage, attachJson } from '@utils/assertHelpers';
 
 // Scenarios: test-scenarios/api/brands/delete-brands-by-brand-id.yml
 
-type DeleteBrandRequest = { method: 'DELETE'; path: string; auth: string };
+type DeleteBrandRequest = { method: 'DELETE'; path: string; auth: AuthLabel };
 
 /** Sends DELETE /brands/{brandId} with the given client (`auth` describes its token) and attaches the request and the response. */
-async function sendDeleteBrand(brandsClient: BrandsClient, brandId: string, auth: string): Promise<{ request: DeleteBrandRequest; response: ApiResponse }> {
+async function sendDeleteBrand(brandsClient: BrandsClient, brandId: string, auth: AuthLabel): Promise<{ request: DeleteBrandRequest; response: ApiResponse }> {
   const request: DeleteBrandRequest = { method: 'DELETE', path: `/brands/${brandId}`, auth };
   return sendAndAttach('Delete Brand', request, () => brandsClient.deleteById(brandId));
 }
@@ -52,7 +52,7 @@ test.describe('@brands-api - Brands API', () => {
 
       await checkStatusAndMessage(
         'Send DELETE /brands/{brandId} with that id, without an Authorization header.',
-        () => sendDeleteBrand(brandsClient, brand.id, 'none'),
+        () => sendDeleteBrand(brandsClient, brand.id, AUTH.none),
         401,
         'Unauthorized'
       );
@@ -63,7 +63,7 @@ test.describe('@brands-api - Brands API', () => {
 
       await checkStatusAndMessage(
         'Send DELETE /brands/{brandId} with that id, with an invalid token.',
-        () => sendDeleteBrand(brandsClientWithInvalidToken, brand.id, 'invalid token'),
+        () => sendDeleteBrand(brandsClientWithInvalidToken, brand.id, AUTH.malformed),
         401,
         'Unauthorized'
       );

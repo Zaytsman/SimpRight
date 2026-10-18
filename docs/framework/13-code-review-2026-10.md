@@ -168,10 +168,13 @@ The sweep found no references to removed code. The gaps were in what the agents 
 ## Open after the review
 
 - **The PDF tests (API-0468, API-0471)** failed on the day of the review: the site's PDF queue kept the invoice status at INITIATED through the whole 210-second poll, and the download answered 404. It's an environment problem, not a code change, and it's left for `/heal-tests` (a longer poll budget; the role tokens are already read per request).
-- **36 token labels** are still passed as plain strings (`'none'`, `'invalid token'`) into spec-local send helpers in about 10 specs. Slice 4's `AUTH` pass covered request records but not these call arguments.
 - The page builds write a `generatedAt` timestamp, so every Test Cases publish commits even when nothing changed (in `scripts/*.mts`, out of the review's scope).
 - A validator check that the custom workflows' `area` options match the test folders (today a "keep in sync" comment).
 - The repository setting "Require actions to be pinned to a full-length commit SHA" can now be turned on.
+
+## Follow-up: token labels
+
+Right after the review, writing these pages turned up token labels that slice 4's `AUTH` pass had missed: about 80 literal strings (`'none'`, `'invalid token'`, "the customer's access_token", `'the new access_token'`, ...) passed as arguments to spec-local send helpers or written into request records. They're `AUTH` constants now. `AUTH` gained `customer` and the token states of the login, logout and refresh scenarios (`newLogin`, `loggedOut`, `refreshed`, `replacedByRefresh`, `restricted`), and the new type `AuthLabel` types every `auth` parameter and record field (100 places), so a label of a spec's own now fails the typecheck. The 42 specs passed live (353 tests, 0 step-title mismatches).
 
 ## The commits
 

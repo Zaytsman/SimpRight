@@ -1,4 +1,4 @@
-import { test, expect, createBrand, readBrand, takeOtherBrandSlug, BRAND_CREATE_ID_SLUG_STEP, AUTH, sendAndAttach, checkRejectedBody, checkStatusAndMessage } from '@fixtures';
+import { test, expect, createBrand, readBrand, takeOtherBrandSlug, BRAND_CREATE_ID_SLUG_STEP, AUTH, sendAndAttach, checkRejectedBody, checkStatusAndMessage, type AuthLabel } from '@fixtures';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { BrandsClient } from '@api/clients/BrandsClient';
 import { TestConstants } from '@data/TestConstants';
@@ -8,14 +8,14 @@ import { assertMessage } from '@utils/assertHelpers';
 
 // Scenarios: test-scenarios/api/brands/put-brands-by-brand-id.yml
 
-type PutBrandRequest = { method: 'PUT'; path: string; auth: string; body: unknown };
+type PutBrandRequest = { method: 'PUT'; path: string; auth: AuthLabel; body: unknown };
 
 /** Sends PUT /brands/{brandId} with the given client (`auth` describes its token) and attaches the request and the response. */
 async function sendPutBrand(
   brandsClient: BrandsClient,
   brandId: string,
   body: Record<string, unknown>,
-  auth: string
+  auth: AuthLabel
 ): Promise<{ request: PutBrandRequest; response: ApiResponse }> {
   const request: PutBrandRequest = { method: 'PUT', path: `/brands/${brandId}`, auth, body };
   return sendAndAttach('Update Brand', request, () => brandsClient.update(brandId, body));
@@ -141,7 +141,7 @@ test.describe('@brands-api - Brands API', () => {
       test.fail(true, 'Known issue BUG-009: Accepts PUT without a token instead of returning 401.');
 
       await test.step('Send PUT /brands/{brandId} with that id and a body with only a new unique brand name, without an Authorization header.', async () => {
-        ({ request, response } = await sendPutBrand(brandsClient, brand.id, BrandFactory.updateName(), 'none'));
+        ({ request, response } = await sendPutBrand(brandsClient, brand.id, BrandFactory.updateName(), AUTH.none));
       });
 
       await test.step('Verify the response status is 401.', async () => {
@@ -153,7 +153,7 @@ test.describe('@brands-api - Brands API', () => {
   test('API-0136: Update brand with an unknown id returns 404', async ({ brandsClient }) => {
     await checkStatusAndMessage(
       'Send PUT /brands/{brandId} with a well-formed ULID that no brand has and a body with only a unique brand name.',
-      () => sendPutBrand(brandsClient, TestConstants.brands.unknownId, BrandFactory.updateName(), 'none'),
+      () => sendPutBrand(brandsClient, TestConstants.brands.unknownId, BrandFactory.updateName(), AUTH.none),
       404,
       'Requested item not found'
     );
@@ -166,7 +166,7 @@ test.describe('@brands-api - Brands API', () => {
     await test.step(
       'Send PUT /brands/{brandId} with a well-formed ULID that no brand has and a body with only a 121-character name that starts with a unique brand name.',
       async () => {
-        ({ request, response } = await sendPutBrand(brandsClient, TestConstants.brands.unknownId, BrandFactory.updateNameTooLong(), 'none'));
+        ({ request, response } = await sendPutBrand(brandsClient, TestConstants.brands.unknownId, BrandFactory.updateNameTooLong(), AUTH.none));
       }
     );
 

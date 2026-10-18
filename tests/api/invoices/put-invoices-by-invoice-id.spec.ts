@@ -189,7 +189,7 @@ test.describe('@invoices-api - Invoices API', () => {
 
     const { tokenB, cartId, invoice } = await customerAWithInvoiceAndCustomerB({ usersService, adminUsersService, authService, cartsService, invoicesServiceForToken, cleanup });
 
-    await test.step(samePutStep('that id', "customer B's access_token"), async () => {
+    await test.step(samePutStep('that id', AUTH.customerB), async () => {
       ({ request, response } = await sendUpdateInvoice(invoicesClientForToken(tokenB), invoice.id, InvoiceFactory.cashOnDelivery(cartId), AUTH.customerB));
     });
 

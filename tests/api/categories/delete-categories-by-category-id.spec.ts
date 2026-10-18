@@ -1,4 +1,4 @@
-import { test, expect, createCategory, takeProductRefs, PARENT_CREATE_STEP, CHILD_CREATE_STEP, AUTH, sendAndAttach, checkStatusAndMessage } from '@fixtures';
+import { test, expect, createCategory, takeProductRefs, PARENT_CREATE_STEP, CHILD_CREATE_STEP, AUTH, sendAndAttach, checkStatusAndMessage, type AuthLabel } from '@fixtures';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { CategoriesClient } from '@api/clients/CategoriesClient';
 import { TestConstants } from '@data/TestConstants';
@@ -8,13 +8,13 @@ import { assertMessage, attachJson } from '@utils/assertHelpers';
 
 // Scenarios: test-scenarios/api/categories/delete-categories-by-category-id.yml
 
-type DeleteCategoryRequestInfo = { method: 'DELETE'; path: string; auth: string };
+type DeleteCategoryRequestInfo = { method: 'DELETE'; path: string; auth: AuthLabel };
 
 /** Sends DELETE /categories/{categoryId} with the given client (`auth` describes its token) and attaches the request and the response. */
 async function sendDeleteCategory(
   categoriesClient: CategoriesClient,
   categoryId: string,
-  auth: string
+  auth: AuthLabel
 ): Promise<{ request: DeleteCategoryRequestInfo; response: ApiResponse }> {
   const request: DeleteCategoryRequestInfo = { method: 'DELETE', path: `/categories/${categoryId}`, auth };
   return sendAndAttach('Delete Category', request, () => categoriesClient.deleteById(categoryId));
@@ -56,7 +56,7 @@ test.describe('@categories-api - Categories API', () => {
 
       await checkStatusAndMessage(
         'Send DELETE /categories/{categoryId} with that id, without an Authorization header.',
-        () => sendDeleteCategory(categoriesClient, category.id, 'none'),
+        () => sendDeleteCategory(categoriesClient, category.id, AUTH.none),
         401,
         'Unauthorized'
       );
@@ -67,7 +67,7 @@ test.describe('@categories-api - Categories API', () => {
 
       await checkStatusAndMessage(
         'Send DELETE /categories/{categoryId} with that id, with an invalid token.',
-        () => sendDeleteCategory(categoriesClientWithInvalidToken, category.id, 'invalid token'),
+        () => sendDeleteCategory(categoriesClientWithInvalidToken, category.id, AUTH.malformed),
         401,
         'Unauthorized'
       );

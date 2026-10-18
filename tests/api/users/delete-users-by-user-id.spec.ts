@@ -1,4 +1,4 @@
-import { test, expect, registerThrowawayCustomer, loginThrowawayCustomer, takeFirstProductId, AUTH, sendAndAttach, checkStatusAndMessage } from '@fixtures';
+import { test, expect, registerThrowawayCustomer, loginThrowawayCustomer, takeFirstProductId, AUTH, sendAndAttach, checkStatusAndMessage, type AuthLabel } from '@fixtures';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { UsersClient } from '@api/clients/UsersClient';
 import { TestConstants } from '@data/TestConstants';
@@ -7,10 +7,10 @@ import { assertMessage, attachJson } from '@utils/assertHelpers';
 
 // Scenarios: test-scenarios/api/users/delete-users-by-user-id.yml
 
-type DeleteUserRequest = { method: 'DELETE'; path: string; auth: string };
+type DeleteUserRequest = { method: 'DELETE'; path: string; auth: AuthLabel };
 
 /** Sends DELETE /users/{userId} with the given client (`auth` describes its token) and attaches the request and the response. */
-async function sendDeleteUser(client: UsersClient, userId: string, auth: string): Promise<{ request: DeleteUserRequest; response: ApiResponse }> {
+async function sendDeleteUser(client: UsersClient, userId: string, auth: AuthLabel): Promise<{ request: DeleteUserRequest; response: ApiResponse }> {
   const request: DeleteUserRequest = { method: 'DELETE', path: `/users/${userId}`, auth };
   return sendAndAttach('Delete User', request, () => client.deleteById(userId));
 }
@@ -60,7 +60,7 @@ test.describe('@users-api - Users API', () => {
       const token = await loginThrowawayCustomer(authService, customer);
 
       await test.step("Send DELETE /users/{userId} with the new user's id and the customer's access_token.", async () => {
-        ({ request, response } = await sendDeleteUser(usersClientForToken(token), customer.id, "the customer's access_token"));
+        ({ request, response } = await sendDeleteUser(usersClientForToken(token), customer.id, AUTH.customer));
       });
 
       await test.step('Verify the response status is 403.', async () => {
@@ -93,7 +93,7 @@ test.describe('@users-api - Users API', () => {
       const productId = await takeFirstProductId(productsService, 'Send GET /products and take the id of a product.');
 
       await test.step("Send POST /favorites with that product id and the customer's access_token.", async () => {
-        const favoriteRequest = { method: 'POST', path: '/favorites', auth: "the customer's access_token", body: { product_id: productId } };
+        const favoriteRequest = { method: 'POST', path: '/favorites', auth: AUTH.customer, body: { product_id: productId } };
         await attachJson('Add Favorite Request', favoriteRequest);
         const favorite = await favoritesServiceForToken(token).add(productId);
         // Cleanup runs newest first: the favourite goes before the user, whose delete it would block (409).
@@ -141,7 +141,7 @@ test.describe('@users-api - Users API', () => {
   test('API-0437: Delete user without a token returns 401', async ({ usersClient }) => {
     await checkStatusAndMessage(
       'Send DELETE /users/{userId} with a well-formed ULID that no user has, without an Authorization header.',
-      () => sendDeleteUser(usersClient, TestConstants.users.unknownId, 'none'),
+      () => sendDeleteUser(usersClient, TestConstants.users.unknownId, AUTH.none),
       401,
       'Unauthorized'
     );

@@ -1,4 +1,4 @@
-import { test, expect, AUTH, createCustomerWithFavorite, expectGetFavoriteStatus, loginThrowawayCustomer, registerSecondCustomer, registerThrowawayCustomer, takeFirstProductId, sendAndAttach, removeIfCreated, checkStatusAndMessage } from '@fixtures';
+import { test, expect, AUTH, createCustomerWithFavorite, expectGetFavoriteStatus, loginThrowawayCustomer, registerSecondCustomer, registerThrowawayCustomer, takeFirstProductId, sendAndAttach, removeIfCreated, checkStatusAndMessage, type AuthLabel } from '@fixtures';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { FavoritesClient } from '@api/clients/FavoritesClient';
 import type { CreateFavoriteRequest, Favorite } from '@api/dto/favorite';
@@ -10,7 +10,7 @@ import { assertMessage, attachJson } from '@utils/assertHelpers';
 
 // Scenarios: test-scenarios/api/favorites/post-favorites.yml
 
-type AddFavoriteRequest = { method: 'POST'; path: '/favorites'; auth: string; body: CreateFavoriteRequest | Record<string, unknown> };
+type AddFavoriteRequest = { method: 'POST'; path: '/favorites'; auth: AuthLabel; body: CreateFavoriteRequest | Record<string, unknown> };
 
 /**
  * Sends POST /favorites with `favoritesClient` and attaches the request and the response. The call is the one under
@@ -20,7 +20,7 @@ type AddFavoriteRequest = { method: 'POST'; path: '/favorites'; auth: string; bo
 async function sendAdd(
   favoritesClient: FavoritesClient,
   body: CreateFavoriteRequest | Record<string, unknown>,
-  auth: string,
+  auth: AuthLabel,
   cleanup: Cleanup,
   owner?: FavoritesService
 ): Promise<{ request: AddFavoriteRequest; response: ApiResponse }> {
@@ -139,7 +139,7 @@ test.describe('@favorites-api - Favorites API', () => {
 
     await checkStatusAndMessage(
       'Send POST /favorites with that product id, without an Authorization header.',
-      () => sendAdd(favoritesClient, FavoriteFactory.addFavorite(productId), 'none', cleanup),
+      () => sendAdd(favoritesClient, FavoriteFactory.addFavorite(productId), AUTH.none, cleanup),
       401,
       'Unauthorized'
     );

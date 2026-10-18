@@ -1,4 +1,4 @@
-import { test, expect, AUTH, createCustomerWithFavorite, createSecondCustomer, registerThrowawayCustomer, loginThrowawayCustomer, disableCustomerSetup, sendAndAttach, checkStatusAndMessage } from '@fixtures';
+import { test, expect, AUTH, createCustomerWithFavorite, createSecondCustomer, registerThrowawayCustomer, loginThrowawayCustomer, disableCustomerSetup, sendAndAttach, checkStatusAndMessage, type AuthLabel } from '@fixtures';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { FavoritesClient } from '@api/clients/FavoritesClient';
 import type { Favorite } from '@api/dto/favorite';
@@ -7,10 +7,10 @@ import { assertMessage } from '@utils/assertHelpers';
 
 // Scenarios: test-scenarios/api/favorites/get-favorites.yml
 
-type ListFavoritesRequest = { method: 'GET'; path: '/favorites'; auth: string };
+type ListFavoritesRequest = { method: 'GET'; path: '/favorites'; auth: AuthLabel };
 
 /** Sends GET /favorites with `favoritesClient` and attaches the request and the response. */
-async function sendList(favoritesClient: FavoritesClient, auth: string): Promise<{ request: ListFavoritesRequest; response: ApiResponse }> {
+async function sendList(favoritesClient: FavoritesClient, auth: AuthLabel): Promise<{ request: ListFavoritesRequest; response: ApiResponse }> {
   const request: ListFavoritesRequest = { method: 'GET', path: '/favorites', auth };
   return sendAndAttach('List Favorites', request, () => favoritesClient.list());
 }
@@ -111,7 +111,7 @@ test.describe('@favorites-api - Favorites API', () => {
   test('API-0269: List favorites without a token returns 401', async ({ favoritesClient }) => {
     await checkStatusAndMessage(
       'Send GET /favorites without an Authorization header.',
-      () => sendList(favoritesClient, 'none'),
+      () => sendList(favoritesClient, AUTH.none),
       401,
       'Unauthorized'
     );

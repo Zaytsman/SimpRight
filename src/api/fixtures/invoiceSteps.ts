@@ -25,7 +25,7 @@ import type { UsersService } from '../services/UsersService';
 import { InvoiceFactory } from '../../data/factories/InvoiceFactory';
 import { assertMessage, attachJson } from '../../utils/assertHelpers';
 import { expectStatus, parseJson } from '../../utils/apiChecks';
-import { AUTH, pageSummary, describePage, sendAndAttach } from './apiSteps';
+import { AUTH, pageSummary, describePage, sendAndAttach, type AuthLabel } from './apiSteps';
 import { addItemSetup, createCart } from './cartSteps';
 import { takeFirstProductId } from './productSteps';
 import { loginThrowawayCustomer, registerThrowawayCustomer, type ThrowawayCustomer } from './userSteps';
@@ -54,7 +54,7 @@ const CUSTOMER_B_LOGIN_STEP = "Send POST /users/login with customer B's email an
 const CUSTOMER_A_INVOICE_STEP =
   'Send POST /invoices with customer A\'s access_token, payment_method "cash-on-delivery", payment_details {}, billing_street "Stephansplatz 1", billing_city "Wien", billing_country "AT" and the cart\'s id as cart_id, and take the new invoice\'s id.';
 
-export type InvoiceRequest = { method: string; path: string; auth: string; query?: Record<string, unknown>; body?: unknown };
+export type InvoiceRequest = { method: string; path: string; auth: AuthLabel; query?: Record<string, unknown>; body?: unknown };
 
 /**
  * An invoice-create setup step (title `title`): creates the invoice through `invoicesService` (built with the
@@ -64,7 +64,7 @@ export async function createInvoiceSetup(
   invoicesService: InvoicesService,
   cartId: string,
   title: string,
-  auth: string,
+  auth: AuthLabel,
   body: CreateInvoiceRequest = InvoiceFactory.cashOnDelivery(cartId)
 ): Promise<InvoiceCreated> {
   return test.step(title, async () => {
@@ -112,7 +112,7 @@ export async function setInvoiceStatusSetup(
   invoiceId: string,
   status: InvoiceStatus | UpdateInvoiceStatusRequest,
   title: string,
-  auth: string
+  auth: AuthLabel
 ): Promise<void> {
   await test.step(title, async () => {
     const body: UpdateInvoiceStatusRequest = typeof status === 'string' ? { status } : status;
@@ -229,7 +229,7 @@ export async function customerAWithInvoiceAndCustomerB(
 export async function sendCreateInvoice(
   invoicesClient: InvoicesClient,
   body: CreateInvoiceRequest | Record<string, unknown>,
-  auth: string
+  auth: AuthLabel
 ): Promise<{ request: InvoiceRequest; response: ApiResponse }> {
   const request: InvoiceRequest = { method: 'POST', path: '/invoices', auth, body };
   return sendAndAttach('Create Invoice', request, () => invoicesClient.create(body));
@@ -248,7 +248,7 @@ export async function sendCreateGuestInvoice(
  * Sends GET /invoices/{invoiceId} and attaches the request and the response. Tests read only invoices they created
  * (their own made-up addresses), so the body is attached as it came.
  */
-export async function sendGetInvoice(invoicesClient: InvoicesClient, invoiceId: string, auth: string): Promise<{ request: InvoiceRequest; response: ApiResponse }> {
+export async function sendGetInvoice(invoicesClient: InvoicesClient, invoiceId: string, auth: AuthLabel): Promise<{ request: InvoiceRequest; response: ApiResponse }> {
   const request: InvoiceRequest = { method: 'GET', path: `/invoices/${invoiceId}`, auth };
   return sendAndAttach('Get Invoice', request, () => invoicesClient.getById(invoiceId));
 }
@@ -257,7 +257,7 @@ export async function sendGetInvoice(invoicesClient: InvoicesClient, invoiceId: 
  * The first half of a "Verify GET /invoices/{invoiceId} with the new id and <token> returns 200 with ..." step: reads
  * the invoice, checks the 200 and returns the request record and the parsed invoice for the step's other checks.
  */
-export async function readInvoiceOk(invoicesClient: InvoicesClient, invoiceId: string, auth: string): Promise<{ request: InvoiceRequest; invoice: Invoice }> {
+export async function readInvoiceOk(invoicesClient: InvoicesClient, invoiceId: string, auth: AuthLabel): Promise<{ request: InvoiceRequest; invoice: Invoice }> {
   const { request, response } = await sendGetInvoice(invoicesClient, invoiceId, auth);
   expectStatus(request, response, 200);
   return { request, invoice: parseJson<Invoice>(request, response) };
@@ -290,7 +290,7 @@ export function invoicePageSummary(page: Partial<Paginated<InvoiceSummary>>): Re
  * Sends GET /invoices (with `page` when given) and attaches the request and the response: a 2xx page as
  * `invoicePageSummary`, any other response with its body as it came (error bodies hold no visitor data).
  */
-export async function sendListInvoices(invoicesClient: InvoicesClient, auth: string, page?: number): Promise<{ request: InvoiceRequest; response: ApiResponse }> {
+export async function sendListInvoices(invoicesClient: InvoicesClient, auth: AuthLabel, page?: number): Promise<{ request: InvoiceRequest; response: ApiResponse }> {
   const request: InvoiceRequest = { method: 'GET', path: '/invoices', auth, ...(page !== undefined ? { query: { page } } : {}) };
   return sendAndAttach('List Invoices', request, () => invoicesClient.list(page), describePage(invoiceSummary));
 }
@@ -298,7 +298,7 @@ export async function sendListInvoices(invoicesClient: InvoicesClient, auth: str
 /** Sends GET /invoices/search (`q` and `page` only when given) and attaches the request and the response like `sendListInvoices`. */
 export async function sendSearchInvoices(
   invoicesClient: InvoicesClient,
-  auth: string,
+  auth: AuthLabel,
   q?: string,
   page?: number
 ): Promise<{ request: InvoiceRequest; response: ApiResponse }> {
@@ -313,7 +313,7 @@ export async function sendSearchInvoices(
  */
 export async function sendQuerySearchInvoices(
   invoicesClient: InvoicesClient,
-  auth: string,
+  auth: AuthLabel,
   body: InvoiceSearchQueryBody | string,
   contentType: string = 'application/json'
 ): Promise<{ request: InvoiceRequest; response: ApiResponse }> {
@@ -326,7 +326,7 @@ export async function sendUpdateInvoice(
   invoicesClient: InvoicesClient,
   invoiceId: string,
   body: UpdateInvoiceRequest | Record<string, unknown>,
-  auth: string
+  auth: AuthLabel
 ): Promise<{ request: InvoiceRequest; response: ApiResponse }> {
   const request: InvoiceRequest = { method: 'PUT', path: `/invoices/${invoiceId}`, auth, body };
   return sendAndAttach('Update Invoice', request, () => invoicesClient.update(invoiceId, body));
@@ -337,7 +337,7 @@ export async function sendPatchInvoice(
   invoicesClient: InvoicesClient,
   invoiceId: string,
   body: PatchInvoiceRequest | Record<string, unknown>,
-  auth: string
+  auth: AuthLabel
 ): Promise<{ request: InvoiceRequest; response: ApiResponse }> {
   const request: InvoiceRequest = { method: 'PATCH', path: `/invoices/${invoiceId}`, auth, body };
   return sendAndAttach('Patch Invoice', request, () => invoicesClient.partialUpdate(invoiceId, body));
@@ -348,7 +348,7 @@ export async function sendUpdateInvoiceStatus(
   invoicesClient: InvoicesClient,
   invoiceId: string,
   body: UpdateInvoiceStatusRequest | Record<string, unknown>,
-  auth: string
+  auth: AuthLabel
 ): Promise<{ request: InvoiceRequest; response: ApiResponse }> {
   const request: InvoiceRequest = { method: 'PUT', path: `/invoices/${invoiceId}/status`, auth, body };
   return sendAndAttach('Update Invoice Status', request, () => invoicesClient.updateStatus(invoiceId, body));
@@ -375,7 +375,7 @@ export function expectEmptyInvoicePage(request: unknown, page: Paginated<Invoice
 }
 
 /** Sends GET /invoices/{invoice_number}/download-pdf and attaches the request, the status, the headers and the body's length (never the file). */
-export async function sendDownloadPdf(invoicesClient: InvoicesClient, invoiceNumber: string, auth: string): Promise<{ request: InvoiceRequest; response: ApiResponse }> {
+export async function sendDownloadPdf(invoicesClient: InvoicesClient, invoiceNumber: string, auth: AuthLabel): Promise<{ request: InvoiceRequest; response: ApiResponse }> {
   const request: InvoiceRequest = { method: 'GET', path: `/invoices/${invoiceNumber}/download-pdf`, auth };
   return sendAndAttach('Download PDF', request, () => invoicesClient.downloadPdf(invoiceNumber), (response) => ({
     status: response.status,
@@ -385,7 +385,7 @@ export async function sendDownloadPdf(invoicesClient: InvoicesClient, invoiceNum
 }
 
 /** Sends GET /invoices/{invoice_number}/download-pdf-status and attaches the request and the response. */
-export async function sendPdfStatus(invoicesClient: InvoicesClient, invoiceNumber: string, auth: string): Promise<{ request: InvoiceRequest; response: ApiResponse }> {
+export async function sendPdfStatus(invoicesClient: InvoicesClient, invoiceNumber: string, auth: AuthLabel): Promise<{ request: InvoiceRequest; response: ApiResponse }> {
   const request: InvoiceRequest = { method: 'GET', path: `/invoices/${invoiceNumber}/download-pdf-status`, auth };
   return sendAndAttach('PDF Status', request, () => invoicesClient.downloadPdfStatus(invoiceNumber));
 }
@@ -401,7 +401,7 @@ const PDF_POLL = { timeoutMs: 210_000, intervalMs: 5_000 } as const;
 export async function pollPdfStatus(
   invoicesClient: InvoicesClient,
   invoiceNumber: string,
-  auth: string,
+  auth: AuthLabel,
   { timeoutMs, intervalMs }: { timeoutMs: number; intervalMs: number } = PDF_POLL
 ): Promise<{ request: InvoiceRequest; response: ApiResponse }> {
   const request: InvoiceRequest = { method: 'GET', path: `/invoices/${invoiceNumber}/download-pdf-status`, auth };

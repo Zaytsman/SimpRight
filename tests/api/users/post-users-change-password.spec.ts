@@ -1,4 +1,4 @@
-import { test, expect, registerThrowawayCustomer, loginThrowawayCustomer, expectLoginSucceeds, type ThrowawayCustomer, AUTH, sendAndAttach } from '@fixtures';
+import { test, expect, registerThrowawayCustomer, loginThrowawayCustomer, expectLoginSucceeds, type ThrowawayCustomer, AUTH, sendAndAttach, type AuthLabel } from '@fixtures';
 import type { Cleanup } from '@fixtures/base';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { UsersClient } from '@api/clients/UsersClient';
@@ -10,7 +10,7 @@ import { expectErrorKeys, expectMessage, expectStatus, expectSuccess } from '@ut
 
 // Scenarios: test-scenarios/api/users/post-users-change-password.yml
 
-type ChangePasswordRequestInfo = { method: 'POST'; path: '/users/change-password'; auth: string; body: unknown };
+type ChangePasswordRequestInfo = { method: 'POST'; path: '/users/change-password'; auth: AuthLabel; body: unknown };
 
 /** The login step of every scenario here that registers its own customer (same wording in each). */
 const LOGIN_STEP = 'Send POST /users/login with that email and password, and take the new access_token.';
@@ -20,7 +20,7 @@ const WRONG_CURRENT_PASSWORD = 'Your current password does not matches with the 
 async function sendChangePassword(
   client: UsersClient,
   body: Record<string, unknown>,
-  auth: string
+  auth: AuthLabel
 ): Promise<{ request: ChangePasswordRequestInfo; response: ApiResponse }> {
   const request: ChangePasswordRequestInfo = { method: 'POST', path: '/users/change-password', auth, body };
   return sendAndAttach('Change Password', request, () => client.changePassword(body));
@@ -70,7 +70,7 @@ async function checkRejectedNewPassword(
   const { customer, token } = await registerAndLogIn(usersService, adminUsersService, authService, cleanup);
 
   await test.step(sendStep, async () => {
-    ({ request, response } = await sendChangePassword(usersClientForToken(token), bodyFrom(customer), "the customer's access_token"));
+    ({ request, response } = await sendChangePassword(usersClientForToken(token), bodyFrom(customer), AUTH.customer));
   });
 
   await test.step('Verify the response status is 422.', async () => {
@@ -102,7 +102,7 @@ test.describe('@users-api - Users API', () => {
       async () => {
         newPassword = anotherStrongPassword(customer.password);
         const body = { current_password: customer.password, new_password: newPassword, new_password_confirmation: newPassword };
-        ({ request, response } = await sendChangePassword(usersClientForToken(token), body, "the customer's access_token"));
+        ({ request, response } = await sendChangePassword(usersClientForToken(token), body, AUTH.customer));
       }
     );
 
@@ -157,7 +157,7 @@ test.describe('@users-api - Users API', () => {
       async () => {
         const newPassword = anotherStrongPassword(customer.password);
         const body = { new_password: newPassword, new_password_confirmation: newPassword };
-        ({ request, response } = await sendChangePassword(usersClientForToken(token), body, "the customer's access_token"));
+        ({ request, response } = await sendChangePassword(usersClientForToken(token), body, AUTH.customer));
       }
     );
 
@@ -187,7 +187,7 @@ test.describe('@users-api - Users API', () => {
         const wrongCurrent = anotherStrongPassword(customer.password);
         const newPassword = anotherStrongPassword(customer.password, wrongCurrent);
         const body = { current_password: wrongCurrent, new_password: newPassword, new_password_confirmation: newPassword };
-        ({ request, response } = await sendChangePassword(usersClientForToken(token), body, "the customer's access_token"));
+        ({ request, response } = await sendChangePassword(usersClientForToken(token), body, AUTH.customer));
       }
     );
 

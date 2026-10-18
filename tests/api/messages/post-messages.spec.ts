@@ -1,4 +1,4 @@
-import { test, expect, AUTH, registerThrowawayCustomer, loginThrowawayCustomer, takeOwnUserId, readMessageOk, expectMessageStatus, sendListMessages, messagePageSummary, type MessageRequest, sendAndAttach, checkRejectedBody } from '@fixtures';
+import { test, expect, AUTH, registerThrowawayCustomer, loginThrowawayCustomer, takeOwnUserId, readMessageOk, expectMessageStatus, sendListMessages, messagePageSummary, type MessageRequest, sendAndAttach, checkRejectedBody, type AuthLabel } from '@fixtures';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { MessagesClient } from '@api/clients/MessagesClient';
 import type { Paginated } from '@api/dto/common';
@@ -10,7 +10,7 @@ import { assertMessage } from '@utils/assertHelpers';
 // Scenarios: test-scenarios/api/messages/post-messages.yml
 
 /** Sends POST /messages with `messagesClient` and attaches the request and the response. */
-async function sendMessage(messagesClient: MessagesClient, body: unknown, auth: string): Promise<{ request: MessageRequest; response: ApiResponse }> {
+async function sendMessage(messagesClient: MessagesClient, body: unknown, auth: AuthLabel): Promise<{ request: MessageRequest; response: ApiResponse }> {
   const request: MessageRequest = { method: 'POST', path: '/messages', auth, body };
   return sendAndAttach('Send Message', request, () => messagesClient.send(body as Record<string, unknown>));
 }

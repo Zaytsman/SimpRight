@@ -1,4 +1,4 @@
-import { test, expect, registerThrowawayCustomer, attachUserPageResponse, expectAllCustomers, expectCurrentPages, expectNoSharedIds, expectOnlyUser, expectStatusHidingBody, expectUserPageKeys, userPageSummary, AUTH, type ThrowawayCustomer } from '@fixtures';
+import { test, expect, registerThrowawayCustomer, attachUserPageResponse, expectAllCustomers, expectCurrentPages, expectNoSharedIds, expectOnlyUser, expectStatusHidingBody, expectUserPageKeys, userPageSummary, AUTH, type ThrowawayCustomer, type AuthLabel } from '@fixtures';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import { userSearchQuery, type UsersClient } from '@api/clients/UsersClient';
 import type { UsersService } from '@api/services/UsersService';
@@ -12,7 +12,7 @@ import { assertMessage, attachJson } from '@utils/assertHelpers';
 
 // Scenarios: test-scenarios/api/users/get-users-search.yml
 
-type SearchUsersRequest = { method: 'GET'; path: '/users/search'; query?: string; auth: string };
+type SearchUsersRequest = { method: 'GET'; path: '/users/search'; query?: string; auth: AuthLabel };
 
 /**
  * Sends GET /users/search and attaches the request and the response (a page as its summary: other visitors' details
@@ -20,7 +20,7 @@ type SearchUsersRequest = { method: 'GET'; path: '/users/search'; query?: string
  */
 async function sendSearch(
   client: UsersClient,
-  auth: string,
+  auth: AuthLabel,
   params: { q?: string; page?: number } = {}
 ): Promise<{ request: SearchUsersRequest; response: ApiResponse; body?: Paginated<User> }> {
   const query = userSearchQuery(params.q, params.page);
@@ -227,7 +227,7 @@ test.describe('@users-api - Users API', () => {
     let response: ApiResponse;
 
     await test.step('Send GET /users/search with q set to a letter, without an Authorization header.', async () => {
-      ({ request, response } = await sendSearch(usersClient, 'none', { q: 'a' }));
+      ({ request, response } = await sendSearch(usersClient, AUTH.none, { q: 'a' }));
     });
 
     // A 200 here would list other customers: the failure message shows only the status.
