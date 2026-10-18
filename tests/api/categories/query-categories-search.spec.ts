@@ -4,7 +4,6 @@ import type { CategoriesClient } from '@api/clients/CategoriesClient';
 import type { CategorySearchQueryBody } from '@api/dto/category';
 import { TestConstants } from '@data/TestConstants';
 import { expectAcceptQuery, expectItemNamesContain, expectMessage, expectStatus } from '@utils/apiChecks';
-import {  } from '@utils/assertHelpers';
 
 // Scenarios: test-scenarios/api/categories/query-categories-search.yml
 

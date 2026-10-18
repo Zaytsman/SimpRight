@@ -1,18 +1,16 @@
-import { test, expect } from '@fixtures';
+import { test, expect, checkValidationRedirect, sendAndAttach, withHeaders } from '@fixtures';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { PaymentClient } from '@api/clients/PaymentClient';
 import type { FieldValidationError } from '@api/dto/common';
 import type { PaymentCheckResponse } from '@api/dto/payment';
 import { PaymentFactory } from '@data/factories/PaymentFactory';
-import { describeAccept, expectContentTypeStartsWith, expectErrorKeys, expectLocation, expectNoOtherKeys, expectStatus, parseJson } from '@utils/apiChecks';
-import { assertMessage, attachJson } from '@utils/assertHelpers';
+import { describeAccept, expectContentTypeStartsWith, expectErrorKeys, expectNoOtherKeys, expectStatus, parseJson } from '@utils/apiChecks';
+import { assertMessage } from '@utils/assertHelpers';
 
 // Scenarios: test-scenarios/api/payment/post-payment-check.yml
 
 const SUCCESS_MESSAGE = 'Payment was successful';
 /** Where the API redirects a failed validation that doesn't ask for JSON (the steps name it literally). */
-const REDIRECT_LOCATION = 'https://api.practicesoftwaretesting.com';
-
 type CheckRequest = {
   method: 'POST';
   path: '/payment/check';
@@ -44,13 +42,12 @@ async function sendCheck(
     ...(options.followRedirects === false ? { followRedirects: false as const } : {}),
     body,
   };
-  const response = await client.check(body, {
-    accept: options.accept,
-    maxRedirects: options.followRedirects === false ? 0 : undefined,
-  });
-  await attachJson('Payment Check Request', request);
-  await attachJson('Payment Check Response', { status: response.status, headers: response.headers, body: response.body });
-  return { request, response };
+  return sendAndAttach(
+    'Payment Check',
+    request,
+    () => client.check(body, { accept: options.accept, maxRedirects: options.followRedirects === false ? 0 : undefined }),
+    withHeaders
+  );
 }
 
 /** The checks of a "Verify the body's message is "Payment was successful"." step. */
@@ -144,24 +141,6 @@ async function checkMissingDetails(client: PaymentClient, sendStep: string, body
 
   await test.step(keysStep, async () => {
     expectErrorKeys(request, response, keys);
-  });
-}
-
-/** The common shape of the redirect scenarios: send without following redirects, then 302, then the Location. */
-async function checkRedirect(client: PaymentClient, sendStep: string, accept: string | null): Promise<void> {
-  let request: CheckRequest;
-  let response: ApiResponse;
-
-  await test.step(sendStep, async () => {
-    ({ request, response } = await sendCheck(client, { payment_method: 'bank-transfer' }, { accept, followRedirects: false }));
-  });
-
-  await test.step('Verify the response status is 302.', async () => {
-    expectStatus(request, response, 302);
-  });
-
-  await test.step('Verify the Location header is "https://api.practicesoftwaretesting.com".', async () => {
-    expectLocation(request, response, REDIRECT_LOCATION);
   });
 }
 
@@ -452,19 +431,19 @@ test.describe('@payment-api - Payment API', () => {
     );
   });
 
-  test('API-0639: Check invalid payment details without Accept application/json returns a 302 redirect', async ({ paymentClient }) => {
-    await checkRedirect(
-      paymentClient,
+  test('API-0639: Check invalid payment details without Accept application/json returns a 302 redirect', async ({ paymentClient, config }) => {
+    await checkValidationRedirect(
       'Send POST /payment/check without an Authorization header, without following redirects and with the Accept header left out, with payment_method "bank-transfer" and no payment_details.',
-      null
+      () => sendCheck(paymentClient, { payment_method: 'bank-transfer' }, { accept: null, followRedirects: false }),
+      config.apiBaseUrl
     );
   });
 
-  test('API-0640: Check invalid payment details with Accept text/xml returns a 302 redirect', async ({ paymentClient }) => {
-    await checkRedirect(
-      paymentClient,
+  test('API-0640: Check invalid payment details with Accept text/xml returns a 302 redirect', async ({ paymentClient, config }) => {
+    await checkValidationRedirect(
       'Send POST /payment/check without an Authorization header, without following redirects and with Accept: text/xml, with payment_method "bank-transfer" and no payment_details.',
-      'text/xml'
+      () => sendCheck(paymentClient, { payment_method: 'bank-transfer' }, { accept: 'text/xml', followRedirects: false }),
+      config.apiBaseUrl
     );
   });
 

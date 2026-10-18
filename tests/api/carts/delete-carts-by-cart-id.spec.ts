@@ -3,7 +3,6 @@ import type { ApiResponse } from '@api/clients/BaseClient';
 import type { CartsClient } from '@api/clients/CartsClient';
 import { TestConstants } from '@data/TestConstants';
 import { expectMessage, expectStatus } from '@utils/apiChecks';
-import { attachJson } from '@utils/assertHelpers';
 
 // Scenarios: test-scenarios/api/carts/delete-carts-by-cart-id.yml
 
@@ -35,9 +34,9 @@ test.describe('@carts-api - Carts API', () => {
     });
 
     await test.step("Verify GET /carts/{cartId} with the cart's id returns 404.", async () => {
-      const getRequest = { method: 'GET', path: `/carts/${cartId}` };
-      const getResponse = await cartsClient.getById(cartId);
-      await attachJson('Get Cart Response', { status: getResponse.status, body: getResponse.body });
+      const { request: getRequest, response: getResponse } = await sendAndAttach('Get Cart', { method: 'GET', path: `/carts/${cartId}` }, () =>
+        cartsClient.getById(cartId)
+      );
       expectStatus(getRequest, getResponse, 404);
     });
   });

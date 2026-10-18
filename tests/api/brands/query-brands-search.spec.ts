@@ -4,7 +4,6 @@ import type { BrandsClient } from '@api/clients/BrandsClient';
 import type { BrandSearchQueryBody } from '@api/dto/brand';
 import { TestConstants } from '@data/TestConstants';
 import { expectAcceptQuery, expectItemNamesContain, expectMessage, expectStatus } from '@utils/apiChecks';
-import {  } from '@utils/assertHelpers';
 
 // Scenarios: test-scenarios/api/brands/query-brands-search.yml
 

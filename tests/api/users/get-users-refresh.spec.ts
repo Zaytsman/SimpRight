@@ -3,7 +3,6 @@ import { expectStatus, parseJson } from '@utils/apiChecks';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { UsersClient } from '@api/clients/UsersClient';
 import type { RefreshResponse } from '@api/dto/auth';
-import type {  } from '@api/dto/user';
 import { assertMessage, attachJson } from '@utils/assertHelpers';
 
 // Scenarios: test-scenarios/api/users/get-users-refresh.yml

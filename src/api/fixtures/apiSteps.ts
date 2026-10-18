@@ -2,11 +2,12 @@
  * Building blocks the area step helpers (`<area>Steps.ts`) and specs share: how attached requests name their token, a
  * send that attaches its request and response, and the page summaries that keep other visitors' data out of reports.
  */
+import { test } from '@playwright/test';
 import type { Cleanup } from '../../fixtures/base';
 import type { ApiResponse, QueryBodyOptions } from '../clients/BaseClient';
 import type { Paginated } from '../dto/common';
 import { attachJson } from '../../utils/assertHelpers';
-import { parseJson } from '../../utils/apiChecks';
+import { expectLocation, expectStatus, parseJson } from '../../utils/apiChecks';
 
 /** How attached requests and assertion messages name the token a request was sent with, in the scenarios' wording. */
 export const AUTH = {
@@ -70,6 +71,38 @@ export async function sendQueryAndAttach<Body>(
 ): Promise<{ request: QueryRequestRecord<Body>; response: ApiResponse }> {
   const request: QueryRequestRecord<Body> = { method: 'QUERY', path, ...(options.auth !== undefined ? { auth: options.auth } : {}), headers, body };
   return sendAndAttach(name, request, () => send(body, { contentType: headers['Content-Type'], accept: headers.Accept ?? null }), options.describe ?? withHeaders);
+}
+
+/**
+ * The scenarios' wording of the Location step of the validation redirects, which names the TEST environment's API
+ * base URL. The check itself compares with the configured `apiBaseUrl`, so it holds in any environment.
+ */
+const REDIRECT_LOCATION_STEP = 'Verify the Location header is "https://api.practicesoftwaretesting.com".';
+
+/**
+ * The template of the "... without Accept: application/json returns a 302 redirect" scenarios: a failed validation
+ * that doesn't ask for JSON is redirected to the API's base URL. Sends with `send` (title `sendStep`; it must not follow
+ * redirects), then checks the 302 and that Location is `apiBaseUrl`.
+ */
+export async function checkValidationRedirect(
+  sendStep: string,
+  send: () => Promise<{ request: unknown; response: ApiResponse }>,
+  apiBaseUrl: string
+): Promise<void> {
+  let request: unknown;
+  let response: ApiResponse;
+
+  await test.step(sendStep, async () => {
+    ({ request, response } = await send());
+  });
+
+  await test.step('Verify the response status is 302.', async () => {
+    expectStatus(request, response, 302);
+  });
+
+  await test.step(REDIRECT_LOCATION_STEP, async () => {
+    expectLocation(request, response, apiBaseUrl);
+  });
 }
 
 /**

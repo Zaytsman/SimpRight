@@ -1,8 +1,8 @@
-import { test, expect, getCartOk, type TestFixtures } from '@fixtures';
+import { test, expect, getCartOk, type TestFixtures, sendAndAttach, removeIfCreated } from '@fixtures';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { Cart, CreateCartRequest, CreateCartResponse } from '@api/dto/cart';
 import { expectStatus, parseJson } from '@utils/apiChecks';
-import { assertMessage, attachJson } from '@utils/assertHelpers';
+import { assertMessage } from '@utils/assertHelpers';
 
 // Scenarios: test-scenarios/api/carts/post-carts.yml
 
@@ -17,14 +17,11 @@ async function sendCreateCart(
   body: CreateCartRequest
 ): Promise<{ request: CreateCartRequestInfo; response: ApiResponse }> {
   const request: CreateCartRequestInfo = { method: 'POST', path: '/carts', body };
-  const response = await cartsClient.create(body);
-  if (response.isSuccess) {
-    const id = (parseJson<Partial<CreateCartResponse>>(request, response)).id;
-    if (id) cleanup.add(() => cartsService.deleteIfExists(id));
-  }
-  await attachJson('Create Cart Request', request);
-  await attachJson('Create Cart Response', { status: response.status, body: response.body });
-  return { request, response };
+  return sendAndAttach('Create Cart', request, async () => {
+    const response = await cartsClient.create(body);
+    removeIfCreated(response, cleanup, (id) => cartsService.deleteIfExists(id));
+    return response;
+  });
 }
 
 test.describe('@carts-api - Carts API', () => {
