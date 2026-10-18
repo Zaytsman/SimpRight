@@ -44,7 +44,7 @@ test.describe('@products-api - Products API', () => {
         const getRequest = { method: 'GET', path: `/products/${productId}` };
         const getResponse = await productsClient.getById(productId);
         await attachJson('Get Product Response', { status: getResponse.status, body: getResponse.body });
-        expect(getResponse.status, assertMessage({ request: getRequest, expected: 'Status 404', actual: getResponse.status })).toBe(404);
+        expectStatus(getRequest, getResponse, 404);
       });
     });
   });

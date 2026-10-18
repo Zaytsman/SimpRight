@@ -39,6 +39,36 @@ async function checkInvalidCreate(
   });
 }
 
+/**
+ * The template of the "Create product with an unknown <category | brand | product image> id returns 422" scenarios
+ * (API-0039..0041): takes the first listed product's other two ids (title `takeStep`), runs `afterSetup` (the test's
+ * known-issue line, so a setup failure stays a failure), sends POST /products without a token with those ids and an id
+ * no record has as `unknown` (title `sendStep`; a product it creates anyway is removed), then checks the 422.
+ */
+async function checkUnknownRef(
+  { productsService, adminProductsService, productsClient, cleanup }: ProductChangeFixtures,
+  takeStep: string,
+  unknown: keyof ProductRefs,
+  sendStep: string,
+  afterSetup: () => void
+): Promise<void> {
+  let request: Request;
+  let response: ApiResponse;
+
+  const known = (['brandId', 'categoryId', 'productImageId'] as const).filter((key) => key !== unknown);
+  const refs = await takeProductRefs(productsService, takeStep, known);
+  afterSetup();
+
+  await test.step(sendStep, async () => {
+    const body = ProductFactory.createProduct({ ...(refs as ProductRefs), [unknown]: TestConstants.products.unknownId });
+    ({ request, response } = await sendCreateProduct(productsClient, body, adminProductsService, cleanup));
+  });
+
+  await test.step('Verify the response status is 422.', async () => {
+    expectStatus(request, response, 422);
+  });
+}
+
 test.describe('@products-api - Products API', () => {
   test('API-0033: Create product returns 201 with the new product', { tag: '@smoke' }, async ({
     productsService,
@@ -168,100 +198,34 @@ test.describe('@products-api - Products API', () => {
     );
   });
 
-  test('API-0039: Create product with an unknown category id returns 422', async ({
-    productsService,
-    adminProductsService,
-    productsClient,
-    cleanup,
-  }) => {
-    let request: Request;
-    let response: ApiResponse;
-
-    const refs = await takeProductRefs(productsService, "Send GET /products and take the first item's brand id and product image id.", [
-      'brandId',
-      'productImageId',
-    ]);
-    test.fail(true, "Known issue BUG-002: Returns 500 instead of 422 when category_id doesn't exist.");
-
-    await test.step(
+  test('API-0039: Create product with an unknown category id returns 422', async ({ productsService, adminProductsService, productsClient, cleanup }) => {
+    await checkUnknownRef(
+      { productsService, adminProductsService, productsClient, cleanup },
+      "Send GET /products and take the first item's brand id and product image id.",
+      'categoryId',
       'Send POST /products with a unique product name, a positive price, that brand id and product image id, is_location_offer false, is_rental false and a category_id that no category has.',
-      async () => {
-        const body = ProductFactory.createProduct({
-          brandId: refs.brandId!,
-          productImageId: refs.productImageId!,
-          categoryId: TestConstants.products.unknownId,
-        });
-        ({ request, response } = await sendCreateProduct(productsClient, body, adminProductsService, cleanup));
-      }
+      () => test.fail(true, "Known issue BUG-002: Returns 500 instead of 422 when category_id doesn't exist.")
     );
-
-    await test.step('Verify the response status is 422.', async () => {
-      expectStatus(request, response, 422);
-    });
   });
 
-  test('API-0040: Create product with an unknown brand id returns 422', async ({
-    productsService,
-    adminProductsService,
-    productsClient,
-    cleanup,
-  }) => {
-    let request: Request;
-    let response: ApiResponse;
-
-    const refs = await takeProductRefs(productsService, "Send GET /products and take the first item's category id and product image id.", [
-      'categoryId',
-      'productImageId',
-    ]);
-    test.fail(true, "Known issue BUG-002: Returns 500 instead of 422 when brand_id doesn't exist.");
-
-    await test.step(
-      'Send POST /products with a unique product name, a positive price, that category id and product image id, is_location_offer false, is_rental false and a brand_id that no brand has.',
-      async () => {
-        const body = ProductFactory.createProduct({
-          brandId: TestConstants.products.unknownId,
-          productImageId: refs.productImageId!,
-          categoryId: refs.categoryId!,
-        });
-        ({ request, response } = await sendCreateProduct(productsClient, body, adminProductsService, cleanup));
-      }
-    );
-
-    await test.step('Verify the response status is 422.', async () => {
-      expectStatus(request, response, 422);
-    });
-  });
-
-  test('API-0041: Create product with an unknown product image id returns 422', async ({
-    productsService,
-    adminProductsService,
-    productsClient,
-    cleanup,
-  }) => {
-    let request: Request;
-    let response: ApiResponse;
-
-    const refs = await takeProductRefs(productsService, "Send GET /products and take the first item's brand id and category id.", [
+  test('API-0040: Create product with an unknown brand id returns 422', async ({ productsService, adminProductsService, productsClient, cleanup }) => {
+    await checkUnknownRef(
+      { productsService, adminProductsService, productsClient, cleanup },
+      "Send GET /products and take the first item's category id and product image id.",
       'brandId',
-      'categoryId',
-    ]);
-    test.fail(true, "Known issue BUG-002: Returns 500 instead of 422 when product_image_id doesn't exist.");
-
-    await test.step(
-      'Send POST /products with a unique product name, a positive price, that brand id and category id, is_location_offer false, is_rental false and a product_image_id that no product image has.',
-      async () => {
-        const body = ProductFactory.createProduct({
-          brandId: refs.brandId!,
-          productImageId: TestConstants.products.unknownId,
-          categoryId: refs.categoryId!,
-        });
-        ({ request, response } = await sendCreateProduct(productsClient, body, adminProductsService, cleanup));
-      }
+      'Send POST /products with a unique product name, a positive price, that category id and product image id, is_location_offer false, is_rental false and a brand_id that no brand has.',
+      () => test.fail(true, "Known issue BUG-002: Returns 500 instead of 422 when brand_id doesn't exist.")
     );
+  });
 
-    await test.step('Verify the response status is 422.', async () => {
-      expectStatus(request, response, 422);
-    });
+  test('API-0041: Create product with an unknown product image id returns 422', async ({ productsService, adminProductsService, productsClient, cleanup }) => {
+    await checkUnknownRef(
+      { productsService, adminProductsService, productsClient, cleanup },
+      "Send GET /products and take the first item's brand id and category id.",
+      'productImageId',
+      'Send POST /products with a unique product name, a positive price, that brand id and category id, is_location_offer false, is_rental false and a product_image_id that no product image has.',
+      () => test.fail(true, "Known issue BUG-002: Returns 500 instead of 422 when product_image_id doesn't exist.")
+    );
   });
 
   test('API-0042: Create product without a token returns 401', async ({ productsService, adminProductsService, productsClient, cleanup }) => {

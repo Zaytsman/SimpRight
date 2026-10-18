@@ -1,8 +1,7 @@
-import { test, expect, loginForNewToken, logoutToken, sendAndAttach } from '@fixtures';
+import { test, loginForNewToken, logoutToken, sendAndAttach } from '@fixtures';
 import { expectMessage, expectStatus } from '@utils/apiChecks';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { UsersClient } from '@api/clients/UsersClient';
-import { assertMessage, attachJson } from '@utils/assertHelpers';
 
 // Scenarios: test-scenarios/api/users/get-users-logout.yml
 // Every test that logs out logs the default user in again first (loginForNewToken), so the shared
@@ -37,11 +36,8 @@ test.describe('@users-api - Users API', () => {
     });
 
     await test.step('Verify GET /users/me with that token returns 401.', async () => {
-      const meRequest = { method: 'GET', path: '/users/me', auth: 'the logged-out access_token' };
-      const meResponse = await usersClientForToken(token).me();
-      await attachJson('Current User Request', meRequest);
-      await attachJson('Current User Response', { status: meResponse.status, body: meResponse.body });
-      expect(meResponse.status, assertMessage({ request: meRequest, expected: 'Status 401', actual: { status: meResponse.status, body: meResponse.body } })).toBe(401);
+      const { request: meRequest, response: meResponse } = await sendAndAttach('Current User', { method: 'GET', path: '/users/me', auth: 'the logged-out access_token' }, () => usersClientForToken(token).me());
+      expectStatus(meRequest, meResponse, 401);
     });
   });
 

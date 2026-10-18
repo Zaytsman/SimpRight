@@ -17,10 +17,7 @@ async function sendDeleteUser(client: UsersClient, userId: string, auth: string)
 
 /** The checks of a "Verify GET /users/{userId} with that id and the admin's token returns <status>." step. */
 async function expectGetUserStatus(adminUsersClient: UsersClient, userId: string, status: number): Promise<void> {
-  const request = { method: 'GET', path: `/users/${userId}`, auth: AUTH.admin };
-  const response = await adminUsersClient.getById(userId);
-  await attachJson('Get User Request', request);
-  await attachJson('Get User Response', { status: response.status, body: response.body });
+  const { request, response } = await sendAndAttach('Get User', { method: 'GET', path: `/users/${userId}`, auth: AUTH.admin }, () => adminUsersClient.getById(userId));
   expectStatus(request, response, status);
 }
 

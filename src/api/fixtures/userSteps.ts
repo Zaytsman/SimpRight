@@ -3,14 +3,15 @@ import type { Cleanup } from '../../fixtures/base';
 import type { TestUser } from '../../config/env';
 import type { AuthClient } from '../clients/AuthClient';
 import type { ApiResponse } from '../clients/BaseClient';
+import type { UsersClient } from '../clients/UsersClient';
 import type { LoginResponse } from '../dto/auth';
 import type { Paginated } from '../dto/common';
 import type { RegisterUserRequest, User } from '../dto/user';
 import type { AuthService } from '../services/AuthService';
 import type { UsersService } from '../services/UsersService';
 import { UserFactory } from '../../data/factories/UserFactory';
-import { PAGE_KEYS, expectSomeItems, expectStatus, parseJson } from '../../utils/apiChecks';
-import { describePage, pageSummary, type DescribeResponse } from './apiSteps';
+import { PAGE_KEYS, expectSomeItems, expectStatus, expectStatusAndBody, parseJson } from '../../utils/apiChecks';
+import { describePage, pageSummary, sendAndAttach, type DescribeResponse } from './apiSteps';
 import { assertMessage, attachJson } from '../../utils/assertHelpers';
 
 /**
@@ -214,6 +215,15 @@ export function expectStatusHidingBody(request: unknown, response: ApiResponse, 
 export async function attachUserPageResponse(name: string, response: ApiResponse): Promise<Paginated<User> | undefined> {
   await attachJson(name, describeUserPage(response));
   return response.isSuccess ? parseJson<Paginated<User>>(undefined, response) : undefined;
+}
+
+/**
+ * A read-back for a Verify step: GET /users/me with `client` (`auth` names its token in the attached request), which
+ * must answer 200. Returns the request record, for the step's messages, and the profile.
+ */
+export async function readCurrentUser(client: UsersClient, auth: string): Promise<{ request: unknown; user: User }> {
+  const { request, response } = await sendAndAttach('Current User', { method: 'GET', path: '/users/me', auth }, () => client.me());
+  return { request, user: expectStatusAndBody<User>(request, response, 200) };
 }
 
 /** How a users page response is attached: its status, headers and `userPageSummary` (any other response as it came). */

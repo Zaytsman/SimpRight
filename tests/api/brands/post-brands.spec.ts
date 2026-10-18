@@ -75,7 +75,7 @@ test.describe('@brands-api - Brands API', () => {
         const getResponse = await brandsClient.getById(created.id);
         await attachJson('Get Brand Response', { status: getResponse.status, body: getResponse.body });
         expectStatus(getRequest, getResponse, 200);
-        const fetched = JSON.parse(getResponse.body) as Brand;
+        const fetched = parseJson<Brand>(getRequest, getResponse);
         expect({ name: fetched.name, slug: fetched.slug }, assertMessage({ request: getRequest, expected: `name and slug as sent: ${JSON.stringify(body)}`, actual: fetched })).toEqual(
           body
         );
@@ -110,7 +110,7 @@ test.describe('@brands-api - Brands API', () => {
         const getResponse = await brandsClient.getById(createdId);
         await attachJson('Get Brand Response', { status: getResponse.status, body: getResponse.body });
         expectStatus(getRequest, getResponse, 200);
-        const fetched = JSON.parse(getResponse.body) as Record<string, unknown>;
+        const fetched = parseJson<Record<string, unknown>>(getRequest, getResponse);
         expect('description' in fetched, assertMessage({ request: getRequest, expected: 'No description key', actual: fetched })).toBe(false);
       });
     });

@@ -48,6 +48,40 @@ function anotherStrongPassword(...others: string[]): string {
   return password;
 }
 
+/**
+ * The template of the "Change password with a missing or mismatched new password returns 422" scenarios
+ * (API-0291..0293): registers and logs in a throwaway customer, sends the body `bodyFrom(customer)` builds with its token
+ * (title `sendStep`), then checks the 422 and the new_password error.
+ */
+async function checkRejectedNewPassword(
+  {
+    usersService,
+    adminUsersService,
+    authService,
+    usersClientForToken,
+    cleanup,
+  }: { usersService: UsersService; adminUsersService: UsersService; authService: AuthService; usersClientForToken: (token: string) => UsersClient; cleanup: Cleanup },
+  sendStep: string,
+  bodyFrom: (customer: ThrowawayCustomer) => Record<string, unknown>
+): Promise<void> {
+  let request: ChangePasswordRequestInfo;
+  let response: ApiResponse;
+
+  const { customer, token } = await registerAndLogIn(usersService, adminUsersService, authService, cleanup);
+
+  await test.step(sendStep, async () => {
+    ({ request, response } = await sendChangePassword(usersClientForToken(token), bodyFrom(customer), "the customer's access_token"));
+  });
+
+  await test.step('Verify the response status is 422.', async () => {
+    expectStatus(request, response, 422);
+  });
+
+  await test.step("Verify the body's errors.new_password is a non-empty list.", async () => {
+    expectErrorKeys(request, response, ['new_password']);
+  });
+}
+
 test.describe('@users-api - Users API', () => {
   test('API-0290: Change password with a valid new password returns 200 and the new password logs in', async ({
     usersService,
@@ -86,86 +120,30 @@ test.describe('@users-api - Users API', () => {
   });
 
   test('API-0291: Change password without new_password returns 422', async ({ usersService, adminUsersService, authService, usersClientForToken, cleanup }) => {
-    let request: ChangePasswordRequestInfo;
-    let response: ApiResponse;
-
-    const { customer, token } = await registerAndLogIn(usersService, adminUsersService, authService, cleanup);
-
-    await test.step(
+    await checkRejectedNewPassword(
+      { usersService, adminUsersService, authService, usersClientForToken, cleanup },
       'Send POST /users/change-password with that token, current_password set to that password and new_password_confirmation set to a different random strong password, without new_password.',
-      async () => {
-        const body = { current_password: customer.password, new_password_confirmation: anotherStrongPassword(customer.password) };
-        ({ request, response } = await sendChangePassword(usersClientForToken(token), body, "the customer's access_token"));
-      }
+      (customer) => ({ current_password: customer.password, new_password_confirmation: anotherStrongPassword(customer.password) })
     );
-
-    await test.step('Verify the response status is 422.', async () => {
-      expectStatus(request, response, 422);
-    });
-
-    await test.step("Verify the body's errors.new_password is a non-empty list.", async () => {
-      expectErrorKeys(request, response, ['new_password']);
-    });
   });
 
-  test('API-0292: Change password without new_password_confirmation returns 422', async ({
-    usersService,
-    adminUsersService,
-    authService,
-    usersClientForToken,
-    cleanup,
-  }) => {
-    let request: ChangePasswordRequestInfo;
-    let response: ApiResponse;
-
-    const { customer, token } = await registerAndLogIn(usersService, adminUsersService, authService, cleanup);
-
-    await test.step(
+  test('API-0292: Change password without new_password_confirmation returns 422', async ({ usersService, adminUsersService, authService, usersClientForToken, cleanup }) => {
+    await checkRejectedNewPassword(
+      { usersService, adminUsersService, authService, usersClientForToken, cleanup },
       'Send POST /users/change-password with that token, current_password set to that password and new_password set to a different random strong password, without new_password_confirmation.',
-      async () => {
-        const body = { current_password: customer.password, new_password: anotherStrongPassword(customer.password) };
-        ({ request, response } = await sendChangePassword(usersClientForToken(token), body, "the customer's access_token"));
-      }
+      (customer) => ({ current_password: customer.password, new_password: anotherStrongPassword(customer.password) })
     );
-
-    await test.step('Verify the response status is 422.', async () => {
-      expectStatus(request, response, 422);
-    });
-
-    await test.step("Verify the body's errors.new_password is a non-empty list.", async () => {
-      expectErrorKeys(request, response, ['new_password']);
-    });
   });
 
-  test("API-0293: Change password with a confirmation that doesn't match returns 422", async ({
-    usersService,
-    adminUsersService,
-    authService,
-    usersClientForToken,
-    cleanup,
-  }) => {
-    let request: ChangePasswordRequestInfo;
-    let response: ApiResponse;
-
-    const { customer, token } = await registerAndLogIn(usersService, adminUsersService, authService, cleanup);
-
-    await test.step(
+  test("API-0293: Change password with a confirmation that doesn't match returns 422", async ({ usersService, adminUsersService, authService, usersClientForToken, cleanup }) => {
+    await checkRejectedNewPassword(
+      { usersService, adminUsersService, authService, usersClientForToken, cleanup },
       'Send POST /users/change-password with that token, current_password set to that password, new_password set to a different random strong password and new_password_confirmation set to a third random strong password.',
-      async () => {
+      (customer) => {
         const newPassword = anotherStrongPassword(customer.password);
-        const confirmation = anotherStrongPassword(customer.password, newPassword);
-        const body = { current_password: customer.password, new_password: newPassword, new_password_confirmation: confirmation };
-        ({ request, response } = await sendChangePassword(usersClientForToken(token), body, "the customer's access_token"));
+        return { current_password: customer.password, new_password: newPassword, new_password_confirmation: anotherStrongPassword(customer.password, newPassword) };
       }
     );
-
-    await test.step('Verify the response status is 422.', async () => {
-      expectStatus(request, response, 422);
-    });
-
-    await test.step("Verify the body's errors.new_password is a non-empty list.", async () => {
-      expectErrorKeys(request, response, ['new_password']);
-    });
   });
 
   test('API-0294: Change password without current_password returns 400', async ({ usersService, adminUsersService, authService, usersClientForToken, cleanup }) => {

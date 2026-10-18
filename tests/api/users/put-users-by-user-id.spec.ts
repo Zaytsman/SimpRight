@@ -1,13 +1,13 @@
-import { test, expect, registerThrowawayCustomer, loginThrowawayCustomer, type ThrowawayCustomer, sendAndAttach } from '@fixtures';
+import { test, expect, registerThrowawayCustomer, loginThrowawayCustomer, type ThrowawayCustomer, sendAndAttach, readCurrentUser } from '@fixtures';
 import type { Cleanup } from '@fixtures/base';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { UsersClient } from '@api/clients/UsersClient';
-import type { RegisterUserRequest, UpdateUserRequest, User } from '@api/dto/user';
+import type { RegisterUserRequest, UpdateUserRequest } from '@api/dto/user';
 import type { AuthService } from '@api/services/AuthService';
 import type { UsersService } from '@api/services/UsersService';
 import { UserFactory } from '@data/factories/UserFactory';
-import { assertMessage, attachJson } from '@utils/assertHelpers';
-import { expectFieldMessages, expectStatus, expectSuccess, parseJson } from '@utils/apiChecks';
+import { assertMessage } from '@utils/assertHelpers';
+import { expectFieldMessages, expectStatus, expectSuccess } from '@utils/apiChecks';
 
 // Scenarios: test-scenarios/api/users/put-users-by-user-id.yml
 
@@ -60,12 +60,7 @@ async function sendUpdate(client: UsersClient, userId: string, body: UpdateUserR
 
 /** The read-back of a Verify step: GET /users/me with the token must return 200 and `expected`'s values. */
 async function expectProfile(client: UsersClient, expected: ProfileValues, label: string): Promise<void> {
-  const request = { method: 'GET', path: '/users/me', auth: 'that access_token' };
-  const response = await client.me();
-  await attachJson('Current User Request', request);
-  await attachJson('Current User Response', { status: response.status, body: response.body });
-  expect(response.status, assertMessage({ request, expected: 'Status 200', actual: { status: response.status, body: response.body } })).toBe(200);
-  const profile = parseJson<User>(request, response);
+  const { request: request, user: profile } = await readCurrentUser(client, 'that access_token');
   const actual = { first_name: profile.first_name, last_name: profile.last_name, phone: profile.phone, address: profile.address };
   for (const field of ['first_name', 'last_name', 'phone'] as const) {
     expect(profile[field], assertMessage({ request, expected: `${field} is the ${label} "${expected[field]}"`, actual })).toBe(expected[field]);

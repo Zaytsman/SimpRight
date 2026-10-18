@@ -1,9 +1,10 @@
-import { test, expect, registerThrowawayCustomer, attachUserPageResponse, expectAllCustomers, expectCurrentPages, expectNoSharedIds, expectOnlyUser, expectStatusHidingBody, expectUserPageKeys, userPageSummary, AUTH } from '@fixtures';
+import { test, expect, registerThrowawayCustomer, attachUserPageResponse, expectAllCustomers, expectCurrentPages, expectNoSharedIds, expectOnlyUser, expectStatusHidingBody, expectUserPageKeys, userPageSummary, AUTH, type ThrowawayCustomer } from '@fixtures';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import { userSearchQuery, type UsersClient } from '@api/clients/UsersClient';
 import type { UsersService } from '@api/services/UsersService';
+import type { Cleanup } from '@fixtures/base';
 import type { Paginated } from '@api/dto/common';
-import type { User } from '@api/dto/user';
+import type { RegisterUserRequest, User } from '@api/dto/user';
 import { UserFactory } from '@data/factories/UserFactory';
 import { uniqueName } from '@data/factories/testDataUtils';
 import { expectMessage, expectStatus, parseJson } from '@utils/apiChecks';
@@ -30,14 +31,43 @@ async function sendSearch(
   return { request, response, body };
 }
 
-const ADMIN = AUTH.admin;
 
 /** Gets a page of GET /users/search (no q) as admin through the service (a happy path) and attaches the request and the page's summary. */
 async function searchPage(adminUsersService: UsersService, page: number): Promise<Paginated<User>> {
   const body = await adminUsersService.search(undefined, page);
-  await attachJson('Search Users Request', { method: 'GET', path: '/users/search', query: userSearchQuery(undefined, page), auth: ADMIN });
+  await attachJson('Search Users Request', { method: 'GET', path: '/users/search', query: userSearchQuery(undefined, page), auth: AUTH.admin });
   await attachJson('Search Users Response', userPageSummary(body));
   return body;
+}
+
+/**
+ * The template of the "Search users by <email | last name | city> returns 200 with the matching customer" scenarios
+ * (API-0407..0409): registers a throwaway customer (`register`: its step title and body; the defaults for the plain
+ * register step), searches as admin for `q(customer)` (title `searchStep`), then checks the 200 and that the only item
+ * is the new customer.
+ */
+async function checkSearchFindsCustomer(
+  { usersService, adminUsersService, usersClientWithToken, cleanup }: { usersService: UsersService; adminUsersService: UsersService; usersClientWithToken: UsersClient; cleanup: Cleanup },
+  register: { title?: string; body?: RegisterUserRequest },
+  searchStep: string,
+  q: (customer: ThrowawayCustomer) => string
+): Promise<void> {
+  let request: SearchUsersRequest;
+  let response: ApiResponse;
+
+  const customer = await registerThrowawayCustomer(usersService, adminUsersService, cleanup, register);
+
+  await test.step(searchStep, async () => {
+    ({ request, response } = await sendSearch(usersClientWithToken, AUTH.admin, { q: q(customer) }));
+  });
+
+  await test.step('Verify the response status is 200.', async () => {
+    expectStatus(request, response, 200);
+  });
+
+  await test.step("Verify the body's total is 1 and data has exactly one item, whose id is the new user's id.", async () => {
+    expectOnlyUser(request, parseJson<Paginated<User>>(request, response), customer.id);
+  });
 }
 
 test.describe('@users-api - Users API', () => {
@@ -57,7 +87,7 @@ test.describe('@users-api - Users API', () => {
       });
 
       await test.step("Send GET /users/search with q set to that first name and the admin's token.", async () => {
-        ({ request, response } = await sendSearch(usersClientWithToken, ADMIN, { q: registered.first_name }));
+        ({ request, response } = await sendSearch(usersClientWithToken, AUTH.admin, { q: registered.first_name }));
       });
 
       await test.step('Verify the response status is 200.', async () => {
@@ -82,70 +112,40 @@ test.describe('@users-api - Users API', () => {
     });
 
     test('API-0407: Search users by email returns 200 with the matching customer', async ({ usersService, adminUsersService, usersClientWithToken, cleanup }) => {
-      let request: SearchUsersRequest;
-      let response: ApiResponse;
-
-      const customer = await registerThrowawayCustomer(usersService, adminUsersService, cleanup);
-
-      await test.step("Send GET /users/search with q set to the registered email and the admin's token.", async () => {
-        ({ request, response } = await sendSearch(usersClientWithToken, ADMIN, { q: customer.email }));
-      });
-
-      await test.step('Verify the response status is 200.', async () => {
-        expectStatus(request, response, 200);
-      });
-
-      await test.step("Verify the body's total is 1 and data has exactly one item, whose id is the new user's id.", async () => {
-        expectOnlyUser(request, parseJson<Paginated<User>>(request, response), customer.id);
-      });
+      await checkSearchFindsCustomer(
+        { usersService, adminUsersService, usersClientWithToken, cleanup },
+        {},
+        "Send GET /users/search with q set to the registered email and the admin's token.",
+        (customer) => customer.email
+      );
     });
 
     test('API-0408: Search users by last name returns 200 with the matching customer', async ({ usersService, adminUsersService, usersClientWithToken, cleanup }) => {
-      const registered = UserFactory.registerCustomer({ last_name: UserFactory.uniqueLastName() });
-      let request: SearchUsersRequest;
-      let response: ApiResponse;
-
-      const customer = await registerThrowawayCustomer(usersService, adminUsersService, cleanup, {
-        title:
-          "Send POST /users/register with a unique email, a first name, a unique last name of at most 20 characters and a random strong password, and take the new user's id.",
-        body: registered,
-      });
-
-      await test.step("Send GET /users/search with q set to that last name and the admin's token.", async () => {
-        ({ request, response } = await sendSearch(usersClientWithToken, ADMIN, { q: registered.last_name }));
-      });
-
-      await test.step('Verify the response status is 200.', async () => {
-        expectStatus(request, response, 200);
-      });
-
-      await test.step("Verify the body's total is 1 and data has exactly one item, whose id is the new user's id.", async () => {
-        expectOnlyUser(request, parseJson<Paginated<User>>(request, response), customer.id);
-      });
+      const lastName = UserFactory.uniqueLastName();
+      await checkSearchFindsCustomer(
+        { usersService, adminUsersService, usersClientWithToken, cleanup },
+        {
+          title:
+            "Send POST /users/register with a unique email, a first name, a unique last name of at most 20 characters and a random strong password, and take the new user's id.",
+          body: UserFactory.registerCustomer({ last_name: lastName }),
+        },
+        "Send GET /users/search with q set to that last name and the admin's token.",
+        () => lastName
+      );
     });
 
     test('API-0409: Search users by city returns 200 with the matching customer', async ({ usersService, adminUsersService, usersClientWithToken, cleanup }) => {
       const city = UserFactory.uniqueCity();
-      let request: SearchUsersRequest;
-      let response: ApiResponse;
-
-      const customer = await registerThrowawayCustomer(usersService, adminUsersService, cleanup, {
-        title:
-          "Send POST /users/register with a unique email, a first name, a last name, a random strong password and an address with only a unique city of at most 40 characters, and take the new user's id.",
-        body: UserFactory.registerCustomer({ address: { city } }),
-      });
-
-      await test.step("Send GET /users/search with q set to that city and the admin's token.", async () => {
-        ({ request, response } = await sendSearch(usersClientWithToken, ADMIN, { q: city }));
-      });
-
-      await test.step('Verify the response status is 200.', async () => {
-        expectStatus(request, response, 200);
-      });
-
-      await test.step("Verify the body's total is 1 and data has exactly one item, whose id is the new user's id.", async () => {
-        expectOnlyUser(request, parseJson<Paginated<User>>(request, response), customer.id);
-      });
+      await checkSearchFindsCustomer(
+        { usersService, adminUsersService, usersClientWithToken, cleanup },
+        {
+          title:
+            "Send POST /users/register with a unique email, a first name, a last name, a random strong password and an address with only a unique city of at most 40 characters, and take the new user's id.",
+          body: UserFactory.registerCustomer({ address: { city } }),
+        },
+        "Send GET /users/search with q set to that city and the admin's token.",
+        () => city
+      );
     });
 
     test('API-0410: Search users with a term nobody matches returns 200 with an empty list', async ({ usersClientWithToken }) => {
@@ -155,7 +155,7 @@ test.describe('@users-api - Users API', () => {
       let page: Paginated<User>;
 
       await test.step("Send GET /users/search with q set to a unique string no customer has and the admin's token.", async () => {
-        ({ request, response } = await sendSearch(usersClientWithToken, ADMIN, { q: term }));
+        ({ request, response } = await sendSearch(usersClientWithToken, AUTH.admin, { q: term }));
       });
 
       await test.step('Verify the response status is 200.', async () => {
@@ -180,7 +180,7 @@ test.describe('@users-api - Users API', () => {
       let page: Paginated<User>;
 
       await test.step("Send GET /users/search without q and with the admin's token.", async () => {
-        ({ request, response } = await sendSearch(usersClientWithToken, ADMIN));
+        ({ request, response } = await sendSearch(usersClientWithToken, AUTH.admin));
       });
 
       await test.step('Verify the response status is 200.', async () => {
@@ -210,7 +210,7 @@ test.describe('@users-api - Users API', () => {
         secondPage = await searchPage(adminUsersService, 2);
       });
 
-      const request = { method: 'GET', path: '/users/search', query: ['page=1', 'page=2'], auth: ADMIN };
+      const request = { method: 'GET', path: '/users/search', query: ['page=1', 'page=2'], auth: AUTH.admin };
 
       await test.step("Verify the first response's current_page is 1 and the second response's current_page is 2.", async () => {
         expectCurrentPages(request, firstPage, secondPage);

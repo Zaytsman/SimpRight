@@ -28,6 +28,28 @@ function expectEmptyPage(request: SearchRequest, body: Paginated<Product>): void
   expect(body.from, assertMessage({ request, expected: 'from is null', actual: body.from })).toBeNull();
 }
 
+/**
+ * The template of the "Search ... returns an empty page" scenarios (API-0027..0029): GET /products/search with `q`
+ * (title `sendStep`; undefined sends no q at all), then the 200 and an empty page.
+ */
+async function checkEmptySearch(productsClient: ProductsClient, sendStep: string, q: string | undefined): Promise<void> {
+  let request: SearchRequest;
+  let response: ApiResponse;
+  let body: Paginated<Product>;
+
+  await test.step(sendStep, async () => {
+    ({ request, response } = await sendSearch(productsClient, q));
+  });
+
+  await test.step('Verify the response status is 200.', async () => {
+    body = expectStatusAndBody<Paginated<Product>>(request, response, 200);
+  });
+
+  await test.step('Verify data is an empty array and from is null.', async () => {
+    expectEmptyPage(request, body);
+  });
+}
+
 test.describe('@products-api - Products API', () => {
   test('API-0001: Search by name returns only matching products', { tag: '@smoke' }, async ({ productsClient }) => {
     const term = TestConstants.products.searchTerm;
@@ -87,57 +109,14 @@ test.describe('@products-api - Products API', () => {
   });
 
   test('API-0027: Search for a term no product has returns an empty page', async ({ productsClient }) => {
-    const term = uniqueName('NoSuchProduct');
-    let request: SearchRequest;
-    let response: ApiResponse;
-    let body: Paginated<Product>;
-
-    await test.step('Send GET /products/search with q set to a unique name that no product has.', async () => {
-      ({ request, response } = await sendSearch(productsClient, term));
-    });
-
-    await test.step('Verify the response status is 200.', async () => {
-      body = expectStatusAndBody<Paginated<Product>>(request, response, 200);
-    });
-
-    await test.step('Verify data is an empty array and from is null.', async () => {
-      expectEmptyPage(request, body);
-    });
+    await checkEmptySearch(productsClient, 'Send GET /products/search with q set to a unique name that no product has.', uniqueName('NoSuchProduct'));
   });
 
   test('API-0028: Search without a term returns an empty page', async ({ productsClient }) => {
-    let request: SearchRequest;
-    let response: ApiResponse;
-    let body: Paginated<Product>;
-
-    await test.step('Send GET /products/search without query parameters.', async () => {
-      ({ request, response } = await sendSearch(productsClient));
-    });
-
-    await test.step('Verify the response status is 200.', async () => {
-      body = expectStatusAndBody<Paginated<Product>>(request, response, 200);
-    });
-
-    await test.step('Verify data is an empty array and from is null.', async () => {
-      expectEmptyPage(request, body);
-    });
+    await checkEmptySearch(productsClient, 'Send GET /products/search without query parameters.', undefined);
   });
 
   test('API-0029: Search with an empty term returns an empty page', async ({ productsClient }) => {
-    let request: SearchRequest;
-    let response: ApiResponse;
-    let body: Paginated<Product>;
-
-    await test.step('Send GET /products/search with an empty q.', async () => {
-      ({ request, response } = await sendSearch(productsClient, ''));
-    });
-
-    await test.step('Verify the response status is 200.', async () => {
-      body = expectStatusAndBody<Paginated<Product>>(request, response, 200);
-    });
-
-    await test.step('Verify data is an empty array and from is null.', async () => {
-      expectEmptyPage(request, body);
-    });
+    await checkEmptySearch(productsClient, 'Send GET /products/search with an empty q.', '');
   });
 });

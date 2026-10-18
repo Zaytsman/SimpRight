@@ -1,9 +1,9 @@
-import { test, expect, loginForNewToken, logoutToken, AUTH, sendAndAttach } from '@fixtures';
+import { test, expect, loginForNewToken, logoutToken, AUTH, sendAndAttach, readCurrentUser } from '@fixtures';
 import { expectStatus, parseJson } from '@utils/apiChecks';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { UsersClient } from '@api/clients/UsersClient';
 import type { RefreshResponse } from '@api/dto/auth';
-import type { User } from '@api/dto/user';
+import type {  } from '@api/dto/user';
 import { assertMessage, attachJson } from '@utils/assertHelpers';
 
 // Scenarios: test-scenarios/api/users/get-users-refresh.yml
@@ -58,12 +58,7 @@ test.describe('@users-api - Users API', () => {
     });
 
     await test.step("Verify GET /users/me with the new access_token returns 200 with the default user's email.", async () => {
-      const meRequest = { method: 'GET', path: '/users/me', auth: 'the refreshed access_token' };
-      const meResponse = await usersClientForToken(body.access_token).me();
-      await attachJson('Current User Request', meRequest);
-      await attachJson('Current User Response', { status: meResponse.status, body: meResponse.body });
-      expect(meResponse.status, assertMessage({ request: meRequest, expected: 'Status 200', actual: { status: meResponse.status, body: meResponse.body } })).toBe(200);
-      const profile = JSON.parse(meResponse.body) as User;
+      const { request: meRequest, user: profile } = await readCurrentUser(usersClientForToken(body.access_token), 'the refreshed access_token');
       // The email is a secret: compare it as a condition so a failure diff doesn't print it.
       expect(profile.email === user.username, assertMessage({ request: meRequest, expected: "Email equals the default user's email", actual: profile.email })).toBe(
         true

@@ -69,7 +69,7 @@ test.describe('@categories-api - Categories API', () => {
           const getResponse = await categoriesClient.getTreeById(created.id);
           await attachJson('Get Category Response', { status: getResponse.status, body: getResponse.body });
           expectStatus(getRequest, getResponse, 200);
-          const fetched = JSON.parse(getResponse.body) as Record<string, unknown>;
+          const fetched = parseJson<Record<string, unknown>>(getRequest, getResponse);
           expect(
             { name: fetched.name, slug: fetched.slug, parent_id: fetched.parent_id, sub_categories: fetched.sub_categories },
             assertMessage({ request: getRequest, expected: `name and slug as sent (${JSON.stringify(body)}), parent_id null, sub_categories []`, actual: fetched })
@@ -162,7 +162,7 @@ test.describe('@categories-api - Categories API', () => {
         const getResponse = await categoriesClient.getTreeById(createdId);
         await attachJson('Get Category Response', { status: getResponse.status, body: getResponse.body });
         expectStatus(getRequest, getResponse, 200);
-        const fetched = JSON.parse(getResponse.body) as Record<string, unknown>;
+        const fetched = parseJson<Record<string, unknown>>(getRequest, getResponse);
         expect('description' in fetched, assertMessage({ request: getRequest, expected: 'No description key', actual: fetched })).toBe(false);
       });
     });

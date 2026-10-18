@@ -1,4 +1,4 @@
-import { test, expect, registerThrowawayCustomer } from '@fixtures';
+import { test, expect, registerThrowawayCustomer, fieldMessagesStep, removeIfCreated, sendAndAttach, readCurrentUser } from '@fixtures';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { AuthClient } from '@api/clients/AuthClient';
 import type { UsersClient } from '@api/clients/UsersClient';
@@ -9,7 +9,7 @@ import type { UsersService } from '@api/services/UsersService';
 import type { Cleanup } from '@fixtures/base';
 import { UserFactory } from '@data/factories/UserFactory';
 import { expectFieldMessages, expectStatus, parseJson } from '@utils/apiChecks';
-import { assertMessage, attachJson } from '@utils/assertHelpers';
+import { assertMessage } from '@utils/assertHelpers';
 
 // Scenarios: test-scenarios/api/users/post-users-register.yml
 
@@ -29,14 +29,11 @@ async function sendRegister(
   body: RegisterUserRequest | Record<string, unknown>
 ): Promise<{ request: RegisterRequestInfo; response: ApiResponse }> {
   const request: RegisterRequestInfo = { method: 'POST', path: '/users/register', body };
-  const response = await client.register(body);
-  if (response.status === 201) {
-    const createdId = (parseJson<RegisteredUser>(request, response)).id;
-    if (createdId) cleanup.add(() => adminUsersService.delete(createdId));
-  }
-  await attachJson('Register Request', request);
-  await attachJson('Register Response', { status: response.status, body: response.body });
-  return { request, response };
+  return sendAndAttach('Register', request, async () => {
+    const response = await client.register(body);
+    removeIfCreated(response, cleanup, (id) => adminUsersService.delete(id));
+    return response;
+  });
 }
 
 /** The checks of a "Verify the body's <field> messages include <message>." step. */
@@ -59,44 +56,36 @@ async function loginAndReadProfile(
   email: string,
   password: string
 ): Promise<User> {
-  const loginRequest = { method: 'POST', path: '/users/login', body: { email, password } };
-  const loginResponse = await authClient.login({ email, password });
-  await attachJson('Login Request', loginRequest);
-  await attachJson('Login Response', { status: loginResponse.status, body: loginResponse.body });
-  expect(loginResponse.status, assertMessage({ request: loginRequest, expected: 'Status 200', actual: { status: loginResponse.status, body: loginResponse.body } })).toBe(200);
+  const { request: loginRequest, response: loginResponse } = await sendAndAttach('Login', { method: 'POST', path: '/users/login', body: { email, password } }, () => authClient.login({ email, password }));
+  expectStatus(loginRequest, loginResponse, 200);
 
-  const meRequest = { method: 'GET', path: '/users/me', auth: 'the access_token of that login' };
-  const meResponse = await usersClientForToken((JSON.parse(loginResponse.body) as LoginResponse).access_token).me();
-  await attachJson('Current User Request', meRequest);
-  await attachJson('Current User Response', { status: meResponse.status, body: meResponse.body });
-  expect(meResponse.status, assertMessage({ request: meRequest, expected: 'Status 200', actual: { status: meResponse.status, body: meResponse.body } })).toBe(200);
-  return JSON.parse(meResponse.body) as User;
+  return (await readCurrentUser(usersClientForToken(parseJson<LoginResponse>(loginRequest, loginResponse).access_token), 'the access_token of that login')).user;
 }
 
 /**
- * The steps of the password-rule scenarios (API-0331..0335): register with `password`, under the scenario's own
- * step title, then check for a 422 with a password message. A customer is removed if the API wrongly creates one.
+ * The template of the "Register with <an invalid field> returns 422" scenarios (API-0088..0095, API-0330..0335):
+ * sends `body` (title `sendStep`), then checks the 422 and the field's messages. A customer is removed if the API
+ * wrongly creates one.
  */
-async function registerWithRejectedPassword(
-  client: UsersClient,
-  adminUsersService: UsersService,
-  cleanup: Cleanup,
-  title: string,
-  password: string
+async function checkRejectedRegistration(
+  { usersClient, adminUsersService, cleanup }: { usersClient: UsersClient; adminUsersService: UsersService; cleanup: Cleanup },
+  sendStep: string,
+  body: RegisterUserRequest | Record<string, unknown>,
+  field: string
 ): Promise<void> {
   let request: RegisterRequestInfo;
   let response: ApiResponse;
 
-  await test.step(title, async () => {
-    ({ request, response } = await sendRegister(client, adminUsersService, cleanup, UserFactory.registerCustomer({ password })));
+  await test.step(sendStep, async () => {
+    ({ request, response } = await sendRegister(usersClient, adminUsersService, cleanup, body));
   });
 
   await test.step('Verify the response status is 422.', async () => {
     expectStatus(request, response, 422);
   });
 
-  await test.step('Verify the body has a password key with at least one message.', async () => {
-    expectFieldMessages(request, response, 'password');
+  await test.step(fieldMessagesStep(field), async () => {
+    expectFieldMessages(request, response, field);
   });
 }
 
@@ -225,152 +214,77 @@ test.describe('@users-api - Users API', () => {
   });
 
   test('API-0088: Register with a first name longer than 40 characters returns 422', async ({ usersClient, adminUsersService, cleanup }) => {
-    let request: RegisterRequestInfo;
-    let response: ApiResponse;
-
-    await test.step('Send POST /users/register with a unique email, a 41-character first name, a last name and a random strong password.', async () => {
-      const body = UserFactory.registerCustomer({ first_name: UserFactory.textOfLength(41) });
-      ({ request, response } = await sendRegister(usersClient, adminUsersService, cleanup, body));
-    });
-
-    await test.step('Verify the response status is 422.', async () => {
-      expectStatus(request, response, 422);
-    });
-
-    await test.step('Verify the body has a first_name key with at least one message.', async () => {
-      expectFieldMessages(request, response, 'first_name');
-    });
+    await checkRejectedRegistration(
+      { usersClient, adminUsersService, cleanup },
+      'Send POST /users/register with a unique email, a 41-character first name, a last name and a random strong password.',
+      UserFactory.registerCustomer({ first_name: UserFactory.textOfLength(41) }),
+      'first_name',
+    );
   });
 
   test('API-0089: Register with a last name longer than 20 characters returns 422', async ({ usersClient, adminUsersService, cleanup }) => {
-    let request: RegisterRequestInfo;
-    let response: ApiResponse;
-
-    await test.step('Send POST /users/register with a unique email, a first name, a 21-character last name and a random strong password.', async () => {
-      const body = UserFactory.registerCustomer({ last_name: UserFactory.textOfLength(21) });
-      ({ request, response } = await sendRegister(usersClient, adminUsersService, cleanup, body));
-    });
-
-    await test.step('Verify the response status is 422.', async () => {
-      expectStatus(request, response, 422);
-    });
-
-    await test.step('Verify the body has a last_name key with at least one message.', async () => {
-      expectFieldMessages(request, response, 'last_name');
-    });
+    await checkRejectedRegistration(
+      { usersClient, adminUsersService, cleanup },
+      'Send POST /users/register with a unique email, a first name, a 21-character last name and a random strong password.',
+      UserFactory.registerCustomer({ last_name: UserFactory.textOfLength(21) }),
+      'last_name',
+    );
   });
 
   test('API-0090: Register with a weak password returns 422', async ({ usersClient, adminUsersService, cleanup }) => {
-    let request: RegisterRequestInfo;
-    let response: ApiResponse;
-
-    await test.step('Send POST /users/register with a unique email, a first name, a last name and a password of 10 lower-case letters only.', async () => {
-      const body = UserFactory.registerCustomer({ password: UserFactory.weakPassword() });
-      ({ request, response } = await sendRegister(usersClient, adminUsersService, cleanup, body));
-    });
-
-    await test.step('Verify the response status is 422.', async () => {
-      expectStatus(request, response, 422);
-    });
-
-    await test.step('Verify the body has a password key with at least one message.', async () => {
-      expectFieldMessages(request, response, 'password');
-    });
+    await checkRejectedRegistration(
+      { usersClient, adminUsersService, cleanup },
+      'Send POST /users/register with a unique email, a first name, a last name and a password of 10 lower-case letters only.',
+      UserFactory.registerCustomer({ password: UserFactory.weakPassword() }),
+      'password',
+    );
   });
 
   test('API-0091: Register with a date of birth under 18 years ago returns 422', async ({ usersClient, adminUsersService, cleanup }) => {
-    let request: RegisterRequestInfo;
-    let response: ApiResponse;
-
-    await test.step('Send POST /users/register with a unique email, a first name, a last name, a random strong password and a dob 17 years ago in YYYY-MM-DD.', async () => {
-      const body = UserFactory.registerCustomer({ dob: UserFactory.dobYearsAgo(17) });
-      ({ request, response } = await sendRegister(usersClient, adminUsersService, cleanup, body));
-    });
-
-    await test.step('Verify the response status is 422.', async () => {
-      expectStatus(request, response, 422);
-    });
-
-    await test.step('Verify the body has a dob key with at least one message.', async () => {
-      expectFieldMessages(request, response, 'dob');
-    });
+    await checkRejectedRegistration(
+      { usersClient, adminUsersService, cleanup },
+      'Send POST /users/register with a unique email, a first name, a last name, a random strong password and a dob 17 years ago in YYYY-MM-DD.',
+      UserFactory.registerCustomer({ dob: UserFactory.dobYearsAgo(17) }),
+      'dob',
+    );
   });
 
   test('API-0092: Register with a subscript character in the first name returns 422', async ({ usersClient, adminUsersService, cleanup }) => {
-    let request: RegisterRequestInfo;
-    let response: ApiResponse;
-
-    await test.step('Send POST /users/register with a unique email, a first name followed by a Unicode subscript character, a last name and a random strong password.', async () => {
-      const body = UserFactory.registerCustomer({ first_name: `SimpRight${SUBSCRIPT_TWO}` });
-      ({ request, response } = await sendRegister(usersClient, adminUsersService, cleanup, body));
-    });
-
-    await test.step('Verify the response status is 422.', async () => {
-      expectStatus(request, response, 422);
-    });
-
-    await test.step('Verify the body has a first_name key with at least one message.', async () => {
-      expectFieldMessages(request, response, 'first_name');
-    });
+    await checkRejectedRegistration(
+      { usersClient, adminUsersService, cleanup },
+      'Send POST /users/register with a unique email, a first name followed by a Unicode subscript character, a last name and a random strong password.',
+      UserFactory.registerCustomer({ first_name: `SimpRight${SUBSCRIPT_TWO}` }),
+      'first_name',
+    );
   });
 
   test('API-0093: Register with a date of birth not in YYYY-MM-DD returns 422', async ({ usersClient, adminUsersService, cleanup }) => {
-    let request: RegisterRequestInfo;
-    let response: ApiResponse;
-
-    await test.step('Send POST /users/register with a unique email, a first name, a last name, a random strong password and a dob 30 years ago in DD-MM-YYYY format.', async () => {
-      const body = UserFactory.registerCustomer({ dob: UserFactory.dobYearsAgo(30, 'DD-MM-YYYY') });
-      ({ request, response } = await sendRegister(usersClient, adminUsersService, cleanup, body));
-    });
-
-    await test.step('Verify the response status is 422.', async () => {
-      expectStatus(request, response, 422);
-    });
-
-    await test.step('Verify the body has a dob key with at least one message.', async () => {
-      expectFieldMessages(request, response, 'dob');
-    });
+    await checkRejectedRegistration(
+      { usersClient, adminUsersService, cleanup },
+      'Send POST /users/register with a unique email, a first name, a last name, a random strong password and a dob 30 years ago in DD-MM-YYYY format.',
+      UserFactory.registerCustomer({ dob: UserFactory.dobYearsAgo(30, 'DD-MM-YYYY') }),
+      'dob',
+    );
   });
 
   test('API-0094: Register with an email longer than 256 characters returns 422', async ({ usersClient, adminUsersService, cleanup }) => {
-    let request: RegisterRequestInfo;
-    let response: ApiResponse;
-
-    await test.step(
+    const email = UserFactory.emailOfLength(257);
+    expect(email.length, assertMessage({ expected: 'The email has 257 characters', actual: email.length })).toBe(257);
+    await checkRejectedRegistration(
+      { usersClient, adminUsersService, cleanup },
       'Send POST /users/register with a well-formed 257-character email that starts with a unique value, a first name, a last name and a random strong password.',
-      async () => {
-        const email = UserFactory.emailOfLength(257);
-        expect(email.length, assertMessage({ expected: 'The email has 257 characters', actual: email.length })).toBe(257);
-        const body = UserFactory.registerCustomer({ email });
-        ({ request, response } = await sendRegister(usersClient, adminUsersService, cleanup, body));
-      }
+      UserFactory.registerCustomer({ email }),
+      'email',
     );
-
-    await test.step('Verify the response status is 422.', async () => {
-      expectStatus(request, response, 422);
-    });
-
-    await test.step('Verify the body has an email key with at least one message.', async () => {
-      expectFieldMessages(request, response, 'email');
-    });
   });
 
   test('API-0095: Register with a phone longer than 24 characters returns 422', async ({ usersClient, adminUsersService, cleanup }) => {
-    let request: RegisterRequestInfo;
-    let response: ApiResponse;
-
-    await test.step('Send POST /users/register with a unique email, a first name, a last name, a random strong password and a 25-digit phone.', async () => {
-      const body = UserFactory.registerCustomer({ phone: '1234567890123456789012345' });
-      ({ request, response } = await sendRegister(usersClient, adminUsersService, cleanup, body));
-    });
-
-    await test.step('Verify the response status is 422.', async () => {
-      expectStatus(request, response, 422);
-    });
-
-    await test.step('Verify the body has a phone key with at least one message.', async () => {
-      expectFieldMessages(request, response, 'phone');
-    });
+    await checkRejectedRegistration(
+      { usersClient, adminUsersService, cleanup },
+      'Send POST /users/register with a unique email, a first name, a last name, a random strong password and a 25-digit phone.',
+      UserFactory.registerCustomer({ phone: '1234567890123456789012345' }),
+      'phone',
+    );
   });
 
   test("API-0096: Register with an email that's already registered returns 409", async ({
@@ -585,73 +499,56 @@ test.describe('@users-api - Users API', () => {
   });
 
   test('API-0330: Register with a letters-only postal code for country DE returns 422', async ({ usersClient, adminUsersService, cleanup }) => {
-    let request: RegisterRequestInfo;
-    let response: ApiResponse;
-
-    await test.step(
+    await checkRejectedRegistration(
+      { usersClient, adminUsersService, cleanup },
       'Send POST /users/register with a unique email, a first name, a last name, a random strong password, and an address with a street, a city, a state, country "DE" and postal_code "ABCDE".',
-      async () => {
-        const body = UserFactory.registerCustomer({ address: { ...UserFactory.nlAddress(), country: 'DE', postal_code: 'ABCDE' } });
-        ({ request, response } = await sendRegister(usersClient, adminUsersService, cleanup, body));
-      }
+      UserFactory.registerCustomer({ address: { ...UserFactory.nlAddress(), country: 'DE', postal_code: 'ABCDE' } }),
+      'address.postal_code',
     );
-
-    await test.step('Verify the response status is 422.', async () => {
-      expectStatus(request, response, 422);
-    });
-
-    await test.step('Verify the body has an address.postal_code key with at least one message.', async () => {
-      expectFieldMessages(request, response, 'address.postal_code');
-    });
   });
 
   test('API-0331: Register with a 7-character password returns 422', async ({ usersClient, adminUsersService, cleanup }) => {
-    await registerWithRejectedPassword(
-      usersClient,
-      adminUsersService,
-      cleanup,
+    await checkRejectedRegistration(
+      { usersClient, adminUsersService, cleanup },
       'Send POST /users/register with a unique email, a first name, a last name and a random 7-character password with an upper-case letter, a lower-case letter, a number and a special character.',
-      UserFactory.passwordOf({ length: 7, upper: true, lower: true, digit: true, symbol: true })
+      UserFactory.registerCustomer({ password: UserFactory.passwordOf({ length: 7, upper: true, lower: true, digit: true, symbol: true }) }),
+      'password'
     );
   });
 
   test('API-0332: Register with a password without an upper-case letter returns 422', async ({ usersClient, adminUsersService, cleanup }) => {
-    await registerWithRejectedPassword(
-      usersClient,
-      adminUsersService,
-      cleanup,
+    await checkRejectedRegistration(
+      { usersClient, adminUsersService, cleanup },
       'Send POST /users/register with a unique email, a first name, a last name and a random password of at least 8 characters with lower-case letters, a number and a special character, and no upper-case letter.',
-      UserFactory.passwordOf({ length: 12, upper: false, lower: true, digit: true, symbol: true })
+      UserFactory.registerCustomer({ password: UserFactory.passwordOf({ length: 12, upper: false, lower: true, digit: true, symbol: true }) }),
+      'password'
     );
   });
 
   test('API-0333: Register with a password without a lower-case letter returns 422', async ({ usersClient, adminUsersService, cleanup }) => {
-    await registerWithRejectedPassword(
-      usersClient,
-      adminUsersService,
-      cleanup,
+    await checkRejectedRegistration(
+      { usersClient, adminUsersService, cleanup },
       'Send POST /users/register with a unique email, a first name, a last name and a random password of at least 8 characters with upper-case letters, a number and a special character, and no lower-case letter.',
-      UserFactory.passwordOf({ length: 12, upper: true, lower: false, digit: true, symbol: true })
+      UserFactory.registerCustomer({ password: UserFactory.passwordOf({ length: 12, upper: true, lower: false, digit: true, symbol: true }) }),
+      'password'
     );
   });
 
   test('API-0334: Register with a password without a number returns 422', async ({ usersClient, adminUsersService, cleanup }) => {
-    await registerWithRejectedPassword(
-      usersClient,
-      adminUsersService,
-      cleanup,
+    await checkRejectedRegistration(
+      { usersClient, adminUsersService, cleanup },
       'Send POST /users/register with a unique email, a first name, a last name and a random password of at least 8 characters with upper-case and lower-case letters and a special character, and no number.',
-      UserFactory.passwordOf({ length: 12, upper: true, lower: true, digit: false, symbol: true })
+      UserFactory.registerCustomer({ password: UserFactory.passwordOf({ length: 12, upper: true, lower: true, digit: false, symbol: true }) }),
+      'password'
     );
   });
 
   test('API-0335: Register with a password without a special character returns 422', async ({ usersClient, adminUsersService, cleanup }) => {
-    await registerWithRejectedPassword(
-      usersClient,
-      adminUsersService,
-      cleanup,
+    await checkRejectedRegistration(
+      { usersClient, adminUsersService, cleanup },
       'Send POST /users/register with a unique email, a first name, a last name and a random password of at least 8 characters with upper-case and lower-case letters and a number, and no special character.',
-      UserFactory.passwordOf({ length: 12, upper: true, lower: true, digit: true, symbol: false })
+      UserFactory.registerCustomer({ password: UserFactory.passwordOf({ length: 12, upper: true, lower: true, digit: true, symbol: false }) }),
+      'password'
     );
   });
 });

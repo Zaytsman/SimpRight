@@ -1,11 +1,11 @@
-import { test, expect, registerThrowawayCustomer, loginThrowawayCustomer, AUTH, sendAndAttach } from '@fixtures';
+import { test, expect, registerThrowawayCustomer, loginThrowawayCustomer, AUTH, sendAndAttach, readCurrentUser } from '@fixtures';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { UsersClient } from '@api/clients/UsersClient';
 import type { PatchUserRequest, User } from '@api/dto/user';
 import type { UsersService } from '@api/services/UsersService';
 import { TestConstants } from '@data/TestConstants';
 import { UserFactory } from '@data/factories/UserFactory';
-import { expectErrorText, expectFieldMessages, expectMessage, expectStatus, expectSuccess, parseJson } from '@utils/apiChecks';
+import { expectErrorText, expectFieldMessages, expectMessage, expectStatus, expectSuccess } from '@utils/apiChecks';
 import { assertMessage, attachJson } from '@utils/assertHelpers';
 
 // Scenarios: test-scenarios/api/users/patch-users-by-user-id.yml
@@ -27,16 +27,6 @@ async function sendPatch(
 ): Promise<{ request: PatchRequestInfo; response: ApiResponse }> {
   const request: PatchRequestInfo = { method: 'PATCH', path: `/users/${userId}`, auth, body };
   return sendAndAttach('Patch User', request, () => client.partialUpdate(userId, body));
-}
-
-/** The read-back of a Verify step: GET /users/me with the client's token must return 200; returns the profile. */
-async function readMe(client: UsersClient, auth: string): Promise<{ request: unknown; user: User }> {
-  const request = { method: 'GET', path: '/users/me', auth };
-  const response = await client.me();
-  await attachJson('Current User Request', request);
-  await attachJson('Current User Response', { status: response.status, body: response.body });
-  expectStatus(request, response, 200);
-  return { request, user: parseJson<User>(request, response) };
 }
 
 /** The read-back of a Verify step: GET /users/{userId} with the admin's token (a setup-style read: fails on a non-2xx). */
@@ -76,7 +66,7 @@ test.describe('@users-api - Users API', () => {
     });
 
     await test.step('Verify GET /users/me with that access_token returns the new first_name and the registered last_name and email.', async () => {
-      const { request: meRequest, user } = await readMe(usersClientForToken(token), 'that access_token');
+      const { request: meRequest, user } = await readCurrentUser(usersClientForToken(token), 'that access_token');
       expect(user.first_name, assertMessage({ request: meRequest, expected: `first_name is the new "${NEW_NAME}"`, actual: user })).toBe(NEW_NAME);
       expect(user.last_name, assertMessage({ request: meRequest, expected: `last_name is the registered "${registered.last_name}"`, actual: user })).toBe(
         registered.last_name
@@ -269,7 +259,7 @@ test.describe('@users-api - Users API', () => {
     const tokenB = await loginThrowawayCustomer(authService, customerB, "Send POST /users/login with customer B's email and password, and take its access_token.");
 
     await test.step("Verify GET /users/me with B's access_token returns B's registered first_name.", async () => {
-      const { request: meRequest, user } = await readMe(usersClientForToken(tokenB), "B's access_token");
+      const { request: meRequest, user } = await readCurrentUser(usersClientForToken(tokenB), "B's access_token");
       expect(user.first_name, assertMessage({ request: meRequest, expected: `first_name is B's registered "${registeredB.first_name}"`, actual: user })).toBe(
         registeredB.first_name
       );
@@ -307,7 +297,7 @@ test.describe('@users-api - Users API', () => {
     });
 
     await test.step('Verify GET /users/me with that access_token returns the registered phone.', async () => {
-      const { request: meRequest, user } = await readMe(usersClientForToken(token), 'that access_token');
+      const { request: meRequest, user } = await readCurrentUser(usersClientForToken(token), 'that access_token');
       expect(user.phone, assertMessage({ request: meRequest, expected: `phone is the registered "${registered.phone}"`, actual: user })).toBe(registered.phone);
     });
   });
@@ -342,7 +332,7 @@ test.describe('@users-api - Users API', () => {
     });
 
     await test.step('Verify GET /users/me with that access_token returns the registered dob.', async () => {
-      const { request: meRequest, user } = await readMe(usersClientForToken(token), 'that access_token');
+      const { request: meRequest, user } = await readCurrentUser(usersClientForToken(token), 'that access_token');
       expect(user.dob, assertMessage({ request: meRequest, expected: `dob is the registered "${registered.dob}"`, actual: user })).toBe(registered.dob);
     });
   });

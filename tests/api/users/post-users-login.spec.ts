@@ -1,10 +1,10 @@
-import { test, expect, registerThrowawayCustomer, loginThrowawayCustomer, type ThrowawayCustomer, disableCustomerSetup, AUTH, sendAndAttach } from '@fixtures';
+import { test, expect, registerThrowawayCustomer, loginThrowawayCustomer, type ThrowawayCustomer, disableCustomerSetup, AUTH, sendAndAttach, readCurrentUser } from '@fixtures';
 import { expectStatus, parseJson } from '@utils/apiChecks';
 import type { Cleanup } from '@fixtures/base';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { AuthClient } from '@api/clients/AuthClient';
 import type { LoginErrorBody, LoginResponse, TotpRequiredResponse } from '@api/dto/auth';
-import type { MessageErrorBody, User } from '@api/dto/user';
+import type { MessageErrorBody } from '@api/dto/user';
 import type { AuthService } from '@api/services/AuthService';
 import type { UsersService } from '@api/services/UsersService';
 import { UserFactory } from '@data/factories/UserFactory';
@@ -131,12 +131,7 @@ test.describe('@users-api - Users API', () => {
     });
 
     await test.step("Verify GET /users/me with the new access_token returns 200 with the default user's email.", async () => {
-      const meRequest = { method: 'GET', path: '/users/me', auth: 'the new access_token' };
-      const meResponse = await usersClientForToken(body.access_token).me();
-      await attachJson('Current User Request', meRequest);
-      await attachJson('Current User Response', { status: meResponse.status, body: meResponse.body });
-      expect(meResponse.status, assertMessage({ request: meRequest, expected: 'Status 200', actual: meResponse.status })).toBe(200);
-      const profile = JSON.parse(meResponse.body) as User;
+      const { request: meRequest, user: profile } = await readCurrentUser(usersClientForToken(body.access_token), 'the new access_token');
       // The email is a secret: compare it as a condition so a failure diff doesn't print it.
       expect(
         profile.email === user.username,
@@ -338,12 +333,7 @@ test.describe('@users-api - Users API', () => {
     });
 
     await test.step("Verify GET /users/me with the new access_token returns 200 with the throwaway customer's email.", async () => {
-      const meRequest = { method: 'GET', path: '/users/me', auth: 'the new access_token' };
-      const meResponse = await usersClientForToken(body.access_token).me();
-      await attachJson('Current User Request', meRequest);
-      await attachJson('Current User Response', { status: meResponse.status, body: meResponse.body });
-      expect(meResponse.status, assertMessage({ request: meRequest, expected: 'Status 200', actual: meResponse.status })).toBe(200);
-      const profile = JSON.parse(meResponse.body) as User;
+      const { request: meRequest, user: profile } = await readCurrentUser(usersClientForToken(body.access_token), 'the new access_token');
       expect(
         profile.email === customer.email,
         assertMessage({ request: meRequest, expected: "Email equals the throwaway customer's email", actual: profile.email })
@@ -370,7 +360,7 @@ test.describe('@users-api - Users API', () => {
     });
 
     await test.step('Verify the response status is 401.', async () => {
-      expect(response.status, assertMessage({ request, expected: 'Status 401', actual: { status: response.status, body: response.body } })).toBe(401);
+      expectStatus(request, response, 401);
     });
 
     await test.step('Verify the body\'s message is "Unauthorized token usage".', async () => {
