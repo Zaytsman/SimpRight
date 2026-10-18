@@ -12,13 +12,18 @@
 #   latest/<family>/               copy of the newest run
 #   latest/api-coverage/           latest full API regression coverage report
 #
-# Runs in GitHub Actions after actions/checkout (which leaves push credentials in the git config).
-# The gh-pages checkout and push are in gh-pages-lib.sh, shared with publish-test-cases.sh.
+# Runs in GitHub Actions at the repository root, with GH_TOKEN set. The gh-pages checkout, the dashboard
+# copy and the push are in gh-pages-lib.sh, shared with publish-test-cases.sh.
 set -euo pipefail
 source "$(dirname "$0")/gh-pages-lib.sh"
 
-FAMILY="${1:?usage: publish-report.sh <family> [--latest-coverage]}"
-LATEST_COVERAGE="${2:-}"
+USAGE="usage: publish-report.sh <family> [--latest-coverage]"
+FAMILY="${1:?$USAGE}"
+case "${2:-}" in
+  '') LATEST_COVERAGE=false ;;
+  --latest-coverage) LATEST_COVERAGE=true ;;
+  *) echo "$USAGE" >&2; exit 2 ;;
+esac
 RUN="run-${GITHUB_RUN_NUMBER:?GITHUB_RUN_NUMBER is not set}"
 KEEP_RUNS="${KEEP_RUNS:-30}"
 SITE=".gh-pages"
@@ -39,13 +44,10 @@ if [ -d test-results/api-coverage ]; then
 fi
 rm -rf "$SITE/latest/$FAMILY"
 cp -r "$SITE/$FAMILY/$RUN" "$SITE/latest/$FAMILY"
-if [ "$LATEST_COVERAGE" = "--latest-coverage" ] && [ -d test-results/api-coverage ]; then
+if [ "$LATEST_COVERAGE" = true ] && [ -d test-results/api-coverage ]; then
   rm -rf "$SITE/latest/api-coverage"
   cp -r test-results/api-coverage "$SITE/latest/api-coverage"
 fi
-
-cp index.html "$SITE/index.html"
-touch "$SITE/.nojekyll"
 
 # Keep only the newest KEEP_RUNS runs, then rebuild the manifest from what is left.
 cd "$SITE"

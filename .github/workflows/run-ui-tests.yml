@@ -14,7 +14,9 @@ permissions:
 jobs:
   ui-tests:
     uses: ./.github/workflows/playwright-run.yml
-    secrets: inherit
+    secrets:
+      ADMIN_USER: ${{ secrets.ADMIN_USER }}
+      ADMIN_PASSWORD: ${{ secrets.ADMIN_PASSWORD }}
     with:
       project: ui
       family: daily-ui-regression

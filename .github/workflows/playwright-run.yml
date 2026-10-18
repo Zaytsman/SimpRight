@@ -29,6 +29,12 @@ on:
         required: false
         type: boolean
         default: false
+    # Only the secrets the tests read; callers pass them by name instead of `secrets: inherit`.
+    secrets:
+      ADMIN_USER:
+        required: true
+      ADMIN_PASSWORD:
+        required: true
 
 jobs:
   test:
@@ -45,10 +51,13 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v7
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          # No token in the git config while dependencies install and tests run; only the publish step gets one.
+          persist-credentials: false
 
       - name: Setup Node.js
-        uses: actions/setup-node@v7
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
           node-version: 24
           cache: npm
@@ -57,7 +66,8 @@ jobs:
           scope: '@zaytsman'
 
       - name: Install dependencies
-        run: npm ci
+        # No dependency needs an install script, so none runs while NODE_AUTH_TOKEN is set.
+        run: npm ci --ignore-scripts
         env:
           # Read access to the private coverage package (granted to this repo in the package settings).
           # Without access (e.g. in a fork) the optional package is skipped and the tests run without coverage.
@@ -65,7 +75,7 @@ jobs:
 
       - name: Cache Playwright browsers
         if: inputs.project != 'api'
-        uses: actions/cache@v6
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
         with:
           path: ~/.cache/ms-playwright
           key: playwright-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
@@ -96,13 +106,19 @@ jobs:
 
       - name: Publish report to GitHub Pages
         if: ${{ !cancelled() && steps.tests.outcome != 'skipped' }}
+        env:
+          # The push credential for gh-pages (scripts/gh-pages-lib.sh); the checkout kept none.
+          GH_TOKEN: ${{ github.token }}
+          FAMILY: ${{ inputs.family }}
+          LATEST_COVERAGE: ${{ inputs.publish-latest-coverage }}
         run: |
-          chmod +x scripts/publish-report.sh
-          scripts/publish-report.sh "${{ inputs.family }}" ${{ inputs.publish-latest-coverage && '--latest-coverage' || '' }}
+          args=("$FAMILY")
+          [ "$LATEST_COVERAGE" = true ] && args+=(--latest-coverage)
+          scripts/publish-report.sh "${args[@]}"
 
       - name: Upload report artifact
         if: ${{ !cancelled() && steps.tests.outcome != 'skipped' }}
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: ${{ inputs.family }}-run-${{ github.run_number }}
           path: |
@@ -112,6 +128,8 @@ jobs:
 
       - name: Fail the job if tests failed
         if: steps.tests.outcome == 'failure'
+        env:
+          FAMILY: ${{ inputs.family }}
         run: |
-          echo "::error::Tests failed. Report: https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/${{ inputs.family }}/run-${{ github.run_number }}/"
+          echo "::error::Tests failed. Report: https://${GITHUB_REPOSITORY_OWNER}.github.io/${GITHUB_REPOSITORY#*/}/${FAMILY}/run-${GITHUB_RUN_NUMBER}/"
           exit 1

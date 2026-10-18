@@ -37,7 +37,9 @@ permissions:
 jobs:
   api-tests:
     uses: ./.github/workflows/playwright-run.yml
-    secrets: inherit
+    secrets:
+      ADMIN_USER: ${{ secrets.ADMIN_USER }}
+      ADMIN_PASSWORD: ${{ secrets.ADMIN_PASSWORD }}
     with:
       project: api
       family: custom-api

@@ -116,7 +116,9 @@ permissions:
 jobs:
   ui-tests:
     uses: ./.github/workflows/playwright-run.yml
-    secrets: inherit
+    secrets:
+      ADMIN_USER: ${{ secrets.ADMIN_USER }}
+      ADMIN_PASSWORD: ${{ secrets.ADMIN_PASSWORD }}
     with:
       project: ui               # ui or api
       family: custom-ui         # where the report is published
@@ -132,7 +134,7 @@ jobs:
 | `grep` | no | Only tests whose title matches |
 | `publish-latest-coverage` | no | `true` only for the full API regression: its coverage becomes the dashboard's API Coverage |
 
-Both permissions are needed in the calling file: a called workflow can't have more permissions than its caller.
+Both permissions are needed in the calling file: a called workflow can't have more permissions than its caller. The two secrets are passed by name: `playwright-run.yml` declares them, and no other secret reaches the test job.
 
 ## Pause or stop a schedule
 
