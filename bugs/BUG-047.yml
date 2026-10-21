@@ -1,7 +1,7 @@
 # yaml-language-server: $schema=./bug.schema.json
 id: BUG-047
 title: "Invoice PDF generation never completes: status stays INITIATED"
-status: fixed
+status: open
 severity: major
 layer: api
 area: invoices
@@ -9,7 +9,6 @@ affects:
   - GET /invoices/{invoice_number}/download-pdf
   - GET /invoices/{invoice_number}/download-pdf-status
 found: 2026-10-14
-resolved: 2026-10-17
 ref:
   - docs/api/contracts/Invoices_API.md#5-download-invoice-pdf
   - docs/api/contracts/Invoices_API.md#6-get-pdf-generation-status

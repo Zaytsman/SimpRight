@@ -6,6 +6,8 @@ scenarios:
     name: Download invoice PDF returns 200 with the file once it is generated
     status: automated
     automatedIn: tests/api/invoices/get-invoices-by-invoice-number-download-pdf.spec.ts
+    knownIssue: "The invoice PDF job doesn't run within a few minutes: the status stays INITIATED and the download answers 404."
+    bug: BUG-047
     steps:
       - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.
       - Send POST /users/login with that email and password, and take its access_token.

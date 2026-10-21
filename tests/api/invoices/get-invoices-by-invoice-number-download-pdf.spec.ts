@@ -16,6 +16,8 @@ test.describe('@invoices-api - Invoices API', () => {
     invoicesClientForToken,
     cleanup,
   }) => {
+    // Skipped, not test.fail: while BUG-047 is open the poll always runs its full 210 s, which holds a worker for every run.
+    test.skip(true, 'Known issue BUG-047: The invoice PDF job doesn\'t run within a few minutes: the status stays INITIATED and the download answers 404.');
     // The PDF jobs run every minute: the status poll waits up to 210 s (PDF_POLL), within the token's 300 s.
     test.setTimeout(300_000);
     let request: InvoiceRequest;
