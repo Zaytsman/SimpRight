@@ -24,7 +24,7 @@ It is also an example of **AI-assisted test automation**: Claude Code agents wri
 
 ## Test Runs
 
-1. [CI Runs](CI-Runs): the GitHub Actions workflows, starting runs by hand, changing and adding schedules, where the results are.
+1. [CI Runs](CI-Runs): starting custom and smoke runs by hand on GitHub Actions, and reviewing their results on the Automation Portal.
 2. [Local Runs](Local-Runs): running tests on your machine, and scheduling unattended runs with Task Scheduler or cron.
 
 ## Workflows
@@ -41,8 +41,8 @@ Each AI agent, its slash command and the skills it uses:
 |---|---|---|
 | [Requirements Analyst](Requirements-Analyst) | `/analyze-requirements` | An analysis and a test plan from a story or bug, API first, then scenarios for both layers |
 | [API Contract Writer](API-Contract-Writer) | `/write-api-contracts` | API contracts from source code or an OpenAPI spec |
-| [API Scenario Writer](API-Scenario-Writer) | `/write-api-scenarios` | API scenarios from a contract |
-| [UI Scenario Writer](UI-Scenario-Writer) | `/write-ui-scenarios` | UI scenarios from a user story or bug |
+| [API Scenario Writer](API-Scenario-Writer) | `/write-api-scenarios-from-contract`, `/write-api-scenarios-from-steps` | API scenarios from a contract, or from your test steps, request/response JSON or a Bruno collection |
+| [UI Scenario Writer](UI-Scenario-Writer) | `/write-ui-scenarios-from-steps` | UI scenarios from your test steps in plain text |
 | [API Test Engineer](API-Test-Engineer) | `/implement-api-scenarios` | API specs and framework code from scenarios |
 | [UI Test Engineer](UI-Test-Engineer) | `/implement-ui-scenarios` | UI specs, page objects and flows from scenarios |
 | [Test Reviewer](Test-Reviewer) | `/review-tests` | Ranked review findings, then the fixes you pick |
@@ -52,10 +52,11 @@ Each AI agent, its slash command and the skills it uses:
 ## Continuous Integration
 
 1. [CI Pipeline](CI-Pipeline): the GitHub Actions workflows, the reusable test job, the `verify` pull request check and its test scopes, secrets, permissions and Dependabot.
-2. [GitHub Pages Publishing](GitHub-Pages-Publishing): what the CI publishes to `gh-pages`, by which script, and how the branch stays small.
-3. [Automation Portal](Automation-Portal): the dashboard: status, charts, known issues, coverage and run history.
-4. [Test Cases Pages](Test-Cases-Pages): the browsable catalog of UI and API scenarios, and how it is built and published.
-5. [Bugs Page](Bugs-Page): the bugs found in the app, the tests that hit them and their latest results.
+2. [Scheduled Runs](Scheduled-Runs): the nightly regressions, and how to change, add, pause or stop a schedule.
+3. [GitHub Pages Publishing](GitHub-Pages-Publishing): what the CI publishes to `gh-pages`, by which script, and how the branch stays small.
+4. [Automation Portal](Automation-Portal): the dashboard: status, charts, known issues, coverage and run history.
+5. [Test Cases Pages](Test-Cases-Pages): the browsable catalog of UI and API scenarios, and how it is built and published.
+6. [Bugs Page](Bugs-Page): the bugs found in the app, the tests that hit them and their latest results.
 
 ## Links
 

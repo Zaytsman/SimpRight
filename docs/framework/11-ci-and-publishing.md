@@ -1,6 +1,6 @@
 # 11. CI and publishing
 
-GitHub Actions runs the tests, checks pull requests and publishes the results to GitHub Pages. One reusable workflow runs every test job; five small callers decide what to run and when. The wiki's [CI Pipeline](../wiki/CI-Pipeline.md), [CI Runs](../wiki/CI-Runs.md) and [GitHub Pages Publishing](../wiki/GitHub-Pages-Publishing.md) pages have the operating details (how to start, schedule and pause runs).
+GitHub Actions runs the tests, checks pull requests and publishes the results to GitHub Pages. One reusable workflow runs every test job; five small callers decide what to run and when. The wiki's [CI Pipeline](../wiki/CI-Pipeline.md), [CI Runs](../wiki/CI-Runs.md), [Scheduled Runs](../wiki/Scheduled-Runs.md) and [GitHub Pages Publishing](../wiki/GitHub-Pages-Publishing.md) pages have the operating details (how to start runs by hand, review their results, and change or add schedules).
 
 ```
 run-api-tests.yml      weekdays 02:15 UTC ─┐

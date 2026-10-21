@@ -1,6 +1,6 @@
 ---
-name: write-api-scenarios
-description: Propose and write API test scenarios (YAML files in the project's scenario folder) from an API contract document, with a checkpoint where the user approves the proposal before any file is written. Use when the user asks to write, propose or fill gaps in API test scenarios for an API area or contract, e.g. "/write-api-scenarios Products_API.md".
+name: write-api-scenarios-from-contract
+description: Propose and write API test scenarios (YAML files in the project's scenario folder) from an API contract document, with a checkpoint where the user approves the proposal before any file is written. Use when the user asks to write, propose or fill gaps in API test scenarios for an API area or contract, e.g. "/write-api-scenarios-from-contract Products_API.md". For test steps, requests or a Bruno collection, use write-api-scenarios-from-steps.
 argument-hint: "<contract document> [endpoint ...]"
 ---
 

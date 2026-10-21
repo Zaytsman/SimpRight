@@ -14,10 +14,10 @@ Each step is a slash command in [Claude Code](https://claude.com/claude-code) th
 ```mermaid
 flowchart LR
     src[API source code<br/>OpenAPI spec] -->|/write-api-contracts| contracts[API contracts<br/>docs/api/contracts]
-    stories[User stories<br/>bug reports<br/>docs/ui/user-stories] -->|/write-ui-scenarios| scenarios
-    stories -->|/analyze-requirements| analysis[Analysis + test plan<br/>API first<br/>docs/analysis]
+    stories[User stories<br/>bug reports<br/>docs/ui/user-stories] -->|/analyze-requirements| analysis[Analysis + test plan<br/>API first<br/>docs/analysis]
     analysis -->|scenario writers| scenarios
-    contracts -->|/write-api-scenarios| scenarios[Test scenarios<br/>test-scenarios/*.yml]
+    contracts -->|/write-api-scenarios-from-contract| scenarios[Test scenarios<br/>test-scenarios/*.yml]
+    steps[Test steps<br/>request/response JSON<br/>Bruno collections] -->|/write-api-scenarios-from-steps<br/>/write-ui-scenarios-from-steps| scenarios
     scenarios -->|/implement-api-scenarios<br/>/implement-ui-scenarios| specs[Framework code + specs<br/>src/, tests/]
     specs -->|/review-tests| review[Ranked findings<br/>→ fixes]
     specs -->|CI / local runs| runs[Test results]
@@ -36,8 +36,9 @@ flowchart LR
 |---|---|---|---|---|
 | Describe the API | `/write-api-contracts [update] <source> <spec> <areas>` | `api-contract-writer` | The API's source code and/or its OpenAPI spec | Contracts in `docs/api/contracts/`, one per API area |
 | Analyse a work item | `/analyze-requirements <story or bug> [AC ...]` | `requirements-analyst`, then both scenario writers | A user story or bug report | An analysis and test plan in `docs/analysis/` (each check on the API unless only the UI can prove it), then API and UI scenarios |
-| Plan API tests | `/write-api-scenarios <contract>` | `api-scenario-writer` | A contract | API scenarios (`API-NNNN`) |
-| Plan UI tests | `/write-ui-scenarios <story or bug> [AC ...]` | `ui-scenario-writer` | A user story's acceptance criteria, a bug report | UI scenarios (`UI-NNN`) |
+| Plan API tests | `/write-api-scenarios-from-contract <contract>` | `api-scenario-writer` | A contract | API scenarios (`API-NNNN`) |
+| Convert API test cases | `/write-api-scenarios-from-steps <steps \| JSON files \| Bruno collection>` | `api-scenario-writer` | Test steps in plain text, request and expected-response JSON, a Bruno collection | API scenarios (`API-NNNN`), checked against the contracts |
+| Convert UI test cases | `/write-ui-scenarios-from-steps <steps file \| pasted text> [ref]` | `ui-scenario-writer` | Test steps in plain text | UI scenarios (`UI-NNN`), labels checked in the live app |
 | Automate API tests | `/implement-api-scenarios <IDs \| file \| area>` | `api-test-engineer` | API scenarios | Clients, services, DTOs, fixtures, factories, specs |
 | Automate UI tests | `/implement-ui-scenarios <IDs \| file \| area>` | `ui-test-engineer` | UI scenarios | Page objects, components, flows, fixtures, specs |
 | Review | `/review-tests [spec \| file \| IDs \| commit]` | `test-reviewer` | Specs and the code they use (default: work not pushed yet) | Findings ranked blocker / should fix / nit |
@@ -168,24 +169,24 @@ It also **imports** the suspected bugs a contract marks, and **re-checks** open 
 For a new API area:
 
 ```text
-/write-api-contracts ../app/api carts        → docs/api/contracts/Carts_API.md
-/write-api-scenarios Carts_API.md            → proposal → approve → test-scenarios/api/carts/*.yml
-/implement-api-scenarios carts               → plan + writes → approve → specs, all passing
-/review-tests                                → findings → pick → fixes applied
+/write-api-contracts ../app/api carts               → docs/api/contracts/Carts_API.md
+/write-api-scenarios-from-contract Carts_API.md     → proposal → approve → test-scenarios/api/carts/*.yml
+/implement-api-scenarios carts                      → plan + writes → approve → specs, all passing
+/review-tests                                       → findings → pick → fixes applied
 (commit, pull request, CI)
-/heal-tests PR <n>                           → if CI fails: verdicts → pick → fixes or re-run
-/report-bug API-0042                         → if it's an app bug: draft → approve → bugs/BUG-NNN.yml, scenario linked
+/heal-tests PR <n>                                  → if CI fails: verdicts → pick → fixes or re-run
+/report-bug API-0042                                → if it's an app bug: draft → approve → bugs/BUG-NNN.yml, scenario linked
 ```
 
-For a new UI story:
+For test cases someone already has (manual steps, saved requests):
 
 ```text
-/write-ui-scenarios Product_Detail.md        → proposal → approve → test-scenarios/ui/products/*.yml
-/implement-ui-scenarios product-detail.yml   → plan + writes → approve → page objects, specs
-/review-tests product-detail.spec.ts         → findings → pick → fixes applied
+/write-ui-scenarios-from-steps checkout-cases.md    → proposal → approve → test-scenarios/ui/cart/*.yml
+/write-api-scenarios-from-steps ../bruno/Carts      → proposal (checked against the contract) → approve → test-scenarios/api/carts/*.yml
+/implement-ui-scenarios checkout.yml                → plan + writes → approve → page objects, specs
 ```
 
-For a story that spans both layers:
+For a user story or bug report (one layer or both):
 
 ```text
 /analyze-requirements Product_Detail.md AC3-AC9   → test plan → approve → docs/analysis/product-detail.md

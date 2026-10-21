@@ -2,54 +2,65 @@
 
 # UI Scenario Writer
 
-Proposes and writes **UI test scenarios** from a user story's acceptance criteria, a bug report or a feature description: one YAML file per feature in `test-scenarios/ui/<area>/`, every scenario `status: manual`, ready for the [UI Test Engineer](UI-Test-Engineer). It looks at the live pages with the read-only page inspector, so steps quote what the app really shows.
+Turns **test steps you describe in plain text** (one or more manual test cases) into **UI test scenarios**: one YAML file per feature in `test-scenarios/ui/<area>/`, every scenario `status: manual`, ready for the [UI Test Engineer](UI-Test-Engineer). It looks at the live pages with the read-only page inspector, so steps quote what the app really shows.
+
+The same agent also writes the UI items of a user story or bug report when the [Requirements Analyst](Requirements-Analyst) hands them over: stories and bugs go through `/analyze-requirements`, which decides first what the API can check.
 
 | | |
 |---|---|
-| **Command** | `/write-ui-scenarios <story or bug file \| pasted text> [AC ...]` |
+| **Command** | `/write-ui-scenarios-from-steps <steps file \| pasted text> [ref]` |
 | **Agent** | `ui-scenario-writer` (`.claude/agents/ui-scenario-writer.md`) |
-| **Skill** | `write-ui-scenarios` (`.claude/skills/write-ui-scenarios/SKILL.md`) |
-| **Input** | A story in `docs/ui/user-stories/`, a bug report, or text pasted into the chat |
+| **Skill** | `write-ui-scenarios-from-steps` (`.claude/skills/write-ui-scenarios-from-steps/SKILL.md`) |
+| **Input** | Test steps in plain text: a `.md` or `.txt` file, or text pasted into the chat |
 | **Output** | `test-scenarios/ui/<area>/<feature>.yml` |
 | **Live app** | Read-only, through the page inspector only |
 | **Checkpoint** | A proposal you approve before any file is written |
 
 ## When to use it
 
-- A new user story is ready, or more of its criteria should be covered.
-- A bug was found and needs a regression scenario.
+- You have manual test cases (from a test management tool, a spreadsheet, your notes) and want them automated.
+- You know exactly what to check and want it written in the project's scenario format.
+
+For a user story, bug report or feature description, use [`/analyze-requirements`](Requirements-Analyst) instead.
 
 ## How to use it
 
 ```text
-/write-ui-scenarios Product_Detail.md
-/write-ui-scenarios Product_Detail.md AC3 AC4 AC5
-/write-ui-scenarios Product_Overview.md AC1-AC5
-/write-ui-scenarios BUG-45.md
+/write-ui-scenarios-from-steps checkout-cases.md
+/write-ui-scenarios-from-steps checkout-cases.md TC-12
+/write-ui-scenarios-from-steps
 ```
 
-The first argument is the document: a path, or a name in `docs/ui/user-stories/` (any case, `.md` optional). You can also paste a story or bug into the chat; Claude offers once to save it in the stories folder, so scenarios can point to it in `ref`. The rest of the arguments pick criteria. For a story with more than about 6 criteria, Claude offers to start with the read-only ones (no cart, registration, order or profile change).
+The first argument is a text file with the steps; without it, Claude asks you to paste them. The optional second argument is the `ref` the scenarios get (a test case or ticket ID, a document path); without one, they get none. Plain text is enough, for example:
+
+```text
+TC-12 Add a product to favourites
+1. Log in as a customer.
+2. Open the product "Combination Pliers".
+3. Click "Add to favourites".
+Expected: the message "Product added to your favorites list." is shown.
+```
 
 ## What happens
 
 ### Phase 1: the proposal (nothing is written)
 
-1. **Reads** the profile, conventions, document and existing scenarios.
-2. **Looks at the app** with the page inspector, as the role the scenarios will use (`--logged-out` for `guest`), using its steps to reach the states the criteria describe (a sort order, a ticked filter, an open menu). Usually 2 to 6 inspections, 10-20 seconds each.
-3. **Picks scenarios** with a fixed checklist:
-   - the criterion as written (more than one when it lists cases with different actions);
-   - its stated boundaries only (a 3-40 character limit → 2 and 41 rejected, 3 and 40 accepted);
-   - for a bug: one regression scenario, with a `knownIssue` if the bug is still there;
-   - **every check observable**: a text, a count, an order, a state, a message. If the story's outcome can't be seen, it proposes a visible way and asks;
-   - drops what's already covered; flags `writes`, `dangerous` and `data` (needs data the app may not always have, such as a discounted product).
+1. **Reads** the profile, conventions, your steps and the existing scenarios, and splits the text into test cases.
+2. **Looks at the app** with the page inspector, as the role the scenarios will use, to check the labels, buttons and messages your steps name. Usually 2 to 6 inspections, 10-20 seconds each.
+3. **Turns each test case into one scenario**, keeping your wording and order, and changing only what the conventions need:
+   - the state you start from ("log in as a customer", "have a product in the cart") becomes `preconditions` and `role`;
+   - one action per step, labels exactly as the app shows them;
+   - expected results become `Verify` steps, one visible concern each;
+   - secrets and record ids become descriptions.
+4. **Flags** what needs a decision: the app differs from your steps (a possible bug or outdated steps), a case that checks unrelated things (split it?), a check that only proves a server rule (could it be an API scenario?), an existing scenario that already covers a case.
 
-Claude shows the proposal: per feature a table and the **full steps**, a **criteria map** (which scenario covers which criterion, what's not covered and why), the summary, and **Decisions needed**, including where the app and the story disagree.
+Claude shows the proposal: per feature a table and the **full steps**, a **steps map** (each of your test cases and its scenarios, or why it was dropped), the summary, and **Decisions needed**.
 
 You approve or say what to change. A new area or role you approve is added to the profile by Claude before writing.
 
 ### Phase 2: the files
 
-The **same agent** writes exactly the approved scenarios. Each gets a `ref` to its criterion (`docs/ui/user-stories/Product_Detail.md#AC3`). New files get the schema line, `suite` (the feature's name) and `tags: ["@<area>"]`. Claude runs `npm run validate:scenarios` and reports.
+The **same agent** writes exactly the approved scenarios. New files get the schema line, `suite` (the feature's name) and `tags: ["@<area>"]`. Claude runs `npm run validate:scenarios` and reports.
 
 ## How it writes steps
 
@@ -61,15 +72,15 @@ The **same agent** writes exactly the approved scenarios. Each gets a `ref` to i
 
 ## The rules it follows
 
-- **Never invents anything:** every scenario traces to a criterion or the bug; behaviour it sees in the app but the document doesn't describe isn't covered.
+- **Never invents anything:** every scenario traces to one of your test cases; no extra cases or boundaries you didn't write (it mentions obvious gaps instead).
 - **The app only through the inspector, read-only:** it clicks tabs, menus and links, ticks filters, picks list options; never types, submits or changes data.
-- **Not the app's source code:** what the app should do comes from the document, what it does from the inspector.
+- **Not the app's source code:** what the app should do comes from your steps, what it does from the inspector.
 - **Adds only**, **writes only scenario files**, **no secrets**.
 
 ## Tips
 
-- Number the criteria in your stories (`AC1`, `AC2`...): scenarios point to them and the criteria map uses them.
+- One test case per numbered block, with its expected result, makes the steps map easy to read.
 - Answer the "Decisions needed": they are how the agent asks questions.
 - Next step: review the diff, then [UI Test Engineer](UI-Test-Engineer) (`/implement-ui-scenarios <file>`).
 
-See also: [Generate Scenarios](Generate-Scenarios#ui-scenarios).
+See also: [Generate Scenarios](Generate-Scenarios#from-test-steps), [Requirements Analyst](Requirements-Analyst).

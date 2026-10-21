@@ -59,6 +59,6 @@ When the subagent finishes:
 
 1. Run the profile's `commands.validateContracts` yourself and confirm there are no errors (or say it couldn't run without the package).
 2. Tell the user, briefly: the files written or changed, endpoint counts, the `validate` summary, how many status codes are verified, from source or from the spec only, and the subagent's findings (disagreements between the spec and the code, suspected bugs, what it couldn't determine). After an update, lead with the change log: endpoints added, removed and changed, and the verified facts that need re-checking. Removed endpoints matter most, because tests that call them will now fail or show up as undocumented calls.
-3. Suggest the next step: review the diff of the contract folder, then propose scenarios for the new or changed endpoints with `/write-api-scenarios <contract>`. The coverage report shows the documented status codes the tests don't cover yet.
+3. Suggest the next step: review the diff of the contract folder, then propose scenarios for the new or changed endpoints with `/write-api-scenarios-from-contract <contract>`. The coverage report shows the documented status codes the tests don't cover yet.
 
 Don't commit anything unless the user asks.

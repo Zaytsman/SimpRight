@@ -9,7 +9,7 @@ API source / OpenAPI spec ──/write-api-contracts──► docs/api/contracts
                                                          │
 user story / bug report ──/analyze-requirements──► docs/analysis/  (API vs UI, per check)
                                                          │
-                     /write-api-scenarios, /write-ui-scenarios ──► test-scenarios/  (status: manual)
+  /write-api-scenarios-from-contract, /write-*-scenarios-from-steps ──► test-scenarios/  (status: manual)
                                                          │
                /implement-api-scenarios, /implement-ui-scenarios ──► tests/ + framework code  (status: automated)
                                                          │
@@ -26,8 +26,9 @@ Every agent works in **two phases**: first a proposal (a plan, a draft, a diagno
 |---|---|
 | `/write-api-contracts` → `api-contract-writer` | Writes or updates API contracts from the API's source, its OpenAPI spec or both; optional live checks (asks first) |
 | `/analyze-requirements` → `requirements-analyst` | Summarises a story or bug and plans its tests, each on the API unless only the UI can prove it; writes the analysis, hands items to the scenario writers |
-| `/write-api-scenarios` → `api-scenario-writer` | Proposes API scenarios from a contract, writes the YAML after approval |
-| `/write-ui-scenarios` → `ui-scenario-writer` | Proposes UI scenarios from acceptance criteria, checking labels in the live app with the read-only page inspector |
+| `/write-api-scenarios-from-contract` → `api-scenario-writer` | Proposes API scenarios from a contract, writes the YAML after approval |
+| `/write-api-scenarios-from-steps` → `api-scenario-writer` | Turns the user's API test cases (plain-text steps, request and response JSON, a Bruno collection) into scenarios, checking each against the contract; fields that change between runs are never compared by value |
+| `/write-ui-scenarios-from-steps` → `ui-scenario-writer` | Turns the user's plain-text test steps into UI scenarios, checking labels in the live app with the read-only page inspector. From `/analyze-requirements` it writes the UI items of a story or bug |
 | `/implement-api-scenarios` → `api-test-engineer` | Plans the code and the tests that change data, then writes and runs the specs (each passing spec three more times) and marks the scenarios automated |
 | `/implement-ui-scenarios` → `ui-test-engineer` | The same for UI: inspects the pages, plans page objects, flows and fixtures |
 | `/review-tests` → `test-reviewer` (read-only) | Checks tests against their scenarios and the conventions, returns findings ranked blocker / should fix / nit; the skill applies the ones the user picks |

@@ -107,4 +107,4 @@ End with a short report for the person who asked:
 - Findings: spec and source disagreements, endpoints found in only one input, conflicts with existing verified facts, and suspected bugs in the API.
 - What you couldn't determine, and what you'd check next.
 - After live checks: the list of calls you made (method, path, token or not, status), and the facts the calls corrected or refined.
-- New or changed endpoints that have no test scenarios yet (`paths.scenarios`), as candidates for `/write-api-scenarios`.
+- New or changed endpoints that have no test scenarios yet (`paths.scenarios`), as candidates for `/write-api-scenarios-from-contract`.

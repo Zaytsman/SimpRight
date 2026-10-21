@@ -20,7 +20,7 @@ Reads a **user story, bug report or feature description**, writes a short **anal
 - A bug was reported from the UI, and you want to know whether the API can reproduce it.
 - You want a short written record of what a work item asks for and how it's tested.
 
-For a story you know is UI-only, [`/write-ui-scenarios`](UI-Scenario-Writer) is enough; for an API area without a story, [`/write-api-scenarios`](API-Scenario-Writer).
+Use it for a story you expect to be UI-only too: it may find checks the API proves faster. For an API area without a story, use [`/write-api-scenarios-from-contract`](API-Scenario-Writer); for test cases you already have, [`/write-ui-scenarios-from-steps`](UI-Scenario-Writer) or [`/write-api-scenarios-from-steps`](API-Scenario-Writer#from-test-steps).
 
 ## How to use it
 

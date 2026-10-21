@@ -24,7 +24,7 @@ A run is **healthy** when its failure rate is below the threshold: **2 % for UI,
 | **API Coverage** | The coverage report of the latest full API regression (new tab) | `latest/api-coverage/summary.json` exists |
 | **UI Test Cases**, **API Test Cases** | The [Test Cases Pages](Test-Cases-Pages) (new tab) | `test-cases/<layer>/scenarios-data.js` exists |
 | **Bugs** | The [Bugs Page](Bugs-Page) (new tab) | `bugs/bugs-data.js` exists |
-| **Schedule Test Run** | The repository's Actions tab, to start or schedule a run (new tab; see [CI Runs](CI-Runs)) | always |
+| **Schedule Test Run** | The repository's Actions tab, to start a run by hand (new tab; see [CI Runs](CI-Runs)) | always |
 | **Test Runs History** | The history section below | always |
 | **Known Issues** | The known issues section below | always |
 | **Wiki** | This wiki (new tab) | always |
@@ -91,4 +91,4 @@ Common changes:
 
 The number of runs kept on the site is set separately, by `KEEP_RUNS` in `scripts/publish-report.sh`.
 
-See also: [Test Cases Pages](Test-Cases-Pages), [CI Runs](CI-Runs#where-the-results-are).
+See also: [Test Cases Pages](Test-Cases-Pages), [CI Runs](CI-Runs#review-test-run-results).
