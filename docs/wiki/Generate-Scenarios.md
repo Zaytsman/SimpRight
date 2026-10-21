@@ -7,9 +7,10 @@ Test scenarios say **what** gets tested, in plain language, before any test code
 This page shows how to add scenarios for both layers with the AI agents, how to check and review them, and how to write one by hand.
 
 ```
-API:  API source / OpenAPI spec ──/write-api-contracts──► contract ──/write-api-scenarios──► API scenarios
-UI:   user story / bug report ──────────────────────────────────────/write-ui-scenarios───► UI scenarios
-Both: user story / bug report ──/analyze-requirements──► analysis + test plan (API first) ──► API and UI scenarios
+API:   API source / OpenAPI spec ──/write-api-contracts──► contract ──/write-api-scenarios-from-contract──► API scenarios
+Story: user story / bug report ──/analyze-requirements──► analysis + test plan (API first) ──► API and UI scenarios
+Steps: test steps, request/response JSON, Bruno ──/write-api-scenarios-from-steps──────────► API scenarios
+       test steps in plain text ──────────────────/write-ui-scenarios-from-steps───────────► UI scenarios
                                                                                               │
                                                     /implement-api-scenarios, /implement-ui-scenarios
 ```
@@ -52,9 +53,9 @@ Steps never hold secrets ("the default user's email", not the address). The full
 - Open the project in **[Claude Code](https://claude.com/claude-code)** (CLI, desktop app or IDE extension). The commands below are its slash commands, defined in `.claude/skills/`.
 - Have the framework installed and `.env` set up ([Installation & Setup](Installation-&-Setup)): the UI writer looks at the live pages with the page inspector, which starts a test run.
 - Prepare the input:
-  - **API:** a contract in `docs/api/contracts/` for the API area. If there's none yet, write it first (see below).
-  - **UI:** a user story with acceptance criteria in `docs/ui/user-stories/`, or a bug report.
-  - **Both layers:** the same story or bug; the [Requirements Analyst](Requirements-Analyst) decides which checks go to the API and which to the UI (see [From a story to both layers](#from-a-story-to-both-layers)).
+  - **A whole API area:** a contract in `docs/api/contracts/`. If there's none yet, write it first (see below).
+  - **A user story or bug report** (either layer or both): a story with acceptance criteria in `docs/ui/user-stories/`, or a bug report. The [Requirements Analyst](Requirements-Analyst) decides which checks go to the API and which to the UI (see [From a story or bug](#from-a-story-or-bug)).
+  - **Test cases you already have:** UI steps in plain text; API steps, request and expected-response JSON or a Bruno collection (see [From test steps](#from-test-steps)).
 
 ## API scenarios
 
@@ -72,8 +73,8 @@ The arguments are the API's source code and/or its OpenAPI spec and the areas. T
 ### 2. Ask for a proposal
 
 ```text
-/write-api-scenarios Users_API.md
-/write-api-scenarios Users_API.md POST /users/login GET /users/me
+/write-api-scenarios-from-contract Users_API.md
+/write-api-scenarios-from-contract Users_API.md POST /users/login GET /users/me
 ```
 
 The first argument is the contract (a file name in `docs/api/contracts/` is enough); the rest optionally limits the endpoints. For a contract with more than about 8 endpoints, Claude offers to start with a subset.
@@ -112,11 +113,13 @@ npm run validate:scenarios
 
 It checks the schema, unique IDs, file names, and that scenarios and specs point to each other. It also prints the **next free ID** of each layer.
 
-## UI scenarios
+## From a story or bug
+
+User stories and bug reports go through the [Requirements Analyst](Requirements-Analyst), even when you expect only UI tests: it puts each check on the API unless only the UI can prove it, and hands the UI items to the `ui-scenario-writer`.
 
 ### 1. Write or pick the user story
 
-UI scenarios come from acceptance criteria. A story is a markdown file in `docs/ui/user-stories/`:
+A story is a markdown file in `docs/ui/user-stories/`:
 
 ```text
 As a visitor, I want to view a product's details, add it to my cart, or save it to my favorites,
@@ -131,44 +134,11 @@ And the default quantity is 1.
 
 Number the criteria (`AC1`, `AC2`, ...) so scenarios can point to them. A bug report works too, as a file or pasted into the chat.
 
-### 2. Ask for a proposal
-
-```text
-/write-ui-scenarios Product_Detail.md
-/write-ui-scenarios Product_Detail.md AC3 AC4 AC5
-```
-
-For a story with more than about 6 criteria, Claude offers to start with the read-only ones (those that don't add to the cart, register, order or change a profile).
-
-The `ui-scenario-writer` agent:
-
-- **looks at the live pages** with the read-only page inspector (`npm run inspect:ui`), as the role the scenarios will use, so steps quote the labels, buttons and messages the app really shows. The inspector can click tabs and menus, tick filters and pick list options, but never types, submits or changes data;
-- proposes per criterion: the criterion as written, its stated boundaries (a 3-40 character limit → 2 and 41 rejected, 3 and 40 accepted), and a regression scenario for a bug;
-- makes every check **visible**: a text, a count, an order, a state, a message. When the story's outcome can't be seen on the page, it proposes a visible way and asks;
-- writes steps in the user's language (`Click "Add to cart".`), never selectors or record ids.
-
-It doesn't read the app's source code: what the app should do comes from the story, what it does from the inspector.
-
-### 3. Review and approve the proposal
-
-As for the API, plus:
-
-- a **criteria map**: which scenario covers which criterion, and which criteria aren't covered and why;
-- the flag `data` for a scenario that needs data the app may not always have (a product with a discount, an out-of-stock product);
-- notes where the app and the story disagree.
-
-Approve, or say what to change. If you approve a new area (`checkout`) or role, Claude adds it to `qa-agents-profile.yml` before the files are written.
-
-### 4. Check the result
-
-The agent writes `test-scenarios/ui/<area>/<feature>.yml` (`products/product-quantity.yml`), every scenario with a `ref` to its criterion and `status: manual`. Claude runs the validator and reports.
-
-## From a story to both layers
-
-When a story or bug touches both the API and the UI, let the [Requirements Analyst](Requirements-Analyst) decide where each check belongs before any scenario is written:
+### 2. Ask for an analysis
 
 ```text
 /analyze-requirements Product_Detail.md AC3-AC9
+/analyze-requirements BUG-45.md
 ```
 
 1. **Checkpoint 1, the test plan.** The analyst splits every criterion into test items and puts each on the API unless only the UI can prove it (what only the page shows, validation done only in the browser, browser state, navigation), with the reason. It lists the items existing scenarios already cover and the endpoints that have no contract yet. Approve the plan, or move items between layers.
@@ -176,7 +146,39 @@ When a story or bug touches both the API and the UI, let the [Requirements Analy
 3. **Checkpoint 2, the scenarios.** The API and UI scenario writers propose scenarios for the items on their layer, shown together; approve them once.
 4. The writers write the files; Claude adds the scenario IDs to the analysis document's test plan and runs the validator.
 
+For the UI items, the `ui-scenario-writer` agent:
+
+- **looks at the live pages** with the read-only page inspector (`npm run inspect:ui`), as the role the scenarios will use, so steps quote the labels, buttons and messages the app really shows. The inspector can click tabs and menus, tick filters and pick list options, but never types, submits or changes data;
+- makes every check **visible**: a text, a count, an order, a state, a message. When the story's outcome can't be seen on the page, it proposes a visible way and asks;
+- flags `data` for a scenario that needs data the app may not always have (a product with a discount, an out-of-stock product), and notes where the app and the story disagree;
+- writes steps in the user's language (`Click "Add to cart".`), never selectors or record ids. It doesn't read the app's source code: what the app should do comes from the story, what it does from the inspector.
+
 Then automate the API scenarios first: they're the cheaper, faster half of the plan.
+
+## From test steps
+
+When you already have test cases (manual ones from a test management tool or a spreadsheet, saved requests), turn them into scenarios directly. The agents keep your cases and their intent, and change only what the project's format needs.
+
+### UI: steps in plain text
+
+```text
+/write-ui-scenarios-from-steps checkout-cases.md
+/write-ui-scenarios-from-steps checkout-cases.md TC-12
+```
+
+A text file (or text pasted into the chat), one or more numbered test cases with their expected results; the optional last argument is the `ref` the scenarios get. The `ui-scenario-writer` checks the labels and messages your steps name with the page inspector, moves the starting state to `preconditions` and `role`, makes each expected result a visible `Verify` step, and proposes one scenario per test case with a **steps map** (each case and its scenarios). Where the app differs from your steps, or a check would be cheaper on the API, it asks. Details: [UI Scenario Writer](UI-Scenario-Writer).
+
+### API: steps, JSON or a Bruno collection
+
+```text
+/write-api-scenarios-from-steps add-to-cart-cases.md
+/write-api-scenarios-from-steps login-request.json login-response.json
+/write-api-scenarios-from-steps ../bruno/Toolshop/Carts
+```
+
+The `api-scenario-writer` turns each request into an action step and each expected response into `Verify` steps (the status, then one field per step; values that change between runs are checked for presence or type only). It never opens a collection's `environments/` and never copies a token or password from a request. It checks every case against the contract: an endpoint the contracts don't have, or a case that contradicts the contract, is your decision (a possible bug, or an outdated case). Details: [API Scenario Writer](API-Scenario-Writer#from-test-steps).
+
+Both proposals are reviewed and approved like the others, and Claude runs the validator after the files are written.
 
 ## After the scenarios are written
 

@@ -135,7 +135,7 @@ If the page behaves differently from what the scenario says, the agent **leaves 
 ## A full example
 
 ```text
-/write-ui-scenarios Product_Detail.md AC3 AC4 AC5   → proposal → approve → test-scenarios/ui/products/product-quantity.yml
+/analyze-requirements Product_Detail.md AC3-AC5     → plan → approve → proposals → approve → test-scenarios/ui/products/product-quantity.yml
 /implement-ui-scenarios product-quantity.yml        → pages inspected, plan + writes → approve → page objects, spec, all passing
 /review-tests product-quantity.spec.ts              → findings → pick → fixes applied
 (commit, pull request, CI)

@@ -149,7 +149,7 @@ After an API run, the report is in `test-results/api-coverage/index.html`. Set `
 ## 9. Optional: editor and AI tools
 
 - **VS Code** works well with two extensions: [Playwright Test for VS Code](https://marketplace.visualstudio.com/items?itemName=ms-playwright.playwright) (run and debug tests from the editor) and [YAML](https://marketplace.visualstudio.com/items?itemName=redhat.vscode-yaml) (the scenario files point to their schema, so you get checks and autocomplete while editing them).
-- **[Claude Code](https://claude.com/claude-code)** runs the project's AI agents. Open the project folder in it and the commands in `.claude/skills/` (`/write-ui-scenarios`, `/implement-api-scenarios`, `/review-tests`, `/heal-tests` and others) are available. See [docs/AI_WORKFLOW.md](https://github.com/Zaytsman/SimpRight/blob/main/docs/AI_WORKFLOW.md).
+- **[Claude Code](https://claude.com/claude-code)** runs the project's AI agents. Open the project folder in it and the commands in `.claude/skills/` (`/analyze-requirements`, `/write-ui-scenarios-from-steps`, `/implement-api-scenarios`, `/review-tests`, `/heal-tests` and others) are available. See [docs/AI_WORKFLOW.md](https://github.com/Zaytsman/SimpRight/blob/main/docs/AI_WORKFLOW.md).
 
 ## 10. Optional: CI in your fork
 

@@ -85,6 +85,6 @@ The contract commands (`validate`, `diff`, `from-openapi`) come from the optiona
 
 - Give it **both** source and spec when you can: the spec gives the shape, the source the real behaviour.
 - Review the diff of `docs/api/contracts/` before writing scenarios: a wrong contract leads to tests that fail for the wrong reason.
-- Next step: [API Scenario Writer](API-Scenario-Writer) (`/write-api-scenarios <contract>`).
+- Next step: [API Scenario Writer](API-Scenario-Writer) (`/write-api-scenarios-from-contract <contract>`).
 
 See also: [Generate Scenarios](Generate-Scenarios#api-scenarios).

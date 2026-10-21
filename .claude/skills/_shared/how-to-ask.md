@@ -1,6 +1,6 @@
 # How to ask
 
-Shared by the QA skills (`/analyze-requirements`, `/write-*-scenarios`, `/implement-*-scenarios`, `/review-tests`, `/heal-tests`, `/report-bug`, `/write-api-contracts`). Each skill says which questions it asks at its checkpoints; these rules say how.
+Shared by the QA skills (`/analyze-requirements`, `/write-api-scenarios-from-contract`, `/write-*-scenarios-from-steps`, `/implement-*-scenarios`, `/review-tests`, `/heal-tests`, `/report-bug`, `/write-api-contracts`). Each skill says which questions it asks at its checkpoints; these rules say how.
 
 Every question to the user goes through the AskUserQuestion tool:
 - Show what the question is about (the plan, the proposal, the findings, the diagnosis, the failures) as text first, as the agent returned it; the question itself stays short.

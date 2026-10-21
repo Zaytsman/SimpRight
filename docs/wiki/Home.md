@@ -41,8 +41,8 @@ Each AI agent, its slash command and the skills it uses:
 |---|---|---|
 | [Requirements Analyst](Requirements-Analyst) | `/analyze-requirements` | An analysis and a test plan from a story or bug, API first, then scenarios for both layers |
 | [API Contract Writer](API-Contract-Writer) | `/write-api-contracts` | API contracts from source code or an OpenAPI spec |
-| [API Scenario Writer](API-Scenario-Writer) | `/write-api-scenarios` | API scenarios from a contract |
-| [UI Scenario Writer](UI-Scenario-Writer) | `/write-ui-scenarios` | UI scenarios from a user story or bug |
+| [API Scenario Writer](API-Scenario-Writer) | `/write-api-scenarios-from-contract`, `/write-api-scenarios-from-steps` | API scenarios from a contract, or from your test steps, request/response JSON or a Bruno collection |
+| [UI Scenario Writer](UI-Scenario-Writer) | `/write-ui-scenarios-from-steps` | UI scenarios from your test steps in plain text |
 | [API Test Engineer](API-Test-Engineer) | `/implement-api-scenarios` | API specs and framework code from scenarios |
 | [UI Test Engineer](UI-Test-Engineer) | `/implement-ui-scenarios` | UI specs, page objects and flows from scenarios |
 | [Test Reviewer](Test-Reviewer) | `/review-tests` | Ranked review findings, then the fixes you pick |

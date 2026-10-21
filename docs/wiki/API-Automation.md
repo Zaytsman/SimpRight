@@ -135,7 +135,7 @@ If the API behaves differently from what the scenario says, the agent stops work
 
 ```text
 /write-api-contracts ../practice-software-testing/sprint5/API carts   → docs/api/contracts/Carts_API.md
-/write-api-scenarios Carts_API.md                                     → proposal → approve → test-scenarios/api/carts/*.yml
+/write-api-scenarios-from-contract Carts_API.md                       → proposal → approve → test-scenarios/api/carts/*.yml
 /implement-api-scenarios carts                                        → plan + writes → approve → specs, all passing
 /review-tests                                                         → findings → pick → fixes applied
 (commit, pull request, CI)

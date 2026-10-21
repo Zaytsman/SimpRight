@@ -47,7 +47,7 @@ Show the draft as the agent returned it. Then ask in one AskUserQuestion call (f
 1. **Items to write:** with one item, "Write it", "Write with edits" (title, severity or wording in "Other"), "Don't write"; with more, a multi-select with one option per item (up to 4; with more, "All", "None" and numbers through "Other"). Recommend the items whose reproduction you checked.
 2. **Writes** for reproduction (only when the draft lists "Writes needed"): each write with its cleanup in the description.
 3. **Decisions needed:** one question per decision (closing a bug now or after a re-run, extending a bug or filing a new one, a severity).
-4. **Coverage gaps:** "Add the scenario now" (with `/write-api-scenarios` or `/write-ui-scenarios` after this skill), "Later".
+4. **Coverage gaps:** "Add the scenario now" (with `/write-api-scenarios-from-steps` or `/write-ui-scenarios-from-steps` from the bug's steps, or `/analyze-requirements <bug file>` for both layers, after this skill), "Later".
 
 ## 3. Write
 
@@ -67,6 +67,6 @@ If the agent can't be continued, start a new `bug-reporter` with the brief from 
 1. Run `commands.validateScenarios` and `commands.typecheck` yourself, and `npm run bugs:build` (the Bugs page must still build).
 2. Run the specs whose known-issue line changed, once (`commands.runSpec`; for UI, `DISABLE_API_COVERAGE=true`), if their tests are read-only or their writes approved.
 3. Tell the user briefly: the bugs created, extended and closed (ID, title, severity), the scenarios linked, the spec results, writes made and cleaned up, and the coverage gaps.
-4. Suggest the next step: for coverage gaps, `/write-api-scenarios` or `/write-ui-scenarios`; for newly linked automated tests, `/review-tests` on the changed specs; then commit.
+4. Suggest the next step: for coverage gaps, `/write-api-scenarios-from-steps` or `/write-ui-scenarios-from-steps` (the bug's steps), or `/analyze-requirements <bug file>`; for newly linked automated tests, `/review-tests` on the changed specs; then commit.
 
 Don't commit anything unless the user asks.
