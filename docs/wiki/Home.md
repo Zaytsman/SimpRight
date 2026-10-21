@@ -27,11 +27,15 @@ It is also an example of **AI-assisted test automation**: Claude Code agents wri
 1. [CI Runs](CI-Runs): starting custom and smoke runs by hand on GitHub Actions, and reviewing their results on the Automation Portal.
 2. [Local Runs](Local-Runs): running tests on your machine, and scheduling unattended runs with Task Scheduler or cron.
 
-## Workflows
+## Test Scenarios
 
-1. [Generate Scenarios](Generate-Scenarios): add UI and API test scenarios with the scenario-writer agents (or by hand), review and approve them.
-2. [API Automation](API-Automation): turn API scenarios into tests with the API test engineer: plan, approve, implement, review, heal.
-3. [UI Automation](UI-Automation): the same for UI scenarios, with the page inspector and the UI test engineer.
+1. [Add API Scenarios](Add-API-Scenarios): from a story or bug (`/analyze-requirements`), a contract (`/write-api-scenarios-from-contract`), your test steps, request/response JSON or a Bruno collection (`/write-api-scenarios-from-steps`), or by hand.
+2. [Add UI Scenarios](Add-UI-Scenarios): from a story or bug (`/analyze-requirements`), your test steps in plain text (`/write-ui-scenarios-from-steps`), or by hand.
+
+## Automation
+
+1. [API Automation](API-Automation): turn API scenarios into tests with the API test engineer: plan, approve, implement, review, heal.
+2. [UI Automation](UI-Automation): the same for UI scenarios, with the page inspector and the UI test engineer.
 
 ## Agents and Skills
 

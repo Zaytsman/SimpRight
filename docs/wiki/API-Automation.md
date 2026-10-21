@@ -12,7 +12,7 @@ manual API scenarios ──/implement-api-scenarios──► plan ──approve�
 
 ## Before you start
 
-- **Scenarios with `status: manual`** in `test-scenarios/api/<area>/`. See [Generate Scenarios](Generate-Scenarios).
+- **Scenarios with `status: manual`** in `test-scenarios/api/<area>/`. See [Add API Scenarios](Add-API-Scenarios).
 - **A contract** for the area in `docs/api/contracts/`: the engineer takes endpoints, fields, status codes and messages from it, never from guesses.
 - The framework installed, `.env` set up and a passing run ([Installation & Setup](Installation-&-Setup)): the agent runs the new specs against the live API.
 - The project open in **[Claude Code](https://claude.com/claude-code)**.

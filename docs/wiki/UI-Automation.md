@@ -12,7 +12,7 @@ manual UI scenarios ──/implement-ui-scenarios──► inspect pages ──�
 
 ## Before you start
 
-- **Scenarios with `status: manual`** in `test-scenarios/ui/<area>/`. See [Generate Scenarios](Generate-Scenarios).
+- **Scenarios with `status: manual`** in `test-scenarios/ui/<area>/`. See [Add UI Scenarios](Add-UI-Scenarios).
 - The framework installed, `.env` set up and a passing run ([Installation & Setup](Installation-&-Setup)): the agent inspects the live pages and runs the new specs in Chromium.
 - The project open in **[Claude Code](https://claude.com/claude-code)**.
 

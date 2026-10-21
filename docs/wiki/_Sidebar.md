@@ -8,8 +8,11 @@
 - [CI Runs](CI-Runs)
 - [Local Runs](Local-Runs)
 
-**Workflows**
-- [Generate Scenarios](Generate-Scenarios)
+**Test Scenarios**
+- [Add API Scenarios](Add-API-Scenarios)
+- [Add UI Scenarios](Add-UI-Scenarios)
+
+**Automation**
 - [API Automation](API-Automation)
 - [UI Automation](UI-Automation)
 

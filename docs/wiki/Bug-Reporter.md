@@ -80,4 +80,4 @@ A **recheck** reproduces each bug from its steps. When the bug is gone, the agen
 - **Masked evidence:** no tokens, passwords or test users' emails, because the Bugs page is public.
 - **Only the link in scenarios and tests:** `knownIssue`, `bug` and the known-issue line; never steps, names or other test code. New regression scenarios are proposals for the scenario writers.
 
-See also: [Bugs Page](Bugs-Page), [Test Healer](Test-Healer), [Generate Scenarios](Generate-Scenarios).
+See also: [Bugs Page](Bugs-Page), [Test Healer](Test-Healer), [Add API Scenarios](Add-API-Scenarios), [Add UI Scenarios](Add-UI-Scenarios).

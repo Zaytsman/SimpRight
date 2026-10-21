@@ -83,4 +83,4 @@ The **same agent** writes exactly the approved scenarios. New files get the sche
 - Answer the "Decisions needed": they are how the agent asks questions.
 - Next step: review the diff, then [UI Test Engineer](UI-Test-Engineer) (`/implement-ui-scenarios <file>`).
 
-See also: [Generate Scenarios](Generate-Scenarios#from-test-steps), [Requirements Analyst](Requirements-Analyst).
+See also: [Add UI Scenarios](Add-UI-Scenarios), [Requirements Analyst](Requirements-Analyst).
