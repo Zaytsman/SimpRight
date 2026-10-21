@@ -163,7 +163,7 @@ PATH=/usr/local/bin:/usr/bin:/bin
 15 6 * * 1-5  $HOME/SimpRight-runs/run-simpright.sh --project=ui
 ```
 
-The time fields are the same as in the [CI schedules](CI-Runs#cron-syntax), but cron uses the machine's local time, not UTC. Check the entries with `crontab -l`.
+The time fields are the same as in the [CI schedules](Scheduled-Runs#cron-syntax), but cron uses the machine's local time, not UTC. Check the entries with `crontab -l`.
 
 Notes:
 - **nvm, fnm, Homebrew:** the `PATH` line must include the folder from `which npx` (for nvm, something like `$HOME/.nvm/versions/node/v24.x.x/bin`).

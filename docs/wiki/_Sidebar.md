@@ -1,4 +1,4 @@
-**[Home](Home)**
+- [Home](Home)
 
 **Getting Started**
 - [Installation & Setup](Installation-&-Setup)
@@ -26,6 +26,7 @@
 
 **Continuous Integration**
 - [CI Pipeline](CI-Pipeline)
+- [Scheduled Runs](Scheduled-Runs)
 - [GitHub Pages Publishing](GitHub-Pages-Publishing)
 - [Automation Portal](Automation-Portal)
 - [Test Cases Pages](Test-Cases-Pages)

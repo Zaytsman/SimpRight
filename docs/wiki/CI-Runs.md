@@ -2,36 +2,27 @@
 
 # CI Runs
 
-The tests run on **GitHub Actions**. Every run publishes its Playwright report to GitHub Pages, and the [Automation Portal](https://zaytsman.github.io/SimpRight/) shows the latest results, trends and run history.
+Besides the nightly regressions, the tests can be run on **GitHub Actions** by hand, on any branch. This page covers the three workflows for that and where to find the results. For the nightly regressions and their schedules, see [Scheduled Runs](Scheduled-Runs).
 
-This page covers the workflows, how to start a run by hand, how to change or add a schedule, and where to find the results.
-
-## The workflows
-
-| Workflow | File | When it runs | What it runs | Report family |
-|---|---|---|---|---|
-| **API Regression Test Run** | `run-api-tests.yml` | weekdays at 02:15 UTC, or by hand | all API tests, with the coverage report | `daily-api-regression` |
-| **UI Regression Test Run** | `run-ui-tests.yml` | weekdays at 06:15 UTC, or by hand | all UI tests | `daily-ui-regression` |
-| **Custom API Test Run** | `custom-api-tests.yml` | by hand | one API area, optionally filtered by title | `custom-api` |
-| **Custom UI Test Run** | `custom-ui-tests.yml` | by hand | one UI area, optionally filtered by title | `custom-ui` |
-| **Smoke Test Run** | `smoke-tests.yml` | by hand | the smoke set: the critical happy paths of both layers (tests tagged `@smoke`), in 2-3 minutes; avoid :45-:02 UTC, when the run waits for the hourly re-seed | `smoke` |
-| **PR Checks** (`verify`) | `pr-checks.yml` | every pull request to `main` or `develop` | typecheck, scenario validation, Test Cases and Bugs page builds | none (results stay in the PR) |
-
-The five test workflows are thin callers of one reusable workflow, `playwright-run.yml`. It checks out the code, installs Node.js 24, the dependencies and (for UI runs) Chromium, runs the typecheck and the tests, then publishes the report. A failed test fails the job, but only after the report has been published.
-
-The test runs need two repository secrets: `ADMIN_USER` and `ADMIN_PASSWORD` (Settings → Secrets and variables → Actions). CI writes no `.env` file: the secrets reach the tests as environment variables.
+| Workflow | File | What it runs | Report family |
+|---|---|---|---|
+| **Custom API Test Run** | `custom-api-tests.yml` | one API area or all of them, optionally filtered by title | `custom-api` |
+| **Custom UI Test Run** | `custom-ui-tests.yml` | one UI area or all of them, optionally filtered by title | `custom-ui` |
+| **Smoke Test Run** | `smoke-tests.yml` | the smoke set: the critical happy paths of both layers (tests tagged `@smoke`), in 2-3 minutes | `smoke` |
 
 ## Start a run by hand
 
 ### From the GitHub web UI
 
-1. Open the repository's **Actions** tab.
-2. Pick a workflow in the list on the left, for example **Custom UI Test Run**.
+1. Open the repository's **Actions** tab (or click **Schedule Test Run** on the [Automation Portal](Automation-Portal)).
+2. Pick **Custom API Test Run**, **Custom UI Test Run** or **Smoke Test Run** in the list on the left.
 3. Click **Run workflow** (top right of the run list).
-4. Choose the **branch** to test. Scheduled runs always test `main`; a manual run can test `develop` or a feature branch.
+4. Choose the **branch** to test: `main`, `develop` or a feature branch.
 5. For the custom runs, fill in the inputs:
-   - **area**: a folder of `tests/ui` or `tests/api`, or `all`;
-   - **grep** (optional): only tests whose title matches, for example `UI-013` or `UI-01[3-7]` (a regular expression), or a suite tag such as `@cart`.
+   - **area**: a folder of `tests/api` (`products`, `users`, `carts`, `invoices`, ...) or `tests/ui` (`cart`, `products`), or `all`;
+   - **grep** (optional): only tests whose title matches, for example `UI-013` or `UI-01[3-7]` (a regular expression), or a tag such as `@cart`.
+
+   The smoke run has no inputs.
 6. Click **Run workflow**. The run appears in the list after a few seconds.
 
 ### From the command line
@@ -39,126 +30,53 @@ The test runs need two repository secrets: `ADMIN_USER` and `ADMIN_PASSWORD` (Se
 With the [GitHub CLI](https://cli.github.com) (`gh auth login` once):
 
 ```bash
-# The full API regression on main
-gh workflow run run-api-tests.yml --ref main
+# The invoices API area on develop
+gh workflow run custom-api-tests.yml --ref develop -f area=invoices
 
 # The products UI area on develop, only UI-013 to UI-017
 gh workflow run custom-ui-tests.yml --ref develop -f area=products -f grep="UI-01[3-7]"
+
+# The smoke set on main
+gh workflow run smoke-tests.yml --ref main
 
 # Follow the run you just started, then list the latest runs
 gh run watch
 gh run list --workflow custom-ui-tests.yml --limit 5
 ```
 
-## Change a schedule
+### Good to know
 
-Schedules are `cron` lines in the workflow files:
+- **Avoid :45-:02 UTC.** The demo site re-seeds its data every hour at :00. A run that starts in that window waits until :03 before the tests begin, and the re-seed deletes the data a running test relies on.
+- **Retries:** on CI a failing test is retried once. A test that passes on its retry is marked **flaky** in the report.
+- A failed test fails the run, but only after its report has been published.
 
-```yaml
-on:
-  workflow_dispatch:
-  schedule:
-    # GitHub schedules run in UTC: 02:15 UTC on weekdays
-    - cron: '15 2 * * 1-5'
-```
+## Review test run results
 
-To change the time or the days, edit the line in `run-api-tests.yml` or `run-ui-tests.yml` and merge the change into `main`.
+### When the results are published
 
-### Cron syntax
+Every run publishes its Playwright report to GitHub Pages as its last step, after the tests, whether they passed or failed (a cancelled run publishes nothing). GitHub Pages then deploys the site, which usually takes about a minute: the report is on the portal about a minute after the run finishes. If the portal still shows the previous run, reload the page.
 
-Five fields, separated by spaces, always in **UTC**:
+### Where to find them on the Automation Portal
 
-```
-┌───────────── minute (0-59)
-│ ┌─────────── hour (0-23, UTC)
-│ │ ┌───────── day of the month (1-31)
-│ │ │ ┌─────── month (1-12)
-│ │ │ │ ┌───── day of the week (0-6, Sunday = 0)
-│ │ │ │ │
-15 2 * * 1-5
-```
-
-| Schedule | Cron |
-|---|---|
-| Weekdays at 02:15 UTC | `15 2 * * 1-5` |
-| Every day at 03:30 UTC | `30 3 * * *` |
-| Weekdays at 06:15 and 14:15 UTC | `15 6,14 * * 1-5` |
-| Every 6 hours | `0 */6 * * *` |
-| Mondays at 05:00 UTC | `0 5 * * 1` |
-
-A workflow can have several `- cron:` lines; it runs at each of them. [crontab.guru](https://crontab.guru) explains any expression in plain words.
-
-### Things to know about GitHub schedules
-
-- **They run on the default branch only** (`main`). A schedule changed on `develop` takes effect after the merge, and it always tests `main`'s code.
-- **UTC only.** Convert from your time zone, and remember that daylight saving time moves the local time by an hour twice a year.
-- **They can start late**, often by 5-15 minutes and sometimes more when GitHub is busy, at the top of the hour most of all. They can even be skipped under heavy load.
-- **Avoid the full hour for this app.** The demo site re-seeds its data every hour at :00, and logins and registrations can fail for a minute or two. A few minutes past the hour is safer, which is why the nightly runs start at :15 (`15 2 * * 1-5`).
-- **Inactive public repositories:** GitHub turns schedules off after 60 days without activity in the repository. Re-enable the workflow on the Actions tab.
-- **Forks:** schedules don't run in a fork until Actions is enabled there.
-
-## Add a new scheduled run
-
-Add a workflow file that calls `playwright-run.yml`. For example, the products UI area every weekday at 12:15 UTC, `.github/workflows/products-ui-midday.yml`:
-
-```yaml
-name: Products UI Midday Run
-
-on:
-  workflow_dispatch:
-  schedule:
-    - cron: '15 12 * * 1-5'
-
-permissions:
-  contents: write # push the report to gh-pages
-  packages: read  # install the optional coverage package
-
-jobs:
-  ui-tests:
-    uses: ./.github/workflows/playwright-run.yml
-    secrets:
-      ADMIN_USER: ${{ secrets.ADMIN_USER }}
-      ADMIN_PASSWORD: ${{ secrets.ADMIN_PASSWORD }}
-    with:
-      project: ui               # ui or api
-      family: custom-ui         # where the report is published
-      paths: tests/ui/products/ # spec folders or files; empty = the whole project
-      grep: ''                  # optional title filter
-```
-
-| Input | Required | Meaning |
-|---|---|---|
-| `project` | yes | The Playwright project: `ui`, `api`, or `all` (both in one run) |
-| `family` | yes | The report family, the folder on GitHub Pages. The dashboard shows `daily-ui-regression`, `daily-api-regression`, `smoke`, `custom-ui` and `custom-api`; a new name is published too, but the dashboard doesn't list it |
-| `paths` | no | Space-separated spec folders or files |
-| `grep` | no | Only tests whose title matches |
-| `publish-latest-coverage` | no | `true` only for the full API regression: its coverage becomes the dashboard's API Coverage |
-
-Both permissions are needed in the calling file: a called workflow can't have more permissions than its caller. The two secrets are passed by name: `playwright-run.yml` declares them, and no other secret reaches the test job.
-
-## Pause or stop a schedule
-
-- **For a while:** Actions tab → the workflow → **⋯** → **Disable workflow**, or `gh workflow disable run-ui-tests.yml`. Enable it again the same way (`gh workflow enable ...`).
-- **For good:** remove the `schedule:` block from the file (keep `workflow_dispatch:` to still run it by hand).
-
-## Where the results are
+Open the [Automation Portal](https://zaytsman.github.io/SimpRight/):
 
 | Where | What |
 |---|---|
-| [Automation Portal](https://zaytsman.github.io/SimpRight/) | Latest status, counts, pass/fail and duration trends, known issues, run history |
-| `https://zaytsman.github.io/SimpRight/<family>/run-<N>/` | The full Playwright report of run number N: steps, attachments, screenshots and videos of UI failures |
-| `https://zaytsman.github.io/SimpRight/latest/<family>/` | The newest run of a family |
-| `https://zaytsman.github.io/SimpRight/latest/api-coverage/` | API coverage of the latest full API regression |
-| The run's page on the Actions tab | The log, the error annotation with the report link, and the `playwright-report` and `test-results` artifact (kept 14 days) |
+| **Latest Reports** (side panel) → **Custom UI**, **Custom API** or **Smoke** | The full Playwright report of the newest run of that family |
+| **Test Runs History** → the family's section | The latest 10 runs of the family, newest first, each linking to its report |
 
-Each family keeps its latest **30 runs** on GitHub Pages; older ones are removed when a new run is published.
+Custom and smoke runs appear only in these two places: the status, the charts and **Known Issues** show the nightly regressions only.
 
-**Retries:** on CI a failing test is retried once. A test that passes on a retry is marked **flaky** in the report. Look into those too: they tell you something.
+The report of run number N is also at `https://zaytsman.github.io/SimpRight/<family>/run-<N>/` (for example `smoke/run-12/`), and the newest one at `https://zaytsman.github.io/SimpRight/latest/<family>/`. N is the run number in the run's title on the Actions tab (`#12`). Each family keeps its latest **30 runs**; older ones are removed when a new run is published.
 
-To find out why a run failed, open its report, or use `/heal-tests <run id>` in Claude Code (see [docs/AI_WORKFLOW.md](https://github.com/Zaytsman/SimpRight/blob/main/docs/AI_WORKFLOW.md)).
+### What a report shows
 
-## Pull request checks
+Every test with its steps, named like the scenario's steps, the attached requests and responses (secrets masked) and, for UI failures, a screenshot and a video. Known-issue tests that fail as expected count as passed.
 
-`verify` runs on every pull request to `main` or `develop`. It's the required check on `main`. It runs static checks only: the typecheck, the scenario validation and the Test Cases and Bugs page builds. It runs no tests: they run locally before a push (each changed spec three times) and in the nightly regressions on `main`. It needs no secrets, so pull requests from forks and from Dependabot get the same check.
+### On the Actions tab
 
-See also: [Local Runs](Local-Runs).
+The run's page has the log and, when tests failed, an error annotation with the link to the report. Its artifact (`<family>-run-<N>`: the HTML report and the raw test results) can be downloaded for 14 days.
+
+To find out why a run failed, use `/heal-tests <run id>` in Claude Code (see [Test Healer](Test-Healer)).
+
+See also: [Automation Portal](Automation-Portal), [Local Runs](Local-Runs).

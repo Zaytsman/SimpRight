@@ -95,4 +95,4 @@ The same agent applies only the approved fixes, adds or removes approved known i
 - On this public demo site, **environment** and **data drift** are the most common verdicts: check them before changing code.
 - Don't re-run right on the hour: the site re-seeds at :00.
 
-See also: [CI Runs](CI-Runs#where-the-results-are), [Local Runs](Local-Runs#read-the-results).
+See also: [CI Runs](CI-Runs#review-test-run-results), [Local Runs](Local-Runs#read-the-results).

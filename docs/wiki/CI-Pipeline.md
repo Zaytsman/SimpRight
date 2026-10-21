@@ -2,7 +2,7 @@
 
 # CI Pipeline
 
-How SimpRight's GitHub Actions are put together: the workflows, the reusable test job, the pull request check, secrets and permissions, and Dependabot. To start or schedule runs, see [CI Runs](CI-Runs).
+How SimpRight's GitHub Actions are put together: the workflows, the reusable test job, the pull request check, secrets and permissions, and Dependabot. To start runs by hand, see [CI Runs](CI-Runs); for the schedules, [Scheduled Runs](Scheduled-Runs).
 
 ```
                 ┌──────── run-api-tests.yml  (weekdays 02:15 UTC)
@@ -116,9 +116,9 @@ Security updates ignore `target-branch` and always open against `main`; after me
 | Change | Where |
 |---|---|
 | A new test area folder | Add it to the `area` options of `custom-ui-tests.yml` or `custom-api-tests.yml` |
-| A new scheduled run | A new caller of `playwright-run.yml` (example in [CI Runs](CI-Runs#add-a-new-scheduled-run)) |
+| A new scheduled run | A new caller of `playwright-run.yml` (see [Scheduled Runs](Scheduled-Runs#add-a-new-scheduled-run)) |
 | A new secret | Actions secrets, `workflow_call.secrets` and the `env:` of `playwright-run.yml`, the `secrets:` of every caller, `.env.example`, and the environment JSON placeholders |
 | A new action | Pin it to its release's full commit SHA, with the version in a comment (`gh api repos/<owner>/<action>/commits/<tag> --jq .sha`) |
 | Shell scripts | Keep LF line endings (`.gitattributes` enforces it for every `*.sh`) |
 
-See also: [CI Runs](CI-Runs), [GitHub Pages Publishing](GitHub-Pages-Publishing).
+See also: [CI Runs](CI-Runs), [Scheduled Runs](Scheduled-Runs), [GitHub Pages Publishing](GitHub-Pages-Publishing).
