@@ -3,8 +3,8 @@ window.SCENARIO_CATALOG = {
  "layer": "api",
  "title": "API Test Cases",
  "prefix": "API",
- "generatedAt": "2026-10-18T19:17:35.701Z",
- "commit": "b7b56b7907674bd4aad36a39057bdf25f22bef84",
+ "generatedAt": "2026-10-21T18:50:06.424Z",
+ "commit": "367916ec3eed8b3642f1f4c884cb57c207546cb1",
  "repoUrl": "https://github.com/Zaytsman/SimpRight",
  "branch": "main",
  "workflowUrl": "https://github.com/Zaytsman/SimpRight/actions/workflows/custom-api-tests.yml",
@@ -12,7 +12,7 @@ window.SCENARIO_CATALOG = {
   "total": 671,
   "automated": 671,
   "manual": 0,
-  "knownIssues": 69,
+  "knownIssues": 71,
   "automatedPct": 100
  },
  "tree": [
@@ -8651,6 +8651,8 @@ window.SCENARIO_CATALOG = {
    "name": "Download invoice PDF returns 200 with the file once it is generated",
    "status": "automated",
    "automatedIn": "tests/api/invoices/get-invoices-by-invoice-number-download-pdf.spec.ts",
+   "knownIssue": "The invoice PDF job doesn't run within a few minutes: the status stays INITIATED and the download answers 404.",
+   "bug": "BUG-047",
    "steps": [
     "Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.",
     "Send POST /users/login with that email and password, and take its access_token.",
@@ -8672,7 +8674,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@invoices-api"
    ],
-   "yaml": "- id: API-0468\n  name: Download invoice PDF returns 200 with the file once it is generated\n  status: automated\n  automatedIn: tests/api/invoices/get-invoices-by-invoice-number-download-pdf.spec.ts\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.\n    - Send POST /users/login with that email and password, and take its access_token.\n    - Send POST /carts with an empty body and take the returned id as the cart's id.\n    - Send POST /invoices with that access_token, payment_method \"cash-on-delivery\", payment_details {}, billing_street \"Stephansplatz 1\", billing_city \"Wien\", billing_country \"AT\" and the cart's id as cart_id, and take the new invoice's id, invoice_number and total.\n    - Send GET /invoices/{invoice_number}/download-pdf-status with the invoice's number and that access_token, and repeat every few seconds until the response status is 200 and the body's status is COMPLETED (the PDF jobs run every minute, so allow a few minutes).\n    - Send GET /invoices/{invoice_number}/download-pdf with the invoice's number and that access_token.\n    - Verify the response status is 200.\n    - Verify the Content-Disposition response header is \"attachment; filename=<invoice_number>.pdf\" with the invoice's number.\n    - Verify the response body is not empty."
+   "yaml": "- id: API-0468\n  name: Download invoice PDF returns 200 with the file once it is generated\n  status: automated\n  automatedIn: tests/api/invoices/get-invoices-by-invoice-number-download-pdf.spec.ts\n  knownIssue: \"The invoice PDF job doesn't run within a few minutes: the status stays INITIATED and the download answers 404.\"\n  bug: BUG-047\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.\n    - Send POST /users/login with that email and password, and take its access_token.\n    - Send POST /carts with an empty body and take the returned id as the cart's id.\n    - Send POST /invoices with that access_token, payment_method \"cash-on-delivery\", payment_details {}, billing_street \"Stephansplatz 1\", billing_city \"Wien\", billing_country \"AT\" and the cart's id as cart_id, and take the new invoice's id, invoice_number and total.\n    - Send GET /invoices/{invoice_number}/download-pdf-status with the invoice's number and that access_token, and repeat every few seconds until the response status is 200 and the body's status is COMPLETED (the PDF jobs run every minute, so allow a few minutes).\n    - Send GET /invoices/{invoice_number}/download-pdf with the invoice's number and that access_token.\n    - Verify the response status is 200.\n    - Verify the Content-Disposition response header is \"attachment; filename=<invoice_number>.pdf\" with the invoice's number.\n    - Verify the response body is not empty."
   },
   {
    "id": "API-0469",
@@ -8685,7 +8687,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's message is \"Unauthorized\"."
    ],
    "ref": [],
-   "specLine": 53,
+   "specLine": 55,
    "area": "invoices",
    "areaLabel": "Invoices",
    "file": "test-scenarios/api/invoices/get-invoices-by-invoice-number-download-pdf.yml",
@@ -8707,7 +8709,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's message is \"Document not created. Try again later.\"."
    ],
    "ref": [],
-   "specLine": 62,
+   "specLine": 64,
    "area": "invoices",
    "areaLabel": "Invoices",
    "file": "test-scenarios/api/invoices/get-invoices-by-invoice-number-download-pdf.yml",
@@ -8723,6 +8725,8 @@ window.SCENARIO_CATALOG = {
    "name": "Get PDF status returns 200 with COMPLETED once the PDF is generated",
    "status": "automated",
    "automatedIn": "tests/api/invoices/get-invoices-by-invoice-number-download-pdf-status.spec.ts",
+   "knownIssue": "The invoice PDF job doesn't run within a few minutes: the status stays INITIATED and the download answers 404.",
+   "bug": "BUG-047",
    "steps": [
     "Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.",
     "Send POST /users/login with that email and password, and take its access_token.",
@@ -8742,7 +8746,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@invoices-api"
    ],
-   "yaml": "- id: API-0471\n  name: Get PDF status returns 200 with COMPLETED once the PDF is generated\n  status: automated\n  automatedIn: tests/api/invoices/get-invoices-by-invoice-number-download-pdf-status.spec.ts\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.\n    - Send POST /users/login with that email and password, and take its access_token.\n    - Send POST /carts with an empty body and take the returned id as the cart's id.\n    - Send POST /invoices with that access_token, payment_method \"cash-on-delivery\", payment_details {}, billing_street \"Stephansplatz 1\", billing_city \"Wien\", billing_country \"AT\" and the cart's id as cart_id, and take the new invoice's id, invoice_number and total.\n    - Send GET /invoices/{invoice_number}/download-pdf-status with the invoice's number and that access_token, and repeat every few seconds until the response status is 200 and the body's status is COMPLETED (the PDF jobs run every minute, so allow a few minutes).\n    - Verify the last response's status is 200.\n    - Verify the body's status is \"COMPLETED\"."
+   "yaml": "- id: API-0471\n  name: Get PDF status returns 200 with COMPLETED once the PDF is generated\n  status: automated\n  automatedIn: tests/api/invoices/get-invoices-by-invoice-number-download-pdf-status.spec.ts\n  knownIssue: \"The invoice PDF job doesn't run within a few minutes: the status stays INITIATED and the download answers 404.\"\n  bug: BUG-047\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.\n    - Send POST /users/login with that email and password, and take its access_token.\n    - Send POST /carts with an empty body and take the returned id as the cart's id.\n    - Send POST /invoices with that access_token, payment_method \"cash-on-delivery\", payment_details {}, billing_street \"Stephansplatz 1\", billing_city \"Wien\", billing_country \"AT\" and the cart's id as cart_id, and take the new invoice's id, invoice_number and total.\n    - Send GET /invoices/{invoice_number}/download-pdf-status with the invoice's number and that access_token, and repeat every few seconds until the response status is 200 and the body's status is COMPLETED (the PDF jobs run every minute, so allow a few minutes).\n    - Verify the last response's status is 200.\n    - Verify the body's status is \"COMPLETED\"."
   },
   {
    "id": "API-0472",
@@ -8755,7 +8759,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's message is \"Unauthorized\"."
    ],
    "ref": [],
-   "specLine": 47,
+   "specLine": 49,
    "area": "invoices",
    "areaLabel": "Invoices",
    "file": "test-scenarios/api/invoices/get-invoices-by-invoice-number-download-pdf-status.yml",
@@ -8777,7 +8781,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's status is \"NOT_INITIATED\"."
    ],
    "ref": [],
-   "specLine": 56,
+   "specLine": 58,
    "area": "invoices",
    "areaLabel": "Invoices",
    "file": "test-scenarios/api/invoices/get-invoices-by-invoice-number-download-pdf-status.yml",
