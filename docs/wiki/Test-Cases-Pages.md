@@ -90,4 +90,4 @@ So the pages always show the scenarios of the merged code: a scenario written on
 
 Preview a change with `npm run test-cases:build` and the files in `test-results/test-cases/`, or served over HTTP as in [GitHub Pages Publishing](GitHub-Pages-Publishing#previewing-locally).
 
-See also: [Generate Scenarios](Generate-Scenarios), [Automation Portal](Automation-Portal).
+See also: [Add API Scenarios](Add-API-Scenarios), [Add UI Scenarios](Add-UI-Scenarios), [Automation Portal](Automation-Portal).

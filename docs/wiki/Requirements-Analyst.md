@@ -95,4 +95,4 @@ Example: [`docs/analysis/product-detail.md`](https://github.com/Zaytsman/SimpRig
 - Answer the "Decisions needed" at checkpoint 1: they decide the layers and the known issues.
 - Next step: review the diff (`docs/analysis/` and `test-scenarios/`), then automate, API first: [API Test Engineer](API-Test-Engineer), then [UI Test Engineer](UI-Test-Engineer).
 
-See also: [Generate Scenarios](Generate-Scenarios#from-a-story-to-both-layers).
+See also: [Add API Scenarios](Add-API-Scenarios#from-a-story-or-bug), [Add UI Scenarios](Add-UI-Scenarios#from-a-story-or-bug).

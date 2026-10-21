@@ -96,4 +96,4 @@ Give it text files, request and expected-response JSON files (paired by name, su
 - `unconfirmed` scenarios may fail because the spec was wrong, not the API: worth a look before automating.
 - Next step: review the diff of `test-scenarios/`, then [API Test Engineer](API-Test-Engineer) (`/implement-api-scenarios <file>`).
 
-See also: [Generate Scenarios](Generate-Scenarios#api-scenarios), [API Contract Writer](API-Contract-Writer).
+See also: [Add API Scenarios](Add-API-Scenarios#from-a-contract), [API Contract Writer](API-Contract-Writer).
