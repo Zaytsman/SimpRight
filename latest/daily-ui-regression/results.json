@@ -1,7 +1,7 @@
 {
   "config": {
     "argv": [
-      "/opt/hostedtoolcache/node/24.22.0/x64/bin/node",
+      "/opt/hostedtoolcache/node/24.21.0/x64/bin/node",
       "/home/runner/work/SimpRight/SimpRight/node_modules/.bin/playwright",
       "test",
       "--project=ui"
@@ -21,7 +21,7 @@
       "ci": {
         "commitHref": "https://github.com/Zaytsman/SimpRight/commit/9faafdd20c07850cf460f3b5d0d5101f31ac392d",
         "commitHash": "9faafdd20c07850cf460f3b5d0d5101f31ac392d",
-        "buildHref": "https://github.com/Zaytsman/SimpRight/actions/runs/39773563569"
+        "buildHref": "https://github.com/Zaytsman/SimpRight/actions/runs/39947303398"
       },
       "gitCommit": {
         "shortHash": "9faafdd",
@@ -52,7 +52,7 @@
           "ci": {
             "commitHref": "https://github.com/Zaytsman/SimpRight/commit/9faafdd20c07850cf460f3b5d0d5101f31ac392d",
             "commitHash": "9faafdd20c07850cf460f3b5d0d5101f31ac392d",
-            "buildHref": "https://github.com/Zaytsman/SimpRight/actions/runs/39773563569"
+            "buildHref": "https://github.com/Zaytsman/SimpRight/actions/runs/39947303398"
           },
           "gitCommit": {
             "shortHash": "9faafdd",
@@ -90,7 +90,7 @@
           "ci": {
             "commitHref": "https://github.com/Zaytsman/SimpRight/commit/9faafdd20c07850cf460f3b5d0d5101f31ac392d",
             "commitHash": "9faafdd20c07850cf460f3b5d0d5101f31ac392d",
-            "buildHref": "https://github.com/Zaytsman/SimpRight/actions/runs/39773563569"
+            "buildHref": "https://github.com/Zaytsman/SimpRight/actions/runs/39947303398"
           },
           "gitCommit": {
             "shortHash": "9faafdd",
@@ -132,7 +132,7 @@
           "ci": {
             "commitHref": "https://github.com/Zaytsman/SimpRight/commit/9faafdd20c07850cf460f3b5d0d5101f31ac392d",
             "commitHash": "9faafdd20c07850cf460f3b5d0d5101f31ac392d",
-            "buildHref": "https://github.com/Zaytsman/SimpRight/actions/runs/39773563569"
+            "buildHref": "https://github.com/Zaytsman/SimpRight/actions/runs/39947303398"
           },
           "gitCommit": {
             "shortHash": "9faafdd",
@@ -263,7 +263,7 @@
                       "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 12719,
+                      "duration": 6522,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
@@ -271,32 +271,32 @@
                       "steps": [
                         {
                           "title": "Set the quantity to 2 and click \"Add to cart\".",
-                          "duration": 965
+                          "duration": 983
                         },
                         {
                           "title": "Verify the cart badge in the nav bar shows 2.",
-                          "duration": 3
+                          "duration": 5
                         },
                         {
                           "title": "Open the cart.",
-                          "duration": 642
+                          "duration": 351
                         },
                         {
                           "title": "Verify the cart has exactly one line: that product with quantity 2.",
-                          "duration": 29
+                          "duration": 40
                         },
                         {
                           "title": "Verify the cart total equals 2 × the product's unit price.",
-                          "duration": 3
+                          "duration": 4
                         }
                       ],
-                      "startTime": "2026-10-22T12:03:05.237Z",
+                      "startTime": "2026-10-23T11:37:20.618Z",
                       "annotations": [],
                       "attachments": [
                         {
                           "name": "Create Product Response",
                           "contentType": "application/json",
-                          "body": "ewogICJuYW1lIjogIlByb2R1Y3QtMjAyNjEwMjItNjJlODBjIiwKICAicHJpY2UiOiA5Ljk5LAogICJpc19sb2NhdGlvbl9vZmZlciI6IGZhbHNlLAogICJpc19yZW50YWwiOiBmYWxzZSwKICAiaWQiOiAiMDFtNWhxd3FydnJ4cDJ5M2d0MzNqdzlibnoiLAogICJpbl9zdG9jayI6IDEwLAogICJpc19lY29fZnJpZW5kbHkiOiBmYWxzZSwKICAicHJvZHVjdF9pbWFnZSI6IHsKICAgICJpZCI6ICIwMU01SFFRVEZFRjdKNjQ3OEZHSkpYQ0hGUSIsCiAgICAiYnlfbmFtZSI6ICJIZWxpbnRvbiBGYW50aW4iLAogICAgImJ5X3VybCI6ICJodHRwczovL3Vuc3BsYXNoLmNvbS9AZmFudGluIiwKICAgICJzb3VyY2VfbmFtZSI6ICJVbnNwbGFzaCIsCiAgICAic291cmNlX3VybCI6ICJodHRwczovL3Vuc3BsYXNoLmNvbS9waG90b3MvVzhCTnd2T3ZXNE0iLAogICAgImZpbGVfbmFtZSI6ICJwbGllcnMwMS5hdmlmIiwKICAgICJ0aXRsZSI6ICJDb21iaW5hdGlvbiBwbGllcnMiCiAgfSwKICAiY2F0ZWdvcnkiOiB7CiAgICAiaWQiOiAiMDFNNUhRUVRGMkJGVkgzNzQ5MkYyVFo5WUgiLAogICAgIm5hbWUiOiAiUGxpZXJzIiwKICAgICJzbHVnIjogInBsaWVycyIsCiAgICAicGFyZW50X2lkIjogIjAxTTVIUVFURUtWMkNRUDgxSzZDTVROWFM1IgogIH0sCiAgImJyYW5kIjogewogICAgImlkIjogIjAxTTVIUVFUMkRXTk5KNEE2RUhEN1dGS0YwIiwKICAgICJuYW1lIjogIkZvcmdlRmxleCBUb29scyIsCiAgICAic2x1ZyI6ICJmb3JnZWZsZXgtdG9vbHMiCiAgfQp9"
+                          "body": "ewogICJuYW1lIjogIlByb2R1Y3QtMjAyNjEwMjMtYmJmZmJiIiwKICAicHJpY2UiOiA5Ljk5LAogICJpc19sb2NhdGlvbl9vZmZlciI6IGZhbHNlLAogICJpc19yZW50YWwiOiBmYWxzZSwKICAiaWQiOiAiMDFtNW04dDluMWUxYTRjdjl2MTM0azdjZG4iLAogICJpbl9zdG9jayI6IDEwLAogICJpc19lY29fZnJpZW5kbHkiOiBmYWxzZSwKICAicHJvZHVjdF9pbWFnZSI6IHsKICAgICJpZCI6ICIwMU01TTZQSFBYWDRCM0czR0hGQktQU0hEMSIsCiAgICAiYnlfbmFtZSI6ICJIZWxpbnRvbiBGYW50aW4iLAogICAgImJ5X3VybCI6ICJodHRwczovL3Vuc3BsYXNoLmNvbS9AZmFudGluIiwKICAgICJzb3VyY2VfbmFtZSI6ICJVbnNwbGFzaCIsCiAgICAic291cmNlX3VybCI6ICJodHRwczovL3Vuc3BsYXNoLmNvbS9waG90b3MvVzhCTnd2T3ZXNE0iLAogICAgImZpbGVfbmFtZSI6ICJwbGllcnMwMS5hdmlmIiwKICAgICJ0aXRsZSI6ICJDb21iaW5hdGlvbiBwbGllcnMiCiAgfSwKICAiY2F0ZWdvcnkiOiB7CiAgICAiaWQiOiAiMDFNNU02UEhQNVo0Q0o3WFRRTlA0OTZHSFciLAogICAgIm5hbWUiOiAiUGxpZXJzIiwKICAgICJzbHVnIjogInBsaWVycyIsCiAgICAicGFyZW50X2lkIjogIjAxTTVNNlBITlBYNFNTQ1NTRVBBNVk4NUVGIgogIH0sCiAgImJyYW5kIjogewogICAgImlkIjogIjAxTTVNNlBIQUtRVzg3UU5KUlpRUktaQlI5IiwKICAgICJuYW1lIjogIkZvcmdlRmxleCBUb29scyIsCiAgICAic2x1ZyI6ICJmb3JnZWZsZXgtdG9vbHMiCiAgfQp9"
                         }
                       ]
                     }
@@ -335,7 +335,7 @@
                           "workerIndex": 1,
                           "parallelIndex": 1,
                           "status": "passed",
-                          "duration": 10294,
+                          "duration": 4704,
                           "errors": [],
                           "stdout": [],
                           "stderr": [],
@@ -343,14 +343,14 @@
                           "steps": [
                             {
                               "title": "Click \"Add to cart\".",
-                              "duration": 4001
+                              "duration": 1340
                             },
                             {
                               "title": "Verify the message \"Product added to shopping cart.\" is shown.",
-                              "duration": 8
+                              "duration": 21
                             }
                           ],
-                          "startTime": "2026-10-22T12:03:05.220Z",
+                          "startTime": "2026-10-23T11:37:20.617Z",
                           "annotations": [],
                           "attachments": []
                         }
@@ -400,7 +400,7 @@
                       "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 7098,
+                      "duration": 4649,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
@@ -408,26 +408,26 @@
                       "steps": [
                         {
                           "title": "Open the checkout page.",
-                          "duration": 2335
+                          "duration": 1559
                         },
                         {
                           "title": "Click the delete button on the line of the first product.",
-                          "duration": 963
+                          "duration": 592
                         },
                         {
                           "title": "Verify the line of the first product is no longer shown.",
-                          "duration": 17
+                          "duration": 8
                         },
                         {
                           "title": "Verify the cart has one line: the second product.",
-                          "duration": 50
+                          "duration": 55
                         },
                         {
                           "title": "Verify the cart total equals the remaining line's total.",
-                          "duration": 13
+                          "duration": 15
                         }
                       ],
-                      "startTime": "2026-10-22T12:03:28.638Z",
+                      "startTime": "2026-10-23T11:37:35.580Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -468,7 +468,7 @@
                       "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "failed",
-                      "duration": 11949,
+                      "duration": 11279,
                       "error": {
                         "message": "Error: The empty cart message is visible\n\n\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('app-cart').locator('p')\nExpected: visible\nTimeout: 10000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - The empty cart message is visible locator('app-cart').locator('p') with timeout 10000ms\u001b[22m\n\u001b[2m  - waiting for locator('app-cart').locator('p')\u001b[22m\n",
                         "stack": "Error: The empty cart message is visible\n\n\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('app-cart').locator('p')\nExpected: visible\nTimeout: 10000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - The empty cart message is visible locator('app-cart').locator('p') with timeout 10000ms\u001b[22m\n\u001b[2m  - waiting for locator('app-cart').locator('p')\u001b[22m\n\n    at /home/runner/work/SimpRight/SimpRight/tests/ui/cart/checkout-cart-review.spec.ts:188:84\n    at /home/runner/work/SimpRight/SimpRight/tests/ui/cart/checkout-cart-review.spec.ts:187:5",
@@ -495,11 +495,11 @@
                       "steps": [
                         {
                           "title": "Open the checkout page.",
-                          "duration": 1685
+                          "duration": 1004
                         },
                         {
                           "title": "Verify the message \"Your shopping cart is empty\" is shown.",
-                          "duration": 10006,
+                          "duration": 10009,
                           "error": {
                             "message": "Error: The empty cart message is visible\n\n\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('app-cart').locator('p')\nExpected: visible\nTimeout: 10000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - The empty cart message is visible locator('app-cart').locator('p') with timeout 10000ms\u001b[22m\n\u001b[2m  - waiting for locator('app-cart').locator('p')\u001b[22m\n",
                             "stack": "Error: The empty cart message is visible\n\n\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('app-cart').locator('p')\nExpected: visible\nTimeout: 10000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - The empty cart message is visible locator('app-cart').locator('p') with timeout 10000ms\u001b[22m\n\u001b[2m  - waiting for locator('app-cart').locator('p')\u001b[22m\n\n    at /home/runner/work/SimpRight/SimpRight/tests/ui/cart/checkout-cart-review.spec.ts:188:84\n    at /home/runner/work/SimpRight/SimpRight/tests/ui/cart/checkout-cart-review.spec.ts:187:5",
@@ -512,7 +512,7 @@
                           }
                         }
                       ],
-                      "startTime": "2026-10-22T12:03:35.756Z",
+                      "startTime": "2026-10-23T11:37:40.252Z",
                       "annotations": [
                         {
                           "type": "fail",
@@ -564,7 +564,7 @@
                       "workerIndex": 1,
                       "parallelIndex": 1,
                       "status": "passed",
-                      "duration": 4551,
+                      "duration": 3436,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
@@ -572,22 +572,22 @@
                       "steps": [
                         {
                           "title": "Open the checkout page.",
-                          "duration": 2073
+                          "duration": 1531
                         },
                         {
                           "title": "Verify the discount badge \"-20%\" is shown next to the product name.",
-                          "duration": 16
+                          "duration": 15
                         },
                         {
                           "title": "Verify the original price is shown struck through.",
-                          "duration": 32
+                          "duration": 46
                         },
                         {
                           "title": "Verify the discounted price is shown, equal to 80% of the original price.",
-                          "duration": 22
+                          "duration": 20
                         }
                       ],
-                      "startTime": "2026-10-22T12:03:36.925Z",
+                      "startTime": "2026-10-23T11:37:43.488Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -626,7 +626,7 @@
                           "workerIndex": 1,
                           "parallelIndex": 1,
                           "status": "passed",
-                          "duration": 5028,
+                          "duration": 3273,
                           "errors": [],
                           "stdout": [],
                           "stderr": [],
@@ -634,30 +634,30 @@
                           "steps": [
                             {
                               "title": "Open the checkout page.",
-                              "duration": 560
+                              "duration": 409
                             },
                             {
                               "title": "Verify the column headers \"Item\", \"Quantity\", \"Price\" and \"Total\" are shown.",
-                              "duration": 21
+                              "duration": 27
                             },
                             {
                               "title": "Verify the line shows the product's name under \"Item\".",
-                              "duration": 42
+                              "duration": 59
                             },
                             {
                               "title": "Verify the line shows its quantity under \"Quantity\".",
-                              "duration": 17
+                              "duration": 27
                             },
                             {
                               "title": "Verify the line shows the product's unit price under \"Price\".",
-                              "duration": 28
+                              "duration": 43
                             },
                             {
                               "title": "Verify the line shows its line total under \"Total\", equal to the quantity × the unit price.",
-                              "duration": 61
+                              "duration": 39
                             }
                           ],
-                          "startTime": "2026-10-22T12:03:15.929Z",
+                          "startTime": "2026-10-23T11:37:26.292Z",
                           "annotations": [],
                           "attachments": []
                         }
@@ -688,7 +688,7 @@
                           "workerIndex": 0,
                           "parallelIndex": 0,
                           "status": "passed",
-                          "duration": 5436,
+                          "duration": 3943,
                           "errors": [],
                           "stdout": [],
                           "stderr": [],
@@ -696,26 +696,26 @@
                           "steps": [
                             {
                               "title": "Open the checkout page.",
-                              "duration": 498
+                              "duration": 400
                             },
                             {
                               "title": "Change the quantity of the line from 1 to 3.",
-                              "duration": 1046
+                              "duration": 552
                             },
                             {
                               "title": "Verify the message \"Product quantity updated.\" is shown.",
-                              "duration": 12
+                              "duration": 18
                             },
                             {
                               "title": "Verify the line total equals 3 × the unit price.",
-                              "duration": 22
+                              "duration": 39
                             },
                             {
                               "title": "Verify the cart total equals 3 × the unit price.",
-                              "duration": 5
+                              "duration": 12
                             }
                           ],
-                          "startTime": "2026-10-22T12:03:18.324Z",
+                          "startTime": "2026-10-23T11:37:28.124Z",
                           "annotations": [],
                           "attachments": []
                         }
@@ -756,7 +756,7 @@
                           "workerIndex": 1,
                           "parallelIndex": 1,
                           "status": "failed",
-                          "duration": 15926,
+                          "duration": 13878,
                           "error": {
                             "message": "Error: The empty cart message is shown\n\n\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  locator('app-cart').locator('p')\nExpected: \u001b[32m\"\u001b[7mYour shopping\u001b[27m cart is empty\"\u001b[39m\nReceived: \u001b[31m\"\u001b[7mThe\u001b[27m cart is empty\u001b[7m. Nothing to display.\u001b[27m\"\u001b[39m\nTimeout:  10000ms\n\nCall log:\n\u001b[2m  - The empty cart message is shown locator('app-cart').locator('p') with timeout 10000ms\u001b[22m\n\u001b[2m  - waiting for locator('app-cart').locator('p')\u001b[22m\n\u001b[2m    24 × locator resolved to <p class=\"ng-star-inserted\" _ngcontent-ng-c2879330868=\"\">The cart is empty. Nothing to display.</p>\u001b[22m\n\u001b[2m       - unexpected value \"The cart is empty. Nothing to display.\"\u001b[22m\n",
                             "stack": "Error: The empty cart message is shown\n\n\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  locator('app-cart').locator('p')\nExpected: \u001b[32m\"\u001b[7mYour shopping\u001b[27m cart is empty\"\u001b[39m\nReceived: \u001b[31m\"\u001b[7mThe\u001b[27m cart is empty\u001b[7m. Nothing to display.\u001b[27m\"\u001b[39m\nTimeout:  10000ms\n\nCall log:\n\u001b[2m  - The empty cart message is shown locator('app-cart').locator('p') with timeout 10000ms\u001b[22m\n\u001b[2m  - waiting for locator('app-cart').locator('p')\u001b[22m\n\u001b[2m    24 × locator resolved to <p class=\"ng-star-inserted\" _ngcontent-ng-c2879330868=\"\">The cart is empty. Nothing to display.</p>\u001b[22m\n\u001b[2m       - unexpected value \"The cart is empty. Nothing to display.\"\u001b[22m\n\n    at /home/runner/work/SimpRight/SimpRight/tests/ui/cart/checkout-cart-review.spec.ts:111:84\n    at /home/runner/work/SimpRight/SimpRight/tests/ui/cart/checkout-cart-review.spec.ts:109:7",
@@ -783,11 +783,11 @@
                           "steps": [
                             {
                               "title": "Open the checkout page.",
-                              "duration": 549
+                              "duration": 513
                             },
                             {
                               "title": "Click the delete button on the line.",
-                              "duration": 780
+                              "duration": 555
                             },
                             {
                               "title": "Verify the message \"Your shopping cart is empty\" is shown.",
@@ -804,7 +804,7 @@
                               }
                             }
                           ],
-                          "startTime": "2026-10-22T12:03:20.977Z",
+                          "startTime": "2026-10-23T11:37:29.582Z",
                           "annotations": [
                             {
                               "type": "fail",
@@ -857,7 +857,7 @@
                           "workerIndex": 0,
                           "parallelIndex": 0,
                           "status": "passed",
-                          "duration": 4828,
+                          "duration": 3457,
                           "errors": [],
                           "stdout": [],
                           "stderr": [],
@@ -865,18 +865,18 @@
                           "steps": [
                             {
                               "title": "Open the checkout page.",
-                              "duration": 738
+                              "duration": 463
                             },
                             {
                               "title": "Click \"Proceed to checkout\".",
-                              "duration": 73
+                              "duration": 94
                             },
                             {
                               "title": "Verify the \"Sign in\" step is shown.",
-                              "duration": 17
+                              "duration": 16
                             }
                           ],
-                          "startTime": "2026-10-22T12:03:23.791Z",
+                          "startTime": "2026-10-23T11:37:32.092Z",
                           "annotations": [],
                           "attachments": []
                         }
@@ -915,7 +915,7 @@
                           "workerIndex": 1,
                           "parallelIndex": 1,
                           "status": "passed",
-                          "duration": 7841,
+                          "duration": 4404,
                           "errors": [],
                           "stdout": [],
                           "stderr": [],
@@ -923,22 +923,22 @@
                           "steps": [
                             {
                               "title": "Open the checkout page.",
-                              "duration": 1217
+                              "duration": 450
                             },
                             {
                               "title": "Verify the \"Subtotal\" equals the sum of the line totals.",
-                              "duration": 76
+                              "duration": 40
                             },
                             {
                               "title": "Verify the row \"Discount (15%)\" shows 15% of the subtotal.",
-                              "duration": 25
+                              "duration": 23
                             },
                             {
                               "title": "Verify the \"Total\" equals the subtotal minus the discount.",
-                              "duration": 9
+                              "duration": 5
                             }
                           ],
-                          "startTime": "2026-10-22T12:03:41.497Z",
+                          "startTime": "2026-10-23T11:37:46.941Z",
                           "annotations": [],
                           "attachments": []
                         }
@@ -966,10 +966,10 @@
                       "projectName": "ui",
                       "results": [
                         {
-                          "workerIndex": 0,
-                          "parallelIndex": 0,
+                          "workerIndex": 1,
+                          "parallelIndex": 1,
                           "status": "passed",
-                          "duration": 9214,
+                          "duration": 4820,
                           "errors": [],
                           "stdout": [],
                           "stderr": [],
@@ -977,26 +977,26 @@
                           "steps": [
                             {
                               "title": "Open the checkout page.",
-                              "duration": 849
+                              "duration": 525
                             },
                             {
                               "title": "Click the delete button on the line of the rental product.",
-                              "duration": 837
+                              "duration": 654
                             },
                             {
                               "title": "Verify the \"Subtotal\" row is no longer shown.",
-                              "duration": 8
+                              "duration": 9
                             },
                             {
                               "title": "Verify the \"Discount (15%)\" row is no longer shown.",
-                              "duration": 13
+                              "duration": 8
                             },
                             {
                               "title": "Verify the total equals the remaining line's total.",
-                              "duration": 24
+                              "duration": 21
                             }
                           ],
-                          "startTime": "2026-10-22T12:03:47.727Z",
+                          "startTime": "2026-10-23T11:37:51.364Z",
                           "annotations": [],
                           "attachments": []
                         }
@@ -1034,10 +1034,10 @@
                       "projectName": "ui",
                       "results": [
                         {
-                          "workerIndex": 1,
-                          "parallelIndex": 1,
+                          "workerIndex": 0,
+                          "parallelIndex": 0,
                           "status": "failed",
-                          "duration": 17439,
+                          "duration": 14446,
                           "error": {
                             "message": "Error: The note marks the rental\n\n\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  locator('app-cart tbody tr').filter({ has: getByTestId('product-title').filter({ hasText: /^\\s*Excavator(?!\\s*\\w)/ }) }).locator('small')\nExpected: \u001b[32m\"This is a rental item\"\u001b[39m\nReceived: \u001b[31m\"Item for rent, price per hour\"\u001b[39m\nTimeout:  10000ms\n\nCall log:\n\u001b[2m  - The note marks the rental locator('app-cart tbody tr').filter({ has: getByTestId('product-title').filter({ hasText: /^\\s*Excavator(?!\\s*\\w)/ }) }).locator('small') with timeout 10000ms\u001b[22m\n\u001b[2m  - waiting for locator('app-cart tbody tr').filter({ has: getByTestId('product-title').filter({ hasText: /^\\s*Excavator(?!\\s*\\w)/ }) }).locator('small')\u001b[22m\n\u001b[2m    24 × locator resolved to <small _ngcontent-ng-c2879330868=\"\">Item for rent, price per hour</small>\u001b[22m\n\u001b[2m       - unexpected value \"Item for rent, price per hour\"\u001b[22m\n",
                             "stack": "Error: The note marks the rental\n\n\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  locator('app-cart tbody tr').filter({ has: getByTestId('product-title').filter({ hasText: /^\\s*Excavator(?!\\s*\\w)/ }) }).locator('small')\nExpected: \u001b[32m\"This is a rental item\"\u001b[39m\nReceived: \u001b[31m\"Item for rent, price per hour\"\u001b[39m\nTimeout:  10000ms\n\nCall log:\n\u001b[2m  - The note marks the rental locator('app-cart tbody tr').filter({ has: getByTestId('product-title').filter({ hasText: /^\\s*Excavator(?!\\s*\\w)/ }) }).locator('small') with timeout 10000ms\u001b[22m\n\u001b[2m  - waiting for locator('app-cart tbody tr').filter({ has: getByTestId('product-title').filter({ hasText: /^\\s*Excavator(?!\\s*\\w)/ }) }).locator('small')\u001b[22m\n\u001b[2m    24 × locator resolved to <small _ngcontent-ng-c2879330868=\"\">Item for rent, price per hour</small>\u001b[22m\n\u001b[2m       - unexpected value \"Item for rent, price per hour\"\u001b[22m\n\n    at /home/runner/work/SimpRight/SimpRight/tests/ui/cart/checkout-cart-review.spec.ts:300:74\n    at /home/runner/work/SimpRight/SimpRight/tests/ui/cart/checkout-cart-review.spec.ts:298:7",
@@ -1064,11 +1064,11 @@
                           "steps": [
                             {
                               "title": "Open the checkout page.",
-                              "duration": 859
+                              "duration": 445
                             },
                             {
                               "title": "Verify the line of the rental product is marked \"This is a rental item\".",
-                              "duration": 10021,
+                              "duration": 10022,
                               "error": {
                                 "message": "Error: The note marks the rental\n\n\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  locator('app-cart tbody tr').filter({ has: getByTestId('product-title').filter({ hasText: /^\\s*Excavator(?!\\s*\\w)/ }) }).locator('small')\nExpected: \u001b[32m\"This is a rental item\"\u001b[39m\nReceived: \u001b[31m\"Item for rent, price per hour\"\u001b[39m\nTimeout:  10000ms\n\nCall log:\n\u001b[2m  - The note marks the rental locator('app-cart tbody tr').filter({ has: getByTestId('product-title').filter({ hasText: /^\\s*Excavator(?!\\s*\\w)/ }) }).locator('small') with timeout 10000ms\u001b[22m\n\u001b[2m  - waiting for locator('app-cart tbody tr').filter({ has: getByTestId('product-title').filter({ hasText: /^\\s*Excavator(?!\\s*\\w)/ }) }).locator('small')\u001b[22m\n\u001b[2m    24 × locator resolved to <small _ngcontent-ng-c2879330868=\"\">Item for rent, price per hour</small>\u001b[22m\n\u001b[2m       - unexpected value \"Item for rent, price per hour\"\u001b[22m\n",
                                 "stack": "Error: The note marks the rental\n\n\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  locator('app-cart tbody tr').filter({ has: getByTestId('product-title').filter({ hasText: /^\\s*Excavator(?!\\s*\\w)/ }) }).locator('small')\nExpected: \u001b[32m\"This is a rental item\"\u001b[39m\nReceived: \u001b[31m\"Item for rent, price per hour\"\u001b[39m\nTimeout:  10000ms\n\nCall log:\n\u001b[2m  - The note marks the rental locator('app-cart tbody tr').filter({ has: getByTestId('product-title').filter({ hasText: /^\\s*Excavator(?!\\s*\\w)/ }) }).locator('small') with timeout 10000ms\u001b[22m\n\u001b[2m  - waiting for locator('app-cart tbody tr').filter({ has: getByTestId('product-title').filter({ hasText: /^\\s*Excavator(?!\\s*\\w)/ }) }).locator('small')\u001b[22m\n\u001b[2m    24 × locator resolved to <small _ngcontent-ng-c2879330868=\"\">Item for rent, price per hour</small>\u001b[22m\n\u001b[2m       - unexpected value \"Item for rent, price per hour\"\u001b[22m\n\n    at /home/runner/work/SimpRight/SimpRight/tests/ui/cart/checkout-cart-review.spec.ts:300:74\n    at /home/runner/work/SimpRight/SimpRight/tests/ui/cart/checkout-cart-review.spec.ts:298:7",
@@ -1081,7 +1081,7 @@
                               }
                             }
                           ],
-                          "startTime": "2026-10-22T12:03:49.361Z",
+                          "startTime": "2026-10-23T11:37:51.557Z",
                           "annotations": [
                             {
                               "type": "fail",
@@ -1162,7 +1162,7 @@
                       "workerIndex": 1,
                       "parallelIndex": 1,
                       "status": "failed",
-                      "duration": 15393,
+                      "duration": 13803,
                       "error": {
                         "message": "Error: The message names the signed-in customer\n\n\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('app-login').locator('.login-form-1 > p')\nExpected substring: \u001b[32m\"\u001b[7mY\u001b[27mou are already \u001b[7msign\u001b[27med in\u001b[7m as SimpRight Runner\u001b[27m\"\u001b[39m\nReceived string:    \u001b[31m\"\u001b[7mHello SimpRight Runner, y\u001b[27mou are already \u001b[7mlogg\u001b[27med in\u001b[7m. You can proceed to checkout.\u001b[27m\"\u001b[39m\nTimeout: 10000ms\n\nCall log:\n\u001b[2m  - The message names the signed-in customer locator('app-login').locator('.login-form-1 > p') with timeout 10000ms\u001b[22m\n\u001b[2m  - waiting for locator('app-login').locator('.login-form-1 > p')\u001b[22m\n\u001b[2m    24 × locator resolved to <p>Hello SimpRight Runner, you are already logged in…</p>\u001b[22m\n\u001b[2m       - unexpected value \"Hello SimpRight Runner, you are already logged in. You can proceed to checkout.\"\u001b[22m\n",
                         "stack": "Error: The message names the signed-in customer\n\n\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('app-login').locator('.login-form-1 > p')\nExpected substring: \u001b[32m\"\u001b[7mY\u001b[27mou are already \u001b[7msign\u001b[27med in\u001b[7m as SimpRight Runner\u001b[27m\"\u001b[39m\nReceived string:    \u001b[31m\"\u001b[7mHello SimpRight Runner, y\u001b[27mou are already \u001b[7mlogg\u001b[27med in\u001b[7m. You can proceed to checkout.\u001b[27m\"\u001b[39m\nTimeout: 10000ms\n\nCall log:\n\u001b[2m  - The message names the signed-in customer locator('app-login').locator('.login-form-1 > p') with timeout 10000ms\u001b[22m\n\u001b[2m  - waiting for locator('app-login').locator('.login-form-1 > p')\u001b[22m\n\u001b[2m    24 × locator resolved to <p>Hello SimpRight Runner, you are already logged in…</p>\u001b[22m\n\u001b[2m       - unexpected value \"Hello SimpRight Runner, you are already logged in. You can proceed to checkout.\"\u001b[22m\n\n    at /home/runner/work/SimpRight/SimpRight/tests/ui/cart/checkout-sign-in.spec.ts:209:88\n    at /home/runner/work/SimpRight/SimpRight/tests/ui/cart/checkout-sign-in.spec.ts:206:5",
@@ -1189,15 +1189,15 @@
                       "steps": [
                         {
                           "title": "Open the checkout page.",
-                          "duration": 670
+                          "duration": 643
                         },
                         {
                           "title": "Click \"Proceed to checkout\".",
-                          "duration": 92
+                          "duration": 73
                         },
                         {
                           "title": "Verify the message \"You are already signed in as\" followed by the default user's first and last name is shown.",
-                          "duration": 10584,
+                          "duration": 10346,
                           "error": {
                             "message": "Error: The message names the signed-in customer\n\n\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('app-login').locator('.login-form-1 > p')\nExpected substring: \u001b[32m\"\u001b[7mY\u001b[27mou are already \u001b[7msign\u001b[27med in\u001b[7m as SimpRight Runner\u001b[27m\"\u001b[39m\nReceived string:    \u001b[31m\"\u001b[7mHello SimpRight Runner, y\u001b[27mou are already \u001b[7mlogg\u001b[27med in\u001b[7m. You can proceed to checkout.\u001b[27m\"\u001b[39m\nTimeout: 10000ms\n\nCall log:\n\u001b[2m  - The message names the signed-in customer locator('app-login').locator('.login-form-1 > p') with timeout 10000ms\u001b[22m\n\u001b[2m  - waiting for locator('app-login').locator('.login-form-1 > p')\u001b[22m\n\u001b[2m    24 × locator resolved to <p>Hello SimpRight Runner, you are already logged in…</p>\u001b[22m\n\u001b[2m       - unexpected value \"Hello SimpRight Runner, you are already logged in. You can proceed to checkout.\"\u001b[22m\n",
                             "stack": "Error: The message names the signed-in customer\n\n\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('app-login').locator('.login-form-1 > p')\nExpected substring: \u001b[32m\"\u001b[7mY\u001b[27mou are already \u001b[7msign\u001b[27med in\u001b[7m as SimpRight Runner\u001b[27m\"\u001b[39m\nReceived string:    \u001b[31m\"\u001b[7mHello SimpRight Runner, y\u001b[27mou are already \u001b[7mlogg\u001b[27med in\u001b[7m. You can proceed to checkout.\u001b[27m\"\u001b[39m\nTimeout: 10000ms\n\nCall log:\n\u001b[2m  - The message names the signed-in customer locator('app-login').locator('.login-form-1 > p') with timeout 10000ms\u001b[22m\n\u001b[2m  - waiting for locator('app-login').locator('.login-form-1 > p')\u001b[22m\n\u001b[2m    24 × locator resolved to <p>Hello SimpRight Runner, you are already logged in…</p>\u001b[22m\n\u001b[2m       - unexpected value \"Hello SimpRight Runner, you are already logged in. You can proceed to checkout.\"\u001b[22m\n\n    at /home/runner/work/SimpRight/SimpRight/tests/ui/cart/checkout-sign-in.spec.ts:209:88\n    at /home/runner/work/SimpRight/SimpRight/tests/ui/cart/checkout-sign-in.spec.ts:206:5",
@@ -1210,7 +1210,7 @@
                           }
                         }
                       ],
-                      "startTime": "2026-10-22T12:04:14.908Z",
+                      "startTime": "2026-10-23T11:38:09.191Z",
                       "annotations": [
                         {
                           "type": "fail",
@@ -1267,10 +1267,10 @@
                       "projectName": "ui",
                       "results": [
                         {
-                          "workerIndex": 0,
-                          "parallelIndex": 0,
+                          "workerIndex": 1,
+                          "parallelIndex": 1,
                           "status": "passed",
-                          "duration": 4815,
+                          "duration": 3232,
                           "errors": [],
                           "stdout": [],
                           "stderr": [],
@@ -1278,22 +1278,22 @@
                           "steps": [
                             {
                               "title": "Open the checkout page.",
-                              "duration": 642
+                              "duration": 539
                             },
                             {
                               "title": "Click \"Proceed to checkout\".",
-                              "duration": 83
+                              "duration": 72
                             },
                             {
                               "title": "Verify the \"Sign in\" step is shown.",
-                              "duration": 9
+                              "duration": 11
                             },
                             {
                               "title": "Verify the login form is shown.",
-                              "duration": 6
+                              "duration": 5
                             }
                           ],
-                          "startTime": "2026-10-22T12:03:56.964Z",
+                          "startTime": "2026-10-23T11:37:56.205Z",
                           "annotations": [],
                           "attachments": []
                         }
@@ -1321,10 +1321,10 @@
                       "projectName": "ui",
                       "results": [
                         {
-                          "workerIndex": 0,
-                          "parallelIndex": 0,
+                          "workerIndex": 1,
+                          "parallelIndex": 1,
                           "status": "passed",
-                          "duration": 4796,
+                          "duration": 3266,
                           "errors": [],
                           "stdout": [],
                           "stderr": [],
@@ -1332,26 +1332,26 @@
                           "steps": [
                             {
                               "title": "Open the checkout page.",
-                              "duration": 601
+                              "duration": 446
                             },
                             {
                               "title": "Click \"Proceed to checkout\".",
-                              "duration": 74
+                              "duration": 77
                             },
                             {
                               "title": "Verify the field \"Email address\" is shown.",
-                              "duration": 14
+                              "duration": 10
                             },
                             {
                               "title": "Verify the field \"Password\" is shown.",
-                              "duration": 8
+                              "duration": 7
                             },
                             {
                               "title": "Verify the button \"Login\" is shown.",
-                              "duration": 9
+                              "duration": 8
                             }
                           ],
-                          "startTime": "2026-10-22T12:04:01.796Z",
+                          "startTime": "2026-10-23T11:37:59.454Z",
                           "annotations": [],
                           "attachments": []
                         }
@@ -1379,10 +1379,10 @@
                       "projectName": "ui",
                       "results": [
                         {
-                          "workerIndex": 0,
-                          "parallelIndex": 0,
+                          "workerIndex": 1,
+                          "parallelIndex": 1,
                           "status": "passed",
-                          "duration": 11483,
+                          "duration": 6436,
                           "errors": [],
                           "stdout": [],
                           "stderr": [],
@@ -1390,27 +1390,27 @@
                           "steps": [
                             {
                               "title": "Open the checkout page.",
-                              "duration": 624
+                              "duration": 373
                             },
                             {
                               "title": "Click \"Proceed to checkout\".",
-                              "duration": 82
+                              "duration": 53
                             },
                             {
                               "title": "Enter the customer's email in the field \"Email address\".",
-                              "duration": 28
+                              "duration": 12
                             },
                             {
                               "title": "Enter the customer's password in the field \"Password\".",
-                              "duration": 37
+                              "duration": 31
                             },
                             {
                               "title": "Click \"Login\".",
-                              "duration": 925
+                              "duration": 463
                             },
                             {
                               "title": "Verify the field \"TOTP Code\" is shown.",
-                              "duration": 4
+                              "duration": 3
                             },
                             {
                               "title": "Verify the button \"Verify TOTP\" is shown.",
@@ -1418,38 +1418,38 @@
                             },
                             {
                               "title": "Verify the fields \"Email address\" and \"Password\" are no longer shown.",
-                              "duration": 8
+                              "duration": 6
                             },
                             {
                               "title": "Enter the code \"000000\" in the field \"TOTP Code\".",
-                              "duration": 10
+                              "duration": 7
                             },
                             {
                               "title": "Click \"Verify TOTP\".",
-                              "duration": 484
+                              "duration": 294
                             },
                             {
                               "title": "Verify the button \"Proceed to checkout\" is not shown.",
-                              "duration": 4
+                              "duration": 6
                             },
                             {
                               "title": "Enter the account's current TOTP code in the field \"TOTP Code\" (replacing the wrong one).",
-                              "duration": 9
+                              "duration": 20
                             },
                             {
                               "title": "Click \"Verify TOTP\".",
-                              "duration": 502
+                              "duration": 311
                             },
                             {
                               "title": "Verify a message that the customer is already signed in is shown.",
-                              "duration": 3
+                              "duration": 5
                             },
                             {
                               "title": "Verify the button \"Proceed to checkout\" is shown.",
-                              "duration": 3
+                              "duration": 5
                             }
                           ],
-                          "startTime": "2026-10-22T12:04:06.608Z",
+                          "startTime": "2026-10-23T11:38:02.738Z",
                           "annotations": [],
                           "attachments": []
                         }
@@ -1478,10 +1478,10 @@
                       "projectName": "ui",
                       "results": [
                         {
-                          "workerIndex": 1,
-                          "parallelIndex": 1,
+                          "workerIndex": 0,
+                          "parallelIndex": 0,
                           "status": "passed",
-                          "duration": 8061,
+                          "duration": 4580,
                           "errors": [],
                           "stdout": [],
                           "stderr": [],
@@ -1489,42 +1489,42 @@
                           "steps": [
                             {
                               "title": "Open the checkout page.",
-                              "duration": 805
+                              "duration": 493
                             },
                             {
                               "title": "Click \"Proceed to checkout\".",
-                              "duration": 86
+                              "duration": 92
                             },
                             {
                               "title": "Enter the default user's email in the field \"Email address\".",
-                              "duration": 28
+                              "duration": 22
                             },
                             {
                               "title": "Enter the default user's password in the field \"Password\".",
-                              "duration": 50
+                              "duration": 32
                             },
                             {
                               "title": "Click \"Login\".",
-                              "duration": 554
+                              "duration": 388
                             },
                             {
                               "title": "Verify the login form is no longer shown.",
-                              "duration": 11
+                              "duration": 6
                             },
                             {
                               "title": "Verify the user menu is shown in the navigation.",
-                              "duration": 1357
+                              "duration": 837
                             },
                             {
                               "title": "Click \"Proceed to checkout\" on the sign-in step.",
-                              "duration": 130
+                              "duration": 48
                             },
                             {
                               "title": "Verify the \"Billing Address\" step is shown.",
-                              "duration": 26
+                              "duration": 10
                             }
                           ],
-                          "startTime": "2026-10-22T12:04:06.828Z",
+                          "startTime": "2026-10-23T11:38:06.030Z",
                           "annotations": [],
                           "attachments": []
                         }
@@ -1582,7 +1582,7 @@
                           "workerIndex": 0,
                           "parallelIndex": 0,
                           "status": "passed",
-                          "duration": 3469,
+                          "duration": 2265,
                           "errors": [],
                           "stdout": [],
                           "stderr": [],
@@ -1590,38 +1590,38 @@
                           "steps": [
                             {
                               "title": "Verify the product image is shown.",
-                              "duration": 9
+                              "duration": 6
                             },
                             {
                               "title": "Verify the name \"Combination Pliers\" is shown.",
-                              "duration": 7
+                              "duration": 4
                             },
                             {
                               "title": "Verify the product description is shown.",
-                              "duration": 8
+                              "duration": 10
                             },
                             {
                               "title": "Verify the price \"$14.15\" is shown.",
-                              "duration": 9
+                              "duration": 4
                             },
                             {
                               "title": "Verify the category badge \"Pliers\" is shown.",
-                              "duration": 9
+                              "duration": 4
                             },
                             {
                               "title": "Verify the brand badge \"ForgeFlex Tools\" is shown.",
-                              "duration": 8
+                              "duration": 4
                             },
                             {
                               "title": "Verify the \"Related products\" section is shown below the product information.",
-                              "duration": 63
+                              "duration": 64
                             },
                             {
                               "title": "Verify the \"Related products\" section shows at least one product.",
-                              "duration": 10
+                              "duration": 12
                             }
                           ],
-                          "startTime": "2026-10-22T12:04:18.123Z",
+                          "startTime": "2026-10-23T11:38:10.630Z",
                           "annotations": [],
                           "attachments": []
                         }
@@ -1667,7 +1667,7 @@
                               "workerIndex": 0,
                               "parallelIndex": 0,
                               "status": "passed",
-                              "duration": 3760,
+                              "duration": 2361,
                               "errors": [],
                               "stdout": [],
                               "stderr": [],
@@ -1675,18 +1675,18 @@
                               "steps": [
                                 {
                                   "title": "Verify the original price is shown struck through.",
-                                  "duration": 12
+                                  "duration": 16
                                 },
                                 {
                                   "title": "Verify the discounted price is shown.",
-                                  "duration": 12
+                                  "duration": 9
                                 },
                                 {
                                   "title": "Verify a discount percentage badge is shown.",
-                                  "duration": 5
+                                  "duration": 6
                                 }
                               ],
-                              "startTime": "2026-10-22T12:04:21.611Z",
+                              "startTime": "2026-10-23T11:38:12.911Z",
                               "annotations": [],
                               "attachments": []
                             }
@@ -1725,7 +1725,7 @@
                               "workerIndex": 0,
                               "parallelIndex": 0,
                               "status": "passed",
-                              "duration": 3730,
+                              "duration": 2169,
                               "errors": [],
                               "stdout": [],
                               "stderr": [],
@@ -1733,7 +1733,7 @@
                               "steps": [
                                 {
                                   "title": "Set the duration slider to 3 hours.",
-                                  "duration": 77
+                                  "duration": 86
                                 },
                                 {
                                   "title": "Verify the discount badge \"-25%\" is shown.",
@@ -1741,18 +1741,18 @@
                                 },
                                 {
                                   "title": "Verify the hourly rate is shown struck through.",
-                                  "duration": 17
-                                },
-                                {
-                                  "title": "Verify the discounted hourly rate is shown, 25% below the hourly rate.",
                                   "duration": 19
                                 },
                                 {
+                                  "title": "Verify the discounted hourly rate is shown, 25% below the hourly rate.",
+                                  "duration": 24
+                                },
+                                {
                                   "title": "Verify the total price equals 3 × the discounted hourly rate.",
-                                  "duration": 3
+                                  "duration": 8
                                 }
                               ],
-                              "startTime": "2026-10-22T12:04:25.386Z",
+                              "startTime": "2026-10-23T11:38:15.289Z",
                               "annotations": [],
                               "attachments": []
                             }
@@ -1793,7 +1793,7 @@
                           "workerIndex": 0,
                           "parallelIndex": 0,
                           "status": "passed",
-                          "duration": 3924,
+                          "duration": 2179,
                           "errors": [],
                           "stdout": [],
                           "stderr": [],
@@ -1801,7 +1801,7 @@
                           "steps": [
                             {
                               "title": "Verify \"Add to cart\" is disabled.",
-                              "duration": 5
+                              "duration": 4
                             },
                             {
                               "title": "Verify \"Out of stock\" is shown.",
@@ -1809,10 +1809,10 @@
                             },
                             {
                               "title": "Verify \"Out of stock\" is shown in red.",
-                              "duration": 6
+                              "duration": 3
                             }
                           ],
-                          "startTime": "2026-10-22T12:04:29.133Z",
+                          "startTime": "2026-10-23T11:38:17.475Z",
                           "annotations": [],
                           "attachments": []
                         }
@@ -1848,10 +1848,10 @@
                       "projectName": "ui",
                       "results": [
                         {
-                          "workerIndex": 1,
-                          "parallelIndex": 1,
+                          "workerIndex": 0,
+                          "parallelIndex": 0,
                           "status": "passed",
-                          "duration": 4158,
+                          "duration": 2213,
                           "errors": [],
                           "stdout": [],
                           "stderr": [],
@@ -1859,18 +1859,18 @@
                           "steps": [
                             {
                               "title": "Verify a duration slider is shown.",
-                              "duration": 23
+                              "duration": 5
                             },
                             {
                               "title": "Verify the duration slider goes from 1 to 10 hours.",
-                              "duration": 28
+                              "duration": 18
                             },
                             {
                               "title": "Verify the \"Increase quantity\" (+) and \"Decrease quantity\" (-) buttons are not shown.",
-                              "duration": 16
+                              "duration": 13
                             }
                           ],
-                          "startTime": "2026-10-22T12:04:30.335Z",
+                          "startTime": "2026-10-23T11:38:19.666Z",
                           "annotations": [],
                           "attachments": []
                         }
@@ -1901,7 +1901,7 @@
                           "workerIndex": 0,
                           "parallelIndex": 0,
                           "status": "passed",
-                          "duration": 4057,
+                          "duration": 2078,
                           "errors": [],
                           "stdout": [],
                           "stderr": [],
@@ -1909,14 +1909,14 @@
                           "steps": [
                             {
                               "title": "Set the duration slider to 3 hours.",
-                              "duration": 36
+                              "duration": 41
                             },
                             {
                               "title": "Verify the total price equals 3 × the hourly rate.",
-                              "duration": 5
+                              "duration": 9
                             }
                           ],
-                          "startTime": "2026-10-22T12:04:33.073Z",
+                          "startTime": "2026-10-23T11:38:21.898Z",
                           "annotations": [],
                           "attachments": []
                         }
@@ -1974,7 +1974,7 @@
                           "workerIndex": 1,
                           "parallelIndex": 1,
                           "status": "passed",
-                          "duration": 9763,
+                          "duration": 4384,
                           "errors": [],
                           "stdout": [],
                           "stderr": [],
@@ -1982,14 +1982,14 @@
                           "steps": [
                             {
                               "title": "Click \"Add to favourites\".",
-                              "duration": 480
+                              "duration": 344
                             },
                             {
                               "title": "Verify the message \"Product added to your favorites list.\" is shown.",
-                              "duration": 12
+                              "duration": 6
                             }
                           ],
-                          "startTime": "2026-10-22T12:04:34.518Z",
+                          "startTime": "2026-10-23T11:38:23.045Z",
                           "annotations": [],
                           "attachments": []
                         }
@@ -2020,7 +2020,7 @@
                           "workerIndex": 0,
                           "parallelIndex": 0,
                           "status": "passed",
-                          "duration": 10099,
+                          "duration": 4995,
                           "errors": [],
                           "stdout": [],
                           "stderr": [],
@@ -2028,14 +2028,14 @@
                           "steps": [
                             {
                               "title": "Click \"Add to favourites\".",
-                              "duration": 551
+                              "duration": 302
                             },
                             {
                               "title": "Verify the message \"Product already in your favorites list.\" is shown.",
-                              "duration": 15
+                              "duration": 12
                             }
                           ],
-                          "startTime": "2026-10-22T12:04:37.145Z",
+                          "startTime": "2026-10-23T11:38:23.997Z",
                           "annotations": [],
                           "attachments": []
                         }
@@ -2074,7 +2074,7 @@
                           "workerIndex": 1,
                           "parallelIndex": 1,
                           "status": "passed",
-                          "duration": 3947,
+                          "duration": 2433,
                           "errors": [],
                           "stdout": [],
                           "stderr": [],
@@ -2082,14 +2082,14 @@
                           "steps": [
                             {
                               "title": "Click \"Add to favourites\".",
-                              "duration": 414
+                              "duration": 292
                             },
                             {
                               "title": "Verify the message \"Unauthorized, can not add product to your favorite list.\" is shown.",
-                              "duration": 10
+                              "duration": 6
                             }
                           ],
-                          "startTime": "2026-10-22T12:04:44.300Z",
+                          "startTime": "2026-10-23T11:38:27.449Z",
                           "annotations": [],
                           "attachments": []
                         }
@@ -2140,7 +2140,7 @@
                       "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 3398,
+                      "duration": 2444,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
@@ -2148,14 +2148,14 @@
                       "steps": [
                         {
                           "title": "Check the category \"Pliers\" in the sidebar.",
-                          "duration": 608
+                          "duration": 376
                         },
                         {
                           "title": "Verify the grid shows only the products of the category \"Pliers\": the products the catalogue lists for it in the page's default price range, $1 to $100.",
-                          "duration": 1060
+                          "duration": 782
                         }
                       ],
-                      "startTime": "2026-10-22T12:04:47.262Z",
+                      "startTime": "2026-10-23T11:38:29.011Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -2186,7 +2186,7 @@
                       "workerIndex": 1,
                       "parallelIndex": 1,
                       "status": "passed",
-                      "duration": 2259,
+                      "duration": 1523,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
@@ -2194,14 +2194,14 @@
                       "steps": [
                         {
                           "title": "Check the category \"Hand Tools\" in the sidebar.",
-                          "duration": 474
+                          "duration": 317
                         },
                         {
                           "title": "Verify the child categories \"Hammer\", \"Hand Saw\", \"Wrench\", \"Screwdriver\", \"Pliers\", \"Chisels\" and \"Measures\" are checked.",
-                          "duration": 43
+                          "duration": 75
                         }
                       ],
-                      "startTime": "2026-10-22T12:04:48.279Z",
+                      "startTime": "2026-10-23T11:38:29.903Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -2232,7 +2232,7 @@
                       "workerIndex": 1,
                       "parallelIndex": 1,
                       "status": "passed",
-                      "duration": 6132,
+                      "duration": 4115,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
@@ -2240,42 +2240,42 @@
                       "steps": [
                         {
                           "title": "Check the category \"Hand Tools\" in the sidebar.",
-                          "duration": 558
+                          "duration": 334
                         },
                         {
                           "title": "Uncheck the child category \"Hammer\".",
-                          "duration": 497
+                          "duration": 326
                         },
                         {
                           "title": "Uncheck the child category \"Hand Saw\".",
-                          "duration": 428
+                          "duration": 316
                         },
                         {
                           "title": "Uncheck the child category \"Wrench\".",
-                          "duration": 411
+                          "duration": 321
                         },
                         {
                           "title": "Uncheck the child category \"Screwdriver\".",
-                          "duration": 533
+                          "duration": 312
                         },
                         {
                           "title": "Uncheck the child category \"Pliers\".",
-                          "duration": 459
+                          "duration": 340
                         },
                         {
                           "title": "Uncheck the child category \"Chisels\".",
-                          "duration": 401
+                          "duration": 340
                         },
                         {
                           "title": "Uncheck the child category \"Measures\".",
-                          "duration": 672
+                          "duration": 341
                         },
                         {
                           "title": "Verify the category \"Hand Tools\" is not checked.",
-                          "duration": 22
+                          "duration": 16
                         }
                       ],
-                      "startTime": "2026-10-22T12:04:50.559Z",
+                      "startTime": "2026-10-23T11:38:31.453Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -2306,7 +2306,7 @@
                       "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 4161,
+                      "duration": 2470,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
@@ -2314,14 +2314,14 @@
                       "steps": [
                         {
                           "title": "Check the brand \"MightyCraft Hardware\" in the sidebar.",
-                          "duration": 901
+                          "duration": 369
                         },
                         {
                           "title": "Verify the grid shows only the products of the brand \"MightyCraft Hardware\": the products the catalogue lists for it in the page's default price range, $1 to $100.",
-                          "duration": 1085
+                          "duration": 730
                         }
                       ],
-                      "startTime": "2026-10-22T12:04:50.687Z",
+                      "startTime": "2026-10-23T11:38:31.473Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -2352,7 +2352,7 @@
                       "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 5006,
+                      "duration": 3061,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
@@ -2360,18 +2360,18 @@
                       "steps": [
                         {
                           "title": "Check the category \"Pliers\" in the sidebar.",
-                          "duration": 486
+                          "duration": 372
                         },
                         {
                           "title": "Check the brand \"ForgeFlex Tools\" in the sidebar.",
-                          "duration": 903
+                          "duration": 347
                         },
                         {
                           "title": "Verify the grid shows only the products that belong to both the category \"Pliers\" and the brand \"ForgeFlex Tools\": the products the catalogue lists for both filters in the page's default price range, $1 to $100.",
-                          "duration": 1611
+                          "duration": 1049
                         }
                       ],
-                      "startTime": "2026-10-22T12:04:54.872Z",
+                      "startTime": "2026-10-23T11:38:33.962Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -2402,7 +2402,7 @@
                       "workerIndex": 1,
                       "parallelIndex": 1,
                       "status": "passed",
-                      "duration": 3348,
+                      "duration": 2636,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
@@ -2410,22 +2410,22 @@
                       "steps": [
                         {
                           "title": "Move the upper handle of the price range slider to 15.",
-                          "duration": 818
+                          "duration": 816
                         },
                         {
                           "title": "Move the lower handle of the price range slider to 10.",
-                          "duration": 613
+                          "duration": 404
                         },
                         {
                           "title": "Verify at least one product is shown.",
-                          "duration": 7
+                          "duration": 10
                         },
                         {
                           "title": "Verify the price of every product shown is between $10 and $15.",
-                          "duration": 73
+                          "duration": 116
                         }
                       ],
-                      "startTime": "2026-10-22T12:04:56.706Z",
+                      "startTime": "2026-10-23T11:38:35.582Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -2473,7 +2473,7 @@
                       "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 2957,
+                      "duration": 1384,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
@@ -2481,10 +2481,10 @@
                       "steps": [
                         {
                           "title": "Verify the card of \"Long Nose Pliers\" shows \"Out of stock\".",
-                          "duration": 19
+                          "duration": 18
                         }
                       ],
-                      "startTime": "2026-10-22T12:04:59.896Z",
+                      "startTime": "2026-10-23T11:38:37.050Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -2516,7 +2516,7 @@
                       "workerIndex": 1,
                       "parallelIndex": 1,
                       "status": "passed",
-                      "duration": 2700,
+                      "duration": 2011,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
@@ -2524,22 +2524,22 @@
                       "steps": [
                         {
                           "title": "Verify the product grid shows at least one product card.",
-                          "duration": 6
+                          "duration": 9
                         },
                         {
                           "title": "Verify every card shows a product image.",
-                          "duration": 56
+                          "duration": 102
                         },
                         {
                           "title": "Verify every card shows a product name.",
-                          "duration": 115
+                          "duration": 206
                         },
                         {
                           "title": "Verify every card shows a price.",
-                          "duration": 138
+                          "duration": 201
                         }
                       ],
-                      "startTime": "2026-10-22T12:05:00.076Z",
+                      "startTime": "2026-10-23T11:38:38.238Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -2568,10 +2568,10 @@
                   "projectName": "ui",
                   "results": [
                     {
-                      "workerIndex": 1,
-                      "parallelIndex": 1,
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 3438,
+                      "duration": 2050,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
@@ -2579,18 +2579,18 @@
                       "steps": [
                         {
                           "title": "Click the card of \"Combination Pliers\".",
-                          "duration": 1270
+                          "duration": 558
                         },
                         {
                           "title": "Verify the product detail page is shown.",
-                          "duration": 3
+                          "duration": 12
                         },
                         {
                           "title": "Verify the name \"Combination Pliers\" is shown.",
-                          "duration": 5
+                          "duration": 18
                         }
                       ],
-                      "startTime": "2026-10-22T12:05:02.799Z",
+                      "startTime": "2026-10-23T11:38:38.447Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -2618,10 +2618,10 @@
                   "projectName": "ui",
                   "results": [
                     {
-                      "workerIndex": 0,
-                      "parallelIndex": 0,
+                      "workerIndex": 1,
+                      "parallelIndex": 1,
                       "status": "passed",
-                      "duration": 3586,
+                      "duration": 1888,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
@@ -2629,26 +2629,26 @@
                       "steps": [
                         {
                           "title": "Verify the pagination controls are shown below the product grid.",
-                          "duration": 52
+                          "duration": 158
                         },
                         {
                           "title": "Click page \"2\" in the pagination.",
-                          "duration": 705
+                          "duration": 380
                         },
                         {
                           "title": "Verify at least one product is shown.",
-                          "duration": 24
-                        },
-                        {
-                          "title": "Verify none of the products shown was shown on page 1.",
                           "duration": 12
                         },
                         {
+                          "title": "Verify none of the products shown was shown on page 1.",
+                          "duration": 11
+                        },
+                        {
                           "title": "Verify page \"2\" is marked as the active page.",
-                          "duration": 13
+                          "duration": 7
                         }
                       ],
-                      "startTime": "2026-10-22T12:05:02.872Z",
+                      "startTime": "2026-10-23T11:38:40.265Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -2676,10 +2676,10 @@
                   "projectName": "ui",
                   "results": [
                     {
-                      "workerIndex": 1,
-                      "parallelIndex": 1,
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 2240,
+                      "duration": 1572,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
@@ -2687,7 +2687,7 @@
                       "steps": [
                         {
                           "title": "Verify the price range slider is shown in the sidebar.",
-                          "duration": 19
+                          "duration": 22
                         },
                         {
                           "title": "Verify the lower handle is at 1.",
@@ -2695,14 +2695,14 @@
                         },
                         {
                           "title": "Verify the upper handle is at 100.",
-                          "duration": 6
+                          "duration": 9
                         },
                         {
                           "title": "Verify the maximum of the slider is 200.",
-                          "duration": 8
+                          "duration": 7
                         }
                       ],
-                      "startTime": "2026-10-22T12:05:06.267Z",
+                      "startTime": "2026-10-23T11:38:40.516Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -2741,7 +2741,7 @@
                           "workerIndex": 0,
                           "parallelIndex": 0,
                           "status": "passed",
-                          "duration": 1929,
+                          "duration": 1550,
                           "errors": [],
                           "stdout": [],
                           "stderr": [],
@@ -2749,18 +2749,18 @@
                           "steps": [
                             {
                               "title": "Verify the card of \"Bolt Cutters\" is shown on the first page.",
-                              "duration": 21
+                              "duration": 33
                             },
                             {
                               "title": "Verify the card of \"Bolt Cutters\" shows its original price struck through.",
-                              "duration": 55
+                              "duration": 69
                             },
                             {
                               "title": "Verify the card of \"Bolt Cutters\" shows the discounted price, 25% below the original price.",
-                              "duration": 69
+                              "duration": 48
                             }
                           ],
-                          "startTime": "2026-10-22T12:05:06.478Z",
+                          "startTime": "2026-10-23T11:38:42.103Z",
                           "annotations": [],
                           "attachments": []
                         }
@@ -2807,10 +2807,10 @@
                   "projectName": "ui",
                   "results": [
                     {
-                      "workerIndex": 0,
-                      "parallelIndex": 0,
+                      "workerIndex": 1,
+                      "parallelIndex": 1,
                       "status": "passed",
-                      "duration": 3447,
+                      "duration": 2157,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
@@ -2818,22 +2818,22 @@
                       "steps": [
                         {
                           "title": "Verify the quantity field is shown.",
-                          "duration": 8
+                          "duration": 6
                         },
                         {
                           "title": "Verify the \"Increase quantity\" (+) button is shown.",
-                          "duration": 12
+                          "duration": 5
                         },
                         {
                           "title": "Verify the \"Decrease quantity\" (-) button is shown.",
-                          "duration": 8
+                          "duration": 5
                         },
                         {
                           "title": "Verify the quantity is 1.",
-                          "duration": 12
+                          "duration": 6
                         }
                       ],
-                      "startTime": "2026-10-22T12:05:08.435Z",
+                      "startTime": "2026-10-23T11:38:42.176Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -2861,10 +2861,10 @@
                   "projectName": "ui",
                   "results": [
                     {
-                      "workerIndex": 1,
-                      "parallelIndex": 1,
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 3117,
+                      "duration": 2289,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
@@ -2872,14 +2872,14 @@
                       "steps": [
                         {
                           "title": "Click \"Increase quantity\".",
-                          "duration": 60
+                          "duration": 96
                         },
                         {
                           "title": "Verify the quantity is 2.",
-                          "duration": 5
+                          "duration": 11
                         }
                       ],
-                      "startTime": "2026-10-22T12:05:08.525Z",
+                      "startTime": "2026-10-23T11:38:43.672Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -2910,7 +2910,7 @@
                       "workerIndex": 1,
                       "parallelIndex": 1,
                       "status": "passed",
-                      "duration": 3075,
+                      "duration": 2667,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
@@ -2918,26 +2918,26 @@
                       "steps": [
                         {
                           "title": "Click \"Increase quantity\".",
-                          "duration": 37
+                          "duration": 49
                         },
                         {
                           "title": "Click \"Increase quantity\".",
-                          "duration": 46
+                          "duration": 55
                         },
                         {
                           "title": "Verify the quantity is 3.",
-                          "duration": 3
+                          "duration": 10
                         },
                         {
                           "title": "Click \"Decrease quantity\".",
-                          "duration": 44
+                          "duration": 71
                         },
                         {
                           "title": "Verify the quantity is 2.",
-                          "duration": 4
+                          "duration": 16
                         }
                       ],
-                      "startTime": "2026-10-22T12:05:11.660Z",
+                      "startTime": "2026-10-23T11:38:44.350Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -2968,7 +2968,7 @@
                       "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 3376,
+                      "duration": 2270,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
@@ -2976,18 +2976,18 @@
                       "steps": [
                         {
                           "title": "Verify the quantity is 1.",
-                          "duration": 14
+                          "duration": 12
                         },
                         {
                           "title": "Click \"Decrease quantity\".",
-                          "duration": 76
+                          "duration": 58
                         },
                         {
                           "title": "Verify the quantity is still 1.",
-                          "duration": 2
+                          "duration": 4
                         }
                       ],
-                      "startTime": "2026-10-22T12:05:11.894Z",
+                      "startTime": "2026-10-23T11:38:45.982Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -3018,7 +3018,7 @@
                       "workerIndex": 1,
                       "parallelIndex": 1,
                       "status": "passed",
-                      "duration": 4066,
+                      "duration": 2702,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
@@ -3026,22 +3026,22 @@
                       "steps": [
                         {
                           "title": "Enter 5 in the quantity field.",
-                          "duration": 14
+                          "duration": 38
                         },
                         {
                           "title": "Verify the quantity is 5.",
-                          "duration": 16
+                          "duration": 14
                         },
                         {
                           "title": "Click \"Increase quantity\".",
-                          "duration": 88
+                          "duration": 94
                         },
                         {
                           "title": "Verify the quantity is 6.",
-                          "duration": 16
+                          "duration": 8
                         }
                       ],
-                      "startTime": "2026-10-22T12:05:14.762Z",
+                      "startTime": "2026-10-23T11:38:47.036Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -3072,7 +3072,7 @@
                       "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 3399,
+                      "duration": 2323,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
@@ -3080,14 +3080,14 @@
                       "steps": [
                         {
                           "title": "Enter 0 in the quantity field.",
-                          "duration": 27
+                          "duration": 20
                         },
                         {
                           "title": "Verify the quantity is 1.",
-                          "duration": 10
+                          "duration": 6
                         }
                       ],
-                      "startTime": "2026-10-22T12:05:15.280Z",
+                      "startTime": "2026-10-23T11:38:48.269Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -3125,10 +3125,10 @@
                   "projectName": "ui",
                   "results": [
                     {
-                      "workerIndex": 0,
-                      "parallelIndex": 0,
+                      "workerIndex": 1,
+                      "parallelIndex": 1,
                       "status": "failed",
-                      "duration": 13534,
+                      "duration": 12152,
                       "error": {
                         "message": "Error: The typed 1000000000 is set to 999999999\n\n\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveValue\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  getByTestId('quantity')\nExpected: \u001b[32m\"99\u001b[7m9999999\u001b[27m\"\u001b[39m\nReceived: \u001b[31m\"99\"\u001b[39m\nTimeout:  10000ms\n\nCall log:\n\u001b[2m  - The typed 1000000000 is set to 999999999 getByTestId('quantity') with timeout 10000ms\u001b[22m\n\u001b[2m  - waiting for getByTestId('quantity')\u001b[22m\n\u001b[2m    24 × locator resolved to <input min=\"1\" max=\"99\" type=\"number\" id=\"quantity-input\" data-test=\"quantity\" aria-labelledby=\"Quantity\" _ngcontent-ng-c2605822289=\"\" class=\"form-control ng-untouched ng-dirty ng-valid\"/>\u001b[22m\n\u001b[2m       - unexpected value \"99\"\u001b[22m\n",
                         "stack": "Error: The typed 1000000000 is set to 999999999\n\n\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveValue\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  getByTestId('quantity')\nExpected: \u001b[32m\"99\u001b[7m9999999\u001b[27m\"\u001b[39m\nReceived: \u001b[31m\"99\"\u001b[39m\nTimeout:  10000ms\n\nCall log:\n\u001b[2m  - The typed 1000000000 is set to 999999999 getByTestId('quantity') with timeout 10000ms\u001b[22m\n\u001b[2m  - waiting for getByTestId('quantity')\u001b[22m\n\u001b[2m    24 × locator resolved to <input min=\"1\" max=\"99\" type=\"number\" id=\"quantity-input\" data-test=\"quantity\" aria-labelledby=\"Quantity\" _ngcontent-ng-c2605822289=\"\" class=\"form-control ng-untouched ng-dirty ng-valid\"/>\u001b[22m\n\u001b[2m       - unexpected value \"99\"\u001b[22m\n\n    at /home/runner/work/SimpRight/SimpRight/tests/ui/products/product-quantity.spec.ts:110:86\n    at /home/runner/work/SimpRight/SimpRight/tests/ui/products/product-quantity.spec.ts:109:5",
@@ -3155,11 +3155,11 @@
                       "steps": [
                         {
                           "title": "Enter 1000000000 in the quantity field.",
-                          "duration": 31
+                          "duration": 58
                         },
                         {
                           "title": "Verify the quantity is 999999999.",
-                          "duration": 10007,
+                          "duration": 10010,
                           "error": {
                             "message": "Error: The typed 1000000000 is set to 999999999\n\n\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveValue\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  getByTestId('quantity')\nExpected: \u001b[32m\"99\u001b[7m9999999\u001b[27m\"\u001b[39m\nReceived: \u001b[31m\"99\"\u001b[39m\nTimeout:  10000ms\n\nCall log:\n\u001b[2m  - The typed 1000000000 is set to 999999999 getByTestId('quantity') with timeout 10000ms\u001b[22m\n\u001b[2m  - waiting for getByTestId('quantity')\u001b[22m\n\u001b[2m    24 × locator resolved to <input min=\"1\" max=\"99\" type=\"number\" id=\"quantity-input\" data-test=\"quantity\" aria-labelledby=\"Quantity\" _ngcontent-ng-c2605822289=\"\" class=\"form-control ng-untouched ng-dirty ng-valid\"/>\u001b[22m\n\u001b[2m       - unexpected value \"99\"\u001b[22m\n",
                             "stack": "Error: The typed 1000000000 is set to 999999999\n\n\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveValue\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  getByTestId('quantity')\nExpected: \u001b[32m\"99\u001b[7m9999999\u001b[27m\"\u001b[39m\nReceived: \u001b[31m\"99\"\u001b[39m\nTimeout:  10000ms\n\nCall log:\n\u001b[2m  - The typed 1000000000 is set to 999999999 getByTestId('quantity') with timeout 10000ms\u001b[22m\n\u001b[2m  - waiting for getByTestId('quantity')\u001b[22m\n\u001b[2m    24 × locator resolved to <input min=\"1\" max=\"99\" type=\"number\" id=\"quantity-input\" data-test=\"quantity\" aria-labelledby=\"Quantity\" _ngcontent-ng-c2605822289=\"\" class=\"form-control ng-untouched ng-dirty ng-valid\"/>\u001b[22m\n\u001b[2m       - unexpected value \"99\"\u001b[22m\n\n    at /home/runner/work/SimpRight/SimpRight/tests/ui/products/product-quantity.spec.ts:110:86\n    at /home/runner/work/SimpRight/SimpRight/tests/ui/products/product-quantity.spec.ts:109:5",
@@ -3172,7 +3172,7 @@
                           }
                         }
                       ],
-                      "startTime": "2026-10-22T12:05:18.692Z",
+                      "startTime": "2026-10-23T11:38:49.756Z",
                       "annotations": [
                         {
                           "type": "fail",
@@ -3231,10 +3231,10 @@
                   "projectName": "ui",
                   "results": [
                     {
-                      "workerIndex": 1,
-                      "parallelIndex": 1,
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
                       "status": "failed",
-                      "duration": 13482,
+                      "duration": 12307,
                       "error": {
                         "message": "Error: The typed 999999999 is kept\n\n\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveValue\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  getByTestId('quantity')\nExpected: \u001b[32m\"99\u001b[7m9999999\u001b[27m\"\u001b[39m\nReceived: \u001b[31m\"99\"\u001b[39m\nTimeout:  10000ms\n\nCall log:\n\u001b[2m  - The typed 999999999 is kept getByTestId('quantity') with timeout 10000ms\u001b[22m\n\u001b[2m  - waiting for getByTestId('quantity')\u001b[22m\n\u001b[2m    24 × locator resolved to <input min=\"1\" max=\"99\" type=\"number\" id=\"quantity-input\" data-test=\"quantity\" aria-labelledby=\"Quantity\" _ngcontent-ng-c2605822289=\"\" class=\"form-control ng-untouched ng-dirty ng-valid\"/>\u001b[22m\n\u001b[2m       - unexpected value \"99\"\u001b[22m\n",
                         "stack": "Error: The typed 999999999 is kept\n\n\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveValue\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  getByTestId('quantity')\nExpected: \u001b[32m\"99\u001b[7m9999999\u001b[27m\"\u001b[39m\nReceived: \u001b[31m\"99\"\u001b[39m\nTimeout:  10000ms\n\nCall log:\n\u001b[2m  - The typed 999999999 is kept getByTestId('quantity') with timeout 10000ms\u001b[22m\n\u001b[2m  - waiting for getByTestId('quantity')\u001b[22m\n\u001b[2m    24 × locator resolved to <input min=\"1\" max=\"99\" type=\"number\" id=\"quantity-input\" data-test=\"quantity\" aria-labelledby=\"Quantity\" _ngcontent-ng-c2605822289=\"\" class=\"form-control ng-untouched ng-dirty ng-valid\"/>\u001b[22m\n\u001b[2m       - unexpected value \"99\"\u001b[22m\n\n    at /home/runner/work/SimpRight/SimpRight/tests/ui/products/product-quantity.spec.ts:122:73\n    at /home/runner/work/SimpRight/SimpRight/tests/ui/products/product-quantity.spec.ts:121:5",
@@ -3261,11 +3261,11 @@
                       "steps": [
                         {
                           "title": "Enter 999999999 in the quantity field.",
-                          "duration": 46
+                          "duration": 18
                         },
                         {
                           "title": "Verify the quantity is 999999999.",
-                          "duration": 10010,
+                          "duration": 10006,
                           "error": {
                             "message": "Error: The typed 999999999 is kept\n\n\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveValue\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  getByTestId('quantity')\nExpected: \u001b[32m\"99\u001b[7m9999999\u001b[27m\"\u001b[39m\nReceived: \u001b[31m\"99\"\u001b[39m\nTimeout:  10000ms\n\nCall log:\n\u001b[2m  - The typed 999999999 is kept getByTestId('quantity') with timeout 10000ms\u001b[22m\n\u001b[2m  - waiting for getByTestId('quantity')\u001b[22m\n\u001b[2m    24 × locator resolved to <input min=\"1\" max=\"99\" type=\"number\" id=\"quantity-input\" data-test=\"quantity\" aria-labelledby=\"Quantity\" _ngcontent-ng-c2605822289=\"\" class=\"form-control ng-untouched ng-dirty ng-valid\"/>\u001b[22m\n\u001b[2m       - unexpected value \"99\"\u001b[22m\n",
                             "stack": "Error: The typed 999999999 is kept\n\n\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveValue\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  getByTestId('quantity')\nExpected: \u001b[32m\"99\u001b[7m9999999\u001b[27m\"\u001b[39m\nReceived: \u001b[31m\"99\"\u001b[39m\nTimeout:  10000ms\n\nCall log:\n\u001b[2m  - The typed 999999999 is kept getByTestId('quantity') with timeout 10000ms\u001b[22m\n\u001b[2m  - waiting for getByTestId('quantity')\u001b[22m\n\u001b[2m    24 × locator resolved to <input min=\"1\" max=\"99\" type=\"number\" id=\"quantity-input\" data-test=\"quantity\" aria-labelledby=\"Quantity\" _ngcontent-ng-c2605822289=\"\" class=\"form-control ng-untouched ng-dirty ng-valid\"/>\u001b[22m\n\u001b[2m       - unexpected value \"99\"\u001b[22m\n\n    at /home/runner/work/SimpRight/SimpRight/tests/ui/products/product-quantity.spec.ts:122:73\n    at /home/runner/work/SimpRight/SimpRight/tests/ui/products/product-quantity.spec.ts:121:5",
@@ -3278,7 +3278,7 @@
                           }
                         }
                       ],
-                      "startTime": "2026-10-22T12:05:18.863Z",
+                      "startTime": "2026-10-23T11:38:50.614Z",
                       "annotations": [
                         {
                           "type": "fail",
@@ -3327,10 +3327,10 @@
                   "projectName": "ui",
                   "results": [
                     {
-                      "workerIndex": 0,
-                      "parallelIndex": 0,
+                      "workerIndex": 1,
+                      "parallelIndex": 1,
                       "status": "passed",
-                      "duration": 3733,
+                      "duration": 3057,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
@@ -3338,26 +3338,26 @@
                       "steps": [
                         {
                           "title": "Click \"Increase quantity\".",
-                          "duration": 39
+                          "duration": 60
                         },
                         {
                           "title": "Enter 1 in the quantity field.",
-                          "duration": 8
+                          "duration": 18
                         },
                         {
                           "title": "Verify the quantity is 1.",
-                          "duration": 4
+                          "duration": 5
                         },
                         {
                           "title": "Click \"Increase quantity\".",
-                          "duration": 37
+                          "duration": 42
                         },
                         {
                           "title": "Verify the quantity is 2.",
-                          "duration": 3
+                          "duration": 6
                         }
                       ],
-                      "startTime": "2026-10-22T12:05:32.249Z",
+                      "startTime": "2026-10-23T11:39:01.926Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -3403,10 +3403,10 @@
                   "projectName": "ui",
                   "results": [
                     {
-                      "workerIndex": 1,
-                      "parallelIndex": 1,
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 2836,
+                      "duration": 2087,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
@@ -3414,22 +3414,22 @@
                       "steps": [
                         {
                           "title": "Search for \"pliers\".",
-                          "duration": 512
+                          "duration": 507
                         },
                         {
                           "title": "Verify the caption reads \"Searched for: pliers\".",
-                          "duration": 4
+                          "duration": 12
                         },
                         {
                           "title": "Verify at least one product is shown.",
-                          "duration": 5
+                          "duration": 4
                         },
                         {
                           "title": "Verify every product name contains \"pliers\" (case-insensitive).",
-                          "duration": 40
+                          "duration": 35
                         }
                       ],
-                      "startTime": "2026-10-22T12:05:32.373Z",
+                      "startTime": "2026-10-23T11:39:02.945Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -3460,7 +3460,7 @@
                       "workerIndex": 1,
                       "parallelIndex": 1,
                       "status": "passed",
-                      "duration": 3984,
+                      "duration": 2709,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
@@ -3468,23 +3468,23 @@
                       "steps": [
                         {
                           "title": "Check the category \"Hammer\" in the sidebar.",
-                          "duration": 558
+                          "duration": 474
                         },
                         {
                           "title": "Check the brand \"ForgeFlex Tools\" in the sidebar.",
-                          "duration": 1009
+                          "duration": 377
                         },
                         {
                           "title": "Search for \"pliers\".",
-                          "duration": 438
+                          "duration": 402
                         },
                         {
                           "title": "Verify the category \"Hammer\" is not checked.",
-                          "duration": 9
+                          "duration": 12
                         },
                         {
                           "title": "Verify the brand \"ForgeFlex Tools\" is not checked.",
-                          "duration": 7
+                          "duration": 9
                         },
                         {
                           "title": "Verify at least one product is shown.",
@@ -3492,10 +3492,10 @@
                         },
                         {
                           "title": "Verify every product name contains \"pliers\" (case-insensitive).",
-                          "duration": 30
+                          "duration": 23
                         }
                       ],
-                      "startTime": "2026-10-22T12:05:35.246Z",
+                      "startTime": "2026-10-23T11:39:05.000Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -3526,7 +3526,7 @@
                       "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 2940,
+                      "duration": 1905,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
@@ -3534,22 +3534,22 @@
                       "steps": [
                         {
                           "title": "Search for \"ham\".",
-                          "duration": 1030
+                          "duration": 503
                         },
                         {
                           "title": "Verify the caption reads \"Searched for: ham\".",
-                          "duration": 7
+                          "duration": 3
                         },
                         {
                           "title": "Verify at least one product is shown.",
-                          "duration": 6
+                          "duration": 3
                         },
                         {
                           "title": "Verify every product name contains \"ham\" (case-insensitive).",
-                          "duration": 40
+                          "duration": 24
                         }
                       ],
-                      "startTime": "2026-10-22T12:05:36.008Z",
+                      "startTime": "2026-10-23T11:39:05.049Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -3580,7 +3580,7 @@
                       "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 2633,
+                      "duration": 1690,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
@@ -3588,14 +3588,14 @@
                       "steps": [
                         {
                           "title": "Search for a term of exactly 40 characters.",
-                          "duration": 565
+                          "duration": 459
                         },
                         {
                           "title": "Verify the caption reads \"Searched for: \" followed by the term.",
-                          "duration": 3
+                          "duration": 4
                         }
                       ],
-                      "startTime": "2026-10-22T12:05:38.965Z",
+                      "startTime": "2026-10-23T11:39:06.977Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -3626,7 +3626,7 @@
                       "workerIndex": 1,
                       "parallelIndex": 1,
                       "status": "passed",
-                      "duration": 2360,
+                      "duration": 1478,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
@@ -3634,7 +3634,7 @@
                       "steps": [
                         {
                           "title": "Search for \"pl\".",
-                          "duration": 74
+                          "duration": 105
                         },
                         {
                           "title": "Verify no \"Searched for:\" caption is shown.",
@@ -3642,10 +3642,10 @@
                         },
                         {
                           "title": "Verify the product grid still shows the first page of all products.",
-                          "duration": 8
+                          "duration": 12
                         }
                       ],
-                      "startTime": "2026-10-22T12:05:39.243Z",
+                      "startTime": "2026-10-23T11:39:07.721Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -3676,7 +3676,7 @@
                       "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 2510,
+                      "duration": 1573,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
@@ -3684,18 +3684,18 @@
                       "steps": [
                         {
                           "title": "Search for a term of exactly 41 characters.",
-                          "duration": 74
+                          "duration": 79
                         },
                         {
                           "title": "Verify no \"Searched for:\" caption is shown.",
-                          "duration": 4
+                          "duration": 9
                         },
                         {
                           "title": "Verify the product grid still shows the first page of all products.",
-                          "duration": 5
+                          "duration": 14
                         }
                       ],
-                      "startTime": "2026-10-22T12:05:41.617Z",
+                      "startTime": "2026-10-23T11:39:08.679Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -3743,7 +3743,7 @@
                       "workerIndex": 1,
                       "parallelIndex": 1,
                       "status": "passed",
-                      "duration": 2790,
+                      "duration": 1966,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
@@ -3751,14 +3751,14 @@
                       "steps": [
                         {
                           "title": "Select \"Name (A - Z)\" in the sort list.",
-                          "duration": 449
+                          "duration": 363
                         },
                         {
                           "title": "Verify the product names are in alphabetical order, A to Z.",
-                          "duration": 98
+                          "duration": 44
                         }
                       ],
-                      "startTime": "2026-10-22T12:05:41.622Z",
+                      "startTime": "2026-10-23T11:39:09.217Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -3789,7 +3789,7 @@
                       "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 2645,
+                      "duration": 1805,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
@@ -3797,14 +3797,14 @@
                       "steps": [
                         {
                           "title": "Select \"Name (Z - A)\" in the sort list.",
-                          "duration": 483
+                          "duration": 388
                         },
                         {
                           "title": "Verify the product names are in reverse alphabetical order, Z to A.",
                           "duration": 83
                         }
                       ],
-                      "startTime": "2026-10-22T12:05:44.153Z",
+                      "startTime": "2026-10-23T11:39:10.286Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -3835,7 +3835,7 @@
                       "workerIndex": 1,
                       "parallelIndex": 1,
                       "status": "passed",
-                      "duration": 2844,
+                      "duration": 1947,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
@@ -3843,14 +3843,14 @@
                       "steps": [
                         {
                           "title": "Select \"Price (High - Low)\" in the sort list.",
-                          "duration": 507
+                          "duration": 375
                         },
                         {
                           "title": "Verify the products are sorted by price, highest first.",
-                          "duration": 100
+                          "duration": 152
                         }
                       ],
-                      "startTime": "2026-10-22T12:05:44.436Z",
+                      "startTime": "2026-10-23T11:39:11.200Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -3881,7 +3881,7 @@
                       "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 2714,
+                      "duration": 2000,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
@@ -3889,14 +3889,14 @@
                       "steps": [
                         {
                           "title": "Select \"Price (Low - High)\" in the sort list.",
-                          "duration": 511
+                          "duration": 399
                         },
                         {
                           "title": "Verify the products are sorted by price, lowest first.",
-                          "duration": 180
+                          "duration": 109
                         }
                       ],
-                      "startTime": "2026-10-22T12:05:46.823Z",
+                      "startTime": "2026-10-23T11:39:12.119Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -3944,7 +3944,7 @@
                       "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 2188,
+                      "duration": 1387,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
@@ -3952,22 +3952,22 @@
                       "steps": [
                         {
                           "title": "Verify the page shows at least one rental card.",
-                          "duration": 7
+                          "duration": 6
                         },
                         {
                           "title": "Verify every rental card shows a product image.",
-                          "duration": 21
+                          "duration": 36
                         },
                         {
                           "title": "Verify every rental card shows its name.",
-                          "duration": 37
+                          "duration": 41
                         },
                         {
                           "title": "Verify every rental card shows a description that is not empty.",
-                          "duration": 47
+                          "duration": 50
                         }
                       ],
-                      "startTime": "2026-10-22T12:05:49.564Z",
+                      "startTime": "2026-10-23T11:39:14.142Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -3998,7 +3998,7 @@
                       "workerIndex": 1,
                       "parallelIndex": 1,
                       "status": "passed",
-                      "duration": 2169,
+                      "duration": 2142,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
@@ -4006,18 +4006,18 @@
                       "steps": [
                         {
                           "title": "Click the card of \"Excavator\".",
-                          "duration": 499
+                          "duration": 368
                         },
                         {
                           "title": "Verify the product page of \"Excavator\" is shown, with the name \"Excavator\".",
-                          "duration": 14
+                          "duration": 11
                         },
                         {
                           "title": "Verify a duration slider is shown.",
                           "duration": 4
                         }
                       ],
-                      "startTime": "2026-10-22T12:05:50.712Z",
+                      "startTime": "2026-10-23T11:39:15.088Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -4056,7 +4056,7 @@
                           "workerIndex": 1,
                           "parallelIndex": 1,
                           "status": "passed",
-                          "duration": 3381,
+                          "duration": 1899,
                           "errors": [],
                           "stdout": [],
                           "stderr": [],
@@ -4064,22 +4064,22 @@
                           "steps": [
                             {
                               "title": "Open the \"Categories\" menu.",
-                              "duration": 96
+                              "duration": 126
                             },
                             {
                               "title": "Click \"Rentals\".",
-                              "duration": 930
+                              "duration": 392
                             },
                             {
                               "title": "Verify the \"Rentals\" page is shown, with the heading \"Rentals\".",
-                              "duration": 13
+                              "duration": 15
                             },
                             {
                               "title": "Verify the cards of \"Excavator\", \"Bulldozer\" and \"Crane\" are shown.",
-                              "duration": 29
+                              "duration": 39
                             }
                           ],
-                          "startTime": "2026-10-22T12:05:47.304Z",
+                          "startTime": "2026-10-23T11:39:13.169Z",
                           "annotations": [],
                           "attachments": []
                         }
@@ -4101,8 +4101,8 @@
   ],
   "errors": [],
   "stats": {
-    "startTime": "2026-10-22T11:58:35.127Z",
-    "duration": 439080.897,
+    "startTime": "2026-10-23T11:37:17.831Z",
+    "duration": 120232.225,
     "expected": 60,
     "skipped": 0,
     "unexpected": 0,
