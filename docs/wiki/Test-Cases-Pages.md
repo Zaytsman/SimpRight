@@ -75,7 +75,7 @@ Then open `test-results/test-cases/ui/index.html` in a browser.
 
 ## How they're published
 
-- **On every push to `main`** that changes the scenarios, the page, its build or publish scripts, the profile or `index.html`, **Publish Test Cases** validates the scenarios, builds the pages and publishes `test-cases/` and the portal to `gh-pages` ([GitHub Pages Publishing](GitHub-Pages-Publishing#publishing-the-test-cases-pages-publish-test-casessh)). It can also be run by hand.
+- **On every push to `main`** that changes the scenarios, the page, its build or publish scripts, the profile or `index.html`, **Publish Test Cases** validates the scenarios, builds the pages and publishes `test-cases/` and the portal to `gh-pages` ([GitHub Pages Publishing](GitHub-Pages-Publishing#publishing-the-test-cases-and-bugs-pages-publish-test-casessh)). It can also be run by hand.
 - **On every pull request,** `verify` builds the pages too, so a scenario change that breaks the build fails the check before it reaches `main`.
 
 So the pages always show the scenarios of the merged code: a scenario written on `develop` appears after the next merge to `main`.

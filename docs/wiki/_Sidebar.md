@@ -35,3 +35,17 @@
 - [Automation Portal](Automation-Portal)
 - [Test Cases Pages](Test-Cases-Pages)
 - [Bugs Page](Bugs-Page)
+
+**Architecture**
+- [Architecture](Architecture)
+- [Configuration](Configuration)
+- [Fixtures](Fixtures)
+- [API Layer](API-Layer)
+- [API Specs](API-Specs)
+- [UI Layer](UI-Layer)
+- [UI Specs](UI-Specs)
+- [Test Data](Test-Data)
+- [Scenarios, Bugs and Validation](Scenarios-Bugs-and-Validation)
+- [Reporting and Secrets](Reporting-and-Secrets)
+- [CI and Publishing](CI-and-Publishing)
+- [AI Agents](AI-Agents)

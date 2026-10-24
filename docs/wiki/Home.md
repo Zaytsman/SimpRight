@@ -63,6 +63,23 @@ Each slash command, the agent it starts and what you get:
 5. [Test Cases Pages](Test-Cases-Pages): the browsable catalog of UI and API scenarios, and how it is built and published.
 6. [Bugs Page](Bugs-Page): the bugs found in the app, the tests that hit them and their latest results.
 
+## Architecture
+
+How the framework is designed, one page per area (the rules a new test must follow are in [CLAUDE.md](https://github.com/Zaytsman/SimpRight/blob/main/CLAUDE.md)):
+
+1. [Architecture](Architecture): the layers, the folders, what happens during a run, the design principles.
+2. [Configuration](Configuration): environments, secrets, `env.ts`, `playwright.config.ts`, projects, the run's customer, login modes.
+3. [Fixtures](Fixtures): the fixture tree: shared, API and UI fixtures, precondition fixtures, cleanup, what `@fixtures` exports.
+4. [API Layer](API-Layer): `BaseClient`, clients, services, DTOs, tokens, error handling, the coverage hook.
+5. [API Specs](API-Specs): how an API test is written: steps, shared checks, step helpers, templates, attachments.
+6. [UI Layer](UI-Layer): pages, components, dialogs, flows, waits, visitor state, Cloudflare handling.
+7. [UI Specs](UI-Specs): how a UI test is written: preconditions, setup helpers, steps and checks.
+8. [Test Data](Test-Data): seeded constants, factories, unique names, throwaway users, cleanup, shared-data safety.
+9. [Scenarios, Bugs and Validation](Scenarios-Bugs-and-Validation): scenario files, bug files, the project profile, the validator, the step-title check, the smoke set.
+10. [Reporting and Secrets](Reporting-and-Secrets): reporters, attachments, assertion messages, masking, what never reaches a report.
+11. [CI and Publishing](CI-and-Publishing): the workflows, the reusable test job, GitHub Pages, hardening, Dependabot.
+12. [AI Agents](AI-Agents): the agents and skills, the profile they read, the exemplars they copy.
+
 ## Links
 
 | | |
