@@ -1,16 +1,5 @@
 <a href="https://zaytsman.github.io/SimpRight/"><picture><source media="(prefers-color-scheme: dark)" srcset="./.github/assets/banner-dark.svg" /><img src="./.github/assets/banner-light.svg" alt="SimpRight: AI-assisted test automation with Playwright and TypeScript" width="100%" /></picture></a>
 
-<p align="center">
-  <a href="https://github.com/Zaytsman/SimpRight/actions/workflows/run-api-tests.yml"><img alt="API regression" src="https://img.shields.io/github/actions/workflow/status/Zaytsman/SimpRight/run-api-tests.yml?branch=main&label=API%20regression&style=for-the-badge&labelColor=000000" /></a>
-  <a href="https://github.com/Zaytsman/SimpRight/actions/workflows/run-ui-tests.yml"><img alt="UI regression" src="https://img.shields.io/github/actions/workflow/status/Zaytsman/SimpRight/run-ui-tests.yml?branch=main&label=UI%20regression&style=for-the-badge&labelColor=000000" /></a>
-  <a href="https://zaytsman.github.io/SimpRight/"><img alt="Automation Portal" src="https://img.shields.io/badge/Automation%20Portal-open-2EAD33.svg?style=for-the-badge&labelColor=000000" /></a>
-</p>
-<p align="center">
-  <img alt="Playwright 1.64" src="https://img.shields.io/badge/Playwright-1.64-2EAD33.svg?style=for-the-badge&labelColor=000000" />
-  <img alt="TypeScript 7" src="https://img.shields.io/badge/TypeScript-7-3178C6.svg?style=for-the-badge&logo=typescript&logoColor=white&labelColor=000000" />
-  <a href="./LICENSE"><img alt="License: MIT" src="https://img.shields.io/badge/license-MIT-green.svg?style=for-the-badge&labelColor=000000" /></a>
-</p>
-
 # SimpRight
 
 Automated test framework built with **TypeScript + Playwright**. It covers UI and API tests for the [Practice Software Testing](https://practicesoftwaretesting.com) Toolshop demo app ([API](https://api.practicesoftwaretesting.com)), and it's an example of AI-assisted test automation: Claude Code agents write contracts, scenarios and specs, review the tests and diagnose failures, and a person approves each step.
@@ -21,6 +10,7 @@ Every test starts as a scenario in YAML, and the spec follows it step for step:
 # test-scenarios/ui/products/product-search.yml
 - id: UI-001
   name: Search by name shows only matching products
+  tags: ["@smoke"]
   preconditions:
     - The home page is open.
   steps:
