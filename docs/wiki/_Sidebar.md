@@ -4,10 +4,6 @@
 - [Installation & Setup](Installation-&-Setup)
 - [Project Structure](Project-Structure)
 
-**Test Runs**
-- [CI Runs](CI-Runs)
-- [Local Runs](Local-Runs)
-
 **Test Scenarios**
 - [Add API Scenarios](Add-API-Scenarios)
 - [Add UI Scenarios](Add-UI-Scenarios)
@@ -16,16 +12,21 @@
 - [API Automation](API-Automation)
 - [UI Automation](UI-Automation)
 
-**Agents and Skills**
-- [Requirements Analyst](Requirements-Analyst)
-- [API Contract Writer](API-Contract-Writer)
-- [API Scenario Writer](API-Scenario-Writer)
-- [UI Scenario Writer](UI-Scenario-Writer)
-- [API Test Engineer](API-Test-Engineer)
-- [UI Test Engineer](UI-Test-Engineer)
-- [Test Reviewer](Test-Reviewer)
-- [Test Healer](Test-Healer)
-- [Bug Reporter](Bug-Reporter)
+**Test Runs**
+- [CI Runs](CI-Runs)
+- [Local Runs](Local-Runs)
+
+**Skills**
+- [/analyze-requirements](Analyze-Requirements)
+- [/write-api-contracts](Write-API-Contracts)
+- [/write-api-scenarios-from-contract](Write-API-Scenarios-From-Contract)
+- [/write-api-scenarios-from-steps](Write-API-Scenarios-From-Steps)
+- [/write-ui-scenarios-from-steps](Write-UI-Scenarios-From-Steps)
+- [/implement-api-scenarios](Implement-API-Scenarios)
+- [/implement-ui-scenarios](Implement-UI-Scenarios)
+- [/review-tests](Review-Tests)
+- [/heal-tests](Heal-Tests)
+- [/report-bug](Report-Bug)
 
 **Continuous Integration**
 - [CI Pipeline](CI-Pipeline)

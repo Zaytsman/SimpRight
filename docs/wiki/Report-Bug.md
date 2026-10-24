@@ -1,14 +1,14 @@
-<!-- Source: docs/wiki/Bug-Reporter.md in the repository. Edit it there: the Publish Wiki workflow overwrites changes made in the wiki. -->
+<!-- Source: docs/wiki/Report-Bug.md in the repository. Edit it there: the Publish Wiki workflow overwrites changes made in the wiki. -->
 
-# Bug Reporter
+# /report-bug
 
 Records **bugs in the app under test** as files in `bugs/`, one per root cause, and links them to the scenarios that hit them. It reproduces each bug before filing it, checks the existing bugs so the same defect isn't filed twice, and changes nothing until you approve the draft. The bugs are published on the [Bugs Page](Bugs-Page).
 
 | | |
 |---|---|
 | **Command** | `/report-bug <description \| scenario IDs \| spec> \| import <contract> \| recheck <bug IDs \| open>` |
-| **Agent** | `bug-reporter` (`.claude/agents/bug-reporter.md`) |
-| **Skill** | `report-bug` (`.claude/skills/report-bug/SKILL.md`) |
+| **Agent** | [`bug-reporter`](https://github.com/Zaytsman/SimpRight/blob/main/.claude/agents/bug-reporter.md), for both the draft and the files |
+| **Skill file** | [`.claude/skills/report-bug/SKILL.md`](https://github.com/Zaytsman/SimpRight/blob/main/.claude/skills/report-bug/SKILL.md) |
 | **Input** | What someone saw, failing scenarios or tests, a contract's suspected bugs, open bugs to re-check |
 | **Output** | A draft (reproduction, duplicate check, proposed bug files, scenarios to link, coverage gaps), then the files |
 | **Live app** | Read-only: `GET` calls without a token, the page inspector, re-runs of read-only tests; a reproduction that writes runs only after you approve it |
@@ -17,7 +17,7 @@ Records **bugs in the app under test** as files in `bugs/`, one per root cause, 
 ## When to use it
 
 - You (or a tester) saw the app misbehave and want it on record.
-- A test fails because of the app: the [Test Healer](Test-Healer) or a test engineer says "app bug".
+- A test fails because of the app: [/heal-tests](Heal-Tests) or a test engineer says "app bug".
 - A contract marks responses as suspected bugs and you want them tracked.
 - The Bugs page flags a bug for a **re-check**, or you want to know which open bugs are still there.
 
@@ -45,7 +45,7 @@ Records **bugs in the app under test** as files in `bugs/`, one per root cause, 
 1. **Reads** the profile, the conventions, the bug schema and every existing bug.
 2. **Finds the root cause** of each item and checks it against the existing bugs: different symptoms of one defect are one bug (BUG-001 covers `POST`, `PUT` and `PATCH` without a token), one symptom with two causes is two.
 3. **Reproduces** it, cheapest first: the contract or the app's source, a `GET`, the page inspector, a re-run of a read-only test. A reproduction that creates or changes data is listed under "Writes needed" for you to approve.
-4. **Finds the scenarios** that hit it, and the gaps: a bug no scenario covers gets a proposed regression scenario (to add with the scenario writers).
+4. **Finds the scenarios** that hit it, and the gaps: a bug no scenario covers gets a proposed regression scenario (to add with the scenario writing skills).
 
 Claude checks the draft against the existing bugs and the evidence for secrets, then shows it:
 
@@ -71,13 +71,13 @@ The same agent runs the approved writes (with cleanup), writes the bug files, li
 
 A **recheck** reproduces each bug from its steps. When the bug is gone, the agent proposes to close it: `status: fixed` with today's `resolved` date, and the known issue removed from every scenario and test of that bug, so the tests check the fixed behaviour and fail if the bug comes back. A bug you decide to accept becomes `wont-fix`; its scenarios change only if you change what they check. Bug files are never deleted.
 
-## The rules it follows
+## What the agent never does
 
-- **One bug per root cause**, checked against every existing bug before a new one is proposed.
-- **Reproduced, or says where it comes from:** a bug is filed with today's evidence, or marked as read from the source or a test run. Never a guess.
-- **Read-only by default**; writes only when approved, with cleanup; never what `liveApi.dangerous` names.
-- **The schema and the conventions:** keys in order, the next free `BUG-NNN`, layer and area where the defect is, steps a person can follow.
-- **Masked evidence:** no tokens, passwords or test users' emails, because the Bugs page is public.
-- **Only the link in scenarios and tests:** `knownIssue`, `bug` and the known-issue line; never steps, names or other test code. New regression scenarios are proposals for the scenario writers.
+- **File a duplicate:** one bug per root cause, checked against every existing bug before a new one is proposed.
+- **Guess:** a bug is filed with today's evidence, or marked as read from the source or a test run.
+- **Write to the live app unasked:** writes only when approved, with cleanup; never what `liveApi.dangerous` names.
+- **Break the format:** keys in the schema's order, the next free `BUG-NNN`, layer and area where the defect is, steps a person can follow.
+- **Publish secrets:** no tokens, passwords or test users' emails, because the Bugs page is public.
+- **Change more than the link in scenarios and tests:** `knownIssue`, `bug` and the known-issue line; never steps, names or other test code. New regression scenarios are proposals for the scenario writers.
 
-See also: [Bugs Page](Bugs-Page), [Test Healer](Test-Healer), [Add API Scenarios](Add-API-Scenarios), [Add UI Scenarios](Add-UI-Scenarios).
+See also: [Bugs Page](Bugs-Page), [/heal-tests](Heal-Tests), [Add API Scenarios](Add-API-Scenarios), [Add UI Scenarios](Add-UI-Scenarios).

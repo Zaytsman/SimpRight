@@ -1,14 +1,14 @@
-<!-- Source: docs/wiki/API-Test-Engineer.md in the repository. Edit it there: the Publish Wiki workflow overwrites changes made in the wiki. -->
+<!-- Source: docs/wiki/Implement-API-Scenarios.md in the repository. Edit it there: the Publish Wiki workflow overwrites changes made in the wiki. -->
 
-# API Test Engineer
+# /implement-api-scenarios
 
-Automates **API scenarios** as Playwright specs: it plans the framework code and the tests, waits for your approval (including every test that changes live data), then writes the code, runs the specs, repeats them to catch flaky tests, and marks the scenarios `automated`.
+Automates **API scenarios** as Playwright specs. It plans the framework code and the tests, then waits for your approval, including every test that changes live data. Then it writes the code, runs the specs, repeats them to catch flaky tests, and marks the scenarios `automated`.
 
 | | |
 |---|---|
 | **Command** | `/implement-api-scenarios <scenario IDs \| scenario file \| area>` |
-| **Agent** | `api-test-engineer` (`.claude/agents/api-test-engineer.md`) |
-| **Skills** | `implement-api-scenarios` (the command); `api-scaffolding` and `api-test-from-scenario` (preloaded into the agent) |
+| **Agent** | [`api-test-engineer`](https://github.com/Zaytsman/SimpRight/blob/main/.claude/agents/api-test-engineer.md) |
+| **Skill files** | [`implement-api-scenarios`](https://github.com/Zaytsman/SimpRight/blob/main/.claude/skills/implement-api-scenarios/SKILL.md) (the command); [`api-scaffolding`](https://github.com/Zaytsman/SimpRight/blob/main/.claude/skills/api-scaffolding/SKILL.md) and [`api-test-from-scenario`](https://github.com/Zaytsman/SimpRight/blob/main/.claude/skills/api-test-from-scenario/SKILL.md), preloaded into the agent (not commands) |
 | **Input** | Scenarios with `status: manual` in `test-scenarios/api/`, and the area's contract |
 | **Output** | Specs in `tests/api/<area>/`; clients, services, DTOs, fixtures, factories as needed; scenarios marked `automated`; contract facts tagged `_(verified)_` |
 | **Live app** | Runs the specs against the live API; tests that write data only with your approval |
@@ -56,11 +56,11 @@ Claude then runs the typecheck and validator again and reports: files by group, 
 
 ### When the API disagrees with the scenario
 
-The test stays as written and **fails**; the report shows the request, expected, actual and a proposal. You choose: add a `knownIssue` (the agent adds it and `test.fail(true, 'Known issue BUG-001: ...')` before the test's first step), fix the scenario or contract, or leave it failing to investigate.
+The test stays as written and **fails**; the report shows the request, expected, actual and a proposal. You choose: add a `knownIssue` (the agent adds it and `test.fail(true, 'Known issue BUG-001: ...')` before the test's first step), fix the scenario or contract, or leave it failing to investigate. To record the bug, use [/report-bug](Report-Bug).
 
-## The helper skills
+## The preloaded skills
 
-These aren't commands: they're preloaded into the agent and describe how to write code in this project's style.
+They describe how to write code in this project's style; the agent follows them, you never call them.
 
 ### `api-scaffolding`
 
@@ -84,17 +84,17 @@ These aren't commands: they're preloaded into the agent and describe how to writ
 | **Verify steps** | Checks only, in the step's order; `expectStatus` and `parseJson` for the status and the body; `expectSomeItems` before an "every item" check; `assertMessage({ request, expected, actual })` on every assertion; secrets compared as a condition; exactly what the step says |
 | **Things that bite** | Server-side caching (read back only records the test created); parse only after checking the status; exact status codes; no fixed sleeps |
 
-## The rules it follows
+## What the agent never does
 
-- **The scenario is the specification:** every step, in order, verbatim; never a weakened check.
-- **No invented contract details or test data:** what it can't find is a "Decision needed".
-- **Live guardrails:** writes only when approved; `liveApi.dangerous` never.
-- **Test-side code only**, additive changes to shared files; in scenario files only `status`, `automatedIn` and an approved `knownIssue`.
-- **No secrets:** never opens `.env`; users and tokens come from fixtures.
+- **Change what a scenario checks:** every step, in order, verbatim; never a weakened check.
+- **Invent contract details or test data:** what it can't find is a "Decision needed".
+- **Write to the live app unasked:** writes only when approved; what `liveApi.dangerous` lists never.
+- **Touch more than test-side code:** additive changes to shared files; in scenario files only `status`, `automatedIn` and an approved `knownIssue`.
+- **Touch secrets:** it never opens `.env`; users and tokens come from fixtures.
 
 ## Tips
 
-- Run `/review-tests` afterwards: the reviewer is independent of the engineer.
-- Next: [Test Reviewer](Test-Reviewer), then commit.
+- Run [/review-tests](Review-Tests) afterwards: the reviewer is independent of the engineer.
+- Next: review, then commit.
 
-See also: [API Automation](API-Automation), [API Scenario Writer](API-Scenario-Writer).
+See also: [API Automation](API-Automation), [/write-api-scenarios-from-contract](Write-API-Scenarios-From-Contract).

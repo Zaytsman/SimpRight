@@ -22,11 +22,6 @@ It is also an example of **AI-assisted test automation**: Claude Code agents wri
 1. [Installation & Setup](Installation-&-Setup): install the framework, configure it and run the first tests.
 2. [Project Structure](Project-Structure): what lives where, and where new code goes.
 
-## Test Runs
-
-1. [CI Runs](CI-Runs): starting custom and smoke runs by hand on GitHub Actions, and reviewing their results on the Automation Portal.
-2. [Local Runs](Local-Runs): running tests on your machine, and scheduling unattended runs with Task Scheduler or cron.
-
 ## Test Scenarios
 
 1. [Add API Scenarios](Add-API-Scenarios): from a story or bug (`/analyze-requirements`), a contract (`/write-api-scenarios-from-contract`), your test steps, request/response JSON or a Bruno collection (`/write-api-scenarios-from-steps`), or by hand.
@@ -37,21 +32,27 @@ It is also an example of **AI-assisted test automation**: Claude Code agents wri
 1. [API Automation](API-Automation): turn API scenarios into tests with the API test engineer: plan, approve, implement, review, heal.
 2. [UI Automation](UI-Automation): the same for UI scenarios, with the page inspector and the UI test engineer.
 
-## Agents and Skills
+## Test Runs
 
-Each AI agent, its slash command and the skills it uses:
+1. [CI Runs](CI-Runs): starting custom and smoke runs by hand on GitHub Actions, and reviewing their results on the Automation Portal.
+2. [Local Runs](Local-Runs): running tests on your machine, and scheduling unattended runs with Task Scheduler or cron.
 
-| Agent | Command | Does |
+## Skills
+
+Each slash command, the agent it starts and what you get:
+
+| Skill | Agent | Does |
 |---|---|---|
-| [Requirements Analyst](Requirements-Analyst) | `/analyze-requirements` | An analysis and a test plan from a story or bug, API first, then scenarios for both layers |
-| [API Contract Writer](API-Contract-Writer) | `/write-api-contracts` | API contracts from source code or an OpenAPI spec |
-| [API Scenario Writer](API-Scenario-Writer) | `/write-api-scenarios-from-contract`, `/write-api-scenarios-from-steps` | API scenarios from a contract, or from your test steps, request/response JSON or a Bruno collection |
-| [UI Scenario Writer](UI-Scenario-Writer) | `/write-ui-scenarios-from-steps` | UI scenarios from your test steps in plain text |
-| [API Test Engineer](API-Test-Engineer) | `/implement-api-scenarios` | API specs and framework code from scenarios |
-| [UI Test Engineer](UI-Test-Engineer) | `/implement-ui-scenarios` | UI specs, page objects and flows from scenarios |
-| [Test Reviewer](Test-Reviewer) | `/review-tests` | Ranked review findings, then the fixes you pick |
-| [Test Healer](Test-Healer) | `/heal-tests` | Why tests failed, then the fixes you pick |
-| [Bug Reporter](Bug-Reporter) | `/report-bug` | Bugs in the app, one per root cause, linked to their scenarios; imports and re-checks |
+| [/analyze-requirements](Analyze-Requirements) | `requirements-analyst`, then `api-scenario-writer` and `ui-scenario-writer` | An analysis and a test plan from a story or bug, API first, then scenarios for both layers |
+| [/write-api-contracts](Write-API-Contracts) | `api-contract-writer` | API contracts from source code or an OpenAPI spec |
+| [/write-api-scenarios-from-contract](Write-API-Scenarios-From-Contract) | `api-scenario-writer` | API scenarios from a contract, endpoint by endpoint |
+| [/write-api-scenarios-from-steps](Write-API-Scenarios-From-Steps) | `api-scenario-writer` | API scenarios from your test steps, request/response JSON or a Bruno collection |
+| [/write-ui-scenarios-from-steps](Write-UI-Scenarios-From-Steps) | `ui-scenario-writer` | UI scenarios from your test steps in plain text |
+| [/implement-api-scenarios](Implement-API-Scenarios) | `api-test-engineer` | API specs and framework code from scenarios |
+| [/implement-ui-scenarios](Implement-UI-Scenarios) | `ui-test-engineer` | UI specs, page objects and flows from scenarios |
+| [/review-tests](Review-Tests) | `test-reviewer` | Ranked review findings, then the fixes you pick |
+| [/heal-tests](Heal-Tests) | `test-healer` | Why tests failed, then the fixes you pick |
+| [/report-bug](Report-Bug) | `bug-reporter` | Bugs in the app, one per root cause, linked to their scenarios; imports and re-checks |
 
 ## Continuous Integration
 

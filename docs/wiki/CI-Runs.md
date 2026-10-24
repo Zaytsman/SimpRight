@@ -77,6 +77,6 @@ Every test with its steps, named like the scenario's steps, the attached request
 
 The run's page has the log and, when tests failed, an error annotation with the link to the report. Its artifact (`<family>-run-<N>`: the HTML report and the raw test results) can be downloaded for 14 days.
 
-To find out why a run failed, use `/heal-tests <run id>` in Claude Code (see [Test Healer](Test-Healer)).
+To find out why a run failed, use [/heal-tests](Heal-Tests) `<run id>` in Claude Code.
 
 See also: [Automation Portal](Automation-Portal), [Local Runs](Local-Runs).
