@@ -12,7 +12,7 @@ Arguments, if any: $ARGUMENTS
 
 ## How to ask
 
-Every question to the user in this skill goes through the AskUserQuestion tool, following `../_shared/how-to-ask.md` (next to this skill's folder): the context as text first, 2–4 options, "(Recommended)" only with a reason, a multi-select for several items, plain text when the tool is missing.
+Before the first question, read `../_shared/how-to-ask.md` (next to this skill's folder) and follow it for every question in this skill.
 
 ## 1. Settle the brief
 
@@ -43,10 +43,10 @@ Before showing the draft, check it yourself:
 - each "Reproduced: yes" against what it quotes (a status, a field), and that the evidence has no secrets;
 - each bug file against the schema's keys and order (the validator will check it too).
 
-Show the draft as the agent returned it. Then ask in one AskUserQuestion call (further calls when there are more than 4 questions):
-1. **Items to write:** with one item, "Write it", "Write with edits" (title, severity or wording in "Other"), "Don't write"; with more, a multi-select with one option per item (up to 4; with more, "All", "None" and numbers through "Other"). Recommend the items whose reproduction you checked.
-2. **Writes** for reproduction (only when the draft lists "Writes needed"): each write with its cleanup in the description.
-3. **Decisions needed:** one question per decision (closing a bug now or after a re-run, extending a bug or filing a new one, a severity).
+Show the draft as the agent returned it. Then ask, in one call:
+1. **Items to write:** with one item, "Write it", "Write with edits" (title, severity or wording), "Don't write"; with more, a multi-select of the items. Recommend the items whose reproduction you checked.
+2. **Writes** for reproduction, when the draft lists "Writes needed".
+3. **Decisions needed:** one question each (closing a bug now or after a re-run, extending a bug or filing a new one, a severity).
 4. **Coverage gaps:** "Add the scenario now" (with `/write-api-scenarios-from-steps` or `/write-ui-scenarios-from-steps` from the bug's steps, or `/analyze-requirements <bug file>` for both layers, after this skill), "Later".
 
 ## 3. Write
@@ -65,7 +65,7 @@ If the agent can't be continued, start a new `bug-reporter` with the brief from 
 ## 4. Check and report
 
 1. Run `commands.validateScenarios` and `commands.typecheck` yourself, and `npm run bugs:build` (the Bugs page must still build).
-2. Run the specs whose known-issue line changed, once (`commands.runSpec`; for UI, `DISABLE_API_COVERAGE=true`), if their tests are read-only or their writes approved.
+2. Run the specs whose known-issue line changed, once (`commands.runSpec`), if their tests are read-only or their writes approved.
 3. Tell the user briefly: the bugs created, extended and closed (ID, title, severity), the scenarios linked, the spec results, writes made and cleaned up, and the coverage gaps.
 4. Suggest the next step: for coverage gaps, `/write-api-scenarios-from-steps` or `/write-ui-scenarios-from-steps` (the bug's steps), or `/analyze-requirements <bug file>`; for newly linked automated tests, `/review-tests` on the changed specs; then commit.
 

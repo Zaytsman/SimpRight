@@ -88,7 +88,7 @@ The app keeps its JWT in localStorage (no auth cookie), and the token lives 5 mi
 | Variable | Read by | Meaning |
 |---|---|---|
 | `TEST_ENV`, `UI_AUTH_MODE`, `HEADLESS`, `CI` | `env.ts` | Above |
-| `DISABLE_API_COVERAGE=true` | the optional coverage package (its recorder and reporter) | No coverage recording or report (UI runs set it) |
+| `DISABLE_API_COVERAGE=true` | the optional coverage package (its recorder and reporter) | No coverage recording or report (UI runs and the QA agents' runs set it) |
 | `SIMPRIGHT_RUN_USER_*` | `env.ts` | The run's customer, set by `globalSetup` |
 | `SIMPRIGHT_INSPECT` | `env.ts` (`findInspectRequest`) | The page inspector's request; creates the `inspect` project |
 | `PLAYWRIGHT_JSON_OUTPUT_NAME` | Playwright | Where a local `--reporter=json` writes, for `npm run check:step-titles` |

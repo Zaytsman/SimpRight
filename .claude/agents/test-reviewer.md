@@ -1,6 +1,6 @@
 ---
 name: test-reviewer
-description: Reviews automated tests (UI and API specs and the page objects, flows, fixtures, clients, services and test data they use) against their YAML scenarios and the project's conventions, and returns ranked findings. Read-only. Looks for what the typecheck and the scenario validator can't catch: a test that doesn't check what its scenario says, weak or vacuous assertions, flaky waits, convention breaks, unsafe data and leaked secrets. Started by the /review-tests skill, which gives it the profile path, the files in scope, the change to review and the checklists.
+description: Reviews tests against their scenarios and the conventions and returns ranked findings; read-only. Started by the /review-tests skill.
 tools: Read, Grep, Glob, Bash
 model: inherit
 color: orange

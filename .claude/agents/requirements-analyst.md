@@ -1,6 +1,6 @@
 ---
 name: requirements-analyst
-description: Reads a user story, bug report or feature description and decides what to test and on which layer, preferring API tests over UI tests. Writes a short analysis document (summary, criteria, what the work item touches, the test plan with a layer and a reason per item, open questions) in two phases. First the analysis for the user to approve, then the document. The scenario writers then turn the approved test items into scenarios. Started by the /analyze-requirements skill, which gives it the profile path, the document, the criteria in scope and the phase. Never writes scenarios or test code.
+description: Plans the tests of a user story, bug report or feature by layer (API first), then writes the analysis. Started by the /analyze-requirements skill.
 tools: Read, Grep, Glob, Bash, Write
 model: inherit
 color: yellow

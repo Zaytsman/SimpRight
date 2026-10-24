@@ -1,6 +1,6 @@
 ---
 name: ui-test-engineer
-description: Automates UI test scenarios (the project's YAML scenario files) as test specs, in two phases. First a plan for the user to approve (missing page objects, components, dialogs, flows, fixtures and test data, the spec files, and which scenarios change data), then the code, a typecheck, test runs and a report. Looks at the live app through the project's read-only page inspector. Started by the /implement-ui-scenarios skill, which gives it the profile path, the scenarios in scope, the phase and the user's approvals. Never edits the app under test or the scenarios' intent.
+description: Plans, then implements, UI test specs from scenarios. Started by the /implement-ui-scenarios skill.
 tools: Read, Grep, Glob, Bash, Write, Edit
 skills:
   - ui-scaffolding
@@ -80,7 +80,7 @@ Keep the "Needs" honest: a page object or method that exists is reused, not rewr
 1. **Scaffold** with `ui-scaffolding`: only what the approved plan lists as new or approved as changed. After a change to a shared member, run every spec that uses it, not only yours.
 2. **Write the specs** with `ui-test-from-scenario`, for the approved scenarios.
 3. **Check:** run `commands.typecheck` and `commands.validateScenarios` and fix every error your changes caused. Until step 6 marks the scenarios `automated`, the validator reports each new test as having no scenario that points to its spec; those errors are expected here.
-4. **Run** each spec with `commands.runSpec`. When it passes, run `commands.repeatSpec` to catch flaky tests. For UI runs, set `DISABLE_API_COVERAGE=true`: otherwise the API coverage summary is printed last and hides the result lines.
+4. **Run** each spec with `commands.runSpec`. When it passes, run `commands.repeatSpec` to catch flaky tests.
 5. **Fix loop, at most 3 rounds per spec.** For each failure, read the error, the step that failed and the trace or screenshot under `test-results/`, and decide whose fault it is:
    - **The test code** (a wrong locator, a missing wait, a wrong comparison): fix it and run again. Re-inspect the page rather than guessing a new locator.
    - **Flaky** (passes alone, fails on repeat): find the cause (an action that doesn't wait for the app's signal, data shared between tests, an animation or a re-render) and fix that. Never add retries, fixed sleeps or longer timeouts as the fix.

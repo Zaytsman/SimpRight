@@ -12,7 +12,7 @@ Arguments, if any: $ARGUMENTS
 
 ## How to ask
 
-Every question to the user in this skill goes through the AskUserQuestion tool, following `../_shared/how-to-ask.md` (next to this skill's folder): the context as text first, 2–4 options, "(Recommended)" only with a reason, plain text when the tool is missing.
+Before the first question, read `../_shared/how-to-ask.md` (next to this skill's folder) and follow it for every question in this skill.
 
 ## 1. Settle the brief
 
@@ -22,7 +22,7 @@ Every question to the user in this skill goes through the AskUserQuestion tool, 
   - a scenario file: a path as given, or a file name (with or without `.yml`, any letter case) found in the area folders;
   - an area folder name (`products`): every scenario in it.
   
-  If nothing was given or nothing matches, list the scenario files with their count of `manual` scenarios and ask which to take: up to 4 files as options (the smallest first), with the rest named through "Other".
+  If nothing was given or nothing matches, list the scenario files with their count of `manual` scenarios and ask which to take, the smallest first.
 - Only `status: manual` scenarios are in scope. If the selection has `automated` ones, say they're skipped, unless the user asked to redo them.
 - **Size:** more than about 15 scenarios or 3 files in one run makes the plan hard to review. Ask: "Start with <first file> (Recommended)" (a plan that size is easy to review), "All of them".
 - **Notes:** anything the user said that matters.
@@ -38,12 +38,10 @@ Phase: plan
 Notes: <or "none">
 ```
 
-Show the user the plan as the agent returned it. Then ask in one AskUserQuestion call:
-1. **Plan:** "Approve", "Approve with edits", "Rework".
-2. **Writes** (only when the plan lists "Writes needing approval"; the profile's `liveApi.writes` is `ask`): may these tests create, change or delete data on the live API? Name the cleanups, and the records that can't be removed (invoices).
-3. **Decisions needed:** one question per decision. More than 2 decisions go in a second call.
-
-"Approve" or "Approve with edits" is the clear yes; write nothing before it. On "Rework", continue the agent in `Phase: plan` with the user's notes and ask again.
+Show the user the plan as the agent returned it. Then ask, in one call:
+1. **Plan:** the approval question.
+2. **Writes**, when the plan lists "Writes needing approval" (the profile's `liveApi.writes` is `ask`). Some records can't be removed (invoices): name them.
+3. **Decisions needed:** one question each.
 
 ## 3. Implementation
 

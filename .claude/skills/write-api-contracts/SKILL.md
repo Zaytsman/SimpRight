@@ -12,7 +12,7 @@ Arguments, if any: $ARGUMENTS
 
 ## How to ask
 
-Every question to the user in this skill goes through the AskUserQuestion tool, following `../_shared/how-to-ask.md` (next to this skill's folder): the context as text first, 2–4 options, "(Recommended)" only with a reason, plain text when the tool is missing.
+Before the first question, read `../_shared/how-to-ask.md` (next to this skill's folder) and follow it for every question in this skill.
 
 ## 1. Settle the brief
 
@@ -33,7 +33,7 @@ Work out each other item from the arguments, the conversation and the project. L
 
 At least one input (source or spec) is required. In `update` mode the contract folder (`paths.contracts`) must already have contracts; if it's empty, say so and use `create`.
 
-For an update with a spec, you can show the user what changed before delegating: the profile's `commands.diffContracts` with the spec (`--tags ...` to limit the areas) lists the added, removed and changed endpoints in seconds. If the user only wanted to know whether the contracts are out of date, that answer may be enough. Then ask, in one AskUserQuestion call, whatever you couldn't settle: always **Live checks** against the base URL, unless the user already said: "Read-only", "Read and write", "None" (recommend "Read-only" for a test environment and "None" for production). Add one question for each other open item (the mode, the source, the spec, the areas), with the candidates you found as options.
+For an update with a spec, you can show the user what changed before delegating: the profile's `commands.diffContracts` with the spec (`--tags ...` to limit the areas) lists the added, removed and changed endpoints in seconds. If the user only wanted to know whether the contracts are out of date, that answer may be enough. Then ask, in one call, whatever you couldn't settle: always **Live checks** against the base URL, unless the user already said: "Read-only", "Read and write", "None" (recommend "Read-only" for a test environment and "None" for production). Add one question for each other open item (the mode, the source, the spec, the areas), with the candidates you found as options.
 
 Also check that the contract commands can run (`npx --no-install playwright-api-coverage --help`). They come from the optional coverage package. If it isn't installed, tell the user: the agent can still write contracts from the source, but it can't convert a spec or validate its work.
 

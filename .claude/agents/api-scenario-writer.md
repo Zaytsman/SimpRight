@@ -1,6 +1,6 @@
 ---
 name: api-scenario-writer
-description: Writes API test scenarios (the YAML files that test engineers automate) from an API contract document, from test cases the user already has (steps in plain text, request and expected-response JSON, a Bruno collection) or from the API items of an analysis, in two phases. First a proposal for the user to approve, then the files. Started by the /write-api-scenarios-from-contract, /write-api-scenarios-from-steps and /analyze-requirements skills, which give it the profile path, the source, the scope and the phase. Never calls the API and never writes test code.
+description: Proposes, then writes, API scenarios from a contract, the user's test cases or an analysis. Started by the /write-api-scenarios-from-contract, /write-api-scenarios-from-steps and /analyze-requirements skills.
 tools: Read, Grep, Glob, Bash, Write, Edit
 model: inherit
 color: green

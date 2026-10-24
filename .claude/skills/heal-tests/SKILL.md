@@ -12,7 +12,7 @@ Arguments, if any: $ARGUMENTS
 
 ## How to ask
 
-Every question to the user in this skill goes through the AskUserQuestion tool, following `../_shared/how-to-ask.md` (next to this skill's folder): the context as text first, 2–4 options, "(Recommended)" only with a reason, a multi-select for the causes to fix, plain text when the tool is missing.
+Before the first question, read `../_shared/how-to-ask.md` (next to this skill's folder) and follow it for every question in this skill.
 
 ## 1. Settle the source
 
@@ -21,7 +21,7 @@ Every question to the user in this skill goes through the AskUserQuestion tool, 
   - **A CI run id** (a long number) or a run URL: that run.
   - **A PR number** (`PR 22`, `#22`): its latest failed check run (`gh pr checks <n>`, then the run id of the failed check).
   - **A spec, a scenario file or IDs:** run those now (the agent reproduces them). Say which have writes: they run only if the user approved those writes before; ask otherwise.
-  - **None:** the last local run (`test-results/.last-run.json`). If it passed or doesn't exist, list the latest failed CI runs (`gh run list --status failure --limit 5`) and ask which one: up to 4 runs as options (the newest first), the rest through "Other".
+  - **None:** the last local run (`test-results/.last-run.json`). If it passed or doesn't exist, list the latest failed CI runs (`gh run list --status failure --limit 5`) and ask which one, the newest first.
 - If the run passed, say so and stop.
 - **Notes:** anything the user said that matters (a cause they suspect, tests to leave out).
 
@@ -39,10 +39,10 @@ Notes: <or "none">
 
 Before showing the diagnosis, check each high-confidence verdict that proposes a code change against the code yourself (open the file at the line). If one doesn't hold, lower its confidence or drop it, and say why.
 
-Show the diagnosis as the agent returned it. Then ask in one AskUserQuestion call (further calls when there are more than 4 questions):
-1. **Causes to fix:** a multi-select, one option per cause when there are up to 4 (its number, verdict and fix); with more, "All high-confidence", "All", with numbers through "Other". Fixes that change what a test checks, touch a shared member other tests use, or add writes need an explicit yes: say so in their descriptions. Recommend only high-confidence verdicts you checked.
-2. **Known issues:** one question per proposed known issue or its removal: "Add it" (naming the bug: existing ID, or new with its title), "Record it with `/report-bug` first", "Leave it". `/report-bug <scenario IDs>` reproduces it, checks for duplicates and links the scenarios; recommend it when the healer's bug note is thin or the bug may already exist under another cause. Scenario changes are made by the user or with `/write-*-scenarios`, not by the healer: list them and ask nothing for them.
-3. **Decisions needed:** one question per decision.
+Show the diagnosis as the agent returned it. Then ask, in one call:
+1. **Causes to fix:** a multi-select of the causes (each with its number, verdict and fix; with more than 4, the groups "All high-confidence" and "All"). A fix that adds writes needs an explicit yes too: say so in its description. Recommend only high-confidence verdicts you checked.
+2. **Known issues:** one question per proposed known issue or its removal: "Add it" (naming the bug: existing ID, or new with its title), "Record it with `/report-bug` first", "Leave it". `/report-bug <scenario IDs>` reproduces it, checks for duplicates and links the scenarios; recommend it when the healer's bug note is thin or the bug may already exist under another cause. Scenario changes are made by the user or with a `/write-*-scenarios-from-*` skill, not by the healer: list them and ask nothing for them.
+3. **Decisions needed:** one question each.
 4. **Records left behind** on the live app: "Leave them", "Remove them" (removing them is a write: don't do it unasked).
 
 Environment verdicts need no fix: suggest the re-run (`gh run rerun <id> --failed`, or the local command) and when, and run it only if the user asks.
@@ -63,7 +63,7 @@ If the agent can't be continued, start a new `test-healer` with the brief from s
 
 ## 4. Check and report
 
-1. Run `commands.typecheck` and `commands.validateScenarios` yourself, and run the changed specs once (`commands.runSpec`; for UI, `DISABLE_API_COVERAGE=true`).
+1. Run `commands.typecheck` and `commands.validateScenarios` yourself, and run the changed specs once (`commands.runSpec`).
 2. Tell the user briefly: the causes fixed and how, the table of tests → result, the causes left and why, and anything left on the live app.
 3. Suggest the next step: `/review-tests` on the changed files, then commit.
 

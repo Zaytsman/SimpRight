@@ -1,6 +1,6 @@
 ---
 name: api-scaffolding
-description: How to add the API test plumbing a scenario needs (client methods, service methods, DTOs, fixture registrations, test-data factories and constants) in the style of the project's exemplars, adding only what's missing. Preloaded into the api-test-engineer agent.
+description: How to add the clients, services, DTOs, fixtures and test data a scenario needs. Preloaded into the api-test-engineer agent.
 user-invocable: false
 ---
 

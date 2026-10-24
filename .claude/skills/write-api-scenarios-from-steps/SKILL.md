@@ -12,7 +12,7 @@ Arguments, if any: $ARGUMENTS
 
 ## How to ask
 
-Every question to the user in this skill goes through the AskUserQuestion tool, following `../_shared/how-to-ask.md` (next to this skill's folder): the context as text first, 2–4 options, "(Recommended)" only with a reason, plain text when the tool is missing.
+Before the first question, read `../_shared/how-to-ask.md` (next to this skill's folder) and follow it for every question in this skill.
 
 ## 1. Settle the brief
 
@@ -39,11 +39,11 @@ Phase: propose
 Notes: <or "none">
 ```
 
-Show the user the proposal as the agent returned it: the tables, the steps, the source map, what was left out of the response checks and "Decisions needed". Don't shorten the steps, because they are what the user approves. Then ask in one AskUserQuestion call:
-1. **Proposal:** "Approve", "Approve with edits" (drop, rename, merge or reword, in "Other"), "Rework".
-2. **Decisions needed:** one question per decision. More than 3 decisions go in a second call.
+Show the user the proposal as the agent returned it: the tables, the steps, the source map, what was left out of the response checks and "Decisions needed". Don't shorten the steps, because they are what the user approves. Then ask, in one call:
+1. **Proposal:** the approval question (edits: drop, rename, merge or reword).
+2. **Decisions needed:** one question each.
 
-"Approve" or "Approve with edits" is the clear yes; write nothing before it. When the agent proposes nothing new (everything is already covered), say so and ask only its decisions, if any.
+When the agent proposes nothing new (everything is already covered), say so and ask only its decisions, if any.
 
 If a decision is an endpoint missing from the contracts and the user wants it added first, run the `write-api-contracts` skill's steps for that area (update mode) before the writing phase, then continue here. If the user approves a new area, add it to `ids.areas` in the profile yourself before the writing phase (the agent doesn't change the profile).
 
