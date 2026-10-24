@@ -37,13 +37,12 @@ A validator checks that every scenario and its test match: IDs, names, tags and 
 
 ## Features
 
-✅ **Shared fixtures** - one set for both layers, with role-based test users; tests start already logged in.<br>
-✅ **Per-environment config** - JSON per environment, secrets in a git-ignored `.env`.<br>
+✅ **Automation Portal** - [Site](https://zaytsman.github.io/SimpRight/) with links to all features and real-time charts and dashboards.<br>
 ✅ **YAML test scenarios** - the source of truth for what gets automated, checked by a schema and a validator.<br>
 ✅ **API contracts** - every API area documented, with an optional coverage report against them.<br>
+✅ **API Coverage Tool** - shows which endpoints, status codes, fields and parameters from the contracts the tests exercise.<br>
+✅ **Test cases** - a searchable catalog of every UI and API scenario, with steps, status, known issues and links to the specs.<br>
 ✅ **Bug tracking** - one file per root cause, linked to the tests that hit it.<br>
-✅ **CI** - nightly regressions, a smoke set and pull request checks on GitHub Actions.<br>
-✅ **Automation Portal** - a [dashboard](https://zaytsman.github.io/SimpRight/) on GitHub Pages with run history, known issues, API coverage, test cases and bugs.<br>
 ✅ **AI agents** - contracts → scenarios → specs → review → healing, with human checkpoints.
 
 ## How the AI agents work together
