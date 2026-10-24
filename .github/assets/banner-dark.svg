@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="340" viewBox="0 0 1280 340" role="img" aria-label="SimpRight: AI-assisted test automation with Playwright and TypeScript">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0d1117"/>
+      <stop offset="1" stop-color="#0f1f17"/>
+    </linearGradient>
+    <pattern id="dots" width="24" height="24" patternUnits="userSpaceOnUse">
+      <circle cx="2" cy="2" r="1.2" fill="#21262d"/>
+    </pattern>
+  </defs>
+  <rect width="1280" height="340" rx="16" fill="url(#bg)"/>
+  <rect width="1280" height="340" rx="16" fill="url(#dots)" opacity="0.6"/>
+
+  <g>
+    <rect x="64" y="64" width="44" height="44" rx="10" fill="#3fb950"/>
+    <path d="M75 87 l8 8 l15 -17" fill="none" stroke="#ffffff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="124" y="102" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="46" font-weight="700" fill="#f0f6fc">Simp<tspan fill="#3fb950">Right</tspan></text>
+    <text x="64" y="158" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="24" font-weight="600" fill="#f0f6fc">AI-assisted test automation</text>
+    <text x="64" y="192" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="18" fill="#9198a1">Playwright + TypeScript, UI and API, scenario-driven,</text>
+    <text x="64" y="218" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="18" fill="#9198a1">with Claude Code agents and a person at every checkpoint</text>
+    <rect x="64" y="246" width="96.8" height="32" rx="16" fill="#161b22" stroke="#30363d"/><text x="112.4" y="267" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="15" font-weight="600" fill="#f0f6fc">UI tests</text>
+    <rect x="170.8" y="246" width="105.39999999999999" height="32" rx="16" fill="#161b22" stroke="#30363d"/><text x="223.5" y="267" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="15" font-weight="600" fill="#f0f6fc">API tests</text>
+    <rect x="286.2" y="246" width="105.39999999999999" height="32" rx="16" fill="#161b22" stroke="#30363d"/><text x="338.9" y="267" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="15" font-weight="600" fill="#f0f6fc">AI agents</text>
+    <rect x="401.59999999999997" y="246" width="174.2" height="32" rx="16" fill="#161b22" stroke="#30363d"/><text x="488.69999999999993" y="267" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="15" font-weight="600" fill="#f0f6fc">Automation Portal</text>
+  </g>
+
+  <g>
+    <rect x="720" y="48" width="496" height="244" rx="12" fill="#161b22" stroke="#30363d"/>
+    <path d="M720 60 a12 12 0 0 1 12 -12 h472 a12 12 0 0 1 12 12 v24 h-496 z" fill="#1c2128"/>
+    <line x1="720" y1="84" x2="1216" y2="84" stroke="#30363d"/>
+    <circle cx="742" cy="66" r="6" fill="#ff5f57"/>
+    <circle cx="762" cy="66" r="6" fill="#febc2e"/>
+    <circle cx="782" cy="66" r="6" fill="#28c840"/>
+    <text x="968" y="71" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, 'Cascadia Code', Consolas, 'Liberation Mono', monospace" font-size="13" fill="#7d8590">claude · SimpRight</text>
+    <text x="748" y="122" font-family="ui-monospace, SFMono-Regular, 'Cascadia Code', Consolas, 'Liberation Mono', monospace" font-size="15" fill="#3fb950">✓</text><text x="772" y="122" font-family="ui-monospace, SFMono-Regular, 'Cascadia Code', Consolas, 'Liberation Mono', monospace" font-size="14" fill="#e6edf3">/analyze-requirements</text><text x="1192" y="122" text-anchor="end" font-family="ui-monospace, SFMono-Regular, 'Cascadia Code', Consolas, 'Liberation Mono', monospace" font-size="13" fill="#7d8590">test plan</text>
+    <text x="748" y="152" font-family="ui-monospace, SFMono-Regular, 'Cascadia Code', Consolas, 'Liberation Mono', monospace" font-size="15" fill="#3fb950">✓</text><text x="772" y="152" font-family="ui-monospace, SFMono-Regular, 'Cascadia Code', Consolas, 'Liberation Mono', monospace" font-size="14" fill="#e6edf3">/write-api-scenarios-from-contract</text><text x="1192" y="152" text-anchor="end" font-family="ui-monospace, SFMono-Regular, 'Cascadia Code', Consolas, 'Liberation Mono', monospace" font-size="13" fill="#7d8590">12 scenarios</text>
+    <text x="748" y="182" font-family="ui-monospace, SFMono-Regular, 'Cascadia Code', Consolas, 'Liberation Mono', monospace" font-size="15" fill="#3fb950">✓</text><text x="772" y="182" font-family="ui-monospace, SFMono-Regular, 'Cascadia Code', Consolas, 'Liberation Mono', monospace" font-size="14" fill="#e6edf3">/implement-api-scenarios</text><text x="1192" y="182" text-anchor="end" font-family="ui-monospace, SFMono-Regular, 'Cascadia Code', Consolas, 'Liberation Mono', monospace" font-size="13" fill="#7d8590">specs 3/3</text>
+    <text x="748" y="212" font-family="ui-monospace, SFMono-Regular, 'Cascadia Code', Consolas, 'Liberation Mono', monospace" font-size="15" fill="#3fb950">✓</text><text x="772" y="212" font-family="ui-monospace, SFMono-Regular, 'Cascadia Code', Consolas, 'Liberation Mono', monospace" font-size="14" fill="#e6edf3">/review-tests</text><text x="1192" y="212" text-anchor="end" font-family="ui-monospace, SFMono-Regular, 'Cascadia Code', Consolas, 'Liberation Mono', monospace" font-size="13" fill="#7d8590">0 blockers</text>
+    <text x="748" y="242" font-family="ui-monospace, SFMono-Regular, 'Cascadia Code', Consolas, 'Liberation Mono', monospace" font-size="15" fill="#3fb950">✓</text><text x="772" y="242" font-family="ui-monospace, SFMono-Regular, 'Cascadia Code', Consolas, 'Liberation Mono', monospace" font-size="14" fill="#e6edf3">/heal-tests</text><text x="1192" y="242" text-anchor="end" font-family="ui-monospace, SFMono-Regular, 'Cascadia Code', Consolas, 'Liberation Mono', monospace" font-size="13" fill="#7d8590">diagnosis</text>
+    <text x="748" y="272" font-family="ui-monospace, SFMono-Regular, 'Cascadia Code', Consolas, 'Liberation Mono', monospace" font-size="15" fill="#3fb950">✓</text><text x="772" y="272" font-family="ui-monospace, SFMono-Regular, 'Cascadia Code', Consolas, 'Liberation Mono', monospace" font-size="14" fill="#e6edf3">/report-bug</text><text x="1192" y="272" text-anchor="end" font-family="ui-monospace, SFMono-Regular, 'Cascadia Code', Consolas, 'Liberation Mono', monospace" font-size="13" fill="#7d8590">BUG-052</text>
+  </g>
+</svg>
