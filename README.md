@@ -1,194 +1,119 @@
+<a href="https://zaytsman.github.io/SimpRight/"><picture><source media="(prefers-color-scheme: dark)" srcset="./.github/assets/banner-dark.svg" /><img src="./.github/assets/banner-light.svg" alt="SimpRight: AI-assisted test automation with Playwright and TypeScript" width="100%" /></picture></a>
+
+<p align="center">
+  <a href="https://github.com/Zaytsman/SimpRight/actions/workflows/run-api-tests.yml"><img alt="API regression" src="https://img.shields.io/github/actions/workflow/status/Zaytsman/SimpRight/run-api-tests.yml?branch=main&label=API%20regression&style=for-the-badge&labelColor=000000" /></a>
+  <a href="https://github.com/Zaytsman/SimpRight/actions/workflows/run-ui-tests.yml"><img alt="UI regression" src="https://img.shields.io/github/actions/workflow/status/Zaytsman/SimpRight/run-ui-tests.yml?branch=main&label=UI%20regression&style=for-the-badge&labelColor=000000" /></a>
+  <a href="https://zaytsman.github.io/SimpRight/"><img alt="Automation Portal" src="https://img.shields.io/badge/Automation%20Portal-open-2EAD33.svg?style=for-the-badge&labelColor=000000" /></a>
+</p>
+<p align="center">
+  <img alt="Playwright 1.64" src="https://img.shields.io/badge/Playwright-1.64-2EAD33.svg?style=for-the-badge&labelColor=000000" />
+  <img alt="TypeScript 7" src="https://img.shields.io/badge/TypeScript-7-3178C6.svg?style=for-the-badge&logo=typescript&logoColor=white&labelColor=000000" />
+  <a href="./LICENSE"><img alt="License: MIT" src="https://img.shields.io/badge/license-MIT-green.svg?style=for-the-badge&labelColor=000000" /></a>
+</p>
+
 # SimpRight
 
-Automated test framework built with **TypeScript + Playwright**. It covers UI and API tests for the [Practice Software Testing](https://practicesoftwaretesting.com) Toolshop demo app ([API](https://api.practicesoftwaretesting.com)).
+Automated test framework built with **TypeScript + Playwright**. It covers UI and API tests for the [Practice Software Testing](https://practicesoftwaretesting.com) Toolshop demo app ([API](https://api.practicesoftwaretesting.com)), and it's an example of AI-assisted test automation: Claude Code agents write contracts, scenarios and specs, review the tests and diagnose failures, and a person approves each step.
 
-**What's included**
-- UI tests using page objects, reusable components and multi-page flows
-- API tests using typed clients, services and DTOs
-- One set of fixtures shared by both layers, with role-based test users (`admin`, `default`)
-- Tests start already logged in, either through an API token (default) or a saved UI login
-- Per-environment config (`TEST`, and more to come), with secrets kept in `.env`
-- Test scenarios in YAML (with a schema and a validator) as the source of truth for what gets automated, and API contracts documenting the endpoints under test
-- AI agents for the whole automation cycle (contracts → scenarios → framework code and specs → review → healing), with human checkpoints: see [docs/AI_WORKFLOW.md](docs/AI_WORKFLOW.md)
+Every test starts as a scenario in YAML, and the spec follows it step for step:
 
-Step-by-step guides are in the **[wiki](https://github.com/Zaytsman/SimpRight/wiki)**, starting with [Installation & Setup](https://github.com/Zaytsman/SimpRight/wiki/Installation-&-Setup). How the framework is built, area by area, and what the October 2026 code review changed: **[docs/framework/](docs/framework/README.md)**.
-
-## Prerequisites
-
-- Node.js 22.18 or later (developed on 24)
-- npm
-
-## Setup
-
-```bash
-npm install
-npm run install:browsers
+```yaml
+# test-scenarios/ui/products/product-search.yml
+- id: UI-001
+  name: Search by name shows only matching products
+  preconditions:
+    - The home page is open.
+  steps:
+    - Search for "pliers".
+    - 'Verify the caption reads "Searched for: pliers".'
 ```
-
-Copy `.env.example` to `.env` in the project root and fill in the admin user. `.env` is git-ignored, so never commit it. The customer account is registered for each run and deleted afterwards, so it needs no settings.
-
-```dotenv
-ADMIN_USER=<admin email>
-ADMIN_PASSWORD=<admin password>
-```
-
-> **Windows / PowerShell:** if `npx` or `npm` fails with *"...ps1 cannot be loaded... not digitally signed"*, run
-> `Set-ExecutionPolicy -Scope CurrentUser RemoteSigned` once. Otherwise, use `npx.cmd` / `npm.cmd` or a different terminal (cmd, Git Bash).
-
-## Running tests
-
-| Command | What it does |
-|---|---|
-| `npm test` | All tests (API + UI) |
-| `npm run test:api` | API tests only |
-| `npm run test:ui` | UI tests only |
-| `npm run test:headed` | UI tests with a visible browser |
-| `npm run test:debug` | Playwright Inspector |
-| `npm run report` | Open the last HTML report |
-| `npm run typecheck` | TypeScript check (`tsc --noEmit`) |
-| `npm run validate:scenarios` | Check `qa-agents-profile.yml`, the scenario files and their IDs against the specs |
-| `npm run check:step-titles -- <report.json>` | Compare each test's step titles in a JSON report with its scenario's steps (CI does it after every run) |
-| `npm run inspect:ui -- <path> [--role admin \| --logged-out]` | Print a page's `data-test` elements and accessibility tree, for writing UI tests |
-| `npm run test-cases:build` | Build the Test Cases pages (the scenario catalog) into `test-results/test-cases/` |
-| `npm run bugs:build` | Build the Bugs page into `test-results/bugs/` |
-
-Single file or single test:
-
-```bash
-npx playwright test tests/ui/cart/add-to-cart.spec.ts
-npx playwright test -g "UI-002:"
-```
-
-### Options (environment variables)
-
-| Variable | Values | Default | Purpose |
-|---|---|---|---|
-| `TEST_ENV` | name of a file in `src/envs/` | `TEST` | Environment to run against |
-| `UI_AUTH_MODE` | `api`, `storageState` | `api` | How UI tests start logged in (see below) |
-| `HEADLESS` | `true`, `false` | `false` locally, `true` on CI | `false` shows the browser during UI tests |
-| `CI` | any value | not set | Enables retries, 2 workers, JUnit output and `forbidOnly` |
-
-PowerShell example: `$env:TEST_ENV="QA"; npm test`. Git Bash example: `TEST_ENV=QA npm test`.
-
-## Environments
-
-Each environment is a JSON file in `src/envs/` (e.g. `TEST.json`) containing `baseUrl`, `apiBaseUrl`, timeouts and test users. Credentials are written as `${VAR}` placeholders and filled in from `.env` when tests start. To add an environment, add another file (e.g. `QA.json`) and run with `TEST_ENV=QA`. Name the file in capitals.
-
-The configuration is checked when tests start. An unknown environment, an invalid URL or a missing `.env` variable fails straight away with a clear message.
-
-## Logging in
-
-Tests act as one of the users in `testUsers` (`admin`, `default`). Choose one per file or `describe` with `test.use({ role: 'admin' })`; the default is `default`. API tests get a token for that user through `POST /users/login`. It's cached per worker and refreshed before it expires.
-
-The site keeps its session token in the browser's `localStorage` (no cookie). The token expires after **5 minutes**. UI tests start already logged in, in one of two ways:
-
-- **`api` mode (default):** each UI test gets a fresh token for its user through the API, and it's placed in the browser before the test starts. There's no UI login and nothing is written to disk.
-- **`storageState` mode** (`UI_AUTH_MODE=storageState`): before the run, `src/globalSetup.ts` logs in each user through the login page and saves `.auth/<role>.json` (git-ignored). Locally, a saved login is reused while its token is still valid.
-
-For tests that should start logged out, use `test.use({ authMode: 'none' })`. The `api` project sets it for every API test, so an API test logs in only when it uses a token (for example `accessToken` or an admin client), and tests of public endpoints don't depend on the login at all.
-
-## Project structure
-
-```
-src/
-  config/env.ts          environment config, test users, login mode
-  envs/                  per-environment JSON (TEST.json, ...)
-  fixtures/              shared fixtures; index.ts is what specs import (`@fixtures`)
-  api/
-    clients/             one client per API area, on top of BaseClient
-    services/            domain operations over clients, returning typed results
-    dto/                 request/response types
-    auth/                TokenService (per-role token cache)
-    coverage/            optional API coverage plug-in
-    fixtures/            API fixtures
-  ui/
-    pages/               page objects (+ components/, dialogs/)
-    flows/               multi-page user journeys
-    auth/                token/storage-state helpers
-    fixtures/            UI fixtures
-  data/                  test data: TestConstants, factories/
-  utils/                 helpers (assertion messages, masked attachments, env)
-  globalSetup.ts         registers the run's customer; UI login for storageState mode
-tests/
-  api/<area>/*.spec.ts
-  ui/<area>/*.spec.ts
-test-scenarios/          scenario source of truth (api/, ui/)
-bugs/                    bugs found in the app under test, one BUG-001.yml per root cause
-docs/api/contracts/      API contracts, the reference for API coverage
-docs/framework/          how the framework works, one document per area
-qa-agents-profile.yml    project facts for the QA agents and scripts (paths, commands, ID formats, roles)
-```
-
-## Writing tests
-
-1. **Describe the scenario** in `test-scenarios/<ui|api>/<area>/<name>.yml` (API files are named after the endpoint, such as `api/products/get-products-search.yml` for `GET /products/search`) under the next free ID of its layer (such as `UI-003` or `API-0064`; `npm run validate:scenarios` prints them), with its name, the spec path (`automatedIn`), the starting state (`preconditions`, UI) and steps. Checks are steps that start with `Verify`; `test-scenarios/scenarios.schema.json` describes the format.
-2. **Add what the test needs:** page objects, components or flows (UI), or clients, services and DTOs (API). Register them as fixtures in `src/ui/fixtures/fixtures.ts` or `src/api/fixtures/fixtures.ts`.
-3. **Write the spec** in `tests/<ui|api>/<area>/`, named after the scenario file. Import `test` and `expect` from `@fixtures`, title the `describe` `<tags> - <suite>` and each test `<ID>: <name>`. Every spec has one `test.step` per scenario step, titled with the step text (preconditions are set up before the steps, by a precondition fixture such as `openHomePageTest`), and a message on every assertion; API specs use `assertMessage`/`attachJson` from `@utils/assertHelpers` (see CLAUDE.md).
-4. **For new API endpoints**, document them in `docs/api/contracts/` (in Claude Code, `/write-api-contracts` writes them from the API's source or spec; the format is in `docs/api/CONTRACT_FORMAT.md`).
 
 ```ts
-// Every scenario here has the precondition "The home page is open.": the fixture opens it before the steps.
+// tests/ui/products/product-search.spec.ts
 import { openHomePageTest as test, expect } from '@fixtures';
 
-// Scenarios: test-scenarios/ui/products/product-search.yml
-test.describe('@products - Product search', () => {
-  test('UI-001: Search by name shows only matching products', async ({ homePage }) => {
-    await test.step('Search for "pliers".', async () => {
-      await homePage.search('pliers');
-    });
+test('UI-001: Search by name shows only matching products', { tag: '@smoke' }, async ({ homePage }) => {
+  await test.step('Search for "pliers".', async () => {
+    await homePage.search('pliers');
+  });
 
-    await test.step('Verify the caption reads "Searched for: pliers".', async () => {
-      await expect(homePage.searchCaption, 'The caption names the search term').toHaveText('Searched for: pliers');
-    });
+  await test.step('Verify the caption reads "Searched for: pliers".', async () => {
+    await expect(homePage.searchCaption, 'The caption names the search term').toHaveText('Searched for: pliers');
   });
 });
 ```
 
-Detailed conventions, such as locator strategy, fixture layout and contract format, are in [CLAUDE.md](CLAUDE.md).
+A validator checks that every scenario and its test match: IDs, names, tags and step titles.
 
-## Reports
+## Features
 
-- **Playwright HTML report:** `playwright-report/`. Open it with `npm run report`. Traces, screenshots and videos are kept for failed tests.
-- **API coverage report (optional):** `test-results/api-coverage/index.html`, see below.
+✅ **Shared fixtures** - one set for both layers, with role-based test users; tests start already logged in.<br>
+✅ **Per-environment config** - JSON per environment, secrets in a git-ignored `.env`.<br>
+✅ **YAML test scenarios** - the source of truth for what gets automated, checked by a schema and a validator.<br>
+✅ **API contracts** - every API area documented, with an optional coverage report against them.<br>
+✅ **Bug tracking** - one file per root cause, linked to the tests that hit it.<br>
+✅ **CI** - nightly regressions, a smoke set and pull request checks on GitHub Actions.<br>
+✅ **Automation Portal** - a [dashboard](https://zaytsman.github.io/SimpRight/) on GitHub Pages with run history, known issues, API coverage, test cases and bugs.<br>
+✅ **AI agents** - contracts → scenarios → specs → review → healing, with human checkpoints.
 
-### API coverage (optional)
+## How the AI agents work together
 
-The API coverage report shows which of the endpoints, status codes, request fields and query parameters documented in `docs/api/contracts/` the tests actually exercise. It also lists calls to endpoints that aren't documented.
+Each step is a Claude Code slash command, and every command stops for your approval before it writes anything.
 
-The reporter comes from a private package, `@zaytsman/playwright-api-coverage`. SimpRight loads it only when it's installed. Without it, everything runs the same, just without this report. The recorder keeps only the shape of each request (field and parameter names, never their values), so the report is safe to publish. The nightly API regression publishes it to the dashboard. Set `DISABLE_API_COVERAGE=true` to turn it off.
-
-The package is an optional dependency, and the repo's `.npmrc` points the `@zaytsman` scope at GitHub Packages. Without access, `npm install` quietly skips it. **With access**, add a GitHub token (classic, with `read:packages`) to your **user** `~/.npmrc`, never to the repo, and run `npm install` again. `.npmrc.example` shows the line:
-
-```ini
-//npm.pkg.github.com/:_authToken=<your token>
+```mermaid
+flowchart LR
+  story["Story or bug"] --> analyze["/analyze-requirements"]
+  source["API source or spec"] --> contracts["/write-api-contracts"]
+  contracts --> fromContract["/write-api-scenarios-from-contract"]
+  steps["Your test steps"] --> fromSteps["/write-api-scenarios-from-steps<br/>/write-ui-scenarios-from-steps"]
+  analyze --> scenarios[("YAML scenarios")]
+  fromContract --> scenarios
+  fromSteps --> scenarios
+  scenarios --> implement["/implement-api-scenarios<br/>/implement-ui-scenarios"]
+  implement --> review["/review-tests"]
+  review --> ci["CI + Automation Portal"]
+  ci -- "failed" --> heal["/heal-tests"]
+  heal -- "test fix" --> review
+  heal -- "app bug" --> bug["/report-bug"]
 ```
 
-## CI and dashboard
+## Quick start
 
-GitHub Actions runs the tests and publishes every report to GitHub Pages: **[zaytsman.github.io/SimpRight](https://zaytsman.github.io/SimpRight/)**.
+```bash
+npm install
+npm run install:browsers
+cp .env.example .env   # then fill in ADMIN_USER and ADMIN_PASSWORD
+npm run test:smoke
+```
 
-| Workflow | When | What |
-|---|---|---|
-| API Regression Test Run | weekdays 02:15 UTC, or by hand | all API tests |
-| UI Regression Test Run | weekdays 06:15 UTC, or by hand | all UI tests |
-| Custom API / UI Test Run | by hand | one area (a folder in `tests/`), optionally filtered by a title (`--grep`) |
-| Publish Test Cases | on push to `main` that changes the scenarios or bugs, or by hand | the UI and API Test Cases pages and the Bugs page |
-| Publish Wiki | on push to `main` that changes `docs/wiki/`, or by hand | the [wiki](https://github.com/Zaytsman/SimpRight/wiki), from `docs/wiki/` |
+You need Node.js 22.18 or later. [Installation & Setup](https://github.com/Zaytsman/SimpRight/wiki/Installation-&-Setup) covers the rest.
 
-The dashboard shows the latest status, test counts, known issues, pass/fail, duration and failure-rate trends, and the history of the last runs, each linking to its full Playwright report. Every report family keeps its latest 30 runs.
+## Documentation
 
-Its **UI Test Cases** and **API Test Cases** pages list every scenario in `test-scenarios/` as a tree (layer → area → file → scenario), with search, status and known-issue filters, the steps, the YAML, and links to the spec and the user story. The Publish Test Cases workflow rebuilds them whenever scenarios change on `main`; `npm run test-cases:build` builds them locally (open `test-results/test-cases/ui/index.html`).
+Everything is in the **[wiki](https://github.com/Zaytsman/SimpRight/wiki)**:
 
-Its **Bugs** page lists the bugs found in the app (`bugs/`, one per root cause) with the steps to reproduce, the tests that hit them and their latest result; a known-issue test that starts passing flags its bug for a re-check. It's published with the Test Cases pages; `npm run bugs:build` builds it locally.
+| | |
+|---|---|
+| [Installation & Setup](https://github.com/Zaytsman/SimpRight/wiki/Installation-&-Setup) | Install, configure and run the first tests |
+| [Test Scenarios](https://github.com/Zaytsman/SimpRight/wiki/Add-API-Scenarios), [Automation](https://github.com/Zaytsman/SimpRight/wiki/API-Automation), [Test Runs](https://github.com/Zaytsman/SimpRight/wiki/Local-Runs) | Add scenarios, automate them, run the tests locally and on CI |
+| [Skills](https://github.com/Zaytsman/SimpRight/wiki#skills) | The Claude Code slash commands and the agents they start |
+| [Continuous Integration](https://github.com/Zaytsman/SimpRight/wiki/CI-Pipeline) | The workflows, schedules, publishing and the dashboard |
+| [Framework](https://github.com/Zaytsman/SimpRight/wiki/Architecture) | How the framework is designed, area by area |
 
-To run it in your own fork, add the `ADMIN_USER` and `ADMIN_PASSWORD` repository secrets. After the first run creates the `gh-pages` branch, turn on GitHub Pages from that branch.
+The exact conventions a new test must follow are in [CLAUDE.md](CLAUDE.md).
 
-## Branches and contributing
+## Contributing
 
-- `main` is the stable, protected branch: changes reach it only through pull requests that pass the `verify` check (typecheck, scenario validation and the Test Cases and Bugs page builds; the tests run before the push and nightly on `main`).
-- Day-to-day work happens on `develop`, which is merged into `main` with a pull request.
-- To contribute, fork the repo, branch from `develop`, and open a pull request into `develop`.
-- Found a security problem? See [SECURITY.md](SECURITY.md).
+Fork the repository, branch from `develop` and open a pull request into `develop`. Pull requests run the `verify` check (typecheck, scenario validation and the Test Cases and Bugs page builds), so run the specs you changed locally before you push.
+
+## Security
+
+Please don't open public issues for security problems. Follow [SECURITY.md](SECURITY.md) to report them privately.
+
+## Status
+
+> [!NOTE]
+> SimpRight is a demo framework. It tests a public demo shop that other people use at the same time and that re-seeds its data every hour, so the tests are written to cope with shared, changing data. Every API scenario is automated; the UI suite is partly automated, and its remaining scenarios are written and waiting.
 
 ## License
 

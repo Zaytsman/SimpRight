@@ -63,7 +63,7 @@ Each slash command, the agent it starts and what you get:
 5. [Test Cases Pages](Test-Cases-Pages): the browsable catalog of UI and API scenarios, and how it is built and published.
 6. [Bugs Page](Bugs-Page): the bugs found in the app, the tests that hit them and their latest results.
 
-## Architecture
+## Framework
 
 How the framework is designed, one page per area (the rules a new test must follow are in [CLAUDE.md](https://github.com/Zaytsman/SimpRight/blob/main/CLAUDE.md)):
 

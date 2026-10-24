@@ -36,7 +36,7 @@
 - [Test Cases Pages](Test-Cases-Pages)
 - [Bugs Page](Bugs-Page)
 
-**Architecture**
+**Framework**
 - [Architecture](Architecture)
 - [Configuration](Configuration)
 - [Fixtures](Fixtures)
