@@ -2,7 +2,7 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
-**Size rule:** keep this file under 180 lines and 20 KB, no line over 500 characters. It holds rules and pointers; explanations go in `docs/framework/`, and what a schema or the validator enforces isn't repeated.
+**Size rule:** keep this file under 200 lines and 30 KB, no line over 500 characters. It holds rules and pointers; explanations go in `docs/framework/`, and what a schema or the validator enforces isn't repeated.
 
 ## Project
 
