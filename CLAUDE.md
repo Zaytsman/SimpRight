@@ -33,8 +33,8 @@ npm run bugs:build                # Bugs page into test-results/bugs/ (open inde
 Details: `docs/framework/02-configuration.md`.
 - **UI login** (`authMode`, default `UI_AUTH_MODE` = `env.uiAuthMode`; per file `test.use({ authMode })`). The app keeps its JWT in `localStorage['auth-token']`; it expires after 5 minutes.
   - `api` (default): the `storageState` fixture injects a `tokenService` token for the test's role; nothing on disk.
-  - `storageState`: `globalSetup` logs every role in and saves `.auth/<role>.json` (git-ignored, a live JWT). Works only when the run uses `UI_AUTH_MODE=storageState`.
-  - `none` (test option only): starts logged out. The `api` project sets it, so API tests log in only through the fixtures that need a token (`accessToken`, `productsClientWithToken`, `adminProductsService`).
+  - `storageState`: `globalSetup` logs every role in and saves `.auth/<role>.json` (git-ignored, a live JWT). Locally a saved state is reused while its token has more than 2 minutes left; on CI it's always new, and the `default` role's always is. A role that fails to log in fails the run. `test.use({ authMode: 'storageState' })` works only when the run uses `UI_AUTH_MODE=storageState` (otherwise "No valid saved login").
+  - `none` (test option only): starts logged out. The `api` project sets it because every test resolves the `storageState` fixture (tracing reads the context options): without it each API test would log the default user in, and one locked login would fail the suite. API tests log in only through the fixtures that need a token (`accessToken`, `productsClientWithToken`, `adminProductsService`).
 - Projects: `api` (`tests/api`, no browser); `ui` (`tests/ui`, Desktop Chrome, headed locally, headless on CI, `HEADLESS` overrides); `inspect` (the page inspector, only while `SIMPRIGHT_INSPECT` is set).
 - **Page inspector:** `npm run inspect:ui -- <path> [--role <role> | --logged-out] [--then click:<data-test> | check:<label> | select:<data-test>=<label>]`, output masked in `test-results/inspect/`. Read-only: never types or submits.
 - `testIdAttribute` is `data-test` (`TEST_ID_ATTRIBUTE` in `BasePage.ts`). Prefer `page.getByTestId(...)`.
@@ -60,7 +60,8 @@ Details: `docs/framework/06-ui-layer.md`.
 - No assertions in page objects; waiting for the app's own signal inside an action or `waitForLoaded()` is fine.
 - Components (`pages/components/`) extend `BaseComponent(page, root)` and find their locators inside `root` (default: their container). Inside `filter({ has })` the inner locator starts from `page`. No URL, `open()` or `navBar`. Dialogs extend `BaseDialog(page, root?)` (default `getByRole('dialog')`). Multi-page journeys go in `src/ui/flows/` (`ShoppingFlow.openProduct(name)`), exposed as fixtures.
 - Wait for the app's own signals, never fixed sleeps (`search_completed` marker, the "Product added" toast). With no marker, use `waitForApiResponse(page, method, path)` (`src/ui/pages/waitForApiResponse.ts`), started before the action and awaited after it.
-- **Never `goto('/checkout')`:** Cloudflare's bot check blocks most direct loads from CI runners (`BasePage.goto()` then throws "Blocked by the site's Cloudflare bot check"). Reach the checkout with `CartPage.open()` (clicks the nav bar's cart link; needs `cart_quantity`, which `setVisitorCart` sets). Only `openWithoutCart()` loads it directly.
+- **Never `goto('/checkout')`:** Cloudflare's bot check blocks most direct loads from GitHub-hosted runners (never seen locally); `BasePage.goto()` then throws "Blocked by the site's Cloudflare bot check (environment)". Reach the checkout with `CartPage.open()`: it clicks the nav bar's cart link, then waits for `GET /carts/{id}` and fails with its status when the cart doesn't load. Only `openWithoutCart()` loads it directly.
+  - The link shows only when sessionStorage has `cart_quantity`, which `setVisitorCart` sets with the cart id. When no page of the app is open, `open()` loads the home page first and waits until it has loaded: a click right after the load can be lost.
 - After login, admin lands on `/admin/dashboard`, a customer on `/account`. `navBar.userMenu` shows only when logged in: use it to check login.
 
 ## Layout
@@ -113,17 +114,19 @@ Details: `docs/framework/02-configuration.md`.
 - `src/envs/<NAME>.json` (committed): `baseUrl`, `apiBaseUrl`, timeouts, `testUsers` (the admin only, `${VAR}` placeholders for secrets). Pick with `TEST_ENV` (default `TEST`).
 - `.env` (git-ignored, never commit): only secrets (`ADMIN_USER`, `ADMIN_PASSWORD`). Keep `.env.example` in sync. `.npmrc` holds only the scope mapping, never a token (see `.npmrc.example`).
 - `src/config/env.ts` resolves and validates config and exports a frozen `env`, `getUser(role)`, `storageStatePath(role)`. **Never write resolved config (it has passwords) to disk.** Everything reads config through `@config/env`; never read `process.env` in tests or page objects.
-- **The run's customer (the `default` role):** `globalSetup` registers a new customer per run (`createRunUser`, `src/api/auth/runUser.ts`), passes it to workers through `SIMPRIGHT_RUN_USER_*` (read only by `env.ts`) and deletes it after the run. **Never send wrong passwords for a shared account:** a lockout test registers its own customer.
+- **The run's customer (the `default` role):** the demo site publishes its default customer's credentials, so other people's failed logins kept locking it (423). Instead `globalSetup` registers a new customer per run (`createRunUser`, `src/api/auth/runUser.ts`), passes it to workers through `SIMPRIGHT_RUN_USER_*` (read only by `env.ts`) and deletes it as admin after the run (a failed delete only warns). Its credentials are masked in reports.
+  - The login check retries a 5xx or a dropped connection with a new customer for up to 4 minutes (a delayed run can start during the hourly re-seed); other errors fail at once. The re-seed deletes the customer too, so on CI a run that would start between :45 and :02 UTC first waits until :03.
+  - **Never send wrong passwords for a shared account:** a lockout test registers its own customer.
 - Timeouts: `defaultTimeoutMs` (actions, `expect`), `extendedTimeoutMs` (tests, navigation).
 
 ## API layer
 
 Details: `docs/framework/04-api-layer.md`.
 - **Clients** extend `BaseClient`: one per API area, public methods 1:1 with endpoints, built on the protected helpers (`get`, `post/put/patch/delete`, `query`, `queryBody`) that return `ApiResponse` (`status`, raw `body`, lower-case `headers`). Query strings via `queryString({ q, page })`.
-- All HTTP goes through `BaseClient.executeRequest` (never `fetch` or `request.get`), so `onApiCall` listeners see every call; negative tests use its `rawData`, `contentType` and `accept` options.
-- **API coverage (optional):** `src/api/coverage/apiCoverage.ts` loads `@zaytsman/playwright-api-coverage` when installed. **Never import the package directly** (forks don't have it). `DISABLE_API_COVERAGE=true` or a CLI `--reporter` turns it off.
+- All HTTP goes through `BaseClient.executeRequest` (never `fetch` or `request.get`), so `onApiCall` listeners see every call. It sends `data` as JSON with `Accept: application/json`; negative tests use `rawData` (with `contentType`) and `accept` (`null` leaves the header out). A request that fails without a response masks the credential headers in its error, because errors reach published reports and CI logs.
+- **API coverage (optional):** `src/api/coverage/apiCoverage.ts` loads `@zaytsman/playwright-api-coverage` when installed; the auto worker fixture `apiCoverage` records every call, and the package's reporter compares them with the contracts into `test-results/api-coverage/`. Without the package both do nothing. **Never import the package directly** (forks and their PRs don't have it). `DISABLE_API_COVERAGE=true` or a CLI `--reporter` turns it off.
 - **Services** wrap clients with domain operations and parsing; **DTOs** type the bodies.
-- **Auth:** `POST /users/login` returns `access_token` (300 s). `TokenService` (worker scope) logs each role in once and refreshes 2 minutes before expiry. The JWT's `role` claim is `admin` or `user`.
+- **Auth:** `POST /users/login` returns `access_token` (300 s). `TokenService` (worker scope) logs each role in once and refreshes 2 minutes before expiry. The JWT's `role` claim is `admin` or `user`; `/users/me` returns `role` only for admin.
 - **Fixtures** (`src/api/fixtures/fixtures.ts`): register new clients and services here. A client for the test's role or the admin gets `roleToken(tokenService, role)` (fetched per request, so long tests never send an expired token); a token the test got itself is passed as a string. Variants per area as the scenarios need them: `xClient`/`xService` (no token), `xClientWithToken`, `xClientWithInvalidToken`, `xClientForToken(token)`/`xServiceForToken(token)`, `adminXService`.
 
 ## API contracts
@@ -144,7 +147,8 @@ Details: `docs/framework/11-ci-and-publishing.md` and the wiki's CI and Pages pa
   - Inputs reach `run:` scripts through `env:`, never as `${{ }}` inside the script.
   - Scheduled runs start at :15, never on the hour (the site re-seeds at :00).
   - A workflow that needs the coverage package needs `packages: read` in every caller too.
-- The dashboard (`index.html`) lists a test under "Known Issues" when an annotation contains `Known issue`.
+- The dashboard (`index.html`) lists a test under "Known Issues" when an annotation contains `Known issue`; the bug ID in `Known issue BUG-001: ...` links to the Bugs page.
+- The Test Cases (`site/test-cases/`) and Bugs (`site/bugs/`) pages are built from the scenarios and bugs (`npm run test-cases:build`, `npm run bugs:build`) and published by `publish-test-cases.yml` on pushes to `main`; `verify` builds them too, so a scenario change that breaks the build fails the PR.
 - `scripts/*.sh` keep LF line endings (`.gitattributes`).
 
 ## Branches and pull requests
