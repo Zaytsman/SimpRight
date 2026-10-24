@@ -4,15 +4,15 @@ Automated test framework built with **TypeScript + Playwright**. It covers UI an
 
 ## Features
 
-- UI tests built on page objects, reusable components and multi-page flows
-- API tests built on typed clients, services and DTOs
-- One set of fixtures shared by both layers, with role-based test users; tests start already logged in
-- Per-environment config in JSON, with secrets kept in a git-ignored `.env`
-- Test scenarios in YAML, with a schema and a validator, as the source of truth for what gets automated
-- API contracts documenting every API area, with an optional coverage report that measures the tests against them
-- Bugs found in the app on file, one per root cause, linked to the tests that hit them
-- CI on GitHub Actions: nightly regressions, a smoke set, pull request checks, and a [dashboard](https://zaytsman.github.io/SimpRight/) on GitHub Pages with run history, test cases and bugs
-- AI agents for the whole cycle (contracts → scenarios → specs → review → healing), with human checkpoints
+- ✅ **UI tests**: page objects, reusable components and multi-page flows.
+- ✅ **API tests**: typed clients, services and DTOs.
+- ✅ **Shared fixtures**: one set for both layers, with role-based test users; tests start already logged in.
+- ✅ **Per-environment config**: JSON per environment, secrets in a git-ignored `.env`.
+- ✅ **YAML test scenarios**: the source of truth for what gets automated, checked by a schema and a validator.
+- ✅ **API contracts**: every API area documented, with an optional coverage report against them.
+- ✅ **Bug tracking**: one file per root cause, linked to the tests that hit it.
+- ✅ **CI and dashboard**: nightly regressions, a smoke set, PR checks and a [dashboard](https://zaytsman.github.io/SimpRight/) on GitHub Pages.
+- ✅ **AI agents**: contracts → scenarios → specs → review → healing, with human checkpoints.
 
 ## Documentation
 
