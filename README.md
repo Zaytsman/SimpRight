@@ -2,17 +2,14 @@
 
 Automated test framework built with **TypeScript + Playwright**. It covers UI and API tests for the [Practice Software Testing](https://practicesoftwaretesting.com) Toolshop demo app ([API](https://api.practicesoftwaretesting.com)), and it's an example of AI-assisted test automation: Claude Code agents write contracts, scenarios and specs, review the tests and diagnose failures, and a person approves each step.
 
-## Features
-
-- ✅ **UI tests**: page objects, reusable components and multi-page flows.
-- ✅ **API tests**: typed clients, services and DTOs.
-- ✅ **Shared fixtures**: one set for both layers, with role-based test users; tests start already logged in.
-- ✅ **Per-environment config**: JSON per environment, secrets in a git-ignored `.env`.
-- ✅ **YAML test scenarios**: the source of truth for what gets automated, checked by a schema and a validator.
-- ✅ **API contracts**: every API area documented, with an optional coverage report against them.
-- ✅ **Bug tracking**: one file per root cause, linked to the tests that hit it.
-- ✅ **CI and dashboard**: nightly regressions, a smoke set, PR checks and a [dashboard](https://zaytsman.github.io/SimpRight/) on GitHub Pages.
-- ✅ **AI agents**: contracts → scenarios → specs → review → healing, with human checkpoints.
+✅ **Shared fixtures** - one set for both layers, with role-based test users; tests start already logged in.
+✅ **Per-environment config** - JSON per environment, secrets in a git-ignored `.env`.
+✅ **YAML test scenarios** - the source of truth for what gets automated, checked by a schema and a validator.
+✅ **API contracts** - every API area documented, with an optional coverage report against them.
+✅ **Bug tracking** - one file per root cause, linked to the tests that hit it.
+✅ **CI** - nightly regressions, a smoke set and pull request checks on GitHub Actions.
+✅ **Automation Portal** - a [dashboard](https://zaytsman.github.io/SimpRight/) on GitHub Pages with run history, known issues, API coverage, test cases and bugs.
+✅ **AI agents** - contracts → scenarios → specs → review → healing, with human checkpoints.
 
 ## Documentation
 
