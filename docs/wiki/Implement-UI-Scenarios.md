@@ -1,14 +1,14 @@
-<!-- Source: docs/wiki/UI-Test-Engineer.md in the repository. Edit it there: the Publish Wiki workflow overwrites changes made in the wiki. -->
+<!-- Source: docs/wiki/Implement-UI-Scenarios.md in the repository. Edit it there: the Publish Wiki workflow overwrites changes made in the wiki. -->
 
-# UI Test Engineer
+# /implement-ui-scenarios
 
-Automates **UI scenarios** as Playwright browser specs: it inspects the live pages, plans the page objects, flows, fixtures and tests, waits for your approval (including every test that changes live data), then writes the code, runs the specs, repeats them to catch flaky tests, and marks the scenarios `automated`.
+Automates **UI scenarios** as Playwright browser specs. It inspects the live pages, plans the page objects, flows, fixtures and tests, then waits for your approval, including every test that changes live data. Then it writes the code, runs the specs, repeats them to catch flaky tests, and marks the scenarios `automated`.
 
 | | |
 |---|---|
 | **Command** | `/implement-ui-scenarios <scenario IDs \| scenario file \| area>` |
-| **Agent** | `ui-test-engineer` (`.claude/agents/ui-test-engineer.md`) |
-| **Skills** | `implement-ui-scenarios` (the command); `ui-scaffolding` and `ui-test-from-scenario` (preloaded into the agent) |
+| **Agent** | [`ui-test-engineer`](https://github.com/Zaytsman/SimpRight/blob/main/.claude/agents/ui-test-engineer.md) |
+| **Skill files** | [`implement-ui-scenarios`](https://github.com/Zaytsman/SimpRight/blob/main/.claude/skills/implement-ui-scenarios/SKILL.md) (the command); [`ui-scaffolding`](https://github.com/Zaytsman/SimpRight/blob/main/.claude/skills/ui-scaffolding/SKILL.md) and [`ui-test-from-scenario`](https://github.com/Zaytsman/SimpRight/blob/main/.claude/skills/ui-test-from-scenario/SKILL.md), preloaded into the agent (not commands) |
 | **Input** | Scenarios with `status: manual` in `test-scenarios/ui/` |
 | **Output** | Specs in `tests/ui/<area>/`; page objects, components, dialogs, flows, fixtures, constants as needed; scenarios marked `automated` |
 | **Live app** | Read-only page inspector while planning; runs the specs in Chromium; tests that write data only with your approval |
@@ -51,14 +51,14 @@ Then **Writes needing approval** (cart, registration, favourites, orders), **Can
 2. **Write the specs** (`ui-test-from-scenario`).
 3. **Check:** `npm run typecheck`, `npm run validate:scenarios`.
 4. **Run** each spec, then `--repeat-each=3` (with `DISABLE_API_COVERAGE=true`).
-5. **Fix loop**, at most 3 rounds per spec, from the error, the failed step and the trace or screenshot: a test-code mistake is fixed; a flaky test gets its cause fixed (a wait that races the app, shared data); a disagreement with the app stops work on that test.
+5. **Fix loop**, at most 3 rounds per spec, from the error, the failed step and the screenshot: a test-code mistake is fixed; a flaky test gets its cause fixed (a wait that races the app, shared data); a disagreement with the app stops work on that test.
 6. **Finish:** `status: automated` + `automatedIn` on each scenario.
 
-Claude runs the typecheck, the validator and the new specs once more itself, then reports: files by group, scenario → result, live writes and their cleanup, assumptions to confirm. A failing test on app behaviour comes with its step, expected, actual and a proposal (`knownIssue`, scenario fix, or leave it failing), and you choose.
+Claude runs the typecheck, the validator and the new specs once more itself, then reports: files by group, scenario → result, live writes and their cleanup, assumptions to confirm. A failing test on app behaviour comes with its step, expected, actual and a proposal (`knownIssue`, scenario fix, or leave it failing), and you choose. To record the bug, use [/report-bug](Report-Bug).
 
-## The helper skills
+## The preloaded skills
 
-Preloaded into the agent; not commands.
+They describe how to write code in this project's style; the agent follows them, you never call them.
 
 ### `ui-scaffolding`
 
@@ -81,17 +81,17 @@ Preloaded into the agent; not commands.
 | **Checks** | A plain-text message on every assertion; web-first assertions on locators first (they retry until the page settles); order checks against a sorted copy, after checking the list isn't empty; approved readings recorded as a comment; exactly what the step says |
 | **Things that bite** | Hourly re-seed (never use ids, find records by name); re-rendered lists read half-updated; hidden duplicate elements in responsive layouts; no fixed sleeps |
 
-## The rules it follows
+## What the agent never does
 
-- **The scenario is the specification:** never a weakened check.
-- **Never guesses the page:** locators and data come from the inspector, existing page objects or constants.
-- **The inspector is read-only**, and it waits for pages to settle, so page objects must have their own waits.
-- **Live guardrails**, **test-side code only**, **additive changes**, **no secrets**.
+- **Change what a scenario checks:** never a weakened check.
+- **Guess the page:** locators and data come from the inspector, existing page objects or constants.
+- **Rely on the inspector's waits:** the inspector waits for pages to settle, so page objects get their own waits.
+- **Write to the live app unasked**, touch more than test-side code, make non-additive changes to shared code without approval, or touch secrets.
 
 ## Tips
 
 - If the plan has `changed (needs approval)` items, read them carefully: they affect existing tests.
 - A new area folder also needs an option in the custom UI workflow; the engineer adds it with the first spec.
-- Next: [Test Reviewer](Test-Reviewer), then commit.
+- Next: [/review-tests](Review-Tests), then commit.
 
-See also: [UI Automation](UI-Automation), [UI Scenario Writer](UI-Scenario-Writer).
+See also: [UI Automation](UI-Automation), [/write-ui-scenarios-from-steps](Write-UI-Scenarios-From-Steps).

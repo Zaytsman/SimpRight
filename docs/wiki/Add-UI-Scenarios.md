@@ -70,7 +70,7 @@ The `ui-scenario-writer` checks every page its scenarios touch with the read-onl
 
 ## From a story or bug
 
-For a user story with acceptance criteria, a bug report or a feature description, let the [Requirements Analyst](Requirements-Analyst) decide where each check belongs, even when you expect only UI tests: it puts each check on the API unless only the UI can prove it (what only the page shows, validation done only in the browser, browser state, navigation), so the UI gets only what needs a browser.
+For a user story with acceptance criteria, a bug report or a feature description, let [/analyze-requirements](Analyze-Requirements) decide where each check belongs, even when you expect only UI tests: it puts each check on the API unless only the UI can prove it (what only the page shows, validation done only in the browser, browser state, navigation), so the UI gets only what needs a browser.
 
 ### 1. Write or pick the story
 
@@ -102,7 +102,7 @@ Number the criteria (`AC1`, `AC2`, ...) so scenarios can point to them. A bug re
 3. **Checkpoint 2, the scenarios.** The `ui-scenario-writer` proposes scenarios for the UI items (and the `api-scenario-writer` for the API items, shown together), with the inspector as above. Approve once.
 4. The files are written; the scenario IDs go into the analysis document's test plan, each with a `ref` to its criterion.
 
-Then automate the API scenarios first: they're the cheaper, faster half of the plan. Details: [Requirements Analyst](Requirements-Analyst).
+Then automate the API scenarios first: they're the cheaper, faster half of the plan. Details: [/analyze-requirements](Analyze-Requirements).
 
 ## From test steps
 
@@ -128,7 +128,7 @@ The first argument is a `.md` or `.txt` file; without it, Claude asks you to pas
 - **Only what the format needs changes:** the state you start from ("log in as a customer", "have a product in the cart") becomes `preconditions` and `role`; one action per step, labels as the app shows them; expected results become visible `Verify` steps; secrets and record ids become descriptions.
 - **Decisions** where the app differs from your steps, where a case repeats an existing scenario (also with only another role or other data), or where a check only proves a server rule and could be a cheaper API scenario.
 
-The proposal adds a **steps map**: each of your cases and its scenarios, or why it was dropped. It adds no cases you didn't write. Details: [UI Scenario Writer](UI-Scenario-Writer).
+The proposal adds a **steps map**: each of your cases and its scenarios, or why it was dropped. It adds no cases you didn't write. Details: [/write-ui-scenarios-from-steps](Write-UI-Scenarios-From-Steps).
 
 ## By hand
 
@@ -163,4 +163,4 @@ It checks the schema, unique IDs, file names, and that scenarios and specs point
 - **Known bugs are scenarios too.** A scenario with `knownIssue` documents the bug and turns red the day it's fixed.
 - **One reason to fail per scenario.** A different starting state, different actions or a different outcome is a different scenario.
 
-See also: [Add API Scenarios](Add-API-Scenarios), [UI Scenario Writer](UI-Scenario-Writer), [Requirements Analyst](Requirements-Analyst).
+See also: [Add API Scenarios](Add-API-Scenarios), [/write-ui-scenarios-from-steps](Write-UI-Scenarios-From-Steps), [/analyze-requirements](Analyze-Requirements).

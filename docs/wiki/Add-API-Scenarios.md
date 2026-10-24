@@ -59,7 +59,7 @@ Steps never hold secrets ("the default user's email", not the address). The full
 
 ## From a story or bug
 
-For a user story with acceptance criteria (in `docs/ui/user-stories/`), a bug report or a feature description, let the [Requirements Analyst](Requirements-Analyst) decide where each check belongs. It puts every check on the API unless only the UI can prove it, so a story usually yields more API scenarios than UI ones.
+For a user story with acceptance criteria (in `docs/ui/user-stories/`), a bug report or a feature description, let [/analyze-requirements](Analyze-Requirements) decide where each check belongs. It puts every check on the API unless only the UI can prove it, so a story usually yields more API scenarios than UI ones.
 
 ```text
 /analyze-requirements Product_Detail.md
@@ -72,7 +72,7 @@ For a user story with acceptance criteria (in `docs/ui/user-stories/`), a bug re
 3. **Checkpoint 2, the scenarios.** The `api-scenario-writer` proposes scenarios for the API items (and the `ui-scenario-writer` for the UI items, shown together). Approve once.
 4. The files are written; the scenario IDs go into the analysis document's test plan.
 
-Only local files and pasted text are read: paste a Jira or Azure DevOps item's text instead of its link. Details: [Requirements Analyst](Requirements-Analyst).
+Only local files and pasted text are read: paste a Jira or Azure DevOps item's text instead of its link. Details: [/analyze-requirements](Analyze-Requirements).
 
 ## From a contract
 
@@ -87,7 +87,7 @@ The writer works from a contract: one markdown file per API area in `docs/api/co
 /write-api-contracts update ../practice-software-testing/sprint5/API products
 ```
 
-Every fact gets an origin tag (`_(verified)_`, `_(source)_`, `_(spec)_`). The format is in [CONTRACT_FORMAT.md](https://github.com/Zaytsman/SimpRight/blob/main/docs/api/CONTRACT_FORMAT.md); details: [API Contract Writer](API-Contract-Writer).
+Every fact gets an origin tag (`_(verified)_`, `_(source)_`, `_(spec)_`). The format is in [CONTRACT_FORMAT.md](https://github.com/Zaytsman/SimpRight/blob/main/docs/api/CONTRACT_FORMAT.md); details: [/write-api-contracts](Write-API-Contracts).
 
 ### 2. Ask for a proposal
 
@@ -114,7 +114,7 @@ The proposal shows per endpoint a table (ID, name, the triggering request, the e
 - `dangerous`: something the project never runs (repeated wrong passwords that lock an account);
 - `known issue`, `unconfirmed` (rests on an OpenAPI-only fact), `optional` (lowest priority).
 
-Approve, or say what to change: drop, merge, rename, reword. Details: [API Scenario Writer](API-Scenario-Writer).
+Approve, or say what to change: drop, merge, rename, reword. Details: [/write-api-scenarios-from-contract](Write-API-Scenarios-From-Contract).
 
 ## From test steps
 
@@ -133,7 +133,7 @@ Use it when you already have API test cases: from a test management tool, a spre
 - **Bruno:** `body:json` is the request, `assert` and `tests` the expected results, `auth` the role. The collection's `environments/` and `.env` files are never opened, and a token or password written inline is never copied.
 - **Checked against the contract:** an endpoint the contracts don't have, or a case that contradicts the contract or an existing scenario (it expects 422 where the contract says 404), is your decision: a possible bug (the scenario keeps your expectation and gets a `knownIssue`) or an outdated case.
 
-The proposal adds a **source map**: each of your cases and its scenarios, or why it was dropped. It adds no cases you didn't write. Details: [API Scenario Writer](API-Scenario-Writer#from-test-steps).
+The proposal adds a **source map**: each of your cases and its scenarios, or why it was dropped. It adds no cases you didn't write. Details: [/write-api-scenarios-from-steps](Write-API-Scenarios-From-Steps).
 
 ## By hand
 
@@ -168,4 +168,4 @@ It checks the schema, unique IDs, file names, and that scenarios and specs point
 - **One reason to fail per scenario.** Different requests or expected status codes are different scenarios.
 - `unconfirmed` scenarios may fail because the spec was wrong, not the API: worth a look before automating.
 
-See also: [Add UI Scenarios](Add-UI-Scenarios), [API Scenario Writer](API-Scenario-Writer), [Requirements Analyst](Requirements-Analyst).
+See also: [Add UI Scenarios](Add-UI-Scenarios), [/write-api-scenarios-from-contract](Write-API-Scenarios-From-Contract), [/analyze-requirements](Analyze-Requirements).

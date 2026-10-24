@@ -1,22 +1,22 @@
-<!-- Source: docs/wiki/Test-Reviewer.md in the repository. Edit it there: the Publish Wiki workflow overwrites changes made in the wiki. -->
+<!-- Source: docs/wiki/Review-Tests.md in the repository. Edit it there: the Publish Wiki workflow overwrites changes made in the wiki. -->
 
-# Test Reviewer
+# /review-tests
 
-Reviews **automated tests** of both layers, and the page objects, flows, fixtures, clients, services and test data they use, the way a senior test engineer reviews a pull request: against their scenarios and the project's conventions. It only reads and reports; Claude applies the findings you pick.
+Reviews **automated tests** of both layers, and the page objects, flows, fixtures, clients, services and test data they use, the way a senior test engineer reviews a pull request: against their scenarios and the project's conventions. The agent only reads and reports; Claude then applies the findings you pick.
 
 | | |
 |---|---|
 | **Command** | `/review-tests [spec \| scenario file \| IDs \| area \| commit \| range]` |
-| **Agent** | `test-reviewer` (`.claude/agents/test-reviewer.md`) |
-| **Skill** | `review-tests` (`.claude/skills/review-tests/`), with three checklists in `references/` |
+| **Agent** | [`test-reviewer`](https://github.com/Zaytsman/SimpRight/blob/main/.claude/agents/test-reviewer.md) (read-only) |
+| **Skill files** | [`.claude/skills/review-tests/`](https://github.com/Zaytsman/SimpRight/tree/main/.claude/skills/review-tests): `SKILL.md` and three checklists in `references/` |
 | **Input** | By default the work not pushed yet; or the files a target maps to |
 | **Output** | Findings ranked Blocker / Should fix / Nit, then the fixes you pick, applied and re-run |
-| **Live app** | None: the reviewer never runs tests or the inspector |
+| **Live app** | None during the review: the agent never runs tests or the inspector. Claude re-runs the touched specs after the fixes |
 | **Checkpoint** | You pick which findings to apply |
 
 ## When to use it
 
-- After `/implement-api-scenarios` or `/implement-ui-scenarios`, before committing.
+- After [/implement-api-scenarios](Implement-API-Scenarios) or [/implement-ui-scenarios](Implement-UI-Scenarios), before committing.
 - Before pushing your own test changes, or on a commit someone else made.
 
 ## How to use it
@@ -82,16 +82,16 @@ Static checks: typecheck passed, validator passed
 
 They point to the rules in CLAUDE.md and the profile; a finding cites the rule where it's written.
 
-## The rules it follows
+## What the agent never does
 
-- **Read-only:** never edits, creates or deletes files, never commits. It runs only `git diff/show/log/blame`, the typecheck and the validator; **never tests or the inspector** (specs may write to the live app).
-- **Evidence, not taste:** every finding has a file and line, the code, what goes wrong and when, and the rule. A preference with no consequence and no written rule isn't a finding.
-- **Reviews the change, reads the context:** problems in unchanged code are reported only when the change depends on them, marked "existing code".
-- **The scenario is the specification**; **approved readings stand** (a `// Approved reading:` comment records your decision); it doesn't repeat what the tools already check; no secrets.
+- **Change files:** it never edits, creates or deletes files, never commits. It runs only `git diff/show/log/blame`, the typecheck and the validator; **never tests or the inspector** (specs may write to the live app).
+- **Report taste as a finding:** every finding has a file and line, the code, what goes wrong and when, and the rule. A preference with no consequence and no written rule isn't a finding.
+- **Review unchanged code for its own sake:** problems in it are reported only when the change depends on them, marked "existing code".
+- **Overrule the scenario or an approved reading** (a `// Approved reading:` comment records your decision), repeat what the tools already check, or quote secrets.
 
 ## Tips
 
-- Keeping the reviewer separate from the engineer is deliberate: it judges the tests without having written them.
-- Next: commit, open a pull request; if CI fails, [Test Healer](Test-Healer).
+- Keeping the reviewer separate from the test engineers is deliberate: it judges the tests without having written them.
+- Next: commit, open a pull request; if a run fails, [/heal-tests](Heal-Tests).
 
 See also: [API Automation](API-Automation#5-review-commit-ci), [UI Automation](UI-Automation#6-review-commit-ci).
