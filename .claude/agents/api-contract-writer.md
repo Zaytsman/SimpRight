@@ -1,6 +1,6 @@
 ---
 name: api-contract-writer
-description: Writes new API contracts, or updates existing ones after the API changed (the markdown files the API coverage report measures tests against and the scenario writer reads), from an OpenAPI spec, the service's source code, or both, optionally checking facts against the running API. Started by the /write-api-contracts skill, which gives it the profile path, the mode (create or update), the inputs (source path, spec file or URL, API areas) and whether live checks are allowed.
+description: Writes or updates API contracts from the API's source code, its OpenAPI spec or both. Started by the /write-api-contracts skill.
 tools: Read, Grep, Glob, Bash, Write, Edit, WebFetch
 model: inherit
 color: cyan

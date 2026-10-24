@@ -1,6 +1,6 @@
 ---
 name: ui-test-from-scenario
-description: How to write a UI test spec from a YAML scenario file, step for step, in the style of the project's exemplar spec, with page objects from fixtures, a message on every assertion, data prepared through API fixtures and known issues. Preloaded into the ui-test-engineer agent.
+description: How to write a UI test spec from a scenario file. Preloaded into the ui-test-engineer agent.
 user-invocable: false
 ---
 

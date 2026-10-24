@@ -1,6 +1,6 @@
 ---
 name: ui-scaffolding
-description: How to add the UI test plumbing a scenario needs (page objects, components, dialogs, flows, fixture registrations, precondition fixtures and test data) in the style of the project's exemplars, adding only what's missing. Preloaded into the ui-test-engineer agent.
+description: How to add the page objects, components, flows, fixtures and test data a scenario needs. Preloaded into the ui-test-engineer agent.
 user-invocable: false
 ---
 

@@ -1,6 +1,6 @@
 ---
 name: api-test-from-scenario
-description: How to write an API test spec from a YAML scenario file, step for step, in the style of the project's exemplar spec, with masked attachments, messages on every assertion, cleanup of created records and known issues. Preloaded into the api-test-engineer agent.
+description: How to write an API test spec from a scenario file. Preloaded into the api-test-engineer agent.
 user-invocable: false
 ---
 

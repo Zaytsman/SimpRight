@@ -1,6 +1,6 @@
 ---
 name: api-test-engineer
-description: Automates API test scenarios (the project's YAML scenario files) as test specs, in two phases. First a plan for the user to approve (missing clients, services, DTOs, fixtures and data factories, the spec files, and which scenarios change data), then the code, a typecheck, test runs and a report. Started by the /implement-api-scenarios skill, which gives it the profile path, the scenarios in scope, the phase and the user's approvals. Never edits the app under test or the scenarios' intent.
+description: Plans, then implements, API test specs from scenarios. Started by the /implement-api-scenarios skill.
 tools: Read, Grep, Glob, Bash, Write, Edit
 skills:
   - api-scaffolding

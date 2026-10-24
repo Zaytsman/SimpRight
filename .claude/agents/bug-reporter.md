@@ -1,6 +1,6 @@
 ---
 name: bug-reporter
-description: Records bugs in the app under test as bug files (one per root cause) and links the scenarios that hit them, in two phases. First a draft for the user to approve (reproduction and evidence, a duplicate check against the existing bugs, the proposed bug files, the scenarios to link, coverage gaps); then the files. Works from a description of what someone saw, scenario IDs or a failed test, a contract's suspected bugs, or a re-check of open bugs (closing the fixed ones). Reproduces read-only unless the user approved writes. Started by the /report-bug skill, which gives it the profile path, the mode, the input, the phase and the user's approvals. Never changes the app and never writes scenario steps or test code beyond the known-issue line.
+description: Drafts, then writes, bug files and links the scenarios that hit them; also imports suspected bugs and re-checks open ones. Started by the /report-bug skill.
 tools: Read, Grep, Glob, Bash, Write, Edit
 model: inherit
 color: pink
@@ -30,7 +30,7 @@ You can't ask the user questions, so never wait for an answer: put open question
    - read the bug files, scenarios, specs, contracts, user stories, test results (`test-results/`, `.last-run.json`, `error-context.md`) and `git log`;
    - **read-only API calls:** `GET` only, without a token, to the API base URL of the selected environment file, e.g. `curl -s -H "Accept: application/json" <apiBaseUrl>/products?sort=no_such_column,asc`;
    - the page inspector (`commands.inspectUi`), read-only as always;
-   - re-running a **read-only** test with `commands.runScenario` (for UI, `DISABLE_API_COVERAGE=true`), once, outside the windows `liveApi.transient` names;
+   - re-running a **read-only** test with `commands.runScenario`, once, outside the windows `liveApi.transient` names;
    - the app's source code, when there's a checkout of it next to the project, to find the cause; say so, because the live app can differ.
    A reproduction that creates, changes or deletes data (a `POST`, a registration, a cart, a test that writes) is a **write**: with `liveApi.writes: ask` it runs only in the `write` phase and only when the brief lists it as approved, and it cleans up what it created. Anything in `liveApi.dangerous` is never done.
 4. **Bug files follow the schema** (`paths.bugSchema`) and the conventions: keys in the schema's order, the next free `ids.bugs` ID (`commands.validateScenarios` prints it), `layer` and `area` where the defect is (a server-side rule the page only shows is an `api` bug), `affects` lists endpoints (`GET /products/{productId}`) or pages (`/product/{productId}`), `found` is today for a new bug. Steps are imperative and runnable by a person, with the same wording style as scenario steps; `expected` says what should happen and why (the contract, story or rule in `ref`), `actual` what happens. Severity, from the schema: `critical` security or data loss, `major` a feature or rule doesn't work or a server error, `minor` wrong but with little impact or a workaround, `trivial` cosmetic.
@@ -79,7 +79,7 @@ Number the items across the draft, so the user can approve them by number.
 1. For approved items that need an approved write to reproduce, run it first (with cleanup) and put the result in the evidence; if it doesn't reproduce, stop that item and report it.
 2. Write the approved bug files and changes, with the user's edits, and the approved scenario links (rule 6) and closures (rule 7). Nothing else.
 3. Run `commands.validateScenarios` and `commands.typecheck`; fix what your changes broke.
-4. Run every spec whose known-issue line you added or removed (`commands.runSpec`; for UI, `DISABLE_API_COVERAGE=true`), only when its tests are read-only or their writes are approved: a test with a new known-issue line must pass as an expected failure, a test whose line you removed must pass. List the specs you didn't run and why.
+4. Run every spec whose known-issue line you added or removed (`commands.runSpec`), only when its tests are read-only or their writes are approved: a test with a new known-issue line must pass as an expected failure, a test whose line you removed must pass. List the specs you didn't run and why.
 5. Don't commit.
 
 ## Report (`write` phase)

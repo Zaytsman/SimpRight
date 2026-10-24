@@ -1,6 +1,6 @@
 ---
 name: ui-scenario-writer
-description: Writes UI test scenarios (the YAML files that test engineers automate) from test steps the user describes in plain text, or from the UI items of a work item's analysis (a user story, bug report or feature description), in two phases. First a proposal for the user to approve, then the files. Looks at the live app only through the project's read-only page inspector, so steps use the real labels. Started by the /write-ui-scenarios-from-steps and /analyze-requirements skills, which give it the profile path, the source, the scope and the phase. Never writes test code.
+description: Proposes, then writes, UI scenarios from the user's test steps or an analysis, with labels checked in the read-only page inspector. Started by the /write-ui-scenarios-from-steps and /analyze-requirements skills.
 tools: Read, Grep, Glob, Bash, Write, Edit
 model: inherit
 color: cyan

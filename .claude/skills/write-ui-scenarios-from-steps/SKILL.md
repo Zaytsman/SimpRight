@@ -12,7 +12,7 @@ Arguments, if any: $ARGUMENTS
 
 ## How to ask
 
-Every question to the user in this skill goes through the AskUserQuestion tool, following `../_shared/how-to-ask.md` (next to this skill's folder): the context as text first, 2–4 options, "(Recommended)" only with a reason, plain text when the tool is missing.
+Before the first question, read `../_shared/how-to-ask.md` (next to this skill's folder) and follow it for every question in this skill.
 
 ## 1. Settle the brief
 
@@ -36,11 +36,11 @@ Notes: <or "none">
 
 The agent runs the page inspector against the live site (read-only; each logged-in run also registers and deletes the run's throwaway customer, like every test run).
 
-Show the user the proposal as the agent returned it: the tables, the steps, the steps map and "Decisions needed". Don't shorten the steps, because they are what the user approves. Then ask in one AskUserQuestion call:
-1. **Proposal:** "Approve", "Approve with edits" (drop, rename, merge or reword, in "Other"), "Rework".
-2. **Decisions needed:** one question per decision. More than 3 decisions go in a second call.
+Show the user the proposal as the agent returned it: the tables, the steps, the steps map and "Decisions needed". Don't shorten the steps, because they are what the user approves. Then ask, in one call:
+1. **Proposal:** the approval question (edits: drop, rename, merge or reword).
+2. **Decisions needed:** one question each.
 
-"Approve" or "Approve with edits" is the clear yes; write nothing before it. When the agent proposes nothing new (everything is already covered), say so and ask only its decisions, if any.
+When the agent proposes nothing new (everything is already covered), say so and ask only its decisions, if any.
 
 If the user approves a new area or role, add it to `ids.areas` or `roles` in the profile yourself before the writing phase (the agent doesn't change the profile). A new area also needs a folder option in the custom UI workflow, which the test engineer adds with the first spec.
 
