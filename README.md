@@ -1,16 +1,5 @@
 <a href="https://zaytsman.github.io/SimpRight/"><picture><source media="(prefers-color-scheme: dark)" srcset="./.github/assets/banner-dark.svg" /><img src="./.github/assets/banner-light.svg" alt="SimpRight: AI-assisted test automation with Playwright and TypeScript" width="100%" /></picture></a>
 
-<p align="center">
-  <a href="https://github.com/Zaytsman/SimpRight/actions/workflows/run-api-tests.yml"><img alt="API regression" src="https://img.shields.io/github/actions/workflow/status/Zaytsman/SimpRight/run-api-tests.yml?branch=main&label=API%20regression&style=for-the-badge&labelColor=000000" /></a>
-  <a href="https://github.com/Zaytsman/SimpRight/actions/workflows/run-ui-tests.yml"><img alt="UI regression" src="https://img.shields.io/github/actions/workflow/status/Zaytsman/SimpRight/run-ui-tests.yml?branch=main&label=UI%20regression&style=for-the-badge&labelColor=000000" /></a>
-  <a href="https://zaytsman.github.io/SimpRight/"><img alt="Automation Portal" src="https://img.shields.io/badge/Automation%20Portal-open-2EAD33.svg?style=for-the-badge&labelColor=000000" /></a>
-</p>
-<p align="center">
-  <img alt="Playwright 1.64" src="https://img.shields.io/badge/Playwright-1.64-2EAD33.svg?style=for-the-badge&labelColor=000000" />
-  <img alt="TypeScript 7" src="https://img.shields.io/badge/TypeScript-7-3178C6.svg?style=for-the-badge&logo=typescript&logoColor=white&labelColor=000000" />
-  <a href="./LICENSE"><img alt="License: MIT" src="https://img.shields.io/badge/license-MIT-green.svg?style=for-the-badge&labelColor=000000" /></a>
-</p>
-
 # SimpRight
 
 Automated test framework built with **TypeScript + Playwright**. It covers UI and API tests for the [Practice Software Testing](https://practicesoftwaretesting.com) Toolshop demo app ([API](https://api.practicesoftwaretesting.com)), and it's an example of AI-assisted test automation: Claude Code agents write contracts, scenarios and specs, review the tests and diagnose failures, and a person approves each step.
@@ -21,6 +10,7 @@ Every test starts as a scenario in YAML, and the spec follows it step for step:
 # test-scenarios/ui/products/product-search.yml
 - id: UI-001
   name: Search by name shows only matching products
+  tags: ["@smoke"]
   preconditions:
     - The home page is open.
   steps:
@@ -47,13 +37,12 @@ A validator checks that every scenario and its test match: IDs, names, tags and 
 
 ## Features
 
-✅ **Shared fixtures** - one set for both layers, with role-based test users; tests start already logged in.<br>
-✅ **Per-environment config** - JSON per environment, secrets in a git-ignored `.env`.<br>
+✅ **Automation Portal** - [Site](https://zaytsman.github.io/SimpRight/) with links to all features and real-time charts and dashboards.<br>
 ✅ **YAML test scenarios** - the source of truth for what gets automated, checked by a schema and a validator.<br>
 ✅ **API contracts** - every API area documented, with an optional coverage report against them.<br>
+✅ **API Coverage Tool** - shows which endpoints, status codes, fields and parameters from the contracts the tests exercise.<br>
+✅ **Test cases** - a searchable catalog of every UI and API scenario, with steps, status, known issues and links to the specs.<br>
 ✅ **Bug tracking** - one file per root cause, linked to the tests that hit it.<br>
-✅ **CI** - nightly regressions, a smoke set and pull request checks on GitHub Actions.<br>
-✅ **Automation Portal** - a [dashboard](https://zaytsman.github.io/SimpRight/) on GitHub Pages with run history, known issues, API coverage, test cases and bugs.<br>
 ✅ **AI agents** - contracts → scenarios → specs → review → healing, with human checkpoints.
 
 ## How the AI agents work together
