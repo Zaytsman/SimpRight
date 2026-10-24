@@ -25,7 +25,6 @@ The product catalogue of the Toolshop API: listing, filtering, searching and rea
 | PUT | `/products/{productId}` | Update a product | None |
 | PATCH | `/products/{productId}` | Partially update a product | None |
 | DELETE | `/products/{productId}` | Delete a product | Admin |
-| GET | `/products/{productId}/related` | Products in the same category | None |
 | GET | `/products/search` | Search products by name | None |
 | QUERY | `/products/search` | Search products, criteria in a JSON body | None |
 
@@ -33,7 +32,7 @@ The product catalogue of the Toolshop API: listing, filtering, searching and rea
 
 | Data | Needed by | Requirements |
 |---|---|---|
-| Product id (ULID) | `GET`/`PUT`/`PATCH`/`DELETE /products/{productId}`, `/related` | An existing product, e.g. the `id` of an item from `GET /products`. |
+| Product id (ULID) | `GET`/`PUT`/`PATCH`/`DELETE /products/{productId}` | An existing product, e.g. the `id` of an item from `GET /products`. |
 | Admin token | `DELETE /products/{productId}` | A token from `POST /users/login` for a user whose `role` is `admin`. |
 | Brand id | `POST /products` (`brand_id`), filter `by_brand` | An existing brand id (Brands API). An unknown id makes `POST` fail with `500`. |
 | Category id | `POST /products` (`category_id`), filter `by_category` | An existing category id (Categories API). An unknown id makes `POST` fail with `500`. |
@@ -293,31 +292,7 @@ Deletes a product. Admin only. _(source)_
 
 ---
 
-### 8. Get related products
-
-Returns up to 10 other products from the same category as the given product. _(verified)_
-
-**Endpoint:** `GET /products/{productId}/related`
-
-**Auth:** None _(source)_
-
-**Path Parameters:**
-
-| Parameter | Type | Required | Description |
-|---|---|---|---|
-| `productId` | string | Yes | Product ULID |
-
-**Response:** `200 OK` _(verified)_
-```ts
-Array<Omit<Product, 'co2_rating'>>   // category has id and name only; no co2_rating field
-```
-
-**Error Responses:**
-- `500 Internal Server Error`: no product with this id; `{ message: "Server Error" }`; suspected bug, should be 404 _(verified)_
-
----
-
-### 9. Search products
+### 8. Search products
 
 Searches product names. Returns 9 per page. Special characters are stripped from `q`; an empty or missing `q` returns an empty page, not an error. _(verified)_
 
@@ -347,7 +322,7 @@ Searches product names. Returns 9 per page. Special characters are stripped from
 
 ---
 
-### 10. Search products (HTTP QUERY)
+### 9. Search products (HTTP QUERY)
 
 Same as `GET /products/search`, with the criteria in a JSON body. _(source)_
 
@@ -438,7 +413,6 @@ interface ProductSpec {
 
 - **No auth on writes:** `POST`, `PUT` and `PATCH /products` accept requests without a token (no auth middleware in `ProductController`, and the spec has no security on them either). Anyone can create or change products. Suspected security bug. _(source)_
 - **Spec vs source:** the spec documents `200` for `POST /products`, the handler returns `201`; the spec lists `404`/`405` on the list and search endpoints and `422` on `DELETE`, which these handlers can't return. _(source)_
-- **Related products:** the query doesn't select `co2_rating`, so the field is missing and `is_eco_friendly` is always `false` in `/related`. Suspected bug. _(source)_
 - **Caching:** `GET` routes send `Cache-Control: max-age=120, public` and an `ETag` _(verified)_; a request with a matching `If-None-Match` gets `304 Not Modified` (Laravel `cache.headers` middleware) _(source)_; live, a gzip-compressed response's `ETag` ends in `-gzip` and never gets `304` (suspected bug, BUG-046) _(verified)_. Server-side, product lists and details are cached for 5 minutes, so a change may not show up immediately in `GET` responses. _(source)_
 - **OPTIONS:** every product path answers `OPTIONS` with `204` and an `Allow` header listing its methods, e.g. `GET, POST, QUERY` for `/products` and `DELETE, GET, PATCH, PUT` for `/products/{productId}`. Not in the spec. _(verified)_
 - **XML:** with `Accept: text/xml`, most product responses are rendered as XML instead of JSON (`Controller::preferredFormat`). _(source)_

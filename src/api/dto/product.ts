@@ -44,11 +44,6 @@ export interface ProductDetails extends Omit<Product, 'category' | 'in_stock'> {
   specs: ProductSpec[];
 }
 
-/** An item of GET /products/{productId}/related: no co2_rating, and a category with id and name. */
-export interface RelatedProduct extends Omit<Product, 'co2_rating' | 'category'> {
-  category: Pick<Category, 'id' | 'name'>;
-}
-
 /** POST /products. The ids must exist (an unknown one makes the API return 500). */
 export interface CreateProductRequest {
   name: string;

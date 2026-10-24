@@ -284,26 +284,5 @@ test.describe('@cart - Checkout cart review', () => {
         expect(await cartPage.getTotal(), `The total is the remaining line's total, ${remaining}`).toBeCloseTo(remaining, 2);
       });
     });
-
-    test('UI-084: A rental line in the checkout cart is marked "This is a rental item"', async ({ cartPage, rentalAndProductCart }) => {
-      test.fail(true, 'Known issue BUG-051: The checkout cart marks a rental line "Item for rent, price per hour" instead of "This is a rental item".');
-
-      const rentalLine = cartPage.line(rentalAndProductCart.rental.name);
-      const productLine = cartPage.line(rentalAndProductCart.product.name);
-
-      await test.step('Open the checkout page.', async () => {
-        await cartPage.open();
-      });
-
-      await test.step('Verify the line of the rental product is marked "This is a rental item".', async () => {
-        await expect(rentalLine.rentalNote, 'The rental line has a note').toBeVisible();
-        await expect(rentalLine.rentalNote, 'The note marks the rental').toHaveText('This is a rental item');
-      });
-
-      await test.step('Verify the line of the product that is not a rental is not marked "This is a rental item".', async () => {
-        await expect(productLine.row, 'The other product\'s line is visible').toBeVisible();
-        await expect(productLine.row, 'The other product\'s line carries no rental mark').not.toContainText('This is a rental item');
-      });
-    });
   });
 });

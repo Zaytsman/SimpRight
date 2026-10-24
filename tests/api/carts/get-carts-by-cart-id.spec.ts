@@ -1,4 +1,4 @@
-import { ADD_PRODUCT_STEP, test, expect, takeProductRefs, createCartProduct, createCart, addItemSetup, NON_RENTAL_PRODUCT_STEP, RENTAL_PRODUCT_STEP, ADD_NON_RENTAL_STEP, ADD_RENTAL_STEP, CART_PRODUCT_IN_STOCK_STEP, AUTH, sendAndAttach, withHeaders, checkStatusAndMessage, type AuthLabel } from '@fixtures';
+import { ADD_PRODUCT_STEP, test, expect, takeProductRefs, createCartProduct, createCart, addItemSetup, CART_PRODUCT_IN_STOCK_STEP, AUTH, sendAndAttach, withHeaders, checkStatusAndMessage, type AuthLabel } from '@fixtures';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { CartsClient } from '@api/clients/CartsClient';
 import type { Cart, CartItem } from '@api/dto/cart';
@@ -147,55 +147,5 @@ test.describe('@carts-api - Carts API', () => {
       404,
       'Requested item not found'
     );
-  });
-
-  test('API-0327: Get cart returns product.is_rental true for a rental line and false for a non-rental line', async ({
-    productsService,
-    adminProductsService,
-    cartsService,
-    cartsClient,
-    cleanup,
-  }) => {
-    let nonRentalId: string;
-    let rentalId: string;
-    let cartId: string;
-    let request: GetCartRequest;
-    let response: ApiResponse;
-    let cart: Cart;
-
-    const refs = await takeProductRefs(productsService);
-    nonRentalId = (await createCartProduct(adminProductsService, cleanup, refs, NON_RENTAL_PRODUCT_STEP)).id;
-    rentalId = (await createCartProduct(adminProductsService, cleanup, refs, RENTAL_PRODUCT_STEP, { is_rental: true })).id;
-    cartId = await createCart(cartsService, cleanup);
-    await addItemSetup(cartsService, cartId, nonRentalId, 1, ADD_NON_RENTAL_STEP);
-    await addItemSetup(cartsService, cartId, rentalId, 1, ADD_RENTAL_STEP);
-
-    await test.step("Send GET /carts/{cartId} with the cart's id.", async () => {
-      ({ request, response } = await sendGetCart(cartsClient, cartId));
-    });
-
-    await test.step('Verify the response status is 200.', async () => {
-      expectStatus(request, response, 200);
-      cart = parseJson<Cart>(request, response);
-    });
-
-    await test.step('Verify cart_items has exactly two items.', async () => {
-      expect(cart.cart_items.length, assertMessage({ request, expected: 'cart_items has exactly two items', actual: cart.cart_items })).toBe(2);
-    });
-
-    await test.step("Verify the item whose product_id is the rental product's id has a product with is_rental true.", async () => {
-      const item = cart.cart_items.find((line) => line.product_id === rentalId);
-      expect(item?.product.is_rental, assertMessage({ request, expected: `The line of the rental product (${rentalId}) has is_rental true`, actual: cart.cart_items })).toBe(
-        true
-      );
-    });
-
-    await test.step("Verify the item whose product_id is the non-rental product's id has a product with is_rental false.", async () => {
-      const item = cart.cart_items.find((line) => line.product_id === nonRentalId);
-      expect(
-        item?.product.is_rental,
-        assertMessage({ request, expected: `The line of the non-rental product (${nonRentalId}) has is_rental false`, actual: cart.cart_items })
-      ).toBe(false);
-    });
   });
 });

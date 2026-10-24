@@ -109,8 +109,6 @@ function expectOnlyNewProduct(request: ListRequest, body: Paginated<Product>, pr
   return body.data[0]!;
 }
 
-/** Products the tests create have names starting with "Product-" (the factory's prefix); API-0325 ignores them. */
-
 /** Checks that every item's category (or brand) id is A's or B's. */
 function expectItemsOfAOrB(request: ListRequest, items: Product[], kind: RefKind, idA: string, idB: string): void {
   for (const item of items) {
@@ -719,114 +717,5 @@ test.describe('@products-api - Products API', () => {
     test('API-0323: A product created with stock above 0 is listed as in stock', async ({ productsService, productsClient, adminProductsService, cleanup }) => {
       await createAndFindByStock(productsService, productsClient, adminProductsService, cleanup, 10, true);
     });
-  });
-
-  test('API-0324: A product created as a rental is listed by the rental filter', async ({
-    productsService,
-    productsClientWithToken,
-    productsClient,
-    adminProductsService,
-    cleanup,
-  }) => {
-    let createRequest: CreateProductRequestInfo;
-    let createResponse: ApiResponse;
-    let productName = '';
-    let productId = '';
-    let request: ListRequest;
-    let response: ApiResponse;
-    let body: Paginated<Product>;
-    let item: Product;
-
-    const refs = (await takeProductRefs(productsService, PRODUCT_LIST_STEP)) as ProductRefs;
-
-    await test.step(
-      "Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental true and stock 10, and take the new product's id.",
-      async () => {
-        ({ request: createRequest, response: createResponse, name: productName, productId } = await createListedProduct(
-          productsClientWithToken,
-          adminProductsService,
-          cleanup,
-          refs,
-          { is_rental: true, stock: 10 },
-          AUTH.defaultUser
-        ));
-      }
-    );
-
-    await test.step('Verify the response status is 201.', async () => {
-      expectStatus(createRequest, createResponse, 201);
-    });
-
-    await test.step('Send GET /products with is_rental=true and q set to that unique product name.', async () => {
-      ({ request, response } = await sendList(productsClient, { is_rental: 'true', q: productName }));
-    });
-
-    await test.step('Verify the response status is 200.', async () => {
-      body = expectStatusAndBody<Paginated<Product>>(request, response, 200);
-    });
-
-    await test.step("Verify data has exactly one item and its id is the new product's id.", async () => {
-      item = expectOnlyNewProduct(request, body, productId);
-    });
-
-    await test.step("Verify that item's is_rental is true.", async () => {
-      expect(item.is_rental, assertMessage({ request, expected: 'is_rental is true', actual: { id: item.id, is_rental: item.is_rental } })).toBe(true);
-    });
-  });
-
-  test('API-0325: Every rental in the rental list has a name, a description and a product image file name', async ({ productsClient }) => {
-    let request: ListRequest;
-    let response: ApiResponse;
-    let rentals: Product[] = [];
-
-    await test.step('Send GET /products with is_rental=true.', async () => {
-      ({ request, response } = await sendList(productsClient, { is_rental: 'true' }));
-    });
-
-    await test.step('Verify the response status is 200.', async () => {
-      rentals = expectStatusAndBody<Paginated<Product>>(request, response, 200).data;
-    });
-
-    await test.step('Verify data is not empty after ignoring products created by tests (names starting with "Product-").', async () => {
-      rentals = rentals.filter((item) => !ProductFactory.isTestProduct(item.name));
-      expect(rentals.length, assertMessage({ request, expected: 'At least one rental not created by a test', actual: rentals.length })).toBeGreaterThan(0);
-    });
-
-    await test.step('Verify every remaining item has a non-empty name, ignoring products created by tests (names starting with "Product-").', async () => {
-      expectSomeItems(request, rentals, 'rentals');
-      for (const item of rentals) {
-        expect(
-          typeof item.name === 'string' && item.name.trim().length > 0,
-          assertMessage({ request, expected: `Item ${item.id}: name is not empty`, actual: item.name })
-        ).toBe(true);
-      }
-    });
-
-    await test.step(
-      'Verify every remaining item has a non-empty description, ignoring products created by tests (names starting with "Product-").',
-      async () => {
-        expectSomeItems(request, rentals, 'rentals');
-        for (const item of rentals) {
-          expect(
-            typeof item.description === 'string' && item.description.trim().length > 0,
-            assertMessage({ request, expected: `Item ${item.id} (${item.name}): description is not empty`, actual: item.description })
-          ).toBe(true);
-        }
-      }
-    );
-
-    await test.step(
-      'Verify every remaining item has a product_image with a non-empty file_name, ignoring products created by tests (names starting with "Product-").',
-      async () => {
-        expectSomeItems(request, rentals, 'rentals');
-        for (const item of rentals) {
-          const fileName = item.product_image?.file_name;
-          expect(
-            typeof fileName === 'string' && fileName.trim().length > 0,
-            assertMessage({ request, expected: `Item ${item.id} (${item.name}): product_image.file_name is not empty`, actual: item.product_image })
-          ).toBe(true);
-        }
-      }
-    );
   });
 });

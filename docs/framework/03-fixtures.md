@@ -67,7 +67,7 @@ Plus `accessToken` (the role's token as a string), `authClient` and `authService
 
 | Fixture | Responsibility |
 |---|---|
-| `homePage`, `productPage`, `cartPage`, `rentalsPage` | Page objects, built with `page` and `config` |
+| `homePage`, `productPage`, `cartPage` | Page objects, built with `page` and `config` |
 | `shoppingFlow` | The flow `ShoppingFlow` |
 
 Components aren't fixtures: a page holds them as fields (`homePage.productGrid`, `homePage.filters`), so they're reached through the page.
@@ -90,7 +90,6 @@ Each one is named `open<Page><State>Test` after the page the test starts on and 
 | `openProductPageInLondonTest` | The same, for a visitor in London (location offers show their discount) |
 | `openProductPageWithNewCustomerTest` | `openProductPageTest` logged in as a customer registered for this test |
 | `openProductPageWithNewProductTest` | `openProductPageTest` for a product created for this test through the API (`createProductInStock`: unique name, in stock, removed after the test), so other visitors can't change it |
-| `openRentalsPageTest` | The rentals page open |
 | `openHomePageWithProductInCartTest` | A cart with the in-stock product, made through the API, given to the browser, the home page open |
 | `openHomePageWithRentalAndProductInCartTest` | A rental and a product in the cart (the 15% combined discount checked as setup) |
 
