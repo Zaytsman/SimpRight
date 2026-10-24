@@ -77,6 +77,10 @@ npm run test:smoke
 
 You need Node.js 22.18 or later. [Installation & Setup](https://github.com/Zaytsman/SimpRight/wiki/Installation-&-Setup) covers the rest.
 
+## Try it yourself: the study case
+
+Want to see how the AI skills build tests, step by step? The [Study Case](https://github.com/Zaytsman/SimpRight/wiki/Study-Case) walks you through it on the `study-case` branch, where two features have no coverage yet. You write an API contract, scenarios and specs for one endpoint, then analyse a user story and automate it on both layers, record the bugs you find and review the tests, approving each step. When you are done, compare your work with the coverage on `main`.
+
 ## Documentation
 
 Everything is in the **[wiki](https://github.com/Zaytsman/SimpRight/wiki)**:
@@ -85,6 +89,7 @@ Everything is in the **[wiki](https://github.com/Zaytsman/SimpRight/wiki)**:
 |---|---|
 | [Installation & Setup](https://github.com/Zaytsman/SimpRight/wiki/Installation-&-Setup) | Install, configure and run the first tests |
 | [Test Scenarios](https://github.com/Zaytsman/SimpRight/wiki/Add-API-Scenarios), [Automation](https://github.com/Zaytsman/SimpRight/wiki/API-Automation), [Test Runs](https://github.com/Zaytsman/SimpRight/wiki/Local-Runs) | Add scenarios, automate them, run the tests locally and on CI |
+| [Study Case](https://github.com/Zaytsman/SimpRight/wiki/Study-Case) | Build API and UI tests with the AI skills, step by step |
 | [Skills](https://github.com/Zaytsman/SimpRight/wiki#skills) | The Claude Code slash commands and the agents they start |
 | [Continuous Integration](https://github.com/Zaytsman/SimpRight/wiki/CI-Pipeline) | The workflows, schedules, publishing and the dashboard |
 | [Framework](https://github.com/Zaytsman/SimpRight/wiki/Architecture) | How the framework is designed, area by area |

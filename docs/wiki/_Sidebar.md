@@ -16,6 +16,11 @@
 - [CI Runs](CI-Runs)
 - [Local Runs](Local-Runs)
 
+**Study Case**
+- [Overview](Study-Case)
+- [API Tests](Study-Case-API-Tests)
+- [UI Tests](Study-Case-UI-Tests)
+
 **Skills**
 - [/analyze-requirements](Analyze-Requirements)
 - [/write-api-contracts](Write-API-Contracts)
