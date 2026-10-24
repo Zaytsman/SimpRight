@@ -11,11 +11,10 @@ src/ui/
     HomePage.ts            search, sort; holds productGrid, filters, pagination, priceRange
     ProductPage.ts         the product detail: prices, quantity, add to cart, favourites, related
     CartPage.ts            the checkout wizard: cart lines, totals, proceed; holds signInStep
-    RentalsPage.ts         the rentals overview; holds rentalGrid
     LoginPage.ts           used by globalSetup's UI login (storageState mode)
     waitForApiResponse.ts  wait for the app's own request
     components/            BaseComponent + NavBar, ProductGrid, ProductFilters, Pagination, PriceRangeSlider,
-                           RentalGrid, CheckoutCartLine, CheckoutSignInStep
+                           CheckoutCartLine, CheckoutSignInStep
     dialogs/BaseDialog.ts  base for modals (no concrete dialog yet)
   flows/ShoppingFlow.ts    openProduct(name): home, search, the product's card
   visitor/                 browser state the app reads: setVisitorLocation, setVisitorCart
@@ -57,7 +56,7 @@ export class HomePage extends BasePage {
 
 `BasePage` gives every page:
 
-- `navBar` (the [`NavBar`](https://github.com/Zaytsman/SimpRight/blob/main/src/ui/pages/components/NavBar.ts) component: `userMenu`, `cartQuantity`, `openCart()`, `openRentals()`, `openCategoriesMenu()`);
+- `navBar` (the [`NavBar`](https://github.com/Zaytsman/SimpRight/blob/main/src/ui/pages/components/NavBar.ts) component: `userMenu`, `cartQuantity`, `openCart()`);
 - `toast`, the app's toast message (role `alert`, ngx-toastr);
 - `getCartId()`, the visitor's cart id from sessionStorage;
 - `goto(path)`, which throws **"Blocked by the site's Cloudflare bot check (environment): <path>"** when Cloudflare answers with its bot check instead of the app (the `cf-mitigated: challenge` header or the "Just a moment..." title). The failure then names the environment instead of a missing element.
@@ -72,7 +71,6 @@ A component extends [`BaseComponent(page, root)`](https://github.com/Zaytsman/Si
 | `ProductGrid` | The home/search grid: cards, names, prices, `openProduct(name)`, `waitForQueryResults` |
 | `ProductFilters` | Category and brand checkboxes in the sidebar |
 | `Pagination`, `PriceRangeSlider` | The page numbers; the ngx-slider price range |
-| `RentalGrid` | The rentals page's cards |
 | `CheckoutCartLine` | One line of the checkout's cart step: prices, quantity change, delete |
 | `CheckoutSignInStep` | Step 2 of the wizard: login form, TOTP, proceed |
 

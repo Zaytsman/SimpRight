@@ -11,8 +11,8 @@ function escapeRegExp(text: string): string {
 export const CART_REQUEST_PATH = /\/carts\/[^/]+$/;
 
 /**
- * One line of the checkout's cart step (wizard step 1): a table row with the product's name (plus a discount badge or a
- * rental note), its quantity field, unit price, line total and the delete button.
+ * One line of the checkout's cart step (wizard step 1): a table row with the product's name (plus a discount
+ * badge), its quantity field, unit price, line total and the delete button.
  * Locators from the app source (checkout/cart/cart.component.html) and the live bundle: the inspector can't reach
  * this step with a cart, because it can't put anything in it.
  */
@@ -20,8 +20,6 @@ export class CheckoutCartLine extends BaseComponent {
   private readonly titleText: Locator;
   /** By its text ("-20%"): the badge has no test id or role; it sits inside the title. */
   private readonly discountBadgeText: Locator;
-  /** CSS: the rental note under the name has no test id; it's the row's only `small`. */
-  private readonly rentalNoteText: Locator;
   private readonly quantityInput: Locator;
   /** The unit price (struck through when the line has a discount). */
   private readonly unitPriceText: Locator;
@@ -52,7 +50,6 @@ export class CheckoutCartLine extends BaseComponent {
     );
     this.titleText = this.root.getByTestId('product-title');
     this.discountBadgeText = this.titleText.getByText(/^-\d+%$/);
-    this.rentalNoteText = this.root.locator('small');
     this.quantityInput = this.root.getByTestId('product-quantity');
     this.unitPriceText = this.root.getByTestId('product-price');
     this.offerPriceText = this.root.getByTestId('offer-price').filter({ has: page.locator('#discount-price') });
@@ -70,10 +67,6 @@ export class CheckoutCartLine extends BaseComponent {
 
   get discountBadge(): Locator {
     return this.discountBadgeText;
-  }
-
-  get rentalNote(): Locator {
-    return this.rentalNoteText;
   }
 
   get unitPrice(): Locator {

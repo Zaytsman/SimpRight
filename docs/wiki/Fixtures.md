@@ -68,7 +68,7 @@ Plus `accessToken` (the role's token as a string), `authClient` and `authService
 |---|---|
 | `authMode` (option) | `api`, `storageState` or `none` ([2](Configuration#how-ui-tests-start-logged-in)) |
 | `storageState` | Overrides Playwright's: the browser starts logged in as the test's role, or logged out with `none` |
-| `homePage`, `productPage`, `cartPage`, `rentalsPage` | Page objects, built with `page` and `config` |
+| `homePage`, `productPage`, `cartPage` | Page objects, built with `page` and `config` |
 | `shoppingFlow` | The flow `ShoppingFlow` |
 
 Components aren't fixtures: a page holds them as fields (`homePage.productGrid`, `homePage.filters`), so they're reached through the page.
@@ -90,7 +90,6 @@ Each one is named `open<Page><State>Test` after the page the test starts on and 
 | `openProductPageTest` | The product named by the option `productName` (`test.use({ productName })`) open |
 | `openProductPageInLondonTest` | The same, for a visitor in London (location offers show their discount) |
 | `openProductPageWithNewCustomerTest` | `openProductPageTest` logged in as a customer registered for this test |
-| `openRentalsPageTest` | The rentals page open |
 | `openHomePageWithProductInCartTest` | A cart with the in-stock product, made through the API, given to the browser, the home page open |
 | `openHomePageWithRentalAndProductInCartTest` | A rental and a product in the cart (the 15% combined discount checked as setup) |
 

@@ -5,7 +5,6 @@ import { ShoppingFlow } from '../flows/ShoppingFlow';
 import { CartPage } from '../pages/CartPage';
 import { HomePage } from '../pages/HomePage';
 import { ProductPage } from '../pages/ProductPage';
-import { RentalsPage } from '../pages/RentalsPage';
 
 /** How a test starts: logged in with one of the `UiAuthMode`s, or `none` (logged out, no login at all). */
 export type AuthMode = UiAuthMode | 'none';
@@ -23,7 +22,6 @@ export type UiFixtures = {
   homePage: HomePage;
   productPage: ProductPage;
   cartPage: CartPage;
-  rentalsPage: RentalsPage;
 
   // Flows
   shoppingFlow: ShoppingFlow;
@@ -65,9 +63,6 @@ export const test = base.extend<UiOptions & UiFixtures>({
   },
   cartPage: async ({ page, config }, use) => {
     await use(new CartPage(page, config));
-  },
-  rentalsPage: async ({ page, config }, use) => {
-    await use(new RentalsPage(page, config));
   },
 
   shoppingFlow: async ({ page, config }, use) => {

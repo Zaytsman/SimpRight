@@ -678,45 +678,4 @@ test.describe('@carts-api - Carts API', () => {
       expectDiscountedPrice(cartId, item, 0.75);
     });
   });
-
-  test('API-0326: Add a rental that is a location offer to a cart near Amsterdam gives it a 20% discount', async ({
-    productsService,
-    adminProductsService,
-    cartsService,
-    cartsClient,
-    cleanup,
-  }) => {
-    let productId: string;
-    let cartId: string;
-    let request: AddItemRequest;
-    let response: ApiResponse;
-    let item: CartItem;
-
-    const refs = await takeProductRefs(productsService);
-    productId = (await createCartProduct(
-      adminProductsService,
-      cleanup,
-      refs,
-      "Send POST /products with a unique product name, a positive price, those ids, is_location_offer true, is_rental true and stock 10, and take the new product's id.",
-      { is_location_offer: true, is_rental: true }
-    )).id;
-    cartId = await createCart(cartsService, cleanup, "Send POST /carts with lat 52 and lng 5 and take the returned id as the cart's id.", { lat: 52, lng: 5 });
-
-    await test.step("Send POST /carts/{cartId} with the cart's id and a body with the new product's id as product_id and quantity 1.", async () => {
-      ({ request, response } = await sendAddItem(cartsClient, cartId, productId, 1));
-    });
-
-    await test.step('Verify the response status is 200.', async () => {
-      expectStatus(request, response, 200);
-    });
-
-    await test.step("Verify GET /carts/{cartId} with the cart's id returns 200 and its only item has discount_percentage 20.", async () => {
-      const cart = await getCartOk(cartsClient, cartId);
-      item = expectOnlyItemDiscount(cartId, cart, 20);
-    });
-
-    await test.step("Verify the item's discounted_price equals its product's price × 0.8, rounded to 2 decimals.", async () => {
-      expectDiscountedPrice(cartId, item, 0.8);
-    });
-  });
 });

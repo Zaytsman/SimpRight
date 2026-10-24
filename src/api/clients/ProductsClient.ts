@@ -41,8 +41,4 @@ export class ProductsClient extends BaseClient {
   async deleteById(productId: string): Promise<ApiResponse> {
     return this.delete(`/products/${productId}`);
   }
-
-  async related(productId: string): Promise<ApiResponse> {
-    return this.get(`/products/${productId}/related`);
-  }
 }

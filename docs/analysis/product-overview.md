@@ -46,9 +46,9 @@ API first: a check goes to the UI only when the API can't prove it ([layer rules
 | T3 | AC2 | Journey: clicking a card opens that product's page (`/product/<id>`, showing the clicked product's name) | UI | Navigation: only the page links a card to the detail page | data | UI-071 |
 | T4 | AC3 | The list is paged by the server: 9 per page; `page=2` returns the next products and `current_page` 2 | API | The server paginates (Products §1) | | API-0002, API-0012 (existing) |
 | T5 | AC3 | Journey: pagination controls show below the grid; clicking page "2" updates the grid (other products, page 2 active) | UI | Only the page shows the controls and sends the page request | data | UI-072 |
-| T6 | AC4 | A search returns only products whose name contains the term (`/products/search`, GET and QUERY) | API | The server filters by name (Products §9, §10) | | API-0001, API-0030 (existing) |
+| T6 | AC4 | A search returns only products whose name contains the term (`/products/search`, GET and QUERY) | API | The server filters by name (Products §8, §9) | | API-0001, API-0030 (existing) |
 | T7 | AC4 | Journey: search "pliers" on the home page; the caption names the term and every card matches | UI | The page sends the search and shows the result | | UI-001 (existing) |
-| T8 | AC4 | A 3-character term is accepted | UI | The page validates the length (min 3) before sending; the server has no length rule (source `ProductController::search`; none in Products §9) | | UI-004 (existing) |
+| T8 | AC4 | A 3-character term is accepted | UI | The page validates the length (min 3) before sending; the server has no length rule (source `ProductController::search`; none in Products §8) | | UI-004 (existing) |
 | T9 | AC4 | A 40-character term is accepted | UI | Same as T8 (max 40) | | UI-005 (existing) |
 | T10 | AC4 | A 2-character term is rejected; the grid is unchanged | UI | Same as T8 | | UI-006 (existing) |
 | T11 | AC4 | A 41-character term is rejected; the grid is unchanged | UI | Same as T8 | | UI-007 (existing) |
