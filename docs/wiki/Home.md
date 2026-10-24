@@ -37,6 +37,14 @@ It is also an example of **AI-assisted test automation**: Claude Code agents wri
 1. [CI Runs](CI-Runs): starting custom and smoke runs by hand on GitHub Actions, and reviewing their results on the Automation Portal.
 2. [Local Runs](Local-Runs): running tests on your machine, and scheduling unattended runs with Task Scheduler or cron.
 
+## Study Case
+
+A hands-on exercise: build API and UI coverage with the AI skills on the `study-case` branch, then compare it with `main`.
+
+1. [Overview](Study-Case): what you build, prerequisites, set-up, comparing and starting over.
+2. [API Tests](Study-Case-API-Tests): an endpoint from its source code: contract, scenarios, specs, bugs, review.
+3. [UI Tests](Study-Case-UI-Tests): a user story: analysis, API and UI scenarios, page objects, specs, bugs, review.
+
 ## Skills
 
 Each slash command, the agent it starts and what you get:
