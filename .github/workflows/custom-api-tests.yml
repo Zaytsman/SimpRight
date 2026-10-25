@@ -50,4 +50,5 @@ jobs:
       family: custom-api
       paths: ${{ inputs.area != 'all' && format('tests/api/{0}/', inputs.area) || '' }}
       grep: ${{ inputs.grep }}
-      keep-runs: ${{ inputs.keep-runs }}
+      # A manual run's number input arrives as a string; playwright-run.yml's keep-runs is a number.
+      keep-runs: ${{ fromJSON(inputs.keep-runs) }}
