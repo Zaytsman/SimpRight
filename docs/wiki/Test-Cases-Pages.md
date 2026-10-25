@@ -7,12 +7,13 @@ The **Test Cases pages** are a browsable catalog of every test scenario in `test
 - **[UI Test Cases](https://zaytsman.github.io/SimpRight/test-cases/ui/)**
 - **[API Test Cases](https://zaytsman.github.io/SimpRight/test-cases/api/)**
 
-They answer "what do we test, and is it automated?" without opening YAML files: anyone can browse the scenarios, search them, see their steps, and jump to the spec that implements them or the user story they come from. The portal opens them with its **UI Test Cases** and **API Test Cases** buttons.
+They answer "what do we test, and is it automated?" without opening YAML files: anyone can browse the scenarios, search them, see their steps, and jump to the spec that implements them or the user story they come from. The portal opens them with its **UI test cases** and **API test cases** buttons.
 
 ## The page
 
 ### Header
 
+- The portal's logo and **Automation Portal**, both leading back to the [Automation Portal](Automation-Portal), whose colors the page shares.
 - The layer's title, a **UI | API** switch to the other page, and **Run on GitHub ↗**, which opens the layer's custom test workflow on the Actions tab.
 - Four counters: **Total**, **Automated** (with its percentage), **Manual** and **Known issues**. Clicking one filters the list.
 - When the catalog was built, and from which commit.
@@ -30,7 +31,7 @@ UI TEST CASES                     [Expand all] [Collapse all]
 ```
 
 - **Area → file → scenario**, following `test-scenarios/<layer>/<area>/<file>.yml`. API files are labelled with their endpoint (`GET /products/{productId}`), UI files with their name (`Product detail`). Each group shows how many scenarios it holds.
-- A dot shows the status: **green** automated, **red** manual; ⚠ marks a known issue.
+- A dot shows the status: **green** automated, **blue** manual (not automated yet, which isn't a failure); ⚠ marks a known issue.
 - The tree **starts collapsed**. **Expand all** and **Collapse all** open or close every group; selecting a scenario opens its branch.
 - **Search** looks through IDs, names, steps, suites, areas, file names, roles, tags, references, spec paths, known-issue texts and bug IDs.
 - **Filters:** All, Automated, Manual, Known issue. A search or filter expands the matching groups.

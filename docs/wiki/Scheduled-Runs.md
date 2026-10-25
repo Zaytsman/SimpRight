@@ -108,6 +108,6 @@ Both permissions are needed in the calling file: a called workflow can't have mo
 
 ## Results
 
-A scheduled run publishes its report like a run started by hand: see [CI Runs](CI-Runs#review-test-run-results). On the [Automation Portal](Automation-Portal), it's under **Latest Reports** → **UI Regression** or **API Regression** and in **Test Runs History**, and it updates the status, the charts and Known Issues.
+A scheduled run publishes its report like a run started by hand: see [CI Runs](CI-Runs#review-test-run-results). On the [Automation Portal](Automation-Portal), it's under **Latest reports** → **UI regression** or **API regression** and in **Run history**, and it updates the status, the UI or API trends and Known issues.
 
 See also: [CI Pipeline](CI-Pipeline), [CI Runs](CI-Runs), [Local Runs](Local-Runs).
