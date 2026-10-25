@@ -38,7 +38,7 @@ On a narrow screen the side panel moves above the content.
 | **API contract coverage** | The overall API contract coverage in percent, with a bar (only with coverage published) |
 | **Endpoints covered** | The API endpoints covered (`covered / total`) and a link to the coverage report (only with coverage published) |
 
-A run is **healthy** when its failure rate is below the threshold: **2 % for UI, 1 % for API** (`HEALTHY_FAILURE_RATE` in `index.html`).
+A run is **healthy** when its failure rate is below the threshold: **1 % for both UI and API** (`HEALTHY_FAILURE_RATE` in `index.html`).
 
 ### UI trends and API trends
 
@@ -48,7 +48,7 @@ One section per regression, for its **last 10 runs**. Each starts with the cards
 |---|---|
 | **Total** | Tests in the latest run |
 | **Passed** | Passed tests, flaky ones included |
-| **Failed** | Failed tests; links to the report filtered to failures |
+| **Failed** | Failed tests, the number in red when there are any; links to the report filtered to failures |
 | **Run duration** | The latest run's duration |
 | **Average duration** | The average over the runs shown |
 | **Failure rate (avg)** | The latest run's failure rate, and the average in brackets |
@@ -102,7 +102,7 @@ Common changes:
 
 | Change | Where in `index.html` |
 |---|---|
-| The health thresholds | `HEALTHY_FAILURE_RATE = { ui: 2, api: 1 }` |
+| The health thresholds | `HEALTHY_FAILURE_RATE = { ui: 1, api: 1 }` |
 | How many runs the trends and the history show | The `limit` arguments of `toSeries` and `renderHistoryList` (default 10) |
 | How many known issues the collapsed table shows | `KNOWN_ISSUES_PREVIEW` (3) |
 | A new report family in the history or Latest reports | A new `<details>` row (with its `-strip` and `-list` ids) and an entry in `HISTORY_LISTS`; a link with a `data-family-dot` in the side panel |
