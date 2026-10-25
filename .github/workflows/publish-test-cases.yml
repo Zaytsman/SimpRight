@@ -16,6 +16,7 @@ on:
       - 'site/bugs/**'
       - 'scripts/build-test-cases.mts'
       - 'scripts/build-bugs.mts'
+      - 'scripts/build-run-summaries.mts'
       - 'scripts/publish-test-cases.sh'
       - 'scripts/gh-pages-lib.sh'
       - 'qa-agents-profile.yml'

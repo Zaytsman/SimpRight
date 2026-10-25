@@ -29,6 +29,11 @@ on:
         required: false
         type: boolean
         default: false
+      keep-runs:
+        description: 'How many runs of the family stay on GitHub Pages; older ones are removed when this run is published'
+        required: false
+        type: number
+        default: 10
     # Only the secrets the tests read; callers pass them by name instead of `secrets: inherit`.
     secrets:
       ADMIN_USER:
@@ -117,6 +122,7 @@ jobs:
           GH_TOKEN: ${{ github.token }}
           FAMILY: ${{ inputs.family }}
           LATEST_COVERAGE: ${{ inputs.publish-latest-coverage }}
+          KEEP_RUNS: ${{ inputs.keep-runs }}
         run: |
           args=("$FAMILY")
           [ "$LATEST_COVERAGE" = true ] && args+=(--latest-coverage)

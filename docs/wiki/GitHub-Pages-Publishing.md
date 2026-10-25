@@ -11,9 +11,10 @@ gh-pages/
 ├── index.html                       the Automation Portal (copied from the repo root on every publish)
 ├── .nojekyll                        serve files as they are (no Jekyll processing)
 ├── daily-api-regression/
-│   ├── run-57/                      one test run: Playwright HTML report + results.json (+ api-coverage/)
-│   └── run-56/ ...                  the latest 30 runs of the family
+│   ├── run-57/                      one test run: Playwright HTML report + run-summary.json (+ api-coverage/)
+│   └── run-56/ ...                  the latest runs of the family (`keep-runs`, 10 by default)
 ├── daily-api-regression-manifest.json   ["run-57", "run-56", ...], newest first
+├── daily-api-regression-history.json    the kept runs' stats + the newest run's known issues (what the portal reads)
 ├── daily-ui-regression/ ...         the same for the other families
 ├── smoke/ ...
 ├── custom-api/ ...
@@ -22,7 +23,7 @@ gh-pages/
 │   ├── daily-api-regression/        a copy of the family's newest run (stable URL)
 │   ├── daily-ui-regression/
 │   ├── smoke/, custom-api/, custom-ui/
-│   └── api-coverage/                API coverage of the latest full API regression
+│   └── api-coverage/                API coverage of the latest full API regression (+ totals.json for the portal)
 └── test-cases/
     ├── ui/                          index.html + scenarios-data.js
     └── api/
@@ -51,10 +52,11 @@ Each script replaces only its own files and leaves the rest of the branch alone,
 
 1. If there's no `playwright-report/`, stop: nothing to publish.
 2. Check out `gh-pages` (see below).
-3. Copy the HTML report into `<family>/run-<N>/`, plus `test-results/results.json` (the JSON reporter's output on CI, which the portal reads) and `test-results/api-coverage/` when there is one.
+3. Copy the HTML report into `<family>/run-<N>/`, plus `test-results/results.json` (the JSON reporter's output on CI; only for step 6) and `test-results/api-coverage/` when there is one.
 4. Replace `latest/<family>/` with a copy of this run; with `--latest-coverage`, also replace `latest/api-coverage/` (only the full API regression passes it, because only its coverage represents the whole suite).
-5. **Prune:** keep the newest `KEEP_RUNS` runs of the family (30 by default), delete older ones, and rebuild `<family>-manifest.json` from what's left.
-6. Commit and push, with the portal (see below).
+5. **Prune:** keep the newest `KEEP_RUNS` runs of the family (the workflow's `keep-runs` input, 10 by default), delete older ones, and rebuild `<family>-manifest.json` from what's left.
+6. **Summarize** (`scripts/build-run-summaries.mts <site> <family>`): write the run's `run-summary.json` (stats, known issues, each scenario test's last status) and its copy in `latest/<family>/`, rebuild `<family>-history.json`, and refresh `latest/api-coverage/totals.json`. The portal and the Bugs page read only these small files: an API regression's `results.json` is about 8 MB, and the portal used to download ten of them. Then remove the family's `results.json` files, this run's and any left from before the summaries: the HTML report doesn't need them, and the run's artifact keeps the full file for 14 days.
+7. Commit and push, with the portal (see below).
 
 Runs are sorted by number (`sort -V`), so `run-100` comes after `run-99`.
 
@@ -71,7 +73,14 @@ The workflow validates the scenarios first, so a broken scenario file never reac
 - **`ghp_checkout <dir>`** points `origin` at the repository with `GH_TOKEN` as the credential (the workflows check out without one, so only the publish step has a token that can push), then checks out `gh-pages` as a **git worktree** in `.gh-pages/` (git-ignored), fetching only its latest commit. On the very first publish, when `git ls-remote` finds no such branch, it creates it as an empty orphan branch; any other error (network, access) stops the publish with its message.
 - **`ghp_publish <dir> <message>`** copies `index.html` from the repository (so a portal change goes live with the next publish of either kind) and `.nojekyll`, commits everything as `github-actions[bot]`, and does nothing when nothing changed. Several workflows can publish at the same time (a UI and an API run, plus Test Cases), so a rejected push is **rebased onto the remote branch and retried**, up to 3 times. Because each script touches only its own folders, the rebase doesn't conflict.
 
-Pruning on the branch itself keeps `gh-pages` from growing forever: at most 30 runs per family are kept.
+Pruning keeps the site small: at most `keep-runs` runs per family (10 by default). The branch's history still holds every report ever published, so it's squashed every month (below).
+
+## Squashing the history: `squash-gh-pages.sh`
+
+`squash-gh-pages.yml` runs on the 1st of each month at 04:45 UTC, between the nightly runs, and by hand (Actions → **Squash GitHub Pages History** → **Run workflow**). It fetches the latest `gh-pages` commit and pushes a new commit with the same files and no parent: the site doesn't change, and the old reports leave the history (GitHub cleans up the unreferenced data later).
+
+- The push uses `--force-with-lease`: it goes through only while `gh-pages` is still the commit it read. A publish that lands in between makes the squash fail; nothing is lost, run it again.
+- A publish that read `gh-pages` before the squash and pushes after it is rejected, rebases onto the new commit and retries (`ghp_publish`), as with any other concurrent publish.
 
 ## The wiki
 

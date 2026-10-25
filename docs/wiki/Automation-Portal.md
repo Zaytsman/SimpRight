@@ -21,7 +21,7 @@ A run is **healthy** when its failure rate is below the threshold: **2 % for UI,
 
 | Button | Opens | Shown when |
 |---|---|---|
-| **API Coverage** | The coverage report of the latest full API regression (new tab) | `latest/api-coverage/summary.json` exists |
+| **API Coverage** | The coverage report of the latest full API regression (new tab) | `latest/api-coverage/totals.json` exists |
 | **UI Test Cases**, **API Test Cases** | The [Test Cases Pages](Test-Cases-Pages) (new tab) | `test-cases/<layer>/scenarios-data.js` exists |
 | **Bugs** | The [Bugs Page](Bugs-Page) (new tab) | `bugs/bugs-data.js` exists |
 | **Schedule Test Run** | The repository's Actions tab, to start a run by hand (new tab; see [CI Runs](CI-Runs)) | always |
@@ -45,7 +45,7 @@ For the **last 10 runs** of the UI and the API regression, side by side:
 | **Duration** per run | Latest and average duration |
 | **Failure rate** per run, each point green below the health threshold and red above it | Latest and average failure rate |
 
-How the numbers are counted, from Playwright's JSON report (`results.json`):
+How the numbers are counted, from the stats of Playwright's JSON report (`results.json`), which the publish copies into the family's history file:
 
 - **passed** = expected results + flaky tests. A known-issue test that fails *as expected* counts as passed;
 - **failed** = unexpected results;
@@ -60,16 +60,16 @@ A table of every test that carries a **known issue**, with its area (the spec's 
 
 ### Test Runs History
 
-The latest 10 runs of each family (UI Regression, API Regression, Smoke, Custom UI, Custom API), each linking to its full Playwright report. The site keeps 30 runs per family; older ones are pruned.
+The latest 10 runs of each family (UI Regression, API Regression, Smoke, Custom UI, Custom API), each linking to its full Playwright report. The site keeps the latest 10 runs per family by default (the workflows' `keep-runs` setting); older ones are pruned.
 
 ## Where the data comes from
 
 | Section | Files read |
 |---|---|
-| Status, totals, charts | `daily-ui-regression-manifest.json`, `daily-api-regression-manifest.json`, then `<family>/run-<N>/results.json` for the last 10 runs |
-| Known Issues | `latest/daily-ui-regression/results.json`, `latest/daily-api-regression/results.json` |
-| History | `<family>-manifest.json` of the four families |
-| Coverage cards and button | `latest/api-coverage/summary.json` (`overallCoveragePct`, `coveredEndpoints`, `totalEndpoints`) |
+| Status, totals, charts | `daily-ui-regression-history.json`, `daily-api-regression-history.json` (the stats of the last 10 runs with results) |
+| Known Issues | the same two files (the newest run's known issues) |
+| History | `<family>-history.json` of the five families |
+| Coverage cards and button | `latest/api-coverage/totals.json` (`overallCoveragePct`, `coveredEndpoints`, `totalEndpoints`) |
 | Test Cases buttons | a `HEAD` request for `test-cases/<layer>/scenarios-data.js` |
 | Bugs button | a `HEAD` request for `bugs/bugs-data.js` |
 
@@ -86,9 +86,9 @@ Common changes:
 | Change | Where in `index.html` |
 |---|---|
 | The health thresholds | `HEALTHY_FAILURE_RATE = { ui: 2, api: 1 }` |
-| How many runs the charts and the history show | The `limit` arguments of `loadSeries` and `loadHistorySection` (default 10) |
-| A new report family in the history or Latest Reports | A new `<details>` block and `loadHistorySection(...)` call; a link in the side panel |
+| How many runs the charts and the history show | The `limit` arguments of `toSeries` and `renderHistoryList` (default 10) |
+| A new report family in the history or Latest Reports | A new `<details>` block and an entry in `HISTORY_LISTS`; a link in the side panel |
 
-The number of runs kept on the site is set separately, by `KEEP_RUNS` in `scripts/publish-report.sh`.
+The number of runs kept on the site is set separately, by the `keep-runs` input of `playwright-run.yml` (10 by default; the custom workflows ask for it).
 
 See also: [Test Cases Pages](Test-Cases-Pages), [CI Runs](CI-Runs#review-test-run-results).

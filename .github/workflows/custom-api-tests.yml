@@ -29,6 +29,11 @@ on:
         required: false
         type: string
         default: ''
+      keep-runs:
+        description: 'Custom API runs to keep on GitHub Pages (older ones are removed)'
+        required: false
+        type: number
+        default: 10
 
 permissions:
   contents: write
@@ -45,3 +50,4 @@ jobs:
       family: custom-api
       paths: ${{ inputs.area != 'all' && format('tests/api/{0}/', inputs.area) || '' }}
       grep: ${{ inputs.grep }}
+      keep-runs: ${{ inputs.keep-runs }}

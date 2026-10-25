@@ -7,8 +7,10 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-  <script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
+  <!-- No favicon file on the site; an empty one saves the browser a 404. -->
+  <link rel="icon" href="data:,">
+  <!-- Pinned with its hash; deferred, so the page and its data load while it downloads. -->
+  <script defer src="https://cdn.jsdelivr.net/npm/chart.js@4.5.1/dist/chart.umd.min.js" integrity="sha384-jb8JQMbMoBUzgWatfe6COACi2ljcDdZQ2OxczGA3bGNeWe+6DChMTBJemed7ZnvJ" crossorigin="anonymous"></script>
   <style>
     :root {
       --bg: #05070c;
@@ -29,6 +31,7 @@
 
     body {
       margin: 0;
+      line-height: 1.5;
       font-family: 'IBM Plex Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
       background:
         linear-gradient(180deg, rgba(8, 15, 26, 0.4), rgba(5, 7, 12, 0.92)),
@@ -39,6 +42,11 @@
     }
 
     a { color: inherit; text-decoration: none; }
+
+    h1, h2, h3, h4 { line-height: 1.2; }
+
+    .mt-3 { margin-top: 1rem; }
+    .table-responsive { overflow-x: auto; }
 
     .page {
       display: grid;
@@ -452,28 +460,12 @@
       margin-top: .85rem;
     }
 
-    .no-data {
-      padding: 20px;
-      text-align: center;
-      color: var(--muted);
-      font-style: italic;
-    }
-
-    .error-message {
-      color: #f87171;
-      font-size: 13px;
-      padding: 12px;
-      background-color: #3d1f1a;
-      border-left: 3px solid #f87171;
-      border-radius: 0 4px 4px 0;
-      margin-top: 8px;
-    }
-
     .stat-card {
       border-radius: 18px;
-      padding: .95rem 1rem;
-      background: linear-gradient(180deg, rgba(21, 33, 56, 0.9), rgba(16, 26, 45, 0.9));
+      padding: .9rem 1rem;
+      background: rgba(255, 255, 255, 0.03);
       border: 1px solid rgba(148, 163, 184, 0.12);
+      text-align: center;
     }
 
     .stat-card span {
@@ -527,14 +519,6 @@
       margin-top: .85rem;
     }
 
-    .stat-card {
-      border-radius: 18px;
-      padding: .9rem 1rem;
-      background: rgba(255, 255, 255, 0.03);
-      border: 1px solid rgba(148, 163, 184, 0.12);
-      text-align: center;
-    }
-
     .stat-card .stat-label {
       display: block;
       color: var(--muted);
@@ -577,9 +561,6 @@
       .card-grid,
       .grid-stats {
         grid-template-columns: 1fr;
-      }
-      .metric-bars {
-        grid-template-columns: repeat(3, minmax(0, 1fr));
       }
       .hero,
       .panel,
@@ -626,7 +607,7 @@
             <h2>SimpRight - Automation Portal</h2>
             <p>One place for the UI and API test automation: the latest reports of the scheduled regressions and custom runs, API coverage against the contracts, pass/fail, duration and failure-rate trends, known issues, and the history of every run.</p>
             <div class="hero-actions">
-              <!-- Coverage elements stay hidden until latest/api-coverage/summary.json exists (the coverage tool is optional). -->
+              <!-- Coverage elements stay hidden until latest/api-coverage/totals.json exists (the coverage tool is optional). -->
               <a class="action-link primary" data-coverage hidden href="latest/api-coverage/" target="_blank" rel="noreferrer">API Coverage</a>
               <!-- Test case pages (scripts/build-test-cases.mts) stay hidden until publish-test-cases.yml has published them. -->
               <a class="action-link" data-test-cases="ui" hidden href="test-cases/ui/" target="_blank" rel="noreferrer">UI Test Cases</a>
@@ -792,7 +773,7 @@
         </article>
       </section>
 
-      <p class="footer-note">Published by GitHub Actions. Each report family keeps its latest 30 runs.</p>
+      <p class="footer-note">Published by GitHub Actions. Each report family keeps its latest 10 runs, unless its workflow sets another number.</p>
     </main>
   </div>
 
@@ -892,83 +873,53 @@
       ]);
     }
 
-    // Returns the latest `limit` runs of a report family, oldest first.
-    async function loadSeries(manifestFile, folder, limit = 10) {
+    // Report families published by scripts/publish-report.sh, with the id of their Test Runs History list.
+    const HISTORY_LISTS = {
+      'daily-ui-regression': 'history-daily-ui',
+      'daily-api-regression': 'history-daily-api',
+      'smoke': 'history-smoke',
+      'custom-ui': 'history-custom-ui',
+      'custom-api': 'history-custom-api'
+    };
+
+    // A family's <family>-history.json, written at publish time by scripts/build-run-summaries.mts: every kept run,
+    // newest first, with its Playwright stats (null when the run has no results), and the newest run's known issues.
+    // The page never downloads a run's results.json (an API regression's is about 8 MB). Null when nothing is published.
+    async function loadHistory(family) {
       try {
-        const response = await fetch(manifestFile);
-        if (!response.ok) throw new Error(`HTTP ${response.status}`);
-
-        const runs = await response.json();
-        const validRuns = runs.filter(run => /^run-\d+$/.test(run)).slice(0, limit);
-        const series = [];
-
-        for (const run of validRuns.reverse()) {
-          try {
-            const resultResponse = await fetch(`${folder}${run}/results.json`);
-            if (!resultResponse.ok) continue;
-
-            const results = await resultResponse.json();
-            const stats = results.stats || {};
-            const passed = stats.expected || 0;
-            const failed = stats.unexpected || 0;
-            const skipped = stats.skipped || 0;
-            const flaky = stats.flaky || 0;
-            const total = passed + failed + skipped + flaky;
-            const duration = stats.duration || 0;
-            const failureRate = total > 0 ? ((failed / total) * 100) : 0;
-
-            series.push({ run, passed, failed, total, duration, failureRate, flaky });
-          } catch {
-            continue;
-          }
-        }
-
-        return series;
+        const response = await fetch(`${family}-history.json`);
+        if (!response.ok) return null;
+        return await response.json();
       } catch (error) {
-        console.error(`Error loading ${manifestFile}:`, error);
-        return [];
+        console.error(`Error loading ${family}-history.json:`, error);
+        return null;
       }
     }
 
-    // Lists tests with an annotation whose description contains "Known issue", e.g.
+    // The latest `limit` runs that have results, oldest first.
+    function toSeries(history, limit = 10) {
+      if (!history) return [];
+      return history.runs.filter(item => item.stats).slice(0, limit).reverse().map(({ run, stats }) => {
+        const passed = stats.expected || 0;
+        const failed = stats.unexpected || 0;
+        const skipped = stats.skipped || 0;
+        const flaky = stats.flaky || 0;
+        const total = passed + failed + skipped + flaky;
+        const duration = stats.duration || 0;
+        const failureRate = total > 0 ? ((failed / total) * 100) : 0;
+        return { run, passed, failed, total, duration, failureRate, flaky };
+      });
+    }
+
+    // Lists the tests of the latest regressions with an annotation containing "Known issue", e.g.
     // test.fail(true, 'Known issue BUG-003: ...'); the bug ID links to the Bugs page.
-    async function loadKnownIssues() {
+    function renderKnownIssues(histories) {
       const tbody = document.getElementById('knownIssuesBody');
       const knownIssues = [];
-
-      // Playwright JSON report: suites (file -> describe blocks) -> specs -> tests -> annotations.
-      function collect(suite, area) {
-        const suiteArea = area || suite.title;
-        (suite.specs || []).forEach(spec => {
-          (spec.tests || []).forEach(test => {
-            (test.annotations || []).forEach(annotation => {
-              const description = annotation.description || '';
-              if (!description.includes('Known issue')) return;
-              const exists = knownIssues.some(issue => issue.testName === spec.title && issue.description === description);
-              if (!exists) knownIssues.push({ area: suiteArea, testName: spec.title, description });
-            });
-          });
-        });
-        (suite.suites || []).forEach(child => collect(child, suiteArea));
-      }
-
-      const sources = [
-        'latest/daily-ui-regression/results.json',
-        'latest/daily-api-regression/results.json'
-      ];
-
-      await Promise.all(
-        sources.map(async (source) => {
-          try {
-            const response = await fetch(source);
-            if (!response.ok) return;
-            const results = await response.json();
-            (results.suites || []).forEach(suite => collect(suite, ''));
-          } catch (err) {
-            console.error(`Error loading known issues from ${source}:`, err);
-          }
-        })
-      );
+      histories.forEach(history => (history?.knownIssues || []).forEach(issue => {
+        const exists = knownIssues.some(known => known.testName === issue.testName && known.description === issue.description);
+        if (!exists) knownIssues.push(issue);
+      }));
 
       tbody.innerHTML = '';
       if (knownIssues.length === 0) {
@@ -1030,9 +981,10 @@
       el.className = `value ${healthy ? 'status-healthy' : 'status-unhealthy'}`;
     }
 
+    // totals.json holds summary.json's totals without the per-endpoint detail (scripts/build-run-summaries.mts).
     async function loadApiCoverage() {
       try {
-        const response = await fetch('latest/api-coverage/summary.json');
+        const response = await fetch('latest/api-coverage/totals.json');
         if (!response.ok) return;
 
         const summary = await response.json();
@@ -1076,12 +1028,7 @@
       });
     }
 
-    async function renderCharts() {
-      const [uiSeries, apiSeries] = await Promise.all([
-        loadSeries('daily-ui-regression-manifest.json', 'daily-ui-regression/'),
-        loadSeries('daily-api-regression-manifest.json', 'daily-api-regression/')
-      ]);
-
+    function renderCharts(uiSeries, apiSeries) {
       updateStatus('latest-ui-status', uiSeries, HEALTHY_FAILURE_RATE.ui);
       updateStatus('latest-api-status', apiSeries, HEALTHY_FAILURE_RATE.api);
 
@@ -1102,64 +1049,49 @@
       }
     }
 
-    async function loadHistorySection(folder, manifestFile, elementId, limit = 10) {
+    function renderHistoryList(family, history, elementId, limit = 10) {
       const list = document.getElementById(`${elementId}-list`);
-      const container = document.getElementById(elementId);
-      const loadingDiv = container ? container.querySelector('.loading') : null;
+      document.getElementById(elementId).querySelector('.loading')?.remove();
 
-      function showMessage(text, color) {
+      const latestRuns = history ? history.runs.slice(0, limit).map(item => item.run) : [];
+      setText(`${elementId}-count`, latestRuns.length);
+
+      if (latestRuns.length === 0) {
         const li = document.createElement('li');
         const span = document.createElement('span');
-        span.textContent = text;
-        span.style.color = color;
+        span.textContent = history ? 'No runs found' : 'No runs published yet';
+        span.style.color = 'var(--muted)';
         li.appendChild(span);
         list.replaceChildren(li);
+        return;
       }
 
-      try {
-        const response = await fetch(manifestFile);
-        if (!response.ok) throw new Error(`HTTP ${response.status}`);
-
-        const runs = await response.json();
-        const latestRuns = runs.filter(run => /^run-\d+$/.test(run)).slice(0, limit);
-
-        setText(`${elementId}-count`, latestRuns.length);
-        if (loadingDiv) loadingDiv.remove();
-
-        if (latestRuns.length === 0) {
-          showMessage('No runs found', 'var(--muted)');
-          return;
-        }
-
-        list.replaceChildren(...latestRuns.map(run => {
-          const li = document.createElement('li');
-          li.innerHTML = `
-            <a href="${folder}${run}/" target="_blank" rel="noreferrer" class="history-link">
-              <span>${run}</span>
-              <span class="label-chip">View</span>
-            </a>
-          `;
-          return li;
-        }));
-      } catch (error) {
-        console.error(`Error loading ${manifestFile}:`, error);
-        if (loadingDiv) loadingDiv.remove();
-        setText(`${elementId}-count`, 0);
-        showMessage('No runs published yet', 'var(--muted)');
-      }
+      list.replaceChildren(...latestRuns.map(run => {
+        const li = document.createElement('li');
+        li.innerHTML = `
+          <a href="${family}/${run}/" target="_blank" rel="noreferrer" class="history-link">
+            <span>${run}</span>
+            <span class="label-chip">View</span>
+          </a>
+        `;
+        return li;
+      }));
     }
 
-    document.addEventListener('DOMContentLoaded', () => {
-      loadKnownIssues();
-      renderCharts();
-      loadApiCoverage();
-      loadTestCaseLinks();
-      setRepoLinks();
-      loadHistorySection('daily-ui-regression/', 'daily-ui-regression-manifest.json', 'history-daily-ui');
-      loadHistorySection('daily-api-regression/', 'daily-api-regression-manifest.json', 'history-daily-api');
-      loadHistorySection('smoke/', 'smoke-manifest.json', 'history-smoke');
-      loadHistorySection('custom-ui/', 'custom-ui-manifest.json', 'history-custom-ui');
-      loadHistorySection('custom-api/', 'custom-api-manifest.json', 'history-custom-api');
+    // This script runs after the page's markup, so the data loads at once, in parallel with the deferred Chart.js;
+    // only the charts wait for DOMContentLoaded, which fires after Chart.js has run.
+    setRepoLinks();
+    loadApiCoverage();
+    loadTestCaseLinks();
+    const histories = Object.fromEntries(Object.keys(HISTORY_LISTS).map(family => [family, loadHistory(family)]));
+    Object.entries(HISTORY_LISTS).forEach(([family, elementId]) => {
+      histories[family].then(history => renderHistoryList(family, history, elementId));
+    });
+    const chartsReady = new Promise(resolve => document.addEventListener('DOMContentLoaded', resolve));
+    Promise.all([histories['daily-ui-regression'], histories['daily-api-regression']]).then(async ([ui, api]) => {
+      renderKnownIssues([ui, api]);
+      await chartsReady;
+      renderCharts(toSeries(ui), toSeries(api));
     });
   </script>
 </body>

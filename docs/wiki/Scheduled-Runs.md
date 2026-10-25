@@ -13,6 +13,8 @@ The full regressions run on a schedule on **GitHub Actions**, on `main`. This pa
 
 Their results feed the [Automation Portal](Automation-Portal)'s status, charts and Known Issues; the API regression's coverage also becomes the portal's API Coverage.
 
+**Squash GitHub Pages History** (`squash-gh-pages.yml`) also runs on a schedule, on the 1st of each month at 04:45 UTC: it trims the `gh-pages` branch's history and runs no tests ([GitHub Pages Publishing](GitHub-Pages-Publishing)).
+
 ## Change a schedule
 
 Schedules are `cron` lines in the workflow files:

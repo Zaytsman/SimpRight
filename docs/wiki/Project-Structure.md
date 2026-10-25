@@ -144,9 +144,11 @@ Defined in `tsconfig.json` and resolved by Playwright, so imports don't climb fo
 | `build-test-cases.mts` | `npm run test-cases:build`, CI | Builds the UI and API Test Cases pages from the scenarios |
 | `build-bugs.mts` | `npm run bugs:build`, CI | Builds the Bugs page from `bugs/` and the scenarios that name them |
 | `check-step-titles.mts` | `npm run check:step-titles`, CI | Compares each test's step titles in a run's JSON report with its scenario's steps |
-| `publish-report.sh` | CI | Publishes a run's report to `gh-pages` and keeps the latest 30 runs |
+| `build-run-summaries.mts` | the two publish scripts | Writes the small history and run-summary files the portal and the Bugs page read |
+| `publish-report.sh` | CI | Publishes a run's report to `gh-pages` and keeps the latest runs (`keep-runs`, 10 by default) |
 | `publish-test-cases.sh` | CI | Publishes the Test Cases pages and the dashboard to `gh-pages` |
 | `gh-pages-lib.sh` | the two publish scripts | Shared checkout of `gh-pages` and push with retries |
+| `squash-gh-pages.sh` | CI, monthly | Replaces the `gh-pages` history with one commit of the current site |
 
 ## CI workflows
 

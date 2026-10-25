@@ -20,7 +20,8 @@ Besides the nightly regressions, the tests can be run on **GitHub Actions** by h
 4. Choose the **branch** to test: `main`, `develop` or a feature branch.
 5. For the custom runs, fill in the inputs:
    - **area**: a folder of `tests/api` (`products`, `users`, `carts`, `invoices`, ...) or `tests/ui` (`cart`, `products`), or `all`;
-   - **grep** (optional): only tests whose title matches, for example `UI-013` or `UI-01[3-7]` (a regular expression), or a tag such as `@cart`.
+   - **grep** (optional): only tests whose title matches, for example `UI-013` or `UI-01[3-7]` (a regular expression), or a tag such as `@cart`;
+   - **keep-runs** (default 10): how many runs of that custom family stay on GitHub Pages; older ones are removed when this run is published.
 
    The smoke run has no inputs.
 6. Click **Run workflow**. The run appears in the list after a few seconds.
@@ -67,7 +68,7 @@ Open the [Automation Portal](https://zaytsman.github.io/SimpRight/):
 
 Custom and smoke runs appear only in these two places: the status, the charts and **Known Issues** show the nightly regressions only.
 
-The report of run number N is also at `https://zaytsman.github.io/SimpRight/<family>/run-<N>/` (for example `smoke/run-12/`), and the newest one at `https://zaytsman.github.io/SimpRight/latest/<family>/`. N is the run number in the run's title on the Actions tab (`#12`). Each family keeps its latest **30 runs**; older ones are removed when a new run is published.
+The report of run number N is also at `https://zaytsman.github.io/SimpRight/<family>/run-<N>/` (for example `smoke/run-12/`), and the newest one at `https://zaytsman.github.io/SimpRight/latest/<family>/`. N is the run number in the run's title on the Actions tab (`#12`). Each family keeps its latest **10 runs** (a custom run's **keep-runs** input changes it for its family); older ones are removed when a new run is published.
 
 ### What a report shows
 
