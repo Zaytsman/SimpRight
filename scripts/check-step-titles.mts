@@ -40,7 +40,7 @@ interface Report {
   suites: ReportSuite[];
 }
 
-const profile = parse(readFileSync(path.join(ROOT, 'qa-agents-profile.yml'), 'utf8')) as Profile;
+const profile = parse(readFileSync(path.join(ROOT, 'simpright.yml'), 'utf8')) as Profile;
 const prefixes = Object.values(profile.ids.layers).map((layer) => layer.prefix);
 const ID = new RegExp(`^((?:${prefixes.join('|')})-\\d+):`);
 

@@ -58,7 +58,7 @@ Links to files point to GitHub's `main` branch, which is what the published page
 
 ## How the pages are built
 
-`scripts/build-test-cases.mts` reads `qa-agents-profile.yml` and every scenario file, and writes for each layer:
+`scripts/build-test-cases.mts` reads `simpright.yml` and every scenario file, and writes for each layer:
 
 | File | Content |
 |---|---|

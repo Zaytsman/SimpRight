@@ -117,9 +117,9 @@ Security updates ignore `target-branch` and always open against `main`; after me
 
 | Change | Where |
 |---|---|
-| A new test area folder | Add it to the `area` options of `custom-ui-tests.yml` or `custom-api-tests.yml` |
-| A new scheduled run | A new caller of `playwright-run.yml` (see [Scheduled Runs](Scheduled-Runs#add-a-new-scheduled-run)) |
-| A new secret | Actions secrets, `workflow_call.secrets` and the `env:` of `playwright-run.yml`, the `secrets:` of every caller, `.env.example`, and the environment JSON placeholders |
+| A new test area folder | Add it to the `area` options of `custom-ui-tests.yml` or `custom-api-tests.yml` (`npm run validate:scenarios` checks them) |
+| A new scheduled run | A new caller of `playwright-run.yml` and its entry in the `runs` list of `simpright.yml` (see [Scheduled Runs](Scheduled-Runs#add-a-new-scheduled-run)) |
+| A new secret | Actions secrets, `workflow_call.secrets` and the `env:` of `playwright-run.yml`, the `secrets:` of every caller, `ci.secrets` in `simpright.yml`, `.env.example`, and the environment JSON placeholders |
 | A new action | Pin it to its release's full commit SHA, with the version in a comment (`gh api repos/<owner>/<action>/commits/<tag> --jq .sha`) |
 | Shell scripts | Keep LF line endings (`.gitattributes` enforces it for every `*.sh`) |
 

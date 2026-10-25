@@ -1,9 +1,17 @@
-// Validates qa-agents-profile.yml, the bug files, the scenario files and their links to the specs.
+// Validates simpright.yml (the project config, "the profile"), the bug files, the scenario files and their links
+// to the specs, and the test runs against the workflows.
 // Run with `npm run validate:scenarios` (Node 22.18+ runs this file directly; no build step).
 //
 // Checks:
-// - the profile matches qa-agents-profile.schema.json, and every path it names exists
-//   (except paths.coverageSummary, which a test run generates);
+// - the profile matches simpright.schema.json, and every path it names exists
+//   (except paths.coverageSummary, which a test run generates); a portal (parts.portal) needs runs, and its
+//   Bugs page needs paths.bugs;
+// - every run (runs) has exactly one caller of .github/workflows/playwright-run.yml, with the run's id as its
+//   family, and the caller matches the run: project, grep, paths, schedule, a manual start (workflow_dispatch),
+//   coverage publishing and the runs it keeps; an areaPicker run's area input offers all plus the folders of its
+//   project's tests; a run with a trend runs that layer, one run per layer, with a portal.healthThreshold for each;
+// - the reusable workflow declares exactly ci.secrets, its callers pass them by name, and every setup-node step
+//   uses ci.node;
 // - every bug file is <bugs>/<ID>.yml, parses, matches the bug schema, has its keys in the schema's order,
 //   an ID with the prefix and digits of ids.bugs, a layer and area from the profile, and a resolved date
 //   exactly when its status isn't open;
@@ -31,8 +39,8 @@ import Ajv from 'ajv';
 import { parse } from 'yaml';
 
 const ROOT = path.resolve(import.meta.dirname, '..');
-const PROFILE_FILE = 'qa-agents-profile.yml';
-const PROFILE_SCHEMA_FILE = 'qa-agents-profile.schema.json';
+const PROFILE_FILE = 'simpright.yml';
+const PROFILE_SCHEMA_FILE = 'simpright.schema.json';
 
 const FILE_KEY_ORDER = ['suite', 'tags', 'scenarios'];
 const SCENARIO_KEY_ORDER = ['id', 'name', 'ref', 'tags', 'status', 'automatedIn', 'role', 'knownIssue', 'bug', 'preconditions', 'steps'];
@@ -68,7 +76,7 @@ function testTagsOf(source: string): Map<string, string[]> {
   return tags;
 }
 
-/** The parts of qa-agents-profile.yml this script uses (the schema describes the whole file). */
+/** The parts of simpright.yml this script uses (the schema describes the whole file). */
 interface Profile {
   project: { conventions: string[] };
   paths: Record<string, string> & { scenarios: string; scenarioSchema: string; tests: string; bugs?: string; bugSchema?: string };
@@ -79,8 +87,48 @@ interface Profile {
     fileNames?: Record<string, string>;
   };
   roles: string[];
-  api: { exemplars: Record<string, string>; knownIssue: string };
+  api?: { exemplars: Record<string, string>; knownIssue: string };
   ui?: { exemplars: Record<string, string>; knownIssue: string };
+  parts?: { portal?: false | { testCases?: boolean; bugs?: boolean } };
+  ci?: { node: number; secrets: string[] };
+  runs?: Run[];
+  portal?: { healthThreshold?: Partial<Record<'ui' | 'api', number>> };
+}
+
+/** A test run (the profile's runs): one report family on GitHub Pages, run by one caller of the test workflow. */
+interface Run {
+  id: string;
+  project: 'ui' | 'api' | 'all';
+  schedule?: string;
+  grep?: string;
+  paths?: string;
+  areaPicker?: boolean;
+  keep?: number;
+  trend?: 'ui' | 'api';
+  publishCoverage?: boolean;
+}
+
+/** The parts of a GitHub Actions workflow the runs check reads. */
+interface Workflow {
+  on?: {
+    schedule?: { cron: string }[];
+    workflow_dispatch?: { inputs?: Record<string, WorkflowInput> } | null;
+    workflow_call?: { inputs?: Record<string, WorkflowInput>; secrets?: Record<string, unknown> } | null;
+  };
+  jobs?: Record<string, WorkflowJob>;
+}
+
+interface WorkflowInput {
+  type?: string;
+  default?: unknown;
+  options?: string[];
+}
+
+interface WorkflowJob {
+  uses?: string;
+  with?: Record<string, unknown>;
+  secrets?: unknown;
+  steps?: { uses?: string; with?: Record<string, unknown> }[];
 }
 
 interface Bug {
@@ -187,7 +235,7 @@ const profilePaths: [string, string][] = [
   ...Object.entries(paths)
     .filter(([key]) => key !== 'coverageSummary')
     .map(([key, file]): [string, string] => [`paths.${key}`, file]),
-  ...Object.entries(profile.api.exemplars).map(([key, file]): [string, string] => [`api.exemplars.${key}`, file]),
+  ...Object.entries(profile.api?.exemplars ?? {}).map(([key, file]): [string, string] => [`api.exemplars.${key}`, file]),
   ...Object.entries(profile.ui?.exemplars ?? {}).map(([key, file]): [string, string] => [`ui.exemplars.${key}`, file]),
 ];
 for (const [key, file] of profilePaths) {
@@ -208,7 +256,161 @@ for (const [layer, pattern] of Object.entries(ids.fileNames ?? {})) {
     fail(PROFILE_FILE, `ids.fileNames.${layer}: invalid regex (${(error as Error).message})`);
   }
 }
+if (profile.parts?.portal) {
+  if (!profile.runs) fail(PROFILE_FILE, 'parts.portal needs runs: the portal publishes the reports of the test runs');
+  if (profile.parts.portal.bugs && !paths.bugs) fail(PROFILE_FILE, 'parts.portal.bugs needs paths.bugs');
+}
 report();
+
+// --- Runs and workflows ---
+
+const WORKFLOWS_DIR = '.github/workflows';
+/** The reusable workflow that runs the tests and publishes the report; every run has one caller of it. */
+const TEST_WORKFLOW = `${WORKFLOWS_DIR}/playwright-run.yml`;
+/** Runs a family keeps on GitHub Pages when its entry has no keep (the schema's default). */
+const DEFAULT_KEEP = 10;
+/** A workflow expression such as ${{ inputs.grep }}: a value someone picks when they start the run. */
+const EXPRESSION = /^\$\{\{[\s\S]*\}\}$/;
+
+const sameItems = (a: string[], b: string[]) => [...a].sort().join('\n') === [...b].sort().join('\n');
+const listOf = (items: string[]) => items.join(', ') || 'none';
+
+/** The folders directly under `dir` (relative to the repo root), sorted. */
+function listFolders(dir: string): string[] {
+  if (!exists(dir)) return [];
+  return readdirSync(path.join(ROOT, dir), { withFileTypes: true })
+    .filter((entry) => entry.isDirectory())
+    .map((entry) => entry.name)
+    .sort();
+}
+
+/** Checks a caller of the test workflow (`job` in `workflow`) against its run. */
+function checkCaller(where: string, run: Run, workflow: Workflow, job: WorkflowJob, defaultKeep: unknown): void {
+  const settings = job.with ?? {};
+  const on = workflow.on ?? {};
+  // An empty grep or paths means none, as in playwright-run.yml.
+  const grep = settings.grep === '' ? undefined : settings.grep;
+  const specPaths = settings.paths === '' ? undefined : settings.paths;
+  if (settings.project !== run.project) fail(where, `project is ${String(settings.project)}, but the run's project is ${run.project}`);
+  if (run.grep !== undefined ? grep !== run.grep : grep !== undefined && !EXPRESSION.test(String(grep))) {
+    fail(where, run.grep !== undefined ? `grep must be '${run.grep}', the run's grep` : `grep is '${String(grep)}', but the run has none (only an input may set one)`);
+  }
+  if (Boolean(settings['publish-latest-coverage']) !== Boolean(run.publishCoverage)) {
+    fail(where, `publish-latest-coverage must be ${run.publishCoverage ? 'true (the run publishes its coverage)' : 'left out (the run has no publishCoverage)'}`);
+  }
+  const crons = (on.schedule ?? []).map((entry) => entry.cron);
+  if (!sameItems(crons, run.schedule ? [run.schedule] : [])) {
+    fail(where, `schedules ${listOf(crons.map((cron) => `'${cron}'`))}, but the run's schedule is ${run.schedule ? `'${run.schedule}'` : 'none'}`);
+  }
+  if (!('workflow_dispatch' in on)) fail(where, 'needs on: workflow_dispatch (every run can be started by hand)');
+
+  const inputs = on.workflow_dispatch?.inputs ?? {};
+  if (run.areaPicker) {
+    const testsDir = run.project === 'all' ? undefined : paths[`${run.project}Tests`];
+    const folders = testsDir ? listFolders(testsDir) : [];
+    const options = inputs.area?.type === 'choice' ? (inputs.area.options ?? []) : [];
+    if (options[0] !== 'all' || !sameItems(options.slice(1), folders)) {
+      fail(where, `the area input must be a choice of all, then the folders in ${testsDir ?? 'the tests'}: ${listOf(folders)} (found ${listOf(options)})`);
+    }
+    if (!String(specPaths ?? '').includes('inputs.area')) fail(where, 'paths must come from the area input');
+  } else {
+    if (inputs.area) fail(where, 'has an area input, but the run has no areaPicker');
+    if (specPaths !== run.paths) {
+      fail(where, run.paths ? `paths must be '${run.paths}', the run's paths` : `paths is '${String(specPaths)}', but the run has none`);
+    }
+  }
+
+  // No keep-runs: the reusable workflow's default; an expression: the default of the input it reads.
+  const keepSetting = settings['keep-runs'];
+  const keep =
+    keepSetting === undefined
+      ? defaultKeep
+      : typeof keepSetting === 'number'
+        ? keepSetting
+        : String(keepSetting).includes('inputs.keep-runs')
+          ? inputs['keep-runs']?.default
+          : undefined;
+  if (Number(keep) !== (run.keep ?? DEFAULT_KEEP)) {
+    fail(where, `keeps ${String(keep)} runs, but the run's keep is ${run.keep ?? DEFAULT_KEEP}`);
+  }
+
+  const secrets = profile?.ci?.secrets;
+  if (secrets && (typeof job.secrets !== 'object' || job.secrets === null || !sameItems(Object.keys(job.secrets), secrets))) {
+    fail(where, `must pass the secrets ${listOf(secrets)} by name (ci.secrets; never secrets: inherit)`);
+  }
+}
+
+const { runs } = profile;
+if (runs) {
+  const runsAt = `${PROFILE_FILE} runs`;
+  const workflows = new Map<string, Workflow>();
+  for (const file of listFiles(WORKFLOWS_DIR, ['.yml', '.yaml'])) {
+    try {
+      workflows.set(file, (parse(read(file)) ?? {}) as Workflow);
+    } catch (error) {
+      fail(file, `invalid YAML: ${(error as Error).message}`);
+    }
+  }
+
+  /** Layer → the run that feeds its trend. */
+  const trends = new Map<string, string>();
+  for (const [i, run] of runs.entries()) {
+    if (runs.findIndex((other) => other.id === run.id) !== i) fail(runsAt, `${run.id} is listed twice`);
+    if (run.areaPicker && run.project === 'all') fail(runsAt, `${run.id}: an areaPicker run needs project ui or api`);
+    if (run.areaPicker && run.paths) fail(runsAt, `${run.id}: an areaPicker run takes its paths from the area input, so it has no paths`);
+    if (!run.trend) continue;
+    if (run.trend !== run.project) fail(runsAt, `${run.id}: trend ${run.trend} needs project ${run.trend}`);
+    const other = trends.get(run.trend);
+    if (other) fail(runsAt, `${run.id} and ${other} both feed the ${run.trend} trend: one run per layer`);
+    trends.set(run.trend, run.id);
+  }
+  const thresholds = profile.portal?.healthThreshold;
+  if (thresholds && !sameItems(Object.keys(thresholds), [...trends.keys()])) {
+    fail(PROFILE_FILE, `portal.healthThreshold has ${listOf(Object.keys(thresholds))}, but the runs feed the trends of ${listOf([...trends.keys()])}`);
+  }
+
+  const call = workflows.get(TEST_WORKFLOW)?.on?.workflow_call;
+  if (!call) {
+    fail(PROFILE_FILE, `runs needs ${TEST_WORKFLOW}, a reusable workflow (on: workflow_call)`);
+  } else if (profile.ci && !sameItems(Object.keys(call.secrets ?? {}), profile.ci.secrets)) {
+    fail(TEST_WORKFLOW, `declares the secrets ${listOf(Object.keys(call.secrets ?? {}))}, but ci.secrets in ${PROFILE_FILE} lists ${listOf(profile.ci.secrets)}`);
+  }
+
+  /** Run ID → the workflow that runs it. */
+  const callers = new Map<string, string>();
+  for (const [file, workflow] of workflows) {
+    for (const [name, job] of Object.entries(workflow.jobs ?? {})) {
+      if (job.uses !== `./${TEST_WORKFLOW}`) continue;
+      const where = `${file} (job ${name})`;
+      const family = job.with?.family;
+      const run = runs.find((entry) => entry.id === family);
+      if (!run) {
+        fail(where, `publishes the family ${String(family)}, which has no entry in ${PROFILE_FILE} runs`);
+      } else if (callers.has(run.id)) {
+        fail(where, `runs ${run.id}, which ${callers.get(run.id)} runs too: one workflow per run`);
+      } else {
+        callers.set(run.id, file);
+        checkCaller(where, run, workflow, job, call?.inputs?.['keep-runs']?.default);
+      }
+    }
+  }
+  for (const run of runs) {
+    if (!callers.has(run.id)) fail(runsAt, `${run.id}: no workflow calls ${TEST_WORKFLOW} with family ${run.id}`);
+  }
+
+  if (profile.ci) {
+    for (const [file, workflow] of workflows) {
+      for (const job of Object.values(workflow.jobs ?? {})) {
+        for (const step of job.steps ?? []) {
+          const version = step.with?.['node-version'];
+          if (step.uses?.startsWith('actions/setup-node@') && String(version) !== String(profile.ci.node)) {
+            fail(file, `sets up Node ${String(version)}, but ci.node in ${PROFILE_FILE} is ${profile.ci.node}`);
+          }
+        }
+      }
+    }
+  }
+}
 
 // --- Bugs ---
 
@@ -418,4 +620,5 @@ if (ids.bugs) {
   console.log(`Bugs OK: ${bugs.size} bug(s), ${open} open, ${unlinked} without a scenario.`);
   nextIds.push(`${ids.bugs.prefix}-${String(highestBugNumber + 1).padStart(ids.bugs.digits, '0')}`);
 }
+if (runs) console.log(`Runs OK: ${runs.length} run(s), each with its workflow.`);
 console.log(`Next free IDs: ${nextIds.join(', ')}`);

@@ -16,7 +16,7 @@ Before the first question, read `../_shared/how-to-ask.md` (next to this skill's
 
 ## 1. Settle the brief
 
-- **Profile:** `qa-agents-profile.yml` in the repository root. If there's none, or it has no `paths.bugs`, stop: the agent needs both.
+- **Profile:** `simpright.yml` in the repository root. If there's none, or it has no `paths.bugs`, stop: the agent needs both.
 - **Mode and input**, from the argument:
   - `import <contract>` (a file in `paths.contracts`, or `all`): **import**.
   - `recheck <bug IDs>` or `recheck open`: **recheck**. The portal's Bugs page flags bugs to re-check; `/heal-tests` reports "unexpectedly passed" known-issue tests.
@@ -30,7 +30,7 @@ Before the first question, read `../_shared/how-to-ask.md` (next to this skill's
 Start the `bug-reporter` subagent with a brief that stands on its own (it can't see this conversation):
 
 ```
-Profile: <absolute path of qa-agents-profile.yml>
+Profile: <absolute path of simpright.yml>
 Mode: <report | import | recheck>
 Input: <the IDs, spec, file path, or the pasted description verbatim>
 Phase: draft

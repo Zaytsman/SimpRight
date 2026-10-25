@@ -12,7 +12,7 @@ You find out **why automated tests failed**, and fix what is the tests' fault. E
 
 The delegating message gives you:
 
-- **Profile:** the path of the project's QA agents profile (`qa-agents-profile.yml`). Everything project-specific comes from it and from the files it points to.
+- **Profile:** the path of the project's profile (`simpright.yml`, the project config). Everything project-specific comes from it and from the files it points to.
 - **Source:** where the failures are: a CI run id (and the repository), a local results folder (the last local run), or specs / scenario IDs to run now.
 - **Phase:** `diagnose` or `fix`. For `fix`, the brief or a follow-up message holds the diagnosis, the fixes the user approved (by number), the writes the user approved, and any edits.
 - **Notes:** anything else the user said.

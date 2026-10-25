@@ -16,7 +16,7 @@ Before the first question, read `../_shared/how-to-ask.md` (next to this skill's
 
 ## 1. Settle the brief
 
-- **Profile:** `qa-agents-profile.yml` in the repository root. If there's none, stop: the agent needs one (the contract folder, the format specification, the commands and the live-API guardrails).
+- **Profile:** `simpright.yml` in the repository root. If there's none, stop: the agent needs one (the contract folder, the format specification, the commands and the live-API guardrails).
 
 Work out each other item from the arguments, the conversation and the project. Look before asking.
 
@@ -42,7 +42,7 @@ Also check that the contract commands can run (`npx --no-install playwright-api-
 Start the `api-contract-writer` subagent with a brief that stands on its own (it can't see this conversation):
 
 ```
-Profile: <absolute path of qa-agents-profile.yml>
+Profile: <absolute path of simpright.yml>
 Mode: <create | update>
 Inputs: source <absolute path or "none">; spec <path or URL or "none">
 Areas: <list or "all">

@@ -62,13 +62,14 @@ Bug files are published (the Bugs page), so they never hold secret values.
 
 ## The project profile
 
-[`qa-agents-profile.yml`](../../qa-agents-profile.yml) (schema: [`qa-agents-profile.schema.json`](../../qa-agents-profile.schema.json)) holds the project facts that the agents and scripts read: paths, commands (`runSpec`, `inspectUi`, ...), ID prefixes and digits, the area folders, file-name patterns, roles, the exemplar files per layer, the known-issue snippet, agent-critical rules, and live-app guardrails (`liveApi.writes: ask`, the dangerous actions, the app's known transient problems). It points to `CLAUDE.md` for conventions instead of repeating them. More in [12](12-ai-agents.md).
+[`simpright.yml`](../../simpright.yml) (schema: [`simpright.schema.json`](../../simpright.schema.json)) is the project config that the agents and scripts read; tests never read it (their config is `src/envs/<ENV>.json` and `.env`, [2](02-configuration.md)). It holds paths, commands (`runSpec`, `inspectUi`, ...), ID prefixes and digits, the area folders, file-name patterns, roles, the exemplar files per layer (the `api` and `ui` sections, each optional), the known-issue snippet, agent-critical rules, and live-app guardrails (`liveApi.writes: ask`, the dangerous actions, the app's known transient problems). Four sections describe the framework's parts: `parts` (the optional parts in use), `ci` (the workflows' Node version and secret names), `runs` (one entry per test run, [11](11-ci-and-publishing.md#the-runs-in-simprightyml)) and `portal` (the portal's text and health thresholds; the pages still have their own copy). It points to `CLAUDE.md` for conventions instead of repeating them. More in [12](12-ai-agents.md).
 
 ## The validator: `npm run validate:scenarios`
 
 [`scripts/validate-scenarios.mts`](../../scripts/validate-scenarios.mts) is static: it reads files and runs no tests. It runs locally, in the PR check (`verify`) and before every Test Cases publish. It checks that:
 
 - the profile matches its schema, and every path it names exists;
+- every run in `runs` matches its caller of `playwright-run.yml`, an area picker's options are the test folders, and the secrets and Node version match `ci` ([11](11-ci-and-publishing.md#the-runs-in-simprightyml));
 - every bug file is `bugs/<ID>.yml`, matches the bug schema, keeps the key order, and has a `resolved` date exactly when it isn't open;
 - every scenario file is in `<layer>/<area>/` with a valid file name, matches the schema, and keeps the key order;
 - IDs are unique and well-formed; roles are known; a `knownIssue` comes with an open bug, and a bug with a `knownIssue`;
@@ -76,7 +77,7 @@ Bug files are published (the Bugs page), so they never hold secret values.
 - `automatedIn` exists and is named after the scenario file, and the spec has the `// Scenarios:` comment, the describe `'<tags> - <suite>'`, a test titled `'<ID>: <name>'` verbatim, and the known-issue line with the right bug and text;
 - every test in `tests/` has an ID with a scenario automated in that spec.
 
-It ends with the counts and the next free IDs: `Next free IDs: UI-099, API-0672, BUG-052`.
+It ends with the counts (`Runs OK: 5 run(s), each with its workflow.`) and the next free IDs: `Next free IDs: UI-099, API-0672, BUG-052`.
 
 **It finds titles as literal `test('<ID>: <name>'` calls**, which is why tests are never generated in a loop and templates are called from one `test()` per scenario ([5](05-api-specs.md#templates-tests-that-differ-only-in-data)).
 

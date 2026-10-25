@@ -16,7 +16,7 @@ Before the first question, read `../_shared/how-to-ask.md` (next to this skill's
 
 ## 1. Settle the source
 
-- **Profile:** `qa-agents-profile.yml` in the repository root. If there's none, stop: the agent needs one.
+- **Profile:** `simpright.yml` in the repository root. If there's none, stop: the agent needs one.
 - **Source**, from the argument:
   - **A CI run id** (a long number) or a run URL: that run.
   - **A PR number** (`PR 22`, `#22`): its latest failed check run (`gh pr checks <n>`, then the run id of the failed check).
@@ -30,7 +30,7 @@ Before the first question, read `../_shared/how-to-ask.md` (next to this skill's
 Start the `test-healer` subagent with a brief that stands on its own (it can't see this conversation):
 
 ```
-Profile: <absolute path of qa-agents-profile.yml>
+Profile: <absolute path of simpright.yml>
 Source: <CI run <id> in <owner/repo> | local results <absolute path of test-results> | run: <specs or IDs>>
 Phase: diagnose
 Writes approved for re-runs: <IDs or specs the user approved before, or "none">

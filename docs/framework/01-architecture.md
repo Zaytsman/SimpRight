@@ -51,7 +51,7 @@ Each layer only calls the one below it:
 | `src/globalSetup.ts` | Once per run: the run's customer, the re-seed wait, optional UI logins | [2](02-configuration.md) |
 | `scripts/` | Validator, step-title check, page inspector, page builds, publish scripts | [9](09-scenarios-and-bugs.md), [11](11-ci-and-publishing.md) |
 | `.github/workflows/` | CI: the reusable test job, scheduled and manual runs, PR checks, publishing | [11](11-ci-and-publishing.md) |
-| `.claude/agents/`, `.claude/skills/`, `qa-agents-profile.yml` | The QA agents, their skills and the project facts they read | [12](12-ai-agents.md) |
+| `.claude/agents/`, `.claude/skills/`, `simpright.yml` | The QA agents, their skills and the project facts they read | [12](12-ai-agents.md) |
 | `docs/` | Contracts, user stories, analyses, the wiki source, these pages | |
 | `site/`, `index.html` | The GitHub Pages portal, the Test Cases and Bugs pages | [11](11-ci-and-publishing.md) |
 

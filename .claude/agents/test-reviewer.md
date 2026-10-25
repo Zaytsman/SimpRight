@@ -14,7 +14,7 @@ You don't fix anything. You read, run the static checks, and report.
 
 The delegating message gives you:
 
-- **Profile:** the path of the project's QA agents profile (`qa-agents-profile.yml`). Everything project-specific comes from it and from the files it points to.
+- **Profile:** the path of the project's profile (`simpright.yml`, the project config). Everything project-specific comes from it and from the files it points to.
 - **Change:** what to review: a git range (`origin/develop..HEAD`, `055e6d4^..055e6d4`), `working tree` (uncommitted changes), both, or `files` (whole files, no diff).
 - **Files:** the files in scope, with their layer (`ui`, `api` or `shared`).
 - **Checklists:** paths of the checklist files: `common.md` always, plus `ui.md` and/or `api.md` for the layers in scope.

@@ -1,10 +1,10 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "qa-agents-profile.schema.json",
-  "title": "QA agents profile",
-  "description": "Project facts for the QA agents and scripts: paths, commands, ID rules, roles, API and UI exemplar files and rules, and live app guardrails.",
+  "$id": "simpright.schema.json",
+  "title": "SimpRight project config",
+  "description": "The project's toolchain config, read by the QA agents and the scripts (never by tests): paths, commands, ID rules, roles, API and UI exemplar files and rules, live app guardrails, the parts in use, CI facts, the test runs and the portal's text.",
   "type": "object",
-  "required": ["project", "paths", "commands", "ids", "roles", "api", "liveApi"],
+  "required": ["project", "paths", "commands", "ids", "roles", "liveApi"],
   "additionalProperties": false,
   "definitions": {
     "path": { "type": "string", "minLength": 1, "pattern": "^[^/\\\\]", "description": "Relative to the repo root." },
@@ -28,7 +28,7 @@
     },
     "paths": {
       "type": "object",
-      "required": ["scenarios", "scenarioSchema", "contracts", "tests", "apiTests"],
+      "required": ["scenarios", "scenarioSchema", "tests"],
       "additionalProperties": false,
       "properties": {
         "scenarios": { "$ref": "#/definitions/path", "description": "Scenario folder: <layer>/<area>/<name>.yml." },
@@ -148,6 +148,7 @@
     },
     "api": {
       "type": "object",
+      "description": "Optional: only projects with API tests have it.",
       "required": ["exemplars", "knownIssue", "rules"],
       "additionalProperties": false,
       "properties": {
@@ -239,6 +240,113 @@
           "type": "array",
           "description": "Known ways the live app misbehaves for a while (re-seeds, caches, slow periods, data other visitors change), so failures can be told apart from bugs.",
           "items": { "type": "string", "minLength": 1 }
+        }
+      }
+    },
+    "parts": {
+      "type": "object",
+      "description": "The framework's optional parts and whether this project uses them.",
+      "additionalProperties": false,
+      "properties": {
+        "scenarios": { "type": "boolean", "description": "Scenario and bug files, checked by the scenario validator." },
+        "inspector": { "type": "boolean", "description": "The read-only page inspector (commands.inspectUi)." },
+        "agents": { "type": "boolean", "description": "The QA agents and their skills." },
+        "coverage": {
+          "description": "The optional API coverage reporter, or false.",
+          "oneOf": [
+            { "const": false },
+            {
+              "type": "object",
+              "required": ["package"],
+              "additionalProperties": false,
+              "properties": {
+                "package": { "type": "string", "minLength": 1, "description": "The npm package the coverage loader looks for." },
+                "registry": { "type": "string", "pattern": "^https://", "description": "Its registry, when it isn't the public npm registry." }
+              }
+            }
+          ]
+        },
+        "portal": {
+          "description": "The Automation Portal on GitHub Pages and the pages it has, or false.",
+          "oneOf": [
+            { "const": false },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "testCases": { "type": "boolean", "description": "The Test Cases pages, built from the scenarios." },
+                "bugs": { "type": "boolean", "description": "The Bugs page, built from the bug files." }
+              }
+            }
+          ]
+        },
+        "wiki": { "type": "boolean", "description": "docs/wiki published to the repository's GitHub wiki." }
+      }
+    },
+    "ci": {
+      "type": "object",
+      "description": "Facts about the GitHub Actions workflows; the scenario validator checks them against .github/workflows/.",
+      "required": ["node", "secrets"],
+      "additionalProperties": false,
+      "properties": {
+        "branches": {
+          "type": "object",
+          "required": ["default"],
+          "additionalProperties": false,
+          "properties": {
+            "default": { "type": "string", "minLength": 1, "description": "The protected branch: scheduled runs, publishing." },
+            "work": { "type": "string", "minLength": 1, "description": "The branch work happens on, when it isn't the default one." }
+          }
+        },
+        "node": { "type": "integer", "minimum": 18, "description": "The Node.js major version every actions/setup-node step uses." },
+        "secrets": {
+          "type": "array",
+          "description": "Names of the repository secrets the tests read, never their values. The reusable test workflow declares exactly these, and its callers pass them by name.",
+          "items": { "type": "string", "pattern": "^[A-Z][A-Z0-9_]*$" },
+          "uniqueItems": true
+        }
+      }
+    },
+    "runs": {
+      "type": "array",
+      "description": "The test runs: one report family on GitHub Pages each, run by one caller of .github/workflows/playwright-run.yml. The scenario validator checks every caller against its entry.",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["id", "label", "project"],
+        "additionalProperties": false,
+        "properties": {
+          "id": { "type": "string", "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$", "description": "The report family: its folder on GitHub Pages and its workflow's family input." },
+          "label": { "type": "string", "minLength": 1, "description": "The name the portal shows." },
+          "note": { "type": "string", "minLength": 1, "description": "The line under the label in the portal's side panel." },
+          "project": { "enum": ["ui", "api", "all"], "description": "The Playwright project, or all for both in one run." },
+          "schedule": { "type": "string", "pattern": "^\\S+( \\S+){4}$", "description": "A cron in UTC. Without one, the run is started by hand only; every run can be." },
+          "grep": { "type": "string", "minLength": 1, "description": "Runs only the tests whose title or tags match, such as @smoke." },
+          "paths": { "type": "string", "minLength": 1, "description": "Space-separated spec folders or files the run is limited to, such as tests/ui/products/." },
+          "areaPicker": { "type": "boolean", "description": "A manual run with an area input: all, or one folder of the project's tests (instead of paths)." },
+          "keep": { "type": "integer", "minimum": 1, "default": 10, "description": "How many runs of the family stay on GitHub Pages." },
+          "trend": { "enum": ["ui", "api"], "description": "The layer whose health card, trends, known issues and Bugs page status this run feeds; one run per layer." },
+          "publishCoverage": { "type": "boolean", "description": "Publishes the run's API coverage as the latest coverage report." }
+        }
+      }
+    },
+    "portal": {
+      "type": "object",
+      "description": "The Automation Portal's text and health thresholds.",
+      "required": ["title"],
+      "additionalProperties": false,
+      "properties": {
+        "title": { "type": "string", "minLength": 1, "description": "The brand name on the portal pages and in their titles." },
+        "tagline": { "type": "string", "minLength": 1, "description": "The line under the brand name." },
+        "description": { "type": "string", "minLength": 1, "description": "The sentence at the bottom of the side panel." },
+        "healthThreshold": {
+          "type": "object",
+          "description": "Layer -> failure rate in percent below which its latest regression counts as healthy; one per run with a trend.",
+          "additionalProperties": false,
+          "properties": {
+            "ui": { "type": "number", "minimum": 0, "maximum": 100 },
+            "api": { "type": "number", "minimum": 0, "maximum": 100 }
+          }
         }
       }
     }

@@ -35,7 +35,7 @@
         "id": {
           "type": "string",
           "pattern": "^[A-Z]+-\\d+$",
-          "description": "Unique scenario ID: <PREFIX>-<number>, numbered across the layer, with the prefix and digits from qa-agents-profile.yml (ids.layers), e.g. API-0001 or UI-001. The test title starts with it."
+          "description": "Unique scenario ID: <PREFIX>-<number>, numbered across the layer, with the prefix and digits from simpright.yml (ids.layers), e.g. API-0001 or UI-001. The test title starts with it."
         },
         "name": {
           "type": "string",

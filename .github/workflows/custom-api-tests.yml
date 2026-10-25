@@ -8,7 +8,7 @@ on:
         required: true
         default: 'all'
         type: choice
-        # Keep in sync with the folders in tests/api.
+        # The folders in tests/api: validate:scenarios checks them (the custom-api run in simpright.yml).
         options:
           - all
           - products

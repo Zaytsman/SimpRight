@@ -64,7 +64,7 @@ SimpRight/
 │   └── dependabot.yml            weekly dependency updates
 ├── index.html                    the Automation Portal (dashboard on GitHub Pages)
 ├── playwright.config.ts          projects, reporters, timeouts, login mode
-├── qa-agents-profile.yml         project facts for the agents and scripts (paths, commands, IDs, roles)
+├── simpright.yml                 the project config for the agents and scripts (paths, commands, IDs, roles, test runs)
 ├── CLAUDE.md                     the conventions in detail
 ├── .env.example                  the secrets the framework needs (copy to .env)
 ├── .npmrc / .npmrc.example       registry of the optional coverage package / the user-level token line
@@ -133,13 +133,14 @@ Defined in `tsconfig.json` and resolved by Playwright, so imports don't climb fo
 | A seeded value several tests use | `src/data/TestConstants.ts` | |
 | An environment | `src/envs/<NAME>.json` | Run with `TEST_ENV=<NAME>` |
 | A secret | `.env` and `.env.example` (empty value) | A `${VAR}` placeholder in the environment JSON; a GitHub secret for CI |
-| A test area folder | `tests/<layer>/<area>/` and `test-scenarios/<layer>/<area>/` | Add it to `ids.areas` in `qa-agents-profile.yml` and to the area options of the custom workflow |
+| A test area folder | `tests/<layer>/<area>/` and `test-scenarios/<layer>/<area>/` | Add it to `ids.areas` in `simpright.yml` and to the area options of the custom workflow; `npm run validate:scenarios` checks both |
+| A test run (a report family) | A caller of `playwright-run.yml` in `.github/workflows/` | An entry in the `runs` list of `simpright.yml` with the caller's `family` as its `id` ([Scheduled Runs](Scheduled-Runs#add-a-new-scheduled-run)) |
 
 ## Scripts
 
 | Script | Run by | What it does |
 |---|---|---|
-| `validate-scenarios.mts` | `npm run validate:scenarios`, CI | Checks the profile, the scenario files, their IDs and that specs match them |
+| `validate-scenarios.mts` | `npm run validate:scenarios`, CI | Checks the profile, the scenario files, their IDs, that specs match them and that the runs match their workflows |
 | `inspect-ui.mts` | `npm run inspect:ui` | Starts the page inspector |
 | `build-test-cases.mts` | `npm run test-cases:build`, CI | Builds the UI and API Test Cases pages from the scenarios |
 | `build-bugs.mts` | `npm run bugs:build`, CI | Builds the Bugs page from `bugs/` and the scenarios that name them |

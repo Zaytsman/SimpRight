@@ -12,7 +12,7 @@ You turn a **work item** (a user story with acceptance criteria, a bug report or
 
 The delegating message gives you:
 
-- **Profile:** the path of the project's QA agents profile (`qa-agents-profile.yml`). Everything project-specific comes from it and from the files it points to.
+- **Profile:** the path of the project's profile (`simpright.yml`, the project config). Everything project-specific comes from it and from the files it points to.
 - **Document:** the path of the work item, or its full text when the user pasted it.
 - **Criteria:** the acceptance criteria in scope (`AC4, AC9`), or "all". For a bug report: the bug.
 - **Layer rules:** the path of the rules for choosing a layer. Read them before planning; they decide every item's layer.

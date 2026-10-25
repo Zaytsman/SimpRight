@@ -27,7 +27,7 @@ on:
     - cron: '15 2 * * 1-5'
 ```
 
-To change the time or the days, edit the line in `run-api-tests.yml` or `run-ui-tests.yml` and merge the change into `main`.
+To change the time or the days, edit the line in `run-api-tests.yml` or `run-ui-tests.yml` and the run's `schedule` in [`simpright.yml`](https://github.com/Zaytsman/SimpRight/blob/main/simpright.yml) (the `runs` list), then merge the change into `main`. `npm run validate:scenarios`, and with it the PR check, fails while the two differ.
 
 ### Cron syntax
 
@@ -64,40 +64,52 @@ A workflow can have several `- cron:` lines; it runs at each of them. [crontab.g
 
 ## Add a new scheduled run
 
-Add a workflow file that calls `playwright-run.yml`. For example, the products UI area every weekday at 12:15 UTC, `.github/workflows/products-ui-midday.yml`:
+A run is two things that must agree: an entry in the `runs` list of [`simpright.yml`](https://github.com/Zaytsman/SimpRight/blob/main/simpright.yml), and a workflow file that calls `playwright-run.yml` with the entry's `id` as its `family`. `npm run validate:scenarios` checks one against the other ([CI and Publishing](CI-and-Publishing#the-runs-in-simprightyml) lists the fields). For example, the products UI area every weekday at 12:15 UTC:
 
-```yaml
-name: Products UI Midday Run
+1. The entry, added to `runs` in `simpright.yml`:
 
-on:
-  workflow_dispatch:
-  schedule:
-    - cron: '15 12 * * 1-5'
+   ```yaml
+     - id: products-ui-midday
+       label: Products UI midday
+       project: ui
+       schedule: '15 12 * * 1-5'
+       paths: tests/ui/products/
+   ```
 
-permissions:
-  contents: write # push the report to gh-pages
-  packages: read  # install the optional coverage package
+2. The workflow, `.github/workflows/products-ui-midday.yml`:
 
-jobs:
-  ui-tests:
-    uses: ./.github/workflows/playwright-run.yml
-    secrets:
-      ADMIN_USER: ${{ secrets.ADMIN_USER }}
-      ADMIN_PASSWORD: ${{ secrets.ADMIN_PASSWORD }}
-    with:
-      project: ui               # ui or api
-      family: custom-ui         # where the report is published
-      paths: tests/ui/products/ # spec folders or files; empty = the whole project
-      grep: ''                  # optional title filter
-```
+   ```yaml
+   name: Products UI Midday Run
+
+   on:
+     workflow_dispatch:
+     schedule:
+       - cron: '15 12 * * 1-5'
+
+   permissions:
+     contents: write # push the report to gh-pages
+     packages: read  # install the optional coverage package
+
+   jobs:
+     ui-tests:
+       uses: ./.github/workflows/playwright-run.yml
+       secrets:
+         ADMIN_USER: ${{ secrets.ADMIN_USER }}
+         ADMIN_PASSWORD: ${{ secrets.ADMIN_PASSWORD }}
+       with:
+         project: ui                  # ui, api or all, as in the entry
+         family: products-ui-midday   # the entry's id: where the report is published
+         paths: tests/ui/products/    # the entry's paths; leave it out for the whole project
+   ```
 
 | Input | Required | Meaning |
 |---|---|---|
 | `project` | yes | The Playwright project: `ui`, `api`, or `all` (both in one run) |
-| `family` | yes | The report family, the folder on GitHub Pages. The portal shows `daily-ui-regression`, `daily-api-regression`, `smoke`, `custom-ui` and `custom-api`; a new name is published too, but the portal doesn't list it |
-| `paths` | no | Space-separated spec folders or files |
-| `grep` | no | Only tests whose title matches |
-| `publish-latest-coverage` | no | `true` only for the full API regression: its coverage becomes the portal's API Coverage |
+| `family` | yes | The report family, the folder on GitHub Pages: the `id` of the run's entry, one workflow per family. The portal shows `daily-ui-regression`, `daily-api-regression`, `smoke`, `custom-ui` and `custom-api`; a new family is published too, but the portal doesn't list it |
+| `paths` | no | Space-separated spec folders or files: the entry's `paths` |
+| `grep` | no | Only tests whose title matches: the entry's `grep`, or an input of a run started by hand |
+| `publish-latest-coverage` | no | `true` only for the full API regression (its entry has `publishCoverage: true`): its coverage becomes the portal's API Coverage |
+| `keep-runs` | no | How many runs of the family stay on GitHub Pages: the entry's `keep`, 10 by default |
 
 Both permissions are needed in the calling file: a called workflow can't have more permissions than its caller. The two secrets are passed by name: `playwright-run.yml` declares them, and no other secret reaches the test job.
 

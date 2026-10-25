@@ -45,7 +45,25 @@ Every input reaches a `run:` script through `env:`, never as `${{ }}` pasted int
 | `custom-api-tests.yml` / `custom-ui-tests.yml` | by hand: an area (a folder of `tests/<layer>/`), an optional `--grep` and `keep-runs` | one area or all | `custom-api` / `custom-ui` |
 | `smoke-tests.yml` | by hand | both projects, `--grep @smoke` | `smoke` |
 
-Each caller declares `contents: write` (push to gh-pages) and `packages: read` (the coverage package), because a called workflow can't have more permissions than its caller. Schedules run at :15, never on the full hour: the site re-seeds at :00, and GitHub's schedule queue is busiest then. A new test folder needs an entry in the matching custom workflow's `area` options.
+Each caller declares `contents: write` (push to gh-pages) and `packages: read` (the coverage package), because a called workflow can't have more permissions than its caller. Schedules run at :15, never on the full hour: the site re-seeds at :00, and GitHub's schedule queue is busiest then. A new test folder needs an entry in the matching custom workflow's `area` options (checked, see below).
+
+### The runs in `simpright.yml`
+
+Each caller has an entry in the `runs` list of [`simpright.yml`](https://github.com/Zaytsman/SimpRight/blob/main/simpright.yml), and the entry's `id` is the caller's `family`. `npm run validate:scenarios` checks every caller against its entry, so a new or changed run changes both:
+
+| Field | Meaning | Checked against the caller |
+|---|---|---|
+| `id` | The report family: its folder on GitHub Pages | `family`, one workflow per family |
+| `label`, `note` | What the portal shows | Not checked: the portal pages still have their own copy |
+| `project` | `ui`, `api` or `all` | `project` |
+| `schedule` | A cron in UTC; without one, the run starts by hand only | `on.schedule`; every caller also has `workflow_dispatch` |
+| `grep`, `paths` | Narrow the run | `grep`, `paths`; without them in the entry, only an input (`${{ inputs.grep }}`) may set one |
+| `areaPicker` | A manual run with an area input | The `area` options: `all`, then the folders of the project's tests |
+| `keep` | Runs kept on Pages (default 10) | `keep-runs`, or the default of the input it reads |
+| `trend` | The layer whose status, trends, known issues and Bugs page this run feeds | One run per layer, each with a `portal.healthThreshold` |
+| `publishCoverage` | Publishes the run's coverage as the portal's API Coverage | `publish-latest-coverage` |
+
+The validator also checks that `playwright-run.yml` declares exactly the secrets named in `ci.secrets`, that every caller passes them by name, and that every `actions/setup-node` step uses `ci.node`.
 
 ## Pull requests: `pr-checks.yml`
 

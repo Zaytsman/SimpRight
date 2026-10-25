@@ -16,7 +16,7 @@ Before the first question, read `../_shared/how-to-ask.md` (next to this skill's
 
 ## 1. Settle the brief
 
-- **Profile:** `qa-agents-profile.yml` in the repository root. If there's none, stop: the agent needs one.
+- **Profile:** `simpright.yml` in the repository root. If there's none, stop: the agent needs one.
 - **Scenarios:** from the arguments, resolved against the API scenario folder (`<paths.scenarios>/api/`):
   - IDs (`API-0020 API-0021`, or a range `API-0020..0022`);
   - a scenario file: a path as given, or a file name (with or without `.yml`, any letter case) found in the area folders;
@@ -32,7 +32,7 @@ Before the first question, read `../_shared/how-to-ask.md` (next to this skill's
 Start the `api-test-engineer` subagent with a brief that stands on its own (it can't see this conversation):
 
 ```
-Profile: <absolute path of qa-agents-profile.yml>
+Profile: <absolute path of simpright.yml>
 Scenarios: <IDs or files, as absolute paths where they're files>
 Phase: plan
 Notes: <or "none">

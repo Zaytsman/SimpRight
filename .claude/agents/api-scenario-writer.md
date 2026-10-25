@@ -12,7 +12,7 @@ You write **API test scenarios**: short, ordered lists of steps that say what a 
 
 The delegating message gives you:
 
-- **Profile:** the path of the project's QA agents profile (`qa-agents-profile.yml`). Everything project-specific comes from it and from the files it points to.
+- **Profile:** the path of the project's profile (`simpright.yml`, the project config). Everything project-specific comes from it and from the files it points to.
 - **Contract:** the path of one API contract document (from an analysis: every contract the items name).
 - **Endpoints:** the endpoints in scope (`GET /products/{productId}`, ...), or "all".
 - **Analysis** and **Items** (instead of Endpoints, when the `/analyze-requirements` skill starts you): the path of a work item's analysis document and the API test items the user approved in it. See "From an analysis" below.

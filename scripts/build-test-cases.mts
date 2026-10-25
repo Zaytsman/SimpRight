@@ -1,7 +1,7 @@
 // Builds the Test Cases pages: one page per scenario layer (UI, API) for the GitHub Pages portal.
 // Run with `npm run test-cases:build [-- <output dir>]` (default: test-results/test-cases).
 //
-// For each layer in qa-agents-profile.yml it writes <output dir>/<layer>/index.html (a copy of
+// For each layer in simpright.yml it writes <output dir>/<layer>/index.html (a copy of
 // site/test-cases/index.html) and <output dir>/<layer>/scenarios-data.js, which sets
 // window.SCENARIO_CATALOG: the folder tree (area -> file -> scenario IDs), counts, and every scenario
 // with its steps, raw YAML and the line of its test in the spec. The data is a script, not JSON, so the
@@ -112,7 +112,7 @@ function specLine(spec: string | undefined, id: string): number | undefined {
   return index >= 0 ? index + 1 : undefined;
 }
 
-const profile = parse(read('qa-agents-profile.yml')) as Profile;
+const profile = parse(read('simpright.yml')) as Profile;
 const scenariosDir = profile.paths.scenarios;
 const generatedAt = new Date().toISOString();
 const sha = commit();

@@ -8,7 +8,7 @@ on:
         required: true
         default: 'all'
         type: choice
-        # Keep in sync with the folders in tests/ui.
+        # The folders in tests/ui: validate:scenarios checks them (the custom-ui run in simpright.yml).
         options:
           - all
           - cart

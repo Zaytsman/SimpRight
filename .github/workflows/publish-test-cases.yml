@@ -19,7 +19,7 @@ on:
       - 'scripts/build-run-summaries.mts'
       - 'scripts/publish-test-cases.sh'
       - 'scripts/gh-pages-lib.sh'
-      - 'qa-agents-profile.yml'
+      - 'simpright.yml'
       - 'index.html'
       - '.github/workflows/publish-test-cases.yml'
   workflow_dispatch:

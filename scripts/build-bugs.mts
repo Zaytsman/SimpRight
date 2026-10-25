@@ -93,10 +93,10 @@ function specLine(spec: string | undefined, id: string): number | undefined {
   return index >= 0 ? index + 1 : undefined;
 }
 
-const profile = parse(read('qa-agents-profile.yml')) as Profile;
+const profile = parse(read('simpright.yml')) as Profile;
 const bugsDir = profile.paths.bugs;
 if (!bugsDir || !profile.ids.bugs) {
-  console.log('No paths.bugs in qa-agents-profile.yml: no Bugs page to build.');
+  console.log('No paths.bugs in simpright.yml: no Bugs page to build.');
   process.exit(0);
 }
 
