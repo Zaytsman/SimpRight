@@ -58,6 +58,8 @@ Only the scheduled regressions (`daily-*` families) feed the charts and the stat
 
 A table of every test that carries a **known issue**, with its area (the spec's suite), the test name, its **bug** and the issue text. It's built from the annotations in the latest UI and API regression results: any annotation whose description contains `Known issue`, which is what `test.fail(true, 'Known issue BUG-001: ...')` adds. The bug ID links to the bug on the [Bugs Page](Bugs-Page) (results from before bug IDs show `-`). When the bug is fixed and the `knownIssue` is removed from the scenario and the test, the row disappears after the next regression run.
 
+The table is **collapsed** to its first 3 rows; **Show all N known issues** below it expands the whole list, and **Show only the first 3** collapses it again.
+
 ### Test Runs History
 
 The latest 10 runs of each family (UI Regression, API Regression, Smoke, Custom UI, Custom API), each linking to its full Playwright report. The site keeps the latest 10 runs per family by default (the workflows' `keep-runs` setting); older ones are pruned.
@@ -87,6 +89,7 @@ Common changes:
 |---|---|
 | The health thresholds | `HEALTHY_FAILURE_RATE = { ui: 2, api: 1 }` |
 | How many runs the charts and the history show | The `limit` arguments of `toSeries` and `renderHistoryList` (default 10) |
+| How many known issues the collapsed table shows | `KNOWN_ISSUES_PREVIEW` (3) |
 | A new report family in the history or Latest Reports | A new `<details>` block and an entry in `HISTORY_LISTS`; a link in the side panel |
 
 The number of runs kept on the site is set separately, by the `keep-runs` input of `playwright-run.yml` (10 by default; the custom workflows ask for it).
