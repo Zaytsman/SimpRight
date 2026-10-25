@@ -559,8 +559,13 @@
     @media (max-width: 768px) {
       .content { padding: 1rem; }
       .card-grid,
-      .grid-stats {
+      .grid-stats,
+      .chart-grid {
         grid-template-columns: 1fr;
+      }
+      /* Four tiles in a row leave each label ("Latest Run - Passed") narrower than its longest word. */
+      .stats-row {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
       }
       .hero,
       .panel,
