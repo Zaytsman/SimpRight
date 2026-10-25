@@ -190,10 +190,11 @@ runs:
     project: api
     areaPicker: true
 
-# The Automation Portal's text. The pages don't read it yet: until they do, index.html and the
-# Test Cases and Bugs pages keep their own copy.
+# The Automation Portal's text. index.html reads it, with the runs above, from portal.json
+# (scripts/build-portal-config.mts, written on every publish); the Test Cases and Bugs pages from their data files.
 portal:
   title: SimpRight
+  titleAccent: Right                        # the end of the title in the accent color
   tagline: Automation Framework
   description: Automated UI and API tests for the Toolshop (practicesoftwaretesting.com), built with TypeScript and Playwright.
   healthThreshold: { ui: 1, api: 1 }        # % failed below which a layer's latest regression counts as healthy

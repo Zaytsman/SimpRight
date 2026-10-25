@@ -52,7 +52,7 @@ Each caller has an entry in the `runs` list of [`simpright.yml`](../../simpright
 | Field | Meaning | Checked against the caller |
 |---|---|---|
 | `id` | The report family: its folder on GitHub Pages | `family`, one workflow per family |
-| `label`, `note` | What the portal shows | Not checked: the portal pages still have their own copy |
+| `label`, `note` | What the portal's Latest reports and Run history show | Not checked |
 | `project` | `ui`, `api` or `all` | `project` |
 | `schedule` | A cron in UTC; without one, the run starts by hand only | `on.schedule`; every caller also has `workflow_dispatch` |
 | `grep`, `paths` | Narrow the run | `grep`, `paths`; without them in the entry, only an input (`${{ inputs.grep }}`) may set one |
@@ -73,6 +73,7 @@ The `gh-pages` branch is the site:
 
 ```
 index.html                 the portal (copied from the repo root on every publish)
+portal.json                what the portal shows: the brand, the runs, the thresholds (from simpright.yml, on every publish)
 <family>/run-<N>/          one run's HTML report + run-summary.json (+ api-coverage/)
 <family>-manifest.json     the family's runs, newest first (the latest `keep-runs` are kept, 10 by default)
 <family>-history.json      the kept runs' stats + the newest run's known issues (what the portal reads)
@@ -88,13 +89,13 @@ bugs/                      the Bugs page
 | `scripts/build-run-summaries.mts <site> [<family>]` | Writes the small files the portal and the Bugs page read instead of the full `results.json` (an API regression's is about 8 MB): a `run-summary.json` per run (stats, known issues, each scenario test's last status; built once from its `results.json`, which `publish-report.sh` then removes; copied to `latest/<family>/`), `<family>-history.json` and `latest/api-coverage/totals.json` (`summary.json` without the per-endpoint detail). Without a family it builds only the families that have no history yet. |
 | `scripts/publish-test-cases.sh` | Builds the Test Cases and Bugs pages, replaces `test-cases/` and `bugs/`, and builds the run summaries of families that have none yet, so a portal change published before the next run finds its data |
 | `scripts/squash-gh-pages.sh` | Replaces the `gh-pages` history with one commit holding the current site (the same files), pushed with `--force-with-lease`, so a publish that lands at the same moment is never overwritten |
-| `scripts/gh-pages-lib.sh` | `ghp_checkout`: points `origin` at the repo with `GH_TOKEN`, checks out `gh-pages` as a worktree; `git ls-remote --exit-code` tells "no branch yet" (first publish: an orphan branch) from a real fetch error. `ghp_publish`: copies the portal and `.nojekyll`, commits as `github-actions[bot]`, pushes, and on a rejected push rebases and retries up to 3 times |
+| `scripts/gh-pages-lib.sh` | `ghp_checkout`: points `origin` at the repo with `GH_TOKEN`, checks out `gh-pages` as a worktree; `git ls-remote --exit-code` tells "no branch yet" (first publish: an orphan branch) from a real fetch error. `ghp_publish`: copies the portal, writes its `portal.json` (`scripts/build-portal-config.mts`, from `simpright.yml`), adds `.nojekyll`, commits as `github-actions[bot]`, pushes, and on a rejected push rebases and retries up to 3 times |
 
 Each script touches only its own folders, so parallel publishes (a UI run, an API run, a Test Cases publish) rebase without conflicts. The run summaries depend only on the published files, so two publishes that write the same one write the same bytes. `scripts/*.sh` keep LF line endings (`.gitattributes`).
 
 `squash-gh-pages.yml` runs on the 1st of each month at 04:45 UTC, between the nightly runs, and by hand: every publish adds a full report to the `gh-pages` history, so without it the branch would keep growing although the site keeps only the latest runs. A publish that read the branch before the squash is rejected once, rebases onto the new commit and retries, like any concurrent publish.
 
-`publish-test-cases.yml` runs on pushes to `main` that change the scenarios, the bugs, the pages, their builds, the profile or `index.html`, so a portal change goes live on merge. `publish-wiki.yml` mirrors `docs/wiki/` into the repository's wiki on pushes to `main` that change it (`rsync --delete`, so pages removed in the repo are removed there). The wiki repository exists only after its first page was created in the web UI.
+`publish-test-cases.yml` runs on pushes to `main` that change the scenarios, the bugs, the pages, their builds, `simpright.yml` or `index.html`, so a portal change, a new run or a new label goes live on merge. `publish-wiki.yml` mirrors `docs/wiki/` into the repository's wiki on pushes to `main` that change it (`rsync --delete`, so pages removed in the repo are removed there). The wiki repository exists only after its first page was created in the web UI.
 
 The portal's "Schedule a test run" and "Wiki" links in its side panel (`data-repo-link`) point at the repository's Actions tab and wiki; on `<owner>.github.io/<repo>/` the page rewrites them to that repository, so forks link to their own. Its coverage elements (`data-coverage`) show only when `latest/api-coverage/totals.json` exists.
 

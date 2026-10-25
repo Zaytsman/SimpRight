@@ -30,12 +30,13 @@ ghp_checkout() {
   esac
 }
 
-# Adds the dashboard (index.html from the repo root, on every publish), commits everything in the <dir>
-# worktree and pushes it. Another workflow may have published in the meantime, so a rejected push is
-# rebased onto the remote gh-pages and retried. Returns 0 when there was nothing to commit.
+# Adds the dashboard (index.html from the repo root, and its portal.json from simpright.yml, on every publish),
+# commits everything in the <dir> worktree and pushes it. Another workflow may have published in the meantime, so a
+# rejected push is rebased onto the remote gh-pages and retried. Returns 0 when there was nothing to commit.
 ghp_publish() {
   local site="$1" message="$2"
   cp index.html "$site/index.html"
+  node scripts/build-portal-config.mts "$site/portal.json" # what the dashboard shows: the brand, the runs, the thresholds
   touch "$site/.nojekyll" # serve the files as they are, without Jekyll
   (
     cd "$site"

@@ -105,7 +105,7 @@ A run is two things that must agree: an entry in the `runs` list of [`simpright.
 | Input | Required | Meaning |
 |---|---|---|
 | `project` | yes | The Playwright project: `ui`, `api`, or `all` (both in one run) |
-| `family` | yes | The report family, the folder on GitHub Pages: the `id` of the run's entry, one workflow per family. The portal shows `daily-ui-regression`, `daily-api-regression`, `smoke`, `custom-ui` and `custom-api`; a new family is published too, but the portal doesn't list it |
+| `family` | yes | The report family, the folder on GitHub Pages: the `id` of the run's entry, one workflow per family. The portal lists every run in `runs`, under its `label` and `note` |
 | `paths` | no | Space-separated spec folders or files: the entry's `paths` |
 | `grep` | no | Only tests whose title matches: the entry's `grep`, or an input of a run started by hand |
 | `publish-latest-coverage` | no | `true` only for the full API regression (its entry has `publishCoverage: true`): its coverage becomes the portal's API Coverage |

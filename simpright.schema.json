@@ -332,12 +332,13 @@
     },
     "portal": {
       "type": "object",
-      "description": "The Automation Portal's text and health thresholds.",
+      "description": "The Automation Portal's text and health thresholds: the dashboard reads them from portal.json (written on every publish), the Test Cases and Bugs pages from their data files.",
       "required": ["title"],
       "additionalProperties": false,
       "properties": {
         "title": { "type": "string", "minLength": 1, "description": "The brand name on the portal pages and in their titles." },
-        "tagline": { "type": "string", "minLength": 1, "description": "The line under the brand name." },
+        "titleAccent": { "type": "string", "minLength": 1, "description": "The end of the title shown in the accent color, such as Right in SimpRight." },
+        "tagline":{ "type": "string", "minLength": 1, "description": "The line under the brand name." },
         "description": { "type": "string", "minLength": 1, "description": "The sentence at the bottom of the side panel." },
         "healthThreshold": {
           "type": "object",

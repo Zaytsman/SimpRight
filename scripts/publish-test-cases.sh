@@ -6,6 +6,7 @@
 #
 # Site layout on gh-pages (the rest is publish-report.sh's):
 #   index.html               dashboard (copied from the repo root)
+#   portal.json              what the dashboard shows, from simpright.yml
 #   test-cases/<layer>/      index.html + scenarios-data.js of each scenario layer (ui, api)
 #   bugs/                    index.html + bugs-data.js (only when the profile has paths.bugs)
 #

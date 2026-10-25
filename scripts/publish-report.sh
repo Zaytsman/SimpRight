@@ -7,6 +7,7 @@
 #
 # Site layout on gh-pages:
 #   index.html                     dashboard (copied from the repo root on every publish)
+#   portal.json                    what the dashboard shows, from simpright.yml (built on every publish)
 #   <family>-manifest.json         run folders of the family, newest first
 #   <family>-history.json          every kept run's stats + the newest run's known issues (read by the dashboard)
 #   <family>/run-<N>/              HTML report + run-summary.json (+ api-coverage/) of run N

@@ -9,8 +9,8 @@
 import { readdirSync, readFileSync } from 'node:fs';
 import path from 'node:path';
 import { parse } from 'yaml';
+import { readConfig, ROOT } from './lib/project.mts';
 
-const ROOT = path.resolve(import.meta.dirname, '..');
 const reportFile = path.resolve(ROOT, process.argv[2] ?? 'test-results/results.json');
 
 interface Profile {
@@ -40,7 +40,7 @@ interface Report {
   suites: ReportSuite[];
 }
 
-const profile = parse(readFileSync(path.join(ROOT, 'simpright.yml'), 'utf8')) as Profile;
+const profile = readConfig<Profile>();
 const prefixes = Object.values(profile.ids.layers).map((layer) => layer.prefix);
 const ID = new RegExp(`^((?:${prefixes.join('|')})-\\d+):`);
 

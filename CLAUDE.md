@@ -26,6 +26,7 @@ npm run report                    # open last HTML report
 npm run inspect:ui -- /auth/login --logged-out   # page inspector: data-test elements + accessibility tree
 npm run test-cases:build          # Test Cases pages into test-results/test-cases/<layer>/ (open index.html)
 npm run bugs:build                # Bugs page into test-results/bugs/ (open index.html)
+npm run portal:build              # portal.json, what the dashboard shows, into test-results/portal/
 ```
 
 ## Playwright setup (playwright.config.ts)
@@ -149,6 +150,7 @@ Details: `docs/framework/11-ci-and-publishing.md` and the wiki's CI and Pages pa
   - Scheduled runs start at :15, never on the hour (the site re-seeds at :00).
   - A workflow that needs the coverage package needs `packages: read` in every caller too.
 - The dashboard (`index.html`) lists a test under "Known Issues" when an annotation contains `Known issue`; the bug ID in `Known issue BUG-001: ...` links to the Bugs page.
+- **The portal pages name nothing themselves:** the brand, runs and thresholds come from `simpright.yml` (`portal`, `runs`), through `portal.json` (written next to `index.html` on every publish) or the Test Cases and Bugs data files. Never hard-code a family, label or project name in them.
 - The Test Cases (`site/test-cases/`) and Bugs (`site/bugs/`) pages are built from the scenarios and bugs (`npm run test-cases:build`, `npm run bugs:build`) and published by `publish-test-cases.yml` on pushes to `main`; `verify` builds them too, so a scenario change that breaks the build fails the PR.
 - `scripts/*.sh` keep LF line endings (`.gitattributes`).
 

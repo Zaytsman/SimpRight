@@ -44,8 +44,9 @@ jobs:
       - name: Validate scenarios
         run: npm run validate:scenarios
 
-      # The Test Cases and Bugs pages are published from main (publish-test-cases.yml); check that they still build.
-      - name: Build test case and bug pages
+      # The Test Cases and Bugs pages and the portal's portal.json are published from main (publish-test-cases.yml); check that they still build.
+      - name: Build the Test Cases and Bugs pages and portal.json
         run: |
           npm run test-cases:build
           npm run bugs:build
+          npm run portal:build

@@ -4,31 +4,29 @@
 // For each layer in simpright.yml it writes <output dir>/<layer>/index.html (a copy of
 // site/test-cases/index.html) and <output dir>/<layer>/scenarios-data.js, which sets
 // window.SCENARIO_CATALOG: the folder tree (area -> file -> scenario IDs), counts, and every scenario
-// with its steps, raw YAML and the line of its test in the spec. The data is a script, not JSON, so the
+// with its steps, raw YAML and the line of its test in the spec, plus the portal's brand (simpright.yml portal)
+// and the workflow of the layer's area-picker run (Run on GitHub). The data is a script, not JSON, so the
 // page also opens straight from disk. scripts/publish-test-cases.sh publishes the folders as test-cases/<layer>/.
 //
 // It reads the files as they are; run `npm run validate:scenarios` first (the workflow does).
 
-import { execFileSync } from 'node:child_process';
-import { copyFileSync, existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from 'node:fs';
+import { copyFileSync, existsSync, mkdirSync, readdirSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 import { parse, parseDocument, isMap, isSeq } from 'yaml';
+import { branchName, commitSha, portalBrand, read, readConfig, repositoryUrl, ROOT, runWorkflows, type Portal, type Run } from './lib/project.mts';
 
-const ROOT = path.resolve(import.meta.dirname, '..');
 const PAGE = 'site/test-cases/index.html';
 const outDir = path.resolve(ROOT, process.argv[2] ?? 'test-results/test-cases');
 
-// Links to the repository: GitHub Actions sets these; locally they default to the public repo's main.
-const repoUrl = `${process.env.GITHUB_SERVER_URL ?? 'https://github.com'}/${process.env.GITHUB_REPOSITORY ?? 'Zaytsman/SimpRight'}`;
-const branch = process.env.GITHUB_REF_NAME ?? 'main';
-
-const WORKFLOWS: Record<string, string> = { ui: 'custom-ui-tests.yml', api: 'custom-api-tests.yml' };
 const METHOD_ORDER = ['GET', 'QUERY', 'POST', 'PUT', 'PATCH', 'DELETE'];
 const ENDPOINT =/\b(GET|POST|PUT|PATCH|DELETE|QUERY) (\/[^\s,.;:)"']*)/g;
 
 interface Profile {
   paths: { scenarios: string };
   ids: { layers: Record<string, { prefix: string; digits: number }> };
+  ci?: { branches?: { default?: string } };
+  runs?: Run[];
+  portal?: Portal;
 }
 
 interface ScenarioFile {
@@ -48,18 +46,8 @@ interface ScenarioFile {
   }[];
 }
 
-const read = (file: string) => readFileSync(path.join(ROOT, file), 'utf8');
 const toPosix = (file: string) => file.split(path.sep).join('/');
 const titleCase = (name: string) => name.replace(/-/g, ' ').replace(/^\w/, (c) => c.toUpperCase());
-
-function commit(): string {
-  if (process.env.GITHUB_SHA) return process.env.GITHUB_SHA;
-  try {
-    return execFileSync('git', ['rev-parse', 'HEAD'], { cwd: ROOT, encoding: 'utf8' }).trim();
-  } catch {
-    return '';
-  }
-}
 
 /**
  * An API file's endpoint, such as "GET /products/{productId}/related": the endpoint its steps name
@@ -112,10 +100,19 @@ function specLine(spec: string | undefined, id: string): number | undefined {
   return index >= 0 ? index + 1 : undefined;
 }
 
-const profile = parse(read('simpright.yml')) as Profile;
+const profile = readConfig<Profile>();
 const scenariosDir = profile.paths.scenarios;
 const generatedAt = new Date().toISOString();
-const sha = commit();
+const sha = commitSha();
+const repoUrl = repositoryUrl();
+const branch = branchName(profile);
+const brand = profile.portal ? portalBrand(profile.portal) : undefined;
+
+// Run on GitHub opens the workflow of the layer's manual run with an area picker.
+const runFiles = runWorkflows();
+const pickerWorkflows: Record<string, string | undefined> = Object.fromEntries(
+  (profile.runs ?? []).filter((run) => run.areaPicker).map((run) => [run.project, runFiles.get(run.id)])
+);
 
 for (const layer of Object.keys(profile.ids.layers)) {
   const layerDir = path.join(ROOT, scenariosDir, layer);
@@ -170,7 +167,8 @@ for (const layer of Object.keys(profile.ids.layers)) {
     commit: sha,
     repoUrl,
     branch,
-    workflowUrl: WORKFLOWS[layer] ? `${repoUrl}/actions/workflows/${WORKFLOWS[layer]}` : undefined,
+    portal: brand,
+    workflowUrl: pickerWorkflows[layer] ? `${repoUrl}/actions/workflows/${pickerWorkflows[layer]}` : undefined,
     stats: {
       total: scenarios.length,
       automated,

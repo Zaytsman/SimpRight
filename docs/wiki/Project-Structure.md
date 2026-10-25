@@ -146,6 +146,8 @@ Defined in `tsconfig.json` and resolved by Playwright, so imports don't climb fo
 | `build-bugs.mts` | `npm run bugs:build`, CI | Builds the Bugs page from `bugs/` and the scenarios that name them |
 | `check-step-titles.mts` | `npm run check:step-titles`, CI | Compares each test's step titles in a run's JSON report with its scenario's steps |
 | `build-run-summaries.mts` | the two publish scripts | Writes the small history and run-summary files the portal and the Bugs page read |
+| `build-portal-config.mts` | `npm run portal:build`, the two publish scripts | Writes `portal.json`, what the portal shows (the brand, the runs, the thresholds), from `simpright.yml` |
+| `lib/project.mts` | the other scripts | What they share: reading `simpright.yml` and the workflows, the repository's URL, the branch and commit |
 | `publish-report.sh` | CI | Publishes a run's report to `gh-pages` and keeps the latest runs (`keep-runs`, 10 by default) |
 | `publish-test-cases.sh` | CI | Publishes the Test Cases pages and the dashboard to `gh-pages` |
 | `gh-pages-lib.sh` | the two publish scripts | Shared checkout of `gh-pages` and push with retries |

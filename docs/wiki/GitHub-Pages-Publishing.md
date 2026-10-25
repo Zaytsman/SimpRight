@@ -9,6 +9,7 @@ Everything the CI produces for people to look at lives on **GitHub Pages**, serv
 ```
 gh-pages/
 ├── index.html                       the Automation Portal (copied from the repo root on every publish)
+├── portal.json                      what the portal shows: the brand, the runs, the thresholds (from simpright.yml, on every publish)
 ├── .nojekyll                        serve files as they are (no Jekyll processing)
 ├── daily-api-regression/
 │   ├── run-57/                      one test run: Playwright HTML report + run-summary.json (+ api-coverage/)
@@ -71,7 +72,7 @@ The workflow validates the scenarios first, so a broken scenario file never reac
 ## Checkout and push: `gh-pages-lib.sh`
 
 - **`ghp_checkout <dir>`** points `origin` at the repository with `GH_TOKEN` as the credential (the workflows check out without one, so only the publish step has a token that can push), then checks out `gh-pages` as a **git worktree** in `.gh-pages/` (git-ignored), fetching only its latest commit. On the very first publish, when `git ls-remote` finds no such branch, it creates it as an empty orphan branch; any other error (network, access) stops the publish with its message.
-- **`ghp_publish <dir> <message>`** copies `index.html` from the repository (so a portal change goes live with the next publish of either kind) and `.nojekyll`, commits everything as `github-actions[bot]`, and does nothing when nothing changed. Several workflows can publish at the same time (a UI and an API run, plus Test Cases), so a rejected push is **rebased onto the remote branch and retried**, up to 3 times. Because each script touches only its own folders, the rebase doesn't conflict.
+- **`ghp_publish <dir> <message>`** copies `index.html` from the repository and writes its `portal.json` from `simpright.yml` (`scripts/build-portal-config.mts`), so a portal change goes live with the next publish of either kind, adds `.nojekyll`, commits everything as `github-actions[bot]`, and does nothing when nothing changed. Several workflows can publish at the same time (a UI and an API run, plus Test Cases), so a rejected push is **rebased onto the remote branch and retried**, up to 3 times. Because each script touches only its own folders, the rebase doesn't conflict.
 
 Pruning keeps the site small: at most `keep-runs` runs per family (10 by default). The branch's history still holds every report ever published, so it's squashed every month (below).
 
@@ -102,10 +103,11 @@ The portal and the Test Cases pages load their data with `fetch`, which browsers
 ```bash
 npm run test-cases:build -- test-results/site-preview/test-cases
 npm run bugs:build -- test-results/site-preview/bugs
+npm run portal:build -- test-results/site-preview/portal.json
 cp index.html test-results/site-preview/
 npx http-server test-results/site-preview -p 4173
 ```
 
-The portal then shows the Test Cases buttons, but no runs (those exist only on `gh-pages`). To preview with real runs, check out `gh-pages` into a folder and serve that instead.
+The portal then shows the brand, the Test Cases buttons and a row per run, but no results (those exist only on `gh-pages`). To preview with real runs, check out `gh-pages` into a folder, add the `index.html` and `portal.json` to test, and serve that instead.
 
 See also: [Automation Portal](Automation-Portal), [CI Pipeline](CI-Pipeline).

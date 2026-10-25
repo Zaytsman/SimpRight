@@ -4,8 +4,8 @@
 //
 // Checks:
 // - the profile matches simpright.schema.json, and every path it names exists
-//   (except paths.coverageSummary, which a test run generates); a portal (parts.portal) needs runs, and its
-//   Bugs page needs paths.bugs;
+//   (except paths.coverageSummary, which a test run generates); a portal (parts.portal) needs runs and a
+//   portal section, and its Bugs page needs paths.bugs; portal.titleAccent is the end of portal.title;
 // - every run (runs) has exactly one caller of .github/workflows/playwright-run.yml, with the run's id as its
 //   family, and the caller matches the run: project, grep, paths, schedule, a manual start (workflow_dispatch),
 //   coverage publishing and the runs it keeps; an areaPicker run's area input offers all plus the folders of its
@@ -37,10 +37,17 @@ import { existsSync, readdirSync, readFileSync } from 'node:fs';
 import path from 'node:path';
 import Ajv from 'ajv';
 import { parse } from 'yaml';
-
-const ROOT = path.resolve(import.meta.dirname, '..');
-const PROFILE_FILE = 'simpright.yml';
-const PROFILE_SCHEMA_FILE = 'simpright.schema.json';
+import {
+  callersOf,
+  CONFIG_FILE as PROFILE_FILE,
+  CONFIG_SCHEMA_FILE as PROFILE_SCHEMA_FILE,
+  readWorkflows,
+  ROOT,
+  TEST_WORKFLOW,
+  type Run,
+  type Workflow,
+  type WorkflowJob,
+} from './lib/project.mts';
 
 const FILE_KEY_ORDER = ['suite', 'tags', 'scenarios'];
 const SCENARIO_KEY_ORDER = ['id', 'name', 'ref', 'tags', 'status', 'automatedIn', 'role', 'knownIssue', 'bug', 'preconditions', 'steps'];
@@ -92,43 +99,7 @@ interface Profile {
   parts?: { portal?: false | { testCases?: boolean; bugs?: boolean } };
   ci?: { node: number; secrets: string[] };
   runs?: Run[];
-  portal?: { healthThreshold?: Partial<Record<'ui' | 'api', number>> };
-}
-
-/** A test run (the profile's runs): one report family on GitHub Pages, run by one caller of the test workflow. */
-interface Run {
-  id: string;
-  project: 'ui' | 'api' | 'all';
-  schedule?: string;
-  grep?: string;
-  paths?: string;
-  areaPicker?: boolean;
-  keep?: number;
-  trend?: 'ui' | 'api';
-  publishCoverage?: boolean;
-}
-
-/** The parts of a GitHub Actions workflow the runs check reads. */
-interface Workflow {
-  on?: {
-    schedule?: { cron: string }[];
-    workflow_dispatch?: { inputs?: Record<string, WorkflowInput> } | null;
-    workflow_call?: { inputs?: Record<string, WorkflowInput>; secrets?: Record<string, unknown> } | null;
-  };
-  jobs?: Record<string, WorkflowJob>;
-}
-
-interface WorkflowInput {
-  type?: string;
-  default?: unknown;
-  options?: string[];
-}
-
-interface WorkflowJob {
-  uses?: string;
-  with?: Record<string, unknown>;
-  secrets?: unknown;
-  steps?: { uses?: string; with?: Record<string, unknown> }[];
+  portal?: { title: string; titleAccent?: string; healthThreshold?: Partial<Record<'ui' | 'api', number>> };
 }
 
 interface Bug {
@@ -258,15 +229,17 @@ for (const [layer, pattern] of Object.entries(ids.fileNames ?? {})) {
 }
 if (profile.parts?.portal) {
   if (!profile.runs) fail(PROFILE_FILE, 'parts.portal needs runs: the portal publishes the reports of the test runs');
+  if (!profile.portal) fail(PROFILE_FILE, 'parts.portal needs portal: the pages take their title from it');
   if (profile.parts.portal.bugs && !paths.bugs) fail(PROFILE_FILE, 'parts.portal.bugs needs paths.bugs');
+}
+const accent = profile.portal?.titleAccent;
+if (accent && !profile.portal?.title.endsWith(accent)) {
+  fail(PROFILE_FILE, `portal.titleAccent must be the end of portal.title (${profile.portal?.title})`);
 }
 report();
 
 // --- Runs and workflows ---
 
-const WORKFLOWS_DIR = '.github/workflows';
-/** The reusable workflow that runs the tests and publishes the report; every run has one caller of it. */
-const TEST_WORKFLOW = `${WORKFLOWS_DIR}/playwright-run.yml`;
 /** Runs a family keeps on GitHub Pages when its entry has no keep (the schema's default). */
 const DEFAULT_KEEP = 10;
 /** A workflow expression such as ${{ inputs.grep }}: a value someone picks when they start the run. */
@@ -343,14 +316,7 @@ function checkCaller(where: string, run: Run, workflow: Workflow, job: WorkflowJ
 const { runs } = profile;
 if (runs) {
   const runsAt = `${PROFILE_FILE} runs`;
-  const workflows = new Map<string, Workflow>();
-  for (const file of listFiles(WORKFLOWS_DIR, ['.yml', '.yaml'])) {
-    try {
-      workflows.set(file, (parse(read(file)) ?? {}) as Workflow);
-    } catch (error) {
-      fail(file, `invalid YAML: ${(error as Error).message}`);
-    }
-  }
+  const workflows = readWorkflows((file, error) => fail(file, `invalid YAML: ${error.message}`));
 
   /** Layer → the run that feeds its trend. */
   const trends = new Map<string, string>();
@@ -378,20 +344,16 @@ if (runs) {
 
   /** Run ID → the workflow that runs it. */
   const callers = new Map<string, string>();
-  for (const [file, workflow] of workflows) {
-    for (const [name, job] of Object.entries(workflow.jobs ?? {})) {
-      if (job.uses !== `./${TEST_WORKFLOW}`) continue;
-      const where = `${file} (job ${name})`;
-      const family = job.with?.family;
-      const run = runs.find((entry) => entry.id === family);
-      if (!run) {
-        fail(where, `publishes the family ${String(family)}, which has no entry in ${PROFILE_FILE} runs`);
-      } else if (callers.has(run.id)) {
-        fail(where, `runs ${run.id}, which ${callers.get(run.id)} runs too: one workflow per run`);
-      } else {
-        callers.set(run.id, file);
-        checkCaller(where, run, workflow, job, call?.inputs?.['keep-runs']?.default);
-      }
+  for (const { file, name, workflow, job, family } of callersOf(workflows)) {
+    const where = `${file} (job ${name})`;
+    const run = runs.find((entry) => entry.id === family);
+    if (!run) {
+      fail(where, `publishes the family ${String(family)}, which has no entry in ${PROFILE_FILE} runs`);
+    } else if (callers.has(run.id)) {
+      fail(where, `runs ${run.id}, which ${callers.get(run.id)} runs too: one workflow per run`);
+    } else {
+      callers.set(run.id, file);
+      checkCaller(where, run, workflow, job, call?.inputs?.['keep-runs']?.default);
     }
   }
   for (const run of runs) {

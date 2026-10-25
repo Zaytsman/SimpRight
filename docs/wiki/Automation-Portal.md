@@ -14,11 +14,11 @@ Its look follows the README banner's logo: GitHub's dark greys with the logo's g
 
 | Part | Shows |
 |---|---|
-| Logo | **SimpRight**, Automation Framework |
+| Logo | The brand from `portal` in `simpright.yml`: **SimpRight**, Automation Framework |
 | **Navigate** | **Known issues** and **Run history** (jump to those sections), **Schedule a test run** (the repository's Actions tab, to start a run by hand; see [CI Runs](CI-Runs)) and **Wiki** (this wiki); the last two open in a new tab |
-| **Latest reports** | Links to the newest report of each family: UI regression, API regression, Smoke, Custom UI, Custom API. A dot shows how the newest run went: for the two regressions green **healthy**, red **unhealthy**; for the others green without failures, red with failures; grey before the first run |
+| **Latest reports** | Links to the newest report of each run in `simpright.yml`: UI regression, API regression, Smoke, Custom UI, Custom API. A dot shows how the newest run went: for the regressions (the runs with a `trend`) green **healthy**, red **unhealthy**; for the others green without failures, red with failures; grey before the first run |
 
-The **Schedule a test run** and **Wiki** links point to the repository the site is served for: on `<owner>.github.io/<repo>/` they become `github.com/<owner>/<repo>/actions` and `.../wiki`, so a fork's portal links to the fork. Elsewhere (a local preview) they keep their default, SimpRight's own repository.
+The **Schedule a test run** and **Wiki** links point to the repository the site was published from (`repository` in `portal.json`, which the publish takes from GitHub Actions), so a fork's portal links to the fork.
 
 On a narrow screen the side panel moves above the content.
 
@@ -34,7 +34,7 @@ On a narrow screen the side panel moves above the content.
 
 | Card | Shows |
 |---|---|
-| **UI regression**, **API regression** | **Healthy** or **Unhealthy** for the latest regression run, and its total number of tests |
+| **UI regression**, **API regression** | **Healthy** or **Unhealthy** for the latest regression run, and its total number of tests. A layer without a regression (no run with its `trend`) has no card and no trends |
 | **API contract coverage** | The overall API contract coverage in percent, with a bar (only with coverage published) |
 | **Endpoints covered** | The API endpoints covered (`covered / total`) and a link to the coverage report (only with coverage published) |
 
@@ -77,15 +77,16 @@ The table is **collapsed** to its first 3 rows; **Show all N known issues** belo
 
 ### Run history
 
-One row per family (UI regression, API regression, Smoke, Custom UI, Custom API). Each row shows the latest 10 runs as squares, oldest to newest: green without failures, red with failures, grey without results. **Show runs** lists them, newest first, each with its result (`3 of 98 failed`, `98 passed`) and a link to its full Playwright report. The site keeps the latest 10 runs per family by default (the workflows' `keep-runs` setting); older ones are pruned.
+One row per run in `simpright.yml` (UI regression, API regression, Smoke, Custom UI, Custom API). Each row shows the latest 10 runs as squares, oldest to newest: green without failures, red with failures, grey without results. **Show runs** lists them, newest first, each with its result (`3 of 98 failed`, `98 passed`) and a link to its full Playwright report. The site keeps the latest 10 runs per family by default (the workflows' `keep-runs` setting); older ones are pruned.
 
 ## Where the data comes from
 
 | Section | Files read |
 |---|---|
-| Status, trends | `daily-ui-regression-history.json`, `daily-api-regression-history.json` (the stats of the last 10 runs with results) |
-| Known issues | the same two files (the newest run's known issues) |
-| Run history, the dots in Latest reports | `<family>-history.json` of the five families |
+| The brand, the side panel's sentence, the repository links, which runs to list, the thresholds | `portal.json`, written next to `index.html` on every publish from `simpright.yml` (`portal` and `runs`) |
+| Status, trends | the `<family>-history.json` of each layer's regression, the run with that `trend` (`daily-ui-regression`, `daily-api-regression`): the stats of the last 10 runs with results. A layer without such a run has no status card or trends |
+| Known issues | the same files (the newest run's known issues) |
+| Run history, the dots in Latest reports | `<family>-history.json` of every run in `portal.json` |
 | Coverage cards and button | `latest/api-coverage/totals.json` (`overallCoveragePct`, `coveredEndpoints`, `totalEndpoints`) |
 | Test case buttons | a `HEAD` request for `test-cases/<layer>/scenarios-data.js` |
 | Bugs button | a `HEAD` request for `bugs/bugs-data.js` |
@@ -94,18 +95,20 @@ Everything optional is hidden until its file exists, so the portal works in a fo
 
 ## Changing the portal
 
-1. Edit `index.html` in the repository root. It has its own CSS (the colors are the variables at the top of its `<style>`), Chart.js from the jsDelivr CDN, and plain JavaScript; no build step.
-2. Preview it over HTTP (see [GitHub Pages Publishing](GitHub-Pages-Publishing#previewing-locally)): the trends stay empty locally unless you serve a checkout of `gh-pages`.
-3. Merge to `main`. **Publish Test Cases** runs on changes to `index.html` and publishes it at once; every test run also copies it.
+1. What the portal names (the brand, the runs, the thresholds) is in `simpright.yml`, not in `index.html`: change it there. The page itself is `index.html` in the repository root. It has its own CSS (the colors are the variables at the top of its `<style>`), Chart.js from the jsDelivr CDN, and plain JavaScript; no build step.
+2. Preview it over HTTP (see [GitHub Pages Publishing](GitHub-Pages-Publishing#previewing-locally)), with a `portal.json` next to it (`npm run portal:build` writes one to `test-results/portal/`): the trends stay empty locally unless you serve a checkout of `gh-pages`.
+3. Merge to `main`. **Publish Test Cases** runs on changes to `index.html` or `simpright.yml` and publishes both at once; every test run also copies the page and rewrites `portal.json`.
 
 Common changes:
 
-| Change | Where in `index.html` |
+| Change | Where |
 |---|---|
-| The health thresholds | `HEALTHY_FAILURE_RATE = { ui: 1, api: 1 }` |
-| How many runs the trends and the history show | The `limit` arguments of `toSeries` and `renderHistoryList` (default 10) |
-| How many known issues the collapsed table shows | `KNOWN_ISSUES_PREVIEW` (3) |
-| A new report family in the history or Latest reports | A new `<details>` row (with its `-strip` and `-list` ids) and an entry in `HISTORY_LISTS`; a link with a `data-family-dot` in the side panel |
+| The brand, its tagline, the side panel's sentence | `portal` in `simpright.yml` (`title`, `titleAccent`, `tagline`, `description`) |
+| The health thresholds | `portal.healthThreshold` in `simpright.yml` |
+| A new report family in the history and Latest reports | Its entry in `runs` in `simpright.yml` (with the caller workflow, see [Scheduled Runs](Scheduled-Runs#add-a-new-scheduled-run)); its `label` and `note` are what the portal shows |
+| Which run feeds a layer's status, trends and known issues | `trend: ui` or `trend: api` on that run in `simpright.yml` (one run per layer) |
+| How many runs the trends and the history show | The `limit` arguments of `toSeries` and `renderHistoryList` in `index.html` (default 10) |
+| How many known issues the collapsed table shows | `KNOWN_ISSUES_PREVIEW` in `index.html` (3) |
 | The colors | The CSS variables in `:root`, and `COLORS` in the script for the charts |
 
 The number of runs kept on the site is set separately, by the `keep-runs` input of `playwright-run.yml` (10 by default; the custom workflows ask for it).
