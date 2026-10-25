@@ -318,10 +318,9 @@
     .stat .label { display: block; font-size: 12px; color: var(--muted); }
     .stat .value { font-size: 22px; font-weight: 700; color: var(--text-strong); }
     .stat .avg { font-size: 14px; font-weight: 500; color: var(--muted); }
-    a.stat.failed { background: var(--red-bg); border-color: var(--red-line); }
-    a.stat.failed:hover { border-color: var(--red); }
-    a.stat.failed .label { color: var(--red-text); }
-    a.stat.failed .value { color: var(--red); }
+    a.stat.failed:hover { border-color: var(--line); }
+    /* Only the number turns red, and only when the run has failures. */
+    a.stat.failed .value.has-failures { color: var(--red); }
 
     .trend-toggle { align-self: flex-start; }
 
@@ -601,7 +600,7 @@
         <div class="stats-row">
           <div class="stat"><span class="label">Total</span><span class="value" id="ui-total">-</span></div>
           <div class="stat"><span class="label">Passed</span><span class="value" id="ui-passed">-</span></div>
-          <a class="stat failed" href="latest/daily-ui-regression/#?q=s%3Afailed" target="_blank" rel="noreferrer"><span class="label">Failed: open failures</span><span class="value" id="ui-failed">-</span></a>
+          <a class="stat failed" href="latest/daily-ui-regression/#?q=s%3Afailed" target="_blank" rel="noreferrer"><span class="label">Failed</span><span class="value" id="ui-failed">-</span></a>
           <div class="stat"><span class="label">Run duration</span><span class="value" id="ui-duration">-</span></div>
           <div class="stat"><span class="label">Average duration</span><span class="value" id="ui-avg-duration">-</span></div>
           <div class="stat"><span class="label">Failure rate (avg)</span><span class="value" id="ui-failure-rate">-</span> <span class="avg" id="ui-avg-failure-rate"></span></div>
@@ -630,7 +629,7 @@
         <div class="stats-row">
           <div class="stat"><span class="label">Total</span><span class="value" id="api-total">-</span></div>
           <div class="stat"><span class="label">Passed</span><span class="value" id="api-passed">-</span></div>
-          <a class="stat failed" href="latest/daily-api-regression/#?q=s%3Afailed" target="_blank" rel="noreferrer"><span class="label">Failed: open failures</span><span class="value" id="api-failed">-</span></a>
+          <a class="stat failed" href="latest/daily-api-regression/#?q=s%3Afailed" target="_blank" rel="noreferrer"><span class="label">Failed</span><span class="value" id="api-failed">-</span></a>
           <div class="stat"><span class="label">Run duration</span><span class="value" id="api-duration">-</span></div>
           <div class="stat"><span class="label">Average duration</span><span class="value" id="api-avg-duration">-</span></div>
           <div class="stat"><span class="label">Failure rate (avg)</span><span class="value" id="api-failure-rate">-</span> <span class="avg" id="api-avg-failure-rate"></span></div>
@@ -721,7 +720,7 @@
     };
 
     // Healthy when the latest run's failure rate is below this percentage.
-    const HEALTHY_FAILURE_RATE = { ui: 2, api: 1 };
+    const HEALTHY_FAILURE_RATE = { ui: 1, api: 1 };
 
     function formatDuration(durationMs) {
       const seconds = durationMs / 1000;
@@ -936,6 +935,7 @@
       setText(`${prefix}total`, latest.total);
       setText(`${prefix}passed`, latest.passed + (latest.flaky || 0));
       setText(`${prefix}failed`, latest.failed);
+      document.getElementById(`${prefix}failed`)?.classList.toggle('has-failures', latest.failed > 0);
       setText(`${prefix}duration`, formatDuration(latest.duration));
       setText(`${prefix}avg-duration`, formatDuration(averageDuration));
       setText(`${prefix}failure-rate`, `${latest.failureRate.toFixed(2)}%`);
