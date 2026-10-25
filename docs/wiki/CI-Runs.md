@@ -14,7 +14,7 @@ Besides the nightly regressions, the tests can be run on **GitHub Actions** by h
 
 ### From the GitHub web UI
 
-1. Open the repository's **Actions** tab (or click **Schedule Test Run** on the [Automation Portal](Automation-Portal)).
+1. Open the repository's **Actions** tab (or click **Schedule a test run** in the side panel of the [Automation Portal](Automation-Portal)).
 2. Pick **Custom API Test Run**, **Custom UI Test Run** or **Smoke Test Run** in the list on the left.
 3. Click **Run workflow** (top right of the run list).
 4. Choose the **branch** to test: `main`, `develop` or a feature branch.
@@ -63,10 +63,10 @@ Open the [Automation Portal](https://zaytsman.github.io/SimpRight/):
 
 | Where | What |
 |---|---|
-| **Latest Reports** (side panel) → **Custom UI**, **Custom API** or **Smoke** | The full Playwright report of the newest run of that family |
-| **Test Runs History** → the family's section | The latest 10 runs of the family, newest first, each linking to its report |
+| **Latest reports** (side panel) → **Custom UI**, **Custom API** or **Smoke** | The full Playwright report of the newest run of that family; the dot is red when that run had failures |
+| **Run history** → the family's row → **Show runs** | The latest 10 runs of the family, newest first, each with its result and a link to its report; the row's squares show which runs had failures |
 
-Custom and smoke runs appear only in these two places: the status, the charts and **Known Issues** show the nightly regressions only.
+Custom and smoke runs appear only in these two places: the status, the trends and **Known issues** show the nightly regressions only.
 
 The report of run number N is also at `https://zaytsman.github.io/SimpRight/<family>/run-<N>/` (for example `smoke/run-12/`), and the newest one at `https://zaytsman.github.io/SimpRight/latest/<family>/`. N is the run number in the run's title on the Actions tab (`#12`). Each family keeps its latest **10 runs** (a custom run's **keep-runs** input changes it for its family); older ones are removed when a new run is published.
 

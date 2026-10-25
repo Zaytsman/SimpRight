@@ -50,6 +50,7 @@ Scenarios with the same cause share one bug: BUG-001 (product writes without a t
 
 ### Side panel
 
+- The portal's logo and **Automation Portal**, both leading back to the [Automation Portal](Automation-Portal), whose colors the page shares.
 - Four counters: **Total**, **Open**, **Re-check** and **Fixed**. Clicking one filters the list.
 - **Search** looks through IDs, titles, descriptions, steps, expected and actual results, affected endpoints, references and the linked scenarios.
 - **Filters:** status (All, Open, Re-check, Fixed, Won't fix), severity, and layer / area.

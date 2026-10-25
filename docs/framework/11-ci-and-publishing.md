@@ -78,7 +78,7 @@ Each script touches only its own folders, so parallel publishes (a UI run, an AP
 
 `publish-test-cases.yml` runs on pushes to `main` that change the scenarios, the bugs, the pages, their builds, the profile or `index.html`, so a portal change goes live on merge. `publish-wiki.yml` mirrors `docs/wiki/` into the repository's wiki on pushes to `main` that change it (`rsync --delete`, so pages removed in the repo are removed there). The wiki repository exists only after its first page was created in the web UI.
 
-The portal's "Schedule Test Run" and "Wiki" buttons (`data-repo-link`) point at the repository's Actions tab and wiki; on `<owner>.github.io/<repo>/` the page rewrites them to that repository, so forks link to their own. Its coverage elements (`data-coverage`) show only when `latest/api-coverage/totals.json` exists.
+The portal's "Schedule a test run" and "Wiki" links in its side panel (`data-repo-link`) point at the repository's Actions tab and wiki; on `<owner>.github.io/<repo>/` the page rewrites them to that repository, so forks link to their own. Its coverage elements (`data-coverage`) show only when `latest/api-coverage/totals.json` exists.
 
 ## Security hardening
 
