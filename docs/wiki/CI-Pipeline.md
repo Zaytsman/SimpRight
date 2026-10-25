@@ -25,12 +25,13 @@ How SimpRight's GitHub Actions are put together: the workflows, the reusable tes
 | `playwright-run.yml` | Playwright Run (reusable) | called by the five below | Runs one Playwright project (or both), publishes the report |
 | `run-api-tests.yml` | API Regression Test Run | weekdays 02:15 UTC, by hand | All API tests; also publishes the coverage as the latest |
 | `run-ui-tests.yml` | UI Regression Test Run | weekdays 06:15 UTC, by hand | All UI tests |
-| `custom-api-tests.yml` | Custom API Test Run | by hand (area, grep) | One API area or all, optionally filtered |
-| `custom-ui-tests.yml` | Custom UI Test Run | by hand (area, grep) | One UI area or all, optionally filtered |
+| `custom-api-tests.yml` | Custom API Test Run | by hand (area, grep, keep-runs) | One API area or all, optionally filtered |
+| `custom-ui-tests.yml` | Custom UI Test Run | by hand (area, grep, keep-runs) | One UI area or all, optionally filtered |
 | `smoke-tests.yml` | Smoke Test Run | by hand | The smoke set: tests tagged `@smoke` of both projects in one run (2-3 minutes) |
 | `pr-checks.yml` | PR Checks | pull requests to `main` or `develop` | The `verify` job |
 | `publish-test-cases.yml` | Publish Test Cases | push to `main` changing scenarios, bugs, the pages, their scripts, the profile or `index.html`; by hand | Validates the scenarios, builds and publishes the Test Cases pages, the Bugs page and the portal |
 | `publish-wiki.yml` | Publish Wiki | push to `main` changing `docs/wiki/`; by hand | Mirrors `docs/wiki/` into the wiki |
+| `squash-gh-pages.yml` | Squash GitHub Pages History | the 1st of each month at 04:45 UTC; by hand | Replaces the `gh-pages` history with one commit of the current site ([GitHub Pages Publishing](GitHub-Pages-Publishing)) |
 
 ## The reusable test job: `playwright-run.yml`
 
@@ -43,6 +44,7 @@ Every test run goes through one job, so the five callers stay a dozen lines each
 | `paths` | Spec folders or files, space-separated; empty = the whole project |
 | `grep` | Only tests whose title matches |
 | `publish-latest-coverage` | Publish this run's API coverage as the portal's API Coverage (the full API regression only) |
+| `keep-runs` | How many runs of the family stay on GitHub Pages (default 10); older ones are removed when this run is published |
 
 Its steps:
 

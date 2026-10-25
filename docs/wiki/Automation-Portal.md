@@ -60,7 +60,7 @@ A table of every test that carries a **known issue**, with its area (the spec's 
 
 ### Test Runs History
 
-The latest 10 runs of each family (UI Regression, API Regression, Smoke, Custom UI, Custom API), each linking to its full Playwright report. The site keeps 30 runs per family; older ones are pruned.
+The latest 10 runs of each family (UI Regression, API Regression, Smoke, Custom UI, Custom API), each linking to its full Playwright report. The site keeps the latest 10 runs per family by default (the workflows' `keep-runs` setting); older ones are pruned.
 
 ## Where the data comes from
 
@@ -86,9 +86,9 @@ Common changes:
 | Change | Where in `index.html` |
 |---|---|
 | The health thresholds | `HEALTHY_FAILURE_RATE = { ui: 2, api: 1 }` |
-| How many runs the charts and the history show | The `limit` arguments of `loadSeries` and `loadHistorySection` (default 10) |
-| A new report family in the history or Latest Reports | A new `<details>` block and `loadHistorySection(...)` call; a link in the side panel |
+| How many runs the charts and the history show | The `limit` arguments of `toSeries` and `renderHistoryList` (default 10) |
+| A new report family in the history or Latest Reports | A new `<details>` block and an entry in `HISTORY_LISTS`; a link in the side panel |
 
-The number of runs kept on the site is set separately, by `KEEP_RUNS` in `scripts/publish-report.sh`.
+The number of runs kept on the site is set separately, by the `keep-runs` input of `playwright-run.yml` (10 by default; the custom workflows ask for it).
 
 See also: [Test Cases Pages](Test-Cases-Pages), [CI Runs](CI-Runs#review-test-run-results).

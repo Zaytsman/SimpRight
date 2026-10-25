@@ -14,11 +14,12 @@ smoke-tests.yml        by hand (@smoke)    ─┘      step titles, publish, art
 pull request to main/develop ──► pr-checks.yml (verify): typecheck, validator, page builds   (required on main)
 push to main ──► publish-test-cases.yml ──► gh-pages: test-cases/, bugs/, the portal
              └─► publish-wiki.yml       ──► the repository's wiki
+monthly, by hand ──► squash-gh-pages.yml ──► gh-pages: the history replaced by one commit
 ```
 
 ## The reusable test job: `playwright-run.yml`
 
-Inputs: `project` (`ui`, `api`, or `all`), `family` (where the report goes), `paths` (spec folders or files), `grep`, `publish-latest-coverage`. Secrets: `ADMIN_USER`, `ADMIN_PASSWORD`, declared under `workflow_call.secrets` and passed by name by each caller.
+Inputs: `project` (`ui`, `api`, or `all`), `family` (where the report goes), `paths` (spec folders or files), `grep`, `publish-latest-coverage`, `keep-runs` (how many runs of the family stay on Pages, default 10). Secrets: `ADMIN_USER`, `ADMIN_PASSWORD`, declared under `workflow_call.secrets` and passed by name by each caller.
 
 | Step | What and why |
 |---|---|
@@ -41,7 +42,7 @@ Every input reaches a `run:` script through `env:`, never as `${{ }}` pasted int
 |---|---|---|---|
 | `run-api-tests.yml` | weekdays 02:15 UTC, by hand | the API project; its coverage becomes the portal's API Coverage | `daily-api-regression` |
 | `run-ui-tests.yml` | weekdays 06:15 UTC, by hand | the UI project | `daily-ui-regression` |
-| `custom-api-tests.yml` / `custom-ui-tests.yml` | by hand: an area (a folder of `tests/<layer>/`) and an optional `--grep` | one area or all | `custom-api` / `custom-ui` |
+| `custom-api-tests.yml` / `custom-ui-tests.yml` | by hand: an area (a folder of `tests/<layer>/`), an optional `--grep` and `keep-runs` | one area or all | `custom-api` / `custom-ui` |
 | `smoke-tests.yml` | by hand | both projects, `--grep @smoke` | `smoke` |
 
 Each caller declares `contents: write` (push to gh-pages) and `packages: read` (the coverage package), because a called workflow can't have more permissions than its caller. Schedules run at :15, never on the full hour: the site re-seeds at :00, and GitHub's schedule queue is busiest then. A new test folder needs an entry in the matching custom workflow's `area` options.
@@ -57,7 +58,7 @@ The `gh-pages` branch is the site:
 ```
 index.html                 the portal (copied from the repo root on every publish)
 <family>/run-<N>/          one run's HTML report + run-summary.json (+ api-coverage/)
-<family>-manifest.json     the family's runs, newest first (the latest 30 are kept)
+<family>-manifest.json     the family's runs, newest first (the latest `keep-runs` are kept, 10 by default)
 <family>-history.json      the kept runs' stats + the newest run's known issues (what the portal reads)
 latest/<family>/           a copy of the newest run
 latest/api-coverage/       the full API regression's coverage (+ totals.json for the portal)
@@ -67,12 +68,15 @@ bugs/                      the Bugs page
 
 | Script | Does |
 |---|---|
-| `scripts/publish-report.sh <family> [--latest-coverage]` | Copies the run's report and coverage into `<family>/run-<N>/`, refreshes `latest/<family>/`, prunes to `KEEP_RUNS` (30), rebuilds the manifest, then runs `build-run-summaries.mts` for the family and removes the family's full `results.json` files (the summaries replace them; the run's artifact keeps it for 14 days). An unknown argument fails with the usage. |
+| `scripts/publish-report.sh <family> [--latest-coverage]` | Copies the run's report and coverage into `<family>/run-<N>/`, refreshes `latest/<family>/`, prunes to `KEEP_RUNS` (the `keep-runs` input, 10 by default; anything but a positive whole number fails), rebuilds the manifest, then runs `build-run-summaries.mts` for the family and removes the family's full `results.json` files (the summaries replace them; the run's artifact keeps it for 14 days). An unknown argument fails with the usage. |
 | `scripts/build-run-summaries.mts <site> [<family>]` | Writes the small files the portal and the Bugs page read instead of the full `results.json` (an API regression's is about 8 MB): a `run-summary.json` per run (stats, known issues, each scenario test's last status; built once from its `results.json`, which `publish-report.sh` then removes; copied to `latest/<family>/`), `<family>-history.json` and `latest/api-coverage/totals.json` (`summary.json` without the per-endpoint detail). Without a family it builds only the families that have no history yet. |
 | `scripts/publish-test-cases.sh` | Builds the Test Cases and Bugs pages, replaces `test-cases/` and `bugs/`, and builds the run summaries of families that have none yet, so a portal change published before the next run finds its data |
+| `scripts/squash-gh-pages.sh` | Replaces the `gh-pages` history with one commit holding the current site (the same files), pushed with `--force-with-lease`, so a publish that lands at the same moment is never overwritten |
 | `scripts/gh-pages-lib.sh` | `ghp_checkout`: points `origin` at the repo with `GH_TOKEN`, checks out `gh-pages` as a worktree; `git ls-remote --exit-code` tells "no branch yet" (first publish: an orphan branch) from a real fetch error. `ghp_publish`: copies the portal and `.nojekyll`, commits as `github-actions[bot]`, pushes, and on a rejected push rebases and retries up to 3 times |
 
 Each script touches only its own folders, so parallel publishes (a UI run, an API run, a Test Cases publish) rebase without conflicts. The run summaries depend only on the published files, so two publishes that write the same one write the same bytes. `scripts/*.sh` keep LF line endings (`.gitattributes`).
+
+`squash-gh-pages.yml` runs on the 1st of each month at 04:45 UTC, between the nightly runs, and by hand: every publish adds a full report to the `gh-pages` history, so without it the branch would keep growing although the site keeps only the latest runs. A publish that read the branch before the squash is rejected once, rebases onto the new commit and retries, like any concurrent publish.
 
 `publish-test-cases.yml` runs on pushes to `main` that change the scenarios, the bugs, the pages, their builds, the profile or `index.html`, so a portal change goes live on merge. `publish-wiki.yml` mirrors `docs/wiki/` into the repository's wiki on pushes to `main` that change it.
 

@@ -30,7 +30,12 @@ case "${2:-}" in
   *) echo "$USAGE" >&2; exit 2 ;;
 esac
 RUN="run-${GITHUB_RUN_NUMBER:?GITHUB_RUN_NUMBER is not set}"
-KEEP_RUNS="${KEEP_RUNS:-30}"
+# How many runs of the family stay on the site (playwright-run.yml's keep-runs input).
+KEEP_RUNS="${KEEP_RUNS:-10}"
+if ! [[ "$KEEP_RUNS" =~ ^[1-9][0-9]*$ ]]; then
+  echo "KEEP_RUNS must be a positive whole number, got '$KEEP_RUNS'." >&2
+  exit 2
+fi
 SITE=".gh-pages"
 
 if [ ! -d playwright-report ]; then

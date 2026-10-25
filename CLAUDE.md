@@ -138,7 +138,7 @@ Details: `docs/framework/04-api-layer.md`.
 ## CI and GitHub Pages
 
 Details: `docs/framework/11-ci-and-publishing.md` and the wiki's CI and Pages pages.
-- `playwright-run.yml` is the reusable test job; its callers are the scheduled (`run-ui-tests.yml`, `run-api-tests.yml`), manual (`custom-*-tests.yml`) and smoke (`smoke-tests.yml`) workflows. **A new folder under `tests/ui` or `tests/api` goes in the matching custom workflow's `area` options.**
+- `playwright-run.yml` is the reusable test job; its callers are the scheduled (`run-ui-tests.yml`, `run-api-tests.yml`), manual (`custom-*-tests.yml`) and smoke (`smoke-tests.yml`) workflows. **A new folder under `tests/ui` or `tests/api` goes in the matching custom workflow's `area` options.** Its `keep-runs` input (default 10) sets how many runs of the family stay on Pages; `squash-gh-pages.yml` (monthly) replaces the `gh-pages` history with one commit.
 - `pr-checks.yml` (`verify`, required on `main`): typecheck, scenario validation, Test Cases and Bugs page builds; static only. Tests run locally before a push (each changed spec three times) and nightly on `main`.
 - Secrets: callers pass them by name and `playwright-run.yml` declares them; never `secrets: inherit`.
 - **Hardening:**

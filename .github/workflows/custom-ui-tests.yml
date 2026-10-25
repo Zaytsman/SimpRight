@@ -18,6 +18,11 @@ on:
         required: false
         type: string
         default: ''
+      keep-runs:
+        description: 'Custom UI runs to keep on GitHub Pages (older ones are removed)'
+        required: false
+        type: number
+        default: 10
 
 permissions:
   contents: write
@@ -34,3 +39,4 @@ jobs:
       family: custom-ui
       paths: ${{ inputs.area != 'all' && format('tests/ui/{0}/', inputs.area) || '' }}
       grep: ${{ inputs.grep }}
+      keep-runs: ${{ inputs.keep-runs }}
