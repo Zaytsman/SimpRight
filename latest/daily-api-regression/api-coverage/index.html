@@ -4,92 +4,127 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>API Coverage Report</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2044%2044%22%3E%3Crect%20width%3D%2244%22%20height%3D%2244%22%20rx%3D%2210%22%20fill%3D%22%231f6feb%22%2F%3E%3Ccircle%20cx%3D%2222%22%20cy%3D%2222%22%20r%3D%2211%22%20fill%3D%22none%22%20stroke%3D%22%23fff%22%20stroke-opacity%3D%220.35%22%20stroke-width%3D%224.5%22%2F%3E%3Cpath%20d%3D%22M22%2011A11%2011%200%201%201%2011%2022%22%20fill%3D%22none%22%20stroke%3D%22%23fff%22%20stroke-width%3D%224.5%22%20stroke-linecap%3D%22round%22%2F%3E%3C%2Fsvg%3E">
   <style>
+    /* The palette of the SimpRight pages (GitHub's dark greys), with this report's own blue accent from its logo. */
     :root {
-      --bg: #0f172a;
-      --card-bg: #1e293b;
-      --card-border: #334155;
-      --text: #f8fafc;
-      --text-muted: #94a3b8;
-      --primary: #38bdf8;
-      --success: #22c55e;
-      --warning: #f59e0b;
-      --danger: #ef4444;
-      --method-get: #0ea5e9;
-      --method-post: #10b981;
-      --method-put: #f59e0b;
-      --method-delete: #ef4444;
-      --method-patch: #a855f7;
+      --bg: #0d1117;
+      --bg-end: #0d1420;
+      --inset: #010409;
+      --card-bg: #161b22;
+      --card-bg-2: #21262d;
+      --card-border: #30363d;
+      --line-soft: #21262d;
+      --line-bright: #8b949e;
+      --text: #e6edf3;
+      --text-strong: #f0f6fc;
+      --text-muted: #9198a1;
+      --primary: #58a6ff;
+      --primary-text: #79c0ff;
+      --primary-bg: rgba(88, 166, 255, 0.12);
+      --primary-line: rgba(88, 166, 255, 0.4);
+      --success: #3fb950;
+      --success-bg: rgba(63, 185, 80, 0.12);
+      --success-line: rgba(63, 185, 80, 0.4);
+      --warning: #d29922;
+      --warning-text: #e3b341;
+      --warning-bg: rgba(210, 153, 34, 0.12);
+      --danger: #f85149;
+      --danger-text: #ffa198;
+      --danger-bg: rgba(248, 81, 73, 0.1);
+      --danger-line: rgba(248, 81, 73, 0.4);
+      --method-get: #58a6ff;
+      --method-post: #3fb950;
+      --method-put: #d29922;
+      --method-delete: #f85149;
+      --method-patch: #bc8cff;
+      --method-other: #9198a1;
+      --mono: ui-monospace, SFMono-Regular, 'IBM Plex Mono', Consolas, 'Liberation Mono', monospace;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
+    [hidden] { display: none !important; }
     body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
       background-color: var(--bg);
+      background-image: linear-gradient(180deg, var(--bg) 0%, var(--bg-end) 100%);
+      min-height: 100vh;
       color: var(--text);
       line-height: 1.5;
-      padding: 24px;
+      padding: 28px 40px 48px;
     }
+    a { color: var(--primary); }
+    :focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
     .container { max-width: 1400px; margin: 0 auto; }
+
+    /* Header: the report's logo, then the title */
     header {
-      margin-bottom: 28px;
-      padding-bottom: 16px;
-      border-bottom: 1px solid var(--card-border);
+      margin-bottom: 24px;
       display: flex;
-      justify-content: space-between;
-      align-items: flex-end;
+      flex-direction: column;
+      gap: 22px;
     }
-    h1 { font-size: 28px; font-weight: 700; color: #fff; }
-    .generated-at { color: var(--text-muted); font-size: 14px; }
-    
+    .brand { display: flex; align-items: center; gap: 12px; }
+    .brand svg { flex: none; }
+    .brand-name { font-size: 20px; font-weight: 700; line-height: 1.1; letter-spacing: -0.01em; color: var(--text-strong); }
+    .brand-name span { color: var(--primary); }
+    .brand-sub { margin-top: 4px; font-size: 12px; line-height: 1.1; color: var(--text-muted); font-family: var(--mono); }
+    h1 { font-size: 36px; font-weight: 700; line-height: 1.15; letter-spacing: -0.02em; color: var(--text-strong); }
+    .generated-at { margin-top: 6px; color: var(--text-muted); font-size: 14px; }
+
     /* Stats Grid */
     .stats-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 16px;
+      gap: 14px;
       margin-bottom: 28px;
     }
     .stat-card {
       background: var(--card-bg);
       border: 1px solid var(--card-border);
-      border-radius: 10px;
+      border-radius: 12px;
       padding: 18px;
     }
-    .stat-title { font-size: 13px; font-weight: 600; text-transform: uppercase; color: var(--text-muted); letter-spacing: 0.5px; }
-    .stat-value { font-size: 32px; font-weight: 700; margin: 6px 0; }
+    .stat-title { font-size: 12px; font-weight: 600; text-transform: uppercase; color: var(--text-muted); letter-spacing: 0.08em; }
+    .stat-value { font-size: 28px; font-weight: 700; line-height: 1.1; margin: 10px 0 8px; }
     .stat-sub { font-size: 13px; color: var(--text-muted); }
     .color-success { color: var(--success); }
     .color-warning { color: var(--warning); }
     .color-danger { color: var(--danger); }
-    .color-primary { color: var(--primary); }
+    .color-primary { color: var(--text-strong); }
 
     /* Service Overview */
-    .section-title { font-size: 20px; font-weight: 600; margin: 28px 0 16px 0; color: #fff; }
+    .section-title { font-size: 20px; font-weight: 700; margin: 32px 0 14px 0; color: var(--text-strong); }
     .services-table {
       width: 100%;
-      border-collapse: collapse;
+      border-collapse: separate;
+      border-spacing: 0;
       background: var(--card-bg);
       border: 1px solid var(--card-border);
-      border-radius: 10px;
+      border-radius: 12px;
       overflow: hidden;
       margin-bottom: 32px;
+      font-size: 14px;
     }
     .services-table th, .services-table td {
       padding: 12px 16px;
       text-align: left;
-      border-bottom: 1px solid var(--card-border);
+      border-bottom: 1px solid var(--line-soft);
     }
-    .services-table th { background: rgba(0,0,0,0.2); font-size: 13px; font-weight: 600; color: var(--text-muted); }
-    
+    .services-table tbody tr:last-child td { border-bottom: none; }
+    .services-table tbody tr:hover td { background: rgba(240, 246, 252, 0.02); }
+    .services-table th { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-muted); border-bottom-color: var(--card-border); }
+    .services-table strong { color: var(--text-strong); }
+
     /* Progress bar */
     .progress-bar-container {
-      background: #334155;
-      border-radius: 6px;
-      height: 10px;
+      background: var(--card-bg-2);
+      border-radius: 3px;
+      height: 6px;
       width: 100%;
       overflow: hidden;
       display: inline-block;
     }
-    .progress-bar-fill { height: 100%; border-radius: 6px; transition: width 0.3s; }
+    .progress-bar-fill { height: 100%; border-radius: 3px; transition: width 0.3s; }
     .fill-green { background: var(--success); }
     .fill-yellow { background: var(--warning); }
     .fill-red { background: var(--danger); }
@@ -98,76 +133,91 @@
     .controls {
       display: flex;
       flex-wrap: wrap;
-      gap: 12px;
-      margin-bottom: 20px;
+      gap: 10px;
+      margin-bottom: 16px;
       background: var(--card-bg);
-      padding: 16px;
-      border-radius: 10px;
+      padding: 14px;
+      border-radius: 12px;
       border: 1px solid var(--card-border);
     }
     .controls input, .controls select {
-      background: #0f172a;
+      min-height: 40px;
+      background: var(--bg);
       border: 1px solid var(--card-border);
-      color: #fff;
-      padding: 8px 12px;
-      border-radius: 6px;
+      color: var(--text);
+      padding: 0 12px;
+      border-radius: 8px;
+      font: inherit;
       font-size: 14px;
       outline: none;
     }
-    .controls input:focus, .controls select:focus { border-color: var(--primary); }
+    .controls input::placeholder { color: var(--text-muted); }
+    .controls input:focus, .controls select:focus { border-color: var(--primary); box-shadow: 0 0 0 3px var(--primary-bg); }
     .search-box { flex: 1; min-width: 250px; }
 
     /* Endpoint Cards */
-    .endpoint-list { display: flex; flex-direction: column; gap: 12px; }
+    .endpoint-list { display: flex; flex-direction: column; gap: 8px; }
     .endpoint-card {
       background: var(--card-bg);
       border: 1px solid var(--card-border);
-      border-radius: 8px;
+      border-radius: 10px;
       overflow: hidden;
       transition: border-color 0.2s;
     }
-    .endpoint-card:hover { border-color: #475569; }
+    .endpoint-card:hover { border-color: var(--line-bright); }
     .endpoint-header {
-      padding: 14px 18px;
+      padding: 12px 16px;
+      min-height: 52px;
       display: flex;
       align-items: center;
       justify-content: space-between;
       cursor: pointer;
       gap: 16px;
     }
-    .endpoint-left { display: flex; align-items: center; gap: 12px; flex: 1; }
+    .endpoint-left { display: flex; align-items: center; gap: 12px; flex: 1; min-width: 0; flex-wrap: wrap; }
+    /* Methods: a tinted badge in the method's color. */
     .method-badge {
+      font-family: var(--mono);
       font-size: 12px;
       font-weight: 700;
-      padding: 4px 8px;
-      border-radius: 4px;
-      color: #fff;
-      min-width: 60px;
+      padding: 3px 8px;
+      border-radius: 6px;
+      min-width: 64px;
       text-align: center;
     }
-    .method-GET { background: var(--method-get); }
-    .method-POST { background: var(--method-post); }
-    .method-PUT { background: var(--method-put); }
-    .method-DELETE { background: var(--method-delete); }
-    .method-PATCH { background: var(--method-patch); }
+    /* Other methods (QUERY, HEAD, OPTIONS) stay grey; the rules below color the common ones. */
+    .method-badge, .mini-method {
+      color: var(--method-other);
+      background: rgba(145, 152, 161, 0.12);
+      border: 1px solid rgba(145, 152, 161, 0.35);
+    }
+    .method-GET { color: var(--method-get); background: rgba(88, 166, 255, 0.12); border-color: rgba(88, 166, 255, 0.4); }
+    .method-POST { color: var(--method-post); background: rgba(63, 185, 80, 0.12); border-color: rgba(63, 185, 80, 0.4); }
+    .method-PUT { color: var(--method-put); background: rgba(210, 153, 34, 0.12); border-color: rgba(210, 153, 34, 0.4); }
+    .method-DELETE { color: var(--method-delete); background: rgba(248, 81, 73, 0.1); border-color: rgba(248, 81, 73, 0.4); }
+    .method-PATCH { color: var(--method-patch); background: rgba(188, 140, 255, 0.12); border-color: rgba(188, 140, 255, 0.4); }
 
-    .endpoint-path { font-family: monospace; font-size: 15px; font-weight: 600; color: #f1f5f9; }
+    .endpoint-path { font-family: var(--mono); font-size: 14px; font-weight: 600; color: var(--text-strong); overflow-wrap: anywhere; }
     .service-tag {
-      font-size: 11px;
-      background: #334155;
-      color: #cbd5e1;
-      padding: 2px 8px;
-      border-radius: 12px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-muted);
+      padding: 1px 8px;
+      border-radius: 999px;
+      border: 1px solid var(--card-border);
     }
     .endpoint-right { display: flex; align-items: center; gap: 16px; }
     .hits-badge {
       font-size: 12px;
-      padding: 3px 8px;
-      border-radius: 6px;
-      background: #334155;
+      font-weight: 600;
+      padding: 2px 8px;
+      border-radius: 999px;
+      white-space: nowrap;
+      color: var(--text-muted);
+      border: 1px solid var(--card-border);
     }
-    .hits-covered { background: rgba(34, 197, 94, 0.2); color: #4ade80; }
-    .hits-uncovered { background: rgba(239, 68, 68, 0.2); color: #f87171; }
+    .hits-covered { background: var(--success-bg); color: var(--success); border-color: var(--success-line); }
+    .hits-uncovered { background: var(--danger-bg); color: var(--danger-text); border-color: var(--danger-line); }
 
     .chevron {
       color: var(--text-muted);
@@ -180,54 +230,57 @@
     }
 
     .endpoint-body {
-      padding: 18px;
-      border-top: 1px solid var(--card-border);
-      background: #182234;
+      padding: 16px;
+      border-top: 1px solid var(--line-soft);
+      background: var(--bg);
       display: none;
     }
     .endpoint-body.open { display: block; }
     .details-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 16px;
-      margin-bottom: 16px;
+      gap: 12px;
     }
     .detail-section {
       background: var(--card-bg);
       padding: 14px;
-      border-radius: 6px;
+      border-radius: 10px;
       border: 1px solid var(--card-border);
     }
-    .detail-heading { font-size: 13px; font-weight: 600; margin-bottom: 8px; color: var(--primary); }
+    .detail-heading { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 10px; color: var(--text-muted); }
     .tag-list { display: flex; flex-wrap: wrap; gap: 6px; }
     .tag {
       font-size: 12px;
-      padding: 2px 8px;
-      border-radius: 4px;
-      font-family: monospace;
+      padding: 1px 8px;
+      border-radius: 6px;
+      font-family: var(--mono);
+      border: 1px solid transparent;
     }
-    .tag-success { background: rgba(34, 197, 94, 0.2); color: #4ade80; border: 1px solid #15803d; }
-    .tag-missing { background: rgba(239, 68, 68, 0.2); color: #f87171; border: 1px solid #991b1b; }
-    .tag-neutral { background: #334155; color: #cbd5e1; }
+    .tag-success { background: var(--success-bg); color: var(--success); border-color: var(--success-line); }
+    .tag-missing { background: var(--danger-bg); color: var(--danger-text); border-color: var(--danger-line); }
+    .tag-neutral { background: var(--card-bg-2); color: var(--text-muted); }
 
     /* Tabs */
-    .tabs { display: flex; gap: 4px; margin: -12px 0 24px; border-bottom: 1px solid var(--card-border); }
+    .tabs { display: flex; gap: 4px; margin: 0 0 24px; padding-bottom: 8px; border-bottom: 1px solid var(--line-soft); }
     .tab-link {
       color: var(--text-muted);
       text-decoration: none;
-      padding: 8px 16px;
-      border-bottom: 2px solid transparent;
+      min-height: 36px;
+      display: inline-flex;
+      align-items: center;
+      padding: 0 14px;
+      border-radius: 7px;
       font-weight: 600;
       font-size: 14px;
     }
-    .tab-link:hover { color: var(--text); }
-    .tab-link.active { color: var(--primary); border-bottom-color: var(--primary); }
-    .contract-link { display: inline-block; margin-bottom: 12px; color: var(--primary); font-size: 13px; text-decoration: none; }
+    .tab-link:hover { color: var(--text); background: rgba(240, 246, 252, 0.04); }
+    .tab-link.active { color: var(--primary); background: var(--primary-bg); }
+    .contract-link { display: inline-block; margin-bottom: 12px; color: var(--primary); font-size: 13px; font-weight: 600; text-decoration: none; }
     .contract-link:hover { text-decoration: underline; }
     .endpoint-card.flash { border-color: var(--primary); }
 
     /* Contracts */
-    .contracts-layout { display: grid; grid-template-columns: 300px minmax(0, 1fr); gap: 20px; align-items: start; }
+    .contracts-layout { display: grid; grid-template-columns: 320px minmax(0, 1fr); gap: 20px; align-items: start; }
     .contract-nav {
       position: sticky;
       top: 16px;
@@ -235,100 +288,113 @@
       overflow-y: auto;
       background: var(--card-bg);
       border: 1px solid var(--card-border);
-      border-radius: 10px;
+      border-radius: 12px;
       padding: 10px;
     }
-    .nav-file + .nav-file { margin-top: 10px; border-top: 1px solid var(--card-border); padding-top: 10px; }
+    .nav-file + .nav-file { margin-top: 8px; border-top: 1px solid var(--line-soft); padding-top: 8px; }
     .nav-file-row { display: flex; align-items: flex-start; gap: 2px; }
     .nav-toggle {
       background: none;
       border: none;
       color: var(--text-muted);
       cursor: pointer;
-      padding: 6px 4px;
-      border-radius: 4px;
+      padding: 8px 6px;
+      border-radius: 6px;
       line-height: 1;
     }
-    .nav-toggle:hover { color: var(--text); background: #334155; }
+    .nav-toggle:hover { color: var(--text); background: rgba(240, 246, 252, 0.06); }
     .nav-toggle .chevron { display: inline-block; font-size: 10px; transition: transform 0.2s ease; }
     .nav-toggle[aria-expanded="true"] .chevron { transform: rotate(90deg); }
     .nav-file-row .nav-file-link { flex: 1; min-width: 0; }
-    .nav-file-link { display: block; color: #fff; font-weight: 600; text-decoration: none; padding: 4px 6px; border-radius: 6px; }
-    .nav-file-link.active { background: rgba(56, 189, 248, 0.15); color: var(--primary); }
+    .nav-file-link { display: block; color: var(--text-strong); font-weight: 600; font-size: 14px; text-decoration: none; padding: 5px 8px; border-radius: 8px; border: 1px solid transparent; }
+    .nav-file-link:hover { background: rgba(240, 246, 252, 0.04); }
+    .nav-file-link.active { background: var(--primary-bg); border-color: var(--primary-line); color: var(--primary-text); }
     .nav-file-name { display: block; font-weight: 400; font-size: 12px; color: var(--text-muted); }
-    .nav-endpoints { list-style: none; margin: 4px 0 0 22px; }
+    .nav-endpoints { list-style: none; margin: 4px 0 0 24px; }
     .nav-endpoints a {
       display: flex;
       align-items: center;
       gap: 6px;
-      padding: 3px 6px;
-      border-radius: 4px;
-      color: #cbd5e1;
+      padding: 4px 6px;
+      border-radius: 6px;
+      color: var(--text);
       text-decoration: none;
       font-size: 12px;
     }
-    .nav-endpoints a:hover { background: #334155; }
-    .mini-method { font-size: 10px; font-weight: 700; padding: 1px 4px; border-radius: 3px; color: #fff; min-width: 46px; text-align: center; }
-    .mini-path { font-family: monospace; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; flex: 1; }
+    .nav-endpoints a:hover { background: rgba(240, 246, 252, 0.04); }
+    .mini-method {
+      font-family: var(--mono);
+      font-size: 10px;
+      font-weight: 700;
+      padding: 0 4px;
+      border-radius: 4px;
+      min-width: 48px;
+      text-align: center;
+    }
+    .mini-path { font-family: var(--mono); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; flex: 1; }
     .mini-pct { font-weight: 700; font-size: 11px; }
-    .method-QUERY, .method-HEAD, .method-OPTIONS { background: #64748b; }
     .contract-main { min-width: 0; }
     .contract-legend { color: var(--text-muted); font-size: 13px; margin-bottom: 12px; }
     .contract {
       background: var(--card-bg);
       border: 1px solid var(--card-border);
-      border-radius: 10px;
+      border-radius: 12px;
       padding: 24px 28px;
     }
-    .md { color: #e2e8f0; font-size: 15px; }
-    .md h1, .md h2, .md h3, .md h4, .md h5, .md h6 { color: #fff; margin: 1.4em 0 0.6em; line-height: 1.3; scroll-margin-top: 16px; }
+    .md { color: var(--text); font-size: 15px; }
+    .md h1, .md h2, .md h3, .md h4, .md h5, .md h6 { color: var(--text-strong); margin: 1.4em 0 0.6em; line-height: 1.3; scroll-margin-top: 16px; }
     .md h1 { font-size: 26px; margin-top: 0; }
-    .md h2 { font-size: 21px; padding-bottom: 6px; border-bottom: 1px solid var(--card-border); }
+    .md h2 { font-size: 21px; padding-bottom: 6px; border-bottom: 1px solid var(--line-soft); }
     .md h3 { font-size: 17px; }
     .md h4 { font-size: 15px; }
-    .md :target { background: rgba(56, 189, 248, 0.12); border-radius: 4px; }
+    .md :target { background: var(--primary-bg); border-radius: 6px; }
     .md p, .md ul, .md ol, .md pre, .md blockquote, .md .table-wrap { margin: 0 0 12px; }
     .md ul, .md ol { padding-left: 24px; }
     .md li { margin: 2px 0; }
     .md li > ul, .md li > ol { margin: 2px 0 0; }
     .md a { color: var(--primary); }
-    .md code { font-family: monospace; font-size: 0.9em; background: #0f172a; padding: 1px 5px; border-radius: 4px; }
-    .md pre { background: #0f172a; border: 1px solid var(--card-border); border-radius: 6px; padding: 12px 14px; overflow-x: auto; }
-    .md pre code { background: none; padding: 0; font-size: 13px; }
+    .md code { font-family: var(--mono); font-size: 0.87em; background: var(--bg); border: 1px solid var(--card-border); padding: 0 5px; border-radius: 6px; }
+    .md pre { background: var(--inset); border: 1px solid var(--card-border); border-radius: 10px; padding: 12px 14px; overflow-x: auto; }
+    .md pre code { background: none; border: none; padding: 0; font-size: 13px; }
     .md blockquote { border-left: 3px solid var(--card-border); padding-left: 12px; color: var(--text-muted); }
-    .md hr { border: none; border-top: 1px solid var(--card-border); margin: 20px 0; }
+    .md hr { border: none; border-top: 1px solid var(--line-soft); margin: 20px 0; }
     .md .table-wrap { overflow-x: auto; }
     .md table { border-collapse: collapse; font-size: 14px; }
     .md th, .md td { border: 1px solid var(--card-border); padding: 6px 10px; text-align: left; vertical-align: top; }
-    .md th { background: rgba(0,0,0,0.2); }
+    .md th { background: var(--card-bg-2); color: var(--text-strong); }
     .md td.row-mark { border: none; white-space: nowrap; }
-    .md em { color: #94a3b8; }
-    .st { font-size: 11px; font-weight: 600; padding: 1px 6px; border-radius: 4px; margin-left: 8px; white-space: nowrap; font-style: normal; }
-    .st-ok { background: rgba(34, 197, 94, 0.2); color: #4ade80; }
-    .st-miss { background: rgba(239, 68, 68, 0.2); color: #f87171; }
-    .cov-chip { font-size: 12px; font-weight: 600; padding: 2px 8px; border-radius: 10px; margin-left: 10px; text-decoration: none; vertical-align: middle; white-space: nowrap; }
-    .chip-covered { background: rgba(34, 197, 94, 0.2); color: #4ade80; }
-    .chip-uncovered { background: rgba(239, 68, 68, 0.2); color: #f87171; }
-    .cov-chip:hover { outline: 1px solid currentColor; }
+    .md em { color: var(--text-muted); }
+    .st { font-size: 11px; font-weight: 600; padding: 1px 6px; border-radius: 6px; margin-left: 8px; white-space: nowrap; font-style: normal; border: 1px solid transparent; }
+    .st-ok { background: var(--success-bg); color: var(--success); border-color: var(--success-line); }
+    .st-miss { background: var(--danger-bg); color: var(--danger-text); border-color: var(--danger-line); }
+    .cov-chip { font-size: 12px; font-weight: 600; padding: 2px 8px; border-radius: 999px; margin-left: 10px; text-decoration: none; vertical-align: middle; white-space: nowrap; border: 1px solid transparent; }
+    /* Two classes, to win over the contract's link color (.md a). */
+    .cov-chip.chip-covered { background: var(--success-bg); color: var(--success); border-color: var(--success-line); }
+    .cov-chip.chip-uncovered { background: var(--danger-bg); color: var(--danger-text); border-color: var(--danger-line); }
+    .cov-chip:hover { border-color: currentColor; }
 
     @media (max-width: 860px) {
-      body { padding: 16px; }
-      header { flex-direction: column; align-items: flex-start; gap: 8px; }
+      body { padding: 20px 16px 32px; }
+      h1 { font-size: 28px; }
       .contracts-layout { grid-template-columns: 1fr; }
       .contract-nav { position: static; max-height: 320px; }
       .contract { padding: 16px; }
+      .services-table { display: block; overflow-x: auto; }
+      .endpoint-header { flex-wrap: wrap; }
+      .endpoint-right { margin-left: auto; }
     }
   </style>
 </head>
 <body>
   <div class="container">
     <header>
-      <div>
-        <h1>API Coverage Report</h1>
-        <div class="generated-at">Generated: 2026-10-25T10:09:19.131Z</div>
+      <div class="brand">
+        <svg width="36" height="36" viewBox="0 0 44 44" aria-hidden="true"><rect width="44" height="44" rx="10" fill="#1f6feb"/><circle cx="22" cy="22" r="11" fill="none" stroke="#fff" stroke-opacity="0.35" stroke-width="4.5"/><path d="M22 11A11 11 0 1 1 11 22" fill="none" stroke="#fff" stroke-width="4.5" stroke-linecap="round"/></svg>
+        <div><div class="brand-name">API <span>Coverage</span></div><div class="brand-sub">playwright-api-coverage</div></div>
       </div>
       <div>
-        <span class="service-tag">playwright-api-coverage</span>
+        <h1>API Coverage Report</h1>
+        <div class="generated-at">Generated: 2026-10-25T13:12:44.806Z</div>
       </div>
     </header>
 
@@ -351,8 +417,8 @@
       </div>
       <div class="stat-card">
         <div class="stat-title">Status Codes</div>
-        <div class="stat-value color-success">247 / 256</div>
-        <div class="stat-sub">96% documented codes tested</div>
+        <div class="stat-value color-success">242 / 256</div>
+        <div class="stat-sub">95% documented codes tested</div>
       </div>
       <div class="stat-card">
         <div class="stat-title">Required Fields</div>
@@ -448,14 +514,14 @@
         <tr>
           <td><strong>Invoices</strong></td>
           <td>11 / 11 (100%)</td>
-          <td>36 / 38 (95%)</td>
+          <td>31 / 38 (82%)</td>
           <td>21 / 21 (100%)</td>
           <td style="width: 250px;">
             <div style="display: flex; align-items: center; gap: 10px;">
               <div class="progress-bar-container">
-                <div class="progress-bar-fill fill-green" style="width: 91%;"></div>
+                <div class="progress-bar-fill fill-green" style="width: 86%;"></div>
               </div>
-              <span style="font-weight: 600; font-size: 13px; min-width: 35px;">91%</span>
+              <span style="font-weight: 600; font-size: 13px; min-width: 35px;">86%</span>
             </div>
           </td>
         </tr>
@@ -979,7 +1045,7 @@
             <span class="service-tag">Carts</span>
           </div>
           <div class="endpoint-right">
-            <span class="hits-badge hits-covered">95 calls</span>
+            <span class="hits-badge hits-covered">87 calls</span>
             <div style="width: 100px;">
               <div class="progress-bar-container">
                 <div class="progress-bar-fill fill-green" style="width: 100%;"></div>
@@ -1224,7 +1290,7 @@
             <span class="service-tag">Carts</span>
           </div>
           <div class="endpoint-right">
-            <span class="hits-badge hits-covered">97 calls</span>
+            <span class="hits-badge hits-covered">89 calls</span>
             <div style="width: 100px;">
               <div class="progress-bar-container">
                 <div class="progress-bar-fill fill-green" style="width: 100%;"></div>
@@ -1239,7 +1305,7 @@
           <p style="margin-bottom: 14px; color: var(--text-muted); font-size: 14px;"><strong>Delete cart:</strong> No description</p>
           <div class="details-grid">
             <div class="detail-section">
-              <div class="detail-heading">Status Codes (2 tested / 2 documented)</div>
+              <div class="detail-heading">Status Codes (3 tested / 2 documented)</div>
               <div class="tag-list">
                 <span class="tag tag-success">204 ✓</span><span class="tag tag-success">404 ✓</span>
               </div>
@@ -2098,7 +2164,7 @@
           </div>
         </div>
       </div>
-      <div class="endpoint-card" id="endpoint-query-invoices-search" data-service="Invoices" data-covered="true" data-coverage="88" data-search="QUERY /invoices/search Search invoices (HTTP QUERY)">
+      <div class="endpoint-card" id="endpoint-query-invoices-search" data-service="Invoices" data-covered="true" data-coverage="77" data-search="QUERY /invoices/search Search invoices (HTTP QUERY)">
         <div class="endpoint-header" onclick="toggleDetails(this)">
           <div class="endpoint-left">
             <span class="method-badge method-QUERY">QUERY</span>
@@ -2106,13 +2172,13 @@
             <span class="service-tag">Invoices</span>
           </div>
           <div class="endpoint-right">
-            <span class="hits-badge hits-covered">4 calls</span>
+            <span class="hits-badge hits-covered">3 calls</span>
             <div style="width: 100px;">
               <div class="progress-bar-container">
-                <div class="progress-bar-fill fill-green" style="width: 88%;"></div>
+                <div class="progress-bar-fill fill-green" style="width: 77%;"></div>
               </div>
             </div>
-            <span style="font-size: 13px; font-weight: 700; width: 40px; text-align: right;">88%</span>
+            <span style="font-size: 13px; font-weight: 700; width: 40px; text-align: right;">77%</span>
             <span class="chevron">▼</span>
           </div>
         </div>
@@ -2133,9 +2199,9 @@
               </div>
             </div>
             <div class="detail-section">
-              <div class="detail-heading">Optional Request Fields (1/2)</div>
+              <div class="detail-heading">Optional Request Fields (0/2)</div>
               <div class="tag-list">
-                <span class="tag tag-success">q ✓</span><span class="tag tag-missing">page ✗</span>
+                <span class="tag tag-missing">q ✗</span><span class="tag tag-missing">page ✗</span>
               </div>
             </div>
             <div class="detail-section">
@@ -2155,7 +2221,7 @@
             <span class="service-tag">Invoices</span>
           </div>
           <div class="endpoint-right">
-            <span class="hits-badge hits-covered">23 calls</span>
+            <span class="hits-badge hits-covered">19 calls</span>
             <div style="width: 100px;">
               <div class="progress-bar-container">
                 <div class="progress-bar-fill fill-green" style="width: 100%;"></div>
@@ -2294,7 +2360,7 @@
           </div>
         </div>
       </div>
-      <div class="endpoint-card" id="endpoint-put-invoices-invoiceid-status" data-service="Invoices" data-covered="true" data-coverage="100" data-search="PUT /invoices/:invoiceId/status Update invoice status">
+      <div class="endpoint-card" id="endpoint-put-invoices-invoiceid-status" data-service="Invoices" data-covered="true" data-coverage="91" data-search="PUT /invoices/:invoiceId/status Update invoice status">
         <div class="endpoint-header" onclick="toggleDetails(this)">
           <div class="endpoint-left">
             <span class="method-badge method-PUT">PUT</span>
@@ -2302,13 +2368,13 @@
             <span class="service-tag">Invoices</span>
           </div>
           <div class="endpoint-right">
-            <span class="hits-badge hits-covered">14 calls</span>
+            <span class="hits-badge hits-covered">11 calls</span>
             <div style="width: 100px;">
               <div class="progress-bar-container">
-                <div class="progress-bar-fill fill-green" style="width: 100%;"></div>
+                <div class="progress-bar-fill fill-green" style="width: 91%;"></div>
               </div>
             </div>
-            <span style="font-size: 13px; font-weight: 700; width: 40px; text-align: right;">100%</span>
+            <span style="font-size: 13px; font-weight: 700; width: 40px; text-align: right;">91%</span>
             <span class="chevron">▼</span>
           </div>
         </div>
@@ -2317,9 +2383,9 @@
           <p style="margin-bottom: 14px; color: var(--text-muted); font-size: 14px;"><strong>Update invoice status:</strong> Sets the `status` and/or `status_message` of an invoice. Any logged-in user can do it for any invoice (see Notes). _(source)_</p>
           <div class="details-grid">
             <div class="detail-section">
-              <div class="detail-heading">Status Codes (5 tested / 5 documented)</div>
+              <div class="detail-heading">Status Codes (4 tested / 5 documented)</div>
               <div class="tag-list">
-                <span class="tag tag-success">200 ✓</span><span class="tag tag-success">401 ✓</span><span class="tag tag-success">404 ✓</span><span class="tag tag-success">422 ✓</span><span class="tag tag-success">500 ✓</span>
+                <span class="tag tag-success">200 ✓</span><span class="tag tag-success">401 ✓</span><span class="tag tag-success">404 ✓</span><span class="tag tag-success">422 ✓</span><span class="tag tag-missing">500 ✗</span>
               </div>
             </div>
             <div class="detail-section">
@@ -2351,7 +2417,7 @@
             <span class="service-tag">Invoices</span>
           </div>
           <div class="endpoint-right">
-            <span class="hits-badge hits-covered">67 calls</span>
+            <span class="hits-badge hits-covered">59 calls</span>
             <div style="width: 100px;">
               <div class="progress-bar-container">
                 <div class="progress-bar-fill fill-green" style="width: 95%;"></div>
@@ -2366,7 +2432,7 @@
           <p style="margin-bottom: 14px; color: var(--text-muted); font-size: 14px;"><strong>Create invoice:</strong> Creates an invoice for the user of the token from a cart, with one line per cart item, the totals and the payment, and queues the checkout email and the stock update. `user_id` comes from the token and `invoice_date` is set to the current time (a sent `invoice_date` is validated but not used). _(source)_</p>
           <div class="details-grid">
             <div class="detail-section">
-              <div class="detail-heading">Status Codes (5 tested / 5 documented)</div>
+              <div class="detail-heading">Status Codes (6 tested / 5 documented)</div>
               <div class="tag-list">
                 <span class="tag tag-success">201 ✓</span><span class="tag tag-success">401 ✓</span><span class="tag tag-success">404 ✓</span><span class="tag tag-success">422 ✓</span><span class="tag tag-success">500 ✓</span>
               </div>
@@ -2441,7 +2507,7 @@
           </div>
         </div>
       </div>
-      <div class="endpoint-card" id="endpoint-put-invoices-invoiceid" data-service="Invoices" data-covered="true" data-coverage="83" data-search="PUT /invoices/:invoiceId Update invoice">
+      <div class="endpoint-card" id="endpoint-put-invoices-invoiceid" data-service="Invoices" data-covered="true" data-coverage="50" data-search="PUT /invoices/:invoiceId Update invoice">
         <div class="endpoint-header" onclick="toggleDetails(this)">
           <div class="endpoint-left">
             <span class="method-badge method-PUT">PUT</span>
@@ -2449,13 +2515,13 @@
             <span class="service-tag">Invoices</span>
           </div>
           <div class="endpoint-right">
-            <span class="hits-badge hits-covered">9 calls</span>
+            <span class="hits-badge hits-covered">2 calls</span>
             <div style="width: 100px;">
               <div class="progress-bar-container">
-                <div class="progress-bar-fill fill-green" style="width: 83%;"></div>
+                <div class="progress-bar-fill fill-yellow" style="width: 50%;"></div>
               </div>
             </div>
-            <span style="font-size: 13px; font-weight: 700; width: 40px; text-align: right;">83%</span>
+            <span style="font-size: 13px; font-weight: 700; width: 40px; text-align: right;">50%</span>
             <span class="chevron">▼</span>
           </div>
         </div>
@@ -2464,9 +2530,9 @@
           <p style="margin-bottom: 14px; color: var(--text-muted); font-size: 14px;"><strong>Update invoice:</strong> Updates an invoice of the caller. The body is validated like a new invoice (so the payment and cart fields are required although they aren&#039;t used), then every `fillable` key of the body is written to the invoice. The invoice must belong to the token&#039;s user: an admin can&#039;t update other users&#039; invoices either. _(source)_</p>
           <div class="details-grid">
             <div class="detail-section">
-              <div class="detail-heading">Status Codes (4 tested / 4 documented)</div>
+              <div class="detail-heading">Status Codes (1 tested / 4 documented)</div>
               <div class="tag-list">
-                <span class="tag tag-success">200 ✓</span><span class="tag tag-success">401 ✓</span><span class="tag tag-success">404 ✓</span><span class="tag tag-success">422 ✓</span>
+                <span class="tag tag-missing">200 ✗</span><span class="tag tag-missing">401 ✗</span><span class="tag tag-missing">404 ✗</span><span class="tag tag-missing">422 ✗</span>
               </div>
             </div>
             <div class="detail-section">
@@ -4068,7 +4134,7 @@ The check runs only for the five exact values in Enums. For any other `payment_m
             <span class="service-tag">Users</span>
           </div>
           <div class="endpoint-right">
-            <span class="hits-badge hits-covered">149 calls</span>
+            <span class="hits-badge hits-covered">148 calls</span>
             <div style="width: 100px;">
               <div class="progress-bar-container">
                 <div class="progress-bar-fill fill-green" style="width: 91%;"></div>
@@ -4083,7 +4149,7 @@ The check runs only for the five exact values in Enums. For any other `payment_m
           <p style="margin-bottom: 14px; color: var(--text-muted); font-size: 14px;"><strong>Login:</strong> Returns a JWT for the `Authorization: Bearer &lt;token&gt;` header. Accounts with two-factor auth (TOTP) get a restricted temporary token instead, which is exchanged for a full token by sending it back with the TOTP code. _(source)_</p>
           <div class="details-grid">
             <div class="detail-section">
-              <div class="detail-heading">Status Codes (4 tested / 5 documented)</div>
+              <div class="detail-heading">Status Codes (5 tested / 5 documented)</div>
               <div class="tag-list">
                 <span class="tag tag-success">200 ✓</span><span class="tag tag-success">400 ✓</span><span class="tag tag-success">401 ✓</span><span class="tag tag-success">403 ✓</span><span class="tag tag-missing">423 ✗</span>
               </div>
@@ -4117,7 +4183,7 @@ The check runs only for the five exact values in Enums. For any other `payment_m
             <span class="service-tag">Users</span>
           </div>
           <div class="endpoint-right">
-            <span class="hits-badge hits-covered">155 calls</span>
+            <span class="hits-badge hits-covered">165 calls</span>
             <div style="width: 100px;">
               <div class="progress-bar-container">
                 <div class="progress-bar-fill fill-green" style="width: 100%;"></div>
@@ -4132,7 +4198,7 @@ The check runs only for the five exact values in Enums. For any other `payment_m
           <p style="margin-bottom: 14px; color: var(--text-muted); font-size: 14px;"><strong>Register:</strong> Creates a customer account (role `user`). _(source)_</p>
           <div class="details-grid">
             <div class="detail-section">
-              <div class="detail-heading">Status Codes (3 tested / 3 documented)</div>
+              <div class="detail-heading">Status Codes (5 tested / 3 documented)</div>
               <div class="tag-list">
                 <span class="tag tag-success">201 ✓</span><span class="tag tag-success">409 ✓</span><span class="tag tag-success">422 ✓</span>
               </div>
@@ -4705,7 +4771,7 @@ The check runs only for the five exact values in Enums. For any other `payment_m
             <span class="service-tag">Users</span>
           </div>
           <div class="endpoint-right">
-            <span class="hits-badge hits-covered">141 calls</span>
+            <span class="hits-badge hits-covered">132 calls</span>
             <div style="width: 100px;">
               <div class="progress-bar-container">
                 <div class="progress-bar-fill fill-green" style="width: 100%;"></div>
@@ -4720,7 +4786,7 @@ The check runs only for the five exact values in Enums. For any other `payment_m
           <p style="margin-bottom: 14px; color: var(--text-muted); font-size: 14px;"><strong>Delete user:</strong> Deletes a user. Admin only. _(source)_</p>
           <div class="details-grid">
             <div class="detail-section">
-              <div class="detail-heading">Status Codes (5 tested / 5 documented)</div>
+              <div class="detail-heading">Status Codes (6 tested / 5 documented)</div>
               <div class="tag-list">
                 <span class="tag tag-success">204 ✓</span><span class="tag tag-success">401 ✓</span><span class="tag tag-success">403 ✓</span><span class="tag tag-success">409 ✓</span><span class="tag tag-success">500 ✓</span>
               </div>
@@ -4825,7 +4891,7 @@ The check runs only for the five exact values in Enums. For any other `payment_m
             <a class="nav-file-link" href="#contract/Invoices_API.md" data-file="Invoices_API.md">Invoices <span class="nav-file-name">Invoices_API.md · 11 endpoints, 11 covered</span></a>
           </div>
           <ul class="nav-endpoints" id="nav-endpoints-5" hidden>
-            <li><a href="#contract/Invoices_API.md/get-invoices" title="GET /invoices"><span class="mini-method method-GET">GET</span><span class="mini-path">/invoices</span><span class="mini-pct color-success">100%</span></a></li><li><a href="#contract/Invoices_API.md/get-invoices-search" title="GET /invoices/search"><span class="mini-method method-GET">GET</span><span class="mini-path">/invoices/search</span><span class="mini-pct color-success">100%</span></a></li><li><a href="#contract/Invoices_API.md/query-invoices-search" title="QUERY /invoices/search"><span class="mini-method method-QUERY">QUERY</span><span class="mini-path">/invoices/search</span><span class="mini-pct color-success">88%</span></a></li><li><a href="#contract/Invoices_API.md/get-invoices-invoiceid" title="GET /invoices/:invoiceId"><span class="mini-method method-GET">GET</span><span class="mini-path">/invoices/{invoiceId}</span><span class="mini-pct color-success">100%</span></a></li><li><a href="#contract/Invoices_API.md/get-invoices-invoice-number-download-pdf" title="GET /invoices/:invoice_number/download-pdf"><span class="mini-method method-GET">GET</span><span class="mini-path">/invoices/{invoice_number}/download-pdf</span><span class="mini-pct color-success">80%</span></a></li><li><a href="#contract/Invoices_API.md/get-invoices-invoice-number-download-pdf-status" title="GET /invoices/:invoice_number/download-pdf-status"><span class="mini-method method-GET">GET</span><span class="mini-path">/invoices/{invoice_number}/download-pdf-status</span><span class="mini-pct color-success">80%</span></a></li><li><a href="#contract/Invoices_API.md/put-invoices-invoiceid-status" title="PUT /invoices/:invoiceId/status"><span class="mini-method method-PUT">PUT</span><span class="mini-path">/invoices/{invoiceId}/status</span><span class="mini-pct color-success">100%</span></a></li><li><a href="#contract/Invoices_API.md/post-invoices" title="POST /invoices"><span class="mini-method method-POST">POST</span><span class="mini-path">/invoices</span><span class="mini-pct color-success">95%</span></a></li><li><a href="#contract/Invoices_API.md/post-invoices-guest" title="POST /invoices/guest"><span class="mini-method method-POST">POST</span><span class="mini-path">/invoices/guest</span><span class="mini-pct color-success">89%</span></a></li><li><a href="#contract/Invoices_API.md/put-invoices-invoiceid" title="PUT /invoices/:invoiceId"><span class="mini-method method-PUT">PUT</span><span class="mini-path">/invoices/{invoiceId}</span><span class="mini-pct color-success">83%</span></a></li><li><a href="#contract/Invoices_API.md/patch-invoices-invoiceid" title="PATCH /invoices/:invoiceId"><span class="mini-method method-PATCH">PATCH</span><span class="mini-path">/invoices/{invoiceId}</span><span class="mini-pct color-success">84%</span></a></li>
+            <li><a href="#contract/Invoices_API.md/get-invoices" title="GET /invoices"><span class="mini-method method-GET">GET</span><span class="mini-path">/invoices</span><span class="mini-pct color-success">100%</span></a></li><li><a href="#contract/Invoices_API.md/get-invoices-search" title="GET /invoices/search"><span class="mini-method method-GET">GET</span><span class="mini-path">/invoices/search</span><span class="mini-pct color-success">100%</span></a></li><li><a href="#contract/Invoices_API.md/query-invoices-search" title="QUERY /invoices/search"><span class="mini-method method-QUERY">QUERY</span><span class="mini-path">/invoices/search</span><span class="mini-pct color-success">77%</span></a></li><li><a href="#contract/Invoices_API.md/get-invoices-invoiceid" title="GET /invoices/:invoiceId"><span class="mini-method method-GET">GET</span><span class="mini-path">/invoices/{invoiceId}</span><span class="mini-pct color-success">100%</span></a></li><li><a href="#contract/Invoices_API.md/get-invoices-invoice-number-download-pdf" title="GET /invoices/:invoice_number/download-pdf"><span class="mini-method method-GET">GET</span><span class="mini-path">/invoices/{invoice_number}/download-pdf</span><span class="mini-pct color-success">80%</span></a></li><li><a href="#contract/Invoices_API.md/get-invoices-invoice-number-download-pdf-status" title="GET /invoices/:invoice_number/download-pdf-status"><span class="mini-method method-GET">GET</span><span class="mini-path">/invoices/{invoice_number}/download-pdf-status</span><span class="mini-pct color-success">80%</span></a></li><li><a href="#contract/Invoices_API.md/put-invoices-invoiceid-status" title="PUT /invoices/:invoiceId/status"><span class="mini-method method-PUT">PUT</span><span class="mini-path">/invoices/{invoiceId}/status</span><span class="mini-pct color-success">91%</span></a></li><li><a href="#contract/Invoices_API.md/post-invoices" title="POST /invoices"><span class="mini-method method-POST">POST</span><span class="mini-path">/invoices</span><span class="mini-pct color-success">95%</span></a></li><li><a href="#contract/Invoices_API.md/post-invoices-guest" title="POST /invoices/guest"><span class="mini-method method-POST">POST</span><span class="mini-path">/invoices/guest</span><span class="mini-pct color-success">89%</span></a></li><li><a href="#contract/Invoices_API.md/put-invoices-invoiceid" title="PUT /invoices/:invoiceId"><span class="mini-method method-PUT">PUT</span><span class="mini-path">/invoices/{invoiceId}</span><span class="mini-pct color-warning">50%</span></a></li><li><a href="#contract/Invoices_API.md/patch-invoices-invoiceid" title="PATCH /invoices/:invoiceId"><span class="mini-method method-PATCH">PATCH</span><span class="mini-path">/invoices/{invoiceId}</span><span class="mini-pct color-success">84%</span></a></li>
           </ul>
         </div>
         <div class="nav-file" data-file="Messages_API.md">
@@ -5042,7 +5108,7 @@ Same shape as <code>GET /brands/search</code>, with the header <code>Accept-Quer
 <h2 id="contract-carts-api-md--data-required-for-successful-requests">Data required for successful requests</h2>
 <div class="table-wrap"><table><thead><tr><th>Data</th><th>Needed by</th><th>Requirements</th></tr></thead><tbody><tr><td>Cart id (ULID)</td><td>every endpoint except <code>POST /carts</code></td><td>The <code>id</code> returned by <code>POST /carts</code>. Carts are never listed, so a test must create its own (and delete it afterwards).</td></tr><tr><td>Product id (ULID)</td><td><code>POST /carts/{cartId}</code>, <code>PUT /carts/{cartId}/product/quantity</code> (<code>product_id</code>)</td><td>An existing product (<code>exists:products,id</code>), e.g. an <code>id</code> from <code>GET /products</code>. An unknown id gives <code>422</code>.</td></tr><tr><td>Quantity</td><td><code>POST /carts/{cartId}</code>, <code>PUT /carts/{cartId}/product/quantity</code></td><td>An integer from 1 to 99.</td></tr><tr><td>A product that isn&#039;t &quot;Thor Hammer&quot;</td><td>quantities above 1</td><td>The product named exactly <code>Thor Hammer</code> (seeded) is limited to one per cart. The rule matches the name, so a product created with that name gets the same limit.</td></tr><tr><td>Coordinates (optional)</td><td><code>POST /carts</code> (<code>lat</code>, <code>lng</code>)</td><td>Only needed for the location discount: within 2 degrees of one of the cities listed under Enums.</td></tr></tbody></table></div>
 <h2 id="contract-carts-api-md--endpoints">Endpoints</h2>
-<h3 id="contract-carts-api-md--post-carts">1. Create cart<a class="cov-chip chip-covered" href="#coverage/endpoint-post-carts" title="Show on the coverage tab">95 calls · 100%</a></h3>
+<h3 id="contract-carts-api-md--post-carts">1. Create cart<a class="cov-chip chip-covered" href="#coverage/endpoint-post-carts" title="Show on the coverage tab">87 calls · 100%</a></h3>
 <p>Creates an empty cart and returns its id. The optional coordinates are stored on the cart and later decide the location discount of the items added to it. Nothing is validated. <em>(source)</em></p>
 <p><strong>Endpoint:</strong> <code>POST /carts</code></p>
 <p><strong>Auth:</strong> None <em>(verified)</em></p>
@@ -5129,7 +5195,7 @@ Same shape as <code>GET /brands/search</code>, with the header <code>Accept-Quer
 <p><strong>Error Responses:</strong></p>
 <ul><li><code>404 Not Found</code>: no cart with this id, with <code>{ message: &quot;Cart doesnt exists&quot; }</code> <em>(verified)</em><span class="st st-ok" title="A test got 404">✓ tested</span></li></ul>
 <hr>
-<h3 id="contract-carts-api-md--delete-carts-cartid">6. Delete cart<a class="cov-chip chip-covered" href="#coverage/endpoint-delete-carts-cartid" title="Show on the coverage tab">97 calls · 100%</a></h3>
+<h3 id="contract-carts-api-md--delete-carts-cartid">6. Delete cart<a class="cov-chip chip-covered" href="#coverage/endpoint-delete-carts-cartid" title="Show on the coverage tab">89 calls · 100%</a></h3>
 <p><strong>Endpoint:</strong> <code>DELETE /carts/{cartId}</code></p>
 <p>Deletes the cart&#039;s items, then the cart. A product can&#039;t be deleted while a cart item points to it (<code>DELETE /products/{productId}</code> returns <code>409</code>), so remove the cart first. <em>(source)</em></p>
 <p><strong>Path Parameters:</strong></p>
@@ -5563,7 +5629,7 @@ Content-Type: application/json
 <ul><li><code>401 Unauthorized</code>: no token, or a malformed token, with <code>{ message: &quot;Unauthorized&quot; }</code> <em>(verified)</em><span class="st st-ok" title="A test got 401">✓ tested</span></li></ul>
 <p><strong>Example:</strong> <code>GET /invoices/search?q=INV-2026&amp;page=1</code></p>
 <hr>
-<h3 id="contract-invoices-api-md--query-invoices-search">3. Search invoices (HTTP QUERY)<a class="cov-chip chip-covered" href="#coverage/endpoint-query-invoices-search" title="Show on the coverage tab">4 calls · 88%</a></h3>
+<h3 id="contract-invoices-api-md--query-invoices-search">3. Search invoices (HTTP QUERY)<a class="cov-chip chip-covered" href="#coverage/endpoint-query-invoices-search" title="Show on the coverage tab">3 calls · 77%</a></h3>
 <p>Same as <code>GET /invoices/search</code>, but the criteria are sent as a JSON body (RFC 10008 <code>QUERY</code> method). The <code>query.body</code> middleware merges the body keys into the query string, so the results equal the <code>GET</code> with the same parameters. The response carries the header <code>Accept-Query: application/json</code>. <em>(source)</em> The header was seen on the <code>401</code> of this endpoint. <em>(verified)</em></p>
 <p><strong>Endpoint:</strong> <code>QUERY /invoices/search</code></p>
 <p><strong>Auth:</strong> Any logged-in user <em>(source)</em></p>
@@ -5584,7 +5650,7 @@ Accept: application/json
 
 { &quot;q&quot;: &quot;INV-2026&quot; }</code></pre>
 <hr>
-<h3 id="contract-invoices-api-md--get-invoices-invoiceid">4. Get invoice<a class="cov-chip chip-covered" href="#coverage/endpoint-get-invoices-invoiceid" title="Show on the coverage tab">23 calls · 100%</a></h3>
+<h3 id="contract-invoices-api-md--get-invoices-invoiceid">4. Get invoice<a class="cov-chip chip-covered" href="#coverage/endpoint-get-invoices-invoiceid" title="Show on the coverage tab">19 calls · 100%</a></h3>
 <p>Returns one invoice with its lines (each with the product, its image, category and brand) and its payment with the payment details. <em>(source)</em></p>
 <p><strong>Endpoint:</strong> <code>GET /invoices/{invoiceId}</code></p>
 <p><strong>Auth:</strong> Any logged-in user; a non-admin gets only their own invoices (<code>user_id</code> = the token&#039;s user) <em>(source)</em></p>
@@ -5621,7 +5687,7 @@ Accept: application/json
 <p><strong>Error Responses:</strong></p>
 <ul><li><code>401 Unauthorized</code>: no token, or a malformed token, with <code>{ message: &quot;Unauthorized&quot; }</code> <em>(verified)</em><span class="st st-ok" title="A test got 401">✓ tested</span></li><li><code>400 Bad Request</code>: no download exists for this number (it isn&#039;t started yet, or the number is unknown), with <code>{ status: &quot;NOT_INITIATED&quot; }</code>; the spec lists <code>404</code> instead <em>(verified)</em><span class="st st-ok" title="A test got 400">✓ tested</span></li></ul>
 <hr>
-<h3 id="contract-invoices-api-md--put-invoices-invoiceid-status">7. Update invoice status<a class="cov-chip chip-covered" href="#coverage/endpoint-put-invoices-invoiceid-status" title="Show on the coverage tab">14 calls · 100%</a></h3>
+<h3 id="contract-invoices-api-md--put-invoices-invoiceid-status">7. Update invoice status<a class="cov-chip chip-covered" href="#coverage/endpoint-put-invoices-invoiceid-status" title="Show on the coverage tab">11 calls · 91%</a></h3>
 <p>Sets the <code>status</code> and/or <code>status_message</code> of an invoice. Any logged-in user can do it for any invoice (see Notes). <em>(source)</em></p>
 <p><strong>Endpoint:</strong> <code>PUT /invoices/{invoiceId}/status</code></p>
 <p><strong>Auth:</strong> Any logged-in user; the invoice&#039;s owner isn&#039;t checked <em>(source)</em></p>
@@ -5640,7 +5706,7 @@ Accept: application/json
 <p>Seen live: <code>COMPLETED</code> set by the invoice&#039;s own customer returns <code>{ success: true }</code> (the exact 2xx status wasn&#039;t checked) <em>(verified)</em>.</p>
 <p>The service&#039;s test asserts <code>200</code> and <code>{ success: true }</code> for a valid status and message. <em>(source)</em></p>
 <p><strong>Error Responses:</strong></p>
-<ul><li><code>401 Unauthorized</code>: no token, or a malformed token, with <code>{ message: &quot;Unauthorized&quot; }</code> <em>(verified)</em><span class="st st-ok" title="A test got 401">✓ tested</span></li><li><code>404 Not Found</code>: no invoice with this id, or the update changed no row; <code>{ message: &quot;Invoice not found&quot; }</code> (the handler tests the number of changed rows, see Notes) <em>(verified)</em><span class="st st-ok" title="A test got 404">✓ tested</span></li><li><code>422 Unprocessable Entity</code>: <code>status</code> is not one of the allowed values, or <code>status_message</code> is not a string of 5 to 50 characters. The body is Laravel&#039;s default <code>{ message: string; errors: { &lt;field&gt;: string[] } }</code> (framework default, not the <code>BaseFormRequest</code> shape), and with <code>Accept: application/json</code> only <em>(verified)</em><span class="st st-ok" title="A test got 422">✓ tested</span></li><li><code>500 Internal Server Error</code>: the body has a key that is not a column of <code>invoices</code>; the raw request body goes into the update query and the database error is not a validation error; suspected bug, should be <code>422</code> or the key ignored <em>(source)</em><span class="st st-ok" title="A test got 500">✓ tested</span></li></ul>
+<ul><li><code>401 Unauthorized</code>: no token, or a malformed token, with <code>{ message: &quot;Unauthorized&quot; }</code> <em>(verified)</em><span class="st st-ok" title="A test got 401">✓ tested</span></li><li><code>404 Not Found</code>: no invoice with this id, or the update changed no row; <code>{ message: &quot;Invoice not found&quot; }</code> (the handler tests the number of changed rows, see Notes) <em>(verified)</em><span class="st st-ok" title="A test got 404">✓ tested</span></li><li><code>422 Unprocessable Entity</code>: <code>status</code> is not one of the allowed values, or <code>status_message</code> is not a string of 5 to 50 characters. The body is Laravel&#039;s default <code>{ message: string; errors: { &lt;field&gt;: string[] } }</code> (framework default, not the <code>BaseFormRequest</code> shape), and with <code>Accept: application/json</code> only <em>(verified)</em><span class="st st-ok" title="A test got 422">✓ tested</span></li><li><code>500 Internal Server Error</code>: the body has a key that is not a column of <code>invoices</code>; the raw request body goes into the update query and the database error is not a validation error; suspected bug, should be <code>422</code> or the key ignored <em>(source)</em><span class="st st-miss" title="No test got 500">✗ not tested</span></li></ul>
 <p><strong>Example:</strong></p>
 <pre><code class="lang-http">PUT /invoices/01JINVOICE0123456789ABCDEF/status
 Authorization: Bearer &lt;token&gt;
@@ -5649,7 +5715,7 @@ Authorization: Bearer &lt;token&gt;
 200 OK
 { &quot;success&quot;: true }</code></pre>
 <hr>
-<h3 id="contract-invoices-api-md--post-invoices">8. Create invoice<a class="cov-chip chip-covered" href="#coverage/endpoint-post-invoices" title="Show on the coverage tab">67 calls · 95%</a></h3>
+<h3 id="contract-invoices-api-md--post-invoices">8. Create invoice<a class="cov-chip chip-covered" href="#coverage/endpoint-post-invoices" title="Show on the coverage tab">59 calls · 95%</a></h3>
 <p>Creates an invoice for the user of the token from a cart, with one line per cart item, the totals and the payment, and queues the checkout email and the stock update. <code>user_id</code> comes from the token and <code>invoice_date</code> is set to the current time (a sent <code>invoice_date</code> is validated but not used). <em>(source)</em></p>
 <p><strong>Endpoint:</strong> <code>POST /invoices</code></p>
 <p><strong>Auth:</strong> Any logged-in user <em>(source)</em></p>
@@ -5713,7 +5779,7 @@ Authorization: Bearer &lt;token&gt;
 <p><strong>Error Responses:</strong></p>
 <ul><li><code>404 Not Found</code>: <code>cart_id</code> is not an existing cart, with <code>{ message: &quot;Requested item not found&quot; }</code>; the invoice row has been created by then <em>(verified)</em><span class="st st-ok" title="A test got 404">✓ tested</span></li><li><code>422 Unprocessable Entity</code>: a field fails validation. The body is Laravel&#039;s default <code>{ message: string; errors: { &lt;field&gt;: string[] } }</code>, not the <code>BaseFormRequest</code> map of <code>POST /invoices</code>, and with <code>Accept: application/json</code> only <em>(verified)</em><span class="st st-ok" title="A test got 422">✓ tested</span></li><li><code>500 Internal Server Error</code>: <code>payment_details</code> is <code>null</code>; <code>{ message: &quot;Server Error&quot; }</code> (a PHP <code>TypeError</code> in the controller), as on <code>POST /invoices</code>; suspected bug (BUG-041) <em>(verified)</em><span class="st st-ok" title="A test got 500">✓ tested</span></li><li><code>500 Internal Server Error</code>: <code>payment_details</code> lacks a required column of the method&#039;s table (e.g. <code>bank-transfer</code> with <code>{}</code>); <code>{ message: &quot;Something went wrong&quot; }</code>, as on <code>POST /invoices</code>; suspected bug (BUG-041), should be <code>422</code> <em>(verified)</em><span class="st st-ok" title="A test got 500">✓ tested</span></li><li><code>500 Internal Server Error</code>: <code>payment_details</code> has an unknown key or a too long value; <code>{ message: &quot;Something went wrong&quot; }</code>, as on <code>POST /invoices</code>; suspected bug <em>(source)</em><span class="st st-ok" title="A test got 500">✓ tested</span></li></ul>
 <hr>
-<h3 id="contract-invoices-api-md--put-invoices-invoiceid">10. Update invoice<a class="cov-chip chip-covered" href="#coverage/endpoint-put-invoices-invoiceid" title="Show on the coverage tab">9 calls · 83%</a></h3>
+<h3 id="contract-invoices-api-md--put-invoices-invoiceid">10. Update invoice<a class="cov-chip chip-covered" href="#coverage/endpoint-put-invoices-invoiceid" title="Show on the coverage tab">2 calls · 50%</a></h3>
 <p>Updates an invoice of the caller. The body is validated like a new invoice (so the payment and cart fields are required although they aren&#039;t used), then every <code>fillable</code> key of the body is written to the invoice. The invoice must belong to the token&#039;s user: an admin can&#039;t update other users&#039; invoices either. <em>(source)</em></p>
 <p><strong>Endpoint:</strong> <code>PUT /invoices/{invoiceId}</code></p>
 <p><strong>Auth:</strong> Any logged-in user; only the invoice&#039;s owner <em>(source)</em></p>
@@ -5732,12 +5798,12 @@ Authorization: Bearer &lt;token&gt;
   cart_id: string;                   // required by the validation, not stored
 }</code></pre>
 <p>The validation is <code>StoreInvoice</code>, the rules of <code>POST /invoices</code>. Beyond the validated fields, the model&#039;s <code>fillable</code> list also lets the body set <code>user_id</code>, <code>invoice_number</code>, <code>subtotal</code>, <code>total</code>, <code>additional_discount_percentage</code>, <code>additional_discount_amount</code>, <code>eco_discount_percentage</code> and <code>eco_discount_amount</code> without any check (see Notes). <em>(source)</em></p>
-<p><strong>Response:</strong> <code>200 OK</code> <em>(verified)</em><span class="st st-ok" title="A test got 200">✓ tested</span></p>
+<p><strong>Response:</strong> <code>200 OK</code> <em>(verified)</em><span class="st st-miss" title="No test got 200">✗ not tested</span></p>
 <pre><code class="lang-ts">{
   success: boolean;   // true
 }</code></pre>
 <p><strong>Error Responses:</strong></p>
-<ul><li><code>401 Unauthorized</code>: no token, or a malformed token, with <code>{ message: &quot;Unauthorized&quot; }</code> <em>(verified)</em><span class="st st-ok" title="A test got 401">✓ tested</span></li><li><code>404 Not Found</code>: no invoice with this id owned by the token&#039;s user (<code>firstOrFail</code>); <code>{ message: &quot;Requested item not found&quot; }</code> <em>(verified)</em><span class="st st-ok" title="A test got 404">✓ tested</span></li><li><code>422 Unprocessable Entity</code>: a field fails validation, as on <code>POST /invoices</code>; the validation runs before the lookup, so an unknown id with an invalid body gives <code>422</code>. A map of field to messages without a wrapper <em>(verified)</em><span class="st st-ok" title="A test got 422">✓ tested</span></li></ul>
+<ul><li><code>401 Unauthorized</code>: no token, or a malformed token, with <code>{ message: &quot;Unauthorized&quot; }</code> <em>(verified)</em><span class="st st-miss" title="No test got 401">✗ not tested</span></li><li><code>404 Not Found</code>: no invoice with this id owned by the token&#039;s user (<code>firstOrFail</code>); <code>{ message: &quot;Requested item not found&quot; }</code> <em>(verified)</em><span class="st st-miss" title="No test got 404">✗ not tested</span></li><li><code>422 Unprocessable Entity</code>: a field fails validation, as on <code>POST /invoices</code>; the validation runs before the lookup, so an unknown id with an invalid body gives <code>422</code>. A map of field to messages without a wrapper <em>(verified)</em><span class="st st-miss" title="No test got 422">✗ not tested</span></li></ul>
 <hr>
 <h3 id="contract-invoices-api-md--patch-invoices-invoiceid">11. Partially update invoice<a class="cov-chip chip-covered" href="#coverage/endpoint-patch-invoices-invoiceid" title="Show on the coverage tab">11 calls · 84%</a></h3>
 <p>Updates the billing address or the date of an invoice of the caller. Only the validated keys are written. <em>(source)</em></p>
@@ -6802,7 +6868,7 @@ interface AverageSalesPerWeekRow {
 <h2 id="contract-users-api-md--data-required-for-successful-requests">Data required for successful requests</h2>
 <div class="table-wrap"><table><thead><tr><th>Data</th><th>Needed by</th><th>Requirements</th></tr></thead><tbody><tr><td>Customer credentials</td><td><code>POST /users/login</code></td><td>An existing, enabled account that isn&#039;t locked (fewer than 3 failed logins in a row). Test users come from <code>testUsers</code> in <code>src/envs/&lt;ENV&gt;.json</code> and <code>.env</code>.</td></tr><tr><td>User token</td><td>Every endpoint marked &quot;Any user&quot;</td><td>From <code>POST /users/login</code>; valid for 300 seconds.</td></tr><tr><td>Admin token</td><td><code>GET /users</code>, <code>DELETE /users/{userId}</code>; any user&#039;s id on <code>GET</code>/<code>PUT</code>/<code>PATCH /users/{userId}</code></td><td>Token of a user whose <code>role</code> is <code>admin</code>.</td></tr><tr><td>User id (ULID)</td><td><code>/users/{userId}</code> endpoints</td><td>Your own id from <code>GET /users/me</code>, or any id with an admin token.</td></tr><tr><td>Unique email</td><td><code>POST /users/register</code>; <code>email</code> in <code>PUT</code>/<code>PATCH /users/{userId}</code></td><td>Not used by any other account.</td></tr><tr><td>Strong password</td><td><code>POST /users/register</code>, <code>POST /users/change-password</code></td><td>At least 8 characters, upper and lower case, a number and a symbol, and not found in public data breaches (Laravel <code>Password::uncompromised()</code>).</td></tr><tr><td>Adult date of birth</td><td><code>dob</code> in register, <code>PUT</code>, <code>PATCH</code></td><td>Format <code>YYYY-MM-DD</code>, at least 18 years ago.</td></tr><tr><td>A user nobody references</td><td><code>DELETE /users/{userId}</code></td><td>A user with invoices, favorites or other references can&#039;t be deleted (<code>409</code>).</td></tr></tbody></table></div>
 <h2 id="contract-users-api-md--endpoints">Endpoints</h2>
-<h3 id="contract-users-api-md--post-users-login">1. Login<a class="cov-chip chip-covered" href="#coverage/endpoint-post-users-login" title="Show on the coverage tab">149 calls · 91%</a></h3>
+<h3 id="contract-users-api-md--post-users-login">1. Login<a class="cov-chip chip-covered" href="#coverage/endpoint-post-users-login" title="Show on the coverage tab">148 calls · 91%</a></h3>
 <p>Returns a JWT for the <code>Authorization: Bearer &lt;token&gt;</code> header. Accounts with two-factor auth (TOTP) get a restricted temporary token instead, which is exchanged for a full token by sending it back with the TOTP code. <em>(source)</em></p>
 <p><strong>Endpoint:</strong> <code>POST /users/login</code></p>
 <p><strong>Auth:</strong> None <em>(source)</em></p>
@@ -6824,7 +6890,7 @@ interface AverageSalesPerWeekRow {
 <p><strong>Error Responses:</strong></p>
 <ul><li><code>401 Unauthorized</code>: wrong email or password (or an email no account has), <code>{ error: &quot;Unauthorized&quot; }</code> <em>(verified)</em>; neither credential pair in the body, <code>{ error: &quot;Invalid login request&quot; }</code> <em>(verified)</em>; a non-restricted (full) token in the TOTP step, <code>{ error: &quot;Unauthorized token usage&quot; }</code> <em>(verified)</em>; a wrong TOTP code, <code>{ error: &quot;Invalid TOTP&quot; }</code> <em>(verified)</em><span class="st st-ok" title="A test got 401">✓ tested</span></li><li><code>400 Bad Request</code>: TOTP step with an invalid <code>access_token</code>, <code>{ error: &quot;Invalid or expired token&quot; }</code> <em>(verified)</em>; the same for an expired one <em>(source)</em><span class="st st-ok" title="A test got 400">✓ tested</span></li><li><code>403 Forbidden</code>: right credentials, but the account is disabled; <code>{ error: &quot;Account disabled&quot; }</code> <em>(verified)</em><span class="st st-ok" title="A test got 403">✓ tested</span></li><li><code>423 Locked</code>: non-admin account with 3 or more failed logins; <code>{ error: &quot;Account locked, too many failed attempts. Please contact the administrator.&quot; }</code> <em>(source)</em><span class="st st-miss" title="No test got 423">✗ not tested</span></li></ul>
 <hr>
-<h3 id="contract-users-api-md--post-users-register">2. Register<a class="cov-chip chip-covered" href="#coverage/endpoint-post-users-register" title="Show on the coverage tab">155 calls · 100%</a></h3>
+<h3 id="contract-users-api-md--post-users-register">2. Register<a class="cov-chip chip-covered" href="#coverage/endpoint-post-users-register" title="Show on the coverage tab">165 calls · 100%</a></h3>
 <p>Creates a customer account (role <code>user</code>). <em>(source)</em></p>
 <p><strong>Endpoint:</strong> <code>POST /users/register</code></p>
 <p><strong>Auth:</strong> None <em>(source)</em></p>
@@ -7045,7 +7111,7 @@ Same shape as <code>GET /users/search</code>, with the header <code>Accept-Query
 <p><strong>Error Responses:</strong></p>
 <ul><li><code>401 Unauthorized</code>: no token, or an invalid or expired one <em>(verified)</em><span class="st st-ok" title="A test got 401">✓ tested</span></li><li><code>403 Forbidden</code>: a non-admin patches another user; body <code>{ error: string }</code> <em>(verified)</em><span class="st st-ok" title="A test got 403">✓ tested</span></li><li><code>403 Forbidden</code>, as suspected bugs: an unknown id (should be 404) and an email already used by another account (should be 409/422); body <code>{ error: string }</code> <em>(source)</em><span class="st st-ok" title="A test got 403">✓ tested</span></li><li><code>422 Unprocessable Entity</code>: a sent field fails its rule (e.g. <code>phone</code> with letters, <code>dob</code> under 18) <em>(verified)</em><span class="st st-ok" title="A test got 422">✓ tested</span></li></ul>
 <hr>
-<h3 id="contract-users-api-md--delete-users-userid">14. Delete user<a class="cov-chip chip-covered" href="#coverage/endpoint-delete-users-userid" title="Show on the coverage tab">141 calls · 100%</a></h3>
+<h3 id="contract-users-api-md--delete-users-userid">14. Delete user<a class="cov-chip chip-covered" href="#coverage/endpoint-delete-users-userid" title="Show on the coverage tab">132 calls · 100%</a></h3>
 <p>Deletes a user. Admin only. <em>(source)</em></p>
 <p><strong>Endpoint:</strong> <code>DELETE /users/{userId}</code></p>
 <p><strong>Auth:</strong> Bearer token, <code>admin</code> role <em>(source)</em></p>
