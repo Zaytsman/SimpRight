@@ -1,13 +1,14 @@
 #!/usr/bin/env bash
-# Shared steps for the scripts that publish to the gh-pages branch (served by GitHub Pages):
-# publish-report.sh (test reports) and publish-test-cases.sh (the test case pages).
+# Shared git steps for the scripts that publish to the gh-pages branch (served by GitHub Pages):
+# publish-report.sh (test reports) and publish-test-cases.sh (the portal's pages). The files themselves are
+# written by Node scripts (publish-run.mts, build-pages.mts), which run on any OS; these steps need CI's token.
 #
 # Source it from a script that runs at the repository root in GitHub Actions, with GH_TOKEN set to a token
 # that can push (the workflows check out with persist-credentials: false and give github.token to the
 # publish step only, so nothing that runs before it, such as the install or the tests, can read one):
 #   source "$(dirname "$0")/gh-pages-lib.sh"
-#   ghp_checkout .gh-pages      # gh-pages checked out as a worktree in .gh-pages
-#   ...copy files into .gh-pages...
+#   ghp_checkout .gh-pages                         # gh-pages checked out as a worktree in .gh-pages
+#   node scripts/build-pages.mts --site .gh-pages  # write the files
 #   ghp_publish .gh-pages "Publish something"
 
 # Checks out gh-pages as a worktree in <dir>, or starts it as an empty orphan branch on the first publish.
@@ -30,14 +31,10 @@ ghp_checkout() {
   esac
 }
 
-# Adds the dashboard (index.html from the repo root, and its portal.json from simpright.yml, on every publish),
-# commits everything in the <dir> worktree and pushes it. Another workflow may have published in the meantime, so a
+# Commits everything in the <dir> worktree and pushes it. Another workflow may have published in the meantime, so a
 # rejected push is rebased onto the remote gh-pages and retried. Returns 0 when there was nothing to commit.
 ghp_publish() {
   local site="$1" message="$2"
-  cp index.html "$site/index.html"
-  node scripts/build-portal-config.mts "$site/portal.json" # what the dashboard shows: the brand, the runs, the thresholds
-  touch "$site/.nojekyll" # serve the files as they are, without Jekyll
   (
     cd "$site"
     git config user.name "github-actions[bot]"

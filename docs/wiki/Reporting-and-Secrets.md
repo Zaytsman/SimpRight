@@ -11,7 +11,7 @@ SimpRight's reports are **public**: every CI run publishes its HTML report to Gi
 | List output | the console | always |
 | HTML report | `playwright-report/` | always (opens on failure locally) |
 | JUnit | `test-results/junit.xml` | CI |
-| JSON | `test-results/results.json` | CI: the step-title check, and the source of the small files the portal reads (`build-run-summaries.mts`, [11](CI-and-Publishing)); not published itself, it stays in the run's artifact |
+| JSON | `test-results/results.json` | CI: the step-title check, and the source of the small files the portal reads (`scripts/lib/run-summaries.mts`, [11](CI-and-Publishing)); not published itself, it stays in the run's artifact |
 | Screenshots, videos | `test-results/<test>/`, in the report | UI failures only |
 | API coverage | `test-results/api-coverage/` (`index.html`, `summary.json`) | when the optional package is installed and `DISABLE_API_COVERAGE` isn't set |
 | Traces | **never** | `trace: 'off'` for every project (below) |

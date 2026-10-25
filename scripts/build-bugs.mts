@@ -5,10 +5,10 @@
 // sets window.BUG_CATALOG: every bug with its fields, raw YAML and the scenarios whose `bug` names it
 // (with the line of their test in the spec), the portal's brand (simpright.yml portal), and where the latest
 // results of each layer's regression (the run with that trend in simpright.yml runs) are published.
-// The page reads those results itself (the small run-summary.json that scripts/build-run-summaries.mts publishes next
-// to each results.json), so a known-issue test that passes there is flagged for a re-check.
+// The page reads those results itself (the small run-summary.json of each published run, scripts/lib/run-summaries.mts),
+// so a known-issue test that passes there is flagged for a re-check.
 // The data is a script, not JSON, so the page also opens straight from disk.
-// scripts/publish-test-cases.sh publishes the folder as bugs/.
+// scripts/build-pages.mts builds it into the site as bugs/.
 //
 // It reads the files as they are; run `npm run validate:scenarios` first (the workflow does).
 
@@ -139,7 +139,7 @@ const catalog = {
   portal: profile.portal ? portalBrand(profile.portal) : undefined,
   bugsDir,
   layers: Object.fromEntries(Object.keys(profile.ids.layers).map((layer) => [layer, layer.toUpperCase()])),
-  // Each layer's regression: the run whose trend it is, published by scripts/publish-report.sh as latest/<id>/.
+  // Each layer's regression: the run whose trend it is, published by scripts/publish-run.mts as latest/<id>/.
   // Relative to the published page (bugs/index.html); missing ones (a local build) are skipped by the page.
   regressions: (profile.runs ?? [])
     .filter((run) => run.trend && run.trend in profile.ids.layers)

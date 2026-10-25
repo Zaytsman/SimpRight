@@ -25,9 +25,10 @@ gh-pages/
 │   ├── daily-ui-regression/
 │   ├── smoke/, custom-api/, custom-ui/
 │   └── api-coverage/                API coverage of the latest full API regression (+ totals.json for the portal)
-└── test-cases/
-    ├── ui/                          index.html + scenarios-data.js
-    └── api/
+├── test-cases/
+│   ├── ui/                          index.html + scenarios-data.js
+│   └── api/
+└── bugs/                            index.html + bugs-data.js
 ```
 
 | URL | Content |
@@ -41,38 +42,43 @@ gh-pages/
 
 ## Who publishes what
 
-| Script | Called by | Publishes |
+| Script | Called by | Does |
 |---|---|---|
-| `scripts/publish-report.sh <family> [--latest-coverage]` | `playwright-run.yml`, after every test run | The run's report, `latest/<family>/`, the manifest, the coverage (with the flag), the portal |
-| `scripts/publish-test-cases.sh` | `publish-test-cases.yml`, on pushes to `main` | `test-cases/`, `bugs/` and the portal |
-| `scripts/gh-pages-lib.sh` | both scripts above | The shared checkout, the portal copy and the push |
+| `scripts/publish-report.sh <family> [--latest-coverage]` | `playwright-run.yml`, after every test run | Checks out `gh-pages`, runs `publish-run.mts`, commits and pushes |
+| `scripts/publish-test-cases.sh` | `publish-test-cases.yml`, on pushes to `main` | Checks out `gh-pages`, runs `build-pages.mts`, commits and pushes |
+| `scripts/publish-run.mts` | `publish-report.sh` | Writes the run's report, `latest/<family>/`, the manifest and history, the coverage (with the flag) and the portal |
+| `scripts/build-pages.mts` | `publish-test-cases.sh`, and `verify` on every pull request | Writes `test-cases/`, `bugs/` and the portal |
+| `scripts/gh-pages-lib.sh` | both shell scripts | The shared checkout and push |
 
-Each script replaces only its own files and leaves the rest of the branch alone, so test runs and Test Cases publishing never overwrite each other.
+Each script replaces only its own files and leaves the rest of the branch alone, so test runs and Test Cases publishing never overwrite each other. The files are written by the two Node scripts and the shell scripts only do git, so the Node part runs on any machine ([Previewing locally](#previewing-locally)).
 
-## Publishing a test run: `publish-report.sh`
+## Publishing a test run: `publish-run.mts`
 
-1. If there's no `playwright-report/`, stop: nothing to publish.
-2. Check out `gh-pages` (see below).
-3. Copy the HTML report into `<family>/run-<N>/`, plus `test-results/results.json` (the JSON reporter's output on CI; only for step 6) and `test-results/api-coverage/` when there is one.
-4. Replace `latest/<family>/` with a copy of this run; with `--latest-coverage`, also replace `latest/api-coverage/` (only the full API regression passes it, because only its coverage represents the whole suite).
-5. **Prune:** keep the newest `KEEP_RUNS` runs of the family (the workflow's `keep-runs` input, 10 by default), delete older ones, and rebuild `<family>-manifest.json` from what's left.
-6. **Summarize** (`scripts/build-run-summaries.mts <site> <family>`): write the run's `run-summary.json` (stats, known issues, each scenario test's last status) and its copy in `latest/<family>/`, rebuild `<family>-history.json`, and refresh `latest/api-coverage/totals.json`. The portal and the Bugs page read only these small files: an API regression's `results.json` is about 8 MB, and the portal used to download ten of them. Then remove the family's `results.json` files, this run's and any left from before the summaries: the HTML report doesn't need them, and the run's artifact keeps the full file for 14 days.
-7. Commit and push, with the portal (see below).
+`publish-report.sh` checks out `gh-pages` (see below), runs `node scripts/publish-run.mts --site .gh-pages --run <family> --number <run number> --keep <keep-runs> [--latest-coverage]`, then commits and pushes. The Node script:
 
-Runs are sorted by number (`sort -V`), so `run-100` comes after `run-99`.
+1. If there's no `playwright-report/`, stops: nothing to publish.
+2. Replaces `<family>/run-<N>/` with the HTML report, plus `test-results/results.json` (the JSON reporter's output on CI; only for step 4) and `test-results/api-coverage/` when there is one. A re-run of a workflow keeps its run number, so it replaces the first attempt.
+3. **Prune:** keeps the newest `--keep` runs of the family (the workflow's `keep-runs` input; without it, the run's `keep` in `simpright.yml`, else 10), deletes older ones, and rebuilds `<family>-manifest.json` from what's left.
+4. **Summarize** (`scripts/lib/run-summaries.mts`): writes the run's `run-summary.json` (stats, known issues, each scenario test's last status) and rebuilds `<family>-history.json`. The portal and the Bugs page read only these small files: an API regression's `results.json` is about 8 MB, and the portal used to download ten of them. Then it removes the family's `results.json` files: the HTML report doesn't need them, and the run's artifact keeps the full file for 14 days.
+5. Replaces `latest/<family>/` with a copy of the newest kept run. With `--latest-coverage` (without the flag, the run's `publishCoverage`), it also replaces `latest/api-coverage/` with that run's coverage and refreshes its `totals.json`; only the full API regression passes it, because only its coverage represents the whole suite.
+6. Writes the portal: `index.html` from the repository, its `portal.json` from `simpright.yml` (`scripts/lib/site.mts`) and `.nojekyll`, so a portal change goes live with the next publish of either kind.
 
-## Publishing the Test Cases and Bugs pages: `publish-test-cases.sh`
+Runs are sorted by number, so `run-100` comes after `run-99`.
 
-1. Build the pages with `scripts/build-test-cases.mts` into `test-results/test-cases/`, and the Bugs page with `scripts/build-bugs.mts` into `test-results/bugs/`.
-2. Check out `gh-pages`, replace the whole `test-cases/` and `bugs/` folders (so a removed layer disappears too).
-3. Commit and push, with the portal.
+## Publishing the Test Cases and Bugs pages: `build-pages.mts`
 
-The workflow validates the scenarios first, so a broken scenario file never reaches the site.
+`publish-test-cases.sh` checks out `gh-pages`, runs `node scripts/build-pages.mts --site .gh-pages`, then commits and pushes. The Node script:
+
+1. Replaces the whole `test-cases/` and `bugs/` folders (so a removed layer disappears too) with new builds by `scripts/build-test-cases.mts` and `scripts/build-bugs.mts`.
+2. Builds the run summaries of the families that have none yet, so a portal change published before their next run finds its data.
+3. Writes the portal, as above.
+
+The workflow validates the scenarios first, so a broken scenario file never reaches the site. `verify` runs the same build on every pull request.
 
 ## Checkout and push: `gh-pages-lib.sh`
 
 - **`ghp_checkout <dir>`** points `origin` at the repository with `GH_TOKEN` as the credential (the workflows check out without one, so only the publish step has a token that can push), then checks out `gh-pages` as a **git worktree** in `.gh-pages/` (git-ignored), fetching only its latest commit. On the very first publish, when `git ls-remote` finds no such branch, it creates it as an empty orphan branch; any other error (network, access) stops the publish with its message.
-- **`ghp_publish <dir> <message>`** copies `index.html` from the repository and writes its `portal.json` from `simpright.yml` (`scripts/build-portal-config.mts`), so a portal change goes live with the next publish of either kind, adds `.nojekyll`, commits everything as `github-actions[bot]`, and does nothing when nothing changed. Several workflows can publish at the same time (a UI and an API run, plus Test Cases), so a rejected push is **rebased onto the remote branch and retried**, up to 3 times. Because each script touches only its own folders, the rebase doesn't conflict.
+- **`ghp_publish <dir> <message>`** commits everything as `github-actions[bot]`, and does nothing when nothing changed. Several workflows can publish at the same time (a UI and an API run, plus Test Cases), so a rejected push is **rebased onto the remote branch and retried**, up to 3 times. Because each script touches only its own folders, the rebase doesn't conflict.
 
 Pruning keeps the site small: at most `keep-runs` runs per family (10 by default). The branch's history still holds every report ever published, so it's squashed every month (below).
 
@@ -98,16 +104,15 @@ Forks have no access to the private coverage package, so their portal shows no c
 
 ## Previewing locally
 
-The portal and the Test Cases pages load their data with `fetch`, which browsers block for `file://` pages, so serve the folder over HTTP:
+The scripts that write the site run on any OS, Windows included, and write into any folder; `.gh-pages/` is git-ignored, and nothing is pushed (only the CI scripts do git). The portal and the Test Cases pages load their data with `fetch`, which browsers block for `file://` pages, so serve the folder over HTTP:
 
 ```bash
-npm run test-cases:build -- test-results/site-preview/test-cases
-npm run bugs:build -- test-results/site-preview/bugs
-npm run portal:build -- test-results/site-preview/portal.json
-cp index.html test-results/site-preview/
-npx http-server test-results/site-preview -p 4173
+node scripts/build-pages.mts --site .gh-pages
+npx http-server .gh-pages -p 4173
 ```
 
-The portal then shows the brand, the Test Cases buttons and a row per run, but no results (those exist only on `gh-pages`). To preview with real runs, check out `gh-pages` into a folder, add the `index.html` and `portal.json` to test, and serve that instead.
+The portal then shows the brand, the Test Cases buttons and a row per run, but no results (those exist only on `gh-pages`). To preview with real runs, start from a copy of the branch (`git worktree add --detach .gh-pages origin/gh-pages`, after `git fetch origin gh-pages`) and build into it.
+
+After a local test run, `node scripts/publish-run.mts --site .gh-pages --run custom-ui --number 1` adds it as run 1 of Custom UI, as CI would. Playwright's JSON reporter runs only on CI, so a local run has no `results.json`: its square in the run history stays grey, without stats.
 
 See also: [Automation Portal](Automation-Portal), [CI Pipeline](CI-Pipeline).

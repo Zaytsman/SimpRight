@@ -1,7 +1,7 @@
 name: PR Checks
 
 # Required status check for pull requests (the `verify` job; see the main branch ruleset).
-# Static checks only: typecheck, scenario validation and the Test Cases and Bugs page builds.
+# Static checks only: typecheck, scenario validation and the build of the portal's pages.
 # The tests don't run here: they run locally before a push, and nightly on main.
 # It installs without the private coverage package (nothing here loads it), so forks and Dependabot get the same check.
 
@@ -44,9 +44,7 @@ jobs:
       - name: Validate scenarios
         run: npm run validate:scenarios
 
-      # The Test Cases and Bugs pages and the portal's portal.json are published from main (publish-test-cases.yml); check that they still build.
-      - name: Build the Test Cases and Bugs pages and portal.json
-        run: |
-          npm run test-cases:build
-          npm run bugs:build
-          npm run portal:build
+      # The Test Cases and Bugs pages and the dashboard's portal.json are published from main by the same script
+      # (publish-test-cases.yml); check that they still build.
+      - name: Build the portal's pages
+        run: node scripts/build-pages.mts --site test-results/site

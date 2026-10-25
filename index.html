@@ -781,9 +781,9 @@
       ], options);
     }
 
-    // portal.json, written next to this page on every publish (scripts/build-portal-config.mts, from simpright.yml):
+    // portal.json, written next to this page on every publish (scripts/lib/site.mts, from simpright.yml):
     // the brand and description, the repository, the health thresholds, and the runs, each a report family published
-    // by scripts/publish-report.sh; a run with a trend is its layer's regression. Null when it's missing.
+    // by scripts/publish-run.mts; a run with a trend is its layer's regression. Null when it's missing.
     async function loadPortal() {
       try {
         const response = await fetch('portal.json');
@@ -880,13 +880,13 @@
     }
 
     function showMissingPortal() {
-      const message = 'No portal.json next to this page: it is written on every publish (scripts/gh-pages-lib.sh).';
+      const message = 'No portal.json next to this page: it is written on every publish (scripts/lib/site.mts).';
       document.querySelectorAll('[data-layer]').forEach((el) => { el.hidden = true; });
       document.getElementById('knownIssuesBody').innerHTML = `<tr><td colspan="4" class="no-data">${message}</td></tr>`;
       document.getElementById('history-list').innerHTML = `<p class="run-empty">${message}</p>`;
     }
 
-    // A family's <family>-history.json, written at publish time by scripts/build-run-summaries.mts: every kept run,
+    // A family's <family>-history.json, written at publish time by scripts/lib/run-summaries.mts: every kept run,
     // newest first, with its Playwright stats (null when the run has no results), and the newest run's known issues.
     // The page never downloads a run's results.json (an API regression's is about 8 MB). Null when nothing is published.
     async function loadHistory(family) {
@@ -1025,7 +1025,7 @@
       dot.title = title;
     }
 
-    // totals.json holds summary.json's totals without the per-endpoint detail (scripts/build-run-summaries.mts).
+    // totals.json holds summary.json's totals without the per-endpoint detail (scripts/lib/run-summaries.mts).
     async function loadApiCoverage() {
       try {
         const response = await fetch('latest/api-coverage/totals.json');

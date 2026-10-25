@@ -141,7 +141,7 @@ Details: `docs/framework/04-api-layer.md`.
 Details: `docs/framework/11-ci-and-publishing.md` and the wiki's CI and Pages pages.
 - `playwright-run.yml` is the reusable test job; its callers are the scheduled (`run-ui-tests.yml`, `run-api-tests.yml`), manual (`custom-*-tests.yml`) and smoke (`smoke-tests.yml`) workflows. **A new folder under `tests/ui` or `tests/api` goes in the matching custom workflow's `area` options.** Its `keep-runs` input (default 10) sets how many runs of the family stay on Pages; `squash-gh-pages.yml` (monthly) replaces the `gh-pages` history with one commit.
 - **Each caller has a `runs` entry in `simpright.yml`** (its `id` is the caller's `family`): change both together; `validate:scenarios` checks them (details in `docs/framework/11-ci-and-publishing.md`).
-- `pr-checks.yml` (`verify`, required on `main`): typecheck, scenario validation, Test Cases and Bugs page builds; static only. Tests run locally before a push (each changed spec three times) and nightly on `main`.
+- `pr-checks.yml` (`verify`, required on `main`): typecheck, scenario validation and the build of the portal's pages (`build-pages.mts`); static only. Tests run locally before a push (each changed spec three times) and nightly on `main`.
 - Secrets: callers pass them by name and `playwright-run.yml` declares them (the names in `ci.secrets`); never `secrets: inherit`.
 - **Hardening:**
   - Every action is pinned to a full commit SHA with its version in a comment (`actions/checkout@<sha> # v7.0.1`).
@@ -152,7 +152,7 @@ Details: `docs/framework/11-ci-and-publishing.md` and the wiki's CI and Pages pa
 - The dashboard (`index.html`) lists a test under "Known Issues" when an annotation contains `Known issue`; the bug ID in `Known issue BUG-001: ...` links to the Bugs page.
 - **The portal pages name nothing themselves:** the brand, runs and thresholds come from `simpright.yml` (`portal`, `runs`), through `portal.json` (written next to `index.html` on every publish) or the Test Cases and Bugs data files. Never hard-code a family, label or project name in them.
 - The Test Cases (`site/test-cases/`) and Bugs (`site/bugs/`) pages are built from the scenarios and bugs (`npm run test-cases:build`, `npm run bugs:build`) and published by `publish-test-cases.yml` on pushes to `main`; `verify` builds them too, so a scenario change that breaks the build fails the PR.
-- `scripts/*.sh` keep LF line endings (`.gitattributes`).
+- Publishing writes its files in Node (`scripts/publish-run.mts`, `scripts/build-pages.mts`, shared code in `scripts/lib/`), so it runs on any OS; the `.sh` scripts only check out, commit and push `gh-pages`. Keep new file work out of them. `scripts/*.sh` keep LF line endings (`.gitattributes`).
 
 ## Branches and pull requests
 

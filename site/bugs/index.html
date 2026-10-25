@@ -910,7 +910,7 @@
         loadResults().then(render);
       }
 
-      // run-summary.json (scripts/build-run-summaries.mts): the run's stats and, per scenario ID, its test's last status.
+      // run-summary.json (scripts/lib/run-summaries.mts): the run's stats and, per scenario ID, its test's last status.
       async function loadResults() {
         await Promise.all(catalog.regressions.map(async (regression) => {
           try {

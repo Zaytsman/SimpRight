@@ -145,19 +145,22 @@ Defined in `tsconfig.json` and resolved by Playwright, so imports don't climb fo
 | `build-test-cases.mts` | `npm run test-cases:build`, CI | Builds the UI and API Test Cases pages from the scenarios |
 | `build-bugs.mts` | `npm run bugs:build`, CI | Builds the Bugs page from `bugs/` and the scenarios that name them |
 | `check-step-titles.mts` | `npm run check:step-titles`, CI | Compares each test's step titles in a run's JSON report with its scenario's steps |
-| `build-run-summaries.mts` | the two publish scripts | Writes the small history and run-summary files the portal and the Bugs page read |
-| `build-portal-config.mts` | `npm run portal:build`, the two publish scripts | Writes `portal.json`, what the portal shows (the brand, the runs, the thresholds), from `simpright.yml` |
+| `build-portal-config.mts` | `npm run portal:build` | Writes `portal.json`, what the portal shows (the brand, the runs, the thresholds), from `simpright.yml` |
+| `publish-run.mts` | `publish-report.sh`, or by hand on any OS | Writes a run's report into a site folder, keeps the latest runs (`keep-runs`, 10 by default) and refreshes the portal |
+| `build-pages.mts` | `publish-test-cases.sh`, CI | Writes the Test Cases and Bugs pages and the portal into a site folder |
 | `lib/project.mts` | the other scripts | What they share: reading `simpright.yml` and the workflows, the repository's URL, the branch and commit |
-| `publish-report.sh` | CI | Publishes a run's report to `gh-pages` and keeps the latest runs (`keep-runs`, 10 by default) |
-| `publish-test-cases.sh` | CI | Publishes the Test Cases pages and the dashboard to `gh-pages` |
-| `gh-pages-lib.sh` | the two publish scripts | Shared checkout of `gh-pages` and push with retries |
+| `lib/run-summaries.mts` | the two Node publish scripts | The small history and run-summary files the portal and the Bugs page read |
+| `lib/site.mts` | the two Node publish scripts | The portal every publish writes (`index.html`, `portal.json`) and the folder copy |
+| `publish-report.sh` | CI | Publishes a run to `gh-pages`: checkout, `publish-run.mts`, push |
+| `publish-test-cases.sh` | CI | Publishes the Test Cases and Bugs pages and the portal to `gh-pages`: checkout, `build-pages.mts`, push |
+| `gh-pages-lib.sh` | the two publish scripts | The git steps: checkout of `gh-pages` and push with retries |
 | `squash-gh-pages.sh` | CI, monthly | Replaces the `gh-pages` history with one commit of the current site |
 
 ## CI workflows
 
 | Workflow | When | What |
 |---|---|---|
-| `pr-checks.yml` (`verify`) | every pull request to `main` or `develop` | Typecheck, scenario validation, Test Cases and Bugs page builds (no tests) |
+| `pr-checks.yml` (`verify`) | every pull request to `main` or `develop` | Typecheck, scenario validation, the build of the portal's pages (no tests) |
 | `run-api-tests.yml` | weekdays 02:15 UTC, or by hand | Full API regression, with the coverage report |
 | `run-ui-tests.yml` | weekdays 06:15 UTC, or by hand | Full UI regression |
 | `custom-api-tests.yml`, `custom-ui-tests.yml` | by hand | One area, optionally filtered with `--grep` |

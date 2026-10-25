@@ -6,7 +6,7 @@
 // window.SCENARIO_CATALOG: the folder tree (area -> file -> scenario IDs), counts, and every scenario
 // with its steps, raw YAML and the line of its test in the spec, plus the portal's brand (simpright.yml portal)
 // and the workflow of the layer's area-picker run (Run on GitHub). The data is a script, not JSON, so the
-// page also opens straight from disk. scripts/publish-test-cases.sh publishes the folders as test-cases/<layer>/.
+// page also opens straight from disk. scripts/build-pages.mts builds them into the site as test-cases/<layer>/.
 //
 // It reads the files as they are; run `npm run validate:scenarios` first (the workflow does).
 

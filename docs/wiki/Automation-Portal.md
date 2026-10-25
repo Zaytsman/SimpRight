@@ -96,7 +96,7 @@ Everything optional is hidden until its file exists, so the portal works in a fo
 ## Changing the portal
 
 1. What the portal names (the brand, the runs, the thresholds) is in `simpright.yml`, not in `index.html`: change it there. The page itself is `index.html` in the repository root. It has its own CSS (the colors are the variables at the top of its `<style>`), Chart.js from the jsDelivr CDN, and plain JavaScript; no build step.
-2. Preview it over HTTP (see [GitHub Pages Publishing](GitHub-Pages-Publishing#previewing-locally)), with a `portal.json` next to it (`npm run portal:build` writes one to `test-results/portal/`): the trends stay empty locally unless you serve a checkout of `gh-pages`.
+2. Preview it over HTTP (see [GitHub Pages Publishing](GitHub-Pages-Publishing#previewing-locally)): `node scripts/build-pages.mts --site .gh-pages` writes the page with its `portal.json`, and the trends stay empty unless the folder starts as a copy of `gh-pages`.
 3. Merge to `main`. **Publish Test Cases** runs on changes to `index.html` or `simpright.yml` and publishes both at once; every test run also copies the page and rewrites `portal.json`.
 
 Common changes:
