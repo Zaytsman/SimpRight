@@ -21,7 +21,7 @@ A run is **healthy** when its failure rate is below the threshold: **2 % for UI,
 
 | Button | Opens | Shown when |
 |---|---|---|
-| **API Coverage** | The coverage report of the latest full API regression (new tab) | `latest/api-coverage/summary.json` exists |
+| **API Coverage** | The coverage report of the latest full API regression (new tab) | `latest/api-coverage/totals.json` exists |
 | **UI Test Cases**, **API Test Cases** | The [Test Cases Pages](Test-Cases-Pages) (new tab) | `test-cases/<layer>/scenarios-data.js` exists |
 | **Bugs** | The [Bugs Page](Bugs-Page) (new tab) | `bugs/bugs-data.js` exists |
 | **Schedule Test Run** | The repository's Actions tab, to start a run by hand (new tab; see [CI Runs](CI-Runs)) | always |
@@ -45,7 +45,7 @@ For the **last 10 runs** of the UI and the API regression, side by side:
 | **Duration** per run | Latest and average duration |
 | **Failure rate** per run, each point green below the health threshold and red above it | Latest and average failure rate |
 
-How the numbers are counted, from Playwright's JSON report (`results.json`):
+How the numbers are counted, from the stats of Playwright's JSON report (`results.json`), which the publish copies into the family's history file:
 
 - **passed** = expected results + flaky tests. A known-issue test that fails *as expected* counts as passed;
 - **failed** = unexpected results;
@@ -66,10 +66,10 @@ The latest 10 runs of each family (UI Regression, API Regression, Smoke, Custom 
 
 | Section | Files read |
 |---|---|
-| Status, totals, charts | `daily-ui-regression-manifest.json`, `daily-api-regression-manifest.json`, then `<family>/run-<N>/results.json` for the last 10 runs |
-| Known Issues | `latest/daily-ui-regression/results.json`, `latest/daily-api-regression/results.json` |
-| History | `<family>-manifest.json` of the four families |
-| Coverage cards and button | `latest/api-coverage/summary.json` (`overallCoveragePct`, `coveredEndpoints`, `totalEndpoints`) |
+| Status, totals, charts | `daily-ui-regression-history.json`, `daily-api-regression-history.json` (the stats of the last 10 runs with results) |
+| Known Issues | the same two files (the newest run's known issues) |
+| History | `<family>-history.json` of the five families |
+| Coverage cards and button | `latest/api-coverage/totals.json` (`overallCoveragePct`, `coveredEndpoints`, `totalEndpoints`) |
 | Test Cases buttons | a `HEAD` request for `test-cases/<layer>/scenarios-data.js` |
 | Bugs button | a `HEAD` request for `bugs/bugs-data.js` |
 

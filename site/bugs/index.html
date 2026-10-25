@@ -772,7 +772,6 @@
       const $ = (id) => document.getElementById(id);
       const CHEVRON = '<span class="tree-toggle" aria-hidden="true"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg></span>';
       const STATUS_GROUPS = [['open', 'Open'], ['fixed', 'Fixed'], ['wont-fix', "Won't fix"]];
-      const TITLE_ID = /^([A-Z]+-\d+):/;
 
       const state = {
         selectedId: null,
@@ -830,26 +829,18 @@
         loadResults().then(render);
       }
 
-      // Playwright JSON report: suites (file -> describe blocks) -> specs (one per test title) -> tests (one per project).
+      // run-summary.json (scripts/build-run-summaries.mts): the run's stats and, per scenario ID, its test's last status.
       async function loadResults() {
         await Promise.all(catalog.regressions.map(async (regression) => {
           try {
             const response = await fetch(regression.results);
             if (!response.ok) return;
-            const report = await response.json();
-            const ranAt = report.stats?.startTime;
+            const summary = await response.json();
+            const ranAt = summary.stats?.startTime;
             state.resultsInfo.push({ ...regression, ranAt });
-            const walk = (suite) => {
-              (suite.specs || []).forEach((spec) => {
-                const id = TITLE_ID.exec(spec.title)?.[1];
-                const test = (spec.tests || [])[0];
-                if (!id || !test) return;
-                const last = (test.results || []).at(-1)?.status ?? 'skipped';
-                state.results.set(id, { last, expectedStatus: test.expectedStatus, ranAt, regression });
-              });
-              (suite.suites || []).forEach(walk);
-            };
-            (report.suites || []).forEach(walk);
+            Object.entries(summary.tests || {}).forEach(([id, test]) => {
+              state.results.set(id, { last: test.status, expectedStatus: test.expectedStatus, ranAt, regression });
+            });
           } catch (error) {
             console.debug(`No results at ${regression.results}`, error);
           }

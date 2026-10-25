@@ -4,7 +4,8 @@
 // It writes <output dir>/index.html (a copy of site/bugs/index.html) and <output dir>/bugs-data.js, which
 // sets window.BUG_CATALOG: every bug with its fields, raw YAML and the scenarios whose `bug` names it
 // (with the line of their test in the spec), plus where the latest regression results are published.
-// The page reads those results itself, so a known-issue test that passes there is flagged for a re-check.
+// The page reads those results itself (the small run-summary.json that scripts/build-run-summaries.mts publishes next
+// to each results.json), so a known-issue test that passes there is flagged for a re-check.
 // The data is a script, not JSON, so the page also opens straight from disk.
 // scripts/publish-test-cases.sh publishes the folder as bugs/.
 //
@@ -156,7 +157,7 @@ const catalog = {
   // Relative to the published page (bugs/index.html); missing ones (a local build) are skipped by the page.
   regressions: Object.entries(REGRESSIONS)
     .filter(([layer]) => layer in profile.ids.layers)
-    .map(([layer, { family, label }]) => ({ layer, label, results: `../latest/${family}/results.json`, report: `../latest/${family}/` })),
+    .map(([layer, { family, label }]) => ({ layer, label, results: `../latest/${family}/run-summary.json`, report: `../latest/${family}/` })),
   stats: { total: bugs.length, open: count('open'), fixed: count('fixed'), wontFix: count('wont-fix') },
   bugs,
 };

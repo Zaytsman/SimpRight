@@ -8,9 +8,13 @@
 # Site layout on gh-pages:
 #   index.html                     dashboard (copied from the repo root on every publish)
 #   <family>-manifest.json         run folders of the family, newest first
-#   <family>/run-<N>/              HTML report + results.json (+ api-coverage/) of run N
+#   <family>-history.json          every kept run's stats + the newest run's known issues (read by the dashboard)
+#   <family>/run-<N>/              HTML report + results.json + run-summary.json (+ api-coverage/) of run N
 #   latest/<family>/               copy of the newest run
-#   latest/api-coverage/           latest full API regression coverage report
+#   latest/api-coverage/           latest full API regression coverage report (+ totals.json for the dashboard)
+#
+# The small JSON files the portal reads (history, run summaries, coverage totals) come from
+# scripts/build-run-summaries.mts, so the browser never downloads a full results.json.
 #
 # Runs in GitHub Actions at the repository root, with GH_TOKEN set. The gh-pages checkout, the dashboard
 # copy and the push are in gh-pages-lib.sh, shared with publish-test-cases.sh.
@@ -56,4 +60,5 @@ cd "$SITE"
 echo "Runs kept for $FAMILY: $(jq length "$FAMILY-manifest.json")"
 
 cd ..
+node scripts/build-run-summaries.mts "$SITE" "$FAMILY"
 ghp_publish "$SITE" "Publish $FAMILY $RUN"

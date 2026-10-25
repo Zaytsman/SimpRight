@@ -83,6 +83,6 @@ npm run bugs:build                       # into test-results/bugs/
 npm run bugs:build -- some/other/folder  # into a folder of your choice
 ```
 
-The latest results are read **in the browser** from `latest/daily-ui-regression/results.json` and `latest/daily-api-regression/results.json`, so a new regression run updates the results and the re-check flags without a rebuild. Opened from disk, the page has no results and shows the bugs only.
+The latest results are read **in the browser** from `latest/daily-ui-regression/run-summary.json` and `latest/daily-api-regression/run-summary.json` (each scenario test's last status, written at publish time from the run's `results.json`), so a new regression run updates the results and the re-check flags without a rebuild. Opened from disk, the page has no results and shows the bugs only.
 
 **Publish Test Cases** builds and publishes the page as `bugs/` together with the Test Cases pages, on every push to `main` that changes `bugs/`, the scenarios, the page or its build ([GitHub Pages Publishing](GitHub-Pages-Publishing)). On pull requests, `verify` builds it too.

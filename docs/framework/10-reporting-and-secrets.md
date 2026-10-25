@@ -9,7 +9,7 @@ SimpRight's reports are **public**: every CI run publishes its HTML report to Gi
 | List output | the console | always |
 | HTML report | `playwright-report/` | always (opens on failure locally) |
 | JUnit | `test-results/junit.xml` | CI |
-| JSON | `test-results/results.json` | CI: the portal's trends and known issues, and the step-title check |
+| JSON | `test-results/results.json` | CI: the step-title check, and published with each run, where `build-run-summaries.mts` turns it into the small files the portal reads ([11](11-ci-and-publishing.md)) |
 | Screenshots, videos | `test-results/<test>/`, in the report | UI failures only |
 | API coverage | `test-results/api-coverage/` (`index.html`, `summary.json`) | when the optional package is installed and `DISABLE_API_COVERAGE` isn't set |
 | Traces | **never** | `trace: 'off'` for every project (below) |
@@ -62,7 +62,7 @@ What masking can't cover, and how the framework handles it:
 
 ## The portal
 
-[`index.html`](../../index.html) is the Automation Portal on GitHub Pages. It reads the published manifests and `results.json` files and shows run history and trends, known issues (tests with a `Known issue` annotation, linked to their bug), the API coverage when it exists, and buttons to the Test Cases and Bugs pages. See [11](11-ci-and-publishing.md) and the wiki's [Automation Portal](../wiki/Automation-Portal.md) page.
+[`index.html`](../../index.html) is the Automation Portal on GitHub Pages. It reads small per-family history files built at publish time (never a run's full `results.json`) and shows run history and trends, known issues (tests with a `Known issue` annotation, linked to their bug), the API coverage when it exists, and buttons to the Test Cases and Bugs pages. See [11](11-ci-and-publishing.md) and the wiki's [Automation Portal](../wiki/Automation-Portal.md) page.
 
 ## Changed in the review
 

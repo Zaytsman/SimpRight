@@ -56,21 +56,23 @@ The `gh-pages` branch is the site:
 
 ```
 index.html                 the portal (copied from the repo root on every publish)
-<family>/run-<N>/          one run's HTML report + results.json (+ api-coverage/)
+<family>/run-<N>/          one run's HTML report + results.json + run-summary.json (+ api-coverage/)
 <family>-manifest.json     the family's runs, newest first (the latest 30 are kept)
+<family>-history.json      the kept runs' stats + the newest run's known issues (what the portal reads)
 latest/<family>/           a copy of the newest run
-latest/api-coverage/       the full API regression's coverage
+latest/api-coverage/       the full API regression's coverage (+ totals.json for the portal)
 test-cases/<layer>/        the Test Cases pages
 bugs/                      the Bugs page
 ```
 
 | Script | Does |
 |---|---|
-| `scripts/publish-report.sh <family> [--latest-coverage]` | Copies the run's report, `results.json` and coverage into `<family>/run-<N>/`, refreshes `latest/<family>/`, prunes to `KEEP_RUNS` (30), rebuilds the manifest. An unknown argument fails with the usage. |
-| `scripts/publish-test-cases.sh` | Builds the Test Cases and Bugs pages and replaces `test-cases/` and `bugs/` |
+| `scripts/publish-report.sh <family> [--latest-coverage]` | Copies the run's report, `results.json` and coverage into `<family>/run-<N>/`, refreshes `latest/<family>/`, prunes to `KEEP_RUNS` (30), rebuilds the manifest, then runs `build-run-summaries.mts` for the family. An unknown argument fails with the usage. |
+| `scripts/build-run-summaries.mts <site> [<family>]` | Writes the small files the portal and the Bugs page read instead of the full `results.json` (an API regression's is about 8 MB): a `run-summary.json` per run (stats, known issues, each scenario test's last status; built once from its `results.json`, copied to `latest/<family>/`), `<family>-history.json` and `latest/api-coverage/totals.json` (`summary.json` without the per-endpoint detail). Without a family it builds only the families that have no history yet. |
+| `scripts/publish-test-cases.sh` | Builds the Test Cases and Bugs pages, replaces `test-cases/` and `bugs/`, and builds the run summaries of families that have none yet, so a portal change published before the next run finds its data |
 | `scripts/gh-pages-lib.sh` | `ghp_checkout`: points `origin` at the repo with `GH_TOKEN`, checks out `gh-pages` as a worktree; `git ls-remote --exit-code` tells "no branch yet" (first publish: an orphan branch) from a real fetch error. `ghp_publish`: copies the portal and `.nojekyll`, commits as `github-actions[bot]`, pushes, and on a rejected push rebases and retries up to 3 times |
 
-Each script touches only its own folders, so parallel publishes (a UI run, an API run, a Test Cases publish) rebase without conflicts. `scripts/*.sh` keep LF line endings (`.gitattributes`).
+Each script touches only its own folders, so parallel publishes (a UI run, an API run, a Test Cases publish) rebase without conflicts. The run summaries depend only on the published files, so two publishes that write the same one write the same bytes. `scripts/*.sh` keep LF line endings (`.gitattributes`).
 
 `publish-test-cases.yml` runs on pushes to `main` that change the scenarios, the bugs, the pages, their builds, the profile or `index.html`, so a portal change goes live on merge. `publish-wiki.yml` mirrors `docs/wiki/` into the repository's wiki on pushes to `main` that change it.
 
