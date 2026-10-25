@@ -11,7 +11,7 @@ gh-pages/
 ├── index.html                       the Automation Portal (copied from the repo root on every publish)
 ├── .nojekyll                        serve files as they are (no Jekyll processing)
 ├── daily-api-regression/
-│   ├── run-57/                      one test run: Playwright HTML report + results.json + run-summary.json (+ api-coverage/)
+│   ├── run-57/                      one test run: Playwright HTML report + run-summary.json (+ api-coverage/)
 │   └── run-56/ ...                  the latest 30 runs of the family
 ├── daily-api-regression-manifest.json   ["run-57", "run-56", ...], newest first
 ├── daily-api-regression-history.json    the kept runs' stats + the newest run's known issues (what the portal reads)
@@ -52,10 +52,10 @@ Each script replaces only its own files and leaves the rest of the branch alone,
 
 1. If there's no `playwright-report/`, stop: nothing to publish.
 2. Check out `gh-pages` (see below).
-3. Copy the HTML report into `<family>/run-<N>/`, plus `test-results/results.json` (the JSON reporter's output on CI) and `test-results/api-coverage/` when there is one.
+3. Copy the HTML report into `<family>/run-<N>/`, plus `test-results/results.json` (the JSON reporter's output on CI; only for step 6) and `test-results/api-coverage/` when there is one.
 4. Replace `latest/<family>/` with a copy of this run; with `--latest-coverage`, also replace `latest/api-coverage/` (only the full API regression passes it, because only its coverage represents the whole suite).
 5. **Prune:** keep the newest `KEEP_RUNS` runs of the family (30 by default), delete older ones, and rebuild `<family>-manifest.json` from what's left.
-6. **Summarize** (`scripts/build-run-summaries.mts <site> <family>`): write the run's `run-summary.json` (stats, known issues, each scenario test's last status) and its copy in `latest/<family>/`, rebuild `<family>-history.json`, and refresh `latest/api-coverage/totals.json`. The portal and the Bugs page read only these small files: an API regression's `results.json` is about 8 MB, and the portal used to download ten of them.
+6. **Summarize** (`scripts/build-run-summaries.mts <site> <family>`): write the run's `run-summary.json` (stats, known issues, each scenario test's last status) and its copy in `latest/<family>/`, rebuild `<family>-history.json`, and refresh `latest/api-coverage/totals.json`. The portal and the Bugs page read only these small files: an API regression's `results.json` is about 8 MB, and the portal used to download ten of them. Then remove the family's `results.json` files, this run's and any left from before the summaries: the HTML report doesn't need them, and the run's artifact keeps the full file for 14 days.
 7. Commit and push, with the portal (see below).
 
 Runs are sorted by number (`sort -V`), so `run-100` comes after `run-99`.

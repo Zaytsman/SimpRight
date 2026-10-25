@@ -4,7 +4,8 @@
 //
 // It writes:
 //   <family>/run-<N>/run-summary.json  one run: its stats, known issues and each scenario test's last status
-//                                      (read by the Bugs page); written once per run, from its results.json
+//                                      (read by the Bugs page); written once per run, from its results.json,
+//                                      which publish-report.sh then removes
 //   latest/<family>/run-summary.json   a copy of the newest run's
 //   <family>-history.json              every kept run of the family, newest first, with its stats, plus the
 //                                      newest run's known issues (read by the dashboard)

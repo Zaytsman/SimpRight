@@ -9,12 +9,13 @@
 #   index.html                     dashboard (copied from the repo root on every publish)
 #   <family>-manifest.json         run folders of the family, newest first
 #   <family>-history.json          every kept run's stats + the newest run's known issues (read by the dashboard)
-#   <family>/run-<N>/              HTML report + results.json + run-summary.json (+ api-coverage/) of run N
+#   <family>/run-<N>/              HTML report + run-summary.json (+ api-coverage/) of run N
 #   latest/<family>/               copy of the newest run
 #   latest/api-coverage/           latest full API regression coverage report (+ totals.json for the dashboard)
 #
 # The small JSON files the portal reads (history, run summaries, coverage totals) come from
-# scripts/build-run-summaries.mts, so the browser never downloads a full results.json.
+# scripts/build-run-summaries.mts. The run's full results.json is only their source: an API regression's is
+# about 8 MB, so it isn't published (it stays in the run's artifact).
 #
 # Runs in GitHub Actions at the repository root, with GH_TOKEN set. The gh-pages checkout, the dashboard
 # copy and the push are in gh-pages-lib.sh, shared with publish-test-cases.sh.
@@ -42,7 +43,7 @@ ghp_checkout "$SITE"
 # This run, plus the "latest" copy.
 mkdir -p "$SITE/$FAMILY/$RUN" "$SITE/latest"
 cp -r playwright-report/. "$SITE/$FAMILY/$RUN/"
-cp test-results/results.json "$SITE/$FAMILY/$RUN/" 2>/dev/null || true
+cp test-results/results.json "$SITE/$FAMILY/$RUN/" 2>/dev/null || true # source of run-summary.json, removed below
 if [ -d test-results/api-coverage ]; then
   cp -r test-results/api-coverage "$SITE/$FAMILY/$RUN/api-coverage"
 fi
@@ -61,4 +62,8 @@ echo "Runs kept for $FAMILY: $(jq length "$FAMILY-manifest.json")"
 
 cd ..
 node scripts/build-run-summaries.mts "$SITE" "$FAMILY"
+# Every run with results now has its run-summary.json, so drop the full results.json (also the ones runs
+# published before the summaries existed still have).
+find "$SITE/$FAMILY" -mindepth 2 -maxdepth 2 -name results.json -delete
+rm -f "$SITE/latest/$FAMILY/results.json"
 ghp_publish "$SITE" "Publish $FAMILY $RUN"
