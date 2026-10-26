@@ -2,9 +2,6 @@ import type { Locator, Page } from '@playwright/test';
 import type { EnvConfig } from '../../config/env';
 import { NavBar } from './components/NavBar';
 
-/** The site marks elements with `data-test`; `page.getByTestId()` uses this attribute. */
-export const TEST_ID_ATTRIBUTE = 'data-test';
-
 /** The title of Cloudflare's bot-check page ("Just a moment..."); the app's own titles never start with it. */
 const CLOUDFLARE_CHALLENGE_TITLE = /^Just a moment/i;
 

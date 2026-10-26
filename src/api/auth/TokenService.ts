@@ -1,6 +1,6 @@
-import { getUser, type UserRole } from '../../config/env';
-import type { AuthClient } from '../clients/AuthClient';
-import type { LoginResponse } from '../dto/auth';
+import type { APIRequestContext } from '@playwright/test';
+import type { LoginResult, Project } from '../../config/defineProject';
+import { getUser, isRunUser, type EnvConfig, type UserRole } from '../../config/env';
 import { ApiError } from '../services/serviceUtils';
 
 /**
@@ -11,12 +11,16 @@ import { ApiError } from '../services/serviceUtils';
 export const TOKEN_EXPIRY_MARGIN_MS = 2 * 60_000;
 
 /**
- * Logs in each role once per worker and reuses the token until it is about to expire.
+ * Logs in each role once per worker, through the project's `login`, and reuses the token until it is about to expire.
  */
 export class TokenService {
   private readonly tokens = new Map<UserRole, { token: string; expiresAt: number }>();
 
-  constructor(private readonly authClient: AuthClient) {}
+  constructor(
+    private readonly request: APIRequestContext,
+    private readonly config: EnvConfig,
+    private readonly login: Project['login']
+  ) {}
 
   async getAccessToken(role: UserRole): Promise<string> {
     const cached = this.tokens.get(role);
@@ -24,20 +28,21 @@ export class TokenService {
       return cached.token;
     }
 
-    const { username, password } = getUser(role);
-    const response = await this.authClient.login({ email: username, password });
-    if (!response.isSuccess) {
+    let result: LoginResult;
+    try {
+      result = await this.login({ request: this.request, config: this.config, user: getUser(role) });
+    } catch (error) {
+      if (!(error instanceof ApiError)) throw error;
       const hint =
-        response.status >= 500
+        error.status >= 500
           ? 'The site returned an error, not a credentials problem; re-run later.'
-          : role === 'default'
-            ? "The run's registered customer couldn't log in."
+          : isRunUser(role)
+            ? "The user created for this run couldn't log in."
             : 'Check credentials in .env.';
-      throw new ApiError(`Login failed for "${role}" user: ${response.status} ${response.statusText}. ${hint}`, response.status);
+      throw new ApiError(`Login failed for "${role}" user: ${error.message}. ${hint}`, error.status);
     }
 
-    const { access_token, expires_in } = JSON.parse(response.body) as LoginResponse;
-    this.tokens.set(role, { token: access_token, expiresAt: Date.now() + expires_in * 1000 - TOKEN_EXPIRY_MARGIN_MS });
-    return access_token;
+    this.tokens.set(role, { token: result.token, expiresAt: Date.now() + result.expiresInSeconds * 1000 - TOKEN_EXPIRY_MARGIN_MS });
+    return result.token;
   }
 }

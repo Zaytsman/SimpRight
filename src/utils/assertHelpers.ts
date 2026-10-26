@@ -1,5 +1,5 @@
 import { test } from '@playwright/test';
-import { env, findRunUser } from '../config/env';
+import { allUsers } from '../config/env';
 
 /** Keys whose values never reach a report (matched case-insensitively, at any depth). */
 const SECRET_KEYS = new Set([
@@ -16,12 +16,12 @@ const SECRET_KEYS = new Set([
 const MASK = '***';
 
 /**
- * The test users' emails and passwords (from secrets, plus the run's registered customer), masked wherever
- * they appear. Read on each call, because the run's customer exists only after globalSetup.
+ * The test users' emails and passwords (from secrets, plus the users created for the run), masked wherever
+ * they appear. Read on each call, because the run's users exist only after globalSetup.
  */
 function secretValues(): string[] {
-  return [...Object.values(env.testUsers), findRunUser()]
-    .flatMap((user) => (user ? [user.username, user.password] : []))
+  return allUsers()
+    .flatMap((user) => [user.username, user.password])
     .filter((value) => value.length > 0);
 }
 

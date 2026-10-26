@@ -39,9 +39,10 @@ function fail(message: string): never {
   process.exit(2);
 }
 
-function parseArgs(args: string[]): { path: string; role: string; steps: string[] } {
+/** `role` is left out for the default role (src/config/roles.ts), `none` for a logged-out page. */
+function parseArgs(args: string[]): { path: string; role?: string; steps: string[] } {
   let pagePath: string | undefined;
-  let role = 'default';
+  let role: string | undefined;
   let loggedOut = false;
   let roleGiven = false;
   const steps: string[] = [];
@@ -80,7 +81,7 @@ function parseArgs(args: string[]): { path: string; role: string; steps: string[
 }
 
 const request = parseArgs(process.argv.slice(2));
-console.log(`Inspecting ${request.path} as ${request.role === 'none' ? 'a logged-out visitor' : request.role}...`);
+console.log(`Inspecting ${request.path} as ${request.role === 'none' ? 'a logged-out visitor' : (request.role ?? 'the default role')}...`);
 
 // --reporter replaces the configured reporters, so there's no HTML or API coverage report for an inspection.
 const run = spawnSync(process.execPath, [PLAYWRIGHT_CLI, 'test', '--project=inspect', '--reporter=line'], {

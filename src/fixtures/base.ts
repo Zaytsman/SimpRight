@@ -1,13 +1,31 @@
 import { test as base } from '@playwright/test';
-import { env, getUser, type EnvConfig, type TestUser, type UserRole } from '../config/env';
+import {
+  DEFAULT_ROLE,
+  env,
+  getUser,
+  storageStatePath,
+  type EnvConfig,
+  type TestUser,
+  type UiAuthMode,
+  type UserRole,
+} from '../config/env';
+import { project } from '../config/project';
 import { TokenService } from '../api/auth/TokenService';
-import { AuthClient } from '../api/clients/AuthClient';
 import { BaseClient } from '../api/clients/BaseClient';
 import { loadApiCoverage, toCoverageCall } from '../api/coverage/apiCoverage';
+import { isStorageStateValid } from '../ui/auth/authState';
+
+/** How a test starts: logged in with one of the `UiAuthMode`s, or `none` (logged out, no login at all). */
+export type AuthMode = UiAuthMode | 'none';
 
 export type BaseOptions = {
   /** Which test user the test acts as. Override per file or describe with `test.use({ role: 'admin' })`. */
   role: UserRole;
+  /**
+   * How the test starts logged in; defaults to UI_AUTH_MODE (see `UiAuthMode`). `none` skips the login:
+   * the `api` project sets it, so only API tests that ask for a token log in.
+   */
+  authMode: AuthMode;
 };
 
 /** Undo steps for records a test creates; see the `cleanup` fixture. */
@@ -28,11 +46,12 @@ export type BaseWorkerFixtures = {
 };
 
 /**
- * Fixtures shared by the API and UI layers; both extend this so `role`, `config`, `user` and
- * `tokenService` exist once (UI tests use API tokens to start logged in).
+ * Fixtures shared by the API and UI layers; both extend this so `role`, `config`, `user`, `tokenService` and the
+ * logged-in start (`authMode`, `storageState`) exist once (UI tests use API tokens to start logged in).
  */
 export const test = base.extend<BaseOptions & BaseFixtures, BaseWorkerFixtures>({
-  role: ['default', { option: true }],
+  role: [DEFAULT_ROLE, { option: true }],
+  authMode: [env.uiAuthMode, { option: true }],
 
   config: [
     async ({}, use) => {
@@ -46,7 +65,7 @@ export const test = base.extend<BaseOptions & BaseFixtures, BaseWorkerFixtures>(
   tokenService: [
     async ({ playwright, config }, use) => {
       const request = await playwright.request.newContext();
-      await use(new TokenService(new AuthClient(request, config)));
+      await use(new TokenService(request, config, project.login));
       await request.dispose();
     },
     { scope: 'worker' },
@@ -62,6 +81,29 @@ export const test = base.extend<BaseOptions & BaseFixtures, BaseWorkerFixtures>(
     },
     { scope: 'worker', auto: true },
   ],
+
+  // Start logged in as the test's role; logged-out tests use test.use({ authMode: 'none' }).
+  // Every test resolves this fixture (Playwright's trace recording reads the context options),
+  // so `none` matters for API tests too: without it, each one would log in the default user.
+  storageState: async ({ authMode, role, config, tokenService }, use) => {
+    if (authMode === 'none') {
+      await use(undefined);
+      return;
+    }
+
+    if (authMode === 'storageState') {
+      const filePath = storageStatePath(role);
+      if (!isStorageStateValid(filePath)) {
+        throw new Error(
+          `No valid saved login at ${filePath}. globalSetup creates it only when running with UI_AUTH_MODE=storageState.`
+        );
+      }
+      await use(filePath);
+      return;
+    }
+
+    await use(project.browserState(config.baseUrl, await tokenService.getAccessToken(role)));
+  },
 
   user: async ({ role }, use) => {
     await use(getUser(role));

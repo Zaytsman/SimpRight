@@ -29,7 +29,7 @@ export const TestConstants = {
 };
 ```
 
-Each value has a comment saying what makes it useful ("seeded with stock 0", "a location offer"). Roles aren't repeated here: they're `UserRole` in config.
+Each value has a comment saying what makes it useful ("seeded with stock 0", "a location offer"). Roles aren't repeated here: they're in `src/config/roles.ts`.
 
 ## Factories
 
@@ -53,7 +53,7 @@ Rules:
 | User | What it is | Use for |
 |---|---|---|
 | `admin` | The configured admin (`.env` / GitHub Secrets) | Admin endpoints, setup and cleanup (`adminXService`) |
-| `default` | **The run's customer**: registered by `globalSetup` for this run, deleted after it ([2](02-configuration.md#the-runs-customer-the-default-role)) | Read-only customer checks |
+| `default` | **The run's customer**: registered for this run by the project's `beforeRun`, deleted after it ([2](02-configuration.md#the-runs-customer-the-default-role)) | Read-only customer checks |
 | A throwaway customer | Registered by the test itself: `registerThrowawayCustomer` (API), `registerCustomerForTest` or `openProductPageWithNewCustomerTest` (UI) | Anything that changes a user's own data (profile, password, favourites, invoices, TOTP, a lockout) |
 | `guest` | No login (`authMode: 'none'`) | Logged-out scenarios |
 

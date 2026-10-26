@@ -10,18 +10,21 @@ SimpRight keeps **framework code** (`src/`) apart from **specs** (`tests/`), and
 SimpRight/
 ├── src/                          framework code
 │   ├── config/
-│   │   └── env.ts                loads .env and the environment JSON, validates them; exports env, getUser(role)
+│   │   ├── env.ts                loads .env and the environment JSON, validates them; exports env, getUser(role)
+│   │   ├── roles.ts              the roles tests act as (ROLES, UserRole, DEFAULT_ROLE)
+│   │   ├── project.ts            the app's test ids, logins and run hooks (beforeRun, afterRun)
+│   │   └── defineProject.ts      the shape of project.ts
 │   ├── envs/
 │   │   └── TEST.json             one file per environment: URLs, timeouts, the admin user (${VAR} placeholders)
 │   ├── fixtures/                 what specs import as @fixtures
 │   │   ├── index.ts              exports test, expect, the UI precondition fixtures and the API step helpers
-│   │   ├── base.ts               fixtures shared by both layers: role, config, user, tokenService, cleanup
+│   │   ├── base.ts               fixtures shared by both layers: role, authMode, config, user, tokenService, storageState, cleanup
 │   │   └── fixtures.ts           merges the API and UI fixtures (mergeTests)
 │   ├── api/
 │   │   ├── clients/              one client per API area, methods 1:1 with endpoints, on top of BaseClient
 │   │   ├── services/             domain operations over clients; parse responses, throw on errors
 │   │   ├── dto/                  request and response types
-│   │   ├── auth/                 TokenService (token cache per role), runUser (the run's customer)
+│   │   ├── auth/                 TokenService (token cache per role), apiLogin (the app's login), runUser (the run's customer)
 │   │   ├── fixtures/             API fixtures (clients, services, tokens) and step helpers: apiSteps (sendAndAttach, AUTH, templates), <area>Steps
 │   │   └── coverage/             loader of the optional API coverage plug-in
 │   ├── ui/
@@ -29,7 +32,7 @@ SimpRight/
 │   │   │   ├── components/       parts shared by pages, on top of BaseComponent: NavBar, ProductGrid, ProductFilters
 │   │   │   └── dialogs/          dialogs, on top of BaseDialog
 │   │   ├── flows/                multi-page user journeys (ShoppingFlow)
-│   │   ├── auth/                 login token and storage state helpers
+│   │   ├── auth/                 whether a saved login is still valid (authState)
 │   │   ├── visitor/              visitor state the app keeps in browser storage: location, cart
 │   │   └── fixtures/             UI fixtures (pages, components, flows), the new-customer state, setup helpers (cartSetup, productSetup)
 │   │       └── preconditions/    where a test starts, open<Page><State>Test: openHomePageTest, openProductPageTest, their InLondon / WithNewCustomer variants
@@ -37,7 +40,7 @@ SimpRight/
 │   │   ├── TestConstants.ts      seeded app values that several tests rely on
 │   │   └── factories/            payload builders per area, uniqueName() for created records
 │   ├── utils/                    assertHelpers (assertMessage, attachJson, redact), apiChecks (parseJson, expectStatus, ...), amounts (parseAmount), totp, envUtils
-│   └── globalSetup.ts            registers the run's customer (deleted after the run); UI login in storageState mode
+│   └── globalSetup.ts            runs the project's beforeRun and afterRun (the run's customer); UI login in storageState mode
 ├── tests/                        specs only, one per scenario file
 │   ├── api/<area>/*.spec.ts      products/, users/, carts/, ... (13 areas)
 │   └── ui/<area>/*.spec.ts       cart/, products/

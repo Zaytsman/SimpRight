@@ -1,9 +1,8 @@
 import { defineConfig, devices } from '@playwright/test';
 import { apiCoverageReporter } from './src/api/coverage/apiCoverage';
 import { env, findInspectRequest } from './src/config/env';
+import { project } from './src/config/project';
 import type { BaseOptions } from './src/fixtures/base';
-import type { UiOptions } from './src/ui/fixtures/fixtures';
-import { TEST_ID_ATTRIBUTE } from './src/ui/pages/BasePage';
 
 const { isCI } = env;
 // Set only by `npm run inspect:ui` (scripts/inspect-ui.mts); a normal run has no `inspect` project.
@@ -14,10 +13,11 @@ if (!process.env.TEST_WORKER_INDEX) {
   console.log(`Running against ${env.name}: ${env.baseUrl} (API: ${env.apiBaseUrl})`);
 }
 
-export default defineConfig<BaseOptions & UiOptions>({
+export default defineConfig<BaseOptions>({
   testDir: './tests',
-  // Registers the run's customer (the `default` role) and deletes it after the run (its returned teardown).
-  // With UI_AUTH_MODE=storageState it also logs in every role through the UI and saves .auth/<role>.json.
+  // Runs the project's beforeRun (here: registers the run's customer, the `default` role) and, after the run, its
+  // afterRun (deletes the customer). With UI_AUTH_MODE=storageState it also logs in every role through the UI and
+  // saves .auth/<role>.json.
   globalSetup: './src/globalSetup.ts',
   fullyParallel: true,
   forbidOnly: isCI,
@@ -37,7 +37,7 @@ export default defineConfig<BaseOptions & UiOptions>({
 
   use: {
     baseURL: env.baseUrl,
-    testIdAttribute: TEST_ID_ATTRIBUTE,
+    testIdAttribute: project.testIdAttribute,
     // Off: a trace stores every request and response unmasked (login bodies with passwords, tokens), and the reports are published.
     trace: 'off',
     screenshot: 'only-on-failure',

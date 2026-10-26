@@ -2,6 +2,9 @@ import fs from 'node:fs';
 import path from 'node:path';
 import dotenv from 'dotenv';
 import { resolvePlaceholders } from '../utils/envUtils';
+import { DEFAULT_ROLE, ROLES, type UserRole } from './roles';
+
+export { DEFAULT_ROLE, ROLES, type UserRole };
 
 const ROOT_DIR = path.resolve(__dirname, '..', '..');
 const ENVS_DIR = path.join(ROOT_DIR, 'src', 'envs');
@@ -11,22 +14,9 @@ const DEFAULT_ENV = 'TEST';
 // Loaded here (not only in playwright.config.ts) because imports are evaluated before the config body runs.
 dotenv.config({ path: path.join(ROOT_DIR, '.env'), quiet: true });
 
-export type UserRole = 'admin' | 'default';
-
 export interface TestUser {
   username: string;
   password: string;
-}
-
-/** Roles whose credentials come from `testUsers` in `src/envs/<ENV>.json` and `.env`. */
-export type ConfiguredRole = Exclude<UserRole, 'default'>;
-
-/**
- * The customer that `globalSetup` registers for this run and deletes afterwards; it is the `default` role.
- * Nobody else knows its credentials, so failed logins by other people on the shared demo site can't lock it.
- */
-export interface RunUser extends TestUser {
-  id: string;
 }
 
 /**
@@ -50,11 +40,10 @@ export interface EnvConfig {
   defaultTimeoutMs: number;
   /** Test and navigation timeout. */
   extendedTimeoutMs: number;
-  testUsers: Record<ConfiguredRole, TestUser>;
+  /** The configured users, by role; a role without one logs in with a user created for the run (`setRunUser`). */
+  testUsers: Partial<Record<UserRole, TestUser>>;
 }
 
-export const USER_ROLES: readonly UserRole[] = ['admin', 'default'];
-const CONFIGURED_ROLES: readonly ConfiguredRole[] = ['admin'];
 const UI_AUTH_MODES: readonly UiAuthMode[] = ['api', 'storageState'];
 
 function parseUiAuthMode(raw: string | undefined): UiAuthMode {
@@ -97,7 +86,25 @@ interface RawEnvFile {
   apiBaseUrl?: unknown;
   defaultTimeoutMs?: unknown;
   extendedTimeoutMs?: unknown;
-  testUsers?: Partial<Record<ConfiguredRole, { username?: unknown; password?: unknown }>>;
+  testUsers?: Record<string, { username?: unknown; password?: unknown } | undefined>;
+}
+
+function isRole(value: string): value is UserRole {
+  return (ROLES as readonly string[]).includes(value);
+}
+
+function parseTestUsers(raw: RawEnvFile['testUsers'], file: string): Partial<Record<UserRole, TestUser>> {
+  const users: Partial<Record<UserRole, TestUser>> = {};
+  for (const [role, user] of Object.entries(raw ?? {})) {
+    if (!isRole(role)) {
+      throw new Error(`${file}: testUsers.${role} isn't a role. Available: ${ROLES.join(', ')} (src/config/roles.ts)`);
+    }
+    if (typeof user?.username !== 'string' || !user.username || typeof user.password !== 'string' || !user.password) {
+      throw new Error(`${file}: testUsers.${role} must have "username" and "password"`);
+    }
+    users[role] = { username: user.username, password: user.password };
+  }
+  return users;
 }
 
 function loadEnv(): EnvConfig {
@@ -110,15 +117,6 @@ function loadEnv(): EnvConfig {
 
   const raw = resolvePlaceholders(JSON.parse(fs.readFileSync(filePath, 'utf-8')) as RawEnvFile);
 
-  const testUsers = {} as Record<ConfiguredRole, TestUser>;
-  for (const role of CONFIGURED_ROLES) {
-    const user = raw.testUsers?.[role];
-    if (typeof user?.username !== 'string' || !user.username || typeof user.password !== 'string' || !user.password) {
-      throw new Error(`${file}: testUsers.${role} must have "username" and "password"`);
-    }
-    testUsers[role] = { username: user.username, password: user.password };
-  }
-
   const isCI = !!process.env.CI;
   return Object.freeze({
     name,
@@ -129,40 +127,46 @@ function loadEnv(): EnvConfig {
     apiBaseUrl: assertUrl(raw.apiBaseUrl, 'apiBaseUrl', file),
     defaultTimeoutMs: assertPositiveNumber(raw.defaultTimeoutMs, 'defaultTimeoutMs', file),
     extendedTimeoutMs: assertPositiveNumber(raw.extendedTimeoutMs, 'extendedTimeoutMs', file),
-    testUsers,
+    testUsers: parseTestUsers(raw.testUsers, file),
   });
 }
 
 /** Resolved, validated config for the environment selected by TEST_ENV (default: TEST). */
 export const env: EnvConfig = loadEnv();
 
+// globalSetup runs in the main process before the workers start, so the workers inherit this variable.
+const RUN_USERS_VAR = 'SIMPRIGHT_RUN_USERS';
+
+/** The users created for this run, by role (`setRunUser`); none before globalSetup. */
+function runUsers(): Partial<Record<UserRole, TestUser>> {
+  const raw = process.env[RUN_USERS_VAR];
+  return raw ? (JSON.parse(raw) as Partial<Record<UserRole, TestUser>>) : {};
+}
+
+/**
+ * Makes `user`, created for this run, the user of `role` in every worker (here the run's customer, the `default` role:
+ * nobody else knows its credentials, so failed logins by other people on the shared demo site can't lock it).
+ * Call it from globalSetup's process, before the workers start.
+ */
+export function setRunUser(role: UserRole, user: TestUser): void {
+  process.env[RUN_USERS_VAR] = JSON.stringify({ ...runUsers(), [role]: { username: user.username, password: user.password } });
+}
+
+/** True when `role` logs in with a user created for this run (`setRunUser`), not a configured one. */
+export function isRunUser(role: UserRole): boolean {
+  return runUsers()[role] !== undefined;
+}
+
+/** Every test user, configured or created for this run: reports mask their credentials. */
+export function allUsers(): TestUser[] {
+  return [...Object.values(env.testUsers), ...Object.values(runUsers())].filter((user): user is TestUser => user !== undefined);
+}
+
+/** The user `role` logs in as: the one created for this run, else the configured one. */
 export function getUser(role: UserRole): TestUser {
-  return role === 'default' ? getRunUser() : env.testUsers[role];
-}
-
-// globalSetup runs in the main process before the workers start, so the workers inherit these variables.
-const RUN_USER_VARS = { id: 'SIMPRIGHT_RUN_USER_ID', username: 'SIMPRIGHT_RUN_USER_EMAIL', password: 'SIMPRIGHT_RUN_USER_PASSWORD' } as const;
-
-/** Called by globalSetup after it registers the run's customer; hands its credentials to the workers. */
-export function setRunUser(user: RunUser): void {
-  process.env[RUN_USER_VARS.id] = user.id;
-  process.env[RUN_USER_VARS.username] = user.username;
-  process.env[RUN_USER_VARS.password] = user.password;
-}
-
-/** The run's customer, or `undefined` before globalSetup has registered it. */
-export function findRunUser(): RunUser | undefined {
-  const id = process.env[RUN_USER_VARS.id];
-  const username = process.env[RUN_USER_VARS.username];
-  const password = process.env[RUN_USER_VARS.password];
-  return id && username && password ? { id, username, password } : undefined;
-}
-
-/** The run's customer (the `default` role); throws when globalSetup hasn't registered one. */
-export function getRunUser(): RunUser {
-  const user = findRunUser();
+  const user = runUsers()[role] ?? env.testUsers[role];
   if (!user) {
-    throw new Error('No customer for the "default" role: globalSetup registers one per run (src/globalSetup.ts).');
+    throw new Error(`No user for the "${role}" role: add testUsers.${role} to src/envs/${env.name}.json, or create one for the run in project.beforeRun (src/config/project.ts) with setRunUser.`);
   }
   return user;
 }
@@ -196,9 +200,9 @@ export function findInspectRequest(): InspectRequest | undefined {
   if (typeof request.path !== 'string' || !request.path.startsWith('/')) {
     throw new Error(`${INSPECT_VAR}: path must start with "/", got ${JSON.stringify(request.path)}`);
   }
-  const role = request.role ?? 'default';
-  if (role !== 'none' && !USER_ROLES.includes(role)) {
-    throw new Error(`${INSPECT_VAR}: unknown role "${role}". Available: ${USER_ROLES.join(', ')}, none`);
+  const role = request.role ?? DEFAULT_ROLE;
+  if (role !== 'none' && !isRole(role)) {
+    throw new Error(`${INSPECT_VAR}: unknown role "${role}". Available: ${ROLES.join(', ')}, none`);
   }
   const steps = request.steps ?? [];
   if (!Array.isArray(steps) || steps.some((step) => typeof step !== 'string' || !INSPECT_STEP.test(step))) {

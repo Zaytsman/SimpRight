@@ -10,14 +10,14 @@ src/ui/
     ProductPage.ts         the product detail: prices, quantity, add to cart, favourites, related
     CartPage.ts            the checkout wizard: cart lines, totals, proceed; holds signInStep
     RentalsPage.ts         the rentals overview; holds rentalGrid
-    LoginPage.ts           used by globalSetup's UI login (storageState mode)
+    LoginPage.ts           used by project.uiLogin, globalSetup's UI login (storageState mode)
     waitForApiResponse.ts  wait for the app's own request
     components/            BaseComponent + NavBar, ProductGrid, ProductFilters, Pagination, PriceRangeSlider,
                            RentalGrid, CheckoutCartLine, CheckoutSignInStep
     dialogs/BaseDialog.ts  base for modals (no concrete dialog yet)
   flows/ShoppingFlow.ts    openProduct(name): home, search, the product's card
   visitor/                 browser state the app reads: setVisitorLocation, setVisitorCart
-  auth/authState.ts        the JWT in localStorage: tokenStorageState, isStorageStateValid
+  auth/authState.ts        isStorageStateValid: whether a saved login still has 2 minutes left
 ```
 
 ## Pages

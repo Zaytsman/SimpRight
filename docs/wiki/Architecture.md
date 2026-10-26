@@ -27,6 +27,7 @@ SimpRight tests [practicesoftwaretesting.com](https://practicesoftwaretesting.co
 
   shared by every layer:
   src/config/  env.ts: the one place that reads the environment     src/data/   seeded constants, factories
+               project.ts, roles.ts: the app's test ids, logins, run hooks and roles
   src/utils/   masking, assertion messages, shared API checks, amounts, TOTP
 ```
 
@@ -47,10 +48,10 @@ Each layer only calls the one below it:
 | `src/fixtures/` | `base.ts` (shared fixtures), `fixtures.ts` (the merge), `index.ts` (what `@fixtures` exports) | [3](Fixtures) |
 | `src/api/` | `clients/`, `services/`, `dto/`, `auth/` (tokens, the run's customer), `fixtures/`, `coverage/` | [4](API-Layer) |
 | `src/ui/` | `pages/` (+ `components/`, `dialogs/`), `flows/`, `fixtures/` (+ `preconditions/`), `visitor/`, `auth/` | [6](UI-Layer) |
-| `src/config/`, `src/envs/` | Typed, validated configuration per environment | [2](Configuration) |
+| `src/config/`, `src/envs/` | Typed, validated configuration per environment (`env.ts`), and the project file: the app's test ids, logins and run hooks (`project.ts`) and its roles (`roles.ts`) | [2](Configuration) |
 | `src/data/` | `TestConstants.ts` (seeded values), `factories/` (payload builders, unique names) | [8](Test-Data) |
 | `src/utils/` | `assertHelpers.ts` (masking, messages, attachments), `apiChecks.ts` (shared API checks), `amounts.ts`, `envUtils.ts`, `totp.ts` | [10](Reporting-and-Secrets), [5](API-Specs) |
-| `src/globalSetup.ts` | Once per run: the run's customer, the re-seed wait, optional UI logins | [2](Configuration) |
+| `src/globalSetup.ts` | Once per run: the project's `beforeRun` and `afterRun` (the re-seed wait, the run's customer), optional UI logins | [2](Configuration) |
 | `scripts/` | Validator, step-title check, page inspector, page builds, the publish scripts' file work | [9](Scenarios-Bugs-and-Validation), [11](CI-and-Publishing) |
 | `.github/workflows/` | CI: the reusable test job, scheduled and manual runs, PR checks, publishing | [11](CI-and-Publishing) |
 | `.github/actions/` | The workflows' steps as composite actions (setup, tests, publishing), with the publish scripts' git steps | [11](CI-and-Publishing) |
@@ -63,11 +64,11 @@ Path aliases (`tsconfig.json`, resolved by Playwright): `@fixtures` (= `src/fixt
 ## What happens during a run
 
 1. **Config load.** `playwright.config.ts` imports `src/config/env.ts`, which loads `.env`, reads `src/envs/<TEST_ENV>.json`, fills in the `${VAR}` placeholders, validates everything and freezes the result. A missing secret or a bad URL fails here, before any test.
-2. **Global setup** (`src/globalSetup.ts`, main process). On CI, waits when the run would cross the site's hourly re-seed. Registers a new customer for the run (the `default` role) and checks that it can log in. With `UI_AUTH_MODE=storageState`, also logs every role in through the UI and saves `.auth/<role>.json`.
+2. **Global setup** (`src/globalSetup.ts`, main process) runs the project's `beforeRun` (`src/config/project.ts`): on CI, it waits when the run would cross the site's hourly re-seed, then it registers a new customer for the run (the `default` role) and checks that it can log in. With `UI_AUTH_MODE=storageState`, globalSetup also logs every role in through the app's login page and saves `.auth/<role>.json`.
 3. **Workers start** (2 on CI). Each worker gets the worker-scoped fixtures once: `config`, `tokenService` (one login per role per worker) and the auto `apiCoverage` hook.
 4. **Each test** resolves only the fixtures it names. A UI test starts with a browser that's already logged in as its role, because the token is put into localStorage before the page loads. A precondition fixture may also open a page, set the visitor's location or put a cart in place. An API test gets clients built with the right token. The steps run, then `cleanup` runs the test's undo steps, newest first, pass or fail.
 5. **Reporters** write the list output, the HTML report, and on CI JUnit and `results.json`. The optional API coverage reporter compares the recorded calls with the contracts.
-6. **Teardown**: the function `globalSetup` returned deletes the run's customer as admin.
+6. **Teardown**: the function `globalSetup` returned runs the project's `afterRun`, which deletes the run's customer as admin.
 7. **On CI**, the step-title check reads `results.json`, then the report is published to GitHub Pages ([11](CI-and-Publishing)).
 
 ## Design principles

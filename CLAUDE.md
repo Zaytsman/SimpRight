@@ -33,12 +33,12 @@ npm run portal:build              # portal.json, what the dashboard shows, into 
 
 Details: `docs/framework/02-configuration.md`.
 - **UI login** (`authMode`, default `UI_AUTH_MODE` = `env.uiAuthMode`; per file `test.use({ authMode })`). The app keeps its JWT in `localStorage['auth-token']`; it expires after 5 minutes.
-  - `api` (default): the `storageState` fixture injects a `tokenService` token for the test's role; nothing on disk.
+  - `api` (default): the `storageState` fixture injects a `tokenService` token for the test's role (`project.browserState`); nothing on disk.
   - `storageState`: `globalSetup` logs every role in and saves `.auth/<role>.json` (git-ignored, a live JWT). Locally a saved state is reused while its token has more than 2 minutes left; on CI it's always new, and the `default` role's always is. A role that fails to log in fails the run. `test.use({ authMode: 'storageState' })` works only when the run uses `UI_AUTH_MODE=storageState` (otherwise "No valid saved login").
   - `none` (test option only): starts logged out. The `api` project sets it because every test resolves the `storageState` fixture (tracing reads the context options): without it each API test would log the default user in, and one locked login would fail the suite. API tests log in only through the fixtures that need a token (`accessToken`, `productsClientWithToken`, `adminProductsService`).
 - Projects: `api` (`tests/api`, no browser); `ui` (`tests/ui`, Desktop Chrome, headed locally, headless on CI, `HEADLESS` overrides); `inspect` (the page inspector, only while `SIMPRIGHT_INSPECT` is set).
 - **Page inspector:** `npm run inspect:ui -- <path> [--role <role> | --logged-out] [--then click:<data-test> | check:<label> | select:<data-test>=<label>]`, output masked in `test-results/inspect/`. Read-only: never types or submits.
-- `testIdAttribute` is `data-test` (`TEST_ID_ATTRIBUTE` in `BasePage.ts`). Prefer `page.getByTestId(...)`.
+- `testIdAttribute` is `data-test` (`project.testIdAttribute`). Prefer `page.getByTestId(...)`.
 - `trace: 'off'` for every project: traces store requests unmasked (passwords, tokens) and the reports are published. Don't turn it back on.
 - On CI (`env.isCI`): 1 retry, 2 workers, JUnit output, `forbidOnly`.
 
@@ -46,7 +46,7 @@ Details: `docs/framework/02-configuration.md`.
 
 Details: `docs/framework/03-fixtures.md`.
 - Specs import from `src/fixtures` (`index.ts`): `test`, `expect`, the UI precondition fixtures and the API step helpers. `index.ts` re-exports each `src/api/fixtures/<area>Steps.ts` with `export *`; keep names only their own module uses unexported.
-- `src/fixtures/base.ts` (both layers): `role` (option, default `'default'`; `test.use({ role: 'admin' })`), `config` and `tokenService` (worker scope), `user`, `cleanup` (undo steps run after the test, pass or fail, newest first; a failing step only warns).
+- `src/fixtures/base.ts` (both layers): `role` (option, default `'default'`; `test.use({ role: 'admin' })`), `authMode` (option) and `storageState` (the logged-in start), `config` and `tokenService` (worker scope), `user`, `cleanup` (undo steps run after the test, pass or fail, newest first; a failing step only warns).
 - `src/api/fixtures/fixtures.ts` and `src/ui/fixtures/fixtures.ts` extend base; `src/fixtures/fixtures.ts` merges them (`mergeTests`). Fixtures are lazy. Logged-out UI tests: `test.use({ authMode: 'none' })`.
 - New page, component, grid and dialog fixtures go in `src/ui/fixtures/fixtures.ts`.
 - UI precondition fixtures: one file each in `src/ui/fixtures/preconditions/`, named `open<Page><State>Test` after the export (`openHomePageInLondonTest`). They extend the merged `test` and are exported from `src/fixtures/index.ts`.
@@ -68,6 +68,7 @@ Details: `docs/framework/06-ui-layer.md`.
 ## Layout
 
 - `src/`: framework code (`api/`, `ui/`, `fixtures/`, `config/`, `envs/`, `data/`, `utils/`, `globalSetup.ts`); `tests/`: specs only (no page logic in specs). Map: `docs/framework/01-architecture.md`.
+- `src/config/project.ts` (`defineProject`): what the framework's core needs from the app: the test-id attribute, the API login (`apiLogin`), the browser state of a logged-in page, the UI login (storageState mode) and `beforeRun`/`afterRun` (the re-seed wait, the run's customer). `src/config/roles.ts`: the roles (`ROLES`, `UserRole`, `DEFAULT_ROLE`). The core reads the app only through these two files.
 - `src/ui/visitor/`: the app's browser-storage state (location, cart). `src/ui/fixtures/` also holds setup or cleanup helpers UI specs share.
 - `src/data/` (`@data/*`): `TestConstants.ts` holds seeded values that **more than one test** uses, by area (`TestConstants.products.searchTerm`); a value one test uses stays a variable in that test; roles aren't repeated there. `factories/`: `uniqueName(prefix)` (`testDataUtils.ts`) for every record a test creates, and one `<Area>Factory.ts` per area (shared builders in their own file, like `nameAndSlugPayloads.ts`).
 - `test-scenarios/` (`api/`, `ui/`): the source of truth for what gets automated. Keep scenarios and specs in sync; don't invent coverage no scenario describes.
@@ -115,7 +116,7 @@ Details: `docs/framework/02-configuration.md`.
 - `src/envs/<NAME>.json` (committed): `baseUrl`, `apiBaseUrl`, timeouts, `testUsers` (the admin only, `${VAR}` placeholders for secrets). Pick with `TEST_ENV` (default `TEST`).
 - `.env` (git-ignored, never commit): only secrets (`ADMIN_USER`, `ADMIN_PASSWORD`). Keep `.env.example` in sync. `.npmrc` holds only the scope mapping, never a token (see `.npmrc.example`).
 - `src/config/env.ts` resolves and validates config and exports a frozen `env`, `getUser(role)`, `storageStatePath(role)`. **Never write resolved config (it has passwords) to disk.** Everything reads config through `@config/env`; never read `process.env` in tests or page objects.
-- **The run's customer (the `default` role):** the demo site publishes its default customer's credentials, so other people's failed logins kept locking it (423). Instead `globalSetup` registers a new customer per run (`createRunUser`, `src/api/auth/runUser.ts`), passes it to workers through `SIMPRIGHT_RUN_USER_*` (read only by `env.ts`) and deletes it as admin after the run (a failed delete only warns). Its credentials are masked in reports.
+- **The run's customer (the `default` role):** the demo site publishes its default customer's credentials, so other people's failed logins kept locking it (423). Instead the project's `beforeRun` registers a new customer per run (`createRunUser`, `src/api/auth/runUser.ts`) and hands it to the workers with `setRunUser` (`SIMPRIGHT_RUN_USERS`, read only by `env.ts`), and `afterRun` deletes it as admin after the run (a failed delete only warns). Its credentials are masked in reports.
   - The login check retries a 5xx or a dropped connection with a new customer for up to 4 minutes (a delayed run can start during the hourly re-seed); other errors fail at once. The re-seed deletes the customer too, so on CI a run that would start between :45 and :02 UTC first waits until :03.
   - **Never send wrong passwords for a shared account:** a lockout test registers its own customer.
 - Timeouts: `defaultTimeoutMs` (actions, `expect`), `extendedTimeoutMs` (tests, navigation).
@@ -127,7 +128,7 @@ Details: `docs/framework/04-api-layer.md`.
 - All HTTP goes through `BaseClient.executeRequest` (never `fetch` or `request.get`), so `onApiCall` listeners see every call. It sends `data` as JSON with `Accept: application/json`; negative tests use `rawData` (with `contentType`) and `accept` (`null` leaves the header out). A request that fails without a response masks the credential headers in its error, because errors reach published reports and CI logs.
 - **API coverage (optional):** `src/api/coverage/apiCoverage.ts` loads `@zaytsman/playwright-api-coverage` when installed; the auto worker fixture `apiCoverage` records every call, and the package's reporter compares them with the contracts into `test-results/api-coverage/`. Without the package both do nothing. **Never import the package directly** (forks and their PRs don't have it). `DISABLE_API_COVERAGE=true` or a CLI `--reporter` turns it off.
 - **Services** wrap clients with domain operations and parsing; **DTOs** type the bodies.
-- **Auth:** `POST /users/login` returns `access_token` (300 s). `TokenService` (worker scope) logs each role in once and refreshes 2 minutes before expiry. The JWT's `role` claim is `admin` or `user`; `/users/me` returns `role` only for admin.
+- **Auth:** `POST /users/login` returns `access_token` (300 s). `TokenService` (worker scope) logs each role in once through `project.login` (`apiLogin`) and refreshes 2 minutes before expiry. The JWT's `role` claim is `admin` or `user`; `/users/me` returns `role` only for admin.
 - **Fixtures** (`src/api/fixtures/fixtures.ts`): register new clients and services here. A client for the test's role or the admin gets `roleToken(tokenService, role)` (fetched per request, so long tests never send an expired token); a token the test got itself is passed as a string. Variants per area as the scenarios need them: `xClient`/`xService` (no token), `xClientWithToken`, `xClientWithInvalidToken`, `xClientForToken(token)`/`xServiceForToken(token)`, `adminXService`.
 
 ## API contracts

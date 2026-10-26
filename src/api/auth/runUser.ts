@@ -1,19 +1,22 @@
 import { request, type APIRequestContext } from '@playwright/test';
-import { env, getRunUser, setRunUser } from '../../config/env';
+import { env, setRunUser } from '../../config/env';
 import { UserFactory } from '../../data/factories/UserFactory';
-import { AuthClient } from '../clients/AuthClient';
 import { UsersClient } from '../clients/UsersClient';
 import { UsersService } from '../services/UsersService';
 import { ApiError } from '../services/serviceUtils';
+import { apiLogin } from './apiLogin';
 import { TokenService } from './TokenService';
 
 /** How long to keep retrying while the site answers 5xx (its hourly re-seed takes a few minutes). */
 const RETRY_WINDOW_MS = 4 * 60_000;
 const RETRY_DELAY_MS = 20_000;
 
+/** The id of the customer registered for this run, for `deleteRunUser` (the teardown runs in this process too). */
+let runCustomerId: string | undefined;
+
 /**
  * Registers this run's customer (the `default` role) and checks that it can log in. Called once by
- * globalSetup; the workers read the credentials through `getUser('default')`.
+ * `project.beforeRun` (globalSetup); the workers read the credentials through `getUser('default')`.
  *
  * A scheduled run can start during the site's hourly re-seed, when register and login answer 500, so a
  * server error or a dropped connection is retried with a new customer until RETRY_WINDOW_MS has passed.
@@ -45,10 +48,11 @@ async function registerAndLogIn(): Promise<void> {
   try {
     const body = UserFactory.registerCustomer();
     const created = await new UsersService(new UsersClient(context, env)).register(body);
-    setRunUser({ id: created.id, username: body.email, password: body.password });
+    runCustomerId = created.id;
+    setRunUser('default', { username: body.email, password: body.password });
 
     try {
-      await new TokenService(new AuthClient(context, env)).getAccessToken('default');
+      await new TokenService(context, env, apiLogin).getAccessToken('default');
     } catch (error) {
       // The run fails here, so the teardown that would delete the customer never runs.
       await deleteWithAdmin(context, created.id);
@@ -61,9 +65,10 @@ async function registerAndLogIn(): Promise<void> {
 
 /** Deletes this run's customer as admin. Never throws: a leftover customer only logs a warning. */
 export async function deleteRunUser(): Promise<void> {
+  if (runCustomerId === undefined) return;
   const context = await request.newContext();
   try {
-    await deleteWithAdmin(context, getRunUser().id);
+    await deleteWithAdmin(context, runCustomerId);
   } finally {
     await context.dispose();
   }
@@ -71,7 +76,7 @@ export async function deleteRunUser(): Promise<void> {
 
 async function deleteWithAdmin(context: APIRequestContext, userId: string): Promise<void> {
   try {
-    const adminToken = await new TokenService(new AuthClient(context, env)).getAccessToken('admin');
+    const adminToken = await new TokenService(context, env, apiLogin).getAccessToken('admin');
     await new UsersService(new UsersClient(context, env, adminToken)).delete(userId);
   } catch (error) {
     console.warn(`[runUser] Couldn't delete the run's customer ${userId}:`, error);
