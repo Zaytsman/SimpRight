@@ -32,7 +32,7 @@ Only `manual` scenarios are in scope; `automated` ones are skipped unless you as
 
 ## 2. Review the plan
 
-The `api-test-engineer` agent reads the scenarios, the contract, the existing framework code and the project's exemplar files (named in `qa-agents-profile.yml`), and returns a plan. **Nothing is written yet.**
+The `api-test-engineer` agent reads the scenarios, the contract, the existing framework code and the project's exemplar files (named in `simpright.yml`), and returns a plan. **Nothing is written yet.**
 
 Per scenario file:
 

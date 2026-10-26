@@ -18,6 +18,7 @@
     "inspect:ui": "node scripts/inspect-ui.mts",
     "test-cases:build": "node scripts/build-test-cases.mts",
     "bugs:build": "node scripts/build-bugs.mts",
+    "portal:build": "node scripts/build-portal-config.mts",
     "install:browsers": "playwright install --with-deps chromium"
   },
   "engines": {

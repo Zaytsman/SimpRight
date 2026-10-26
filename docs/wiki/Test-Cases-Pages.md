@@ -58,12 +58,12 @@ Links to files point to GitHub's `main` branch, which is what the published page
 
 ## How the pages are built
 
-`scripts/build-test-cases.mts` reads `qa-agents-profile.yml` and every scenario file, and writes for each layer:
+`scripts/build-test-cases.mts` reads `simpright.yml` and every scenario file, and writes for each layer:
 
 | File | Content |
 |---|---|
 | `<dir>/<layer>/index.html` | A copy of the page source, `site/test-cases/index.html` (one page for both layers) |
-| `<dir>/<layer>/scenarios-data.js` | `window.SCENARIO_CATALOG = {...}`: the tree, every scenario with its steps and raw YAML, the counters, the spec line of each automated test, the commit, and the links to the repository and the custom workflow |
+| `<dir>/<layer>/scenarios-data.js` | `window.SCENARIO_CATALOG = {...}`: the tree, every scenario with its steps and raw YAML, the counters, the spec line of each automated test, the commit, the portal's brand, and the links to the repository and the custom workflow |
 
 The data is a script rather than JSON so the page also opens straight from disk.
 
@@ -87,7 +87,8 @@ So the pages always show the scenarios of the merged code: a scenario written on
 |---|---|
 | Layout, filters, behaviour | `site/test-cases/index.html` (HTML, CSS and JavaScript in one file, no build step) |
 | The data: labels, sorting, counters, links | `scripts/build-test-cases.mts` |
-| Which workflow **Run on GitHub** opens | `WORKFLOWS` in `scripts/build-test-cases.mts` |
+| Which workflow **Run on GitHub** opens | The workflow of the layer's run with `areaPicker: true` in `simpright.yml` (`custom-ui`, `custom-api`) |
+| The brand at the top | `portal` in `simpright.yml` |
 
 Preview a change with `npm run test-cases:build` and the files in `test-results/test-cases/`, or served over HTTP as in [GitHub Pages Publishing](GitHub-Pages-Publishing#previewing-locally).
 

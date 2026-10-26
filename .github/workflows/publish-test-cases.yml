@@ -4,7 +4,8 @@ name: Publish Test Cases
 # whenever the scenarios, the bugs, the pages or their builds change on main, so the pages list the test
 # cases and bugs of the merged code, like the rest of the dashboard. The Bugs page reads the latest
 # regression results in the browser, so new runs need no rebuild. It also publishes the dashboard
-# (index.html), so a dashboard change goes live on merge instead of with the next test run. Can also be run by hand.
+# (index.html and its portal.json), so a dashboard change, or a change to the runs or the portal's text in
+# simpright.yml, goes live on merge instead of with the next test run. Can also be run by hand.
 
 on:
   push:
@@ -16,12 +17,14 @@ on:
       - 'site/bugs/**'
       - 'scripts/build-test-cases.mts'
       - 'scripts/build-bugs.mts'
-      - 'scripts/build-run-summaries.mts'
-      - 'scripts/publish-test-cases.sh'
-      - 'scripts/gh-pages-lib.sh'
-      - 'qa-agents-profile.yml'
+      - 'scripts/build-pages.mts'
+      - 'scripts/lib/**'
+      - 'simpright.yml'
       - 'index.html'
       - '.github/workflows/publish-test-cases.yml'
+      - '.github/actions/setup/**'
+      - '.github/actions/publish-pages/**'
+      - '.github/actions/lib/**'
   workflow_dispatch:
 
 permissions:
@@ -37,27 +40,25 @@ jobs:
     timeout-minutes: 10
 
     steps:
+      # The local actions below run from this checkout.
       - name: Checkout repository
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           # No token in the git config while dependencies install; only the publish step gets one.
           persist-credentials: false
 
-      - name: Setup Node.js
-        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+      # Only the build's own dependencies (yaml, ajv for the validator); the optional coverage package isn't needed.
+      - name: Set up Node.js and install
+        uses: ./.github/actions/setup
         with:
           node-version: 24
-          cache: npm
-
-      # Only the build's own dependencies (yaml, ajv for the validator); the optional coverage package isn't needed.
-      - name: Install dependencies
-        run: npm ci --omit=optional --ignore-scripts
+          omit-optional: true
 
       - name: Validate scenarios
         run: npm run validate:scenarios
 
       - name: Build and publish
-        env:
-          # The push credential for gh-pages (scripts/gh-pages-lib.sh); the checkout kept none.
-          GH_TOKEN: ${{ github.token }}
-        run: scripts/publish-test-cases.sh
+        uses: ./.github/actions/publish-pages
+        with:
+          # The push credential for gh-pages; the checkout kept none.
+          token: ${{ github.token }}

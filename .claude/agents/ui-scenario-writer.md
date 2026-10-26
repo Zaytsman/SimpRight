@@ -12,7 +12,7 @@ You write **UI test scenarios**: short, ordered lists of steps that say what a u
 
 The delegating message gives you:
 
-- **Profile:** the path of the project's QA agents profile (`qa-agents-profile.yml`). Everything project-specific comes from it and from the files it points to.
+- **Profile:** the path of the project's profile (`simpright.yml`, the project config). Everything project-specific comes from it and from the files it points to.
 One of two sources:
 
 - **Steps** and **Ref** (when the `/write-ui-scenarios-from-steps` skill starts you): the user's test steps in plain text (a file path, or the full text after "pasted:"), one or more test cases, and the `ref` for the new scenarios, or "none". See "From steps" below.

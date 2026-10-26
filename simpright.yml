@@ -1,7 +1,9 @@
-# yaml-language-server: $schema=./qa-agents-profile.schema.json
+# yaml-language-server: $schema=./simpright.schema.json
 #
-# What the QA agents and scripts need to know about this project. Agents read this file
-# first; scripts/validate-scenarios.mts reads it too and checks that every path below exists.
+# The project's toolchain config: what the QA agents and scripts need to know about this project.
+# Agents read this file first; scripts/validate-scenarios.mts reads it too, checks that every path
+# below exists and that the runs match their workflows. Tests never read it: their config is
+# src/envs/<ENV>.json and .env.
 # It holds facts and pointers, not conventions: those stay in the files listed under
 # project.conventions, and the exemplars show the style to copy.
 
@@ -136,3 +138,63 @@ liveApi:
     - Product writes need no token, so other visitors can change or delete seeded products at any time (stock, price, category). Tests on seeded records can fail without any change on our side.
     - A locked account (423) stays locked for a while; re-running login tests only extends it.
     - GET /product-specs/names answers from a 300-second cache. A parallel call right after a spec write can cache the old list again, so a just-created or just-deleted spec name can be missing or still listed for up to 5 minutes (API-0575, API-0576).
+
+# The framework's optional parts and whether this project uses them.
+parts:
+  scenarios: true                           # test-scenarios/ and bugs/, checked by validate:scenarios
+  inspector: true                           # commands.inspectUi
+  agents: true                              # the QA agents and skills in .claude/
+  coverage:                                 # loaded by src/api/coverage/apiCoverage.ts when installed
+    package: '@zaytsman/playwright-api-coverage'
+    registry: https://npm.pkg.github.com
+  portal:                                   # the Automation Portal on GitHub Pages
+    testCases: true
+    bugs: true
+  wiki: true                                # docs/wiki/ published to the GitHub wiki
+
+ci:
+  branches: { default: main, work: develop }
+  node: 24                                  # every actions/setup-node step uses it (the workflows pass it to the setup action)
+  secrets: [ADMIN_USER, ADMIN_PASSWORD]     # names of the repository secrets the tests read, never values
+
+# One entry per test run: its report family on GitHub Pages (id) and the caller of
+# .github/workflows/playwright-run.yml that runs it; validate:scenarios checks each caller against its entry.
+# Every run can be started by hand; schedule adds a cron in UTC (never on the full hour: the site re-seeds at :00).
+runs:
+  - id: daily-ui-regression
+    label: UI regression
+    note: Latest daily run
+    project: ui
+    schedule: '15 6 * * 1-5'
+    trend: ui
+  - id: daily-api-regression
+    label: API regression
+    note: Latest daily run
+    project: api
+    schedule: '15 2 * * 1-5'
+    trend: api
+    publishCoverage: true                   # the only run whose coverage represents the whole suite
+  - id: smoke
+    label: Smoke
+    note: UI + API
+    project: all
+    grep: '@smoke'
+  - id: custom-ui
+    label: Custom UI
+    note: Latest custom run
+    project: ui
+    areaPicker: true                        # the area options are the folders in paths.uiTests
+  - id: custom-api
+    label: Custom API
+    note: Latest custom run
+    project: api
+    areaPicker: true
+
+# The Automation Portal's text. index.html reads it, with the runs above, from portal.json
+# (written on every publish, scripts/lib/site.mts); the Test Cases and Bugs pages from their data files.
+portal:
+  title: SimpRight
+  titleAccent: Right                        # the end of the title in the accent color
+  tagline: Automation Framework
+  description: Automated UI and API tests for the Toolshop (practicesoftwaretesting.com), built with TypeScript and Playwright.
+  healthThreshold: { ui: 1, api: 1 }        # % failed below which a layer's latest regression counts as healthy

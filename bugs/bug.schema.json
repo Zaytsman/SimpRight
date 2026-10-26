@@ -10,7 +10,7 @@
     "id": {
       "type": "string",
       "pattern": "^[A-Z]+-\\d+$",
-      "description": "Bug ID with the prefix and digits from qa-agents-profile.yml (ids.bugs), e.g. BUG-001; the file is named after it."
+      "description": "Bug ID with the prefix and digits from simpright.yml (ids.bugs), e.g. BUG-001; the file is named after it."
     },
     "title": {
       "type": "string",

@@ -15,7 +15,7 @@ You turn **API test scenarios** into automated tests. A scenario is the specific
 
 The delegating message gives you:
 
-- **Profile:** the path of the project's QA agents profile (`qa-agents-profile.yml`). Everything project-specific comes from it and from the files it points to.
+- **Profile:** the path of the project's profile (`simpright.yml`, the project config). Everything project-specific comes from it and from the files it points to.
 - **Scenarios:** IDs, scenario files, or an area. Only scenarios with `status: manual` are in scope, unless the brief says to redo automated ones.
 - **Phase:** `plan` or `implement`. For `implement`, the brief or a follow-up message holds the approved plan, the scenarios the user allowed to write data, and any edits.
 - **Notes:** anything else the user said.

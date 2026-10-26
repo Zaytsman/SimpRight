@@ -16,7 +16,7 @@ Before the first question, read `../_shared/how-to-ask.md` (next to this skill's
 
 ## 1. Settle the target
 
-- **Profile:** `qa-agents-profile.yml` in the repository root. If there's none, stop: the reviewer needs one.
+- **Profile:** `simpright.yml` in the repository root. If there's none, stop: the reviewer needs one.
 - **Change and files**, from the argument:
   - **None:** the work not pushed yet: uncommitted changes plus the commits on the current branch that its upstream doesn't have (`git status`, `git log @{u}..HEAD`). Change: `<upstream>..HEAD` and/or `working tree`. If there's nothing, say so and ask what to review: the last commit, an area or a spec.
   - **A commit or range** (`055e6d4`, `abc123..def456`): the files it touches. Change: `<sha>^..<sha>` for one commit, the range as given otherwise.
@@ -30,7 +30,7 @@ Before the first question, read `../_shared/how-to-ask.md` (next to this skill's
 Start the `test-reviewer` subagent with a brief that stands on its own (it can't see this conversation):
 
 ```
-Profile: <absolute path of qa-agents-profile.yml>
+Profile: <absolute path of simpright.yml>
 Change: <range | working tree | both | files>
 Files:
 - <absolute path> (<ui | api | shared>)

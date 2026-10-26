@@ -31,7 +31,7 @@ Only `manual` scenarios are in scope; `automated` ones are skipped unless you as
 
 ## 2. The agent looks at the pages
 
-The `ui-test-engineer` agent reads the scenarios, the existing page objects, flows and fixtures, and the project's exemplar files (named in `qa-agents-profile.yml`). Then it **inspects every page the steps touch** with the read-only page inspector:
+The `ui-test-engineer` agent reads the scenarios, the existing page objects, flows and fixtures, and the project's exemplar files (named in `simpright.yml`). Then it **inspects every page the steps touch** with the read-only page inspector:
 
 ```bash
 npm run inspect:ui -- /auth/login --logged-out

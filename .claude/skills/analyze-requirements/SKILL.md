@@ -16,7 +16,7 @@ Before the first question, read `../_shared/how-to-ask.md` (next to this skill's
 
 ## 1. Settle the brief
 
-- **Profile:** `qa-agents-profile.yml` in the repository root. If there's none, stop: tell the user the agents need a profile (paths, ID codes, roles), and that `CLAUDE.md` and the profile's schema describe it.
+- **Profile:** `simpright.yml` in the repository root. If there's none, stop: tell the user the agents need a profile (paths, ID codes, roles), and that `CLAUDE.md` and the profile's schema describe it.
 - **Document:** the first argument, resolved in this order: an existing path as given; `<paths.userStories>/<name>` from the profile; a case-insensitive match of the name (with or without `.md`) in that folder. If the user pasted the work item into the conversation instead, use the text. If there's neither, ask which story file.
   - Pasted text: ask once: "Save it in the stories folder first (Recommended)" (so the analysis and the scenarios can link to it), "Use the text as is".
   - Only local files and pasted text are supported; a link to a tracker (Azure DevOps, Jira) is not fetched. Ask the user to paste the work item's text.
@@ -28,7 +28,7 @@ Before the first question, read `../_shared/how-to-ask.md` (next to this skill's
 Start the `requirements-analyst` subagent with a brief that stands on its own (it can't see this conversation):
 
 ```
-Profile: <absolute path of qa-agents-profile.yml>
+Profile: <absolute path of simpright.yml>
 Document: <absolute path, or "pasted:" followed by the full text>
 Criteria: <list or "all">
 Layer rules: <absolute path of references/layer-rules.md in this skill>
@@ -57,7 +57,7 @@ If it can't be continued, start a new `requirements-analyst` with the brief abov
 Start the writers for the layers that have new items (skip a layer with none, and items marked as already covered), **in parallel**, each with a brief that stands on its own:
 
 ```
-Profile: <absolute path of qa-agents-profile.yml>
+Profile: <absolute path of simpright.yml>
 Contract: <absolute paths of the contracts the API items name>          (api-scenario-writer only)
 Document: <absolute path of the work item, or "pasted:" with the text>   (ui-scenario-writer only)
 Analysis: <absolute path of the analysis document>

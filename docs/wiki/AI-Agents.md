@@ -43,7 +43,7 @@ The engineers are given the scaffolding and spec-writing skills (`api-scaffoldin
 
 The agents keep **no project facts of their own**. They read:
 
-1. **[`qa-agents-profile.yml`](https://github.com/Zaytsman/SimpRight/blob/main/qa-agents-profile.yml)**: paths, commands, ID rules, roles, the exemplars, the known-issue snippet, agent-critical rules, live-app guardrails ([9](Scenarios-Bugs-and-Validation#the-project-profile)).
+1. **[`simpright.yml`](https://github.com/Zaytsman/SimpRight/blob/main/simpright.yml)**: paths, commands, ID rules, roles, the exemplars, the known-issue snippet, agent-critical rules, live-app guardrails ([9](Scenarios-Bugs-and-Validation#the-project-profile)).
 2. **[`CLAUDE.md`](https://github.com/Zaytsman/SimpRight/blob/main/CLAUDE.md)**: the conventions (the profile's `project.conventions`).
 3. **The exemplars**, the files whose style new code copies:
 

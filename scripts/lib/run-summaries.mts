@@ -1,33 +1,22 @@
-// Builds the small JSON files the GitHub Pages portal reads, so the browser never downloads a run's full
-// results.json (an API regression's is about 8 MB) or the coverage summary (about 400 KB).
-// Run with `node scripts/build-run-summaries.mts <site dir> [<family>]` on a gh-pages checkout.
-//
-// It writes:
+// The small JSON files the GitHub Pages portal reads, so the browser never downloads a run's full results.json
+// (an API regression's is about 8 MB) or the coverage summary (about 400 KB). scripts/publish-run.mts and
+// scripts/build-pages.mts write them into a site folder (a gh-pages checkout):
 //   <family>/run-<N>/run-summary.json  one run: its stats, known issues and each scenario test's last status
 //                                      (read by the Bugs page); written once per run, from its results.json,
-//                                      which publish-report.sh then removes
+//                                      which publish-run.mts then removes
 //   latest/<family>/run-summary.json   a copy of the newest run's
 //   <family>-history.json              every kept run of the family, newest first, with its stats, plus the
 //                                      newest run's known issues (read by the dashboard)
 //   latest/api-coverage/totals.json    the coverage summary's totals, without the per-endpoint detail
 //
-// With a family (scripts/publish-report.sh, after it pruned the runs and rebuilt the manifest) it refreshes
-// that family. Without one (scripts/publish-test-cases.sh) it builds only the families that have a manifest
-// but no history yet, so a portal change published before the next test run still finds its data.
-// The output depends only on the published files, so two workflows writing the same file write the same bytes.
+// The output depends only on the site's files, so two workflows writing the same file write the same bytes.
 
 import { existsSync, readdirSync, readFileSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 
-const [siteArg, familyArg] = process.argv.slice(2);
-if (!siteArg) {
-  console.error('usage: build-run-summaries.mts <site dir> [<family>]');
-  process.exit(2);
-}
-const site = path.resolve(siteArg);
-
+/** A run's folder in its family's folder: run-<the workflow's run number>. */
+export const RUN_FOLDER = /^run-\d+$/;
 const SUMMARY = 'run-summary.json';
-const RUN = /^run-\d+$/;
 const TITLE_ID = /^([A-Z]+-\d+):/;
 
 interface Stats {
@@ -92,7 +81,7 @@ function summarize(run: string, report: Report): RunSummary {
 }
 
 // The run's summary, built from its results.json the first time; undefined when the run has no results.
-function runSummary(family: string, run: string): RunSummary | undefined {
+function runSummary(site: string, family: string, run: string): RunSummary | undefined {
   const dir = path.join(site, family, run);
   const summaryFile = path.join(dir, SUMMARY);
   if (existsSync(summaryFile)) return readJson<RunSummary>(summaryFile);
@@ -103,9 +92,10 @@ function runSummary(family: string, run: string): RunSummary | undefined {
   return summary;
 }
 
-function buildFamily(family: string) {
-  const runs = readJson<string[]>(path.join(site, `${family}-manifest.json`)).filter((run) => RUN.test(run));
-  const summaries = runs.map((run) => ({ run, summary: runSummary(family, run) }));
+/** The family's run summaries, the newest one's copy in latest/<family>/ and <family>-history.json, for the runs in <family>-manifest.json. */
+export function buildFamily(site: string, family: string) {
+  const runs = readJson<string[]>(path.join(site, `${family}-manifest.json`)).filter((run) => RUN_FOLDER.test(run));
+  const summaries = runs.map((run) => ({ run, summary: runSummary(site, family, run) }));
 
   const newest = summaries[0]?.summary;
   const latestDir = path.join(site, 'latest', family);
@@ -118,20 +108,19 @@ function buildFamily(family: string) {
   console.log(`${family}: ${runs.length} runs in ${family}-history.json`);
 }
 
-// Only the scalar totals (overallCoveragePct, coveredEndpoints, ...); the per-endpoint detail stays in summary.json.
-function buildCoverageTotals() {
+/** The report families that have a manifest but no history yet. */
+export function familiesWithoutHistory(site: string): string[] {
+  return readdirSync(site)
+    .filter((name) => name.endsWith('-manifest.json'))
+    .map((name) => name.slice(0, -'-manifest.json'.length))
+    .filter((family) => !existsSync(path.join(site, `${family}-history.json`)));
+}
+
+/** latest/api-coverage/totals.json: only the scalar totals (overallCoveragePct, coveredEndpoints, ...); the per-endpoint detail stays in summary.json. */
+export function buildCoverageTotals(site: string) {
   const summaryFile = path.join(site, 'latest/api-coverage/summary.json');
   if (!existsSync(summaryFile)) return;
   const summary = readJson<Record<string, unknown>>(summaryFile);
   const totals = Object.fromEntries(Object.entries(summary).filter(([, value]) => typeof value !== 'object'));
   writeJson(path.join(site, 'latest/api-coverage/totals.json'), totals);
 }
-
-const families = familyArg
-  ? [familyArg]
-  : readdirSync(site)
-      .filter((name) => name.endsWith('-manifest.json'))
-      .map((name) => name.slice(0, -'-manifest.json'.length))
-      .filter((family) => !existsSync(path.join(site, `${family}-history.json`)));
-families.forEach(buildFamily);
-buildCoverageTotals();

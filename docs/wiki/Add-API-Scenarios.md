@@ -140,7 +140,7 @@ The proposal adds a **source map**: each of your cases and its scenarios, or why
 The agents are optional. To add a scenario yourself:
 
 1. Run `npm run validate:scenarios` and note the next free API ID it prints.
-2. Add the scenario to the endpoint's file in `test-scenarios/api/<area>/`, or create the file: `<method>-<path>.yml` in kebab-case, a path parameter as `by-<name>` (`GET /products/{productId}` → `get-products-by-product-id.yml`). Copy the header of an existing file (the schema line, `suite`, `tags`). A new area folder needs an entry in `ids.areas` in `qa-agents-profile.yml`.
+2. Add the scenario to the endpoint's file in `test-scenarios/api/<area>/`, or create the file: `<method>-<path>.yml` in kebab-case, a path parameter as `by-<name>` (`GET /products/{productId}` → `get-products-by-product-id.yml`). Copy the header of an existing file (the schema line, `suite`, `tags`). A new area folder needs an entry in `ids.areas` in `simpright.yml`.
 3. Keep the key order: `id`, `name`, `ref`, `status: manual`, `role`, `knownIssue`, `bug`, `steps`.
 4. Check the endpoint in its contract in `docs/api/contracts/`: steps assert only what the contract states.
 5. Run `npm run validate:scenarios` again.

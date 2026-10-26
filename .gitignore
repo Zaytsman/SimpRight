@@ -11,5 +11,5 @@ CLAUDE.local.md
 .claude/local/
 .claude/settings.local.json
 
-# gh-pages worktree created by scripts/publish-report.sh
+# gh-pages worktree the publish scripts check out (.github/actions/lib/gh-pages-lib.sh); also a local site folder
 .gh-pages/

@@ -135,7 +135,7 @@ The proposal adds a **steps map**: each of your cases and its scenarios, or why 
 The agents are optional. To add a scenario yourself:
 
 1. Run `npm run validate:scenarios` and note the next free UI ID it prints.
-2. Add the scenario to the feature's file in `test-scenarios/ui/<area>/`, or create the file in kebab-case, named after the feature (`cart/add-to-cart.yml`). Copy the header of an existing file (the schema line, `suite`, `tags`). A new area folder needs an entry in `ids.areas` in `qa-agents-profile.yml`.
+2. Add the scenario to the feature's file in `test-scenarios/ui/<area>/`, or create the file in kebab-case, named after the feature (`cart/add-to-cart.yml`). Copy the header of an existing file (the schema line, `suite`, `tags`). A new area folder needs an entry in `ids.areas` in `simpright.yml`.
 3. Keep the key order: `id`, `name`, `ref`, `status: manual`, `role`, `knownIssue`, `bug`, `preconditions`, `steps`.
 4. Check the labels you quote with the page inspector: `npm run inspect:ui -- <path> [--role <role> | --logged-out]` ([UI Automation](UI-Automation)).
 5. Run `npm run validate:scenarios` again.

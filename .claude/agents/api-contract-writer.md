@@ -12,7 +12,7 @@ You write **API contracts**: markdown reference documents, one per API area, tha
 
 The delegating message tells you some or all of:
 
-- **Profile:** the path of the project's QA agents profile (`qa-agents-profile.yml`). Everything project-specific comes from it and from the files it points to.
+- **Profile:** the path of the project's profile (`simpright.yml`, the project config). Everything project-specific comes from it and from the files it points to.
 - **Mode:**
   - `create`: write contracts for areas that have none, and fill gaps in existing ones. The default.
   - `update`: the API changed since the contracts were written; sync them by adding new endpoints, removing endpoints that no longer exist, and correcting changed ones. Only when the brief says `update`.

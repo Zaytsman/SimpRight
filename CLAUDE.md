@@ -26,6 +26,7 @@ npm run report                    # open last HTML report
 npm run inspect:ui -- /auth/login --logged-out   # page inspector: data-test elements + accessibility tree
 npm run test-cases:build          # Test Cases pages into test-results/test-cases/<layer>/ (open index.html)
 npm run bugs:build                # Bugs page into test-results/bugs/ (open index.html)
+npm run portal:build              # portal.json, what the dashboard shows, into test-results/portal/
 ```
 
 ## Playwright setup (playwright.config.ts)
@@ -71,8 +72,8 @@ Details: `docs/framework/06-ui-layer.md`.
 - `src/data/` (`@data/*`): `TestConstants.ts` holds seeded values that **more than one test** uses, by area (`TestConstants.products.searchTerm`); a value one test uses stays a variable in that test; roles aren't repeated there. `factories/`: `uniqueName(prefix)` (`testDataUtils.ts`) for every record a test creates, and one `<Area>Factory.ts` per area (shared builders in their own file, like `nameAndSlugPayloads.ts`).
 - `test-scenarios/` (`api/`, `ui/`): the source of truth for what gets automated. Keep scenarios and specs in sync; don't invent coverage no scenario describes.
 - `bugs/`: one `<ID>.yml` per root cause (`bugs/bug.schema.json`), shared by the scenarios with that cause (`bug` next to `knownIssue`). When a bug is fixed: remove `knownIssue`, `bug` and the `test.fail` line from its scenarios and tests, set `status: fixed` with `resolved`. Bug files are published: no secret values.
-- `.claude/agents/` and `.claude/skills/`: the QA agents and the skills that start them (each skill's description says what it does; overview in `docs/framework/12-ai-agents.md`). The chain is contracts → scenarios → specs; stories and bugs go through `/analyze-requirements`. Agents read `qa-agents-profile.yml` and keep no project facts of their own.
-- `qa-agents-profile.yml` (schema `qa-agents-profile.schema.json`): project facts for the agents and scripts (paths, commands, ID prefixes and digits, `ids.areas`, `ids.fileNames`, `roles`, exemplars, live-app guardrails: `liveApi.writes: ask`, UI writes included). Keep it current: a new area needs an `ids.areas` entry, a new role a `roles` entry, a renamed exemplar a new path.
+- `.claude/agents/` and `.claude/skills/`: the QA agents and the skills that start them (each skill's description says what it does; overview in `docs/framework/12-ai-agents.md`). The chain is contracts → scenarios → specs; stories and bugs go through `/analyze-requirements`. Agents read `simpright.yml` and keep no project facts of their own.
+- `simpright.yml` (schema `simpright.schema.json`): the project config for the agents and scripts, never read by tests (paths, commands, ID prefixes and digits, `ids.areas`, `ids.fileNames`, `roles`, exemplars, live-app guardrails: `liveApi.writes: ask`, UI writes included; `parts`, `ci`, `runs`, `portal`). Keep it current: a new area needs an `ids.areas` entry, a new role a `roles` entry, a renamed exemplar a new path, a new test run a `runs` entry.
 - `docs/api/contracts/`: API contracts. `docs/framework/`: how the framework works, one document per area; when a change alters how an area works, update its document too.
 - `docs/wiki/`: the wiki's source (one file per page, plus `_Sidebar.md`), published on pushes to `main`; never edit in the web editor. Page links use the page name without `.md`, repo links full `github.com/.../blob/main/...` URLs; each page starts with a comment naming its source; a new page needs a sidebar entry.
 
@@ -139,17 +140,20 @@ Details: `docs/framework/04-api-layer.md`.
 
 Details: `docs/framework/11-ci-and-publishing.md` and the wiki's CI and Pages pages.
 - `playwright-run.yml` is the reusable test job; its callers are the scheduled (`run-ui-tests.yml`, `run-api-tests.yml`), manual (`custom-*-tests.yml`) and smoke (`smoke-tests.yml`) workflows. **A new folder under `tests/ui` or `tests/api` goes in the matching custom workflow's `area` options.** Its `keep-runs` input (default 10) sets how many runs of the family stay on Pages; `squash-gh-pages.yml` (monthly) replaces the `gh-pages` history with one commit.
-- `pr-checks.yml` (`verify`, required on `main`): typecheck, scenario validation, Test Cases and Bugs page builds; static only. Tests run locally before a push (each changed spec three times) and nightly on `main`.
-- Secrets: callers pass them by name and `playwright-run.yml` declares them; never `secrets: inherit`.
+- **Each caller has a `runs` entry in `simpright.yml`** (its `id` is the caller's `family`): change both together; `validate:scenarios` checks them (details in `docs/framework/11-ci-and-publishing.md`).
+- The workflows' steps are local composite actions in `.github/actions/<name>/` (`setup`, `run-tests`, `publish-run`, `publish-pages`, `squash-pages`, `publish-wiki`), each with its script; a step uses one after the checkout, and `validate:scenarios` checks the inputs it passes.
+- `pr-checks.yml` (`verify`, required on `main`): typecheck, scenario validation and the build of the portal's pages (`build-pages.mts`); static only. Tests run locally before a push (each changed spec three times) and nightly on `main`.
+- Secrets: callers pass them by name and `playwright-run.yml` declares them (the names in `ci.secrets`); never `secrets: inherit`.
 - **Hardening:**
-  - Every action is pinned to a full commit SHA with its version in a comment (`actions/checkout@<sha> # v7.0.1`).
-  - Every checkout sets `persist-credentials: false`; only the publish steps get `GH_TOKEN`. `npm ci` runs with `--ignore-scripts`.
-  - Inputs reach `run:` scripts through `env:`, never as `${{ }}` inside the script.
+  - Every action is pinned to a full commit SHA with its version in a comment (`actions/checkout@<sha> # v7.0.1`), in workflows and in `action.yml` files. A local action that uses other actions needs its folder in `dependabot.yml`.
+  - Every checkout sets `persist-credentials: false`; only the publish steps get a token (their action's `token` input, no default). `npm ci` runs with `--ignore-scripts`.
+  - Inputs reach `run:` scripts through `env:`, in workflows and actions, never as `${{ }}` inside the script.
   - Scheduled runs start at :15, never on the hour (the site re-seeds at :00).
   - A workflow that needs the coverage package needs `packages: read` in every caller too.
 - The dashboard (`index.html`) lists a test under "Known Issues" when an annotation contains `Known issue`; the bug ID in `Known issue BUG-001: ...` links to the Bugs page.
+- **The portal pages name nothing themselves:** the brand, runs and thresholds come from `simpright.yml` (`portal`, `runs`), through `portal.json` (written next to `index.html` on every publish) or the Test Cases and Bugs data files. Never hard-code a family, label or project name in them.
 - The Test Cases (`site/test-cases/`) and Bugs (`site/bugs/`) pages are built from the scenarios and bugs (`npm run test-cases:build`, `npm run bugs:build`) and published by `publish-test-cases.yml` on pushes to `main`; `verify` builds them too, so a scenario change that breaks the build fails the PR.
-- `scripts/*.sh` keep LF line endings (`.gitattributes`).
+- Publishing writes its files in Node (`scripts/publish-run.mts`, `scripts/build-pages.mts`, shared code in `scripts/lib/`), so it runs on any OS; the actions' `.sh` scripts only check out, commit and push. Keep new file work out of them. `*.sh` files keep LF line endings (`.gitattributes`).
 
 ## Branches and pull requests
 

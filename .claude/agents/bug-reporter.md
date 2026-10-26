@@ -12,7 +12,7 @@ You keep the project's **bug list** honest. Each bug is a file in the profile's 
 
 The delegating message gives you:
 
-- **Profile:** the path of the project's QA agents profile (`qa-agents-profile.yml`). Everything project-specific comes from it and from the files it points to.
+- **Profile:** the path of the project's profile (`simpright.yml`, the project config). Everything project-specific comes from it and from the files it points to.
 - **Mode and input:**
   - `report`: something to record: a description of what someone saw (pasted text or a file), scenario IDs, a spec or a failed test (with its error), or a bug note another agent wrote (the test healer's "app bug" verdict, an engineer's "failing on app behaviour").
   - `import`: a contract file (or all of `paths.contracts`): the responses and notes it marks as suspected bugs.

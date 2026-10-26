@@ -1,7 +1,7 @@
 name: PR Checks
 
 # Required status check for pull requests (the `verify` job; see the main branch ruleset).
-# Static checks only: typecheck, scenario validation and the Test Cases and Bugs page builds.
+# Static checks only: typecheck, scenario validation and the build of the portal's pages.
 # The tests don't run here: they run locally before a push, and nightly on main.
 # It installs without the private coverage package (nothing here loads it), so forks and Dependabot get the same check.
 
@@ -22,21 +22,18 @@ jobs:
     timeout-minutes: 15
 
     steps:
+      # The local action below runs from this checkout.
       - name: Checkout repository
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
 
-      - name: Setup Node.js
-        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
-        with:
-          node-version: 24
-          cache: npm
-
       # Without a token npm skips the optional private package (GitHub Packages answers 401), as in forks.
       # --omit=optional would also drop TypeScript's compiler, which comes as an optional platform package.
-      - name: Install dependencies
-        run: npm ci --ignore-scripts
+      - name: Set up Node.js and install
+        uses: ./.github/actions/setup
+        with:
+          node-version: 24
 
       - name: Typecheck
         run: npm run typecheck
@@ -44,8 +41,7 @@ jobs:
       - name: Validate scenarios
         run: npm run validate:scenarios
 
-      # The Test Cases and Bugs pages are published from main (publish-test-cases.yml); check that they still build.
-      - name: Build test case and bug pages
-        run: |
-          npm run test-cases:build
-          npm run bugs:build
+      # The Test Cases and Bugs pages and the dashboard's portal.json are published from main by the same script
+      # (publish-test-cases.yml); check that they still build.
+      - name: Build the portal's pages
+        run: node scripts/build-pages.mts --site test-results/site

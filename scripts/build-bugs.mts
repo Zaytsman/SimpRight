@@ -3,37 +3,31 @@
 //
 // It writes <output dir>/index.html (a copy of site/bugs/index.html) and <output dir>/bugs-data.js, which
 // sets window.BUG_CATALOG: every bug with its fields, raw YAML and the scenarios whose `bug` names it
-// (with the line of their test in the spec), plus where the latest regression results are published.
-// The page reads those results itself (the small run-summary.json that scripts/build-run-summaries.mts publishes next
-// to each results.json), so a known-issue test that passes there is flagged for a re-check.
+// (with the line of their test in the spec), the portal's brand (simpright.yml portal), and where the latest
+// results of each layer's regression (the run with that trend in simpright.yml runs) are published.
+// The page reads those results itself (the small run-summary.json of each published run, scripts/lib/run-summaries.mts),
+// so a known-issue test that passes there is flagged for a re-check.
 // The data is a script, not JSON, so the page also opens straight from disk.
-// scripts/publish-test-cases.sh publishes the folder as bugs/.
+// scripts/build-pages.mts builds it into the site as bugs/.
 //
 // It reads the files as they are; run `npm run validate:scenarios` first (the workflow does).
 
-import { execFileSync } from 'node:child_process';
-import { copyFileSync, existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from 'node:fs';
+import { copyFileSync, existsSync, mkdirSync, readdirSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 import { parse } from 'yaml';
+import { branchName, commitSha, portalBrand, read, readConfig, repositoryUrl, ROOT, type Portal, type Run } from './lib/project.mts';
 
-const ROOT = path.resolve(import.meta.dirname, '..');
 const PAGE = 'site/bugs/index.html';
 const outDir = path.resolve(ROOT, process.argv[2] ?? 'test-results/bugs');
 
-// Links to the repository: GitHub Actions sets these; locally they default to the public repo's main.
-const repoUrl = `${process.env.GITHUB_SERVER_URL ?? 'https://github.com'}/${process.env.GITHUB_REPOSITORY ?? 'Zaytsman/SimpRight'}`;
-const branch = process.env.GITHUB_REF_NAME ?? 'main';
-
-// The scheduled regression of each layer, published by scripts/publish-report.sh as latest/<family>/.
-const REGRESSIONS: Record<string, { family: string; label: string }> = {
-  ui: { family: 'daily-ui-regression', label: 'daily UI regression' },
-  api: { family: 'daily-api-regression', label: 'daily API regression' },
-};
 const SEVERITY_ORDER = ['critical', 'major', 'minor', 'trivial'];
 
 interface Profile {
   paths: { scenarios: string; bugs?: string };
   ids: { layers: Record<string, { prefix: string; digits: number }>; bugs?: { prefix: string; digits: number } };
+  ci?: { branches?: { default?: string } };
+  runs?: Run[];
+  portal?: Portal;
 }
 
 interface Bug {
@@ -64,17 +58,7 @@ interface Scenario {
   bug?: string;
 }
 
-const read = (file: string) => readFileSync(path.join(ROOT, file), 'utf8');
 const toPosix = (file: string) => file.split(path.sep).join('/');
-
-function commit(): string {
-  if (process.env.GITHUB_SHA) return process.env.GITHUB_SHA;
-  try {
-    return execFileSync('git', ['rev-parse', 'HEAD'], { cwd: ROOT, encoding: 'utf8' }).trim();
-  } catch {
-    return '';
-  }
-}
 
 /** Files under `dir` (relative to the repo root, with forward slashes) that end with .yml. */
 function ymlFiles(dir: string): string[] {
@@ -93,10 +77,10 @@ function specLine(spec: string | undefined, id: string): number | undefined {
   return index >= 0 ? index + 1 : undefined;
 }
 
-const profile = parse(read('qa-agents-profile.yml')) as Profile;
+const profile = readConfig<Profile>();
 const bugsDir = profile.paths.bugs;
 if (!bugsDir || !profile.ids.bugs) {
-  console.log('No paths.bugs in qa-agents-profile.yml: no Bugs page to build.');
+  console.log('No paths.bugs in simpright.yml: no Bugs page to build.');
   process.exit(0);
 }
 
@@ -149,15 +133,17 @@ const catalog = {
   title: 'Bugs',
   prefix: profile.ids.bugs.prefix,
   generatedAt: new Date().toISOString(),
-  commit: commit(),
-  repoUrl,
-  branch,
+  commit: commitSha(),
+  repoUrl: repositoryUrl(),
+  branch: branchName(profile),
+  portal: profile.portal ? portalBrand(profile.portal) : undefined,
   bugsDir,
   layers: Object.fromEntries(Object.keys(profile.ids.layers).map((layer) => [layer, layer.toUpperCase()])),
+  // Each layer's regression: the run whose trend it is, published by scripts/publish-run.mts as latest/<id>/.
   // Relative to the published page (bugs/index.html); missing ones (a local build) are skipped by the page.
-  regressions: Object.entries(REGRESSIONS)
-    .filter(([layer]) => layer in profile.ids.layers)
-    .map(([layer, { family, label }]) => ({ layer, label, results: `../latest/${family}/run-summary.json`, report: `../latest/${family}/` })),
+  regressions: (profile.runs ?? [])
+    .filter((run) => run.trend && run.trend in profile.ids.layers)
+    .map((run) => ({ layer: run.trend, label: run.label, results: `../latest/${run.id}/run-summary.json`, report: `../latest/${run.id}/` })),
   stats: { total: bugs.length, open: count('open'), fixed: count('fixed'), wontFix: count('wont-fix') },
   bugs,
 };
