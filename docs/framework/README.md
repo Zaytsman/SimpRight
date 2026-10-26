@@ -50,7 +50,7 @@ Every area document ends with a **"Changed in the review"** section: the short l
 | API clients / services / DTO modules | 14 / 12 / 14 |
 | API fixtures | 63 |
 | Area step-helper modules | 11 (`apiSteps.ts` plus one per area) |
-| Page objects / components / flows | 5 pages + `BasePage` / 8 + `BaseComponent` / 1 |
+| Page objects / components / flows | 5 pages + `AppPage` and `BasePage` / 8 + `BaseComponent` / 1 |
 | UI precondition fixtures | 8 |
 | Bugs on file | 49 (47 open) |
 | API contracts | 13 |

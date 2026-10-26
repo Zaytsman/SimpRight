@@ -65,7 +65,7 @@ Claude asks in one message: approve the plan or say what to change, which writes
 After your approval, the same agent:
 
 1. **Adds the missing UI code**, only what the plan listed, in the style of the exemplars (the `ui-scaffolding` skill):
-   - page objects in `src/ui/pages/`, extending `BasePage`: locators in `private readonly` fields, a noun getter only for what a test asserts on (`get searchCaption()`), verbs for actions (`addToCart()`), no assertions inside;
+   - page objects in `src/ui/pages/`, extending `AppPage`: locators in `private readonly` fields, a noun getter only for what a test asserts on (`get searchCaption()`), verbs for actions (`addToCart()`), no assertions inside;
    - shared parts in `src/ui/pages/components/`, dialogs in `src/ui/pages/dialogs/`;
    - multi-page journeys in `src/ui/flows/`;
    - fixtures in `src/ui/fixtures/fixtures.ts`, and precondition fixtures (a test that starts somewhere specific) in `src/ui/fixtures/preconditions/`;

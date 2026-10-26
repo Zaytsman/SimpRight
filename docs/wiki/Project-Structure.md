@@ -28,7 +28,7 @@ SimpRight/
 │   │   ├── fixtures/             API fixtures (clients, services, tokens) and step helpers: apiSteps (sendAndAttach, AUTH, templates), <area>Steps
 │   │   └── coverage/             loader of the optional API coverage plug-in
 │   ├── ui/
-│   │   ├── pages/                page objects, on top of BasePage
+│   │   ├── pages/                page objects, on top of AppPage (the app's base page) and the core BasePage
 │   │   │   ├── components/       parts shared by pages, on top of BaseComponent: NavBar, ProductGrid, ProductFilters
 │   │   │   └── dialogs/          dialogs, on top of BaseDialog
 │   │   ├── flows/                multi-page user journeys (ShoppingFlow)
@@ -126,7 +126,7 @@ Defined in `tsconfig.json` and resolved by Playwright, so imports don't climb fo
 | A test scenario | `test-scenarios/<layer>/<area>/<name>.yml`, with the next free ID | `npm run validate:scenarios` |
 | A bug in the app | `bugs/<ID>.yml` with the next free `BUG-` ID; the scenarios that hit it get `knownIssue` and `bug` | `npm run validate:scenarios` |
 | A spec | `tests/<layer>/<area>/<name>.spec.ts`, named after its scenario file | |
-| A page object | `src/ui/pages/<Name>Page.ts`, extending `BasePage` | Register a fixture in `src/ui/fixtures/fixtures.ts` |
+| A page object | `src/ui/pages/<Name>Page.ts`, extending `AppPage` | Register a fixture in `src/ui/fixtures/fixtures.ts` |
 | A part shared by pages | `src/ui/pages/components/` | Expose it from the pages that contain it |
 | A dialog | `src/ui/pages/dialogs/`, extending `BaseDialog` | |
 | A multi-page journey | `src/ui/flows/` | Register a fixture |
