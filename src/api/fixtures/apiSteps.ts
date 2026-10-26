@@ -1,13 +1,16 @@
 /**
- * Building blocks the area step helpers (`<area>Steps.ts`) and specs share: how attached requests name their token, a
- * send that attaches its request and response, and the page summaries that keep other visitors' data out of reports.
+ * Building blocks the area step helpers (`<area>Steps.ts`) and specs share: the core's send helpers (`sendSteps.ts`:
+ * `sendAndAttach`, `checkStatusAndMessage`, `removeIfCreated`), re-exported here, plus the Toolshop's own: how attached
+ * requests name their token, the QUERY sends, the validation templates, and the page summaries that keep other
+ * visitors' data out of reports.
  */
 import { test } from '@playwright/test';
-import type { Cleanup } from '../../fixtures/base';
 import type { ApiResponse, QueryBodyOptions } from '../clients/BaseClient';
 import type { Paginated } from '../dto/common';
-import { attachJson } from '../../utils/assertHelpers';
-import { expectFieldMessages, expectLocation, expectMessage, expectStatus, parseJson } from '../../utils/apiChecks';
+import { expectFieldMessages, expectLocation, expectStatus, parseJson } from '../../utils/apiChecks';
+import { sendAndAttach, withHeaders, type DescribeResponse } from './sendSteps';
+
+export * from './sendSteps';
 
 /** How attached requests and assertion messages name the token a request was sent with, in the scenarios' wording. */
 export const AUTH = {
@@ -31,31 +34,6 @@ export const AUTH = {
 
 /** A token label: one of `AUTH`'s. Request records and send helpers take this type, so a label of a spec's own fails the typecheck. */
 export type AuthLabel = (typeof AUTH)[keyof typeof AUTH];
-
-/** What a send attaches for its response; the default is the status and the body as they came. */
-export type DescribeResponse = (response: ApiResponse) => unknown;
-
-const statusAndBody: DescribeResponse = (response) => ({ status: response.status, body: response.body });
-
-/** The status, headers and body of a response, for steps that check a header. */
-export const withHeaders: DescribeResponse = (response) => ({ status: response.status, headers: response.headers, body: response.body });
-
-/**
- * Sends a request through `call` and attaches `request` (the record that the step's assertion messages show) as
- * "<name> Request" and the response as "<name> Response" (`describe`, default its status and body). For steps that
- * check the status themselves.
- */
-export async function sendAndAttach<Request>(
-  name: string,
-  request: Request,
-  call: () => Promise<ApiResponse>,
-  describe: DescribeResponse = statusAndBody
-): Promise<{ request: Request; response: ApiResponse }> {
-  await attachJson(`${name} Request`, request);
-  const response = await call();
-  await attachJson(`${name} Response`, describe(response));
-  return { request, response };
-}
 
 /** The headers a QUERY scenario sends unless it says otherwise: a JSON body and `Accept: application/json`. */
 export const JSON_QUERY_HEADERS = { 'Content-Type': 'application/json', Accept: 'application/json' } as const;
@@ -81,33 +59,6 @@ export async function sendQueryAndAttach<Body>(
 ): Promise<{ request: QueryRequestRecord<Body>; response: ApiResponse }> {
   const request: QueryRequestRecord<Body> = { method: 'QUERY', path, ...(options.auth !== undefined ? { auth: options.auth } : {}), headers, body };
   return sendAndAttach(name, request, () => send(body, { contentType: headers['Content-Type'], accept: headers.Accept ?? null }), options.describe ?? withHeaders);
-}
-
-/**
- * The template of the scenarios that send one request and check only the status and the body's message, such as the
- * access checks every protected endpoint has (without a token or with a malformed one 401 "Unauthorized", with a
- * customer's token 403 "Forbidden") and the QUERY 415s: the send (title `sendStep`, through `send`), then the two checks.
- */
-export async function checkStatusAndMessage(
-  sendStep: string,
-  send: () => Promise<{ request: unknown; response: ApiResponse }>,
-  status: number,
-  message: string
-): Promise<void> {
-  let request: unknown;
-  let response: ApiResponse;
-
-  await test.step(sendStep, async () => {
-    ({ request, response } = await send());
-  });
-
-  await test.step(`Verify the response status is ${status}.`, async () => {
-    expectStatus(request, response, status);
-  });
-
-  await test.step(`Verify the body's message is "${message}".`, async () => {
-    expectMessage(request, response, message);
-  });
 }
 
 /**
@@ -175,22 +126,6 @@ export async function checkValidationRedirect(
  */
 export function fieldMessagesStep(field: string): string {
   return `Verify the body has ${/^[aeiou]/i.test(field) ? 'an' : 'a'} ${field} key with at least one message.`;
-}
-
-/**
- * For a create call under test: a record exists only when the response says so, so `remove(id)` is registered in
- * cleanup only for a 2xx response with an id. Covers the known issues that create a record anyway (a POST without a
- * token) and any validation case that unexpectedly creates one.
- */
-export function removeIfCreated(response: ApiResponse, cleanup: Cleanup, remove: (id: string) => Promise<unknown>): void {
-  if (!response.isSuccess) return;
-  let id: unknown;
-  try {
-    id = (JSON.parse(response.body) as { id?: unknown }).id;
-  } catch {
-    return;
-  }
-  if (typeof id === 'string' && id) cleanup.add(() => remove(id));
 }
 
 /**

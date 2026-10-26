@@ -48,7 +48,7 @@ Each layer only calls the one below it:
 | `src/ui/` | `pages/` (+ `components/`, `dialogs/`), `flows/`, `fixtures/` (+ `preconditions/`), `visitor/`, `auth/` | [6](06-ui-layer.md) |
 | `src/config/`, `src/envs/` | Typed, validated configuration per environment (`env.ts`), and the project file: the app's test ids, logins and run hooks (`project.ts`) and its roles (`roles.ts`) | [2](02-configuration.md) |
 | `src/data/` | `TestConstants.ts` (seeded values), `factories/` (payload builders, unique names) | [8](08-test-data.md) |
-| `src/utils/` | `assertHelpers.ts` (masking, messages, attachments), `apiChecks.ts` (shared API checks), `amounts.ts`, `envUtils.ts`, `totp.ts` | [10](10-reporting-and-secrets.md), [5](05-api-specs.md) |
+| `src/utils/` | `assertHelpers.ts` (masking, messages, attachments), `apiChecks.ts` (shared API checks; the HTTP-level ones are the core's `httpChecks.ts`), `amounts.ts`, `envUtils.ts`, `totp.ts` | [10](10-reporting-and-secrets.md), [5](05-api-specs.md) |
 | `src/globalSetup.ts` | Once per run: the project's `beforeRun` and `afterRun` (the re-seed wait, the run's customer), optional UI logins | [2](02-configuration.md) |
 | `scripts/` | Validator, step-title check, page inspector, page builds, the publish scripts' file work | [9](09-scenarios-and-bugs.md), [11](11-ci-and-publishing.md) |
 | `.github/workflows/` | CI: the reusable test job, scheduled and manual runs, PR checks, publishing | [11](11-ci-and-publishing.md) |

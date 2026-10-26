@@ -25,7 +25,7 @@ SimpRight/
 │   │   ├── services/             domain operations over clients; parse responses, throw on errors
 │   │   ├── dto/                  request and response types
 │   │   ├── auth/                 TokenService (token cache per role), apiLogin (the app's login), runUser (the run's customer)
-│   │   ├── fixtures/             API fixtures (clients, services, tokens) and step helpers: apiSteps (sendAndAttach, AUTH, templates), <area>Steps
+│   │   ├── fixtures/             API fixtures (clients, services, tokens) and step helpers: apiSteps (AUTH, templates; re-exports sendSteps: sendAndAttach), <area>Steps
 │   │   └── coverage/             loader of the optional API coverage plug-in
 │   ├── ui/
 │   │   ├── pages/                page objects, on top of AppPage (the app's base page) and the core BasePage
@@ -39,7 +39,7 @@ SimpRight/
 │   ├── data/
 │   │   ├── TestConstants.ts      seeded app values that several tests rely on
 │   │   └── factories/            payload builders per area, uniqueName() for created records
-│   ├── utils/                    assertHelpers (assertMessage, attachJson, redact), apiChecks (parseJson, expectStatus, ...), amounts (parseAmount), totp, envUtils
+│   ├── utils/                    assertHelpers (assertMessage, attachJson, redact), apiChecks (the app's checks; re-exports httpChecks: parseJson, expectStatus, ...), amounts (parseAmount), totp, envUtils
 │   └── globalSetup.ts            runs the project's beforeRun and afterRun (the run's customer); UI login in storageState mode
 ├── tests/                        specs only, one per scenario file
 │   ├── api/<area>/*.spec.ts      products/, users/, carts/, ... (13 areas)

@@ -78,8 +78,8 @@ api:
     fixtures: src/api/fixtures/fixtures.ts  # new clients and services are registered here
     spec: tests/api/products/get-products-search.spec.ts
     helpers: src/utils/assertHelpers.ts     # assertMessage, attachJson, redact
-    checks: src/utils/apiChecks.ts          # parseJson, expectStatus, expectStatusAndBody, expectSomeItems and the other shared checks
-    steps: src/api/fixtures/apiSteps.ts     # sendAndAttach, AUTH labels, page summaries, templates (checkStatusAndMessage, checkRejectedBody)
+    checks: src/utils/apiChecks.ts          # the shared checks: the app's own, plus src/utils/httpChecks.ts re-exported (parseJson, expectStatus, expectStatusAndBody, expectSomeItems, ...)
+    steps: src/api/fixtures/apiSteps.ts     # AUTH labels, page summaries, templates (checkRejectedBody), plus src/api/fixtures/sendSteps.ts re-exported (sendAndAttach, checkStatusAndMessage)
     cleanup: src/fixtures/base.ts           # the cleanup fixture
     constants: src/data/TestConstants.ts    # shared seeded values
     testDataUtils: src/data/factories/testDataUtils.ts   # uniqueName for created records

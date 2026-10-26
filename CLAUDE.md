@@ -101,6 +101,7 @@ Format: `test-scenarios/scenarios.schema.json` (key order, required keys, values
 - **API spec style:**
   - Every assertion passes `assertMessage({ request, expected, actual })` (`@utils/assertHelpers`).
   - Bodies are parsed with `parseJson(request, response)` (`src/utils/apiChecks.ts`), never `JSON.parse`. "Verify the response status is <N>." is `expectStatus` (or `expectStatusAndBody` when later steps read the body). Reuse the shared checks there (`expectMessage`, `expectErrorKeys`, `expectFieldMessages`, `expectLocation`, ...), `apiSteps.ts` and the area's `*Steps.ts`; never redefine one.
+  - The generic checks and send helpers are the core's (`httpChecks.ts`, `sendSteps.ts`), re-exported by `apiChecks.ts` and `apiSteps.ts`; a check of the app's own formats goes in `apiChecks.ts`.
   - A call whose status a step checks goes through `sendAndAttach(name, request, () => client.x(...))`. The record's `auth` uses the shared `AUTH` labels (`AuthLabel`), never a string of its own. A page that may list other visitors is attached as a summary (`describePage`, `pageSummary`).
   - Attach with `attachJson(name, data)`, never `test.info().attach`. It masks `SECRET_KEYS` and the test users' credentials; the matcher's diff isn't masked, so compare a secret as a condition (`expect(a === b, message).toBe(true)`).
   - Records a test creates are removed with `cleanup.add(() => service.delete(id))`, not `afterAll`.
