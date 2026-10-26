@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <!-- The Bugs page: scripts/build-bugs.mts copies it to bugs/ next to bugs-data.js (window.BUG_CATALOG).
        It reads the latest regression results itself to flag bugs whose tests started passing. -->
-  <title>SimpRight - Bugs</title>
+  <title>Bugs</title>
   <!-- The portal's icon (the README banner's logo), inline like on the dashboard. -->
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 44 44'%3E%3Crect width='44' height='44' rx='10' fill='%233fb950'/%3E%3Cpath d='M11 23l8 8l15-17' fill='none' stroke='%23fff' stroke-width='6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -730,7 +730,7 @@
         <!-- The portal's logo; it and the back link lead to the portal. -->
         <a href="../index.html" class="brand">
           <svg width="36" height="36" viewBox="0 0 44 44" aria-hidden="true"><rect width="44" height="44" rx="10" fill="#3fb950"/><path d="M11 23l8 8l15-17" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          <span><span class="brand-name">Simp<span>Right</span></span><span class="brand-sub">Automation Framework</span></span>
+          <span><span class="brand-name" id="brand-name"></span><span class="brand-sub" id="brand-tagline"></span></span>
         </a>
         <div class="page-head">
           <a href="../index.html" class="back-link">
@@ -869,6 +869,20 @@
         return new Date(iso).toLocaleDateString(undefined, { day: 'numeric', month: 'short', year: 'numeric' });
       }
 
+      // The portal's brand from the data file (simpright.yml portal): the title, its accent (the end of it) in green, the tagline.
+      function renderBrand(portal) {
+        if (!portal) return;
+        const accent = portal.titleAccent && portal.title.endsWith(portal.titleAccent) ? portal.titleAccent : '';
+        const name = $('brand-name');
+        name.textContent = portal.title.slice(0, portal.title.length - accent.length);
+        if (accent) {
+          const span = document.createElement('span');
+          span.textContent = accent;
+          name.appendChild(span);
+        }
+        $('brand-tagline').textContent = portal.tagline || '';
+      }
+
       function init() {
         if (!catalog) {
           $('showing-count').textContent = 'No bug data found.';
@@ -876,6 +890,8 @@
           $('empty-text').textContent = 'bugs-data.js is missing. Build it with npm run bugs:build.';
           return;
         }
+        document.title = catalog.portal ? `${catalog.portal.title} - ${catalog.title}` : catalog.title;
+        renderBrand(catalog.portal);
         const layerAreas = [...new Set(catalog.bugs.map((b) => `${b.layer}/${b.area}`))].sort();
         $('filter-layer').insertAdjacentHTML('beforeend', layerAreas
           .map((key) => {
@@ -894,7 +910,7 @@
         loadResults().then(render);
       }
 
-      // run-summary.json (scripts/build-run-summaries.mts): the run's stats and, per scenario ID, its test's last status.
+      // run-summary.json (scripts/lib/run-summaries.mts): the run's stats and, per scenario ID, its test's last status.
       async function loadResults() {
         await Promise.all(catalog.regressions.map(async (regression) => {
           try {

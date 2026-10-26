@@ -2,10 +2,15 @@
 window.BUG_CATALOG = {
  "title": "Bugs",
  "prefix": "BUG",
- "generatedAt": "2026-10-25T13:21:32.921Z",
- "commit": "234a036446c312e1f8e4e84c7bea098464be4d87",
+ "generatedAt": "2026-10-26T18:25:29.040Z",
+ "commit": "b330e88a932f9213eaaff158c733c7ee4203ecfc",
  "repoUrl": "https://github.com/Zaytsman/SimpRight",
- "branch": "main",
+ "branch": "develop",
+ "portal": {
+  "title": "SimpRight",
+  "titleAccent": "Right",
+  "tagline": "Automation Framework"
+ },
  "bugsDir": "bugs",
  "layers": {
   "ui": "UI",
@@ -14,13 +19,13 @@ window.BUG_CATALOG = {
  "regressions": [
   {
    "layer": "ui",
-   "label": "daily UI regression",
+   "label": "UI regression",
    "results": "../latest/daily-ui-regression/run-summary.json",
    "report": "../latest/daily-ui-regression/"
   },
   {
    "layer": "api",
-   "label": "daily API regression",
+   "label": "API regression",
    "results": "../latest/daily-api-regression/run-summary.json",
    "report": "../latest/daily-api-regression/"
   }

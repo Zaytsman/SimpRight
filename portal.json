@@ -1,0 +1,41 @@
+{
+  "formatVersion": 1,
+  "title": "SimpRight",
+  "titleAccent": "Right",
+  "tagline": "Automation Framework",
+  "description": "Automated UI and API tests for the Toolshop (practicesoftwaretesting.com), built with TypeScript and Playwright.",
+  "repository": "https://github.com/Zaytsman/SimpRight",
+  "healthThreshold": {
+    "ui": 1,
+    "api": 1
+  },
+  "runs": [
+    {
+      "id": "daily-ui-regression",
+      "label": "UI regression",
+      "note": "Latest daily run",
+      "trend": "ui"
+    },
+    {
+      "id": "daily-api-regression",
+      "label": "API regression",
+      "note": "Latest daily run",
+      "trend": "api"
+    },
+    {
+      "id": "smoke",
+      "label": "Smoke",
+      "note": "UI + API"
+    },
+    {
+      "id": "custom-ui",
+      "label": "Custom UI",
+      "note": "Latest custom run"
+    },
+    {
+      "id": "custom-api",
+      "label": "Custom API",
+      "note": "Latest custom run"
+    }
+  ]
+}

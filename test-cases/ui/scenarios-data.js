@@ -3,10 +3,15 @@ window.SCENARIO_CATALOG = {
  "layer": "ui",
  "title": "UI Test Cases",
  "prefix": "UI",
- "generatedAt": "2026-10-25T13:21:32.204Z",
- "commit": "234a036446c312e1f8e4e84c7bea098464be4d87",
+ "generatedAt": "2026-10-26T18:25:28.577Z",
+ "commit": "b330e88a932f9213eaaff158c733c7ee4203ecfc",
  "repoUrl": "https://github.com/Zaytsman/SimpRight",
- "branch": "main",
+ "branch": "develop",
+ "portal": {
+  "title": "SimpRight",
+  "titleAccent": "Right",
+  "tagline": "Automation Framework"
+ },
  "workflowUrl": "https://github.com/Zaytsman/SimpRight/actions/workflows/custom-ui-tests.yml",
  "stats": {
   "total": 98,

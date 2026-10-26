@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SimpRight - Automation Portal</title>
+  <title>Automation Portal</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -491,7 +491,8 @@
     <aside class="sidebar">
       <a class="brand" href="#">
         <svg width="40" height="40" viewBox="0 0 44 44" aria-hidden="true"><rect width="44" height="44" rx="10" fill="#3fb950"/><path d="M11 23l8 8l15-17" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        <span><span class="brand-name">Simp<span>Right</span></span><span class="brand-sub">Automation Framework</span></span>
+        <!-- The brand comes from portal.json (simpright.yml portal), like everything else that names the project. -->
+        <span><span class="brand-name" id="brand-name"></span><span class="brand-sub" id="brand-tagline"></span></span>
       </a>
 
       <nav class="side-nav" aria-label="Navigate">
@@ -504,42 +505,23 @@
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
           Run history
         </a>
-        <!-- Repository links: rewritten to the repository the site is served for (<owner>.github.io/<repo>/), so forks link to their own. -->
-        <a class="side-link" data-repo-link="actions" href="https://github.com/Zaytsman/SimpRight/actions" target="_blank" rel="noreferrer">
+        <!-- Repository links: shown once portal.json names the repository the site was published from, so forks link to their own. -->
+        <a class="side-link" data-repo-link="actions" target="_blank" rel="noreferrer" hidden>
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M6 4l14 8-14 8z"/></svg>
           Schedule a test run
         </a>
-        <a class="side-link" data-repo-link="wiki" href="https://github.com/Zaytsman/SimpRight/wiki" target="_blank" rel="noreferrer">
+        <a class="side-link" data-repo-link="wiki" target="_blank" rel="noreferrer" hidden>
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5a2 2 0 0 1 2-2h12v16H6a2 2 0 0 0-2 2z"/><path d="M4 19V5"/></svg>
           Wiki
         </a>
       </nav>
 
-      <nav class="side-nav" aria-label="Latest reports">
+      <!-- One link per run in portal.json (simpright.yml runs), with a dot for its latest result. -->
+      <nav class="side-nav" aria-label="Latest reports" id="latest-reports">
         <h2>Latest reports</h2>
-        <a class="side-link" href="latest/daily-ui-regression/" target="_blank" rel="noreferrer">
-          <span class="run-dot" data-family-dot="daily-ui-regression"></span>
-          <span class="text">UI regression<span class="sub">Latest daily run</span></span>
-        </a>
-        <a class="side-link" href="latest/daily-api-regression/" target="_blank" rel="noreferrer">
-          <span class="run-dot" data-family-dot="daily-api-regression"></span>
-          <span class="text">API regression<span class="sub">Latest daily run</span></span>
-        </a>
-        <a class="side-link" href="latest/smoke/" target="_blank" rel="noreferrer">
-          <span class="run-dot" data-family-dot="smoke"></span>
-          <span class="text">Smoke<span class="sub">UI + API</span></span>
-        </a>
-        <a class="side-link" href="latest/custom-ui/" target="_blank" rel="noreferrer">
-          <span class="run-dot" data-family-dot="custom-ui"></span>
-          <span class="text">Custom UI<span class="sub">Latest custom run</span></span>
-        </a>
-        <a class="side-link" href="latest/custom-api/" target="_blank" rel="noreferrer">
-          <span class="run-dot" data-family-dot="custom-api"></span>
-          <span class="text">Custom API<span class="sub">Latest custom run</span></span>
-        </a>
       </nav>
 
-      <p class="side-note">Automated UI and API tests for the Toolshop (practicesoftwaretesting.com), built with TypeScript and Playwright.</p>
+      <p class="side-note" id="portal-description" hidden></p>
     </aside>
 
     <main class="content">
@@ -559,9 +541,10 @@
         </div>
       </section>
 
+      <!-- A layer's card and trends show its regression: the run with that trend in portal.json; without one they're hidden. -->
       <section class="status-row" aria-label="Status">
-        <div class="status-card">
-          <span class="card-label">UI regression</span>
+        <div class="status-card" data-layer="ui">
+          <span class="card-label" id="ui-label">UI regression</span>
           <span class="status-chip" id="ui-status">
             <svg class="icon-healthy" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5L20 7"/></svg>
             <svg class="icon-unhealthy" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
@@ -569,8 +552,8 @@
           </span>
           <span class="card-sub">Total – <span id="ui-total-tests">-</span> tests</span>
         </div>
-        <div class="status-card">
-          <span class="card-label">API regression</span>
+        <div class="status-card" data-layer="api">
+          <span class="card-label" id="api-label">API regression</span>
           <span class="status-chip" id="api-status">
             <svg class="icon-healthy" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5L20 7"/></svg>
             <svg class="icon-unhealthy" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
@@ -592,15 +575,15 @@
       </section>
 
       <!-- One section per regression; the charts are built the first time they're shown. -->
-      <section class="panel" id="ui-trends">
+      <section class="panel" id="ui-trends" data-layer="ui">
         <div class="panel-head">
           <h2>UI trends</h2>
-          <p>Latest 10 runs of the daily UI regression, oldest to newest</p>
+          <p id="ui-trends-sub">Latest 10 runs of the UI regression, oldest to newest</p>
         </div>
         <div class="stats-row">
           <div class="stat"><span class="label">Total</span><span class="value" id="ui-total">-</span></div>
           <div class="stat"><span class="label">Passed</span><span class="value" id="ui-passed">-</span></div>
-          <a class="stat failed" href="latest/daily-ui-regression/#?q=s%3Afailed" target="_blank" rel="noreferrer"><span class="label">Failed</span><span class="value" id="ui-failed">-</span></a>
+          <a class="stat failed" id="ui-failed-link" target="_blank" rel="noreferrer"><span class="label">Failed</span><span class="value" id="ui-failed">-</span></a>
           <div class="stat"><span class="label">Run duration</span><span class="value" id="ui-duration">-</span></div>
           <div class="stat"><span class="label">Average duration</span><span class="value" id="ui-avg-duration">-</span></div>
           <div class="stat"><span class="label">Failure rate (avg)</span><span class="value" id="ui-failure-rate">-</span> <span class="avg" id="ui-avg-failure-rate"></span></div>
@@ -621,15 +604,15 @@
         </div>
       </section>
 
-      <section class="panel" id="api-trends">
+      <section class="panel" id="api-trends" data-layer="api">
         <div class="panel-head">
           <h2>API trends</h2>
-          <p>Latest 10 runs of the daily API regression, oldest to newest</p>
+          <p id="api-trends-sub">Latest 10 runs of the API regression, oldest to newest</p>
         </div>
         <div class="stats-row">
           <div class="stat"><span class="label">Total</span><span class="value" id="api-total">-</span></div>
           <div class="stat"><span class="label">Passed</span><span class="value" id="api-passed">-</span></div>
-          <a class="stat failed" href="latest/daily-api-regression/#?q=s%3Afailed" target="_blank" rel="noreferrer"><span class="label">Failed</span><span class="value" id="api-failed">-</span></a>
+          <a class="stat failed" id="api-failed-link" target="_blank" rel="noreferrer"><span class="label">Failed</span><span class="value" id="api-failed">-</span></a>
           <div class="stat"><span class="label">Run duration</span><span class="value" id="api-duration">-</span></div>
           <div class="stat"><span class="label">Average duration</span><span class="value" id="api-avg-duration">-</span></div>
           <div class="stat"><span class="label">Failure rate (avg)</span><span class="value" id="api-failure-rate">-</span> <span class="avg" id="api-avg-failure-rate"></span></div>
@@ -680,27 +663,9 @@
           <h2>Run history</h2>
           <p>The latest 10 runs of each family. One square per run, newest on the right: green without failures, red with failures, grey without results.</p>
         </div>
-        <div class="history-list">
-          <details>
-            <summary><span class="name"><strong>UI regression</strong><small>Latest 10 runs</small></span><span class="run-strip" id="history-daily-ui-strip"></span><span class="more"></span></summary>
-            <ul class="run-list" id="history-daily-ui-list"><li class="run-empty">Loading...</li></ul>
-          </details>
-          <details>
-            <summary><span class="name"><strong>API regression</strong><small>Latest 10 runs</small></span><span class="run-strip" id="history-daily-api-strip"></span><span class="more"></span></summary>
-            <ul class="run-list" id="history-daily-api-list"><li class="run-empty">Loading...</li></ul>
-          </details>
-          <details>
-            <summary><span class="name"><strong>Smoke</strong><small>Latest 10 runs</small></span><span class="run-strip" id="history-smoke-strip"></span><span class="more"></span></summary>
-            <ul class="run-list" id="history-smoke-list"><li class="run-empty">Loading...</li></ul>
-          </details>
-          <details>
-            <summary><span class="name"><strong>Custom UI</strong><small>Latest 10 runs</small></span><span class="run-strip" id="history-custom-ui-strip"></span><span class="more"></span></summary>
-            <ul class="run-list" id="history-custom-ui-list"><li class="run-empty">Loading...</li></ul>
-          </details>
-          <details>
-            <summary><span class="name"><strong>Custom API</strong><small>Latest 10 runs</small></span><span class="run-strip" id="history-custom-api-strip"></span><span class="more"></span></summary>
-            <ul class="run-list" id="history-custom-api-list"><li class="run-empty">Loading...</li></ul>
-          </details>
+        <!-- One row per run in portal.json. -->
+        <div class="history-list" id="history-list">
+          <p class="run-empty">Loading...</p>
         </div>
       </section>
 
@@ -719,8 +684,8 @@
       grid: 'rgba(240, 246, 252, 0.08)'
     };
 
-    // Healthy when the latest run's failure rate is below this percentage.
-    const HEALTHY_FAILURE_RATE = { ui: 1, api: 1 };
+    // A layer's latest regression is healthy when its failure rate is below its threshold (portal.json healthThreshold).
+    const DEFAULT_THRESHOLD = 1;
 
     function formatDuration(durationMs) {
       const seconds = durationMs / 1000;
@@ -816,16 +781,112 @@
       ], options);
     }
 
-    // Report families published by scripts/publish-report.sh, with the id prefix of their Run history row.
-    const HISTORY_LISTS = {
-      'daily-ui-regression': 'history-daily-ui',
-      'daily-api-regression': 'history-daily-api',
-      'smoke': 'history-smoke',
-      'custom-ui': 'history-custom-ui',
-      'custom-api': 'history-custom-api'
-    };
+    // portal.json, written next to this page on every publish (scripts/lib/site.mts, from simpright.yml):
+    // the brand and description, the repository, the health thresholds, and the runs, each a report family published
+    // by scripts/publish-run.mts; a run with a trend is its layer's regression. Null when it's missing.
+    async function loadPortal() {
+      try {
+        const response = await fetch('portal.json');
+        return response.ok ? await response.json() : null;
+      } catch (error) {
+        console.error('Error loading portal.json:', error);
+        return null;
+      }
+    }
 
-    // A family's <family>-history.json, written at publish time by scripts/build-run-summaries.mts: every kept run,
+    // The title, with its accent (the end of it, such as "Right") in green, and the tagline and description.
+    function renderBrand(portal) {
+      document.title = `${portal.title} - Automation Portal`;
+      const accent = portal.titleAccent && portal.title.endsWith(portal.titleAccent) ? portal.titleAccent : '';
+      const name = document.getElementById('brand-name');
+      name.textContent = portal.title.slice(0, portal.title.length - accent.length);
+      if (accent) {
+        const span = document.createElement('span');
+        span.textContent = accent;
+        name.appendChild(span);
+      }
+      setText('brand-tagline', portal.tagline || '');
+      const description = document.getElementById('portal-description');
+      description.textContent = portal.description || '';
+      description.hidden = !portal.description;
+    }
+
+    // Latest reports: one link per run, with a dot for its latest result.
+    function renderLatestReports(runs) {
+      const nav = document.getElementById('latest-reports');
+      runs.forEach((run) => {
+        const link = document.createElement('a');
+        link.className = 'side-link';
+        link.href = `latest/${run.id}/`;
+        link.target = '_blank';
+        link.rel = 'noreferrer';
+        const dot = document.createElement('span');
+        dot.className = 'run-dot';
+        dot.dataset.familyDot = run.id;
+        const text = document.createElement('span');
+        text.className = 'text';
+        text.textContent = run.label;
+        if (run.note) {
+          const sub = document.createElement('span');
+          sub.className = 'sub';
+          sub.textContent = run.note;
+          text.appendChild(sub);
+        }
+        link.append(dot, text);
+        nav.appendChild(link);
+      });
+    }
+
+    // Run history: one row per run; renderHistoryList fills it in.
+    function renderHistoryRows(runs) {
+      document.getElementById('history-list').replaceChildren(...runs.map((run) => {
+        const details = document.createElement('details');
+        const summary = document.createElement('summary');
+        const name = document.createElement('span');
+        name.className = 'name';
+        const label = document.createElement('strong');
+        label.textContent = run.label;
+        const limit = document.createElement('small');
+        limit.textContent = 'Latest 10 runs';
+        name.append(label, limit);
+        const strip = document.createElement('span');
+        strip.className = 'run-strip';
+        strip.id = `history-${run.id}-strip`;
+        const more = document.createElement('span');
+        more.className = 'more';
+        summary.append(name, strip, more);
+        const list = document.createElement('ul');
+        list.className = 'run-list';
+        list.id = `history-${run.id}-list`;
+        const loading = document.createElement('li');
+        loading.className = 'run-empty';
+        loading.textContent = 'Loading...';
+        list.appendChild(loading);
+        details.append(summary, list);
+        return details;
+      }));
+    }
+
+    // Each layer's regression (the run with that trend) labels its status card and trends; a layer without one is hidden.
+    function renderLayers(regressions) {
+      ['ui', 'api'].forEach((layer) => {
+        const run = regressions[layer];
+        document.querySelectorAll(`[data-layer="${layer}"]`).forEach((el) => { el.hidden = !run; });
+        if (!run) return;
+        setText(`${layer}-label`, run.label);
+        setText(`${layer}-trends-sub`, `Latest 10 runs of the ${run.label}, oldest to newest`);
+        document.getElementById(`${layer}-failed-link`).href = `latest/${run.id}/#?q=s%3Afailed`;
+      });
+    }
+
+    function showMissingPortal() {
+      const message = 'No portal.json next to this page: it is written on every publish (scripts/lib/site.mts).';
+      document.querySelectorAll('[data-layer]').forEach((el) => { el.hidden = true; });
+      document.getElementById('knownIssuesBody').innerHTML = `<tr><td colspan="4" class="no-data">${message}</td></tr>`;
+      document.getElementById('history-list').innerHTML = `<p class="run-empty">${message}</p>`;
+    }
+
+    // A family's <family>-history.json, written at publish time by scripts/lib/run-summaries.mts: every kept run,
     // newest first, with its Playwright stats (null when the run has no results), and the newest run's known issues.
     // The page never downloads a run's results.json (an API regression's is about 8 MB). Null when nothing is published.
     async function loadHistory(family) {
@@ -964,7 +1025,7 @@
       dot.title = title;
     }
 
-    // totals.json holds summary.json's totals without the per-endpoint detail (scripts/build-run-summaries.mts).
+    // totals.json holds summary.json's totals without the per-endpoint detail (scripts/lib/run-summaries.mts).
     async function loadApiCoverage() {
       try {
         const response = await fetch('latest/api-coverage/totals.json');
@@ -1001,25 +1062,24 @@
       }
     }
 
-    // On GitHub Pages (<owner>.github.io/<repo>/), point the repository links at that repository;
-    // elsewhere (a local preview) they keep their default href.
-    function setRepoLinks() {
-      const owner = location.hostname.match(/^([^.]+)\.github\.io$/)?.[1];
-      const repo = location.pathname.split('/').filter(Boolean)[0];
-      if (!owner || !repo) return;
+    // The repository the site was published from (portal.json), so a fork's portal links to the fork.
+    function setRepoLinks(repository) {
+      if (!repository) return;
       document.querySelectorAll('[data-repo-link]').forEach((link) => {
-        link.href = `https://github.com/${owner}/${repo}/${link.dataset.repoLink}`;
+        link.href = `${repository}/${link.dataset.repoLink}`;
+        link.hidden = false;
       });
     }
 
     // Show trends / Hide trends: the charts of a regression are created the first time they're shown,
     // so Chart.js measures a visible canvas, and only when Chart.js has loaded (chartsReady).
-    function bindTrendToggles(seriesByLayer, chartsReady) {
+    function bindTrendToggles(seriesByLayer, chartsReady, thresholds) {
       const built = new Set();
       document.querySelectorAll('[data-trends]').forEach((button) => {
         const layer = button.dataset.trends;
         const charts = document.getElementById(`${layer}-charts`);
         button.addEventListener('click', async () => {
+          if (!seriesByLayer[layer]) return;
           const open = button.getAttribute('aria-expanded') !== 'true';
           button.setAttribute('aria-expanded', String(open));
           button.querySelector('span').textContent = open ? 'Hide trends' : 'Show trends';
@@ -1028,14 +1088,14 @@
           built.add(layer);
           await chartsReady;
           const series = await seriesByLayer[layer];
-          createFailureRateChart(`${layer}FailureRateChart`, series, HEALTHY_FAILURE_RATE[layer]);
+          createFailureRateChart(`${layer}FailureRateChart`, series, thresholds[layer] ?? DEFAULT_THRESHOLD);
           createDurationChart(`${layer}DurationChart`, series);
         });
       });
     }
 
-    function renderRegression(layer, family, series) {
-      updateStatus(layer, family, series, HEALTHY_FAILURE_RATE[layer]);
+    function renderRegression(layer, family, series, threshold) {
+      updateStatus(layer, family, series, threshold);
       if (series.length > 0) updateStats(`${layer}-`, series);
     }
 
@@ -1048,9 +1108,10 @@
         : { kind: 'good', text: `${total} passed` };
     }
 
-    function renderHistoryList(family, history, elementId, limit = 10) {
-      const list = document.getElementById(`${elementId}-list`);
-      const strip = document.getElementById(`${elementId}-strip`);
+    function renderHistoryList(run, history, limit = 10) {
+      const family = run.id;
+      const list = document.getElementById(`history-${family}-list`);
+      const strip = document.getElementById(`history-${family}-strip`);
       const runs = history ? history.runs.slice(0, limit) : [];
 
       if (runs.length === 0) {
@@ -1074,8 +1135,8 @@
       strip.setAttribute('role', 'img');
       strip.setAttribute('aria-label', `${withFailures} of the latest ${runs.length} runs had failures`);
 
-      // The family's newest run sets its dot in Latest reports; the regressions' dots show their health instead.
-      if (!family.startsWith('daily-') && results[0].kind) {
+      // The family's newest run sets its dot in Latest reports; the regressions' dots (runs with a trend) show their health instead.
+      if (!run.trend && results[0].kind) {
         setDot(family, results[0].kind === 'good', `Latest run: ${results[0].text}`);
       }
 
@@ -1101,24 +1162,34 @@
       }));
     }
 
-    // This script runs after the page's markup, so the data loads at once, in parallel with the deferred Chart.js;
-    // only the charts wait for DOMContentLoaded, which fires after Chart.js has run.
-    setRepoLinks();
+    // This script runs after the page's markup, so the data loads at once, in parallel with the deferred Chart.js:
+    // portal.json first (it names the runs), then every run's history. Only the charts wait for DOMContentLoaded,
+    // which fires after Chart.js has run.
+    const chartsReady = new Promise(resolve => document.addEventListener('DOMContentLoaded', resolve));
     loadApiCoverage();
     loadTestCaseLinks();
-    const histories = Object.fromEntries(Object.keys(HISTORY_LISTS).map(family => [family, loadHistory(family)]));
-    Object.entries(HISTORY_LISTS).forEach(([family, elementId]) => {
-      histories[family].then(history => renderHistoryList(family, history, elementId));
+    loadPortal().then((portal) => {
+      if (!portal) {
+        showMissingPortal();
+        return;
+      }
+      renderBrand(portal);
+      setRepoLinks(portal.repository);
+      renderLatestReports(portal.runs);
+      renderHistoryRows(portal.runs);
+      const regressions = Object.fromEntries(portal.runs.filter(run => run.trend).map(run => [run.trend, run]));
+      const thresholds = portal.healthThreshold || {};
+      renderLayers(regressions);
+
+      const histories = Object.fromEntries(portal.runs.map(run => [run.id, loadHistory(run.id)]));
+      portal.runs.forEach(run => histories[run.id].then(history => renderHistoryList(run, history)));
+      const seriesByLayer = Object.fromEntries(Object.entries(regressions).map(([layer, run]) => [layer, histories[run.id].then(history => toSeries(history))]));
+      bindTrendToggles(seriesByLayer, chartsReady, thresholds);
+      Object.entries(regressions).forEach(([layer, run]) => {
+        seriesByLayer[layer].then(series => renderRegression(layer, run.id, series, thresholds[layer] ?? DEFAULT_THRESHOLD));
+      });
+      Promise.all(Object.values(regressions).map(run => histories[run.id])).then(renderKnownIssues);
     });
-    const chartsReady = new Promise(resolve => document.addEventListener('DOMContentLoaded', resolve));
-    const seriesByLayer = {
-      ui: histories['daily-ui-regression'].then(history => toSeries(history)),
-      api: histories['daily-api-regression'].then(history => toSeries(history))
-    };
-    bindTrendToggles(seriesByLayer, chartsReady);
-    seriesByLayer.ui.then(series => renderRegression('ui', 'daily-ui-regression', series));
-    seriesByLayer.api.then(series => renderRegression('api', 'daily-api-regression', series));
-    Promise.all([histories['daily-ui-regression'], histories['daily-api-regression']]).then(([ui, api]) => renderKnownIssues([ui, api]));
   </script>
 </body>
 </html>
