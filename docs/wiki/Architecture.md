@@ -61,6 +61,17 @@ Each layer only calls the one below it:
 
 Path aliases (`tsconfig.json`, resolved by Playwright): `@fixtures` (= `src/fixtures/index.ts`), `@api/*`, `@ui/*`, `@config/*`, `@data/*`, `@fixtures/*`, `@utils/*`.
 
+## The core and the app
+
+The framework's **core** is the part a new project gets from the template and keeps generic: `env.ts`, `BaseClient`, `TokenService`, `BasePage`, `BaseComponent`, `BaseDialog`, the base fixtures, `globalSetup`, the assertion and HTTP check helpers, the page inspector and `playwright.config.ts` (the `core.files` list in [`simpright.yml`](https://github.com/Zaytsman/SimpRight/blob/main/simpright.yml)). Everything else is the **app's**: the Toolshop's clients, services, pages, flows, fixtures, test data and specs.
+
+The core reaches the app only through two **seams**, the project's own files:
+
+- `src/config/roles.ts`: the roles tests act as;
+- `src/config/project.ts`: the app's test-id attribute, its logins (API, browser state, login page) and what runs around a run ([2](Configuration#the-project-file)).
+
+A core file imports only core files, the seams and packages, and `npm run validate:scenarios` fails otherwise ([9](Scenarios-Bugs-and-Validation)). Where the app's code does a core job its own way, it builds on the core: `AppPage` extends `BasePage`, and `apiChecks.ts` and `apiSteps.ts` add the Toolshop's own checks and re-export the core's (`httpChecks.ts`, `sendSteps.ts`).
+
 ## What happens during a run
 
 1. **Config load.** `playwright.config.ts` imports `src/config/env.ts`, which loads `.env`, reads `src/envs/<TEST_ENV>.json`, fills in the `${VAR}` placeholders, validates everything and freezes the result. A missing secret or a bad URL fails here, before any test.

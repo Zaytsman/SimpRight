@@ -68,7 +68,7 @@ SimpRight/
 │   └── dependabot.yml            weekly dependency updates
 ├── index.html                    the Automation Portal (dashboard on GitHub Pages)
 ├── playwright.config.ts          projects, reporters, timeouts, login mode
-├── simpright.yml                 the project config for the agents and scripts (paths, commands, IDs, roles, test runs)
+├── simpright.yml                 the project config for the agents and scripts (paths, commands, IDs, roles, the core files, test runs)
 ├── CLAUDE.md                     the conventions in detail
 ├── .env.example                  the secrets the framework needs (copy to .env)
 ├── .npmrc / .npmrc.example       registry of the optional coverage package / the user-level token line

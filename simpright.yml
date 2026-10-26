@@ -152,6 +152,35 @@ parts:
     bugs: true
   wiki: true                                # docs/wiki/ published to the GitHub wiki
 
+# The framework's core: the files a project gets from the template and keeps generic. A core file imports only other
+# core files, the seams and packages (validate:scenarios checks it); the app's code goes in the project's own files.
+core:
+  files:
+    - src/config/env.ts                     # the environment config, the users, the roles (from the seam)
+    - src/config/defineProject.ts           # the shape of the project file
+    - src/utils/envUtils.ts
+    - src/utils/assertHelpers.ts            # masking, assertion messages, attachments
+    - src/utils/httpChecks.ts               # the HTTP-level API checks
+    - src/api/clients/BaseClient.ts
+    - src/api/services/serviceUtils.ts
+    - src/api/auth/TokenService.ts
+    - src/api/coverage/apiCoverage.ts
+    - src/api/fixtures/sendSteps.ts         # sendAndAttach and the generic templates
+    - src/ui/auth/authState.ts
+    - src/ui/pages/BasePage.ts
+    - src/ui/pages/components/BaseComponent.ts
+    - src/ui/pages/dialogs/BaseDialog.ts
+    - src/ui/pages/waitForApiResponse.ts
+    - src/fixtures/base.ts                  # role, authMode, config, tokenService, storageState, user, cleanup
+    - src/data/factories/testDataUtils.ts   # uniqueName
+    - src/globalSetup.ts
+    - scripts/inspect-ui.mts                # the page inspector
+    - scripts/inspect-ui/inspect-page.spec.ts
+    - playwright.config.ts
+  seams:
+    - src/config/roles.ts                   # the roles tests act as
+    - src/config/project.ts                 # the app's test ids, logins and run hooks
+
 ci:
   branches: { default: main, work: develop }
   node: 24                                  # every actions/setup-node step uses it (the workflows pass it to the setup action)

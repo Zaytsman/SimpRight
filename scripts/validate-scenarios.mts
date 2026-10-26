@@ -15,6 +15,8 @@
 //   action's required inputs and no inputs it doesn't declare;
 // - every actions/setup-node step, in a workflow or in a local action, sets up ci.node (a local action's step that
 //   reads the version from an input: as each workflow step that uses the action passes it), and at least one does;
+// - every core file and seam (core) exists, and a core file imports only core files, the seams and packages
+//   (relative imports and the tsconfig.json path aliases are followed; comments are skipped);
 // - every bug file is <bugs>/<ID>.yml, parses, matches the bug schema, has its keys in the schema's order,
 //   an ID with the prefix and digits of ids.bugs, a layer and area from the profile, and a resolved date
 //   exactly when its status isn't open;
@@ -36,7 +38,7 @@
 // - every test in <tests> starts its title with an ID, and that ID has a scenario whose automatedIn is this spec;
 //   every 'Known issue' annotation in a spec belongs to a scenario automated there.
 
-import { existsSync, readdirSync, readFileSync } from 'node:fs';
+import { existsSync, readdirSync, readFileSync, statSync } from 'node:fs';
 import path from 'node:path';
 import Ajv from 'ajv';
 import { parse } from 'yaml';
@@ -103,6 +105,7 @@ interface Profile {
   api?: { exemplars: Record<string, string>; knownIssue: string };
   ui?: { exemplars: Record<string, string>; knownIssue: string };
   parts?: { portal?: false | { testCases?: boolean; bugs?: boolean } };
+  core?: { files: string[]; seams?: string[] };
   ci?: { node: number; secrets: string[] };
   runs?: Run[];
   portal?: { title: string; titleAccent?: string; healthThreshold?: Partial<Record<'ui' | 'api', number>> };
@@ -462,6 +465,63 @@ if (runs) {
 checkLocalActionSteps(workflows, actions);
 if (profile.ci) checkNodeVersion(profile.ci.node, workflows, actions);
 
+// --- The core ---
+
+/** The module of every import: `from '...'` (imports and re-exports), `import '...'`, `import('...')`, `require('...')`. */
+const IMPORT = /(?:\bfrom|\bimport(?:\s*\()?|\brequire\s*\()\s*(['"])([^'"\r\n]+)\1/g;
+/** What an import's path may leave out, tried in this order. */
+const SOURCE_SUFFIXES = ['', '.ts', '.mts', '.tsx', '.js', '.mjs', '/index.ts'];
+
+/** `source` without its comments, so a module named in a comment isn't taken for an import (a `//` after `:` is a URL). */
+function withoutComments(source: string): string {
+  return source.replace(/\/\*[\s\S]*?\*\//g, '').replace(/(^|[^:])\/\/.*$/gm, '$1');
+}
+
+/** tsconfig.json's path aliases with their first target: `@fixtures` → `./src/fixtures/index.ts`, `@api/*` → `./src/api/*`. */
+function readAliases(): [string, string][] {
+  const { compilerOptions } = JSON.parse(read('tsconfig.json')) as { compilerOptions?: { paths?: Record<string, string[]> } };
+  return Object.entries(compilerOptions?.paths ?? {}).flatMap(([alias, [target]]): [string, string][] => (target ? [[alias, target]] : []));
+}
+
+/** The repository file `specifier` resolves to from `file`; `undefined` for a package, `null` when no file matches. */
+function resolveImport(file: string, specifier: string, aliases: [string, string][]): string | null | undefined {
+  let target: string | undefined;
+  if (specifier.startsWith('.')) {
+    target = path.posix.join(path.posix.dirname(file), specifier);
+  } else {
+    const alias = aliases.find(([name]) => (name.endsWith('/*') ? specifier.startsWith(name.slice(0, -1)) : specifier === name));
+    if (!alias) return undefined;
+    const [name, aliasTarget] = alias;
+    target = path.posix.normalize(name.endsWith('/*') ? aliasTarget.slice(0, -1) + specifier.slice(name.length - 1) : aliasTarget);
+  }
+  return SOURCE_SUFFIXES.map((suffix) => target + suffix).find((candidate) => exists(candidate) && statSync(path.join(ROOT, candidate)).isFile()) ?? null;
+}
+
+const { core } = profile;
+if (core) {
+  const coreFiles = new Set(core.files);
+  const seams = new Set(core.seams ?? []);
+  for (const file of [...coreFiles, ...seams]) {
+    if (!exists(file)) fail(PROFILE_FILE, `core: ${file} doesn't exist`);
+  }
+  for (const seam of seams) {
+    if (coreFiles.has(seam)) fail(PROFILE_FILE, `core: ${seam} is listed as a core file and as a seam`);
+  }
+  const aliases = readAliases();
+  for (const file of coreFiles) {
+    if (!exists(file)) continue;
+    for (const [, , specifier] of withoutComments(read(file)).matchAll(IMPORT)) {
+      if (!specifier) continue;
+      const target = resolveImport(file, specifier, aliases);
+      if (target === null) {
+        fail(file, `imports ${specifier}, which isn't a file in the repository`);
+      } else if (target !== undefined && !coreFiles.has(target) && !seams.has(target)) {
+        fail(file, `imports ${specifier} (${target}), which isn't in core in ${PROFILE_FILE}: a core file imports only core files, the seams and packages`);
+      }
+    }
+  }
+}
+
 // --- Bugs ---
 
 /** Bug ID → its file and status. */
@@ -671,4 +731,5 @@ if (ids.bugs) {
   nextIds.push(`${ids.bugs.prefix}-${String(highestBugNumber + 1).padStart(ids.bugs.digits, '0')}`);
 }
 if (runs) console.log(`Runs OK: ${runs.length} run(s), each with its workflow.`);
+if (core) console.log(`Core OK: ${core.files.length} file(s), importing only each other, ${core.seams?.length ?? 0} seam(s) and packages.`);
 console.log(`Next free IDs: ${nextIds.join(', ')}`);
