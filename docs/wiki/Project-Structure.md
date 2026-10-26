@@ -61,6 +61,7 @@ SimpRight/
 │   └── skills/                   the slash commands that start them, the skills they use, and `_shared/how-to-ask.md` (how every checkpoint asks)
 ├── .github/
 │   ├── workflows/                CI (see below)
+│   ├── actions/                  the workflows' steps as composite actions, with their shell scripts (see below)
 │   └── dependabot.yml            weekly dependency updates
 ├── index.html                    the Automation Portal (dashboard on GitHub Pages)
 ├── playwright.config.ts          projects, reporters, timeouts, login mode
@@ -135,6 +136,7 @@ Defined in `tsconfig.json` and resolved by Playwright, so imports don't climb fo
 | A secret | `.env` and `.env.example` (empty value) | A `${VAR}` placeholder in the environment JSON; a GitHub secret for CI |
 | A test area folder | `tests/<layer>/<area>/` and `test-scenarios/<layer>/<area>/` | Add it to `ids.areas` in `simpright.yml` and to the area options of the custom workflow; `npm run validate:scenarios` checks both |
 | A test run (a report family) | A caller of `playwright-run.yml` in `.github/workflows/` | An entry in the `runs` list of `simpright.yml` with the caller's `family` as its `id` ([Scheduled Runs](Scheduled-Runs#add-a-new-scheduled-run)) |
+| A CI step that workflows share | A composite action in `.github/actions/<name>/`: its `action.yml` and, if it needs one, its script | Pin the actions it uses to commit SHAs; if it uses any, add its folder to `dependabot.yml` ([CI Pipeline](CI-Pipeline#changing-the-pipeline)) |
 
 ## Scripts
 
@@ -146,15 +148,25 @@ Defined in `tsconfig.json` and resolved by Playwright, so imports don't climb fo
 | `build-bugs.mts` | `npm run bugs:build`, CI | Builds the Bugs page from `bugs/` and the scenarios that name them |
 | `check-step-titles.mts` | `npm run check:step-titles`, CI | Compares each test's step titles in a run's JSON report with its scenario's steps |
 | `build-portal-config.mts` | `npm run portal:build` | Writes `portal.json`, what the portal shows (the brand, the runs, the thresholds), from `simpright.yml` |
-| `publish-run.mts` | `publish-report.sh`, or by hand on any OS | Writes a run's report into a site folder, keeps the latest runs (`keep-runs`, 10 by default) and refreshes the portal |
-| `build-pages.mts` | `publish-test-cases.sh`, CI | Writes the Test Cases and Bugs pages and the portal into a site folder |
-| `lib/project.mts` | the other scripts | What they share: reading `simpright.yml` and the workflows, the repository's URL, the branch and commit |
+| `publish-run.mts` | the `publish-run` action, or by hand on any OS | Writes a run's report into a site folder, keeps the latest runs (`keep-runs`, 10 by default) and refreshes the portal |
+| `build-pages.mts` | the `publish-pages` action, CI | Writes the Test Cases and Bugs pages and the portal into a site folder |
+| `lib/project.mts` | the other scripts | What they share: reading `simpright.yml`, the workflows and the local actions, the repository's URL, the branch and commit |
 | `lib/run-summaries.mts` | the two Node publish scripts | The small history and run-summary files the portal and the Bugs page read |
 | `lib/site.mts` | the two Node publish scripts | The portal every publish writes (`index.html`, `portal.json`) and the folder copy |
-| `publish-report.sh` | CI | Publishes a run to `gh-pages`: checkout, `publish-run.mts`, push |
-| `publish-test-cases.sh` | CI | Publishes the Test Cases and Bugs pages and the portal to `gh-pages`: checkout, `build-pages.mts`, push |
-| `gh-pages-lib.sh` | the two publish scripts | The git steps: checkout of `gh-pages` and push with retries |
-| `squash-gh-pages.sh` | CI, monthly | Replaces the `gh-pages` history with one commit of the current site |
+
+## CI actions
+
+The workflows' steps, in `.github/actions/`; the shell scripts only do git, and the Node scripts above write the files.
+
+| Action (script) | Used by | What it does |
+|---|---|---|
+| `setup` | `playwright-run.yml`, `pr-checks.yml`, `publish-test-cases.yml` | Node.js, `npm ci --ignore-scripts`, and the browsers for UI runs |
+| `run-tests` | `playwright-run.yml` | The tests, then the step-title check |
+| `publish-run` (`publish-run.sh`) | `playwright-run.yml` | Publishes a run to `gh-pages`: checkout, `publish-run.mts`, push |
+| `publish-pages` (`publish-pages.sh`) | `publish-test-cases.yml` | Publishes the Test Cases and Bugs pages and the portal to `gh-pages`: checkout, `build-pages.mts`, push |
+| `squash-pages` (`squash-pages.sh`) | `squash-gh-pages.yml`, monthly | Replaces the `gh-pages` history with one commit of the current site |
+| `publish-wiki` (`publish-wiki.sh`) | `publish-wiki.yml` | Copies `docs/wiki/` to this wiki |
+| `lib/gh-pages-lib.sh` (not an action) | `publish-run.sh`, `publish-pages.sh` | The git steps: checkout of `gh-pages` and push with retries |
 
 ## CI workflows
 
@@ -168,6 +180,7 @@ Defined in `tsconfig.json` and resolved by Playwright, so imports don't climb fo
 | `playwright-run.yml` | called by the five above | Runs one project (or both) and publishes its report |
 | `publish-test-cases.yml` | scenarios or the dashboard change on `main` | Rebuilds the Test Cases pages and the dashboard |
 | `publish-wiki.yml` | `docs/wiki/` changes on `main` | Copies `docs/wiki/` to this wiki |
+| `squash-gh-pages.yml` | the 1st of each month, or by hand | Replaces the `gh-pages` history with one commit |
 
 ## Generated and ignored files
 

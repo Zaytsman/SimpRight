@@ -285,7 +285,7 @@
     },
     "ci": {
       "type": "object",
-      "description": "Facts about the GitHub Actions workflows; the scenario validator checks them against .github/workflows/.",
+      "description": "Facts about the GitHub Actions workflows; the scenario validator checks them against .github/workflows/ and the local actions in .github/actions/.",
       "required": ["node", "secrets"],
       "additionalProperties": false,
       "properties": {
@@ -298,7 +298,7 @@
             "work": { "type": "string", "minLength": 1, "description": "The branch work happens on, when it isn't the default one." }
           }
         },
-        "node": { "type": "integer", "minimum": 18, "description": "The Node.js major version every actions/setup-node step uses." },
+        "node": { "type": "integer", "minimum": 18, "description": "The Node.js major version every actions/setup-node step uses, in a workflow or in a local action (through an input, as each workflow that uses the action passes it)." },
         "secrets": {
           "type": "array",
           "description": "Names of the repository secrets the tests read, never their values. The reusable test workflow declares exactly these, and its callers pass them by name.",

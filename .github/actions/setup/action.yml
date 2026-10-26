@@ -1,0 +1,64 @@
+name: Set up Node.js and install
+description: >-
+  Sets up Node.js with the npm cache, installs the dependencies with npm ci --ignore-scripts and, when asked,
+  the Playwright browsers (cached by the lockfile's hash).
+
+# A local action runs from the workflow's checkout, so the checkout comes first (with persist-credentials: false).
+inputs:
+  node-version:
+    description: 'The Node.js major version: ci.node in simpright.yml (validate:scenarios checks every workflow that uses this action)'
+    required: true
+  registry-url:
+    description: 'A registry for one scope, e.g. https://npm.pkg.github.com for the optional private coverage package (empty: none)'
+    required: false
+    default: ''
+  scope:
+    description: "The scope that registry serves, e.g. '@zaytsman'"
+    required: false
+    default: ''
+  registry-token:
+    description: "The token npm ci sends to that registry (NODE_AUTH_TOKEN). Without access, as in forks, npm skips an optional package from it"
+    required: false
+    default: ''
+  omit-optional:
+    description: "'true': npm ci --omit=optional, which also leaves out optional platform packages such as TypeScript's compiler"
+    required: false
+    default: 'false'
+  browsers:
+    description: "'true': also install the Playwright browsers (UI runs)"
+    required: false
+    default: 'false'
+
+runs:
+  using: composite
+  steps:
+    - name: Setup Node.js
+      uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+      with:
+        node-version: ${{ inputs.node-version }}
+        cache: npm
+        registry-url: ${{ inputs.registry-url }}
+        scope: ${{ inputs.scope }}
+
+    # No dependency needs an install script, so none runs while NODE_AUTH_TOKEN is set.
+    - name: Install dependencies
+      shell: bash
+      env:
+        NODE_AUTH_TOKEN: ${{ inputs.registry-token }}
+        OMIT_OPTIONAL: ${{ inputs.omit-optional }}
+      run: |
+        args=(ci --ignore-scripts)
+        [ "$OMIT_OPTIONAL" = true ] && args+=(--omit=optional)
+        npm "${args[@]}"
+
+    - name: Cache Playwright browsers
+      if: inputs.browsers == 'true'
+      uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+      with:
+        path: ~/.cache/ms-playwright
+        key: playwright-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
+
+    - name: Install Playwright browsers
+      if: inputs.browsers == 'true'
+      shell: bash
+      run: npm run install:browsers

@@ -44,17 +44,17 @@ gh-pages/
 
 | Script | Called by | Does |
 |---|---|---|
-| `scripts/publish-report.sh <family> [--latest-coverage]` | `playwright-run.yml`, after every test run | Checks out `gh-pages`, runs `publish-run.mts`, commits and pushes |
-| `scripts/publish-test-cases.sh` | `publish-test-cases.yml`, on pushes to `main` | Checks out `gh-pages`, runs `build-pages.mts`, commits and pushes |
-| `scripts/publish-run.mts` | `publish-report.sh` | Writes the run's report, `latest/<family>/`, the manifest and history, the coverage (with the flag) and the portal |
-| `scripts/build-pages.mts` | `publish-test-cases.sh`, and `verify` on every pull request | Writes `test-cases/`, `bugs/` and the portal |
-| `scripts/gh-pages-lib.sh` | both shell scripts | The shared checkout and push |
+| `.github/actions/publish-run/publish-run.sh <family> [--latest-coverage]` | the `publish-run` action, in `playwright-run.yml` after every test run | Checks out `gh-pages`, runs `publish-run.mts`, commits and pushes |
+| `.github/actions/publish-pages/publish-pages.sh` | the `publish-pages` action, in `publish-test-cases.yml` on pushes to `main` | Checks out `gh-pages`, runs `build-pages.mts`, commits and pushes |
+| `scripts/publish-run.mts` | `publish-run.sh` | Writes the run's report, `latest/<family>/`, the manifest and history, the coverage (with the flag) and the portal |
+| `scripts/build-pages.mts` | `publish-pages.sh`, and `verify` on every pull request | Writes `test-cases/`, `bugs/` and the portal |
+| `.github/actions/lib/gh-pages-lib.sh` | both shell scripts | The shared checkout and push |
 
-Each script replaces only its own files and leaves the rest of the branch alone, so test runs and Test Cases publishing never overwrite each other. The files are written by the two Node scripts and the shell scripts only do git, so the Node part runs on any machine ([Previewing locally](#previewing-locally)).
+Each script replaces only its own files and leaves the rest of the branch alone, so test runs and Test Cases publishing never overwrite each other. The files are written by the two Node scripts and the shell scripts only do git, so the Node part runs on any machine ([Previewing locally](#previewing-locally)). The shell scripts sit next to the composite actions that run them ([CI Pipeline](CI-Pipeline#the-local-actions)), and each action gets the push token as its `token` input.
 
 ## Publishing a test run: `publish-run.mts`
 
-`publish-report.sh` checks out `gh-pages` (see below), runs `node scripts/publish-run.mts --site .gh-pages --run <family> --number <run number> --keep <keep-runs> [--latest-coverage]`, then commits and pushes. The Node script:
+`publish-run.sh` checks out `gh-pages` (see below), runs `node scripts/publish-run.mts --site .gh-pages --run <family> --number <run number> --keep <keep-runs> [--latest-coverage]`, then commits and pushes. The Node script:
 
 1. If there's no `playwright-report/`, stops: nothing to publish.
 2. Replaces `<family>/run-<N>/` with the HTML report, plus `test-results/results.json` (the JSON reporter's output on CI; only for step 4) and `test-results/api-coverage/` when there is one. A re-run of a workflow keeps its run number, so it replaces the first attempt.
@@ -67,7 +67,7 @@ Runs are sorted by number, so `run-100` comes after `run-99`.
 
 ## Publishing the Test Cases and Bugs pages: `build-pages.mts`
 
-`publish-test-cases.sh` checks out `gh-pages`, runs `node scripts/build-pages.mts --site .gh-pages`, then commits and pushes. The Node script:
+`publish-pages.sh` checks out `gh-pages`, runs `node scripts/build-pages.mts --site .gh-pages`, then commits and pushes. The Node script:
 
 1. Replaces the whole `test-cases/` and `bugs/` folders (so a removed layer disappears too) with new builds by `scripts/build-test-cases.mts` and `scripts/build-bugs.mts`.
 2. Builds the run summaries of the families that have none yet, so a portal change published before their next run finds its data.
@@ -82,16 +82,16 @@ The workflow validates the scenarios first, so a broken scenario file never reac
 
 Pruning keeps the site small: at most `keep-runs` runs per family (10 by default). The branch's history still holds every report ever published, so it's squashed every month (below).
 
-## Squashing the history: `squash-gh-pages.sh`
+## Squashing the history: `squash-pages.sh`
 
-`squash-gh-pages.yml` runs on the 1st of each month at 04:45 UTC, between the nightly runs, and by hand (Actions → **Squash GitHub Pages History** → **Run workflow**). It fetches the latest `gh-pages` commit and pushes a new commit with the same files and no parent: the site doesn't change, and the old reports leave the history (GitHub cleans up the unreferenced data later).
+`squash-gh-pages.yml` runs on the 1st of each month at 04:45 UTC, between the nightly runs, and by hand (Actions → **Squash GitHub Pages History** → **Run workflow**). Its `squash-pages` action fetches the latest `gh-pages` commit and pushes a new commit with the same files and no parent: the site doesn't change, and the old reports leave the history (GitHub cleans up the unreferenced data later).
 
 - The push uses `--force-with-lease`: it goes through only while `gh-pages` is still the commit it read. A publish that lands in between makes the squash fail; nothing is lost, run it again.
 - A publish that read `gh-pages` before the squash and pushes after it is rejected, rebases onto the new commit and retries (`ghp_publish`), as with any other concurrent publish.
 
 ## The wiki
 
-The wiki isn't on GitHub Pages: it's the repository's GitHub wiki, published from `docs/wiki/` by `publish-wiki.yml` on pushes to `main`. The workflow clones `<repo>.wiki.git`, mirrors the folder into it (`rsync --delete`, so a page removed here is removed there) and pushes when something changed. Edit pages in `docs/wiki/`, not in the wiki's web editor.
+The wiki isn't on GitHub Pages: it's the repository's GitHub wiki, published from `docs/wiki/` by `publish-wiki.yml` on pushes to `main`. Its `publish-wiki` action clones `<repo>.wiki.git`, mirrors the folder into it (`rsync --delete`, so a page removed here is removed there) and pushes when something changed. Edit pages in `docs/wiki/`, not in the wiki's web editor.
 
 ## Setting it up in a fork
 

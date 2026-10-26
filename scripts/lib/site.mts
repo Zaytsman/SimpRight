@@ -1,6 +1,6 @@
 // Writing the GitHub Pages site folder (a gh-pages checkout, or any folder): the dashboard that every publish
 // refreshes, and the folder copy the publish scripts share. Pushing the folder is the shell scripts' job
-// (scripts/gh-pages-lib.sh).
+// (.github/actions/lib/gh-pages-lib.sh).
 
 import { copyFileSync, cpSync, existsSync, mkdirSync, rmSync, writeFileSync } from 'node:fs';
 import path from 'node:path';

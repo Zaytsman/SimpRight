@@ -10,8 +10,11 @@
 //   family, and the caller matches the run: project, grep, paths, schedule, a manual start (workflow_dispatch),
 //   coverage publishing and the runs it keeps; an areaPicker run's area input offers all plus the folders of its
 //   project's tests; a run with a trend runs that layer, one run per layer, with a portal.healthThreshold for each;
-// - the reusable workflow declares exactly ci.secrets, its callers pass them by name, and every setup-node step
-//   uses ci.node;
+// - the reusable workflow declares exactly ci.secrets, and its callers pass them by name;
+// - every workflow step that uses a local action (./.github/actions/<name>) finds its action.yml, and passes the
+//   action's required inputs and no inputs it doesn't declare;
+// - every actions/setup-node step, in a workflow or in a local action, sets up ci.node (a local action's step that
+//   reads the version from an input: as each workflow step that uses the action passes it), and at least one does;
 // - every bug file is <bugs>/<ID>.yml, parses, matches the bug schema, has its keys in the schema's order,
 //   an ID with the prefix and digits of ids.bugs, a layer and area from the profile, and a resolved date
 //   exactly when its status isn't open;
@@ -38,12 +41,15 @@ import path from 'node:path';
 import Ajv from 'ajv';
 import { parse } from 'yaml';
 import {
+  ACTIONS_DIR,
   callersOf,
   CONFIG_FILE as PROFILE_FILE,
   CONFIG_SCHEMA_FILE as PROFILE_SCHEMA_FILE,
+  readActions,
   readWorkflows,
   ROOT,
   TEST_WORKFLOW,
+  type LocalAction,
   type Run,
   type Workflow,
   type WorkflowJob,
@@ -313,10 +319,103 @@ function checkCaller(where: string, run: Run, workflow: Workflow, job: WorkflowJ
   }
 }
 
+/** The local action a step uses (`./.github/actions/<name>`, without a trailing slash), or undefined. */
+const localActionOf = (uses: string | undefined) => (uses?.startsWith('./') ? uses.replace(/\/+$/, '') : undefined);
+
+/** Checks every workflow step that uses a local action: the action exists, and gets its required inputs and no others. */
+function checkLocalActionSteps(workflows: Map<string, Workflow>, actions: Map<string, LocalAction>): void {
+  for (const [file, workflow] of workflows) {
+    for (const [name, job] of Object.entries(workflow.jobs ?? {})) {
+      for (const step of job.steps ?? []) {
+        const ref = localActionOf(step.uses);
+        if (!ref) continue;
+        const where = `${file} (job ${name})`;
+        const local = actions.get(ref);
+        if (!local) {
+          // An action.yml that isn't valid YAML has its own error.
+          if (!['action.yml', 'action.yaml'].some((fileName) => exists(`${ref.slice(2)}/${fileName}`))) {
+            fail(where, `uses ${String(step.uses)}, but there's no local action there (${ACTIONS_DIR}/<name>/action.yml)`);
+          }
+          continue;
+        }
+        const declared = local.action.inputs ?? {};
+        const passed = Object.keys(step.with ?? {});
+        const unknown = passed.filter((input) => !Object.hasOwn(declared, input));
+        if (unknown.length > 0) fail(where, `passes ${listOf(unknown)} to ${ref}, which has no such input (${local.file})`);
+        const missing = Object.entries(declared)
+          .filter(([input, spec]) => spec?.required && spec.default === undefined && !passed.includes(input))
+          .map(([input]) => input);
+        if (missing.length > 0) fail(where, `must pass ${listOf(missing)} to ${ref} (required in ${local.file})`);
+      }
+    }
+  }
+}
+
+/** A step value that is just one of the action's inputs: ${{ inputs.<name> }}. */
+const INPUT_VALUE = /^\$\{\{\s*inputs\.([A-Za-z_][\w-]*)\s*\}\}$/;
+
+/**
+ * Checks that every actions/setup-node step sets up ci.node: in a workflow by its node-version; in a local action by
+ * its node-version or, when that is one of the action's inputs, by what each workflow step that uses the action
+ * passes (or the input's default). Some step must set up Node, so the check never passes with nothing to check.
+ */
+function checkNodeVersion(node: number, workflows: Map<string, Workflow>, actions: Map<string, LocalAction>): void {
+  let setupSteps = 0;
+  const check = (where: string, version: unknown) => {
+    if (version === undefined || version === null || version === '') {
+      fail(where, `sets up Node without a node-version, but ci.node in ${PROFILE_FILE} is ${node}`);
+    } else if (String(version) !== String(node)) {
+      fail(where, `sets up Node ${String(version)}, but ci.node in ${PROFILE_FILE} is ${node}`);
+    }
+  };
+
+  /** Local action → the input its setup-node step reads the version from. */
+  const versionInputs = new Map<string, string>();
+  for (const [ref, { file, action }] of actions) {
+    for (const step of action.runs?.steps ?? []) {
+      if (!step.uses?.startsWith('actions/setup-node@')) continue;
+      setupSteps++;
+      const version = step.with?.['node-version'];
+      const input = INPUT_VALUE.exec(String(version ?? ''))?.[1];
+      if (!input) {
+        check(file, version);
+        continue;
+      }
+      const spec = action.inputs?.[input];
+      if (!spec) {
+        fail(file, `sets up Node from inputs.${input}, which it doesn't declare`);
+      } else if (spec.default !== undefined) {
+        check(`${file} (the default of its ${input} input)`, spec.default);
+      } else if (!spec.required) {
+        fail(file, `sets up Node from its ${input} input, which has no default and isn't required`);
+      }
+      versionInputs.set(ref, input);
+    }
+  }
+  for (const [file, workflow] of workflows) {
+    for (const [name, job] of Object.entries(workflow.jobs ?? {})) {
+      for (const step of job.steps ?? []) {
+        if (step.uses?.startsWith('actions/setup-node@')) {
+          setupSteps++;
+          check(file, step.with?.['node-version']);
+        }
+        const ref = localActionOf(step.uses);
+        const input = ref ? versionInputs.get(ref) : undefined;
+        // Left out, the input's default applies (checked above); a missing required input is checkLocalActionSteps'.
+        if (input && step.with?.[input] !== undefined) check(`${file} (job ${name})`, step.with[input]);
+      }
+    }
+  }
+  if (setupSteps === 0) fail(PROFILE_FILE, `ci.node is ${node}, but no workflow or local action sets up Node (actions/setup-node)`);
+}
+
 const { runs } = profile;
+// A project without runs or ci may have no workflows at all.
+const invalidYaml = (file: string, error: Error) => fail(file, `invalid YAML: ${error.message}`);
+const workflows = runs || profile.ci ? readWorkflows(invalidYaml) : new Map<string, Workflow>();
+const actions = readActions(invalidYaml);
 if (runs) {
   const runsAt = `${PROFILE_FILE} runs`;
-  const workflows = readWorkflows((file, error) => fail(file, `invalid YAML: ${error.message}`));
 
   /** Layer → the run that feeds its trend. */
   const trends = new Map<string, string>();
@@ -359,20 +458,9 @@ if (runs) {
   for (const run of runs) {
     if (!callers.has(run.id)) fail(runsAt, `${run.id}: no workflow calls ${TEST_WORKFLOW} with family ${run.id}`);
   }
-
-  if (profile.ci) {
-    for (const [file, workflow] of workflows) {
-      for (const job of Object.values(workflow.jobs ?? {})) {
-        for (const step of job.steps ?? []) {
-          const version = step.with?.['node-version'];
-          if (step.uses?.startsWith('actions/setup-node@') && String(version) !== String(profile.ci.node)) {
-            fail(file, `sets up Node ${String(version)}, but ci.node in ${PROFILE_FILE} is ${profile.ci.node}`);
-          }
-        }
-      }
-    }
-  }
 }
+checkLocalActionSteps(workflows, actions);
+if (profile.ci) checkNodeVersion(profile.ci.node, workflows, actions);
 
 // --- Bugs ---
 

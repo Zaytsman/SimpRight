@@ -51,8 +51,9 @@ Each layer only calls the one below it:
 | `src/data/` | `TestConstants.ts` (seeded values), `factories/` (payload builders, unique names) | [8](Test-Data) |
 | `src/utils/` | `assertHelpers.ts` (masking, messages, attachments), `apiChecks.ts` (shared API checks), `amounts.ts`, `envUtils.ts`, `totp.ts` | [10](Reporting-and-Secrets), [5](API-Specs) |
 | `src/globalSetup.ts` | Once per run: the run's customer, the re-seed wait, optional UI logins | [2](Configuration) |
-| `scripts/` | Validator, step-title check, page inspector, page builds, publish scripts | [9](Scenarios-Bugs-and-Validation), [11](CI-and-Publishing) |
+| `scripts/` | Validator, step-title check, page inspector, page builds, the publish scripts' file work | [9](Scenarios-Bugs-and-Validation), [11](CI-and-Publishing) |
 | `.github/workflows/` | CI: the reusable test job, scheduled and manual runs, PR checks, publishing | [11](CI-and-Publishing) |
+| `.github/actions/` | The workflows' steps as composite actions (setup, tests, publishing), with the publish scripts' git steps | [11](CI-and-Publishing) |
 | `.claude/agents/`, `.claude/skills/`, `simpright.yml` | The QA agents, their skills and the project facts they read | [12](AI-Agents) |
 | `docs/` | Contracts, user stories, analyses, the wiki source, these pages | |
 | `site/`, `index.html` | The GitHub Pages portal, the Test Cases and Bugs pages | [11](CI-and-Publishing) |

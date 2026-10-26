@@ -1,6 +1,6 @@
 name: Squash GitHub Pages History
 
-# Replaces the gh-pages branch's history with one commit of the current site (scripts/squash-gh-pages.sh).
+# Replaces the gh-pages branch's history with one commit of the current site (the squash-pages action).
 # Each publish adds a full report to the history, so without this the branch grows forever even though
 # the site keeps only the latest runs. The site itself doesn't change. Monthly, and by hand.
 
@@ -23,6 +23,7 @@ jobs:
     timeout-minutes: 10
 
     steps:
+      # The local action below runs from this checkout.
       - name: Checkout repository
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
@@ -30,6 +31,6 @@ jobs:
           persist-credentials: false
 
       - name: Squash gh-pages
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: scripts/squash-gh-pages.sh
+        uses: ./.github/actions/squash-pages
+        with:
+          token: ${{ github.token }}

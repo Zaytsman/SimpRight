@@ -1,0 +1,18 @@
+name: Publish the portal's pages
+description: >-
+  Rebuilds the Test Cases pages, the Bugs page and the dashboard on the gh-pages branch (GitHub Pages).
+  scripts/build-pages.mts writes the files; publish-pages.sh does the git steps.
+
+inputs:
+  token:
+    description: 'A token that can push to gh-pages (github.token with contents: write). Only this step gets it.'
+    required: true
+
+runs:
+  using: composite
+  steps:
+    - name: Build and publish
+      shell: bash
+      env:
+        GH_TOKEN: ${{ inputs.token }}
+      run: bash "$GITHUB_ACTION_PATH/publish-pages.sh"

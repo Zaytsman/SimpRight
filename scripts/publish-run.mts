@@ -1,6 +1,6 @@
 // Publishes a test run's report into a GitHub Pages site folder: the HTML report, its API coverage, the small files
-// the portal reads and the dashboard. scripts/publish-report.sh runs it on CI between the gh-pages checkout and the
-// push; it runs wherever Node does, so a site can also be built locally, in any folder.
+// the portal reads and the dashboard. The publish-run action (.github/actions/publish-run/) runs it on CI between the
+// gh-pages checkout and the push; it runs wherever Node does, so a site can also be built locally, in any folder.
 // Run with `node scripts/publish-run.mts --site <dir> --run <id> --number <N> [--keep <N>] [--latest-coverage]`:
 //   --run <id>         the run in simpright.yml runs; its id is the report family
 //   --number <N>       the run's number (GITHUB_RUN_NUMBER on CI): the report goes in <id>/run-<N>/

@@ -1,0 +1,23 @@
+name: Publish the wiki
+description: >-
+  Copies a folder of Markdown pages to the repository's GitHub wiki: pages added, changed or removed there are
+  added, changed or removed in the wiki (publish-wiki.sh).
+
+inputs:
+  source:
+    description: 'The folder that holds the wiki pages'
+    required: false
+    default: docs/wiki
+  token:
+    description: 'A token that can push to the wiki (github.token with contents: write)'
+    required: true
+
+runs:
+  using: composite
+  steps:
+    - name: Sync to the wiki
+      shell: bash
+      env:
+        GH_TOKEN: ${{ inputs.token }}
+        SOURCE: ${{ inputs.source }}
+      run: bash "$GITHUB_ACTION_PATH/publish-wiki.sh" "$SOURCE"

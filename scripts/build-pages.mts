@@ -1,7 +1,8 @@
 // Builds the portal's pages into a GitHub Pages site folder: the Test Cases pages (test-cases/<layer>/), the Bugs
 // page (bugs/, when simpright.yml has paths.bugs) and the dashboard (index.html, portal.json). The rest of the
-// site is the test runs' (scripts/publish-run.mts). scripts/publish-test-cases.sh runs it on CI between the
-// gh-pages checkout and the push, and verify runs it on every pull request; it runs wherever Node does.
+// site is the test runs' (scripts/publish-run.mts). The publish-pages action (.github/actions/publish-pages/) runs it
+// on CI between the gh-pages checkout and the push, and verify runs it on every pull request; it runs wherever Node
+// does.
 // Run with `node scripts/build-pages.mts --site <dir>`.
 //
 // It replaces the whole test-cases/ and bugs/ folders, so a layer that no longer exists disappears too. It also

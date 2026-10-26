@@ -1,9 +1,9 @@
-// What the scripts share: the project config (simpright.yml), the workflows that run its test runs, and the
-// repository and branch the pages link to. Node runs the scripts directly, so they import this file with its
-// .mts extension.
+// What the scripts share: the project config (simpright.yml), the workflows that run its test runs and the local
+// actions they use, and the repository and branch the pages link to. Node runs the scripts directly, so they import
+// this file with its .mts extension.
 
 import { execFileSync } from 'node:child_process';
-import { readdirSync, readFileSync } from 'node:fs';
+import { existsSync, readdirSync, readFileSync } from 'node:fs';
 import path from 'node:path';
 import { parse } from 'yaml';
 
@@ -11,6 +11,8 @@ export const ROOT = path.resolve(import.meta.dirname, '..', '..');
 export const CONFIG_FILE = 'simpright.yml';
 export const CONFIG_SCHEMA_FILE = 'simpright.schema.json';
 export const WORKFLOWS_DIR = '.github/workflows';
+/** The local composite actions the workflows' steps use: <name>/action.yml. */
+export const ACTIONS_DIR = '.github/actions';
 /** The reusable workflow that runs the tests and publishes the report; every run has one caller of it. */
 export const TEST_WORKFLOW = `${WORKFLOWS_DIR}/playwright-run.yml`;
 
@@ -58,7 +60,22 @@ export interface WorkflowJob {
   uses?: string;
   with?: Record<string, unknown>;
   secrets?: unknown;
-  steps?: { uses?: string; with?: Record<string, unknown> }[];
+  steps?: Step[];
+}
+
+/** A step of a workflow job or of a composite action. */
+export interface Step {
+  uses?: string;
+  with?: Record<string, unknown>;
+}
+
+/** A local composite action: its file (action.yml or action.yaml) and the parts of it the scripts read. */
+export interface LocalAction {
+  file: string;
+  action: {
+    inputs?: Record<string, { required?: boolean; default?: unknown }>;
+    runs?: { using?: string; steps?: Step[] };
+  };
 }
 
 /** A job that calls the test workflow; the run it publishes is its family. */
@@ -89,6 +106,31 @@ export function readWorkflows(onError: (file: string, error: Error) => void = (f
     }
   }
   return workflows;
+}
+
+/**
+ * The local actions, by the reference a step uses (`./.github/actions/<name>`). A folder without an action.yml or
+ * action.yaml (a scripts folder such as lib/) isn't one; a file that isn't valid YAML goes to `onError` and is left out.
+ */
+export function readActions(onError: (file: string, error: Error) => void = (file, error) => { throw new Error(`${file}: ${error.message}`); }): Map<string, LocalAction> {
+  const actions = new Map<string, LocalAction>();
+  if (!existsSync(path.join(ROOT, ACTIONS_DIR))) return actions;
+  const folders = readdirSync(path.join(ROOT, ACTIONS_DIR), { withFileTypes: true })
+    .filter((entry) => entry.isDirectory())
+    .map((entry) => entry.name)
+    .sort();
+  for (const folder of folders) {
+    const file = ['action.yml', 'action.yaml']
+      .map((name) => `${ACTIONS_DIR}/${folder}/${name}`)
+      .find((candidate) => existsSync(path.join(ROOT, candidate)));
+    if (!file) continue;
+    try {
+      actions.set(`./${ACTIONS_DIR}/${folder}`, { file, action: (parse(read(file)) ?? {}) as LocalAction['action'] });
+    } catch (error) {
+      onError(file, error as Error);
+    }
+  }
+  return actions;
 }
 
 /** The jobs that call the test workflow, in file order. */

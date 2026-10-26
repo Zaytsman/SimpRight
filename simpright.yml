@@ -154,7 +154,7 @@ parts:
 
 ci:
   branches: { default: main, work: develop }
-  node: 24                                  # every actions/setup-node step uses it
+  node: 24                                  # every actions/setup-node step uses it (the workflows pass it to the setup action)
   secrets: [ADMIN_USER, ADMIN_PASSWORD]     # names of the repository secrets the tests read, never values
 
 # One entry per test run: its report family on GitHub Pages (id) and the caller of
