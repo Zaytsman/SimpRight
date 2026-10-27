@@ -12,7 +12,7 @@ How SimpRight's GitHub Actions are put together: the workflows, the local action
                 ├──────── custom-ui-tests.yml  (by hand)
                 └──────── smoke-tests.yml      (by hand)
 
- pull requests ────────── pr-checks.yml (verify) ──► typecheck, scenarios, Test Cases and Bugs build
+ pull requests ────────── pr-checks.yml (verify) ──► typecheck, scenarios, template, Test Cases and Bugs build
 
  push to main ──┬──────── publish-test-cases.yml ──► gh-pages (Test Cases + Bugs pages + portal)
                 └──────── publish-wiki.yml       ──► the wiki
@@ -99,7 +99,7 @@ No workflow uses `pull_request_target`, so pull request code never runs with acc
 
 ## The pull request check: `verify`
 
-`verify` runs on every pull request to `main` or `develop`, and it's the **required check** on `main`. It runs static checks only: `npm run typecheck`, `npm run validate:scenarios`, and the build of the portal's pages (`scripts/build-pages.mts`: the Test Cases and Bugs pages and the portal's `portal.json` must still build).
+`verify` runs on every pull request to `main` or `develop`, and it's the **required check** on `main`. It runs static checks only: `npm run typecheck`, `npm run validate:scenarios`, `npm run check:template` (the core files against [SimpRightTemplate](https://github.com/Zaytsman/SimpRightTemplate) at the version in `simpright.yml`), and the build of the portal's pages (`scripts/build-pages.mts`: the Test Cases and Bugs pages and the portal's `portal.json` must still build).
 
 It runs no tests. They run locally before a push (each changed spec three times) and in the nightly regressions on `main`. So `verify` needs no secrets, no package token and no browser, and pull requests from forks and from Dependabot get the same check.
 

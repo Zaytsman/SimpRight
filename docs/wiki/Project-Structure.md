@@ -69,7 +69,7 @@ SimpRight/
 │   └── dependabot.yml            weekly dependency updates
 ├── index.html                    the Automation Portal (dashboard on GitHub Pages)
 ├── playwright.config.ts          projects, reporters, timeouts, login mode
-├── simpright.yml                 the project config for the agents and scripts (paths, commands, IDs, roles, the core files, test runs)
+├── simpright.yml                 the project config for the agents and scripts (the template version, paths, commands, IDs, roles, the core files, test runs)
 ├── CLAUDE.md                     SimpRight's own rules; imports docs/framework/conventions.md, the framework's
 ├── .env.example                  the secrets the framework needs (copy to .env)
 ├── .npmrc / .npmrc.example       registry of the optional coverage package / the user-level token line
@@ -151,6 +151,7 @@ Defined in `tsconfig.json` and resolved by Playwright, so imports don't climb fo
 | `build-test-cases.mts` | `npm run test-cases:build`, CI | Builds the UI and API Test Cases pages from the scenarios |
 | `build-bugs.mts` | `npm run bugs:build`, CI | Builds the Bugs page from `bugs/` and the scenarios that name them |
 | `check-step-titles.mts` | `npm run check:step-titles`, CI | Compares each test's step titles in a run's JSON report with its scenario's steps |
+| `check-template.mts` | `npm run check:template`, CI | Compares the core files with SimpRightTemplate at the version `template` in `simpright.yml` names |
 | `build-portal-config.mts` | `npm run portal:build` | Writes `portal.json`, what the portal shows (the brand, the runs, the thresholds), from `simpright.yml` |
 | `publish-run.mts` | the `publish-run` action, or by hand on any OS | Writes a run's report into a site folder, keeps the latest runs (`keep-runs`, 10 by default) and refreshes the portal |
 | `build-pages.mts` | the `publish-pages` action, CI | Writes the Test Cases and Bugs pages and the portal into a site folder |
@@ -176,7 +177,7 @@ The workflows' steps, in `.github/actions/`; the shell scripts only do git, and 
 
 | Workflow | When | What |
 |---|---|---|
-| `pr-checks.yml` (`verify`) | every pull request to `main` or `develop` | Typecheck, scenario validation, the build of the portal's pages (no tests) |
+| `pr-checks.yml` (`verify`) | every pull request to `main` or `develop` | Typecheck, scenario validation, the core against SimpRightTemplate, the build of the portal's pages (no tests) |
 | `run-api-tests.yml` | weekdays 02:15 UTC, or by hand | Full API regression, with the coverage report |
 | `run-ui-tests.yml` | weekdays 06:15 UTC, or by hand | Full UI regression |
 | `custom-api-tests.yml`, `custom-ui-tests.yml` | by hand | One area, optionally filtered with `--grep` |

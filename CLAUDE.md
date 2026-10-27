@@ -25,6 +25,7 @@ npx playwright test -g "UI-002:"                        # single test by scenari
 npm run typecheck                 # tsc --noEmit (TypeScript 7; unused locals and parameters fail it)
 npm run validate:scenarios        # profile, bugs, scenario files, IDs and specs
 npm run check:step-titles         # step titles vs scenario steps, from a JSON report (default test-results/results.json)
+npm run check:template            # the core files vs SimpRightTemplate at simpright.yml's template version (read from GitHub)
 npm run report                    # open last HTML report
 npm run inspect:ui -- /auth/login --logged-out   # page inspector: data-test elements + accessibility tree
 npm run test-cases:build          # Test Cases pages into test-results/test-cases/<layer>/ (open index.html)
@@ -48,6 +49,7 @@ Details: `docs/framework/04-api-layer.md`, `docs/framework/06-ui-layer.md`.
 - `src/ui/visitor/`: the app's browser-storage state (location, cart).
 - `.claude/agents/` and `.claude/skills/`: the QA agents and the skills that start them (each skill's description says what it does; overview in `docs/framework/12-ai-agents.md`). The chain is contracts → scenarios → specs; stories and bugs go through `/analyze-requirements`. Agents read `simpright.yml` and keep no project facts of their own.
 - `docs/framework/`: how the framework works, one document per area, and `conventions.md`; when a change alters how an area works, update its document too.
+- **The core is shared with [SimpRightTemplate](https://github.com/Zaytsman/SimpRightTemplate)** (public, `main` only, versions are tags `vX.Y.Z`): a change to a core file (`core.files`) is made in the template too, in the same piece of work; tag a new template version, then set `template` in `simpright.yml`. `check:template` fails `verify` until they match.
 - `docs/wiki/`: the wiki's source (one file per page, plus `_Sidebar.md`), published on pushes to `main`; never edit in the web editor. Page links use the page name without `.md`, repo links full `github.com/.../blob/main/...` URLs; each page starts with a comment naming its source; a new page needs a sidebar entry.
 
 ## Configuration
@@ -64,7 +66,7 @@ Details: `docs/framework/11-ci-and-publishing.md` and the wiki's CI and Pages pa
 - `playwright-run.yml` is the reusable test job; its callers are the scheduled (`run-ui-tests.yml`, `run-api-tests.yml`), manual (`custom-*-tests.yml`) and smoke (`smoke-tests.yml`) workflows. **A new folder under `tests/ui` or `tests/api` goes in the matching custom workflow's `area` options.** Its `keep-runs` input (default 10) sets how many runs of the family stay on Pages; `squash-gh-pages.yml` (monthly) replaces the `gh-pages` history with one commit.
 - **Each caller has a `runs` entry in `simpright.yml`** (its `id` is the caller's `family`): change both together; `validate:scenarios` checks them (details in `docs/framework/11-ci-and-publishing.md`).
 - The workflows' steps are local composite actions in `.github/actions/<name>/` (`setup`, `run-tests`, `publish-run`, `publish-pages`, `squash-pages`, `publish-wiki`), each with its script; a step uses one after the checkout, and `validate:scenarios` checks the inputs it passes.
-- `pr-checks.yml` (`verify`, required on `main`): typecheck, scenario validation and the build of the portal's pages (`build-pages.mts`); static only. Tests run locally before a push (each changed spec three times) and nightly on `main`.
+- `pr-checks.yml` (`verify`, required on `main`): typecheck, scenario validation, the core against the template (`check:template`) and the build of the portal's pages (`build-pages.mts`); static only. Tests run locally before a push (each changed spec three times) and nightly on `main`.
 - Secrets: callers pass them by name and `playwright-run.yml` declares them (the names in `ci.secrets`); never `secrets: inherit`.
 - **Hardening:**
   - Every action is pinned to a full commit SHA with its version in a comment (`actions/checkout@<sha> # v7.0.1`), in workflows and in `action.yml` files. A local action that uses other actions needs its folder in `dependabot.yml`.

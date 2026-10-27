@@ -1,7 +1,7 @@
 name: PR Checks
 
 # Required status check for pull requests (the `verify` job; see the main branch ruleset).
-# Static checks only: typecheck, scenario validation and the build of the portal's pages.
+# Static checks only: typecheck, scenario validation, the core vs SimpRightTemplate and the build of the portal's pages.
 # The tests don't run here: they run locally before a push, and nightly on main.
 # It installs without the private coverage package (nothing here loads it), so forks and Dependabot get the same check.
 
@@ -40,6 +40,11 @@ jobs:
 
       - name: Validate scenarios
         run: npm run validate:scenarios
+
+      # The core files must match SimpRightTemplate at the version simpright.yml records (template), so a core change
+      # reaches the template before it reaches main. Reads the public template from GitHub, no token.
+      - name: Check the core against the template
+        run: npm run check:template
 
       # The Test Cases and Bugs pages and the dashboard's portal.json are published from main by the same script
       # (publish-test-cases.yml); check that they still build.

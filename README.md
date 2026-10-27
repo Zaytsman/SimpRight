@@ -98,7 +98,7 @@ The exact conventions a new test must follow are in [docs/framework/conventions.
 
 ## Contributing
 
-Fork the repository, branch from `develop` and open a pull request into `develop`. Pull requests run the `verify` check (typecheck, scenario validation and the Test Cases and Bugs page builds), so run the specs you changed locally before you push.
+Fork the repository, branch from `develop` and open a pull request into `develop`. Pull requests run the `verify` check (typecheck, scenario validation, the core files against SimpRightTemplate and the Test Cases and Bugs page builds), so run the specs you changed locally before you push.
 
 ## Security
 

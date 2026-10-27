@@ -11,7 +11,7 @@ custom-api-tests.yml   by hand (area, grep) ├──► playwright-run.yml (reu
 custom-ui-tests.yml    by hand (area, grep) │      install, typecheck, tests,         latest/<family>/, manifests
 smoke-tests.yml        by hand (@smoke)    ─┘      step titles, publish, artifact
 
-pull request to main/develop ──► pr-checks.yml (verify): typecheck, validator, page builds   (required on main)
+pull request to main/develop ──► pr-checks.yml (verify): typecheck, validator, template, page builds   (required on main)
 push to main ──► publish-test-cases.yml ──► gh-pages: test-cases/, bugs/, the portal
              └─► publish-wiki.yml       ──► the repository's wiki
 monthly, by hand ──► squash-gh-pages.yml ──► gh-pages: the history replaced by one commit
@@ -79,7 +79,7 @@ The validator also checks that `playwright-run.yml` declares exactly the secrets
 
 ## Pull requests: `pr-checks.yml`
 
-The `verify` job runs on every pull request to `main` or `develop` and is the **required check** on `main`. It's static: `npm run typecheck` (unused locals and parameters fail it), `npm run validate:scenarios`, and the build of the portal's pages (`scripts/build-pages.mts`, the same build `publish-test-cases.yml` publishes). It runs no tests, needs no secrets and no package token (`npm ci --ignore-scripts` skips the private package after a 401, as in forks), so pull requests from forks and Dependabot get the same check. A new push cancels the PR's running `verify`. Tests run locally before a push and in the nightly regressions on `main`.
+The `verify` job runs on every pull request to `main` or `develop` and is the **required check** on `main`. It's static: `npm run typecheck` (unused locals and parameters fail it), `npm run validate:scenarios`, `npm run check:template` (the core files against SimpRightTemplate at `template`, read from GitHub), and the build of the portal's pages (`scripts/build-pages.mts`, the same build `publish-test-cases.yml` publishes). It runs no tests, needs no secrets and no package token (`npm ci --ignore-scripts` skips the private package after a 401, as in forks), so pull requests from forks and Dependabot get the same check. A new push cancels the PR's running `verify`. Tests run locally before a push and in the nightly regressions on `main`.
 
 ## Publishing to GitHub Pages
 
