@@ -70,6 +70,8 @@ The core reaches the app only through two **seams**, the project's own files:
 
 A core code file imports only core files, the seams and packages, and `npm run validate:scenarios` fails otherwise ([9](09-scenarios-and-bugs.md)). Where the app's code does a core job its own way, it builds on the core: `AppPage` extends `BasePage`, and `apiChecks.ts` and `apiSteps.ts` add the Toolshop's own checks and re-export the core's (`httpChecks.ts`, `sendSteps.ts`).
 
+The core is the same as in [SimpRightTemplate](https://github.com/Zaytsman/SimpRightTemplate), the template a new project starts from. `template` in `simpright.yml` records the template version the core files match, and `npm run check:template` fails when one differs from that version's copy; `verify` runs it ([11](11-ci-and-publishing.md)). So a core change is made in the template too: a new template version, then `template` here.
+
 ## What happens during a run
 
 1. **Config load.** `playwright.config.ts` imports `src/config/env.ts`, which loads `.env`, reads `src/envs/<TEST_ENV>.json`, fills in the `${VAR}` placeholders, validates everything and freezes the result. A missing secret or a bad URL fails here, before any test.

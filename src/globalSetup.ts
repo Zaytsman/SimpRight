@@ -5,12 +5,11 @@ import { isStorageStateValid } from './ui/auth/authState';
 
 /**
  * Runs once before all tests:
- * 1. The project's `beforeRun` (src/config/project.ts; here, on CI, the wait for the site's hourly re-seed, then the
- *    run's customer, the `default` role).
+ * 1. The project's `beforeRun` (src/config/project.ts), for example creating users for the run (`setRunUser`).
  * 2. With UI_AUTH_MODE=storageState only: logs in every role through the app's login page (`project.uiLogin`) and
  *    saves `.auth/<role>.json`, which the `storageState` fixture then loads. In the default `api` mode, UI tests get a
  *    fresh API token per test instead.
- * The returned function is the global teardown: the project's `afterRun` (here, it deletes the run's customer).
+ * The returned function is the global teardown: the project's `afterRun` (for example, deleting those users).
  */
 export default async function globalSetup(): Promise<() => Promise<void>> {
   // A logged-out page inspection (npm run inspect:ui -- <path> --logged-out) needs no user at all.
@@ -33,7 +32,7 @@ export default async function globalSetup(): Promise<() => Promise<void>> {
 
 /**
  * Locally, a configured user's saved state is reused while its token is still valid; on CI it is always regenerated.
- * The state of a user created for the run (the `default` role's customer) is always new.
+ * The state of a user created for the run (`setRunUser`) is always new.
  */
 async function saveUiLogins(): Promise<void> {
   if (env.uiAuthMode !== 'storageState') return;

@@ -28,7 +28,7 @@ export type UiAuthMode = 'api' | 'storageState';
 
 export interface EnvConfig {
   name: string;
-  /** From CI (set by GitHub Actions): retries, workers, reporters, headless browser, the re-seed wait. */
+  /** From CI (set by GitHub Actions): retries, workers, reporters, headless browser; the project's run hooks may read it too. */
   isCI: boolean;
   /** From UI_AUTH_MODE (default `api`). */
   uiAuthMode: UiAuthMode;
@@ -144,8 +144,8 @@ function runUsers(): Partial<Record<UserRole, TestUser>> {
 }
 
 /**
- * Makes `user`, created for this run, the user of `role` in every worker (here the run's customer, the `default` role:
- * nobody else knows its credentials, so failed logins by other people on the shared demo site can't lock it).
+ * Makes `user`, created for this run, the user of `role` in every worker: for example a user `project.beforeRun`
+ * registers, whose credentials nobody else knows, so other people's failed logins on a shared demo app can't lock it.
  * Call it from globalSetup's process, before the workers start.
  */
 export function setRunUser(role: UserRole, user: TestUser): void {
@@ -211,7 +211,7 @@ export function findInspectRequest(): InspectRequest | undefined {
   return { path: request.path, role, steps };
 }
 
-/** Storage state file for a role, written by globalSetup, e.g. `.auth/admin.json`. */
+/** Storage state file for a role, written by globalSetup, e.g. `.auth/default.json`. */
 export function storageStatePath(role: UserRole): string {
   return path.join(AUTH_DIR, `${role}.json`);
 }
