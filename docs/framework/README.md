@@ -7,11 +7,11 @@ These pages explain the **design** of the framework. Other documents cover the r
 | You want to... | Read |
 |---|---|
 | Install, run tests, schedule CI runs, use the agents | The [GitHub wiki](https://github.com/Zaytsman/SimpRight/wiki) (source in [`docs/wiki/`](../wiki/)) |
-| Know the exact rules a new test must follow | [`CLAUDE.md`](../../CLAUDE.md): the conventions, which the agents and the validator use |
+| Know the exact rules a new test must follow | [`conventions.md`](conventions.md): the framework's conventions, for any project built on it; [`CLAUDE.md`](../../CLAUDE.md) imports them and adds SimpRight's own. The agents follow both, and the validator checks part of them |
 | See how the AI agents chain together | [`docs/AI_WORKFLOW.md`](../AI_WORKFLOW.md) |
 | Read an API area's contract | [`docs/api/contracts/`](../api/contracts/) |
 
-When a page here and `CLAUDE.md` disagree, `CLAUDE.md` is the rule and this page is out of date.
+When a page here and the conventions (`conventions.md`, `CLAUDE.md`) disagree, the conventions are the rule and the page is out of date.
 
 ## The documents
 

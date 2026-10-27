@@ -44,7 +44,7 @@ The engineers are given the scaffolding and spec-writing skills (`api-scaffoldin
 The agents keep **no project facts of their own**. They read:
 
 1. **[`simpright.yml`](https://github.com/Zaytsman/SimpRight/blob/main/simpright.yml)**: paths, commands, ID rules, roles, the exemplars, the known-issue snippet, agent-critical rules, live-app guardrails ([9](Scenarios-Bugs-and-Validation#the-project-profile)).
-2. **[`CLAUDE.md`](https://github.com/Zaytsman/SimpRight/blob/main/CLAUDE.md)**: the conventions (the profile's `project.conventions`).
+2. **The conventions** (the profile's `project.conventions`): [`conventions.md`](https://github.com/Zaytsman/SimpRight/blob/main/docs/framework/conventions.md), the framework's rules, and [`CLAUDE.md`](https://github.com/Zaytsman/SimpRight/blob/main/CLAUDE.md), SimpRight's own. Every agent starts with both: Claude Code loads `CLAUDE.md` into custom agents, and `CLAUDE.md` imports the conventions.
 3. **The exemplars**, the files whose style new code copies:
 
 | Layer | Exemplar keys → files |

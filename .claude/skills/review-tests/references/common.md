@@ -1,6 +1,6 @@
 # Review checklist: both layers
 
-The conventions themselves are in the files under the profile's `project.conventions` (CLAUDE.md: "Scenarios and specs conventions", "Spec style, both layers") and in the profile's `rules`. This list says what to look for; when a finding breaks one of those rules, cite the rule there, not this file. Items only written here are cited as "review checklist".
+The conventions themselves are in the files under the profile's `project.conventions` (the framework's `conventions.md`: "Scenarios and specs", "Spec style, both layers"; the project's own in the others) and in the profile's `rules`. This list says what to look for; when a finding breaks one of those rules, cite the rule there, not this file. Items only written here are cited as "review checklist".
 
 ## 1. The test matches its scenario
 
@@ -19,7 +19,7 @@ The conventions themselves are in the files under the profile's `project.convent
 
 ## 2. Assertions
 
-- Every assertion has a message (CLAUDE.md). The message says what is checked, and it's true: a message that says "sorted by price" over a check of the count misleads the report.
+- Every assertion has a message (conventions). The message says what is checked, and it's true: a message that says "sorted by price" over a check of the count misleads the report.
 - **No vacuous check:** "every item matches", "sorted", "all prices in range" over a list must first check the list isn't empty, or it passes on an empty page.
 - **Retrying checks for the page:** an assertion on the page uses a web-first matcher on a locator (`toHaveText`, `toBeVisible`, `toHaveCount`), so it waits. A value read once and asserted (`expect(await x.textContent())`, `expect(await x.isVisible())`, `boundingBox()`, `count()`) doesn't retry: fine only after the action that changed it has waited for the app's signal; otherwise a race.
 - "Shown" means visible: `toHaveText`, `toHaveAttribute` and `toHaveCount` pass on hidden elements, so a step about what the user sees needs `toBeVisible` too, or a source that is never hidden (an ARIA attribute such as `aria-valuemin` rather than a library's label that it hides on overlap).
@@ -38,7 +38,7 @@ The conventions themselves are in the files under the profile's `project.convent
 
 ## 4. Test data
 
-- A seeded value (a product name, a category, a price) that **more than one test** uses goes in the constants module (`TestConstants`); a value one test uses stays a variable in that test (CLAUDE.md "Layout"). Count the uses across all specs, not only the change.
+- A seeded value (a product name, a category, a price) that **more than one test** uses goes in the constants module (`TestConstants`); a value one test uses stays a variable in that test (conventions "Layout"). Count the uses across all specs, not only the change.
 - No secret values in steps, code, messages or test titles. Users come from fixtures and roles.
 - No magic values without a source: an expected price or count that isn't in the scenario or the constants needs a comment saying where it comes from.
 

@@ -55,6 +55,7 @@ SimpRight/
 │   ├── api/CONTRACT_FORMAT.md    the contract format
 │   ├── ui/user-stories/          user stories and bug reports with acceptance criteria, the input for the analyst and UI scenarios
 │   ├── analysis/                 analysis documents: a summary and test plan per work item (/analyze-requirements)
+│   ├── framework/                how the framework works, one document per area, and conventions.md (the framework's rules)
 │   ├── wiki/                     these wiki pages (published by the Publish Wiki workflow)
 │   └── AI_WORKFLOW.md            the AI-driven automation cycle
 ├── scripts/                      tools run by npm scripts and CI (see below)
@@ -69,7 +70,7 @@ SimpRight/
 ├── index.html                    the Automation Portal (dashboard on GitHub Pages)
 ├── playwright.config.ts          projects, reporters, timeouts, login mode
 ├── simpright.yml                 the project config for the agents and scripts (paths, commands, IDs, roles, the core files, test runs)
-├── CLAUDE.md                     the conventions in detail
+├── CLAUDE.md                     SimpRight's own rules; imports docs/framework/conventions.md, the framework's
 ├── .env.example                  the secrets the framework needs (copy to .env)
 ├── .npmrc / .npmrc.example       registry of the optional coverage package / the user-level token line
 └── tsconfig.json                 TypeScript settings and path aliases

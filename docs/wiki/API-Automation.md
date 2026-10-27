@@ -151,6 +151,6 @@ The agents follow the same conventions a person does, so you can write any part 
 3. Set `status: automated` and `automatedIn: <spec path>` on the scenario.
 4. Run `npm run typecheck`, `npm run validate:scenarios`, the spec, and the spec with `--repeat-each=3`.
 
-The exemplar spec to copy is `tests/api/products/get-products-search.spec.ts`; the full rules are in [CLAUDE.md](https://github.com/Zaytsman/SimpRight/blob/main/CLAUDE.md#scenarios-and-specs-conventions).
+The exemplar spec to copy is `tests/api/products/get-products-search.spec.ts`; the full rules are in [conventions.md](https://github.com/Zaytsman/SimpRight/blob/main/docs/framework/conventions.md#scenarios-and-specs).
 
 See also: [UI Automation](UI-Automation).

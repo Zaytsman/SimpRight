@@ -1,6 +1,6 @@
 # Review checklist: UI
 
-On top of `common.md`. The rules are in CLAUDE.md ("UI layer", "UI spec style", "Fixtures") and the profile's `ui.rules`; cite them there.
+On top of `common.md`. The rules are in the conventions files (the framework's "UI layer", "UI spec style" and "Fixtures", plus the project's own) and the profile's `ui.rules`; cite them there.
 
 ## Specs
 

@@ -73,7 +73,7 @@ Each slash command, the agent it starts and what you get:
 
 ## Framework
 
-How the framework is designed, one page per area (the rules a new test must follow are in [CLAUDE.md](https://github.com/Zaytsman/SimpRight/blob/main/CLAUDE.md)):
+How the framework is designed, one page per area (the rules a new test must follow are in [conventions.md](https://github.com/Zaytsman/SimpRight/blob/main/docs/framework/conventions.md), SimpRight's own in [CLAUDE.md](https://github.com/Zaytsman/SimpRight/blob/main/CLAUDE.md)):
 
 1. [Architecture](Architecture): the layers, the folders, what happens during a run, the design principles.
 2. [Configuration](Configuration): environments, secrets, `env.ts`, `playwright.config.ts`, projects, the run's customer, login modes.
@@ -98,7 +98,7 @@ How the framework is designed, one page per area (the rules a new test must foll
 | API Test Cases | [zaytsman.github.io/SimpRight/test-cases/api](https://zaytsman.github.io/SimpRight/test-cases/api/) |
 | Bugs | [zaytsman.github.io/SimpRight/bugs](https://zaytsman.github.io/SimpRight/bugs/) |
 | The AI workflow | [docs/AI_WORKFLOW.md](https://github.com/Zaytsman/SimpRight/blob/main/docs/AI_WORKFLOW.md) |
-| Conventions in detail | [CLAUDE.md](https://github.com/Zaytsman/SimpRight/blob/main/CLAUDE.md) |
+| Conventions in detail | [conventions.md](https://github.com/Zaytsman/SimpRight/blob/main/docs/framework/conventions.md) (the framework's), [CLAUDE.md](https://github.com/Zaytsman/SimpRight/blob/main/CLAUDE.md) (SimpRight's own) |
 
 ## Tech stack
 

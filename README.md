@@ -94,7 +94,7 @@ Everything is in the **[wiki](https://github.com/Zaytsman/SimpRight/wiki)**:
 | [Continuous Integration](https://github.com/Zaytsman/SimpRight/wiki/CI-Pipeline) | The workflows, schedules, publishing and the dashboard |
 | [Framework](https://github.com/Zaytsman/SimpRight/wiki/Architecture) | How the framework is designed, area by area |
 
-The exact conventions a new test must follow are in [CLAUDE.md](CLAUDE.md).
+The exact conventions a new test must follow are in [docs/framework/conventions.md](docs/framework/conventions.md), the framework's, and [CLAUDE.md](CLAUDE.md), SimpRight's own.
 
 ## Contributing
 

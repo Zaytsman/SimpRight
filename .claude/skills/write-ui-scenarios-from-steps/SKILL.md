@@ -16,7 +16,7 @@ Before the first question, read `../_shared/how-to-ask.md` (next to this skill's
 
 ## 1. Settle the brief
 
-- **Profile:** `simpright.yml` in the repository root. If there's none, stop: tell the user the agent needs a profile (paths, ID codes, roles), and that `CLAUDE.md` and the profile's schema describe it.
+- **Profile:** `simpright.yml` in the repository root. If there's none, stop: tell the user the agent needs a profile (paths, ID codes, roles), and that the conventions (`docs/framework/conventions.md`) and the profile's schema describe it.
 - **Steps:** text only (no screenshots). The first argument when it's an existing file (a `.md` or `.txt` with one or more test cases), otherwise the steps the user pasted into the conversation. If there's neither, ask the user to paste them in their next message (plain text, no options), and wait.
   - A user story, bug report or feature description (acceptance criteria, "As a ..., I want ...") is not a list of steps: say that `/analyze-requirements` is the skill for it, and ask: "Use /analyze-requirements (Recommended)" (it plans API and UI checks), "Treat it as steps anyway".
 - **Ref:** the remaining argument, when it looks like an ID or a path (`TC-12`, `US-123`, `docs/...md`). Otherwise, if the text names one (a test case ID or ticket in its title), use that. If there's none, don't ask: the scenarios get no `ref`.

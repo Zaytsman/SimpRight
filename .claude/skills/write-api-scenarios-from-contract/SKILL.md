@@ -16,7 +16,7 @@ Before the first question, read `../_shared/how-to-ask.md` (next to this skill's
 
 ## 1. Settle the brief
 
-- **Profile:** `simpright.yml` in the repository root. If there's none, stop: tell the user the agent needs a profile (paths, ID codes, roles), and that `CLAUDE.md` and the profile's schema describe it.
+- **Profile:** `simpright.yml` in the repository root. If there's none, stop: tell the user the agent needs a profile (paths, ID codes, roles), and that the conventions (`docs/framework/conventions.md`) and the profile's schema describe it.
 - **Contract:** the first argument, resolved in this order: an existing path as given; `<paths.contracts>/<name>` from the profile; a case-insensitive match of the name (with or without `.md`) in that folder. If nothing matches, or no argument was given, ask which contract.
 - **Endpoints:** the remaining arguments (`GET /products/{productId}`, or just paths, which mean every method on them). Default: every endpoint in the contract. For a contract with more than about 8 endpoints, say how many there are and ask: "All of them", "A subset" (the endpoints in "Other").
 - **Notes:** anything the user said that matters (endpoints to skip, priorities, things they know about the API).
