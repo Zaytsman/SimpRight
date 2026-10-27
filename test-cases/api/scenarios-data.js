@@ -3,8 +3,8 @@ window.SCENARIO_CATALOG = {
  "layer": "api",
  "title": "API Test Cases",
  "prefix": "API",
- "generatedAt": "2026-10-27T17:53:06.618Z",
- "commit": "1a1f9db5367962bc13caaba06335bd3517ad6c55",
+ "generatedAt": "2026-10-27T18:47:07.037Z",
+ "commit": "e3ea9f60be0a02b512b13997b144b34a51ed51d4",
  "repoUrl": "https://github.com/Zaytsman/SimpRight",
  "branch": "main",
  "portal": {
