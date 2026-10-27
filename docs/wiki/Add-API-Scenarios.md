@@ -49,7 +49,7 @@ scenarios:
 | `knownIssue`, `bug` | Optional: the API has a known bug here (`bug` is its ID in `bugs/`); the test is expected to fail until it's fixed |
 | `steps` | Requests, and checks that start with `Verify`, in the order they happen. The status code is its own first `Verify` step |
 
-Steps never hold secrets ("the default user's email", not the address). The full rules are in [CLAUDE.md](https://github.com/Zaytsman/SimpRight/blob/main/CLAUDE.md#scenarios-and-specs-conventions).
+Steps never hold secrets ("the default user's email", not the address). The full rules are in [conventions.md](https://github.com/Zaytsman/SimpRight/blob/main/docs/framework/conventions.md#scenarios-and-specs).
 
 ## Before you start
 

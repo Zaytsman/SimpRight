@@ -52,7 +52,7 @@ scenarios:
 | `preconditions` | Optional: the state the test starts from, as statements (`A product is in the cart.`): what's needed, not how to create it |
 | `steps` | User actions, and checks that start with `Verify`, in the order they happen |
 
-Steps speak the user's language: labels quoted exactly as the app shows them (`Click "Add to cart".`), never `data-test` ids, selectors or URLs with record ids, and never secrets ("the default user's email"). The full rules are in [CLAUDE.md](https://github.com/Zaytsman/SimpRight/blob/main/CLAUDE.md#scenarios-and-specs-conventions).
+Steps speak the user's language: labels quoted exactly as the app shows them (`Click "Add to cart".`), never `data-test` ids, selectors or URLs with record ids, and never secrets ("the default user's email"). The full rules are in [conventions.md](https://github.com/Zaytsman/SimpRight/blob/main/docs/framework/conventions.md#scenarios-and-specs).
 
 ## Before you start
 

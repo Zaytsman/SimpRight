@@ -16,7 +16,7 @@ Before the first question, read `../_shared/how-to-ask.md` (next to this skill's
 
 ## 1. Settle the brief
 
-- **Profile:** `simpright.yml` in the repository root. If there's none, stop: tell the user the agent needs a profile (paths, ID codes, roles), and that `CLAUDE.md` and the profile's schema describe it.
+- **Profile:** `simpright.yml` in the repository root. If there's none, stop: tell the user the agent needs a profile (paths, ID codes, roles), and that the conventions (`docs/framework/conventions.md`) and the profile's schema describe it.
 - **Inputs:** every argument that is an existing path, plus any steps the user pasted into the conversation. If there's nothing, ask the user to paste the steps or give the paths in their next message (plain text, no options), and wait. Supported:
   - text (`.md`, `.txt`, pasted): one or more test cases with requests and expected results;
   - `.json` files: a request body and an expected response. Pair them by file name (`login-request.json` with `login-response.json`) or by what the user wrote; when a pairing or the method and path of a request isn't clear, ask;

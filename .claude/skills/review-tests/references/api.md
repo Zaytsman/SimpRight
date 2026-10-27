@@ -1,6 +1,6 @@
 # Review checklist: API
 
-On top of `common.md`. The rules are in CLAUDE.md ("API spec style", "API layer", "API contracts") and the profile's `api.rules`; cite them there.
+On top of `common.md`. The rules are in the conventions files (the framework's "API spec style", "API layer" and "API contracts", plus the project's own) and the profile's `api.rules`; cite them there.
 
 ## Specs
 
@@ -31,4 +31,4 @@ On top of `common.md`. The rules are in CLAUDE.md ("API spec style", "API layer"
 ## Contracts
 
 - A contract fact the change tagged `_(verified)_` is one a test in the change actually checked against the live API (the status code and, where the line says so, the body). A fact the tests don't check stays `_(source)_` or `_(spec)_`.
-- An endpoint a new spec calls is in its contract (CLAUDE.md "Contracts").
+- An endpoint a new spec calls is in its contract (conventions "Contracts").

@@ -20,7 +20,7 @@
         "runner": { "type": "string", "enum": ["playwright"] },
         "conventions": {
           "type": "array",
-          "description": "Files with the project's prose conventions; agents read them before writing code.",
+          "description": "Files with the prose conventions, the project's own and the framework's; agents read them before writing code.",
           "items": { "$ref": "#/definitions/path" },
           "minItems": 1
         }
@@ -285,13 +285,13 @@
     },
     "core": {
       "type": "object",
-      "description": "The framework's core: the files a project gets from the template and keeps generic. A core file imports only other core files, the seams and packages; the scenario validator checks it.",
+      "description": "The framework's core: the files a project gets from the template and keeps generic. A core code file imports only other core files, the seams and packages; the scenario validator checks it.",
       "required": ["files"],
       "additionalProperties": false,
       "properties": {
         "files": {
           "type": "array",
-          "description": "The core files, as repository paths.",
+          "description": "The core files, as repository paths: code, and documents such as the framework's conventions.",
           "minItems": 1,
           "uniqueItems": true,
           "items": { "type": "string", "minLength": 1 }

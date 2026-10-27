@@ -16,7 +16,7 @@ Before the first question, read `../_shared/how-to-ask.md` (next to this skill's
 
 ## 1. Settle the brief
 
-- **Profile:** `simpright.yml` in the repository root. If there's none, stop: tell the user the agents need a profile (paths, ID codes, roles), and that `CLAUDE.md` and the profile's schema describe it.
+- **Profile:** `simpright.yml` in the repository root. If there's none, stop: tell the user the agents need a profile (paths, ID codes, roles), and that the conventions (`docs/framework/conventions.md`) and the profile's schema describe it.
 - **Document:** the first argument, resolved in this order: an existing path as given; `<paths.userStories>/<name>` from the profile; a case-insensitive match of the name (with or without `.md`) in that folder. If the user pasted the work item into the conversation instead, use the text. If there's neither, ask which story file.
   - Pasted text: ask once: "Save it in the stories folder first (Recommended)" (so the analysis and the scenarios can link to it), "Use the text as is".
   - Only local files and pasted text are supported; a link to a tracker (Azure DevOps, Jira) is not fetched. Ask the user to paste the work item's text.

@@ -15,8 +15,9 @@
 //   action's required inputs and no inputs it doesn't declare;
 // - every actions/setup-node step, in a workflow or in a local action, sets up ci.node (a local action's step that
 //   reads the version from an input: as each workflow step that uses the action passes it), and at least one does;
-// - every core file and seam (core) exists, and a core file imports only core files, the seams and packages
-//   (relative imports and the tsconfig.json path aliases are followed; comments are skipped);
+// - every core file and seam (core) exists, and a core code file imports only core files, the seams and packages
+//   (relative imports and the tsconfig.json path aliases are followed; comments are skipped; a document such as
+//   the conventions isn't scanned);
 // - every bug file is <bugs>/<ID>.yml, parses, matches the bug schema, has its keys in the schema's order,
 //   an ID with the prefix and digits of ids.bugs, a layer and area from the profile, and a resolved date
 //   exactly when its status isn't open;
@@ -471,6 +472,8 @@ if (profile.ci) checkNodeVersion(profile.ci.node, workflows, actions);
 const IMPORT = /(?:\bfrom|\bimport(?:\s*\()?|\brequire\s*\()\s*(['"])([^'"\r\n]+)\1/g;
 /** What an import's path may leave out, tried in this order. */
 const SOURCE_SUFFIXES = ['', '.ts', '.mts', '.tsx', '.js', '.mjs', '/index.ts'];
+/** The core files whose imports are checked: code, not documents such as the conventions (their examples show imports). */
+const CODE_FILE = /\.(?:[cm]?[jt]s|[jt]sx)$/;
 
 /** `source` without its comments, so a module named in a comment isn't taken for an import (a `//` after `:` is a URL). */
 function withoutComments(source: string): string {
@@ -509,7 +512,7 @@ if (core) {
   }
   const aliases = readAliases();
   for (const file of coreFiles) {
-    if (!exists(file)) continue;
+    if (!exists(file) || !CODE_FILE.test(file)) continue;
     for (const [, , specifier] of withoutComments(read(file)).matchAll(IMPORT)) {
       if (!specifier) continue;
       const target = resolveImport(file, specifier, aliases);
@@ -731,5 +734,5 @@ if (ids.bugs) {
   nextIds.push(`${ids.bugs.prefix}-${String(highestBugNumber + 1).padStart(ids.bugs.digits, '0')}`);
 }
 if (runs) console.log(`Runs OK: ${runs.length} run(s), each with its workflow.`);
-if (core) console.log(`Core OK: ${core.files.length} file(s), importing only each other, ${core.seams?.length ?? 0} seam(s) and packages.`);
+if (core) console.log(`Core OK: ${core.files.length} file(s), the code importing only each other, ${core.seams?.length ?? 0} seam(s) and packages.`);
 console.log(`Next free IDs: ${nextIds.join(', ')}`);

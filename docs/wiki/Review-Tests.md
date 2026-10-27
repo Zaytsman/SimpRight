@@ -80,7 +80,7 @@ Static checks: typecheck passed, validator passed
 | `references/ui.md` | UI: specs (no selectors, fixtures, messages, setup outside the steps), page objects, components and dialogs (private locators and getters, locator priority, waits for the app's signal or request, `parseAmount`), data |
 | `references/api.md` | API: specs (client vs service, `assertMessage`, `sendAndAttach` and `parseJson`, status codes, shared checks and templates instead of copies, cleanup), clients, services and DTOs, contracts |
 
-They point to the rules in CLAUDE.md and the profile; a finding cites the rule where it's written.
+They point to the rules in the conventions (`conventions.md`, `CLAUDE.md`) and the profile; a finding cites the rule where it's written.
 
 ## What the agent never does
 

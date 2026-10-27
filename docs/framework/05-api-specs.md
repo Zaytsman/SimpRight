@@ -37,7 +37,7 @@ What the validator checks ([9](09-scenarios-and-bugs.md)): the `// Scenarios:` c
 
 ## The rules, in short
 
-The full list is in [`CLAUDE.md`](../../CLAUDE.md) ("Spec style", "API spec style"):
+The full list is in [`conventions.md`](conventions.md) ("Spec style, both layers", "API spec style"):
 
 - One `test.step` per scenario step, titled verbatim. Action steps act; `Verify` steps only check (they may read, never write).
 - State shared between steps goes in `let` variables at the top of the test.

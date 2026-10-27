@@ -150,6 +150,6 @@ If the page behaves differently from what the scenario says, the agent **leaves 
 4. Set `status: automated` and `automatedIn: <spec path>` on the scenario.
 5. Run `npm run typecheck`, `npm run validate:scenarios`, the spec, and the spec with `--repeat-each=3`.
 
-The exemplars to copy are `tests/ui/products/product-search.spec.ts` (spec), `src/ui/pages/HomePage.ts` (page) and `src/ui/flows/ShoppingFlow.ts` (flow); the full rules are in [CLAUDE.md](https://github.com/Zaytsman/SimpRight/blob/main/CLAUDE.md#ui-layer).
+The exemplars to copy are `tests/ui/products/product-search.spec.ts` (spec), `src/ui/pages/HomePage.ts` (page) and `src/ui/flows/ShoppingFlow.ts` (flow); the full rules are in [conventions.md](https://github.com/Zaytsman/SimpRight/blob/main/docs/framework/conventions.md#ui-layer), the Toolshop's own in [CLAUDE.md](https://github.com/Zaytsman/SimpRight/blob/main/CLAUDE.md#the-app-under-test-the-toolshop).
 
 See also: [API Automation](API-Automation).

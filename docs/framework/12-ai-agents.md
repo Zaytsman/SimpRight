@@ -42,7 +42,7 @@ The engineers are given the scaffolding and spec-writing skills (`api-scaffoldin
 The agents keep **no project facts of their own**. They read:
 
 1. **[`simpright.yml`](../../simpright.yml)**: paths, commands, ID rules, roles, the exemplars, the known-issue snippet, agent-critical rules, live-app guardrails ([9](09-scenarios-and-bugs.md#the-project-profile)).
-2. **[`CLAUDE.md`](../../CLAUDE.md)**: the conventions (the profile's `project.conventions`).
+2. **The conventions** (the profile's `project.conventions`): [`conventions.md`](conventions.md), the framework's rules, and [`CLAUDE.md`](../../CLAUDE.md), SimpRight's own. Every agent starts with both: Claude Code loads `CLAUDE.md` into custom agents, and `CLAUDE.md` imports the conventions.
 3. **The exemplars**, the files whose style new code copies:
 
 | Layer | Exemplar keys → files |
@@ -65,7 +65,7 @@ Because the agents copy the exemplars, the exemplars must show the best current 
 
 - The profile names the shared API helpers as exemplars (`checks`, `steps`) and adds a rule to reuse them. The API engineer reads every exemplar before writing code, but it had never been pointed at these files, which is how 161 spec-local helpers had piled up before the review.
 - The review checklists name the new rules: `parseJson`, `expectStatus`, `sendAndAttach` with `AUTH`, templates through literal `test()` calls, `expectSomeItems`, redirects from config, role tokens for long tests (API); `parseAmount`, `waitForApiResponse`, setup never a step and `Setup:` errors, the checkout through `CartPage.open()`, the base page's toast (UI).
-- The four code-writing skills say the same, and `CLAUDE.md` describes the shared checks and templates.
+- The four code-writing skills say the same, and the conventions describe the shared checks and templates.
 - The API exemplar spec's API-0001 now uses its own spec's send helper, like the other tests in the file.
 
 Details: [13. Code review, October 2026](13-code-review-2026-10.md).
