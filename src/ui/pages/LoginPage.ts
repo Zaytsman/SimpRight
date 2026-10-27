@@ -1,8 +1,8 @@
 import type { Locator, Page } from '@playwright/test';
 import type { EnvConfig } from '../../config/env';
-import { BasePage } from './BasePage';
+import { AppPage } from './AppPage';
 
-export class LoginPage extends BasePage {
+export class LoginPage extends AppPage {
   private readonly emailInput: Locator;
   private readonly passwordInput: Locator;
   private readonly submitButton: Locator;

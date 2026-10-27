@@ -56,7 +56,7 @@ const request = { method: 'POST', path: '/brands', auth: AUTH.admin, body };
 const { response } = await sendAndAttach('Create Brand', request, () => brandsClientWithToken.create(body));
 ```
 
-`sendAndAttach(name, request, call, describe?)` ([`apiSteps.ts`](https://github.com/Zaytsman/SimpRight/blob/main/src/api/fixtures/apiSteps.ts)) attaches the **request record** as "<name> Request", makes the call, attaches the response as "<name> Response", and returns both. The request record is a plain object describing what was sent; it's also the `request` in every assertion message, so a failure shows exactly what was sent.
+`sendAndAttach(name, request, call, describe?)` ([`sendSteps.ts`](https://github.com/Zaytsman/SimpRight/blob/main/src/api/fixtures/sendSteps.ts), the core's; `apiSteps.ts` re-exports it) attaches the **request record** as "<name> Request", makes the call, attaches the response as "<name> Response", and returns both. The request record is a plain object describing what was sent; it's also the `request` in every assertion message, so a failure shows exactly what was sent.
 
 | Helper | For |
 |---|---|
@@ -67,7 +67,7 @@ const { response } = await sendAndAttach('Create Brand', request, () => brandsCl
 
 ## Checking: `src/utils/apiChecks.ts`
 
-Each function holds the checks of one kind of scenario step, with the request in the failure message:
+Each function holds the checks of one kind of scenario step, with the request in the failure message. The HTTP-level ones (`parseJson`, `expectStatus`, `expectStatusAndBody`, `expectSomeItems`, `expectMessage`, `expectLocation`, the Content-Type checks, `expectEmptyArray`) are the framework's core, in `src/utils/httpChecks.ts`; `apiChecks.ts` re-exports them next to the checks of the Toolshop's own formats, so specs import every check from `@utils/apiChecks`. A new check of the app's formats goes in `apiChecks.ts`.
 
 | Function | Step it checks |
 |---|---|
@@ -117,7 +117,7 @@ Setup steps and checks that several specs of an area share. A helper that is a s
 
 | Module | Holds, for example |
 |---|---|
-| `apiSteps.ts` | `AUTH`, `sendAndAttach`, page summaries, the shared templates, `removeIfCreated` |
+| `apiSteps.ts` | `AUTH`, the QUERY sends, page summaries, the validation templates; it re-exports the core's `sendSteps.ts` (`sendAndAttach`, `checkStatusAndMessage`, `removeIfCreated`) |
 | `productSteps.ts` | `createProduct` (with cleanup), `takeProductRefs`, `takeFirstProductId`, `checkInvalidProductChange`, `sendCreateProduct` |
 | `userSteps.ts` | `registerThrowawayCustomer`, `loginThrowawayCustomer`, `readCurrentUser`, user page summaries |
 | `cartSteps.ts` | `createCart`, `createProductAndCart`, `getCartOk`, `expectSingleItem` |

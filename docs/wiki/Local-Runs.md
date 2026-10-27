@@ -21,7 +21,7 @@ The framework must be installed and configured first: see [Installation & Setup]
 | `npx playwright test --project=ui --grep @products` | One UI suite by its tag (`@products` also matches `@products-api`, hence `--project`) |
 | `npx playwright test --last-failed` | Only the tests that failed in the previous run |
 
-Every run, even of a single test, first registers a fresh customer for the `default` role and deletes it at the end (`src/globalSetup.ts`), so a run takes a few seconds longer than its tests.
+Every run, even of a single test, first registers a fresh customer for the `default` role and deletes it at the end (the project's `beforeRun` and `afterRun` in `src/config/project.ts`, run by `src/globalSetup.ts`), so a run takes a few seconds longer than its tests.
 
 ### Useful options
 

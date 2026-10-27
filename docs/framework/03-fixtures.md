@@ -8,10 +8,10 @@ Fixtures are how a spec gets everything it uses: pages, flows, API clients and s
 @playwright/test  test
         │ .extend
         ▼
-src/fixtures/base.ts            role (option), config*, tokenService*, apiCoverage* (auto), user, cleanup
+src/fixtures/base.ts            role, authMode (options), config*, tokenService*, apiCoverage* (auto), storageState, user, cleanup
         │                                                  * worker-scoped
         ├── .extend ─► src/api/fixtures/fixtures.ts   63 API fixtures: clients and services per area and token
-        └── .extend ─► src/ui/fixtures/fixtures.ts    authMode (option), storageState, pages, flows
+        └── .extend ─► src/ui/fixtures/fixtures.ts    pages, flows
                          │
 src/fixtures/fixtures.ts │  mergeTests(apiTest, uiTest)  ──►  the one `test`
         │
@@ -26,10 +26,12 @@ Fixtures are **lazy**: a test that never names `accessToken` never logs in throu
 
 | Fixture | Scope | Responsibility |
 |---|---|---|
-| `role` | option | The test user: `'default'` (the run's customer) or `'admin'`. Set with `test.use({ role: 'admin' })`. |
+| `role` | option | The test user, one of the roles in `src/config/roles.ts`: `'default'` (the run's customer) or `'admin'`. Set with `test.use({ role: 'admin' })`. |
+| `authMode` | option | `api`, `storageState` or `none`: how the test starts logged in ([2](02-configuration.md#how-ui-tests-start-logged-in)) |
 | `config` | worker | The frozen `env` ([2](02-configuration.md)) |
-| `tokenService` | worker | Logs each role in once per worker and refreshes the token 2 minutes before it expires. Worker-scoped, with its own request context, because the built-in `request` is test-scoped. |
+| `tokenService` | worker | Logs each role in once per worker through the project's `login` and refreshes the token 2 minutes before it expires. Worker-scoped, with its own request context, because the built-in `request` is test-scoped. |
 | `apiCoverage` | worker, auto | Records every API call through `BaseClient.onApiCall` when the optional coverage package is installed; does nothing otherwise |
+| `storageState` | test | Overrides Playwright's: the browser starts logged in as the test's role (`project.browserState` with its token, or the saved state), or logged out with `none` |
 | `user` | test | The test user's credentials, `getUser(role)` |
 | `cleanup` | test | Undo steps for records the test creates (below) |
 
@@ -64,8 +66,6 @@ Plus `accessToken` (the role's token as a string), `authClient` and `authService
 
 | Fixture | Responsibility |
 |---|---|
-| `authMode` (option) | `api`, `storageState` or `none` ([2](02-configuration.md#how-ui-tests-start-logged-in)) |
-| `storageState` | Overrides Playwright's: the browser starts logged in as the test's role, or logged out with `none` |
 | `homePage`, `productPage`, `cartPage`, `rentalsPage` | Page objects, built with `page` and `config` |
 | `shoppingFlow` | The flow `ShoppingFlow` |
 

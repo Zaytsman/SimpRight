@@ -5,8 +5,8 @@ import type { RegisterUserRequest } from '../../api/dto/user';
 import type { AuthService } from '../../api/services/AuthService';
 import type { FavoritesService } from '../../api/services/FavoritesService';
 import type { UsersService } from '../../api/services/UsersService';
+import { project } from '../../config/project';
 import { UserFactory } from '../../data/factories/UserFactory';
-import { tokenStorageState } from '../auth/authState';
 
 /**
  * Setup code (not a step): registers a customer for this test only through the API (a unique email, a random strong
@@ -57,6 +57,6 @@ export const newCustomerFixtures: Fixtures<
 
   // The browser starts logged in as the new customer.
   storageState: async ({ newCustomer, config }, use) => {
-    await use(tokenStorageState(config.baseUrl, newCustomer.token));
+    await use(project.browserState(config.baseUrl, newCustomer.token));
   },
 };

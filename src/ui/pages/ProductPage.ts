@@ -1,10 +1,10 @@
 import { expect, type Locator, type Page } from '@playwright/test';
 import type { EnvConfig } from '../../config/env';
 import { parseAmount } from '../../utils/amounts';
-import { BasePage } from './BasePage';
+import { AppPage } from './AppPage';
 import { waitForApiResponse } from './waitForApiResponse';
 
-export class ProductPage extends BasePage {
+export class ProductPage extends AppPage {
   private readonly productImage: Locator;
   private readonly productNameHeading: Locator;
   private readonly productDescriptionText: Locator;

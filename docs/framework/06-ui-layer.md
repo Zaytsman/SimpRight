@@ -5,27 +5,28 @@ The UI layer is the page object model of the Toolshop's Angular app: **pages** (
 ```
 src/ui/
   pages/
-    BasePage.ts            goto() with the Cloudflare check, navBar, toast, getCartId()
+    BasePage.ts            the core: page, config, goto()
+    AppPage.ts             the app's base page: navBar, toast, getCartId(), goto() with the Cloudflare check
     HomePage.ts            search, sort; holds productGrid, filters, pagination, priceRange
     ProductPage.ts         the product detail: prices, quantity, add to cart, favourites, related
     CartPage.ts            the checkout wizard: cart lines, totals, proceed; holds signInStep
     RentalsPage.ts         the rentals overview; holds rentalGrid
-    LoginPage.ts           used by globalSetup's UI login (storageState mode)
+    LoginPage.ts           used by project.uiLogin, globalSetup's UI login (storageState mode)
     waitForApiResponse.ts  wait for the app's own request
     components/            BaseComponent + NavBar, ProductGrid, ProductFilters, Pagination, PriceRangeSlider,
                            RentalGrid, CheckoutCartLine, CheckoutSignInStep
     dialogs/BaseDialog.ts  base for modals (no concrete dialog yet)
   flows/ShoppingFlow.ts    openProduct(name): home, search, the product's card
   visitor/                 browser state the app reads: setVisitorLocation, setVisitorCart
-  auth/authState.ts        the JWT in localStorage: tokenStorageState, isStorageStateValid
+  auth/authState.ts        isStorageStateValid: whether a saved login still has 2 minutes left
 ```
 
 ## Pages
 
-Every page extends [`BasePage`](../../src/ui/pages/BasePage.ts):
+Every page extends [`AppPage`](../../src/ui/pages/AppPage.ts), the app's base page, which extends the core [`BasePage`](../../src/ui/pages/BasePage.ts) (the page, the config and `goto()`):
 
 ```ts
-export class HomePage extends BasePage {
+export class HomePage extends AppPage {
   private readonly searchInput: Locator;               // locators: private readonly, named with the element kind
   private readonly searchCaptionText: Locator;
   readonly productGrid: ProductGrid;                   // components: public readonly fields
@@ -53,7 +54,7 @@ export class HomePage extends BasePage {
 | No assertions; `expect(...)` inside an action only as a wait for the app's signal | Checks belong in specs |
 | Locator priority: `getByTestId` (`data-test`) → `getByRole` / `getByLabel` / `getByText` → CSS with a comment saying why; never XPath | The site marks elements with `data-test`; ids that end in a record id change with the re-seed |
 
-`BasePage` gives every page:
+`AppPage` gives every page:
 
 - `navBar` (the [`NavBar`](../../src/ui/pages/components/NavBar.ts) component: `userMenu`, `cartQuantity`, `openCart()`, `openRentals()`, `openCategoriesMenu()`);
 - `toast`, the app's toast message (role `alert`, ngx-toastr);
@@ -122,7 +123,7 @@ Only `openWithoutCart()` (a visitor without a cart, so there's no link) still lo
 
 | To add | Do |
 |---|---|
-| A page | A class in `pages/` extending `BasePage`, an `open()` and a `waitForLoaded()`; register it as a fixture in `src/ui/fixtures/fixtures.ts` |
+| A page | A class in `pages/` extending `AppPage`, an `open()` and a `waitForLoaded()`; register it as a fixture in `src/ui/fixtures/fixtures.ts` |
 | A component | A class in `pages/components/` extending `BaseComponent`, with its container as the default `root`; a page holds it as a `readonly` field |
 | A wait | The app's marker if it has one; otherwise `waitForApiResponse` around the action |
 | Locators | From the page inspector (`npm run inspect:ui -- <path>`), or the app's source where the inspector can't reach (the checkout steps need a cart) |

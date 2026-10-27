@@ -1,12 +1,12 @@
 import { expect, type Locator, type Page } from '@playwright/test';
 import type { EnvConfig } from '../../config/env';
-import { BasePage } from './BasePage';
+import { AppPage } from './AppPage';
 import { ProductFilters } from './components/ProductFilters';
 import { Pagination } from './components/Pagination';
 import { PriceRangeSlider } from './components/PriceRangeSlider';
 import { ProductGrid } from './components/ProductGrid';
 
-export class HomePage extends BasePage {
+export class HomePage extends AppPage {
   private readonly searchInput: Locator;
   private readonly searchButton: Locator;
   private readonly searchCaptionText: Locator;

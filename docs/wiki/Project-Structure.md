@@ -10,34 +10,37 @@ SimpRight keeps **framework code** (`src/`) apart from **specs** (`tests/`), and
 SimpRight/
 ├── src/                          framework code
 │   ├── config/
-│   │   └── env.ts                loads .env and the environment JSON, validates them; exports env, getUser(role)
+│   │   ├── env.ts                loads .env and the environment JSON, validates them; exports env, getUser(role)
+│   │   ├── roles.ts              the roles tests act as (ROLES, UserRole, DEFAULT_ROLE)
+│   │   ├── project.ts            the app's test ids, logins and run hooks (beforeRun, afterRun)
+│   │   └── defineProject.ts      the shape of project.ts
 │   ├── envs/
 │   │   └── TEST.json             one file per environment: URLs, timeouts, the admin user (${VAR} placeholders)
 │   ├── fixtures/                 what specs import as @fixtures
 │   │   ├── index.ts              exports test, expect, the UI precondition fixtures and the API step helpers
-│   │   ├── base.ts               fixtures shared by both layers: role, config, user, tokenService, cleanup
+│   │   ├── base.ts               fixtures shared by both layers: role, authMode, config, user, tokenService, storageState, cleanup
 │   │   └── fixtures.ts           merges the API and UI fixtures (mergeTests)
 │   ├── api/
 │   │   ├── clients/              one client per API area, methods 1:1 with endpoints, on top of BaseClient
 │   │   ├── services/             domain operations over clients; parse responses, throw on errors
 │   │   ├── dto/                  request and response types
-│   │   ├── auth/                 TokenService (token cache per role), runUser (the run's customer)
-│   │   ├── fixtures/             API fixtures (clients, services, tokens) and step helpers: apiSteps (sendAndAttach, AUTH, templates), <area>Steps
+│   │   ├── auth/                 TokenService (token cache per role), apiLogin (the app's login), runUser (the run's customer)
+│   │   ├── fixtures/             API fixtures (clients, services, tokens) and step helpers: apiSteps (AUTH, templates; re-exports sendSteps: sendAndAttach), <area>Steps
 │   │   └── coverage/             loader of the optional API coverage plug-in
 │   ├── ui/
-│   │   ├── pages/                page objects, on top of BasePage
+│   │   ├── pages/                page objects, on top of AppPage (the app's base page) and the core BasePage
 │   │   │   ├── components/       parts shared by pages, on top of BaseComponent: NavBar, ProductGrid, ProductFilters
 │   │   │   └── dialogs/          dialogs, on top of BaseDialog
 │   │   ├── flows/                multi-page user journeys (ShoppingFlow)
-│   │   ├── auth/                 login token and storage state helpers
+│   │   ├── auth/                 whether a saved login is still valid (authState)
 │   │   ├── visitor/              visitor state the app keeps in browser storage: location, cart
 │   │   └── fixtures/             UI fixtures (pages, components, flows), the new-customer state, setup helpers (cartSetup, productSetup)
 │   │       └── preconditions/    where a test starts, open<Page><State>Test: openHomePageTest, openProductPageTest, their InLondon / WithNewCustomer variants
 │   ├── data/
 │   │   ├── TestConstants.ts      seeded app values that several tests rely on
 │   │   └── factories/            payload builders per area, uniqueName() for created records
-│   ├── utils/                    assertHelpers (assertMessage, attachJson, redact), apiChecks (parseJson, expectStatus, ...), amounts (parseAmount), totp, envUtils
-│   └── globalSetup.ts            registers the run's customer (deleted after the run); UI login in storageState mode
+│   ├── utils/                    assertHelpers (assertMessage, attachJson, redact), apiChecks (the app's checks; re-exports httpChecks: parseJson, expectStatus, ...), amounts (parseAmount), totp, envUtils
+│   └── globalSetup.ts            runs the project's beforeRun and afterRun (the run's customer); UI login in storageState mode
 ├── tests/                        specs only, one per scenario file
 │   ├── api/<area>/*.spec.ts      products/, users/, carts/, ... (13 areas)
 │   └── ui/<area>/*.spec.ts       cart/, products/
@@ -65,7 +68,7 @@ SimpRight/
 │   └── dependabot.yml            weekly dependency updates
 ├── index.html                    the Automation Portal (dashboard on GitHub Pages)
 ├── playwright.config.ts          projects, reporters, timeouts, login mode
-├── simpright.yml                 the project config for the agents and scripts (paths, commands, IDs, roles, test runs)
+├── simpright.yml                 the project config for the agents and scripts (paths, commands, IDs, roles, the core files, test runs)
 ├── CLAUDE.md                     the conventions in detail
 ├── .env.example                  the secrets the framework needs (copy to .env)
 ├── .npmrc / .npmrc.example       registry of the optional coverage package / the user-level token line
@@ -123,7 +126,7 @@ Defined in `tsconfig.json` and resolved by Playwright, so imports don't climb fo
 | A test scenario | `test-scenarios/<layer>/<area>/<name>.yml`, with the next free ID | `npm run validate:scenarios` |
 | A bug in the app | `bugs/<ID>.yml` with the next free `BUG-` ID; the scenarios that hit it get `knownIssue` and `bug` | `npm run validate:scenarios` |
 | A spec | `tests/<layer>/<area>/<name>.spec.ts`, named after its scenario file | |
-| A page object | `src/ui/pages/<Name>Page.ts`, extending `BasePage` | Register a fixture in `src/ui/fixtures/fixtures.ts` |
+| A page object | `src/ui/pages/<Name>Page.ts`, extending `AppPage` | Register a fixture in `src/ui/fixtures/fixtures.ts` |
 | A part shared by pages | `src/ui/pages/components/` | Expose it from the pages that contain it |
 | A dialog | `src/ui/pages/dialogs/`, extending `BaseDialog` | |
 | A multi-page journey | `src/ui/flows/` | Register a fixture |

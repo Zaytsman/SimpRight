@@ -34,7 +34,7 @@ export class CheckoutCartLine extends BaseComponent {
   /** CSS: the cart table's header cells, to find a column by its label. */
   private readonly headerCells: Locator;
   private readonly bodyCells: Locator;
-  /** The page's toast (`BasePage.toast`), where the app confirms the line's changes. */
+  /** The page's toast (`AppPage.toast`), where the app confirms the line's changes. */
   private readonly toastAlert: Locator;
 
   /**

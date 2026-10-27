@@ -1,10 +1,10 @@
 import { expect, type Locator, type Page } from '@playwright/test';
 import type { EnvConfig } from '../../config/env';
-import { BasePage } from './BasePage';
+import { AppPage } from './AppPage';
 import { RentalGrid } from './components/RentalGrid';
 
 /** The rentals overview (`/rentals`): every rental product as a card. */
-export class RentalsPage extends BasePage {
+export class RentalsPage extends AppPage {
   private readonly pageTitleHeading: Locator;
   readonly rentalGrid: RentalGrid;
 

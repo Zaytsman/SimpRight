@@ -1,7 +1,7 @@
 import { expect, type Locator, type Page } from '@playwright/test';
 import type { EnvConfig } from '../../config/env';
 import { parseAmount } from '../../utils/amounts';
-import { BasePage } from './BasePage';
+import { AppPage } from './AppPage';
 import { CART_REQUEST_PATH, CheckoutCartLine } from './components/CheckoutCartLine';
 import { CheckoutSignInStep } from './components/CheckoutSignInStep';
 import { HomePage } from './HomePage';
@@ -13,7 +13,7 @@ export interface CartLine {
 }
 
 /** The checkout page (`/checkout`), a wizard whose first step is the cart contents. */
-export class CartPage extends BasePage {
+export class CartPage extends AppPage {
   private readonly productTitleCells: Locator;
   private readonly productQuantityInputs: Locator;
   /** Total with currency sign, e.g. "$28.30". */

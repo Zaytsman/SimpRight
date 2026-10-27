@@ -1,17 +1,20 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import type { Page } from '@playwright/test';
-import { test } from '@fixtures';
+import { test } from '@fixtures/base';
 import { findInspectRequest } from '@config/env';
+import { project } from '@config/project';
 import { redact } from '@utils/assertHelpers';
 
 // The page inspector behind `npm run inspect:ui` (scripts/inspect-ui.mts), not a test: it runs only in the
 // `inspect` project, which exists only while an inspection is requested. It opens a page as a role, makes
-// the listed steps, and writes what a test writer needs: the accessibility tree and every data-test
-// element. Read-only: the steps click, check filters and pick list options, which change only what the page
-// shows; it never types or submits. The output is masked like reports.
+// the listed steps, and writes what a test writer needs: the accessibility tree and every element with the
+// app's test-id attribute (`project.testIdAttribute`, here data-test). Read-only: the steps click, check filters
+// and pick list options, which change only what the page shows; it never types or submits. The output is masked
+// like reports.
 
 const OUTPUT_DIR = path.join('test-results', 'inspect');
+const TEST_ID = project.testIdAttribute;
 const MAX_TEXT = 80;
 /** Ids such as product-01JZ... (ULIDs) are collapsed to product-<id>, so a grid of cards is one row. */
 const RECORD_ID = /-[0-9A-HJKMNP-TV-Z]{26}$/;
@@ -62,8 +65,8 @@ async function makeStep(page: Page, step: string): Promise<void> {
 }
 
 async function readTestIdElements(page: Page): Promise<TestIdElement[]> {
-  return page.locator('[data-test]').evaluateAll(
-    (elements, maxText) => {
+  return page.locator(`[${TEST_ID}]`).evaluateAll(
+    (elements, { maxText, testIdAttribute }) => {
       const implicitRole = (tag: string, type: string | null): string => {
         if (tag === 'a') return 'link';
         if (tag === 'button') return 'button';
@@ -105,7 +108,7 @@ async function readTestIdElements(page: Page): Promise<TestIdElement[]> {
           if (limits.length) text = `${text ? `${text}; ` : ''}limits: ${limits.join(', ')}`;
         }
         return {
-          testId: el.getAttribute('data-test') ?? '',
+          testId: el.getAttribute(testIdAttribute) ?? '',
           element: type ? `${tag}[${type}]` : tag,
           role: el.getAttribute('role') ?? implicitRole(tag, type),
           text,
@@ -114,7 +117,7 @@ async function readTestIdElements(page: Page): Promise<TestIdElement[]> {
         };
       });
     },
-    MAX_TEXT
+    { maxText: MAX_TEXT, testIdAttribute: TEST_ID }
   );
 }
 
@@ -138,7 +141,7 @@ function testIdTable(elements: TestIdElement[]): string {
   }
   // Backslashes first, so a text ending in "\" can't turn the cell's closing "|" into a literal one.
   const cell = (text: string) => text.replace(/\\/g, '\\\\').replace(/\|/g, '\\|');
-  const lines = ['| data-test | count (visible) | element | role | text | disabled |', '|---|---|---|---|---|---|'];
+  const lines = [`| ${TEST_ID} | count (visible) | element | role | text | disabled |`, '|---|---|---|---|---|---|'];
   for (const [key, { first, count, visible, disabled, texts }] of rows) {
     const shown = texts.slice(0, MAX_TEXTS).map((text) => (texts.length > 1 ? `"${text}"` : text)).join(', ');
     const more = texts.length > MAX_TEXTS ? ` … +${texts.length - MAX_TEXTS} more` : '';
@@ -168,7 +171,7 @@ test('inspect page', async ({ page, role, authMode }) => {
     `- Logged in as: ${authMode === 'none' ? 'nobody (logged out)' : role}`,
     `- Steps: ${request.steps.length ? request.steps.map((step) => `\`${step}\``).join(' → ') : 'none'}`,
     '',
-    `## data-test elements (${elements.length})`,
+    `## ${TEST_ID} elements (${elements.length})`,
     '',
     testIdTable(elements),
     '',

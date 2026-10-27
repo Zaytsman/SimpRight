@@ -86,9 +86,9 @@ Request and response types per area (14 modules), written from the contracts in 
 ## Authentication ([`src/api/auth/`](https://github.com/Zaytsman/SimpRight/tree/main/src/api/auth))
 
 - **`POST /users/login`** returns `access_token` and `expires_in` (300 s). The JWT's `role` claim is `admin` or `user`.
-- **`TokenService`** (worker-scoped): `getAccessToken(role)` logs in once, caches the token until `TOKEN_EXPIRY_MARGIN_MS` (2 minutes) before it expires, then logs in again. A failed login throws `ApiError` with a hint: a 5xx means the site, not the credentials.
+- **`TokenService`** (worker-scoped): `getAccessToken(role)` logs in once through the project's `login` (`apiLogin`, the call above), caches the token until `TOKEN_EXPIRY_MARGIN_MS` (2 minutes) before it expires, then logs in again. A failed login throws `ApiError` with a hint: a 5xx means the site, not the credentials.
 - **`roleToken(tokenService, role)`** (in the API fixtures): the token function role and admin clients get, read when each request is sent.
-- **`runUser.ts`**: the run's customer, registered and deleted around the run ([2](Configuration#the-runs-customer-the-default-role)).
+- **`runUser.ts`**: the run's customer, registered and deleted around the run by the project's `beforeRun` and `afterRun` ([2](Configuration#the-runs-customer-the-default-role)).
 
 ## API coverage (optional)
 
