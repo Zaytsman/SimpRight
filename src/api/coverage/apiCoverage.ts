@@ -2,7 +2,7 @@ import type { ApiCallInfo } from '../clients/BaseClient';
 
 /**
  * Optional API coverage plug-in. The reporter lives in a private package; when it isn't installed (e.g. in a
- * fork), SimpRight runs exactly the same, just without the coverage report.
+ * fork), the tests run exactly the same, just without the coverage report.
  */
 const API_COVERAGE_PACKAGE = '@zaytsman/playwright-api-coverage';
 

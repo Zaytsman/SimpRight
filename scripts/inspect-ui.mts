@@ -13,14 +13,14 @@
 //
 //   npm run inspect:ui -- /
 //   npm run inspect:ui -- /auth/login --logged-out
-//   npm run inspect:ui -- /admin/dashboard --role admin
+//   npm run inspect:ui -- /account --role default
 //   npm run inspect:ui -- / --then click:nav-menu
 //   npm run inspect:ui -- / --then "check:Hammer" --then "select:sort=Price (High - Low)"
 //
 // It runs Playwright's `inspect` project (scripts/inspect-ui/inspect-page.spec.ts), which exists only while
-// SIMPRIGHT_INSPECT is set, so normal test runs never include it. Like every run, globalSetup registers the
-// run's customer (the `default` role) first and deletes it afterwards, except for --logged-out, which needs no user. The output is masked like the reports
-// and also saved in test-results/inspect/.
+// SIMPRIGHT_INSPECT is set, so normal test runs never include it. Like every run, globalSetup runs the project's
+// beforeRun first and its afterRun at the end (src/config/project.ts), except for --logged-out, which needs no user.
+// The output is masked like the reports and also saved in test-results/inspect/.
 
 import { spawnSync } from 'node:child_process';
 import { existsSync, readdirSync, readFileSync } from 'node:fs';

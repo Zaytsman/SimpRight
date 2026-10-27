@@ -15,9 +15,8 @@ if (!process.env.TEST_WORKER_INDEX) {
 
 export default defineConfig<BaseOptions>({
   testDir: './tests',
-  // Runs the project's beforeRun (here: registers the run's customer, the `default` role) and, after the run, its
-  // afterRun (deletes the customer). With UI_AUTH_MODE=storageState it also logs in every role through the UI and
-  // saves .auth/<role>.json.
+  // Runs the project's beforeRun (src/config/project.ts) and, after the run, its afterRun. With
+  // UI_AUTH_MODE=storageState it also logs in every role through the UI and saves .auth/<role>.json.
   globalSetup: './src/globalSetup.ts',
   fullyParallel: true,
   forbidOnly: isCI,
@@ -29,7 +28,7 @@ export default defineConfig<BaseOptions>({
     ['list'],
     ['html', { open: isCI ? 'never' : 'on-failure' }],
     ...(isCI ? [['junit', { outputFile: 'test-results/junit.xml' }] as const] : []),
-    // Read by the GitHub Pages dashboard (index.html) for trends and known issues.
+    // Read by the step-title check and, when the project has the portal, by its dashboard (trends, known issues).
     ...(isCI ? [['json', { outputFile: 'test-results/results.json' }] as const] : []),
     // Optional: compares the API calls with docs/api/contracts -> test-results/api-coverage/ (skipped without the package).
     ...apiCoverageReporter({ docDir: 'docs/api/contracts' }),
@@ -52,7 +51,7 @@ export default defineConfig<BaseOptions>({
       testDir: './tests/api',
       use: {
         baseURL: env.apiBaseUrl,
-        // No UI login: API tests log in only through the fixtures that need a token (accessToken and friends).
+        // No UI login: API tests log in only through the fixtures that need a token.
         authMode: 'none',
       },
     },

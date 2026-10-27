@@ -11,6 +11,11 @@
     "code": { "type": "string", "pattern": "^[A-Z]+$" }
   },
   "properties": {
+    "template": {
+      "type": "string",
+      "pattern": "^v[0-9]+\\.[0-9]+\\.[0-9]+$",
+      "description": "The version of SimpRightTemplate (a tag of Zaytsman/SimpRightTemplate) the core files match; npm run check:template compares them."
+    },
     "project": {
       "type": "object",
       "required": ["language", "runner", "conventions"],
@@ -192,7 +197,7 @@
         "exemplars": {
           "type": "object",
           "description": "Existing files whose style new code copies.",
-          "required": ["page", "component", "flow", "fixtures", "spec"],
+          "required": ["page", "component", "fixtures", "spec"],
           "additionalProperties": false,
           "properties": {
             "page": { "$ref": "#/definitions/path" },
