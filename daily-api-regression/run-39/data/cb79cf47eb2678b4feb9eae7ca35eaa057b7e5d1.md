@@ -1,0 +1,133 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: api/brands/put-brands-by-brand-id.spec.ts >> @brands-api - Brands API >> API-0139: Update brand with another brand's slug names the slug in the error
+- Location: tests/api/brands/put-brands-by-brand-id.spec.ts:114:9
+
+# Error details
+
+```
+Error: [Request] {"method":"PUT","path":"/brands/01m64m58na4wy3xbebbd4pcmmy","auth":"the admin's token","body":{"slug":"forgeflex-tools"}}
+[Expected] The "slug" messages include "A brand already exists with this slug."
+[Actual] {
+  "message": "Duplicate Entry"
+}
+
+expect(received).toBe(expected) // Object.is equality
+
+Expected: true
+Received: false
+```
+
+# Test source
+
+```ts
+  1   | /**
+  2   |  * The checks API specs share for steps checked through a client: the core's HTTP checks (`httpChecks.ts`: the status,
+  3   |  * the JSON body, the body's message, headers, lists), re-exported here, plus the Toolshop's own formats: Laravel's 422
+  4   |  * `errors` keys and field maps, `{ error }` bodies, pages, `success`. `request` is the request record the spec
+  5   |  * attached, used in the failure message. A check specific to one endpoint stays in its spec.
+  6   |  */
+  7   | import { expect } from '@playwright/test';
+  8   | import type { ApiResponse } from '../api/clients/BaseClient';
+  9   | import type { FieldValidationError, ValidationErrors } from '../api/dto/common';
+  10  | import type { UserErrorBody } from '../api/dto/user';
+  11  | import { assertMessage } from './assertHelpers';
+  12  | import { parseJson } from './httpChecks';
+  13  | 
+  14  | export * from './httpChecks';
+  15  | 
+  16  | /** The keys of a Laravel page (the paginator's output without the link keys), as the list and search endpoints return it. */
+  17  | export const PAGE_KEYS = ['current_page', 'data', 'from', 'last_page', 'per_page', 'to', 'total'] as const;
+  18  | 
+  19  | /** The checks of a "Verify the body's success is <true | false>." step. */
+  20  | export function expectSuccess(request: unknown, response: ApiResponse, success: boolean): void {
+  21  |   const body = parseJson<{ success?: unknown }>(request, response);
+  22  |   expect(body.success, assertMessage({ request, expected: `success is ${success}`, actual: body })).toBe(success);
+  23  | }
+  24  | 
+  25  | /** The checks of a "Verify the body's errors has the key(s) ..., each with at least one message." step; returns the parsed body. */
+  26  | export function expectErrorKeys(request: unknown, response: ApiResponse, keys: string[]): FieldValidationError {
+  27  |   const body = parseJson<FieldValidationError>(request, response);
+  28  |   for (const key of keys) {
+  29  |     const messages = body.errors?.[key];
+  30  |     expect(
+  31  |       Array.isArray(messages) && messages.length > 0,
+  32  |       assertMessage({ request, expected: `errors has the key "${key}" with at least one message`, actual: body.errors })
+  33  |     ).toBe(true);
+  34  |   }
+  35  |   return body;
+  36  | }
+  37  | 
+  38  | /** The checks of a "Verify the body's errors has the keys ..." step that asks only for the keys, not for their messages. */
+  39  | export function expectErrorKeysPresent(request: unknown, response: ApiResponse, keys: string[]): FieldValidationError {
+  40  |   const body = parseJson<FieldValidationError>(request, response);
+  41  |   for (const key of keys) {
+  42  |     expect(
+  43  |       body.errors !== null && typeof body.errors === 'object' && key in body.errors,
+  44  |       assertMessage({ request, expected: `errors has the key "${key}"`, actual: body })
+  45  |     ).toBe(true);
+  46  |   }
+  47  |   return body;
+  48  | }
+  49  | 
+  50  | /** The checks of a "Verify the body's errors has no other keys." step. */
+  51  | export function expectNoOtherKeys(request: unknown, body: FieldValidationError, keys: string[]): void {
+  52  |   const actualKeys = Object.keys(body.errors ?? {}).sort();
+  53  |   expect(actualKeys, assertMessage({ request, expected: `errors has only the keys ${keys.join(', ')}`, actual: body.errors })).toEqual([...keys].sort());
+  54  | }
+  55  | 
+  56  | /**
+  57  |  * The checks of a "Verify the body has a <field> key with at least one message." step, for endpoints whose 422 body is
+  58  |  * the field map without a wrapper (form requests).
+  59  |  */
+  60  | export function expectFieldMessages(request: unknown, response: ApiResponse, field: string): void {
+  61  |   const body = parseJson<ValidationErrors>(request, response);
+  62  |   const messages = body[field];
+  63  |   expect(
+  64  |     Array.isArray(messages) && messages.length > 0,
+  65  |     assertMessage({ request, expected: `Body has a "${field}" key with at least one message`, actual: body })
+  66  |   ).toBe(true);
+  67  | }
+  68  | 
+  69  | /** The checks of a "Verify the body's <field> messages include "<message>"." step (a field map without a wrapper). */
+  70  | export function expectFieldMessageIncludes(request: unknown, response: ApiResponse, field: string, message: string): void {
+  71  |   const body = parseJson<ValidationErrors>(request, response);
+  72  |   const messages = body[field];
+  73  |   expect(
+  74  |     Array.isArray(messages) && messages.includes(message),
+  75  |     assertMessage({ request, expected: `The "${field}" messages include "${message}"`, actual: body })
+> 76  |   ).toBe(true);
+      |     ^ Error: [Request] {"method":"PUT","path":"/brands/01m64m58na4wy3xbebbd4pcmmy","auth":"the admin's token","body":{"slug":"forgeflex-tools"}}
+  77  | }
+  78  | 
+  79  | /** The checks of a "Verify the body is a non-empty array and every item's name contains "<term>" (case-insensitive)." step. */
+  80  | export function expectItemNamesContain(request: unknown, body: unknown, term: string): void {
+  81  |   expect(Array.isArray(body) && body.length > 0, assertMessage({ request, expected: 'The body is a non-empty array', actual: body })).toBe(true);
+  82  |   for (const item of body as { name: string }[]) {
+  83  |     expect(item.name.toLowerCase(), assertMessage({ request, expected: `The item's name contains "${term}" (case-insensitive)`, actual: item })).toContain(
+  84  |       term.toLowerCase()
+  85  |     );
+  86  |   }
+  87  | }
+  88  | 
+  89  | /** The checks of a "Verify the Accept-Query response header is application/json." step. */
+  90  | export function expectAcceptQuery(request: unknown, response: ApiResponse): void {
+  91  |   expect(response.headers['accept-query'], assertMessage({ request, expected: 'Accept-Query: application/json', actual: response.headers })).toBe('application/json');
+  92  | }
+  93  | 
+  94  | /** The checks of a "Verify the body's error is a non-empty string." step (errors that a controller builds as `{ error }`). */
+  95  | export function expectErrorText(request: unknown, response: ApiResponse): void {
+  96  |   const body = parseJson<Partial<UserErrorBody>>(request, response);
+  97  |   expect(
+  98  |     typeof body.error === 'string' && body.error.length > 0,
+  99  |     assertMessage({ request, expected: 'error is a non-empty string', actual: body })
+  100 |   ).toBe(true);
+  101 | }
+  102 | 
+```
