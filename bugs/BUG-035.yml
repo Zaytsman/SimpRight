@@ -1,4 +1,4 @@
-# yaml-language-server: $schema=./bug.schema.json
+# yaml-language-server: $schema=../node_modules/@simpright/scenarios/schemas/bug.schema.json
 id: BUG-035
 title: Updating a user with an email another account uses returns 403 and leaks the SQL error instead of 409 or 422
 status: open

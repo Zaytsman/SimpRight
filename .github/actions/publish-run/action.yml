@@ -1,7 +1,8 @@
 name: Publish the run's report
 description: >-
   Publishes this run's Playwright report to the gh-pages branch (GitHub Pages) under its run's folder, keeps the
-  latest runs and refreshes the portal. scripts/publish-run.mts writes the files; publish-run.sh does the git steps.
+  latest runs and refreshes the portal. simpright-portal publish-run (@simpright/portal) writes the files;
+  publish-run.sh does the git steps.
 
 inputs:
   run-id:

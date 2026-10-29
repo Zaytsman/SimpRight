@@ -1,4 +1,4 @@
-# yaml-language-server: $schema=./bug.schema.json
+# yaml-language-server: $schema=../node_modules/@simpright/scenarios/schemas/bug.schema.json
 id: BUG-025
 title: Location offers get no discount at real New York coordinates, because the city table has New York at longitude +74 instead of -74
 status: open

@@ -11,7 +11,7 @@ SimpRight's reports are **public**: every CI run publishes its HTML report to Gi
 | List output | the console | always |
 | HTML report | `playwright-report/` | always (opens on failure locally) |
 | JUnit | `test-results/junit.xml` | CI |
-| JSON | `test-results/results.json` | CI: the step-title check, and the source of the small files the portal reads (`scripts/lib/run-summaries.mts`, [11](CI-and-Publishing)); not published itself, it stays in the run's artifact |
+| JSON | `test-results/results.json` | CI: the step-title check, and the source of the small files the portal reads (the run summaries of `@simpright/portal`, [11](CI-and-Publishing)); not published itself, it stays in the run's artifact |
 | Screenshots, videos | `test-results/<test>/`, in the report | UI failures only |
 | API coverage | `test-results/api-coverage/` (`index.html`, `summary.json`) | when the optional package is installed and `DISABLE_API_COVERAGE` isn't set |
 | Traces | **never** | `trace: 'off'` for every project (below) |
@@ -64,4 +64,4 @@ What masking can't cover, and how the framework handles it:
 
 ## The portal
 
-[`index.html`](https://github.com/Zaytsman/SimpRight/blob/main/index.html) is the Automation Portal on GitHub Pages. It reads small per-family history files built at publish time (never a run's full `results.json`) and shows run history and trends, known issues (tests with a `Known issue` annotation, linked to their bug), the API coverage when it exists, and buttons to the Test Cases and Bugs pages. See [11](CI-and-Publishing) and the wiki's [Automation Portal](Automation-Portal) page.
+The Automation Portal on GitHub Pages is [`@simpright/portal`](https://github.com/Zaytsman/SimpRightKit/tree/main/packages/portal)'s dashboard, published as `index.html`. It reads small per-family history files built at publish time (never a run's full `results.json`) and shows run history and trends, known issues (tests with a `Known issue` annotation, linked to their bug), the API coverage when it exists, and buttons to the Test Cases and Bugs pages. See [11](CI-and-Publishing) and the wiki's [Automation Portal](Automation-Portal) page.

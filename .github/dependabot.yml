@@ -25,6 +25,12 @@ updates:
       default-days: 7
     open-pull-requests-limit: 5
     groups:
+      # The SimpRight Kit's packages are released together and pinned exactly: one PR moves all three, of any
+      # update type, so they keep one version (simpright doctor checks it). A dependency joins its first matching group.
+      simpright-kit:
+        patterns:
+          - "simpright"
+          - "@simpright/*"
       # One PR for all minor/patch bumps; major versions get their own PR.
       minor-and-patch:
         update-types:

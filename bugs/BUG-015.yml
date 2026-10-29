@@ -1,4 +1,4 @@
-# yaml-language-server: $schema=./bug.schema.json
+# yaml-language-server: $schema=../node_modules/@simpright/scenarios/schemas/bug.schema.json
 id: BUG-015
 title: Create or update category returns 500 instead of 422 when parent_id isn't an existing category
 status: open

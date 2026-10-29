@@ -1,4 +1,4 @@
-# yaml-language-server: $schema=./bug.schema.json
+# yaml-language-server: $schema=../node_modules/@simpright/scenarios/schemas/bug.schema.json
 id: BUG-010
 title: Partial brand update returns 409 when the body repeats the brand's own slug, instead of 200
 status: open

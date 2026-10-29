@@ -1,4 +1,4 @@
-# yaml-language-server: $schema=./bug.schema.json
+# yaml-language-server: $schema=../node_modules/@simpright/scenarios/schemas/bug.schema.json
 id: BUG-002
 title: Create product returns 500 instead of 422 when category_id, brand_id or product_image_id doesn't exist
 status: open

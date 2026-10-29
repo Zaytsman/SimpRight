@@ -8,7 +8,7 @@ on:
         required: true
         default: 'all'
         type: choice
-        # The folders in tests/ui: validate:scenarios checks them (the custom-ui run in simpright.yml).
+        # The folders in tests/ui: npm run doctor checks them (the custom-ui run in simpright.yml).
         options:
           - all
           - cart

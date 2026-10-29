@@ -83,7 +83,7 @@ How the framework is designed, one page per area (the rules a new test must foll
 6. [UI Layer](UI-Layer): pages, components, dialogs, flows, waits, visitor state, Cloudflare handling.
 7. [UI Specs](UI-Specs): how a UI test is written: preconditions, setup helpers, steps and checks.
 8. [Test Data](Test-Data): seeded constants, factories, unique names, throwaway users, cleanup, shared-data safety.
-9. [Scenarios, Bugs and Validation](Scenarios-Bugs-and-Validation): scenario files, bug files, the project profile, the validator, the step-title check, the smoke set.
+9. [Scenarios, Bugs and Validation](Scenarios-Bugs-and-Validation): scenario files, bug files, the project profile, the validator and the project check (`doctor`), the step-title check, the smoke set.
 10. [Reporting and Secrets](Reporting-and-Secrets): reporters, attachments, assertion messages, masking, what never reaches a report.
 11. [CI and Publishing](CI-and-Publishing): the workflows, the reusable test job, GitHub Pages, hardening, Dependabot.
 12. [AI Agents](AI-Agents): the agents and skills, the profile they read, the exemplars they copy.
@@ -108,6 +108,7 @@ How the framework is designed, one page per area (the rules a new test must foll
 | Test runner | Playwright Test 1.63 (Chromium for UI tests) |
 | Runtime | Node.js 22.18 or later (developed on 24) |
 | Config | JSON per environment, `.env` for secrets (dotenv) |
-| Scenarios | YAML, checked with a JSON Schema (ajv) |
+| Scenarios | YAML, checked against JSON Schemas by `@simpright/scenarios` |
+| Checks, portal | The [SimpRight Kit](https://github.com/Zaytsman/SimpRightKit)'s npm packages: `simpright` (`doctor`), `@simpright/scenarios` (the validator), `@simpright/portal` (the pages and publishing) |
 | CI | GitHub Actions, reports on GitHub Pages |
 | AI | Claude Code agents and skills (`.claude/`) |

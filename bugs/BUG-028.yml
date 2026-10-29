@@ -1,4 +1,4 @@
-# yaml-language-server: $schema=./bug.schema.json
+# yaml-language-server: $schema=../node_modules/@simpright/scenarios/schemas/bug.schema.json
 id: BUG-028
 title: Sending a message stores unvalidated body keys, so a guest can set another user's user_id and a parent_id key gives 500
 status: open

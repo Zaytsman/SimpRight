@@ -4,7 +4,7 @@
 
 The **Automation Portal** is SimpRight's dashboard on GitHub Pages: [zaytsman.github.io/SimpRight](https://zaytsman.github.io/SimpRight/). It shows the state of the test suite at a glance (is it green, how big is it, how much of the API it covers, what's known to be broken) and links to every published report.
 
-It's a single static page, `index.html` in the repository root. It has no backend: it reads the JSON files the CI publishes next to it on `gh-pages` (see [GitHub Pages Publishing](GitHub-Pages-Publishing)).
+It's a single static page, the dashboard of [`@simpright/portal`](https://github.com/Zaytsman/SimpRightKit/tree/main/packages/portal) (one of the SimpRight Kit's npm packages), published as `index.html`. It has no backend: it reads the JSON files the CI publishes next to it on `gh-pages` (see [GitHub Pages Publishing](GitHub-Pages-Publishing)).
 
 Its look follows the README banner's logo: GitHub's dark greys with the logo's green. Green means passing or healthy, red failing, amber a known issue. The [Test Cases Pages](Test-Cases-Pages) and the [Bugs Page](Bugs-Page) use the same colors and the same logo, which leads back to the portal.
 
@@ -38,7 +38,7 @@ On a narrow screen the side panel moves above the content.
 | **API contract coverage** | The overall API contract coverage in percent, with a bar (only with coverage published) |
 | **Endpoints covered** | The API endpoints covered (`covered / total`) and a link to the coverage report (only with coverage published) |
 
-A run is **healthy** when its failure rate is below the threshold: **1 % for both UI and API** (`HEALTHY_FAILURE_RATE` in `index.html`).
+A run is **healthy** when its failure rate is below the threshold: **1 % for both UI and API** (`portal.healthThreshold` in `simpright.yml`).
 
 ### UI trends and API trends
 
@@ -95,9 +95,9 @@ Everything optional is hidden until its file exists, so the portal works in a fo
 
 ## Changing the portal
 
-1. What the portal names (the brand, the runs, the thresholds) is in `simpright.yml`, not in `index.html`: change it there. The page itself is `index.html` in the repository root. It has its own CSS (the colors are the variables at the top of its `<style>`), Chart.js from the jsDelivr CDN, and plain JavaScript; no build step.
-2. Preview it over HTTP (see [GitHub Pages Publishing](GitHub-Pages-Publishing#previewing-locally)): `node scripts/build-pages.mts --site .gh-pages` writes the page with its `portal.json`, and the trends stay empty unless the folder starts as a copy of `gh-pages`.
-3. Merge to `main`. **Publish Test Cases** runs on changes to `index.html` or `simpright.yml` and publishes both at once; every test run also copies the page and rewrites `portal.json`.
+1. What the portal names (the brand, the runs, the thresholds) is in `simpright.yml`, not in the page: change it there. The page itself is `@simpright/portal`'s, `packages/portal/pages/dashboard.html` in [SimpRightKit](https://github.com/Zaytsman/SimpRightKit): its own CSS (the colors are the variables at the top of its `<style>`), Chart.js from the jsDelivr CDN, and plain JavaScript, with no build step. A change to the page is made there and reaches SimpRight with a kit release.
+2. Preview it over HTTP (see [GitHub Pages Publishing](GitHub-Pages-Publishing#previewing-locally)): `npx simpright-portal build-pages --site .gh-pages` writes the page with its `portal.json`, and the trends stay empty unless the folder starts as a copy of `gh-pages`.
+3. Merge to `main`. **Publish Test Cases** runs on changes to `simpright.yml` or `package-lock.json` (a new kit version) and publishes the page and `portal.json` at once; every test run also writes both.
 
 Common changes:
 
@@ -107,9 +107,9 @@ Common changes:
 | The health thresholds | `portal.healthThreshold` in `simpright.yml` |
 | A new report family in the history and Latest reports | Its entry in `runs` in `simpright.yml` (with the caller workflow, see [Scheduled Runs](Scheduled-Runs#add-a-new-scheduled-run)); its `label` and `note` are what the portal shows |
 | Which run feeds a layer's status, trends and known issues | `trend: ui` or `trend: api` on that run in `simpright.yml` (one run per layer) |
-| How many runs the trends and the history show | The `limit` arguments of `toSeries` and `renderHistoryList` in `index.html` (default 10) |
-| How many known issues the collapsed table shows | `KNOWN_ISSUES_PREVIEW` in `index.html` (3) |
-| The colors | The CSS variables in `:root`, and `COLORS` in the script for the charts |
+| How many runs the trends and the history show | The `limit` arguments of `toSeries` and `renderHistoryList` in the dashboard page (default 10; a kit change) |
+| How many known issues the collapsed table shows | `KNOWN_ISSUES_PREVIEW` in the dashboard page (3; a kit change) |
+| The colors | The CSS variables in `:root`, and `COLORS` in the script for the charts (the dashboard page; a kit change) |
 
 The number of runs kept on the site is set separately, by the `keep-runs` input of `playwright-run.yml` (10 by default; the custom workflows ask for it).
 

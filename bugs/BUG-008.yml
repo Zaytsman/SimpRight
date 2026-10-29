@@ -1,4 +1,4 @@
-# yaml-language-server: $schema=./bug.schema.json
+# yaml-language-server: $schema=../node_modules/@simpright/scenarios/schemas/bug.schema.json
 id: BUG-008
 title: Cart quantity stops at 99 instead of the story's range of 1 to 999,999,999
 status: open

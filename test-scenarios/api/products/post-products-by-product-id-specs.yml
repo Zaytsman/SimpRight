@@ -1,4 +1,4 @@
-# yaml-language-server: $schema=../../scenarios.schema.json
+# yaml-language-server: $schema=../../../node_modules/@simpright/scenarios/schemas/scenarios.schema.json
 suite: Products API
 tags: ["@products-api"]
 scenarios:

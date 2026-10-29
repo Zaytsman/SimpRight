@@ -43,6 +43,7 @@ A validator checks that every scenario and its test match: IDs, names, tags and 
 ✅ **API Coverage Tool** - measure API test coverage against documented API contracts.<br>
 ✅ **Test cases** - a searchable catalog of every scenario, with steps, status, known issues and links to the specs.<br>
 ✅ **Bug tracking** - one file per root cause, linked to the tests that hit it.<br>
+✅ **SimpRight Kit** - the scenario validator, the schemas and the portal are [npm packages](https://github.com/Zaytsman/SimpRightKit) other Playwright projects can use; [SimpRightTemplate](https://github.com/Zaytsman/SimpRightTemplate) starts a new one.<br>
 ✅ **AI agents** - contracts → scenarios → specs → review → healing, with human checkpoints.
 
 ## How the AI agents work together
@@ -98,7 +99,7 @@ The exact conventions a new test must follow are in [docs/framework/conventions.
 
 ## Contributing
 
-Fork the repository, branch from `develop` and open a pull request into `develop`. Pull requests run the `verify` check (typecheck, scenario validation, the core files against SimpRightTemplate and the Test Cases and Bugs page builds), so run the specs you changed locally before you push.
+Fork the repository, branch from `develop` and open a pull request into `develop`. Pull requests run the `verify` check (typecheck, scenario validation, `doctor` with the core files against SimpRightTemplate, and the Test Cases and Bugs page builds), so run the specs you changed locally before you push.
 
 ## Security
 

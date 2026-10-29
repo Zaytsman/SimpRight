@@ -1,4 +1,4 @@
-# yaml-language-server: $schema=./bug.schema.json
+# yaml-language-server: $schema=../node_modules/@simpright/scenarios/schemas/bug.schema.json
 id: BUG-046
 title: Conditional GET never returns 304 for compressed responses (ETag gets a -gzip suffix)
 status: open

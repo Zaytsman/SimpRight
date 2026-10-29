@@ -1,4 +1,4 @@
-# yaml-language-server: $schema=./bug.schema.json
+# yaml-language-server: $schema=../node_modules/@simpright/scenarios/schemas/bug.schema.json
 id: BUG-031
 title: Attaching a file to a message that doesn't exist returns 200, because the message is never looked up
 status: open

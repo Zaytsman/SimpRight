@@ -6,7 +6,7 @@ description: >-
 # A local action runs from the workflow's checkout, so the checkout comes first (with persist-credentials: false).
 inputs:
   node-version:
-    description: 'The Node.js major version: ci.node in simpright.yml (validate:scenarios checks every workflow that uses this action)'
+    description: 'The Node.js major version: ci.node in simpright.yml (simpright doctor checks every workflow that uses this action)'
     required: true
   registry-url:
     description: 'A registry for one scope, e.g. https://npm.pkg.github.com for the optional private coverage package (empty: none)'

@@ -1,4 +1,4 @@
-# yaml-language-server: $schema=./bug.schema.json
+# yaml-language-server: $schema=../node_modules/@simpright/scenarios/schemas/bug.schema.json
 id: BUG-012
 title: Brand update with a duplicate slug returns 409 with "Duplicate Entry" instead of the slug's validation message
 status: open

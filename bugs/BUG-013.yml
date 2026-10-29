@@ -1,4 +1,4 @@
-# yaml-language-server: $schema=./bug.schema.json
+# yaml-language-server: $schema=../node_modules/@simpright/scenarios/schemas/bug.schema.json
 id: BUG-013
 title: Brand search keeps returning stale results for up to an hour after a brand is created, updated or deleted
 status: open

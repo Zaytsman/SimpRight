@@ -1,7 +1,7 @@
 name: Publish the portal's pages
 description: >-
   Rebuilds the Test Cases pages, the Bugs page and the dashboard on the gh-pages branch (GitHub Pages).
-  scripts/build-pages.mts writes the files; publish-pages.sh does the git steps.
+  simpright-portal build-pages (@simpright/portal) writes the files; publish-pages.sh does the git steps.
 
 inputs:
   token:

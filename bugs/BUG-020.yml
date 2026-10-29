@@ -1,4 +1,4 @@
-# yaml-language-server: $schema=./bug.schema.json
+# yaml-language-server: $schema=../node_modules/@simpright/scenarios/schemas/bug.schema.json
 id: BUG-020
 title: Category tree, single category and search return stale results for up to an hour after a category is created, updated or deleted
 status: open

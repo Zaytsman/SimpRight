@@ -46,7 +46,7 @@ The workflows' steps are composite actions in `.github/actions/`, one folder eac
 | `squash-pages` | The `gh-pages` history as one commit | Squash GitHub Pages History |
 | `publish-wiki` | `docs/wiki/` into the wiki | Publish Wiki |
 
-An action that pushes gets the token as its `token` input, which has no default, so each workflow shows which step can push. `npm run validate:scenarios` checks every step that uses a local action (the action exists, gets its required inputs and no others) and the Node version passed to `setup` (`ci.node` in `simpright.yml`). The inputs: [CI and Publishing](CI-and-Publishing#the-local-actions-githubactions).
+An action that pushes gets the token as its `token` input, which has no default, so each workflow shows which step can push. `npm run doctor` checks every step that uses a local action (the action exists, gets its required inputs and no others) and the Node version passed to `setup` (`ci.node` in `simpright.yml`). The inputs: [CI and Publishing](CI-and-Publishing#the-local-actions-githubactions).
 
 ## The reusable test job: `playwright-run.yml`
 
@@ -99,7 +99,7 @@ No workflow uses `pull_request_target`, so pull request code never runs with acc
 
 ## The pull request check: `verify`
 
-`verify` runs on every pull request to `main` or `develop`, and it's the **required check** on `main`. It runs static checks only: `npm run typecheck`, `npm run validate:scenarios`, `npm run check:template` (the core files against [SimpRightTemplate](https://github.com/Zaytsman/SimpRightTemplate) at the version in `simpright.yml`), and the build of the portal's pages (`scripts/build-pages.mts`: the Test Cases and Bugs pages and the portal's `portal.json` must still build).
+`verify` runs on every pull request to `main` or `develop`, and it's the **required check** on `main`. It runs static checks only: `npm run typecheck`, `npm run validate:scenarios`, `npm run doctor` (the project's setup, and the core files against [SimpRightTemplate](https://github.com/Zaytsman/SimpRightTemplate) at the version in `simpright.yml`), and the build of the portal's pages (`simpright-portal build-pages`: the Test Cases and Bugs pages and the portal's `portal.json` must still build).
 
 It runs no tests. They run locally before a push (each changed spec three times) and in the nightly regressions on `main`. So `verify` needs no secrets, no package token and no browser, and pull requests from forks and from Dependabot get the same check.
 
@@ -130,7 +130,7 @@ Security updates ignore `target-branch` and always open against `main`; after me
 
 | Change | Where |
 |---|---|
-| A new test area folder | Add it to the `area` options of `custom-ui-tests.yml` or `custom-api-tests.yml` (`npm run validate:scenarios` checks them) |
+| A new test area folder | Add it to the `area` options of `custom-ui-tests.yml` or `custom-api-tests.yml` (`npm run doctor` checks them) |
 | A new scheduled run | A new caller of `playwright-run.yml` and its entry in the `runs` list of `simpright.yml` (see [Scheduled Runs](Scheduled-Runs#add-a-new-scheduled-run)) |
 | A new secret | Actions secrets, `workflow_call.secrets` and the `env:` of `playwright-run.yml`, the `secrets:` of every caller, `ci.secrets` in `simpright.yml`, `.env.example`, and the environment JSON placeholders |
 | A new action (in a workflow or a local action) | Pin it to its release's full commit SHA, with the version in a comment (`gh api repos/<owner>/<action>/commits/<tag> --jq .sha`) |

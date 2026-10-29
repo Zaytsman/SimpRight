@@ -24,7 +24,7 @@ test steps ────────/write-ui-scenarios-from-steps─────
 One YAML file per feature in `test-scenarios/ui/<area>/`, in kebab-case and named after the spec (`products/product-sorting.yml`).
 
 ```yaml
-# yaml-language-server: $schema=../../scenarios.schema.json
+# yaml-language-server: $schema=../../../node_modules/@simpright/scenarios/schemas/scenarios.schema.json
 suite: Product sorting
 tags: ["@products"]
 scenarios:

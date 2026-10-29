@@ -27,7 +27,7 @@ on:
     - cron: '15 2 * * 1-5'
 ```
 
-To change the time or the days, edit the line in `run-api-tests.yml` or `run-ui-tests.yml` and the run's `schedule` in [`simpright.yml`](https://github.com/Zaytsman/SimpRight/blob/main/simpright.yml) (the `runs` list), then merge the change into `main`. `npm run validate:scenarios`, and with it the PR check, fails while the two differ.
+To change the time or the days, edit the line in `run-api-tests.yml` or `run-ui-tests.yml` and the run's `schedule` in [`simpright.yml`](https://github.com/Zaytsman/SimpRight/blob/main/simpright.yml) (the `runs` list), then merge the change into `main`. `npm run doctor`, and with it the PR check, fails while the two differ.
 
 ### Cron syntax
 
@@ -64,7 +64,7 @@ A workflow can have several `- cron:` lines; it runs at each of them. [crontab.g
 
 ## Add a new scheduled run
 
-A run is two things that must agree: an entry in the `runs` list of [`simpright.yml`](https://github.com/Zaytsman/SimpRight/blob/main/simpright.yml), and a workflow file that calls `playwright-run.yml` with the entry's `id` as its `family`. `npm run validate:scenarios` checks one against the other ([CI and Publishing](CI-and-Publishing#the-runs-in-simprightyml) lists the fields). For example, the products UI area every weekday at 12:15 UTC:
+A run is two things that must agree: an entry in the `runs` list of [`simpright.yml`](https://github.com/Zaytsman/SimpRight/blob/main/simpright.yml), and a workflow file that calls `playwright-run.yml` with the entry's `id` as its `family`. `npm run doctor` checks one against the other ([CI and Publishing](CI-and-Publishing#the-runs-in-simprightyml) lists the fields). For example, the products UI area every weekday at 12:15 UTC:
 
 1. The entry, added to `runs` in `simpright.yml`:
 

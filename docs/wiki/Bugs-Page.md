@@ -6,10 +6,10 @@ The **[Bugs page](https://zaytsman.github.io/SimpRight/bugs/)** lists the bugs f
 
 ## Where the bugs come from
 
-Each bug is a file in `bugs/`, such as `bugs/BUG-003.yml`, in the format of `bugs/bug.schema.json`:
+Each bug is a file in `bugs/`, such as `bugs/BUG-003.yml`, in the format of `bug.schema.json` from `@simpright/scenarios` (`paths.bugSchema`):
 
 ```yaml
-# yaml-language-server: $schema=./bug.schema.json
+# yaml-language-server: $schema=../node_modules/@simpright/scenarios/schemas/bug.schema.json
 id: BUG-003
 title: Product list returns 500 for an unknown sort column instead of a client error
 status: open                 # open | fixed | wont-fix
@@ -72,11 +72,11 @@ Scenarios with the same cause share one bug: BUG-001 (product writes without a t
 
 ## How the page is built and published
 
-`scripts/build-bugs.mts` reads the profile, the bug files and the scenarios, and writes:
+`npm run bugs:build` (`simpright-portal build-bugs`, from [`@simpright/portal`](https://github.com/Zaytsman/SimpRightKit/tree/main/packages/portal)) reads the profile, the bug files and the scenarios, and writes:
 
 | File | Content |
 |---|---|
-| `<dir>/index.html` | A copy of the page source, `site/bugs/index.html` |
+| `<dir>/index.html` | A copy of the package's page, `pages/bugs.html` |
 | `<dir>/bugs-data.js` | `window.BUG_CATALOG = {...}`: every bug with its raw YAML and the scenarios that name it (with their spec line), the counters, the commit, the portal's brand, and where the latest regression results are |
 
 ```bash
@@ -86,4 +86,4 @@ npm run bugs:build -- some/other/folder  # into a folder of your choice
 
 The latest results are read **in the browser** from the `latest/<id>/run-summary.json` of each layer's regression, the run with that `trend` in `simpright.yml` (`daily-ui-regression`, `daily-api-regression`): each scenario test's last status, written at publish time from the run's `results.json`, so a new regression run updates the results and the re-check flags without a rebuild. Opened from disk, the page has no results and shows the bugs only.
 
-**Publish Test Cases** builds and publishes the page as `bugs/` together with the Test Cases pages, on every push to `main` that changes `bugs/`, the scenarios, the page or its build ([GitHub Pages Publishing](GitHub-Pages-Publishing)). On pull requests, `verify` builds it too.
+**Publish Test Cases** builds and publishes the page as `bugs/` together with the Test Cases pages, on every push to `main` that changes `bugs/`, the scenarios, the profile or `package-lock.json` (a new version of the kit's pages and builds) ([GitHub Pages Publishing](GitHub-Pages-Publishing)). On pull requests, `verify` builds it too.
