@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <!-- The Bugs page: scripts/build-bugs.mts copies it to bugs/ next to bugs-data.js (window.BUG_CATALOG).
+  <!-- The Bugs page: simpright-portal build-bugs copies it to bugs/ next to bugs-data.js (window.BUG_CATALOG).
        It reads the latest regression results itself to flag bugs whose tests started passing. -->
   <title>Bugs</title>
   <!-- The portal's icon (the README banner's logo), inline like on the dashboard. -->
@@ -860,9 +860,10 @@
           .replace(/'/g, '&#39;');
       }
 
+      // A project file's page on GitHub; projectPath is the project's folder in the repository ('' at its root).
       function blobUrl(file, line) {
         const [filePath, anchor] = file.split('#');
-        return `${catalog.repoUrl}/blob/${catalog.branch}/${filePath}${line ? `#L${line}` : anchor ? `#${anchor.toLowerCase()}` : ''}`;
+        return `${catalog.repoUrl}/blob/${catalog.branch}/${catalog.projectPath ?? ''}${filePath}${line ? `#L${line}` : anchor ? `#${anchor.toLowerCase()}` : ''}`;
       }
 
       function formatDate(iso) {
@@ -910,7 +911,7 @@
         loadResults().then(render);
       }
 
-      // run-summary.json (scripts/lib/run-summaries.mts): the run's stats and, per scenario ID, its test's last status.
+      // run-summary.json (@simpright/portal's run summaries): the run's stats and, per scenario ID, its test's last status.
       async function loadResults() {
         await Promise.all(catalog.regressions.map(async (regression) => {
           try {

@@ -5,6 +5,7 @@
   "tagline": "Automation Framework",
   "description": "Automated UI and API tests for the Toolshop (practicesoftwaretesting.com), built with TypeScript and Playwright.",
   "repository": "https://github.com/Zaytsman/SimpRight",
+  "wiki": true,
   "healthThreshold": {
     "ui": 1,
     "api": 1

@@ -214,6 +214,10 @@
       grid-template-columns: repeat(4, minmax(0, 1fr));
       gap: 14px;
     }
+    /* Fewer cards than four (a project with one layer, or without coverage) share the row without an empty slot. */
+    .status-row.cards-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .status-row.cards-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .status-row.cards-1 { grid-template-columns: minmax(0, 1fr); }
     .status-card {
       padding: 18px;
       border-radius: 12px;
@@ -456,7 +460,7 @@
     }
 
     @media (max-width: 1100px) {
-      .status-row { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .status-row, .status-row.cards-3 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
       .stats-row { grid-template-columns: repeat(3, minmax(0, 1fr)); }
       .chart-grid { grid-template-columns: 1fr; }
     }
@@ -480,7 +484,7 @@
     @media (max-width: 600px) {
       .sidebar { grid-template-columns: 1fr; padding: 20px 16px; }
       .intro h1 { font-size: 28px; }
-      .status-row { grid-template-columns: 1fr; }
+      .status-row, .status-row.cards-3, .status-row.cards-2 { grid-template-columns: 1fr; }
       .stats-row { grid-template-columns: repeat(2, minmax(0, 1fr)); }
       .panel { padding: 16px; }
     }
@@ -528,15 +532,16 @@
       <section class="intro">
         <div>
           <h1>Automation Portal</h1>
-          <p>Latest reports, API coverage, trends, known issues and the history of every UI and API run, published by GitHub Actions.</p>
+          <!-- renderIntro() names what the portal has: its regressions' layers and, when it's published, the API coverage. -->
+          <p id="intro-text">Latest reports, API coverage, trends, known issues and the history of every UI and API run, published by GitHub Actions.</p>
         </div>
         <div class="actions">
           <!-- Coverage elements stay hidden until latest/api-coverage/totals.json exists (the coverage tool is optional). -->
           <a class="button" data-coverage hidden href="latest/api-coverage/" target="_blank" rel="noreferrer">API coverage</a>
-          <!-- Test case pages (scripts/build-test-cases.mts) stay hidden until publish-test-cases.yml has published them. -->
+          <!-- The Test Cases pages (simpright-portal build-pages) stay hidden until they're published. -->
           <a class="button" data-test-cases="ui" hidden href="test-cases/ui/" target="_blank" rel="noreferrer">UI test cases</a>
           <a class="button" data-test-cases="api" hidden href="test-cases/api/" target="_blank" rel="noreferrer">API test cases</a>
-          <!-- The Bugs page (scripts/build-bugs.mts) is published with the test case pages and stays hidden until it exists. -->
+          <!-- The Bugs page (simpright-portal build-pages) is published with the Test Cases pages and stays hidden until it exists. -->
           <a class="button" data-bugs hidden href="bugs/" target="_blank" rel="noreferrer">Bugs</a>
         </div>
       </section>
@@ -781,9 +786,9 @@
       ], options);
     }
 
-    // portal.json, written next to this page on every publish (scripts/lib/site.mts, from simpright.yml):
-    // the brand and description, the repository, the health thresholds, and the runs, each a report family published
-    // by scripts/publish-run.mts; a run with a trend is its layer's regression. Null when it's missing.
+    // portal.json, written next to this page on every publish (@simpright/portal, from simpright.yml): the brand and
+    // description, the repository, the health thresholds, and the runs, each a report family published by
+    // simpright-portal publish-run; a run with a trend is its layer's regression. Null when it's missing.
     async function loadPortal() {
       try {
         const response = await fetch('portal.json');
@@ -877,16 +882,36 @@
         setText(`${layer}-trends-sub`, `Latest 10 runs of the ${run.label}, oldest to newest`);
         document.getElementById(`${layer}-failed-link`).href = `latest/${run.id}/#?q=s%3Afailed`;
       });
+      fitStatusRow();
+    }
+
+    // The status row's columns follow its visible cards (a hidden layer or missing coverage leaves no empty slot); with
+    // none, the row goes.
+    function fitStatusRow() {
+      const row = document.querySelector('.status-row');
+      const visible = [...row.children].filter((card) => !card.hidden).length;
+      row.classList.remove('cards-1', 'cards-2', 'cards-3');
+      if (visible > 0 && visible < 4) row.classList.add(`cards-${visible}`);
+      row.hidden = visible === 0;
+    }
+
+    // The intro names what this portal has: the layers with a regression, and the API coverage when it's published.
+    function renderIntro(layers, hasCoverage) {
+      const names = ['ui', 'api'].filter((layer) => layers.includes(layer)).map((layer) => layer.toUpperCase());
+      const parts = ['Latest reports', ...(hasCoverage ? ['API coverage'] : []), ...(names.length ? ['trends', 'known issues'] : [])];
+      const runs = names.length ? `every ${names.join(' and ')} run` : 'every run';
+      setText('intro-text', `${parts.join(', ')} and the history of ${runs}, published by GitHub Actions.`);
     }
 
     function showMissingPortal() {
-      const message = 'No portal.json next to this page: it is written on every publish (scripts/lib/site.mts).';
+      const message = 'No portal.json next to this page: simpright-portal writes it on every publish.';
       document.querySelectorAll('[data-layer]').forEach((el) => { el.hidden = true; });
+      fitStatusRow();
       document.getElementById('knownIssuesBody').innerHTML = `<tr><td colspan="4" class="no-data">${message}</td></tr>`;
       document.getElementById('history-list').innerHTML = `<p class="run-empty">${message}</p>`;
     }
 
-    // A family's <family>-history.json, written at publish time by scripts/lib/run-summaries.mts: every kept run,
+    // A family's <family>-history.json, written at publish time by @simpright/portal's run summaries: every kept run,
     // newest first, with its Playwright stats (null when the run has no results), and the newest run's known issues.
     // The page never downloads a run's results.json (an API regression's is about 8 MB). Null when nothing is published.
     async function loadHistory(family) {
@@ -1025,11 +1050,12 @@
       dot.title = title;
     }
 
-    // totals.json holds summary.json's totals without the per-endpoint detail (scripts/lib/run-summaries.mts).
+    // totals.json holds summary.json's totals without the per-endpoint detail (@simpright/portal's run summaries).
+    // True when the coverage is published.
     async function loadApiCoverage() {
       try {
         const response = await fetch('latest/api-coverage/totals.json');
-        if (!response.ok) return;
+        if (!response.ok) return false;
 
         const summary = await response.json();
         if (typeof summary.overallCoveragePct === 'number') {
@@ -1040,8 +1066,11 @@
           setText('api-endpoint-coverage', `${summary.coveredEndpoints} / ${summary.totalEndpoints}`);
         }
         document.querySelectorAll('[data-coverage]').forEach((el) => { el.hidden = false; });
+        fitStatusRow();
+        return true;
       } catch {
         console.debug('No API coverage summary available yet');
+        return false;
       }
     }
 
@@ -1063,11 +1092,12 @@
     }
 
     // The repository the site was published from (portal.json), so a fork's portal links to the fork.
-    function setRepoLinks(repository) {
+    // The repository's pages in the side panel: its workflows, and its wiki when the project publishes one.
+    function setRepoLinks(repository, { wiki }) {
       if (!repository) return;
       document.querySelectorAll('[data-repo-link]').forEach((link) => {
         link.href = `${repository}/${link.dataset.repoLink}`;
-        link.hidden = false;
+        link.hidden = link.dataset.repoLink === 'wiki' && !wiki;
       });
     }
 
@@ -1166,15 +1196,20 @@
     // portal.json first (it names the runs), then every run's history. Only the charts wait for DOMContentLoaded,
     // which fires after Chart.js has run.
     const chartsReady = new Promise(resolve => document.addEventListener('DOMContentLoaded', resolve));
-    loadApiCoverage();
+    const coverage = loadApiCoverage();
     loadTestCaseLinks();
-    loadPortal().then((portal) => {
+    const portalLoaded = loadPortal();
+    // The intro waits for both, so it's written once.
+    Promise.all([portalLoaded, coverage]).then(([portal, hasCoverage]) => {
+      if (portal) renderIntro(portal.runs.map((run) => run.trend).filter(Boolean), hasCoverage);
+    });
+    portalLoaded.then((portal) => {
       if (!portal) {
         showMissingPortal();
         return;
       }
       renderBrand(portal);
-      setRepoLinks(portal.repository);
+      setRepoLinks(portal.repository, { wiki: portal.wiki === true });
       renderLatestReports(portal.runs);
       renderHistoryRows(portal.runs);
       const regressions = Object.fromEntries(portal.runs.filter(run => run.trend).map(run => [run.trend, run]));

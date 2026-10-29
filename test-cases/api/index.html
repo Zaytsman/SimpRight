@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <!-- One page for every scenario layer: scripts/build-test-cases.mts copies it to test-cases/<layer>/
+  <!-- One page for every scenario layer: simpright-portal build-test-cases copies it to test-cases/<layer>/
        next to that layer's scenarios-data.js (window.SCENARIO_CATALOG). -->
   <title>Test Cases</title>
   <!-- The portal's icon (the README banner's logo), inline like on the dashboard. -->
@@ -830,9 +830,10 @@
           .replace(/'/g, '&#39;');
       }
 
+      // A project file's page on GitHub; projectPath is the project's folder in the repository ('' at its root).
       function blobUrl(file, line) {
         const [filePath, anchor] = file.split('#');
-        return `${catalog.repoUrl}/blob/${catalog.branch}/${filePath}${line ? `#L${line}` : anchor ? `#${anchor.toLowerCase()}` : ''}`;
+        return `${catalog.repoUrl}/blob/${catalog.branch}/${catalog.projectPath ?? ''}${filePath}${line ? `#L${line}` : anchor ? `#${anchor.toLowerCase()}` : ''}`;
       }
 
       // The portal's brand from the data file (simpright.yml portal): the title, its accent (the end of it) in green, the tagline.
