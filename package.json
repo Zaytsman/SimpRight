@@ -30,7 +30,7 @@
     "@simpright/portal": "0.1.0",
     "@simpright/scenarios": "0.1.0",
     "@types/node": "^26.6.5",
-    "dotenv": "^18.0.8",
+    "dotenv": "^18.0.9",
     "simpright": "0.1.0",
     "typescript": "^7.0.2"
   },
