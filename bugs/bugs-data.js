@@ -2,10 +2,10 @@
 window.BUG_CATALOG = {
  "title": "Bugs",
  "prefix": "BUG",
- "generatedAt": "2026-10-29T19:47:02.107Z",
- "commit": "872f2bfb46dbb2f784120d8b958d28cc1d16eed4",
+ "generatedAt": "2026-10-29T20:36:10.281Z",
+ "commit": "d776cdb206bf66eae81bbef6c3454a19cc2f5191",
  "repoUrl": "https://github.com/Zaytsman/SimpRight",
- "branch": "develop",
+ "branch": "main",
  "projectPath": "",
  "portal": {
   "title": "SimpRight",
