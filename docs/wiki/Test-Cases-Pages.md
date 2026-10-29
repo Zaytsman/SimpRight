@@ -58,11 +58,11 @@ Links to files point to GitHub's `main` branch, which is what the published page
 
 ## How the pages are built
 
-`scripts/build-test-cases.mts` reads `simpright.yml` and every scenario file, and writes for each layer:
+`npm run test-cases:build` (`simpright-portal build-test-cases`, from [`@simpright/portal`](https://github.com/Zaytsman/SimpRightKit/tree/main/packages/portal)) reads `simpright.yml` and every scenario file, and writes for each layer:
 
 | File | Content |
 |---|---|
-| `<dir>/<layer>/index.html` | A copy of the page source, `site/test-cases/index.html` (one page for both layers) |
+| `<dir>/<layer>/index.html` | A copy of the package's page, `pages/test-cases.html` (one page for both layers) |
 | `<dir>/<layer>/scenarios-data.js` | `window.SCENARIO_CATALOG = {...}`: the tree, every scenario with its steps and raw YAML, the counters, the spec line of each automated test, the commit, the portal's brand, and the links to the repository and the custom workflow |
 
 The data is a script rather than JSON so the page also opens straight from disk.
@@ -76,7 +76,7 @@ Then open `test-results/test-cases/ui/index.html` in a browser.
 
 ## How they're published
 
-- **On every push to `main`** that changes the scenarios, the page, its build or publish scripts, the profile or `index.html`, **Publish Test Cases** validates the scenarios, builds the pages and publishes `test-cases/` and the portal to `gh-pages` ([GitHub Pages Publishing](GitHub-Pages-Publishing#publishing-the-test-cases-and-bugs-pages-publish-test-casessh)). It can also be run by hand.
+- **On every push to `main`** that changes the scenarios, the bugs, the profile, `package-lock.json` (a new version of the kit's pages and builds) or the publish steps, **Publish Test Cases** validates the scenarios, builds the pages and publishes `test-cases/` and the portal to `gh-pages` ([GitHub Pages Publishing](GitHub-Pages-Publishing#publishing-the-test-cases-and-bugs-pages-build-pages)). It can also be run by hand.
 - **On every pull request,** `verify` builds the pages too, so a scenario change that breaks the build fails the check before it reaches `main`.
 
 So the pages always show the scenarios of the merged code: a scenario written on `develop` appears after the next merge to `main`.
@@ -85,8 +85,8 @@ So the pages always show the scenarios of the merged code: a scenario written on
 
 | Change | Where |
 |---|---|
-| Layout, filters, behaviour | `site/test-cases/index.html` (HTML, CSS and JavaScript in one file, no build step) |
-| The data: labels, sorting, counters, links | `scripts/build-test-cases.mts` |
+| Layout, filters, behaviour | The page in [SimpRightKit](https://github.com/Zaytsman/SimpRightKit), `packages/portal/pages/test-cases.html` (HTML, CSS and JavaScript in one file, no build step), then a kit release |
+| The data: labels, sorting, counters, links | Its build in SimpRightKit, `packages/portal/src/test-cases.ts`, then a kit release |
 | Which workflow **Run on GitHub** opens | The workflow of the layer's run with `areaPicker: true` in `simpright.yml` (`custom-ui`, `custom-api`) |
 | The brand at the top | `portal` in `simpright.yml` |
 

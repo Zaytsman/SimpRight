@@ -1,4 +1,4 @@
-# yaml-language-server: $schema=./bug.schema.json
+# yaml-language-server: $schema=../node_modules/@simpright/scenarios/schemas/bug.schema.json
 id: BUG-024
 title: Products that aren't location offers get the location discount in a cart near a listed city, instead of none
 status: open

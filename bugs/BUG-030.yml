@@ -1,4 +1,4 @@
-# yaml-language-server: $schema=./bug.schema.json
+# yaml-language-server: $schema=../node_modules/@simpright/scenarios/schemas/bug.schema.json
 id: BUG-030
 title: Replying to a message that doesn't exist returns 500 instead of 404
 status: open

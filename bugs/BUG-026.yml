@@ -1,4 +1,4 @@
-# yaml-language-server: $schema=./bug.schema.json
+# yaml-language-server: $schema=../node_modules/@simpright/scenarios/schemas/bug.schema.json
 id: BUG-026
 title: A cart at longitude or latitude 0 gets no location discount, so location offers at London's coordinates (51, 0) aren't discounted
 status: open

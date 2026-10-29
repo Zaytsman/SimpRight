@@ -1,4 +1,4 @@
-# yaml-language-server: $schema=./bug.schema.json
+# yaml-language-server: $schema=../node_modules/@simpright/scenarios/schemas/bug.schema.json
 id: BUG-051
 title: A rental line in the checkout cart is marked "Item for rent, price per hour" instead of "This is a rental item"
 status: open

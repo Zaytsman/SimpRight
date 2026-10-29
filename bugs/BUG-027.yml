@@ -1,4 +1,4 @@
-# yaml-language-server: $schema=./bug.schema.json
+# yaml-language-server: $schema=../node_modules/@simpright/scenarios/schemas/bug.schema.json
 id: BUG-027
 title: Sending a message with a name of 61 to 120 characters returns 500, because the validation allows 120 and the column holds 60
 status: open

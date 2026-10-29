@@ -1,4 +1,4 @@
-# yaml-language-server: $schema=./bug.schema.json
+# yaml-language-server: $schema=../node_modules/@simpright/scenarios/schemas/bug.schema.json
 id: BUG-001
 title: Product writes (POST, PUT, PATCH /products) succeed without a token instead of returning 401
 status: open

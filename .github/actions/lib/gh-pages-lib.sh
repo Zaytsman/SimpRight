@@ -1,14 +1,14 @@
 #!/usr/bin/env bash
 # Shared git steps of the actions that publish to the gh-pages branch (served by GitHub Pages): publish-run
-# (test reports) and publish-pages (the portal's pages). The files themselves are written by Node scripts
-# (scripts/publish-run.mts, scripts/build-pages.mts), which run on any OS; these steps need CI's token.
+# (test reports) and publish-pages (the portal's pages). The files themselves are written by simpright-portal
+# (publish-run, build-pages; @simpright/portal), which runs on any OS; these steps need CI's token.
 #
 # Source it from an action's script, which runs at the repository root in GitHub Actions with GH_TOKEN set to a
 # token that can push (the workflows check out with persist-credentials: false and give github.token to the
 # publish action only, so nothing that runs before it, such as the install or the tests, can read one):
 #   source "$(dirname "$0")/../lib/gh-pages-lib.sh"
-#   ghp_checkout .gh-pages                         # gh-pages checked out as a worktree in .gh-pages
-#   node scripts/build-pages.mts --site .gh-pages  # write the files
+#   ghp_checkout .gh-pages                                          # gh-pages checked out as a worktree in .gh-pages
+#   npx --no-install simpright-portal build-pages --site .gh-pages  # write the files
 #   ghp_publish .gh-pages "Publish something"
 
 # Checks out gh-pages as a worktree in <dir>, or starts it as an empty orphan branch on the first publish.

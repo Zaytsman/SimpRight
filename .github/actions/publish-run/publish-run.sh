@@ -5,9 +5,9 @@
 #   <family>           the run's id in simpright.yml runs, e.g. daily-ui-regression, custom-api
 #   --latest-coverage  also publish test-results/api-coverage as latest/api-coverage
 #
-# scripts/publish-run.mts writes the files (the site layout is described there); this script checks out gh-pages,
-# runs it and pushes the result (../lib/gh-pages-lib.sh). Runs in GitHub Actions at the repository root, with
-# GH_TOKEN and KEEP_RUNS (how many runs of the family stay on the site: the action's keep input) set.
+# simpright-portal publish-run (@simpright/portal, installed by npm ci) writes the files; this script checks out
+# gh-pages, runs it and pushes the result (../lib/gh-pages-lib.sh). Runs in GitHub Actions at the repository root,
+# with GH_TOKEN and KEEP_RUNS (how many runs of the family stay on the site: the action's keep input) set.
 set -euo pipefail
 source "$(dirname "$0")/../lib/gh-pages-lib.sh"
 
@@ -25,5 +25,5 @@ if [ -n "${KEEP_RUNS:-}" ]; then
 fi
 
 ghp_checkout "$SITE"
-node scripts/publish-run.mts "${args[@]}"
+npx --no-install simpright-portal publish-run "${args[@]}"
 ghp_publish "$SITE" "Publish $FAMILY run-$GITHUB_RUN_NUMBER"

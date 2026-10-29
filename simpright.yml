@@ -1,13 +1,13 @@
-# yaml-language-server: $schema=./simpright.schema.json
+# yaml-language-server: $schema=./node_modules/simpright/simpright.schema.json
 #
-# The project's toolchain config: what the QA agents and scripts need to know about this project.
-# Agents read this file first; scripts/validate-scenarios.mts reads it too, checks that every path
-# below exists and that the runs match their workflows. Tests never read it: their config is
+# The project's toolchain config: what the QA agents and the SimpRight Kit's commands need to know about this
+# project. Agents read this file first; the kit's commands read it too (npm run doctor checks that every path
+# below exists and that the runs match their workflows). Tests never read it: their config is
 # src/envs/<ENV>.json and .env.
 # It holds facts and pointers, not conventions: those stay in the files listed under
 # project.conventions, and the exemplars show the style to copy.
 
-template: v0.1.0                            # the SimpRightTemplate version the core files (core.files) match; npm run check:template compares them
+template: v0.1.0                            # the SimpRightTemplate version the core files (core.files) match; npm run doctor compares them
 
 project:
   language: typescript
@@ -16,9 +16,9 @@ project:
 
 paths:
   scenarios: test-scenarios                 # <layer>/<area>/<name>.yml
-  scenarioSchema: test-scenarios/scenarios.schema.json
+  scenarioSchema: node_modules/@simpright/scenarios/schemas/scenarios.schema.json   # the formats are the kit's
   bugs: bugs                                # <ID>.yml, one per bug in the app under test (BUG-001.yml)
-  bugSchema: bugs/bug.schema.json
+  bugSchema: node_modules/@simpright/scenarios/schemas/bug.schema.json
   contracts: docs/api/contracts
   contractFormat: docs/api/CONTRACT_FORMAT.md   # the contract format specification (a copy of the coverage package's)
   tests: tests                              # <layer>/<area>/<name>.spec.ts
@@ -155,7 +155,7 @@ parts:
   wiki: true                                # docs/wiki/ published to the GitHub wiki
 
 # The framework's core: the files a project gets from the template and keeps generic. A core code file imports only
-# other core files, the seams and packages (validate:scenarios checks it); the app's code goes in the project's own files.
+# other core files, the seams and packages (npm run doctor checks it); the app's code goes in the project's own files.
 core:
   files:
     - src/config/env.ts                     # the environment config, the users, the roles (from the seam)
@@ -190,7 +190,7 @@ ci:
   secrets: [ADMIN_USER, ADMIN_PASSWORD]     # names of the repository secrets the tests read, never values
 
 # One entry per test run: its report family on GitHub Pages (id) and the caller of
-# .github/workflows/playwright-run.yml that runs it; validate:scenarios checks each caller against its entry.
+# .github/workflows/playwright-run.yml that runs it; npm run doctor checks each caller against its entry.
 # Every run can be started by hand; schedule adds a cron in UTC (never on the full hour: the site re-seeds at :00).
 runs:
   - id: daily-ui-regression
@@ -222,8 +222,8 @@ runs:
     project: api
     areaPicker: true
 
-# The Automation Portal's text. index.html reads it, with the runs above, from portal.json
-# (written on every publish, scripts/lib/site.mts); the Test Cases and Bugs pages from their data files.
+# The Automation Portal's text. Its dashboard reads it, with the runs above, from portal.json
+# (written on every publish by simpright-portal); the Test Cases and Bugs pages from their data files.
 portal:
   title: SimpRight
   titleAccent: Right                        # the end of the title in the accent color

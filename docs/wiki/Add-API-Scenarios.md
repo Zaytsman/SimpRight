@@ -24,7 +24,7 @@ steps, JSON, Bruno ──────/write-api-scenarios-from-steps────
 One YAML file per endpoint in `test-scenarios/api/<area>/`, named after it: `GET /products/{productId}` → `get-products-by-product-id.yml`.
 
 ```yaml
-# yaml-language-server: $schema=../../scenarios.schema.json
+# yaml-language-server: $schema=../../../node_modules/@simpright/scenarios/schemas/scenarios.schema.json
 suite: Users API
 tags: ["@users-api"]
 scenarios:

@@ -154,7 +154,7 @@ The sweep found no references to removed code. The gaps were in what the agents 
 - **No Prettier for now:** it would reformat 122 of the 209 files.
 - **Revisit** ESLint when `typescript-eslint` supports TypeScript 7.
 
-**Step-title check:** it became [`scripts/check-step-titles.mts`](../../scripts/check-step-titles.mts). CI runs it after every test run and warns without failing the job, because a wrong title is a naming defect, not an app failure.
+**Step-title check:** it became `scripts/check-step-titles.mts` (since 2026-10 `simpright-scenarios check-step-titles`, in the SimpRight Kit's `@simpright/scenarios`). CI runs it after every test run and warns without failing the job, because a wrong title is a naming defect, not an app failure.
 
 ## Checked and left as they are
 

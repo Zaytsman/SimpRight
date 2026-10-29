@@ -1,4 +1,4 @@
-# yaml-language-server: $schema=./bug.schema.json
+# yaml-language-server: $schema=../node_modules/@simpright/scenarios/schemas/bug.schema.json
 id: BUG-007
 title: Registration accepts customers older than 75; the age limit only rejects birth dates more than 93 years ago
 status: open

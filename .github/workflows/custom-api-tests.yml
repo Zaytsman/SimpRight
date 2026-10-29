@@ -8,7 +8,7 @@ on:
         required: true
         default: 'all'
         type: choice
-        # The folders in tests/api: validate:scenarios checks them (the custom-api run in simpright.yml).
+        # The folders in tests/api: npm run doctor checks them (the custom-api run in simpright.yml).
         options:
           - all
           - products

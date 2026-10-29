@@ -1,4 +1,4 @@
-# yaml-language-server: $schema=./bug.schema.json
+# yaml-language-server: $schema=../node_modules/@simpright/scenarios/schemas/bug.schema.json
 id: BUG-050
 title: The checkout's Cart step says "The cart is empty. Nothing to display." instead of "Your shopping cart is empty"
 status: open

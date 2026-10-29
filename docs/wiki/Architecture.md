@@ -52,12 +52,13 @@ Each layer only calls the one below it:
 | `src/data/` | `TestConstants.ts` (seeded values), `factories/` (payload builders, unique names) | [8](Test-Data) |
 | `src/utils/` | `assertHelpers.ts` (masking, messages, attachments), `apiChecks.ts` (shared API checks; the HTTP-level ones are the core's `httpChecks.ts`), `amounts.ts`, `envUtils.ts`, `totp.ts` | [10](Reporting-and-Secrets), [5](API-Specs) |
 | `src/globalSetup.ts` | Once per run: the project's `beforeRun` and `afterRun` (the re-seed wait, the run's customer), optional UI logins | [2](Configuration) |
-| `scripts/` | Validator, step-title check, page inspector, page builds, the publish scripts' file work | [9](Scenarios-Bugs-and-Validation), [11](CI-and-Publishing) |
+| `scripts/` | The page inspector | [9](Scenarios-Bugs-and-Validation#the-page-inspector) |
 | `.github/workflows/` | CI: the reusable test job, scheduled and manual runs, PR checks, publishing | [11](CI-and-Publishing) |
 | `.github/actions/` | The workflows' steps as composite actions (setup, tests, publishing), with the publish scripts' git steps | [11](CI-and-Publishing) |
 | `.claude/agents/`, `.claude/skills/`, `simpright.yml` | The QA agents, their skills and the project facts they read | [12](AI-Agents) |
 | `docs/` | Contracts, user stories, analyses, the wiki source, these pages and the framework's [conventions](https://github.com/Zaytsman/SimpRight/blob/main/docs/framework/conventions.md) | |
-| `site/`, `index.html` | The GitHub Pages portal, the Test Cases and Bugs pages | [11](CI-and-Publishing) |
+
+The scenarios and portal parts come from the [SimpRight Kit](https://github.com/Zaytsman/SimpRightKit)'s npm packages, devDependencies pinned to one version: `simpright` (`npm run doctor`, the profile's schema), `@simpright/scenarios` (the scenario and bug schemas, the validator, the step-title check) and `@simpright/portal` (the portal's pages, their builds and the publish's file work) ([9](Scenarios-Bugs-and-Validation), [11](CI-and-Publishing)).
 
 Path aliases (`tsconfig.json`, resolved by Playwright): `@fixtures` (= `src/fixtures/index.ts`), `@api/*`, `@ui/*`, `@config/*`, `@data/*`, `@fixtures/*`, `@utils/*`.
 
@@ -70,9 +71,9 @@ The core reaches the app only through two **seams**, the project's own files:
 - `src/config/roles.ts`: the roles tests act as;
 - `src/config/project.ts`: the app's test-id attribute, its logins (API, browser state, login page) and what runs around a run ([2](Configuration#the-project-file)).
 
-A core code file imports only core files, the seams and packages, and `npm run validate:scenarios` fails otherwise ([9](Scenarios-Bugs-and-Validation)). Where the app's code does a core job its own way, it builds on the core: `AppPage` extends `BasePage`, and `apiChecks.ts` and `apiSteps.ts` add the Toolshop's own checks and re-export the core's (`httpChecks.ts`, `sendSteps.ts`).
+A core code file imports only core files, the seams and packages, and `npm run doctor` fails otherwise ([9](Scenarios-Bugs-and-Validation#the-project-check-npm-run-doctor)). Where the app's code does a core job its own way, it builds on the core: `AppPage` extends `BasePage`, and `apiChecks.ts` and `apiSteps.ts` add the Toolshop's own checks and re-export the core's (`httpChecks.ts`, `sendSteps.ts`).
 
-The core is the same as in [SimpRightTemplate](https://github.com/Zaytsman/SimpRightTemplate), the template a new project starts from. `template` in `simpright.yml` records the template version the core files match, and `npm run check:template` fails when one differs from that version's copy; `verify` runs it ([11](CI-and-Publishing)). So a core change is made in the template too: a new template version, then `template` here.
+The core is the same as in [SimpRightTemplate](https://github.com/Zaytsman/SimpRightTemplate), the template a new project starts from. `template` in `simpright.yml` records the template version the core files match, and `npm run doctor` fails when one differs from that version's copy; `verify` runs it ([11](CI-and-Publishing)). So a core change is made in the template too: a new template version, then `template` here.
 
 ## What happens during a run
 

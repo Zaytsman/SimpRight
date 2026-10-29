@@ -25,7 +25,7 @@ When a page here and the conventions (`conventions.md`, `CLAUDE.md`) disagree, t
 | 6 | [UI layer](06-ui-layer.md) | Pages, components, dialogs, flows, waits, visitor state, Cloudflare handling |
 | 7 | [UI specs](07-ui-specs.md) | How a UI test is written: preconditions, setup helpers, steps and checks |
 | 8 | [Test data](08-test-data.md) | Seeded constants, factories, unique names, throwaway users, cleanup, shared-data safety |
-| 9 | [Scenarios and bugs](09-scenarios-and-bugs.md) | Scenario files, bug files, the project profile, the validator, the step-title check, the smoke set |
+| 9 | [Scenarios and bugs](09-scenarios-and-bugs.md) | Scenario files, bug files, the project profile, the validator and the project check (`doctor`), the step-title check, the smoke set |
 | 10 | [Reporting and secrets](10-reporting-and-secrets.md) | Reporters, attachments, assertion messages, masking, what never reaches a report |
 | 11 | [CI and publishing](11-ci-and-publishing.md) | The workflows, the reusable test job, GitHub Pages, hardening, Dependabot |
 | 12 | [AI agents](12-ai-agents.md) | The agents and skills, the profile they read, the exemplars they copy |

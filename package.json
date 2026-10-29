@@ -13,13 +13,13 @@
     "test:debug": "playwright test --debug",
     "report": "playwright show-report",
     "typecheck": "tsc --noEmit",
-    "validate:scenarios": "node scripts/validate-scenarios.mts",
-    "check:step-titles": "node scripts/check-step-titles.mts",
-    "check:template": "node scripts/check-template.mts",
+    "validate:scenarios": "simpright-scenarios validate",
+    "check:step-titles": "simpright-scenarios check-step-titles",
+    "doctor": "simpright doctor",
     "inspect:ui": "node scripts/inspect-ui.mts",
-    "test-cases:build": "node scripts/build-test-cases.mts",
-    "bugs:build": "node scripts/build-bugs.mts",
-    "portal:build": "node scripts/build-portal-config.mts",
+    "test-cases:build": "simpright-portal build-test-cases",
+    "bugs:build": "simpright-portal build-bugs",
+    "portal:build": "simpright-portal build-config",
     "install:browsers": "playwright install --with-deps chromium"
   },
   "engines": {
@@ -27,11 +27,12 @@
   },
   "devDependencies": {
     "@playwright/test": "^1.64.1",
+    "@simpright/portal": "0.1.0",
+    "@simpright/scenarios": "0.1.0",
     "@types/node": "^26.6.5",
-    "ajv": "^8.20.0",
     "dotenv": "^18.0.8",
-    "typescript": "^7.0.2",
-    "yaml": "^2.9.1"
+    "simpright": "0.1.0",
+    "typescript": "^7.0.2"
   },
   "optionalDependencies": {
     "@zaytsman/playwright-api-coverage": "^0.5.0"

@@ -1,4 +1,4 @@
-# yaml-language-server: $schema=./bug.schema.json
+# yaml-language-server: $schema=../node_modules/@simpright/scenarios/schemas/bug.schema.json
 id: BUG-029
 title: Getting a message that doesn't exist, or that the customer doesn't own, returns 200 with an empty body instead of 404
 status: open

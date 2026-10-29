@@ -64,11 +64,12 @@ ADMIN_PASSWORD=<admin password>
 
 ## 6. Check the setup
 
-Run the two fast checks first. They don't touch the app:
+Run the three fast checks first. They don't touch the app (`doctor` reads the template's files from GitHub):
 
 ```bash
 npm run typecheck
 npm run validate:scenarios
+npm run doctor
 ```
 
 Then one read-only API test and one UI test:
@@ -104,7 +105,7 @@ npm run report
 | `npm run typecheck` | TypeScript check |
 | `npm run validate:scenarios` | Check the scenario files, their IDs and their specs; prints the next free IDs |
 | `npm run check:step-titles -- <report.json>` | Compare each test's step titles in a JSON report with its scenario's steps |
-| `npm run check:template` | Compare the core files with SimpRightTemplate at the version in `simpright.yml` (reads GitHub) |
+| `npm run doctor` | Check `simpright.yml`, the runs against their workflows, and the core files against SimpRightTemplate at the version in `simpright.yml` (reads GitHub) |
 | `npm run inspect:ui -- /auth/login --logged-out` | List a page's `data-test` elements and accessibility tree (for writing UI tests) |
 | `npm run test-cases:build` | Build the Test Cases pages into `test-results/test-cases/` |
 

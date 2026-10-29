@@ -16,10 +16,10 @@ bugs/BUG-0xx.yml
 
 ## Scenario files
 
-[`test-scenarios/`](../../test-scenarios/), validated by [`scenarios.schema.json`](../../test-scenarios/scenarios.schema.json):
+[`test-scenarios/`](../../test-scenarios/), validated by `scenarios.schema.json` from [`@simpright/scenarios`](https://github.com/Zaytsman/SimpRightKit/tree/main/packages/scenarios) (`paths.scenarioSchema` in the profile points to it in `node_modules`, and so does each file's first line, for the editor):
 
 ```yaml
-# yaml-language-server: $schema=../../scenarios.schema.json
+# yaml-language-server: $schema=../../../node_modules/@simpright/scenarios/schemas/scenarios.schema.json
 suite: Product search
 tags: ["@products"]
 scenarios:
@@ -50,7 +50,7 @@ scenarios:
 
 ## Bug files
 
-[`bugs/`](../../bugs/), one `<ID>.yml` per **root cause**, validated by [`bug.schema.json`](../../bugs/bug.schema.json): `id`, `title`, `status` (`open`, `fixed`, `wont-fix`), `severity`, `layer`, `area`, `affects` (endpoints or pages), `found`, `resolved` (exactly when not open), `ref`, `upstream`, `description`, `steps`, `expected`, `actual`, `evidence`.
+[`bugs/`](../../bugs/), one `<ID>.yml` per **root cause**, validated by `bug.schema.json` from `@simpright/scenarios` (`paths.bugSchema`): `id`, `title`, `status` (`open`, `fixed`, `wont-fix`), `severity`, `layer`, `area`, `affects` (endpoints or pages), `found`, `resolved` (exactly when not open), `ref`, `upstream`, `description`, `steps`, `expected`, `actual`, `evidence`.
 
 The lifecycle:
 
@@ -62,15 +62,13 @@ Bug files are published (the Bugs page), so they never hold secret values.
 
 ## The project profile
 
-[`simpright.yml`](../../simpright.yml) (schema: [`simpright.schema.json`](../../simpright.schema.json)) is the project config that the agents and scripts read; tests never read it (their config is `src/envs/<ENV>.json` and `.env`, [2](02-configuration.md)). It holds paths, commands (`runSpec`, `inspectUi`, ...), ID prefixes and digits, the area folders, file-name patterns, roles, the exemplar files per layer (the `api` and `ui` sections, each optional), the known-issue snippet, agent-critical rules, and live-app guardrails (`liveApi.writes: ask`, the dangerous actions, the app's known transient problems). Five sections describe the framework's parts: `parts` (the optional parts in use), `core` (the framework's core files and the seams they may import, [1](01-architecture.md#the-core-and-the-app)), `ci` (the workflows' Node version and secret names), `runs` (one entry per test run, [11](11-ci-and-publishing.md#the-runs-in-simprightyml)) and `portal` (the portal's text and health thresholds, which the portal pages show). `template` names the SimpRightTemplate version the core files match ([1](01-architecture.md#the-core-and-the-app)). It points to the conventions (`project.conventions`: `CLAUDE.md` and [`conventions.md`](conventions.md)) instead of repeating them. More in [12](12-ai-agents.md).
+[`simpright.yml`](../../simpright.yml) (schema: `simpright.schema.json` from the [`simpright`](https://github.com/Zaytsman/SimpRightKit/tree/main/packages/simpright) package) is the project config that the agents and the kit's commands read; tests never read it (their config is `src/envs/<ENV>.json` and `.env`, [2](02-configuration.md)). It holds paths, commands (`runSpec`, `inspectUi`, ...), ID prefixes and digits, the area folders, file-name patterns, roles, the exemplar files per layer (the `api` and `ui` sections, each optional), the known-issue snippet, agent-critical rules, and live-app guardrails (`liveApi.writes: ask`, the dangerous actions, the app's known transient problems). Five sections describe the framework's parts: `parts` (the optional parts in use), `core` (the framework's core files and the seams they may import, [1](01-architecture.md#the-core-and-the-app)), `ci` (the workflows' Node version and secret names), `runs` (one entry per test run, [11](11-ci-and-publishing.md#the-runs-in-simprightyml)) and `portal` (the portal's text and health thresholds, which the portal pages show). `template` names the SimpRightTemplate version the core files match ([1](01-architecture.md#the-core-and-the-app)). It points to the conventions (`project.conventions`: `CLAUDE.md` and [`conventions.md`](conventions.md)) instead of repeating them. More in [12](12-ai-agents.md).
 
 ## The validator: `npm run validate:scenarios`
 
-[`scripts/validate-scenarios.mts`](../../scripts/validate-scenarios.mts) is static: it reads files and runs no tests. It runs locally, in the PR check (`verify`) and before every Test Cases publish. It checks that:
+`simpright-scenarios validate` (from `@simpright/scenarios`) is static: it reads files and runs no tests. It runs locally, in the PR check (`verify`) and before every Test Cases publish. It checks that:
 
-- the profile matches its schema, and every path it names exists;
-- every run in `runs` matches its caller of `playwright-run.yml`, an area picker's options are the test folders, and the secrets and Node version match `ci` ([11](11-ci-and-publishing.md#the-runs-in-simprightyml));
-- every core file and seam in `core` exists, and a core code file imports only core files, the seams and packages ([1](01-architecture.md#the-core-and-the-app)); a document such as the conventions isn't scanned;
+- the profile's ID settings hold together (each layer its own prefix, the bugs' settings all or none, the file-name patterns), and `paths.scenarioSchema` and `paths.bugSchema` are the package's own schemas;
 - every bug file is `bugs/<ID>.yml`, matches the bug schema, keeps the key order, and has a `resolved` date exactly when it isn't open;
 - every scenario file is in `<layer>/<area>/` with a valid file name, matches the schema, and keeps the key order;
 - IDs are unique and well-formed; roles are known; a `knownIssue` comes with an open bug, and a bug with a `knownIssue`;
@@ -78,13 +76,25 @@ Bug files are published (the Bugs page), so they never hold secret values.
 - `automatedIn` exists and is named after the scenario file, and the spec has the `// Scenarios:` comment, the describe `'<tags> - <suite>'`, a test titled `'<ID>: <name>'` verbatim, and the known-issue line with the right bug and text;
 - every test in `tests/` has an ID with a scenario automated in that spec.
 
-It ends with the counts (`Runs OK: 5 run(s), each with its workflow.`, `Core OK: 21 file(s), importing only each other, 2 seam(s) and packages.`) and the next free IDs: `Next free IDs: UI-099, API-0672, BUG-052`.
+It ends with the counts (`Scenarios OK: 769 scenario(s), 731 automated.`, `Bugs OK: 49 bug(s), 48 open, 1 without a scenario.`) and the next free IDs: `Next free IDs: UI-099, API-0672, BUG-052`.
 
 **It finds titles as literal `test('<ID>: <name>'` calls**, which is why tests are never generated in a loop and templates are called from one `test()` per scenario ([5](05-api-specs.md#templates-tests-that-differ-only-in-data)).
 
+## The project check: `npm run doctor`
+
+`simpright doctor` (from the `simpright` package) checks the rest of the setup, statically too, locally and in `verify`:
+
+- the profile matches its schema, and every path it names exists;
+- the kit's packages share one version;
+- every run in `runs` matches its caller of `playwright-run.yml`, an area picker's options are the test folders, the secrets and Node version match `ci`, and every step that uses a local action passes its required inputs and no others ([11](11-ci-and-publishing.md#the-runs-in-simprightyml));
+- every core file and seam in `core` exists, and a core code file imports only core files, the seams and packages ([1](01-architecture.md#the-core-and-the-app)); a document such as the conventions isn't scanned;
+- the core files equal SimpRightTemplate's at the version `template` names, read from GitHub (`--offline` leaves this check out).
+
+It prints a line per check: `Config OK: ...`, `Kit OK: simpright, @simpright/scenarios, @simpright/portal at 0.1.0.`, `Runs OK: 5 run(s), each with its workflow.`, `Core OK: 22 file(s), the code importing only each other, 2 seam(s) and packages.` and `Template OK: 22 core file(s) match SimpRightTemplate v0.1.0.`
+
 ## The step-title check: `npm run check:step-titles`
 
-Step titles are often template parameters, so only a run shows them. [`scripts/check-step-titles.mts`](../../scripts/check-step-titles.mts) reads a Playwright JSON report (default `test-results/results.json`, which CI writes) and compares each test's top-level `test.step` titles with its scenario's steps, verbatim and in order. A failed or skipped test is compared only up to the step it reached.
+Step titles are often template parameters, so only a run shows them. `simpright-scenarios check-step-titles` (from `@simpright/scenarios`) reads a Playwright JSON report (default `test-results/results.json`, which CI writes) and compares each test's top-level `test.step` titles with its scenario's steps, verbatim and in order. A failed or skipped test is compared only up to the step it reached.
 
 - Locally: `PLAYWRIGHT_JSON_OUTPUT_NAME=test-results/results.json npx playwright test --reporter=list,json`, then `npm run check:step-titles`. It exits with 1 on a mismatch.
 - On CI: a step after the tests in `playwright-run.yml` adds a warning annotation on the spec for each mismatch. It doesn't fail the job, because a wrong title is a naming defect, not an app failure.
@@ -98,7 +108,7 @@ The scenarios tagged `@smoke` (25 today: 16 API, 9 UI): critical happy paths onl
 - **Test Cases pages** (`npm run test-cases:build`): a browsable catalog per layer, a tree by area and file, with search, status and known-issue filters, steps, the YAML, and links to the spec line and the user story.
 - **Bugs page** (`npm run bugs:build`): every bug with its linked tests and their latest regression result. An open bug whose known-issue test passed is flagged for a re-check.
 
-Both are published from `main` ([11](11-ci-and-publishing.md)).
+Both pages, and the commands that build them, come from [`@simpright/portal`](https://github.com/Zaytsman/SimpRightKit/tree/main/packages/portal), and both are published from `main` ([11](11-ci-and-publishing.md)).
 
 ## The page inspector
 
