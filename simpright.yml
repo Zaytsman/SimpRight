@@ -7,7 +7,7 @@
 # It holds facts and pointers, not conventions: those stay in the files listed under
 # project.conventions, and the exemplars show the style to copy.
 
-template: v0.1.0                            # the SimpRightTemplate version the core files (core.files) match; npm run doctor compares them
+template: v0.2.0                            # the SimpRightTemplate version the core files (core.files) match; npm run doctor compares them
 
 project:
   language: typescript
