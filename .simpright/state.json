@@ -1,5 +1,5 @@
 {
-  "kit": "0.2.0",
+  "kit": "0.2.1",
   "files": {
     ".github/dependabot.yml": "sha256-feb6f7b6bc2f34c1321a1619279a62f307cff6428a19a694b9f7f445daba7128",
     ".github/workflows/custom-api-tests.yml": "sha256-3d8dd1d06aacd1a5e6f7b24bcc1df27900d383aabb468ff738f314df0acceaa5",

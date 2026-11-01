@@ -37,7 +37,7 @@ jobs:
           persist-credentials: false
 
       - name: Sync docs/wiki to the wiki
-        uses: Zaytsman/SimpRightKit/actions/publish-wiki@6d725828d0a1363389cf34e3b198bc6e4d693249 # v0.2.0
+        uses: Zaytsman/SimpRightKit/actions/publish-wiki@b25dc22e2012dd76b9eab1e656928397616458af # v0.2.1
         with:
           source: docs/wiki
           token: ${{ github.token }}

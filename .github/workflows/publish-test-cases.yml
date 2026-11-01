@@ -37,7 +37,7 @@ jobs:
 
       # The kit's packages (the validator, the pages and their builder); optional packages aren't needed.
       - name: Set up Node.js and install
-        uses: Zaytsman/SimpRightKit/actions/setup@6d725828d0a1363389cf34e3b198bc6e4d693249 # v0.2.0
+        uses: Zaytsman/SimpRightKit/actions/setup@b25dc22e2012dd76b9eab1e656928397616458af # v0.2.1
         with:
           node-version: 24
           omit-optional: true
@@ -46,7 +46,7 @@ jobs:
         run: npm run validate:scenarios
 
       - name: Build and publish
-        uses: Zaytsman/SimpRightKit/actions/publish-pages@6d725828d0a1363389cf34e3b198bc6e4d693249 # v0.2.0
+        uses: Zaytsman/SimpRightKit/actions/publish-pages@b25dc22e2012dd76b9eab1e656928397616458af # v0.2.1
         with:
           # The push credential for gh-pages; the checkout kept none.
           token: ${{ github.token }}

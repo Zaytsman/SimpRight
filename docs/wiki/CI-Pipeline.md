@@ -39,7 +39,7 @@ All ten workflows, and `.github/dependabot.yml`, are written by `npm run apply` 
 
 ## The kit's actions
 
-The workflows' steps are the [SimpRight Kit's composite actions](https://github.com/Zaytsman/SimpRightKit/blob/main/actions/README.md), one folder each with its `action.yml` and, for the publishing ones, its shell script. A step uses one as `Zaytsman/SimpRightKit/actions/<name>@<commit> # v0.2.0`, pinned to the commit of the kit release whose npm packages `package.json` pins. The workflow checks out the project first; the actions install and run what they find there.
+The workflows' steps are the [SimpRight Kit's composite actions](https://github.com/Zaytsman/SimpRightKit/blob/main/actions/README.md), one folder each with its `action.yml` and, for the publishing ones, its shell script. A step uses one as `Zaytsman/SimpRightKit/actions/<name>@<commit> # v<version>`, pinned to the commit of the kit release whose npm packages `package.json` pins. The workflow checks out the project first; the actions install and run what they find there.
 
 | Action | Does | Used by |
 |---|---|---|

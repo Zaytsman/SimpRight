@@ -44,7 +44,7 @@ Every input reaches a `run:` script through `env:`, in the workflows and in the 
 
 ## The kit's actions
 
-The workflows' steps are the [SimpRight Kit's composite actions](https://github.com/Zaytsman/SimpRightKit/blob/main/actions/README.md), one folder each in the kit's `actions/`, so every workflow sets up and publishes the same way. A step uses one as `Zaytsman/SimpRightKit/actions/<name>@<commit> # v0.2.0`: the commit of the kit release whose npm packages `package.json` pins, which `apply` takes from the installed `simpright`. The workflow checks out the project first, and the actions install and run what they find there. An action can't read `secrets`, so a token comes in as its `token` input, which has no default: the workflow shows which step gets one.
+The workflows' steps are the [SimpRight Kit's composite actions](https://github.com/Zaytsman/SimpRightKit/blob/main/actions/README.md), one folder each in the kit's `actions/`, so every workflow sets up and publishes the same way. A step uses one as `Zaytsman/SimpRightKit/actions/<name>@<commit> # v<version>`: the commit of the kit release whose npm packages `package.json` pins, which `apply` takes from the installed `simpright`. The workflow checks out the project first, and the actions install and run what they find there. An action can't read `secrets`, so a token comes in as its `token` input, which has no default: the workflow shows which step gets one.
 
 | Action | Inputs (required first) | Does | Used by |
 |---|---|---|---|

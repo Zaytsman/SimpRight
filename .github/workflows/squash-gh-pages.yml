@@ -31,6 +31,6 @@ jobs:
           persist-credentials: false
 
       - name: Squash gh-pages
-        uses: Zaytsman/SimpRightKit/actions/squash-pages@6d725828d0a1363389cf34e3b198bc6e4d693249 # v0.2.0
+        uses: Zaytsman/SimpRightKit/actions/squash-pages@b25dc22e2012dd76b9eab1e656928397616458af # v0.2.1
         with:
           token: ${{ github.token }}
