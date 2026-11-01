@@ -86,11 +86,13 @@ It ends with the counts (`Scenarios OK: 769 scenario(s), 731 automated.`, `Bugs 
 
 - the profile matches its schema, and every path it names exists;
 - the kit's packages share one version;
-- every run in `runs` matches its caller of `playwright-run.yml`, an area picker's options are the test folders, the secrets and Node version match `ci`, and every step that uses a local action passes its required inputs and no others ([11](11-ci-and-publishing.md#the-runs-in-simprightyml));
+- every run in `runs` matches its caller of `playwright-run.yml`, an area picker's options are the test folders, and the secrets and Node version match `ci` ([11](11-ci-and-publishing.md#the-runs-in-simprightyml));
+- every step that uses one of the kit's actions is pinned to the installed kit's release commit, with its version in a comment, and passes its required inputs and no others;
+- the files `npm run apply` wrote (`.simpright/state.json`) are still what it writes, apart from the pins ([11](11-ci-and-publishing.md#generated-npm-run-apply));
 - every core file and seam in `core` exists, and a core code file imports only core files, the seams and packages ([1](01-architecture.md#the-core-and-the-app)); a document such as the conventions isn't scanned;
 - the core files equal SimpRightTemplate's at the version `template` names, read from GitHub (`--offline` leaves this check out).
 
-It prints a line per check: `Config OK: ...`, `Kit OK: simpright, @simpright/scenarios, @simpright/portal at 0.1.0.`, `Runs OK: 5 run(s), each with its workflow.`, `Core OK: 22 file(s), the code importing only each other, 2 seam(s) and packages.` and `Template OK: 22 core file(s) match SimpRightTemplate v0.2.0.`
+It prints a line per check: `Config OK: ...`, `Kit OK: simpright, @simpright/scenarios, @simpright/portal at 0.2.0.`, `Runs OK: 5 run(s), each with its workflow.`, `Kit actions OK: 8 step(s) at v0.2.0, commit 6d72582.`, `Generated OK: 11 file(s) as simpright apply writes them (.simpright/state.json).`, `Core OK: 22 file(s), the code importing only each other, 2 seam(s) and packages.` and `Template OK: 22 core file(s) match SimpRightTemplate v0.2.0.`
 
 ## The step-title check: `npm run check:step-titles`
 

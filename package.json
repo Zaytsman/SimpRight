@@ -16,6 +16,7 @@
     "validate:scenarios": "simpright-scenarios validate",
     "check:step-titles": "simpright-scenarios check-step-titles",
     "doctor": "simpright doctor",
+    "apply": "simpright apply",
     "inspect:ui": "node scripts/inspect-ui.mts",
     "test-cases:build": "simpright-portal build-test-cases",
     "bugs:build": "simpright-portal build-bugs",
@@ -27,11 +28,11 @@
   },
   "devDependencies": {
     "@playwright/test": "^1.64.1",
-    "@simpright/portal": "0.1.0",
-    "@simpright/scenarios": "0.1.0",
+    "@simpright/portal": "0.2.0",
+    "@simpright/scenarios": "0.2.0",
     "@types/node": "^26.6.5",
     "dotenv": "^18.0.9",
-    "simpright": "0.1.0",
+    "simpright": "0.2.0",
     "typescript": "^7.0.2"
   },
   "optionalDependencies": {

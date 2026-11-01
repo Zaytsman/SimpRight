@@ -45,17 +45,17 @@ gh-pages/
 
 | Script or command | Called by | Does |
 |---|---|---|
-| `.github/actions/publish-run/publish-run.sh <family> [--latest-coverage]` | the `publish-run` action, in `playwright-run.yml` after every test run | Checks out `gh-pages`, runs `simpright-portal publish-run`, commits and pushes |
-| `.github/actions/publish-pages/publish-pages.sh` | the `publish-pages` action, in `publish-test-cases.yml` on pushes to `main` | Checks out `gh-pages`, runs `simpright-portal build-pages`, commits and pushes |
+| The `publish-run` action (`publish-run.sh`) | `playwright-run.yml`, after every test run | Checks out `gh-pages`, runs `simpright-portal publish-run`, commits and pushes |
+| The `publish-pages` action (`publish-pages.sh`) | `publish-test-cases.yml`, on pushes to `main` | Checks out `gh-pages`, runs `simpright-portal build-pages`, commits and pushes |
 | `simpright-portal publish-run` | `publish-run.sh` | Writes the run's report, `latest/<family>/`, the manifest and history, the coverage (with the flag) and the portal |
 | `simpright-portal build-pages` | `publish-pages.sh`, and `verify` on every pull request | Writes `test-cases/`, `bugs/` and the portal |
-| `.github/actions/lib/gh-pages-lib.sh` | both shell scripts | The shared checkout and push |
+| `actions/lib/gh-pages-lib.sh` | both shell scripts | The shared checkout and push |
 
-Each script replaces only its own files and leaves the rest of the branch alone, so test runs and Test Cases publishing never overwrite each other. The files are written by `simpright-portal` (from [`@simpright/portal`](https://github.com/Zaytsman/SimpRightKit/tree/main/packages/portal), a devDependency) and the shell scripts only do git, so the file part runs on any machine ([Previewing locally](#previewing-locally)). The shell scripts sit next to the composite actions that run them ([CI Pipeline](CI-Pipeline#the-local-actions)), and each action gets the push token as its `token` input.
+Each script replaces only its own files and leaves the rest of the branch alone, so test runs and Test Cases publishing never overwrite each other. The files are written by `simpright-portal` (from [`@simpright/portal`](https://github.com/Zaytsman/SimpRightKit/tree/main/packages/portal), a devDependency) and the shell scripts only do git, so the file part runs on any machine ([Previewing locally](#previewing-locally)). The actions and their shell scripts are the [SimpRight Kit](https://github.com/Zaytsman/SimpRightKit/tree/main/actions)'s ([CI Pipeline](CI-Pipeline#the-kits-actions)), and each action gets the push token as its `token` input.
 
 ## Publishing a test run: `publish-run`
 
-`publish-run.sh` checks out `gh-pages` (see below), runs `npx --no-install simpright-portal publish-run --site .gh-pages --run <family> --number <run number> --keep <keep-runs> [--latest-coverage]`, then commits and pushes. The command:
+The `publish-run` action's `publish-run.sh` checks out `gh-pages` (see below), runs `npx --no-install simpright-portal publish-run --site .gh-pages --run <family> --number <run number> --keep <keep-runs> [--latest-coverage]`, then commits and pushes. The command:
 
 1. If there's no `playwright-report/`, stops: nothing to publish.
 2. Replaces `<family>/run-<N>/` with the HTML report, plus `test-results/results.json` (the JSON reporter's output on CI; only for step 4) and `test-results/api-coverage/` when there is one. A re-run of a workflow keeps its run number, so it replaces the first attempt.
@@ -68,7 +68,7 @@ Runs are sorted by number, so `run-100` comes after `run-99`.
 
 ## Publishing the Test Cases and Bugs pages: `build-pages`
 
-`publish-pages.sh` checks out `gh-pages`, runs `npx --no-install simpright-portal build-pages --site .gh-pages`, then commits and pushes. The command:
+The `publish-pages` action's `publish-pages.sh` checks out `gh-pages`, runs `npx --no-install simpright-portal build-pages --site .gh-pages`, then commits and pushes. The command:
 
 1. Replaces the whole `test-cases/` and `bugs/` folders (so a removed layer disappears too) with new builds, the ones `npm run test-cases:build` and `npm run bugs:build` make.
 2. Builds the run summaries of the families that have none yet, so a portal change published before their next run finds its data.
@@ -77,6 +77,8 @@ Runs are sorted by number, so `run-100` comes after `run-99`.
 The workflow validates the scenarios first, so a broken scenario file never reaches the site. `verify` runs the same build on every pull request.
 
 ## Checkout and push: `gh-pages-lib.sh`
+
+The kit's `actions/lib/gh-pages-lib.sh` holds the git steps both publishes share:
 
 - **`ghp_checkout <dir>`** points `origin` at the repository with `GH_TOKEN` as the credential (the workflows check out without one, so only the publish step has a token that can push), then checks out `gh-pages` as a **git worktree** in `.gh-pages/` (git-ignored), fetching only its latest commit. On the very first publish, when `git ls-remote` finds no such branch, it creates it as an empty orphan branch; any other error (network, access) stops the publish with its message.
 - **`ghp_publish <dir> <message>`** commits everything as `github-actions[bot]`, and does nothing when nothing changed. Several workflows can publish at the same time (a UI and an API run, plus Test Cases), so a rejected push is **rebased onto the remote branch and retried**, up to 3 times. Because each script touches only its own folders, the rebase doesn't conflict.

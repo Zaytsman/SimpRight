@@ -25,7 +25,8 @@ npx playwright test -g "UI-002:"                        # single test by scenari
 npm run typecheck                 # tsc --noEmit (TypeScript 7; unused locals and parameters fail it)
 npm run validate:scenarios        # bugs, scenario files, IDs and specs; prints the next free IDs
 npm run check:step-titles         # step titles vs scenario steps, from a JSON report (default test-results/results.json)
-npm run doctor                    # simpright.yml, runs vs workflows, local actions, the core boundary, the core vs SimpRightTemplate (reads GitHub)
+npm run doctor                    # simpright.yml, runs vs workflows, the kit's actions, the generated files, the core boundary, the core vs SimpRightTemplate (reads GitHub)
+npm run apply -- --dry-run        # the diff of the workflows and dependabot.yml from simpright.yml; without --dry-run, writes them
 npm run report                    # open last HTML report
 npm run inspect:ui -- /auth/login --logged-out   # page inspector: data-test elements + accessibility tree
 npm run test-cases:build          # Test Cases pages into test-results/test-cases/<layer>/ (open index.html)
@@ -50,7 +51,8 @@ Details: `docs/framework/04-api-layer.md`, `docs/framework/06-ui-layer.md`.
 - `.claude/agents/` and `.claude/skills/`: the QA agents and the skills that start them (each skill's description says what it does; overview in `docs/framework/12-ai-agents.md`). The chain is contracts → scenarios → specs; stories and bugs go through `/analyze-requirements`. Agents read `simpright.yml` and keep no project facts of their own.
 - `docs/framework/`: how the framework works, one document per area, and `conventions.md`; when a change alters how an area works, update its document too.
 - **The core is shared with [SimpRightTemplate](https://github.com/Zaytsman/SimpRightTemplate)** (public, `main` only, versions are tags `vX.Y.Z`): a change to a core file (`core.files`) is made in the template too, in the same piece of work; tag a new template version, then set `template` in `simpright.yml`. `npm run doctor` fails `verify` until they match.
-- **The scenarios and portal parts are the [SimpRight Kit](https://github.com/Zaytsman/SimpRightKit)'s npm packages** (`simpright`, `@simpright/scenarios`, `@simpright/portal`, pinned to one exact version): the validator, `doctor`, the scenario and bug schemas (`paths` points into `node_modules`), the portal's pages and publishing. They change in the kit, in a release; the three pins here move together (one Dependabot group; `doctor` checks them).
+- **The scenarios, portal and CI parts are the [SimpRight Kit](https://github.com/Zaytsman/SimpRightKit)'s:** its npm packages (`simpright`, `@simpright/scenarios`, `@simpright/portal`, pinned to one exact version) and its CI actions (pinned to that release's commit): the validator, `doctor`, `apply`, the scenario and bug schemas (`paths` points into `node_modules`), the portal's pages and publishing, the workflows' steps.
+  - They change in the kit, in a release; the package and action pins here move together (one Dependabot pull request; `doctor` checks them).
 - `docs/wiki/`: the wiki's source (one file per page, plus `_Sidebar.md`), published on pushes to `main`; never edit in the web editor. Page links use the page name without `.md`, repo links full `github.com/.../blob/main/...` URLs; each page starts with a comment naming its source; a new page needs a sidebar entry.
 
 ## Configuration
@@ -64,21 +66,17 @@ Details: `docs/framework/02-configuration.md`.
 ## CI and GitHub Pages
 
 Details: `docs/framework/11-ci-and-publishing.md` and the wiki's CI and Pages pages.
-- `playwright-run.yml` is the reusable test job; its callers are the scheduled (`run-ui-tests.yml`, `run-api-tests.yml`), manual (`custom-*-tests.yml`) and smoke (`smoke-tests.yml`) workflows. **A new folder under `tests/ui` or `tests/api` goes in the matching custom workflow's `area` options.** Its `keep-runs` input (default 10) sets how many runs of the family stay on Pages; `squash-gh-pages.yml` (monthly) replaces the `gh-pages` history with one commit.
-- **Each caller has a `runs` entry in `simpright.yml`** (its `id` is the caller's `family`): change both together; `npm run doctor` checks them (details in `docs/framework/11-ci-and-publishing.md`).
-- The workflows' steps are local composite actions in `.github/actions/<name>/` (`setup`, `run-tests`, `publish-run`, `publish-pages`, `squash-pages`, `publish-wiki`), each with its script; a step uses one after the checkout, and `npm run doctor` checks the inputs it passes.
-- `pr-checks.yml` (`verify`, required on `main`): typecheck, scenario validation, `doctor` (the setup, and the core against the template) and the build of the portal's pages (`simpright-portal build-pages`); static only. Tests run locally before a push (each changed spec three times) and nightly on `main`.
-- Secrets: callers pass them by name and `playwright-run.yml` declares them (the names in `ci.secrets`); never `secrets: inherit`.
-- **Hardening:**
-  - Every action is pinned to a full commit SHA with its version in a comment (`actions/checkout@<sha> # v7.0.1`), in workflows and in `action.yml` files. A local action that uses other actions needs its folder in `dependabot.yml`.
-  - Every checkout sets `persist-credentials: false`; only the publish steps get a token (their action's `token` input, no default). `npm ci` runs with `--ignore-scripts`.
-  - Inputs reach `run:` scripts through `env:`, in workflows and actions, never as `${{ }}` inside the script.
-  - Scheduled runs start at :15, never on the hour (the site re-seeds at :00).
-  - A workflow that needs the coverage package needs `packages: read` in every caller too.
+- **The workflows and `.github/dependabot.yml` are generated** by `npm run apply` (`simpright apply`) from `simpright.yml`: never edit them by hand. After a change to `runs`, `ci` or `parts`, a new folder under `tests/ui` or `tests/api` (the custom runs' `area` options) or a new kit version, run `npm run apply -- --dry-run`, read the diff, then `npm run apply`. `.simpright/state.json` (committed) records what it wrote; `doctor` fails `verify` until the files match.
+- `playwright-run.yml` is the reusable test job; its callers are the scheduled (`run-ui-tests.yml`, `run-api-tests.yml`), manual (`custom-*-tests.yml`) and smoke (`smoke-tests.yml`) workflows. Its `keep-runs` input (default 10) sets how many runs of the family stay on Pages; `squash-gh-pages.yml` (monthly) replaces the `gh-pages` history with one commit.
+- **Each caller comes from a `runs` entry in `simpright.yml`:** its `id` is the caller's `family`, its `workflow` the file name, which never changes once the workflow has run (GitHub numbers a workflow's runs per file, and the portal keeps a family's highest numbers).
+- The workflows' steps are the kit's actions (`Zaytsman/SimpRightKit/actions/<name>`: `setup`, `run-tests`, `publish-run`, `publish-pages`, `squash-pages`, `publish-wiki`), pinned to the commit of the kit release the packages pin; `doctor` checks the pins and the inputs each step passes. A change to an action is a kit release.
+- `pr-checks.yml` (`verify`, required on `main`): typecheck, scenario validation, `doctor` (the setup, the generated files, and the core against the template) and the build of the portal's pages (`simpright-portal build-pages`); static only. Tests run locally before a push (each changed spec three times) and nightly on `main`.
+- **Hardening:** the generated workflows follow the kit's rules, and a hand-written workflow must too ([its CI README](https://github.com/Zaytsman/SimpRightKit/blob/main/actions/README.md#the-rules-they-follow)): actions pinned to full commit SHAs with the version in a comment, `persist-credentials: false`, a token only for the steps that push, `npm ci --ignore-scripts`, inputs through `env:`, secrets passed by name (`ci.secrets`), `packages: read` in every caller.
+- Scheduled runs start at :15, never on the hour (the site re-seeds at :00).
 - The dashboard (`index.html`) lists a test under "Known Issues" when an annotation contains `Known issue`; the bug ID in `Known issue BUG-001: ...` links to the Bugs page.
 - **The portal pages (`@simpright/portal`) name nothing themselves:** the brand, runs and thresholds come from `simpright.yml` (`portal`, `runs`), through `portal.json` (written next to `index.html` on every publish) or the Test Cases and Bugs data files.
 - The Test Cases and Bugs pages are built from the scenarios and bugs (`npm run test-cases:build`, `npm run bugs:build`) and published by `publish-test-cases.yml` on pushes to `main` (also when `package-lock.json` changes, as with a new kit version); `verify` builds them too, so a scenario change that breaks the build fails the PR.
-- Publishing writes its files with `simpright-portal` (`publish-run`, `build-pages`), so it runs on any OS; the actions' `.sh` scripts only check out, commit and push. Keep new file work out of them: it belongs in `@simpright/portal`. `*.sh` files keep LF line endings (`.gitattributes`).
+- Publishing writes its files with `simpright-portal` (`publish-run`, `build-pages`), so it runs on any OS; the kit actions' `.sh` scripts only check out, commit and push.
 
 ## Branches and pull requests
 

@@ -1,0 +1,16 @@
+{
+  "kit": "0.2.0",
+  "files": {
+    ".github/dependabot.yml": "sha256-feb6f7b6bc2f34c1321a1619279a62f307cff6428a19a694b9f7f445daba7128",
+    ".github/workflows/custom-api-tests.yml": "sha256-3d8dd1d06aacd1a5e6f7b24bcc1df27900d383aabb468ff738f314df0acceaa5",
+    ".github/workflows/custom-ui-tests.yml": "sha256-ae97a6d3d0ca815dc8cc91e76e1fd4f65c35ba19406d65bb5cb170cd4f9410a9",
+    ".github/workflows/playwright-run.yml": "sha256-de2b4356fab924272a2cd5848f15f478948fe2867bf2d16c93276b975dd0c0e9",
+    ".github/workflows/pr-checks.yml": "sha256-d03f15eb0a7d775432400ecf71c3750382154d063a3aa9099998e67d107b1005",
+    ".github/workflows/publish-test-cases.yml": "sha256-e1bbffaaf9d6938d844a421c65b454ab0d646741298ddf77cb31211d1dca67d4",
+    ".github/workflows/publish-wiki.yml": "sha256-6c81a938bb26c8b700923c634fe8a46100326ae0d9e4212d40bb0f8fee23b4d9",
+    ".github/workflows/run-api-tests.yml": "sha256-4dadea073a74f8068159b839f766aa74451cf7fac67060f1e12cadb6351224a1",
+    ".github/workflows/run-ui-tests.yml": "sha256-2f64d3a4ebc08b312e65ceb055145c0c6fad48a3e719cfa2850cfa1dc3adad24",
+    ".github/workflows/smoke-tests.yml": "sha256-fdd8dc69f07bb144b6ba381fbced2c0de1be8fa1984c7aacbbcb9ce95377d798",
+    ".github/workflows/squash-gh-pages.yml": "sha256-54c52bb51c89c7979802c85f34e5e866740759c88819f86f55ced94bdcd47754"
+  }
+}

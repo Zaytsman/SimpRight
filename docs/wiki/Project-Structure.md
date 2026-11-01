@@ -61,9 +61,9 @@ SimpRight/
 │   ├── agents/                   the QA agents (requirements analyst, scenario writers, test engineers, reviewer, healer, contract writer)
 │   └── skills/                   the slash commands that start them, the skills they use, and `_shared/how-to-ask.md` (how every checkpoint asks)
 ├── .github/
-│   ├── workflows/                CI (see below)
-│   ├── actions/                  the workflows' steps as composite actions, with their shell scripts (see below)
-│   └── dependabot.yml            weekly dependency updates
+│   ├── workflows/                CI (see below), written by npm run apply from simpright.yml
+│   └── dependabot.yml            weekly dependency updates, written by npm run apply too
+├── .simpright/state.json         what npm run apply last wrote: the kit version and a hash per file
 ├── package.json                  npm scripts and dependencies, the SimpRight Kit's packages among them (see below)
 ├── playwright.config.ts          projects, reporters, timeouts, login mode
 ├── simpright.yml                 the project config for the agents and the kit's commands (the template version, paths, commands, IDs, roles, the core files, test runs)
@@ -135,9 +135,9 @@ Defined in `tsconfig.json` and resolved by Playwright, so imports don't climb fo
 | A seeded value several tests use | `src/data/TestConstants.ts` | |
 | An environment | `src/envs/<NAME>.json` | Run with `TEST_ENV=<NAME>` |
 | A secret | `.env` and `.env.example` (empty value) | A `${VAR}` placeholder in the environment JSON; a GitHub secret for CI |
-| A test area folder | `tests/<layer>/<area>/` and `test-scenarios/<layer>/<area>/` | Add it to `ids.areas` in `simpright.yml` and to the area options of the custom workflow; `npm run validate:scenarios` checks the first, `npm run doctor` the second |
-| A test run (a report family) | A caller of `playwright-run.yml` in `.github/workflows/` | An entry in the `runs` list of `simpright.yml` with the caller's `family` as its `id` ([Scheduled Runs](Scheduled-Runs#add-a-new-scheduled-run)) |
-| A CI step that workflows share | A composite action in `.github/actions/<name>/`: its `action.yml` and, if it needs one, its script | Pin the actions it uses to commit SHAs; if it uses any, add its folder to `dependabot.yml` ([CI Pipeline](CI-Pipeline#changing-the-pipeline)) |
+| A test area folder | `tests/<layer>/<area>/` and `test-scenarios/<layer>/<area>/` | Add it to `ids.areas` in `simpright.yml`, and run `npm run apply` (the custom workflow's area options); `npm run validate:scenarios` checks the first, `npm run doctor` the second |
+| A test run (a report family) | An entry in the `runs` list of `simpright.yml` | `npm run apply` writes its caller of `playwright-run.yml` ([Scheduled Runs](Scheduled-Runs#add-a-new-scheduled-run)) |
+| A CI step | The SimpRight Kit's actions, in a kit release | The new kit version, then `npm run apply` ([CI Pipeline](CI-Pipeline#changing-the-pipeline)) |
 
 ## Scripts and the kit's commands
 
@@ -148,7 +148,8 @@ Defined in `tsconfig.json` and resolved by Playwright, so imports don't climb fo
 | `node scripts/inspect-ui.mts` | `npm run inspect:ui` | Starts the page inspector |
 | `simpright-scenarios validate` | `npm run validate:scenarios`, CI | Checks the bug files, the scenario files, their IDs and that specs match them; prints the next free IDs |
 | `simpright-scenarios check-step-titles` | `npm run check:step-titles`, CI | Compares each test's step titles in a run's JSON report with its scenario's steps |
-| `simpright doctor` | `npm run doctor`, CI | Checks `simpright.yml`, that the runs match their workflows, the local actions, what the core files import, and the core files against SimpRightTemplate at the version `template` names |
+| `simpright doctor` | `npm run doctor`, CI | Checks `simpright.yml`, that the runs match their workflows, the kit's action steps, the generated files, what the core files import, and the core files against SimpRightTemplate at the version `template` names |
+| `simpright apply` | `npm run apply` | Writes the workflows and `dependabot.yml` from `simpright.yml`; `--dry-run` shows the diff and writes nothing |
 | `simpright-portal build-test-cases` | `npm run test-cases:build` | Builds the UI and API Test Cases pages from the scenarios |
 | `simpright-portal build-bugs` | `npm run bugs:build` | Builds the Bugs page from `bugs/` and the scenarios that name them |
 | `simpright-portal build-config` | `npm run portal:build` | Writes `portal.json`, what the portal shows (the brand, the runs, the thresholds), from `simpright.yml` |
@@ -158,7 +159,7 @@ Defined in `tsconfig.json` and resolved by Playwright, so imports don't climb fo
 
 ## CI actions
 
-The workflows' steps, in `.github/actions/`; the shell scripts only do git, and `simpright-portal` writes the files.
+The workflows' steps are the [SimpRight Kit's actions](https://github.com/Zaytsman/SimpRightKit/tree/main/actions) (`Zaytsman/SimpRightKit/actions/<name>`), pinned to the commit of the kit release the npm packages pin; the shell scripts only do git, and `simpright-portal` writes the files.
 
 | Action (script) | Used by | What it does |
 |---|---|---|
@@ -172,9 +173,11 @@ The workflows' steps, in `.github/actions/`; the shell scripts only do git, and 
 
 ## CI workflows
 
+`npm run apply` writes them from `simpright.yml`; they're never edited by hand.
+
 | Workflow | When | What |
 |---|---|---|
-| `pr-checks.yml` (`verify`) | every pull request to `main` or `develop` | Typecheck, scenario validation, `doctor` (the setup and the core against SimpRightTemplate), the build of the portal's pages (no tests) |
+| `pr-checks.yml` (`verify`) | every pull request to `main` or `develop` | Typecheck, scenario validation, `doctor` (the setup, the generated files and the core against SimpRightTemplate), the build of the portal's pages (no tests) |
 | `run-api-tests.yml` | weekdays 02:15 UTC, or by hand | Full API regression, with the coverage report |
 | `run-ui-tests.yml` | weekdays 06:15 UTC, or by hand | Full UI regression |
 | `custom-api-tests.yml`, `custom-ui-tests.yml` | by hand | One area, optionally filtered with `--grep` |
@@ -195,6 +198,6 @@ None of these are committed:
 | `node_modules/` | Dependencies |
 | `test-results/` | Raw results, the coverage report, inspector output, built Test Cases pages |
 | `playwright-report/` | The HTML report (`npm run report`) |
-| `.gh-pages/` | The `gh-pages` checkout made by the publish scripts |
+| `.gh-pages/` | The `gh-pages` checkout made by the publish actions, or a site folder built locally |
 
 Previous: [Installation & Setup](Installation-&-Setup).

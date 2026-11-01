@@ -157,8 +157,8 @@ After an API run, the report is in `test-results/api-coverage/index.html`. Set `
 
 The workflows in `.github/workflows/` run in a fork too:
 
-1. Add the repository secrets `ADMIN_USER` and `ADMIN_PASSWORD` (Settings → Secrets and variables → Actions).
-2. Run a workflow, for example **API Regression Test Run**, from the Actions tab. The first run creates the `gh-pages` branch.
+1. Add the repository secrets `ADMIN_USER` and `ADMIN_PASSWORD` (Settings → Secrets and variables → Actions). If the fork allows only selected actions (Settings → Actions → General), add the SimpRight Kit's, `Zaytsman/SimpRightKit/actions/*`: the workflows' steps are its actions.
+2. Run a workflow, for example **API regression test run**, from the Actions tab. The first run creates the `gh-pages` branch.
 3. Turn on GitHub Pages from the `gh-pages` branch (Settings → Pages) to get the dashboard.
 4. For the wiki: turn on Wikis (Settings → General → Features) and create any first page in the web UI. After that, the **Publish Wiki** workflow copies `docs/wiki/` to the wiki whenever it changes on `main`.
 
