@@ -53,4 +53,4 @@ Never a fixed sleep (`waitForTimeout`), and never `networkidle` in page objects:
 
 - No abstraction for a single call site, and no method a scenario doesn't need yet.
 - Additive changes only to shared files: no renamed or removed members, no changed signatures or behaviour.
-- A new test folder or scenario area may need entries elsewhere: follow the conventions files (the custom UI workflow's `area` options, the profile's `ids.areas`), and list what you changed.
+- A new test folder or scenario area may need entries elsewhere: follow the conventions files (the generated CI workflows' `area` options, the profile's `ids.areas`), and list what you changed.

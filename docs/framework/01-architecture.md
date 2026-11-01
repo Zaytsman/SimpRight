@@ -51,12 +51,11 @@ Each layer only calls the one below it:
 | `src/utils/` | `assertHelpers.ts` (masking, messages, attachments), `apiChecks.ts` (shared API checks; the HTTP-level ones are the core's `httpChecks.ts`), `amounts.ts`, `envUtils.ts`, `totp.ts` | [10](10-reporting-and-secrets.md), [5](05-api-specs.md) |
 | `src/globalSetup.ts` | Once per run: the project's `beforeRun` and `afterRun` (the re-seed wait, the run's customer), optional UI logins | [2](02-configuration.md) |
 | `scripts/` | The page inspector | [9](09-scenarios-and-bugs.md#the-page-inspector) |
-| `.github/workflows/` | CI: the reusable test job, scheduled and manual runs, PR checks, publishing | [11](11-ci-and-publishing.md) |
-| `.github/actions/` | The workflows' steps as composite actions (setup, tests, publishing), with the publish scripts' git steps | [11](11-ci-and-publishing.md) |
+| `.github/workflows/`, `.github/dependabot.yml` | CI: the reusable test job, scheduled and manual runs, PR checks, publishing, dependency updates; written by `npm run apply` from `simpright.yml` (`.simpright/state.json` records what it wrote) | [11](11-ci-and-publishing.md) |
 | `.claude/agents/`, `.claude/skills/`, `simpright.yml` | The QA agents, their skills and the project facts they read | [12](12-ai-agents.md) |
 | `docs/` | Contracts, user stories, analyses, the wiki source, these pages and the framework's [conventions](conventions.md) | |
 
-The scenarios and portal parts come from the [SimpRight Kit](https://github.com/Zaytsman/SimpRightKit)'s npm packages, devDependencies pinned to one version: `simpright` (`npm run doctor`, the profile's schema), `@simpright/scenarios` (the scenario and bug schemas, the validator, the step-title check) and `@simpright/portal` (the portal's pages, their builds and the publish's file work) ([9](09-scenarios-and-bugs.md), [11](11-ci-and-publishing.md)).
+The scenarios, portal and CI parts come from the [SimpRight Kit](https://github.com/Zaytsman/SimpRightKit): its npm packages, devDependencies pinned to one version, `simpright` (`npm run doctor`, `npm run apply`, the profile's schema), `@simpright/scenarios` (the scenario and bug schemas, the validator, the step-title check) and `@simpright/portal` (the portal's pages, their builds and the publish's file work); and its CI actions, the workflows' steps, pinned to the same release's commit ([9](09-scenarios-and-bugs.md), [11](11-ci-and-publishing.md)).
 
 Path aliases (`tsconfig.json`, resolved by Playwright): `@fixtures` (= `src/fixtures/index.ts`), `@api/*`, `@ui/*`, `@config/*`, `@data/*`, `@fixtures/*`, `@utils/*`.
 

@@ -6,16 +6,16 @@ Besides the nightly regressions, the tests can be run on **GitHub Actions** by h
 
 | Workflow | File | What it runs | Report family |
 |---|---|---|---|
-| **Custom API Test Run** | `custom-api-tests.yml` | one API area or all of them, optionally filtered by title | `custom-api` |
-| **Custom UI Test Run** | `custom-ui-tests.yml` | one UI area or all of them, optionally filtered by title | `custom-ui` |
-| **Smoke Test Run** | `smoke-tests.yml` | the smoke set: the critical happy paths of both layers (tests tagged `@smoke`), in 2-3 minutes | `smoke` |
+| **Custom API test run** | `custom-api-tests.yml` | one API area or all of them, optionally filtered by title | `custom-api` |
+| **Custom UI test run** | `custom-ui-tests.yml` | one UI area or all of them, optionally filtered by title | `custom-ui` |
+| **Smoke test run** | `smoke-tests.yml` | the smoke set: the critical happy paths of both layers (tests tagged `@smoke`), in 2-3 minutes | `smoke` |
 
 ## Start a run by hand
 
 ### From the GitHub web UI
 
 1. Open the repository's **Actions** tab (or click **Schedule a test run** in the side panel of the [Automation Portal](Automation-Portal)).
-2. Pick **Custom API Test Run**, **Custom UI Test Run** or **Smoke Test Run** in the list on the left.
+2. Pick **Custom API test run**, **Custom UI test run** or **Smoke test run** in the list on the left.
 3. Click **Run workflow** (top right of the run list).
 4. Choose the **branch** to test: `main`, `develop` or a feature branch.
 5. For the custom runs, fill in the inputs:

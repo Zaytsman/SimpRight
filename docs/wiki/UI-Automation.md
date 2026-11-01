@@ -129,7 +129,7 @@ If the page behaves differently from what the scenario says, the agent **leaves 
 ## 6. Review, commit, CI
 
 1. **Review the tests:** `/review-tests` (by default the work not pushed yet; or a spec such as `product-detail.spec.ts`, a scenario file, IDs). The read-only `test-reviewer` agent looks for what the typecheck can't catch: a test that doesn't check what its scenario says, waits that race the app, selectors outside page objects, live data written without approval or cleanup. You pick the findings; Claude applies them and re-runs the specs.
-2. **Read the diff** yourself, then **commit** on `develop` (or a feature branch) and open a pull request into `main`. `verify` runs the specs your change affects. A new area folder also needs an entry in the custom UI workflow's `area` options.
+2. **Read the diff** yourself, then **commit** on `develop` (or a feature branch) and open a pull request into `main`. `verify` runs the static checks (typecheck, scenarios, setup), not the tests: run the changed specs locally before you push. A new area folder also needs `npm run apply`, which adds it to the custom UI workflow's `area` options.
 3. **If CI fails:** `/heal-tests PR <number>` or `/heal-tests <run id>`. The `test-healer` agent diagnoses each failure first, using the trace, the page inspector and re-runs of read-only tests, and changes nothing until you pick the fixes. On this public demo site, **data drift** is common: another visitor changed a seeded product. The fix is a test that creates its own data.
 
 ## A full example
