@@ -190,7 +190,7 @@ test.describe('@cart - Checkout sign-in', () => {
     });
   });
 
-  test('UI-062: A logged-in customer sees the already-signed-in message on the sign-in step and proceeds to the billing address step', async ({
+  test('UI-062: A logged-in customer sees the already-signed-in message on the sign-in step', async ({
     cartPage,
     accessToken,
     usersServiceForToken,
@@ -215,8 +215,22 @@ test.describe('@cart - Checkout sign-in', () => {
         `You are already signed in as ${me.first_name} ${me.last_name}`
       );
     });
+  });
+
+  test('UI-099: A logged-in customer proceeds from the sign-in step to the billing address step', async ({ cartPage }) => {
+    const signIn = cartPage.signInStep;
+
+    await test.step('Open the checkout page.', async () => {
+      await cartPage.open();
+    });
+
+    await test.step('Click "Proceed to checkout".', async () => {
+      await cartPage.proceed();
+    });
 
     await test.step('Verify the login form is not shown.', async () => {
+      // The step picks the form or the signed-in content when the wizard starts (app source: `ngOnInit`), so once the
+      // step is shown, a hidden form is the answer.
       await expect(signIn.loginForm, 'No login form for a signed-in customer').toBeHidden();
     });
 

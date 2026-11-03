@@ -74,7 +74,7 @@ scenarios:
       - Click "Proceed to checkout" on the sign-in step.
       - Verify the "Billing Address" step is shown.
   - id: UI-062
-    name: A logged-in customer sees the already-signed-in message on the sign-in step and proceeds to the billing address step
+    name: A logged-in customer sees the already-signed-in message on the sign-in step
     ref: docs/ui/user-stories/Checkout_Sign_In.md#AC5
     status: automated
     automatedIn: tests/ui/cart/checkout-sign-in.spec.ts
@@ -86,6 +86,16 @@ scenarios:
       - Open the checkout page.
       - Click "Proceed to checkout".
       - Verify the message "You are already signed in as" followed by the default user's first and last name is shown.
+  - id: UI-099
+    name: A logged-in customer proceeds from the sign-in step to the billing address step
+    ref: docs/ui/user-stories/Checkout_Sign_In.md#AC5
+    status: automated
+    automatedIn: tests/ui/cart/checkout-sign-in.spec.ts
+    preconditions:
+      - A product that is in stock is in the cart.
+    steps:
+      - Open the checkout page.
+      - Click "Proceed to checkout".
       - Verify the login form is not shown.
       - Click "Proceed to checkout" on the sign-in step.
       - Verify the "Billing Address" step is shown.
