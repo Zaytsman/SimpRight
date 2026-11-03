@@ -13,20 +13,17 @@ import { BaseComponent } from './BaseComponent';
 export class CheckoutSignInStep extends BaseComponent {
   /** CSS: the form has no name, role or test id; it's the one holding the email field (the TOTP form doesn't). */
   private readonly loginFormElement: Locator;
-  /** By role and label: the hidden "Continue as Guest" tab has a second "Email address" field, which role queries skip. */
   private readonly emailInput: Locator;
   private readonly passwordInput: Locator;
   private readonly loginSubmitButton: Locator;
   private readonly totpCodeInput: Locator;
   private readonly verifyTotpSubmitButton: Locator;
-  /**
-   * "Proceed to checkout" of this step, shown only when signed in; the cart step has its own. By role and label,
-   * because the steps name the button by its label.
-   */
+  /** "Proceed to checkout" of this step, shown only when signed in; the cart step has its own (`proceed-1`). */
   private readonly proceedToCheckoutButton: Locator;
   /**
    * The message shown instead of the form when the customer is signed in.
-   * CSS: the paragraph has no test id or role; it's the only direct paragraph of the step's column.
+   * CSS: the paragraph has no test id, and a role query would also match the login form's paragraphs ("Not yet an
+   * account?"), which `login()` would take for its outcome; it's the only direct paragraph of the step's column.
    */
   private readonly signedInMessageText: Locator;
   private readonly loginErrorAlert: Locator;
@@ -35,12 +32,12 @@ export class CheckoutSignInStep extends BaseComponent {
   constructor(page: Page, root: Locator = page.locator('app-login')) {
     super(page, root);
     this.loginFormElement = root.locator('form').filter({ has: page.getByTestId('email') });
-    this.emailInput = root.getByRole('textbox', { name: 'Email address' });
-    this.passwordInput = root.getByLabel('Password');
-    this.loginSubmitButton = root.getByRole('button', { name: 'Login', exact: true });
-    this.totpCodeInput = root.getByLabel('TOTP Code');
-    this.verifyTotpSubmitButton = root.getByRole('button', { name: 'Verify TOTP' });
-    this.proceedToCheckoutButton = root.getByRole('button', { name: 'Proceed to checkout' });
+    this.emailInput = root.getByTestId('email');
+    this.passwordInput = root.getByTestId('password');
+    this.loginSubmitButton = root.getByTestId('login-submit');
+    this.totpCodeInput = root.getByTestId('totp-code');
+    this.verifyTotpSubmitButton = root.getByTestId('verify-totp');
+    this.proceedToCheckoutButton = root.getByTestId('proceed-2');
     this.signedInMessageText = root.locator('.login-form-1 > p');
     this.loginErrorAlert = root.getByTestId('login-error');
   }
@@ -110,13 +107,14 @@ export class CheckoutSignInStep extends BaseComponent {
 
   /**
    * Clicks "Verify TOTP", waits for the app's answer (the TOTP step posts to /users/login too; app source: `verifyTotp()`),
-   * then until the step shows its outcome: "Proceed to checkout" or the login error.
+   * then for the outcome that answer means: "Proceed to checkout" when the code was accepted, the login error otherwise
+   * (401 "Invalid TOTP"). Waiting for either would return at once on a second try, while the first try's error still shows.
    */
   async verifyTotp(): Promise<void> {
     const answered = waitForApiResponse(this.page, 'POST', '/users/login');
     await this.verifyTotpSubmitButton.click();
-    await answered;
-    await expect(this.proceedToCheckoutButton.or(this.loginErrorAlert)).toBeVisible();
+    const response = await answered;
+    await expect(response.ok() ? this.proceedToCheckoutButton : this.loginErrorAlert).toBeVisible();
   }
 
   /** Clicks "Proceed to checkout" and waits until the wizard has left this step (the step is hidden again). */
