@@ -7,7 +7,7 @@
 # It holds facts and pointers, not conventions: those stay in the files listed under
 # project.conventions, and the exemplars show the style to copy.
 
-template: v0.2.0                            # the SimpRightTemplate version the core files (core.files) match; npm run doctor compares them
+template: v0.2.1                            # the SimpRightTemplate version the core files (core.files) match; npm run doctor compares them
 
 project:
   language: typescript
@@ -179,7 +179,8 @@ core:
     - src/ui/pages/components/BaseComponent.ts
     - src/ui/pages/dialogs/BaseDialog.ts
     - src/ui/pages/waitForApiResponse.ts
-    - src/fixtures/base.ts                  # role, authMode, config, tokenService, storageState, user, cleanup
+    - src/ui/pages/fillSecret.ts            # types a secret without printing it; the page fixture blanks it after the test
+    - src/fixtures/base.ts                  # role, authMode, config, tokenService, storageState, page, user, cleanup
     - src/data/factories/testDataUtils.ts   # uniqueName
     - src/globalSetup.ts
     - scripts/inspect-ui.mts                # the page inspector

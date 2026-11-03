@@ -11,6 +11,7 @@ SimpRight's reports are **public**: every CI run publishes its HTML report to Gi
 | JUnit | `test-results/junit.xml` | CI |
 | JSON | `test-results/results.json` | CI: the step-title check, and the source of the small files the portal reads (the run summaries of `@simpright/portal`, [11](11-ci-and-publishing.md)); not published itself, it stays in the run's artifact |
 | Screenshots, videos | `test-results/<test>/`, in the report | UI failures only |
+| Error context (`error-context.md`: the error, a snapshot of the page, the test's source) | `test-results/<test>/`, in the report | failures |
 | API coverage | `test-results/api-coverage/` (`index.html`, `summary.json`) | when the optional package is installed and `DISABLE_API_COVERAGE` isn't set |
 | Traces | **never** | `trace: 'off'` for every project (below) |
 
@@ -53,6 +54,8 @@ What masking can't cover, and how the framework handles it:
 | Leak path | Handling |
 |---|---|
 | A matcher's own diff (`expect(email).toBe(user.username)` prints both) | Compare secrets as a condition: `expect(a === b, message).toBe(true)` |
+| The titles of Playwright's typing steps in the HTML report (`Fill "<value>"`; `pressSequentially` and `keyboard.type` print their text too) | Secrets are typed with `fillSecret` ([6](06-ui-layer.md)), whose step is titled "Evaluate" |
+| A failed test's page snapshot (in its error context), which records every field's value, password fields included | The `page` fixture blanks the fields `fillSecret` filled after the test, before the snapshot. The failure screenshot and video are taken earlier: they show an email in clear, a password as dots |
 | Playwright's call log in a failed request's error (it lists the `Authorization` header) | `BaseClient` masks credential headers in the error before rethrowing it ([4](04-api-layer.md)) |
 | Traces (every request and response, unmasked: login bodies, tokens, other visitors' data) | `trace: 'off'` for every project; don't turn it back on |
 | The saved UI logins (`.auth/<role>.json` holds a live JWT) | Git-ignored, never published |

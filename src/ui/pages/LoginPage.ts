@@ -1,6 +1,7 @@
 import type { Locator, Page } from '@playwright/test';
 import type { EnvConfig } from '../../config/env';
 import { AppPage } from './AppPage';
+import { fillSecret } from './fillSecret';
 
 export class LoginPage extends AppPage {
   private readonly emailInput: Locator;
@@ -25,10 +26,13 @@ export class LoginPage extends AppPage {
     await this.goto('/auth/login');
   }
 
-  /** Submits the form only; the caller decides what success looks like (admin and customer land on different pages). */
+  /**
+   * Submits the form only; the caller decides what success looks like (admin and customer land on different pages).
+   * The credentials go in with `fillSecret`, never `fill`: a fill step's title prints the value, and the reports are published.
+   */
   async login(email: string, password: string): Promise<void> {
-    await this.emailInput.fill(email);
-    await this.passwordInput.fill(password);
+    await fillSecret(this.emailInput, email);
+    await fillSecret(this.passwordInput, password);
     await this.submitButton.click();
   }
 }

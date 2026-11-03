@@ -1,4 +1,5 @@
 import { expect, type Locator, type Page } from '@playwright/test';
+import { fillSecret } from '../fillSecret';
 import { waitForApiResponse } from '../waitForApiResponse';
 import { BaseComponent } from './BaseComponent';
 
@@ -81,12 +82,14 @@ export class CheckoutSignInStep extends BaseComponent {
     return this.signedInMessageText;
   }
 
+  /** With `fillSecret`, never `fill`: a fill step's title prints the value, and the reports are published. */
   async enterEmail(email: string): Promise<void> {
-    await this.emailInput.fill(email);
+    await fillSecret(this.emailInput, email);
   }
 
+  /** With `fillSecret`, never `fill`: a fill step's title prints the value, and the reports are published. */
   async enterPassword(password: string): Promise<void> {
-    await this.passwordInput.fill(password);
+    await fillSecret(this.passwordInput, password);
   }
 
   /**
@@ -100,9 +103,9 @@ export class CheckoutSignInStep extends BaseComponent {
     await expect(this.totpCodeInput.or(this.signedInMessageText).or(this.loginErrorAlert)).toBeVisible();
   }
 
-  /** Fills the TOTP field, replacing what it held. */
+  /** Fills the TOTP field, replacing what it held; with `fillSecret`, because the reports mask TOTP codes too. */
   async enterTotpCode(code: string): Promise<void> {
-    await this.totpCodeInput.fill(code);
+    await fillSecret(this.totpCodeInput, code);
   }
 
   /**

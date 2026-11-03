@@ -14,6 +14,7 @@ import { TokenService } from '../api/auth/TokenService';
 import { BaseClient } from '../api/clients/BaseClient';
 import { loadApiCoverage, toCoverageCall } from '../api/coverage/apiCoverage';
 import { isStorageStateValid } from '../ui/auth/authState';
+import { clearSecretFields } from '../ui/pages/fillSecret';
 
 /** How a test starts: logged in with one of the `UiAuthMode`s, or `none` (logged out, no login at all). */
 export type AuthMode = UiAuthMode | 'none';
@@ -103,6 +104,13 @@ export const test = base.extend<BaseOptions & BaseFixtures, BaseWorkerFixtures>(
     }
 
     await use(project.browserState(config.baseUrl, await tokenService.getAccessToken(role)));
+  },
+
+  // After the test, before the context closes, blanks the fields fillSecret filled: a failed test's error context holds
+  // a snapshot of the page that records every field's value, and the reports are published.
+  page: async ({ page }, use) => {
+    await use(page);
+    await clearSecretFields(page);
   },
 
   user: async ({ role }, use) => {
