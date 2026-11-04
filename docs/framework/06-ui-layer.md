@@ -13,6 +13,7 @@ src/ui/
     RentalsPage.ts         the rentals overview; holds rentalGrid
     LoginPage.ts           used by project.uiLogin, globalSetup's UI login (storageState mode)
     waitForApiResponse.ts  wait for the app's own request
+    fillSecret.ts          type a secret without printing it; clearSecretFields for the page fixture
     components/            BaseComponent + NavBar, ProductGrid, ProductFilters, Pagination, PriceRangeSlider,
                            RentalGrid, CheckoutCartLine, CheckoutSignInStep
     dialogs/BaseDialog.ts  base for modals (no concrete dialog yet)
@@ -52,6 +53,7 @@ export class HomePage extends AppPage {
 | Amounts are read with `parseAmount` ([`src/utils/amounts.ts`](../../src/utils/amounts.ts)) | It throws on text without digits, so a price that hasn't rendered never reads as 0 |
 | `open()` calls the protected `goto(path)` and waits for the page's data (`waitForLoaded()`), not only its frame | An action started while the page is still loading can be overwritten by the late first load |
 | No assertions; `expect(...)` inside an action only as a wait for the app's signal | Checks belong in specs |
+| A secret (a password, a test user's email, a TOTP code) is typed with `fillSecret(locator, value)` ([`fillSecret.ts`](../../src/ui/pages/fillSecret.ts)), never `fill`, `pressSequentially` or `keyboard.type` | Playwright titles those steps with the value (`Fill "<value>"`), and the reports are published. `fillSecret` sets the value in the page (a step titled "Evaluate") and fires `input` and `change`; the `page` fixture blanks the field after the test, before a failed test's page snapshot ([10](10-reporting-and-secrets.md)) |
 | Locator priority: `getByTestId` (`data-test`) → `getByRole` / `getByLabel` / `getByText` → CSS with a comment saying why; never XPath | The site marks elements with `data-test`; ids that end in a record id change with the re-seed |
 
 `AppPage` gives every page:

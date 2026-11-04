@@ -4,6 +4,7 @@ import { openHomePageWithProductInCartTest as test, expect, registerCustomerForT
 import { UserFactory } from '@data/factories/UserFactory';
 import { totpCode } from '@utils/totp';
 import type { CartPage } from '@ui/pages/CartPage';
+import type { TotpRequiredResponse } from '@api/dto/auth';
 
 /**
  * The checks of a "Verify the "Billing Address" step is shown." step. Approved reading: the wizard marks "Billing
@@ -31,7 +32,7 @@ test.describe('@cart - Checkout sign-in', () => {
       await test.step('Verify the "Sign in" step is shown.', async () => {
         // Approved reading: the wizard marks "Sign in" as the current step, and that step's content is visible.
         await expect(cartPage.currentStep, 'The wizard marks "Sign in" as the current step').toHaveText('Sign in');
-        await expect(cartPage.signInStepPanel, 'The Sign in step is visible').toBeVisible();
+        await expect(cartPage.signInStep.panel, 'The Sign in step is visible').toBeVisible();
       });
 
       await test.step('Verify the login form is shown.', async () => {
@@ -71,11 +72,14 @@ test.describe('@cart - Checkout sign-in', () => {
     }) => {
       // Precondition: A customer with TOTP enabled is registered; the test can compute the account's current TOTP code.
       // A customer of its own (removed as admin after the test), with TOTP turned on through its own token and a secret
-      // the test knows, as the API scenarios do it.
+      // the test knows, as the API scenarios do it. That works only because of BUG-033 (a customer can change their own
+      // totp fields with PATCH), so the setup then logs in through the API to see that the account asks for a code.
       const { body, id, token } = await registerCustomerForTest({ usersService, adminUsersService, authService }, cleanup);
       const secret = UserFactory.totpSecret();
       const totpUpdate = await usersServiceForToken(token).partialUpdate(id, { totp_enabled: true, totp_secret: secret });
       if (!totpUpdate.success) throw new Error(`Setup: turning TOTP on for the customer failed: ${JSON.stringify(totpUpdate)}`);
+      const login = (await authService.login({ email: body.email, password: body.password })) as unknown as TotpRequiredResponse;
+      if (login.requires_totp !== true) throw new Error('Setup: the customer\'s login asks for no TOTP code, so TOTP is off (BUG-033 fixed?)');
 
       const signIn = cartPage.signInStep;
 
@@ -186,14 +190,16 @@ test.describe('@cart - Checkout sign-in', () => {
     });
   });
 
-  test('UI-062: A logged-in customer sees the already-signed-in message on the sign-in step and proceeds to the billing address step', async ({
+  test('UI-062: A logged-in customer sees the already-signed-in message on the sign-in step', async ({
     cartPage,
     accessToken,
     usersServiceForToken,
   }) => {
-    test.fail(true, 'Known issue BUG-048: The sign-in step tells a logged-in customer "Hello <first> <last>, you are already logged in." instead of "You are already signed in as <first> <last>".');
-
+    // The customer's names, for the message check: read before the known-issue line, so a failed read stays a failure.
+    const me = await usersServiceForToken(accessToken).me();
     const signIn = cartPage.signInStep;
+
+    test.fail(true, 'Known issue BUG-048: The sign-in step tells a logged-in customer "Hello <first> <last>, you are already logged in." instead of "You are already signed in as <first> <last>".');
 
     await test.step('Open the checkout page.', async () => {
       await cartPage.open();
@@ -204,14 +210,27 @@ test.describe('@cart - Checkout sign-in', () => {
     });
 
     await test.step('Verify the message "You are already signed in as" followed by the default user\'s first and last name is shown.', async () => {
-      const me = await usersServiceForToken(accessToken).me();
       await expect(signIn.signedInMessage, 'The signed-in message is visible').toBeVisible();
-      await expect(signIn.signedInMessage, 'The message names the signed-in customer').toContainText(
+      await expect(signIn.signedInMessage, 'The message reads "You are already signed in as" and the customer\'s first and last name').toContainText(
         `You are already signed in as ${me.first_name} ${me.last_name}`
       );
     });
+  });
+
+  test('UI-099: A logged-in customer proceeds from the sign-in step to the billing address step', async ({ cartPage }) => {
+    const signIn = cartPage.signInStep;
+
+    await test.step('Open the checkout page.', async () => {
+      await cartPage.open();
+    });
+
+    await test.step('Click "Proceed to checkout".', async () => {
+      await cartPage.proceed();
+    });
 
     await test.step('Verify the login form is not shown.', async () => {
+      // The step picks the form or the signed-in content when the wizard starts (app source: `ngOnInit`), so once the
+      // step is shown, a hidden form is the answer.
       await expect(signIn.loginForm, 'No login form for a signed-in customer').toBeHidden();
     });
 

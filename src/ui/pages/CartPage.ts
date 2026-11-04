@@ -68,11 +68,6 @@ export class CartPage extends AppPage {
     return this.currentStepLabel;
   }
 
-  /** The content of the Sign in step (visible only while it's the current step). */
-  get signInStepPanel(): Locator {
-    return this.signInStep.panel;
-  }
-
   get billingAddressHeading(): Locator {
     return this.billingAddressTitle;
   }
