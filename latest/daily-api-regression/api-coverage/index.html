@@ -394,7 +394,7 @@
       </div>
       <div>
         <h1>API Coverage Report</h1>
-        <div class="generated-at">Generated: 2026-11-04T09:14:13.687Z</div>
+        <div class="generated-at">Generated: 2026-11-05T09:31:28.415Z</div>
       </div>
     </header>
 
@@ -1045,7 +1045,7 @@
             <span class="service-tag">Carts</span>
           </div>
           <div class="endpoint-right">
-            <span class="hits-badge hits-covered">95 calls</span>
+            <span class="hits-badge hits-covered">96 calls</span>
             <div style="width: 100px;">
               <div class="progress-bar-container">
                 <div class="progress-bar-fill fill-green" style="width: 100%;"></div>
@@ -1290,7 +1290,7 @@
             <span class="service-tag">Carts</span>
           </div>
           <div class="endpoint-right">
-            <span class="hits-badge hits-covered">97 calls</span>
+            <span class="hits-badge hits-covered">98 calls</span>
             <div style="width: 100px;">
               <div class="progress-bar-container">
                 <div class="progress-bar-fill fill-green" style="width: 100%;"></div>
@@ -2123,7 +2123,7 @@
             <span class="service-tag">Invoices</span>
           </div>
           <div class="endpoint-right">
-            <span class="hits-badge hits-covered">12 calls</span>
+            <span class="hits-badge hits-covered">13 calls</span>
             <div style="width: 100px;">
               <div class="progress-bar-container">
                 <div class="progress-bar-fill fill-green" style="width: 100%;"></div>
@@ -2466,7 +2466,7 @@
             <span class="service-tag">Invoices</span>
           </div>
           <div class="endpoint-right">
-            <span class="hits-badge hits-covered">11 calls</span>
+            <span class="hits-badge hits-covered">12 calls</span>
             <div style="width: 100px;">
               <div class="progress-bar-container">
                 <div class="progress-bar-fill fill-green" style="width: 89%;"></div>
@@ -2958,7 +2958,7 @@ The check runs only for the five exact values in Enums. For any other `payment_m
             <span class="service-tag">Postcode</span>
           </div>
           <div class="endpoint-right">
-            <span class="hits-badge hits-covered">41 calls</span>
+            <span class="hits-badge hits-covered">29 calls</span>
             <div style="width: 100px;">
               <div class="progress-bar-container">
                 <div class="progress-bar-fill fill-green" style="width: 88%;"></div>
@@ -2973,7 +2973,7 @@ The check runs only for the five exact values in Enums. For any other `payment_m
           <p style="margin-bottom: 14px; color: var(--text-muted); font-size: 14px;"><strong>Look up an address by postcode:</strong> Returns an address for the given country and postcode. The locality (`street`, `city`, `state`) depends only on the country and the postcode (case-insensitive), not on the house number, so the same input always gives the same locality. `house_number` is echoed when sent and generated otherwise. `country` and `postcode` come back in upper case. _(verified)_</p>
           <div class="details-grid">
             <div class="detail-section">
-              <div class="detail-heading">Status Codes (4 tested / 4 documented)</div>
+              <div class="detail-heading">Status Codes (3 tested / 4 documented)</div>
               <div class="tag-list">
                 <span class="tag tag-success">200 ✓</span><span class="tag tag-success">302 ✓</span><span class="tag tag-success">422 ✓</span><span class="tag tag-missing">502 ✗</span>
               </div>
@@ -4134,7 +4134,7 @@ The check runs only for the five exact values in Enums. For any other `payment_m
             <span class="service-tag">Users</span>
           </div>
           <div class="endpoint-right">
-            <span class="hits-badge hits-covered">150 calls</span>
+            <span class="hits-badge hits-covered">151 calls</span>
             <div style="width: 100px;">
               <div class="progress-bar-container">
                 <div class="progress-bar-fill fill-green" style="width: 91%;"></div>
@@ -5108,7 +5108,7 @@ Same shape as <code>GET /brands/search</code>, with the header <code>Accept-Quer
 <h2 id="contract-carts-api-md--data-required-for-successful-requests">Data required for successful requests</h2>
 <div class="table-wrap"><table><thead><tr><th>Data</th><th>Needed by</th><th>Requirements</th></tr></thead><tbody><tr><td>Cart id (ULID)</td><td>every endpoint except <code>POST /carts</code></td><td>The <code>id</code> returned by <code>POST /carts</code>. Carts are never listed, so a test must create its own (and delete it afterwards).</td></tr><tr><td>Product id (ULID)</td><td><code>POST /carts/{cartId}</code>, <code>PUT /carts/{cartId}/product/quantity</code> (<code>product_id</code>)</td><td>An existing product (<code>exists:products,id</code>), e.g. an <code>id</code> from <code>GET /products</code>. An unknown id gives <code>422</code>.</td></tr><tr><td>Quantity</td><td><code>POST /carts/{cartId}</code>, <code>PUT /carts/{cartId}/product/quantity</code></td><td>An integer from 1 to 99.</td></tr><tr><td>A product that isn&#039;t &quot;Thor Hammer&quot;</td><td>quantities above 1</td><td>The product named exactly <code>Thor Hammer</code> (seeded) is limited to one per cart. The rule matches the name, so a product created with that name gets the same limit.</td></tr><tr><td>Coordinates (optional)</td><td><code>POST /carts</code> (<code>lat</code>, <code>lng</code>)</td><td>Only needed for the location discount: within 2 degrees of one of the cities listed under Enums.</td></tr></tbody></table></div>
 <h2 id="contract-carts-api-md--endpoints">Endpoints</h2>
-<h3 id="contract-carts-api-md--post-carts">1. Create cart<a class="cov-chip chip-covered" href="#coverage/endpoint-post-carts" title="Show on the coverage tab">95 calls · 100%</a></h3>
+<h3 id="contract-carts-api-md--post-carts">1. Create cart<a class="cov-chip chip-covered" href="#coverage/endpoint-post-carts" title="Show on the coverage tab">96 calls · 100%</a></h3>
 <p>Creates an empty cart and returns its id. The optional coordinates are stored on the cart and later decide the location discount of the items added to it. Nothing is validated. <em>(source)</em></p>
 <p><strong>Endpoint:</strong> <code>POST /carts</code></p>
 <p><strong>Auth:</strong> None <em>(verified)</em></p>
@@ -5195,7 +5195,7 @@ Same shape as <code>GET /brands/search</code>, with the header <code>Accept-Quer
 <p><strong>Error Responses:</strong></p>
 <ul><li><code>404 Not Found</code>: no cart with this id, with <code>{ message: &quot;Cart doesnt exists&quot; }</code> <em>(verified)</em><span class="st st-ok" title="A test got 404">✓ tested</span></li></ul>
 <hr>
-<h3 id="contract-carts-api-md--delete-carts-cartid">6. Delete cart<a class="cov-chip chip-covered" href="#coverage/endpoint-delete-carts-cartid" title="Show on the coverage tab">97 calls · 100%</a></h3>
+<h3 id="contract-carts-api-md--delete-carts-cartid">6. Delete cart<a class="cov-chip chip-covered" href="#coverage/endpoint-delete-carts-cartid" title="Show on the coverage tab">98 calls · 100%</a></h3>
 <p><strong>Endpoint:</strong> <code>DELETE /carts/{cartId}</code></p>
 <p>Deletes the cart&#039;s items, then the cart. A product can&#039;t be deleted while a cart item points to it (<code>DELETE /products/{productId}</code> returns <code>409</code>), so remove the cart first. <em>(source)</em></p>
 <p><strong>Path Parameters:</strong></p>
@@ -5609,7 +5609,7 @@ Content-Type: application/json
 <p><strong>Error Responses:</strong></p>
 <ul><li><code>401 Unauthorized</code>: no token, or a malformed token, with <code>{ message: &quot;Unauthorized&quot; }</code> <em>(verified)</em>; an expired token gives the same <em>(source)</em><span class="st st-ok" title="A test got 401">✓ tested</span></li></ul>
 <hr>
-<h3 id="contract-invoices-api-md--get-invoices-search">2. Search invoices<a class="cov-chip chip-covered" href="#coverage/endpoint-get-invoices-search" title="Show on the coverage tab">12 calls · 100%</a></h3>
+<h3 id="contract-invoices-api-md--get-invoices-search">2. Search invoices<a class="cov-chip chip-covered" href="#coverage/endpoint-get-invoices-search" title="Show on the coverage tab">13 calls · 100%</a></h3>
 <p>Searches the invoices visible to the caller (own, or all for an admin) with a <code>LIKE &#039;%q%&#039;</code> on <code>invoice_number</code>, <code>billing_street</code> and <code>status</code>. Same page shape and ordering as the list. <em>(source)</em></p>
 <p><strong>Endpoint:</strong> <code>GET /invoices/search</code></p>
 <p><strong>Auth:</strong> Any logged-in user <em>(source)</em></p>
@@ -5753,7 +5753,7 @@ Authorization: Bearer &lt;token&gt;
 201 Created
 { &quot;id&quot;: &quot;01JINVOICE0123456789ABCDEF&quot;, &quot;user_id&quot;: &quot;01JUSER00123456789ABCDEFG&quot;, &quot;invoice_number&quot;: &quot;INV-2026000001&quot;, &quot;total&quot;: 20.5, ... }</code></pre>
 <hr>
-<h3 id="contract-invoices-api-md--post-invoices-guest">9. Create guest invoice<a class="cov-chip chip-covered" href="#coverage/endpoint-post-invoices-guest" title="Show on the coverage tab">11 calls · 89%</a></h3>
+<h3 id="contract-invoices-api-md--post-invoices-guest">9. Create guest invoice<a class="cov-chip chip-covered" href="#coverage/endpoint-post-invoices-guest" title="Show on the coverage tab">12 calls · 89%</a></h3>
 <p>Same as <code>POST /invoices</code>, without a token: the invoice has <code>user_id: null</code>, so only an admin can read it afterwards. The guest&#039;s email and names are used for the checkout email only; they are not stored on the invoice. <em>(source)</em></p>
 <p><strong>Endpoint:</strong> <code>POST /invoices/guest</code></p>
 <p><strong>Auth:</strong> None <em>(source)</em></p>
@@ -6292,7 +6292,7 @@ interface GiftCardDetails {
 <h2 id="contract-postcode-api-md--data-required-for-successful-requests">Data required for successful requests</h2>
 <div class="table-wrap"><table><thead><tr><th>Data</th><th>Needed by</th><th>Requirements</th></tr></thead><tbody><tr><td><code>country</code></td><td><code>GET /postcode-lookup</code></td><td>A non-empty string of at most 40 characters. Any string passes: it isn&#039;t checked against a list of countries. A two-letter code from the table in Enums (<code>NL</code>, <code>US</code>, ...) gets a postcode format check and a locale-specific address; anything else (<code>ZZ</code>, <code>Netherlands</code>) gets no format check and a US-style address. <em>(verified)</em></td></tr><tr><td><code>postcode</code></td><td><code>GET /postcode-lookup</code></td><td>A non-empty string of at most 10 characters. For a country with a known format (Enums) it must match that format, e.g. <code>1011AB</code> or <code>1011 AB</code> for <code>NL</code>, <code>1010</code> for <code>AT</code>, <code>90210</code> for <code>US</code>. <em>(verified)</em></td></tr><tr><td><code>house_number</code></td><td><code>GET /postcode-lookup</code> (optional)</td><td>A string of at most 10 characters, not checked for content (<code>ABCDEFGHIJ</code> passes). Omit it, or send it empty, to get a generated one. <em>(verified)</em></td></tr></tbody></table></div>
 <h2 id="contract-postcode-api-md--endpoints">Endpoints</h2>
-<h3 id="contract-postcode-api-md--get-postcode-lookup">1. Look up an address by postcode<a class="cov-chip chip-covered" href="#coverage/endpoint-get-postcode-lookup" title="Show on the coverage tab">41 calls · 88%</a></h3>
+<h3 id="contract-postcode-api-md--get-postcode-lookup">1. Look up an address by postcode<a class="cov-chip chip-covered" href="#coverage/endpoint-get-postcode-lookup" title="Show on the coverage tab">29 calls · 88%</a></h3>
 <p>Returns an address for the given country and postcode. The locality (<code>street</code>, <code>city</code>, <code>state</code>) depends only on the country and the postcode (case-insensitive), not on the house number, so the same input always gives the same locality. <code>house_number</code> is echoed when sent and generated otherwise. <code>country</code> and <code>postcode</code> come back in upper case. <em>(verified)</em></p>
 <p><strong>Endpoint:</strong> <code>GET /postcode-lookup</code></p>
 <p><strong>Auth:</strong> None <em>(verified)</em></p>
@@ -6868,7 +6868,7 @@ interface AverageSalesPerWeekRow {
 <h2 id="contract-users-api-md--data-required-for-successful-requests">Data required for successful requests</h2>
 <div class="table-wrap"><table><thead><tr><th>Data</th><th>Needed by</th><th>Requirements</th></tr></thead><tbody><tr><td>Customer credentials</td><td><code>POST /users/login</code></td><td>An existing, enabled account that isn&#039;t locked (fewer than 3 failed logins in a row). Test users come from <code>testUsers</code> in <code>src/envs/&lt;ENV&gt;.json</code> and <code>.env</code>.</td></tr><tr><td>User token</td><td>Every endpoint marked &quot;Any user&quot;</td><td>From <code>POST /users/login</code>; valid for 300 seconds.</td></tr><tr><td>Admin token</td><td><code>GET /users</code>, <code>DELETE /users/{userId}</code>; any user&#039;s id on <code>GET</code>/<code>PUT</code>/<code>PATCH /users/{userId}</code></td><td>Token of a user whose <code>role</code> is <code>admin</code>.</td></tr><tr><td>User id (ULID)</td><td><code>/users/{userId}</code> endpoints</td><td>Your own id from <code>GET /users/me</code>, or any id with an admin token.</td></tr><tr><td>Unique email</td><td><code>POST /users/register</code>; <code>email</code> in <code>PUT</code>/<code>PATCH /users/{userId}</code></td><td>Not used by any other account.</td></tr><tr><td>Strong password</td><td><code>POST /users/register</code>, <code>POST /users/change-password</code></td><td>At least 8 characters, upper and lower case, a number and a symbol, and not found in public data breaches (Laravel <code>Password::uncompromised()</code>).</td></tr><tr><td>Adult date of birth</td><td><code>dob</code> in register, <code>PUT</code>, <code>PATCH</code></td><td>Format <code>YYYY-MM-DD</code>, at least 18 years ago.</td></tr><tr><td>A user nobody references</td><td><code>DELETE /users/{userId}</code></td><td>A user with invoices, favorites or other references can&#039;t be deleted (<code>409</code>).</td></tr></tbody></table></div>
 <h2 id="contract-users-api-md--endpoints">Endpoints</h2>
-<h3 id="contract-users-api-md--post-users-login">1. Login<a class="cov-chip chip-covered" href="#coverage/endpoint-post-users-login" title="Show on the coverage tab">150 calls · 91%</a></h3>
+<h3 id="contract-users-api-md--post-users-login">1. Login<a class="cov-chip chip-covered" href="#coverage/endpoint-post-users-login" title="Show on the coverage tab">151 calls · 91%</a></h3>
 <p>Returns a JWT for the <code>Authorization: Bearer &lt;token&gt;</code> header. Accounts with two-factor auth (TOTP) get a restricted temporary token instead, which is exchanged for a full token by sending it back with the TOTP code. <em>(source)</em></p>
 <p><strong>Endpoint:</strong> <code>POST /users/login</code></p>
 <p><strong>Auth:</strong> None <em>(source)</em></p>
