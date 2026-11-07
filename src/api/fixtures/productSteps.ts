@@ -36,20 +36,22 @@ export async function createProductToUpdate(
 /**
  * A product-create step (title `title`, default PRODUCT_CREATE_STEP): creates a product with the given ids of seeded
  * records, a unique name, price 9.99 and both flags false unless `overrides` say otherwise, as admin (so setup doesn't
- * rely on writes without a token), and registers its removal right away. Returns the new product.
+ * rely on writes without a token), and registers its removal right away. With `mayBeOnInvoice`, the removal counts a
+ * 409 as done (`deleteUnlessInUse`): an invoice line keeps the product until the hourly re-seed. Returns the new product.
  */
 export async function createProduct(
   adminProductsService: ProductsService,
   cleanup: Cleanup,
   refs: Partial<ProductRefs>,
   title: string = PRODUCT_CREATE_STEP,
-  overrides: Partial<CreateProductRequest> = {}
+  overrides: Partial<CreateProductRequest> = {},
+  options: { mayBeOnInvoice?: boolean } = {}
 ): Promise<Product> {
   return test.step(title, async () => {
     const body = ProductFactory.createProduct(refs as ProductRefs, overrides);
     await attachJson('Create Product Request', { method: 'POST', path: '/products', auth: AUTH.admin, body });
     const product = await adminProductsService.create(body);
-    cleanup.add(() => adminProductsService.delete(product.id));
+    cleanup.add(() => (options.mayBeOnInvoice ? adminProductsService.deleteUnlessInUse(product.id) : adminProductsService.delete(product.id)));
     await attachJson('Create Product Response', product);
     expect(product.id, assertMessage({ request: { method: 'POST', path: '/products', body }, expected: 'The new product has an id', actual: product })).toBeTruthy();
     return product;

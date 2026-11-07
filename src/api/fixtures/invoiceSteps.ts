@@ -26,17 +26,19 @@ import { InvoiceFactory } from '../../data/factories/InvoiceFactory';
 import { assertMessage, attachJson } from '../../utils/assertHelpers';
 import { expectStatus, parseJson } from '../../utils/apiChecks';
 import { AUTH, pageSummary, describePage, sendAndAttach, type AuthLabel } from './apiSteps';
-import { addItemSetup, createCart } from './cartSteps';
-import { takeFirstProductId } from './productSteps';
+import { addItemSetup, createCart, createCartProduct } from './cartSteps';
+import { takeProductRefs } from './productSteps';
 import { loginThrowawayCustomer, registerThrowawayCustomer, type ThrowawayCustomer } from './userSteps';
 
 /**
  * Steps shared by the Invoices specs (and the reports spec that completes an invoice). Invoices can't be deleted (no
- * DELETE route): the ones a test creates stay until the hourly re-seed, and so does a throwaway customer that holds one
- * (its admin delete gets 409, which `UsersService.deleteUnlessInUse` expects). Tests only read or change invoices they
- * created. The titles are the scenario steps verbatim; the variants pass their own title.
+ * DELETE route): the ones a test creates stay until the hourly re-seed, and so do a throwaway customer that holds one
+ * (its admin delete gets 409, which `UsersService.deleteUnlessInUse` expects) and a product on one of its lines
+ * (`ProductsService.deleteUnlessInUse`). Tests only read or change invoices they created. The titles are the scenario
+ * steps verbatim; the variants pass their own title.
  */
-export const FIRST_PRODUCT_STEP = "Send GET /products and take the first item's id as the product's id.";
+const ORDER_PRODUCT_STEP =
+  "Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental false and stock 10, and take the new product's id as the product's id.";
 export const ADD_TWO_STEP = "Send POST /carts/{cartId} with the cart's id, the product's id as product_id and quantity 2.";
 const INVOICE_CREATE_STEP =
   'Send POST /invoices with that access_token, payment_method "cash-on-delivery", payment_details {}, billing_street "Stephansplatz 1", billing_city "Wien", billing_country "AT" and the cart\'s id as cart_id, and take the new invoice\'s id, invoice_number and total.';
@@ -55,6 +57,18 @@ const CUSTOMER_A_INVOICE_STEP =
   'Send POST /invoices with customer A\'s access_token, payment_method "cash-on-delivery", payment_details {}, billing_street "Stephansplatz 1", billing_city "Wien", billing_country "AT" and the cart\'s id as cart_id, and take the new invoice\'s id.';
 
 export type InvoiceRequest = { method: string; path: string; auth: AuthLabel; query?: Record<string, unknown>; body?: unknown };
+
+/**
+ * The two product steps of the scenarios that order a product, titles verbatim: take the first listed product's brand,
+ * category and product image ids, then create a product in stock with them (as admin). An order lowers the stock of the
+ * product it holds, so the scenarios order one of their own, not a seeded product other tests need in stock. Its
+ * invoice line then blocks its delete (409): cleanup counts that as done, and the hourly re-seed removes the product.
+ * Returns the new product's id.
+ */
+export async function createProductToOrder(productsService: ProductsService, adminProductsService: ProductsService, cleanup: Cleanup): Promise<string> {
+  const refs = await takeProductRefs(productsService);
+  return (await createCartProduct(adminProductsService, cleanup, refs, ORDER_PRODUCT_STEP, {}, { mayBeOnInvoice: true })).id;
+}
 
 /**
  * An invoice-create setup step (title `title`): creates the invoice through `invoicesService` (built with the
@@ -156,21 +170,22 @@ export interface CustomerInvoice {
   customer: ThrowawayCustomer;
   token: string;
   cartId: string;
-  /** The product put in the cart, when `withProduct` was set. */
+  /** The product created and put in the cart, when `withProduct` was set. */
   productId?: string;
   invoice: InvoiceCreated;
 }
 
 /**
  * The setup steps most invoice scenarios start with, titles verbatim: register a throwaway customer (removed as admin
- * unless an invoice holds it), log it in, [take the first listed product,] create a cart, [add the product with quantity
- * 2,] and create a cash-on-delivery invoice with the customer's token. `withProduct` adds the bracketed steps, in the
- * order of API-0463; the titles can be replaced for other wordings.
+ * unless an invoice holds it), log it in, [create a product to order (`createProductToOrder`),] create a cart, [add the
+ * product with quantity 2,] and create a cash-on-delivery invoice with the customer's token. `withProduct` adds the
+ * bracketed steps, in the order of API-0463; the titles can be replaced for other wordings.
  */
 export async function createCustomerInvoice(
   { usersService, adminUsersService, authService, productsService, cartsService, invoicesServiceForToken, cleanup }: InvoiceSetupFixtures,
   options: {
-    withProduct?: boolean;
+    /** Adds the product steps; the product is created with the admin's products service. */
+    withProduct?: { adminProductsService: ProductsService };
     registerTitle?: string;
     loginTitle?: string;
     invoiceTitle?: string;
@@ -182,7 +197,7 @@ export async function createCustomerInvoice(
     { usersService, adminUsersService, authService, cleanup },
     { register: options.registerTitle, login: options.loginTitle }
   );
-  const productId = options.withProduct ? await takeFirstProductId(productsService, FIRST_PRODUCT_STEP) : undefined;
+  const productId = options.withProduct ? await createProductToOrder(productsService, options.withProduct.adminProductsService, cleanup) : undefined;
   const cartId = await createCart(cartsService, cleanup);
   if (productId) {
     await addItemSetup(cartsService, cartId, productId, 2, ADD_TWO_STEP);

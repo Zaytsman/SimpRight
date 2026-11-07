@@ -1,4 +1,4 @@
-import { test, expect, AUTH, sendReport, parseRows, expectNumberFields, registerThrowawayCustomer, loginThrowawayCustomer, firstListedProductId, createCart, addItemSetup, createInvoiceSetup, setInvoiceStatusSetup, type ReportRequest, checkStatusAndMessage } from '@fixtures';
+import { test, expect, AUTH, sendReport, parseRows, expectNumberFields, registerThrowawayCustomer, loginThrowawayCustomer, createProductToOrder, createCart, addItemSetup, createInvoiceSetup, setInvoiceStatusSetup, type ReportRequest, checkStatusAndMessage } from '@fixtures';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { InvoiceCreated } from '@api/dto/invoice';
 import type { TotalSalesOfYearsRow } from '@api/dto/report';
@@ -150,6 +150,7 @@ test.describe('@reports-api - Reports API', () => {
       adminUsersService,
       authService,
       productsService,
+      adminProductsService,
       cartsService,
       invoicesServiceForToken,
       reportsClientWithToken,
@@ -159,7 +160,6 @@ test.describe('@reports-api - Reports API', () => {
       const startYears = 20 + Math.floor(Math.random() * 80);
       const years = 20 + ((startYears - 20 + 1 + Math.floor(Math.random() * 79)) % 80);
       let startTotal = 0;
-      let productId = '';
       let invoice: InvoiceCreated;
       let request: ReportRequest;
       let response: ApiResponse;
@@ -170,9 +170,7 @@ test.describe('@reports-api - Reports API', () => {
       const customer = await registerThrowawayCustomer(usersService, adminUsersService, cleanup, { mayHoldInvoices: true });
       const token = await loginThrowawayCustomer(authService, customer);
 
-      await test.step("Send GET /products and take the first item's id as the product's id.", async () => {
-        productId = await firstListedProductId(productsService);
-      });
+      const productId = await createProductToOrder(productsService, adminProductsService, cleanup);
 
       const cartId = await createCart(cartsService, cleanup);
 

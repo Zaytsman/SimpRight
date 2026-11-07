@@ -84,7 +84,8 @@ scenarios:
     steps:
       - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.
       - Send POST /users/login with that email and password, and take its access_token.
-      - Send GET /products and take the first item's id as the product's id.
+      - Send GET /products and take the first item's brand id, category id and product image id.
+      - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental false and stock 10, and take the new product's id as the product's id.
       - Send POST /carts with an empty body and take the returned id as the cart's id.
       - Send POST /carts/{cartId} with the cart's id, the product's id as product_id and quantity 2.
       - Send GET /reports/total-sales-of-years with a years value picked at random between 20 and 99 and the admin's token, and take the last item's total as the starting total.

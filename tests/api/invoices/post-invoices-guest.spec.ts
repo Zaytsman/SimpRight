@@ -1,4 +1,4 @@
-import { test, expect, AUTH, createCart, addItemSetup, takeFirstProductId, FIRST_PRODUCT_STEP, sendCreateGuestInvoice, sendSearchInvoices, readInvoiceOk, invoicePageSummary, expectKeys, expectFieldsEqual, expectSingleInvoiceLine, ADD_TWO_STEP, type InvoiceRequest, checkStatusAndMessage } from '@fixtures';
+import { test, expect, AUTH, createCart, addItemSetup, createProductToOrder, sendCreateGuestInvoice, sendSearchInvoices, readInvoiceOk, invoicePageSummary, expectKeys, expectFieldsEqual, expectSingleInvoiceLine, ADD_TWO_STEP, type InvoiceRequest, checkStatusAndMessage } from '@fixtures';
 import type { ApiResponse } from '@api/clients/BaseClient';
 import type { InvoicesClient } from '@api/clients/InvoicesClient';
 import type { Paginated } from '@api/dto/common';
@@ -76,13 +76,20 @@ test.describe('@invoices-api - Invoices API', () => {
   test.describe(() => {
     test.use({ role: 'admin' });
 
-    test('API-0502: Create guest invoice returns 201 and the invoice has no user', async ({ productsService, cartsService, invoicesClient, invoicesClientWithToken, cleanup }) => {
+    test('API-0502: Create guest invoice returns 201 and the invoice has no user', async ({
+      productsService,
+      adminProductsService,
+      cartsService,
+      invoicesClient,
+      invoicesClientWithToken,
+      cleanup,
+    }) => {
       let body: CreateGuestInvoiceRequest;
       let request: InvoiceRequest;
       let response: ApiResponse;
       let created: InvoiceCreated;
 
-      const productId = await takeFirstProductId(productsService, FIRST_PRODUCT_STEP);
+      const productId = await createProductToOrder(productsService, adminProductsService, cleanup);
       const cartId = await createCart(cartsService, cleanup);
       await addItemSetup(cartsService, cartId, productId, 2, ADD_TWO_STEP);
 

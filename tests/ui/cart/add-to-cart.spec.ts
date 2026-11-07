@@ -1,5 +1,4 @@
-import { test, expect, createProductInStock, openProductPageTest, removeCartAfterTest } from '@fixtures';
-import { TestConstants } from '@data/TestConstants';
+import { test, expect, createProductInStock, openProductPageWithNewProductTest, removeCartAfterTest } from '@fixtures';
 
 // Scenarios: test-scenarios/ui/cart/add-to-cart.yml
 test.describe('@cart - Cart', () => {
@@ -52,17 +51,18 @@ test.describe('@cart - Cart', () => {
   });
 
   test.describe(() => {
-    const test = openProductPageTest;
+    const test = openProductPageWithNewProductTest;
     // Precondition: The cart is empty. Nothing to set up: every test gets a new browser context, and the app keeps the
     // cart id only in that context's sessionStorage (not with the logged-in user), so the test starts without a cart.
-    // Precondition: The product page of "Combination Pliers" is open.
-    test.use({ productName: TestConstants.products.inStockProduct });
+    // Precondition: A product created for this test through the API, with a unique name, is in stock.
+    // Precondition: The product page of that product is open.
 
     test('UI-027: Adding a product to the cart shows a success message', async ({ productPage, cartsService, cleanup }) => {
       await test.step('Click "Add to cart".', async () => {
         try {
           await productPage.addToCart();
         } finally {
+          // The cart holds the product, which blocks its removal: the cart goes first (cleanup runs newest first).
           // In `finally`, so a cart the app created is removed even when the add fails.
           await removeCartAfterTest(productPage, cartsService, cleanup);
         }

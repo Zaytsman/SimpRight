@@ -38,4 +38,18 @@ export class ProductsService {
   async deleteIfExists(productId: string): Promise<void> {
     assertOkOrNotFound(await this.client.deleteById(productId), `delete product ${productId}`);
   }
+
+  /**
+   * Deletes a product for cleanup, expecting that it may still be in use: a 409 (an invoice line refers to it, and no
+   * endpoint deletes invoices) counts as done and logs one line instead of a cleanup warning; the hourly re-seed removes
+   * the product. Admin only, like `delete`. Throws on any other non-2xx status.
+   */
+  async deleteUnlessInUse(productId: string): Promise<void> {
+    const response = await this.client.deleteById(productId);
+    if (response.status === 409) {
+      console.log(`[cleanup] Product ${productId} is still in use (409); the hourly re-seed removes it.`);
+      return;
+    }
+    assertOk(response, `delete product ${productId}`);
+  }
 }
