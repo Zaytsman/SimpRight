@@ -42,16 +42,18 @@ export type CartSetupFixtures = {
 
 /**
  * A product-create step (title `title`): creates a product with the given ids, a unique name, price 9.99, stock 10 and
- * both flags false unless `overrides` say otherwise, as admin, and registers its removal right away. Returns the new product.
+ * both flags false unless `overrides` say otherwise, as admin, and registers its removal right away (see `createProduct`
+ * for `options`). Returns the new product.
  */
 export async function createCartProduct(
   adminProductsService: ProductsService,
   cleanup: Cleanup,
   refs: Partial<ProductRefs>,
   title: string = CART_PRODUCT_IN_STOCK_STEP,
-  overrides: Partial<CreateProductRequest> = {}
+  overrides: Partial<CreateProductRequest> = {},
+  options: { mayBeOnInvoice?: boolean } = {}
 ): Promise<Product> {
-  return createProduct(adminProductsService, cleanup, refs, title, { stock: 10, ...overrides });
+  return createProduct(adminProductsService, cleanup, refs, title, { stock: 10, ...overrides }, options);
 }
 
 /**

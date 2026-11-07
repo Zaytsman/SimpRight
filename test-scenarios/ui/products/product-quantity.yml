@@ -8,7 +8,8 @@ scenarios:
     status: automated
     automatedIn: tests/ui/products/product-quantity.spec.ts
     preconditions:
-      - The product page of "Combination Pliers" is open.
+      - A product created for this test through the API, with a unique name, is in stock.
+      - The product page of that product is open.
     steps:
       - Verify the quantity field is shown.
       - Verify the "Increase quantity" (+) button is shown.
@@ -20,7 +21,8 @@ scenarios:
     status: automated
     automatedIn: tests/ui/products/product-quantity.spec.ts
     preconditions:
-      - The product page of "Combination Pliers" is open.
+      - A product created for this test through the API, with a unique name, is in stock.
+      - The product page of that product is open.
     steps:
       - Click "Increase quantity".
       - Verify the quantity is 2.
@@ -30,7 +32,8 @@ scenarios:
     status: automated
     automatedIn: tests/ui/products/product-quantity.spec.ts
     preconditions:
-      - The product page of "Combination Pliers" is open.
+      - A product created for this test through the API, with a unique name, is in stock.
+      - The product page of that product is open.
     steps:
       - Click "Increase quantity".
       - Click "Increase quantity".
@@ -43,7 +46,8 @@ scenarios:
     status: automated
     automatedIn: tests/ui/products/product-quantity.spec.ts
     preconditions:
-      - The product page of "Combination Pliers" is open.
+      - A product created for this test through the API, with a unique name, is in stock.
+      - The product page of that product is open.
     steps:
       - Verify the quantity is 1.
       - Click "Decrease quantity".
@@ -54,7 +58,8 @@ scenarios:
     status: automated
     automatedIn: tests/ui/products/product-quantity.spec.ts
     preconditions:
-      - The product page of "Combination Pliers" is open.
+      - A product created for this test through the API, with a unique name, is in stock.
+      - The product page of that product is open.
     steps:
       - Enter 5 in the quantity field.
       - Verify the quantity is 5.
@@ -66,7 +71,8 @@ scenarios:
     status: automated
     automatedIn: tests/ui/products/product-quantity.spec.ts
     preconditions:
-      - The product page of "Combination Pliers" is open.
+      - A product created for this test through the API, with a unique name, is in stock.
+      - The product page of that product is open.
     steps:
       - Enter 0 in the quantity field.
       - Verify the quantity is 1.
@@ -78,7 +84,8 @@ scenarios:
     knownIssue: The field sets a typed quantity above 99 to 99 (with the warning "You can order at most 99 of this product.") instead of setting 1,000,000,000 to 999,999,999 as the story's range 1 to 999,999,999 requires.
     bug: BUG-008
     preconditions:
-      - The product page of "Combination Pliers" is open.
+      - A product created for this test through the API, with a unique name, is in stock.
+      - The product page of that product is open.
     steps:
       - Enter 1000000000 in the quantity field.
       - Verify the quantity is 999999999.
@@ -90,7 +97,8 @@ scenarios:
     knownIssue: The field changes a typed quantity of 999,999,999 to 99 (the app allows at most 99) instead of keeping it as the story's range 1 to 999,999,999 requires.
     bug: BUG-008
     preconditions:
-      - The product page of "Combination Pliers" is open.
+      - A product created for this test through the API, with a unique name, is in stock.
+      - The product page of that product is open.
     steps:
       - Enter 999999999 in the quantity field.
       - Verify the quantity is 999999999.
@@ -100,7 +108,8 @@ scenarios:
     status: automated
     automatedIn: tests/ui/products/product-quantity.spec.ts
     preconditions:
-      - The product page of "Combination Pliers" is open.
+      - A product created for this test through the API, with a unique name, is in stock.
+      - The product page of that product is open.
     steps:
       - Click "Increase quantity".
       - Enter 1 in the quantity field.

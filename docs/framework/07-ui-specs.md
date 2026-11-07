@@ -105,7 +105,7 @@ The same as API specs ([5](05-api-specs.md#known-issues-roles-and-tags)): `test.
 ## Things that bite
 
 - **The re-seed** changes record ids every hour: find products by visible name, never by id.
-- **Other visitors** can change seeded products (stock, price, category). Tests that depend on exact values use their own product (`createProductInStock`) or check what the API says first.
+- **Other visitors** can change seeded products (stock, price, category). Tests that depend on exact values use their own product (`createProductInStock`, or `openProductPageWithNewProductTest` for tests that start on its page) or check what the API says first.
 - **Re-renders:** a list that re-renders after an action can be read half-updated; the action must wait for its signal first.
 - **The checkout** is always opened with `cartPage.open()`, never by loading `/checkout` ([6](06-ui-layer.md#the-checkout-and-cloudflare)).
 - **Locations and discounts:** a cart with city coordinates gives every product the city's discount (BUG-024), and eco ratings A/B add a discount of their own, so cart setups guard against both.

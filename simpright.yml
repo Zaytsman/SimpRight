@@ -144,7 +144,7 @@ liveApi:
     - GET /product-specs/names answers from a 300-second cache. A parallel call right after a spec write can cache the old list again, so a just-created or just-deleted spec name can be missing or still listed for up to 5 minutes (API-0575, API-0576).
     - The brands' and categories' search results come from a cache that survives the re-seed for up to an hour. Compare them by slug or name, never by ids from another response.
     - The reports answer from a 5-minute cache keyed by their parameters, and allow 60 requests a minute per user, counted per IP for calls without a valid token. The reports specs' anonymous calls therefore share one counter in a parallel run; repeat one reports spec at a time, or they get 429s.
-    - API runs create and delete products while they run, so a UI test that reads the whole catalogue can fail when an API run is going at the same time (UI-079, 2026-10-26).
+    - API runs create and delete products while they run, so a UI test that reads the whole catalogue could fail when an API run was going at the same time (UI-079, 2026-10-26). Since 2026-11-07 the filter checks (UI-075, UI-078, UI-079) leave the tests' own products (named Product-...) out of the comparison, so only another visitor's product writes at that moment can still fail them.
     - A cancelled run leaves the records it created until the next re-seed, because cleanup and afterRun don't run (a leftover rental product without a description failed UI-082).
 
 # The framework's optional parts and whether this project uses them.
