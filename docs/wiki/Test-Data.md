@@ -72,7 +72,7 @@ const brand = await createBrand(adminBrandsService, cleanup);   // registers its
 - When the creating call is the one under test, cleanup is registered only when the response shows a record was created: `removeIfCreated(response, cleanup, remove)`. That also covers known issues that create a record anyway.
 - Undo steps run newest first, so dependent records go first: a cart item blocks deleting its product (409), and a customer with favourites can't be deleted (409).
 - Deletes in cleanup use `deleteIfExists` where the test may have deleted the record itself (a 404 counts as done).
-- Some records can't be deleted through the API: invoices (no `DELETE /invoices`), messages, and customers that hold an invoice. Tests that make them are kept out of the smoke set, and the re-seed removes them within the hour.
+- Some records can't be deleted through the API: invoices (no `DELETE /invoices`), messages, customers that hold an invoice and products on an invoice line (their cleanup counts the 409 as done: `deleteUnlessInUse`). Tests that make them are kept out of the smoke set, and the re-seed removes them within the hour.
 
 ## Shared-data safety
 

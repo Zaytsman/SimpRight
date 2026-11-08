@@ -128,7 +128,7 @@ test.describe('@cart - Checkout cart review', () => {
       await test.step('Verify the "Sign in" step is shown.', async () => {
         // Approved reading: the wizard marks "Sign in" as the current step, and that step's content is visible.
         await expect(cartPage.currentStep, 'The wizard marks "Sign in" as the current step').toHaveText('Sign in');
-        await expect(cartPage.signInStepPanel, 'The Sign in step is visible').toBeVisible();
+        await expect(cartPage.signInStep.panel, 'The Sign in step is visible').toBeVisible();
       });
     });
   });

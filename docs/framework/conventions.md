@@ -19,7 +19,7 @@ Details: `docs/framework/02-configuration.md`.
 
 Details: `docs/framework/03-fixtures.md`.
 - Specs import from `src/fixtures` (`index.ts`): `test`, `expect`, the UI precondition fixtures and the API step helpers. `index.ts` re-exports each `src/api/fixtures/<area>Steps.ts` with `export *`; keep names only their own module uses unexported.
-- `src/fixtures/base.ts` (both layers): `role` (option, default `DEFAULT_ROLE`; e.g. `test.use({ role: 'admin' })`), `authMode` (option) and `storageState` (the logged-in start), `config` and `tokenService` (worker scope), `user`, `cleanup` (undo steps run after the test, pass or fail, newest first; a failing step only warns).
+- `src/fixtures/base.ts` (both layers): `role` (option, default `DEFAULT_ROLE`; e.g. `test.use({ role: 'admin' })`), `authMode` (option) and `storageState` (the logged-in start), `config` and `tokenService` (worker scope), `page` (blanks the fields `fillSecret` filled after the test), `user`, `cleanup` (undo steps run after the test, pass or fail, newest first; a failing step only warns).
 - `src/api/fixtures/fixtures.ts` and `src/ui/fixtures/fixtures.ts` extend base; `src/fixtures/fixtures.ts` merges them (`mergeTests`). Fixtures are lazy. Logged-out UI tests: `test.use({ authMode: 'none' })`.
 - New page, component, grid and dialog fixtures go in `src/ui/fixtures/fixtures.ts`. `src/ui/fixtures/` also holds setup or cleanup helpers UI specs share.
 - UI precondition fixtures: one file each in `src/ui/fixtures/preconditions/`, named `open<Page><State>Test` after the export (e.g. `openHomePageInLondonTest`). They extend the merged `test` and are exported from `src/fixtures/index.ts`.
@@ -34,6 +34,7 @@ Details: `docs/framework/06-ui-layer.md`.
 - No assertions in page objects; waiting for the app's own signal inside an action or `waitForLoaded()` is fine.
 - Components (`pages/components/`) extend `BaseComponent(page, root)` and find their locators inside `root` (default: their container). Inside `filter({ has })` the inner locator starts from `page`. No URL, `open()` or base-page parts (e.g. `navBar`). Dialogs extend `BaseDialog(page, root?)` (default `getByRole('dialog')`). Multi-page journeys go in `src/ui/flows/` (e.g. `ShoppingFlow.openProduct(name)`), exposed as fixtures.
 - Wait for the app's own signals, never fixed sleeps (e.g. the `search_completed` marker, the "Product added" toast). With no marker, use `waitForApiResponse(page, method, path)` (`src/ui/pages/waitForApiResponse.ts`), started before the action and awaited after it.
+- **Secrets in fields:** type a secret (e.g. a password, a test user's email) with `fillSecret(locator, value)` (`src/ui/pages/fillSecret.ts`), never `fill`, `pressSequentially` or `keyboard.type`: Playwright titles those steps with the value (`Fill "<value>"`), and the reports are published. The `page` fixture blanks those fields after the test, so a failed test's page snapshot doesn't show them.
 
 ## Layout
 

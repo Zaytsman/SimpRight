@@ -1,13 +1,17 @@
 // Every scenario here has the precondition "The home page is open.": the fixture opens it before the steps.
 import { openHomePageTest as test, expect, catalogueProductNames } from '@fixtures';
 import { TestConstants } from '@data/TestConstants';
+import { ProductFactory } from '@data/factories/ProductFactory';
 import type { HomePage } from '@ui/pages/HomePage';
 
 /**
  * The checks of a "Verify the grid shows only the products of <filters>: the products the catalogue lists for ... in
  * the page's default price range, $1 to $100." step (`label` names the filters in the messages). Approved reading
  * (UI-075): the catalogue is GET /products with the criteria the page sends (the category's and the brand's ids,
- * between=price,1,100), and the grid's page 1 is compared with the catalogue's page 1, in any order.
+ * between=price,1,100), and the grid's page 1 is compared with the catalogue's page 1, in any order. Approved too
+ * (2026-11-07): the products tests create (ProductFactory names, "Product-...") are left out of both lists, because
+ * parallel tests create and delete them between the grid's request and the catalogue's, so the lists could differ by
+ * one on a correct app.
  */
 async function expectGridMatchesCatalogue(
   homePage: HomePage,
@@ -15,10 +19,14 @@ async function expectGridMatchesCatalogue(
   filters: Parameters<typeof catalogueProductNames>[1],
   label: string
 ): Promise<void> {
-  const expected = await catalogueProductNames(services, filters);
+  const withoutTestProducts = (names: string[]): string[] => names.filter((name) => !ProductFactory.isTestProduct(name));
+  const expected = withoutTestProducts(await catalogueProductNames(services, filters));
   expect(expected.length, `The catalogue lists at least one product of ${label}`).toBeGreaterThan(0);
-  const shown = (await homePage.productGrid.getProductNames()).sort();
-  expect(shown, `The grid shows the catalogue's products of ${label}: ${shown.join(' | ')} (catalogue: ${expected.join(' | ')})`).toEqual(expected);
+  const shown = withoutTestProducts(await homePage.productGrid.getProductNames()).sort();
+  expect(
+    shown,
+    `The grid shows the catalogue's products of ${label}, without the tests' own "${ProductFactory.testNameStart}..." products: ${shown.join(' | ')} (catalogue: ${expected.join(' | ')})`
+  ).toEqual(expected);
 }
 
 // Scenarios: test-scenarios/ui/products/product-filters.yml

@@ -7,7 +7,7 @@
 # It holds facts and pointers, not conventions: those stay in the files listed under
 # project.conventions, and the exemplars show the style to copy.
 
-template: v0.2.0                            # the SimpRightTemplate version the core files (core.files) match; npm run doctor compares them
+template: v0.2.1                            # the SimpRightTemplate version the core files (core.files) match; npm run doctor compares them
 
 project:
   language: typescript
@@ -96,6 +96,7 @@ api:
     - Payloads are attached with attachJson, never test.info().attach, so secrets are masked (reports are public).
     - Compare secret values (a test user's email) as a condition, e.g. expect(a === b, message).toBe(true), so a failure diff doesn't print them.
     - Records a test creates are removed through the cleanup fixture (cleanup.add), not afterAll.
+    - A test that changes a user registers a throwaway customer (registerThrowawayCustomer in src/api/fixtures/userSteps.ts), never the run's customer, a shared user or the admin.
     - Reuse the shared checks (api.exemplars.checks), the step helpers (api.exemplars.steps) and the area's src/api/fixtures/<area>Steps.ts, and parse bodies with parseJson; a spec never redefines them. Tests that differ only in their data share one template function, called from a literal test() per scenario.
     - Seeded values more than one test relies on go in TestConstants; a value one test uses stays a variable in that test.
     - Create/update payloads come from a factory per area (src/data/factories/<Area>Factory.ts, created with the first scenario that needs it), with uniqueName for every created record.
@@ -134,13 +135,17 @@ liveApi:
     - Repeated failed logins lock the account (423), through the API or the login page. Use a throwaway user, never the shared test users.
   # Known ways the live app misbehaves for a while; the healer checks failures against them and never re-runs inside these windows.
   transient:
-    - The demo site re-seeds every hour at :00 UTC. For a minute or two, calls fail with 500 (register, login), and brands, categories and products get new ids.
+    - The demo site re-seeds every hour at :00 UTC. For a minute or two, calls fail with 500 (register, login), and brands, categories and products get new ids. The site is often slow around it, so live runs avoid :55 to :03 UTC.
     - Cloudflare in front of the site shows an interactive bot check ("Performing security verification", "Verify you are human") on most direct page loads of /checkout from GitHub-hosted runners (first seen 2026-10-17, run 39052798735); other paths and local runs aren't checked. AppPage.goto() then fails with "Blocked by the site's Cloudflare bot check (environment)". Re-running doesn't help. CartPage.open() avoids it by clicking the nav bar's cart link (opening / first only when no page of the app is open); only openWithoutCart() (UI-052) still loads /checkout directly and can be blocked.
     - GET /products answers from a 5-minute cache, so right after a re-seed it can return ids that no longer exist (a POST with them returns 500).
     - The site sometimes slows down for minutes, and plain calls time out (login after 30 s, GET /products after 10 s) across many unrelated tests at once; a slowdown can end with a few seconds of login 500s.
     - Product writes need no token, so other visitors can change or delete seeded products at any time (stock, price, category). Tests on seeded records can fail without any change on our side.
     - A locked account (423) stays locked for a while; re-running login tests only extends it.
     - GET /product-specs/names answers from a 300-second cache. A parallel call right after a spec write can cache the old list again, so a just-created or just-deleted spec name can be missing or still listed for up to 5 minutes (API-0575, API-0576).
+    - The brands' and categories' search results come from a cache that survives the re-seed for up to an hour. Compare them by slug or name, never by ids from another response.
+    - The reports answer from a 5-minute cache keyed by their parameters, and allow 60 requests a minute per user, counted per IP for calls without a valid token. The reports specs' anonymous calls therefore share one counter in a parallel run; repeat one reports spec at a time, or they get 429s.
+    - API runs create and delete products while they run, so a UI test that reads the whole catalogue could fail when an API run was going at the same time (UI-079, 2026-10-26). Since 2026-11-07 the filter checks (UI-075, UI-078, UI-079) leave the tests' own products (named Product-...) out of the comparison, so only another visitor's product writes at that moment can still fail them.
+    - A cancelled run leaves the records it created until the next re-seed, because cleanup and afterRun don't run (a leftover rental product without a description failed UI-082).
 
 # The framework's optional parts and whether this project uses them.
 parts:
@@ -174,7 +179,8 @@ core:
     - src/ui/pages/components/BaseComponent.ts
     - src/ui/pages/dialogs/BaseDialog.ts
     - src/ui/pages/waitForApiResponse.ts
-    - src/fixtures/base.ts                  # role, authMode, config, tokenService, storageState, user, cleanup
+    - src/ui/pages/fillSecret.ts            # types a secret without printing it; the page fixture blanks it after the test
+    - src/fixtures/base.ts                  # role, authMode, config, tokenService, storageState, page, user, cleanup
     - src/data/factories/testDataUtils.ts   # uniqueName
     - src/globalSetup.ts
     - scripts/inspect-ui.mts                # the page inspector

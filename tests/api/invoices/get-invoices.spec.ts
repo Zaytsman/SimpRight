@@ -39,6 +39,7 @@ test.describe('@invoices-api - Invoices API', () => {
     adminUsersService,
     authService,
     productsService,
+    adminProductsService,
     cartsService,
     invoicesServiceForToken,
     invoicesClientForToken,
@@ -51,7 +52,7 @@ test.describe('@invoices-api - Invoices API', () => {
 
     const setup: CustomerInvoice = await createCustomerInvoice(
       { usersService, adminUsersService, authService, productsService, cartsService, invoicesServiceForToken, cleanup },
-      { withProduct: true }
+      { withProduct: { adminProductsService } }
     );
 
     await test.step('Send GET /invoices with that access_token.', async () => {

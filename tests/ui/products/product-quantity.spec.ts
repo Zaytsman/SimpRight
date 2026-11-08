@@ -1,10 +1,11 @@
-import { openProductPageTest as test, expect } from '@fixtures';
-import { TestConstants } from '@data/TestConstants';
+import { openProductPageWithNewProductTest as test, expect } from '@fixtures';
 
 // Scenarios: test-scenarios/ui/products/product-quantity.yml
 test.describe('@products - Product quantity', () => {
-  // Precondition: The product page of "Combination Pliers" is open.
-  test.use({ productName: TestConstants.products.inStockProduct });
+  // Precondition: A product created for this test through the API, with a unique name, is in stock.
+  // Precondition: The product page of that product is open.
+  // A product of its own: the app disables the quantity field and its buttons for a product out of stock, and other
+  // visitors of the demo site can take a seeded product out of stock.
 
   test('UI-018: An in-stock product shows the quantity selector set to 1', async ({ productPage }) => {
     await test.step('Verify the quantity field is shown.', async () => {

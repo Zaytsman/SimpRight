@@ -35,7 +35,7 @@ SimpRight/
 │   │   ├── auth/                 whether a saved login is still valid (authState)
 │   │   ├── visitor/              visitor state the app keeps in browser storage: location, cart
 │   │   └── fixtures/             UI fixtures (pages, components, flows), the new-customer state, setup helpers (cartSetup, productSetup)
-│   │       └── preconditions/    where a test starts, open<Page><State>Test: openHomePageTest, openProductPageTest, their InLondon / WithNewCustomer variants
+│   │       └── preconditions/    where a test starts, open<Page><State>Test: openHomePageTest, openProductPageTest, their InLondon / WithNewCustomer / WithNewProduct variants
 │   ├── data/
 │   │   ├── TestConstants.ts      seeded app values that several tests rely on
 │   │   └── factories/            payload builders per area, uniqueName() for created records

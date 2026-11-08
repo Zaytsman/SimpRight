@@ -43,13 +43,15 @@ API first: a check goes to the UI only when the API can't prove it ([layer rules
 | T8 | AC4 | Valid credentials: `POST /users/login` returns 200 with a bearer token, and `GET /users/me` with it returns 200 with that user's email | API | The server authenticates (contract §1, §5) | | API-0078 (existing) |
 | T9 | AC4 | Journey: a guest enters the run customer's valid email and password on the sign-in step and submits; the form is replaced by the signed-in state, the nav bar's user menu appears, and "Proceed to checkout" leads to the "Billing Address" step | UI | The swap of the form, the nav bar and the wizard navigation happen in the browser; the authentication itself is T8 | writes | UI-061 |
 | T10 | AC5 | `GET /users/me` returns the `first_name` and `last_name` the customer registered with (register, login, read back) | API | The page builds the message from `GET /users/me` (`getCustomerInfo`); the API proves the data, the UI item shows it (contract §5, §2). API-0063 checks only that the names are not empty | writes | API-0312 |
-| T11 | AC5 | Journey: logged in as the run's customer with a product in the cart, open the checkout page and click "Proceed to checkout"; step 2 shows "You are already signed in as [First Name] [Last Name]" with the customer's names, no login form, and "Proceed to checkout" leads to the "Billing Address" step | UI | The message text and the direct navigation exist only in the page; one case, the names' source is T10 | writes, known issue | UI-062 |
+| T11 | AC5 | Journey: logged in as the run's customer with a product in the cart, open the checkout page and click "Proceed to checkout"; step 2 shows "You are already signed in as [First Name] [Last Name]" with the customer's names, no login form, and "Proceed to checkout" leads to the "Billing Address" step | UI | The message text and the direct navigation exist only in the page; one case, the names' source is T10 | writes, known issue | UI-062, UI-099 |
 
 **Not tested:** nothing in the five criteria is dropped. Seen in the app but not in the story, so not planned: the "Continue as Guest" tab (guest checkout with email, first and last name), the register and forgot-password links under the form, the form's validation (required, email format, password 6-40 characters), the page's "Invalid email or password" alert for wrong credentials (a failed-login scenario would also count toward the account lockout), and the TOTP step's "TOTP code is required" message.
 
 **Totals:** 11 items: 6 API, 5 UI (4 journeys: T1, T7, T9, T11; T2 is a display check with its own UI-only reason); 1 already covered by an existing scenario (T8, API-0078). Flags: 10 writes, 5 data, 0 dangerous, 1 known issue (T11, suspected), 0 contract gaps.
 
 **Scenarios written:** 10 new, all `manual`: 5 API (API-0308..API-0311 in `post-users-login.yml`, API-0312 in `get-users-me.yml`) and 5 UI (UI-058..UI-062 in the new `checkout-sign-in.yml`). The contract gaps for the engineer to close when automating: the text "Invalid TOTP" (API-0311) and the restricted-token 401 (API-0310) are not in Users_API.md.
+
+**T11 split (2026-11-03):** UI-062's known issue (BUG-048) stops it at the message, so UI-099 took T11's other checks (no login form, "Proceed to checkout" to the "Billing Address" step), which run while the bug is open.
 
 ## Open questions
 

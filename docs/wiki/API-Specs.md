@@ -121,7 +121,7 @@ Setup steps and checks that several specs of an area share. A helper that is a s
 | `productSteps.ts` | `createProduct` (with cleanup), `takeProductRefs`, `takeFirstProductId`, `checkInvalidProductChange`, `sendCreateProduct` |
 | `userSteps.ts` | `registerThrowawayCustomer`, `loginThrowawayCustomer`, `readCurrentUser`, user page summaries |
 | `cartSteps.ts` | `createCart`, `createProductAndCart`, `getCartOk`, `expectSingleItem` |
-| `invoiceSteps.ts` | Invoice setups for customers and guests, `pollPdfStatus`, invoice page summaries |
+| `invoiceSteps.ts` | Invoice setups for customers and guests, `createProductToOrder` (a product of the test's own to order, so orders don't drain a seeded product's stock), `pollPdfStatus`, invoice page summaries |
 | `brandSteps.ts`, `categorySteps.ts` | Create with cleanup, read back, slug lookups |
 | `favoriteSteps.ts`, `messageSteps.ts`, `productSpecSteps.ts`, `reportSteps.ts` | The same for their areas |
 

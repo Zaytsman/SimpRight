@@ -10,14 +10,14 @@ Fixtures are how a spec gets everything it uses: pages, flows, API clients and s
 @playwright/test  test
         │ .extend
         ▼
-src/fixtures/base.ts            role, authMode (options), config*, tokenService*, apiCoverage* (auto), storageState, user, cleanup
+src/fixtures/base.ts            role, authMode (options), config*, tokenService*, apiCoverage* (auto), storageState, page, user, cleanup
         │                                                  * worker-scoped
         ├── .extend ─► src/api/fixtures/fixtures.ts   63 API fixtures: clients and services per area and token
         └── .extend ─► src/ui/fixtures/fixtures.ts    pages, flows
                          │
 src/fixtures/fixtures.ts │  mergeTests(apiTest, uiTest)  ──►  the one `test`
         │
-        ├── .extend ─► src/ui/fixtures/preconditions/open<Page><State>Test.ts   (8 precondition fixtures)
+        ├── .extend ─► src/ui/fixtures/preconditions/open<Page><State>Test.ts   (9 precondition fixtures)
         ▼
 src/fixtures/index.ts   = `@fixtures`: test, expect, the precondition fixtures, UI setup helpers, API step helpers
 ```
@@ -34,6 +34,7 @@ Fixtures are **lazy**: a test that never names `accessToken` never logs in throu
 | `tokenService` | worker | Logs each role in once per worker through the project's `login` and refreshes the token 2 minutes before it expires. Worker-scoped, with its own request context, because the built-in `request` is test-scoped. |
 | `apiCoverage` | worker, auto | Records every API call through `BaseClient.onApiCall` when the optional coverage package is installed; does nothing otherwise |
 | `storageState` | test | Overrides Playwright's: the browser starts logged in as the test's role (`project.browserState` with its token, or the saved state), or logged out with `none` |
+| `page` | test | Overrides Playwright's: after the test, before the context closes, blanks the fields `fillSecret` filled, so a failed test's page snapshot (published in its error context) doesn't show them ([10](Reporting-and-Secrets)) |
 | `user` | test | The test user's credentials, `getUser(role)` |
 | `cleanup` | test | Undo steps for records the test creates (below) |
 
@@ -90,6 +91,7 @@ Each one is named `open<Page><State>Test` after the page the test starts on and 
 | `openProductPageTest` | The product named by the option `productName` (`test.use({ productName })`) open |
 | `openProductPageInLondonTest` | The same, for a visitor in London (location offers show their discount) |
 | `openProductPageWithNewCustomerTest` | `openProductPageTest` logged in as a customer registered for this test |
+| `openProductPageWithNewProductTest` | `openProductPageTest` for a product created for this test through the API (`createProductInStock`: unique name, in stock, removed after the test), so other visitors can't change it |
 | `openRentalsPageTest` | The rentals page open |
 | `openHomePageWithProductInCartTest` | A cart with the in-stock product, made through the API, given to the browser, the home page open |
 | `openHomePageWithRentalAndProductInCartTest` | A rental and a product in the cart (the 15% combined discount checked as setup) |
@@ -103,7 +105,7 @@ A precondition only one test has stays **setup code** at the top of that test, w
 [`src/fixtures/index.ts`](https://github.com/Zaytsman/SimpRight/blob/main/src/fixtures/index.ts):
 
 - `test`, `expect`, `TestFixtures`;
-- the 8 precondition fixtures;
+- the 9 precondition fixtures;
 - UI setup helpers: `putProductsInCart`, `putProductInCart`, `assertNoEcoRating`, `createProductInStock`, `findProductByName`, `catalogueProductNames`, `registerCustomerForTest`, `removeCartAfterTest`, `AMSTERDAM`;
 - every API step-helper module with `export *` (`apiSteps.ts` and one `<area>Steps.ts` per area). A new helper needs no change to the index; a name that only its own module uses stays unexported, and two modules exporting the same name is a compile error.
 
