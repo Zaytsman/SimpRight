@@ -3,8 +3,8 @@ window.SCENARIO_CATALOG = {
  "layer": "api",
  "title": "API Test Cases",
  "prefix": "API",
- "generatedAt": "2026-11-01T11:03:04.027Z",
- "commit": "406539b5046571de5ef501df4c785672a4825740",
+ "generatedAt": "2026-11-08T10:06:57.769Z",
+ "commit": "0ea7909bb9f0a28ee6b960501eaecfba7f98c62a",
  "repoUrl": "https://github.com/Zaytsman/SimpRight",
  "branch": "main",
  "projectPath": "",
@@ -6299,7 +6299,8 @@ window.SCENARIO_CATALOG = {
    "steps": [
     "Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.",
     "Send POST /users/login with that email and password, and take its access_token.",
-    "Send GET /products and take the first item's id as the product's id.",
+    "Send GET /products and take the first item's brand id, category id and product image id.",
+    "Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental false and stock 10, and take the new product's id as the product's id.",
     "Send POST /carts with an empty body and take the returned id as the cart's id.",
     "Send POST /carts/{cartId} with the cart's id, the product's id as product_id and quantity 2.",
     "Send POST /invoices with that access_token, payment_method \"cash-on-delivery\", payment_details {}, billing_street \"Stephansplatz 1\", billing_city \"Wien\", billing_country \"AT\" and the cart's id as cart_id, and take the new invoice's id, invoice_number and total.",
@@ -6322,7 +6323,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@invoices-api"
    ],
-   "yaml": "- id: API-0441\n  name: List invoices returns 200 with the customer's invoice, its lines and payment\n  status: automated\n  automatedIn: tests/api/invoices/get-invoices.spec.ts\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.\n    - Send POST /users/login with that email and password, and take its access_token.\n    - Send GET /products and take the first item's id as the product's id.\n    - Send POST /carts with an empty body and take the returned id as the cart's id.\n    - Send POST /carts/{cartId} with the cart's id, the product's id as product_id and quantity 2.\n    - Send POST /invoices with that access_token, payment_method \"cash-on-delivery\", payment_details {}, billing_street \"Stephansplatz 1\", billing_city \"Wien\", billing_country \"AT\" and the cart's id as cart_id, and take the new invoice's id, invoice_number and total.\n    - Send GET /invoices with that access_token.\n    - Verify the response status is 200.\n    - Verify the body has the keys current_page, data, from, last_page, per_page, to and total, and its per_page is 15.\n    - Verify the body's total is 1 and data has exactly one item, whose id is the new invoice's id, user_id is the new user's id and invoice_number is the invoice's number.\n    - Verify the item has the keys invoice_date, status, subtotal, total, billing_street, billing_city, billing_state, billing_country, billing_postal_code, additional_discount_percentage, additional_discount_amount, invoicelines and payment.\n    - Verify the item's status is one of AWAITING_FULFILLMENT, ON_HOLD, AWAITING_SHIPMENT, SHIPPED and COMPLETED.\n    - Verify the item's payment.payment_method is \"cash-on-delivery\".\n    - Verify the item's invoicelines has exactly one line with the product's id as product_id and quantity 2, whose product has the keys id, name, price, co2_rating, in_stock, is_eco_friendly and product_image."
+   "yaml": "- id: API-0441\n  name: List invoices returns 200 with the customer's invoice, its lines and payment\n  status: automated\n  automatedIn: tests/api/invoices/get-invoices.spec.ts\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.\n    - Send POST /users/login with that email and password, and take its access_token.\n    - Send GET /products and take the first item's brand id, category id and product image id.\n    - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental false and stock 10, and take the new product's id as the product's id.\n    - Send POST /carts with an empty body and take the returned id as the cart's id.\n    - Send POST /carts/{cartId} with the cart's id, the product's id as product_id and quantity 2.\n    - Send POST /invoices with that access_token, payment_method \"cash-on-delivery\", payment_details {}, billing_street \"Stephansplatz 1\", billing_city \"Wien\", billing_country \"AT\" and the cart's id as cart_id, and take the new invoice's id, invoice_number and total.\n    - Send GET /invoices with that access_token.\n    - Verify the response status is 200.\n    - Verify the body has the keys current_page, data, from, last_page, per_page, to and total, and its per_page is 15.\n    - Verify the body's total is 1 and data has exactly one item, whose id is the new invoice's id, user_id is the new user's id and invoice_number is the invoice's number.\n    - Verify the item has the keys invoice_date, status, subtotal, total, billing_street, billing_city, billing_state, billing_country, billing_postal_code, additional_discount_percentage, additional_discount_amount, invoicelines and payment.\n    - Verify the item's status is one of AWAITING_FULFILLMENT, ON_HOLD, AWAITING_SHIPMENT, SHIPPED and COMPLETED.\n    - Verify the item's payment.payment_method is \"cash-on-delivery\".\n    - Verify the item's invoicelines has exactly one line with the product's id as product_id and quantity 2, whose product has the keys id, name, price, co2_rating, in_stock, is_eco_friendly and product_image."
   },
   {
    "id": "API-0442",
@@ -6341,7 +6342,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's total is 0 and data is an empty array."
    ],
    "ref": [],
-   "specLine": 112,
+   "specLine": 113,
    "area": "invoices",
    "areaLabel": "Invoices",
    "file": "test-scenarios/api/invoices/get-invoices.yml",
@@ -6368,7 +6369,7 @@ window.SCENARIO_CATALOG = {
     "Verify data has an item whose id is the new invoice's id and whose user_id is the new user's id (the newest invoice is on page 1)."
    ],
    "ref": [],
-   "specLine": 145,
+   "specLine": 146,
    "area": "invoices",
    "areaLabel": "Invoices",
    "file": "test-scenarios/api/invoices/get-invoices.yml",
@@ -6396,7 +6397,7 @@ window.SCENARIO_CATALOG = {
     "Verify the items' invoice_date values are in descending order (the first item is not older than the second)."
    ],
    "ref": [],
-   "specLine": 184,
+   "specLine": 185,
    "area": "invoices",
    "areaLabel": "Invoices",
    "file": "test-scenarios/api/invoices/get-invoices.yml",
@@ -6422,7 +6423,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's data is an empty array."
    ],
    "ref": [],
-   "specLine": 234,
+   "specLine": 235,
    "area": "invoices",
    "areaLabel": "Invoices",
    "file": "test-scenarios/api/invoices/get-invoices.yml",
@@ -6444,7 +6445,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's message is \"Unauthorized\"."
    ],
    "ref": [],
-   "specLine": 265,
+   "specLine": 266,
    "area": "invoices",
    "areaLabel": "Invoices",
    "file": "test-scenarios/api/invoices/get-invoices.yml",
@@ -6466,7 +6467,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's message is \"Unauthorized\"."
    ],
    "ref": [],
-   "specLine": 274,
+   "specLine": 275,
    "area": "invoices",
    "areaLabel": "Invoices",
    "file": "test-scenarios/api/invoices/get-invoices.yml",
@@ -6492,7 +6493,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's message is \"Account disabled.\"."
    ],
    "ref": [],
-   "specLine": 286,
+   "specLine": 287,
    "area": "invoices",
    "areaLabel": "Invoices",
    "file": "test-scenarios/api/invoices/get-invoices.yml",
@@ -6712,7 +6713,8 @@ window.SCENARIO_CATALOG = {
    "steps": [
     "Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.",
     "Send POST /users/login with that email and password, and take its access_token.",
-    "Send GET /products and take the first item's id as the product's id.",
+    "Send GET /products and take the first item's brand id, category id and product image id.",
+    "Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental false and stock 10, and take the new product's id as the product's id.",
     "Send POST /carts with an empty body and take the returned id as the cart's id.",
     "Send POST /carts/{cartId} with the cart's id, the product's id as product_id and quantity 2.",
     "Send POST /invoices with that access_token, payment_method \"cash-on-delivery\", payment_details {}, billing_street \"Stephansplatz 1\", billing_city \"Wien\", billing_country \"AT\" and the cart's id as cart_id, and take the new invoice's id, invoice_number and total.",
@@ -6732,7 +6734,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@invoices-api"
    ],
-   "yaml": "- id: API-0485\n  name: Create invoice returns 201 with the invoice, its totals and lines\n  status: automated\n  automatedIn: tests/api/invoices/post-invoices.spec.ts\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.\n    - Send POST /users/login with that email and password, and take its access_token.\n    - Send GET /products and take the first item's id as the product's id.\n    - Send POST /carts with an empty body and take the returned id as the cart's id.\n    - Send POST /carts/{cartId} with the cart's id, the product's id as product_id and quantity 2.\n    - Send POST /invoices with that access_token, payment_method \"cash-on-delivery\", payment_details {}, billing_street \"Stephansplatz 1\", billing_city \"Wien\", billing_country \"AT\" and the cart's id as cart_id, and take the new invoice's id, invoice_number and total.\n    - Verify the response status is 201.\n    - Verify the body has the keys id, user_id, invoice_number, invoice_date, billing_street, billing_city, billing_country, subtotal, total, additional_discount_percentage, additional_discount_amount, eco_discount_percentage, eco_discount_amount and created_at.\n    - Verify the body's user_id equals the new user's id.\n    - Verify the body's invoice_number is INV- followed by a 4-digit year and 6 digits.\n    - Verify GET /invoices/{invoiceId} with the new id and that token returns 200 with exactly one line with the product's id as product_id and quantity 2, and payment.payment_method \"cash-on-delivery\"."
+   "yaml": "- id: API-0485\n  name: Create invoice returns 201 with the invoice, its totals and lines\n  status: automated\n  automatedIn: tests/api/invoices/post-invoices.spec.ts\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.\n    - Send POST /users/login with that email and password, and take its access_token.\n    - Send GET /products and take the first item's brand id, category id and product image id.\n    - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental false and stock 10, and take the new product's id as the product's id.\n    - Send POST /carts with an empty body and take the returned id as the cart's id.\n    - Send POST /carts/{cartId} with the cart's id, the product's id as product_id and quantity 2.\n    - Send POST /invoices with that access_token, payment_method \"cash-on-delivery\", payment_details {}, billing_street \"Stephansplatz 1\", billing_city \"Wien\", billing_country \"AT\" and the cart's id as cart_id, and take the new invoice's id, invoice_number and total.\n    - Verify the response status is 201.\n    - Verify the body has the keys id, user_id, invoice_number, invoice_date, billing_street, billing_city, billing_country, subtotal, total, additional_discount_percentage, additional_discount_amount, eco_discount_percentage, eco_discount_amount and created_at.\n    - Verify the body's user_id equals the new user's id.\n    - Verify the body's invoice_number is INV- followed by a 4-digit year and 6 digits.\n    - Verify GET /invoices/{invoiceId} with the new id and that token returns 200 with exactly one line with the product's id as product_id and quantity 2, and payment.payment_method \"cash-on-delivery\"."
   },
   {
    "id": "API-0486",
@@ -6749,7 +6751,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /invoices/{invoiceId} with the new id and that token returns 200 with invoicelines as an empty array."
    ],
    "ref": [],
-   "specLine": 353,
+   "specLine": 354,
    "area": "invoices",
    "areaLabel": "Invoices",
    "file": "test-scenarios/api/invoices/post-invoices.yml",
@@ -6774,7 +6776,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /invoices/{invoiceId} with the new id and that token returns 200 with payment.payment_method \"bank-transfer\" and payment.payment_details holding the bank_name, account_name and account_number sent."
    ],
    "ref": [],
-   "specLine": 394,
+   "specLine": 395,
    "area": "invoices",
    "areaLabel": "Invoices",
    "file": "test-scenarios/api/invoices/post-invoices.yml",
@@ -6799,7 +6801,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /invoices/{invoiceId} with the new id and that token returns 200 with payment.payment_method \"credit-card\" and payment.payment_details holding the credit_card_number, expiration_date, cvv and card_holder_name sent."
    ],
    "ref": [],
-   "specLine": 411,
+   "specLine": 412,
    "area": "invoices",
    "areaLabel": "Invoices",
    "file": "test-scenarios/api/invoices/post-invoices.yml",
@@ -6824,7 +6826,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /invoices/{invoiceId} with the new id and that token returns 200 with payment.payment_method \"buy-now-pay-later\" and payment.payment_details holding the monthly_installments sent."
    ],
    "ref": [],
-   "specLine": 428,
+   "specLine": 429,
    "area": "invoices",
    "areaLabel": "Invoices",
    "file": "test-scenarios/api/invoices/post-invoices.yml",
@@ -6849,7 +6851,7 @@ window.SCENARIO_CATALOG = {
     "Verify GET /invoices/{invoiceId} with the new id and that token returns 200 with payment.payment_method \"gift-card\" and payment.payment_details holding the gift_card_number and validation_code sent."
    ],
    "ref": [],
-   "specLine": 445,
+   "specLine": 446,
    "area": "invoices",
    "areaLabel": "Invoices",
    "file": "test-scenarios/api/invoices/post-invoices.yml",
@@ -6871,7 +6873,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's message is \"Unauthorized\"."
    ],
    "ref": [],
-   "specLine": 462,
+   "specLine": 463,
    "area": "invoices",
    "areaLabel": "Invoices",
    "file": "test-scenarios/api/invoices/post-invoices.yml",
@@ -6893,7 +6895,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body has the keys payment_method, payment_details and cart_id, each with at least one message."
    ],
    "ref": [],
-   "specLine": 471,
+   "specLine": 472,
    "area": "invoices",
    "areaLabel": "Invoices",
    "file": "test-scenarios/api/invoices/post-invoices.yml",
@@ -6915,7 +6917,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body has a payment_method key with at least one message."
    ],
    "ref": [],
-   "specLine": 481,
+   "specLine": 482,
    "area": "invoices",
    "areaLabel": "Invoices",
    "file": "test-scenarios/api/invoices/post-invoices.yml",
@@ -6937,7 +6939,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body has a \"payment_details.gift_card_number\" key with at least one message."
    ],
    "ref": [],
-   "specLine": 491,
+   "specLine": 492,
    "area": "invoices",
    "areaLabel": "Invoices",
    "file": "test-scenarios/api/invoices/post-invoices.yml",
@@ -6959,7 +6961,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body has a \"payment_details.validation_code\" key with at least one message."
    ],
    "ref": [],
-   "specLine": 501,
+   "specLine": 502,
    "area": "invoices",
    "areaLabel": "Invoices",
    "file": "test-scenarios/api/invoices/post-invoices.yml",
@@ -6981,7 +6983,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body has a billing_street key with at least one message."
    ],
    "ref": [],
-   "specLine": 511,
+   "specLine": 512,
    "area": "invoices",
    "areaLabel": "Invoices",
    "file": "test-scenarios/api/invoices/post-invoices.yml",
@@ -7003,7 +7005,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body has a billing_country key with at least one message."
    ],
    "ref": [],
-   "specLine": 521,
+   "specLine": 522,
    "area": "invoices",
    "areaLabel": "Invoices",
    "file": "test-scenarios/api/invoices/post-invoices.yml",
@@ -7027,7 +7029,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's message is \"Requested item not found\"."
    ],
    "ref": [],
-   "specLine": 531,
+   "specLine": 532,
    "area": "invoices",
    "areaLabel": "Invoices",
    "file": "test-scenarios/api/invoices/post-invoices.yml",
@@ -7053,7 +7055,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's total is 0."
    ],
    "ref": [],
-   "specLine": 543,
+   "specLine": 544,
    "area": "invoices",
    "areaLabel": "Invoices",
    "file": "test-scenarios/api/invoices/post-invoices.yml",
@@ -7079,7 +7081,7 @@ window.SCENARIO_CATALOG = {
     "Verify the response status is 422."
    ],
    "ref": [],
-   "specLine": 567,
+   "specLine": 568,
    "area": "invoices",
    "areaLabel": "Invoices",
    "file": "test-scenarios/api/invoices/post-invoices.yml",
@@ -7105,7 +7107,7 @@ window.SCENARIO_CATALOG = {
     "Verify the response status is 422."
    ],
    "ref": [],
-   "specLine": 595,
+   "specLine": 596,
    "area": "invoices",
    "areaLabel": "Invoices",
    "file": "test-scenarios/api/invoices/post-invoices.yml",
@@ -7132,7 +7134,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's total is 0."
    ],
    "ref": [],
-   "specLine": 622,
+   "specLine": 623,
    "area": "invoices",
    "areaLabel": "Invoices",
    "file": "test-scenarios/api/invoices/post-invoices.yml",
@@ -7150,7 +7152,8 @@ window.SCENARIO_CATALOG = {
    "automatedIn": "tests/api/invoices/post-invoices-guest.spec.ts",
    "role": "admin",
    "steps": [
-    "Send GET /products and take the first item's id as the product's id.",
+    "Send GET /products and take the first item's brand id, category id and product image id.",
+    "Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental false and stock 10, and take the new product's id as the product's id.",
     "Send POST /carts with an empty body and take the returned id as the cart's id.",
     "Send POST /carts/{cartId} with the cart's id, the product's id as product_id and quantity 2.",
     "Send POST /invoices/guest without an Authorization header, with payment_method \"cash-on-delivery\", payment_details {}, billing_street \"Stephansplatz 1\", billing_city \"Wien\", billing_country \"AT\", the cart's id as cart_id, a unique guest_email, a guest_first_name and a guest_last_name, and take the new invoice's id.",
@@ -7169,7 +7172,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@invoices-api"
    ],
-   "yaml": "- id: API-0502\n  name: Create guest invoice returns 201 and the invoice has no user\n  status: automated\n  automatedIn: tests/api/invoices/post-invoices-guest.spec.ts\n  role: admin\n  steps:\n    - Send GET /products and take the first item's id as the product's id.\n    - Send POST /carts with an empty body and take the returned id as the cart's id.\n    - Send POST /carts/{cartId} with the cart's id, the product's id as product_id and quantity 2.\n    - Send POST /invoices/guest without an Authorization header, with payment_method \"cash-on-delivery\", payment_details {}, billing_street \"Stephansplatz 1\", billing_city \"Wien\", billing_country \"AT\", the cart's id as cart_id, a unique guest_email, a guest_first_name and a guest_last_name, and take the new invoice's id.\n    - Verify the response status is 201.\n    - Verify the body has the keys id, user_id, invoice_number, invoice_date, billing_street, billing_city, billing_country, subtotal, total and created_at.\n    - Verify the body's user_id is null.\n    - Verify GET /invoices/{invoiceId} with the new id and the admin's token returns 200 with user_id null, the billing_street, billing_city and billing_country sent, and exactly one line with the product's id as product_id."
+   "yaml": "- id: API-0502\n  name: Create guest invoice returns 201 and the invoice has no user\n  status: automated\n  automatedIn: tests/api/invoices/post-invoices-guest.spec.ts\n  role: admin\n  steps:\n    - Send GET /products and take the first item's brand id, category id and product image id.\n    - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental false and stock 10, and take the new product's id as the product's id.\n    - Send POST /carts with an empty body and take the returned id as the cart's id.\n    - Send POST /carts/{cartId} with the cart's id, the product's id as product_id and quantity 2.\n    - Send POST /invoices/guest without an Authorization header, with payment_method \"cash-on-delivery\", payment_details {}, billing_street \"Stephansplatz 1\", billing_city \"Wien\", billing_country \"AT\", the cart's id as cart_id, a unique guest_email, a guest_first_name and a guest_last_name, and take the new invoice's id.\n    - Verify the response status is 201.\n    - Verify the body has the keys id, user_id, invoice_number, invoice_date, billing_street, billing_city, billing_country, subtotal, total and created_at.\n    - Verify the body's user_id is null.\n    - Verify GET /invoices/{invoiceId} with the new id and the admin's token returns 200 with user_id null, the billing_street, billing_city and billing_country sent, and exactly one line with the product's id as product_id."
   },
   {
    "id": "API-0503",
@@ -7182,7 +7185,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's errors has the keys payment_method, payment_details, billing_street, billing_city, billing_country, cart_id, guest_email, guest_first_name and guest_last_name, each with at least one message."
    ],
    "ref": [],
-   "specLine": 125,
+   "specLine": 132,
    "area": "invoices",
    "areaLabel": "Invoices",
    "file": "test-scenarios/api/invoices/post-invoices-guest.yml",
@@ -7204,7 +7207,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's errors has a guest_email key with at least one message."
    ],
    "ref": [],
-   "specLine": 135,
+   "specLine": 142,
    "area": "invoices",
    "areaLabel": "Invoices",
    "file": "test-scenarios/api/invoices/post-invoices-guest.yml",
@@ -7226,7 +7229,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's errors has a payment_method key with at least one message."
    ],
    "ref": [],
-   "specLine": 145,
+   "specLine": 152,
    "area": "invoices",
    "areaLabel": "Invoices",
    "file": "test-scenarios/api/invoices/post-invoices-guest.yml",
@@ -7248,7 +7251,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's errors has a billing_country key with at least one message."
    ],
    "ref": [],
-   "specLine": 155,
+   "specLine": 162,
    "area": "invoices",
    "areaLabel": "Invoices",
    "file": "test-scenarios/api/invoices/post-invoices-guest.yml",
@@ -7270,7 +7273,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's message is \"Requested item not found\"."
    ],
    "ref": [],
-   "specLine": 165,
+   "specLine": 172,
    "area": "invoices",
    "areaLabel": "Invoices",
    "file": "test-scenarios/api/invoices/post-invoices-guest.yml",
@@ -7294,7 +7297,7 @@ window.SCENARIO_CATALOG = {
     "Verify the response status is 422."
    ],
    "ref": [],
-   "specLine": 174,
+   "specLine": 181,
    "area": "invoices",
    "areaLabel": "Invoices",
    "file": "test-scenarios/api/invoices/post-invoices-guest.yml",
@@ -7319,7 +7322,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's total is 0."
    ],
    "ref": [],
-   "specLine": 197,
+   "specLine": 204,
    "area": "invoices",
    "areaLabel": "Invoices",
    "file": "test-scenarios/api/invoices/post-invoices-guest.yml",
@@ -7343,7 +7346,7 @@ window.SCENARIO_CATALOG = {
     "Verify the response status is 422."
    ],
    "ref": [],
-   "specLine": 230,
+   "specLine": 237,
    "area": "invoices",
    "areaLabel": "Invoices",
    "file": "test-scenarios/api/invoices/post-invoices-guest.yml",
@@ -7369,7 +7372,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's total is 0."
    ],
    "ref": [],
-   "specLine": 212,
+   "specLine": 219,
    "area": "invoices",
    "areaLabel": "Invoices",
    "file": "test-scenarios/api/invoices/post-invoices-guest.yml",
@@ -7736,7 +7739,8 @@ window.SCENARIO_CATALOG = {
    "steps": [
     "Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.",
     "Send POST /users/login with that email and password, and take its access_token.",
-    "Send GET /products and take the first item's id as the product's id.",
+    "Send GET /products and take the first item's brand id, category id and product image id.",
+    "Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental false and stock 10, and take the new product's id as the product's id.",
     "Send POST /carts with an empty body and take the returned id as the cart's id.",
     "Send POST /carts/{cartId} with the cart's id, the product's id as product_id and quantity 2.",
     "Send POST /invoices with that access_token, payment_method \"cash-on-delivery\", payment_details {}, billing_street \"Stephansplatz 1\", billing_city \"Wien\", billing_country \"AT\" and the cart's id as cart_id, and take the new invoice's id, invoice_number and total.",
@@ -7761,7 +7765,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@invoices-api"
    ],
-   "yaml": "- id: API-0463\n  name: Get invoice returns 200 with its lines, payment and totals\n  status: automated\n  automatedIn: tests/api/invoices/get-invoices-by-invoice-id.spec.ts\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.\n    - Send POST /users/login with that email and password, and take its access_token.\n    - Send GET /products and take the first item's id as the product's id.\n    - Send POST /carts with an empty body and take the returned id as the cart's id.\n    - Send POST /carts/{cartId} with the cart's id, the product's id as product_id and quantity 2.\n    - Send POST /invoices with that access_token, payment_method \"cash-on-delivery\", payment_details {}, billing_street \"Stephansplatz 1\", billing_city \"Wien\", billing_country \"AT\" and the cart's id as cart_id, and take the new invoice's id, invoice_number and total.\n    - Send GET /invoices/{invoiceId} with the invoice's id and that access_token.\n    - Verify the response status is 200.\n    - Verify the body's id and invoice_number equal the invoice's, and its user_id equals the new user's id.\n    - Verify the body's billing_street is \"Stephansplatz 1\", billing_city is \"Wien\" and billing_country is \"AT\".\n    - Verify the body has the keys invoice_date, status, status_message, created_at, subtotal, total, additional_discount_percentage, additional_discount_amount, eco_discount_percentage, eco_discount_amount, invoicelines and payment.\n    - Verify the body has no updated_at and no document key.\n    - Verify invoicelines has exactly one line with the product's id as product_id and quantity 2, whose product has the keys id, name, description, price, co2_rating, is_rental, in_stock, is_eco_friendly, product_image, category and brand.\n    - Verify the body's payment.payment_method is \"cash-on-delivery\".\n    - Verify the body's subtotal equals the line's quantity times its discounted_price (or its unit_price when there is no discounted_price), within a cent.\n    - Verify the body's total equals subtotal minus additional_discount_amount minus eco_discount_amount, within a cent."
+   "yaml": "- id: API-0463\n  name: Get invoice returns 200 with its lines, payment and totals\n  status: automated\n  automatedIn: tests/api/invoices/get-invoices-by-invoice-id.spec.ts\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.\n    - Send POST /users/login with that email and password, and take its access_token.\n    - Send GET /products and take the first item's brand id, category id and product image id.\n    - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental false and stock 10, and take the new product's id as the product's id.\n    - Send POST /carts with an empty body and take the returned id as the cart's id.\n    - Send POST /carts/{cartId} with the cart's id, the product's id as product_id and quantity 2.\n    - Send POST /invoices with that access_token, payment_method \"cash-on-delivery\", payment_details {}, billing_street \"Stephansplatz 1\", billing_city \"Wien\", billing_country \"AT\" and the cart's id as cart_id, and take the new invoice's id, invoice_number and total.\n    - Send GET /invoices/{invoiceId} with the invoice's id and that access_token.\n    - Verify the response status is 200.\n    - Verify the body's id and invoice_number equal the invoice's, and its user_id equals the new user's id.\n    - Verify the body's billing_street is \"Stephansplatz 1\", billing_city is \"Wien\" and billing_country is \"AT\".\n    - Verify the body has the keys invoice_date, status, status_message, created_at, subtotal, total, additional_discount_percentage, additional_discount_amount, eco_discount_percentage, eco_discount_amount, invoicelines and payment.\n    - Verify the body has no updated_at and no document key.\n    - Verify invoicelines has exactly one line with the product's id as product_id and quantity 2, whose product has the keys id, name, description, price, co2_rating, is_rental, in_stock, is_eco_friendly, product_image, category and brand.\n    - Verify the body's payment.payment_method is \"cash-on-delivery\".\n    - Verify the body's subtotal equals the line's quantity times its discounted_price (or its unit_price when there is no discounted_price), within a cent.\n    - Verify the body's total equals subtotal minus additional_discount_amount minus eco_discount_amount, within a cent."
   },
   {
    "id": "API-0464",
@@ -7779,7 +7783,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's id equals the invoice's id and its user_id equals the new user's id."
    ],
    "ref": [],
-   "specLine": 142,
+   "specLine": 143,
    "area": "invoices",
    "areaLabel": "Invoices",
    "file": "test-scenarios/api/invoices/get-invoices-by-invoice-id.yml",
@@ -7801,7 +7805,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's message is \"Unauthorized\"."
    ],
    "ref": [],
-   "specLine": 174,
+   "specLine": 175,
    "area": "invoices",
    "areaLabel": "Invoices",
    "file": "test-scenarios/api/invoices/get-invoices-by-invoice-id.yml",
@@ -7823,7 +7827,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's message is \"Requested item not found\"."
    ],
    "ref": [],
-   "specLine": 183,
+   "specLine": 184,
    "area": "invoices",
    "areaLabel": "Invoices",
    "file": "test-scenarios/api/invoices/get-invoices-by-invoice-id.yml",
@@ -7851,7 +7855,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's message is \"Requested item not found\"."
    ],
    "ref": [],
-   "specLine": 192,
+   "specLine": 193,
    "area": "invoices",
    "areaLabel": "Invoices",
    "file": "test-scenarios/api/invoices/get-invoices-by-invoice-id.yml",
@@ -15235,7 +15239,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's message is \"Unauthorized\"."
    ],
    "ref": [],
-   "specLine": 235,
+   "specLine": 233,
    "area": "reports",
    "areaLabel": "Reports",
    "file": "test-scenarios/api/reports/get-reports-total-sales-of-years.yml",
@@ -15257,7 +15261,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's message is \"Unauthorized\"."
    ],
    "ref": [],
-   "specLine": 244,
+   "specLine": 242,
    "area": "reports",
    "areaLabel": "Reports",
    "file": "test-scenarios/api/reports/get-reports-total-sales-of-years.yml",
@@ -15279,7 +15283,7 @@ window.SCENARIO_CATALOG = {
     "Verify the body's message is \"Forbidden\"."
    ],
    "ref": [],
-   "specLine": 253,
+   "specLine": 251,
    "area": "reports",
    "areaLabel": "Reports",
    "file": "test-scenarios/api/reports/get-reports-total-sales-of-years.yml",
@@ -15323,7 +15327,8 @@ window.SCENARIO_CATALOG = {
    "steps": [
     "Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.",
     "Send POST /users/login with that email and password, and take its access_token.",
-    "Send GET /products and take the first item's id as the product's id.",
+    "Send GET /products and take the first item's brand id, category id and product image id.",
+    "Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental false and stock 10, and take the new product's id as the product's id.",
     "Send POST /carts with an empty body and take the returned id as the cart's id.",
     "Send POST /carts/{cartId} with the cart's id, the product's id as product_id and quantity 2.",
     "Send GET /reports/total-sales-of-years with a years value picked at random between 20 and 99 and the admin's token, and take the last item's total as the starting total.",
@@ -15344,7 +15349,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@reports-api"
    ],
-   "yaml": "- id: API-0585\n  name: Total sales of years counts a completed invoice\n  status: automated\n  automatedIn: tests/api/reports/get-reports-total-sales-of-years.spec.ts\n  role: admin\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.\n    - Send POST /users/login with that email and password, and take its access_token.\n    - Send GET /products and take the first item's id as the product's id.\n    - Send POST /carts with an empty body and take the returned id as the cart's id.\n    - Send POST /carts/{cartId} with the cart's id, the product's id as product_id and quantity 2.\n    - Send GET /reports/total-sales-of-years with a years value picked at random between 20 and 99 and the admin's token, and take the last item's total as the starting total.\n    - Send POST /invoices with that access_token, payment_method \"cash-on-delivery\", payment_details {}, billing_street \"Stephansplatz 1\", billing_city \"Wien\", billing_country \"AT\" and the cart's id as cart_id, and take the new invoice's id and total.\n    - Send PUT /invoices/{invoiceId}/status with the invoice's id, that access_token and a body with status \"COMPLETED\".\n    - Send GET /reports/total-sales-of-years with another years value between 20 and 99, different from the first (so the report is computed fresh, not read from the cache), and the admin's token.\n    - Verify the response status is 200.\n    - Verify the body has years + 1 items and its last item's year is the current year.\n    - Verify the last item's total is at least the starting total plus the invoice's total."
+   "yaml": "- id: API-0585\n  name: Total sales of years counts a completed invoice\n  status: automated\n  automatedIn: tests/api/reports/get-reports-total-sales-of-years.spec.ts\n  role: admin\n  steps:\n    - Send POST /users/register with a unique email, a first name, a last name and a random strong password, and take the new user's id.\n    - Send POST /users/login with that email and password, and take its access_token.\n    - Send GET /products and take the first item's brand id, category id and product image id.\n    - Send POST /products with a unique product name, a positive price, those ids, is_location_offer false, is_rental false and stock 10, and take the new product's id as the product's id.\n    - Send POST /carts with an empty body and take the returned id as the cart's id.\n    - Send POST /carts/{cartId} with the cart's id, the product's id as product_id and quantity 2.\n    - Send GET /reports/total-sales-of-years with a years value picked at random between 20 and 99 and the admin's token, and take the last item's total as the starting total.\n    - Send POST /invoices with that access_token, payment_method \"cash-on-delivery\", payment_details {}, billing_street \"Stephansplatz 1\", billing_city \"Wien\", billing_country \"AT\" and the cart's id as cart_id, and take the new invoice's id and total.\n    - Send PUT /invoices/{invoiceId}/status with the invoice's id, that access_token and a body with status \"COMPLETED\".\n    - Send GET /reports/total-sales-of-years with another years value between 20 and 99, different from the first (so the report is computed fresh, not read from the cache), and the admin's token.\n    - Verify the response status is 200.\n    - Verify the body has years + 1 items and its last item's year is the current year.\n    - Verify the last item's total is at least the starting total plus the invoice's total."
   },
   {
    "id": "API-0586",
@@ -15359,7 +15364,7 @@ window.SCENARIO_CATALOG = {
     "Verify the second response's X-RateLimit-Remaining is lower than the first's."
    ],
    "ref": [],
-   "specLine": 262,
+   "specLine": 260,
    "area": "reports",
    "areaLabel": "Reports",
    "file": "test-scenarios/api/reports/get-reports-total-sales-of-years.yml",
@@ -15383,7 +15388,7 @@ window.SCENARIO_CATALOG = {
     "Verify the 61st response body's message is \"Too many requests\"."
    ],
    "ref": [],
-   "specLine": 294,
+   "specLine": 292,
    "area": "reports",
    "areaLabel": "Reports",
    "file": "test-scenarios/api/reports/get-reports-total-sales-of-years.yml",

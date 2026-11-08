@@ -2,8 +2,8 @@
 window.BUG_CATALOG = {
  "title": "Bugs",
  "prefix": "BUG",
- "generatedAt": "2026-11-01T11:03:04.563Z",
- "commit": "406539b5046571de5ef501df4c785672a4825740",
+ "generatedAt": "2026-11-08T10:06:58.314Z",
+ "commit": "0ea7909bb9f0a28ee6b960501eaecfba7f98c62a",
  "repoUrl": "https://github.com/Zaytsman/SimpRight",
  "branch": "main",
  "projectPath": "",
@@ -506,7 +506,7 @@ window.BUG_CATALOG = {
      "file": "test-scenarios/ui/products/product-quantity.yml",
      "status": "automated",
      "automatedIn": "tests/ui/products/product-quantity.spec.ts",
-     "specLine": 102,
+     "specLine": 103,
      "knownIssue": "The field sets a typed quantity above 99 to 99 (with the warning \"You can order at most 99 of this product.\") instead of setting 1,000,000,000 to 999,999,999 as the story's range 1 to 999,999,999 requires."
     },
     {
@@ -517,7 +517,7 @@ window.BUG_CATALOG = {
      "file": "test-scenarios/ui/products/product-quantity.yml",
      "status": "automated",
      "automatedIn": "tests/ui/products/product-quantity.spec.ts",
-     "specLine": 114,
+     "specLine": 115,
      "knownIssue": "The field changes a typed quantity of 999,999,999 to 99 (the app allows at most 99) instead of keeping it as the story's range 1 to 999,999,999 requires."
     }
    ]
@@ -1218,7 +1218,7 @@ window.BUG_CATALOG = {
      "file": "test-scenarios/api/invoices/post-invoices-guest.yml",
      "status": "automated",
      "automatedIn": "tests/api/invoices/post-invoices-guest.spec.ts",
-     "specLine": 174,
+     "specLine": 181,
      "knownIssue": "Returns 500 instead of 422 when payment_details is null for a method other than gift-card."
     },
     {
@@ -1229,7 +1229,7 @@ window.BUG_CATALOG = {
      "file": "test-scenarios/api/invoices/post-invoices-guest.yml",
      "status": "automated",
      "automatedIn": "tests/api/invoices/post-invoices-guest.spec.ts",
-     "specLine": 230,
+     "specLine": 237,
      "knownIssue": "Returns 500 \"Something went wrong\" instead of 422 when payment_details lacks the fields the payment method requires."
     },
     {
@@ -1240,7 +1240,7 @@ window.BUG_CATALOG = {
      "file": "test-scenarios/api/invoices/post-invoices.yml",
      "status": "automated",
      "automatedIn": "tests/api/invoices/post-invoices.spec.ts",
-     "specLine": 567,
+     "specLine": 568,
      "knownIssue": "Returns 500 instead of 422 when payment_details is null for a method other than gift-card."
     },
     {
@@ -1251,7 +1251,7 @@ window.BUG_CATALOG = {
      "file": "test-scenarios/api/invoices/post-invoices.yml",
      "status": "automated",
      "automatedIn": "tests/api/invoices/post-invoices.spec.ts",
-     "specLine": 595,
+     "specLine": 596,
      "knownIssue": "Returns 500 \"Something went wrong\" instead of 422 when payment_details lacks the fields the payment method requires."
     }
    ]
@@ -1855,7 +1855,7 @@ window.BUG_CATALOG = {
      "file": "test-scenarios/api/invoices/post-invoices-guest.yml",
      "status": "automated",
      "automatedIn": "tests/api/invoices/post-invoices-guest.spec.ts",
-     "specLine": 197,
+     "specLine": 204,
      "knownIssue": "A failed guest checkout (unknown cart) leaves an invoice without lines or payment that an admin search finds."
     },
     {
@@ -1866,7 +1866,7 @@ window.BUG_CATALOG = {
      "file": "test-scenarios/api/invoices/post-invoices-guest.yml",
      "status": "automated",
      "automatedIn": "tests/api/invoices/post-invoices-guest.spec.ts",
-     "specLine": 212,
+     "specLine": 219,
      "knownIssue": "A failed guest checkout (bank-transfer payment_details {}) leaves an invoice without lines or payment that an admin search finds."
     },
     {
@@ -1877,7 +1877,7 @@ window.BUG_CATALOG = {
      "file": "test-scenarios/api/invoices/post-invoices.yml",
      "status": "automated",
      "automatedIn": "tests/api/invoices/post-invoices.spec.ts",
-     "specLine": 543,
+     "specLine": 544,
      "knownIssue": "A failed checkout (unknown cart) leaves an invoice without lines or payment in the customer's invoice list."
     },
     {
@@ -1888,7 +1888,7 @@ window.BUG_CATALOG = {
      "file": "test-scenarios/api/invoices/post-invoices.yml",
      "status": "automated",
      "automatedIn": "tests/api/invoices/post-invoices.spec.ts",
-     "specLine": 622,
+     "specLine": 623,
      "knownIssue": "A failed checkout (payment_details null) leaves an invoice without lines or payment in the customer's invoice list."
     }
    ]
@@ -2091,13 +2091,13 @@ window.BUG_CATALOG = {
    "scenarios": [
     {
      "id": "UI-062",
-     "name": "A logged-in customer sees the already-signed-in message on the sign-in step and proceeds to the billing address step",
+     "name": "A logged-in customer sees the already-signed-in message on the sign-in step",
      "layer": "ui",
      "area": "cart",
      "file": "test-scenarios/ui/cart/checkout-sign-in.yml",
      "status": "automated",
      "automatedIn": "tests/ui/cart/checkout-sign-in.spec.ts",
-     "specLine": 189,
+     "specLine": 193,
      "knownIssue": "The sign-in step tells a logged-in customer \"Hello <first> <last>, you are already logged in.\" instead of \"You are already signed in as <first> <last>\"."
     }
    ]

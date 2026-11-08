@@ -3,8 +3,8 @@ window.SCENARIO_CATALOG = {
  "layer": "ui",
  "title": "UI Test Cases",
  "prefix": "UI",
- "generatedAt": "2026-11-01T11:03:04.027Z",
- "commit": "406539b5046571de5ef501df4c785672a4825740",
+ "generatedAt": "2026-11-08T10:06:57.769Z",
+ "commit": "0ea7909bb9f0a28ee6b960501eaecfba7f98c62a",
  "repoUrl": "https://github.com/Zaytsman/SimpRight",
  "branch": "main",
  "projectPath": "",
@@ -15,11 +15,11 @@ window.SCENARIO_CATALOG = {
  },
  "workflowUrl": "https://github.com/Zaytsman/SimpRight/actions/workflows/custom-ui-tests.yml",
  "stats": {
-  "total": 98,
-  "automated": 60,
+  "total": 99,
+  "automated": 61,
   "manual": 38,
   "knownIssues": 6,
-  "automatedPct": 61
+  "automatedPct": 62
  },
  "tree": [
   {
@@ -161,7 +161,8 @@ window.SCENARIO_CATALOG = {
       "UI-059",
       "UI-060",
       "UI-061",
-      "UI-062"
+      "UI-062",
+      "UI-099"
      ]
     }
    ]
@@ -1134,7 +1135,7 @@ window.SCENARIO_CATALOG = {
     "Verify the cart has exactly one line: that product with quantity 2.",
     "Verify the cart total equals 2 × the product's unit price."
    ],
-   "specLine": 6,
+   "specLine": 5,
    "area": "cart",
    "areaLabel": "Cart",
    "file": "test-scenarios/ui/cart/add-to-cart.yml",
@@ -1152,13 +1153,14 @@ window.SCENARIO_CATALOG = {
    "automatedIn": "tests/ui/cart/add-to-cart.spec.ts",
    "preconditions": [
     "The cart is empty.",
-    "The product page of \"Combination Pliers\" is open."
+    "A product created for this test through the API, with a unique name, is in stock.",
+    "The product page of that product is open."
    ],
    "steps": [
     "Click \"Add to cart\".",
     "Verify the message \"Product added to shopping cart.\" is shown."
    ],
-   "specLine": 61,
+   "specLine": 60,
    "area": "cart",
    "areaLabel": "Cart",
    "file": "test-scenarios/ui/cart/add-to-cart.yml",
@@ -1167,7 +1169,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@cart"
    ],
-   "yaml": "- id: UI-027\n  name: Adding a product to the cart shows a success message\n  ref: docs/ui/user-stories/Product_Detail.md#AC8\n  status: automated\n  automatedIn: tests/ui/cart/add-to-cart.spec.ts\n  preconditions:\n    - The cart is empty.\n    - The product page of \"Combination Pliers\" is open.\n  steps:\n    - Click \"Add to cart\".\n    - Verify the message \"Product added to shopping cart.\" is shown."
+   "yaml": "- id: UI-027\n  name: Adding a product to the cart shows a success message\n  ref: docs/ui/user-stories/Product_Detail.md#AC8\n  status: automated\n  automatedIn: tests/ui/cart/add-to-cart.spec.ts\n  preconditions:\n    - The cart is empty.\n    - A product created for this test through the API, with a unique name, is in stock.\n    - The product page of that product is open.\n  steps:\n    - Click \"Add to cart\".\n    - Verify the message \"Product added to shopping cart.\" is shown."
   },
   {
    "id": "UI-041",
@@ -1714,7 +1716,7 @@ window.SCENARIO_CATALOG = {
     "Verify the \"Sign in\" step is shown.",
     "Verify the login form is shown."
    ],
-   "specLine": 22,
+   "specLine": 23,
    "area": "cart",
    "areaLabel": "Cart",
    "file": "test-scenarios/ui/cart/checkout-sign-in.yml",
@@ -1744,7 +1746,7 @@ window.SCENARIO_CATALOG = {
     "Verify the field \"Password\" is shown.",
     "Verify the button \"Login\" is shown."
    ],
-   "specLine": 42,
+   "specLine": 43,
    "area": "cart",
    "areaLabel": "Cart",
    "file": "test-scenarios/ui/cart/checkout-sign-in.yml",
@@ -1785,7 +1787,7 @@ window.SCENARIO_CATALOG = {
     "Verify a message that the customer is already signed in is shown.",
     "Verify the button \"Proceed to checkout\" is shown."
    ],
-   "specLine": 64,
+   "specLine": 65,
    "area": "cart",
    "areaLabel": "Cart",
    "file": "test-scenarios/ui/cart/checkout-sign-in.yml",
@@ -1822,7 +1824,7 @@ window.SCENARIO_CATALOG = {
     "Click \"Proceed to checkout\" on the sign-in step.",
     "Verify the \"Billing Address\" step is shown."
    ],
-   "specLine": 145,
+   "specLine": 149,
    "area": "cart",
    "areaLabel": "Cart",
    "file": "test-scenarios/ui/cart/checkout-sign-in.yml",
@@ -1832,7 +1834,7 @@ window.SCENARIO_CATALOG = {
   },
   {
    "id": "UI-062",
-   "name": "A logged-in customer sees the already-signed-in message on the sign-in step and proceeds to the billing address step",
+   "name": "A logged-in customer sees the already-signed-in message on the sign-in step",
    "ref": [
     "docs/ui/user-stories/Checkout_Sign_In.md#AC5"
    ],
@@ -1846,12 +1848,9 @@ window.SCENARIO_CATALOG = {
    "steps": [
     "Open the checkout page.",
     "Click \"Proceed to checkout\".",
-    "Verify the message \"You are already signed in as\" followed by the default user's first and last name is shown.",
-    "Verify the login form is not shown.",
-    "Click \"Proceed to checkout\" on the sign-in step.",
-    "Verify the \"Billing Address\" step is shown."
+    "Verify the message \"You are already signed in as\" followed by the default user's first and last name is shown."
    ],
-   "specLine": 189,
+   "specLine": 193,
    "area": "cart",
    "areaLabel": "Cart",
    "file": "test-scenarios/ui/cart/checkout-sign-in.yml",
@@ -1860,7 +1859,36 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@cart"
    ],
-   "yaml": "- id: UI-062\n  name: A logged-in customer sees the already-signed-in message on the sign-in step and proceeds to the billing address step\n  ref: docs/ui/user-stories/Checkout_Sign_In.md#AC5\n  status: automated\n  automatedIn: tests/ui/cart/checkout-sign-in.spec.ts\n  knownIssue: 'The sign-in step tells a logged-in customer \"Hello <first> <last>, you are already logged in.\" instead of \"You are already signed in as <first> <last>\".'\n  bug: BUG-048\n  preconditions:\n    - A product that is in stock is in the cart.\n  steps:\n    - Open the checkout page.\n    - Click \"Proceed to checkout\".\n    - Verify the message \"You are already signed in as\" followed by the default user's first and last name is shown.\n    - Verify the login form is not shown.\n    - Click \"Proceed to checkout\" on the sign-in step.\n    - Verify the \"Billing Address\" step is shown."
+   "yaml": "- id: UI-062\n  name: A logged-in customer sees the already-signed-in message on the sign-in step\n  ref: docs/ui/user-stories/Checkout_Sign_In.md#AC5\n  status: automated\n  automatedIn: tests/ui/cart/checkout-sign-in.spec.ts\n  knownIssue: 'The sign-in step tells a logged-in customer \"Hello <first> <last>, you are already logged in.\" instead of \"You are already signed in as <first> <last>\".'\n  bug: BUG-048\n  preconditions:\n    - A product that is in stock is in the cart.\n  steps:\n    - Open the checkout page.\n    - Click \"Proceed to checkout\".\n    - Verify the message \"You are already signed in as\" followed by the default user's first and last name is shown."
+  },
+  {
+   "id": "UI-099",
+   "name": "A logged-in customer proceeds from the sign-in step to the billing address step",
+   "ref": [
+    "docs/ui/user-stories/Checkout_Sign_In.md#AC5"
+   ],
+   "status": "automated",
+   "automatedIn": "tests/ui/cart/checkout-sign-in.spec.ts",
+   "preconditions": [
+    "A product that is in stock is in the cart."
+   ],
+   "steps": [
+    "Open the checkout page.",
+    "Click \"Proceed to checkout\".",
+    "Verify the login form is not shown.",
+    "Click \"Proceed to checkout\" on the sign-in step.",
+    "Verify the \"Billing Address\" step is shown."
+   ],
+   "specLine": 220,
+   "area": "cart",
+   "areaLabel": "Cart",
+   "file": "test-scenarios/ui/cart/checkout-sign-in.yml",
+   "fileLabel": "Checkout sign in",
+   "suite": "Checkout sign-in",
+   "tags": [
+    "@cart"
+   ],
+   "yaml": "- id: UI-099\n  name: A logged-in customer proceeds from the sign-in step to the billing address step\n  ref: docs/ui/user-stories/Checkout_Sign_In.md#AC5\n  status: automated\n  automatedIn: tests/ui/cart/checkout-sign-in.spec.ts\n  preconditions:\n    - A product that is in stock is in the cart.\n  steps:\n    - Open the checkout page.\n    - Click \"Proceed to checkout\".\n    - Verify the login form is not shown.\n    - Click \"Proceed to checkout\" on the sign-in step.\n    - Verify the \"Billing Address\" step is shown."
   },
   {
    "id": "UI-013",
@@ -2134,7 +2162,7 @@ window.SCENARIO_CATALOG = {
     "Check the category \"Pliers\" in the sidebar.",
     "Verify the grid shows only the products of the category \"Pliers\": the products the catalogue lists for it in the page's default price range, $1 to $100."
    ],
-   "specLine": 26,
+   "specLine": 34,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/ui/products/product-filters.yml",
@@ -2157,7 +2185,7 @@ window.SCENARIO_CATALOG = {
     "Check the category \"Hand Tools\" in the sidebar.",
     "Verify the child categories \"Hammer\", \"Hand Saw\", \"Wrench\", \"Screwdriver\", \"Pliers\", \"Chisels\" and \"Measures\" are checked."
    ],
-   "specLine": 51,
+   "specLine": 59,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/ui/products/product-filters.yml",
@@ -2190,7 +2218,7 @@ window.SCENARIO_CATALOG = {
     "Uncheck the child category \"Measures\".",
     "Verify the category \"Hand Tools\" is not checked."
    ],
-   "specLine": 66,
+   "specLine": 74,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/ui/products/product-filters.yml",
@@ -2216,7 +2244,7 @@ window.SCENARIO_CATALOG = {
     "Check the brand \"MightyCraft Hardware\" in the sidebar.",
     "Verify the grid shows only the products of the brand \"MightyCraft Hardware\": the products the catalogue lists for it in the page's default price range, $1 to $100."
    ],
-   "specLine": 85,
+   "specLine": 93,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/ui/products/product-filters.yml",
@@ -2243,7 +2271,7 @@ window.SCENARIO_CATALOG = {
     "Check the brand \"ForgeFlex Tools\" in the sidebar.",
     "Verify the grid shows only the products that belong to both the category \"Pliers\" and the brand \"ForgeFlex Tools\": the products the catalogue lists for both filters in the page's default price range, $1 to $100."
    ],
-   "specLine": 105,
+   "specLine": 113,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/ui/products/product-filters.yml",
@@ -2271,7 +2299,7 @@ window.SCENARIO_CATALOG = {
     "Verify at least one product is shown.",
     "Verify the price of every product shown is between $10 and $15."
    ],
-   "specLine": 135,
+   "specLine": 143,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/ui/products/product-filters.yml",
@@ -2456,7 +2484,8 @@ window.SCENARIO_CATALOG = {
    "status": "automated",
    "automatedIn": "tests/ui/products/product-quantity.spec.ts",
    "preconditions": [
-    "The product page of \"Combination Pliers\" is open."
+    "A product created for this test through the API, with a unique name, is in stock.",
+    "The product page of that product is open."
    ],
    "steps": [
     "Verify the quantity field is shown.",
@@ -2464,7 +2493,7 @@ window.SCENARIO_CATALOG = {
     "Verify the \"Decrease quantity\" (-) button is shown.",
     "Verify the quantity is 1."
    ],
-   "specLine": 9,
+   "specLine": 10,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/ui/products/product-quantity.yml",
@@ -2473,7 +2502,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@products"
    ],
-   "yaml": "- id: UI-018\n  name: An in-stock product shows the quantity selector set to 1\n  ref: docs/ui/user-stories/Product_Detail.md#AC3\n  status: automated\n  automatedIn: tests/ui/products/product-quantity.spec.ts\n  preconditions:\n    - The product page of \"Combination Pliers\" is open.\n  steps:\n    - Verify the quantity field is shown.\n    - Verify the \"Increase quantity\" (+) button is shown.\n    - Verify the \"Decrease quantity\" (-) button is shown.\n    - Verify the quantity is 1."
+   "yaml": "- id: UI-018\n  name: An in-stock product shows the quantity selector set to 1\n  ref: docs/ui/user-stories/Product_Detail.md#AC3\n  status: automated\n  automatedIn: tests/ui/products/product-quantity.spec.ts\n  preconditions:\n    - A product created for this test through the API, with a unique name, is in stock.\n    - The product page of that product is open.\n  steps:\n    - Verify the quantity field is shown.\n    - Verify the \"Increase quantity\" (+) button is shown.\n    - Verify the \"Decrease quantity\" (-) button is shown.\n    - Verify the quantity is 1."
   },
   {
    "id": "UI-019",
@@ -2484,13 +2513,14 @@ window.SCENARIO_CATALOG = {
    "status": "automated",
    "automatedIn": "tests/ui/products/product-quantity.spec.ts",
    "preconditions": [
-    "The product page of \"Combination Pliers\" is open."
+    "A product created for this test through the API, with a unique name, is in stock.",
+    "The product page of that product is open."
    ],
    "steps": [
     "Click \"Increase quantity\".",
     "Verify the quantity is 2."
    ],
-   "specLine": 27,
+   "specLine": 28,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/ui/products/product-quantity.yml",
@@ -2499,7 +2529,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@products"
    ],
-   "yaml": "- id: UI-019\n  name: The plus button increases the quantity by 1\n  ref: docs/ui/user-stories/Product_Detail.md#AC4\n  status: automated\n  automatedIn: tests/ui/products/product-quantity.spec.ts\n  preconditions:\n    - The product page of \"Combination Pliers\" is open.\n  steps:\n    - Click \"Increase quantity\".\n    - Verify the quantity is 2."
+   "yaml": "- id: UI-019\n  name: The plus button increases the quantity by 1\n  ref: docs/ui/user-stories/Product_Detail.md#AC4\n  status: automated\n  automatedIn: tests/ui/products/product-quantity.spec.ts\n  preconditions:\n    - A product created for this test through the API, with a unique name, is in stock.\n    - The product page of that product is open.\n  steps:\n    - Click \"Increase quantity\".\n    - Verify the quantity is 2."
   },
   {
    "id": "UI-020",
@@ -2510,7 +2540,8 @@ window.SCENARIO_CATALOG = {
    "status": "automated",
    "automatedIn": "tests/ui/products/product-quantity.spec.ts",
    "preconditions": [
-    "The product page of \"Combination Pliers\" is open."
+    "A product created for this test through the API, with a unique name, is in stock.",
+    "The product page of that product is open."
    ],
    "steps": [
     "Click \"Increase quantity\".",
@@ -2519,7 +2550,7 @@ window.SCENARIO_CATALOG = {
     "Click \"Decrease quantity\".",
     "Verify the quantity is 2."
    ],
-   "specLine": 37,
+   "specLine": 38,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/ui/products/product-quantity.yml",
@@ -2528,7 +2559,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@products"
    ],
-   "yaml": "- id: UI-020\n  name: The minus button decreases the quantity by 1\n  ref: docs/ui/user-stories/Product_Detail.md#AC5\n  status: automated\n  automatedIn: tests/ui/products/product-quantity.spec.ts\n  preconditions:\n    - The product page of \"Combination Pliers\" is open.\n  steps:\n    - Click \"Increase quantity\".\n    - Click \"Increase quantity\".\n    - Verify the quantity is 3.\n    - Click \"Decrease quantity\".\n    - Verify the quantity is 2."
+   "yaml": "- id: UI-020\n  name: The minus button decreases the quantity by 1\n  ref: docs/ui/user-stories/Product_Detail.md#AC5\n  status: automated\n  automatedIn: tests/ui/products/product-quantity.spec.ts\n  preconditions:\n    - A product created for this test through the API, with a unique name, is in stock.\n    - The product page of that product is open.\n  steps:\n    - Click \"Increase quantity\".\n    - Click \"Increase quantity\".\n    - Verify the quantity is 3.\n    - Click \"Decrease quantity\".\n    - Verify the quantity is 2."
   },
   {
    "id": "UI-021",
@@ -2539,14 +2570,15 @@ window.SCENARIO_CATALOG = {
    "status": "automated",
    "automatedIn": "tests/ui/products/product-quantity.spec.ts",
    "preconditions": [
-    "The product page of \"Combination Pliers\" is open."
+    "A product created for this test through the API, with a unique name, is in stock.",
+    "The product page of that product is open."
    ],
    "steps": [
     "Verify the quantity is 1.",
     "Click \"Decrease quantity\".",
     "Verify the quantity is still 1."
    ],
-   "specLine": 59,
+   "specLine": 60,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/ui/products/product-quantity.yml",
@@ -2555,7 +2587,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@products"
    ],
-   "yaml": "- id: UI-021\n  name: The minus button keeps the quantity at 1\n  ref: docs/ui/user-stories/Product_Detail.md#AC6\n  status: automated\n  automatedIn: tests/ui/products/product-quantity.spec.ts\n  preconditions:\n    - The product page of \"Combination Pliers\" is open.\n  steps:\n    - Verify the quantity is 1.\n    - Click \"Decrease quantity\".\n    - Verify the quantity is still 1."
+   "yaml": "- id: UI-021\n  name: The minus button keeps the quantity at 1\n  ref: docs/ui/user-stories/Product_Detail.md#AC6\n  status: automated\n  automatedIn: tests/ui/products/product-quantity.spec.ts\n  preconditions:\n    - A product created for this test through the API, with a unique name, is in stock.\n    - The product page of that product is open.\n  steps:\n    - Verify the quantity is 1.\n    - Click \"Decrease quantity\".\n    - Verify the quantity is still 1."
   },
   {
    "id": "UI-022",
@@ -2566,7 +2598,8 @@ window.SCENARIO_CATALOG = {
    "status": "automated",
    "automatedIn": "tests/ui/products/product-quantity.spec.ts",
    "preconditions": [
-    "The product page of \"Combination Pliers\" is open."
+    "A product created for this test through the API, with a unique name, is in stock.",
+    "The product page of that product is open."
    ],
    "steps": [
     "Enter 5 in the quantity field.",
@@ -2574,7 +2607,7 @@ window.SCENARIO_CATALOG = {
     "Click \"Increase quantity\".",
     "Verify the quantity is 6."
    ],
-   "specLine": 73,
+   "specLine": 74,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/ui/products/product-quantity.yml",
@@ -2583,7 +2616,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@products"
    ],
-   "yaml": "- id: UI-022\n  name: A quantity typed into the field is used\n  ref: docs/ui/user-stories/Product_Detail.md#AC7\n  status: automated\n  automatedIn: tests/ui/products/product-quantity.spec.ts\n  preconditions:\n    - The product page of \"Combination Pliers\" is open.\n  steps:\n    - Enter 5 in the quantity field.\n    - Verify the quantity is 5.\n    - Click \"Increase quantity\".\n    - Verify the quantity is 6."
+   "yaml": "- id: UI-022\n  name: A quantity typed into the field is used\n  ref: docs/ui/user-stories/Product_Detail.md#AC7\n  status: automated\n  automatedIn: tests/ui/products/product-quantity.spec.ts\n  preconditions:\n    - A product created for this test through the API, with a unique name, is in stock.\n    - The product page of that product is open.\n  steps:\n    - Enter 5 in the quantity field.\n    - Verify the quantity is 5.\n    - Click \"Increase quantity\".\n    - Verify the quantity is 6."
   },
   {
    "id": "UI-023",
@@ -2594,13 +2627,14 @@ window.SCENARIO_CATALOG = {
    "status": "automated",
    "automatedIn": "tests/ui/products/product-quantity.spec.ts",
    "preconditions": [
-    "The product page of \"Combination Pliers\" is open."
+    "A product created for this test through the API, with a unique name, is in stock.",
+    "The product page of that product is open."
    ],
    "steps": [
     "Enter 0 in the quantity field.",
     "Verify the quantity is 1."
    ],
-   "specLine": 92,
+   "specLine": 93,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/ui/products/product-quantity.yml",
@@ -2609,7 +2643,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@products"
    ],
-   "yaml": "- id: UI-023\n  name: A typed quantity of 0 is set to 1\n  ref: docs/ui/user-stories/Product_Detail.md#AC7\n  status: automated\n  automatedIn: tests/ui/products/product-quantity.spec.ts\n  preconditions:\n    - The product page of \"Combination Pliers\" is open.\n  steps:\n    - Enter 0 in the quantity field.\n    - Verify the quantity is 1."
+   "yaml": "- id: UI-023\n  name: A typed quantity of 0 is set to 1\n  ref: docs/ui/user-stories/Product_Detail.md#AC7\n  status: automated\n  automatedIn: tests/ui/products/product-quantity.spec.ts\n  preconditions:\n    - A product created for this test through the API, with a unique name, is in stock.\n    - The product page of that product is open.\n  steps:\n    - Enter 0 in the quantity field.\n    - Verify the quantity is 1."
   },
   {
    "id": "UI-024",
@@ -2622,13 +2656,14 @@ window.SCENARIO_CATALOG = {
    "knownIssue": "The field sets a typed quantity above 99 to 99 (with the warning \"You can order at most 99 of this product.\") instead of setting 1,000,000,000 to 999,999,999 as the story's range 1 to 999,999,999 requires.",
    "bug": "BUG-008",
    "preconditions": [
-    "The product page of \"Combination Pliers\" is open."
+    "A product created for this test through the API, with a unique name, is in stock.",
+    "The product page of that product is open."
    ],
    "steps": [
     "Enter 1000000000 in the quantity field.",
     "Verify the quantity is 999999999."
    ],
-   "specLine": 102,
+   "specLine": 103,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/ui/products/product-quantity.yml",
@@ -2637,7 +2672,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@products"
    ],
-   "yaml": "- id: UI-024\n  name: A typed quantity above 999,999,999 is set to 999,999,999\n  ref: docs/ui/user-stories/Product_Detail.md#AC7\n  status: automated\n  automatedIn: tests/ui/products/product-quantity.spec.ts\n  knownIssue: The field sets a typed quantity above 99 to 99 (with the warning \"You can order at most 99 of this product.\") instead of setting 1,000,000,000 to 999,999,999 as the story's range 1 to 999,999,999 requires.\n  bug: BUG-008\n  preconditions:\n    - The product page of \"Combination Pliers\" is open.\n  steps:\n    - Enter 1000000000 in the quantity field.\n    - Verify the quantity is 999999999."
+   "yaml": "- id: UI-024\n  name: A typed quantity above 999,999,999 is set to 999,999,999\n  ref: docs/ui/user-stories/Product_Detail.md#AC7\n  status: automated\n  automatedIn: tests/ui/products/product-quantity.spec.ts\n  knownIssue: The field sets a typed quantity above 99 to 99 (with the warning \"You can order at most 99 of this product.\") instead of setting 1,000,000,000 to 999,999,999 as the story's range 1 to 999,999,999 requires.\n  bug: BUG-008\n  preconditions:\n    - A product created for this test through the API, with a unique name, is in stock.\n    - The product page of that product is open.\n  steps:\n    - Enter 1000000000 in the quantity field.\n    - Verify the quantity is 999999999."
   },
   {
    "id": "UI-025",
@@ -2650,13 +2685,14 @@ window.SCENARIO_CATALOG = {
    "knownIssue": "The field changes a typed quantity of 999,999,999 to 99 (the app allows at most 99) instead of keeping it as the story's range 1 to 999,999,999 requires.",
    "bug": "BUG-008",
    "preconditions": [
-    "The product page of \"Combination Pliers\" is open."
+    "A product created for this test through the API, with a unique name, is in stock.",
+    "The product page of that product is open."
    ],
    "steps": [
     "Enter 999999999 in the quantity field.",
     "Verify the quantity is 999999999."
    ],
-   "specLine": 114,
+   "specLine": 115,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/ui/products/product-quantity.yml",
@@ -2665,7 +2701,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@products"
    ],
-   "yaml": "- id: UI-025\n  name: A typed quantity of 999,999,999 is accepted\n  ref: docs/ui/user-stories/Product_Detail.md#AC7\n  status: automated\n  automatedIn: tests/ui/products/product-quantity.spec.ts\n  knownIssue: The field changes a typed quantity of 999,999,999 to 99 (the app allows at most 99) instead of keeping it as the story's range 1 to 999,999,999 requires.\n  bug: BUG-008\n  preconditions:\n    - The product page of \"Combination Pliers\" is open.\n  steps:\n    - Enter 999999999 in the quantity field.\n    - Verify the quantity is 999999999."
+   "yaml": "- id: UI-025\n  name: A typed quantity of 999,999,999 is accepted\n  ref: docs/ui/user-stories/Product_Detail.md#AC7\n  status: automated\n  automatedIn: tests/ui/products/product-quantity.spec.ts\n  knownIssue: The field changes a typed quantity of 999,999,999 to 99 (the app allows at most 99) instead of keeping it as the story's range 1 to 999,999,999 requires.\n  bug: BUG-008\n  preconditions:\n    - A product created for this test through the API, with a unique name, is in stock.\n    - The product page of that product is open.\n  steps:\n    - Enter 999999999 in the quantity field.\n    - Verify the quantity is 999999999."
   },
   {
    "id": "UI-026",
@@ -2676,7 +2712,8 @@ window.SCENARIO_CATALOG = {
    "status": "automated",
    "automatedIn": "tests/ui/products/product-quantity.spec.ts",
    "preconditions": [
-    "The product page of \"Combination Pliers\" is open."
+    "A product created for this test through the API, with a unique name, is in stock.",
+    "The product page of that product is open."
    ],
    "steps": [
     "Click \"Increase quantity\".",
@@ -2685,7 +2722,7 @@ window.SCENARIO_CATALOG = {
     "Click \"Increase quantity\".",
     "Verify the quantity is 2."
    ],
-   "specLine": 126,
+   "specLine": 127,
    "area": "products",
    "areaLabel": "Products",
    "file": "test-scenarios/ui/products/product-quantity.yml",
@@ -2694,7 +2731,7 @@ window.SCENARIO_CATALOG = {
    "tags": [
     "@products"
    ],
-   "yaml": "- id: UI-026\n  name: A typed quantity of 1 is accepted\n  ref: docs/ui/user-stories/Product_Detail.md#AC7\n  status: automated\n  automatedIn: tests/ui/products/product-quantity.spec.ts\n  preconditions:\n    - The product page of \"Combination Pliers\" is open.\n  steps:\n    - Click \"Increase quantity\".\n    - Enter 1 in the quantity field.\n    - Verify the quantity is 1.\n    - Click \"Increase quantity\".\n    - Verify the quantity is 2."
+   "yaml": "- id: UI-026\n  name: A typed quantity of 1 is accepted\n  ref: docs/ui/user-stories/Product_Detail.md#AC7\n  status: automated\n  automatedIn: tests/ui/products/product-quantity.spec.ts\n  preconditions:\n    - A product created for this test through the API, with a unique name, is in stock.\n    - The product page of that product is open.\n  steps:\n    - Click \"Increase quantity\".\n    - Enter 1 in the quantity field.\n    - Verify the quantity is 1.\n    - Click \"Increase quantity\".\n    - Verify the quantity is 2."
   },
   {
    "id": "UI-001",
