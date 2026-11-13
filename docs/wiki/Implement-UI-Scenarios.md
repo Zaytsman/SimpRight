@@ -1,14 +1,14 @@
 <!-- Source: docs/wiki/Implement-UI-Scenarios.md in the repository. Edit it there: the Publish Wiki workflow overwrites changes made in the wiki. -->
 
-# /implement-ui-scenarios
+# /simpright-qa:implement-ui-scenarios
 
 Automates **UI scenarios** as Playwright browser specs. It inspects the live pages, plans the page objects, flows, fixtures and tests, then waits for your approval, including every test that changes live data. Then it writes the code, runs the specs, repeats them to catch flaky tests, and marks the scenarios `automated`.
 
 | | |
 |---|---|
-| **Command** | `/implement-ui-scenarios <scenario IDs \| scenario file \| area>` |
-| **Agent** | [`ui-test-engineer`](https://github.com/Zaytsman/SimpRight/blob/main/.claude/agents/ui-test-engineer.md) |
-| **Skill files** | [`implement-ui-scenarios`](https://github.com/Zaytsman/SimpRight/blob/main/.claude/skills/implement-ui-scenarios/SKILL.md) (the command); [`ui-scaffolding`](https://github.com/Zaytsman/SimpRight/blob/main/.claude/skills/ui-scaffolding/SKILL.md) and [`ui-test-from-scenario`](https://github.com/Zaytsman/SimpRight/blob/main/.claude/skills/ui-test-from-scenario/SKILL.md), preloaded into the agent (not commands) |
+| **Command** | `/simpright-qa:implement-ui-scenarios <scenario IDs \| scenario file \| area>` |
+| **Agent** | [`ui-test-engineer`](https://github.com/Zaytsman/SimpRightKit/blob/main/plugins/simpright-qa/agents/ui-test-engineer.md) |
+| **Skill files** | [`implement-ui-scenarios`](https://github.com/Zaytsman/SimpRightKit/blob/main/plugins/simpright-qa/skills/implement-ui-scenarios/SKILL.md) (the command); [`ui-scaffolding`](https://github.com/Zaytsman/SimpRightKit/blob/main/plugins/simpright-qa/skills/ui-scaffolding/SKILL.md) and [`ui-test-from-scenario`](https://github.com/Zaytsman/SimpRightKit/blob/main/plugins/simpright-qa/skills/ui-test-from-scenario/SKILL.md), preloaded into the agent (not commands) |
 | **Input** | Scenarios with `status: manual` in `test-scenarios/ui/` |
 | **Output** | Specs in `tests/ui/<area>/`; page objects, components, dialogs, flows, fixtures, constants as needed; scenarios marked `automated` |
 | **Live app** | Read-only page inspector while planning; runs the specs in Chromium; tests that write data only with your approval |
@@ -17,15 +17,15 @@ Automates **UI scenarios** as Playwright browser specs. It inspects the live pag
 ## When to use it
 
 - New UI scenarios have been written and approved.
-- A story's scenarios are ready (`/implement-ui-scenarios product-quantity.yml`).
+- A story's scenarios are ready (`/simpright-qa:implement-ui-scenarios product-quantity.yml`).
 
 ## How to use it
 
 ```text
-/implement-ui-scenarios product-sorting.yml
-/implement-ui-scenarios UI-018 UI-019
-/implement-ui-scenarios UI-008..011
-/implement-ui-scenarios products
+/simpright-qa:implement-ui-scenarios product-sorting.yml
+/simpright-qa:implement-ui-scenarios UI-018 UI-019
+/simpright-qa:implement-ui-scenarios UI-008..011
+/simpright-qa:implement-ui-scenarios products
 ```
 
 Only `manual` scenarios are in scope. More than about 10 scenarios or 2 files makes the plan hard to review, so Claude suggests one file at a time.
@@ -54,7 +54,7 @@ Then **Writes needing approval** (cart, registration, favourites, orders), **Can
 5. **Fix loop**, at most 3 rounds per spec, from the error, the failed step and the screenshot: a test-code mistake is fixed; a flaky test gets its cause fixed (a wait that races the app, shared data); a disagreement with the app stops work on that test.
 6. **Finish:** `status: automated` + `automatedIn` on each scenario.
 
-Claude runs the typecheck, the validator and the new specs once more itself, then reports: files by group, scenario → result, live writes and their cleanup, assumptions to confirm. A failing test on app behaviour comes with its step, expected, actual and a proposal (`knownIssue`, scenario fix, or leave it failing), and you choose. To record the bug, use [/report-bug](Report-Bug).
+Claude runs the typecheck, the validator and the new specs once more itself, then reports: files by group, scenario → result, live writes and their cleanup, assumptions to confirm. A failing test on app behaviour comes with its step, expected, actual and a proposal (`knownIssue`, scenario fix, or leave it failing), and you choose. To record the bug, use [/simpright-qa:report-bug](Report-Bug).
 
 ## The preloaded skills
 
@@ -92,6 +92,6 @@ They describe how to write code in this project's style; the agent follows them,
 
 - If the plan has `changed (needs approval)` items, read them carefully: they affect existing tests.
 - A new area folder also needs an option in the custom UI workflow; the engineer adds it with the first spec.
-- Next: [/review-tests](Review-Tests), then commit.
+- Next: [/simpright-qa:review-tests](Review-Tests), then commit.
 
-See also: [UI Automation](UI-Automation), [/write-ui-scenarios-from-steps](Write-UI-Scenarios-From-Steps).
+See also: [UI Automation](UI-Automation), [/simpright-qa:write-ui-scenarios-from-steps](Write-UI-Scenarios-From-Steps).

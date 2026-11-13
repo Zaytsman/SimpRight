@@ -1,14 +1,14 @@
 <!-- Source: docs/wiki/Review-Tests.md in the repository. Edit it there: the Publish Wiki workflow overwrites changes made in the wiki. -->
 
-# /review-tests
+# /simpright-qa:review-tests
 
 Reviews **automated tests** of both layers, and the page objects, flows, fixtures, clients, services and test data they use, the way a senior test engineer reviews a pull request: against their scenarios and the project's conventions. The agent only reads and reports; Claude then applies the findings you pick.
 
 | | |
 |---|---|
-| **Command** | `/review-tests [spec \| scenario file \| IDs \| area \| commit \| range]` |
-| **Agent** | [`test-reviewer`](https://github.com/Zaytsman/SimpRight/blob/main/.claude/agents/test-reviewer.md) (read-only) |
-| **Skill files** | [`.claude/skills/review-tests/`](https://github.com/Zaytsman/SimpRight/tree/main/.claude/skills/review-tests): `SKILL.md` and three checklists in `references/` |
+| **Command** | `/simpright-qa:review-tests [spec \| scenario file \| IDs \| area \| commit \| range]` |
+| **Agent** | [`test-reviewer`](https://github.com/Zaytsman/SimpRightKit/blob/main/plugins/simpright-qa/agents/test-reviewer.md) (read-only) |
+| **Skill files** | [`skills/review-tests/`](https://github.com/Zaytsman/SimpRightKit/tree/main/plugins/simpright-qa/skills/review-tests): `SKILL.md` and three checklists in `references/` |
 | **Input** | By default the work not pushed yet; or the files a target maps to |
 | **Output** | Findings ranked Blocker / Should fix / Nit, then the fixes you pick, applied and re-run |
 | **Live app** | None during the review: the agent never runs tests or the inspector. Claude re-runs the touched specs after the fixes |
@@ -16,19 +16,19 @@ Reviews **automated tests** of both layers, and the page objects, flows, fixture
 
 ## When to use it
 
-- After [/implement-api-scenarios](Implement-API-Scenarios) or [/implement-ui-scenarios](Implement-UI-Scenarios), before committing.
+- After [/simpright-qa:implement-api-scenarios](Implement-API-Scenarios) or [/simpright-qa:implement-ui-scenarios](Implement-UI-Scenarios), before committing.
 - Before pushing your own test changes, or on a commit someone else made.
 
 ## How to use it
 
 ```text
-/review-tests
-/review-tests product-detail.spec.ts
-/review-tests product-detail.yml
-/review-tests UI-013..017
-/review-tests products
-/review-tests 055e6d4
-/review-tests abc123..def456
+/simpright-qa:review-tests
+/simpright-qa:review-tests product-detail.spec.ts
+/simpright-qa:review-tests product-detail.yml
+/simpright-qa:review-tests UI-013..017
+/simpright-qa:review-tests products
+/simpright-qa:review-tests 055e6d4
+/simpright-qa:review-tests abc123..def456
 ```
 
 | Target | What gets reviewed |
@@ -92,6 +92,6 @@ They point to the rules in the conventions (`conventions.md`, `CLAUDE.md`) and t
 ## Tips
 
 - Keeping the reviewer separate from the test engineers is deliberate: it judges the tests without having written them.
-- Next: commit, open a pull request; if a run fails, [/heal-tests](Heal-Tests).
+- Next: commit, open a pull request; if a run fails, [/simpright-qa:heal-tests](Heal-Tests).
 
 See also: [API Automation](API-Automation#5-review-commit-ci), [UI Automation](UI-Automation#6-review-commit-ci).

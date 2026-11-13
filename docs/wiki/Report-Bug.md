@@ -1,14 +1,14 @@
 <!-- Source: docs/wiki/Report-Bug.md in the repository. Edit it there: the Publish Wiki workflow overwrites changes made in the wiki. -->
 
-# /report-bug
+# /simpright-qa:report-bug
 
 Records **bugs in the app under test** as files in `bugs/`, one per root cause, and links them to the scenarios that hit them. It reproduces each bug before filing it, checks the existing bugs so the same defect isn't filed twice, and changes nothing until you approve the draft. The bugs are published on the [Bugs Page](Bugs-Page).
 
 | | |
 |---|---|
-| **Command** | `/report-bug <description \| scenario IDs \| spec> \| import <contract> \| recheck <bug IDs \| open>` |
-| **Agent** | [`bug-reporter`](https://github.com/Zaytsman/SimpRight/blob/main/.claude/agents/bug-reporter.md), for both the draft and the files |
-| **Skill file** | [`.claude/skills/report-bug/SKILL.md`](https://github.com/Zaytsman/SimpRight/blob/main/.claude/skills/report-bug/SKILL.md) |
+| **Command** | `/simpright-qa:report-bug <description \| scenario IDs \| spec> \| import <contract> \| recheck <bug IDs \| open>` |
+| **Agent** | [`bug-reporter`](https://github.com/Zaytsman/SimpRightKit/blob/main/plugins/simpright-qa/agents/bug-reporter.md), for both the draft and the files |
+| **Skill file** | [`skills/report-bug/SKILL.md`](https://github.com/Zaytsman/SimpRightKit/blob/main/plugins/simpright-qa/skills/report-bug/SKILL.md) |
 | **Input** | What someone saw, failing scenarios or tests, a contract's suspected bugs, open bugs to re-check |
 | **Output** | A draft (reproduction, duplicate check, proposed bug files, scenarios to link, coverage gaps), then the files |
 | **Live app** | Read-only: `GET` calls without a token, the page inspector, re-runs of read-only tests; a reproduction that writes runs only after you approve it |
@@ -17,19 +17,19 @@ Records **bugs in the app under test** as files in `bugs/`, one per root cause, 
 ## When to use it
 
 - You (or a tester) saw the app misbehave and want it on record.
-- A test fails because of the app: [/heal-tests](Heal-Tests) or a test engineer says "app bug".
+- A test fails because of the app: [/simpright-qa:heal-tests](Heal-Tests) or a test engineer says "app bug".
 - A contract marks responses as suspected bugs and you want them tracked.
 - The Bugs page flags a bug for a **re-check**, or you want to know which open bugs are still there.
 
 ## How to use it
 
 ```text
-/report-bug the cart accepts quantity 0 on the product page
-/report-bug UI-024 UI-025
-/report-bug tests/api/products/get-products.spec.ts
-/report-bug import Users_API.md
-/report-bug recheck BUG-005
-/report-bug recheck open
+/simpright-qa:report-bug the cart accepts quantity 0 on the product page
+/simpright-qa:report-bug UI-024 UI-025
+/simpright-qa:report-bug tests/api/products/get-products.spec.ts
+/simpright-qa:report-bug import Users_API.md
+/simpright-qa:report-bug recheck BUG-005
+/simpright-qa:report-bug recheck open
 ```
 
 | Mode | Input | What it does |
@@ -75,9 +75,9 @@ A **recheck** reproduces each bug from its steps. When the bug is gone, the agen
 
 - **File a duplicate:** one bug per root cause, checked against every existing bug before a new one is proposed.
 - **Guess:** a bug is filed with today's evidence, or marked as read from the source or a test run.
-- **Write to the live app unasked:** writes only when approved, with cleanup; never what `liveApi.dangerous` names.
+- **Write to the live app unasked:** writes only when approved, with cleanup; never what `agents.liveApi.dangerous` names.
 - **Break the format:** keys in the schema's order, the next free `BUG-NNN`, layer and area where the defect is, steps a person can follow.
 - **Publish secrets:** no tokens, passwords or test users' emails, because the Bugs page is public.
 - **Change more than the link in scenarios and tests:** `knownIssue`, `bug` and the known-issue line; never steps, names or other test code. New regression scenarios are proposals for the scenario writers.
 
-See also: [Bugs Page](Bugs-Page), [/heal-tests](Heal-Tests), [Add API Scenarios](Add-API-Scenarios), [Add UI Scenarios](Add-UI-Scenarios).
+See also: [Bugs Page](Bugs-Page), [/simpright-qa:heal-tests](Heal-Tests), [Add API Scenarios](Add-API-Scenarios), [Add UI Scenarios](Add-UI-Scenarios).

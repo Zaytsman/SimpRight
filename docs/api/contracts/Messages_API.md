@@ -413,7 +413,7 @@ The `user` objects embedded in messages and replies are the user model of `Users
 - **XML:** with `Accept: text/xml`, the JSON responses are rendered as XML (`Controller::preferredFormat`). _(source)_
 - **Cache headers:** the messages routes have no cache middleware; the responses seen carry `Cache-Control: no-cache, private`. _(verified)_
 - **Rate limiting:** no throttle is applied to the messages routes. _(source)_
-- **No seeded messages:** none of the seeders creates a contact message, so the table holds only what callers created since the last re-seed; the hourly re-seed (`migrate:fresh --seed`, see `liveApi.transient` in the profile) empties it, and an id from before the re-seed is gone afterwards. A test must create its own message and can't rely on a seeded one. _(source)_
+- **No seeded messages:** none of the seeders creates a contact message, so the table holds only what callers created since the last re-seed; the hourly re-seed (`migrate:fresh --seed`, see `agents.liveApi.transient` in the profile) empties it, and an id from before the re-seed is gone afterwards. A test must create its own message and can't rely on a seeded one. _(source)_
 - **OpenAPI spec vs source:**
   - Path parameter: the spec names it `{messageId}`; the routes call it `{id}`.
   - `POST /messages`: the spec's `200` body is `{ success }`; the handler returns the created message. The spec lists `404`, which can't happen, and omits `422`. `email` "required when not authenticated" isn't enforced.

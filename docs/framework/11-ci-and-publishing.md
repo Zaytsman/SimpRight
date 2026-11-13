@@ -26,6 +26,8 @@ npm run apply                # writes the files
 
 `.simpright/state.json` (committed) records the kit version that last applied and a hash per file. `apply` overwrites a file only while it still matches its hash: a file someone changed stops it with the diff, and `--force` overwrites once you've read it. The hashes leave out the `uses:` pins, so Dependabot's pin bumps don't count as changes. `npm run doctor` fails while a file differs from what `apply` writes, so `verify` catches a forgotten `apply`: a new or changed run, a new test folder, a kit release that changed the files.
 
+With `parts.agents`, `apply` also writes the QA agents' entries in `.claude/settings.json`: the kit's marketplace at the installed kit's tag, and the `simpright-qa` plugin enabled ([12](12-ai-agents.md#the-plugin)). It changes only those entries and keeps the rest of the file; `state.json` records them as it records the workflows.
+
 ## The reusable test job: `playwright-run.yml`
 
 Inputs: `project` (`ui`, `api`, or `all`), `family` (where the report goes), `paths` (spec folders or files), `grep`, `publish-latest-coverage`, `keep-runs` (how many runs of the family stay on Pages, default 10). Secrets: `ADMIN_USER`, `ADMIN_PASSWORD`, declared under `workflow_call.secrets` and passed by name by each caller.

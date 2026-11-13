@@ -42,7 +42,7 @@ UI TEST CASES                     [Expand all] [Collapse all]
 - **Breadcrumbs** (layer › area › file), the ID and name, and chips: status, known issue (with its bug ID), role (`default`, `admin`, `guest`) and tags.
 - **Banners:**
   - **Automated:** a link to the spec on GitHub, at the test's line; the command to run it locally (`npx playwright test -g "UI-013:"`, with a **Copy command** button); and **Run on GitHub ↗**, which copies `UI-013:` and opens the custom workflow. GitHub can't pre-fill a manual run's inputs from a link, so you choose the area and paste the copied text as the title filter (`grep`).
-  - **Manual:** how to run it by hand (**Execute**) or automate it (`/implement-ui-scenarios UI-020`).
+  - **Manual:** how to run it by hand (**Execute**) or automate it (`/simpright-qa:implement-ui-scenarios UI-020`).
   - **Known issue:** the bug, linked to the [Bugs Page](Bugs-Page), the issue text, and that the test is expected to fail until the app is fixed.
   - **Source:** links to the scenario file and, for `ref`s in `docs/`, the user story or document it comes from.
 - **Steps** tab: the numbered steps; `Verify` steps are highlighted as checks.

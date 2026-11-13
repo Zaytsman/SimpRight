@@ -52,7 +52,7 @@ Each layer only calls the one below it:
 | `src/globalSetup.ts` | Once per run: the project's `beforeRun` and `afterRun` (the re-seed wait, the run's customer), optional UI logins | [2](02-configuration.md) |
 | `scripts/` | The page inspector | [9](09-scenarios-and-bugs.md#the-page-inspector) |
 | `.github/workflows/`, `.github/dependabot.yml` | CI: the reusable test job, scheduled and manual runs, PR checks, publishing, dependency updates; written by `npm run apply` from `simpright.yml` (`.simpright/state.json` records what it wrote) | [11](11-ci-and-publishing.md) |
-| `.claude/agents/`, `.claude/skills/`, `simpright.yml` | The QA agents, their skills and the project facts they read | [12](12-ai-agents.md) |
+| `.claude/settings.json`, `simpright.yml` | The QA agents (the kit's `simpright-qa` plugin, enabled there by `npm run apply`) and the project facts they read | [12](12-ai-agents.md) |
 | `docs/` | Contracts, user stories, analyses, the wiki source, these pages and the framework's [conventions](conventions.md) | |
 
 The scenarios, portal and CI parts come from the [SimpRight Kit](https://github.com/Zaytsman/SimpRightKit): its npm packages, devDependencies pinned to one version, `simpright` (`npm run doctor`, `npm run apply`, the profile's schema), `@simpright/scenarios` (the scenario and bug schemas, the validator, the step-title check) and `@simpright/portal` (the portal's pages, their builds and the publish's file work); and its CI actions, the workflows' steps, pinned to the same release's commit ([9](09-scenarios-and-bugs.md), [11](11-ci-and-publishing.md)).
@@ -91,7 +91,7 @@ The core is the same as in [SimpRightTemplate](https://github.com/Zaytsman/SimpR
 - **Independent, parallel tests.** Every test can run alone or next to any other (`fullyParallel`). Data a test changes is its own: unique names, throwaway customers, carts made through the API, and cleanup.
 - **The live app is shared and public.** Its data re-seeds every hour, other visitors change it, and the reports are published. So tests find records by name, never by id; secrets are masked everywhere; traces are off.
 - **Optional extras stay optional.** The private API coverage package is an optional dependency loaded at runtime; forks run the same tests without it.
-- **API over UI.** A check goes to the API unless only the UI can prove it (the [requirements analyst's layer rules](../../.claude/skills/analyze-requirements/references/layer-rules.md)). UI tests prepare their data through the API.
+- **API over UI.** A check goes to the API unless only the UI can prove it (the [requirements analyst's layer rules](https://github.com/Zaytsman/SimpRightKit/blob/main/plugins/simpright-qa/skills/analyze-requirements/references/layer-rules.md)). UI tests prepare their data through the API.
 
 ## Changed in the review
 

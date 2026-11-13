@@ -1,6 +1,6 @@
 # Change password
 
-<!-- Written by the requirements-analyst agent (/analyze-requirements). Source: docs/ui/user-stories/Change_Password.md -->
+<!-- Written by the requirements-analyst agent (/simpright-qa:analyze-requirements). Source: docs/ui/user-stories/Change_Password.md -->
 
 | | |
 |---|---|
@@ -30,7 +30,7 @@ A logged-in customer wants to change their password from the profile page, with 
 
 ## Test plan
 
-API first: a check goes to the UI only when the API can't prove it ([layer rules](../../.claude/skills/analyze-requirements/references/layer-rules.md)).
+API first: a check goes to the UI only when the API can't prove it ([layer rules](https://github.com/Zaytsman/SimpRightKit/blob/main/plugins/simpright-qa/skills/analyze-requirements/references/layer-rules.md)).
 
 | Item | Criterion | What to check | Layer | Why this layer | Flags | Scenarios |
 |---|---|---|---|---|---|---|
@@ -54,7 +54,7 @@ API first: a check goes to the UI only when the API can't prove it ([layer rules
 
 The user approved the plan without answering these. Each is recorded with the default the plan follows until it's answered.
 
-- **T5, suspected bug (from the source, not reproduced).** `PasswordValidators.passwordsMatch()` is attached to the confirmation control, not to the form group, so the check always passes. The template, though, shows "Passwords do not match." only for a form-level error, so the message probably never appears. The submit button doesn't check whether the form is valid either: a mismatch reaches the server, and the user sees the server's 422 message instead. Default: T5 is written as a plain check, with no bug confirmed yet. Suggested next step: confirm it with `/report-bug`, then add `knownIssue` and `bug` to T5's scenario.
+- **T5, suspected bug (from the source, not reproduced).** `PasswordValidators.passwordsMatch()` is attached to the confirmation control, not to the form group, so the check always passes. The template, though, shows "Passwords do not match." only for a form-level error, so the message probably never appears. The submit button doesn't check whether the form is valid either: a mismatch reaches the server, and the user sees the server's 422 message instead. Default: T5 is written as a plain check, with no bug confirmed yet. Suggested next step: confirm it with `/simpright-qa:report-bug`, then add `knownIssue` and `bug` to T5's scenario.
 - **AC1 "required":** the page shows no required marker and doesn't block an empty submit. Default: AC1's "required" is covered by the server's rejection (T1). A missing `current_password` gets 400 with the "current password does not matches" message, and that is accepted as the server's behaviour.
 - **AC6 "valid new password"** isn't defined in this story; the server applies the registration rules (contract "Strong password"). Default: the weak-password 422 cases are left to the registration tests.
 - **AC6, the old password:** default: T10 doesn't check that the old password stops working, because the story doesn't say so explicitly.
@@ -66,6 +66,6 @@ The user approved the plan without answering these. Each is recorded with the de
 - **Test data:** T10 and T11 change a password, so each registers its own throwaway customer through the API (`registerThrowawayCustomer`); the run's customer must keep its password. The rejected cases (T1, T4-T9) can use the run's customer, because the server changes nothing for them. A throwaway customer is the safer choice: if the server accepted one by mistake, the run's customer would break for every other test.
 - **Error order on the server:** the current password is checked first (400), then new == current (400), then the field rules and the confirmation (422). So T4 and T1 send the correct current password.
 - **Page object:** there's none yet for the profile page. The section's data-test ids are `current-password`, `new-password`, `new-password-confirm` and `change-password-submit` (inspector).
-- **Not tested** (seen in the source, not in the story): the confirmation field's input handler reads `f['new_password_confirmation']` from the profile form, not the password form. Typing in the confirmation probably throws an error in the browser and leaves the indicator unchanged. Worth a look with `/report-bug`.
+- **Not tested** (seen in the source, not in the story): the confirmation field's input handler reads `f['new_password_confirmation']` from the profile form, not the password form. Typing in the confirmation probably throws an error in the browser and leaves the indicator unchanged. Worth a look with `/simpright-qa:report-bug`.
 - The strength labels show before anything is typed (inspector). That doesn't conflict with AC2.
 - **Sources for the layer decisions:** the app's source (`practice-software-testing/sprint5`, read-only) was used only to decide where each rule is enforced: `UserController::changePassword`, `account/profile/profile.component.ts` and `.html`, `_helpers/password.validators.ts`. One inspector run: `/account/profile` as the default role (the section's fields, button and strength labels).

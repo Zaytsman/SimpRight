@@ -1,6 +1,6 @@
 # Rental products
 
-<!-- Written by the requirements-analyst agent (/analyze-requirements). Source: docs/ui/user-stories/Rental_Products.md -->
+<!-- Written by the requirements-analyst agent (/simpright-qa:analyze-requirements). Source: docs/ui/user-stories/Rental_Products.md -->
 
 | | |
 |---|---|
@@ -29,7 +29,7 @@ A visitor wants to browse the tools that can be rented by the hour. The rentals 
 
 ## Test plan
 
-API first: a check goes to the UI only when the API can't prove it ([layer rules](../../.claude/skills/analyze-requirements/references/layer-rules.md)).
+API first: a check goes to the UI only when the API can't prove it ([layer rules](https://github.com/Zaytsman/SimpRightKit/blob/main/plugins/simpright-qa/skills/analyze-requirements/references/layer-rules.md)).
 
 | Item | Criterion | What to check | Layer | Why this layer | Flags | Scenarios |
 |---|---|---|---|---|---|---|
@@ -57,12 +57,12 @@ API first: a check goes to the UI only when the API can't prove it ([layer rules
 
 ## Open questions
 
-- **T10, suspected text mismatch (not reproduced live).** The story says "This is a rental item"; the app's translation file says "Item for rent, price per hour" (`pages.checkout.cart.rental-explainer`, a small line under the product name). The inspector can't create a cart, so the live text is unseen. `/report-bug` should reproduce it before any `knownIssue` is written.
+- **T10, suspected text mismatch (not reproduced live).** The story says "This is a rental item"; the app's translation file says "Item for rent, price per hour" (`pages.checkout.cart.rental-explainer`, a small line under the product name). The inspector can't create a cart, so the live text is unseen. `/simpright-qa:report-bug` should reproduce it before any `knownIssue` is written.
 - **T12's product.** Whether a seeded rental is a location offer is unknown (product data can't be read with the inspector). T12 creates its own, so the question matters only if the test should avoid the write.
 
 ## Notes
 
-- **T10 wording (the user's decision):** T10 expects the story's wording "This is a rental item" and carries the `text mismatch` flag; no `knownIssue` until `/report-bug` reproduces it.
+- **T10 wording (the user's decision):** T10 expects the story's wording "This is a rental item" and carries the `text mismatch` flag; no `knownIssue` until `/simpright-qa:report-bug` reproduces it.
 - **Thin API items (the user's decision):** T2, T4, T9 and T11 are kept. T11 runs the same server code as API-0237 (`is_rental` doesn't affect the discount); it differs only in the product's flag.
 - **T4 scope (the user's decision, checkpoint 2):** API-0325 ignores products created by tests (names starting with "Product-") in every check, because `description` is optional on `POST /products` and other carts scenarios create rentals without one that stay listed until cleanup. It stays a separate scenario from API-0006, and API-0327 from API-0236.
 - **T12 data (the user's decision):** the test creates its own rental with `is_location_offer` true through `POST /products` (no token needed) and removes it with the admin's `DELETE`, after the cart that holds it if any.

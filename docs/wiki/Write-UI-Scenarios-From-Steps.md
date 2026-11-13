@@ -1,16 +1,16 @@
 <!-- Source: docs/wiki/Write-UI-Scenarios-From-Steps.md in the repository. Edit it there: the Publish Wiki workflow overwrites changes made in the wiki. -->
 
-# /write-ui-scenarios-from-steps
+# /simpright-qa:write-ui-scenarios-from-steps
 
-Turns **test steps you describe in plain text** (one or more manual test cases) into **UI test scenarios**: one YAML file per feature in `test-scenarios/ui/<area>/`, every scenario `status: manual`, ready for [/implement-ui-scenarios](Implement-UI-Scenarios). It looks at the live pages with the read-only page inspector, so steps quote what the app really shows.
+Turns **test steps you describe in plain text** (one or more manual test cases) into **UI test scenarios**: one YAML file per feature in `test-scenarios/ui/<area>/`, every scenario `status: manual`, ready for [/simpright-qa:implement-ui-scenarios](Implement-UI-Scenarios). It looks at the live pages with the read-only page inspector, so steps quote what the app really shows.
 
-For a user story, bug report or feature description, use [/analyze-requirements](Analyze-Requirements) instead: it decides first what the API can check, then hands the UI items to the same agent.
+For a user story, bug report or feature description, use [/simpright-qa:analyze-requirements](Analyze-Requirements) instead: it decides first what the API can check, then hands the UI items to the same agent.
 
 | | |
 |---|---|
-| **Command** | `/write-ui-scenarios-from-steps <steps file \| pasted text> [ref]` |
-| **Agent** | [`ui-scenario-writer`](https://github.com/Zaytsman/SimpRight/blob/main/.claude/agents/ui-scenario-writer.md), also the UI half of `/analyze-requirements` |
-| **Skill file** | [`.claude/skills/write-ui-scenarios-from-steps/SKILL.md`](https://github.com/Zaytsman/SimpRight/blob/main/.claude/skills/write-ui-scenarios-from-steps/SKILL.md) |
+| **Command** | `/simpright-qa:write-ui-scenarios-from-steps <steps file \| pasted text> [ref]` |
+| **Agent** | [`ui-scenario-writer`](https://github.com/Zaytsman/SimpRightKit/blob/main/plugins/simpright-qa/agents/ui-scenario-writer.md), also the UI half of `/simpright-qa:analyze-requirements` |
+| **Skill file** | [`skills/write-ui-scenarios-from-steps/SKILL.md`](https://github.com/Zaytsman/SimpRightKit/blob/main/plugins/simpright-qa/skills/write-ui-scenarios-from-steps/SKILL.md) |
 | **Input** | Test steps in plain text: a `.md` or `.txt` file, or text pasted into the chat |
 | **Output** | `test-scenarios/ui/<area>/<feature>.yml` |
 | **Live app** | Read-only, through the page inspector only |
@@ -24,9 +24,9 @@ For a user story, bug report or feature description, use [/analyze-requirements]
 ## How to use it
 
 ```text
-/write-ui-scenarios-from-steps checkout-cases.md
-/write-ui-scenarios-from-steps checkout-cases.md TC-12
-/write-ui-scenarios-from-steps
+/simpright-qa:write-ui-scenarios-from-steps checkout-cases.md
+/simpright-qa:write-ui-scenarios-from-steps checkout-cases.md TC-12
+/simpright-qa:write-ui-scenarios-from-steps
 ```
 
 The first argument is a text file with the steps; without it, Claude asks you to paste them. The optional second argument is the `ref` the scenarios get (a test case or ticket ID, a document path); without one, they get none. Plain text is enough, for example:
@@ -79,6 +79,6 @@ The **same agent** writes exactly the approved scenarios. New files get the sche
 
 - One test case per numbered block, with its expected result, makes the steps map easy to read.
 - Answer the "Decisions needed": they are how the agent asks questions.
-- Next step: review the diff, then [/implement-ui-scenarios](Implement-UI-Scenarios) `<file>`.
+- Next step: review the diff, then [/simpright-qa:implement-ui-scenarios](Implement-UI-Scenarios) `<file>`.
 
-See also: [Add UI Scenarios](Add-UI-Scenarios), [/analyze-requirements](Analyze-Requirements).
+See also: [Add UI Scenarios](Add-UI-Scenarios), [/simpright-qa:analyze-requirements](Analyze-Requirements).

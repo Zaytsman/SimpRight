@@ -1,6 +1,6 @@
 # Product overview
 
-<!-- Written by the requirements-analyst agent (/analyze-requirements). Source: docs/ui/user-stories/Product_Overview.md -->
+<!-- Written by the requirements-analyst agent (/simpright-qa:analyze-requirements). Source: docs/ui/user-stories/Product_Overview.md -->
 
 | | |
 |---|---|
@@ -37,7 +37,7 @@ A visitor wants to browse a paginated grid of all products and narrow it by sear
 
 ## Test plan
 
-API first: a check goes to the UI only when the API can't prove it ([layer rules](../../.claude/skills/analyze-requirements/references/layer-rules.md)).
+API first: a check goes to the UI only when the API can't prove it ([layer rules](https://github.com/Zaytsman/SimpRightKit/blob/main/plugins/simpright-qa/skills/analyze-requirements/references/layer-rules.md)).
 
 | Item | Criterion | What to check | Layer | Why this layer | Flags | Scenarios |
 |---|---|---|---|---|---|---|
@@ -86,7 +86,7 @@ API first: a check goes to the UI only when the API can't prove it ([layer rules
 
 ## Open questions
 
-- **Suspected bug, from the source, not reproduced and not yet reported:** `onSearchSubmit` and `changePriceRange` in the overview component don't set `discount_price`, so a discounted product probably loses its strikethrough and discounted price on the grid after a search or a price range change, which would break AC12 there. Default: T30 is a plain check on the default grid, with no known issue. Suggested next step: `/report-bug` to confirm, then add `knownIssue` and `bug` to a scenario for it.
+- **Suspected bug, from the source, not reproduced and not yet reported:** `onSearchSubmit` and `changePriceRange` in the overview component don't set `discount_price`, so a discounted product probably loses its strikethrough and discounted price on the grid after a search or a price range change, which would break AC12 there. Default: T30 is a plain check on the default grid, with no known issue. Suggested next step: `/simpright-qa:report-bug` to confirm, then add `knownIssue` and `bug` to a scenario for it.
 - **Contract facts** for several comma-separated ids in `by_category` and `by_brand` (T14, T19) and `in_stock` = stock > 0 for a guest (T31) come from the source and Products §1, and are not tagged `_(verified)_` yet. Default: tag them when those scenarios are automated.
 
 ## Notes

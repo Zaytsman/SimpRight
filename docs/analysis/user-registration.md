@@ -1,6 +1,6 @@
 # User registration
 
-<!-- Written by the requirements-analyst agent (/analyze-requirements). Source: docs/ui/user-stories/User_Registration.md -->
+<!-- Written by the requirements-analyst agent (/simpright-qa:analyze-requirements). Source: docs/ui/user-stories/User_Registration.md -->
 
 | | |
 |---|---|
@@ -30,7 +30,7 @@ A new visitor wants to create an account on the registration page, with strong-p
 
 ## Test plan
 
-API first: a check goes to the UI only when the API can't prove it ([layer rules](../../.claude/skills/analyze-requirements/references/layer-rules.md)).
+API first: a check goes to the UI only when the API can't prove it ([layer rules](https://github.com/Zaytsman/SimpRightKit/blob/main/plugins/simpright-qa/skills/analyze-requirements/references/layer-rules.md)).
 
 | Item | Criterion | What to check | Layer | Why this layer | Flags | Scenarios |
 |---|---|---|---|---|---|---|
@@ -62,8 +62,8 @@ API first: a check goes to the UI only when the API can't prove it ([layer rules
 
 ## Open questions
 
-- **AC5 text (T18), suspected, not reproduced.** The story wants "Email is already in use."; the API answers 409 with "A customer with this email address already exists." (API-0096), and the source shows the page prints the server's text (only a plain-string "Duplicate Entry" body becomes "Email is already in use."). T18 expects the story's text and carries no `knownIssue` until `/report-bug` reproduces it.
-- **AC3 and AC4 (T15, T16), suspected, not reproduced.** The form group uses `updateOn: 'blur'`, so the password's model value changes only on blur. The requirement list reads the model (it would turn green on blur, not while typing), and the strength indicator is computed from the model value in the `input` handler, i.e. from the value at the last blur. The inspector can't type, so none of this is confirmed. Both items carry no `knownIssue` until `/report-bug` reproduces them.
+- **AC5 text (T18), suspected, not reproduced.** The story wants "Email is already in use."; the API answers 409 with "A customer with this email address already exists." (API-0096), and the source shows the page prints the server's text (only a plain-string "Duplicate Entry" body becomes "Email is already in use."). T18 expects the story's text and carries no `knownIssue` until `/simpright-qa:report-bug` reproduces it.
+- **AC3 and AC4 (T15, T16), suspected, not reproduced.** The form group uses `updateOn: 'blur'`, so the password's model value changes only on blur. The requirement list reads the model (it would turn green on blur, not while typing), and the strength indicator is computed from the model value in the `input` handler, i.e. from the value at the last blur. The inspector can't type, so none of this is confirmed. Both items carry no `knownIssue` until `/simpright-qa:report-bug` reproduces them.
 - **AC6, confirmation email:** not observable and probably not sent on the live site; not tested.
 - **Contract §2** mostly holds `_(source)_` facts for the new API items (T7, T9, T11..T14); they get tagged `_(verified)_` when those scenarios are automated. The 422 key for a wrong postal code (`address.postal_code`) is not in the contract yet.
 

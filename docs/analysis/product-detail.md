@@ -1,6 +1,6 @@
 # Product detail
 
-<!-- Written by the requirements-analyst agent (/analyze-requirements). Source: docs/ui/user-stories/Product_Detail.md -->
+<!-- Written by the requirements-analyst agent (/simpright-qa:analyze-requirements). Source: docs/ui/user-stories/Product_Detail.md -->
 
 | | |
 |---|---|
@@ -31,7 +31,7 @@ A visitor wants to see a product's details, add it to the cart or save it to fav
 
 ## Test plan
 
-API first: a check goes to the UI only when the API can't prove it ([layer rules](../../.claude/skills/analyze-requirements/references/layer-rules.md)).
+API first: a check goes to the UI only when the API can't prove it ([layer rules](https://github.com/Zaytsman/SimpRightKit/blob/main/plugins/simpright-qa/skills/analyze-requirements/references/layer-rules.md)).
 
 | Item | Criterion | What to check | Layer | Why this layer | Flags | Scenarios |
 |---|---|---|---|---|---|---|
@@ -57,7 +57,7 @@ API first: a check goes to the UI only when the API can't prove it ([layer rules
 
 - **AC7's upper bound (the user's decision):** the story stays the requirement (999,999,999). The app limits the quantity to 99 in three places: the field (`MAX_QUANTITY = 99`), the browser's cart service and the server (`max:99`). So T7 and T9 are known issues (UI-024 and UI-025 will fail too).
 - **T10 (the user's decision):** kept as the server-side half of the stated range. The 422 comes from the source.
-- **Contract gap (filled):** the carts endpoints were missing from the contracts. `/write-api-contracts` documented the whole carts area in [Carts_API.md](../api/contracts/Carts_API.md) on 2026-10-08 (from the source, read-only live checks) before the API scenarios were written. The tests should tag the facts they confirm `_(verified)_`.
+- **Contract gap (filled):** the carts endpoints were missing from the contracts. `/simpright-qa:write-api-contracts` documented the whole carts area in [Carts_API.md](../api/contracts/Carts_API.md) on 2026-10-08 (from the source, read-only live checks) before the API scenarios were written. The tests should tag the facts they confirm `_(verified)_`.
 - **Scenario areas:** a new area `carts` was added to the profile for the API layer, named after the API path like `products` and `users`; the UI keeps `cart`.
 - **UI-025 and UI-026** (the field keeps 999,999,999 and 1) are kept. By the split rule, the range ends now belong to the API (T8, T9), so these two could be dropped later.
 - **Could move to the API:** UI-002 checks the quantity in the cart through the cart page, which T11 proves on the API. It stays as part of T12's journey coverage. It has no `ref`; it could get `docs/ui/user-stories/Product_Detail.md#AC8`.
