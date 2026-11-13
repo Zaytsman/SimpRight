@@ -64,7 +64,7 @@ jobs:
           persist-credentials: false
 
       - name: Set up Node.js and install
-        uses: Zaytsman/SimpRightKit/actions/setup@b25dc22e2012dd76b9eab1e656928397616458af # v0.2.1
+        uses: Zaytsman/SimpRightKit/actions/setup@31894cf2f759cd4aa54df1e23eb38f82ded43710 # v0.3.0
         with:
           node-version: 24
           # Lets npm ci install the optional private coverage package with the token below.
@@ -83,7 +83,7 @@ jobs:
       - name: Run tests
         id: tests
         continue-on-error: true
-        uses: Zaytsman/SimpRightKit/actions/run-tests@b25dc22e2012dd76b9eab1e656928397616458af # v0.2.1
+        uses: Zaytsman/SimpRightKit/actions/run-tests@31894cf2f759cd4aa54df1e23eb38f82ded43710 # v0.3.0
         with:
           project: ${{ inputs.project }}
           paths: ${{ inputs.paths }}
@@ -92,7 +92,7 @@ jobs:
 
       - name: Publish report to GitHub Pages
         if: ${{ !cancelled() && steps.tests.outcome != 'skipped' }}
-        uses: Zaytsman/SimpRightKit/actions/publish-run@b25dc22e2012dd76b9eab1e656928397616458af # v0.2.1
+        uses: Zaytsman/SimpRightKit/actions/publish-run@31894cf2f759cd4aa54df1e23eb38f82ded43710 # v0.3.0
         with:
           run-id: ${{ inputs.family }}
           keep: ${{ inputs.keep-runs }}

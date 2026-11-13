@@ -1,0 +1,18 @@
+{
+  "extraKnownMarketplaces": {
+    "simpright-kit": {
+      "source": {
+        "source": "github",
+        "repo": "Zaytsman/SimpRightKit",
+        "ref": "v0.3.0",
+        "sparsePaths": [
+          ".claude-plugin",
+          "plugins"
+        ]
+      }
+    }
+  },
+  "enabledPlugins": {
+    "simpright-qa@simpright-kit": true
+  }
+}
