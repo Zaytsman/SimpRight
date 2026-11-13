@@ -1,6 +1,6 @@
 # Checkout billing address
 
-<!-- Written by the requirements-analyst agent (/analyze-requirements). Source: docs/ui/user-stories/Checkout_Billing_Address.md -->
+<!-- Written by the requirements-analyst agent (/simpright-qa:analyze-requirements). Source: docs/ui/user-stories/Checkout_Billing_Address.md -->
 
 | | |
 |---|---|
@@ -28,7 +28,7 @@ A customer wants to enter the billing address on the third checkout step, pre-fi
 
 ## Test plan
 
-API first: a check goes to the UI only when the API can't prove it ([layer rules](../../.claude/skills/analyze-requirements/references/layer-rules.md)).
+API first: a check goes to the UI only when the API can't prove it ([layer rules](https://github.com/Zaytsman/SimpRightKit/blob/main/plugins/simpright-qa/skills/analyze-requirements/references/layer-rules.md)).
 
 | Item | Criterion | What to check | Layer | Why this layer | Flags | Scenarios |
 |---|---|---|---|---|---|---|
@@ -49,7 +49,7 @@ API first: a check goes to the UI only when the API can't prove it ([layer rules
 
 ## Open questions
 
-- **T8, suspected bug (from the source, not reproduced).** When the pre-fill sets country, postal code and house number together, the page's postcode lookup runs and overwrites street, city and state with a generated address, so the account's street, city and state may not survive. The criterion says the fields hold the account's details. T8 (UI-048) is written against the story, with no `knownIssue` until `/report-bug` confirms it (it needs a customer with an address and a country). Without a country on the account no lookup runs.
+- **T8, suspected bug (from the source, not reproduced).** When the pre-fill sets country, postal code and house number together, the page's postcode lookup runs and overwrites street, city and state with a generated address, so the account's street, city and state may not survive. The criterion says the fields hold the account's details. T8 (UI-048) is written against the story, with no `knownIssue` until `/simpright-qa:report-bug` confirms it (it needs a customer with an address and a country). Without a country on the account no lookup runs.
 - **State and postal code are required only in the browser.** The OpenAPI spec marks `billing_state` and `billing_postal_code` required, but the code and the contract (§8) don't: `POST /invoices` without them is accepted. No API item asserts that. The spec/code mismatch could be reported as a bug.
 - **`Invoices_API.md`** still says `GET /postcode-lookup` has "no contract yet", but `Postcode_API.md` exists. Not changed here. The facts T1, T2 and T4 rely on are `_(source)_` in the contract; they get `_(verified)_` when the scenarios are automated.
 
@@ -57,7 +57,7 @@ API first: a check goes to the UI only when the API can't prove it ([layer rules
 
 - **House number** (the user's decision): the page requires it ("House number *") although the story doesn't list it. T3 notes that it is shown, T5 covers only the five listed fields, and every UI scenario fills House number so "Proceed" can enable.
 - **State and postal code browser-only** (the user's decision): T5 is UI only, with no API item for the server accepting their absence.
-- **T8 written against the story** (the user's decision): no `knownIssue` until `/report-bug` confirms the pre-fill overwrite.
+- **T8 written against the story** (the user's decision): no `knownIssue` until `/simpright-qa:report-bug` confirms the pre-fill overwrite.
 - **Fill order in the UI scenarios** (the user's decision): the scenarios fill country, postal code and house number first, wait for the postcode lookup to finish, then street, city and state, because the debounced (300 ms) lookup overwrites street, city and state.
 - **T2 as a write** (the user's decision): `POST /invoices` with a throwaway customer and an empty cart, approved by the user. An invoice has no delete endpoint, the checkout email is queued, and the customer that owns it can't be deleted (409; the teardown only logs a warning). The hourly re-seed cleans it.
 - **Reaching the step** (the user's decision): T3, T5, T6 and T8 set up the cart through the API (`putProductInCart`, which replaced the UI add of `ShoppingFlow.addProductToCart` when UI carts moved to the API) and reach step 3 with the proceed buttons (`CartPage.proceed()`, then the sign-in step's proceed). The cart step and the sign-in step belong to Checkout_Cart_Review AC5 and Checkout_Sign_In AC5, which are not analysed yet.

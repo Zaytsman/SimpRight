@@ -13,20 +13,20 @@ Each step is a slash command in [Claude Code](https://claude.com/claude-code) th
 
 ```mermaid
 flowchart LR
-    src[API source code<br/>OpenAPI spec] -->|/write-api-contracts| contracts[API contracts<br/>docs/api/contracts]
-    stories[User stories<br/>bug reports<br/>docs/ui/user-stories] -->|/analyze-requirements| analysis[Analysis + test plan<br/>API first<br/>docs/analysis]
+    src[API source code<br/>OpenAPI spec] -->|/simpright-qa:write-api-contracts| contracts[API contracts<br/>docs/api/contracts]
+    stories[User stories<br/>bug reports<br/>docs/ui/user-stories] -->|/simpright-qa:analyze-requirements| analysis[Analysis + test plan<br/>API first<br/>docs/analysis]
     analysis -->|scenario writers| scenarios
-    contracts -->|/write-api-scenarios-from-contract| scenarios[Test scenarios<br/>test-scenarios/*.yml]
-    steps[Test steps<br/>request/response JSON<br/>Bruno collections] -->|/write-api-scenarios-from-steps<br/>/write-ui-scenarios-from-steps| scenarios
-    scenarios -->|/implement-api-scenarios<br/>/implement-ui-scenarios| specs[Framework code + specs<br/>src/, tests/]
-    specs -->|/review-tests| review[Ranked findings<br/>→ fixes]
+    contracts -->|/simpright-qa:write-api-scenarios-from-contract| scenarios[Test scenarios<br/>test-scenarios/*.yml]
+    steps[Test steps<br/>request/response JSON<br/>Bruno collections] -->|/simpright-qa:write-api-scenarios-from-steps<br/>/simpright-qa:write-ui-scenarios-from-steps| scenarios
+    scenarios -->|/simpright-qa:implement-api-scenarios<br/>/simpright-qa:implement-ui-scenarios| specs[Framework code + specs<br/>src/, tests/]
+    specs -->|/simpright-qa:review-tests| review[Ranked findings<br/>→ fixes]
     specs -->|CI / local runs| runs[Test results]
-    runs -->|/heal-tests| heal[Verdicts<br/>→ fixes, known issues]
+    runs -->|/simpright-qa:heal-tests| heal[Verdicts<br/>→ fixes, known issues]
     review -.-> specs
     heal -.-> specs
     heal -.->|knownIssue| scenarios
     heal -->|app bug| bugrep
-    reports[Bug reports<br/>suspected bugs<br/>in contracts] -->|/report-bug| bugrep[Bugs<br/>bugs/BUG-NNN.yml]
+    reports[Bug reports<br/>suspected bugs<br/>in contracts] -->|/simpright-qa:report-bug| bugrep[Bugs<br/>bugs/BUG-NNN.yml]
     bugrep -.->|knownIssue + bug| scenarios
 ```
 
@@ -34,24 +34,24 @@ flowchart LR
 
 | Step | Command | Agent | Input | Output |
 |---|---|---|---|---|
-| Describe the API | `/write-api-contracts [update] <source> <spec> <areas>` | `api-contract-writer` | The API's source code and/or its OpenAPI spec | Contracts in `docs/api/contracts/`, one per API area |
-| Analyse a work item | `/analyze-requirements <story or bug> [AC ...]` | `requirements-analyst`, then both scenario writers | A user story or bug report | An analysis and test plan in `docs/analysis/` (each check on the API unless only the UI can prove it), then API and UI scenarios |
-| Plan API tests | `/write-api-scenarios-from-contract <contract>` | `api-scenario-writer` | A contract | API scenarios (`API-NNNN`) |
-| Convert API test cases | `/write-api-scenarios-from-steps <steps \| JSON files \| Bruno collection>` | `api-scenario-writer` | Test steps in plain text, request and expected-response JSON, a Bruno collection | API scenarios (`API-NNNN`), checked against the contracts |
-| Convert UI test cases | `/write-ui-scenarios-from-steps <steps file \| pasted text> [ref]` | `ui-scenario-writer` | Test steps in plain text | UI scenarios (`UI-NNN`), labels checked in the live app |
-| Automate API tests | `/implement-api-scenarios <IDs \| file \| area>` | `api-test-engineer` | API scenarios | Clients, services, DTOs, fixtures, factories, specs |
-| Automate UI tests | `/implement-ui-scenarios <IDs \| file \| area>` | `ui-test-engineer` | UI scenarios | Page objects, components, flows, fixtures, specs |
-| Review | `/review-tests [spec \| file \| IDs \| commit]` | `test-reviewer` | Specs and the code they use (default: work not pushed yet) | Findings ranked blocker / should fix / nit |
-| Heal | `/heal-tests [run id \| PR \| spec \| IDs]` | `test-healer` | A failed CI run, a PR's checks, the last local run | A verdict per failure, then the approved fixes |
-| Track bugs | `/report-bug <description \| IDs> \| import <contract> \| recheck <IDs \| open>` | `bug-reporter` | What someone saw, failing scenarios, a contract's suspected bugs, open bugs | Bug files in `bugs/` (`BUG-NNN`), linked scenarios, fixed bugs closed |
+| Describe the API | `/simpright-qa:write-api-contracts [update] <source> <spec> <areas>` | `api-contract-writer` | The API's source code and/or its OpenAPI spec | Contracts in `docs/api/contracts/`, one per API area |
+| Analyse a work item | `/simpright-qa:analyze-requirements <story or bug> [AC ...]` | `requirements-analyst`, then both scenario writers | A user story or bug report | An analysis and test plan in `docs/analysis/` (each check on the API unless only the UI can prove it), then API and UI scenarios |
+| Plan API tests | `/simpright-qa:write-api-scenarios-from-contract <contract>` | `api-scenario-writer` | A contract | API scenarios (`API-NNNN`) |
+| Convert API test cases | `/simpright-qa:write-api-scenarios-from-steps <steps \| JSON files \| Bruno collection>` | `api-scenario-writer` | Test steps in plain text, request and expected-response JSON, a Bruno collection | API scenarios (`API-NNNN`), checked against the contracts |
+| Convert UI test cases | `/simpright-qa:write-ui-scenarios-from-steps <steps file \| pasted text> [ref]` | `ui-scenario-writer` | Test steps in plain text | UI scenarios (`UI-NNN`), labels checked in the live app |
+| Automate API tests | `/simpright-qa:implement-api-scenarios <IDs \| file \| area>` | `api-test-engineer` | API scenarios | Clients, services, DTOs, fixtures, factories, specs |
+| Automate UI tests | `/simpright-qa:implement-ui-scenarios <IDs \| file \| area>` | `ui-test-engineer` | UI scenarios | Page objects, components, flows, fixtures, specs |
+| Review | `/simpright-qa:review-tests [spec \| file \| IDs \| commit]` | `test-reviewer` | Specs and the code they use (default: work not pushed yet) | Findings ranked blocker / should fix / nit |
+| Heal | `/simpright-qa:heal-tests [run id \| PR \| spec \| IDs]` | `test-healer` | A failed CI run, a PR's checks, the last local run | A verdict per failure, then the approved fixes |
+| Track bugs | `/simpright-qa:report-bug <description \| IDs> \| import <contract> \| recheck <IDs \| open>` | `bug-reporter` | What someone saw, failing scenarios, a contract's suspected bugs, open bugs | Bug files in `bugs/` (`BUG-NNN`), linked scenarios, fixed bugs closed |
 
-The agents live in `.claude/agents/`, the commands and the skills they use in `.claude/skills/`.
+The agents, the commands and the skills they use are the SimpRight Kit's Claude Code plugin [`simpright-qa`](https://github.com/Zaytsman/SimpRightKit/tree/main/plugins/simpright-qa). `npm run apply` enables it in `.claude/settings.json`, at the installed kit's tag. Claude Code adds the marketplace once you trust the folder, and each clone installs the plugin once with `claude plugin install simpright-qa@simpright-kit --scope local` ([12](framework/12-ai-agents.md#the-plugin)).
 
 ## The steps in detail
 
 ### 1. Describe the app
 
-**API contracts.** `/write-api-contracts` reads the API's source code, its OpenAPI spec, or both, and writes one markdown contract per API area: every endpoint, its parameters, request body, responses and error status codes, including the ones no test covers yet. The spec gives the structure; the source gives the real behaviour (validation rules, which role may call what, the error each case returns). Every fact carries its origin:
+**API contracts.** `/simpright-qa:write-api-contracts` reads the API's source code, its OpenAPI spec, or both, and writes one markdown contract per API area: every endpoint, its parameters, request body, responses and error status codes, including the ones no test covers yet. The spec gives the structure; the source gives the real behaviour (validation rules, which role may call what, the error each case returns). Every fact carries its origin:
 
 - `_(verified)_`: checked against the live API (the agent asks before calling it),
 - `_(source)_`: read from the source code,
@@ -83,7 +83,7 @@ The **scenario writers** work in two phases:
 1. **Proposal:** the scenarios they would write, one line each, with the cases they left out and why, the questions they couldn't settle, and which scenarios would change data on the live app.
 2. **Files:** after the user approves (or edits) the proposal, the YAML files, all with `status: manual`.
 
-When a story or bug spans both layers, the **requirements analyst** comes first (`/analyze-requirements`). It summarises the work item in `docs/analysis/<name>.md` and splits each criterion into test items, each on the cheapest layer that can prove it: the API by default (rules, validation, permissions, stored data), the UI only for what the API can't show (rendering, validation done only in the browser, browser state, navigation), at most one UI journey per story. It reads the contracts and existing scenarios to avoid duplicates, and the app's source only to see where a rule is enforced. After the user approves the plan, it hands the API items to the API writer and the UI items to the UI writer; the user approves both proposals together, and the scenario IDs go back into the plan.
+When a story or bug spans both layers, the **requirements analyst** comes first (`/simpright-qa:analyze-requirements`). It summarises the work item in `docs/analysis/<name>.md` and splits each criterion into test items, each on the cheapest layer that can prove it: the API by default (rules, validation, permissions, stored data), the UI only for what the API can't show (rendering, validation done only in the browser, browser state, navigation), at most one UI journey per story. It reads the contracts and existing scenarios to avoid duplicates, and the app's source only to see where a rule is enforced. After the user approves the plan, it hands the API items to the API writer and the UI items to the UI writer; the user approves both proposals together, and the scenario IDs go back into the plan.
 
 The API writer works from a contract: happy paths, every documented error status code, required fields and boundaries, roles. It never calls the API. The UI writer works from acceptance criteria and checks the real page with the **page inspector** (`npm run inspect:ui`), a read-only tool that lists a page's `data-test` elements and accessibility tree, so the steps use the labels and messages the app really shows.
 
@@ -117,7 +117,7 @@ The engineers' rules: the scenario is the specification, so a check is never wea
 
 ### 4. Review
 
-`/review-tests` runs the **test reviewer**, a read-only agent that reviews tests the way a senior engineer reviews a pull request. With checklists for both layers (`.claude/skills/review-tests/references/`), it looks for what the typecheck and the validator can't catch:
+`/simpright-qa:review-tests` runs the **test reviewer**, a read-only agent that reviews tests the way a senior engineer reviews a pull request. With checklists for both layers (the plugin's `skills/review-tests/references/`), it looks for what the typecheck and the validator can't catch:
 
 - a test that doesn't check what its scenario says, or a check that passes on an empty list,
 - waits that race the app, fixed sleeps, data shared between parallel tests,
@@ -128,7 +128,7 @@ Every finding has a file and line, the code, what goes wrong and when, the rule 
 
 ### 5. Heal
 
-`/heal-tests` runs the **test healer** on failed tests: a CI run, a pull request's checks, or the last local run. Its job is to find out **why** a test failed before anyone changes code, because on a live app a test fails for many reasons that aren't the test's fault.
+`/simpright-qa:heal-tests` runs the **test healer** on failed tests: a CI run, a pull request's checks, or the last local run. Its job is to find out **why** a test failed before anyone changes code, because on a live app a test fails for many reasons that aren't the test's fault.
 
 1. **Diagnosis (read-only):** from the CI log or the local results (errors, page snapshots, traces), the code history, the page inspector, read-only `GET` calls to the API and re-runs of read-only tests, each failure gets a verdict with its evidence and a confidence level:
 
@@ -137,7 +137,7 @@ Every finding has a file and line, the code, what goes wrong and when, the rule 
    | Test defect | The test code is wrong | The code fix |
    | Flaky | Passes and fails on the same code | Fix the cause (a wait, shared data); never retries or sleeps |
    | App changed | The app changed on purpose | Update the page object or client; scenario changes go to the user |
-   | App bug | The app breaks what the scenario promises | A `knownIssue` and its bug (an existing one, or a new one, also with `/report-bug`) |
+   | App bug | The app breaks what the scenario promises | A `knownIssue` and its bug (an existing one, or a new one, also with `/simpright-qa:report-bug`) |
    | Data drift | The test's data changed under it (another visitor, a re-seed) | Make the test create its own data |
    | Environment | The site was slow or down for a while | A re-run, no code change |
 
@@ -148,7 +148,7 @@ Unlike a healer that edits tests until they pass, it never weakens a check, neve
 
 ### 6. Track bugs
 
-`/report-bug` runs the **bug reporter**. The bugs it records are files in `bugs/`, one per **root cause** (`BUG-001.yml`): title, status, severity, the affected endpoints or pages, steps to reproduce, expected and actual result, evidence. A scenario that hits a bug names it with `bug` next to its `knownIssue`, and its test starts with `test.fail(true, 'Known issue BUG-001: ...')`. The portal's **Bugs page** lists them with each linked test's latest result.
+`/simpright-qa:report-bug` runs the **bug reporter**. The bugs it records are files in `bugs/`, one per **root cause** (`BUG-001.yml`): title, status, severity, the affected endpoints or pages, steps to reproduce, expected and actual result, evidence. A scenario that hits a bug names it with `bug` next to its `knownIssue`, and its test starts with `test.fail(true, 'Known issue BUG-001: ...')`. The portal's **Bugs page** lists them with each linked test's latest result.
 
 1. **Draft (read-only):** it reproduces each item (read-only `GET` calls, the page inspector, re-runs of read-only tests; anything that writes waits for approval), checks the existing bugs for the same cause, and proposes new bugs, extensions of existing ones, the scenarios to link and the coverage gaps (bugs no scenario covers, with a proposed regression scenario).
 2. **Files:** the user picks the items; the agent writes the bug files and the links, then runs the validator and the specs whose known-issue line changed.
@@ -157,10 +157,10 @@ It also **imports** the suspected bugs a contract marks, and **re-checks** open 
 
 ## What keeps the agents on track
 
-- **Checkpoints.** Every agent that writes works in two phases: a proposal or plan, then the work after the user's approval. Agents can't ask questions mid-run, so open questions go into the proposal. The skill then asks them as multiple-choice questions (the AskUserQuestion tool, with a recommended option and its reason where the report supports one), following the shared rules in `.claude/skills/_shared/how-to-ask.md`.
+- **Checkpoints.** Every agent that writes works in two phases: a proposal or plan, then the work after the user's approval. Agents can't ask questions mid-run, so open questions go into the proposal. The skill then asks them as multiple-choice questions (the AskUserQuestion tool, with a recommended option and its reason where the report supports one), following the plugin's shared rules (`shared/how-to-ask.md`).
 - **One source of truth per step.** Contracts describe the API, stories the UI, scenarios the tests. Writers never write test code; engineers never change a scenario's steps; reviewers and healers judge tests against their scenarios.
-- **A project profile, not built-in knowledge.** The agents keep no facts about SimpRight. They read [`simpright.yml`](../simpright.yml): paths, commands, scenario ID rules, roles, exemplar files to copy the style of, layer rules and the live-app guardrails. The prose conventions stay in the files the profile lists under `project.conventions`: [the framework's](framework/conventions.md) and [CLAUDE.md](../CLAUDE.md), SimpRight's own. Pointing the agents at another project means writing its profile.
-- **Live-app guardrails.** `liveApi.writes: ask` means any test or check that creates, changes or deletes data on the live app runs only after the user approved it; `liveApi.dangerous` lists what never runs (such as repeated failed logins that lock an account). Tests remove what they create through a `cleanup` fixture.
+- **A project profile, not built-in knowledge.** The agents keep no facts about SimpRight. They read [`simpright.yml`](../simpright.yml): paths, commands, scenario ID rules, roles, and under `agents` the exemplar files to copy the style of, layer rules and the live-app guardrails. The prose conventions stay in the files the profile lists under `project.conventions`: [the framework's](framework/conventions.md) and [CLAUDE.md](../CLAUDE.md), SimpRight's own. Pointing the agents at another project means writing its profile.
+- **Live-app guardrails.** `agents.liveApi.writes: ask` means any test or check that creates, changes or deletes data on the live app runs only after the user approved it; `agents.liveApi.dangerous` lists what never runs (such as repeated failed logins that lock an account). Tests remove what they create through a `cleanup` fixture.
 - **Deterministic checks.** The agents' work is checked by code, not only by review: `npm run typecheck`, `npm run validate:scenarios` (schema, IDs, file names, spec titles and the link between each scenario and its test), and the contract validator from the coverage package.
 - **Safe reports.** Attachments and assertion messages mask passwords, tokens and test users' emails, because the HTML reports are published.
 
@@ -169,29 +169,29 @@ It also **imports** the suspected bugs a contract marks, and **re-checks** open 
 For a new API area:
 
 ```text
-/write-api-contracts ../app/api carts               → docs/api/contracts/Carts_API.md
-/write-api-scenarios-from-contract Carts_API.md     → proposal → approve → test-scenarios/api/carts/*.yml
-/implement-api-scenarios carts                      → plan + writes → approve → specs, all passing
-/review-tests                                       → findings → pick → fixes applied
+/simpright-qa:write-api-contracts ../app/api carts               → docs/api/contracts/Carts_API.md
+/simpright-qa:write-api-scenarios-from-contract Carts_API.md     → proposal → approve → test-scenarios/api/carts/*.yml
+/simpright-qa:implement-api-scenarios carts                      → plan + writes → approve → specs, all passing
+/simpright-qa:review-tests                                       → findings → pick → fixes applied
 (commit, pull request, CI)
-/heal-tests PR <n>                                  → if CI fails: verdicts → pick → fixes or re-run
-/report-bug API-0042                                → if it's an app bug: draft → approve → bugs/BUG-NNN.yml, scenario linked
+/simpright-qa:heal-tests PR <n>                                  → if CI fails: verdicts → pick → fixes or re-run
+/simpright-qa:report-bug API-0042                                → if it's an app bug: draft → approve → bugs/BUG-NNN.yml, scenario linked
 ```
 
 For test cases someone already has (manual steps, saved requests):
 
 ```text
-/write-ui-scenarios-from-steps checkout-cases.md    → proposal → approve → test-scenarios/ui/cart/*.yml
-/write-api-scenarios-from-steps ../bruno/Carts      → proposal (checked against the contract) → approve → test-scenarios/api/carts/*.yml
-/implement-ui-scenarios checkout.yml                → plan + writes → approve → page objects, specs
+/simpright-qa:write-ui-scenarios-from-steps checkout-cases.md    → proposal → approve → test-scenarios/ui/cart/*.yml
+/simpright-qa:write-api-scenarios-from-steps ../bruno/Carts      → proposal (checked against the contract) → approve → test-scenarios/api/carts/*.yml
+/simpright-qa:implement-ui-scenarios checkout.yml                → plan + writes → approve → page objects, specs
 ```
 
 For a user story or bug report (one layer or both):
 
 ```text
-/analyze-requirements Product_Detail.md AC3-AC9   → test plan → approve → docs/analysis/product-detail.md
-                                                  → API + UI proposals → approve → test-scenarios/api/carts/*.yml
-/implement-api-scenarios post-carts-by-cart-id.yml → API first, then /implement-ui-scenarios for the UI items
+/simpright-qa:analyze-requirements Product_Detail.md AC3-AC9   → test plan → approve → docs/analysis/product-detail.md
+                                                               → API + UI proposals → approve → test-scenarios/api/carts/*.yml
+/simpright-qa:implement-api-scenarios post-carts-by-cart-id.yml → API first, then /simpright-qa:implement-ui-scenarios for the UI items
 ```
 
 The person in the loop decides what to test and approves each step; the agents do the reading, writing, running and checking in between.

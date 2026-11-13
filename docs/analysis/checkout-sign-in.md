@@ -1,6 +1,6 @@
 # Checkout sign in
 
-<!-- Written by the requirements-analyst agent (/analyze-requirements). Source: docs/ui/user-stories/Checkout_Sign_In.md -->
+<!-- Written by the requirements-analyst agent (/simpright-qa:analyze-requirements). Source: docs/ui/user-stories/Checkout_Sign_In.md -->
 
 | | |
 |---|---|
@@ -29,7 +29,7 @@ A customer who is not logged in wants to sign in inside the checkout wizard, so 
 
 ## Test plan
 
-API first: a check goes to the UI only when the API can't prove it ([layer rules](../../.claude/skills/analyze-requirements/references/layer-rules.md)).
+API first: a check goes to the UI only when the API can't prove it ([layer rules](https://github.com/Zaytsman/SimpRightKit/blob/main/plugins/simpright-qa/skills/analyze-requirements/references/layer-rules.md)).
 
 | Item | Criterion | What to check | Layer | Why this layer | Flags | Scenarios |
 |---|---|---|---|---|---|---|
@@ -55,14 +55,14 @@ API first: a check goes to the UI only when the API can't prove it ([layer rules
 
 ## Open questions
 
-- **T11, suspected bug (from the source and the translation file, not reproduced).** The story says "You are already signed in as [First Name] [Last Name]". The app's `pages.checkout.sign-in.already` says "Hello {first_name} {last_name}, you are already logged in. You can proceed to checkout." The same message also shows right after a successful login (T9). It could not be seen live: the inspector cannot reach step 2 without a cart in the browser. Next step: `/report-bug` reproduces it, then `knownIssue` and `bug` go on T11's scenario. T9 checks the signed-in state, not the exact text.
+- **T11, suspected bug (from the source and the translation file, not reproduced).** The story says "You are already signed in as [First Name] [Last Name]". The app's `pages.checkout.sign-in.already` says "Hello {first_name} {last_name}, you are already logged in. You can proceed to checkout." The same message also shows right after a successful login (T9). It could not be seen live: the inspector cannot reach step 2 without a cart in the browser. Next step: `/simpright-qa:report-bug` reproduces it, then `knownIssue` and `bug` go on T11's scenario. T9 checks the signed-in state, not the exact text.
 - **AC3 "6-digit".** The page's TOTP input is a plain text field (no `maxlength`, `pattern` or digit check) and the server accepts any string and answers 401 for a wrong one. No digit-count check on either layer.
 - **Contract gaps in the facts T3-T6 rely on.** They are `_(source)_`; the restricted-token 401 on `GET /users/me` (T4) is not in Users_API.md (only Product_Specs_API.md mentions it, for writes). Add it when T4 is automated. `POST /totp/setup`, `POST /totp/verify` and `POST /totp/login/totp` are in no contract.
 - **Self-service TOTP flags.** The TOTP account is made with `PATCH /users/{userId}` (`totp_enabled`, `totp_secret`), which relies on the suspected bug "self-service account flags" (Users contract Notes). If that is fixed, the setup breaks and the route `POST /totp/setup` + `POST /totp/verify` has to be used, after a contract exists for it.
 
 ## Notes
 
-- **T11 against the story's wording** (the user's decision): flagged `known issue` (suspected), with no `knownIssue` written until `/report-bug` reproduces it.
+- **T11 against the story's wording** (the user's decision): flagged `known issue` (suspected), with no `knownIssue` written until `/simpright-qa:report-bug` reproduces it.
 - **AC3 "6-digit"** (the user's decision): no digit-count check; T7 checks that the TOTP field is displayed and what follows a wrong and a right code.
 - **TOTP account setup** (the user's decision): option (a), `PATCH /users/{userId}` with the customer's own token, `totp_enabled: true` and a known base32 `totp_secret` (Users contract §13), on a throwaway customer.
 - **T4 kept** (the user's decision): "must enter a valid code to proceed" is read as: the first-step token can't be used as a session.

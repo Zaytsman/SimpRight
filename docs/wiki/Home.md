@@ -24,8 +24,8 @@ It is also an example of **AI-assisted test automation**: Claude Code agents wri
 
 ## Test Scenarios
 
-1. [Add API Scenarios](Add-API-Scenarios): from a story or bug (`/analyze-requirements`), a contract (`/write-api-scenarios-from-contract`), your test steps, request/response JSON or a Bruno collection (`/write-api-scenarios-from-steps`), or by hand.
-2. [Add UI Scenarios](Add-UI-Scenarios): from a story or bug (`/analyze-requirements`), your test steps in plain text (`/write-ui-scenarios-from-steps`), or by hand.
+1. [Add API Scenarios](Add-API-Scenarios): from a story or bug (`/simpright-qa:analyze-requirements`), a contract (`/simpright-qa:write-api-scenarios-from-contract`), your test steps, request/response JSON or a Bruno collection (`/simpright-qa:write-api-scenarios-from-steps`), or by hand.
+2. [Add UI Scenarios](Add-UI-Scenarios): from a story or bug (`/simpright-qa:analyze-requirements`), your test steps in plain text (`/simpright-qa:write-ui-scenarios-from-steps`), or by hand.
 
 ## Automation
 
@@ -51,16 +51,16 @@ Each slash command, the agent it starts and what you get:
 
 | Skill | Agent | Does |
 |---|---|---|
-| [/analyze-requirements](Analyze-Requirements) | `requirements-analyst`, then `api-scenario-writer` and `ui-scenario-writer` | An analysis and a test plan from a story or bug, API first, then scenarios for both layers |
-| [/write-api-contracts](Write-API-Contracts) | `api-contract-writer` | API contracts from source code or an OpenAPI spec |
-| [/write-api-scenarios-from-contract](Write-API-Scenarios-From-Contract) | `api-scenario-writer` | API scenarios from a contract, endpoint by endpoint |
-| [/write-api-scenarios-from-steps](Write-API-Scenarios-From-Steps) | `api-scenario-writer` | API scenarios from your test steps, request/response JSON or a Bruno collection |
-| [/write-ui-scenarios-from-steps](Write-UI-Scenarios-From-Steps) | `ui-scenario-writer` | UI scenarios from your test steps in plain text |
-| [/implement-api-scenarios](Implement-API-Scenarios) | `api-test-engineer` | API specs and framework code from scenarios |
-| [/implement-ui-scenarios](Implement-UI-Scenarios) | `ui-test-engineer` | UI specs, page objects and flows from scenarios |
-| [/review-tests](Review-Tests) | `test-reviewer` | Ranked review findings, then the fixes you pick |
-| [/heal-tests](Heal-Tests) | `test-healer` | Why tests failed, then the fixes you pick |
-| [/report-bug](Report-Bug) | `bug-reporter` | Bugs in the app, one per root cause, linked to their scenarios; imports and re-checks |
+| [/simpright-qa:analyze-requirements](Analyze-Requirements) | `requirements-analyst`, then `api-scenario-writer` and `ui-scenario-writer` | An analysis and a test plan from a story or bug, API first, then scenarios for both layers |
+| [/simpright-qa:write-api-contracts](Write-API-Contracts) | `api-contract-writer` | API contracts from source code or an OpenAPI spec |
+| [/simpright-qa:write-api-scenarios-from-contract](Write-API-Scenarios-From-Contract) | `api-scenario-writer` | API scenarios from a contract, endpoint by endpoint |
+| [/simpright-qa:write-api-scenarios-from-steps](Write-API-Scenarios-From-Steps) | `api-scenario-writer` | API scenarios from your test steps, request/response JSON or a Bruno collection |
+| [/simpright-qa:write-ui-scenarios-from-steps](Write-UI-Scenarios-From-Steps) | `ui-scenario-writer` | UI scenarios from your test steps in plain text |
+| [/simpright-qa:implement-api-scenarios](Implement-API-Scenarios) | `api-test-engineer` | API specs and framework code from scenarios |
+| [/simpright-qa:implement-ui-scenarios](Implement-UI-Scenarios) | `ui-test-engineer` | UI specs, page objects and flows from scenarios |
+| [/simpright-qa:review-tests](Review-Tests) | `test-reviewer` | Ranked review findings, then the fixes you pick |
+| [/simpright-qa:heal-tests](Heal-Tests) | `test-healer` | Why tests failed, then the fixes you pick |
+| [/simpright-qa:report-bug](Report-Bug) | `bug-reporter` | Bugs in the app, one per root cause, linked to their scenarios; imports and re-checks |
 
 ## Continuous Integration
 
@@ -111,4 +111,4 @@ How the framework is designed, one page per area (the rules a new test must foll
 | Scenarios | YAML, checked against JSON Schemas by `@simpright/scenarios` |
 | Checks, portal | The [SimpRight Kit](https://github.com/Zaytsman/SimpRightKit)'s npm packages: `simpright` (`doctor`), `@simpright/scenarios` (the validator), `@simpright/portal` (the pages and publishing) |
 | CI | GitHub Actions, reports on GitHub Pages |
-| AI | Claude Code agents and skills (`.claude/`) |
+| AI | Claude Code agents and skills (the SimpRight Kit's `simpright-qa` plugin) |

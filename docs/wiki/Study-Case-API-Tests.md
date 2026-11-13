@@ -18,60 +18,60 @@ Set up first: see [Study Case](Study-Case) (the `study-case` branch, the app's s
 ## 1. Write the contract
 
 ```text
-/write-api-contracts ../practice-software-testing/sprint5/API products
+/simpright-qa:write-api-contracts ../practice-software-testing/sprint5/API products
 ```
 
 Claude asks whether live checks are allowed: choose **read-only**. The `api-contract-writer` agent reads the routes and the controller, calls the endpoint to confirm what it read, and fills the gap in `Products_API.md` (without `update`, it only adds).
 
 **Check:** a section for the endpoint, with its parameters, the success response and every error status. Facts the agent saw live carry `_(verified)_`, facts read only from the code `_(source)_`. Look at what it reports as **suspected bugs**: you meet them again in step 3. Commit.
 
-See [/write-api-contracts](Write-API-Contracts) for the details.
+See [/simpright-qa:write-api-contracts](Write-API-Contracts) for the details.
 
 ## 2. Write the scenarios
 
 ```text
-/write-api-scenarios-from-contract Products_API.md
+/simpright-qa:write-api-scenarios-from-contract Products_API.md
 ```
 
 The `api-scenario-writer` agent compares the contract with the existing scenarios and proposes the missing ones, all in one new file, `test-scenarios/api/products/get-products-by-product-id-related.yml`. Nothing is written until you approve.
 
 **Check the proposal:** a happy path (what makes a product "related"), the error cases, and a check on the fields the items should have. Ask yourself what each scenario proves and whether two of them prove the same. Approve, or ask for changes in your answer. Commit.
 
-See [/write-api-scenarios-from-contract](Write-API-Scenarios-From-Contract).
+See [/simpright-qa:write-api-scenarios-from-contract](Write-API-Scenarios-From-Contract).
 
 ## 3. Automate them
 
 ```text
-/implement-api-scenarios get-products-by-product-id-related.yml
+/simpright-qa:implement-api-scenarios get-products-by-product-id-related.yml
 ```
 
 The `api-test-engineer` agent plans first: the spec, the client method it needs, and a table of the scenarios. After your approval it writes the code, runs the spec against the live API and reports.
 
 **Expect failures.** The app has bugs here, so some tests fail even though they are right. For each failure the report shows the request, what was expected and what came back. Leave them failing for now: the next step records them. Commit.
 
-See [/implement-api-scenarios](Implement-API-Scenarios).
+See [/simpright-qa:implement-api-scenarios](Implement-API-Scenarios).
 
 ## 4. Record the bugs
 
 ```text
-/report-bug <the failing scenario IDs>
+/simpright-qa:report-bug <the failing scenario IDs>
 ```
 
 The `bug-reporter` agent reproduces each failure, finds its root cause, and drafts one bug per cause. After your approval it writes the bug files in `bugs/`, links the scenarios (`knownIssue` and `bug`) and adds the known-issue line to the tests, which now pass as expected failures.
 
 **Check:** one bug per root cause, steps a person can follow, no secrets. `npm run bugs:build` builds the Bugs page into `test-results/bugs/index.html`. Commit.
 
-See [/report-bug](Report-Bug).
+See [/simpright-qa:report-bug](Report-Bug).
 
 ## 5. Review the tests
 
 ```text
-/review-tests get-products-by-product-id-related.spec.ts
+/simpright-qa:review-tests get-products-by-product-id-related.spec.ts
 ```
 
 The `test-reviewer` agent checks the spec against its scenarios and the project's conventions and ranks its findings. Pick the ones to apply; Claude applies them and runs the spec again. Commit.
 
-See [/review-tests](Review-Tests).
+See [/simpright-qa:review-tests](Review-Tests).
 
 ## 6. Finish and compare
 

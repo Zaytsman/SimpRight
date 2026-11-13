@@ -1,14 +1,14 @@
 <!-- Source: docs/wiki/Heal-Tests.md in the repository. Edit it there: the Publish Wiki workflow overwrites changes made in the wiki. -->
 
-# /heal-tests
+# /simpright-qa:heal-tests
 
 Finds out **why automated tests failed**, UI or API, and fixes what is the tests' fault. It diagnoses first, with a verdict and evidence for every failure, and changes nothing until you pick the fixes. Unlike a healer that edits tests until they pass, it never weakens a check, never skips a test and never adds retries: a test made green while the app is broken is the worst outcome.
 
 | | |
 |---|---|
-| **Command** | `/heal-tests [CI run id \| PR number \| spec \| scenario IDs]` |
-| **Agent** | [`test-healer`](https://github.com/Zaytsman/SimpRight/blob/main/.claude/agents/test-healer.md), for both the diagnosis and the fixes |
-| **Skill file** | [`.claude/skills/heal-tests/SKILL.md`](https://github.com/Zaytsman/SimpRight/blob/main/.claude/skills/heal-tests/SKILL.md) |
+| **Command** | `/simpright-qa:heal-tests [CI run id \| PR number \| spec \| scenario IDs]` |
+| **Agent** | [`test-healer`](https://github.com/Zaytsman/SimpRightKit/blob/main/plugins/simpright-qa/agents/test-healer.md), for both the diagnosis and the fixes |
+| **Skill file** | [`skills/heal-tests/SKILL.md`](https://github.com/Zaytsman/SimpRightKit/blob/main/plugins/simpright-qa/skills/heal-tests/SKILL.md) |
 | **Input** | A failed CI run, a pull request's failed check, the last local run, or specs to reproduce |
 | **Output** | A diagnosis (a verdict per cause, with evidence and a proposed action), then the approved fixes, run and repeated |
 | **Live app** | Read-only while diagnosing: the inspector, `GET` calls without a token, re-runs of read-only tests |
@@ -23,12 +23,12 @@ Finds out **why automated tests failed**, UI or API, and fixes what is the tests
 ## How to use it
 
 ```text
-/heal-tests
-/heal-tests 37281657082
-/heal-tests https://github.com/Zaytsman/SimpRight/actions/runs/37281657082
-/heal-tests PR 22
-/heal-tests product-detail.spec.ts
-/heal-tests UI-013 UI-014
+/simpright-qa:heal-tests
+/simpright-qa:heal-tests 37281657082
+/simpright-qa:heal-tests https://github.com/Zaytsman/SimpRight/actions/runs/37281657082
+/simpright-qa:heal-tests PR 22
+/simpright-qa:heal-tests product-detail.spec.ts
+/simpright-qa:heal-tests UI-013 UI-014
 ```
 
 | Source | Meaning |
@@ -70,7 +70,7 @@ Writes: none
 | **Test defect** | The test code is wrong: a locator, a missing wait, a wrong expected value, broken setup or cleanup | The concrete code fix |
 | **Flaky** | Passes and fails on the same code and app | Fix the cause (wait for the app's signal, isolate data); never retries, sleeps or longer timeouts |
 | **App changed** | The app changed on purpose | Update the page object, client or DTO; a scenario change is proposed to you |
-| **App bug** | The app breaks what the scenario promises | A `knownIssue` text and its bug: an open one with the same cause, or a new bug file (steps, expected, actual, evidence); or record it with [/report-bug](Report-Bug) |
+| **App bug** | The app breaks what the scenario promises | A `knownIssue` text and its bug: an open one with the same cause, or a new bug file (steps, expected, actual, evidence); or record it with [/simpright-qa:report-bug](Report-Bug) |
 | **Data drift** | The test's data changed under it: another visitor changed a seeded product, the re-seed replaced ids, a stale cache | Make the test create its own data through the API (a write, so it needs approval) |
 | **Environment** | The site was slow, down or locked for a while | No code change: a re-run, and when |
 
@@ -80,14 +80,14 @@ You then answer in one message: which causes to fix (by number), which known iss
 
 ### Phase 2: fixes
 
-The same agent applies only the approved fixes, adds or removes approved known issues, runs the typecheck and validator, runs each changed spec and repeats it (every spec that uses a changed shared member, too), at most 3 rounds. Claude runs the checks and the changed specs once more and reports: causes fixed and how, tests → result, causes left and why, anything left on the live app. Next step it suggests: [/review-tests](Review-Tests) on the changed files, then commit.
+The same agent applies only the approved fixes, adds or removes approved known issues, runs the typecheck and validator, runs each changed spec and repeats it (every spec that uses a changed shared member, too), at most 3 rounds. Claude runs the checks and the changed specs once more and reports: causes fixed and how, tests → result, causes left and why, anything left on the live app. Next step it suggests: [/simpright-qa:review-tests](Review-Tests) on the changed files, then commit.
 
 ## What the agent never does
 
 - **Make a test pass by checking less:** it never removes or loosens a check, widens a timeout, adds retries or sleeps, or marks a test `fixme` or `skip`. A scenario change or a known issue is your decision.
 - **Give a verdict without evidence:** each comes with a confidence level.
 - **Change anything while diagnosing:** only reading results and code, the CI log, the inspector, `GET` calls without a token, and re-runs of read-only or approved tests. It may read the app's source code (if a checkout is nearby) to judge whether behaviour is intended, and says so.
-- **Trust a run inside the site's bad moments:** the profile's `liveApi.transient` lists them (the hourly re-seed, a 5-minute cache on `GET /products`, slowdowns ending in login 500s, other visitors editing products, locks). Known-issue tests inside a bad window prove nothing.
+- **Trust a run inside the site's bad moments:** the profile's `agents.liveApi.transient` lists them (the hourly re-seed, a 5-minute cache on `GET /products`, slowdowns ending in login 500s, other visitors editing products, locks). Known-issue tests inside a bad window prove nothing.
 - **Touch more than test-side code:** in scenarios only an approved `knownIssue` and `bug`, in `bugs/` only an approved new bug or status change. Credentials and test users' emails are masked as `***` even in quoted logs.
 
 ## Tips

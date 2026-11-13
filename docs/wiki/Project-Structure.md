@@ -52,14 +52,12 @@ SimpRight/
 │   ├── api/contracts/            API contracts, one per API area; the reference for API coverage
 │   ├── api/CONTRACT_FORMAT.md    the contract format
 │   ├── ui/user-stories/          user stories and bug reports with acceptance criteria, the input for the analyst and UI scenarios
-│   ├── analysis/                 analysis documents: a summary and test plan per work item (/analyze-requirements)
+│   ├── analysis/                 analysis documents: a summary and test plan per work item (/simpright-qa:analyze-requirements)
 │   ├── framework/                how the framework works, one document per area, and conventions.md (the framework's rules)
 │   ├── wiki/                     these wiki pages (published by the Publish Wiki workflow)
 │   └── AI_WORKFLOW.md            the AI-driven automation cycle
 ├── scripts/                      the page inspector (see below)
-├── .claude/
-│   ├── agents/                   the QA agents (requirements analyst, scenario writers, test engineers, reviewer, healer, contract writer)
-│   └── skills/                   the slash commands that start them, the skills they use, and `_shared/how-to-ask.md` (how every checkpoint asks)
+├── .claude/settings.json         enables the QA agents: the SimpRight Kit's simpright-qa plugin, written by npm run apply
 ├── .github/
 │   ├── workflows/                CI (see below), written by npm run apply from simpright.yml
 │   └── dependabot.yml            weekly dependency updates, written by npm run apply too
@@ -138,6 +136,7 @@ Defined in `tsconfig.json` and resolved by Playwright, so imports don't climb fo
 | A test area folder | `tests/<layer>/<area>/` and `test-scenarios/<layer>/<area>/` | Add it to `ids.areas` in `simpright.yml`, and run `npm run apply` (the custom workflow's area options); `npm run validate:scenarios` checks the first, `npm run doctor` the second |
 | A test run (a report family) | An entry in the `runs` list of `simpright.yml` | `npm run apply` writes its caller of `playwright-run.yml` ([Scheduled Runs](Scheduled-Runs#add-a-new-scheduled-run)) |
 | A CI step | The SimpRight Kit's actions, in a kit release | The new kit version, then `npm run apply` ([CI Pipeline](CI-Pipeline#changing-the-pipeline)) |
+| An agent or skill | The SimpRight Kit's `simpright-qa` plugin, in a kit release | The new kit version, then `npm run apply`, which moves the plugin's tag in `.claude/settings.json` ([AI Agents](AI-Agents#the-plugin)) |
 
 ## Scripts and the kit's commands
 
@@ -148,8 +147,8 @@ Defined in `tsconfig.json` and resolved by Playwright, so imports don't climb fo
 | `node scripts/inspect-ui.mts` | `npm run inspect:ui` | Starts the page inspector |
 | `simpright-scenarios validate` | `npm run validate:scenarios`, CI | Checks the bug files, the scenario files, their IDs and that specs match them; prints the next free IDs |
 | `simpright-scenarios check-step-titles` | `npm run check:step-titles`, CI | Compares each test's step titles in a run's JSON report with its scenario's steps |
-| `simpright doctor` | `npm run doctor`, CI | Checks `simpright.yml`, that the runs match their workflows, the kit's action steps, the generated files, what the core files import, and the core files against SimpRightTemplate at the version `template` names |
-| `simpright apply` | `npm run apply` | Writes the workflows and `dependabot.yml` from `simpright.yml`; `--dry-run` shows the diff and writes nothing |
+| `simpright doctor` | `npm run doctor`, CI | Checks `simpright.yml`, that the runs match their workflows, the kit's action steps, the generated files, the plugin's entries in `.claude/settings.json`, what the core files import, and the core files against SimpRightTemplate at the version `template` names |
+| `simpright apply` | `npm run apply` | Writes the workflows, `dependabot.yml` and the plugin's entries in `.claude/settings.json` from `simpright.yml`; `--dry-run` shows the diff and writes nothing |
 | `simpright-portal build-test-cases` | `npm run test-cases:build` | Builds the UI and API Test Cases pages from the scenarios |
 | `simpright-portal build-bugs` | `npm run bugs:build` | Builds the Bugs page from `bugs/` and the scenarios that name them |
 | `simpright-portal build-config` | `npm run portal:build` | Writes `portal.json`, what the portal shows (the brand, the runs, the thresholds), from `simpright.yml` |

@@ -1,6 +1,6 @@
 # Customer profile
 
-<!-- Written by the requirements-analyst agent (/analyze-requirements). Source: docs/ui/user-stories/Customer_Profile.md -->
+<!-- Written by the requirements-analyst agent (/simpright-qa:analyze-requirements). Source: docs/ui/user-stories/Customer_Profile.md -->
 
 | | |
 |---|---|
@@ -28,7 +28,7 @@ A logged-in customer wants to view and update their personal information on the 
 
 ## Test plan
 
-API first: a check goes to the UI only when the API can't prove it ([layer rules](../../.claude/skills/analyze-requirements/references/layer-rules.md)).
+API first: a check goes to the UI only when the API can't prove it ([layer rules](https://github.com/Zaytsman/SimpRightKit/blob/main/plugins/simpright-qa/skills/analyze-requirements/references/layer-rules.md)).
 
 | Item | Criterion | What to check | Layer | Why this layer | Flags | Scenarios |
 |---|---|---|---|---|---|---|

@@ -1,14 +1,14 @@
 <!-- Source: docs/wiki/Analyze-Requirements.md in the repository. Edit it there: the Publish Wiki workflow overwrites changes made in the wiki. -->
 
-# /analyze-requirements
+# /simpright-qa:analyze-requirements
 
 Takes a **user story, bug report or feature description** to scenarios on both layers. It writes a short **analysis document** with a **test plan** and picks a layer for every check. A check goes on the **API** unless only the **UI** can prove it, because API tests are cheaper, faster and more stable. Then it hands the API items to the API scenario writer and the UI items to the UI scenario writer.
 
 | | |
 |---|---|
-| **Command** | `/analyze-requirements <story or bug file \| pasted text> [AC ...]` |
-| **Agents** | [`requirements-analyst`](https://github.com/Zaytsman/SimpRight/blob/main/.claude/agents/requirements-analyst.md) (the analysis), then [`api-scenario-writer`](https://github.com/Zaytsman/SimpRight/blob/main/.claude/agents/api-scenario-writer.md) and [`ui-scenario-writer`](https://github.com/Zaytsman/SimpRight/blob/main/.claude/agents/ui-scenario-writer.md) in parallel (the scenarios) |
-| **Skill files** | [`.claude/skills/analyze-requirements/`](https://github.com/Zaytsman/SimpRight/tree/main/.claude/skills/analyze-requirements): `SKILL.md`, `references/layer-rules.md`, `references/analysis-format.md` |
+| **Command** | `/simpright-qa:analyze-requirements <story or bug file \| pasted text> [AC ...]` |
+| **Agents** | [`requirements-analyst`](https://github.com/Zaytsman/SimpRightKit/blob/main/plugins/simpright-qa/agents/requirements-analyst.md) (the analysis), then [`api-scenario-writer`](https://github.com/Zaytsman/SimpRightKit/blob/main/plugins/simpright-qa/agents/api-scenario-writer.md) and [`ui-scenario-writer`](https://github.com/Zaytsman/SimpRightKit/blob/main/plugins/simpright-qa/agents/ui-scenario-writer.md) in parallel (the scenarios) |
+| **Skill files** | [`skills/analyze-requirements/`](https://github.com/Zaytsman/SimpRightKit/tree/main/plugins/simpright-qa/skills/analyze-requirements): `SKILL.md`, `references/layer-rules.md`, `references/analysis-format.md` |
 | **Input** | A story or bug in `docs/ui/user-stories/`, or text pasted into the chat. Trackers (Azure DevOps, Jira) aren't read: paste the work item's text |
 | **Output** | `docs/analysis/<name>.md`, plus scenarios in `test-scenarios/api/` and `test-scenarios/ui/` |
 | **Live app** | No API calls; the page inspector at most 3 times, read-only |
@@ -20,14 +20,14 @@ Takes a **user story, bug report or feature description** to scenarios on both l
 - A bug was reported from the UI, and you want to know whether the API can reproduce it.
 - You want a short written record of what a work item asks for and how it's tested.
 
-Use it for a story you expect to be UI-only too: it may find checks the API proves faster. For an API area without a story, use [/write-api-scenarios-from-contract](Write-API-Scenarios-From-Contract); for test cases you already have, [/write-ui-scenarios-from-steps](Write-UI-Scenarios-From-Steps) or [/write-api-scenarios-from-steps](Write-API-Scenarios-From-Steps).
+Use it for a story you expect to be UI-only too: it may find checks the API proves faster. For an API area without a story, use [/simpright-qa:write-api-scenarios-from-contract](Write-API-Scenarios-From-Contract); for test cases you already have, [/simpright-qa:write-ui-scenarios-from-steps](Write-UI-Scenarios-From-Steps) or [/simpright-qa:write-api-scenarios-from-steps](Write-API-Scenarios-From-Steps).
 
 ## How to use it
 
 ```text
-/analyze-requirements Product_Detail.md
-/analyze-requirements Product_Detail.md AC3-AC9
-/analyze-requirements BUG-45.md
+/simpright-qa:analyze-requirements Product_Detail.md
+/simpright-qa:analyze-requirements Product_Detail.md AC3-AC9
+/simpright-qa:analyze-requirements BUG-45.md
 ```
 
 The first argument is the document: a path, or a name in `docs/ui/user-stories/` (any case, `.md` optional). You can also paste the work item into the chat; Claude offers once to save it in the stories folder, so the analysis and the scenarios can link to it. The rest of the arguments pick criteria (default: all).
@@ -45,7 +45,7 @@ The `requirements-analyst` agent:
 
 Claude shows the summary, the test plan table and the **Decisions needed** (vague criteria, where the story, the contract and the app disagree, contract gaps, layer choices that could go either way). You approve, or move items between layers, drop or reword them. Then the analyst writes `docs/analysis/<name>.md`.
 
-If there's a contract gap you want filled, Claude runs [/write-api-contracts](Write-API-Contracts) for that area now (it asks about the scope and live checks), before the scenarios are written.
+If there's a contract gap you want filled, Claude runs [/simpright-qa:write-api-contracts](Write-API-Contracts) for that area now (it asks about the scope and live checks), before the scenarios are written.
 
 ### 2. The scenarios (checkpoint 2)
 
@@ -57,7 +57,7 @@ Claude fills in the analysis document's **Scenarios** column (`API-0114`, `UI-01
 
 ## How the layer is chosen
 
-The rules are in [`layer-rules.md`](https://github.com/Zaytsman/SimpRight/blob/main/.claude/skills/analyze-requirements/references/layer-rules.md). In short:
+The rules are in [`layer-rules.md`](https://github.com/Zaytsman/SimpRightKit/blob/main/plugins/simpright-qa/skills/analyze-requirements/references/layer-rules.md). In short:
 
 - **API by default:** business rules and calculations, validation the server enforces, permissions and roles, data that is stored and read back, filters, sorting and search done by the server, bugs that show in a response.
 - **UI only when the API can't prove it:** what only the page shows (layout, badges, a strikethrough price, disabled controls), validation done only in the browser, state kept in the browser (localStorage, location), navigation, accessibility.
@@ -68,7 +68,7 @@ The rules are in [`layer-rules.md`](https://github.com/Zaytsman/SimpRight/blob/m
 
 ## The analysis document
 
-One file per work item in `docs/analysis/` (template: [`analysis-format.md`](https://github.com/Zaytsman/SimpRight/blob/main/.claude/skills/analyze-requirements/references/analysis-format.md)):
+One file per work item in `docs/analysis/` (template: [`analysis-format.md`](https://github.com/Zaytsman/SimpRightKit/blob/main/plugins/simpright-qa/skills/analyze-requirements/references/analysis-format.md)):
 
 | Section | Holds |
 |---|---|
@@ -92,6 +92,6 @@ Example: [`docs/analysis/product-detail.md`](https://github.com/Zaytsman/SimpRig
 
 - Number the criteria in your stories (`AC1`, `AC2`...): items, scenarios and the test plan point to them.
 - Answer the "Decisions needed" at checkpoint 1: they decide the layers and the known issues.
-- Next step: review the diff (`docs/analysis/` and `test-scenarios/`), then automate, API first: [/implement-api-scenarios](Implement-API-Scenarios), then [/implement-ui-scenarios](Implement-UI-Scenarios).
+- Next step: review the diff (`docs/analysis/` and `test-scenarios/`), then automate, API first: [/simpright-qa:implement-api-scenarios](Implement-API-Scenarios), then [/simpright-qa:implement-ui-scenarios](Implement-UI-Scenarios).
 
 See also: [Add API Scenarios](Add-API-Scenarios#from-a-story-or-bug), [Add UI Scenarios](Add-UI-Scenarios#from-a-story-or-bug).

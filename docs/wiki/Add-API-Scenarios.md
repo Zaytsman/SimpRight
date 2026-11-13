@@ -6,17 +6,17 @@ Test scenarios say **what** gets tested, in plain language, before any test code
 
 | You have | Use | Section |
 |---|---|---|
-| A user story, bug report or feature description | `/analyze-requirements` | [From a story or bug](#from-a-story-or-bug) |
-| An API area to cover endpoint by endpoint | `/write-api-scenarios-from-contract` | [From a contract](#from-a-contract) |
-| Test cases you already have: steps, request/response JSON, a Bruno collection | `/write-api-scenarios-from-steps` | [From test steps](#from-test-steps) |
+| A user story, bug report or feature description | `/simpright-qa:analyze-requirements` | [From a story or bug](#from-a-story-or-bug) |
+| An API area to cover endpoint by endpoint | `/simpright-qa:write-api-scenarios-from-contract` | [From a contract](#from-a-contract) |
+| Test cases you already have: steps, request/response JSON, a Bruno collection | `/simpright-qa:write-api-scenarios-from-steps` | [From test steps](#from-test-steps) |
 | One scenario you know exactly | your editor | [By hand](#by-hand) |
 
 ```
-story / bug ──────────────/analyze-requirements──────────► analysis (API first) ──► API (and UI) scenarios
-API source / spec ──/write-api-contracts──► contract ──/write-api-scenarios-from-contract──► API scenarios
-steps, JSON, Bruno ──────/write-api-scenarios-from-steps───────────────────────────────────► API scenarios
-                                                                                                  │
-                                                                              /implement-api-scenarios
+story / bug ──────────────/simpright-qa:analyze-requirements───────────────────────► analysis (API first) ──► API (and UI) scenarios
+API source / spec ──/simpright-qa:write-api-contracts──► contract ──/simpright-qa:write-api-scenarios-from-contract──► API scenarios
+steps, JSON, Bruno ──────/simpright-qa:write-api-scenarios-from-steps────────────────────────────────────────────────► API scenarios
+                                                                                                                            │
+                                                                                           /simpright-qa:implement-api-scenarios
 ```
 
 ## What an API scenario looks like
@@ -53,26 +53,26 @@ Steps never hold secrets ("the default user's email", not the address). The full
 
 ## Before you start
 
-- Open the project in **[Claude Code](https://claude.com/claude-code)** (CLI, desktop app or IDE extension). The commands below are its slash commands, defined in `.claude/skills/`.
+- Open the project in **[Claude Code](https://claude.com/claude-code)** (CLI, desktop app or IDE extension). The commands below are its slash commands, from the SimpRight Kit's `simpright-qa` plugin, which the project enables in `.claude/settings.json`; install it once per clone with `claude plugin install simpright-qa@simpright-kit --scope local`.
 - Have the framework installed ([Installation & Setup](Installation-&-Setup)): the agents run the scenario validator.
 - Every agent works in **two phases**: a proposal you approve (nothing is written before it), then the files. Its open questions come as **Decisions needed**: answer them, they're the agent's only way to ask.
 
 ## From a story or bug
 
-For a user story with acceptance criteria (in `docs/ui/user-stories/`), a bug report or a feature description, let [/analyze-requirements](Analyze-Requirements) decide where each check belongs. It puts every check on the API unless only the UI can prove it, so a story usually yields more API scenarios than UI ones.
+For a user story with acceptance criteria (in `docs/ui/user-stories/`), a bug report or a feature description, let [/simpright-qa:analyze-requirements](Analyze-Requirements) decide where each check belongs. It puts every check on the API unless only the UI can prove it, so a story usually yields more API scenarios than UI ones.
 
 ```text
-/analyze-requirements Product_Detail.md
-/analyze-requirements Product_Detail.md AC3-AC9
-/analyze-requirements BUG-45.md
+/simpright-qa:analyze-requirements Product_Detail.md
+/simpright-qa:analyze-requirements Product_Detail.md AC3-AC9
+/simpright-qa:analyze-requirements BUG-45.md
 ```
 
 1. **Checkpoint 1, the test plan.** The analyst splits every criterion into test items, each on the API or the UI with a one-line reason. It lists what existing scenarios already cover and the endpoints no contract documents yet (`contract gap`). Approve, or move items between layers.
-2. It writes the analysis document, `docs/analysis/<name>.md`. A contract gap you want filled is filled now with `/write-api-contracts`.
+2. It writes the analysis document, `docs/analysis/<name>.md`. A contract gap you want filled is filled now with `/simpright-qa:write-api-contracts`.
 3. **Checkpoint 2, the scenarios.** The `api-scenario-writer` proposes scenarios for the API items (and the `ui-scenario-writer` for the UI items, shown together). Approve once.
 4. The files are written; the scenario IDs go into the analysis document's test plan.
 
-Only local files and pasted text are read: paste a Jira or Azure DevOps item's text instead of its link. Details: [/analyze-requirements](Analyze-Requirements).
+Only local files and pasted text are read: paste a Jira or Azure DevOps item's text instead of its link. Details: [/simpright-qa:analyze-requirements](Analyze-Requirements).
 
 ## From a contract
 
@@ -83,17 +83,17 @@ Use it to cover an API area endpoint by endpoint, without a story: a new area, e
 The writer works from a contract: one markdown file per API area in `docs/api/contracts/`, listing every endpoint, its parameters, body, responses and error codes. If the area has none, or the API changed:
 
 ```text
-/write-api-contracts ../practice-software-testing/sprint5/API carts
-/write-api-contracts update ../practice-software-testing/sprint5/API products
+/simpright-qa:write-api-contracts ../practice-software-testing/sprint5/API carts
+/simpright-qa:write-api-contracts update ../practice-software-testing/sprint5/API products
 ```
 
-Every fact gets an origin tag (`_(verified)_`, `_(source)_`, `_(spec)_`). The format is in [CONTRACT_FORMAT.md](https://github.com/Zaytsman/SimpRight/blob/main/docs/api/CONTRACT_FORMAT.md); details: [/write-api-contracts](Write-API-Contracts).
+Every fact gets an origin tag (`_(verified)_`, `_(source)_`, `_(spec)_`). The format is in [CONTRACT_FORMAT.md](https://github.com/Zaytsman/SimpRight/blob/main/docs/api/CONTRACT_FORMAT.md); details: [/simpright-qa:write-api-contracts](Write-API-Contracts).
 
 ### 2. Ask for a proposal
 
 ```text
-/write-api-scenarios-from-contract Users_API.md
-/write-api-scenarios-from-contract Users_API.md POST /users/login GET /users/me
+/simpright-qa:write-api-scenarios-from-contract Users_API.md
+/simpright-qa:write-api-scenarios-from-contract Users_API.md POST /users/login GET /users/me
 ```
 
 The first argument is the contract (a file name is enough); the rest optionally limits the endpoints. The `api-scenario-writer` goes through a fixed checklist per endpoint, so two runs propose the same things:
@@ -114,16 +114,16 @@ The proposal shows per endpoint a table (ID, name, the triggering request, the e
 - `dangerous`: something the project never runs (repeated wrong passwords that lock an account);
 - `known issue`, `unconfirmed` (rests on an OpenAPI-only fact), `optional` (lowest priority).
 
-Approve, or say what to change: drop, merge, rename, reword. Details: [/write-api-scenarios-from-contract](Write-API-Scenarios-From-Contract).
+Approve, or say what to change: drop, merge, rename, reword. Details: [/simpright-qa:write-api-scenarios-from-contract](Write-API-Scenarios-From-Contract).
 
 ## From test steps
 
 Use it when you already have API test cases: from a test management tool, a spreadsheet, your notes, or saved requests.
 
 ```text
-/write-api-scenarios-from-steps add-to-cart-cases.md
-/write-api-scenarios-from-steps login-request.json login-response.json TC-7
-/write-api-scenarios-from-steps ../bruno/Toolshop/Carts
+/simpright-qa:write-api-scenarios-from-steps add-to-cart-cases.md
+/simpright-qa:write-api-scenarios-from-steps login-request.json login-response.json TC-7
+/simpright-qa:write-api-scenarios-from-steps ../bruno/Toolshop/Carts
 ```
 
 - **Inputs:** text files or pasted steps; `.json` request and expected-response files (paired by name, such as `login-request.json` and `login-response.json`, or by what you write); a Bruno collection folder or JSON export. For a collection with more than about 10 requests, Claude asks which folders or requests to take. The optional last argument is the `ref` the scenarios get.
@@ -133,7 +133,7 @@ Use it when you already have API test cases: from a test management tool, a spre
 - **Bruno:** `body:json` is the request, `assert` and `tests` the expected results, `auth` the role. The collection's `environments/` and `.env` files are never opened, and a token or password written inline is never copied.
 - **Checked against the contract:** an endpoint the contracts don't have, or a case that contradicts the contract or an existing scenario (it expects 422 where the contract says 404), is your decision: a possible bug (the scenario keeps your expectation and gets a `knownIssue`) or an outdated case.
 
-The proposal adds a **source map**: each of your cases and its scenarios, or why it was dropped. It adds no cases you didn't write. Details: [/write-api-scenarios-from-steps](Write-API-Scenarios-From-Steps).
+The proposal adds a **source map**: each of your cases and its scenarios, or why it was dropped. It adds no cases you didn't write. Details: [/simpright-qa:write-api-scenarios-from-steps](Write-API-Scenarios-From-Steps).
 
 ## By hand
 
@@ -168,4 +168,4 @@ It checks the schema, unique IDs, file names, and that scenarios and specs point
 - **One reason to fail per scenario.** Different requests or expected status codes are different scenarios.
 - `unconfirmed` scenarios may fail because the spec was wrong, not the API: worth a look before automating.
 
-See also: [Add UI Scenarios](Add-UI-Scenarios), [/write-api-scenarios-from-contract](Write-API-Scenarios-From-Contract), [/analyze-requirements](Analyze-Requirements).
+See also: [Add UI Scenarios](Add-UI-Scenarios), [/simpright-qa:write-api-scenarios-from-contract](Write-API-Scenarios-From-Contract), [/simpright-qa:analyze-requirements](Analyze-Requirements).

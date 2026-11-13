@@ -5,9 +5,9 @@
 How to turn UI scenarios into browser tests with the AI agents: one command, a plan you approve (built from what the agent saw on the live pages), then the page objects, the specs, the test runs and a report. After that come the review, the commit and, if CI fails, the healing.
 
 ```
-manual UI scenarios ──/implement-ui-scenarios──► inspect pages ──► plan ──approve──► page objects, flows, fixtures, specs
-                                                                                       │
-                      /review-tests ◄──────────────────────────────────────────────────┘ ──► commit, PR, CI ──/heal-tests (if red)
+manual UI scenarios ──/simpright-qa:implement-ui-scenarios──► inspect pages ──► plan ──approve──► page objects, flows, fixtures, specs
+                                                                                                    │
+                      /simpright-qa:review-tests ◄──────────────────────────────────────────────────┘ ──► commit, PR, CI ──/simpright-qa:heal-tests (if red)
 ```
 
 ## Before you start
@@ -19,10 +19,10 @@ manual UI scenarios ──/implement-ui-scenarios──► inspect pages ──�
 ## 1. Start the run
 
 ```text
-/implement-ui-scenarios product-quantity.yml
-/implement-ui-scenarios UI-018 UI-019
-/implement-ui-scenarios UI-018..026
-/implement-ui-scenarios products
+/simpright-qa:implement-ui-scenarios product-quantity.yml
+/simpright-qa:implement-ui-scenarios UI-018 UI-019
+/simpright-qa:implement-ui-scenarios UI-018..026
+/simpright-qa:implement-ui-scenarios products
 ```
 
 The argument is a scenario file (the name is enough), scenario IDs or a range, or an area folder. Without one, Claude lists the UI files with their count of `manual` scenarios and asks.
@@ -128,18 +128,18 @@ If the page behaves differently from what the scenario says, the agent **leaves 
 
 ## 6. Review, commit, CI
 
-1. **Review the tests:** `/review-tests` (by default the work not pushed yet; or a spec such as `product-detail.spec.ts`, a scenario file, IDs). The read-only `test-reviewer` agent looks for what the typecheck can't catch: a test that doesn't check what its scenario says, waits that race the app, selectors outside page objects, live data written without approval or cleanup. You pick the findings; Claude applies them and re-runs the specs.
+1. **Review the tests:** `/simpright-qa:review-tests` (by default the work not pushed yet; or a spec such as `product-detail.spec.ts`, a scenario file, IDs). The read-only `test-reviewer` agent looks for what the typecheck can't catch: a test that doesn't check what its scenario says, waits that race the app, selectors outside page objects, live data written without approval or cleanup. You pick the findings; Claude applies them and re-runs the specs.
 2. **Read the diff** yourself, then **commit** on `develop` (or a feature branch) and open a pull request into `main`. `verify` runs the static checks (typecheck, scenarios, setup), not the tests: run the changed specs locally before you push. A new area folder also needs `npm run apply`, which adds it to the custom UI workflow's `area` options.
-3. **If CI fails:** `/heal-tests PR <number>` or `/heal-tests <run id>`. The `test-healer` agent diagnoses each failure first, using the trace, the page inspector and re-runs of read-only tests, and changes nothing until you pick the fixes. On this public demo site, **data drift** is common: another visitor changed a seeded product. The fix is a test that creates its own data.
+3. **If CI fails:** `/simpright-qa:heal-tests PR <number>` or `/simpright-qa:heal-tests <run id>`. The `test-healer` agent diagnoses each failure first, using the trace, the page inspector and re-runs of read-only tests, and changes nothing until you pick the fixes. On this public demo site, **data drift** is common: another visitor changed a seeded product. The fix is a test that creates its own data.
 
 ## A full example
 
 ```text
-/analyze-requirements Product_Detail.md AC3-AC5     → plan → approve → proposals → approve → test-scenarios/ui/products/product-quantity.yml
-/implement-ui-scenarios product-quantity.yml        → pages inspected, plan + writes → approve → page objects, spec, all passing
-/review-tests product-quantity.spec.ts              → findings → pick → fixes applied
+/simpright-qa:analyze-requirements Product_Detail.md AC3-AC5     → plan → approve → proposals → approve → test-scenarios/ui/products/product-quantity.yml
+/simpright-qa:implement-ui-scenarios product-quantity.yml        → pages inspected, plan + writes → approve → page objects, spec, all passing
+/simpright-qa:review-tests product-quantity.spec.ts              → findings → pick → fixes applied
 (commit, pull request, CI)
-/heal-tests PR <n>                                  → only if CI fails
+/simpright-qa:heal-tests PR <n>                                  → only if CI fails
 ```
 
 ## Doing it by hand

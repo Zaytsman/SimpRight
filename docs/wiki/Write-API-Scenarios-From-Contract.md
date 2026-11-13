@@ -1,15 +1,15 @@
 <!-- Source: docs/wiki/Write-API-Scenarios-From-Contract.md in the repository. Edit it there: the Publish Wiki workflow overwrites changes made in the wiki. -->
 
-# /write-api-scenarios-from-contract
+# /simpright-qa:write-api-scenarios-from-contract
 
-Proposes and writes **API test scenarios from a contract**, endpoint by endpoint: one YAML file per endpoint in `test-scenarios/api/<area>/`, every scenario `status: manual`, ready for [/implement-api-scenarios](Implement-API-Scenarios). For test cases you already have, use [/write-api-scenarios-from-steps](Write-API-Scenarios-From-Steps).
+Proposes and writes **API test scenarios from a contract**, endpoint by endpoint: one YAML file per endpoint in `test-scenarios/api/<area>/`, every scenario `status: manual`, ready for [/simpright-qa:implement-api-scenarios](Implement-API-Scenarios). For test cases you already have, use [/simpright-qa:write-api-scenarios-from-steps](Write-API-Scenarios-From-Steps).
 
 | | |
 |---|---|
-| **Command** | `/write-api-scenarios-from-contract <contract> [endpoint ...]` |
-| **Agent** | [`api-scenario-writer`](https://github.com/Zaytsman/SimpRight/blob/main/.claude/agents/api-scenario-writer.md), the same agent as `/write-api-scenarios-from-steps` and the API half of `/analyze-requirements` |
-| **Skill file** | [`.claude/skills/write-api-scenarios-from-contract/SKILL.md`](https://github.com/Zaytsman/SimpRight/blob/main/.claude/skills/write-api-scenarios-from-contract/SKILL.md) |
-| **Input** | A contract in `docs/api/contracts/` (write one with [/write-api-contracts](Write-API-Contracts)) |
+| **Command** | `/simpright-qa:write-api-scenarios-from-contract <contract> [endpoint ...]` |
+| **Agent** | [`api-scenario-writer`](https://github.com/Zaytsman/SimpRightKit/blob/main/plugins/simpright-qa/agents/api-scenario-writer.md), the same agent as `/simpright-qa:write-api-scenarios-from-steps` and the API half of `/simpright-qa:analyze-requirements` |
+| **Skill file** | [`skills/write-api-scenarios-from-contract/SKILL.md`](https://github.com/Zaytsman/SimpRightKit/blob/main/plugins/simpright-qa/skills/write-api-scenarios-from-contract/SKILL.md) |
+| **Input** | A contract in `docs/api/contracts/` (write one with [/simpright-qa:write-api-contracts](Write-API-Contracts)) |
 | **Output** | `test-scenarios/api/<area>/<method>-<path>.yml` |
 | **Live app** | None: it works from documents only |
 | **Checkpoint** | A proposal you approve before any file is written |
@@ -22,10 +22,10 @@ Proposes and writes **API test scenarios from a contract**, endpoint by endpoint
 ## How to use it
 
 ```text
-/write-api-scenarios-from-contract Users_API.md
-/write-api-scenarios-from-contract users
-/write-api-scenarios-from-contract Users_API.md POST /users/login GET /users/me
-/write-api-scenarios-from-contract Products_API.md /products/{productId}
+/simpright-qa:write-api-scenarios-from-contract Users_API.md
+/simpright-qa:write-api-scenarios-from-contract users
+/simpright-qa:write-api-scenarios-from-contract Users_API.md POST /users/login GET /users/me
+/simpright-qa:write-api-scenarios-from-contract Products_API.md /products/{productId}
 ```
 
 The first argument is the contract: a path, or a file name in `docs/api/contracts/` (any case, `.md` optional). The rest limit the endpoints; a path alone means every method on it. Without arguments, Claude lists the contracts and asks. For a contract with more than about 8 endpoints, Claude offers to start with a subset.
@@ -73,6 +73,6 @@ The **same agent** writes exactly the approved scenarios with your edits; anythi
 
 - One contract area at a time keeps the proposal reviewable.
 - `unconfirmed` scenarios may fail because the spec was wrong, not the API: worth a look before automating.
-- Next step: review the diff of `test-scenarios/`, then [/implement-api-scenarios](Implement-API-Scenarios) `<file>`.
+- Next step: review the diff of `test-scenarios/`, then [/simpright-qa:implement-api-scenarios](Implement-API-Scenarios) `<file>`.
 
-See also: [Add API Scenarios](Add-API-Scenarios#from-a-contract), [/write-api-contracts](Write-API-Contracts).
+See also: [Add API Scenarios](Add-API-Scenarios#from-a-contract), [/simpright-qa:write-api-contracts](Write-API-Contracts).

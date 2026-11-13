@@ -22,16 +22,16 @@
 - [UI Tests](Study-Case-UI-Tests)
 
 **Skills**
-- [/analyze-requirements](Analyze-Requirements)
-- [/write-api-contracts](Write-API-Contracts)
-- [/write-api-scenarios-from-contract](Write-API-Scenarios-From-Contract)
-- [/write-api-scenarios-from-steps](Write-API-Scenarios-From-Steps)
-- [/write-ui-scenarios-from-steps](Write-UI-Scenarios-From-Steps)
-- [/implement-api-scenarios](Implement-API-Scenarios)
-- [/implement-ui-scenarios](Implement-UI-Scenarios)
-- [/review-tests](Review-Tests)
-- [/heal-tests](Heal-Tests)
-- [/report-bug](Report-Bug)
+- [/simpright-qa:analyze-requirements](Analyze-Requirements)
+- [/simpright-qa:write-api-contracts](Write-API-Contracts)
+- [/simpright-qa:write-api-scenarios-from-contract](Write-API-Scenarios-From-Contract)
+- [/simpright-qa:write-api-scenarios-from-steps](Write-API-Scenarios-From-Steps)
+- [/simpright-qa:write-ui-scenarios-from-steps](Write-UI-Scenarios-From-Steps)
+- [/simpright-qa:implement-api-scenarios](Implement-API-Scenarios)
+- [/simpright-qa:implement-ui-scenarios](Implement-UI-Scenarios)
+- [/simpright-qa:review-tests](Review-Tests)
+- [/simpright-qa:heal-tests](Heal-Tests)
+- [/simpright-qa:report-bug](Report-Bug)
 
 **Continuous Integration**
 - [CI Pipeline](CI-Pipeline)

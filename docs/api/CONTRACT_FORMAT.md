@@ -1,6 +1,6 @@
 # API contract format
 
-The coverage reporter measures tests against **API contracts**: markdown files, one per API area, in the contract folder (`docDir`, default `docs/api/contracts`). This file is the specification of that format. The reporter's parser, the `validate` command and the `api-contract-writer` agent (`/write-api-contracts`) all follow it.
+The coverage reporter measures tests against **API contracts**: markdown files, one per API area, in the contract folder (`docDir`, default `docs/api/contracts`). This file is the specification of that format. The reporter's parser, the `validate` command and the `api-contract-writer` agent (`/simpright-qa:write-api-contracts`) all follow it.
 
 > This is a copy of the specification shipped with the optional coverage package (`@zaytsman/playwright-api-coverage`), which owns the parser. When the package's format changes, update this file in the same change. The `npx playwright-api-coverage` commands below need the package; without it, contracts can still be written by hand or by the agent, but not validated.
 

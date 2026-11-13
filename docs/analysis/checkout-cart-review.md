@@ -1,6 +1,6 @@
 # Checkout cart review
 
-<!-- Written by the requirements-analyst agent (/analyze-requirements). Source: docs/ui/user-stories/Checkout_Cart_Review.md -->
+<!-- Written by the requirements-analyst agent (/simpright-qa:analyze-requirements). Source: docs/ui/user-stories/Checkout_Cart_Review.md -->
 
 | | |
 |---|---|
@@ -32,7 +32,7 @@ A customer wants to review the cart on the first checkout step (`/checkout`, wiz
 
 ## Test plan
 
-API first: a check goes to the UI only when the API can't prove it ([layer rules](../../.claude/skills/analyze-requirements/references/layer-rules.md)).
+API first: a check goes to the UI only when the API can't prove it ([layer rules](https://github.com/Zaytsman/SimpRightKit/blob/main/plugins/simpright-qa/skills/analyze-requirements/references/layer-rules.md)).
 
 | Item | Criterion | What to check | Layer | Why this layer | Flags | Scenarios |
 |---|---|---|---|---|---|---|
@@ -61,13 +61,13 @@ API first: a check goes to the UI only when the API can't prove it ([layer rules
 
 ## Open questions
 
-- **T6, suspected bug (observed, not yet reproduced).** For a visitor with no cart at all, `/checkout` showed no message and no table in the inspector (the template reads `cart.cart_items` of a missing cart). `/report-bug` should reproduce it before any `knownIssue` is written.
-- **T7 wording risk.** The app's translation file says "The cart is empty. Nothing to display." for an existing empty cart (not seen live). T7 is written against the story's wording, so it may fail on the text; reproduce it with `/report-bug`.
-- **AC1 "Actions" column, possible bug.** The app's last header cell has no label (the cell holds the delete button). T1 checks only the four labelled headers; the unlabelled column is for `/report-bug`.
+- **T6, suspected bug (observed, not yet reproduced).** For a visitor with no cart at all, `/checkout` showed no message and no table in the inspector (the template reads `cart.cart_items` of a missing cart). `/simpright-qa:report-bug` should reproduce it before any `knownIssue` is written.
+- **T7 wording risk.** The app's translation file says "The cart is empty. Nothing to display." for an existing empty cart (not seen live). T7 is written against the story's wording, so it may fail on the text; reproduce it with `/simpright-qa:report-bug`.
+- **AC1 "Actions" column, possible bug.** The app's last header cell has no label (the cell holds the delete button). T1 checks only the four labelled headers; the unlabelled column is for `/simpright-qa:report-bug`.
 
 ## Notes
 
-- **AC4 expectation** (the user's decision): T6 and T7 are both kept and expect the story's wording "Your shopping cart is empty". T6 stays flagged `known issue`, with no `knownIssue` written until `/report-bug` reproduces it.
+- **AC4 expectation** (the user's decision): T6 and T7 are both kept and expect the story's wording "Your shopping cart is empty". T6 stays flagged `known issue`, with no `knownIssue` written until `/simpright-qa:report-bug` reproduces it.
 - **T1 headers** (the user's decision): only Item, Quantity, Price and Total are checked; the Actions column's missing label is not asserted.
 - **T8** (the user's decision): checks only that the "Sign in" step is shown after "Proceed" (the app's button reads "Proceed to checkout").
 - **Eco discount** (the user's decision): the page's 5% eco discount stays out of this story; T12 and T16 use products without CO2 rating A or B.
