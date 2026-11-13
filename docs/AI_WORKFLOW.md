@@ -45,7 +45,7 @@ flowchart LR
 | Heal | `/simpright-qa:heal-tests [run id \| PR \| spec \| IDs]` | `test-healer` | A failed CI run, a PR's checks, the last local run | A verdict per failure, then the approved fixes |
 | Track bugs | `/simpright-qa:report-bug <description \| IDs> \| import <contract> \| recheck <IDs \| open>` | `bug-reporter` | What someone saw, failing scenarios, a contract's suspected bugs, open bugs | Bug files in `bugs/` (`BUG-NNN`), linked scenarios, fixed bugs closed |
 
-The agents, the commands and the skills they use are the SimpRight Kit's Claude Code plugin [`simpright-qa`](https://github.com/Zaytsman/SimpRightKit/tree/main/plugins/simpright-qa). `npm run apply` enables it in `.claude/settings.json`, at the installed kit's tag, and Claude Code loads it once you trust the folder ([12](framework/12-ai-agents.md#the-plugin)).
+The agents, the commands and the skills they use are the SimpRight Kit's Claude Code plugin [`simpright-qa`](https://github.com/Zaytsman/SimpRightKit/tree/main/plugins/simpright-qa). `npm run apply` enables it in `.claude/settings.json`, at the installed kit's tag. Claude Code adds the marketplace once you trust the folder, and each clone installs the plugin once with `claude plugin install simpright-qa@simpright-kit --scope local` ([12](framework/12-ai-agents.md#the-plugin)).
 
 ## The steps in detail
 

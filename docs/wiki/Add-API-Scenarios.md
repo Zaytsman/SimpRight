@@ -53,7 +53,7 @@ Steps never hold secrets ("the default user's email", not the address). The full
 
 ## Before you start
 
-- Open the project in **[Claude Code](https://claude.com/claude-code)** (CLI, desktop app or IDE extension). The commands below are its slash commands, from the SimpRight Kit's `simpright-qa` plugin, which the project enables in `.claude/settings.json`.
+- Open the project in **[Claude Code](https://claude.com/claude-code)** (CLI, desktop app or IDE extension). The commands below are its slash commands, from the SimpRight Kit's `simpright-qa` plugin, which the project enables in `.claude/settings.json`; install it once per clone with `claude plugin install simpright-qa@simpright-kit --scope local`.
 - Have the framework installed ([Installation & Setup](Installation-&-Setup)): the agents run the scenario validator.
 - Every agent works in **two phases**: a proposal you approve (nothing is written before it), then the files. Its open questions come as **Decisions needed**: answer them, they're the agent's only way to ask.
 

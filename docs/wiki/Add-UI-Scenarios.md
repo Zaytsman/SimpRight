@@ -56,7 +56,7 @@ Steps speak the user's language: labels quoted exactly as the app shows them (`C
 
 ## Before you start
 
-- Open the project in **[Claude Code](https://claude.com/claude-code)** (CLI, desktop app or IDE extension). The commands below are its slash commands, from the SimpRight Kit's `simpright-qa` plugin, which the project enables in `.claude/settings.json`.
+- Open the project in **[Claude Code](https://claude.com/claude-code)** (CLI, desktop app or IDE extension). The commands below are its slash commands, from the SimpRight Kit's `simpright-qa` plugin, which the project enables in `.claude/settings.json`; install it once per clone with `claude plugin install simpright-qa@simpright-kit --scope local`.
 - Have the framework installed and `.env` set up ([Installation & Setup](Installation-&-Setup)): the UI writer looks at the live pages with the page inspector, which starts a test run.
 - Every agent works in **two phases**: a proposal you approve (nothing is written before it), then the files. Its open questions come as **Decisions needed**: answer them, they're the agent's only way to ask.
 

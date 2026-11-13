@@ -20,7 +20,7 @@ Both features have real bugs in the app, so you also see how a failing test beco
 | | |
 |---|---|
 | The framework, installed and configured | [Installation & Setup](Installation-&-Setup), steps 1 to 6: Node.js, `npm install`, the browser, `.env` with the demo's admin account, a first green run. The API coverage package is not needed: without it the contract writer can't validate its contracts, and everything else works the same. |
-| [Claude Code](https://claude.com/claude-code) | Open it in the repository folder and trust it: the slash commands come from the SimpRight Kit's `simpright-qa` plugin, which `.claude/settings.json` enables. Each skill starts one or more agents, so a part uses a noticeable share of your plan's usage. |
+| [Claude Code](https://claude.com/claude-code) | Open it in the repository folder and trust it: the slash commands come from the SimpRight Kit's `simpright-qa` plugin, which `.claude/settings.json` enables. Install it once, in a terminal in that folder: `claude plugin install simpright-qa@simpright-kit --scope local`. Each skill starts one or more agents, so a part uses a noticeable share of your plan's usage. |
 | The app's source code | The contract writer and the requirements analyst read it. Clone it **next to** the framework, so its path is `../practice-software-testing`: |
 
 ```bash
