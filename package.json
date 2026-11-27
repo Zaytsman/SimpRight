@@ -28,11 +28,11 @@
   },
   "devDependencies": {
     "@playwright/test": "^1.65.1",
-    "@simpright/portal": "0.3.0",
-    "@simpright/scenarios": "0.3.0",
+    "@simpright/portal": "0.4.0",
+    "@simpright/scenarios": "0.4.0",
     "@types/node": "^26.6.6",
     "dotenv": "^18.0.10",
-    "simpright": "0.3.0",
+    "simpright": "0.4.0",
     "typescript": "^7.0.2"
   },
   "optionalDependencies": {
