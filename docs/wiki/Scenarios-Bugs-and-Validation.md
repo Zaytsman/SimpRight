@@ -58,7 +58,7 @@ The lifecycle:
 
 1. A scenario that hits a bug gets `knownIssue` (one sentence naming the wrong behaviour) and `bug: BUG-0xx`; several scenarios with the same cause share one bug.
 2. Its test gets `test.fail(true, 'Known issue BUG-0xx: <the same sentence>')` right before its first `test.step`, after setup. The test passes while the bug is there, and **fails when the bug is fixed**, which is the signal to re-check.
-3. When the bug is fixed: `status: fixed` with `resolved`, and the `knownIssue`, `bug` and `test.fail` line are removed from every scenario and test. `/simpright-qa:report-bug recheck` does this.
+3. When the bug is fixed: `status: fixed` with `resolved`, and the `knownIssue`, `bug` and `test.fail` line are removed from every scenario and test. `/simpright-qa-report-bug recheck` does this.
 
 Bug files are published (the Bugs page), so they never hold secret values.
 
@@ -87,21 +87,23 @@ It ends with the counts (`Scenarios OK: 769 scenario(s), 731 automated.`, `Bugs 
 `simpright doctor` (from the `simpright` package) checks the rest of the setup, statically too, locally and in `verify`:
 
 - the profile matches its schema, and every path it names exists;
+- the parts in `parts` fit together: the runs, the portal and the wiki need the CI part (`parts.ci`), the agents need the scenarios and the page inspector;
 - the kit's packages share one version;
 - every run in `runs` matches its caller of `playwright-run.yml`, an area picker's options are the test folders, and the secrets and Node version match `ci` ([11](CI-and-Publishing#the-runs-in-simprightyml));
 - every step that uses one of the kit's actions is pinned to the installed kit's release commit, with its version in a comment, and passes its required inputs and no others;
 - the files `npm run apply` wrote (`.simpright/state.json`) are still what it writes, apart from the pins ([11](CI-and-Publishing#generated-npm-run-apply));
-- with `parts.agents`, `.claude/settings.json` enables the `simpright-qa` plugin, with the kit's marketplace from GitHub at the installed kit's tag (and without it, the plugin isn't enabled);
+- with `parts.agents`, `.claude/` has the `simpright-qa` plugin's skills and agents as plain files (`apply` writes them), and `.claude/settings.json` doesn't enable the plugin from the kit's marketplace, as kit 0.3.0 did;
+- the kit's entries in `package.json` (its packages and the parts' scripts) are what `apply` writes;
 - every core file and seam in `core` exists, and a core code file imports only core files, the seams and packages ([1](Architecture#the-core-and-the-app)); a document such as the conventions isn't scanned;
 - the core files equal SimpRightTemplate's at the version `template` names, read from GitHub (`--offline` leaves this check out).
 
-It prints a line per check: `Config OK: ...`, `Kit OK: simpright, @simpright/scenarios, @simpright/portal at 0.3.0.`, `Runs OK: 5 run(s), each with its workflow.`, `Kit actions OK: 8 step(s) at v0.3.0, commit 31894cf.`, `Generated OK: 11 file(s) as simpright apply writes them (.simpright/state.json).`, `Agents OK: .claude/settings.json enables simpright-qa@simpright-kit, with the kit's marketplace at v0.3.0.`, `Core OK: 23 file(s), the code importing only each other, 2 seam(s) and packages.` and `Template OK: 23 core file(s) match SimpRightTemplate v0.3.0.`
+It prints a line per check: `Config OK: ...`, `Kit OK: simpright, @simpright/scenarios, @simpright/portal at 0.4.0.`, `Runs OK: 5 run(s), each with its workflow.`, `Kit actions OK: 8 step(s) at v0.4.0, commit b973ebe.`, `Generated OK: 57 file(s) as simpright apply writes them (.simpright/state.json).`, `Agents OK: .claude/ has the simpright-qa plugin's 14 skill(s) and 9 agent(s).`, `Package OK: package.json has the kit's packages and scripts as simpright apply writes them.`, `Core OK: 23 file(s), the code importing only each other, 2 seam(s) and packages.` and `Template OK: 23 core file(s) match SimpRightTemplate v0.4.0.`
 
 ## The step-title check: `npm run check:step-titles`
 
-Step titles are often template parameters, so only a run shows them. `simpright-scenarios check-step-titles` (from `@simpright/scenarios`) reads a Playwright JSON report (default `test-results/results.json`, which CI writes) and compares each test's top-level `test.step` titles with its scenario's steps, verbatim and in order. A failed or skipped test is compared only up to the step it reached.
+Step titles are often template parameters, so only a run shows them. `simpright-scenarios check-step-titles` (from `@simpright/scenarios`) reads a Playwright JSON report (default `test-results/results.json`, which every run writes) and compares each test's top-level `test.step` titles with its scenario's steps, verbatim and in order. A failed or skipped test is compared only up to the step it reached.
 
-- Locally: `PLAYWRIGHT_JSON_OUTPUT_NAME=test-results/results.json npx playwright test --reporter=list,json`, then `npm run check:step-titles`. It exits with 1 on a mismatch.
+- Locally: `npm run check:step-titles` after any run. It exits with 1 on a mismatch.
 - On CI: a step after the tests in `playwright-run.yml` adds a warning annotation on the spec for each mismatch. It doesn't fail the job, because a wrong title is a naming defect, not an app failure.
 
 ## The smoke set

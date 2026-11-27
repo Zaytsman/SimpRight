@@ -29,7 +29,8 @@ export default defineConfig<BaseOptions>({
     ['html', { open: isCI ? 'never' : 'on-failure' }],
     ...(isCI ? [['junit', { outputFile: 'test-results/junit.xml' }] as const] : []),
     // Read by the step-title check and, when the project has the portal, by its dashboard (trends, known issues).
-    ...(isCI ? [['json', { outputFile: 'test-results/results.json' }] as const] : []),
+    // Written on every run, so `npm run check:step-titles` works after a local run too; the next run empties test-results/.
+    ['json', { outputFile: 'test-results/results.json' }],
     // Optional: compares the API calls with docs/api/contracts -> test-results/api-coverage/ (skipped without the package).
     ...apiCoverageReporter({ docDir: 'docs/api/contracts' }),
   ],

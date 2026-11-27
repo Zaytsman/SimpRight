@@ -1,6 +1,52 @@
 {
-  "kit": "0.3.0",
+  "kit": "0.4.0",
   "files": {
+    ".claude/agents/simpright-qa-api-contract-writer.md": "sha256-522205358a2c171b9cc7897b70409a9cf91d38ae3a7cbbf6301fed636428a6d0",
+    ".claude/agents/simpright-qa-api-scenario-writer.md": "sha256-5ce150a6de03942ab02a77e020ade50bfb358602bf3119b8a7b203352033bec1",
+    ".claude/agents/simpright-qa-api-test-engineer.md": "sha256-64e29e56d7f244814c38efc8423d3d6ccfe7b96fb514598ffcc0ee0f5ba9334c",
+    ".claude/agents/simpright-qa-bug-reporter.md": "sha256-4cb650c3054bbca39804636d763ee256e3ecc823845c151487bf320619e41221",
+    ".claude/agents/simpright-qa-requirements-analyst.md": "sha256-e0639ab8c8190a9ffd0f6588f18fcc68fdf23cb5595fca937aa9f1f953957e30",
+    ".claude/agents/simpright-qa-test-healer.md": "sha256-77ba628bcbccf9fa5d06ddaf2b63b4272abf30cf1b985a91d874d9e89e5464de",
+    ".claude/agents/simpright-qa-test-reviewer.md": "sha256-15112fa1bb9422ba0ac6af72d7fa772421d5f09bf7d8c9eba3b5c7b789f19670",
+    ".claude/agents/simpright-qa-ui-scenario-writer.md": "sha256-270799de3754bb63f85b73313deb918f9fee23f15c4f6d5990fd91e626d350bb",
+    ".claude/agents/simpright-qa-ui-test-engineer.md": "sha256-c9adc1ad61cdb1ec3274687ff7ca9981ab00644c34c8f56c5f11a9e6ffdfa997",
+    ".claude/simpright-qa/how-to-ask.md": "sha256-35e0ecd97476917bccdbb26bce8fc4887d1c67f4ad6420c5f1185f34e655d990",
+    ".claude/simpright-qa/README.md": "sha256-617f87bf0da015c9dc98fcb07861126463c95074914dc1bc80835789ba7c348e",
+    ".claude/simpright/github.md": "sha256-6736cf6a7fc1f9a5e063e144999946e5cf9b3d924c3b4273f81c47ece270c0df",
+    ".claude/simpright/how-to-ask.md": "sha256-35e0ecd97476917bccdbb26bce8fc4887d1c67f4ad6420c5f1185f34e655d990",
+    ".claude/simpright/README.md": "sha256-bbeff92b9c8052d45b0e34fc1785b7bf3532eb0889cbf5b05f7af4f070c8b826",
+    ".claude/skills/simpright-doctor/SKILL.md": "sha256-50339e86b69deb0b836284b2563d27dbed31daa5fde0384db9c4cd9fc76e26d6",
+    ".claude/skills/simpright-qa-analyze-requirements/references/analysis-format.md": "sha256-0f5878b896a2866b333a3738690dd21dc9591aa74b86f6e24648cf780128bd50",
+    ".claude/skills/simpright-qa-analyze-requirements/references/layer-rules.md": "sha256-4e09376678b0fc713ec34bf17777565da5fe50a9031641635d4780cee2a90acf",
+    ".claude/skills/simpright-qa-analyze-requirements/SKILL.md": "sha256-bb57a253fc378fde9b5cffebd683d6b8e13667b65085ac4aa5e2a935ad148f25",
+    ".claude/skills/simpright-qa-api-scaffolding/SKILL.md": "sha256-5db713bc4d59ac48a083ed50af2e05bb59135b661b27330a2d46f755e116faab",
+    ".claude/skills/simpright-qa-api-test-from-scenario/SKILL.md": "sha256-fcf39f8cc23d5b7d645bd0a096558ffe35cdad8789c3778ad57fe8e5f38f12cc",
+    ".claude/skills/simpright-qa-heal-tests/SKILL.md": "sha256-67494a0cc04e7796b140bf979c8ee346d656590eb7b154c6d5af60b74a378366",
+    ".claude/skills/simpright-qa-implement-api-scenarios/SKILL.md": "sha256-184864f00747ce185f2295cfc28790a88e0e0bf4dee329f4ed629b117fd2428e",
+    ".claude/skills/simpright-qa-implement-ui-scenarios/SKILL.md": "sha256-7d61bbec78a15b69de8f5e57dc86b7acf88cf11cdc2fff3daa981fa3a9eb71e5",
+    ".claude/skills/simpright-qa-report-bug/SKILL.md": "sha256-7c824d821b7b863381b09daf7ade5e90eecac08b21c42593a3e445f1b9dbddf6",
+    ".claude/skills/simpright-qa-review-tests/references/api.md": "sha256-4f971a245ee3d24c03179e5acf00e3515b66af7d813bf25821545ac0a2d8b702",
+    ".claude/skills/simpright-qa-review-tests/references/common.md": "sha256-0beb2abedddd4d0f41da45aa6072d463f9f063956ddfd62d75dcd3155257b61b",
+    ".claude/skills/simpright-qa-review-tests/references/ui.md": "sha256-d030ead348f52ddf903516d517842e462c72a0c32905801d1ccf7a6d959d5a13",
+    ".claude/skills/simpright-qa-review-tests/SKILL.md": "sha256-0ed6148568ae319cd1adc058296b600551a2a3f7767a9f205043086372f7b2ef",
+    ".claude/skills/simpright-qa-ui-scaffolding/SKILL.md": "sha256-d002629c53779f6252085a13c650a6d50f0f66ebb0fa13c240b2c94bf3c47367",
+    ".claude/skills/simpright-qa-ui-test-from-scenario/SKILL.md": "sha256-e9db8931f155de38e6c865028b6e28b697f634bab6044b6f922fb07794f6a7cb",
+    ".claude/skills/simpright-qa-write-api-contracts/references/from-openapi.md": "sha256-1cbd07e620e0d18c7745aa24ff810aa86ec3bf84341bc74874f26989c53e2939",
+    ".claude/skills/simpright-qa-write-api-contracts/references/from-source.md": "sha256-24a9fe53afa745a9905d490baf315e95596c59e01605b986e1b1fecc2a76c3dd",
+    ".claude/skills/simpright-qa-write-api-contracts/references/live-checks.md": "sha256-2d316912590e38c36c93408f6292f3be94e5e2c1d729904f4bce8bebd3ad45c7",
+    ".claude/skills/simpright-qa-write-api-contracts/references/updating.md": "sha256-0a5a836c3f497e0116eba57ad0172c2824bc1aac363ccdb9c14a4d423c1ff704",
+    ".claude/skills/simpright-qa-write-api-contracts/scripts/shape.js": "sha256-6b1c5920f139e3cac546210cbebec7e98721395f8387684c95a54c39385b73e7",
+    ".claude/skills/simpright-qa-write-api-contracts/SKILL.md": "sha256-a3731b8b0d18bbe56ba1d945b4e3b273f574571701b4cef323d33f845a7463a2",
+    ".claude/skills/simpright-qa-write-api-scenarios-from-contract/SKILL.md": "sha256-845e5c78be0aab659bebb606ad0651c0c4be75ac863b5480dfd0e6ad31bd33ec",
+    ".claude/skills/simpright-qa-write-api-scenarios-from-steps/references/from-steps.md": "sha256-5d4a39c42cc688fbef74b474d549f4bf61fc0118bdcb451c3917adbe3dc6cef9",
+    ".claude/skills/simpright-qa-write-api-scenarios-from-steps/SKILL.md": "sha256-cb2989cec0b02f9bd24c112ad2757705c722e621287d8d5c7b65f05295ed7dc6",
+    ".claude/skills/simpright-qa-write-ui-scenarios-from-steps/references/from-steps.md": "sha256-9aab20c800a969cb50f5da8a8e21ab349a390c362008258276588a0f1fd567ea",
+    ".claude/skills/simpright-qa-write-ui-scenarios-from-steps/SKILL.md": "sha256-6a070e4cb28fcbe0097e0c5a08a30c898e7b4fe95c53ac39b4799732657b13b2",
+    ".claude/skills/simpright-setup/references/interview.md": "sha256-183855eeb3142983e9de36a805c1a330a6f692161b7677a82709d7f47f638a8e",
+    ".claude/skills/simpright-setup/references/login.md": "sha256-da4f6d2bdc5bbe71a10f9a8d90c5b17a118a5a003304920f38b102dfa37137b8",
+    ".claude/skills/simpright-setup/references/parts.md": "sha256-c6432c7e2d07e795915b97ce6b58daa3112d0e13e721f214bb21d9c99f158fba",
+    ".claude/skills/simpright-setup/references/project-docs.md": "sha256-e34921afd261de128df429e18d40fbfeea71f40b55c212d8b50ae1a5d64cfc39",
+    ".claude/skills/simpright-setup/SKILL.md": "sha256-8eddea87f51f0c1ae3dd0b59d3a8a50ef2c2d03f59c93e8af6abe4a08620d51b",
     ".github/dependabot.yml": "sha256-feb6f7b6bc2f34c1321a1619279a62f307cff6428a19a694b9f7f445daba7128",
     ".github/workflows/custom-api-tests.yml": "sha256-3d8dd1d06aacd1a5e6f7b24bcc1df27900d383aabb468ff738f314df0acceaa5",
     ".github/workflows/custom-ui-tests.yml": "sha256-ae97a6d3d0ca815dc8cc91e76e1fd4f65c35ba19406d65bb5cb170cd4f9410a9",
@@ -13,7 +59,21 @@
     ".github/workflows/smoke-tests.yml": "sha256-fdd8dc69f07bb144b6ba381fbced2c0de1be8fa1984c7aacbbcb9ce95377d798",
     ".github/workflows/squash-gh-pages.yml": "sha256-54c52bb51c89c7979802c85f34e5e866740759c88819f86f55ced94bdcd47754"
   },
-  "settings": {
-    ".claude/settings.json": "sha256-936b3a6aa4b24ba96bb693b63639991f0b4b87551bf4c5e65920664a516f8826"
+  "packageJson": {
+    "devDependencies": {
+      "@simpright/portal": "0.4.0",
+      "@simpright/scenarios": "0.4.0",
+      "simpright": "0.4.0"
+    },
+    "scripts": {
+      "apply": "simpright apply",
+      "bugs:build": "simpright-portal build-bugs",
+      "check:step-titles": "simpright-scenarios check-step-titles",
+      "doctor": "simpright doctor",
+      "inspect:ui": "node scripts/inspect-ui.mts",
+      "portal:build": "simpright-portal build-config",
+      "test-cases:build": "simpright-portal build-test-cases",
+      "validate:scenarios": "simpright-scenarios validate"
+    }
   }
 }

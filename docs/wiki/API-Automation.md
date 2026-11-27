@@ -5,9 +5,9 @@
 How to turn API scenarios into running tests with the AI agents: one command, a plan you approve, then the code, the test runs and a report. After that come the review, the commit and, if CI fails, the healing.
 
 ```
-manual API scenarios ──/simpright-qa:implement-api-scenarios──► plan ──approve──► clients, services, DTOs, fixtures, specs
+manual API scenarios ──/simpright-qa-implement-api-scenarios──► plan ──approve──► clients, services, DTOs, fixtures, specs
                                                                                     │
-                       /simpright-qa:review-tests ◄─────────────────────────────────┘ ──► commit, PR, CI ──/simpright-qa:heal-tests (if red)
+                       /simpright-qa-review-tests ◄─────────────────────────────────┘ ──► commit, PR, CI ──/simpright-qa-heal-tests (if red)
 ```
 
 ## Before you start
@@ -20,10 +20,10 @@ manual API scenarios ──/simpright-qa:implement-api-scenarios──► plan �
 ## 1. Start the run
 
 ```text
-/simpright-qa:implement-api-scenarios post-users-login.yml
-/simpright-qa:implement-api-scenarios API-0078 API-0079
-/simpright-qa:implement-api-scenarios API-0078..0084
-/simpright-qa:implement-api-scenarios users
+/simpright-qa-implement-api-scenarios post-users-login.yml
+/simpright-qa-implement-api-scenarios API-0078 API-0079
+/simpright-qa-implement-api-scenarios API-0078..0084
+/simpright-qa-implement-api-scenarios users
 ```
 
 The argument is a scenario file (the name is enough), scenario IDs or a range, or an area folder. Without one, Claude lists the files with their count of `manual` scenarios and asks.
@@ -127,19 +127,19 @@ If the API behaves differently from what the scenario says, the agent stops work
 
 ## 5. Review, commit, CI
 
-1. **Review the tests:** `/simpright-qa:review-tests` (by default the work not pushed yet; or a spec, a scenario file, IDs). The read-only `test-reviewer` agent checks each test against its scenario and the conventions and ranks its findings blocker / should fix / nit. You pick the findings to apply; Claude applies them and re-runs the specs.
+1. **Review the tests:** `/simpright-qa-review-tests` (by default the work not pushed yet; or a spec, a scenario file, IDs). The read-only `test-reviewer` agent checks each test against its scenario and the conventions and ranks its findings blocker / should fix / nit. You pick the findings to apply; Claude applies them and re-runs the specs.
 2. **Read the diff** yourself, then **commit** on `develop` (or a feature branch) and open a pull request into `main`. `verify` runs the specs your change affects.
-3. **If CI fails:** `/simpright-qa:heal-tests PR <number>` or `/simpright-qa:heal-tests <run id>`. The `test-healer` agent diagnoses each failure first (test defect, flaky, app changed, app bug, data drift, environment) with evidence, and changes nothing until you pick the fixes.
+3. **If CI fails:** `/simpright-qa-heal-tests PR <number>` or `/simpright-qa-heal-tests <run id>`. The `test-healer` agent diagnoses each failure first (test defect, flaky, app changed, app bug, data drift, environment) with evidence, and changes nothing until you pick the fixes.
 
 ## A full example
 
 ```text
-/simpright-qa:write-api-contracts ../practice-software-testing/sprint5/API carts   → docs/api/contracts/Carts_API.md
-/simpright-qa:write-api-scenarios-from-contract Carts_API.md                       → proposal → approve → test-scenarios/api/carts/*.yml
-/simpright-qa:implement-api-scenarios carts                                        → plan + writes → approve → specs, all passing
-/simpright-qa:review-tests                                                         → findings → pick → fixes applied
+/simpright-qa-write-api-contracts ../practice-software-testing/sprint5/API carts   → docs/api/contracts/Carts_API.md
+/simpright-qa-write-api-scenarios-from-contract Carts_API.md                       → proposal → approve → test-scenarios/api/carts/*.yml
+/simpright-qa-implement-api-scenarios carts                                        → plan + writes → approve → specs, all passing
+/simpright-qa-review-tests                                                         → findings → pick → fixes applied
 (commit, pull request, CI)
-/simpright-qa:heal-tests PR <n>                                                    → only if CI fails
+/simpright-qa-heal-tests PR <n>                                                    → only if CI fails
 ```
 
 ## Doing it by hand

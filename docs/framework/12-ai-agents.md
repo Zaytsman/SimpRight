@@ -6,25 +6,25 @@ SimpRight's QA agents for Claude Code do the framework's routine work: they writ
 
 The agents and their commands are the SimpRight Kit's Claude Code plugin [`simpright-qa`](https://github.com/Zaytsman/SimpRightKit/tree/main/plugins/simpright-qa), the kit's agents part (`parts.agents`). Its [README](https://github.com/Zaytsman/SimpRightKit/blob/main/plugins/simpright-qa/README.md) lists the commands and what the agents need.
 
-- **How the project gets it:** `npm run apply` writes two entries in `.claude/settings.json`: the kit's marketplace `simpright-kit` from GitHub at the installed kit's tag (`v0.3.0`), and the plugin, enabled; `doctor` checks that the tag is the installed kit's. Claude Code adds the marketplace once you trust the folder, but it doesn't install a plugin that a repository enables, so each clone installs it once: `claude plugin install simpright-qa@simpright-kit --scope local`. The local scope keeps the install out of the committed file (`--scope project` rewrites `.claude/settings.json`).
-- **Names:** commands and agents carry the plugin's prefix: `/simpright-qa:implement-ui-scenarios` starts the agent `simpright-qa:ui-test-engineer`. The slash menu finds a command by its own name (type `/implement`), and a plain request ("automate UI-012") starts the matching skill too.
-- **Versions:** the plugin, the packages and the CI actions come from one kit release. The kit's Dependabot pull request moves the packages and the actions; `npm run apply` on its branch then moves the plugin's tag, and `doctor` fails the pull request until it does.
-- **Cloud sessions** don't add marketplaces from a repository's settings, since they never show the trust dialog, so they don't have the agents.
+- **How the project gets it:** `npm run apply` writes the plugin into `.claude/` as plain files, from the installed `simpright` package: the skills in `.claude/skills/simpright-qa-<skill>/`, the agents in `.claude/agents/simpright-qa-<agent>.md`, and the shared rules in `.claude/simpright-qa/`. Plain project skills and agents load in every session (the desktop app, the terminal, VS Code, the cloud) with nothing to install and no folder to trust, which a plugin supplied by a repository would need, and the desktop app never asks for. `apply` records the files in `.simpright/state.json` and stops on one changed by hand; `doctor` checks them.
+- **Names:** commands and agents carry the plugin's prefix, with a hyphen: `/simpright-qa-implement-ui-scenarios` starts the agent `simpright-qa-ui-test-engineer`. The kit's own files write them with a colon (`simpright-qa:ui-test-engineer`), as an installed plugin has them, and `apply` turns the colon into a hyphen. The slash menu finds a command by its own name (type `/implement`), and a plain request ("automate UI-012") starts the matching skill too.
+- **Versions:** the plugin, the packages and the CI actions come from one kit release. The kit's Dependabot pull request moves the packages and the actions; `npm run apply` on its branch then writes the new release's plain files, and `doctor` fails the pull request until it does.
+- **The setup's skills:** `apply` also writes the kit's setup plugin, `/simpright-setup` and `/simpright-doctor`, into every kit project. Here the doctor is the useful one: it explains what `npm run doctor` finds and checks the GitHub settings the parts need.
 
 ## The chain
 
 ```
-API source / OpenAPI spec ──/simpright-qa:write-api-contracts──► docs/api/contracts/
+API source / OpenAPI spec ──/simpright-qa-write-api-contracts──► docs/api/contracts/
                                                                       │
-user story / bug report ──/simpright-qa:analyze-requirements──► docs/analysis/  (API vs UI, per check)
+user story / bug report ──/simpright-qa-analyze-requirements──► docs/analysis/  (API vs UI, per check)
                                                                       │
-  /simpright-qa:write-api-scenarios-from-contract, /simpright-qa:write-*-scenarios-from-steps ──► test-scenarios/  (status: manual)
+  /simpright-qa-write-api-scenarios-from-contract, /simpright-qa-write-*-scenarios-from-steps ──► test-scenarios/  (status: manual)
                                                                       │
-  /simpright-qa:implement-api-scenarios, /simpright-qa:implement-ui-scenarios ──► tests/ + framework code  (status: automated)
+  /simpright-qa-implement-api-scenarios, /simpright-qa-implement-ui-scenarios ──► tests/ + framework code  (status: automated)
                                                                       │
-                        /simpright-qa:review-tests ──► findings ──► fixes      /simpright-qa:heal-tests ──► diagnosis ──► fixes
+                        /simpright-qa-review-tests ──► findings ──► fixes      /simpright-qa-heal-tests ──► diagnosis ──► fixes
                                                                       │
-                                       /simpright-qa:report-bug ──► bugs/ + knownIssue links
+                                       /simpright-qa-report-bug ──► bugs/ + knownIssue links
 ```
 
 Every agent works in **two phases**: first a proposal (a plan, a draft, a diagnosis) that the user approves, then the files. Questions go through one shared format (the plugin's [`shared/how-to-ask.md`](https://github.com/Zaytsman/SimpRightKit/blob/main/plugins/simpright-qa/shared/how-to-ask.md)): context first, 2–4 options, the recommended one first.
@@ -33,16 +33,16 @@ Every agent works in **two phases**: first a proposal (a plan, a draft, a diagno
 
 | Skill → agent | Does |
 |---|---|
-| `/simpright-qa:write-api-contracts` → `api-contract-writer` | Writes or updates API contracts from the API's source, its OpenAPI spec or both; optional live checks (asks first) |
-| `/simpright-qa:analyze-requirements` → `requirements-analyst` | Summarises a story or bug and plans its tests, each on the API unless only the UI can prove it; writes the analysis, hands items to the scenario writers |
-| `/simpright-qa:write-api-scenarios-from-contract` → `api-scenario-writer` | Proposes API scenarios from a contract, writes the YAML after approval |
-| `/simpright-qa:write-api-scenarios-from-steps` → `api-scenario-writer` | Turns the user's API test cases (plain-text steps, request and response JSON, a Bruno collection) into scenarios, checking each against the contract; fields that change between runs are never compared by value |
-| `/simpright-qa:write-ui-scenarios-from-steps` → `ui-scenario-writer` | Turns the user's plain-text test steps into UI scenarios, checking labels in the live app with the read-only page inspector. From `/simpright-qa:analyze-requirements` it writes the UI items of a story or bug |
-| `/simpright-qa:implement-api-scenarios` → `api-test-engineer` | Plans the code and the tests that change data, then writes and runs the specs (each passing spec three more times) and marks the scenarios automated |
-| `/simpright-qa:implement-ui-scenarios` → `ui-test-engineer` | The same for UI: inspects the pages, plans page objects, flows and fixtures |
-| `/simpright-qa:review-tests` → `test-reviewer` (read-only) | Checks tests against their scenarios and the conventions, returns findings ranked blocker / should fix / nit; the skill applies the ones the user picks |
-| `/simpright-qa:heal-tests` → `test-healer` | Diagnoses failed tests from CI logs or local results (test defect, flaky, app changed, app bug, data drift, environment) and fixes the approved ones. It never weakens a check or skips a test. |
-| `/simpright-qa:report-bug` → `bug-reporter` | Reproduces, checks for a bug with the same root cause, proposes bug files and the scenarios to link; `recheck` closes fixed bugs |
+| `/simpright-qa-write-api-contracts` → `api-contract-writer` | Writes or updates API contracts from the API's source, its OpenAPI spec or both; optional live checks (asks first) |
+| `/simpright-qa-analyze-requirements` → `requirements-analyst` | Summarises a story or bug and plans its tests, each on the API unless only the UI can prove it; writes the analysis, hands items to the scenario writers |
+| `/simpright-qa-write-api-scenarios-from-contract` → `api-scenario-writer` | Proposes API scenarios from a contract, writes the YAML after approval |
+| `/simpright-qa-write-api-scenarios-from-steps` → `api-scenario-writer` | Turns the user's API test cases (plain-text steps, request and response JSON, a Bruno collection) into scenarios, checking each against the contract; fields that change between runs are never compared by value |
+| `/simpright-qa-write-ui-scenarios-from-steps` → `ui-scenario-writer` | Turns the user's plain-text test steps into UI scenarios, checking labels in the live app with the read-only page inspector. From `/simpright-qa-analyze-requirements` it writes the UI items of a story or bug |
+| `/simpright-qa-implement-api-scenarios` → `api-test-engineer` | Plans the code and the tests that change data, then writes and runs the specs (each passing spec three more times) and marks the scenarios automated |
+| `/simpright-qa-implement-ui-scenarios` → `ui-test-engineer` | The same for UI: inspects the pages, plans page objects, flows and fixtures |
+| `/simpright-qa-review-tests` → `test-reviewer` (read-only) | Checks tests against their scenarios and the conventions, returns findings ranked blocker / should fix / nit; the skill applies the ones the user picks |
+| `/simpright-qa-heal-tests` → `test-healer` | Diagnoses failed tests from CI logs or local results (test defect, flaky, app changed, app bug, data drift, environment) and fixes the approved ones. It never weakens a check or skips a test. |
+| `/simpright-qa-report-bug` → `bug-reporter` | Reproduces, checks for a bug with the same root cause, proposes bug files and the scenarios to link; `recheck` closes fixed bugs |
 
 The engineers are given the scaffolding and spec-writing skills (`api-scaffolding`, `api-test-from-scenario`, `ui-scaffolding`, `ui-test-from-scenario`), and the reviewer gets the checklists in [`skills/review-tests/references/`](https://github.com/Zaytsman/SimpRightKit/tree/main/plugins/simpright-qa/skills/review-tests/references) (`common.md`, `api.md`, `ui.md`).
 
