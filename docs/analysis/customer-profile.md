@@ -1,6 +1,6 @@
 # Customer profile
 
-<!-- Written by the requirements-analyst agent (/simpright-qa:analyze-requirements). Source: docs/ui/user-stories/Customer_Profile.md -->
+<!-- Written by the requirements-analyst agent (/simpright-qa-analyze-requirements). Source: docs/ui/user-stories/Customer_Profile.md -->
 
 | | |
 |---|---|

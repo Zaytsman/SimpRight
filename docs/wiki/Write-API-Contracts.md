@@ -1,12 +1,12 @@
 <!-- Source: docs/wiki/Write-API-Contracts.md in the repository. Edit it there: the Publish Wiki workflow overwrites changes made in the wiki. -->
 
-# /simpright-qa:write-api-contracts
+# /simpright-qa-write-api-contracts
 
-Writes and updates the **API contracts**: one markdown file per API area in `docs/api/contracts/`, describing every endpoint, its parameters, body, responses and error status codes. Contracts are where API testing starts: [/simpright-qa:write-api-scenarios-from-contract](Write-API-Scenarios-From-Contract) turns them into scenarios, and the optional coverage report measures the tests against them.
+Writes and updates the **API contracts**: one markdown file per API area in `docs/api/contracts/`, describing every endpoint, its parameters, body, responses and error status codes. Contracts are where API testing starts: [/simpright-qa-write-api-scenarios-from-contract](Write-API-Scenarios-From-Contract) turns them into scenarios, and the optional coverage report measures the tests against them.
 
 | | |
 |---|---|
-| **Command** | `/simpright-qa:write-api-contracts [update] [source path] [spec file or URL] [areas]` |
+| **Command** | `/simpright-qa-write-api-contracts [update] [source path] [spec file or URL] [areas]` |
 | **Agent** | [`api-contract-writer`](https://github.com/Zaytsman/SimpRightKit/blob/main/plugins/simpright-qa/agents/api-contract-writer.md); several in parallel for a big API |
 | **Skill files** | [`skills/write-api-contracts/`](https://github.com/Zaytsman/SimpRightKit/tree/main/plugins/simpright-qa/skills/write-api-contracts): `SKILL.md`, reference guides and a helper script (see below) |
 | **Input** | The API's source code, its OpenAPI spec, or both |
@@ -23,9 +23,9 @@ Writes and updates the **API contracts**: one markdown file per API area in `doc
 ## How to use it
 
 ```text
-/simpright-qa:write-api-contracts ../practice-software-testing/sprint5/API carts
-/simpright-qa:write-api-contracts ../practice-software-testing/sprint5/API ./openapi.json products users
-/simpright-qa:write-api-contracts update ../practice-software-testing/sprint5/API products
+/simpright-qa-write-api-contracts ../practice-software-testing/sprint5/API carts
+/simpright-qa-write-api-contracts ../practice-software-testing/sprint5/API ./openapi.json products users
+/simpright-qa-write-api-contracts update ../practice-software-testing/sprint5/API products
 ```
 
 | Argument | Meaning |
@@ -58,7 +58,7 @@ Every fact carries where it came from, in this order of trust:
 | `_(source)_` | Read in the source code |
 | `_(spec)_` | Only in the OpenAPI spec |
 
-When source and spec disagree, the source wins for behaviour. [/simpright-qa:implement-api-scenarios](Implement-API-Scenarios) later upgrades facts to `_(verified)_` when a passing test asserts them exactly.
+When source and spec disagree, the source wins for behaviour. [/simpright-qa-implement-api-scenarios](Implement-API-Scenarios) later upgrades facts to `_(verified)_` when a passing test asserts them exactly.
 
 ## What the agent never does
 
@@ -85,6 +85,6 @@ The contract commands (`validate`, `diff`, `from-openapi`) come from the optiona
 
 - Give it **both** source and spec when you can: the spec gives the shape, the source the real behaviour.
 - Review the diff of `docs/api/contracts/` before writing scenarios: a wrong contract leads to tests that fail for the wrong reason.
-- Next step: [/simpright-qa:write-api-scenarios-from-contract](Write-API-Scenarios-From-Contract).
+- Next step: [/simpright-qa-write-api-scenarios-from-contract](Write-API-Scenarios-From-Contract).
 
 See also: [Add API Scenarios](Add-API-Scenarios#from-a-contract).

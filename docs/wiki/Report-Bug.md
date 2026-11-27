@@ -1,12 +1,12 @@
 <!-- Source: docs/wiki/Report-Bug.md in the repository. Edit it there: the Publish Wiki workflow overwrites changes made in the wiki. -->
 
-# /simpright-qa:report-bug
+# /simpright-qa-report-bug
 
 Records **bugs in the app under test** as files in `bugs/`, one per root cause, and links them to the scenarios that hit them. It reproduces each bug before filing it, checks the existing bugs so the same defect isn't filed twice, and changes nothing until you approve the draft. The bugs are published on the [Bugs Page](Bugs-Page).
 
 | | |
 |---|---|
-| **Command** | `/simpright-qa:report-bug <description \| scenario IDs \| spec> \| import <contract> \| recheck <bug IDs \| open>` |
+| **Command** | `/simpright-qa-report-bug <description \| scenario IDs \| spec> \| import <contract> \| recheck <bug IDs \| open>` |
 | **Agent** | [`bug-reporter`](https://github.com/Zaytsman/SimpRightKit/blob/main/plugins/simpright-qa/agents/bug-reporter.md), for both the draft and the files |
 | **Skill file** | [`skills/report-bug/SKILL.md`](https://github.com/Zaytsman/SimpRightKit/blob/main/plugins/simpright-qa/skills/report-bug/SKILL.md) |
 | **Input** | What someone saw, failing scenarios or tests, a contract's suspected bugs, open bugs to re-check |
@@ -17,19 +17,19 @@ Records **bugs in the app under test** as files in `bugs/`, one per root cause, 
 ## When to use it
 
 - You (or a tester) saw the app misbehave and want it on record.
-- A test fails because of the app: [/simpright-qa:heal-tests](Heal-Tests) or a test engineer says "app bug".
+- A test fails because of the app: [/simpright-qa-heal-tests](Heal-Tests) or a test engineer says "app bug".
 - A contract marks responses as suspected bugs and you want them tracked.
 - The Bugs page flags a bug for a **re-check**, or you want to know which open bugs are still there.
 
 ## How to use it
 
 ```text
-/simpright-qa:report-bug the cart accepts quantity 0 on the product page
-/simpright-qa:report-bug UI-024 UI-025
-/simpright-qa:report-bug tests/api/products/get-products.spec.ts
-/simpright-qa:report-bug import Users_API.md
-/simpright-qa:report-bug recheck BUG-005
-/simpright-qa:report-bug recheck open
+/simpright-qa-report-bug the cart accepts quantity 0 on the product page
+/simpright-qa-report-bug UI-024 UI-025
+/simpright-qa-report-bug tests/api/products/get-products.spec.ts
+/simpright-qa-report-bug import Users_API.md
+/simpright-qa-report-bug recheck BUG-005
+/simpright-qa-report-bug recheck open
 ```
 
 | Mode | Input | What it does |
@@ -80,4 +80,4 @@ A **recheck** reproduces each bug from its steps. When the bug is gone, the agen
 - **Publish secrets:** no tokens, passwords or test users' emails, because the Bugs page is public.
 - **Change more than the link in scenarios and tests:** `knownIssue`, `bug` and the known-issue line; never steps, names or other test code. New regression scenarios are proposals for the scenario writers.
 
-See also: [Bugs Page](Bugs-Page), [/simpright-qa:heal-tests](Heal-Tests), [Add API Scenarios](Add-API-Scenarios), [Add UI Scenarios](Add-UI-Scenarios).
+See also: [Bugs Page](Bugs-Page), [/simpright-qa-heal-tests](Heal-Tests), [Add API Scenarios](Add-API-Scenarios), [Add UI Scenarios](Add-UI-Scenarios).

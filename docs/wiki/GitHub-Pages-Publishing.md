@@ -58,7 +58,7 @@ Each script replaces only its own files and leaves the rest of the branch alone,
 The `publish-run` action's `publish-run.sh` checks out `gh-pages` (see below), runs `npx --no-install simpright-portal publish-run --site .gh-pages --run <family> --number <run number> --keep <keep-runs> [--latest-coverage]`, then commits and pushes. The command:
 
 1. If there's no `playwright-report/`, stops: nothing to publish.
-2. Replaces `<family>/run-<N>/` with the HTML report, plus `test-results/results.json` (the JSON reporter's output on CI; only for step 4) and `test-results/api-coverage/` when there is one. A re-run of a workflow keeps its run number, so it replaces the first attempt.
+2. Replaces `<family>/run-<N>/` with the HTML report, plus `test-results/results.json` (the JSON reporter's output; only for step 4) and `test-results/api-coverage/` when there is one. A re-run of a workflow keeps its run number, so it replaces the first attempt.
 3. **Prune:** keeps the newest `--keep` runs of the family (the workflow's `keep-runs` input; without it, the run's `keep` in `simpright.yml`, else 10), deletes older ones, and rebuilds `<family>-manifest.json` from what's left.
 4. **Summarize**: writes the run's `run-summary.json` (stats, known issues, each scenario test's last status) and rebuilds `<family>-history.json`. The portal and the Bugs page read only these small files: an API regression's `results.json` is about 8 MB, and the portal used to download ten of them. Then it removes the family's `results.json` files: the HTML report doesn't need them, and the run's artifact keeps the full file for 14 days.
 5. Replaces `latest/<family>/` with a copy of the newest kept run. With `--latest-coverage` (without the flag, the run's `publishCoverage`), it also replaces `latest/api-coverage/` with that run's coverage and refreshes its `totals.json`; only the full API regression passes it, because only its coverage represents the whole suite.
@@ -116,6 +116,6 @@ npx simpright-portal preview --site .gh-pages
 
 The portal then shows the brand, the Test Cases buttons and a row per run, but no results (those exist only on `gh-pages`). To preview with real runs, start from a copy of the branch (`git worktree add --detach .gh-pages origin/gh-pages`, after `git fetch origin gh-pages`) and build into it.
 
-After a local test run, `npx simpright-portal publish-run --site .gh-pages --run custom-ui --number 1` adds it as run 1 of Custom UI, as CI would. Playwright's JSON reporter runs only on CI, so a local run has no `results.json`: its square in the run history stays grey, without stats.
+After a local test run, `npx simpright-portal publish-run --site .gh-pages --run custom-ui --number 1` adds it as run 1 of Custom UI, as CI would. The JSON reporter writes `results.json` on every run, so a local run gets its stats too, as a CI run does.
 
 See also: [Automation Portal](Automation-Portal), [CI Pipeline](CI-Pipeline).

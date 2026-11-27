@@ -54,7 +54,7 @@ Each layer only calls the one below it:
 | `src/globalSetup.ts` | Once per run: the project's `beforeRun` and `afterRun` (the re-seed wait, the run's customer), optional UI logins | [2](Configuration) |
 | `scripts/` | The page inspector | [9](Scenarios-Bugs-and-Validation#the-page-inspector) |
 | `.github/workflows/`, `.github/dependabot.yml` | CI: the reusable test job, scheduled and manual runs, PR checks, publishing, dependency updates; written by `npm run apply` from `simpright.yml` (`.simpright/state.json` records what it wrote) | [11](CI-and-Publishing) |
-| `.claude/settings.json`, `simpright.yml` | The QA agents (the kit's `simpright-qa` plugin, enabled there by `npm run apply`) and the project facts they read | [12](AI-Agents) |
+| `.claude/` (the skills and agents), `simpright.yml` | The QA agents (the kit's `simpright-qa` plugin, written there as plain files by `npm run apply`) and the project facts they read | [12](AI-Agents) |
 | `docs/` | Contracts, user stories, analyses, the wiki source, these pages and the framework's [conventions](https://github.com/Zaytsman/SimpRight/blob/main/docs/framework/conventions.md) | |
 
 The scenarios, portal and CI parts come from the [SimpRight Kit](https://github.com/Zaytsman/SimpRightKit): its npm packages, devDependencies pinned to one version, `simpright` (`npm run doctor`, `npm run apply`, the profile's schema), `@simpright/scenarios` (the scenario and bug schemas, the validator, the step-title check) and `@simpright/portal` (the portal's pages, their builds and the publish's file work); and its CI actions, the workflows' steps, pinned to the same release's commit ([9](Scenarios-Bugs-and-Validation), [11](CI-and-Publishing)).
@@ -80,7 +80,7 @@ The core is the same as in [SimpRightTemplate](https://github.com/Zaytsman/SimpR
 2. **Global setup** (`src/globalSetup.ts`, main process) runs the project's `beforeRun` (`src/config/project.ts`): on CI, it waits when the run would cross the site's hourly re-seed, then it registers a new customer for the run (the `default` role) and checks that it can log in. With `UI_AUTH_MODE=storageState`, globalSetup also logs every role in through the app's login page and saves `.auth/<role>.json`.
 3. **Workers start** (2 on CI). Each worker gets the worker-scoped fixtures once: `config`, `tokenService` (one login per role per worker) and the auto `apiCoverage` hook.
 4. **Each test** resolves only the fixtures it names. A UI test starts with a browser that's already logged in as its role, because the token is put into localStorage before the page loads. A precondition fixture may also open a page, set the visitor's location or put a cart in place. An API test gets clients built with the right token. The steps run, then `cleanup` runs the test's undo steps, newest first, pass or fail.
-5. **Reporters** write the list output, the HTML report, and on CI JUnit and `results.json`. The optional API coverage reporter compares the recorded calls with the contracts.
+5. **Reporters** write the list output, the HTML report and `results.json`, and on CI JUnit. The optional API coverage reporter compares the recorded calls with the contracts.
 6. **Teardown**: the function `globalSetup` returned runs the project's `afterRun`, which deletes the run's customer as admin.
 7. **On CI**, the step-title check reads `results.json`, then the report is published to GitHub Pages ([11](CI-and-Publishing)).
 

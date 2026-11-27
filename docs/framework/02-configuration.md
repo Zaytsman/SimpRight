@@ -48,7 +48,7 @@ It reads only `env`; it never touches `process.env` directly.
 | `testIdAttribute` | `data-test` (`project.testIdAttribute`, [below](#the-project-file)) | What the site uses, so `getByTestId` works |
 | `trace` | `'off'` for every project | Traces store requests unmasked (passwords, tokens), and reports are public ([10](10-reporting-and-secrets.md)) |
 | `screenshot`, `video` | on failure only | |
-| reporters | `list`, `html`; on CI also `junit` and `json` (`test-results/results.json`); plus the optional API coverage reporter | [10](10-reporting-and-secrets.md) |
+| reporters | `list`, `html` and `json` (`test-results/results.json`, on every run); on CI also `junit`; plus the optional API coverage reporter | [10](10-reporting-and-secrets.md) |
 
 ### Projects
 
